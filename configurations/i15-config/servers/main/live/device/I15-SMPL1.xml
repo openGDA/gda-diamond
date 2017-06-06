@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="DXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.X" />
+	</bean>
+
+	<bean id="DYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.Y" />
+	</bean>
+
+	<bean id="DZMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.Z" />
+	</bean>
+
+	<bean id="DkphiMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.KPHI" />
+	</bean>
+
+	<bean id="Dr1kappaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.KAPPA" />
+	</bean>
+
+	<bean id="Dr1kthetaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.KTHETA" />
+	</bean>
+
+	<bean id="Dr1muMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.MU" />
+	</bean>
+
+	<!-- 
+	<bean id="DVMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="DIFF.V" />
+	</bean>
+	 -->
+</beans>

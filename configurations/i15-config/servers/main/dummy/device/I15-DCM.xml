@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Energy -->
+
+	<bean id="DcmenergyMotor" class="gda.device.motor.DummyMotor"/>
+
+	<!-- Mixture -->
+
+	<bean id="Dcmxtl1rollMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="Dcmx1Motor" class="gda.device.motor.DummyMotor"/>
+	<!-- 
+	<bean id="DcmpiezoMotor" class="gda.device.motor.DummyMotor"/>
+	 -->
+	<bean id="Dcmxtl1yMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="Dcmxtl2yMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="Bragg1Motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="Bragg2Motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="Dcmxtl1zMotor" class="gda.device.motor.DummyMotor"/>
+
+	<!-- Temperatures -->
+
+	<!-- 
+	<bean id="dcmx2t1" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx2t2" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx2t3" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx2t4" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx2t5" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx2t6" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx2yt" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx2thetat" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx1zt" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx1t1" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx1t2" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx1t3" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx1t4" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx1yt" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmt1" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmt2" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmt3" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmt4" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmt5" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmt6" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmt7" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="dcmx1thetat" class="gda.device.monitor.EpicsMonitor"/>
+	 -->
+</beans>

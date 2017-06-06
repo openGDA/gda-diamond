@@ -1,0 +1,793 @@
+|'''Date: '''|!-1:48:10 PM (BST) on Friday, June 6, 2008-!|
+|'''Command: '''|!-java -Dgda.root=/dls/i06/software/gda-test -Dgda.config=/dls/i06/software/gda-test/config -Dgda.propertiesFile=/dls/i06/software/gda-test/config/properties/java.properties -Djacorb.config.dir=/dls/i06/software/gda-test/config/properties -Dgov.aps.jca.JCALibrary.properties=/dls/i06/software/gda-test/config/properties/JCALibrary.properties -Dgda.users=/dls/i06 -cp /dls/i06/software/gda-test/jars/gda_alpha.jar:/dls/i06/software/gda-test/jars/gda-corba.jar:/dls/i06/software/jython/jython.jar:/dls/i06/software/gda-test/jars/avalon-framework-4.1.5.jar:/dls/i06/software/gda-test/jars/axis.jar:/dls/i06/software/gda-test/jars/bcel-5.2.jar:/dls/i06/software/gda-test/jars/BrowserLauncher2-10.jar:/dls/i06/software/gda-test/jars/caj-1.1.4.jar:/dls/i06/software/gda-test/jars/castor-1.2.jar:/dls/i06/software/gda-test/jars/castor-1.2-xml-schema.jar:/dls/i06/software/gda-test/jars/commons-beanutils.jar:/dls/i06/software/gda-test/jars/commons-collections-3.1.jar:/dls/i06/software/gda-test/jars/commons-configuration-1.1.jar:/dls/i06/software/gda-test/jars/commons-digester-1.7.jar:/dls/i06/software/gda-test/jars/commons-discovery-0.2.jar:/dls/i06/software/gda-test/jars/commons-io-1.2.jar:/dls/i06/software/gda-test/jars/commons-lang-2.1.jar:/dls/i06/software/gda-test/jars/commons-logging.jar:/dls/i06/software/gda-test/jars/dlsplot.jar:/dls/i06/software/gda-test/jars/dna-20080421.jar:/dls/i06/software/gda-test/jars/epics.jar:/dls/i06/software/gda-test/jars/epics-3.3.jar:/dls/i06/software/gda-test/jars/icat3-core.jar:/dls/i06/software/gda-test/jars/icat3-ws-alpha.jar:/dls/i06/software/gda-test/jars/idl.jar:/dls/i06/software/gda-test/jars/j2ee.jar:/dls/i06/software/gda-test/jars/jacorb.jar:/dls/i06/software/gda-test/jars/jaf.jar:/dls/i06/software/gda-test/jars/Jama-1.0.1.jar:/dls/i06/software/gda-test/jars/jargon_1.4.16_diamond.jar:/dls/i06/software/gda-test/jars/javaee.jar:/dls/i06/software/gda-test/jars/javolution.jar:/dls/i06/software/gda-test/jars/jaxrpc.jar:/dls/i06/software/gda-test/jars/jca-2.3.1.jar:/dls/i06/software/gda-test/jars/jcameraman.jar:/dls/i06/software/gda-test/jars/jcommon-1.0.0.jar:/dls/i06/software/gda-test/jars/jdbc-se2.0.jar:/dls/i06/software/gda-test/jars/Jdl.jar:/dls/i06/software/gda-test/jars/jep-2.4.0.jar:/dls/i06/software/gda-test/jars/jfreechart-1.0.0.jar:/dls/i06/software/gda-test/jars/jide-common.jar:/dls/i06/software/gda-test/jars/jide-dock.jar:/dls/i06/software/gda-test/jars/Jlibdc1394-media.jar:/dls/i06/software/gda-test/jars/jmf.jar:/dls/i06/software/gda-test/jars/JMinuit.jar:/dls/i06/software/gda-test/jars/jnexus.jar:/dls/i06/software/gda-test/jars/jscience.jar:/dls/i06/software/gda-test/jars/jta1.0.1.jar:/dls/i06/software/gda-test/jars/ledatastream.jar:/dls/i06/software/gda-test/jars/logback-classic-0.9.5.jar:/dls/i06/software/gda-test/jars/logback-core-0.9.5.jar:/dls/i06/software/gda-test/jars/logkit-1.2.jar:/dls/i06/software/gda-test/jars/mail.jar:/dls/i06/software/gda-test/jars/mysql-connector-java-3.0.9-stable-bin.jar:/dls/i06/software/gda-test/jars/ojdbc14.jar:/dls/i06/software/gda-test/jars/overrideQueue.jar:/dls/i06/software/gda-test/jars/peem-0.3.jar:/dls/i06/software/gda-test/jars/rcommands.jar:/dls/i06/software/gda-test/jars/RXTXcomm.jar:/dls/i06/software/gda-test/jars/saaj.jar:/dls/i06/software/gda-test/jars/STAC.jar:/dls/i06/software/gda-test/jars/slf4j-api-1.4.3.jar:/dls/i06/software/gda-test/jars/toplink-essentials.jar:/dls/i06/software/gda-test/jars/toplink-essentials-agent.jar:/dls/i06/software/gda-test/jars/velocity-dep-1.4.jar:/dls/i06/software/gda-test/jars/wrapper.jar:/dls/i06/software/gda-test/jars/wsdl4j-1.5.1.jar:/dls/i06/software/gda-test/jars/xercesImpl-2.9.1.jar:/dls/i06/software/gda-test/jars/gnu-regexp-1.1.4.jar:/dls/i06/software/gda-test/jars/vecmath.jar:/dls_sw/dasc/testing/fitnesse/fitnesse.jar:/dls_sw/dasc/testing/fitnesse/fitlibrary.jar:/dls_sw/dasc/testing/fitnesse/dlsfitnesse-1.0.jar fit.FitServer i06-control.diamond.ac.uk 1200 5-!|
+|'''Exit code: '''|!-0-!|
+|'''Time elapsed: '''|!-40.725 seconds-!|
+----'''Standard Output:'''
+{{{13:47:30.686 [main] DEBUG gda.factory.ObjectCreator - Creating objects from: /dls/i06/software/gda-test/config/xml/TB_Client_Testing.xml
+13:47:30.720 [main] DEBUG gda.factory.ObjectCreator - Using mapping file: jar:file:/dls/i06/software/gda-release_7_4_0/jars/gda_alpha.jar!/gda/factory/mapping.xml
+13:47:32.471 [main] DEBUG gda.factory.ObjectCreator - URL for schema resource returned: jar:file:/dls/i06/software/gda-release_7_4_0/jars/gda_alpha.jar!/gda/configuration/object/schema/GDASchema.xsd
+13:47:32.472 [main] DEBUG gda.factory.ObjectCreator - ObjectCreator doSchemaValidation - validating XML file: /dls/i06/software/gda-test/config/xml/TB_Client_Testing.xml
+13:47:32.472 [main] DEBUG gda.factory.ObjectCreator -      validating against schema: jar:file:/dls/i06/software/gda-release_7_4_0/jars/gda_alpha.jar!/gda/configuration/object/schema/GDASchema.xsd
+13:47:33.229 [main] DEBUG g.c.o.v.XMLObjectConfigFileValidator - xerces2Validate - XML instance valid against schema jar:file:/dls/i06/software/gda-release_7_4_0/jars/gda_alpha.jar!/gda/configuration/object/schema/GDASchema.xsd
+13:47:33.230 [main] DEBUG gda.factory.ObjectCreator - ObjectCreator doSchemaValidation - XML instance file is valid: /dls/i06/software/gda-test/config/xml/TB_Client_Testing.xml
+[ configuration jacorb loaded from file /dls/i06/software/gda-test/config/properties/etc/jacorb.properties ]
+13:47:33.567 [main] DEBUG gda.factory.corba.util.EventService - EventService successfully initialised event channel local.eventChannel
+13:47:33.571 [main] INFO  gda.util.ObjectServer - Client initialisation complete
+13:47:33.576 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.command_server
+13:47:33.670 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.command_server of type gda.jython.JythonServer.
+13:47:33.670 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.jython.corba.impl.JythonAdapter.
+13:47:33.677 [main] DEBUG gda.factory.corba.util.EventReceiver - Constructing EventReceiver
+13:47:33.708 [main] DEBUG gda.factory.corba.util.EventReceiver - EventReceiver: Consumer connected
+13:47:33.711 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.command_server
+13:47:33.711 [main] DEBUG g.factory.corba.util.AdapterFactory - Found in AdapterFactory store I06.command_server
+13:47:33.729 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.GDAMetadata
+13:47:33.859 [main] WARN  g.factory.corba.util.AdapterFactory - Naming Service can't find object I06.GDAMetadata
+13:47:34.018 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYSize_S5
+13:47:34.079 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYSize_S5 of type gda.device.motor.EpicsMotor.
+13:47:34.080 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:34.087 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXNeg_S3
+13:47:34.139 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXNeg_S3 of type gda.device.motor.EpicsMotor.
+13:47:34.139 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:34.141 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorHFMBender1_M4
+13:47:34.195 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorHFMBender1_M4 of type gda.device.motor.EpicsMotor.
+13:47:34.195 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:34.197 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYSize_S7
+13:47:34.253 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYSize_S7 of type gda.device.motor.EpicsMotor.
+13:47:34.253 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:34.255 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorHFMBender2_M4
+13:47:34.329 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorHFMBender2_M4 of type gda.device.motor.EpicsMotor.
+13:47:34.329 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:34.331 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorRoll_M1
+13:47:34.385 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorRoll_M1 of type gda.device.motor.EpicsMotor.
+13:47:34.386 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:34.388 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac26
+13:47:34.448 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac26 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:34.449 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:34.464 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.leem
+13:47:34.531 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.leem of type gda.device.peem.ElmitecPEEM.
+13:47:34.531 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.peem.corba.impl.PeemAdapter.
+13:47:34.535 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorRoll_M3
+13:47:34.593 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorRoll_M3 of type gda.device.motor.EpicsMotor.
+13:47:34.593 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:34.595 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitch_M6
+13:47:34.653 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitch_M6 of type gda.device.motor.EpicsMotor.
+13:47:34.653 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:34.657 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXSize_S1
+13:47:34.715 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXSize_S1 of type gda.device.motor.EpicsMotor.
+13:47:34.715 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:34.717 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXCentre_S1
+13:47:34.775 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXCentre_S1 of type gda.device.motor.EpicsMotor.
+13:47:34.775 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:34.777 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca34
+13:47:34.854 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca34 of type gda.device.monitor.EpicsMonitor.
+13:47:34.854 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:34.860 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXCentre_S2
+13:47:34.919 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXCentre_S2 of type gda.device.motor.EpicsMotor.
+13:47:34.919 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:34.921 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXSize_S2
+13:47:34.983 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXSize_S2 of type gda.device.motor.EpicsMotor.
+13:47:34.983 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:34.985 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D7
+13:47:35.051 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D7 of type gda.oe.GenericOE.
+13:47:35.051 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:35.055 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYNeg_S1
+13:47:35.113 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYNeg_S1 of type gda.device.motor.EpicsMotor.
+13:47:35.113 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:35.115 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXSize_S3
+13:47:35.183 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXSize_S3 of type gda.device.motor.EpicsMotor.
+13:47:35.183 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:35.187 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXCentre_S3
+13:47:35.247 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXCentre_S3 of type gda.device.motor.EpicsMotor.
+13:47:35.247 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:35.249 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D8
+13:47:35.307 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D8 of type gda.device.motor.EpicsMotor.
+13:47:35.307 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:35.312 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYCentre_S5
+13:47:35.394 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYCentre_S5 of type gda.device.motor.EpicsMotor.
+13:47:35.394 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:35.396 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D9
+13:47:35.454 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D9 of type gda.device.motor.EpicsMotor.
+13:47:35.455 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:35.457 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYCentre_S7
+13:47:35.520 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYCentre_S7 of type gda.device.motor.EpicsMotor.
+13:47:35.520 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:35.523 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorHFMX_M4
+13:47:35.627 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorHFMX_M4 of type gda.device.motor.EpicsMotor.
+13:47:35.627 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:35.629 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac16
+13:47:35.692 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac16 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:35.693 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:35.698 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca22
+13:47:35.766 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca22 of type gda.device.monitor.EpicsMonitor.
+13:47:35.766 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:35.770 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.IDd
+13:47:35.834 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.IDd of type gda.oe.GenericOE.
+13:47:35.834 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:35.834 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.valve11
+13:47:35.904 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.valve11 of type gda.device.enumpositioner.EpicsPneumatic.
+13:47:35.904 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.enumpositioner.corba.impl.EnumpositionerAdapter.
+13:47:35.910 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitch_T1
+13:47:35.978 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitch_T1 of type gda.device.motor.EpicsMotor.
+13:47:35.978 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:35.980 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorLowerPhase_ID1
+13:47:36.070 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorLowerPhase_ID1 of type gda.device.motor.EpicsMotor.
+13:47:36.070 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:36.072 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorLowerPhase_ID2
+13:47:36.134 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorLowerPhase_ID2 of type gda.device.motor.EpicsMotor.
+13:47:36.135 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:36.137 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXNeg_S5
+13:47:36.200 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXNeg_S5 of type gda.device.motor.EpicsMotor.
+13:47:36.200 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:36.202 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S3
+13:47:36.266 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S3 of type gda.oe.GenericOE.
+13:47:36.267 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:36.267 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXNeg_S7
+13:47:36.329 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXNeg_S7 of type gda.device.motor.EpicsMotor.
+13:47:36.329 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:36.332 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac23
+13:47:36.396 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac23 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:36.396 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:36.400 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D6
+13:47:36.465 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D6 of type gda.oe.GenericOE.
+13:47:36.465 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:36.465 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_FrontEndAperture
+13:47:36.550 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_FrontEndAperture of type gda.device.motor.EpicsMotor.
+13:47:36.550 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:36.553 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitch_M7
+13:47:36.619 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitch_M7 of type gda.device.motor.EpicsMotor.
+13:47:36.619 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:36.622 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorRoll_M6
+13:47:36.689 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorRoll_M6 of type gda.device.motor.EpicsMotor.
+13:47:36.690 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:36.693 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYNeg_S2
+13:47:36.758 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYNeg_S2 of type gda.device.motor.EpicsMotor.
+13:47:36.758 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:36.761 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYNeg_S3
+13:47:36.830 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYNeg_S3 of type gda.device.motor.EpicsMotor.
+13:47:36.830 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:36.832 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXSize_S5
+13:47:36.898 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXSize_S5 of type gda.device.motor.EpicsMotor.
+13:47:36.898 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:36.900 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXCentre_S5
+13:47:36.967 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXCentre_S5 of type gda.device.motor.EpicsMotor.
+13:47:36.967 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:36.969 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.command_server
+13:47:36.969 [main] DEBUG g.factory.corba.util.AdapterFactory - Found in AdapterFactory store I06.command_server
+13:47:36.969 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXSize_S7
+13:47:37.039 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXSize_S7 of type gda.device.motor.EpicsMotor.
+13:47:37.039 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:37.042 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D10
+13:47:37.108 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D10 of type gda.device.motor.EpicsMotor.
+13:47:37.109 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:37.111 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorFinePitch_M7
+13:47:37.192 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorFinePitch_M7 of type gda.device.motor.EpicsMotor.
+13:47:37.192 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:37.194 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorHFMRoll_M4
+13:47:37.261 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorHFMRoll_M4 of type gda.device.motor.EpicsMotor.
+13:47:37.261 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:37.263 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorHFMPitch_M4
+13:47:37.333 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorHFMPitch_M4 of type gda.device.motor.EpicsMotor.
+13:47:37.333 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:37.336 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.M7
+13:47:37.402 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.M7 of type gda.oe.GenericOE.
+13:47:37.403 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:37.403 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S2
+13:47:37.470 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S2 of type gda.oe.GenericOE.
+13:47:37.470 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:37.470 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorRoll_T1
+13:47:37.582 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorRoll_T1 of type gda.device.motor.EpicsMotor.
+13:47:37.582 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:37.585 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca41
+13:47:37.657 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca41 of type gda.device.monitor.EpicsMonitor.
+13:47:37.657 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:37.661 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca12
+13:47:37.731 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca12 of type gda.device.monitor.EpicsMonitor.
+13:47:37.731 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:37.735 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.IDu
+13:47:37.805 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.IDu of type gda.oe.GenericOE.
+13:47:37.805 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:37.805 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorRoll_M7
+13:47:37.897 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorRoll_M7 of type gda.device.motor.EpicsMotor.
+13:47:37.897 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:37.900 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm2b
+13:47:38.001 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm2b of type gda.device.monitor.EpicsMonitor.
+13:47:38.001 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:38.006 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.TestMotors
+13:47:38.074 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.TestMotors of type gda.oe.GenericOE.
+13:47:38.074 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:38.074 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca24
+13:47:38.142 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca24 of type gda.device.monitor.EpicsMonitor.
+13:47:38.142 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:38.146 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYNeg_S5
+13:47:38.213 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYNeg_S5 of type gda.device.motor.EpicsMotor.
+13:47:38.214 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:38.216 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYDisp_S4
+13:47:38.283 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYDisp_S4 of type gda.device.motor.EpicsMotor.
+13:47:38.283 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:38.285 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXCentre_S7
+13:47:38.353 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXCentre_S7 of type gda.device.motor.EpicsMotor.
+13:47:38.353 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:38.355 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac13
+13:47:38.427 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac13 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:38.428 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:38.432 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac27
+13:47:38.502 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac27 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:38.502 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:38.506 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYNeg_S7
+13:47:38.590 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYNeg_S7 of type gda.device.motor.EpicsMotor.
+13:47:38.591 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:38.593 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D5
+13:47:38.661 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D5 of type gda.oe.GenericOE.
+13:47:38.662 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:38.662 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pu1
+13:47:38.731 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pu1 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:38.732 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:38.736 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.go
+13:47:38.805 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.go of type gda.device.controlpoint.EpicsControlPoint.
+13:47:38.805 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:38.809 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca31
+13:47:38.878 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca31 of type gda.device.monitor.EpicsMonitor.
+13:47:38.878 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:38.882 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorUpperPhase_ID1
+13:47:38.955 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorUpperPhase_ID1 of type gda.device.motor.EpicsMotor.
+13:47:38.955 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:38.958 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorUpperPhase_ID2
+13:47:39.034 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorUpperPhase_ID2 of type gda.device.motor.EpicsMotor.
+13:47:39.035 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:39.037 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.M6
+13:47:39.107 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.M6 of type gda.oe.GenericOE.
+13:47:39.107 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:39.107 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorHeight_T1
+13:47:39.178 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorHeight_T1 of type gda.device.motor.EpicsMotor.
+13:47:39.178 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:39.181 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S1
+13:47:39.251 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S1 of type gda.oe.GenericOE.
+13:47:39.251 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:39.251 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYDisp_S6
+13:47:39.339 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYDisp_S6 of type gda.device.motor.EpicsMotor.
+13:47:39.339 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:39.341 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm1b
+13:47:39.412 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm1b of type gda.device.monitor.EpicsMonitor.
+13:47:39.412 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:39.416 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D4
+13:47:39.532 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D4 of type gda.oe.GenericOE.
+13:47:39.533 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:39.533 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca43
+13:47:39.604 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca43 of type gda.device.monitor.EpicsMonitor.
+13:47:39.604 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:39.608 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca14
+13:47:39.680 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca14 of type gda.device.monitor.EpicsMonitor.
+13:47:39.680 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:39.684 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYJack1_T1
+13:47:39.755 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYJack1_T1 of type gda.device.motor.EpicsMotor.
+13:47:39.755 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:39.757 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYJack2_T1
+13:47:39.828 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYJack2_T1 of type gda.device.motor.EpicsMotor.
+13:47:39.828 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:39.831 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.uviewROI2
+13:47:39.910 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.uviewROI2 of type gda.device.detector.uview.UViewImageDetectorROI.
+13:47:39.911 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.detector.uview.corba.impl.UviewAdapter.
+13:47:39.925 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorGap_ID1
+13:47:40.000 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorGap_ID1 of type gda.device.motor.EpicsMotor.
+13:47:40.000 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:40.003 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXMirror_PGM
+13:47:40.076 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXMirror_PGM of type gda.device.motor.EpicsMotor.
+13:47:40.076 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:40.078 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYJack3_T1
+13:47:40.166 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYJack3_T1 of type gda.device.motor.EpicsMotor.
+13:47:40.166 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:40.168 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac17
+13:47:40.240 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac17 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:40.240 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:40.245 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm2d
+13:47:40.316 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm2d of type gda.device.monitor.EpicsMonitor.
+13:47:40.317 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:40.321 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorGap_ID2
+13:47:40.393 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorGap_ID2 of type gda.device.motor.EpicsMotor.
+13:47:40.394 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:40.396 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXDisp_S4
+13:47:40.468 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXDisp_S4 of type gda.device.motor.EpicsMotor.
+13:47:40.468 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:40.470 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.cff
+13:47:40.545 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.cff of type gda.device.controlpoint.EpicsControlPoint.
+13:47:40.545 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:40.549 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.U2
+13:47:40.622 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.U2 of type gda.oe.GenericOE.
+13:47:40.622 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:40.622 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_M1
+13:47:40.695 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_M1 of type gda.device.motor.EpicsMotor.
+13:47:40.695 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:40.698 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.M5
+13:47:40.798 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.M5 of type gda.oe.GenericOE.
+13:47:40.798 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:40.798 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_M3
+13:47:40.872 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_M3 of type gda.device.motor.EpicsMotor.
+13:47:40.872 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:40.875 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_FrontEndAperture
+13:47:40.966 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_FrontEndAperture of type gda.device.motor.EpicsMotor.
+13:47:40.966 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:40.968 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_M1
+13:47:41.050 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_M1 of type gda.device.motor.EpicsMotor.
+13:47:41.050 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:41.052 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac24
+13:47:41.127 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac24 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:41.127 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:41.131 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorVFMPitch_M4
+13:47:41.205 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorVFMPitch_M4 of type gda.device.motor.EpicsMotor.
+13:47:41.205 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:41.207 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_M3
+13:47:41.322 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_M3 of type gda.device.motor.EpicsMotor.
+13:47:41.322 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:41.325 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorZ_M1
+13:47:41.400 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorZ_M1 of type gda.device.motor.EpicsMotor.
+13:47:41.401 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:41.403 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.uview
+13:47:41.479 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.uview of type gda.device.detector.uview.UViewImageDetector.
+13:47:41.480 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.detector.uview.corba.impl.UviewAdapter.
+13:47:41.488 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorZ_M3
+13:47:41.563 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorZ_M3 of type gda.device.motor.EpicsMotor.
+13:47:41.564 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:41.566 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca33
+13:47:41.645 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca33 of type gda.device.monitor.EpicsMonitor.
+13:47:41.646 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:41.650 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.U1
+13:47:41.725 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.U1 of type gda.oe.GenericOE.
+13:47:41.725 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:41.725 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitchMirror_PGM
+13:47:41.817 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitchMirror_PGM of type gda.device.motor.EpicsMotor.
+13:47:41.817 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:41.819 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXDisp_S6
+13:47:41.896 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXDisp_S6 of type gda.device.motor.EpicsMotor.
+13:47:41.896 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:41.898 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXGrating_PGM
+13:47:41.975 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXGrating_PGM of type gda.device.motor.EpicsMotor.
+13:47:41.976 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:41.978 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm1d
+13:47:42.056 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm1d of type gda.device.monitor.EpicsMonitor.
+13:47:42.057 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:42.061 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca21
+13:47:42.143 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca21 of type gda.device.monitor.EpicsMonitor.
+13:47:42.143 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:42.147 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_M6
+13:47:42.228 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_M6 of type gda.device.motor.EpicsMotor.
+13:47:42.229 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:42.231 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorVFMRoll_M4
+13:47:42.311 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorVFMRoll_M4 of type gda.device.motor.EpicsMotor.
+13:47:42.311 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:42.313 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_M6
+13:47:42.393 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_M6 of type gda.device.motor.EpicsMotor.
+13:47:42.393 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:42.395 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.uviewROI4
+13:47:42.479 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.uviewROI4 of type gda.device.detector.uview.UViewImageDetectorROI.
+13:47:42.479 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.detector.uview.corba.impl.UviewAdapter.
+13:47:42.487 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorZ_M6
+13:47:42.568 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorZ_M6 of type gda.device.motor.EpicsMotor.
+13:47:42.568 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:42.570 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac14
+13:47:42.655 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac14 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:42.655 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:42.660 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac28
+13:47:42.760 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac28 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:42.760 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:42.764 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.M4
+13:47:42.846 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.M4 of type gda.oe.GenericOE.
+13:47:42.846 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:42.847 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.cpST
+13:47:42.928 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.cpST of type gda.device.controlpoint.EpicsControlPoint.
+13:47:42.928 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:42.932 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_T1
+13:47:43.016 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_T1 of type gda.device.motor.EpicsMotor.
+13:47:43.016 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:43.018 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorVFMBender1_M4
+13:47:43.101 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorVFMBender1_M4 of type gda.device.motor.EpicsMotor.
+13:47:43.101 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:43.103 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pu2
+13:47:43.227 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pu2 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:43.227 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:43.231 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorVFMBender2_M4
+13:47:43.312 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorVFMBender2_M4 of type gda.device.motor.EpicsMotor.
+13:47:43.313 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:43.315 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac21
+13:47:43.396 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac21 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:43.396 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:43.400 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_M7
+13:47:43.484 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_M7 of type gda.device.motor.EpicsMotor.
+13:47:43.484 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:43.486 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitchGrating_PGM
+13:47:43.568 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitchGrating_PGM of type gda.device.motor.EpicsMotor.
+13:47:43.568 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:43.570 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXPos_S1
+13:47:43.652 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXPos_S1 of type gda.device.motor.EpicsMotor.
+13:47:43.653 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:43.655 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXPos_S2
+13:47:43.759 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXPos_S2 of type gda.device.motor.EpicsMotor.
+13:47:43.760 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:43.762 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_M7
+13:47:43.846 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_M7 of type gda.device.motor.EpicsMotor.
+13:47:43.846 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:43.848 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca11
+13:47:43.930 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca11 of type gda.device.monitor.EpicsMonitor.
+13:47:43.930 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:43.934 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorZ_M7
+13:47:44.019 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorZ_M7 of type gda.device.motor.EpicsMotor.
+13:47:44.019 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:44.022 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.M3
+13:47:44.105 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.M3 of type gda.oe.GenericOE.
+13:47:44.105 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:44.105 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac11
+13:47:44.189 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac11 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:44.189 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:44.194 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYaw_M1
+13:47:44.280 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYaw_M1 of type gda.device.motor.EpicsMotor.
+13:47:44.280 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:44.282 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm2a
+13:47:44.363 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm2a of type gda.device.monitor.EpicsMonitor.
+13:47:44.363 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:44.368 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S7
+13:47:44.446 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S7 of type gda.oe.GenericOE.
+13:47:44.447 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:44.447 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca23
+13:47:44.561 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca23 of type gda.device.monitor.EpicsMonitor.
+13:47:44.561 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:44.565 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorZ_S4
+13:47:44.640 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorZ_S4 of type gda.device.motor.EpicsMotor.
+13:47:44.641 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:44.643 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.FE
+13:47:44.717 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.FE of type gda.oe.GenericOE.
+13:47:44.717 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:44.717 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorZ_S6
+13:47:44.818 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorZ_S6 of type gda.device.motor.EpicsMotor.
+13:47:44.819 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:44.821 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac18
+13:47:44.898 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac18 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:44.898 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:44.902 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXPos_S3
+13:47:44.982 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXPos_S3 of type gda.device.motor.EpicsMotor.
+13:47:44.982 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:44.984 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorEnergy_PGM
+13:47:45.112 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorEnergy_PGM of type gda.device.motor.EpicsMotor.
+13:47:45.113 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:45.115 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXPos_S5
+13:47:45.196 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXPos_S5 of type gda.device.motor.EpicsMotor.
+13:47:45.197 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:45.199 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR1_U1
+13:47:45.279 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR1_U1 of type gda.device.motor.EpicsMotor.
+13:47:45.279 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:45.281 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S6
+13:47:45.364 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S6 of type gda.oe.GenericOE.
+13:47:45.364 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:45.364 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac25
+13:47:45.445 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac25 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:45.445 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:45.449 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR2_U1
+13:47:45.530 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR2_U1 of type gda.device.motor.EpicsMotor.
+13:47:45.530 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:45.532 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYaw_M3
+13:47:45.610 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYaw_M3 of type gda.device.motor.EpicsMotor.
+13:47:45.610 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:45.612 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYPos_S1
+13:47:45.690 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYPos_S1 of type gda.device.motor.EpicsMotor.
+13:47:45.690 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:45.692 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYPos_S2
+13:47:45.779 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYPos_S2 of type gda.device.motor.EpicsMotor.
+13:47:45.779 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:45.781 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.mo
+13:47:45.862 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.mo of type gda.device.controlpoint.EpicsControlPoint.
+13:47:45.863 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:45.867 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm1a
+13:47:45.954 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm1a of type gda.device.monitor.EpicsMonitor.
+13:47:45.954 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:45.958 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac15
+13:47:46.048 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac15 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:46.048 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:46.052 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca42
+13:47:46.134 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca42 of type gda.device.monitor.EpicsMonitor.
+13:47:46.135 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:46.138 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca13
+13:47:46.220 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca13 of type gda.device.monitor.EpicsMonitor.
+13:47:46.220 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:46.224 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.uviewROI1
+13:47:46.306 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.uviewROI1 of type gda.device.detector.uview.UViewImageDetectorROI.
+13:47:46.306 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.detector.uview.corba.impl.UviewAdapter.
+13:47:46.314 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm2c
+13:47:46.397 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm2c of type gda.device.monitor.EpicsMonitor.
+13:47:46.397 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:46.401 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYSize_S1
+13:47:46.490 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYSize_S1 of type gda.device.motor.EpicsMotor.
+13:47:46.490 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:46.492 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR1_U2
+13:47:46.574 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR1_U2 of type gda.device.motor.EpicsMotor.
+13:47:46.574 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:46.576 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXPos_S7
+13:47:46.658 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXPos_S7 of type gda.device.motor.EpicsMotor.
+13:47:46.658 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:46.660 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D9
+13:47:46.741 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D9 of type gda.oe.GenericOE.
+13:47:46.742 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:46.742 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR2_U2
+13:47:46.886 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR2_U2 of type gda.device.motor.EpicsMotor.
+13:47:46.886 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:46.888 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_XBPM1
+13:47:46.978 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_XBPM1 of type gda.device.motor.EpicsMotor.
+13:47:46.978 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:46.981 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR3_U1
+13:47:47.062 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR3_U1 of type gda.device.motor.EpicsMotor.
+13:47:47.063 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:47.065 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_XBPM2
+13:47:47.142 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorX_XBPM2 of type gda.device.motor.EpicsMotor.
+13:47:47.142 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:47.144 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR3_U2
+13:47:47.221 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR3_U2 of type gda.device.motor.EpicsMotor.
+13:47:47.221 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:47.223 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYaw_M6
+13:47:47.304 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYaw_M6 of type gda.device.motor.EpicsMotor.
+13:47:47.304 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:47.306 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR4_U1
+13:47:47.387 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR4_U1 of type gda.device.motor.EpicsMotor.
+13:47:47.387 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:47.389 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYaw_M7
+13:47:47.471 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYaw_M7 of type gda.device.motor.EpicsMotor.
+13:47:47.471 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:47.474 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYPos_S3
+13:47:47.565 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYPos_S3 of type gda.device.motor.EpicsMotor.
+13:47:47.565 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:47.567 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR4_U2
+13:47:47.689 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR4_U2 of type gda.device.motor.EpicsMotor.
+13:47:47.689 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:47.691 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR5_U1
+13:47:47.775 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR5_U1 of type gda.device.motor.EpicsMotor.
+13:47:47.775 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:47.777 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYPos_S5
+13:47:47.860 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYPos_S5 of type gda.device.motor.EpicsMotor.
+13:47:47.860 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:47.862 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D4
+13:47:47.947 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D4 of type gda.device.motor.EpicsMotor.
+13:47:47.947 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:47.950 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.M1
+13:47:48.063 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.M1 of type gda.oe.GenericOE.
+13:47:48.063 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:48.063 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.T1
+13:47:48.147 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.T1 of type gda.oe.GenericOE.
+13:47:48.147 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:48.147 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR5_U2
+13:47:48.234 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR5_U2 of type gda.device.motor.EpicsMotor.
+13:47:48.234 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:48.236 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR6_U1
+13:47:48.321 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR6_U1 of type gda.device.motor.EpicsMotor.
+13:47:48.322 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:48.324 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR6_U2
+13:47:48.409 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorMTR6_U2 of type gda.device.motor.EpicsMotor.
+13:47:48.410 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:48.412 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorTestMotor1
+13:47:48.501 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorTestMotor1 of type gda.device.motor.DummyMotor.
+13:47:48.502 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:48.504 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorTestMotor2
+13:47:48.633 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorTestMotor2 of type gda.device.motor.DummyMotor.
+13:47:48.633 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:48.635 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S5
+13:47:48.723 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S5 of type gda.oe.GenericOE.
+13:47:48.723 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:48.723 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorVFMY_M4
+13:47:48.810 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorVFMY_M4 of type gda.device.motor.EpicsMotor.
+13:47:48.811 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:48.813 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca32
+13:47:48.901 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca32 of type gda.device.monitor.EpicsMonitor.
+13:47:48.901 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:48.905 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D8
+13:47:48.994 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D8 of type gda.oe.GenericOE.
+13:47:48.994 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:48.995 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac22
+13:47:49.083 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac22 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:49.084 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:49.088 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYSize_S2
+13:47:49.198 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYSize_S2 of type gda.device.motor.EpicsMotor.
+13:47:49.198 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:49.200 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYSize_S3
+13:47:49.289 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYSize_S3 of type gda.device.motor.EpicsMotor.
+13:47:49.290 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:49.292 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D10
+13:47:49.386 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D10 of type gda.oe.GenericOE.
+13:47:49.386 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:49.386 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm1c
+13:47:49.479 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.pm1c of type gda.device.monitor.EpicsMonitor.
+13:47:49.479 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:49.484 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitch_M1
+13:47:49.577 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitch_M1 of type gda.device.motor.EpicsMotor.
+13:47:49.577 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:49.579 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca44
+13:47:49.671 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.ca44 of type gda.device.monitor.EpicsMonitor.
+13:47:49.671 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.monitor.corba.impl.MonitorAdapter.
+13:47:49.675 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D7a
+13:47:49.767 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D7a of type gda.device.motor.EpicsMotor.
+13:47:49.768 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:49.769 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitch_M3
+13:47:49.859 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorPitch_M3 of type gda.device.motor.EpicsMotor.
+13:47:49.860 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:49.862 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac12
+13:47:49.953 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.dac12 of type gda.device.controlpoint.EpicsControlPoint.
+13:47:49.953 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.controlpoint.corba.impl.ControlpointAdapter.
+13:47:49.958 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYCentre_S1
+13:47:50.051 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYCentre_S1 of type gda.device.motor.EpicsMotor.
+13:47:50.051 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:50.053 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D5
+13:47:50.146 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D5 of type gda.device.motor.EpicsMotor.
+13:47:50.147 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:50.148 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYCentre_S2
+13:47:50.240 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYCentre_S2 of type gda.device.motor.EpicsMotor.
+13:47:50.240 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:50.242 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S4
+13:47:50.374 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.S4 of type gda.oe.GenericOE.
+13:47:50.374 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:50.374 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D6
+13:47:50.485 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D6 of type gda.device.motor.EpicsMotor.
+13:47:50.486 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:50.488 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYPos_S7
+13:47:50.587 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYPos_S7 of type gda.device.motor.EpicsMotor.
+13:47:50.587 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:50.589 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D7a
+13:47:50.688 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.D7a of type gda.oe.GenericOE.
+13:47:50.689 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:50.689 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.uviewROI3
+13:47:50.781 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.uviewROI3 of type gda.device.detector.uview.UViewImageDetectorROI.
+13:47:50.781 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.detector.uview.corba.impl.UviewAdapter.
+13:47:50.787 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYCentre_S3
+13:47:50.879 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorYCentre_S3 of type gda.device.motor.EpicsMotor.
+13:47:50.880 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:50.882 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D7
+13:47:50.974 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorD_D7 of type gda.device.motor.EpicsMotor.
+13:47:50.974 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:50.976 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_XBPM1
+13:47:51.073 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_XBPM1 of type gda.device.motor.EpicsMotor.
+13:47:51.073 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:51.075 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_XBPM2
+13:47:51.170 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorY_XBPM2 of type gda.device.motor.EpicsMotor.
+13:47:51.170 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:51.172 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXNeg_S1
+13:47:51.312 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXNeg_S1 of type gda.device.motor.EpicsMotor.
+13:47:51.312 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:51.314 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXNeg_S2
+13:47:51.408 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.MotorXNeg_S2 of type gda.device.motor.EpicsMotor.
+13:47:51.408 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.device.motor.corba.impl.MotorAdapter.
+13:47:51.410 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.PGM
+13:47:51.503 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.PGM of type gda.oe.GenericOE.
+13:47:51.503 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating I06 adapter of type gda.oe.corba.impl.OeAdapter.
+13:47:51.513 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for I06.GDAMetadata
+13:47:51.602 [main] WARN  g.factory.corba.util.AdapterFactory - Naming Service can't find object I06.GDAMetadata
+13:47:51.865 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaJythonServerStatus
+13:47:51.865 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:53.380 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@11b7a14
+13:47:53.385 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+13:47:53.386 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:53.397 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:53.410 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:53.645 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:53.645 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:53.869 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:53.870 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:54.096 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:54.096 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:54.318 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:54.318 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:54.540 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:54.541 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:54.763 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:54.763 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:54.988 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:54.989 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:55.212 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:55.212 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:55.435 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:55.436 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:55.657 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:55.657 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:55.769 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@144a891
+13:47:55.769 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+13:47:55.769 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:55.771 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaJythonServerStatus
+13:47:55.772 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:56.982 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaJythonServerStatus
+13:47:56.983 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:57.235 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@72046a
+13:47:57.235 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+13:47:57.235 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:57.242 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:57.242 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:57.464 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:57.464 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:57.685 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:57.685 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:57.905 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:57.906 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:58.128 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:58.128 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:58.349 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:58.349 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:58.571 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:58.571 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:58.795 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:58.795 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:59.016 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:59.017 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:59.240 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:59.240 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:59.466 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:47:59.467 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:59.566 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@e116c6
+13:47:59.566 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+13:47:59.567 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:47:59.569 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaJythonServerStatus
+13:47:59.569 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+GDA command was sent out for execution.
+13:48:00.159 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaJythonServerStatus
+13:48:00.159 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:00.511 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@367f
+13:48:00.512 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+13:48:00.512 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:00.515 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:48:00.516 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:00.738 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:48:00.738 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:00.963 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:48:00.964 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:01.185 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:48:01.186 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:01.406 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:48:01.406 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:01.627 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:48:01.628 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:01.849 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:48:01.850 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:02.071 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:48:02.071 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:02.298 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:48:02.298 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:02.522 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:48:02.522 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:02.744 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+13:48:02.745 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:02.847 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@d0b391
+13:48:02.847 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+13:48:02.847 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+13:48:02.850 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaJythonServerStatus
+13:48:02.850 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+The URL is http://localhost:1200/files/samples/scan01.dat
+Content1:  &SRS
+Content2:  &SRS
+Content1----------:  SRSRUN=13438,SRSDAT=200856,SRSTIM=1480,
+Content1----------:  SRSSTN='null',SRSPRJ='null    ',SRSEXP='null    ',
+Content1----------:  SRSTLE='                                                            ',
+Content1----------:  SRSCN1='        ',SRSCN2='        ',SRSCN3='        ',
+Content1----------:  &END
+Content2----------:  SRSRUN=3,SRSDAT=2008322,SRSTIM=11140,
+Content2----------:  SRSSTN='i06 ',SRSPRJ='developm',SRSEXP='scriptin',
+Content2----------:  SRSTLE='                                                            ',
+Content2----------:  SRSCN1='        ',SRSCN2='        ',SRSCN3='        ',
+Content2----------:  &END
+Content1: testMotor1
+Content2: testMotor1
+Content1: 0.0000
+Content2: 0.0000
+Content1: 1.0000
+Content2: 1.0000
+Content1: 2.0000
+Content2: 2.0000
+Content1: 3.0000
+Content2: 3.0000
+Content1: 4.0000
+Content2: 4.0000
+Content1: 5.0000
+Content2: 5.0000
+Content1: 6.0000
+Content2: 6.0000
+Content1: 7.0000
+Content2: 7.0000
+Content1: 8.0000
+Content2: 8.0000
+Content1: 9.0000
+Content2: 9.0000
+Content1: 10.000
+Content2: 10.000
+}}}----'''Standard Error:'''
+{{{06-Jun-2008 13:47:30 org.exolab.castor.mapping.Mapping loadMapping
+INFO: Loading mapping descriptors from mapping.xml
+}}}

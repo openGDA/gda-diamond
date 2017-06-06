@@ -1,0 +1,71 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Energy -->
+
+	<bean id="dcmenergy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DcmenergyMotor" />
+	</bean>
+
+	<!-- Mixture -->
+
+	<bean id="dcmxtl1roll" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="deg"/>
+		<property name="motor" ref="Dcmxtl1rollMotor" />
+	</bean>
+
+	<bean id="dcmx1" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="Dcmx1Motor" />
+	</bean>
+
+	<!-- 
+	<bean id="dcmpiezo" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="DcmpiezoMotor" />
+	</bean>
+	 -->
+
+	<bean id="dcmxtl1y" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="Dcmxtl1yMotor" />
+	</bean>
+
+	<bean id="dcmxtl2y" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="Dcmxtl2yMotor" />
+	</bean>
+
+	<bean id="dcmbragg1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="Bragg1Motor" />
+	</bean>
+
+	<bean id="dcmbragg2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="Bragg2Motor" />
+	</bean>
+
+	<bean id="dcmxtl1z" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="Dcmxtl1zMotor" />
+	</bean>
+
+	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dcmbragg1" />
+				<ref bean="dcmbragg2" />
+				<ref bean="dcmxtl1y" />
+				<ref bean="dcmxtl1z" />
+				<ref bean="dcmxtl1roll" />
+				<ref bean="dcmxtl2y" />
+				<ref bean="dcmx1" />
+				<ref bean="dcmenergy" />
+				<!--<ref bean="dcmpiezo" />-->
+			</list>
+		</property>
+	</bean>
+
+	<!-- Temperatures -->
+
+</beans>

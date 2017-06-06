@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Restart GDA Server
+Type=Application
+Exec=gdaservers
+TryExec=
+X-GNOME-DocPath=
+Terminal=true
+Name[en_GB]=Restart GDA Server
+GenericName[en_GB]=Restart GDA Server
+Comment[en_GB]=Restart GDA Server
+Icon=/usr/share/pixmaps/gnome-warning.png

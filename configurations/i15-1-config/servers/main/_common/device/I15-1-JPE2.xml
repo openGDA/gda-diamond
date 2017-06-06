@@ -1,0 +1,129 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- NXDetector file writers -->
+
+	<bean id="pe2_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="pe2_NDFileHDF5file" />
+		<property name="initialCompression" value="zlib" />
+	</bean>
+
+	<bean id="pe2Dark_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="pe2Dark_NDFileHDF5file" />
+		<property name="initialCompression" value="zlib" />
+	</bean>
+
+	<bean id="pe2_hdf5_MultipleImagesPerHDF5FileWriter"
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pe2_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$/$scan$" />
+		<property name="fileNameTemplate" value="pe" />
+		<property name="fileNumberAtScanStart" value="-1" /> <!-- 1 results in filenames of the form 92920-pe92920.hdf5 -->
+		<property name="setChunking" value="false" />
+		<!-- <property name="writeErrorStatusSupported" value="false" /> -->
+		<property name="lazyOpen" value="true" />
+		<!-- TODO: While we can set ndArrayPortVal from here, this filewriter may be used by detectors with different collection
+			 strategies so we should have the option to take the filewriter port from the collection Strategy. For example: -->
+		<!-- When using pe_SingleExposureStandardCollectionStrategy it needs to be set to pe1.cam, but 
+			 When using pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy without dark subtraction this needs to be set
+			 we need to use pe1.proc.proc2 and with dark subtraction it needs to be set we need to use pe1.proc.proc3
+		 -->
+		<property name="ndArrayPortVal" value="pe1.proc.proc3" />
+	</bean>
+
+	<bean id="pe2Dark_hdf5_MultipleImagesPerHDF5FileWriter"
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pe2Dark_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$/$scan$" />
+		<property name="fileNameTemplate" value="peDark" />
+		<property name="fileNumberAtScanStart" value="-1" /> <!-- 1 results in filenames of the form 92920-pe92920.hdf5 -->
+		<property name="setChunking" value="false" />
+		<!-- <property name="writeErrorStatusSupported" value="false" /> -->
+		<property name="lazyOpen" value="true" />
+		<!-- TODO: While we can set ndArrayPortVal from here, this filewriter may be used by detectors with different collection
+			 strategies so we should have the option to take the filewriter port from the collection Strategy. For example: -->
+		<!-- When using pe_SingleExposureStandardCollectionStrategy it needs to be set to pe1.cam, but 
+			 When using pe_MultipleExposureSoftwareTriggerAutoModeCollectionStrategy without dark subtraction this needs to be set
+			 we need to use pe1.proc.proc2 and with dark subtraction it needs to be set we need to use pe1.proc.proc3
+		 -->
+		<property name="ndArrayPortVal" value="pe1.proc.proc3" />
+	</bean>
+
+	<!-- ADDetectors -->
+
+	<bean id="pe2AD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="pe2AD_config_base"/>
+		<!-- 
+		<property name="ndFile"  ref="pe2_NDFileHDF5file"/>
+		 -->
+		<property name="ndArray" ref="pe2AD_summary_arr"/>
+		<!-- 
+		<property name="ndStats" ref="pe2AD_summary_stat"/>
+		<property name="fileWriter" ref="pe2_hdf5_MultipleImagesPerHDF5FileWriter"/>
+		 -->
+	</bean>
+
+	<bean id="pe2DarkAD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="pe2AD_config_base"/>
+		<!-- 
+		<property name="ndFile"  ref="pe2Dark_NDFileHDF5file"/>
+		 -->
+		<property name="ndArray" ref="pe2AD_summary_arr"/>
+		<!-- 
+		<property name="ndStats" ref="pe2AD_summary_stat"/>
+		<property name="fileWriter" ref="pe2Dark_hdf5_MultipleImagesPerHDF5FileWriter"/>
+		 -->
+	</bean>
+
+	<!-- Scanning API -->
+
+	<bean id="pe2AreaDetectorRunnableDeviceProxyModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name"                   value="pe2AD"/>
+		<property name="exposureTime"           value="0.1"/>
+	</bean>
+	<bean id="pe2AreaDetectorRunnableDeviceProxyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"        value="pe2AD"/>
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.pe2AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="label"       value="Perkin Elmer 2 Proxy (pe2AreaDetectorRunnableDeviceProxyInfo)"/>
+		<property name="description" value="Perkin Elmer 2 collection running from a Jython class"/>
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="pe2AreaDetectorRunnableDeviceProxy" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
+		<property name="name"        value="pe2AD"/>
+		<property name="level"             value="2"/>
+		<property name="model"             ref="pe2AreaDetectorRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="pe2AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="pe2AreaDetectorRunnableDeviceProxyFinder" class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"        	value="pe2AreaDetectorRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"	ref="pe2AreaDetectorRunnableDeviceProxy"/>
+	</bean>
+
+	<bean id="pe2DarkAreaDetectorRunnableDeviceProxyModel" class="uk.ac.diamond.daq.detectors.addetector.api.DarkImageAreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name"              value="pe2DarkAD"/>
+		<property name="exposureTime"      value="0.1"/>
+		<property name="frequency"         value="2"/>
+	</bean>
+	<bean id="pe2DarkAreaDetectorRunnableDeviceProxyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="pe2DarkAD"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.pe2DarkAreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="label"             value="Perkin Elmer 2 Dark Proxy (pe2DarkAreaDetectorRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="Perkin Elmer 2 dark collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="pe2DarkAreaDetectorRunnableDeviceProxy" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
+		<property name="name"              value="pe2DarkAD"/>
+		<property name="model"             ref="pe2DarkAreaDetectorRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="pe2DarkAreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="pe2DarkAreaDetectorRunnableDeviceProxyFinder" class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="pe2DarkAreaDetectorRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="pe2DarkAreaDetectorRunnableDeviceProxy"/>
+	</bean>
+</beans>

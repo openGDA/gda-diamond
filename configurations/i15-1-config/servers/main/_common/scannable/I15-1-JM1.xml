@@ -1,0 +1,72 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="m1Y" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="m1Y_motor" />
+	</bean>
+
+	<bean id="m1Pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad"/>
+		<property name="motor" ref="m1Pitch_motor" />
+	</bean>
+
+	<bean id="m1Roll" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad"/>
+		<property name="motor" ref="m1Roll_motor" />
+	</bean>
+
+	<bean id="m1X" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="m1X_motor" />
+	</bean>
+
+	<bean id="m1Yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad"/>
+		<property name="motor" ref="m1Yaw_motor" />
+	</bean>
+
+	<bean id="m1ibY" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="m1ibY_motor" />
+	</bean>
+
+	<bean id="m1obY" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="m1obY_motor" />
+	</bean>
+
+	<bean id="m1dsY" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="m1dsY_motor" />
+	</bean>
+
+	<bean id="m1usX" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="m1usX_motor" />
+	</bean>
+
+	<bean id="m1dsX" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="m1dsX_motor" />
+	</bean>
+
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1Y" />
+				<ref bean="m1Pitch" />
+				<ref bean="m1Roll" />
+				<ref bean="m1X" />
+				<ref bean="m1Yaw" />
+				<ref bean="m1ibY" />
+				<ref bean="m1obY" />
+				<ref bean="m1dsY" />
+				<ref bean="m1usX" />
+				<ref bean="m1dsX" />
+			</list>
+		</property>
+	</bean>
+</beans>

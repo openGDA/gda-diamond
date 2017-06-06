@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true"> <!-- Add debug="true" in here to log logback configuration -->
+
+    <!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
+    <!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
+
+    <!-- include file is relative to the application directory -->
+
+    <!-- ServerDebugFILE LogServer                                             servers/log/common/logServer.xml -->
+    <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/common/logServer.xml"/>
+
+    <!-- Console                                                               servers/log/common/logSharedWithClients.xml -->
+    <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="LogServer" />
+        <appender-ref ref="ServerDebugFILE"/>
+     </root>
+</configuration>

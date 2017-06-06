@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+	<define scope="context" name="JVMNAME" class="gda.util.logging.JvmNamePropertyDefiner" />
+
+    <!--  the include statement in the following java.properties file is not read so you need to reference both -->
+    <property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
+    <property file="${gda.config}/properties/_common/common_instance_java.properties" />
+
+    <!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
+    <!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
+
+    <appender name="ServerDebugFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${gda.logs.dir}/gda_server.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${gda.logs.dir}/gda_server.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d %-5level [%property{GDA_SOURCE}/%property{JVMNAME}/"i15-config"] %logger - %m%n%rEx</pattern>
+        </layout>
+        <!-- This appender no longer admits a layout as a sub-component, set an encoder instead.
+			 To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
+			 See also http://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details -->
+    </appender>
+
+    <appender name="RemoteLoggerListener" class="ch.qos.logback.classic.net.server.ServerSocketAppender">
+        <port>${gda.logserver.out.port}</port>
+        <!-- Limits the messages sent to log panels to the default messages shown. If you want to see DEBUG or TRACE
+             messages in the log panel, set level to DEBUG or ALL -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+</included>

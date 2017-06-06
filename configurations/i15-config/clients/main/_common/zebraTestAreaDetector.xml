@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="zebraTestADController" class="uk.ac.gda.epics.adviewer.ADControllerImpl">
+		<property name="imageNDStats" ref="zebraTestAD_summary_stat" />
+		<property name="liveViewNDProc" ref="zebraTestAD_summary_proc" />
+		<property name="imageNDArray" ref="zebraTestAD_summary_arr" />
+		<property name="imageHistSize" value="500" />
+		<property name="imageMin" value="0" />
+		<property name="detectorName" value="zebraTest" />
+		<property name="adBase" ref="zebraTestAD_config_base" />
+		<property name="ffmpegStream" ref="zebraTestAD_summary_mjpg" />
+		<property name="ffmpegImageOutHeightMax" value="1200" />
+		<property name="ffmpegImageOutWidthMax" value="1600" />
+		<property name="imageNDROI" ref="zebraTestAD_summary_roi"/>
+		<property name="serviceName" value="zebraTest"/>
+	</bean>
+
+	<bean id="zebraTestAD_dictionary" class="java.util.Hashtable">
+		<constructor-arg>
+			<map>
+				<entry key="SERVICE_NAME" value="zebraTest" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
+		<property name="service" ref="zebraTestADController" />
+		<property name="properties" ref="zebraTestAD_dictionary" />
+	</bean>
+
+</beans>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="Diamond Light Source Beamline I15">
+         <property
+               name="appName"
+               value="Diamond Light Source Beamline I15">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="uk.ac.gda.beamline.i15.I15ScanPerspective"
+            id="uk.ac.gda.beamline.I15ScanPerspective"
+            name="I15 Scan Perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:mar"
+            name="Two 2 Array View"
+            restorable="true">
+      </view>
+
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//mpx//BL15I-EA-DET-18@"
+            name="Two 2 Array View"
+            restorable="true">
+      </view>
+
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pe"
+            name="Two 2 Array View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pe"
+            name="MJPeg View"
+            restorable="true">
+      </view>
+
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//psl//BL15I-EA-PSL-01@"
+            name="Two 2 Array View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//psl//BL15I-EA-PSL-01@"
+            name="MJPeg View"
+            restorable="true">
+      </view>
+
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//pil3//BL15I-EA-PILAT-03@"
+            name="Two 2 Array View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//pil3//BL15I-EA-PILAT-03@"
+            name="MJPeg View"
+            restorable="true">
+      </view>
+
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?after=showView">
+         <menu
+               label="Area Detectors">
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Mar345 (mar) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:mar">
+               </parameter>
+            </command>
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Merlin (mpx) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//mpx//BL15I-EA-DET-18@">
+               </parameter>
+            </command>
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Perkin Elmer (pe) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pe">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Perkin Elmer (pe) Live (MJPeg) View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.mpegview:pe">
+               </parameter>
+            </command>
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Photonic Science (psl) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//psl//BL15I-EA-PSL-01@">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Photonic Science (psl) Live (MJPeg) View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.mpegview:pv//psl//BL15I-EA-PSL-01@">
+               </parameter>
+            </command>
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Pilatus 3 300k (pil3) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//pil3//BL15I-EA-PILAT-03@">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Pilatus 3 300k (pil3) Live (MJPeg) View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.mpegview:pv//pil3//BL15I-EA-PILAT-03@">
+               </parameter>
+            </command>
+
+         </menu>
+      </menuContribution>
+   </extension>
+
+</plugin>

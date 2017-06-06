@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>i15-config</name>
+	<comment></comment>
+	<projects>
+		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.epics</project>
+		<project>uk.ac.gda.epics.adviewer</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.python.pydev.PyDevBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.python.pydev.pythonNature</nature>
+	</natures>
+	<filteredResources>
+		<filter>
+			<id>1312560577401</id>
+			<name>var</name>
+			<type>22</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-*</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
+</projectDescription>

@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="Dr1jack1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-DIFF-01:BASE:Y1" />
+	</bean>
+
+	<bean id="Dr1jack2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-DIFF-01:BASE:Y2" />
+	</bean>
+
+	<bean id="Dr1jack3Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-DIFF-01:BASE:Y3" />
+	</bean>
+
+	<bean id="Dr1TransXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-DIFF-01:BASE:X" />
+	</bean>
+
+	<bean id="Dr1RotationMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-DIFF-01:BASE:Ry" />
+	</bean>
+</beans>

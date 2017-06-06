@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="xtalY" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="xtalY_motor" />
+	</bean>
+
+	<bean id="xtalRoll" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad"/>
+		<property name="motor" ref="xtalRoll_motor" />
+	</bean>
+
+	<bean id="xtalYaw" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad"/>
+		<property name="motor" ref="xtalYaw_motor" />
+	</bean>
+
+	<bean id="xtalBragg" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mrad"/>
+		<property name="motor" ref="xtalBragg_motor" />
+	</bean>
+
+	<bean id="xtalFine" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="xtalFine_motor" />
+	</bean>
+
+	<bean id="xtalBend" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="xtalBend_motor" />
+	</bean>
+
+	<bean id="xtalFocus" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="xtalFocus_motor" />
+	</bean>
+
+	<bean id="laue" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="xtalY" />
+				<ref bean="xtalRoll" />
+				<ref bean="xtalYaw" />
+				<ref bean="xtalBragg" />
+				<ref bean="xtalFine" />
+				<ref bean="xtalBend" />
+				<ref bean="xtalFocus" />
+			</list>
+		</property>
+	</bean>
+</beans>

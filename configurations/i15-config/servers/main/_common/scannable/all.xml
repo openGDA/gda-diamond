@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- 
+	<import resource="I15-.xml"/>
+	 -->
+
+	<import resource="dummy.xml"/>
+	<import resource="I15-ARM1.xml"/>
+	<import resource="I15-BASE1.xml"/>
+	<import resource="I15-BASE2.xml"/>
+	<import resource="I15-BS.xml"/>
+	<import resource="I15-BS2.xml"/>
+	<import resource="I15-BS3.xml"/>
+	<import resource="I15-D3.xml"/>
+	<import resource="I15-D4.xml"/>
+	<import resource="I15-D6.xml"/>
+	<import resource="I15-D7.xml"/>
+	<import resource="I15-D8.xml"/>
+	<import resource="I15-DCM.xml"/>
+	<import resource="I15-DET1.xml"/>
+	<import resource="I15-DET2.xml"/>
+	<import resource="I15-F2.xml"/>
+	<import resource="I15-FE.xml"/>
+	<import resource="I15-FM.xml"/>
+	<import resource="I15-FS.xml"/>
+	<import resource="I15-FS2.xml"/>
+	<import resource="I15-HFM.xml"/>
+	<import resource="I15-M3.xml"/>
+	<import resource="I15-M3B.xml"/>
+	<import resource="I15-PIN2.xml"/>
+	<import resource="I15-PIN3.xml"/>
+	<import resource="I15-QBPM1.xml"/>
+	<import resource="I15-QBPM2.xml"/>
+	<import resource="I15-S1.xml"/>
+	<import resource="I15-S2.xml"/>
+	<import resource="I15-S4.xml"/>
+	<import resource="I15-S6.xml"/>
+	<import resource="I15-S7.xml"/>
+	<import resource="I15-Sample-Environments-Laser-Heating.xml"/>
+	<import resource="I15-SFAB.xml"/>
+	<import resource="I15-SHD.xml"/>
+	<import resource="I15-SHD2.xml"/>
+	<import resource="I15-SMPL1.xml"/>
+	<import resource="I15-T2TB.xml"/>
+	<import resource="I15-VFM.xml"/>
+	<import resource="I15-Zebra.xml"/>
+</beans>

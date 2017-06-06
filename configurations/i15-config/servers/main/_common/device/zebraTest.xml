@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="zebraTest" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="zebraPrefix" value="TESTZEBRA:ZEBRA:"/>
+	</bean>
+
+	<bean id="zebraTestMotor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="zebraTestMotor"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- We need a zebraTestScannableMotor as well as a zebraTestZebraScannableMotor since you can't pos the latter. -->
+	<bean id="zebraTestScannableMotor" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="zebraTestMotor" />
+	</bean>
+
+	<bean id="zebraTestZebraScannableMotor" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="zebraTestMotor" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraTestContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value=".5"/>
+	</bean>	
+
+	<bean id="zebraTestContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
+		<property name="zebra" ref="zebraTest"/>
+		<property name="mode" value="1"/>
+	</bean>
+
+	<bean id="zebraTestCollectionStrategy" class="gda.device.detector.addetector.triggering.HardwareTriggeredStandard">
+		<constructor-arg ref="zebraTestAD_config_base" />	<!-- ADBase adBase -->
+		<constructor-arg value=".0" />						<!-- double readoutTime -->
+	</bean>	
+
+	<bean id="zebraTestNDFileHDF5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="TESTZEBRA:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>	
+
+	<bean id="zebraTestNDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="zebraTestNDFileHDF5_base" />
+		<property name="initialCompression" value="zlib" />
+	</bean>
+
+	<bean id="zebraTestMultiImageHDF5FileWriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="zebraTestNDFileHDF5" />
+		<property name="fileNameTemplate" value="zebraTest"/>
+		<!-- Original filepath
+		 -->
+		<property name="filePathTemplate" value="$datadir$"/>
+		<!-- Frigged filepath for testing
+		<property name="filePathTemplate" value="/home/"/>
+		 -->
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="setChunking" value="false"/>
+		<property name="blocking" value="true"/>
+	</bean>	
+
+	<bean id="zebraTestDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="zebraTestDetector"/>
+		<property name="readOutTime" value=".03"/>
+		<property name="hardwareTriggerProvider" ref="zebraTestContinuousMoveController"/>
+		<property name="collectionStrategy" ref="zebraTestCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="zebraTestMultiImageHDF5FileWriter" />
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="QbpmXMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="QD1.X" />
+		<property name="local" value="true"/>
+	</bean>	
+
+	<bean id="QbpmYMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="QD1.Y" />
+		<property name="local" value="true"/>
+	</bean>
+</beans>

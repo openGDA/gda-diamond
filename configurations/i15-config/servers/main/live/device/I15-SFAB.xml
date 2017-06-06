@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Space fab motors -->
+	
+	<bean id="sxMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SFAB.X" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="syMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SFAB.Y" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="szMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SFAB.Z" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="spitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SFAB.PITCH" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="syawMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SFAB.YAW" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="srollMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SFAB.ROLL" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="sphiMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SFAB.SAMPLEPHI" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="ssxMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SFAB.SAMPLE.X" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="sszMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SFAB.SAMPLE.Z" />
+		<property name="local" value="true"/>
+	</bean>
+
+<!-- 
+	<bean id="srotMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-SFAB-01:ROTARY" />
+		<property name="local" value="true"/>
+	</bean>
+ -->
+</beans>

@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="samX_motor"  class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-MO-TABLE-01:SAMPLE:X" />
+	</bean>
+
+	<bean id="samY_motor"  class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-MO-TABLE-01:SAMPLE:Y" />
+	</bean>
+
+	<bean id="blowerZ_motor"  class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-EA-BLOWR-01:TLATE" />
+	</bean>
+
+	<bean id="blower_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="local" value="true"/>
+		<property name="configureAtStartup" value="true"/>
+		<property name="basePVName" value = "BL15J-EA-BLOW-01"/>
+		<property name="maxRampRate" value = "10"/>
+		<property name="minRampRate" value = "0.01"/>
+		<property name="maxOutput" value = "100"/>
+	</bean>
+
+	<bean id="blower" class="gda.device.temperature.Eurotherm2K">
+		<property name="local" value="true"/>
+		<property name="configureAtStartup" value="true"/>
+		<property name="accuracy" value = "5"/>
+		<property name="polltime" value = "1000"/>
+		<property name="fileSuffix" value = "temp"/>
+		<property name="upperTemp" value = "1000"/>
+		<property name="lowerTemp" value = "0"/>
+		<property name="controller" ref= "blower_controller"/>
+	</bean>
+</beans>

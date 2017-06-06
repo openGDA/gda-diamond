@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="geo2mot1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="geo2mot1Motor" />
+	</bean>
+
+	<bean id="geo2mot2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="geo2mot2Motor" />
+	</bean>
+
+	<bean id="geo2mot3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="geo2mot3Motor" />
+	</bean>
+
+	<bean id="geo2mot4" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="geo2mot4Motor" />
+	</bean>
+
+	<bean id="geo2mot5" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="geo2mot5Motor" />
+	</bean>
+
+	<bean id="geo2mot6" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="geo2mot6Motor" />
+	</bean>
+
+	<bean id="geo2mot7" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="geo2mot7Motor" />
+	</bean>
+
+	<bean id="geo2mot8" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="geo2mot8Motor" />
+	</bean>
+
+	<bean id="geo2mot" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="geo2mot1" />
+				<ref bean="geo2mot2" />
+				<ref bean="geo2mot3" />
+				<ref bean="geo2mot4" />
+				<ref bean="geo2mot5" />
+				<ref bean="geo2mot6" />
+				<ref bean="geo2mot7" />
+				<ref bean="geo2mot8" />
+			</list>
+		</property>
+	</bean>
+</beans>

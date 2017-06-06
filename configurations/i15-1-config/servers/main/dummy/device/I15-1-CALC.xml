@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>
+	Definitions of dummy calc record monitors.
+	
+	In addition to the normal EpicsMonitor properties, the value can also be defined:
+	
+		value											(The default is none)
+				This will be assumed to be a string if the type isn't explicit.
+				Note that using SPEL #{1} generated an int, while #{1.0} generated a float.
+	</description>
+
+	<bean id="calc4a"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{1.0}"/>
+	</bean>
+
+	<bean id="calc4b"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{2.0}"/>
+	</bean>
+
+	<bean id="calc4c"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{3.0}"/>
+	</bean>
+
+	<bean id="calc4d"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{4.0}"/>
+	</bean>
+
+	<bean id="calc4e"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{5.0}"/>
+	</bean>
+
+	<bean id="calc4f"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{6.0}"/>
+	</bean>
+
+	<bean id="calc4g"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{7.0}"/>
+	</bean>
+
+	<bean id="calc4h"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{8.0}"/>
+	</bean>
+
+	<bean id="calc4i"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{9.0}"/>
+	</bean>
+
+	<bean id="calc4j"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{10.0}"/>
+	</bean>
+
+	<bean id="calc4k"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{11.0}"/>
+	</bean>
+
+	<bean id="calc4l"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{12.0}"/>
+	</bean>
+
+	<bean id="calc4m"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{13.0}"/>
+	</bean>
+
+	<bean id="calc4n"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{14.0}"/>
+	</bean>
+
+	<bean id="calc4o"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{15.0}"/>
+	</bean>
+
+	<bean id="calc4p"
+			class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="#{16.0}"/>
+	</bean>
+</beans>

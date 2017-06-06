@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="cryox" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryox_motor" />
+	</bean>
+
+	<bean id="cryoy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryoy_motor" />
+	</bean>
+
+	<bean id="cryoz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryoz_motor" />
+	</bean>
+
+	<bean id="cryorot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryorot_motor" />
+	</bean>
+
+	<bean id="cryobsx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryobsx_motor" />
+	</bean>
+
+	<bean id="cryobsy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cryobsy_motor" />
+	</bean>
+</beans>

@@ -1,0 +1,11 @@
+bashlog debug "live/gda_servers_pre_instance" "Entered"
+
+# Since the gda_servers_* scripts are run on both the client machine and on the
+# server machine in live mode, only run these commands on the client:
+if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]]; then
+
+  $GDA_WORKSPACE_PARENT/$GDA_CORE_CONFIG_rel/bin/gdanotify ${CONTROL_MACHINE_NAME} 9999 "WARNING: GDA Server restart requested.\n\nThis client will need to be restarted once the server restart has completed."
+
+fi
+
+bashlog debug "live/gda_servers_pre_instance" "Exited"

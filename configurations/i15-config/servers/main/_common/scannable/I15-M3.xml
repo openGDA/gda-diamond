@@ -1,0 +1,74 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Vertical Small KB mirror scannables -->
+
+	<bean id="svfmcurve" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="svfmcurve_motor" />
+	</bean>
+
+	<bean id="svfmellip" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="svfmellip_motor" />
+	</bean>
+
+	<bean id="svfmy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="svfmy_motor" />
+	</bean>
+
+	<bean id="svfmpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="svfmpitch_motor" />
+	</bean>
+
+	<bean id="svfm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="svfmcurve" />
+				<ref bean="svfmellip" />
+				<ref bean="svfmy" />
+				<ref bean="svfmpitch" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Horizontal Small KB mirror scannables -->
+
+	<bean id="shfmcurve" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="shfmcurve_motor" />
+	</bean>
+
+	<bean id="shfmellip" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="shfmellip_motor" />
+	</bean>
+
+	<bean id="shfmx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="shfmx_motor" />
+	</bean>
+
+	<bean id="shfmpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="shfmpitch_motor" />
+	</bean>
+
+	<bean id="shfm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="shfmcurve" />
+				<ref bean="shfmellip" />
+				<ref bean="shfmx" />
+				<ref bean="shfmpitch" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Since the gda svfm & shfm prefixes are not the same as the Epics M3
+	     designation, provide a scannable group to make it easier to find. -->
+	<bean id="M3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="svfm" />
+				<ref bean="shfm" />
+			</list>
+		</property>
+	</bean>
+</beans>

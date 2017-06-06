@@ -1,0 +1,169 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<!-- Standard Area Detector plugins -->
+
+	<bean id="pslAD_cam" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:CAM:" />
+	</bean>
+
+	<bean id="pslAD_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:ARR:" />
+	</bean>
+
+	<bean id="pslAD_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:STAT:" />
+	</bean>
+
+	<bean id="pslAD_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:ROI:" />
+	</bean>
+
+	<bean id="pslAD_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:MJPG:" />
+	</bean>
+
+	<bean id="pslAD_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:PROC:" />
+	</bean>
+
+	<!-- Extended Area Detector plugins -->
+
+	<bean id="pslAD_roi1" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:ROI1:" />
+	</bean>
+
+	<bean id="pslAD__roi2" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:ROI2:" />
+	</bean>
+
+	<bean id="pslAD__roi3" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:ROI3:" />
+	</bean>
+
+	<bean id="pslAD__roi4" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:ROI4:" />
+	</bean>
+
+	<bean id="pslAD_roi5" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:ROI5:" />
+	</bean>
+
+	<bean id="pslAD_roi6" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:ROI6:" />
+	</bean>
+
+	<bean id="pslAD_proc1" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:PROC1:" />
+	</bean>
+
+	<bean id="pslAD_proc2" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:PROC2:" />
+	</bean>
+
+	<bean id="pslAD_proc3" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:PROC3:" />
+	</bean>
+
+	<bean id="pslAD_proc4" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:PROC4:" />
+	</bean>
+
+	<bean id="pslAD_proc5" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:PROC5:" />
+	</bean>
+
+	<bean id="pslAD_proc6" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:PROC6:" />
+	</bean>
+
+	<bean id="pslAD_stat1" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:STAT1:" />
+	</bean>
+
+	<bean id="pslAD_stat2" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:STAT2:" />
+	</bean>
+
+	<bean id="pslAD_stat3" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:STAT3:" />
+	</bean>
+
+	<bean id="pslAD_stat4" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:STAT4:" />
+	</bean>
+
+	<bean id="pslAD_stat5" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:STAT5:" />
+	</bean>
+
+	<bean id="pslAD_stat6" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:STAT6:" />
+	</bean>
+
+	<bean id="psl_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL15I-EA-PSL-01:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="psl_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="BL15I-EA-PSL-01:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+			</bean>
+		</property>
+		<property name="initialCompression" value="zlib" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<!-- SingleExposureStandard(ADBase adBase, double readoutTime)
+				Negative readoutTime disables AcquirePeriod
+	 -->
+	<bean id="psl_SingleExposureStandardCollectionStrategy"
+		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="pslAD_cam" />
+		<constructor-arg value="-1" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="psl_hdf5_MultipleImagesPerHDF5FileWriter"
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="psl_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="$scan$-psl" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setChunking" value="false" />
+		<property name="lazyOpen" value="true" />
+	</bean>
+
+	<!-- SingleImagePerFileWriter(String detectorName)
+	 -->
+	<bean id="psl_tiff_SingleImagePerFileWriter"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="psl" />
+		<property name="ndFile" ref="psl_NDFileTiff" />
+		<property name="keyNameForMetadataPathTemplate" value="psl_path_template" />
+	</bean>
+
+	<!-- NXDetectors -->
+
+	<bean id="psl" class="gda.device.detector.NXDetector">
+		<property name="name" value="psl" />
+		<property name="collectionStrategy" ref="psl_SingleExposureStandardCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="psl_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="psl_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

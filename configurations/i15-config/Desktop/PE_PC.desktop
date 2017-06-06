@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=No name
+Type=Application
+Exec=rdesktop -5 -a 16 -u i15detector -d DIAMOND -k en-gb -g 1850x1150 i15-ws011
+TryExec=
+Icon=/usr/share/pixmaps/gdm.png
+X-GNOME-DocPath=
+Terminal=false
+Name[en_GB]=PE-PC
+GenericName[en_GB]=PE PC
+Comment[en_GB]=Connection to Perkin Elmer PC in CIA (CCD computer)

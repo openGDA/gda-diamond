@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="dummy1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyMotor1" />
+	</bean>
+
+	<bean id="dummy2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyMotor2" />
+	</bean>
+
+	<bean id="dummy3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyMotor3" />
+	</bean>
+
+	<bean id="dummy4" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyMotor4" />
+	</bean>
+
+	<bean id="dummy5" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyMotor5" />
+	</bean>
+
+	<bean id="x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyMotorX" />
+	</bean>
+
+	<bean id="y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyMotorY" />
+	</bean>
+
+	<bean id="z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dummyMotorZ" />
+	</bean>
+
+	<bean id="exposure" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="exposure" />
+	</bean>
+</beans>

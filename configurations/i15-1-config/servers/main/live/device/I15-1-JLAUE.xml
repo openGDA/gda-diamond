@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="xtalY_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-OP-LAUE-01:Y" />
+	</bean>
+
+	<bean id="xtalRoll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-OP-LAUE-01:ROLL" />
+	</bean>
+
+	<bean id="xtalYaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-OP-LAUE-01:YAW" />
+	</bean>
+
+	<bean id="xtalBragg_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-OP-LAUE-01:PITCH" />
+	</bean>
+
+	<bean id="xtalFine_motor"  class="gda.device.motor.DummyMotor"/>
+
+	<bean id="xtalBend_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-OP-LAUE-01:BENDER" />
+	</bean>
+
+	<bean id="xtalFocus_motor"  class="gda.device.motor.DummyMotor"/>
+
+</beans>
