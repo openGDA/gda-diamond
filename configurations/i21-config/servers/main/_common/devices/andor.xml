@@ -23,7 +23,7 @@
 	</bean>
 	<!-- use EPICS HDF5 plugin to write data to file -->
 	<bean id="andorHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<property name="ndFileHDF5" value="andor_hdf5"/>
+		<property name="ndFileHDF5" ref="andor_hdf5"/>
 		<property name="fileNameTemplate" value="andor"/>
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileTemplate" value="%s%s-%d.hdf" />
@@ -60,7 +60,7 @@
 	<bean id="andor_addetector" class="gda.device.detector.addetector.ADDetector">
 		<property name="collectionStrategy" ref="andorCollectionStrategy"/>
 		<property name="adBase" ref="andor_adbase" />
-		<property name="ndFile" ref="andor_hdf5" /><!-- not used in new scanning -->
+		<property name="ndFile" ref="andor_ndfile" /><!-- not used in new scanning -->
 		<property name="ndArray" ref="andor_ndarray" />
 		<property name="ndStats" ref="andor_stats" /><!-- not used in new scanning -->
 		<property name="fileWriter" ref="andorHdf5Filewriter" /> <!-- not used in new scanning -->

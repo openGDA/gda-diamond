@@ -51,7 +51,7 @@
 	<import resource="spectrometer.xml"/>
 
 <!-- objects that access an area detector simulator ADSIM Top-->
-<!-- 	<import resource="adSimulator.xml"/>  -->
+	<import resource="adSimulator.xml"/> <!-- diagnostic cameras -->
 	<import resource="andor.xml"/> <!-- CAM Top -->
 
 </beans>
