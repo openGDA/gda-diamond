@@ -1,0 +1,11 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="tab2jack1_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="tab2jack2_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="tab2jack3_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="tab2x2_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="tab2rot_motor" class="gda.device.motor.DummyMotor"/>
+</beans>

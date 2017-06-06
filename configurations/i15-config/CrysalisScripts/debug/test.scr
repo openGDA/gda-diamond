@@ -1,0 +1,7 @@
+
+((a):integer=1)
+((ptr):pointer)
+(POINTERINIT($(ptr),"a"))
+
+cmd = "root echo = "+$(a)
+cmd = "root echo = "+$(ptr)

@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="dummyMotor1" class="gda.device.motor.DummyMotor" />
+	<bean id="dummyMotor2" class="gda.device.motor.DummyMotor" />
+	<bean id="dummyMotor3" class="gda.device.motor.DummyMotor" />
+	<bean id="dummyMotor4" class="gda.device.motor.DummyMotor" />
+	<bean id="dummyMotor5" class="gda.device.motor.DummyMotor" />
+
+	<bean id="abstractFastDummyMotor" abstract="true">
+		<property name="speed" value="1000.0" />
+		<property name="unitString" value="mm"/>
+		<!-- 
+		<property name="position" value="300"/>
+		<property name="minPosition" value="150"/>
+		<property name="maxPosition" value="1500"/>
+		 -->
+	</bean>
+
+	<bean id="dummyMotorX" parent="abstractFastDummyMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="dummyMotorY" parent="abstractFastDummyMotor" class="gda.device.motor.DummyMotor" />
+	<bean id="dummyMotorZ" parent="abstractFastDummyMotor" class="gda.device.motor.DummyMotor" />
+</beans>

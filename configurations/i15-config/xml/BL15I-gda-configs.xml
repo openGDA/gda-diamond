@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<configs PV="BL15I-CS-MODE-01:CONFIG">
+  <branch description="Extreme conditions beamline" name="BL15I">
+    <config index="0" name="OH2 Experiment">
+      <sect name="OH1"/>
+      <sect name="Table1"/>
+    </config>
+    <config index="1" name="Diffractometer">
+      <sect name="OH1"/>
+      <sect name="OH2"/>
+      <sect name="Diff"/>
+      <sect name="E"/>
+    </config>
+    <config index="2" name="EH Table Expt">
+      <sect name="OH1"/>
+      <sect name="OH2"/>
+      <sect name="Tab2"/>
+      <sect name="E"/>
+    </config>
+  </branch>
+</configs>

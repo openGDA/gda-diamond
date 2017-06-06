@@ -1,0 +1,41 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- ADDetectors -->
+
+	<bean id="adc1AD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="adc1_adbase"/>
+		<property name="readArray" value="false"/>
+	</bean>
+	<!-- Setting readArray to false removed the need to specify an ndArray property -->
+
+	<!-- Scanning API -->
+
+	<bean id="adc1AreaDetectorRunnableDeviceProxyModel"
+			class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name"              value="adc1AD"/>
+		<property name="exposureTime"      value="0.1"/>
+	</bean>
+	<bean id="adc1AreaDetectorRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="adc1AD"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.adc1AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="label"             value="DT-ACQ 1 Proxy (adc1AreaDetectorRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="DT-ACQ 1 Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="adc1AreaDetectorRunnableDeviceProxy"
+			class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
+		<property name="name"              value="adc1AD"/>
+		<property name="model"             ref="adc1AreaDetectorRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="adc1AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="adc1AreaDetectorRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="adc1AreaDetectorRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="adc1AreaDetectorRunnableDeviceProxy"/>
+	</bean>
+</beans>

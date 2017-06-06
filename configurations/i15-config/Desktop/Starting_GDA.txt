@@ -1,0 +1,78 @@
+--------------------------------------------------------------------------------
+			Notes on starting GDA client Gui
+--------------------------------------------------------------------------------
+
+If you close the GDA client Gui then you do NOT have to restart the GDA Server
+to open it again since closing the GUI does not stop the GDA server.
+
+A restart of the GDA servers should take around a minute, if there are no
+problems connecting. The end is signalled by the following message in either
+the Log Panel:
+
+	INFO  gda.util.ObjectServer - Server initialisation complete. xmlFile = /dls/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/servers/main/live/server.xml
+
+--------------------------------------------------------------------------------
+Description of Icons:
+--------------------
+
+"Restart GDA Server"                   (or the command gdaservers in a terminal)
+
+	- Restarts the backend processes. The expected output of this command
+	  is detailed below. Also restarts the Log Display before and the client
+	  after the server restart.
+
+"Start GDA Gui"                             (or command gdaclient in a terminal)
+
+	- Start the client. This can only be done once the background servers
+	  have started fully. Also starts the Log Display if it isn't running.
+
+"Start GDA Log Display"                    (or the command gdalog in a terminal)
+
+	- Opens the LogPanel that displays the messages from the different
+	  GDA processes.
+
+"Restart MAR Detector"            (or command MAR_RemoteStart_Lin in a terminal)
+
+	- Restarts the MAR backend processes.
+
+--------------------------------------------------------------------------------
+Expected output of "Restart GDA Server":
+---------------------------------------
+
+Ensure the Log panel is running...
+Raising GDA Log Panel...
+
+Making sure we want to restart GDA servers now...
+
+Fix the OD PC issues
+
+Checking for an old known_host key
+
+Restarting the GDA Server, please wait...
+
+Keep this window open, and you will see a pop-up when the restart has completed
+
+--------------------------------------------------------
+Log gda_output (gda2@i15-control.diamond.ac.uk) to /dls_sw/i15/var/gda_output/2013-04-05-18:37:41.txt
+--------------------------------------------------------
+/dls_sw/i15/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --headless servers --debug --debugport=8001
+.......................................................
+Connection to i15-control.diamond.ac.uk closed.
+
+Making sure we want to start GDA client now...
+
+Starting new GDA RCP Client...
+
+--------------------------------------------------------
+Log gda_client_output (i15user@i15-ws001.diamond.ac.uk) to /dls_sw/i15/var/gda_client_output/2013-04-05-18:39:18.txt
+--------------------------------------------------------
+Raising GDA Log Panel...
+Starting GDA Client...
+/dls_sw/i15/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaclient -showLocation -data /scratch/i15_workspace-i15user -configuration /scratch/i15_config-i15user
+
+Moving GDA Log Panel...
+
+...........
+
+--------------------------------------------------------------------------------
+Updated 5th April 2013

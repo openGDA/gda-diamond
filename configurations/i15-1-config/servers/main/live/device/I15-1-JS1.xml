@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s1usX_motor" class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-AL-SLITS-01:X:PLUS" />
+	</bean>
+
+	<bean id="s1usY_motor" class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-AL-SLITS-01:Y:PLUS" />
+	</bean>
+
+	<bean id="s1dsX_motor" class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-AL-SLITS-01:X:MINUS" />
+	</bean>
+
+	<bean id="s1dsY_motor" class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-AL-SLITS-01:Y:MINUS" />
+	</bean>
+
+	<bean id="s1cenX_motor" class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-AL-SLITS-01:X:CENTER" />
+	</bean>
+
+	<bean id="s1cenY_motor" class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-AL-SLITS-01:Y:CENTER" />
+	</bean>
+
+	<bean id="s1gapX_motor" class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-AL-SLITS-01:X:SIZE" />
+	</bean>
+
+	<bean id="s1gapY_motor" class="gda.device.motor.EpicsMotor">
+		<!-- <property name="deviceName" value="" /> -->
+		<property name="pvName" value="BL15J-AL-SLITS-01:Y:SIZE" />
+	</bean>
+</beans>

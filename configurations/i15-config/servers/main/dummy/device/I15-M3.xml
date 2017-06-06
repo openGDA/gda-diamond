@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Vertical Small KB mirror motors -->
+
+	<bean id="svfmcurve_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="svfmellip_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="svfmy_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="svfmpitch_motor" class="gda.device.motor.DummyMotor"/>
+
+	<!-- Horizontal Small KB mirror motors -->
+
+	<bean id="shfmcurve_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="shfmellip_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="shfmx_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="shfmpitch_motor" class="gda.device.motor.DummyMotor"/>
+</beans>

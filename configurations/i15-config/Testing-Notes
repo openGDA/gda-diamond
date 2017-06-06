@@ -1,0 +1,22 @@
+--------------------------------------------------------------------------------
+Basic sanity check tests
+--------------------------------------------------------------------------------
+
+exposeDetector='mar'
+exposeDetector='pe'
+exposeDetector='atlas'
+exposeDetector='pil3'
+
+exposeDark(1.1, exposeDetector+'+exposeDark+1.1')
+expose(1.1, exposeDetector+'+expose+1.1')
+exposeN(1.2, 3, exposeDetector+'+expose+1.2+3')
+
+* Check that dkphi can be moved before running these:
+exposeRock(1.3, 1, exposeDetector+'+exposeRock+1.3+1')
+exposeNRockN(1.4, 3, 1, 1, exposeDetector+'+exposeRock+1.4+3+1+1')
+exposeSweep(1.5, 56, 60, 1, exposeDetector+'+exposeSweep+1.5+56+60+1')
+
+* Check that dx and dz can be moved before running these:
+exposeGridAbs(1.6, -0.0256, -0.0356, 2, 0.8309, 0.8409, 2, exposeDetector+'+exposeGridAbs+1.6+2+2')
+exposeRockLineAbs(1.7,1,dz,-8,-7,2,exposeDetector+'+exposeRockLineAbs+1.7+1+dz-8-7+2')
+--------------------------------------------------------------------------------

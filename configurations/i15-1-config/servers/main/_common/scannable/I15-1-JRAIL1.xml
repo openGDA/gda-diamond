@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="railY1" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="railY1_motor" />
+	</bean>
+
+	<bean id="railY2" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="railY2_motor" />
+	</bean>
+
+	<bean id="railY" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="railY_motor" />
+	</bean>
+
+	<bean id="railPitch" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="deg"/>
+		<property name="motor" ref="railPitch_motor" />
+	</bean>
+
+	<bean id="rail" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="railY1" />
+				<ref bean="railY2" />
+				<ref bean="railY" />
+				<ref bean="railPitch" />
+			</list>
+		</property>
+	</bean>
+</beans>

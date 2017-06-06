@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<import resource="dummy.xml"/>
+	<import resource="marAreaDetector.xml"/>
+	<import resource="mpxAreaDetector.xml"/>
+	<import resource="peAreaDetector.xml"/>
+	<import resource="pil3AreaDetector.xml"/>
+	<!-- If we leave these in the common client config, then GDA fails to start if the Test Zebra box is turned off
+	<import resource="zebraTestAreaDetector.xml"/>
+	<import resource="zebraTest.xml"/>
+	 -->
+</beans>

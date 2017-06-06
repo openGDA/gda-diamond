@@ -1,0 +1,223 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="cam2_SingleExposureStandardCollectionStrategyBase" 
+			class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true"/>
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true"/>
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="cam2AD_cam" />
+								<property name="restoreAcquireState" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="cam2_SingleExposureStandardCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ColourModeDecorator">
+		<property name="restoreColourMode" value="true"/>
+		<property name="colourMode" value="Mono"/>
+		<property name="decoratee" ref="cam2_SingleExposureStandardCollectionStrategyBase"/>
+	</bean>
+
+	<bean id="cam2rgb_SingleExposureStandardCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ColourModeDecorator">
+		<property name="restoreColourMode" value="true"/>
+		<property name="colourMode" value="RGB"/>
+		<property name="decoratee" ref="cam2_SingleExposureStandardCollectionStrategyBase"/>
+	</bean>
+
+	<bean id="cam2_UESD_SingleExposureStandardCollectionStrategy" 
+			class="gda.device.detector.addetector.collectionstrategy.UnsynchronisedExternalShutterDecorator">
+		<property name="collectionExtensionTimeS" value="6"/>
+		<property name="decoratee" ref="cam2_SingleExposureStandardCollectionStrategy" />
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="cam2_hdf5_MultipleImagesPerHDF5FileWriter"
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="cam2_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$/$scan$" />
+		<property name="fileNameTemplate" value="cam2-" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setChunking" value="false" />
+		<property name="lazyOpen" value="true" />
+	</bean>
+	<!-- This generates files of the form $datadir$/$scan$/cam2.hdf5 -->
+
+	<!-- SingleImagePerFileWriter(String detectorName)
+	 -->
+	<bean id="cam2_tiff_SingleImagePerFileWriter"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<property name="ndFile" ref="cam2_NDFileTiff" />
+		<property name="fileTemplate" value="%s%s%05d.tif" />
+		<property name="filePathTemplate" value="$datadir$/$scan$/cam2" />
+		<property name="fileNameTemplate" value="" />
+		<property name="fileNumberAtScanStart" value="1" />
+		<property name="keyNameForMetadataPathTemplate" value="cam2_path_template" />
+	</bean>
+	<!-- To generate files of the form $datadir$/$scan$-cam2-files/%05d.tif :
+		<property name="fileTemplate" value="%s%s%05d.tif" />
+		<property name="filePathTemplate" value="$datadir$/$scan$-cam2-files" />
+		<property name="fileNameTemplate" value="" />
+	-->
+
+	<!-- NXDetectors -->
+
+	<bean id="cam2rawNx" class="gda.device.detector.NXDetector">
+		<property name="name" value="cam2rawNx" />
+		<property name="collectionStrategy" ref="cam2_SingleExposureStandardCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="cam2_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="cam2_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cam2rgbRawNx" class="gda.device.detector.NXDetector">
+		<property name="name" value="cam2rbgRawNx" />
+		<property name="collectionStrategy" ref="cam2rgb_SingleExposureStandardCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="cam2_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="cam2_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- ADDetectors -->
+
+	<bean id="cam2rawAD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="cam2AD_cam"/>
+		<property name="collectionStrategy" ref="cam2_SingleExposureStandardCollectionStrategy" />
+		<property name="ndFile"  ref="cam2_NDFileHDF5file"/>
+		<property name="ndArray" ref="cam2AD_arr"/>
+		<property name="ndStats" ref="cam2AD_stat"/>
+		<property name="fileWriter" ref="cam2_hdf5_MultipleImagesPerHDF5FileWriter"/>
+	</bean>
+
+	<bean id="cam2rgbRawAD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="cam2AD_cam"/>
+		<property name="collectionStrategy" ref="cam2rgb_SingleExposureStandardCollectionStrategy" />
+		<property name="ndFile"  ref="cam2_NDFileHDF5file"/>
+		<property name="ndArray" ref="cam2AD_arr"/>
+		<property name="ndStats" ref="cam2AD_stat"/>
+		<property name="fileWriter" ref="cam2_hdf5_MultipleImagesPerHDF5FileWriter"/>
+	</bean>
+
+	<bean id="cam2uesdRawAD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="cam2AD_cam"/>
+		<property name="collectionStrategy" ref="cam2_UESD_SingleExposureStandardCollectionStrategy" />
+		<property name="ndFile"  ref="cam2_NDFileHDF5file"/>
+		<property name="ndArray" ref="cam2AD_arr"/>
+		<property name="ndStats" ref="cam2AD_stat"/>
+		<property name="fileWriter" ref="cam2_hdf5_MultipleImagesPerHDF5FileWriter"/>
+	</bean>
+
+	<bean id="cam2AD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="cam2AD_cam"/>
+		<property name="readArray" value="false"/>
+	</bean>
+
+	<!-- Scanning API -->
+
+	<bean id="cam2AreaDetectorRunnableDeviceProxyModel"
+			class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name"              value="cam2AD"/>
+		<property name="exposureTime"      value="0.1"/>
+	</bean>
+	<bean id="cam2AreaDetectorRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="cam2AD"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.cam2AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="label"             value="Cam 2 Proxy (cam2AreaDetectorRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="Cam 2 Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="cam2AreaDetectorRunnableDeviceProxy"
+			class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
+		<property name="name"              value="cam2AD"/>
+		<property name="model"             ref="cam2AreaDetectorRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="cam2AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="cam2AreaDetectorRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="cam2AreaDetectorRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="cam2AreaDetectorRunnableDeviceProxy"/>
+	</bean>
+
+	<bean id="cam2uesdNexusModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name"                   value="cam2uesdRawAD"/>
+		<property name="exposureTime"           value="0.1"/>
+	</bean>
+	<bean id="cam2uesdNexusInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"                   value="cam2uesdRawAD"/>
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.cam2uesdNexusInfo"/>
+		<property name="label"       value="Camera 2 Nexus (cam2uesdNexusInfo)"/>
+		<property name="description" value="Camera 2 with images written to Nexus file by the scan"/>
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="cam2uesdNexusDetector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name"              value="cam2uesdRawAD"/>
+		<property name="model"             ref="cam2uesdNexusModel"/>
+		<property name="deviceInformation" ref="cam2uesdNexusInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+
+	<!-- ^^^ is based on vvv but with a longer exposure time than requested -->
+
+	<bean id="cam2nexusModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name"                   value="cam2rawAD"/>
+		<property name="exposureTime"           value="0.1"/>
+	</bean>
+	<bean id="cam2nexusInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"                   value="cam2rawAD"/>
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.cam2nexusInfo"/>
+		<property name="label"       value="Camera 2 Nexus (cam2nexusInfo)"/>
+		<property name="description" value="Camera 2 with images written to Nexus file by the scan"/>
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="cam2nexusDetector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name"              value="cam2rawAD"/>
+		<property name="model"             ref="cam2nexusModel"/>
+		<property name="deviceInformation" ref="cam2nexusInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+
+	<!-- vvv is based on ^^^ but with the Area Detector writing hdf5 files rather than the images being written to the
+							 scan Nexus file. Only the second will show in the Scanning perspective. -->
+
+	<bean id="cam2hdf5Model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name"                   value="cam2rawAD"/>
+		<property name="exposureTime"           value="0.1"/>
+	</bean>
+	<bean id="cam2hdf5Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"                   value="cam2rawAD"/>
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.cam2hdf5Info"/>
+		<property name="label"       value="Camera 2 HDF5 (cam2hdf5Info)"/>
+		<property name="description" value="Camera 2 with images written to HDF5 file by Area Detector"/>
+		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="cam2hdf5Detector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorWritingFilesRunnableDevice" init-method="register">
+		<property name="name"              value="cam2rawAD"/>
+		<property name="model"             ref="cam2hdf5Model"/>
+		<property name="deviceInformation" ref="cam2hdf5Info"/>
+		<property name="activated"         value="false"/>
+	</bean>
+
+</beans>

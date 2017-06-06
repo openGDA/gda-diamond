@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="sx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sxMotor" />
+	</bean>
+
+	<bean id="sy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="syMotor" />
+	</bean>
+
+	<bean id="sz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="szMotor" />
+	</bean>
+
+	<bean id="spitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="spitchMotor" />
+	</bean>
+
+	<bean id="syaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="syawMotor" />
+	</bean>
+
+	<bean id="sroll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="srollMotor" />
+	</bean>
+
+	<bean id="sphi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sphiMotor" />
+	</bean>
+
+	<bean id="ssx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ssxMotor" />
+	</bean>
+
+	<bean id="ssz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sszMotor" />
+	</bean>
+
+<!-- 
+	<bean id="srot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="srotMotor" />
+	</bean>
+ -->
+
+	<bean id="sfab" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sx" />
+				<ref bean="sy" />
+				<ref bean="sz" />
+				<ref bean="spitch" />
+				<ref bean="syaw" />
+				<ref bean="sroll" />
+				<ref bean="sphi" />
+				<ref bean="ssx" />
+				<ref bean="ssz" />
+<!-- 
+				<ref bean="srot" />
+ -->
+			</list>
+		</property>
+	</bean>
+</beans>

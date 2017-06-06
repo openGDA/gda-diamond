@@ -1,0 +1,80 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="zebra1" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="zebraPrefix" value="BL15I-EA-ZEBRA-01:"/>
+	</bean>
+
+	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
+		<property name="zebra" ref="zebra1"/>
+		<property name="local" value="true" />
+		<property name="mode" value="1"/>
+		<property name="pcPulseGateNotTrigger" value="true"/>
+		<property name="minimumAccelerationDistance" value="0.008"/>
+		<property name="triggeredControllers">
+			<list>
+				<ref bean="zebra2ZebraMonitorController" />
+			</list>
+		</property>
+	</bean>
+	<!-- minimumAccelerationDistance is calculated from MRES=0.001deg *2 may need MRES*32=0.032 
+		 Failed with 0.002 minimumAccelerationDistance
+		 Found instances where requested position differed by 0.007, so use 0.008
+		 Different failure with 0.032 minimumAccelerationDistance
+		 -->
+	<!-- Note, if minimumAccelerationDistance changes, we probably need to set a new collectionExtensionTimeS on all
+		 detector UnsynchronisedExternalShutterNXCollectionStrategy.
+		 -->
+
+	<bean id="dkphiZebraScannableMotor" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="DkphiMotor" />
+		<property name="local" value="true" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value=".25"/> <!-- From ACCL -->
+		<!-- <property name="pcEnc" value="0"/> --> <!-- Default 0=Enc1? -->
+	</bean>
+
+	<bean id="dkappaZebraScannableMotor" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="Dr1kappaMotor" />
+		<property name="local" value="true" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value=".25"/> <!-- From ACCL -->
+		<property name="pcEnc" value="1"/> <!-- Default 0=Enc1? -->
+	</bean>
+
+	<bean id="dkthetaZebraScannableMotor" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="Dr1kthetaMotor" />
+		<property name="local" value="true" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value=".25"/> <!-- From ACCL -->
+		<property name="pcEnc" value="2"/> <!-- Default 0=Enc1? -->
+	</bean>
+
+	<bean id="zebra2" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="zebraPrefix" value="BL15I-EA-ZEBRA-02:"/>
+	</bean>
+
+	<bean id="zebra2ZebraMonitorController" class="gda.device.zebra.ZebraMonitorController">
+		<property name="zebra" ref="zebra2"/>
+		<property name="local" value="true" />
+		<property name="zebraCVMoveController" ref="zebraContinuousMoveController"/>
+	</bean>
+
+	<bean id="etlZebraScannableMonitor" class="gda.device.zebra.ZebraScannableMonitor">
+		<property name="name" value="etlZebraScannableMonitor" />
+		<property name="local" value="true" />
+		<property name="zebraMonitorController" ref="zebra2ZebraMonitorController"/>
+		<property name="pcCapture" value="7"/> <?ignore Default 0=Enc1, 6=Div1 ?>
+	</bean>
+
+<!-- 
+	<bean id="etlZebraDetectorMonitor" class="gda.device.zebra.ZebraExternallyTriggeredDetector">
+		<property name="name" value="etlZebraScannableMonitor" />
+		<property name="local" value="true" />
+		<property name="zebraMonitorController" ref="zebra2ZebraMonitorController"/>
+		<property name="pcCapture" value="7"/> <?ignore Default 0=Enc1, 6=Div1 ?>
+	</bean>
+ -->
+</beans>

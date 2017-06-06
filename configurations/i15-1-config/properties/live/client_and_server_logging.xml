@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scan="true" allows this file to be modified live to change the logging configuration -->
+<!-- debug="true" logs the logback configuration -->
+<configuration scan="true" scanPeriod="10 seconds" debug="true">
+
+	<include file="${gda.config}/properties/_common/client_and_server_logging.xml"/>
+
+    <root>
+        <level value="ALL"/>
+        <appender-ref ref="LogServer"/>
+    </root>
+
+	<!-- Classes for which INFO messages are excessive
+	 -->
+
+	<!-- Classes for which DEBUG messages are excessive
+	 -->
+    <logger name="gda.device.motor.EpicsMotor">											<level value="INFO"/></logger>
+    <logger name="gda.device.motor.MoveEventQueue">										<level value="INFO"/></logger>
+    <logger name="gda.factory">															<level value="INFO"/></logger>
+    <logger name="gda.device.corba.impl">												<level value="INFO"/></logger>
+    <logger name="gda.epics.connection.EpicsController">								<level value="INFO"/></logger>
+    <logger name="gda.jython.corba.impl.JythonImpl">									<level value="INFO"/></logger>
+   
+	<!-- Classes for which TRACE messages are excessive
+	 -->
+    <logger name="gda.device.zebra.ZebraConstantVelocityMoveController">				<level value="DEBUG"/></logger>
+    <logger name="gda.epics.LazyPVFactory">												<level value="DEBUG"/></logger>
+
+	<!-- Classes where we want all messages
+	 -->
+    <logger name="gda.device.detector.areadetector">									<level value="ALL"/></logger>
+	<logger name="gda">																	<level value="ALL"/></logger>
+</configuration>

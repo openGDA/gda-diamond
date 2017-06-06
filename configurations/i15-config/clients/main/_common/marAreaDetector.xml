@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="marADController" class="uk.ac.gda.epics.adviewer.ADControllerImpl">
+		<property name="imageNDStats" ref="marAD_summary_stat" />
+		<property name="liveViewNDProc" ref="marAD_summary_proc" />
+		<property name="imageNDArray" ref="marAD_summary_arr" />
+		<property name="imageHistSize" value="500" />
+		<property name="imageMin" value="0" />
+		<property name="detectorName" value="mar" />
+		<property name="adBase" ref="marAD_config_base" />
+		<property name="ffmpegStream" ref="marAD_summary_mjpg" />
+		<property name="ffmpegImageOutHeightMax" value="3450" />
+		<property name="ffmpegImageOutWidthMax" value="3450" />
+		<!-- Remove the imageNDROI to stop ARR input port being overwritten with .roi
+		 -->
+		<property name="imageNDROI" ref="marAD_summary_roi"/>
+		<property name="serviceName" value="mar"/>
+	</bean>
+
+	<bean id="marAD_dictionary" class="java.util.Hashtable">
+		<constructor-arg>
+			<map>
+				<entry key="SERVICE_NAME" value="mar" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
+		<property name="service" ref="marADController" />
+		<property name="properties" ref="marAD_dictionary" />
+	</bean>
+
+</beans>

@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.diamond.ac.uk/schema/gda/corba
+           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<import resource="required_at_start.xml"/>
+
+	<import resource="abstract_command_server.xml"/>
+
+	<bean id="script_paths" parent="common_script_paths"/>
+
+	<bean id="command_server" parent="abstract_command_server">
+		<property name="jythonScriptPaths" ref="script_paths"/>
+		<property name="stopJythonScannablesOnStopAll" value="false" />
+		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
+	</bean>
+
+	<import resource="terminal_logger.xml" />
+
+	<import resource="device/all.xml"/>
+	<import resource="scannable/all.xml"/>
+	<import resource="transient/all.xml"/>
+</beans>

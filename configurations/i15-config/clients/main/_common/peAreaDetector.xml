@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="peADController" class="uk.ac.gda.epics.adviewer.ADControllerImpl">
+		<property name="imageNDStats" ref="peAD_summary_stat" />
+		<property name="liveViewNDProc" ref="peAD_summary_proc" />
+		<property name="imageNDArray" ref="peAD_summary_arr" />
+		<property name="imageHistSize" value="256" />
+		<property name="imageMin" value="0" />
+		<property name="detectorName" value="pe" />
+		<property name="adBase" ref="peAD_config_base" />
+		<property name="ffmpegStream" ref="peAD_summary_mjpg" />
+		<property name="ffmpegImageOutHeightMax" value="2048" />
+		<property name="ffmpegImageOutWidthMax" value="2048" />
+		<!-- Remove the imageNDROI to stop ARR input port being overwritten with pe1.roi
+		<property name="imageNDROI" ref="peAD_summary_roi"/>
+		 -->
+		<property name="imageNDArrayPortInput" value="pe1.proc.proc3"/>
+		<property name="serviceName" value="pe"/>
+	</bean>
+
+	<bean id="peAD_dictionary" class="java.util.Hashtable">
+		<constructor-arg>
+			<map>
+				<entry key="SERVICE_NAME" value="pe" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
+		<property name="service" ref="peADController" />
+		<property name="properties" ref="peAD_dictionary" />
+	</bean>
+
+</beans>

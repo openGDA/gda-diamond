@@ -1,0 +1,214 @@
+|'''Date: '''|!-5:19:36 PM (BST) on Tuesday, April 29, 2008-!|
+|'''Command: '''|!-java -Dgda.root=/home/xr56/Dev/gdaDev -Dgda.config=/home/xr56/Dev/gdaConfigLocal/local -Dgda.propertiesFile=/home/xr56/Dev/gdaConfigLocal/local/properties/java.properties -Djacorb.config.dir=/home/xr56/Dev/gdaConfigLocal/local/properties -Dgov.aps.jca.JCALibrary.properties=/home/xr56/Dev/gdaConfigLocal/local/properties/JCALibrary.properties -Dgda.users=/home/xr56/Dev/gdaConfigLocal/users -cp /home/xr56/Dev/JavaDev/dlsFitnesse/target/classes:/usr/local/jython/jython2.2.1/jython.jar:/home/xr56/Dev/gdaDev/gda_alpha.jar:/home/xr56/Dev/gdaDev/jars/gda-corba.jar:/home/xr56/Dev/gdaDev/jars/avalon-framework-4.1.5.jar:/home/xr56/Dev/gdaDev/jars/axis.jar:/home/xr56/Dev/gdaDev/jars/bcel-5.2.jar:/home/xr56/Dev/gdaDev/jars/BrowserLauncher2-10.jar:/home/xr56/Dev/gdaDev/jars/caj-1.1.4.jar:/home/xr56/Dev/gdaDev/jars/castor-1.1.2.1.jar:/home/xr56/Dev/gdaDev/jars/commons-beanutils.jar:/home/xr56/Dev/gdaDev/jars/commons-collections-3.1.jar:/home/xr56/Dev/gdaDev/jars/commons-configuration-1.1.jar:/home/xr56/Dev/gdaDev/jars/commons-digester-1.7.jar:/home/xr56/Dev/gdaDev/jars/commons-discovery-0.2.jar:/home/xr56/Dev/gdaDev/jars/commons-io-1.2.jar:/home/xr56/Dev/gdaDev/jars/commons-lang-2.1.jar:/home/xr56/Dev/gdaDev/jars/commons-logging.jar:/home/xr56/Dev/gdaDev/jars/derby.jar:/home/xr56/Dev/gdaDev/jars/dlsplot.jar:/home/xr56/Dev/gdaDev/jars/dna.jar:/home/xr56/Dev/gdaDev/jars/epics-3.1.jar:/home/xr56/Dev/gdaDev/jars/epics.jar:/home/xr56/Dev/gdaDev/jars/gnu-regexp.jar:/home/xr56/Dev/gdaDev/jars/icat3-core.jar:/home/xr56/Dev/gdaDev/jars/icat-ws-alpha.jar:/home/xr56/Dev/gdaDev/jars/idl.jar:/home/xr56/Dev/gdaDev/jars/j2ee.jar:/home/xr56/Dev/gdaDev/jars/jacorb.jar:/home/xr56/Dev/gdaDev/jars/jaf.jar:/home/xr56/Dev/gdaDev/jars/Jama-1.0.1.jar:/home/xr56/Dev/gdaDev/jars/jargon_1.4.16_diamond.jar:/home/xr56/Dev/gdaDev/jars/javaee.jar:/home/xr56/Dev/gdaDev/jars/javolution.jar:/home/xr56/Dev/gdaDev/jars/jaxrpc.jar:/home/xr56/Dev/gdaDev/jars/jca-2.3.1.jar:/home/xr56/Dev/gdaDev/jars/jcameraman.jar:/home/xr56/Dev/gdaDev/jars/jcommon-1.0.0.jar:/home/xr56/Dev/gdaDev/jars/jdbErrorLogs.DataAcquisitionTestingc-se2.0.jar:/home/xr56/Dev/gdaDev/jars/Jdl.jar:/home/xr56/Dev/gdaDev/jars/jep-2.4.0.jar:/home/xr56/Dev/gdaDev/jars/jfreechart-1.0.0.jar:/home/xr56/Dev/gdaDev/jars/jide-common.jar:/home/xr56/Dev/gdaDev/jars/jide-dock.jar:/home/xr56/Dev/gdaDev/jars/Jlibdc1394-media.jar:/home/xr56/Dev/gdaDev/jars/jmf.jar:/home/xr56/Dev/gdaDev/jars/JMinuit.jar:/home/xr56/Dev/gdaDev/jars/jnexus.jar:/home/xr56/Dev/gdaDev/jars/jscience.jar:/home/xr56/Dev/gdaDev/jars/jta1.0.1.jar:/home/xr56/Dev/gdaDev/jars/ledatastream.jar:/home/xr56/Dev/gdaDev/jars/log4j-1.2.13.jar:/home/xr56/Dev/gdaDev/jars/logback-classic-0.9.5.jar:/home/xr56/Dev/gdaDev/jars/logback-core-0.9.5.jar:/home/xr56/Dev/gdaDev/jars/logkit-1.2.jar:/home/xr56/Dev/gdaDev/jars/mail.jar:/home/xr56/Dev/gdaDev/jars/mysql-connector-java-3.0.9-stable-bin.jar:/home/xr56/Dev/gdaDev/jars/ojdbc14.jar:/home/xr56/Dev/gdaDev/jars/overrideQueue.jar:/home/xr56/Dev/gdaDev/jars/peem-0.3.jar:/home/xr56/Dev/gdaDev/jars/rcommands.jar:/home/xr56/Dev/gdaDev/jars/RXTXcomm.jar:/home/xr56/Dev/gdaDev/jars/saaj.jar:/home/xr56/Dev/gdaDev/jars/slf4j-api-1.4.3.jar:/home/xr56/Dev/gdaDev/jars/STAC.jar:/home/xr56/Dev/gdaDev/jars/testng-5.5-jdk15.jar:/home/xr56/Dev/gdaDev/jars/toplink-essentials-agent.jar:/home/xr56/Dev/gdaDev/jars/toplink-essentials.jar:/home/xr56/Dev/gdaDev/jars/velocity-dep-1.4.jar:/home/xr56/Dev/gdaDev/jars/wrapper.jar:/home/xr56/Dev/gdaDev/jars/wsdl4j-1.5.1.jar:/home/xr56/Dev/gdaDev/jars/xercesImpl-2.9.1.jar:/usr/local/JavaPackages/fitnesse/fitnesse.jar:/usr/local/JavaPackages/fitnesse/fitlibrary.jar fit.FitServer diamrl5068.diamond.ac.uk 1300 7-!|
+|'''Exit code: '''|!-3-!|
+|'''Time elapsed: '''|!-37.337 seconds-!|
+----'''Standard Output:'''
+{{{17:18:59.577 [main] DEBUG gda.factory.ObjectCreator - Creating objects from: /home/xr56/Dev/gdaConfigLocal/local/xml/TB_Client_Testing.xml
+17:18:59.599 [main] DEBUG gda.factory.ObjectCreator - Using mapping file: jar:file:/home/xr56/Dev/gdaDev/gda_alpha.jar!/gda/factory/mapping.xml
+17:19:00.911 [main] DEBUG gda.factory.ObjectCreator - URL for schema resource returned: jar:file:/home/xr56/Dev/gdaDev/gda_alpha.jar!/gda/configuration/object/schema/GDASchema.xsd
+17:19:00.911 [main] DEBUG gda.factory.ObjectCreator - ObjectCreator doSchemaValidation - validating XML file: /home/xr56/Dev/gdaConfigLocal/local/xml/TB_Client_Testing.xml
+17:19:00.911 [main] DEBUG gda.factory.ObjectCreator -      validating against schema: jar:file:/home/xr56/Dev/gdaDev/gda_alpha.jar!/gda/configuration/object/schema/GDASchema.xsd
+17:19:01.534 [main] DEBUG g.c.o.v.XMLObjectConfigFileValidator - xerces2Validate - XML instance valid against schema jar:file:/home/xr56/Dev/gdaDev/gda_alpha.jar!/gda/configuration/object/schema/GDASchema.xsd
+17:19:01.546 [main] DEBUG gda.factory.ObjectCreator - ObjectCreator doSchemaValidation - XML instance file is valid: /home/xr56/Dev/gdaConfigLocal/local/xml/TB_Client_Testing.xml
+[ configuration jacorb loaded from file /home/xr56/Dev/gdaConfigLocal/local/properties/etc/jacorb.properties ]
+17:19:02.047 [main] DEBUG gda.factory.corba.util.EventService - EventService successfully initialised event channel local.eventChannel
+17:19:02.060 [main] INFO  gda.util.ObjectServer - Client initialisation complete
+17:19:02.065 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.command_server
+17:19:02.206 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.command_server of type gda.jython.JythonServer.
+17:19:02.206 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating TB adapter of type gda.jython.corba.impl.JythonAdapter.
+17:19:02.212 [main] DEBUG gda.factory.corba.util.EventReceiver - Constructing EventReceiver
+17:19:02.267 [main] DEBUG gda.factory.corba.util.EventReceiver - EventReceiver: Consumer connected
+17:19:02.269 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.command_server
+17:19:02.272 [main] DEBUG g.factory.corba.util.AdapterFactory - Found in AdapterFactory store TB.command_server
+17:19:02.298 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.GDAMetadata
+17:19:02.322 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.GDAMetadata of type gda.data.metadata.GdaMetadata.
+17:19:02.322 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating TB adapter of type gda.data.metadata.corba.impl.MetadataAdapter.
+17:19:02.370 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.GDAMetadata
+17:19:02.370 [main] DEBUG g.factory.corba.util.AdapterFactory - Found in AdapterFactory store TB.GDAMetadata
+17:19:02.370 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.MotorTestMotor1
+17:19:02.405 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.MotorTestMotor1 of type gda.device.motor.DummyMotor.
+17:19:02.405 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating TB adapter of type gda.device.motor.corba.impl.MotorAdapter.
+17:19:02.413 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.testMotors
+17:19:02.440 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.testMotors of type gda.oe.GenericOE.
+17:19:02.440 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating TB adapter of type gda.oe.corba.impl.OeAdapter.
+17:19:02.444 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.MotorTestMotor2
+17:19:02.470 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.MotorTestMotor2 of type gda.device.motor.DummyMotor.
+17:19:02.470 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating TB adapter of type gda.device.motor.corba.impl.MotorAdapter.
+17:19:02.472 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.MotorTestMotor3
+17:19:02.497 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.MotorTestMotor3 of type gda.device.motor.DummyMotor.
+17:19:02.497 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating TB adapter of type gda.device.motor.corba.impl.MotorAdapter.
+17:19:02.499 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.MotorTestMotor4
+17:19:02.520 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.MotorTestMotor4 of type gda.device.motor.DummyMotor.
+17:19:02.520 [main] DEBUG g.factory.corba.util.AdapterFactory - Creating TB adapter of type gda.device.motor.corba.impl.MotorAdapter.
+17:19:02.522 [main] DEBUG g.factory.corba.util.AdapterFactory - AdapterFactory looking for TB.command_server
+17:19:02.522 [main] DEBUG g.factory.corba.util.AdapterFactory - Found in AdapterFactory store TB.command_server
+17:19:02.655 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaJythonServerStatus
+17:19:02.656 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:06.496 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@12c4768
+17:19:06.500 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+17:19:06.501 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:06.507 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:06.516 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:06.744 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:06.745 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:06.954 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:06.955 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:07.166 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:07.166 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:07.378 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:07.378 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:07.592 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:07.593 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:07.810 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:07.810 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:08.023 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:08.024 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:08.239 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:08.240 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:08.456 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:08.457 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:08.674 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:08.675 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:08.701 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@391da0
+17:19:08.701 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+17:19:08.701 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:08.702 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaJythonServerStatus
+17:19:08.703 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:10.634 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaJythonServerStatus
+17:19:10.635 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:10.855 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@fccada
+17:19:10.855 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+17:19:10.855 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:10.860 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:10.860 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:11.078 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:11.079 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:11.299 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:11.300 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:11.520 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:11.520 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:11.737 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:11.738 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:11.959 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:11.960 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:12.176 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:12.177 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:12.391 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:12.391 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:12.604 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:12.605 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:12.820 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:12.821 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:13.038 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:13.039 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:13.257 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:13.258 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:13.472 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:13.472 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:13.685 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:13.686 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:13.900 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:13.900 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:14.117 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:14.118 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:14.335 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:14.335 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:14.554 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:14.555 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:14.770 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:14.770 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:14.982 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:14.982 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:15.195 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:15.196 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:15.219 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@1042fcc
+17:19:15.219 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+17:19:15.219 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:15.221 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaJythonServerStatus
+17:19:15.221 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:15.674 [main] DEBUG gda.jython.corba.impl.JythonAdapter - [Ljava.lang.StackTraceElement;@14c4d61
+17:19:15.707 [main] DEBUG gda.jython.corba.impl.JythonAdapter - [Ljava.lang.StackTraceElement;@1d349e2
+17:19:15.737 [main] DEBUG gda.jython.corba.impl.JythonAdapter - [Ljava.lang.StackTraceElement;@1db6942
+17:19:15.768 [main] DEBUG gda.jython.corba.impl.JythonAdapter - [Ljava.lang.StackTraceElement;@1b59919
+17:19:15.793 [main] DEBUG gda.jython.corba.impl.JythonAdapter - [Ljava.lang.StackTraceElement;@650646
+GDA command was sent out for execution.
+17:19:15.819 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaJythonServerStatus
+17:19:15.819 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:16.134 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@a2a38
+17:19:16.134 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+17:19:16.134 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:16.136 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:16.137 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:16.348 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:16.349 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:16.568 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:16.569 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:16.782 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:16.782 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:16.999 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:17.000 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:17.217 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:17.217 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:17.454 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:17.455 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:17.667 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:17.668 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:17.876 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:17.877 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:18.088 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:18.089 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:18.302 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaScanDataPoint
+17:19:18.303 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:18.320 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@4d5575
+17:19:18.320 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+17:19:18.321 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:18.322 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class gda.jython.corba.CorbaJythonServerStatus
+17:19:18.322 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+The URL is http://localhost:1200/files/samples/scan01.dat
+Content1:  &SRS
+Content2:  &SRS
+Content1----------:  SRSRUN=3,SRSDAT=2008329,SRSTIM=51916,
+Content1----------:  SRSSTN='i06 ',SRSPRJ='developm',SRSEXP='scriptin',
+Content1----------:  SRSTLE='                                                            ',
+Content1----------:  SRSCN1='        ',SRSCN2='        ',SRSCN3='        ',
+Content1----------:  &END
+Content2----------:  SRSRUN=3,SRSDAT=2008322,SRSTIM=11140,
+Content2----------:  SRSSTN='i06 ',SRSPRJ='developm',SRSEXP='scriptin',
+Content2----------:  SRSTLE='                                                            ',
+Content2----------:  SRSCN1='        ',SRSCN2='        ',SRSCN3='        ',
+Content2----------:  &END
+Content1: testMotor1
+Content2: testMotor1
+Content1: 0.0000
+Content2: 0.0000
+Content1: 1.0000
+Content2: 1.0000
+Content1: 2.0000
+Content2: 2.0000
+Content1: 3.0000
+Content2: 3.0000
+Content1: 4.0000
+Content2: 4.0000
+Content1: 5.0000
+Content2: 5.0000
+Content1: 6.0000
+Content2: 6.0000
+Content1: 7.0000
+Content2: 7.0000
+Content1: 8.0000
+Content2: 8.0000
+Content1: 9.0000
+Content2: 9.0000
+Content1: 10.000
+Content2: 10.000
+GDA command was sent out for execution.
+17:19:25.854 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@ad5fab
+17:19:25.854 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+17:19:25.854 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:25.857 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@14a55e5
+17:19:25.857 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+17:19:25.857 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+17:19:25.859 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for     [B@d36ff3
+17:19:25.859 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Received event for class [B
+17:19:25.859 [RequestProcessor-5] DEBUG gda.jython.corba.impl.JythonAdapter - JythonAdapter: Notified observers
+}}}

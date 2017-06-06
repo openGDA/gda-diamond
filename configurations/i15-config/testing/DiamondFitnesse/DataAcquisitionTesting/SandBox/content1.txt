@@ -1,0 +1,151 @@
+!2 A Fitnesse Wiki Sandbox for testing
+!contents
+
+##############################
+# GDA Environment variables 
+!**> GDA Environment Setup
+!define GDA_ROOT {/home/xr56/Dev/gdaDev}
+!define GDA_CONFIG {/home/xr56/Dev/gdaConfigLocal/local}
+!define GDA_USERS {/home/xr56/Dev/gdaConfigLocal/users}
+!define GDA_JARS {/home/xr56/Dev/gdaDev/jars}
+
+#|System property setter fixture                |
+#|BEAMLINE  |Base                               |
+#|GDA_ROOT  |/home/xr56/Dev/gdaDev              |
+#|GDA_CONFIG|/home/xr56/Dev/gdaConfigLocal/local|
+#|GDA_USERS |/home/xr56/Dev/gdaConfigLocal/users|
+#|GDA_JARS  |/home/xr56/Dev/gdaDev/jars         |
+----
+##############################
+# GDA class path
+!path /home/xr56/mp/acTest/target/classes
+!path /home/xr56/mp/acTest/target/test-classes
+!path /usr/local/jython/jython2.2.1/jython.jar
+!path /home/xr56/Dev/gdaDev/gda_alpha.jar
+!path ${GDA_JARS}/gda-corba.jar
+----
+!path ${GDA_JARS}/avalon-framework-4.1.5.jar
+!path ${GDA_JARS}/axis.jar
+!path ${GDA_JARS}/bcel-5.2.jar
+!path ${GDA_JARS}/BrowserLauncher2-10.jar
+!path ${GDA_JARS}/caj-1.1.4.jar
+!path ${GDA_JARS}/castor-1.1.2.1.jar
+!path ${GDA_JARS}/commons-beanutils.jar
+!path ${GDA_JARS}/commons-collections-3.1.jar
+!path ${GDA_JARS}/commons-configuration-1.1.jar
+!path ${GDA_JARS}/commons-digester-1.7.jar
+!path ${GDA_JARS}/commons-discovery-0.2.jar
+!path ${GDA_JARS}/commons-io-1.2.jar
+!path ${GDA_JARS}/commons-lang-2.1.jar
+!path ${GDA_JARS}/commons-logging.jar
+!path ${GDA_JARS}/derby.jar
+!path ${GDA_JARS}/dlsplot.jar
+!path ${GDA_JARS}/dna.jar
+!path ${GDA_JARS}/epics-3.1.jar
+!path ${GDA_JARS}/epics.jar
+!path ${GDA_JARS}/gnu-regexp.jar
+!path ${GDA_JARS}/icat3-core.jar
+!path ${GDA_JARS}/icat-ws-alpha.jar
+!path ${GDA_JARS}/idl.jar
+!path ${GDA_JARS}/j2ee.jar
+!path ${GDA_JARS}/jacorb.jar
+!path ${GDA_JARS}/jaf.jar
+!path ${GDA_JARS}/Jama-1.0.1.jar
+!path ${GDA_JARS}/jargon_1.4.16_diamond.jar
+!path ${GDA_JARS}/javaee.jar
+!path ${GDA_JARS}/javolution.jar
+!path ${GDA_JARS}/jaxrpc.jar
+!path ${GDA_JARS}/jca-2.3.1.jar
+!path ${GDA_JARS}/jcameraman.jar
+!path ${GDA_JARS}/jcommon-1.0.0.jar
+!path ${GDA_JARS}/jdbErrorLogs.DataAcquisitionTestingc-se2.0.jar
+!path ${GDA_JARS}/Jdl.jar
+!path ${GDA_JARS}/jep-2.4.0.jar
+!path ${GDA_JARS}/jfreechart-1.0.0.jar
+!path ${GDA_JARS}/jide-common.jar
+!path ${GDA_JARS}/jide-dock.jar
+!path ${GDA_JARS}/Jlibdc1394-media.jar
+!path ${GDA_JARS}/jmf.jar
+!path ${GDA_JARS}/JMinuit.jar
+!path ${GDA_JARS}/jnexus.jar
+!path ${GDA_JARS}/jscience.jar
+!path ${GDA_JARS}/jta1.0.1.jar
+!path ${GDA_JARS}/ledatastream.jar
+!path ${GDA_JARS}/log4j-1.2.13.jar
+!path ${GDA_JARS}/logback-classic-0.9.5.jar
+!path ${GDA_JARS}/logback-core-0.9.5.jar
+!path ${GDA_JARS}/logkit-1.2.jar
+!path ${GDA_JARS}/mail.jar
+!path ${GDA_JARS}/mysql-connector-java-3.0.9-stable-bin.jar
+!path ${GDA_JARS}/ojdbc14.jar
+!path ${GDA_JARS}/overrideQueue.jar
+!path ${GDA_JARS}/peem-0.3.jar
+!path ${GDA_JARS}/rcommands.jar
+!path ${GDA_JARS}/RXTXcomm.jar
+!path ${GDA_JARS}/saaj.jar
+!path ${GDA_JARS}/slf4j-api-1.4.3.jar
+!path ${GDA_JARS}/STAC.jar
+!path ${GDA_JARS}/testng-5.5-jdk15.jar
+!path ${GDA_JARS}/toplink-essentials-agent.jar
+!path ${GDA_JARS}/toplink-essentials.jar
+!path ${GDA_JARS}/velocity-dep-1.4.jar
+!path ${GDA_JARS}/wrapper.jar
+!path ${GDA_JARS}/wsdl4j-1.5.1.jar
+!path ${GDA_JARS}/xercesImpl-2.9.1.jar
+----
+##############################
+#Redefine TestRunner JVM properity so that FitNesse can execute tests in a separte JVM using the COMMAND_PATTERN(Or default to: java -cp %p %m). Note JVM args used to start the FitNesse server won't be picked up by the tests
+#!define COMMAND_PATTERN {java -Dgda.root=${GDA_ROOT} -Dgda.config=${GDA_CONFIG} -Dgda.propertiesFile=${GDA_CONFIG}/properties/java.properties -Djacorb.config.dir=${GDA_CONFIG}/properties -Dgov.aps.jca.JCALibrary.properties=${GDA_CONFIG}/properties/JCALibrary.properties -Dgda.users=${GDA_USERS} -cp %p %m }
+!define COMMAND_PATTERN {java -Dgda.root=/home/xr56/Dev/gdaDev -Dgda.config=/home/xr56/Dev/gdaConfigLocal/local -Dgda.propertiesFile=/home/xr56/Dev/gdaConfigLocal/local/properties/java.properties -Djacorb.config.dir=/home/xr56/Dev/gdaConfigLocal/local/properties -Dgov.aps.jca.JCALibrary.properties=/home/xr56/Dev/gdaConfigLocal/local/properties/JCALibrary.properties -Dgda.users=/home/xr56/Dev/gdaConfigLocal/users -cp %p %m}
+**!
+----
+!3 Server Startup Testing
+#|!-gda.acceptancetest.CommandLineActionFixture-!                |
+#|title   | Start GDA Servers                                    |
+#|command | /home/xr56/Dev/gdaConfigLocal/local/bin/runServers.sh|gdaserver                      |
+
+#|find    | gdaserver.stdout                                     |!-gda.util.ObjectServer - Server initialisation complete-! |
+
+#!3 Client Startup Testing
+#|!-gda.acceptancetest.CommandLineActionFixture-!                |
+#|command | /home/xr56/Dev/gdaConfigLocal/local/bin/runClient.sh |gdaclient                      |
+#|pause   | 5                                                    |
+
+#|find    | gdaclient.stdout                                     |Client initialisation complete |
+
+----
+|!-gda.acceptancetest.GDACommandActionFixture-!|
+|gdaCommand|pos testMotor1 1000|  |
+|pause     | 5                 |
+|gdaSpawn  |pos testMotor1     |testMotor1 : 1000.0 mm dof(-5000.0 : 5000.0)|
+|gdaCommand|pos testMotor2 200 |  |
+|pause     | 5                 |
+|gdaSpawn  |pos testMotor1     |testMotor1 : 1000.0 mm dof(-5000.0 : 5000.0)|
+|gdaSpawn  |pos testMotor2     |testMotor2 : 200.00 micron dof(-1.0000e+08 : 1.0000e+08)|
+|gdaSpawn  |pos testMotor3 150 |New positions: testMotor3 150.0|
+|gdaSpawn  |pos testMotor3 150 |New positions|
+
+----
+!3 Dummy Motor Testing
+|!-gda.acceptancetest.GDACommandColumnFixture-!                                                                                   |
+|'''gdaCommand'''               |''runIt?''  |delayInterval | ''waitUp?'' |'''gdaCommand'''     |''evaluateIt?''                                   |
+|pos testMotor1 123       |        |    5         |  true    |pos testMotor1 |testMotor1 : 123.00 mm dof(-5000.0 : 5000.0)  |
+|pos testMotor2 321       |        |    5         |  true    |pos testMotor2 |testMotor2 : 321.00 micron dof(-1.0000e+08 : 1.0000e+08)  |
+|pos testMotor3           |        |    0         |  false   |               |testMotor3 : 0.0000 Deg dof(-180.00 : 180.00) |
+
+
+----
+!3 Key OE Position Checking
+|!-gda.acceptancetest.GDACommandColumnFixture -!                                                                                  |
+|gdaCommand               |runIt?  |delayInterval | waitUp? |gdaCommand     |evaluateIt?                                   |
+|pos testMotor1 100       |        |    5         |  true    |pos testMotor1 |testMotor1 : 100.00 mm dof(-5000.0 : 5000.0)  |
+|pos testMotor2 300       |        |    5         |  true    |pos testMotor2 |testMotor2 : 300.00 micron dof(-1.0000e+08 : 1.0000e+08)  |
+|pos testMotor3 30        |        |    2         |  yes     |pos testMotor3 |testMotor3 : 30.000 Deg dof(-180.00 : 180.00) |
+
+----
+!3 Summary
+|fit.Summary|
+
+----
+!lastmodified
+

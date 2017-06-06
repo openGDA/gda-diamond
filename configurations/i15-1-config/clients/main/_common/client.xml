@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Although we should get filters from the server, for the moment include them directly in the client until the
+		 filter service is made into a remote service. -->
+	<import resource="../../../servers/main/_common/scannable/filters.xml"/>
+
+<!-- 
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
+		<property name="service" ref="plot_server" />
+	</bean>
+
+	<corba:import namespace="${gda.factory.factoryName}" names="plot_server" />
+ -->
+
+<!-- Old i15 beans
+	<import resource="../../../servers/main/_common/device/marAreaDetector.xml"/>
+	<import resource="marAreaDetector.xml" />
+
+	<import resource="mpxAreaDetector.xml" />
+
+	<import resource="../../../servers/main/_common/device/peAreaDetector.xml"/>
+	<import resource="peAreaDetector.xml" />
+
+	<import resource="pil3AreaDetector.xml" />
+
+	<import resource="pslAreaDetector.xml" />
+	 -->
+
+	<bean class="gda.factory.corba.util.AdapterFactory">
+		<constructor-arg index="0" value="${gda.factory.factoryName}" />
+		<constructor-arg index="1">
+			<bean class="gda.spring.NetServiceFactoryBean" />
+		</constructor-arg>
+	</bean>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+</beans>

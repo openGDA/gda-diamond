@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/etc/trunk/tools/gda/genericBeamlineSchema.xsd">
+    <beamline desc="Beamline" name="Beamline">
+        <Top desc="Top" pv="BL15I" ro="false" type="unknown"/>
+    </beamline>
+    <pilatus1 desc="Pilatus1" name="Pilatus1">
+        <Top desc="Top" pv = "BL15I-EA-PILAT-01:" ro="false" type="unknown"/>
+        <Acquire desc="Acquire" pv = "BL15I-EA-PILAT-01:Acquire" ro="false" type="unknown"/>
+        <NImages desc="NImages" pv = "BL15I-EA-PILAT-01:NImages" ro="false" type="unknown"/>
+        <abort desc="abort" pv = "BL15I-EA-PILAT-01:abort" ro="false" type="unknown"/>
+        <ExposureTime desc="ExposureTime" pv = "BL15I-EA-PILAT-01:ExposureTime" ro="false" type="unknown"/>
+        <FilePath desc="FilePath" pv = "BL15I-EA-PILAT-01:FilePath" ro="false" type="unknown"/>
+        <FileName desc="FileName" pv = "BL15I-EA-PILAT-01:FileName" ro="false" type="unknown"/>
+        <FileNumber desc="FileNumber" pv = "BL15I-EA-PILAT-01:FileNumber" ro="false" type="unknown"/>
+        <FileFormat desc="FileFormat" pv = "BL15I-EA-PILAT-01:FileFormat" ro="false" type="unknown"/>
+        <FullFilename desc="FullFilename" pv = "BL15I-EA-PILAT-01:FullFilename" ro="false" type="unknown"/>
+        <Gain desc="Gain" pv = "BL15I-EA-PILAT-01:Gain" ro="false" type="unknown"/>
+        <ThresholdEnergy desc="ThresholdEnergy" pv = "BL15I-EA-PILAT-01:ThresholdEnergy" ro="false" type="unknown"/>
+    </pilatus1>
+    <pilatus2 desc="Pilatus2" name="Pilatus2">
+        <Top desc="Top" pv = "BL15I-EA-PILAT-02:" ro="false" type="unknown"/>
+        <Acquire desc="Acquire" pv = "BL15I-EA-PILAT-02:Acquire" ro="false" type="unknown"/>
+        <NImages desc="NImages" pv = "BL15I-EA-PILAT-02:NImages" ro="false" type="unknown"/>
+        <abort desc="abort" pv = "BL15I-EA-PILAT-02:abort" ro="false" type="unknown"/>
+        <ExposureTime desc="ExposureTime" pv = "BL15I-EA-PILAT-02:ExposureTime" ro="false" type="unknown"/>
+        <FilePath desc="FilePath" pv = "BL15I-EA-PILAT-02:FilePath" ro="false" type="unknown"/>
+        <FileName desc="FileName" pv = "BL15I-EA-PILAT-02:FileName" ro="false" type="unknown"/>
+        <FileNumber desc="FileNumber" pv = "BL15I-EA-PILAT-02:FileNumber" ro="false" type="unknown"/>
+        <FileFormat desc="FileFormat" pv = "BL15I-EA-PILAT-02:FileFormat" ro="false" type="unknown"/>
+        <FullFilename desc="FullFilename" pv = "BL15I-EA-PILAT-02:FullFilename" ro="false" type="unknown"/>
+        <Gain desc="Gain" pv = "BL15I-EA-PILAT-02:Gain" ro="false" type="unknown"/>
+        <ThresholdEnergy desc="ThresholdEnergy" pv = "BL15I-EA-PILAT-02:ThresholdEnergy" ro="false" type="unknown"/>
+    </pilatus2>
+	<pneumaticCallback desc="Fast Mask" name="FM.FABSB">
+		<CONTROL desc="" pv="BL15I-MP-FABSB-01:CON" ro="false" type="mbbinary"/>
+		<STA desc="Status" pv="BL15I-MP-FABSB-01:STA" ro="true" type="mbbinary"/>
+	</pneumaticCallback>
+    <simpleMotor desc="Newport 25mm stage 1" name="BRICK2.MOT1">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS1" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 2" name="BRICK2.MOT2">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS2" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 3" name="BRICK2.MOT3">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS3" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 4" name="BRICK2.MOT4">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS4" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 5" name="BRICK2.MOT5">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS5" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 6" name="BRICK2.MOT6">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS6" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 7" name="BRICK2.MOT7">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS7" ro="false" type="motor"/>
+    </simpleMotor>
+    <simpleMotor desc="Newport 25mm stage 8" name="BRICK2.MOT8">
+            <RECORD desc="Motor" pv="BL15I-MO-BRICK-02:AXIS8" ro="false" type="motor"/>
+    </simpleMotor>
+	<simpleMotor desc="Small Vertical Focusing Mirror PITCH Motor" name="SVFM.PITCH">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Vertical Focusing Mirror Y Motor" name="SVFM.Y">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:Y" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Horizontal Focusing Mirror PITCH Motor" name="SHFM.PITCH">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:PITCH" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Horizontal Focusing Mirror X Motor" name="SHFM.X">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:X" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Vertical Focusing Mirror Curve Motor" name="SVFM.CURVE">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:CURVE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Vertical Focusing Mirror Ellipticity Motor" name="SVFM.ELLIP">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:VFM:ELLIP" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Horizontal Focusing Mirror Curve Motor" name="SHFM.CURVE">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:CURVE" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Small Horizontal Focusing Mirror Ellipticity Motor" name="SHFM.ELLIP">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor Record" pv="BL15I-OP-MIRR-03:HFM:ELLIP" ro="false" type="motor"/>
+	</simpleMotor>
+	<simpleMotor desc="Translation Stage" name="EHT2.DTX">
+		<RECORD IOC="BL15I-MO-IOC-06" desc="Motor" pv="BL15I-MO-TABLE-03:DETECTOR2:Z" ro="false" type="motor"/>
+	</simpleMotor>
+</devices>

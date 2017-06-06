@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="SKBjack1Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.J1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="SKBjack2Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.J2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="SKBjack3Motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.J3" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="SKByposMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.Y" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="SKBpitchMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.PITCH" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="SKBrollMotor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SKB.ROLL" />
+		<property name="local" value="true"/>
+	</bean>
+</beans>

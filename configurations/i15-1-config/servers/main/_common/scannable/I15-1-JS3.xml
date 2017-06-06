@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s3cenX" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="s3cenX_motor" />
+	</bean>
+
+	<bean id="s3cenY" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="s3cenY_motor" />
+	</bean>
+
+	<bean id="s3gapX" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="s3gapX_motor" />
+	</bean>
+
+	<bean id="s3gapY" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="s3gapY_motor" />
+	</bean>
+
+	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s3cenX" />
+				<ref bean="s3cenY" />
+				<ref bean="s3gapX" />
+				<ref bean="s3gapY" />
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="S1xminusMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="S1xplusMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="S1yminusMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="S1yplusMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="S1xposMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="S1xgapMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="S1yposMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="S1ygapMotor" class="gda.device.motor.DummyMotor"/>
+	<!-- 
+	<bean id="s1atemp1" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="s1atemp2" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="s1btemp1" class="gda.device.monitor.EpicsMonitor"/>
+	<bean id="s1btemp2" class="gda.device.monitor.EpicsMonitor"/>
+	 -->
+</beans>

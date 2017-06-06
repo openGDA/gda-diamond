@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="Diamond Light Source Beamline I15-1">
+         <property
+               name="appName"
+               value="Diamond Light Source Beamline I15-1">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="gda.rcp.EmptyNoEditorPerspective"
+            id="uk.ac.gda.beamline.I15-1ScanPerspective"
+            name="I15-1 Scan Perspective">
+      </perspective>
+   </extension>
+   <extension point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="uk.ac.gda.beamline.I15-1ScanPerspective">
+         <view
+               id="gda.rcp.jythonterminalview"
+               ratio="0.25f"
+               relationship="left"
+               relative="org.eclipse.ui.editorss"/>
+         <view
+               id="org.eclipse.ui.navigator.ProjectExplorer"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview"/>
+         <view
+               id="uk.ac.diamond.sda.navigator.views.FileView"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview"
+               visible="false"/>
+         <view
+               id="org.eclipse.ui.console.ConsoleView"
+               ratio="0.8f"
+               relationship="bottom"
+               relative="org.eclipse.ui.editorss"
+               visible="false"/>
+         <view
+               id="org.dawb.workbench.plotting.views.toolPageView.1D"
+               relationship="stack"
+               relative="org.eclipse.ui.console.ConsoleView"/>
+         <view
+               id="org.dawb.workbench.plotting.views.toolPageView.2D"
+               relationship="stack"
+               relative="org.eclipse.ui.console.ConsoleView"/>
+         <view
+               id="org.dawb.workbench.plotting.views.toolPageView.1D_and_2D"
+               relationship="stack"
+               relative="org.eclipse.ui.console.ConsoleView"
+               visible="false"/>
+         <view
+               id="gda.rcp.views.baton.BatonView"
+               relationship="stack"
+               relative="org.eclipse.ui.console.ConsoleView"
+               visible="false"/>
+         <view
+               id="uk.ac.gda.rcp.views.baton.MessageView"
+               relationship="stack"
+               relative="org.eclipse.ui.console.ConsoleView"
+               visible="false"/>
+         <view
+               id="org.dawb.passerelle.views.ValueView"
+               relationship="stack"
+               relative="org.eclipse.ui.console.ConsoleView"
+               visible="false"/>
+         <view
+               id="org.eclipse.ui.views.ProgressView"
+               relationship="stack"
+               relative="org.eclipse.ui.console.ConsoleView"
+               visible="false"/>
+         <view
+               id="uk.ac.gda.client.liveplotview"
+               ratio="0.75f"
+               relationship="right"
+               relative="org.eclipse.ui.editorss"/>
+         <view
+               id="uk.ac.diamond.scisoft.analysis.rcp.plotView1"
+               relationship="stack"
+               relative="uk.ac.gda.client.liveplotview"/>
+         <view
+               id="org.dawb.workbench.views.dataSetView"
+               relationship="stack"
+               relative="uk.ac.gda.client.liveplotview"/>
+         <view
+               id="uk.ac.gda.rcp.views.dashboardView"
+               ratio="0.75f"
+               relationship="right"
+               relative="uk.ac.gda.client.liveplotview"/>
+         <view
+               id="org.dawb.workbench.plotting.views.toolPageView.fixed:org.dawnsci.plotting.histogram.histogram_tool_page_2"
+               relationship="stack"
+               relative="uk.ac.gda.rcp.views.dashboardView"
+               visible="false"/>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//pe//BL15J-EA-DET-01@"
+            name="Two 2 Array View"
+            restorable="true">
+      </view>
+
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//eye//BL15J-EA-PSL-01@"
+            name="Two 2 Array View"
+            restorable="true">
+      </view>
+
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//cam1//BL15J-DI-CAM-01@"
+            name="Two 2 Array View"
+            restorable="true">
+      </view>
+
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//cam2//BL15J-DI-CAM-02@"
+            name="Two 2 Array View"
+            restorable="true">
+      </view>
+
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//bpm1//BL15J-DI-BPM-01@"
+            name="Two 2 Array View"
+            restorable="true">
+      </view>
+
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//bpm2//BL15J-DI-BPM-02@"
+            name="Two 2 Array View"
+            restorable="true">
+      </view>
+
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?after=showView">
+         <menu
+               label="Area Detectors">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Live Stream View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.client.live.stream.view.LiveStreamView">
+               </parameter>
+            </command>
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Perkin Elmer (pe) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//pe//BL15J-EA-DET-01@">
+               </parameter>
+            </command>
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Photonic Science SCMOS Camera (eye) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//eye//BL15J-EA-PSL-01@">
+               </parameter>
+            </command>
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Mako G-125C (cam1) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//cam1//BL15J-DI-CAM-01@">
+               </parameter>
+            </command>
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Mako G-125C (cam2) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//cam2//BL15J-DI-CAM-02@">
+               </parameter>
+            </command>
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Mako G-125B (bpm1) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//bpm1//BL15J-DI-BPM-01@">
+               </parameter>
+            </command>
+
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Mako G-125B (bpm2) Array View"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//bpm2//BL15J-DI-BPM-02@">
+               </parameter>
+            </command>
+
+         </menu>
+      </menuContribution>
+   </extension>
+
+</plugin>
