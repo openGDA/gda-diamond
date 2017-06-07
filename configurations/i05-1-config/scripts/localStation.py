@@ -50,7 +50,7 @@ mcp_roi = finder.find('mcp_roi')
 import arpes
 
 # Sample stage script for easy and safe movement of the stage to predefined positions
-execfile(gdaScriptDir + "/sampleStage.py")
+run "beamline/sampleStage.py"
 
 
 if LocalProperties.get("gda.mode") == "live":  # don't execute in squish tests
