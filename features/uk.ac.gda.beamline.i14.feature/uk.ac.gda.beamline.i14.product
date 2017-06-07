@@ -31,8 +31,8 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}
 -Dgda.group.dir=${project_loc:core-config}/no-group
--Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=false
 -Xms256m
 -Xmx2048m
 -XX:MaxPermSize=256m
