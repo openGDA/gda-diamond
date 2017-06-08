@@ -209,7 +209,7 @@ def allallowed(hval,kval,lval):
 	
 	
 
-def guesswho(deltaval,alwd_refl_func=allallowed,error=0.5,enval=en(),change=0,refname=''):
+def guesswho(deltaval,alwd_refl_func=allallowed,error=.5,enval=en(),change=0,refname=''):
 	"""The function dictio=guesswho(deltaval=None,alwd_refl_func=allallowed,refname='nome',error=0.1,change=0) 
 	returns a dictionary, containing all the possible reflections compatible within the given error by default 0.1  
 	degrees with the given 2theta value (by default the current delta value)
@@ -255,13 +255,13 @@ def automatrix(key1=1,refkey=2,alwd_refl_func=allallowed):
 	diz2=guesswho(r2.sixC.Delta,alwd_refl_func=allallowed)
 	possiblehkl=theoreticalcouples(r1.hkl,r2.hkl,diz1,diz2)
 	possible_matrices=newautoub(possiblehkl,r1.euler,r2.euler)
-	key=min(possible_matrices, key=possible_matrices.get)
+	key=min(possible_matrices, key=possible_matrices.get())
 	changehkl(refkey,101,possible_matrices[key][2])
 	changehkl(key1,100,possible_matrices[key][1])
 	ubm(100,101)
 	print "\n The best matrix is obtained with" + str(possible_matrices[key][1]) + "and" +str(possible_matrices[key][2])
 	print "Error="+str(possible_matrices[key][0]) 
-	return possible_matrices
+
 
 def anglesfromwrong(hkl1,hkl2=hkl()):
 	"""Uses the real hkl val of the secondary reflecion to guess the angle between the primary and te secondary relfection"""
@@ -269,7 +269,7 @@ def anglesfromwrong(hkl1,hkl2=hkl()):
 	return angval
 		
 		 
-def theoreticalcouples(hkl1,hkl2,diz1,diz2,tol1=0.3):
+def theoreticalcouples(hkl1,hkl2,diz1,diz2,tol1=0.2):
 	angval=anglesfromwrong(hkl1,hkl2)
 	possiblekeys=[] 
 	for key1 in diz1.keys():

@@ -258,7 +258,8 @@ offsetshelf=LocalJythonShelfManager.open('offsets')
 print "  use 'offsetshelf' to see summary of offsets"
 #delta_axis_offset.pil=9.5 
 #delta_axis_offset.pil=9.0 #new offset 31/01/12 (179)
-delta_axis_offset.pil=9.2#new offset 12/09/13
+#delta_axis_offset.pil=9.2#new offset 12/09/13
+delta_axis_offset.pil=8.6#new offset 19/02/17
 do=delta_axis_offset
 
 ###############################################################################
@@ -396,6 +397,7 @@ else:
 	exec("gam=euler.gam")
 
 hkl.setLevel(6)
+
 
 ###############################################################################
 ###							       kbm tripod                               ###
@@ -1060,11 +1062,13 @@ thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_o
 if installation.isLive():
 	#tthp.apd = 1.75 #16/1/15 - changed from 1.75
 	#tthp.apd = 3.25 #30/9/15
-	tthp.apd = 0.5 #17/5/16
+	#tthp.apd = 0.5 #17/5/16
+	tthp.apd = 0.9 #13/2/17
 	#tthp.diode=56.4#2/10/11 - changed from 55.6
 	#tthp.diode=55#01/07/16 - changed from 56.4
-	tthp.diode=53.713#01/07/16 - changed from 56.4
-	tthp.diode=53.65#01/07/16 - changed from 53.713
+	#tthp.diode=53.713#01/07/16 - changed from 56.4
+	#tthp.diode=53.65#01/07/16 - changed from 53.713
+	tthp.diode=54.3	#13/02/17
 	tthp.camera=34.4 #14/10/12 -changed from 33.4
 	tthp.vortex=-14.75 #31/1/10
 	tthp.ccd=70
@@ -1270,10 +1274,11 @@ def open_valves():
 #ci=240.;cj=109. #04/03/16 after pilatus reexchange
 #ci=238.;cj=111. #06/04/16 after pilatus reexchange
 #ci=242.;cj=105. #13/07/16 loan detector
-ci=244.; cj=103.; #10/08/16 loan detector
+#ci=244.; cj=103.; #10/08/16 loan detector
+#ci=205.; cj=105; #19/02/17
+ci=204.; cj=107; #02/05/17
 
 maxi=486; maxj=194 #08/10/15
-
 
 #small centred
 roi1 = scroi=HardwareTriggerableDetectorDataProcessor('roi1', pil, [SumMaxPositionAndValue()])
@@ -1314,7 +1319,6 @@ iw=13; jw=15; roi1.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.
 roi2 = lcroi=HardwareTriggerableDetectorDataProcessor('roi2', pil, [SumMaxPositionAndValue()])
 #roi2.setRoi(263-40,95-30,250+40,110+30)
 iw=67; jw=75; roi2.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
-
 #horizonal line for delta scan (vertical on display)
 roi3 = delroi=HardwareTriggerableDetectorDataProcessor('roi3', pil, [SumMaxPositionAndValue()])
 #roi3.setRoi(256,0,257,194)
@@ -1346,7 +1350,7 @@ iw=7; jw=7; roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
 
 
 
-#roi6.setRoi(258-3,99+3,258+3,99-3)
+#roi6.setRoi(258-3,99+3,258+3,10.693599-3)
 
 #roi1 = DetectorDataProcessorWithRoi('roi1', pil, [SumMaxPositionAndValue()])
 #roi1.setRoi(219,75,275,115)
@@ -1440,7 +1444,7 @@ run('select_and_move_detector')
 run('showdiff')
 run('showdiff_new')
 bpmroi1 = HardwareTriggerableDetectorDataProcessor('bpmroi1', bpm, [SumMaxPositionAndValue()])
-bpmroi1.setRoi(int(909-40),int(387-10),int(909+40),int(387+10))
+bpmroi1.setRoi(int(934-40),int(402-10),int(934+40),int(402+10))
 #run('pd_searchref2') #put at the end as it gave some errors
 run('pd_read_list')	#to make PD's that can scan a list
 run('pd_function')	#to make PD's that return a variable

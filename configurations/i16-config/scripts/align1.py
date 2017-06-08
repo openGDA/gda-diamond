@@ -1,6 +1,6 @@
 def ptl3cal():
 	ptl3=11.564
-	print "===Calibrating energy - last chance to abort!"; 
+	print "===Calibrating energy - last chance to abort!";
 	if m2y()>0:
 		print "===Looks like you have the Si mirror coating - change to Rh by typing energy.rh()"
 	else:
@@ -19,12 +19,12 @@ def ptl3cal():
 		ucalibrate()
 		pos d3a 12
 		scan energy ptl3-.05 ptl3+.05 .001 w .2 ic1
-#		print "Now go to edge and type: en.calibrate(11.564) "  #
-        edgeval=eedge()
-        go edgeval                                    #
-        print('Going to '+str(edgeval)+' keV and calibrating')  #  Gareth 27 April 2016
-        en.calibrate(11.564)                                    #
-        pos d3a 90 energy ptl3
+#		print "Now go to edge and type: en.calibrate(11.564) "  ##
+		edgeval=eedge()
+		go edgeval                     #
+		print('Going to '+str(edgeval)+' keV and calibrating')  #  Gareth 27 April 2016
+		en.calibrate(11.564)                                    #
+		pos d3a 90 energy ptl3
 	
 def go8keV():
 	print "===Go to 8keV - last chance to abort!"; sleep(5)
@@ -48,7 +48,7 @@ def go8keV():
 
 def alignpinh():
 	pos phi 0
-	print "===Align pin - edge must be aligned with camera at phi=0. Last chance to abort!"; sleep(5)
+	print "===Align pin - edge must be alignego8keV()d with camera at phi=0. Last chance to abort!"; sleep(5)
 	pos eta 0
 	pos chi 90
 	pos tthp tthp.diode
@@ -104,7 +104,7 @@ def alignpinv():
 	pos phi 0
 	scan base_z bzpos-0.5 bzpos+0.5 .01 w 1 diode
 	#print "===Now you must move base_z to centre...";
-	basezcen=(edge(0,'Base_z','diode')[2]+edge(-1,'Base_z','diode')[1])/2. # now uses rising edge of first scan
+	basezcen=(edge(0,'Base_z','diode')[1]+edge(-1,'Base_z','diode')[2])/2. # now uses rising edge of first scan
 	print 'Moving base_z to ' + str(basezcen)
 	print base_z(basezcen)	#spc 2/10/11
 	print "If the plots look ok then type energy.calibrate()"

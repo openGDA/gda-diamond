@@ -879,6 +879,7 @@ class FlipperClass11Temp(PseudoDevice):
 		self.sum=roi_neg/mon_neg+roi_pos/mon_pos
 		self.diff=roi_neg/mon_neg-roi_pos/mon_pos
 		self.fracdiff=self.diff/self.sum	
+
 class FlipperClass12(PseudoDevice):
 	'''
 	dev=FlipperClass12(name, magnetdevice, pilatus, pilatus_roi,pilatus_roi field index (default = last)
@@ -1265,11 +1266,204 @@ class FlipperPD(PseudoDevice):
 		self.energy=newpos[0]
 		self.anout_PD(newpos[1])
 
+class FlipperClass12ttl(PseudoDevice):
+	'''
+	dev=FlipperClass12ttl(name, magnetdevice, pilatus, pilatus_roi,pilatus_roi field index (default = last)
+	uses pilatus and ic1 with specified magnet device
+	this version flips between magvolts and zero (not -magvolts) for ttl on/off field flipper
+	in: 'magvolts','counttime','ncycles'
+	magvolts is, for example, the x17_anout voltage magntitude
+	firstnum=first pil file number
+	sequence=(+--+)*ncycles
+	extra: 'firstnum','ic1ratio'
+	waits for self.waittime after flipping
+	'''
+	def __init__(self,name,magnetdevice,pilatus,pilatus_roi, index=-1):
+		self.setName(name)
+		self.magdev=magnetdevice
+		self.pil=pilatus
+		self.setLevel(10)
+		self.setInputNames(['magvolts','counttime','ncycles'])
+		self.setExtraNames(['filenum','ic1ratio','fracdiff','norm_sum','norm_diff'])
+		self.setOutputFormat(['%.4f','%.1f','%.0f','%.0f','%.4f','%.5f','%.1f','%.1f'])
+		self.magvolts = 0
+		self.counttime=0
+		#self.rootfilename=rootfilename
+		#self.filename=self.rootfilename
+		self.roi=pilatus_roi
+		self.waittime=0
+		self.index=index
+
+	def getPosition(self):
+		return [self.magvolts,self.counttime,self.cycles,self.filenum, self.ic1ratio, self.fracdiff, self.sum, self.diff]
+
+	def isBusy(self):
+		return 0
+
+	def asynchronousMoveTo(self,newpos):
+		try:
+			self.filenum=self.pil()[1]+1
+		except:
+			self.filenum=0
+
+		self.magvolts=newpos[0]
+		self.counttime=newpos[1]
+		self.cycles=newpos[2]
+
+		mon_neg=mon_pos=roi_neg=roi_pos=0
+		
+
+		for n in range(int(self.cycles)):
+#			print n
+#			waitforinjection#not tested
+
+			self.magdev(-self.magvolts*0); w(self.waittime);
+			self.pil(self.counttime); 
+			
+			try:
+				roi_neg+=self.roi()[self.index]
+			except:
+				roi_neg+=self.roi()
+			mon_neg+=ic1()
+
+			self.magdev(self.magvolts); w(self.waittime);
+			self.pil(self.counttime);
+			try:
+				roi_pos+=self.roi()[self.index]
+			except:
+				roi_pos+=self.roi() 
+			mon_pos+=ic1()
+
+
+			self.magdev(self.magvolts); w(self.waittime);
+			self.pil(self.counttime); 
+			try:
+				roi_pos+=self.roi()[self.index]
+			except:
+				roi_pos+=self.roi() 
+			mon_pos+=ic1()
+
+			self.magdev(-self.magvolts*0); w(self.waittime);
+			self.pil(self.counttime); 
+			try:
+				roi_neg+=self.roi()[self.index]
+			except:
+				roi_neg+=self.roi()
+			mon_neg+=ic1()
+
+		try:	
+			self.ic1ratio = mon_neg/mon_pos
+		except:
+			self.ic1ratio = 0
+
+		
+		try:
+			self.sum=roi_neg/mon_neg+roi_pos/mon_pos
+			self.diff=roi_neg/mon_neg-roi_pos/mon_pos
+			self.fracdiff=self.diff/self.sum
+		except:
+			print "===Error calculating ratios (zero counts?). Returning zeros"
+			self.sum=0
+			self.diff=0
+			self.fracdiff=0
+
+
+class FlipperClass12APDspecial(PseudoDevice):
+	'''
+	====== not yet tested =======
+	dev=FlipperClass12APDspecial(name, magnetdevice)
+	uses t for signal and monitor (assume signal is t()[2] and monitor is t()[1])
+	this version flips between magvolts and zero (not -magvolts) for ttl on/off field flipper
+	in: 'magvolts','counttime','ncycles'
+	sequence=(+--+)*ncycles
+	extra: 'firstnum','ic1ratio'
+	waits for self.waittime after flipping
+	'''
+	def __init__(self,name,magnetdevice,pilatus,pilatus_roi, index=-1):
+		self.setName(name)
+		self.magdev=magnetdevice
+		#self.pil=pilatus
+		self.setLevel(10)
+		self.setInputNames(['magvolts','counttime','ncycles'])
+		self.setExtraNames(['filenum','ic1ratio','fracdiff','norm_sum','norm_diff'])
+		self.setOutputFormat(['%.4f','%.1f','%.0f','%.0f','%.4f','%.5f','%.1f','%.1f'])
+		self.magvolts = 0
+		self.counttime=0
+		#self.roi=pilatus_roi
+		self.waittime=0
+		#self.index=index
+		self.test=False
+
+	def getPosition(self):
+		return [self.magvolts,self.counttime,self.cycles,self.filenum, self.ic1ratio, self.fracdiff, self.sum, self.diff]
+
+	def isBusy(self):
+		return 0
+
+	def asynchronousMoveTo(self,newpos):
+		self.filenum=0
+		self.magvolts=newpos[0]
+		self.counttime=newpos[1]
+		self.cycles=newpos[2]
+
+		mon_neg=mon_pos=roi_neg=roi_pos=0
+		
+		for n in range(int(self.cycles)):
+
+			if self.test:
+				print 'neg'
+			self.magdev(-self.magvolts*0); w(self.waittime);
+			t(self.counttime); tcounts=t()
+			roi_neg+=tcounts[2]
+			mon_neg+=tcounts[1]
+
+			if self.test:
+				print 'pos'
+			self.magdev(self.magvolts); w(self.waittime);
+			t(self.counttime); tcounts=t()
+			roi_pos+=tcounts[2]
+			mon_pos+=tcounts[1]
+
+			if self.test:
+				print 'pos'
+			self.magdev(self.magvolts); w(self.waittime);
+			t(self.counttime); tcounts=t()
+			roi_pos+=tcounts[2]
+			mon_pos+=tcounts[1]
+
+			if self.test:
+				print 'neg'
+			self.magdev(-self.magvolts*0); w(self.waittime);
+			t(self.counttime); tcounts=t()
+			roi_neg+=tcounts[2]
+			mon_neg+=tcounts[1]
+
+		try:	
+			self.ic1ratio = mon_neg/mon_pos
+		except:
+			self.ic1ratio = 0
+		
+		try:
+			self.sum=roi_neg/mon_neg+roi_pos/mon_pos
+			self.diff=roi_neg/mon_neg-roi_pos/mon_pos
+			self.fracdiff=self.diff/self.sum
+		except:
+			print "===Error calculating ratios (zero counts?). Returning zeros"
+			self.sum=0
+			self.diff=0
+			self.fracdiff=0
+
+
+
+
+'''
+
+
 #magvolts=FlipperPD('magvols',x17_anout)	#flipper device for magnet current via analogie output voltage
 #fl=flipper13_pil_t_mag=FlipperClass13('flipper13_pil_t_mag', magvolts, pil, pil, t, t, signal_read_field=-1,  mon_read_field=-1); #mag field and t for signal and mon (fields 2, 1) (make sure mon is last field of t)
 #fl1=flipper13_pil_t_mag=FlipperClass13('flipper13_pil_t_ppa220', ppa220, pil, pil, t, t, signal_read_field=-1,  mon_read_field=-1); #ppa220 and t for signal and mon (fields 2, 1) (make sure mon is last field of t)
 
-'''
+
 ########commented out - put back as needed ##################
 flipper13_pil_t_mag=FlipperClass13('flipper13_pil_t_mag', magvolts, t, t, t, t, signal_read_field=2,  mon_read_field=1); #mag field and t for signal and mon (fields 2, 1)
 flipper13_t_t_mag=FlipperClass13('flipper13_t_t_mag', magvolts, t, t, t, t, signal_read_field=2,  mon_read_field=1); #mag field and t for signal and mon (fields 2, 1)
@@ -1311,12 +1505,14 @@ flipper12xm=FlipperClass12('flipper12xm',x19_anout,xm,xm)
 #flipper11b=FlipperClass11Temp('flipper11',ppb111,pil,pil)
 #flipper9diode=FlipperClass9diode('flipper9diode')
 # ==== USE QPBM6, not QBPM8 =============
-'''
+
 #flipper4=FlipperClass4a('flipper4',ppa220)
 
 #ppa220centre=FlipperPPPQBPMClass('ppa220centre', ppa220, qbpm6, ic1)
 #flipper220=FlipperClass11('flipper220',ppa220,t,t)
 #example: pos xia1 1; scan ppa220centre [en() 0.022 -.002] [en() 0.022 .002] [0 0 0.0001]; pos xia1 0;
+
+'''
 
 
 

@@ -6,6 +6,7 @@ from gda.data import PathConstructor
 from gda.analysis import ScanFileHolder
 from org.eclipse.dawnsci.analysis.dataset.impl import DatasetUtils
 from uk.ac.diamond.scisoft.analysis.fitting.functions import CubicSpline
+import traceback
 
 numTracker = NumTracker("scanbase_numtracker")
 def get_file(relativefilenumber=0):
