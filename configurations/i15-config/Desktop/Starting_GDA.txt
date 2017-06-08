@@ -9,7 +9,7 @@ A restart of the GDA servers should take around a minute, if there are no
 problems connecting. The end is signalled by the following message in either
 the Log Panel:
 
-	INFO  gda.util.ObjectServer - Server initialisation complete. xmlFile = /dls/i15/software/gda/workspace_git/gda-mt.git/configurations/i15-config/servers/main/live/server.xml
+	INFO  gda.util.ObjectServer - Server initialisation complete. xmlFile = /dls/i15/software/gda/config/servers/main/live/server.xml
 
 --------------------------------------------------------------------------------
 Description of Icons:

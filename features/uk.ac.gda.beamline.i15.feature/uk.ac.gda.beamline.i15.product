@@ -13,12 +13,12 @@
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dgda.config=../../workspace_git/gda-mt.git/configurations/i15-config
+-Dgda.config=../../config
 -Dgda.mode=live
--Djacorb.config.dir=../../workspace_git/gda-mt.git/configurations/i15-config/jacorb/live
--Dgda.propertiesFile=../../workspace_git/gda-mt.git/configurations/i15-config/properties/live/java.properties
--Dgov.aps.jca.JCALibrary.properties=../../workspace_git/gda-mt.git/configurations/i15-config/jca/live/JCALibrary.properties
--Declipse.pluginCustomization=../../workspace_git/gda-mt.git/configurations/i15-config/clients/main/_common/pluginCustomization.ini
+-Djacorb.config.dir=../../config/jacorb/live
+-Dgda.propertiesFile=../../config/properties/live/java.properties
+-Dgov.aps.jca.JCALibrary.properties=../../config/jca/live/JCALibrary.properties
+-Declipse.pluginCustomization=../../config/clients/main/_common/pluginCustomization.ini
 -Dgda.logs.dir=../../../../logs
 -Dgda.client.jython.automatic.interpreter=1
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
