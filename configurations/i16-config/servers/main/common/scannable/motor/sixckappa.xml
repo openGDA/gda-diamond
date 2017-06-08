@@ -7,14 +7,12 @@
 		<property name="motor" ref="sixcKphiMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 	<bean id="kap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcKappaMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
 		<property name="outputFormat" value="%.5f" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
@@ -22,7 +20,6 @@
 		<property name="motor" ref="sixcKthMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
 		<property name="outputFormat" value="%.5f" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
@@ -30,21 +27,18 @@
 		<property name="motor" ref="sixcMuMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 	<bean id="kdelta" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcDeltaMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 	<bean id="kgam" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcGammaMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 
