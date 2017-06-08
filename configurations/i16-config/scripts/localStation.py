@@ -1480,6 +1480,51 @@ run("sz_cryo")
 cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01],'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]}
 szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K','Ta') \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K','Tc') for the cryofurnace.")
 
+
+
+SMARGON = False
+
+if SMARGON: 
+	sgphi=SingleEpicsPositionerClass('phi','BL16I-MO-SGON-01:PHI.VAL','BL16I-MO-SGON-01:PHI.RBV','BL16I-MO-SGON-01:PHI.DMOV','BL16I-MO-SGON-01:PHI.STOP','deg','%.4f')
+	sgomega=SingleEpicsPositionerClass('omega','BL16I-MO-SGON-01:OMEGA.VAL','BL16I-MO-SGON-01:OMEGA.RBV','BL16I-MO-SGON-01:OMEGA.DMOV','BL16I-MO-SGON-01:OMEGA.STOP','deg','%.4f')
+	sgchi=SingleEpicsPositionerClass('chi','BL16I-MO-SGON-01:CHI.VAL','BL16I-MO-SGON-01:CHI.RBV','BL16I-MO-SGON-01:CHI.DMOV','BL16I-MO-SGON-01:CHI.STOP','deg','%.4f')
+	exec("del hkl")
+	exec("del euler")
+	run("SmargonTopClass")	
+	from diffractometer.scannable import HklSmargon,EulerSmargonPseudoDevice 
+	reload(HklSmargon) 
+	reload(EulerSmargonPseudoDevice)
+	exec('phi =sgphi')
+	exec('eta =sgomega')
+	exec('chi =sgchi')
+	BLobjects.my_smarchi =chi
+	BLobjects.my_smaromega = eta 
+	BLobjects.my_smarphi =phi
+	euler= EulerSmargonPseudoDevice.EulerianPseudoDevice("euler",san,kmu,kdelta,kgam)   
+	hkl = HklSmargon.HklSmargon("hkl",euler,rs,CA,EDi,az) 
+	
+ 	print """ Smargon script was successful"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 print "======================================================================"
 print "Local Station Script completed"
 print "======================================================================"

@@ -41,6 +41,13 @@ class  StoredAngles(java.lang.Object):
             BLobjects.getKth().asynchronousMoveTo(angle)
          elif key=='Kmu':
             BLobjects.getKmu().asynchronousMoveTo(angle)
+         if self.x == 'smargon':
+            if key=='phi':
+               BLobjects.getsgphi().asynchronousMoveTo(angle)
+            if key=='chi':
+               BLobjects.getsgchi().asynchronousMoveTo(angle)
+            if key=='eta':
+               BLobjects.getsgomega().asynchronousMoveTo(angle)
          
    def getAngles(self):
       if BLobjects.isSimulation():
@@ -64,6 +71,21 @@ class  StoredAngles(java.lang.Object):
          d.Chi = euAngles.Chi
          d.Mu = BLobjects.getKmu().getPosition()
          d.Eta = euAngles.Theta
+         d.Kmu = BLobjects.getKmu().getPosition()
+         d.Kphi = BLobjects.getKphi().getPosition()
+         d.Kap = BLobjects.getKap().getPosition()
+         d.Kth = BLobjects.getKth().getPosition()
+         d.Delta = BLobjects.getDelta().getPosition()
+         d.Gam = BLobjects.getGam().getPosition()
+         d.Gamma = BLobjects.getGam().getPosition()
+         return d
+      elif self.x == 'smargon':
+         d = Angles.Angles()
+         d.Theta = BLobjects.getsgomega().getPosition() #warning in sixc can be mu or eta
+         d.Phi = BLobjects.getsgphi().getPosition()
+         d.Chi = BLobjects.getsgchi().getPosition()
+         d.Mu = BLobjects.getKmu().getPosition()
+         d.Eta = BLobjects.getsgomega().getPosition()
          d.Kmu = BLobjects.getKmu().getPosition()
          d.Kphi = BLobjects.getKphi().getPosition()
          d.Kap = BLobjects.getKap().getPosition()
