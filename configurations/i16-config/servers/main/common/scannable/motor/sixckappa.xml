@@ -96,6 +96,10 @@
 
 		<property name="deferredControlPoint" ref="xps2DeferFlag" />
 
+		<property name="numberToMoveControlPoint" ref="xps2numberAxesToMoveControlPoint" />
+
+		<property name="checkStartControlPoint" ref="xps2didDeferedMoveStartControlPoint" />
+
 		<property name="continuousMoveController" ref="xpsTrajController" />
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
