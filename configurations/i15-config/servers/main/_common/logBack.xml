@@ -8,9 +8,6 @@
 
     <!-- include file is relative to the application directory -->
 
-    <!-- Console                                                               servers/log/common/logSharedWithClients.xml -->
-    <include file="${gda.install.git.loc}/gda-mt.git/configurations/i15-config/servers/log/common/logSharedWithClients.xml"/>
-
     <!-- address where the messages from Object Servers send to - the LogServer-->
     <appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">
         <RemoteHost>${gda.logserver.host}</RemoteHost>
