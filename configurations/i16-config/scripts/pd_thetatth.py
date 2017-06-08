@@ -30,8 +30,10 @@ class thetatth(PseudoDevice):
 	def asynchronousMoveTo(self,new_position):
 		angle1 =float(new_position[0])+self.offset1()
 		angle2 =float(new_position[1])+self.offset2()
-		self.key1.asynchronousMoveTo(angle1)
-		self.key2.asynchronousMoveTo(angle2)
+		#self.key1.asynchronousMoveTo(angle1)
+		#self.key2.asynchronousMoveTo(angle2)
+		self.key1.moveTo(angle1)
+		self.key2.moveTo(angle2)
 
 	def isBusy(self):
 		if self.key1.isBusy()==1 or self.key2.isBusy()==1:
