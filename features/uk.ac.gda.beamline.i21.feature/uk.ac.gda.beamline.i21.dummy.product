@@ -24,7 +24,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.core.dir=/scratch/gda/workspace_git/gda-core.git/core-config
 -Dgda.group.dir=/scratch/gda/workspace_git/gda-core.git/core-config/no-group
 -Dgda.config=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config
--Dgda.propertiesFile=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config/properties/dummy/live_instance_java.properties
+-Dgda.propertiesFile=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config/properties/dummy/dummy_instance_java.properties
 -Djacorb.config.dir=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config/properties/dummy/jacorb
 -Dgov.aps.jca.JCALibrary.properties=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config/properties/dummy/JCALibrary.properties
 -Declipse.pluginCustomization=/scratch/gda/workspace_git/gda-dls-beamlines-i21.git/i21-config/pluginCustomization.ini
@@ -37,6 +37,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.mode=dummy
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Dgda.client.jython.automatic.interpreter=1
 -Xms256m
 -Xmx2048m
 -XX:+DisableExplicitGC
