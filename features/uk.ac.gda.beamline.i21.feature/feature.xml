@@ -58,10 +58,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.scanning.event.queues.feature"
-         version="0.0.0"/>
-
-   <includes
          id="uk.ac.diamond.daq.mapping.ui.feature"
          version="0.0.0"/>
 
@@ -102,6 +98,13 @@
 
    <plugin
          id="com.springsource.org.apache.commons.vfs"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.scanning.example"
          download-size="0"
          install-size="0"
          version="0.0.0"
