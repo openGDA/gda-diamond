@@ -8,32 +8,8 @@
 	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
-	<bean id="s3femto1" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
-		<property name="value">
-			<value type="double">0.235</value>
-		</property>
-	</bean>
-
-	<bean id="s3femto2" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
-		<property name="value">
-			<value type="double">0.865</value>
-		</property>
-	</bean>
-
-	<bean id="s3femto3" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
-		<property name="value">
-			<value type="double">1.32</value>
-		</property>
-	</bean>
-
-	<bean id="s3femto4" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
-		<property name="value">
-			<value type="double">2.5</value>
-		</property>
-	</bean>
-
+	<bean id="s3femto1" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="s3femto2" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="s3femto3" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="s3femto4" class="gda.device.currentamplifier.DummyStanfordScannable"/>
 </beans>

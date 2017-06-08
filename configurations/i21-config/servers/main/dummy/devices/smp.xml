@@ -48,48 +48,14 @@
 		<property name="local" value="true" />
 	</bean>
 	<!-- Femto -->
-	<bean id="draincurrent" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
-		<property name="value">
-			<value type="double">0.865</value>
-		</property>
-	</bean>
-	<bean id="fy1" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
-		<property name="value">
-			<value type="double">0.865</value>
-		</property>
-	</bean>
-	<bean id="straightdiode" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
-		<property name="value">
-			<value type="double">0.865</value>
-		</property>
-	</bean>
-	<bean id="rotatingdiode" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
-		<property name="value">
-			<value type="double">0.865</value>
-		</property>
-	</bean>
-	<bean id="fixdiode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
-		<property name="value">
-			<value type="double">0.865</value>
-		</property>
-	</bean>
-	<bean id="fixdiode2" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
-		<property name="value">
-			<value type="double">0.865</value>
-		</property>
-	</bean>
-	<bean id="tthdiode" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
-		<property name="value">
-			<value type="double">0.865</value>
-		</property>
-	</bean>
+	<bean id="draincurrent" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+
+	<bean id="fy1" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="straightdiode" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="rotatingdiode" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="fixdiode1" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="fixdiode2" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="tthdiode" class="gda.device.currentamplifier.DummyStanfordScannable"/>
 	
 	<import resource="smpcam1.xml"/>
 	<import resource="smpcam2.xml"/>

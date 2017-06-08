@@ -13,12 +13,7 @@
 		<property name="local" value="true" />
 	</bean>	
 	<!-- Femto -->
-	<bean id="d8femto1" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="V" />
-		<property name="value">
-			<value type="double">0.235</value>
-		</property>
-	</bean>
+	<bean id="d8femto1" class="gda.device.currentamplifier.DummyStanfordScannable"/>
 
 	<!-- Area detector camera -->
 	<!-- To use this, you will have to start an area detector simulator -->
