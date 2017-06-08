@@ -8,13 +8,9 @@
 	This uses the simulated AD to pretend to be the MCP camera on i05-1. To use this file the simulated AD must be running 
 	</description>
 	
-	<bean id="mcp_total" class="gda.device.scannable.SimplePVScannable">
-		<property name="pvName" value="ws141-AD-SIM-01:STAT:Total_RBV" />
-	</bean>
+	<bean id="mcp_total" class="gda.device.scannable.DummyScannable" />
 
-	<bean id="mcp_gain" class="gda.device.scannable.SimplePVScannable">
-		<property name="pvName" value="ws141-AD-SIM-01:CAM:Gain" />
-	</bean>
+	<bean id="mcp_gain" class="gda.device.scannable.DummyScannable" />
 	
 	<bean id="mcp_roi" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
 		<property name="xstart" value="0" />
