@@ -81,7 +81,7 @@
 		<property name="name" value="andor_addetector" />
 		<property name="model" ref="andorModel" />
 		<property name="deviceInformation" ref="andorInfo" />
-		<property name="activated" value="true" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
 	</bean>
 
 	<!-- Scannable group -->
