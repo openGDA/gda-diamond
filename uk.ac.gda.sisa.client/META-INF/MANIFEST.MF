@@ -21,5 +21,4 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: Diamond Light Source
-Export-Package: uk.ac.gda.sisa.client,
- uk.ac.gda.sisa.view
+Export-Package: uk.ac.gda.sisa.client
