@@ -41,18 +41,4 @@
          </property>
       </product>
    </extension>
-
-<!--   
-   <extension
-         point="org.eclipse.ui.splashHandlers">
-      <splashHandler
-            class="uk.ac.gda.beamline.i09.splashHandlers.BrowserSplashHandler"
-            id="uk.ac.gda.beamline.i09.splashHandlers.browser">
-      </splashHandler>
-      <splashHandlerProductBinding
-            productId="uk.ac.gda.beamline.i09.product"
-            splashId="uk.ac.gda.beamline.i09.splashHandlers.browser">
-      </splashHandlerProductBinding>
-   </extension>
--->
 </plugin>
