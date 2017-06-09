@@ -27,7 +27,10 @@
 	<!-- dummy beans from p45-config, can be used for testing solstice scanning. -->
 	<import resource="../../../../p45-config/servers/main/_common/det.xml"/>
 	<import resource="../../../../p45-config/servers/main/_common/mapping_motors.xml"/>
-	<import resource="../../../../p45-config/servers/main/_common/example_detectors.xml"/>
+	<import resource="../../../../p45-config/servers/main/_common/mandelbrotDetector.xml"/>
+	<import resource="../../../../p45-config/servers/main/_common/darkImageDetector.xml"/>
+	<import resource="../../../../p45-config/servers/main/_common/constantVelocityDevice.xml"/>
+	<import resource="../../../../p45-config/servers/main/_common/clusterProcessingDevice.xml"/>
 	<import resource="../../../../p45-config/servers/main/_common/mandelbrot_detectors.xml"/>
 	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
