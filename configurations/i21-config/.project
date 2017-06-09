@@ -5,6 +5,9 @@
 	<projects>
 		<project>diffcalc</project>
 		<project>i21-python</project>
+		<project>org.eclipse.scanning.api</project>
+		<project>org.eclipse.scanning.example</project>
+		<project>org.eclipse.scanning.sequencer</project>
 		<project>uk.ac.diamond.daq.detectors.addetector</project>
 		<project>uk.ac.diamond.daq.detectors.addetector.api</project>
 		<project>uk.ac.diamond.scisoft.jython</project>
