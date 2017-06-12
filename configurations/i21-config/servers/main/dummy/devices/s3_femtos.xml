@@ -8,8 +8,8 @@
 	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
-	<bean id="s3femto1" class="gda.device.currentamplifier.DummyStanfordScannable"/>
-	<bean id="s3femto2" class="gda.device.currentamplifier.DummyStanfordScannable"/>
-	<bean id="s3femto3" class="gda.device.currentamplifier.DummyStanfordScannable"/>
-	<bean id="s3femto4" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="s3femto1" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="s3femto2" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="s3femto3" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="s3femto4" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 </beans>

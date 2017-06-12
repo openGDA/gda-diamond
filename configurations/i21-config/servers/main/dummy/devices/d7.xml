@@ -13,7 +13,7 @@
 		<property name="local" value="true" />
 	</bean>
 	<!-- Femto -->
-	<bean id="d7femto1" class="gda.device.currentamplifier.DummyStanfordScannable"/>
-	<bean id="d7femto2" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="d7femto1" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="d7femto2" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 
 </beans>

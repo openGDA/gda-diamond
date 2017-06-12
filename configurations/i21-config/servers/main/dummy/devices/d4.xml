@@ -27,7 +27,7 @@
 	</bean>
 
 	<!-- Femto -->
-	<bean id="d4femto" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="d4femto" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 
 	<!-- Area detector camera -->
 	<!-- To use this, you will have to start an area detector simulator -->

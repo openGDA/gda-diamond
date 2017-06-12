@@ -13,7 +13,7 @@
 		<property name="local" value="true" />
 	</bean>	
 	<!-- Femto -->
-	<bean id="d8femto1" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="d8femto1" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 
 	<!-- Area detector camera -->
 	<!-- To use this, you will have to start an area detector simulator -->

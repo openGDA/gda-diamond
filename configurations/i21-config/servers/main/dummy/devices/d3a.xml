@@ -46,6 +46,6 @@
 	</bean>
  
 	<!-- Femto -->
-	<bean id="d3afemto" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="d3afemto" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 
 </beans>

@@ -48,14 +48,14 @@
 		<property name="local" value="true" />
 	</bean>
 	<!-- Femto -->
-	<bean id="draincurrent" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="draincurrent" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 
-	<bean id="fy1" class="gda.device.currentamplifier.DummyStanfordScannable"/>
-	<bean id="straightdiode" class="gda.device.currentamplifier.DummyStanfordScannable"/>
-	<bean id="rotatingdiode" class="gda.device.currentamplifier.DummyStanfordScannable"/>
-	<bean id="fixdiode1" class="gda.device.currentamplifier.DummyStanfordScannable"/>
-	<bean id="fixdiode2" class="gda.device.currentamplifier.DummyStanfordScannable"/>
-	<bean id="tthdiode" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="fy1" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="straightdiode" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="rotatingdiode" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="fixdiode1" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="fixdiode2" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="tthdiode" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 	
 	<import resource="smpcam1.xml"/>
 	<import resource="smpcam2.xml"/>

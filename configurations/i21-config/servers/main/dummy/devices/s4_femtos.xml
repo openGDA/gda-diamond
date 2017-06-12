@@ -5,9 +5,9 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="s4femto1" class="gda.device.currentamplifier.DummyStanfordScannable"/>
-	<bean id="s4femto2" class="gda.device.currentamplifier.DummyStanfordScannable"/>
-	<bean id="s4femto3" class="gda.device.currentamplifier.DummyStanfordScannable"/>
-	<bean id="s4femto4" class="gda.device.currentamplifier.DummyStanfordScannable"/>
+	<bean id="s4femto1" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="s4femto2" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="s4femto3" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="s4femto4" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 
 </beans>
