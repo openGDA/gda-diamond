@@ -6,6 +6,7 @@
 
 	<!-- ring -->
 	<import resource="ring.xml" />
+	<import resource="electron_beam_monitors.xml" />
 
 	<!-- front end -->
 	<import resource="frontEnd.xml" />

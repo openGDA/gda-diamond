@@ -16,6 +16,9 @@
 	<import resource="GDAMetadata.xml"/>
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
+	<import resource="topupWatchdog.xml"/>
+	<import resource="expressionWatchdog.xml"/>
+	
 	
 	<import resource="commandServer.xml" />
 	<import resource="terminal_logger.xml"/>

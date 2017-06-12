@@ -6,10 +6,10 @@
 	<!--  Watchdog Topup Example -->
 	<bean id="topupModel" class="org.eclipse.scanning.api.device.models.DeviceWatchdogModel">
 		<property name="message"           value="Paused for topup"/>
-		<property name="countdownName"     value="topup"/> <!-- compulsory scannable linked to SR-CS-FILL-01:COUNTDOWN, seconds to refill-->
+		<property name="countdownName"     value="topupMonitor"/> <!-- compulsory scannable linked to SR-CS-FILL-01:COUNTDOWN, seconds to refill-->
 		<property name="cooloff"           value="4000"/> <!-- wait 4 second before topup fill -->
 		<property name="warmup"            value="5000"/> <!-- wait 5 seconds after topup fill -->
-		<property name="modeName"          value="mode"/> <!-- Optional, recommended but not compulsory a scannable linked to SR-CS-RING-01:MODE, checks the mode is right -->
+		<property name="modeName"          value="ringModeMonitor"/> <!-- Optional, recommended but not compulsory a scannable linked to SR-CS-RING-01:MODE, checks the mode is right -->
 		<property name="period"            value="600000"/><!-- in normal or VMX mode, topup fill every 10 minutes at Diamond-->
 		<property name="topupTime"         value="15000"/> <!-- refill duration 15 seconds in normal or VMX mode -->
 	</bean>
