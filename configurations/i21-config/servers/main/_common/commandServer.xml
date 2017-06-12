@@ -25,6 +25,11 @@
 							<property name="type" value="CONFIG"/>
 						</bean>
 						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.install.git.loc}/gda-mt.git/configurations/optics-config"/>
+							<property name="name" value="Scripts: Polarimeter"/>
+							<property name="type" value="CONFIG"/>
+						</bean>
+						<bean class="gda.jython.ScriptProject">
 							<property name="path" value="${gda.install.git.loc}/gda-core.git/uk.ac.gda.core/scripts"/>
 							<property name="name" value="Scripts: Core"/>
 							<property name="type" value="CORE"/>
