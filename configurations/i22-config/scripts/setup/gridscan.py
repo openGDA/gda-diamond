@@ -1,6 +1,6 @@
 import sys
 import os.path
-from gda.util.persistence import LocalParameters
+from uk.ac.diamond.daq.persistence.jythonshelf import LocalParameters
 import gda.configuration.properties.LocalProperties as lp
 
 from gda.data.scan.datawriter import DataWriterExtenderBase
