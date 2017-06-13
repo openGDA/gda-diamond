@@ -1,5 +1,5 @@
 from gda.device.scannable import ScannableBase
-from gda.util.persistence import LocalParameters
+from uk.ac.diamond.daq.persistence.jythonshelf import LocalParameters
 from org.apache.commons.configuration import XMLConfiguration
 from gda.jython.commands.ScannableCommands import pos
 class SaveAndReload(object):
