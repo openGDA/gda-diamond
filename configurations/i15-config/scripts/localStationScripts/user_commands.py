@@ -6,7 +6,7 @@ from org.slf4j import LoggerFactory
 from gda.device.detector.odccd.collectionstrategy import ODCCDOverflow, ODCCDSingleExposure
 from gda.device.scannable import ScannableBase
 from gda.util import VisitPath
-from gda.util.persistence import LocalParameters
+from uk.ac.diamond.daq.persistence.jythonshelf import LocalParameters
 from java.io import File
 from java.util import NoSuchElementException
 from shutil import copyfile

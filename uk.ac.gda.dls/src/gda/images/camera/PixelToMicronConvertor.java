@@ -18,13 +18,13 @@
 
 package gda.images.camera;
 
-import gda.images.camera.BeamDataComponent.BeamData;
-import gda.util.persistence.LocalParameters;
-
 import java.io.IOException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.FileConfiguration;
+
+import gda.images.camera.BeamDataComponent.BeamData;
+import uk.ac.diamond.daq.persistence.jythonshelf.LocalParameters;
 
 /**
  * Singleton object which, given the location on a image of the sample in pixels, returns where an xyz stage supporting
@@ -64,7 +64,7 @@ public class PixelToMicronConvertor {
 	/**
 	 * Given a pixel location, returns the three element array of the microglide move required to move an object at that
 	 * point into the beam.
-	 * 
+	 *
 	 * @param xPixel
 	 * @param yPixel
 	 * @return the micron movement required
