@@ -31,8 +31,8 @@ from gda.jython.commands import InputCommands
 from gda.jython.commands.InputCommands import *
 
 # persistence
-from gda.util.persistence import LocalParameters
-from gda.util.persistence import LocalObjectShelfManager
+from uk.ac.diamond.daq.persistence.jythonshelf import LocalParameters
+from uk.ac.diamond.daq.persistence.jythonshelf import LocalObjectShelfManager
 
 # plotting
 from gda.analysis import *
