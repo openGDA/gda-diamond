@@ -7,7 +7,7 @@ from gda.device.epicsdevice import ReturnType
 from gda.device.monitor import EpicsMonitor
 from gda.device.scannable import PseudoDevice
 from gda.epics import CAClient
-from gda.util.persistence import LocalJythonShelfManager
+from uk.ac.diamond.daq.persistence.jythonshelf import LocalJythonShelfManager
 from installation import isEpicsSim
 from javashell import *
 from math import *

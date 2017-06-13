@@ -1,6 +1,6 @@
 # modified with optional warnings 6/4/16; previous file saved separately with date
 
-from gda.util.persistence import LocalJythonShelfManager
+from uk.ac.diamond.daq.persistence.jythonshelf import LocalJythonShelfManager
 from gda.device.scannable import PseudoDevice
 
 import ShelveIO

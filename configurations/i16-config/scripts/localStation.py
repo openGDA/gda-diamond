@@ -44,7 +44,7 @@ from gda.device.scannable import PseudoDevice, ScannableBase
 from gda.epics import CAClient
 from gda.epics import CAClient
 from gda.jython.commands.GeneralCommands import alias, run
-from gda.util.persistence import LocalJythonShelfManager
+from uk.ac.diamond.daq.persistence.jythonshelf import LocalJythonShelfManager
 
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeakWithCalibration import TwodGaussianPeakWithCalibration
