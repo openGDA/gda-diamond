@@ -12,8 +12,12 @@
 				<value>Open</value>
 				<value>Close</value>
 				<value>Abort</value>
+				<value>Unknown</value>
 			</list>
 		</property>
 	</bean>
 
+	<bean id="portshutter" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="Open" />
+	</bean>
 </beans>

@@ -11,5 +11,9 @@
 		<property name="controlPv" value="FE21I-CS-BEAM-01:BLCON" />
 		<property name="local" value="true"/>
 	</bean>
-
+	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
+		need events to be fired for the GDA9 ExpressionWatchdog -->
+	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE21I-PS-SHTR-01:STA" />
+	</bean>
 </beans>
