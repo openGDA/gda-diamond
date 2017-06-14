@@ -95,10 +95,20 @@
 	</bean>
 	
 	<gda:rmi-import
+		id="syringe"
+		serviceUrl="rmi://b21-control.diamond.ac.uk/gda/syringe"
+		serviceInterface="gda.device.syringepump.Syringe" />
+
+	<gda:rmi-import
+		id="syringe2"
+		serviceUrl="rmi://b21-control.diamond.ac.uk/gda/syringe2"
+		serviceInterface="gda.device.syringepump.Syringe" />
+
+	<gda:rmi-import
 		id="detectorInfoPath"
 		serviceUrl="rmi://b21-control.diamond.ac.uk/gda/detectorInfoPath"
 		serviceInterface="uk.ac.gda.server.ncd.beans.StoredDetectorInfo" />
-		<bean class="gda.rcp.util.OSGIServiceRegister">
+	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class"
 			value="uk.ac.gda.devices.bssc.beans.BioSAXSProgressController" />
 		<property name="service" ref="controller" />
