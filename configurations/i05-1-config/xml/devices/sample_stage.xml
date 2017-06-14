@@ -49,15 +49,4 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="smrotations" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="smalpha" />
-				<ref bean="smbeta" />
-				<ref bean="smgamma" />
-			</list>
-		</property>
-		<property name="local" value="true" />
-	</bean>
-
 </beans>

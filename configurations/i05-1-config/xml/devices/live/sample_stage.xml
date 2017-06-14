@@ -28,27 +28,5 @@
 		<property name="pvName" value="BL05J-EA-SM-01:AZM" />
 		<property name="local" value="true" />
 	</bean>
-	
-	<!-- The sample stage rotation angles -->
-	<bean id="smalpha" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL05J-EA-SM-01:X:ROT"/>
-		<property name="useNameAsInputName" value="true" />
-		<property name="userUnits" value="deg"/>
-		<property name="local" value="true" />
-	</bean>
-	
-	<bean id="smbeta" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL05J-EA-SM-01:Y:ROT"/>
-		<property name="useNameAsInputName" value="true" />
-		<property name="userUnits" value="deg"/>
-		<property name="local" value="true" />
-	</bean>
-	
-	<bean id="smgamma" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="BL05J-EA-SM-01:Z:ROT"/>
-		<property name="useNameAsInputName" value="true" />
-		<property name="userUnits" value="deg"/>
-		<property name="local" value="true" />
-	</bean>
 
 </beans>
