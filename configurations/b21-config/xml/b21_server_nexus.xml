@@ -136,6 +136,16 @@
 						</property>
 					</bean>
 				</entry>
+				<entry key="sample_environment">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="environment:NXenvironment/type" />
+						<property name="prerequisiteScannableNames">
+							<list>
+							</list>
+						</property>
+					</bean>
+				</entry>
 				<entry key="sample_type">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -221,6 +231,8 @@
 				<value>sample_thickness</value>
 				<value>sample_type</value>
 				<value>sample_concentration</value>
+				<value>sample_type</value>
+				<value>sample_environment</value>
 			</set>
 		</property>
 	</bean>
@@ -305,6 +317,15 @@
 		</property>
 	</bean>
 
+	<bean id="sample_environment" class="gda.device.enumpositioner.DummyEnumPositioner" >
+		<property name="positions">
+			<list>
+				<value>BSSC</value>
+				<value>HPLC</value>
+				<value>Manual</value>
+			</list>
+		</property>
+	</bean>
 	<bean id="sample_type" class="gda.device.enumpositioner.DummyEnumPositioner" >
 		<property name="positions">
 			<list>
