@@ -96,4 +96,6 @@ import gda.util.ElogEntry
 string = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
 gda.util.ElogEntry.postAsyn("device list from gda", string, "gda", None, "BLB21", "BLB21-RUNL", None)
 
+print 'Importing fast shutter control: fs'
+from tfgsetup import fs
 print "==================================================================="
