@@ -1,5 +1,5 @@
 import os
-from gda.util.persistence import LocalParameters
+from uk.ac.diamond.daq.persistence.jythonshelf import LocalParameters
 
 class XESOffsets:
 
