@@ -112,7 +112,7 @@
 		<property name="prefix" value="biosaxs" />
 	</bean>
 	
-	<bean id="biosaxsprocessingrunner" class="uk.ac.gda.server.ncd.data.ProcessingRunner">
+	<bean id="biosaxsprocessingrunner" class="uk.ac.gda.server.ncd.data.BiosaxsProcessingRunner">
 		<property name="environment">
 			<map>
 				<entry key="GDA_CONFIG" value="${gda.config}" />

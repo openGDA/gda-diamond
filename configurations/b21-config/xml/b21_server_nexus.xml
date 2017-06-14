@@ -248,6 +248,9 @@
 		</property>
 	</bean>
 
+	<bean id="bssc_proc" class="uk.ac.gda.server.ncd.data.AutoProcessingRunner">
+		<property name="scriptPath" value="/dls_sw/apps/dawn_autoprocessing/autoprocess"/>
+	</bean>
 	<bean id="scanListFileWriter" class="uk.ac.gda.server.ncd.data.scan.ScanListDataWriterExtender">
 		<property name="filename" value="scanlist.csv" />
 	</bean>
@@ -261,6 +264,12 @@
 	</bean>
 
 	<bean id="sockpuppet" class="gda.data.fileregistrar.ClientFileAnnouncer" />
+
+	<bean id="autoPostProcessing" class="uk.ac.gda.server.ncd.data.scan.MetaDataProcessingScanListener">
+		<property name="detector" ref="ncddetectors"/>
+		<property name="runner" ref="bssc_proc" />
+		<property name="enabled" value="true"/>
+	</bean>
 
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="name" value="FileRegistrar" />
@@ -277,6 +286,7 @@
 				<ref bean="scan2terminal" />
 				<ref bean="twodscan" />
 				<ref bean="scanListFileWriter" />
+				<ref bean="autoPostProcessing" />
 			</list>
 		</property>
 	</bean>
