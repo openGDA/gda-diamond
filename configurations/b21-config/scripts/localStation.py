@@ -68,11 +68,12 @@ finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
 ## gridxy.configure()
 ## ncdgridscan=gridscan.Grid("Camera View", "Mapping Grid", mfgige, gridxy, ncddetectors)
 ## ncdgridscan.snap()
-from ncdutils import DetectorMeta
+from ncdutils import DetectorMeta, DetectorMetaString
 waxs_distance = DetectorMeta("waxs_distance", ncddetectors, "WAXS", "distance", "m")
 saxs_distance = DetectorMeta("saxs_distance", ncddetectors, "SAXS", "distance", "m")
 saxs_centre_x = DetectorMeta("saxs_centre_x", ncddetectors, "SAXS", "beam_center_x")
 saxs_centre_y = DetectorMeta("saxs_centre_y", ncddetectors, "SAXS", "beam_center_y")
+saxs_mask = DetectorMetaString('saxs_mask', ncddetectors, 'SAXS', 'maskFile')
 
 run("energy.py")
 
