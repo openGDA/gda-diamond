@@ -16,7 +16,7 @@
 	<import resource="s5.xml" />
 	<import resource="s6.xml" />
 
-	<import resource="dcm.xml" />
+	<import resource="dmm.xml" />
 	<import resource="qbpm.xml" />
 	<import resource="shutter.xml" />
 
