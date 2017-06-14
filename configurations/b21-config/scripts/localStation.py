@@ -21,6 +21,7 @@ execfile(gdascripts + "/pd/epics_pds.py");
 execfile(gdascripts + "/pd/time_pds.py");
 execfile(gdascripts + "/pd/dummy_pds.py");
 execfile(gdascripts + "/utils.py");
+execfile(gdaScriptDir + 'bsaxs_table.py')
 
 print "Creating beamline specific devices...";
 execfile(gdaScriptDir + "TopupCountdown.py")
