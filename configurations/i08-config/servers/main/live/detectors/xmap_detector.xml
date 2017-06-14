@@ -129,28 +129,62 @@
 				<entry key="ACQUIRING" value="BL08I-EA-DET-02:Acquiring" />
  				<entry key="AUTOPIXELSPERBUFFER" value="BL08I-EA-DET-02:AutoPixelsPerBuffer" />
 				<entry key="COLLECTMODE" value="BL08I-EA-DET-02:CollectMode" />
+				<entry key="DATA1" value="BL08I-EA-DET-02:MCA1.VAL" />
+				<entry key="ELIVETIME1" value="BL08I-EA-DET-02:DXP1:ElapsedLiveTime" />
+				<entry key="ENERGYBINS1" value="BL08I-EA-DET-02:MCA1:XAXIS" />
 				<entry key="ERASEALL" value="BL08I-EA-DET-02:EraseAll" />
 				<entry key="ERASESTART" value="BL08I-EA-DET-02:EraseStart" />
+				<entry key="EVENTS1" value="BL08I-EA-DET-02:DXP1:Events" />
+				<entry key="GETADCPERCENT1" value="BL08I-EA-DET-02:DXP1:ADCPercentRule_RBV" />
+				<entry key="GETBASELENGTH1" value="BL08I-EA-DET-02:DXP1:BaselineFilterLength_RBV" />
+				<entry key="GETBASETHRESH1" value="BL08I-EA-DET-02:DXP1:BaselineThreshold_RBV" />
+				<entry key="GETBINWIDTH1" value="BL08I-EA-DET-02:DXP1:MCABinWidth_RBV" />
 				<entry key="GETDYNRANGE1" value="BL08I-EA-DET-02:DXP1:DynamicRange_RBV" />
-				<entry key="GETDYNRANGE2" value="BL08I-EA-DET-02:DXP2:DynamicRange_RBV" />
-				<entry key="GETDYNRANGE3" value="BL08I-EA-DET-02:DXP3:DynamicRange_RBV" />
-				<entry key="GETDYNRANGE4" value="BL08I-EA-DET-02:DXP4:DynamicRange_RBV" />
+				<entry key="GETENERGYTHRESH1" value="BL08I-EA-DET-02:DXP1:EnergyThreshold_RBV" />
+				<entry key="GETGAPTIME1" value="BL08I-EA-DET-02:DXP1:GapTime_RBV" />
+				<entry key="GETMAXENERGY1" value="BL08I-EA-DET-02:DXP1:MaxEnergy_RBV" />
+				<entry key="GETMAXWIDTH1" value="BL08I-EA-DET-02:DXP1:MaxWidth_RBV" />
 				<entry key="GETNBINS" value="BL08I-EA-DET-02:MCA1:NBINS" />
+				<entry key="GETPEAKTIME1" value="BL08I-EA-DET-02:DXP1:PeakingTime_RBV" />
+				<entry key="GETPREAMPGAIN1" value="BL08I-EA-DET-02:DXP1:PreampGain_RBV" />
+				<entry key="GETRESETDELAY1" value="BL08I-EA-DET-02:DXP1:ResetDelay_RBV" />
+				<entry key="GETTRIGGAPTIME1" value="BL08I-EA-DET-02:DXP1:TriggerGapTime_RBV" />
+				<entry key="GETTRIGPEAKTIME1" value="BL08I-EA-DET-02:DXP1:TriggerPeakingTime_RBV" />
+				<entry key="GETTRIGTHRESH1" value="BL08I-EA-DET-02:DXP1:TriggerThreshold_RBV" />
 				<entry key="IGNOREGATE" value="BL08I-EA-DET-02:IgnoreGate" />
+				<entry key="INPUTCOUNTRATE1" value="BL08I-EA-DET-02:DXP1:InputCountRate" />
 				<entry key="MCA1" value="BL08I-EA-DET-02:MCA1" />
+				<entry key="OUTPUTCOUNTRATE1" value="BL08I-EA-DET-02:DXP1:OutputCountRate" />
 				<entry key="PIXELADVANCEMODE" value="BL08I-EA-DET-02:PixelAdvanceMode" />
 				<entry key="PIXELSPERBUFFER" value="BL08I-EA-DET-02:PixelsPerBuffer" />
 				<entry key="PIXELSPERRUN" value="BL08I-EA-DET-02:PixelsPerRun" />
+				<entry key="REALTIME1" value="BL08I-EA-DET-02:DXP1:ElapsedRealTime" />
+				<entry key="SETADCPERCENT1" value="BL08I-EA-DET-02:DXP1:ADCPercentRule" />
+				<entry key="SETBASELENGTH1" value="BL08I-EA-DET-02:DXP1:BaselineFilterLength" />
+				<entry key="SETBASETHRESH1" value="BL08I-EA-DET-02:DXP1:BaselineThreshold" />
+				<entry key="SETBINWIDTH1" value="BL08I-EA-DET-02:DXP1:MCABinWidth" />
+				<entry key="SETDYNRANGE1" value="BL08I-EA-DET-02:DXP1:DynamicRange" />
+				<entry key="SETENERGYTHRESH1" value="BL08I-EA-DET-02:DXP1:EnergyThreshold" />
+				<entry key="SETGAPTIME1" value="BL08I-EA-DET-02:DXP1:GapTime" />
+				<entry key="SETMAXENERGY1" value="BL08I-EA-DET-02:DXP1:MaxEnergy" />
+				<entry key="SETMAXWIDTH1" value="BL08I-EA-DET-02:DXP1:MaxWidth" />
 				<entry key="SETNBINS" value="BL08I-EA-DET-02:MCA1.NUSE" />
+				<entry key="SETPEAKTIME1" value="BL08I-EA-DET-02:DXP1:PeakingTime" />
+				<entry key="SETPREAMPGAIN1" value="BL08I-EA-DET-02:DXP1:PreampGain" />
 				<entry key="SETPRESETTYPE" value="BL08I-EA-DET-02:PresetMode" />
 				<entry key="SETPRESETVALUE" value="BL08I-EA-DET-02:PresetReal" />
 				<entry key="SETRESUME" value="BL08I-EA-DET-02:Resume" />
+				<entry key="SETRESETDELAY1" value="BL08I-EA-DET-02:DXP1:ResetDelay" />
+				<entry key="SETTRIGGAPTIME1" value="BL08I-EA-DET-02:DXP1:TriggerGapTime" />
+				<entry key="SETTRIGPEAKTIME1" value="BL08I-EA-DET-02:DXP1:TriggerPeakingTime" />
+				<entry key="SETTRIGTHRESH1" value="BL08I-EA-DET-02:DXP1:TriggerThreshold" />
 				<entry key="STARTALL" value="BL08I-EA-DET-02:StartAll" />
 				<entry key="STOPALL" value="BL08I-EA-DET-02:StopAll" />
+				<entry key="TLIVETIME1" value="BL08I-EA-DET-02:DXP1:ElapsedTriggerLiveTime" />
 			</map>
 		</property>
 	</bean>
-	
+
 	<!-- Controller -->
 	<bean id="edxdMappingController" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="xmap" ref="xmap_dxp" />
