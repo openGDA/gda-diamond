@@ -17,30 +17,6 @@
       </product>
    </extension>
    <extension
-         id="product"
-         point="org.eclipse.core.runtime.products">
-      <product
-            application="uk.ac.gda.client.application"
-            name="Diamond Beamline i21">
-         <property
-               name="windowImages"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
-         </property>
-         <property
-               name="aboutImage"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
-         </property>
-         <property
-               name="appName"
-               value="Diamond Beamline i21">
-         </property>
-         <property
-               name="aboutText"
-               value="Diamond Beamline i21 &#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
-         </property>
-      </product>
-   </extension>
-   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
@@ -212,5 +188,37 @@
             name="SMPLCAM1 Array View"
             restorable="true">
       </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="uk.ac.gda.beamline.i21.ScanPerspectiveFactory"
+            id="uk.ac.gda.beamline.i21.scanperspective"
+            name="Scan">
+      </perspective>
+   </extension>
+   <extension
+         id="dummy_product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="uk.ac.gda.beamline.i21.dummy.product">
+         <property
+               name="appName"
+               value="uk.ac.gda.beamline.i21.dummy.product">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutText"
+               value="Diamond Beamline i21 &#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+      </product>
    </extension>
 </plugin>
