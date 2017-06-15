@@ -29,7 +29,7 @@
 				<value>%5.2f</value>
 				<value>%5.2f</value>
 				<value>%3.1f%%</value>
-				<value>%1.0f</value>
+				<value>%d</value>
 			</list>
 		</property>
 	</bean>
