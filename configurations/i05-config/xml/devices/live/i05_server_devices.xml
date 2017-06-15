@@ -44,7 +44,7 @@
 	<!-- analyser -->
 	<import resource="scientaslit.xml" />
 	<import resource="cameras.xml" />
-	<import resource="../analyser.xml" />
+	<import resource="analyser.xml" />
 	<import resource="analyser_over_exposure.xml"/>
 
 	<!-- vacuum gauges -->

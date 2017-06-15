@@ -9,7 +9,7 @@
 	<import resource="scientaslit.xml" />
 	<import resource="gonio.xml" />
 	<import resource="pgm.xml" />
-	<import resource="../analyser.xml" />
+	<import resource="analyser.xml" />
 	<import resource="../combinedgonio.xml" />
 	<import resource="dummyMotor.xml" />
 	<import resource="pressure_gauges.xml" />

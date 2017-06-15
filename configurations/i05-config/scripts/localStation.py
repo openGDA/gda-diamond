@@ -56,14 +56,9 @@ def isgold():
    return saz.getPosition() < -18
 sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename",isgoldpost=isgold)
 
-from arpesmonitor import ARPESMonitor
-am=ARPESMonitor()
 centre_energy=analyser.getCentreEnergyScannable()
 centre_energy.setName("centre_energy")
 centre_energy.setInputNames(["centre_energy"])
-
-# Add short 1.0 sec timeout so if IOC is down fail quicker
-caput_wait("BL05I-EA-DET-01:ARR1:EnableCallbacks",1, 1.0)
 
 import arpes
 execfile(gdascripts + "scan/pathscanCommand.py");
