@@ -24,11 +24,14 @@
 -Dgda.client.jython.automatic.interpreter=1
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms128m
 -Xmx1024m
 -XX:PermSize=128m 
 -XX:MaxPermSize=256m
 -XX:+DisableExplicitGC
+-Xdebug 
+-Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=n
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread
 			-Dorg.eclipse.swt.internal.carbon.smallFonts
