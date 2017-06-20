@@ -207,40 +207,6 @@ nixswr=DisplayEpicsPVClass("nixswr", "BL09I-MO-ES-03:STAT:Total_RBV","","%d")
 from functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
 
-##### new objects must be added above this line ###############
-## These functions are deprecated and should be removed if upgrading to >8.58
-def enablefeedbackdcmfroll():
-    print "enablefeedbackdcmfroll() is deprecated and will be removed in the next release!"
-    print "please use \"pos dcmfrollfeedback \'Enabled\'\""
-    caput("BL09I-EA-FDBK-01:ENABLE",0)
-def disablefeedbackdcmfroll():
-    print "disablefeedbackdcmfroll() is deprecated and will be removed in the next release!"
-    print "please use \"pos dcmfrollfeedback \'Disabled\'\""
-    caput("BL09I-EA-FDBK-01:ENABLE",1)
-def enablefeedbackdcmfpitch():
-    print "enablefeedbackdcmfpitch() is deprecated and will be removed in the next release!"
-    print "please use \"pos dcmfpitchfeedback \'Enabled\'\""
-    caput("BL09I-EA-FDBK-02:ENABLE",0)
-def disablefeedbackdcmfpitch():
-    print "disablefeedbackdcmfpitch() is deprecated and will be removed in the next release!"
-    print "please use \"pos dcmfpitchfeedback \'Disabled\'\""
-    caput("BL09I-EA-FDBK-02:ENABLE",1)
-def enablefeedbacksm1fpitch():
-    print "enablefeedbacksm1fpitch() is deprecated and will be removed in the next release!"
-    print "please use \"pos  sm1fpitchfeedback \'Enabled\'\""
-    caput("BL09J-EA-FDBK-01:ENABLE",0)
-def disablefeedbacksm1fpitch():
-    print "disablefeedbacksm1fpitch() is deprecated and will be removed in the next release!"
-    print "please use \"pos  sm1fpitchfeedback \'Disabled\'\""
-    caput("BL09J-EA-FDBK-01:ENABLE",1)
-    
-alias("enablefeedbackdcmfroll")
-alias("disablefeedbackdcmfroll")
-alias("enablefeedbackdcmfpitch")
-alias("disablefeedbackdcmfpitch")
-alias("enablefeedbacksm1fpitch")
-alias("disablefeedbacksm1fpitch")
-
 # I09-70 Create a empty string to hold detectors to be used with the GUI
 extraDetectors = ""
 
