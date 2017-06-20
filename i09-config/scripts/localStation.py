@@ -217,7 +217,6 @@ print "-------------------------------------------------------------------------
     
 
 print "Create an 'analyserscan' command for scanning the electron analyser."
-#from command.analyser_scan import analyserscan, analyserscan_v1, zerosupplies, analyserscancheck # @UnusedImport
 from command.analyserScan import analyserscan, zerosupplies, analyserscancheck, analyserscan_v1  # @UnusedImport
 alias("zerosupplies")
 alias("analyserscan")
