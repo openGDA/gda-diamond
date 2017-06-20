@@ -6,12 +6,7 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd ">
 
-	<context:property-placeholder
-		location="file:${gda.config}/properties/beamline.properties,
-		file:${gda.config}/logging/dummy/log.properties,
-		file:${gda.config}/epics/dummy/epics.properties,
-		file:${gda.config}/properties/dummy/java.properties,
-		file:${gda.config}/properties/gda.properties" />
+	<context:property-placeholder/>
 
 	<import resource="../main-common.xml" />
 

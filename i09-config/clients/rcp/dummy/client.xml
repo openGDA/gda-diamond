@@ -10,12 +10,7 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<context:property-placeholder
-		location="file:${gda.config}/properties/beamline.properties,
-		file:${gda.config}/logging/dummy/log.properties,
-		file:${gda.config}/epics/dummy/epics.properties,
-		file:${gda.config}/properties/dummy/java.properties,
-		file:${gda.config}/properties/gda.properties" />
+	<context:property-placeholder/>
 	
 	<bean id="idGap" class="gda.device.scannable.DummyScannable">
 		<constructor-arg index="0" value="idgap" />
