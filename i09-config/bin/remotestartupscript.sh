@@ -1,20 +1,16 @@
 #!/bin/bash
-# This file used by remove server to start GDA servers and forward all messages to gda_output.txt. It must source the beamline profile.
+# This script is only invoked when user gda2 ssh's to the control machine. It is run by an entry in gda's ~/.ssh/authorized_keys
+# Because of this, no environment variables (other than SSH_ORIGINAL_COMMAND potentially) have been set when it executes.
+#
+# If you wish to use the dls-config common /remote/startupscript.sh you must source it, performing any custom operations beforehand.
+# If you don't have any custom operations then you can just invoke the common script directly from your authorized_keys file.
+#
+# If not using the common script, you will need to set GDA_NO_PROMPT and GDA_IN_REMOTE_STARTUP to true and initialise your Bash
+# environment before invoking the main gda script to get correct startup behaviour. Also please add "< /dev/null > /dev/null 2>&1"
+# to the end of the line that calls the gda script to prevent ssh from hanging incorrectly due to an unclosed stream.
 
 
-umask 002
 
-export BEAMLINE=i09
-
-
-. /dls_sw/$BEAMLINE/etc/${BEAMLINE}_profile.sh
-
-# when remote server restart on a different date, a new gda_out file is logged, 
-# i.e. GDA session logs (for the same date restart a single log file is used)
-export LOGFILE=/dls_sw/$BEAMLINE/logs/gda_output_`date +%F-%T`.txt
-echo Running /dls_sw/$BEAMLINE/software/gda/config/bin/GDA_StartServers to output to $LOGFILE
-touch $LOGFILE
-rm /dls_sw/$BEAMLINE/logs/gda_output.txt
-ln -s $LOGFILE /dls_sw/$BEAMLINE/logs/gda_output.txt
-
-/dls_sw/$BEAMLINE/software/gda/config/bin/GDA_StartServers >> /dls_sw/$BEAMLINE/logs/gda_output.txt 2>&1 &
+# If you want any special behaviour add it above this line
+here_location="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source ${here_location}/../../../gda-diamond.git/dls-config/live/gda-servers-startup-script.sh  # Derive dls-config relative path as appropriate+

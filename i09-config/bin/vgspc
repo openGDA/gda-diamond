@@ -1,3 +1,0 @@
-#!/bin/bash
-
-rdesktop -u i09detector -d DIAMOND -p "!i09d3t3ct0r#" -k en-gb -a 16 -g 1900x1100 i09-vgs-pc.diamond.ac.uk
