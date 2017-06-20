@@ -7,14 +7,12 @@
 		<property name="motor" ref="sixcKphiMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 	<bean id="kap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcKappaMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
 		<property name="outputFormat" value="%.5f" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
@@ -22,7 +20,6 @@
 		<property name="motor" ref="sixcKthMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
 		<property name="outputFormat" value="%.5f" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
@@ -30,24 +27,23 @@
 		<property name="motor" ref="sixcMuMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 	<bean id="kdelta" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcDeltaMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 	<bean id="kgam" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcGammaMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
-		<property name="demandPositionTolerance" value=".01" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
 
+	<!-- Transient only -->
+	<!--
 	<bean id="cryophi" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcCryoPhiMotor" />
 		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
@@ -55,9 +51,7 @@
 		<property name="demandPositionTolerance" value=".01" />
 		<property name="logMoveRequestsWithInfo" value="true" />
 	</bean>
-	
-	
-
+	-->
 
 	<bean id="sixc_additional_position_validators" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
@@ -101,6 +95,10 @@
 		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
 
 		<property name="deferredControlPoint" ref="xps2DeferFlag" />
+
+		<property name="numberToMoveControlPoint" ref="xps2numberAxesToMoveControlPoint" />
+
+		<property name="checkStartControlPoint" ref="xps2didDeferedMoveStartControlPoint" />
 
 		<property name="continuousMoveController" ref="xpsTrajController" />
 

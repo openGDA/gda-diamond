@@ -24,7 +24,7 @@ reload(CalcAngles)
 
 
 CA = CalcAngles.CalcAngles()
-san = StoredAngles.StoredAngles()
+san = StoredAngles.StoredAngles('smargon')
 ub = UBmatrix.UBmatrix()
 rr = Reflmanagement.Reflmanagement()
 az = Azimuth.Azimuth()

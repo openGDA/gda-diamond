@@ -58,6 +58,8 @@
 		<SETRESUME desc="Set resume mode. Clear on start or resume acquiring into same spectrum." pv="BL16I-EA-XMAP-01:Resume" ro="false" type="binary"/>
 		<SETPRESETVALUE desc="set the preset acquisition value for all channels" pv="BL16I-EA-XMAP-01:PresetValue" ro="false" type="pv"/>
 		<SETPRESETTYPE desc="set the preset acquisition type for all channels" pv="BL16I-EA-XMAP-01:PresetMode" ro="false" type="mbbinary"/>
+		<GETPRESETVALUE desc="set the preset acquisition value for all channels" pv="BL16I-EA-XMAP-01:PresetValue" ro="true" type="pv"/>
+		<GETPRESETTYPE desc="set the preset acquisition type for all channels" pv="BL16I-EA-XMAP-01:PresetMode" ro="true" type="mbbinary"/>
 		<COLLECTMODE desc="set the collection mode" pv="BL16I-EA-XMAP-01:CollectMode" ro="false" type="mbbinary"/>
 		<PIXELADVANCEMODE desc="set thepixel advance mode" pv="BL16I-EA-XMAP-01:PixelAdvanceMode" ro="false" type="mbbinary"/>
 		<IGNOREGATE desc="set ignore gate mode" pv="BL16I-EA-XMAP-01:IgnoreGate" ro="false" type="mbbinary"/>
