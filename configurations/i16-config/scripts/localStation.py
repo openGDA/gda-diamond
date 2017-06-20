@@ -359,16 +359,15 @@ if USE_CRYO_GEOMETRY:
 	euler.setGroupMembers([cryophi, euler_cryo.chi, euler_cryo.eta, euler_cryo.mu, euler_cryo.delta, euler_cryo.gam])
 	euler.deferredControlPoint = sixckappa.getDeferredControlPoint()
 	euler.deferOnValue = sixckappa.deferOnValue
-	euler.numberAxesToMoveControlPoint = sixckappa.getNumberAxesToMoveControlPoint()
-	euler.didDeferedMoveStartControlPoint = sixckappa.getDidDeferedMoveStartControlPoint()
+	euler.numberToMoveControlPoint = sixckappa.getNumberToMoveControlPoint()
+	euler.checkStartControlPoint = sixckappa.getCheckStartControlPoint()
 	euler.configure()
 	phi = euler.phi
-	chi = euler.chi 
+	chi = euler.chi
 	eta = euler.eta
 	exec("mu=euler.mu")
 	exec("delta=euler.delta")
 	exec("gam=euler.gam")
-	
 else:
 	run("startup_diffractometer_euler")
 
