@@ -166,7 +166,34 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="local" value="true"/>
 	</bean>
-	
+
+	<bean id="d21c_current" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL07C-DI-PHDGN-21:I1:"/>
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="ap1c_current" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL07C-EA-APTRS-01:I1:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="sample_current" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL07C-EA-SMPL-01:I1:"/>
+		<property name="adcChannel" value="3" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="local" value="true"/>
+	</bean>
+
 	<util:map id="gainMap">
 		<entry key="Low Noise">
 			<util:map>
