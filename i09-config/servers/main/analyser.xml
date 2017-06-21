@@ -141,8 +141,7 @@
 	<bean id="analyserCapability"
 		class="org.opengda.detector.electronanalyser.server.AnalyserCapabilities" />
 
-	<bean id="analysercontroller"
-		class="org.opengda.detector.electronanalyser.server.VGScientaController">
+	<bean id="analysercontroller" class="uk.ac.gda.devices.vgscienta.VGScientaController">
 		<property name="basePVName" value="BL09I-EA-DET-01:CAM:" />
 	</bean>
 
@@ -150,21 +149,6 @@
 		<constructor-arg ref="analyser.cam" />
 		<constructor-arg value="0.1" />
 	</bean>
-
-<!-- 	<bean id="analyser_hdf_fileWriter" -->
-<!-- 		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter"> -->
-<!-- 		<property name="ndFileHDF5" ref="analyser.hdf" /> -->
-<!-- 		<property name="fileNameTemplate" value="Prefix" /> -->
-<!-- 		<property name="filePathTemplate" value="$datadir$" /> -->
-<!-- 		<property name="fileTemplate" value="%s/%s_%05d.hdf" /> -->
-<!-- 		<property name="fileNumberAtScanStart" value="-1" /> -->
-<!-- 		<property name="setFileNameAndNumber" value="true" /> -->
-<!-- 		<property name="rowChunks" value="1000" /> -->
-<!-- 		<property name="colChunks" value="900" /> -->
-<!-- 		<property name="framesChunks" value="1" /> -->
-<!-- 		<property name="framesFlush" value="64" /> -->
-<!-- 		<property name="blocking" value="False" /> -->
-<!-- 	</bean> -->
 
 	<bean id="analyser"
 		class="org.opengda.detector.electronanalyser.server.VGScientaAnalyser">
@@ -178,7 +162,6 @@
 		<property name="computeStats" value="true" />
 		<property name="ndFile" ref="analyser_filebase" />
 		<property name="collectionStrategy" ref="analyser_hdf_simpleacquire" />
-<!-- 		<property name="fileWriter" ref="analyser_hdf_fileWriter" /> -->
 		<property name="readAcquisitionTime" value="true" />
 		<property name="readFilepath" value="true" />
 		<property name="readAcquisitionPeriod" value="false" />
@@ -191,42 +174,20 @@
 		<property name="serviceInterface"
 			value="org.opengda.detector.electronanalyser.server.IVGScientaAnalyser" />
 	</bean>
-
-	<bean id="analyser_adcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-		<constructor-arg ref="analyser.cam" />
-		<constructor-arg value="0" />
-	</bean>
-
+ 
 	<bean id="analyser_adarrayplugin" class="org.opengda.detector.electronanalyser.nxdetector.plugins.ADArrayPlugin">
 		<constructor-arg ref="analyser.arr" />
-		<property name="enabled" value="true"/>
-		<property name="analyser" ref="analyser"/>
+		<property name="enabled" value="true" />
+		<property name="analyser" ref="analyser" />
 	</bean>
+	
 	<bean id="analyser_spectrumlugin" class="org.opengda.detector.electronanalyser.nxdetector.plugins.PVArrayPlugin">
 		<constructor-arg value="BL09I-EA-DET-01:CAM:INT_SPECTRUM_COPY" />
 		<constructor-arg value="BL09I-EA-DET-01:CAM:TOTAL_DATA_POINTS_RBV"/>
 		<property name="dataName" value="spectrum"/>
 		<property name="dataUnit" value="counts"/>
 	</bean>
-	<bean id="analyser_externalIOlugin" class="org.opengda.detector.electronanalyser.nxdetector.plugins.PVArrayPlugin">
-		<constructor-arg value="BL09I-EA-DET-01:CAM:EXTIO_COPY" />
-		<constructor-arg value="BL09I-EA-DET-01:CAM:TOTAL_DATA_POINTS_RBV"/>
-		<property name="dataName" value="externalIO"/>
-		<property name="dataUnit" value="volt"/>
-	</bean>
 
-	<bean id="ew4001" class="gda.device.detector.NXDetector">
-		<property name="name" value="ew4001" />
-		<property name="collectionStrategy" ref="analyser_adcollectionstrategy"/>
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="analyser_adarrayplugin" />
-				<ref bean="analyser_spectrumlugin"/>
-<!-- 				<ref bean="analyser_externalIOlugin"/> -->
-			</list>
-		</property>
-	</bean>
-	
 	<bean id="regionDefinitionResourceUtil" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
 <!-- 		<property name="fileName" value="D:/scratch/i09/data/Test123/My.seq" /> -->
 		<property name="fileName" value="user.seq" />
@@ -248,11 +209,6 @@
 	<bean id="ew4000" class="org.opengda.detector.electronanalyser.nxdetector.EW4000">
 		<property name="name" value="ew4000" />
 		<property name="collectionStrategy" ref="ew4000_collectionstrategy"/>
-		<property name="additionalPluginList">
-			<list>
-<!-- 				<ref bean="analyser_adarrayplugin" /> -->
-			</list>
-		</property>
 		<property name="regionDefinitionResourceUtil" ref="regionDefinitionResourceUtil"/>
 		<property name="scriptcontroller" ref="SequenceFileObserver"/>
 	</bean>
