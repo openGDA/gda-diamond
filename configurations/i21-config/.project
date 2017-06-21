@@ -11,6 +11,7 @@
 		<project>uk.ac.diamond.daq.detectors.addetector</project>
 		<project>uk.ac.diamond.daq.detectors.addetector.api</project>
 		<project>uk.ac.diamond.daq.dls.controls</project>
+		<project>uk.ac.diamond.daq.mapping</project>
 		<project>uk.ac.diamond.scisoft.jython</project>
 		<project>uk.ac.diamond.scisoft.python</project>
 		<project>uk.ac.gda.beamline.synoptics</project>

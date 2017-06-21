@@ -18,7 +18,7 @@
 <!-- 	<import resource="../../../../p45-config/clients/main/_common/stage_controls.xml"/>   TODO Remove the current stage controls and replace with tree edit as in scanning perspective -->
 	<import resource="../../../../p45-config/clients/main/_common/stage_controls_tree.xml"/>
 	<!-- mapping perspective -->
-	<import resource="../../../../p45-config/clients/main/_common/mapping.xml"/>
+	<import resource="mapping.xml"/>
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
