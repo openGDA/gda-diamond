@@ -1,66 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
-		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-
-<!-- <bean id="analyserAdBaseModel" class="uk.ac.gda.epics.client.views.model.impl.ADBaseModelImpl">  -->
-<!-- 		<property name="basePVName" value="BL09I-EA-DET-01:CAM:" /> -->
-<!-- </bean>  -->
-
-<!-- 	<bean id="analyserFileSaverModel" -->
-<!-- 		class="uk.ac.gda.epics.client.views.model.impl.FileSaverModelImpl"> -->
-<!-- 		<property name="basePVName" value="ELECTRON-ANALYSER-01:HDF:" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="analyserFfmjpeg" -->
-<!-- 		class="uk.ac.gda.epics.client.views.model.impl.FFMjpegModelImpl"> -->
-
-<!-- 		<property name="basePVName" value="ELECTRON-ANALYSER-01:MPG:" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="analyserNdProc" class="uk.ac.gda.epics.client.views.model.impl.NDProcModelImpl"> -->
-<!-- 		<property name="basePVName" value="ELECTRON-ANALYSER-01:PROC:" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="analyserNdROI" class="uk.ac.gda.epics.client.views.model.impl.NDROIModelImpl"> -->
-<!-- 		<property name="basePVName" value="ELECTRON-ANALYSER-01:ROI:" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="analyserNdArray" -->
-<!-- 		class="uk.ac.gda.epics.client.views.model.impl.NDArrayModelImpl"> -->
-<!-- 		<property name="basePVName" value="ELECTRON-ANALYSER-01:ARR:" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="analyserNdStat" class="uk.ac.gda.epics.client.views.model.impl.NDStatModelImpl"> -->
-<!-- 		<property name="basePVName" value="ELECTRON-ANALYSER-01:STAT:" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="analyserStatusViewController" class="uk.ac.gda.epics.client.views.StatusViewController"> -->
-<!-- 		<property name="adBaseModel" ref="analyserAdBaseModel" /> -->
-<!-- 		<property name="fileSaverModel" ref="analyserFileSaverModel" /> -->
-<!-- 		<property name="ffmjpegModel" ref="analyserFfmjpeg" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="statusViewFactory" -->
-<!-- 		class="uk.ac.gda.epics.client.views.factories.StatusViewFactory"> -->
-<!-- 		<property name="viewPartName" value="Status" /> -->
-<!-- 		<property name="statusViewController" ref="analyserStatusViewController" /> -->
-<!-- 	</bean> -->
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
 	
 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/analyser" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
 		<property name="serviceInterface" value="org.opengda.detector.electronanalyser.server.IVGScientaAnalyser" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	
 	<bean id="regionDefinitionResourceUtil" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
-<!-- 		<property name="fileName" value="D:/scratch/i09/data/Test123/My.seq" /> -->
 		<property name="fileName" value="user.seq" />
 		<property name="sourceSelectable" value="true"/>
 		<property name="XRaySourceEnergyLimit" value="2100"/>
