@@ -20,19 +20,19 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Declipse.pluginCustomization=${workspace_loc:i09-config}/plugin_customization.ini
--Dgda.install.workspace.loc=${workspace_loc}
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
--Dgda.propertiesFile=${workspace_loc:i09-config}/properties/live/java.properties
--Dgda.config=${workspace_loc:i09-config}
--Djacorb.config.dir=${workspace_loc:i09-config}/jacorb/dummy
--Djava.library.path=${workspace_loc:uk.ac.gda.core}/lib/linux-x86_64 
--Dgov.aps.jca.JCALibrary.properties=${workspace_loc:i09-config}/jca/dummy/JCALibrary.properties
--Dgda.gui.beans.xml=${workspace_loc:i09-config}/clients/rcp/dummy/client.xml
+      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Dgda.mode=dummy
--Xms1g 
+-Dgda.config=${project_loc:i09-config}
+-Dgda.propertiesFile=${project_loc:i09-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${project_loc:i09-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i09-config}/properties/dummy/JCALibrary.properties 
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.logs.dir=${workspace_loc}/../logs
+-Dgda.instance.dir=${project_loc:i09-config} 
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.core.dir=${project_loc:core-config}
+-Xms1g
 -Xmx4g
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
