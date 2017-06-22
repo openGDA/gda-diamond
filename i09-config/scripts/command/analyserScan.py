@@ -49,7 +49,7 @@ def analyserscancheck(*args):
     regionValidator=finder.find("regionvalidator")
     dcmenergy=finder.find("dcmenergy")
     pgmenergy=finder.find("pgmenergy")
-    xmldir = PathConstructor.createFromDefaultProperty()+"xml"+os.sep;
+    xmldir = PathConstructor.getVisitSubdirectory('xml') +os.sep;
     i=0
     arg=args[i]
     i=i+1
@@ -176,7 +176,7 @@ def analyserscan(*args):
         i=i+1
         if isinstance( arg,  EW4000 ):
             controller = Finder.getInstance().find("SequenceFileObserver")
-            xmldir = PathConstructor.createFromDefaultProperty()+"xml"+os.sep;
+            xmldir = PathConstructor.getVisitSubdirectory('xml') +os.sep;
             filename=xmldir+args[i];
             if (OsUtil.isWindows()) :
                 FilenameUtil.setPrefix("D:")
