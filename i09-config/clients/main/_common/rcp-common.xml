@@ -7,19 +7,8 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
-	<corba:import namespace="i09" names="plot_server" />
-	
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
-		<property name="service" ref="plot_server" />
-	</bean>
-	<import resource="analyser.xml"/>
-
-	
-	<import resource="commandQueueProcessor.xml" />
-
 	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/highestExistingFileMonitor" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}highestExistingFileMonitor" />
 		<property name="serviceInterface"
 			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -115,6 +104,7 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
+	<import resource="plot_server.xml"/>
 	<gda:rbac />
 
 </beans>
