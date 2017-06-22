@@ -7,8 +7,8 @@
 	<bean id="smvert" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
 		<property name="scannables">
 			<list>
-				<ref bean="smx" />
-				<ref bean="smy" />
+				<ref bean="ssx" />
+				<ref bean="ssy" />
 				<ref bean="smazimuth" />
 			</list>
 		</property>
@@ -20,8 +20,8 @@
 	<bean id="smhor" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
 		<property name="scannables">
 			<list>
-				<ref bean="smx" />
-				<ref bean="smy" />
+				<ref bean="ssx" />
+				<ref bean="ssy" />
 				<ref bean="smazimuth" />
 			</list>
 		</property>
@@ -33,7 +33,7 @@
 	<bean id="smlong" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
 		<property name="scannables">
 			<list>
-				<ref bean="smz" />
+				<ref bean="ssz" />
 				<ref bean="smhor" />
 				<ref bean="smpolar" />
 			</list>
@@ -46,7 +46,7 @@
 	<bean id="smperp" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
 		<property name="scannables">
 			<list>
-				<ref bean="smz" />
+				<ref bean="ssz" />
 				<ref bean="smhor" />
 				<ref bean="smpolar" />
 			</list>
