@@ -105,6 +105,7 @@
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
 	<import resource="plot_server.xml"/>
+	<import resource="analyser.xml"/>
 	<gda:rbac />
 
 </beans>
