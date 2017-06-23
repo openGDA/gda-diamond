@@ -57,7 +57,7 @@ class DiodeController(ScannableBase):
 		return False
 
 def _configureConstantVelocityMove(axis, detector):
-	supportedMotors = ('dkphi', 'dkappa', 'dktheta')
+	supportedMotors = ('dkphi', 'dkappa', 'dktheta', 'sphi')
 	if not (axis.name in supportedMotors):
 		raise Exception('Motor %r not in the list of supported motors: %r' % (axis.name, supportedMotors))
 
@@ -70,6 +70,8 @@ def _configureConstantVelocityMove(axis, detector):
 		continuouslyScannableViaController = jythonNameMap.dkappaZebraScannableMotor
 	elif axis.name == "dktheta":
 		continuouslyScannableViaController = jythonNameMap.dkthetaZebraScannableMotor
+	elif axis.name == "sphi":
+		continuouslyScannableViaController = jythonNameMap.sphiZebraScannableMotor
 	else:
 		raise Exception('Error configuring motor %r' % (axis.name))
 	
