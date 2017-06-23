@@ -52,7 +52,16 @@ class DetectorShield(ScannableBase):
     def openDetectorShield(self, suppressWaitForOpen=False):
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
-        self.waitForDiodeState()
+
+        suppressOpenDiode, suppressOpenWhenDiodeAbove, suppressOpenWhenDiodeBelow = self._parameters()
+        if suppressOpenDiode:
+            zebraFastShutter = beamline_parameters.JythonNameSpaceMapping().zebraFastShutter
+            simpleLog("Forcing fast shutter open...")
+            zebraFastShutter.forceOpen()
+            self.waitForDiodeState(suppressOpenDiode, suppressOpenWhenDiodeAbove, suppressOpenWhenDiodeBelow)
+            zebraFastShutter.forceOpenRelease()
+            simpleLog("...Released fast shutter from being forced open")
+
         simpleLog("Detector Shield Opening...")
 
         self.pvManager['CON'].caput(self.TIMEOUT, 0)
@@ -61,23 +70,22 @@ class DetectorShield(ScannableBase):
             self.waitWhileBusy(self.TIMEOUT*2)
             simpleLog("Detector Shield %s" % self.getDetectorShieldStatus())
 
-    def waitForDiodeState(self):
-        suppressOpenDiode, suppressOpenWhenDiodeAbove, suppressOpenWhenDiodeBelow = self._parameters()
-        if suppressOpenDiode == None:
-            return
-        
+    def waitForDiodeState(self, suppressOpenDiode, suppressOpenWhenDiodeAbove, suppressOpenWhenDiodeBelow):
         diodeValue=suppressOpenDiode.getPosition()
         print "%r %r " % (suppressOpenWhenDiodeBelow >= diodeValue, diodeValue >= suppressOpenWhenDiodeAbove)
         while (suppressOpenWhenDiodeBelow > diodeValue or diodeValue > suppressOpenWhenDiodeAbove):
-            msg = "The value of diode %r is %r which is outside of the range %r to %r, waiting before opening Detector Shield..." % (
-                suppressOpenDiode.name, diodeValue, suppressOpenWhenDiodeBelow, suppressOpenWhenDiodeAbove)
+            msg = "The value of diode %r is %r which is outside of the range %r to %r, waiting before opening Detector Shield...\n%s\n%s\n%s\n%s" % (
+                suppressOpenDiode.name, diodeValue, suppressOpenWhenDiodeBelow, suppressOpenWhenDiodeAbove,
+                "If Experimental Hutch lights are enough to exceed threshold, ensure they are switched off.",
+                "If the beamstop is not aligned, please stop this script/scan and align it before continuing.",
+                "To stop the scan/script use the grey stop button, Not the Red button.", "*"*80)
             self.logger.info(msg)
             print msg
             sleep(10)
             diodeValue=suppressOpenDiode.getPosition()
 
         self.logger.info("The value of diode %r is %r which is within the range %r to %r, opening Detector Shield..." % (
-                suppressOpenDiode.name, diodeValue, suppressOpenWhenDiodeBelow, suppressOpenWhenDiodeAbove))   
+                suppressOpenDiode.name, diodeValue, suppressOpenWhenDiodeBelow, suppressOpenWhenDiodeAbove))
 
     def _parameters(self):
         suppressOpenDiode=self._parameter("exposeDetectorShieldSuppressOpenDiode",
