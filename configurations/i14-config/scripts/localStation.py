@@ -48,9 +48,10 @@ showtime=showtimeClass('showtime')
 inctime=showincrementaltimeClass('inctime')
 actualTime=actualTimeClass("actualTime")
 
-from watchdogs import enableWatchdogs, disableWatchdogs
+from watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs
 alias("enableWatchdogs")
 alias("disableWatchdogs")
+alias("listWatchdogs")
 
 if isLive():
     print "Running in live mode: attempting to run localStationUser.py in users script directory"
