@@ -28,18 +28,18 @@
 
 	<bean id="plate1" class="uk.ac.gda.devices.hatsaxs.beans.Plate">
 		<constructor-arg index="0" value="I"/>
-		<constructor-arg index="1" value="7"/>
-		<constructor-arg index="2" value="8"/>
+		<constructor-arg index="1" value="8"/>
+		<constructor-arg index="2" value="12"/>
 	</bean>
 	<bean id="plate2" class="uk.ac.gda.devices.hatsaxs.beans.Plate">
 		<constructor-arg index="0" value="II"/>
-		<constructor-arg index="1" value="5"/>
-		<constructor-arg index="2" value="6"/>
+		<constructor-arg index="1" value="4"/>
+		<constructor-arg index="2" value="11"/>
 	</bean>
 	<bean id="plate3" class="uk.ac.gda.devices.hatsaxs.beans.Plate">
 		<constructor-arg index="0" value="III"/>
-		<constructor-arg index="1" value="3"/>
-		<constructor-arg index="2" value="4"/>
+		<constructor-arg index="1" value="8"/>
+		<constructor-arg index="2" value="12"/>
 	</bean>
 
 	<bean id="hplcPlates" class="uk.ac.gda.devices.hatsaxs.beans.PlateConfig">
@@ -84,7 +84,7 @@
 	</bean>
 
 	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
-		<property name="staticMethod" value="uk.ac.gda.devices.hplc.beans.HplcSessionBean.setModes" />
+		<property name="staticMethod" value="uk.ac.gda.devices.hplc.beans.HplcSessionBean.setPlates" />
 		<property name="arguments" >
 			<list>
 				<ref bean="hplcPlates" />

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration scan="true" scanPeriod="5 minutes">
 	<!-- address where the messages from Object Servers send to - the LogServer -->
 	<appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">
 		<RemoteHost>b21-control.diamond.ac.uk</RemoteHost>
@@ -7,41 +7,19 @@
 		<ReconnectionDelay>10000</ReconnectionDelay>
 		<IncludeCallerData>true</IncludeCallerData>
 	</appender>
-	<logger name="gda">
-		<level value="DEBUG" />
-	</logger>
-	<logger name="gda.oe.dofs.DOF">
-		<level value="INFO" />
-	</logger>
-	<logger name="gda.device.corba.impl">
-		<level value="INFO" />
-	</logger>
-	<logger name="gda.device.temperature.corba.impl">
-		<level value="INFO" />
-	</logger>
-	<logger name="gda.jython.corba.impl">
-		<level value="INFO" />
-	</logger>
-	<logger name="gda.oe.corba.impl">
-		<level value="INFO" />
-	</logger>
-	<logger name="gda.device.monitor.corba.impl">
-		<level value="INFO" />
-	</logger>
-	<logger name="gda.oe.positioners.Positioner">
-		<level value="INFO" />
-	</logger>
-	<logger name="gda.data.nexus.extractor.NexusExtractor">
-		<level value="DEBUG" />
-	</logger>
-	<logger name="gda.data.nexus.NexusFileWrapper">
-		<level value="DEBUG" />
-	</logger>
-	<logger name="uk.ac.gda.server.ncd.detector.DAServer">
-		<level value="DEBUG" />
-	</logger>
+	<logger name="gda" level="DEBUG" />
+	<logger name="gda.oe.dofs.DOF" level="INFO" />
+	<logger name="gda.device.corba.impl" level="INFO" />
+	<logger name="gda.device.temperature.corba.impl" level="INFO" />
+	<logger name="gda.jython.corba.impl" level="INFO" />
+	<logger name="gda.oe.corba.impl" level="INFO" />
+	<logger name="gda.device.monitor.corba.impl" level="INFO" />
+	<logger name="gda.oe.positioners.Positioner" level="INFO" />
+	<logger name="gda.data.nexus.extractor.NexusExtractor" level="DEBUG" />
+	<logger name="gda.data.nexus.NexusFileWrapper" level="DEBUG" />
+	<logger name="uk.ac.gda.server.ncd.detector.DAServer" level="DEBUG" />
 	<root>
-		<level value="ALL" />
+		<level value="DEBUG" />
 		<appender-ref ref="SOCKET" />
 	</root>
 	<consolePlugin />

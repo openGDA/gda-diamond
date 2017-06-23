@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="syringeController" class="gda.device.syringepump.controllor.EpicsSyringePumpController">
+		<property name="capacity" value="1"/>
+		<property name="pvPrefix" value="BL21B-EA-SPUMP-01:"/>
+	</bean>
+	<bean id="syringe" class="gda.device.syringepump.SyringePump">
+		<property name="controller" ref="syringeController"/>
+		<!-- <property name="local" value="false"/> -->
+	</bean>
+
+	<bean id="syringeController2" class="gda.device.syringepump.controllor.EpicsSyringePumpController">
+		<property name="capacity" value="1"/>
+		<property name="pvPrefix" value="BL21B-EA-SPUMP-02:"/>
+	</bean>
+	<bean id="syringe2" class="gda.device.syringepump.SyringePump">
+		<property name="controller" ref="syringeController2"/>
+		<!-- <property name="local" value="false"/> -->
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/syringe" />
+		<property name="service" ref="syringe" />
+		<property name="serviceInterface" value="gda.device.syringepump.Syringe" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/syringe2" />
+		<property name="service" ref="syringe2" />
+		<property name="serviceInterface" value="gda.device.syringepump.Syringe" />
+	</bean>
+</beans>

@@ -16,7 +16,7 @@
 	<import resource="s5.xml" />
 	<import resource="s6.xml" />
 
-	<import resource="dcm.xml" />
+	<import resource="dmm.xml" />
 	<import resource="qbpm.xml" />
 	<import resource="shutter.xml" />
 
@@ -38,4 +38,5 @@
 	<import resource="ion.xml" />
 
 	<import resource="bco.xml" />
+	<import resource="syringes.xml" />
 </beans>

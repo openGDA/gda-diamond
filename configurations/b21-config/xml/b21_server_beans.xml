@@ -31,7 +31,6 @@
 	<import resource="b21_server_devices.xml" />
 	<import resource="b21_server_ncd.xml" /> 
 	<import resource="b21_server_nexus.xml" /> 
-	<import resource="bsaxs-axes.xml" /> 
 	<import resource="b21_hatsaxs.xml" />
 
 	<bean id="command_server" class="gda.jython.JythonServer">
@@ -60,6 +59,11 @@
 							<property name="name" value="Scripts: Ncd" /> 
 							<property name="type" value="CORE" /> 
 						</bean> 
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="${gda.install.git.loc}/gda-scm.git/plugins/uk.ac.gda.devices.hplc/scripts/" />
+							<property name="name" value="Scripts: HPLC" />
+							<property name="type" value="CORE" />
+						</bean>
 						<bean class="gda.jython.ScriptProject"> 
 							<property name="path" value="${gda.install.git.loc}/gda-scm.git/plugins/uk.ac.gda.devices.bssc/scripts/" /> 
 							<property name="name" value="Scripts: BSSC" /> 
