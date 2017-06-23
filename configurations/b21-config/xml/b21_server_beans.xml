@@ -32,6 +32,7 @@
 	<import resource="b21_server_ncd.xml" /> 
 	<import resource="b21_server_nexus.xml" /> 
 	<import resource="bsaxs-axes.xml" /> 
+	<import resource="b21_hatsaxs.xml" />
 
 	<bean id="command_server" class="gda.jython.JythonServer">
 		<property name="jythonScriptPaths">
