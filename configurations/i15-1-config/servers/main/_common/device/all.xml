@@ -21,6 +21,7 @@
 	<import resource="I15-1-JM1.xml"/>
 	 -->
 	<import resource="I15-1-JPE1.xml"/>
+	<import resource="I15-1-JPE1-Legacy.xml"/>
 	<import resource="I15-1-JPE2.xml"/>
 	<!-- 
 	<import resource="I15-1-JPSL.xml"/>
