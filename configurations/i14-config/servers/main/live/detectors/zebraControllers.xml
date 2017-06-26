@@ -10,7 +10,6 @@
 	</bean>
 
 	<bean id="zebra1Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="empty" />
 		<property name="label" value="Zebra1" />
 		<property name="description" value="Zebra1 box" />
 	</bean>
@@ -29,7 +28,6 @@
 	</bean>
 
 	<bean id="zebra2Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="empty" />
 		<property name="label" value="Zebra2" />
 		<property name="description" value="Zebra2 box" />
 	</bean>

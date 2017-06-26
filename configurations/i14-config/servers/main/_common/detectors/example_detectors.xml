@@ -18,7 +18,6 @@
         <property name="imaginaryAxisName"      value="stage_y"/>
     </bean>
     <bean id="mandelbrotInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-        <property name="id"          value="org.eclipse.scanning.example.detector.mandelbrotDetectorSpring"/>
         <property name="label"       value="Mandelbrot Example Detector"/>
         <property name="description" value="A Mandelbrot detector which is only used for testing"/>
         <property name="icon"        value="org.eclipse.scanning.example/icons/mandelbrot.png"/> <!--  bundle must be on client for that, if it isn't a default icon is used -->
@@ -39,7 +38,6 @@
         <property name="frequency"     value="10"/>
     </bean>
     <bean id="darkImageInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-        <property name="id"          value="org.eclipse.scanning.example.detector.darkImageDetector"/>
         <property name="label"       value="Dark Current Example Detector"/>
         <property name="description" value="A detector which takes images at a frequency lower than the scan numbner to simulate a dark current reading."/>
         <property name="icon"        value="org.eclipse.scanning.example/icons/darkcurrent.png"/> <!--  bundle must be on client for that, if it isn't a default icon is used -->
@@ -60,7 +58,6 @@
         <property name="timeout"        value="100"/>
     </bean>
     <bean id="constantVelocityInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-        <property name="id"          value="org.eclipse.scanning.example.detector.constantVelocityDevice"/>
         <property name="label"       value="Constant Velocity Example Detector"/>
         <property name="description" value="A detector which runs line scans within the arbitrary outer scan which it is given."/>
     </bean>

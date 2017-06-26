@@ -31,7 +31,6 @@
 	</bean>
 
 	<bean id="xsp3Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring" />
 		<property name="label" value="Xspress3" />
 		<property name="description" value="Xspress3" />
 	</bean>

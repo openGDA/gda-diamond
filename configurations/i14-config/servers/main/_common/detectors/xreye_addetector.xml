@@ -31,7 +31,6 @@
 	</bean>
 
 	<bean id="xreyeInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring" />
 		<property name="label" value="XrayEye" />
 		<property name="description" value="XrayEye" />
 	</bean>
