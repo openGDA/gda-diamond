@@ -11,16 +11,21 @@
 			<bean class="gda.jython.ScriptPaths">
 				<property name="projects">
 					<list>
-						<ref bean="localscriptproject" />
+						<!-- Place i05-1 scrips first on the path if two equivalent named scripts are present the i05-1 will be used -->
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="/dls_sw/i05-1/scripts/" />
+							<property name="name" value="Scripts: User (i05-1)" />
+							<property name="type" value="USER" />
+						</bean>
+						<bean class="gda.jython.ScriptProject">
+							<property name="path" value="/dls_sw/i05/scripts/" />
+							<property name="name" value="Scripts: User (i05)" />
+							<property name="type" value="USER" />
+						</bean>
 						<bean class="gda.jython.ScriptProject">
 							<property name="path" value="${gda.config}/scripts/" />
 							<property name="name" value="Scripts: Config" />
 							<property name="type" value="CONFIG" />
-						</bean>
-						<bean class="gda.jython.ScriptProject">
-							<property name="path" value="/dls_sw/i05-1/scripts/" />
-							<property name="name" value="Scripts: User" />
-							<property name="type" value="USER" />
 						</bean>
 					</list>
 				</property>

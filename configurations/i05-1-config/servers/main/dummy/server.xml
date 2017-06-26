@@ -12,12 +12,6 @@
 		<property name="clientFileAnnouncer" ref="sockpuppet" />
 	</bean>
 
-	<bean id="localscriptproject" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.data}" /> <!-- In dummy mode just use data folder for user scripts -->
-		<property name="name" value="Scripts: User" />
-		<property name="type" value="USER" />
-	</bean>
-
 	<import resource="../_common/server.xml" />
 
 </beans>
