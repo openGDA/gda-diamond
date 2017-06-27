@@ -8,6 +8,16 @@
 		<property name="detectorParameters">
 			<list>
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+					<constructor-arg name="name" value="andor" />
+					<constructor-arg name="model">
+						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+							<property name="name" value="andor_addetector" />
+							<property name="exposureTime" value="0.1" />
+						</bean>
+					</constructor-arg>
+					<constructor-arg name="includeInScan" value="true" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="mandelbrot" />
 					<!-- 
 					     Configuring spring models is incorrect, you must ask the server for the mandelbrot model 
