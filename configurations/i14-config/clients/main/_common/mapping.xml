@@ -40,6 +40,16 @@
 				</bean>
 				 -->
  				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+					<constructor-arg name="name" value="Merlin" />
+					<constructor-arg name="model">
+						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+							<property name="name" value="merlin_addetector" />
+							<property name="exposureTime" value="0.1" />
+						</bean>
+					</constructor-arg>
+					<constructor-arg name="includeInScan" value="false" />
+				</bean>
+ 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Xspress3 Detector" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
