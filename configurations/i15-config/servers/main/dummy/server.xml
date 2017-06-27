@@ -32,7 +32,8 @@
 
 	<!-- Dummy FileRegistrar? -->
 
-	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
+	<bean id="Ring"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
 				<entry key="Top" value="" />

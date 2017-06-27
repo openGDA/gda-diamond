@@ -47,7 +47,8 @@
 		</property>
 	</bean>
 
-	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">
+	<bean id="Ring"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
 				<entry key="Top" value="" />
@@ -60,7 +61,8 @@
 		<property name="dummyMode" value="false"/>
 	</bean>
 
-	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
+	<bean id="Beamline"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="recordPvs">
 			<map>
 				<entry key="Top" value="BL15I" />
@@ -73,45 +75,55 @@
 		 The PHDGN devices are the next items in localstation that rely on finder. e.g.
 			d1 = finder.find("PHDGN1").createEpicsChannel("d1", ReturnType.DBR_NATIVE, "", "")
 	 -->
-	<bean id="PHDGN1" class="gda.spring.FindableEpicsDeviceFactoryBean">
+	<bean id="PHDGN1"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="deviceName" value="PHDGN1" />
 		<property name="dummyMode" value="false"/>
 	</bean>
-	<bean id="PHDGN2" class="gda.spring.FindableEpicsDeviceFactoryBean">
+	<bean id="PHDGN2"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="deviceName" value="PHDGN2" />
 		<property name="dummyMode" value="false"/>
 	</bean>
-	<bean id="PHDGN3" class="gda.spring.FindableEpicsDeviceFactoryBean">
+	<bean id="PHDGN3"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="deviceName" value="PHDGN3" />
 		<property name="dummyMode" value="false"/>
 	</bean>
-	<bean id="PHDGN4" class="gda.spring.FindableEpicsDeviceFactoryBean">
+	<bean id="PHDGN4"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="deviceName" value="PHDGN4" />
 		<property name="dummyMode" value="false"/>
 	</bean>
-	<bean id="PHDGN5" class="gda.spring.FindableEpicsDeviceFactoryBean">
+	<bean id="PHDGN5"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="deviceName" value="PHDGN5" />
 		<property name="dummyMode" value="false"/>
 	</bean>
-	<bean id="PHDGN6" class="gda.spring.FindableEpicsDeviceFactoryBean">
+	<bean id="PHDGN6"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="deviceName" value="PHDGN6" />
 		<property name="dummyMode" value="false"/>
 	</bean>
-	<bean id="PHDGN7" class="gda.spring.FindableEpicsDeviceFactoryBean">
+	<bean id="PHDGN7"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="deviceName" value="PHDGN7" />
 		<property name="dummyMode" value="false"/>
 	</bean>
-	<bean id="PHDGN8" class="gda.spring.FindableEpicsDeviceFactoryBean">
+	<bean id="PHDGN8"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="deviceName" value="PHDGN8" />
 		<property name="dummyMode" value="false"/>
 	</bean>
-	<bean id="PHDGN9" class="gda.spring.FindableEpicsDeviceFactoryBean">
+	<bean id="PHDGN9"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="deviceName" value="PHDGN9" />
 		<property name="dummyMode" value="false"/>
 	</bean>
 
 	<!-- Proportional Counter -->	
-	<bean id="prop" class="gda.device.monitor.EpicsMonitor">
+	<bean id="prop"
+			class="gda.device.monitor.EpicsMonitor">
 		<property name="deviceName" value="PRCNT1.I" />
 	</bean>
 

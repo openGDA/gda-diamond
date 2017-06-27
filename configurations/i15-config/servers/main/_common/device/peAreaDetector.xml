@@ -3,39 +3,45 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="peAD_config_base" class="gda.spring.V17ADBaseFactoryBean">
+	<bean id="peAD_config_base"
+			class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:CAM:" />
 	</bean>
 
-	<bean id="peAD_summary_arr" class="gda.spring.V17NDArrayFactoryBean">
+	<bean id="peAD_summary_arr"
+			class="gda.spring.V17NDArrayFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:ARR:" />
 		<!-- 
 		<property name="input"  ref="peAD_config_base" />
 		 -->
 	</bean>
 
-	<bean id="peAD_summary_stat" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="peAD_summary_stat"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:STAT:" />
 		<!-- 
 		<property name="input"  ref="peAD_config_base" />
 		 -->
 	</bean>
 
-	<bean id="peAD_summary_roi" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="peAD_summary_roi"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:ROI:" />
 		<!-- 
 		<property name="input"  ref="peAD_config_base" />
 		 -->
 	</bean>
 
-	<bean id="peAD_summary_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
+	<bean id="peAD_summary_mjpg"
+			class="gda.spring.V17FfmpegStreamFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:MJPG:" />
 		<!-- 
 		<property name="input"  ref="peAD_summary_proc" />
 		 -->
 	</bean>
 
-	<bean id="peAD_summary_proc" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="peAD_summary_proc"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:PROC:" />
 		<!-- 
 		<property name="input"  ref="peAD_config_base" />

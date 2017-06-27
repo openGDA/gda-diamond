@@ -7,110 +7,136 @@
 
 	<!-- Standard Area Detector plugins -->
 
-	<bean id="pslAD_cam" class="gda.spring.V17ADBaseFactoryBean">
+	<bean id="pslAD_cam"
+			class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:CAM:" />
 	</bean>
 
-	<bean id="pslAD_arr" class="gda.spring.V17NDArrayFactoryBean">
+	<bean id="pslAD_arr"
+			class="gda.spring.V17NDArrayFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:ARR:" />
 	</bean>
 
-	<bean id="pslAD_stat" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="pslAD_stat"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:STAT:" />
 	</bean>
 
-	<bean id="pslAD_roi" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="pslAD_roi"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:ROI:" />
 	</bean>
 
-	<bean id="pslAD_mjpg" class="gda.spring.V17FfmpegStreamFactoryBean">
+	<bean id="pslAD_mjpg"
+			class="gda.spring.V17FfmpegStreamFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:MJPG:" />
 	</bean>
 
-	<bean id="pslAD_proc" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="pslAD_proc"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:PROC:" />
 	</bean>
 
 	<!-- Extended Area Detector plugins -->
 
-	<bean id="pslAD_roi1" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="pslAD_roi1"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:ROI1:" />
 	</bean>
 
-	<bean id="pslAD__roi2" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="pslAD__roi2"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:ROI2:" />
 	</bean>
 
-	<bean id="pslAD__roi3" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="pslAD__roi3"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:ROI3:" />
 	</bean>
 
-	<bean id="pslAD__roi4" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="pslAD__roi4"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:ROI4:" />
 	</bean>
 
-	<bean id="pslAD_roi5" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="pslAD_roi5"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:ROI5:" />
 	</bean>
 
-	<bean id="pslAD_roi6" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="pslAD_roi6"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:ROI6:" />
 	</bean>
 
-	<bean id="pslAD_proc1" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="pslAD_proc1"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:PROC1:" />
 	</bean>
 
-	<bean id="pslAD_proc2" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="pslAD_proc2"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:PROC2:" />
 	</bean>
 
-	<bean id="pslAD_proc3" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="pslAD_proc3"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:PROC3:" />
 	</bean>
 
-	<bean id="pslAD_proc4" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="pslAD_proc4"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:PROC4:" />
 	</bean>
 
-	<bean id="pslAD_proc5" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="pslAD_proc5"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:PROC5:" />
 	</bean>
 
-	<bean id="pslAD_proc6" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="pslAD_proc6"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:PROC6:" />
 	</bean>
 
-	<bean id="pslAD_stat1" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="pslAD_stat1"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:STAT1:" />
 	</bean>
 
-	<bean id="pslAD_stat2" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="pslAD_stat2"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:STAT2:" />
 	</bean>
 
-	<bean id="pslAD_stat3" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="pslAD_stat3"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:STAT3:" />
 	</bean>
 
-	<bean id="pslAD_stat4" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="pslAD_stat4"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:STAT4:" />
 	</bean>
 
-	<bean id="pslAD_stat5" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="pslAD_stat5"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:STAT5:" />
 	</bean>
 
-	<bean id="pslAD_stat6" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="pslAD_stat6"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:STAT6:" />
 	</bean>
 
-	<bean id="psl_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+	<bean id="psl_NDFileTiff"
+			class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL15I-EA-PSL-01:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
-	<bean id="psl_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+	<bean id="psl_NDFileHDF5"
+			class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl">
 			<bean class="gda.spring.V17NDFileFactoryBean">
 				<property name="prefix" value="BL15I-EA-PSL-01:HDF5:" />
@@ -126,7 +152,7 @@
 				Negative readoutTime disables AcquirePeriod
 	 -->
 	<bean id="psl_SingleExposureStandardCollectionStrategy"
-		class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+			class="gda.device.detector.addetector.triggering.SingleExposureStandard">
 		<constructor-arg ref="pslAD_cam" />
 		<constructor-arg value="-1" />
 	</bean>
@@ -155,7 +181,8 @@
 
 	<!-- NXDetectors -->
 
-	<bean id="psl" class="gda.device.detector.NXDetector">
+	<bean id="psl"
+			class="gda.device.detector.NXDetector">
 		<property name="name" value="psl" />
 		<property name="collectionStrategy" ref="psl_SingleExposureStandardCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -165,5 +192,4 @@
 			</list>
 		</property>
 	</bean>
-
 </beans>

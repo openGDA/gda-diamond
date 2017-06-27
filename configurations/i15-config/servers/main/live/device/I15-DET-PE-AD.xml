@@ -7,90 +7,111 @@
 
 	<!-- Devices which are defined in Epics but not needed by the client are defined below -->
 
-	<bean id="peAD_summary_roi1" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="peAD_summary_roi1"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:ROI1:" />
 	</bean>
 
-	<bean id="peAD_summary_roi2" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="peAD_summary_roi2"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:ROI2:" />
 	</bean>
 
-	<bean id="peAD_summary_roi3" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="peAD_summary_roi3"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:ROI3:" />
 	</bean>
 
-	<bean id="peAD_summary_roi4" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="peAD_summary_roi4"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:ROI4:" />
 	</bean>
 
-	<bean id="peAD_summary_roi5" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="peAD_summary_roi5"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:ROI5:" />
 	</bean>
 
-	<bean id="peAD_summary_roi6" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="peAD_summary_roi6"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:ROI6:" />
 	</bean>
 
-	<bean id="peAD_summary_proc1" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="peAD_summary_proc1"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:PROC1:" />
 	</bean>
 
-	<bean id="peAD_summary_proc2" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="peAD_summary_proc2"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:PROC2:" />
 	</bean>
 
-	<bean id="peAD_summary_proc3" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="peAD_summary_proc3"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:PROC3:" />
 	</bean>
 
-	<bean id="peAD_summary_proc4" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="peAD_summary_proc4"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:PROC4:" />
 	</bean>
 
-	<bean id="peAD_summary_proc5" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="peAD_summary_proc5"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:PROC5:" />
 	</bean>
 
-	<bean id="peAD_summary_proc6" class="gda.spring.V17NDProcessFactoryBean">
+	<bean id="peAD_summary_proc6"
+			class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:PROC6:" />
 	</bean>
 
-	<bean id="peAD_summary_stat1" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="peAD_summary_stat1"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:STAT1:" />
 	</bean>
 
-	<bean id="peAD_summary_stat2" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="peAD_summary_stat2"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:STAT2:" />
 	</bean>
 
-	<bean id="peAD_summary_stat3" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="peAD_summary_stat3"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:STAT3:" />
 	</bean>
 
-	<bean id="peAD_summary_stat4" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="peAD_summary_stat4"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:STAT4:" />
 	</bean>
 
-	<bean id="peAD_summary_stat5" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="peAD_summary_stat5"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:STAT5:" />
 	</bean>
 
-	<bean id="peAD_summary_stat6" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="peAD_summary_stat6"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:STAT6:" />
 	</bean>
 
-	<bean id="pe_UnixToWindowsFilePathConverter" class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+	<bean id="pe_UnixToWindowsFilePathConverter"
+			class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 		<property name="unixSubString" value="/dls/i15/data" />
 		<property name="windowsSubString" value="x:" />
 	</bean>
 
-	<bean id="pe_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+	<bean id="pe_NDFileTiff"
+			class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-01:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter" ref="pe_UnixToWindowsFilePathConverter" />
 	</bean>
 
-	<bean id="pe_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+	<bean id="pe_NDFileHDF5"
+			class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl">
 			<bean class="gda.spring.V17NDFileFactoryBean">
 				<property name="prefix" value="BL15I-EA-DET-01:HDF5:" />
@@ -192,7 +213,8 @@
 
 	<!-- SingleImagePerFileWriter(String detectorName)
 	 -->
-	<bean id="pe_tiff_SingleImagePerFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+	<bean id="pe_tiff_SingleImagePerFileWriter"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pe" />
 		<property name="ndFile" ref="pe_NDFileTiff" />
 		<property name="keyNameForMetadataPathTemplate" value="pe_path_template" />
@@ -211,7 +233,8 @@
 
 	<!-- NXDetectors -->
 
-	<bean id="pe" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+	<bean id="pe"
+			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="pe"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		<property name="collectionStrategy" ref="pe_UnsynchronisedExternalShutterAutoSummingProcessImageModeCollectionStrategy" />
