@@ -8,9 +8,14 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  uk.ac.gda.client;bundle-version="1.0.0",
  uk.ac.gda.core;bundle-version="1.0.0",
- uk.ac.gda.epics.adviewer;bundle-version="1.0.0"
+ uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
+ org.eclipse.scanning.device.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i21
-Import-Package: org.eclipse.ui.intro.config
+Import-Package: org.eclipse.scanning.api.event,
+ org.eclipse.scanning.api.event.queues,
+ org.eclipse.scanning.api.event.scan,
+ org.eclipse.scanning.api.ui,
+ org.eclipse.ui.intro.config

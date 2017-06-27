@@ -192,7 +192,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="uk.ac.gda.beamline.i21.ScanPerspectiveFactory"
+            class="uk.ac.gda.beamline.i21.ScanPerspective"
             id="uk.ac.gda.beamline.i21.scanperspective"
             name="Scan">
       </perspective>
