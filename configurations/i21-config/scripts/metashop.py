@@ -8,7 +8,7 @@ Created on 20 Mar 2014
 '''
 from gda.jython.commands.GeneralCommands import alias
 
-from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm  # @UnusedImport
+from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical # @UnusedImport
 from gda.configuration.properties import LocalProperties
 
 alias("meta_add")
