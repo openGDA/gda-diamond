@@ -1,5 +1,0 @@
-if [ -z $GDA_ROOT ] ; then
-      export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
-fi
-
-. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env $@

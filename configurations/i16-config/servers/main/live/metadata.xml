@@ -5,8 +5,8 @@
 <!--	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
 <!--		<property name="locations">-->
 <!--			<list value-type="java.lang.String">-->
-<!--				<value>file:${gda.config}/properties/live/java.properties</value>-->
-<!--				<value>file:${gda.config}/properties/common/java.properties</value>-->
+<!--				<value>file:${gda.config}/properties/live/live_instance_java.properties</value>-->
+<!--				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>-->
 <!--			</list>-->
 <!--		</property>-->
 <!--	</bean>-->
