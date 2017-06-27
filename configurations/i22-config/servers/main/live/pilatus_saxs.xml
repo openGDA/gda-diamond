@@ -53,12 +53,19 @@
   <property name="initialBinX" value="1"/>
   <property name="initialBinY" value="1"/>
  </bean>
-    <bean class="uk.ac.gda.server.ncd.subdetector.NcdPilatusAD" id="Pilatus2M_SAXS">
-        <property name="controller" ref="controller"/>
-        <property name="detectorType" value="SAXS"/>
-        <property name="pixelSize" value="0.000172"/>
-    </bean>
-    <bean class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider" id="saxs_roi_provider">
+  <bean class="uk.ac.gda.server.ncd.subdetector.NcdPilatusAD" id="Pilatus2M_SAXS">
+    <property name="controller" ref="controller"/>
+    <property name="detectorType" value="SAXS"/>
+    <property name="pixelSize" value="0.000172"/>
+    <property name="metaProviders">
+      <list>
+        <ref bean="saxs_mask" />
+        <ref bean="saxs_cal" />
+        <ref bean="saxs_bg" />
+      </list>
+    </property>
+  </bean>
+  <bean class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider" id="saxs_roi_provider">
         <property name="viewName" value="Saxs Plot"/>
         <property name="maximumActiveRois" value="1"/>
     </bean>
