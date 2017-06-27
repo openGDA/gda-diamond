@@ -159,9 +159,9 @@
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXinstrument/manipulator:NXgoniometer/salong</value>
-								<value>instrument:NXinstrument/manipulator:NXgoniometer/sax</value>
-								<value>instrument:NXinstrument/manipulator:NXgoniometer/say</value>
+								<value>instrument:NXinstrument/manipulator:NXcollection/salong</value>
+								<value>instrument:NXinstrument/manipulator:NXcollection/sax</value>
+								<value>instrument:NXinstrument/manipulator:NXcollection/say</value>
 							</list>
 						</property>
 						<property name="units">
@@ -184,9 +184,9 @@
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
-								<value>instrument:NXinstrument/manipulator:NXgoniometer/saperp</value>
-								<value>instrument:NXinstrument/manipulator:NXgoniometer/sax</value>
-								<value>instrument:NXinstrument/manipulator:NXgoniometer/say</value>
+								<value>instrument:NXinstrument/manipulator:NXcollection/saperp</value>
+								<value>instrument:NXinstrument/manipulator:NXcollection/sax</value>
+								<value>instrument:NXinstrument/manipulator:NXcollection/say</value>
 							</list>
 						</property>
 						<property name="units">
@@ -208,7 +208,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/manipulator:NXgoniometer/sax" />
+							value="instrument:NXinstrument/manipulator:NXcollection/sax" />
 						<property name="units" value="mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
@@ -221,7 +221,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/manipulator:NXgoniometer/say" />
+							value="instrument:NXinstrument/manipulator:NXcollection/say" />
 						<property name="units" value="mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
@@ -234,7 +234,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/manipulator:NXgoniometer/saz" />
+							value="instrument:NXinstrument/manipulator:NXcollection/saz" />
 						<property name="units" value="mm" />
 						<property name="prerequisiteScannableNames">
 							<list>
@@ -247,7 +247,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/manipulator:NXgoniometer/satilt" />
+							value="instrument:NXinstrument/manipulator:NXcollection/satilt" />
 						<property name="units" value="deg" />
 						<property name="prerequisiteScannableNames">
 							<list>
@@ -260,7 +260,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/manipulator:NXgoniometer/sapolar" />
+							value="instrument:NXinstrument/manipulator:NXcollection/sapolar" />
 						<property name="units" value="deg" />
 						<property name="offset" value="0" />
 						<property name="offset_units" value="deg" />
@@ -278,7 +278,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/manipulator:NXgoniometer/saazimuth" />
+							value="instrument:NXinstrument/manipulator:NXcollection/saazimuth" />
 						<property name="units" value="deg" />
 						<property name="prerequisiteScannableNames">
 							<list>
