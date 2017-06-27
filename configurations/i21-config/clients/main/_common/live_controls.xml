@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Translations -->
+	<bean id="sax_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sax" />
+		<property name="group" value="Sample Translations" />
+		<property name="scannableName" value="sax" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="say_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="say" />
+		<property name="group" value="Sample Translations" />
+		<property name="scannableName" value="say" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="saz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="saz" />
+		<property name="group" value="Sample Translations" />
+		<property name="scannableName" value="saz" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<!-- Stage Rotations -->
+	<bean id="sapolar_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sapolar" />
+		<property name="group" value="Sample Rotations" />
+		<property name="scannableName" value="sapolar" />
+		<property name="increment" value="1" />
+	</bean>
+	
+	<bean id="satilt_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="satilt" />
+		<property name="group" value="Sample Rotations" />
+		<property name="scannableName" value="satilt" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="saazimuth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="saazimuth" />
+		<property name="group" value="Sample Rotations" />
+		<property name="scannableName" value="saazimuth" />
+		<property name="increment" value="1" />
+	</bean>
+	
+	<!-- Andor detector control -->
+	<bean id="andorStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andor_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); andor_addetector.collectData()" />
+		<property name="buttonText" value="Start" />
+		<property name="group" value="Andor" />
+	</bean>
+
+	<bean id="andorStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andor_addetector.stop()" />
+		<property name="buttonText" value="Stop" />
+		<property name="group" value="Andor" />
+	</bean>
+
+	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="sax_control" />
+				<ref bean="say_control" />
+				<ref bean="saz_control" />
+				<ref bean="sapolar_control" />
+				<ref bean="satilt_control" />
+				<ref bean="saazimuth_control" />
+				<ref bean="andorStart" />
+				<ref bean="andorStop" />
+			</list>
+		</property>
+	</bean>
+</beans>
