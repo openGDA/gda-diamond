@@ -7,7 +7,7 @@
 		<!-- PVs -->
 		<property name="basePv" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV" />
 		<!-- Delay time (ms) -->
-		<property name="delayTime" value="500" />
+		<property name="delayTime" value="5000" />
 		<!-- Close the shutter and stop the scan, if over exposure is detected -->
 		<property name="alarmActionCommand" value="pos hr_shutter 'Close'; command_server.abortCommands('None')" />
 		<property name="userMessage" value="Analyser over-exposure detected! The HR shutter has been closed, and the scan has been aborted.\nTo reopen the shutter run: pos hr_shutter 'Open'" />
