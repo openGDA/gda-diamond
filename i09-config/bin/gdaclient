@@ -1,2 +1,0 @@
-GDA_CLIENT_VMARGS="-Dlogback.application=gda-i09"
-/$SOFTWAREFOLDER/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaclient $@

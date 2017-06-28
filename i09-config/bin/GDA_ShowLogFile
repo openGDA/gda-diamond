@@ -1,9 +1,0 @@
-!#/bin/sh
-
-if [ ! -n "$BEAMLINE" ];
-then
-  echo "Please set BEAMLINE environment variable."
-  exit 1
-fi
-
-tail --lines=200 -f -s0.1  /$SOFTWAREFOLDER/$BEAMLINE/logs/gda_output.txt

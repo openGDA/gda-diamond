@@ -175,26 +175,10 @@ findcentroid=FindScanCentroid
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 
-# peakdata is a custom scan processor for i09 removed temporary as it seems buggy.
-#peakdata=ExtractPeakParameters()
-#scan_processor.processors.append(peakdata)
-
-# Additional processors maybe added if required
-#scan_processor.processors.append(Lcen())
-#scan_processor.processors.append(Rcen())
-
-
 ###############################################################################
 ###                   Configure scannable output formats                        ###
 ###############################################################################
 globals()['sm3pitch'].setOutputFormat(["%10.1f"])
-#globals()['bragg'].setOutputFormat(["%10.7f"])    
-
-#print "-----------------------------------------------------------------------------------------------------------------"
-#print "Setup 'plot' function for plotting collected, use 'help plot' for syntax"
-#from plot import plot, plotover, plotdata #@UnusedImport
-#print
-
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -207,17 +191,9 @@ jenergy=BeamEnergy("jenergy", gap='jgap',dcm="pgmenergy",undulatorperiod=60,lut=
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
-#print "Create an 'jgap' scannable for soft X-ray ID gap"
-#from pseudodevices.AppleIIIDScannable import Apple2IDScannableClass
-#jgap=Apple2IDScannableClass("jgap","SR09J-MO-SERVC-01:BLGSET","SR09J-MO-SERVC-01:CURRGAPD","SR09J-MO-SERVC-01:BLGSETP","mm","%.5f", 0.002)
-# James' temporary solution, this require to comment out Java PGM energy object
-#from epics.motor.positionCompareMotorClass import PositionCompareMotorClass
-#pgmenergy=PositionCompareMotorClass("pgmenergy", "BL09I-ENERGY-MOTOR-01.VAL", "BL09I-ENERGY-MOTOR-01.RBV", "BL09I-ENERGY-MOTOR-01.STOP", 0.015, "mm", "%.4f")
 
-    
 
 print "Create an 'analyserscan' command for scanning the electron analyser."
-#from command.analyser_scan import analyserscan, analyserscan_v1, zerosupplies, analyserscancheck # @UnusedImport
 from command.analyserScan import analyserscan, zerosupplies, analyserscancheck, analyserscan_v1  # @UnusedImport
 alias("zerosupplies")
 alias("analyserscan")
@@ -225,53 +201,11 @@ alias("analyserscan_v1")
 alias("analyserscancheck")
 print "Create shutter objects 'psi2' for hard X-ray, 'psj2' for soft X-ray."
 
-#from pseudodevices.shutter import EpicsShutterClass, psi2,psj2  # @UnusedImport
 nixswr=DisplayEpicsPVClass("nixswr", "BL09I-MO-ES-03:STAT:Total_RBV","","%d")
 
 # Import and setup function to create mathmatical scannables
 from functions import functionClassFor2Scannables
 functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
-
-# These scannables have been removed as I believe they are not used
-#print "Create a 'ratioi20toi19' scannable for the ratio of hm3iamp20 to bfmiamp19."
-#from functions.ratioscannable import ratioi20toi19  # @UnusedImport
-#print "Create a 'dri20toi19' scannable for the derivative of hm3iamp20 to bfmiamp19."
-#from functions.derivativescannable import dri20toi19  # @UnusedImport
-
-
-##### new objects must be added above this line ###############
-## These functions are deprecated and should be removed if upgrading to >8.58
-def enablefeedbackdcmfroll():
-    print "enablefeedbackdcmfroll() is deprecated and will be removed in the next release!"
-    print "please use \"pos dcmfrollfeedback \'Enabled\'\""
-    caput("BL09I-EA-FDBK-01:ENABLE",0)
-def disablefeedbackdcmfroll():
-    print "disablefeedbackdcmfroll() is deprecated and will be removed in the next release!"
-    print "please use \"pos dcmfrollfeedback \'Disabled\'\""
-    caput("BL09I-EA-FDBK-01:ENABLE",1)
-def enablefeedbackdcmfpitch():
-    print "enablefeedbackdcmfpitch() is deprecated and will be removed in the next release!"
-    print "please use \"pos dcmfpitchfeedback \'Enabled\'\""
-    caput("BL09I-EA-FDBK-02:ENABLE",0)
-def disablefeedbackdcmfpitch():
-    print "disablefeedbackdcmfpitch() is deprecated and will be removed in the next release!"
-    print "please use \"pos dcmfpitchfeedback \'Disabled\'\""
-    caput("BL09I-EA-FDBK-02:ENABLE",1)
-def enablefeedbacksm1fpitch():
-    print "enablefeedbacksm1fpitch() is deprecated and will be removed in the next release!"
-    print "please use \"pos  sm1fpitchfeedback \'Enabled\'\""
-    caput("BL09J-EA-FDBK-01:ENABLE",0)
-def disablefeedbacksm1fpitch():
-    print "disablefeedbacksm1fpitch() is deprecated and will be removed in the next release!"
-    print "please use \"pos  sm1fpitchfeedback \'Disabled\'\""
-    caput("BL09J-EA-FDBK-01:ENABLE",1)
-    
-alias("enablefeedbackdcmfroll")
-alias("disablefeedbackdcmfroll")
-alias("enablefeedbackdcmfpitch")
-alias("disablefeedbackdcmfpitch")
-alias("enablefeedbacksm1fpitch")
-alias("disablefeedbacksm1fpitch")
 
 # I09-70 Create a empty string to hold detectors to be used with the GUI
 extraDetectors = ""
