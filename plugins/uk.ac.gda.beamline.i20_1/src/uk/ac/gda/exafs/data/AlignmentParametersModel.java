@@ -30,6 +30,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gson.annotations.Expose;
 
 import gda.jython.InterfaceProvider;
@@ -38,6 +41,8 @@ import gda.util.exafs.Element;
 import uk.ac.gda.beans.ObservableModel;
 
 public class AlignmentParametersModel extends ObservableModel implements Serializable {
+
+	private static final Logger logger = LoggerFactory.getLogger(AlignmentParametersModel.class);
 
 	public static final AlignmentParametersModel INSTANCE = new AlignmentParametersModel();
 
@@ -275,17 +280,18 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 		}
 		try {
 			AlignmentParametersBean bean = new AlignmentParametersBean(crystalType.name(), crystalCut.name(), q.getQValue(), DetectorModel.INSTANCE.getCurrentDetector().getName(), edge);
-			InterfaceProvider.getJythonNamespace().placeInJythonNamespace(ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME, bean);
-			InterfaceProvider.getCommandRunner().runCommand(
-					ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME + "=None;from alignment import alignment_parameters; " + ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME
-					+ " = alignment_parameters.calc_parameters(" + ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME + ")");
+			String jsonString = AlignmentParametersBean.toJson(bean);
+			InterfaceProvider.getCommandRunner().runCommand("from uk.ac.gda.exafs.data import AlignmentParametersBean; "
+														   + ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME + " = AlignmentParametersBean.fromJson(\'"+jsonString+"\');");
+
+			InterfaceProvider.getCommandRunner().runCommand( ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME + " = None; from alignment import alignment_parameters; "
+														   + ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME + " = alignment_parameters.calc_parameters(" + ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME + ")");
 			// give the command a chance to run.
 			boolean waitForResult = true;
 			Object result = null;
 			while (waitForResult) {
 				Thread.sleep(COMMAND_WAIT_TIME_IN_MILLI_SEC);
-				result = InterfaceProvider.getJythonNamespace()
-						.getFromJythonNamespace(ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
+				result = InterfaceProvider.getJythonNamespace().getFromJythonNamespace(ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME);
 				if (result != null && (result instanceof AlignmentParametersBean)) {
 					waitForResult = false;
 				}
@@ -293,7 +299,7 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 			this.firePropertyChange(SUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, alignmentSuggestedParameters = (AlignmentParametersBean) result);
 		} catch (Exception e) {
 			this.firePropertyChange(SUGGESTED_PARAMETERS_PROP_KEY, alignmentSuggestedParameters, null);
-			// TODO add error logger
+			logger.error("Problem running power calculation", e);
 		}
 	}
 

@@ -20,6 +20,8 @@ package uk.ac.gda.exafs.data;
 
 import java.io.Serializable;
 
+import com.google.gson.Gson;
+
 import gda.util.exafs.AbsorptionEdge;
 
 public class AlignmentParametersBean implements Serializable {
@@ -89,6 +91,16 @@ public class AlignmentParametersBean implements Serializable {
 	@Override
 	public String toString() {
 		return crystalType + ", " + crystalCut+", " + q +"m, "+ detector +", "+ edge;
+	}
+
+	public static String toJson(AlignmentParametersBean bean) {
+		Gson gson = new Gson();
+		return gson.toJson(bean);
+	}
+
+	public static AlignmentParametersBean fromJson(String jsonString) {
+		Gson gson = new Gson();
+		return gson.fromJson(jsonString, AlignmentParametersBean.class);
 	}
 
 	public String getCrystalType() {
