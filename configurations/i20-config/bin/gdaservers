@@ -1,2 +1,12 @@
-# ssh into i20-control as gda which should then run the servers script locally there
-gnome-terminal -x ssh -i /dls_sw/i20/software/gda_versions/var/i20ssh.key gda2@i20-control.diamond.ac.uk
+#!/bin/bash
+# The local gda script is required to be on the path until the Diamond Launcher scripts in
+# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
+# this cannot be done until all beamlines use the standard startup commands.
+
+#############
+# @DEPRECATED
+#############
+#
+# This script should not be added to as it is being phased out
+
+gda servers $*
