@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Diamond Light Source Beamline I09 Plug-in
-Bundle-SymbolicName: uk.ac.gda.sisa.client;singleton:=true
+Bundle-SymbolicName: uk.ac.gda.beamline.i09;singleton:=true
 Bundle-Version: 9.4.0
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: Diamond Light Source

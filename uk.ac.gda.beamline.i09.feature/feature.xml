@@ -4,7 +4,7 @@
       label="SISA Feature"
       version="9.5.0.qualifier"
       provider-name="Diamond Light Source"
-      plugin="uk.ac.gda.sisa.client"
+      plugin="uk.ac.gda.beamline.i09"
       exclusive="true">
 
    <description url="http://www.opengda.org/">
@@ -63,7 +63,7 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          version="0.0.0"/>
 
    <plugin
-         id="uk.ac.gda.sisa.client"
+         id="uk.ac.gda.beamline.i09"
          download-size="0"
          install-size="0"
          version="0.0.0"

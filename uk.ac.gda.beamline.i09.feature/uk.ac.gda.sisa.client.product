@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="GDA for Diamond Light Source Beamline I09" uid="uk.ac.gda.sisa.client.product" id="uk.ac.gda.sisa.client.product" application="uk.ac.gda.client.application" version="9.5.0" useFeatures="true" includeLaunchers="true">
+<product name="GDA for Diamond Light Source Beamline I09" uid="uk.ac.gda.beamline.i09.product" id="uk.ac.gda.beamline.i09.product" application="uk.ac.gda.client.application" version="9.5.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -42,7 +42,7 @@ http://www.opengda.org
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
 
    <splash
-      location="uk.ac.gda.sisa.client"
+      location="uk.ac.gda.beamline.i09"
       startupProgressRect="2,215,598,15"
       startupMessageRect="4,195,598,20"
       startupForegroundColor="000000" />

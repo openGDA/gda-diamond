@@ -6,6 +6,7 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
+            description="GDA for Diamond Light Source Beamline I09"
             name="GDA for Diamond Light Source Beamline I09">
          <property
                name="appName"

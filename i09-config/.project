@@ -27,7 +27,7 @@
 		<project>uk.ac.gda.epics.client</project>
 		<project>uk.ac.gda.libs</project>
 		<project>uk.ac.gda.nexus</project>
-		<project>uk.ac.gda.sisa.client</project>
+		<project>uk.ac.gda.beamline.i09</project>
 		<project>uk.ac.gda.swingclient</project>
 		<project>uk.ac.gda.video.views</project>
 	</projects>
