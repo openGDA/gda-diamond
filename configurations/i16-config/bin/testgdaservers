@@ -1,15 +1,8 @@
 #!/bin/bash
-#unset BEAMLINE
 
 export GDA_MODE=dummy
-. gda_setup_env_test gda_client_output
 
-echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
+config_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd -P )"
+echo -e "\nGDA_CONFIG = ${config_absolute_path} , BEAMLINE = $BEAMLINE\n"
 
-
-#unset BEAMLINE
-
-$GDA_CORE_SCRIPT logserver --mode=dummy $@
-$GDA_CORE_SCRIPT nameserver --mode=dummy $@
-$GDA_CORE_SCRIPT eventserver --mode=dummy $@
-JAVA_OPTS="-XX:MaxPermSize=128m -Xms512m -Xmx2048m" $GDA_CORE_SCRIPT objectserver --mode=dummy --debug $@
+$config_absolute_path/bin/gda --start servers -d $@

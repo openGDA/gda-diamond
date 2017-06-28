@@ -1,4 +1,14 @@
 #!/bin/bash
-#unset BEAMLINE
 #unset JAVA_HOME
-JAVA_OPTS="-Xms128m -Xmx1024m" `dirname $0`/gda client --mode=dummy $@
+#unset BEAMLINE
+
+PRGDIR=`dirname $0`
+PRGDIR=`cd $PRGDIR; pwd`
+GDA_ROOT=`dirname $PRGDIR`
+$GDA_CONFIG
+. $PRGDIR/find_GDA_ROOT.sh
+RCP_IMAGE=$GDA_ROOT/client/gda-i16
+
+echo RCP_IMAGE: ${RCP_IMAGE}
+#JAVA_OPTS="-Xms128m -Xmx1024m" 
+`dirname $0`/gda rcpclient --mode=dummy --rcp_image=${RCP_IMAGE} $@

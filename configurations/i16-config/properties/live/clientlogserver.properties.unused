@@ -1,6 +1,0 @@
-gda.factory.factoryName = i16
-
-gda.server.logging.port = 6789
-gda.logserver.xml = ${gda.config}/logging/live/logServerClient.xml 
-gda.logs.dir = /dls_sw/i16/logs/
-
