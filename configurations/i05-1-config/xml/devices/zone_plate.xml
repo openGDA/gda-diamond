@@ -25,7 +25,7 @@
 		<property name="initialUserUnits" value="micron" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="lowerGdaLimits" value="-11000" />
-		<property name="upperGdaLimits" value="8500" />
+		<property name="upperGdaLimits" value="12000" />
 	</bean>
 
 	<bean id="zp" class="gda.device.scannable.scannablegroup.ScannableGroup">
