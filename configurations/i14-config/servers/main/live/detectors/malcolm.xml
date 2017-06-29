@@ -3,24 +3,43 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Scan block controlling a hardware X/Y scan with the coarse motors, triggering the Xspress II -->
 
 	<!-- Malcolm sample scan -->
-	<bean id="malcolmModel01" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+	<bean id="malcolmModelXsp3" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-01" />
 		<property name="exposureTime" value="0.01" />
 	</bean>
 
-	<bean id="malcolmInfo01" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	<bean id="malcolmInfoXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="XSP3 coarse Malcolm" />
 		<property name="description" value="Xspress III coarse Malcolm scan" />
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
-	<bean id="malcolmDevice01" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="malcolmDeviceXsp3" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="BL14I-ML-SCAN-01" />
-		<property name="model" ref="malcolmModel01" />
-		<property name="deviceInformation" ref="malcolmInfo01" />
+		<property name="model" ref="malcolmModelXsp3" />
+		<property name="deviceInformation" ref="malcolmInfoXsp3" />
+		<!-- Whether this is the default device to use in a scan -->
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- Excalibur: using Malcolm to collect data; GDA moves all devices -->
+	<bean id="malcolmModelExcalibur" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL14I-ML-EXCBR-01" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolmInfoExcalibur" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Excalibur" />
+		<property name="description" value="Malcolm Excalibur for software scanning" />
+		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
+	</bean>
+
+	<bean id="malcolmDeviceExcalibur" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-EXCBR-01" />
+		<property name="model" ref="malcolmModelExcalibur" />
+		<property name="deviceInformation" ref="malcolmInfoExcalibur" />
 		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>

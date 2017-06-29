@@ -39,7 +39,7 @@
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
 				 -->
- 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Merlin" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
@@ -50,7 +50,7 @@
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
  				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Xspress3 Detector" />
+					<constructor-arg name="name" value="Xspress3" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 							<property name="name" value="xsp3_addetector" />
