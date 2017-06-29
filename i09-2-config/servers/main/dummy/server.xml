@@ -45,10 +45,10 @@
 	<import resource="SS3.xml" />
 	<import resource="SS4.xml" />
 	<import resource="SS7.xml" />
-	<import resource="SMPM.xml" />
 	
 	<!-- End station -->
 	<import resource="analyser.xml"/>
+	<import resource="manipulator.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>

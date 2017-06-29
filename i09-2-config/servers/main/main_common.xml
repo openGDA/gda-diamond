@@ -32,6 +32,7 @@
 	
 	<!-- End station -->
 	<import resource="analyser.xml"/>
+	<import resource="manipulator.xml"/>
 
 	<import resource="../servers_common.xml" />
 
