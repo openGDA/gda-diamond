@@ -16,7 +16,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    </configIni>
 
    <launcherArgs>
-      <programArgs>-consoleLog
+      <programArgs>-consoleLog -clean -clearPersistedState
       </programArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
@@ -59,7 +59,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
