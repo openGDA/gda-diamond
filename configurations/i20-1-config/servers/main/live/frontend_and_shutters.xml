@@ -31,8 +31,16 @@
 		</property>
 	</bean>
 
-	<bean id="fast_shutter" class="gda.device.enumpositioner.EpicsPneumatic">
-		<property name="epicsRecordName" value="BL20J-EA-SHTR-01" />
+	<bean id="fast_shutter" class="gda.device.enumpositioner.EpicsSimplePositioner">
+		<property name="name" value="fast_shutter" />
+		<property name="pvName" value="BL20J-EA-FSHTR-01:Y" />
 	</bean>
 
+	<bean id="fast_shutter_pos_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-EA-FSHTR-01:Y" />
+	</bean>
+
+	<bean id="fast_shutter_pos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fast_shutter_pos_motor" />
+	</bean>
 </beans>

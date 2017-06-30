@@ -26,9 +26,18 @@ def closeFastShutter():
 
 
 def setTurboSlitShutterPositions(openPos, closePos) :
-    turbo_slit_shutter.clearValues()
-    turbo_slit_shutter.addValue("Open", str(openPos))
-    turbo_slit_shutter.addValue("Close", str(closePos))
-    turbo_slit_shutter.addValue("Reset", str(closePos))
-    print "turbo_slit_shutter : 'Open' position = ",str(openPos)," 'Close' position = ",str(closePos)
-    print "turbo_slit_shutter positions ",turbo_slit_shutter.getPositions()
+    turbo_slit_shutter.setPositions({})
+    turbo_slit_shutter.setValues( {"Open":str(openPos), "Close":str(closePos), "Reset":str(closePos) } )
+    print turbo_slit_shutter.getName()," positions ",turbo_slit_shutter.getValues()
+
+
+from gda.epics import CAClient
+def configureFastShutter() :
+    upperDemandPv="BL20J-EA-FSHTR-01:P3201"
+    lowerDemandPv="BL20J-EA-FSHTR-01:P3202"
+    upperPos = str(CAClient.get(upperDemandPv))
+    lowerPos = str(CAClient.get(lowerDemandPv))
+    fast_shutter.setPositions({})
+    fast_shutter.setValues( { "Open":upperPos, "Close":lowerPos} )
+    print fast_shutter.getName()," positions :",fast_shutter.getValues()
+
