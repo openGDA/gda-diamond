@@ -34,6 +34,7 @@
 	<import resource="d7c.xml"/>
 	<import resource="d9c.xml"/>
 	<import resource="d21c.xml"/>
+	<import resource="d22c.xml"/>
 
 	<!-- Shutters -->
 	<import resource="shutter.xml"/>
