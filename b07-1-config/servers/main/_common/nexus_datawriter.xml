@@ -72,6 +72,8 @@
 				<value>sm_rotation</value>
 				<!--  analyser -->
 				<value>analyser_sledge</value>
+				<!-- sample temperature -->
+				<value>sample_temperature</value>
 			</set>
 		</property>
 	</bean>

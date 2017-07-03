@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="sample_eurotherm_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+        <property name="local" value="true"/>
+        <property name="configureAtStartup" value="true"/>
+        <property name="basePVName" value = "BL07C-EA-TCTRL-01"/>
+        <property name="maxRampRate" value = "10"/>
+        <property name="minRampRate" value = "0.01"/>
+        <property name="maxOutput" value = "100"/>
+     </bean>
+
+    <bean id="sample_temperature" class="gda.device.temperature.Eurotherm2K">
+        <property name="local" value="true"/>
+        <property name="configureAtStartup" value="true"/>
+        <property name="accuracy" value = "5"/>
+        <property name="polltime" value = "1000"/>
+        <property name="fileSuffix" value = "temp"/>
+        <property name="upperTemp" value = "1000"/>
+        <property name="lowerTemp" value = "0"/>
+        <property name="controller" ref= "sample_eurotherm_controller"/>
+    </bean>
+
+</beans>
