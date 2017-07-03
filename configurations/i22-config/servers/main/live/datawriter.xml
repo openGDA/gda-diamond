@@ -18,6 +18,7 @@
 
 	<bean id="autoPostProcessing" class="uk.ac.gda.server.ncd.data.scan.MetaDataProcessingScanListener">
 			<property name="detector" ref="ncddetectors"/>
+			<property name="enabled" value="true" />
 			<property name="runner">
 					<bean class="uk.ac.gda.server.ncd.data.AutoProcessingRunner">
 							<property name="scriptPath" value="/dls_sw/apps/dawn_autoprocessing/autoprocess"/>

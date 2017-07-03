@@ -21,16 +21,97 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="d2d1" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsExtraName" value="true"/>
-		<property name="hasUnits" value="false"/>
-		<property name="pvName" value="BL22I-DI-PHDGN-02:DIODE:I"/>
-		<property name="local" value="true"/>
-	</bean>
-
 	<bean id="d2filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL22I-DI-PHDGN-02:MP" />
 		<property name="local" value="true" />
 		<property name="protectionLevel" value="3" />
+	</bean>
+	<bean id="d2d1" class="gda.device.currentamplifier.CalibratedAmplifier">
+		<property name="scalingAndOffset" ref="d2d1gain"/>
+		<property name="useNameAsExtraName" value="true"/>
+		<property name="hasUnits" value="false"/>
+		<property name="pvName" value="BL22I-DI-PHDGN-02:DIODE:I"/>
+		<property name="local" value="true"/>
+		<property name="settletime" value="500"/>
+		<property name="upperThreshold" value="8.5"/>
+	</bean>
+
+	<bean id="d2d1gain" class="gda.device.currentamplifier.GainWithScalingAndOffset">
+		<property name="pvName" value="BL22I-DI-PHDGN-02:DIODE:GAIN"/>
+		<property name="fixed" value="true"/>
+		<property name="gaintosando">
+			<map>
+				<entry key="0">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e8"/>
+					</bean>
+				</entry>
+				<entry key="1">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e7"/>
+					</bean>
+				</entry>
+				<entry key="2">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e6"/>
+					</bean>
+				</entry>
+				<entry key="3">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e5"/>
+					</bean>
+				</entry>
+				<entry key="4">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e4"/>
+					</bean>
+				</entry>
+				<entry key="5">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e3"/>
+					</bean>
+				</entry>
+				<entry key="6">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e2"/>
+					</bean>
+				</entry>
+				<entry key="7">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e6"/>
+					</bean>
+				</entry>
+				<entry key="8">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e5"/>
+					</bean>
+				</entry>
+				<entry key="9">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e4"/>
+					</bean>
+				</entry>
+				<entry key="10">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e3"/>
+					</bean>
+				</entry>
+				<entry key="11">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e2"/>
+					</bean>
+				</entry>
+				<entry key="12">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e1"/>
+					</bean>
+				</entry>
+				<entry key="13">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="10e0"/>
+					</bean>
+				</entry>
+			</map>
+		</property>
 	</bean>
 </beans>
