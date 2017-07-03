@@ -12,4 +12,9 @@
 		<property name="local" value="true" />
 	</bean>
 
+	<bean id="analyser_sledge_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-EA-ANAL-01:TRANS" />
+		<property name="local" value="true" />
+	</bean>
+
 </beans>

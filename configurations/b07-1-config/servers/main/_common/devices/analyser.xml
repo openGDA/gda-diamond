@@ -25,4 +25,8 @@
 		<property name="serviceInterface" value="uk.ac.diamond.daq.devices.specs.phoibos.api.ISpecsPhoibosAnalyser" />
 	</bean>
 
+	<bean id="analyser_sledge" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="analyser_sledge_motor" />
+	</bean>
+
 </beans>
