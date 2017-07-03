@@ -70,7 +70,8 @@
 				<value>sm_yp</value>
 				<value>sm_zp</value>
 				<value>sm_rotation</value>
-				
+				<!--  analyser -->
+				<value>analyser_sledge</value>
 			</set>
 		</property>
 	</bean>
