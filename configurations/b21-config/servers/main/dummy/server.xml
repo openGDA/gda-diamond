@@ -8,5 +8,6 @@
         http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+	<import resource="devices/*.xml" />
 	<import resource="../_common/*.xml" />
 </beans>
