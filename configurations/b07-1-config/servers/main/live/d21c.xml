@@ -19,7 +19,7 @@
 
 	<bean id="d21c_cam1_PlotServerRoiProvider"
 		class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
-		<constructor-arg value="d21c Cam" /> <!-- This must match the string used in the view secondary ID -->
+		<constructor-arg value="D21C Cam" /> <!-- This must match the string used in the view secondary ID -->
 		<constructor-arg value="2" /> <!-- Maximum number of ROIs -->
 	</bean>
 

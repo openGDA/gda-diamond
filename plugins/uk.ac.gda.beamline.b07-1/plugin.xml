@@ -119,6 +119,24 @@
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D9C Cam1//BL07C-DI-PHDGN-09:DCAM1@">
                </parameter>
             </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="D21C Cam"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D21C Cam//BL07C-DI-PHDGN-21:DCAM1@">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="D22C Cam"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D22C Cam//BL07C-DI-PHDGN-22:DCAM1@">
+               </parameter>
+            </command>
          </menu>
       </menuContribution>
    </extension>
@@ -192,6 +210,20 @@
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D9C Cam1//BL07C-DI-PHDGN-09:DCAM1@"
             name="D9C Cam1 Array"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D21C Cam//BL07C-DI-PHDGN-21:DCAM1@"
+            name="D21C Cam Array"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D22C Cam//BL07C-DI-PHDGN-22:DCAM1@"
+            name="D22C Cam Array"
             restorable="true">
       </view>
    </extension>
