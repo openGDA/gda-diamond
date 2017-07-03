@@ -5,12 +5,6 @@
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
-			value="file:${gda.config}/properties/${gda.mode}/java.properties" />
-	</bean>
-
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
@@ -21,12 +15,6 @@
 
 	<bean id="plot_server"
 		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
-
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
-			value="file:${gda.config}/properties/java.properties" />
-	</bean>
 
 	<import resource="b21_server_ncd.xml" /> 
 	<import resource="b21_server_nexus.xml" /> 

@@ -2,12 +2,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
-			value="file:${gda.config}/properties/java.properties" />
-	</bean>
-
 	<!--*************************************** -->
 	<!-- *** NCD devices section *** -->
 	<!--*************************************** -->
@@ -92,41 +86,6 @@
 		<property name="bssc" ref="bssc" /> 
 		<property name="local" value="false" />
 	</bean>
-	<bean class="uk.ac.gda.devices.bssc.ispyb.BioSAXSDBFactory">
-	       <property name="jdbcURL" value="jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb" />
-	       <!-- // protected String testURL = "jdbc:oracle:thin:@sci-serv2.diamond.ac.uk:1521:xe"; -->
-           <!-- // protected String liveURL = "jdbc:oracle:thin:@duoserv12.diamond.ac.uk:1521:ispyb"; -->
-           <property name="notifyObject" ref="ispybNotifier" />
-    </bean>
-	
-	<import resource="b21_biosaxscam.xml"/>
-	
-	<bean id="ispybNotifier" class="uk.ac.gda.devices.bssc.ispyb.NotifyISpyBObserversObject">
-		<constructor-arg value="b21-control.diamond.ac.uk" />
-		<constructor-arg value="9877" />
-	</bean>
 
-	<bean id="udplistener" class="uk.ac.gda.devices.bssc.ispyb.UDPListener">
-		<property name="port" value="9877" />
-		<property name="running" value="true" />
-		<property name="prefix" value="biosaxs" />
-	</bean>
-	
-	<bean id="biosaxsprocessingrunner" class="uk.ac.gda.server.ncd.data.BiosaxsProcessingRunner">
-		<property name="environment">
-			<map>
-				<entry key="GDA_CONFIG" value="${gda.config}" />
-				<entry key="DAWN" value="/dls_sw/b21/software/DawnDiamond-1.5.0.v20140425-2056-linux64/dawn" />
-				<entry key="MOML" value="${gda.config}/processing/ncd_model.moml" />
-				<entry key="ISPYBUPDATE" value="${gda.config}/processing/updateispyb.py" />
-			</map>
-		</property>
-		<property name="executablePath" value="${gda.config}/processing/biosaxs.sh" />
-		<property name="detectorInfo" ref="detectorInfoPath" />
-	</bean>
-	
-	<bean class="uk.ac.gda.server.ncd.beans.StoredDetectorInfoImpl" id="detectorInfoPath">
-		<property name="currentDataDirectoryUpdater" ref="observableSubdirectory"/>
-	</bean>
-	
+	<import resource="b21_biosaxscam.xml"/>
 </beans>

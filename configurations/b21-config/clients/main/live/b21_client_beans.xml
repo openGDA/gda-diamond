@@ -2,6 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
@@ -9,13 +10,8 @@
         http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
         http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
+	<context:property-placeholder />
 	<import resource="b21_hatsaxs.xml" />
-
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location"
-			value="file:${gda.config}/properties/java.properties" />
-	</bean>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
@@ -104,10 +100,6 @@
 		serviceUrl="rmi://b21-control.diamond.ac.uk/gda/syringe2"
 		serviceInterface="gda.device.syringepump.Syringe" />
 
-	<gda:rmi-import
-		id="detectorInfoPath"
-		serviceUrl="rmi://b21-control.diamond.ac.uk/gda/detectorInfoPath"
-		serviceInterface="uk.ac.gda.server.ncd.beans.StoredDetectorInfo" />
 	<bean class="gda.rcp.util.OSGIServiceRegister">
 		<property name="class"
 			value="uk.ac.gda.devices.bssc.beans.BioSAXSProgressController" />

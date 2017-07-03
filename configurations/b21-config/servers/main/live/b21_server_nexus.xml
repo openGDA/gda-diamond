@@ -366,12 +366,6 @@
 		<property name="storedMetadataEntry" ref="subdirectory" />
 	</bean>
 
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<property name="serviceName" value="gda/detectorInfoPath"/>
-		<property name="service" ref="detectorInfoPath"/>
-		<property name="serviceInterface" value="uk.ac.gda.server.ncd.beans.StoredDetectorInfo"/>
-	</bean>
-
 	<bean id="title" class="gda.data.metadata.StoredScanMetadataEntry">
 		<property name="name" value="title" />
 		<property name="value" value="" />

@@ -6,9 +6,6 @@ biotable_x=SingleEpicsPositionerClass('biotable_x', 'BL21B-MO-TABLE-04:X.VAL' , 
 bs_x=SingleEpicsPositionerClass('bs_x', 'BL21B-RS-ABSB-03:X.VAL' , 'BL21B-RS-ABSB-03:X.RBV' , 'BL21B-RS-ABSB-03:X.DMOV' , 'BL21B-RS-ABSB-03:X.STOP' , 'mm', '%.5f')
 bs_y=SingleEpicsPositionerClass('bs_y', 'BL21B-RS-ABSB-03:Y.VAL' , 'BL21B-RS-ABSB-03:Y.RBV' , 'BL21B-RS-ABSB-03:Y.DMOV' , 'BL21B-RS-ABSB-03:Y.STOP' , 'mm', '%.5f')
 
-#di=finder.find("detectorInfoPath") 
-#di.setSaxsDetectorInfoPath("/dls/b21/data/xxxx/xxxxxx/processing/mask.nxs")
-
 
 t3_y=SingleEpicsPositionerClass('t3_y', 'BL21B-MO-TABLE-03:Y.VAL' , 'BL21B-MO-TABLE-03:Y.RBV' , 'BL21B-MO-TABLE-03:Y.DMOV' , 'BL21B-MO-TABLE-03:Y.STOP' , 'mm', '%.5f')
 t3_x=SingleEpicsPositionerClass('t3_x', 'BL21B-MO-TABLE-03:X.VAL' , 'BL21B-MO-TABLE-03:X.RBV' , 'BL21B-MO-TABLE-03:X.DMOV' , 'BL21B-MO-TABLE-03:X.STOP' , 'mm', '%.5f')
