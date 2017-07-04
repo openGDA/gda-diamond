@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Beamline B05-1" id="uk.ac.gda.beamline.b07-1.product" application="uk.ac.gda.client.application" version="9.5.0" useFeatures="true" includeLaunchers="true">
+<product name="Beamline B07-1" id="uk.ac.gda.beamline.b07-1.product" application="uk.ac.gda.client.application" version="9.5.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -36,7 +36,6 @@
       location="uk.ac.gda.beamline.b07-1" />
    <launcher name="gda-b07-1">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>

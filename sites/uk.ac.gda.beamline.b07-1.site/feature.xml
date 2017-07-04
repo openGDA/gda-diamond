@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="uk.ac.gda.beamline.b07-1.site"
-      label="Diamond Light Source - Beamline B05-1"
+      label="Diamond Light Source - Beamline B07-1"
       version="1.0.0.qualifier"
       provider-name="Diamond Light Source">
 
