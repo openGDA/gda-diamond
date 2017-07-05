@@ -8,12 +8,25 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
         http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="d1motor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D1.POSN" />
+	<bean id="d5motor_motor" class="gda.device.motor.DummyMotor">
 		<property name="local" value="true" />
 	</bean>
-	<bean id="d1filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
-		<property name="pvBase" value="BL21B-DI-PHDGN-01:MP" />
+
+	<bean id="d5filter" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="local" value="true" />
+		<property name="positions">
+			<list>
+				<value>Clear</value>
+				<value>Mo</value>
+				<value>Zr</value>
+				<value>Bi</value>
+				<value>Clear</value>
+				<value>Au</value>
+				<value>Zn</value>
+				<value>Cu</value>
+				<value>Fe</value>
+				<value>Out</value>
+			</list>
+		</property>
 	</bean>
 </beans>

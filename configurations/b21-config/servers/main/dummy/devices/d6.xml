@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="d6motor_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="d6d1" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="d6d1gain" class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset">
+		<property name="offset" value="11" />
+		<property name="scaling" value="0.3" />
+		<property name="description" value="constant gain for d6d1" />
+	</bean>
+	<bean id="d6d2" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="d6d2gain" class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset">
+		<property name="offset" value="12" />
+		<property name="scaling" value="0.4" />
+		<property name="description" value="constant gain for d6d2" />
+	</bean>
+	<bean id="d6d3" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="d6d3gain" class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset">
+		<property name="offset" value="13" />
+		<property name="scaling" value="0.5" />
+		<property name="description" value="constant gain for d6d3" />
+	</bean>
+
+	<bean id="d6filter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="local" value="true" />
+		<property name="positions">
+			<list>
+				<value>Inline Diode noM</value>
+				<value>Inline Diode Low E</value>
+				<value>Inline Diode High E</value>
+				<value>Clear</value>
+				<value>Clear</value>
+				<value>Clear</value>
+				<value>Clear</value>
+				<value>Clear</value>
+				<value>Scatter Diode 1 low E</value>
+				<value>Scatter Diode 1 No M</value>
+				<value>Scatter Diode 2 high E</value>
+				<value>Scatter Diode 2 No M</value>
+				<value>Camera Low E</value>
+				<value>Camera High E</value>
+				<value>Camera no M</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
+</beans>

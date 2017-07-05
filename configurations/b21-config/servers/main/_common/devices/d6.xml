@@ -8,12 +8,8 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
         http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="d1motor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D1.POSN" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="d1filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
-		<property name="pvBase" value="BL21B-DI-PHDGN-01:MP" />
+	<bean id="d6motor" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d6motor_motor" />
 		<property name="local" value="true" />
 	</bean>
 </beans>

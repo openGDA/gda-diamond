@@ -13,11 +13,6 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="d3motor" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d3motor_motor" />
-		<property name="local" value="true" />
-	</bean>
-
 	<bean id="d3d1" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
 		<property name="scalingAndOffset" ref="d3d1gain" />
 		<property name="useNameAsExtraName" value="true" />

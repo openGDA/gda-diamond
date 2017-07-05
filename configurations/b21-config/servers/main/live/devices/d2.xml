@@ -7,17 +7,12 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
         http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
-	
+
 	<bean id="d2motor_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="D2.POSN" />
 		<property name="local" value="true" />
 	</bean>
-	
-	<bean id="d2motor" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="d2motor_motor" />
-		<property name="local" value="true" />
-	</bean>
-	
+
 	<bean id="d2d1" class="uk.ac.gda.server.ncd.epics.ScaledAmplifiedMonitor">
 		<property name="scalingAndOffset" ref="d2d1gain" />
 		<property name="useNameAsExtraName" value="true" />

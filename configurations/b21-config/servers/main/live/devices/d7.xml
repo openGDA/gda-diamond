@@ -90,22 +90,22 @@
 				</entry>
 				<entry key="10">
 					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e3"></property>
+						<property name="scaling" value="10e3"/>
 					</bean>
 				</entry>
 				<entry key="11">
 					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e2"></property>
+						<property name="scaling" value="10e2"/>
 					</bean>
 				</entry>
 				<entry key="12">
 					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e1"></property>
+						<property name="scaling" value="10e1"/>
 					</bean>
 				</entry>
 				<entry key="13">
 					<bean class="uk.ac.gda.server.ncd.subdetector.ScalingAndOffsetParameters">
-						<property name="scaling" value="10e0"></property>
+						<property name="scaling" value="10e0"/>
 					</bean>
 				</entry>
 			</map>
