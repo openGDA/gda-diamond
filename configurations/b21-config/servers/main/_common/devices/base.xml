@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+        <bean id="base_pitch" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="base_pitch_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="base_yaw" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="base_yaw_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="base_x" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="base_x_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="base_y" class="gda.device.scannable.ScannableMotor">
+                <property name="motor" ref="base_y_motor" />
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="base" class="gda.device.scannable.scannablegroup.ScannableGroup">
+                <property name="groupMembers">
+                        <list>
+                                <ref bean="base_pitch" />
+                                <ref bean="base_yaw" />
+                                <ref bean="base_x" />
+                                <ref bean="base_y" />
+                        </list>
+                </property>
+                <property name="local" value="true" />
+        </bean>
+</beans>
