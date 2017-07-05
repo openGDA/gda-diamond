@@ -14,7 +14,10 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i21
-Import-Package: org.eclipse.scanning.api.event,
+Import-Package: org.dawb.workbench.ui.perspective,
+ org.dawnsci.mapping.ui,
+ org.dawnsci.processing.ui,
+ org.eclipse.scanning.api.event,
  org.eclipse.scanning.api.event.queues,
  org.eclipse.scanning.api.event.scan,
  org.eclipse.scanning.api.ui,
