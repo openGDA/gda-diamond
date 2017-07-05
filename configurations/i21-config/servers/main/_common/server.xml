@@ -18,6 +18,7 @@
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="topupWatchdog.xml"/>
 	<import resource="expressionWatchdog.xml"/>
+	<import resource="xRayWatchdog.xml"/>
 	
 	
 	<import resource="commandServer.xml" />

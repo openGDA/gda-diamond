@@ -35,6 +35,7 @@
 	<import resource="m2.xml" />
 	<import resource="m4.xml" />
 	<import resource="m5.xml" />
+	<import resource="BeamMonitor.xml"/>
 	
 	<!-- PGM -->
 	<import resource="pgm.xml" />

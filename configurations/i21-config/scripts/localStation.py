@@ -210,6 +210,9 @@ from startup.i21 import *  # @UnusedWildImport
 #Mapping scan
 from mapping_scan_commands import *
 
+from scannables.xrayBeamMonitor import XRayBeamMonitor
+xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
+
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
 
