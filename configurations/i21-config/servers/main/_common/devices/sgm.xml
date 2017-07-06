@@ -24,9 +24,10 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 
-	<bean id="sgmr1" class="gda.device.scannable.ScannableMotor">
+	<bean id="sgmr1" class="gda.device.scannable.AirBearingScannableMotor">
 		<property name="motor" ref="sgmlongxMotor" />
-		<property name="userUnits" value="mm" />
+		<property name="userUnits" value="mm"/>
+		<property name="airBearingScannable" ref="sgm_traveler_air"/>
 	</bean>
 
 	<bean id="sgmwedgeoffside" class="gda.device.scannable.ScannableMotor">

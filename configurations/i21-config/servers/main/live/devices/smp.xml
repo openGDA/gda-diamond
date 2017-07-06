@@ -25,7 +25,7 @@
 		<property name="pvName" value="BL21I-EA-SMPL-01:AZIMUTH" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="diodetthMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="smpdiodetthMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:DRING" />
 		<property name="local" value="true" />
 	</bean>
@@ -55,12 +55,12 @@
 		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO5:I" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="fixdiode2" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO6:I" />
+	<bean id="extradiode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO7:I" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="tthdiode" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO7:I" />
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO6:I" />
 		<property name="local" value="true" />
 	</bean>
 	

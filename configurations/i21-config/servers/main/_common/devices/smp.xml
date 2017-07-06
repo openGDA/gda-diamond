@@ -27,13 +27,12 @@
 		<property name="motor" ref="smpazimuthMotor" />
 		<property name="userUnits" value="deg" />
 	</bean>
-
-	<bean id="satilt" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="smptiltMotor" />
+	<bean id="diodetth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpdiodetthMotor" />
 		<property name="userUnits" value="deg" />
 	</bean>
-	<bean id="diodetth" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="diodetthMotor" />
+	<bean id="satilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smptiltMotor" />
 		<property name="userUnits" value="deg" />
 	</bean>
 
@@ -46,14 +45,14 @@
 				<ref bean="say" />
 				<ref bean="saz" />
 				<ref bean="saazimuth" />
-				<ref bean="satilt" />
 				<ref bean="diodetth" />
+				<ref bean="satilt" />
 				<ref bean="draincurrent" />
 				<ref bean="fy1" />
 				<ref bean="straightdiode" />
 				<ref bean="rotatingdiode" />
 				<ref bean="fixdiode1" />
-				<ref bean="fixdiode2" />
+				<ref bean="extradiode" />
 				<ref bean="tthdiode" />
 			</list>
 		</property>

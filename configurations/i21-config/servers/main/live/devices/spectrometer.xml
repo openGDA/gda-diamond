@@ -4,16 +4,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 		
 	<bean id="specgammaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-SPA-01:GAMMA"/>
+		<property name="pvName" value="BL21I-MO-ARM-01:GAMMA"/>
 		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="speczMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-SPA-01:VERT"/>
+		<property name="pvName" value="BL21I-MO-ARM-01:VERT"/>
 		<property name="local" value="true" />
 	</bean>
 	<bean id="specxMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21I-MO-SPA-01:HORZ"/>
+		<property name="pvName" value="BL21I-MO-ARM-01:HORZ"/>
 		<property name="local" value="true" />
 	</bean>
 

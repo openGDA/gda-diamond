@@ -17,12 +17,45 @@
       </product>
    </extension>
    <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="Diamond Beamline i21">
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="appName"
+               value="Diamond Beamline i21">
+         </property>
+         <property
+               name="aboutText"
+               value="Diamond Beamline i21 &#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
+         </property>
+      </product>
+   </extension>
+   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
             locationURI="menu:window?after=showView">
          <menu
                label="Area Detectors">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="ANDOR Array"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//ANDOR//BL21I-EA-DET-01@">
+               </parameter>
+            </command>
             <command
                   commandId="org.eclipse.ui.views.showView"
                   label="D1 Array"
@@ -57,6 +90,15 @@
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D4//BL21I-DI-DCAM-04@">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="D8 Array"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D8//BL21I-DI-DCAM-24@">
                </parameter>
             </command>
             <command
@@ -104,20 +146,18 @@
                      value="uk.ac.gda.epics.adviewer.twodArrayView:pv//SMPLCAM1//BL21I-DI-DCAM-20@">
                </parameter>
             </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="D8 Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D8//BL21I-DI-DCAM-24@">
-               </parameter>
-            </command>
          </menu>
       </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//ANDOR//BL21I-EA-DET-01@"
+            name="ANDOR Array View"
+            restorable="true">
+      </view>
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
@@ -149,15 +189,15 @@
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//S5//BL21I-DI-DCAM-55@"
-            name="S5 Array View"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D8//BL21I-DI-DCAM-24@"
+            name="D8 Array View"
             restorable="true">
       </view>
       <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D8//BL21I-DI-DCAM-24@"
-            name="D8 Array View"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//S5//BL21I-DI-DCAM-55@"
+            name="S5 Array View"
             restorable="true">
       </view>
       <view
@@ -188,37 +228,5 @@
             name="SMPLCAM1 Array View"
             restorable="true">
       </view>
-   </extension>
-   <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="uk.ac.gda.beamline.i21.ScanPerspective"
-            id="uk.ac.gda.beamline.i21.scanperspective"
-            name="Scan">
-      </perspective>
-   </extension>
-   <extension
-         id="dummy_product"
-         point="org.eclipse.core.runtime.products">
-      <product
-            application="uk.ac.gda.client.application"
-            name="uk.ac.gda.beamline.i21.dummy.product">
-         <property
-               name="appName"
-               value="uk.ac.gda.beamline.i21.dummy.product">
-         </property>
-         <property
-               name="aboutImage"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
-         </property>
-         <property
-               name="aboutText"
-               value="Diamond Beamline i21 &#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
-         </property>
-         <property
-               name="windowImages"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
-         </property>
-      </product>
    </extension>
 </plugin>
