@@ -1,27 +1,40 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<description>
 		There are 3 ways of configure EPICS access:
 		1. use Java content objects
 		provided by epics-x.x.x.jar to specify
 		'deviceName' property;
-		e.g. <!-- property 
+		e.g. <!-- property
 			name="deviceName" value="pilad.cam_ADBase"/ -->
 		2. set pvProvider property which in turn uses XMLPVProvider bean to
 		specify 'deviceName' property;
-		e.g. <!-- property name="pvProvider"> <bean 
-			class="uk.ac.gda.devices.excalibur.impl.XMLPVProvider"> <property name="deviceName" 
+		e.g. <!-- property name="pvProvider"> <bean
+			class="uk.ac.gda.devices.excalibur.impl.XMLPVProvider"> <property name="deviceName"
 			value="pilad.cam_ADBase" /> </bean> </property -->
 		3. set base PV name property with field or sub-element being coded in
 		Java classes.
-		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" 
+		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:"
 			/ -->
 	</description>
 
+	<!-- InetAddress.getLocalHost() returns full machine name (eg wsXYZ.diamond.ac.uk) -->
+	<bean id="localhostInetAddress"
+		class="java.net.InetAddress"
+		factory-method="getLocalHost"/>
+	<!-- split full hostname to get short name (which is used by the simulated version of AreaDetector) -->
+	<bean id="hostname" class="java.lang.String">
+		<constructor-arg value="#{ localhostInetAddress.hostName.split('\.')[0] }" />
+	</bean>
+
+	<bean id="basePV" class="java.lang.String">
+		<constructor-arg value="#{hostname}-AD-SIM-01:" />
+	</bean>
+
 	<bean id="saxsAreaDetector" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL21B-EA-PILAT-01:cam1:" />
+		<property name="basePVName" value="#{basePV}CAM:" />
 		<property name="initialDataType" value="UInt16" />
 		<property name="initialMinX" value="0" />
 		<property name="initialMinY" value="0" />
@@ -33,16 +46,16 @@
 
 	<bean id="saxshdf5"
 		class="uk.ac.gda.server.ncd.epics.NDFileHDF5Impl">
-		<property name="basePVName" value="BL21B-EA-PILAT-01:HDF5:" />
+		<property name="basePVName" value="#{basePV}HDF5:" />
 		<property name="compression" value="zlib" />
 		<property name="ZCompressLevel" value="1" />
-                                <property name="numRowChunks" value="848" /> 
-                                <property name="framesPerChunk" value="1" />
-                                <property name="columnsPerChunk" value="494" />
-                                <property name="chunkAlignment" value="0" />
+		<property name="numRowChunks" value="848" />
+		<property name="framesPerChunk" value="1" />
+		<property name="columnsPerChunk" value="494" />
+		<property name="chunkAlignment" value="0" />
 		<property name="file">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-				<property name="basePVName" value="BL21B-EA-PILAT-01:HDF5:" />
+				<property name="basePVName" value="#{basePV}HDF5:" />
 				<property name="initialAutoIncrement" value="0" />
 				<property name="initialAutoSave" value="0" />
 				<property name="initialWriteMode" value="0" />
@@ -51,7 +64,7 @@
 				<property name="initialFileTemplate" value="%s%s-%d.h5" />
 				<property name="pluginBase">
 					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-						<property name="basePVName" value="BL21B-EA-PILAT-01:HDF5:" />
+						<property name="basePVName" value="#{basePV}HDF5:" />
 					</bean>
 				</property>
 			</bean>
@@ -59,29 +72,24 @@
 	</bean>
 
 	<bean id="saxsarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="BL21B-EA-PILAT-01:image1:" />
+		<property name="basePVName" value="#{basePV}ARR:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL21B-EA-PILAT-01:image1:" />
+				<property name="basePVName" value="#{basePV}ARR:" />
 			</bean>
 		</property>
 	</bean>
 
 	<bean id="saxsstats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-		<property name="basePVName" value="BL21B-EA-PILAT-01:STATS1:" />
+		<property name="basePVName" value="#{basePV}STAT:" />
 	</bean>
 
 	<bean id="saxscontroller" class="uk.ac.gda.server.ncd.pilatus.PilatusADController">
-		<property name="basePVName" value="BL21B-EA-PILAT-01:cam1:" />
+		<property name="basePVName" value="#{basePV}CAM:" />
 		<property name="areaDetector" ref="saxsAreaDetector" />
 		<property name="HDF5" ref="saxshdf5" />
 		<property name="array" ref="saxsarray" />
 		<property name="stats" ref="saxsstats" />
 	</bean>
 
-	<bean id="Pilatus2M" class="uk.ac.gda.server.ncd.subdetector.NcdPilatusADP2">
-		<property name="controller" ref="saxscontroller" />
-		<property name="detectorType" value="SAXS" />
-		<property name="pixelSize" value="0.000172" />
-	</bean>
 </beans>
