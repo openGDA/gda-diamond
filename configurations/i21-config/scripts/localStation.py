@@ -127,7 +127,6 @@ def scan_processing_on():
 def scan_processing_off():
     scan_processor.processors = scan_processor_empty_processes
 
-print "Switch off scan processor by default at Sarnjeet's request on 11 May 2016 in I06-1."    
 print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
 print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
 scan_processing_on()
@@ -161,12 +160,13 @@ else:
 
 print 
 
-from scannables.cleverAmplifier import CleverAmplifier
-print "create clever amplifier scannables: cleverd7femto1, cleverd7femto2"
+
+print "create clever amplifier scannables: cleverd7femto1, cleverd7femto2, cleverm4femto1, cleverm4femto2"
 from i21_utils import DisplayEpicsPVClass_neg, DisplayEpicsPVClass_pos
 d7femto1_neg = DisplayEpicsPVClass_neg('d7femto1_neg', d7femto1)  # @UndefinedVariable
 d7femto2_pos = DisplayEpicsPVClass_pos('d7femto2_pos', d7femto2)  # @UndefinedVariable
 
+from scannabledevices.cleverAmplifier import CleverAmplifier
 cleverd7femto1=CleverAmplifier("cleverd7femto1", d7femto1_neg, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 cleverd7femto2=CleverAmplifier("cleverd7femto2", d7femto2_pos, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 cleverm4femto1=CleverAmplifier("cleverm4femto1", m4femto1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
@@ -210,7 +210,7 @@ from startup.i21 import *  # @UnusedWildImport
 #Mapping scan
 from mapping_scan_commands import *
 
-from scannables.xrayBeamMonitor import XRayBeamMonitor
+from scannabledevices.xrayBeamMonitor import XRayBeamMonitor
 xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 
 print "*"*80
