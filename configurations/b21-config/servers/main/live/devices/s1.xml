@@ -7,17 +7,9 @@
 		<property name="deviceName" value="S1.XCENTRE" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="s1_xcentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1_xcentre_motor" />
-		<property name="local" value="true" />
-	</bean>
 
 	<bean id="s1_xgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="S1.XSIZE" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="s1_xgap" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1_xgap_motor" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -25,17 +17,9 @@
 		<property name="deviceName" value="S1.YCENTRE" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="s1_ycentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1_ycentre_motor" />
-		<property name="local" value="true" />
-	</bean>
 
 	<bean id="s1_ygap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="S1.YSIZE" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="s1_ygap" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1_ygap_motor" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -43,17 +27,9 @@
 		<property name="deviceName" value="S1.XPLUS" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="s1_xplus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1_xplus_motor" />
-		<property name="local" value="true" />
-	</bean>
 
 	<bean id="s1_xminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="S1.XMINUS" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="s1_xminus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1_xminus_motor" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -61,33 +37,10 @@
 		<property name="deviceName" value="S1.YPLUS" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="s1_yplus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1_yplus_motor" />
-		<property name="local" value="true" />
-	</bean>
 
 	<bean id="s1_yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="S1.YMINUS" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="s1_yminus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s1_yminus_motor" />
-		<property name="local" value="true" />
-	</bean>
 
-	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="s1_xcentre" />
-				<ref bean="s1_xgap" />
-				<ref bean="s1_ycentre" />
-				<ref bean="s1_ygap" />
-				<ref bean="s1_xplus" />
-				<ref bean="s1_xminus" />
-				<ref bean="s1_yplus" />
-				<ref bean="s1_yminus" />
-			</list>
-		</property>
-		<property name="local" value="true" />
-	</bean>
 </beans>

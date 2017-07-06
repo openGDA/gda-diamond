@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s3_xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3_xcentre_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3_xgap_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3_ycentre_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3_ygap_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_xplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3_xplus_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_xminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3_xminus_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_yplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3_yplus_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_yminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s3_yminus_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s3_xcentre" />
+				<ref bean="s3_xgap" />
+				<ref bean="s3_ycentre" />
+				<ref bean="s3_ygap" />
+				<ref bean="s3_xplus" />
+				<ref bean="s3_xminus" />
+				<ref bean="s3_yplus" />
+				<ref bean="s3_yminus" />
+				<ref bean="s3_xplusi" />
+				<ref bean="s3_xminusi" />
+				<ref bean="s3_yplusi" />
+				<ref bean="s3_yminusi" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+</beans>

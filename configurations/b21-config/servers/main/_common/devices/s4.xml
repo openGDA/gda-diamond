@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s4_xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_xcentre_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s4_xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_xgap_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s4_ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_ycentre_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s4_ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_ygap_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s4_xplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_xplus_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s4_xminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_xminus_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s4_yplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_yplus_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s4_yminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_yminus_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s4_xcentre" />
+				<ref bean="s4_xgap" />
+				<ref bean="s4_ycentre" />
+				<ref bean="s4_ygap" />
+				<ref bean="s4_xplus" />
+				<ref bean="s4_xminus" />
+				<ref bean="s4_yplus" />
+				<ref bean="s4_yminus" />
+				<ref bean="s4_xplusi" />
+				<ref bean="s4_xminusi" />
+				<ref bean="s4_yplusi" />
+				<ref bean="s4_yminusi" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+</beans>
