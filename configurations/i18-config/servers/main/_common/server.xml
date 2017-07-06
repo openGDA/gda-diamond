@@ -28,8 +28,6 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/table1.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/table3.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/trajStage1.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/trajStage3.xml" />
 	<!-- Make mandelbrot detector available both on dummy and live modes for testing mapping scans. -->
 	<import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml"/>
 
@@ -50,8 +48,6 @@
 	<import resource="scannables.xml" />
 	<import resource="table1.xml" />
 	<import resource="table3.xml" />
-	<import resource="trajStage1.xml" />
-	<import resource="trajStage3.xml" />
 
 	<!-- Need to import core.xml last so all other objects are configured before the Jython server -->
 	<import resource="core.xml" />
