@@ -3,13 +3,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="qbpm_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21B-DI-QBPM-01:X" />
+	<bean id="qbpm_x_motor" class="gda.device.motor.DummyMotor">
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="qbpm_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21B-DI-QBPM-01:Y" />
+	<bean id="qbpm_y_motor" class="gda.device.motor.DummyMotor">
 		<property name="local" value="true" />
 	</bean>
 

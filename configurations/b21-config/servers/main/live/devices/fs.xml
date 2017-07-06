@@ -3,16 +3,16 @@
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-        http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
-	
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
 	<bean id="fs1" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL21B-EA-SHTR-01:MP" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="fs2" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL21B-EA-SHTR-02:MP" />
 		<property name="local" value="true" />

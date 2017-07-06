@@ -8,14 +8,12 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="syringeController" class="gda.device.syringepump.controllor.EpicsSyringePumpController">
+	<bean id="syringeController" class="gda.device.syringepump.DummySyringePumpController">
 		<property name="capacity" value="1"/>
-		<property name="pvPrefix" value="BL21B-EA-SPUMP-01:"/>
 	</bean>
 
-	<bean id="syringeController2" class="gda.device.syringepump.controllor.EpicsSyringePumpController">
+	<bean id="syringeController2" class="gda.device.syringepump.DummySyringePumpController">
 		<property name="capacity" value="1"/>
-		<property name="pvPrefix" value="BL21B-EA-SPUMP-02:"/>
 	</bean>
 
 </beans>

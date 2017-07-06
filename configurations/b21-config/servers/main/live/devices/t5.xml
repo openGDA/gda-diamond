@@ -1,53 +1,26 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="t5_y1_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL21B-MO-TABLE-05:Y1" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="t5_y1" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="t5_y1_motor" />
-                <property name="local" value="true" />
-        </bean>
+	<bean id="t5_y1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21B-MO-TABLE-05:Y1" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="t5_y2_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL21B-MO-TABLE-05:Y2" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="t5_y2" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="t5_y2_motor" />
-                <property name="local" value="true" />
-        </bean>
+	<bean id="t5_y2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21B-MO-TABLE-05:Y2" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="t5_x1_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL21B-MO-TABLE-05:X1" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="t5_x1" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="t5_x1_motor" />
-                <property name="local" value="true" />
-        </bean>
+	<bean id="t5_x1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21B-MO-TABLE-05:X1" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="t5_x2_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL21B-MO-TABLE-05:X2" />
-                <property name="local" value="true" />
-        </bean>
-        <bean id="t5_x2" class="gda.device.scannable.ScannableMotor">
-                <property name="motor" ref="t5_x2_motor" />
-                <property name="local" value="true" />
-        </bean>
+	<bean id="t5_x2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21B-MO-TABLE-05:X2" />
+		<property name="local" value="true" />
+	</bean>
 
-        <bean id="t5" class="gda.device.scannable.scannablegroup.ScannableGroup">
-                <property name="groupMembers">
-                        <list>
-                                <ref bean="t5_y1" />
-                                <ref bean="t5_y2" />
-                                <ref bean="t5_x1" />
-                                <ref bean="t5_x2" />
-                        </list>
-                </property>
-                <property name="local" value="true" />
-        </bean>
 </beans>
