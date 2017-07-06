@@ -20,27 +20,6 @@
 	<import resource="b21_server_nexus.xml" />
 	<import resource="b21_hatsaxs.xml" />
 
-	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
-		<constructor-arg ref="logfilenameprovider" />
-	</bean>
-
-	<bean class="gda.jython.logger.OutputTerminalAdapter">
-		<constructor-arg ref="jython_server_facade" />
-		<constructor-arg ref="terminal_logger" />
-	</bean>
-	<bean class="gda.jython.logger.InputTerminalAdapter">
-		<constructor-arg ref="command_server" />
-		<constructor-arg ref="terminal_logger" />
-	</bean>
-	<bean class="gda.jython.logger.ScanDataPointAdapter">
-		<constructor-arg ref="jython_server_facade" />
-		<constructor-arg ref="terminal_logger" />
-	</bean>
-	<bean class="gda.jython.logger.BatonChangedAdapter">
-		<constructor-arg ref="jython_server_facade" />
-		<constructor-arg ref="terminal_logger" />
-	</bean>
-
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
