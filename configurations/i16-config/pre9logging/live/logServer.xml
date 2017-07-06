@@ -30,14 +30,6 @@
         </layout>
     </appender> 
 
-    <logger name="gda.device.continuouscontroller.EpicsTrajectoryScanControllerDev812">
-        <level value="DEBUG"/>
-    </logger>
-     <logger name="gda.device.continuouscontroller.EpicsTrajectoryMoveControllerAdapter">
-        <level value="DEBUG"/>
-    </logger>
-    
-    
 <!--     <logger name="gda.device.scannable.ScannableMotor">-->
 <!--        <level value="DEBUG"/>-->
 <!--    </logger>-->

@@ -66,8 +66,6 @@
 	<import resource="epics/detector/zylar.xml" />
 
 
-	<import resource="epics/trajectory_scan_controller_xps2.xml" />
-
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
 
 	<bean id="script_paths" parent="common_script_paths_with_diffcalc_and_epics"/>

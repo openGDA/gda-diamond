@@ -43,8 +43,6 @@
 	<import resource="detector/struck.xml" />
 	<import resource="detector/vortex.xml" />
 	
-	<import resource="trajectory_scan_controller_xps2.xml" />
-	
 	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
 		<property name="local" value="true" />
 	</bean>

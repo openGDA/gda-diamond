@@ -46,13 +46,6 @@
 <!--        <level value="DEBUG"/>-->
 <!--    </logger>-->
 
-     <logger name="gda.device.continuouscontroller.EpicsTrajectoryScanControllerDev812">
-        <level value="DEBUG"/>
-    </logger>
-     <logger name="gda.device.continuouscontroller.EpicsTrajectoryMoveControllerAdapter">
-        <level value="DEBUG"/>
-    </logger>
-    
     <!--logger name="gda.device.detector.IPPserver">
         <level value="DEBUG"/>
     </logger--> 
