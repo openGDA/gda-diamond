@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--*************************************** -->
+	<!-- *** NCD devices section *** -->
+	<!--*************************************** -->
+
+	<bean id="DAServer" class="gda.device.detector.DAServer">
+		<property name="host" value="bl21b-ea-tfg2-01" />
+		<property name="port" value="1972" />
+		<property name="local" value="true" />
+		<property name="dataPort" value="20030" />
+		<property name="startupCommands">
+			<list>
+				<value>tfg config "etfg0" tfg2</value>
+				<value>tfg setup-cc-mode scaler64</value>
+				<value>tfg setup-cc-chan -1 edge</value>
+			</list>
+		</property>
+	</bean>
+</beans>

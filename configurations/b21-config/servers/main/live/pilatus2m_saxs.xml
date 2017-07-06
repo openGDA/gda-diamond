@@ -79,4 +79,9 @@
 		<property name="stats" ref="saxsstats" />
 	</bean>
 
+	<bean id="Pilatus2M" class="uk.ac.gda.server.ncd.subdetector.NcdPilatusADP2">
+		<property name="controller" ref="saxscontroller" />
+		<property name="detectorType" value="SAXS" />
+		<property name="pixelSize" value="0.000172" />
+	</bean>
 </beans>

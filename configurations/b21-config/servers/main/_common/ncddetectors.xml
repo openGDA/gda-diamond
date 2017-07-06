@@ -6,19 +6,6 @@
 	<!-- *** NCD devices section *** -->
 	<!--*************************************** -->
 
-	<bean id="DAServer" class="gda.device.detector.DAServer">
-		<property name="host" value="bl21b-ea-tfg2-01" />
-		<property name="port" value="1972" />
-		<property name="local" value="true" />
-		<property name="dataPort" value="20030" />
-		<property name="startupCommands">
-			<list>
-				<value>tfg config "etfg0" tfg2</value>
-				<value>tfg setup-cc-mode scaler64</value>
-				<value>tfg setup-cc-chan -1 edge</value>
-			</list>
-		</property>
-	</bean>
 	<bean id="Tfg" class="gda.device.timer.Etfg">
 		<property name="daServerName" value="DAServer" />
 		<property name="showArmed" value="true" />
@@ -54,38 +41,51 @@
 		<property name="scalingAndOffset" ref="bsdiodegain" />
 	</bean>
 
-	<import resource="b21_pilatus_saxs.xml"/>
-
 	<bean id="ncddetectors" class="uk.ac.gda.server.ncd.detectorsystem.NcdDetectorSystem">
 		<property name="timer" ref="Tfg" />
 		<property name="detectors">
 			<list>
 				<ref bean="Pilatus2M" />
 				<ref bean="It" />
-				<!-- <ref bean="Hotwaxs" /> -->
 				<ref bean="Scalers" />
 				<ref bean="TfgTimes" />
 			</list>
 		</property>
 	</bean>
-	
-		<bean id="energy" class="uk.ac.gda.server.ncd.scannable.EnergyScannable">
-			<property name="bragg" ref="dmm_energy" />
-		</bean>
 
 	<bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
 		<property name="ncdDetector" ref="ncddetectors" />
 		<property name="energyScannable" ref="energy" />
 	</bean>
 
-	<bean id="bssc" class="uk.ac.gda.devices.bssc.BioSAXSSampleChanger"> 
-		<property name="hostname" value="b21-biosaxs.diamond.ac.uk"/> 
-		<property name="port" value="9555"/> 
-	</bean> 
-	<bean id="bsscscannable" class="uk.ac.gda.devices.bssc.scannable.BSSCScannable">
-		<property name="bssc" ref="bssc" /> 
-		<property name="local" value="false" />
+	<bean id="saxs_mask" class="uk.ac.gda.server.ncd.meta.NcdMaskLink">
+		<property name="detectorType" value="SAXS"/>
+		<property name="visitMeta" ref="visit"/>
+		<property name="configFileName" value="saxs_masks" />
 	</bean>
-
-	<import resource="b21_biosaxscam.xml"/>
+	<bean id="saxs_cal" class="uk.ac.gda.server.ncd.meta.NcdCalibration">
+		<property name="detectorType" value="SAXS"/>
+		<property name="visitMeta" ref="visit"/>
+		<property name="configFileName" value="saxs_masks" />
+	</bean>
+	<bean id="saxs_bg" class="uk.ac.gda.server.ncd.meta.NcdBackground">
+		<property name="detectorType" value="SAXS"/>
+		<property name="visitMeta" ref="visit"/>
+		<property name="configFileName" value="saxs_masks" />
+	</bean>
+	<bean id="waxs_mask" class="uk.ac.gda.server.ncd.meta.NcdMaskLink">
+		<property name="detectorType" value="WAXS"/>
+		<property name="visitMeta" ref="visit"/>
+		<property name="configFileName" value="saxs_masks" />
+	</bean>
+	<bean id="waxs_cal" class="uk.ac.gda.server.ncd.meta.NcdCalibration">
+		<property name="detectorType" value="WAXS"/>
+		<property name="visitMeta" ref="visit"/>
+		<property name="configFileName" value="saxs_masks" />
+	</bean>
+	<bean id="waxs_bg" class="uk.ac.gda.server.ncd.meta.NcdBackground">
+		<property name="detectorType" value="WAXS"/>
+		<property name="visitMeta" ref="visit"/>
+		<property name="configFileName" value="saxs_masks" />
+	</bean>
 </beans>
