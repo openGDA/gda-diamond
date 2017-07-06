@@ -33,36 +33,4 @@
 		<property name="continuousMoveController" ref="traj1ScanControllerAdapter" />
 	</bean>
 
-	<!-- TODO Check if this is still used and remove if not -->
-	<bean id="oldTraj1ScanController" class="gda.scan.EpicsTrajectoryScanController">
-		<property name="deviceName" value="TRAJ" />
-		<property name="m1axis" value="samplex" />
-		<property name="m2axis" value="sampley" />
-		<property name="m3axis" value="samplez" />
-		<property name="m4axis" value="thetafine" />
-		<property name="m5axis" value="empty" />
-		<property name="m6axis" value="empty" />
-		<property name="m7axis" value="empty" />
-		<property name="m8axis" value="empty" />
-		<property name="accelerationTime" value="1" />
-		<property name="local" value="true" />
-	</bean>
-
-	<!-- Extends EpicsSingleTrajectoryScannable -->
-	<bean id="traj1PositionReader" class="gda.device.scannable.EpicsTrajectoryScanRealPositionReader">
-		<property name="protectionLevel" value="0" />
-		<property name="trajectoryIndex" value="3" />
-		<property name="tracController" ref="oldTraj1ScanController" />
-	</bean>
-
-	<!-- Used in raster_map.py only -->
-	<bean id="traj1ContiniousX" class="gda.device.scannable.I18SingleTrajectoryScannable">
-		<property name="protectionLevel" value="0" />
-		<property name="trajectoryIndex" value="3" />
-		<property name="mode" value="2" />
-		<property name="readTimeout" value="10.0" />
-		<property name="readingBack" value="false" />
-		<property name="tracController" ref="oldTraj1ScanController" />
-	</bean>
-
 </beans>
