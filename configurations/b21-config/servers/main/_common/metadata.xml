@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<!-- ==================== GDA METADATA ==================== -->
+
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+		<property name="metadataEntries">
+			<list>
+				<ref bean="instrument" />
+				<ref bean="federalid" />
+				<ref bean="note" />
+				<ref bean="instrument.source.energy"/>
+				<ref bean="instrument.source.current"/>
+				<ref bean="subdirectory" />
+				<ref bean="title" />
+				<ref bean="visit" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="instrument" class="gda.data.metadata.PropertyMetadataEntry">
+		<property name="name" value="instrument" />
+		<property name="propertyName" value="gda.instrument" />
+	</bean>
+	<bean id="visit" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="visit" />
+		<property name="value" value="" />
+	</bean>
+	<bean id="federalid" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="federalid" />
+		<property name="value" value="" />
+	</bean>
+	<bean id="note" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="note" />
+		<property name="value" value="undefined" />
+	</bean>
+	<bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry">
+		<property name="defaultValue" value="" />
+		<property name="defaultSubdirectory" value="" />
+	</bean>
+	<bean id="samplename" class="gda.data.metadata.ScannableMetadataEntry" >
+		<property name="scannableName" value="sample_name" />
+	</bean>
+	<bean id="title" class="gda.data.metadata.StoredScanMetadataEntry">
+		<property name="name" value="title" />
+		<property name="value" value="" />
+	</bean>
+
+	<bean id="observableScanTitle" class="gda.data.metadata.MetadataBlaster">
+		<property name="storedMetadataEntry" ref="title" />
+	</bean>
+	<bean id="observableSubdirectory" class="gda.data.metadata.MetadataBlaster">
+		<property name="storedMetadataEntry" ref="subdirectory" />
+	</bean>
+	<bean id="observableSamplename" class="gda.data.metadata.MetadataBlaster">
+		<property name="storedMetadataEntry" ref="samplename" />
+	</bean>
+
+	<!-- ==================== METADATA SCANNABLES ==================== -->
+
+	<bean id="sample_environment" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>BSSC</value>
+				<value>HPLC</value>
+				<value>Manual</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="sample_type" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>sample</value>
+				<value>sample+can</value>
+				<value>can</value>
+				<value>sample+buffer</value>
+				<value>buffer</value>
+				<value>calibration</value>
+				<value>sample</value>
+				<value>normalisation</value>
+				<value>sample</value>
+				<value>simulated</value>
+				<value>data</value>
+				<value>none</value>
+				<value>sample</value>
+				<value>environment</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="sample_thickness" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="name" value="sample_thickness" />
+		<property name="inputNames" value="sample_thickness"/>
+		<property name="outputFormat" value="%5.5g"/>
+		<property name="protectionLevel" value="1" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="sample_concentration" class="gda.device.scannable.DummyUnitsScannable">
+		<property name="name" value="sample_concentration" />
+		<property name="inputNames" value="sample_concentration"/>
+		<property name="outputFormat" value="%5.5g"/>
+		<property name="protectionLevel" value="1" />
+		<property name="userUnits" value="mg/mL" />
+	</bean>
+
+	<bean id="sample_name" class="gda.device.scannable.SimpleScannable">
+		<property name="inputNames" value="sample_name" />
+		<property name="extraNames" value="" />
+		<property name="outputFormat" value="%s" />
+		<property name="currentPosition" value="" />
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+		<property name="arguments">
+			<set>
+				<value>energy</value>
+				<value>sample_name</value>
+				<value>sample_thickness</value>
+				<value>sample_concentration</value>
+				<value>sample_type</value>
+				<value>sample_environment</value>
+			</set>
+		</property>
+	</bean>
+</beans>
