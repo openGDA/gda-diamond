@@ -188,12 +188,22 @@ import metashop  # @UnusedImport
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Add meta data items"
-metadatalist=[s1hsize,s1vsize,m1x,m1pitch,m1height,s2hsize,s2vsize,m2x,m2pitch,m2height,s3hsize,s3vsize,  # @UndefinedVariable
-              pgmEnergy, pgmGratingSelectReal,pgmMirrorSelectReal,pgmMirrorPitch,  # @UndefinedVariable
-              pgmGratingPitch,s5v1gap,s5v2gap, m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2,  # @UndefinedVariable
-              idgap,sapolar,sax,say,saz,saazimuth,draincurrent] #@UndefinedVariable
+metadatalist=[idgap,specgamma,specz,specx] #@UndefinedVariable
+m1list=[m1x,m1pitch,m1height,m1yaw,m1roll] #@UndefinedVariable
+m2list=[m2x,m2pitch,m2height]# @UndefinedVariable
+m4list=[m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2]  # @UndefinedVariable
 m5list=[m5hqx,m5hqy,m5hqz,m5hqrx,m5hqry,m5hqrz,m5lqx,m5lqy,m5lqz,m5lqrx,m5lqry,m5lqrz,m5longy,m5tth]  # @UndefinedVariable
-meta_data_list= metadatalist+m5list
+pgmlist=[pgmEnergy, pgmGratingSelectReal,pgmMirrorSelectReal,pgmMirrorPitch,pgmGratingPitch]  # @UndefinedVariable
+s1list=[s1hsize,s1vsize,s1hcentre,s1vcentre] #@UndefinedVariable
+s2list=[s2hsize,s2vsize,s2hcentre,s2vcentre] #@UndefinedVariable
+s3list=[s3hsize,s3vsize,s3hcentre,s3vcentre] #@UndefinedVariable
+s5list=[s5v1gap,s5v2gap,s5hgap] #@UndefinedVariable
+samplelist=[sapolar,sax,say,saz,saazimuth,satilt,diodetth,draincurrent] # @UndefinedVariable
+sgmlist=[sgmx,sgmr1,sgmpitch,sgmwedgeoffside,sgmwedgenearside] # @UndefinedVariable
+spectrometerlist=[specgamma,specz,specx] # @UndefinedVariable
+andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
+
+meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s5list+samplelist+sgmlist+spectrometerlist+andorlist
 # metadatalist=[s1, m1, s2, m2, s3, pgm, s5, m4, idgap, smp]  # @UndefinedVariable
 for each in meta_data_list:
     meta_add(each)
@@ -201,6 +211,10 @@ alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
+
+from epics_scripts.pv_scannable_utils import createPVScannable
+pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
+pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
 
 b2.setOutputFormat(["%7.4f"])  # @UndefinedVariable
 
