@@ -8,6 +8,36 @@
         http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+	<bean class="gda.factory.corba.util.AdapterFactory">
+		<constructor-arg index="0" value="${gda.factory.factoryName}" />
+		<constructor-arg index="1">
+			<bean class="gda.spring.NetServiceFactoryBean" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="commandQueue" class="gda.commandqueue.CommandQueue" />
+
+	<bean id="commandQueueProcessor" class="gda.commandqueue.FindableProcessorQueue">
+		<property name="queue" ref="commandQueue" />
+		<property name="startImmediately" value="true" />
+		<property name="logFilePath" value="${gda.var}/commandQueueProcessor.log" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/commandQueueProcessor" />
+		<property name="service" ref="commandQueueProcessor" />
+		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
+	</bean>
+
+	<corba:export namespace="b21" />
+	<gda:rbac />
 	<context:property-placeholder />
 	<import resource="devices/*.xml" />
 </beans>

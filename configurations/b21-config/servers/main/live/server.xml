@@ -7,7 +7,6 @@
 		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
 		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<import resource="b21_server_beans.xml" />
 	<import resource="devices/devices.xml" />
 	<import resource="../_common/*.xml" />
 </beans>
