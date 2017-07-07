@@ -17,7 +17,6 @@
 		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
 
 	<import resource="b21_server_ncd.xml" />
-	<import resource="b21_server_nexus.xml" />
 	<import resource="b21_hatsaxs.xml" />
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
@@ -43,9 +42,6 @@
 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
 	</bean>
 
-	<bean id="twodscan" class="gda.data.scan.TwoDPlotListener">
-		<property name="plotPanel" value="Plot 2D" />
-	</bean>
 
 	<corba:export namespace="b21" />
 
