@@ -6,16 +6,31 @@
 
 	<bean id="specgamma" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="specgammaMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%7.4f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="deg" />
 	</bean>
 	
 	<bean id="specz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="speczMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%8.3f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
 	
 	<bean id="specx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="specxMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%9.3f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
 
