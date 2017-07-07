@@ -14,7 +14,7 @@ class BeamEnergy(ScannableMotionBase):
     
         This pseudo device requires a lookupTable table object to provide ID parameters for calculation of ID idgap from beam 
         energy required and harmonic order. The lookupTable table object must be created before the instance creation of this class.
-        The child scannabledevices or pseudo devices must exist in jython's global namespace prior to any method call of this class 
+        The child scannable or pseudo devices must exist in jython's global namespace prior to any method call of this class 
         instance.
         '''
         
