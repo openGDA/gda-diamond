@@ -14,7 +14,7 @@ class BeamEnergy(ScannableMotionBase):
     
         This pseudo device requires a lookupTable table object to provide ID parameters for calculation of ID idgap from beam 
         energy required and harmonic order. The lookupTable table object must be created before the instance creation of this class.
-        The child scannables or pseudo devices must exist in jython's global namespace prior to any method call of this class 
+        The child scannabledevices or pseudo devices must exist in jython's global namespace prior to any method call of this class 
         instance.
         '''
         
@@ -41,7 +41,7 @@ class BeamEnergy(ScannableMotionBase):
             self.idscannable.moveTo([float(self.idgap.getPosition()), "LH", 0]) 
             self.polarisationMode=value
         elif value == "LV":
-            self.idscannable.moveTo([float(self.idgap.getPosition()), "C", 28]) 
+            self.idscannable.moveTo([float(self.idgap.getPosition()), "LV", 28]) 
             self.polarisationMode=value
         elif value == "C":
             if rowPhase is None:
@@ -101,7 +101,7 @@ class BeamEnergy(ScannableMotionBase):
         
         # Linear Vertical
         elif self.getPolarisationMode()=="LV":
-            raise ValueError("LV polarisationMode is not yet implemented!")
+            gap = 11.6401974 + 0.01819208*Ep #Corrected for VPG1 on 2017/07/07 ---> Linear Vertical
         # Circular left
         elif self.getPolarisationMode()=="C":
             raise ValueError("C polarisationMode is not yet implemented")
