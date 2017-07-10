@@ -4,7 +4,7 @@ from lookupTable.Lookup2Dto4D import loadDataset
 from lookup.SGMLookup import sgmLookup
 
 class SGMKinematicsClass(ScannableBase):
-    '''Coupled scannable with one input 'sgmpitch' or alpha but drive 4 additional axis of motions - 
+    '''Coupled scannable with one input 'sgmpitch' or sgmalpha but drive 4 additional axis of motions - 
         1. L - detector distance to the sample
         2. sgmr1 - distance between sgm and sample;
         3. H - detector height above the sample height
@@ -20,7 +20,7 @@ class SGMKinematicsClass(ScannableBase):
         any method call of this class instance.
         '''
         
-    def __init__(self, name, energy, sgmpitch, sgmgrating, sgmr1, specx,specz, specgamma, alphalimits=[87.4,88.7], gratinglines=["SVLS1","SVLS2"], Llimits=[10321,15521], r1limits=[1500,3000], Hlimits=[900,2510], gammalimits=[9.9,39.5], lut=["SLVS1-SGM.txt","SLVS2-SGM.txt"]):
+    def __init__(self, name, energy, sgmpitch, sgmgrating, sgmr1, specx,specz, specgamma, sgmalphalimits=[87.4,88.7], gratinglines=["SVLS1","SVLS2"], Llimits=[10321,15521], r1limits=[1500,3000], Hlimits=[900,2510], gammalimits=[9.9,39.5], lut=["SLVS1-SGM.txt","SLVS2-SGM.txt"]):
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut=lut
         self.energy=energy
@@ -31,7 +31,7 @@ class SGMKinematicsClass(ScannableBase):
         self.specz=specz
         self.specgamma=specgamma
         self.sgmlookup=None
-        self.alphaLimits=alphalimits
+        self.sgmalphaLimits=sgmalphalimits
         self.gratingLines=gratinglines
         self.LLimits=Llimits
         self.r1Limits=r1limits
@@ -54,7 +54,7 @@ class SGMKinematicsClass(ScannableBase):
             raise ValueError("SGM is not at supported grating lines: %s" % (self.gratingLines))
         loadDataset(lookup_file, 1, dataset, testdataset=[],numberOfHeaderLines=2, numberOfColumns=6)
         formatstring="%12s\t%12s\t%12s\t%12s\t%12s\t%12s"
-        print (formatstring % ("energy (eV)", "alpha (deg)", "r1 (mm)", "L (mm)", "H (mm)", "gamma (deg)"))
+        print (formatstring % ("energy (eV)", "sgmalpha (deg)", "r1 (mm)", "L (mm)", "H (mm)", "gamma (deg)"))
         for value in dataset:
             print (formatstring % (value[0],value[1],value[2],value[3, value[4],value[5]]))
     
@@ -75,28 +75,28 @@ class SGMKinematicsClass(ScannableBase):
         
     def rawGetPosition(self):
         '''returns the current motor positions.'''
-        alpha=float(self.sgmpitch.getPosition())
+        sgmalpha=float(self.sgmpitch.getPosition())
         r1 = float(self.sgmr1.getPosition())
         L = float(self.specx.getPosition())
         H = float(self.specz.getPosition())
         gamma = float(self.sgmgamma.getPosition())
-        return [alpha, r1, L, H, gamma]
+        return [sgmalpha, r1, L, H, gamma]
     
     def rawAsynchronousMoveTo(self, new_position):
-        '''move spectrometer motion axis to the position determined by the input for alpha at current beam energy and grating selection.
+        '''move spectrometer motion axis to the position determined by the input for sgmalpha at current beam energy and grating selection.
         '''
-        alpha=float(new_position)
+        sgmalpha=float(new_position)
         #ensure demand value fall within the lookup table's coverage
-        if alpha < self.alphaLimits[0] or alpha > self.alphaLimits[1]:
-            limits=','.join(map(str,self.alphaLimits))
-            raise ValueError("Input value: %f is outside the allowable limits [ %s ] in the lookup table." % (alpha, limits))
+        if sgmalpha < self.sgmalphaLimits[0] or sgmalpha > self.sgmalphaLimits[1]:
+            limits=','.join(map(str,self.sgmalphaLimits))
+            raise ValueError("Input value: %f is outside the allowable limits [ %s ] in the lookup table." % (sgmalpha, limits))
         #get current beam energy    
         energy=float(self.energy.getPosition())
         #enable lookup table or switch the lookup table if Grating lines changed
         if self.sgmlookup == None or self.sgmgrating.getPosition()!= self.GRATING_LINE:
             self.updateLookupTable()
             
-        [r1, L, H, gamma]=self.sgmlookup.getLR1HGamma(energy, alpha, delta=[5, 0.1], interpolationMethod='linear')
+        [r1, L, H, gamma]=self.sgmlookup.getLR1HGamma(energy, sgmalpha, delta=[5, 0.1], interpolationMethod='linear')
         # ensure values returned from lookup table fall within axis limits before send the motion request down to EPICS
         if r1 < self.r1Limits[0] or r1 > self.r1Limits[1]:
             limits=','.join(map(str,self.r1Limits))
@@ -115,7 +115,7 @@ class SGMKinematicsClass(ScannableBase):
         self.specz.asynchronousMoveTo(H)
         self.specgamma.asynchronousMoveTo(gamma)
         self.sgmr1.asynchronousMoveTo(r1)
-        self.sgmpitch.asynchronousMoveTo(alpha)
+        self.sgmpitch.asynchronousMoveTo(sgmalpha)
         
     def rawIsBusy(self):
         return self.specx.isBusy() or self.specz.isBusy() or self.specgamma.isBusy() or self.sgmr1.isBusy() or self.sgmpitch.isBusy()
@@ -129,5 +129,5 @@ class SGMKinematicsClass(ScannableBase):
         pass
 
 import __main__#@UnresolvedImport
-__main__.alpha=SGMKinematicsClass("alpha", __main__.energy, __main__.sgmpitch, __main__.sgmgrating, __main__.sgmr1, __main__.specx, __main__.specz, __main__.specgamma, alphalimits=[87.4,88.7], gratinglines=["SVLS1","SVLS2"], Llimits=[10321,15521], r1limits=[1500,3000], Hlimits=[900,2510], gammalimits=[9.9,39.5], lut=["SLVS1-SGM.txt","SLVS2-SGM.txt"])
+__main__.sgmalpha=SGMKinematicsClass("sgmalpha", __main__.energy, __main__.sgmpitch, __main__.sgmgrating, __main__.sgmr1, __main__.specx, __main__.specz, __main__.specgamma, sgmalphalimits=[87.4,88.7], gratinglines=["SVLS1","SVLS2"], Llimits=[10321,15521], r1limits=[1500,3000], Hlimits=[900,2510], gammalimits=[9.9,39.5], lut=["SLVS1-SGM.txt","SLVS2-SGM.txt"])
 
