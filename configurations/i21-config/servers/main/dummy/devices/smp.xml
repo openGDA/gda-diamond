@@ -35,7 +35,7 @@
 		<property name="speed" value="90" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="diodetthMotor" class="gda.device.motor.DummyMotor">
+	<bean id="smpdiodetthMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
@@ -54,7 +54,7 @@
 	<bean id="straightdiode" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 	<bean id="rotatingdiode" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 	<bean id="fixdiode1" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
-	<bean id="fixdiode2" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="extradiode" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 	<bean id="tthdiode" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 	
 	<import resource="smpcam1.xml"/>
