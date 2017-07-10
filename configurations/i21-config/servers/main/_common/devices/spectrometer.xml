@@ -14,7 +14,7 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 	
-	<bean id="specz" class="gda.device.scannable.ScannableMotor">
+	<bean id="spech" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="speczMotor" />
 		<property name="outputFormat">
 			<list>
@@ -24,7 +24,7 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 	
-	<bean id="specx" class="gda.device.scannable.ScannableMotor">
+	<bean id="spelx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="specxMotor" />
 		<property name="outputFormat">
 			<list>
@@ -38,8 +38,8 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="specgamma" />
-				<ref bean="specz" />
-				<ref bean="specx" />
+				<ref bean="spech" />
+				<ref bean="specl" />
 			</list>
 		</property>
 		<property name="local" value="true" />

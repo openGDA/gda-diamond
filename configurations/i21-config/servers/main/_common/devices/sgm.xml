@@ -4,12 +4,12 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
-	<bean id="sgmx" class="gda.device.scannable.ScannableMotor">
+	<bean id="sgmGratingSelect" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sgmgratingtranslationMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
 	
-	<bean id="sgmy" class="gda.device.scannable.ScannableMotor">
+	<bean id="sgmh" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sgmheightMotor" />
 		<property name="userUnits" value="mm" />
 	</bean>
@@ -43,8 +43,8 @@
 	<bean id="sgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="sgmx" />
-				<ref bean="sgmy" />
+				<ref bean="sgmGratingSelect" />
+				<ref bean="sgmh" />
 				<ref bean="sgmpitch" />
 				<ref bean="sgmroll" />
 				<ref bean="sgmr1" />
