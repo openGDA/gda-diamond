@@ -139,25 +139,6 @@ dummies.setGroupMembers([SingleInputDummy("x"), SingleInputDummy("y"), SingleInp
 print "Adding timer devices t, dt, and w, clock"
 from gdascripts.scannable.timerelated import timerelated #@UnusedImport
 
-if installation.isLive():
-    print "Running in live mode"
-    print "create camera total count scannables: d1camtotal, d2camtotal, d3acamtotal, d4camtotal, smpcam1total,smpcam2total,smpcam3total, smpcam4total"
-    d1camtotal=DisplayEpicsPVClass('d1camtotal', 'BL21I-DI-DCAM-01:STAT:Total_RBV', 'counts', '%10d')
-    d2camtotal=DisplayEpicsPVClass('d2camtotal', 'BL21I-DI-DCAM-02:STAT:Total_RBV', 'counts', '%10d')
-    d3acamtotal=DisplayEpicsPVClass('d3acamtotal', 'BL21I-DI-DCAM-03:STAT:Total_RBV', 'counts', '%10d')
-    d4camtotal=DisplayEpicsPVClass('d4camtotal', 'BL21I-DI-DCAM-04:STAT:Total_RBV', 'counts', '%10d')
-    d8camtotal=DisplayEpicsPVClass('d8camtotal', 'BL21I-DI-DCAM-24:STAT:Total_RBV', 'counts', '%10d')
-    smpcam1total=DisplayEpicsPVClass('smpcam1total', 'BL21I-DI-DCAM-20:STAT1:Total_RBV', 'counts', '%10d')
-    smpcam2total=DisplayEpicsPVClass('smpcam2total', 'BL21I-DI-DCAM-21:STAT1:Total_RBV', 'counts', '%10d')
-    smpcam3total=DisplayEpicsPVClass('smpcam3total', 'BL21I-DI-DCAM-22:STAT1:Total_RBV', 'counts', '%10d')
-    smpcam4total=DisplayEpicsPVClass('smpcam4total', 'BL21I-DI-DCAM-23:STAT1:Total_RBV', 'counts', '%10d')
-
-    from epics_scripts.pv_scannable_utils import createPVScannable
-    pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
-    pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
-else:
-    print "Running in dummy mode"
-
 print 
 
 
@@ -188,7 +169,7 @@ import metashop  # @UnusedImport
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Add meta data items"
-metadatalist=[idgap,specgamma,specz,specx] #@UndefinedVariable
+metadatalist=[idgap] #@UndefinedVariable
 m1list=[m1x,m1pitch,m1height,m1yaw,m1roll] #@UndefinedVariable
 m2list=[m2x,m2pitch,m2height]# @UndefinedVariable
 m4list=[m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2]  # @UndefinedVariable
@@ -199,8 +180,8 @@ s2list=[s2hsize,s2vsize,s2hcentre,s2vcentre] #@UndefinedVariable
 s3list=[s3hsize,s3vsize,s3hcentre,s3vcentre] #@UndefinedVariable
 s5list=[s5v1gap,s5v2gap,s5hgap] #@UndefinedVariable
 samplelist=[sapolar,sax,say,saz,saazimuth,satilt,diodetth,draincurrent] # @UndefinedVariable
-sgmlist=[sgmx,sgmr1,sgmpitch,sgmwedgeoffside,sgmwedgenearside] # @UndefinedVariable
-spectrometerlist=[specgamma,specz,specx] # @UndefinedVariable
+sgmlist=[sgmGratingSelect,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside] # @UndefinedVariable
+spectrometerlist=[specgamma,spech,specl] # @UndefinedVariable
 andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
 
 meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s5list+samplelist+sgmlist+spectrometerlist+andorlist
@@ -211,10 +192,6 @@ alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
-
-from epics_scripts.pv_scannable_utils import createPVScannable
-pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
-pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
 
 b2.setOutputFormat(["%7.4f"])  # @UndefinedVariable
 
@@ -227,6 +204,34 @@ from mapping_scan_commands import *
 from scannabledevices.xrayBeamMonitor import XRayBeamMonitor
 xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 
+if installation.isLive():
+    print "Running in live mode"
+    print "create camera total count scannables: d1camtotal, d2camtotal, d3acamtotal, d4camtotal, smpcam1total,smpcam2total,smpcam3total, smpcam4total"
+    d1camtotal=DisplayEpicsPVClass('d1camtotal', 'BL21I-DI-DCAM-01:STAT:Total_RBV', 'counts', '%10d')
+    d2camtotal=DisplayEpicsPVClass('d2camtotal', 'BL21I-DI-DCAM-02:STAT:Total_RBV', 'counts', '%10d')
+    d3acamtotal=DisplayEpicsPVClass('d3acamtotal', 'BL21I-DI-DCAM-03:STAT:Total_RBV', 'counts', '%10d')
+    d4camtotal=DisplayEpicsPVClass('d4camtotal', 'BL21I-DI-DCAM-04:STAT:Total_RBV', 'counts', '%10d')
+    d8camtotal=DisplayEpicsPVClass('d8camtotal', 'BL21I-DI-DCAM-24:STAT:Total_RBV', 'counts', '%10d')
+    smpcam1total=DisplayEpicsPVClass('smpcam1total', 'BL21I-DI-DCAM-20:STAT1:Total_RBV', 'counts', '%10d')
+    smpcam2total=DisplayEpicsPVClass('smpcam2total', 'BL21I-DI-DCAM-21:STAT1:Total_RBV', 'counts', '%10d')
+    smpcam3total=DisplayEpicsPVClass('smpcam3total', 'BL21I-DI-DCAM-22:STAT1:Total_RBV', 'counts', '%10d')
+    smpcam4total=DisplayEpicsPVClass('smpcam4total', 'BL21I-DI-DCAM-23:STAT1:Total_RBV', 'counts', '%10d')
+
+    from epics_scripts.pv_scannable_utils import createPVScannable
+    pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
+    pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
+else:
+    print "Running in dummy mode"
+    try:
+        if (isinstance(alpha, ScannableMotionBase)):  # @UndefinedVariable
+            del alpha  # @UndefinedVariable
+        if (isinstance(beta, ScannableMotionBase)):  # @UndefinedVariable
+            del beta  # @UndefinedVariable
+        if (isinstance(psi, ScannableMotionBase)):  # @UndefinedVariable
+            del psi  # @UndefinedVariable
+    except:
+        print "Cannot delete diffcalc constraint parameters"
+        
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
 
