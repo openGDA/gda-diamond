@@ -10,6 +10,12 @@
 	<bean id="area" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL05J-EA-DET-01:CAM:" />
 	</bean>
+	
+	<bean id="analyser_total" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserTotalOnly">
+		<property name="adBase" ref="area" />
+		<property name="controller" ref="controller" />
+		<property name="entranceSlitInformationProvider" ref="scientaslit" />
+	</bean>
 
 	<bean id="analyser_roi_provider"
 		class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
