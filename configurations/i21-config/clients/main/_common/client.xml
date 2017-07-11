@@ -17,7 +17,6 @@
 	<import resource="live_controls.xml"/>
 	
 	<!-- new solstice scanning sourced from p45-config project -->
-<!--  	<import resource="../../../../p45-config/clients/main/_common/stage_controls.xml"/>   TODO Remove the current stage controls and replace with tree edit as in scanning perspective -->
 	<import resource="../../../../p45-config/clients/main/_common/stage_controls_tree.xml"/>
 	<!-- mapping perspective -->
 	<import resource="mapping.xml"/>
