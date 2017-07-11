@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
+        http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="biosaxs_epics_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="BioSAXS EPICS Camera" />
+		<property name="urlPV" value="BL21B-EA-BSAXS-01:CAM:MJPG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL21B-EA-BSAXS-01:CAM:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL21B-EA-BSAXS-01:CAM:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL21B-EA-BSAXS-01:CAM:CAM:Gain" />
+		<property name="acquirePV" value="BL21B-EA-BSAXS-01:CAM:CAM:Acquire" />
+	</bean>
+
+	<bean id="biosaxs_cam_config" class="uk.ac.gda.video.views.CameraParameters">
+		<property name="name" value="BioSAXS Camera" />
+		<property name="mjpegURL"
+			value="http://bl21b-di-serv-01.diamond.ac.uk:8082/BSAXS.CAM.MJPG.mjpg" />
+	</bean>
+	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+		<property name="cameras">
+			<list>
+				<!-- <ref bean="biosaxs_epics_cam_config" /> -->
+				<ref bean="biosaxs_cam_config" />
+			</list>
+		</property>
+		<!-- should not be required -->
+		<property name="plotViewID" value="uk.ac.gda.beamline.i13j.DetectorPlot" />
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+		<property name="service" ref="camera_config" />
+	</bean>
+
+	<import resource='../_common/client.xml'/>
+
+</beans>
