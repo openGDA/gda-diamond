@@ -3,9 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Dummy Malcolm Device 1 -->
+	<!-- Dummy Malcolm Device -->
 	<bean id="malcolmModel01" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
-		<property name="name" value="dummyMalcolm-01"/>
+		<property name="name" value="malcolm-01"/>
 		<property name="exposureTime" value="0.01"/>
 		<property name="timeout" value="300"/> <!-- 5 minute timeout for testing -->
 		<property name="axesToMove">
@@ -17,44 +17,15 @@
 	</bean>
 	
 	<bean id="malcolmInfo01" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDevice"/>
-		<property name="label" value="Dummy Malcolm 1"/>
-		<property name="description" value="A dummy Malcolm device for testing"/>
+		<property name="label" value="Malcolm sample scan"/>
+		<property name="description" value="X/Y sample scan using Malcolm"/>
 		<!--  <property name="icon" value=""/> TODO: we need an icon for malcolm-->
 	</bean>
 	
 	<bean id="malcolmDevice01" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
-		<property name="name" value="dummyMalcolm-01"/>
+		<property name="name" value="malcolm-01"/>
 		<property name="model" ref="malcolmModel01"/>
 		<property name="deviceInformation" ref="malcolmInfo01"/>
-		<!-- Whether this is the default device to use in a scan -->
-		<property name="activated" value="false"/>
-	</bean>
-
-	<!-- Dummy Malcolm Device 2 -->
-	<bean id="malcolmModel02" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
-		<property name="name" value="dummyMalcolm-02"/>
-		<property name="exposureTime" value="0.02"/>
-		<property name="timeout" value="300"/> <!-- 5 minute timeout for testing -->
-		<property name="axesToMove">
-			<list>
-				<value>SampleX</value>
-				<value>SampleY</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="malcolmInfo02" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDevice"/>
-		<property name="label" value="Dummy Malcolm 2"/>
-		<property name="description" value="A dummy Malcolm device for testing"/>
-		<!--  <property name="icon" value=""/> TODO: we need an icon for malcolm-->
-	</bean>
-	
-	<bean id="malcolmDevice02" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
-		<property name="name" value="dummyMalcolm-02"/>
-		<property name="model" ref="malcolmModel02"/>
-		<property name="deviceInformation" ref="malcolmInfo02"/>
 		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false"/>
 	</bean>
