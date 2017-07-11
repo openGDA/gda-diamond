@@ -196,7 +196,7 @@ alias("meta_rm")
 b2.setOutputFormat(["%7.4f"])  # @UndefinedVariable
 
 #DiffCalc
-from startup.i21 import *  # @UnusedWildImport
+from startup import i21 as dc  # @UnusedWildImport
 
 #Mapping scan
 from mapping_scan_commands import *
@@ -222,16 +222,22 @@ if installation.isLive():
     pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
 else:
     print "Running in dummy mode"
-    try:
-        if (isinstance(alpha, ScannableMotionBase)):  # @UndefinedVariable
-            del alpha  # @UndefinedVariable
-        if (isinstance(beta, ScannableMotionBase)):  # @UndefinedVariable
-            del beta  # @UndefinedVariable
-        if (isinstance(psi, ScannableMotionBase)):  # @UndefinedVariable
-            del psi  # @UndefinedVariable
-    except:
-        print "Cannot delete diffcalc constraint parameters"
-        
+#     try:
+#         if (isinstance(alpha, ScannableMotionBase)):  # @UndefinedVariable
+#             del alpha  # @UndefinedVariable
+#         if (isinstance(beta, ScannableMotionBase)):  # @UndefinedVariable
+#             del beta  # @UndefinedVariable
+#         if (isinstance(psi, ScannableMotionBase)):  # @UndefinedVariable
+#             del psi  # @UndefinedVariable
+#         if (isinstance(chi_con, diffcalc.gdasupport.scannable.parameter.DiffractionCalculatorParameter)):  # @UndefinedVariable
+#             del chi_con  # @UndefinedVariable
+#         if (isinstance(eta_con, diffcalc.gdasupport.scannable.parameter.DiffractionCalculatorParameter)):  # @UndefinedVariable
+#             del eta_con  # @UndefinedVariable
+#         if (isinstance(phi_con, diffcalc.gdasupport.scannable.parameter.DiffractionCalculatorParameter)):  # @UndefinedVariable
+#             del phi_con  # @UndefinedVariable
+#     except:
+#         print "Cannot delete diffcalc constraint parameters"
+#         
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
 
