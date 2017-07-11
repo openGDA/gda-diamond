@@ -16,7 +16,7 @@
 			<list>
 				<ref bean="d2pos" />
 				<ref bean="d2stick" />
-				<ref bean="d2cam" />
+<!-- 				<ref bean="d2cam" /> -->
 			</list>
 		</property>
 		<property name="local" value="true" />

@@ -17,7 +17,7 @@
 				<ref bean="d4pos" />
 				<ref bean="d4stick" />
 				<ref bean="d4femto" />
-				<ref bean="d4cam" />
+<!-- 				<ref bean="d4cam" /> -->
 			</list>
 		</property>
 		<property name="local" value="true" />

@@ -16,7 +16,7 @@
 			<list>
 				<ref bean="d3apos" />
 				<ref bean="d3astick" />
-				<ref bean="d3acam" />
+<!-- 				<ref bean="d3acam" /> -->
 				<ref bean="d3afemto" />
 			</list>
 		</property>

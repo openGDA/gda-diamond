@@ -16,7 +16,7 @@
 			<list>
 				<ref bean="dgnpos" />
 				<ref bean="dgnstick" />
-				<ref bean="dgncam" />
+<!-- 				<ref bean="dgncam" /> -->
 			</list>
 		</property>
 		<property name="local" value="true" />
