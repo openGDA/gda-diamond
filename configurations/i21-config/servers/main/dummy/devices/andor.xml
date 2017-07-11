@@ -38,7 +38,7 @@
 				<entry key="Low to open" value="Low To Open"/>
 			</util:map>
 		</property>
-		<property name="startPositionName" value="High To Open"/>
+		<property name="startPositionName" value="High to open"/>
 		<property name="local" value="true"/>
 	</bean>
 	<bean id="andorPreampGain" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
@@ -71,7 +71,7 @@
 				<entry key="76.95 uS" value="76.95 uS"/>
 			</util:map>
 		</property>
-		<property name="startPositionName" value="76.96 uS"/>
+		<property name="startPositionName" value="76.95 uS"/>
 		<property name="local" value="true"/>
 	</bean>
 	<bean id="andorVerticalShiftAmplitude" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
