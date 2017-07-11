@@ -24,11 +24,7 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 	
-<<<<<<< HEAD
 	<bean id="specl" class="gda.device.scannable.ScannableMotor">
-=======
-	<bean id="spelx" class="gda.device.scannable.ScannableMotor">
->>>>>>> branch 'master' of ssh://dascgitolite@dasc-git.diamond.ac.uk/gda/gda-dls-beamlines-i21.git
 		<property name="motor" ref="specxMotor" />
 		<property name="outputFormat">
 			<list>
