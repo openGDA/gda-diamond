@@ -13,6 +13,7 @@
 	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
+	<gda:rmi-export service="plot_server" serviceName="gda/plotserver" serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer"/>
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
