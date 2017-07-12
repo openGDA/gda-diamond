@@ -10,7 +10,6 @@
 	</bean>
 
 	<bean id="malcolmInfo01" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.example.malcolm.malcolmDevice01" />
 		<property name="label" value="Malcolm sample scan" />
 		<property name="description" value="X/Y sample scan using Malcolm" />
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
@@ -31,7 +30,6 @@
 	</bean>
 
 	<bean id="malcolmInfo02" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.example.malcolm.malcolmDevice02" />
 		<property name="label" value="Malcolm focus scan" />
 		<property name="description" value="Butterfly scan to find focus point, changing zone plate" />
 		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
@@ -52,7 +50,6 @@
 	</bean>
 
 	<bean id="malcolmInfo03" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.example.malcolm.malcolmDevice03" />
 		<property name="label" value="Malcolm sample scan (Xmap)" />
 		<property name="description" value="Malcolm sample scan with Xmap detector" />
 		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
@@ -73,7 +70,6 @@
 	</bean>
 
 	<bean id="malcolmInfo04" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.example.malcolm.malcolmDevice04" />
 		<property name="label" value="Malcolm sample scan (Andor)" />
 		<property name="description" value="Malcolm sample scan with Andor detector" />
 		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->

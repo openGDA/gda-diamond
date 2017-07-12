@@ -31,7 +31,6 @@
 	</bean>
 
 	<bean id="andorInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id" value="org.eclipse.scanning.example.malcolm.dummyMalcolmDetectorSpring" />
 		<property name="label" value="Andor" />
 		<property name="description" value="Andor" />
 	</bean>
