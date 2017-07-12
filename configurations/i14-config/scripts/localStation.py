@@ -61,6 +61,8 @@ if isLive():
         print "No localStationUser run"
 else:
     print "Running in dummy mode"
-    run("setup_dummies.py")
+    from beamline.dcm_enrg import DCMpdq
+    dcm_enrg = DCMpdq("dcm_enrg", dcm_bragg, dcm_perp, id_gap)
+    
 
 print "Initialisation Complete";

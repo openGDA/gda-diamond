@@ -1,6 +1,6 @@
 
 from math import asin,sin,degrees,radians
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionUnitsBase
 from gda.analysis.datastructure import DataVector
 from gda.analysis.numerical.interpolation import Interpolator
 from gda.jython.commands.ScannableCommands import pos
@@ -85,7 +85,7 @@ def stringToFloatList(input_string):
     return returnData,returnStrings,indexOfFloats,indexOfStrings
 
 
-class DCMpdq(PseudoDevice):
+class DCMpdq(ScannableMotionUnitsBase):
     def __init__(self, name, dcm_bragg, dcm_perp, id_gap):
             self.setName(name);
             self.setInputNames([name])
@@ -118,6 +118,7 @@ class DCMpdq(PseudoDevice):
             # set using get set methods
             self.disableHarmonicSwitch = 0
             self.selectHarmonic(self.currentharmonic)
+            self.setUserUnits("keV")
             
     def rawGetPosition(self):
             """
@@ -291,9 +292,7 @@ class DCMpdq(PseudoDevice):
         else:
             besth=5
         print "Best harmonic for this energy:",besth
-        return besth
-            
-            
+        return besth      
 
     def selectHarmonic(self,harmonic):
         """
