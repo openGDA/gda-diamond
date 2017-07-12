@@ -8,27 +8,35 @@
    </aboutInfo>
 
    <configIni use="default">
-      <linux>/uk.ac.gda.beamline.b21.feature/gda-b21.ini</linux>
    </configIni>
 
    <launcherArgs>
       <vmArgs>-Duser.timezone=GMT
--Dgda.config=/dls_sw/b21/software/gda/config
--Dgda.propertiesFile=/dls_sw/b21/software/gda/config/properties/live/java.properties
--Dgda.install.workspace.loc=/dls_sw/b21/software/gda/workspace
--Dgda.install.git.loc=/dls_sw/b21/software/gda/workspace_git
--Djacorb.config.dir=/dls_sw/b21/software/gda/config/jacorb/live
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/b21/software/gda/config/jca/live/JCALibrary.properties
--Declipse.pluginCustomization=/dls_sw/b21/software/gda/config/client/pluginCustomization.ini
--Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dorg.dawb.editor.h5.use.default=false
--Xms512m
--Xmx1024m
+-Dgda.config=${workspace_loc:b21-config}
+-Dgda.mode=dummy
+-Dgda.propertiesFile=${workspace_loc:b21-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${workspace_loc:b21-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${workspace_loc:b21-config}/properties/dummy/JCALibrary.properties
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Dgda.logs.dir=${workspace_loc}/../logs
+-Dgda.instance.dir=${workspace_loc:b21-config}
+-Dgda.facility.dir=${workspace_loc:dls-config}
+-Dgda.core.dir=${workspace_loc:core-config}
+-Xms1g
+-Xmx4g
 -XX:PermSize=128m
 -XX:MaxPermSize=512m
--XX:-UseCompressedOops</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-XX:-UseCompressedOops
+-Dorg.dawb.editor.h5.use.default=false
+-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Dgda.install.workspace.loc=${workspace_loc}
+-Declipse.pluginCustomization=${workspace_loc:b21-config}/clients/pluginCustomization.ini
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -37,7 +45,6 @@
       location="uk.ac.gda.beamline.b21" />
    <launcher name="gda-b21">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
@@ -80,6 +87,7 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <plugin id="org.dawnsci.persistence" autoStart="true" startLevel="2" />
       <plugin id="uk.ac.diamond.scisoft.analysis" autoStart="true" startLevel="2" />
       <plugin id="uk.ac.diamond.scisoft.analysis.osgi" autoStart="true" startLevel="2" />
+      <property name="gda.mode" value="dummy" />
    </configurations>
 
 </product>
