@@ -38,8 +38,6 @@
 
 	<bean id="abstract_command_server" class="gda.jython.JythonServer"
 		abstract="true">
-		<property name="gdaVarDirectory" value="${gda.var}" />
-		<property name="cacheDirectory" value="${gda.var}/jythonCache" />
 		<property name="remotePort" value="9999" />
 		<!--
 		<property name="stopJythonScannablesOnStopAll" value="false" />
