@@ -1,0 +1,103 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+
+	<bean id="bsscPlates" class="uk.ac.gda.devices.hatsaxs.beans.PlateConfig">
+		<property name="plates">
+			<list>
+				<ref bean="plate1"/>
+				<ref bean="plate2"/>
+				<ref bean="plate3"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="plate1" class="uk.ac.gda.devices.hatsaxs.beans.Plate">
+		<constructor-arg index="0" value="I"/>
+		<constructor-arg index="1" value="8"/>
+		<constructor-arg index="2" value="12"/>
+	</bean>
+	<bean id="plate2" class="uk.ac.gda.devices.hatsaxs.beans.Plate">
+		<constructor-arg index="0" value="II"/>
+		<constructor-arg index="1" value="4"/>
+		<constructor-arg index="2" value="11"/>
+	</bean>
+	<bean id="plate3" class="uk.ac.gda.devices.hatsaxs.beans.Plate">
+		<constructor-arg index="0" value="III"/>
+		<constructor-arg index="1" value="8"/>
+		<constructor-arg index="2" value="12"/>
+	</bean>
+
+	<bean id="hplcPlates" class="uk.ac.gda.devices.hatsaxs.beans.PlateConfig">
+		<property name="plates">
+			<ref bean="hplcPlate" />
+		</property>
+	</bean>
+	<bean id="hplcPlate" class="uk.ac.gda.devices.hatsaxs.beans.Plate">
+		<constructor-arg index="0" value="I"/>
+		<constructor-arg index="1" value="3"/>
+		<constructor-arg index="2" value="4"/>
+	</bean>
+
+	<util:map id="biosaxsModes" >
+		<entry key="BS" ><value type="boolean" >false</value></entry>
+		<entry key="CS" ><value type="boolean" >true</value></entry>
+		<entry key="SMCS" ><value type="boolean" >true</value></entry>
+		<entry key="SMNS" ><value type="boolean" >true</value></entry>
+		<entry key="SMMX" ><value type="boolean" >true</value></entry>
+	</util:map>
+
+	<util:map id="hplcModes" >
+		<entry key="HPLC" ><value type="boolean" >false</value></entry>
+	</util:map>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="staticMethod" value="uk.ac.gda.devices.bssc.beans.TitrationBean.setModes" />
+		<property name="arguments" >
+			<list>
+				<ref bean="biosaxsModes" />
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="staticMethod" value="uk.ac.gda.devices.hplc.beans.HplcBean.setModes" />
+		<property name="arguments" >
+			<list>
+				<ref bean="hplcModes" />
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="staticMethod" value="uk.ac.gda.devices.hplc.beans.HplcSessionBean.setPlates" />
+		<property name="arguments" >
+			<list>
+				<ref bean="hplcPlates" />
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+		<property name="staticMethod" value="uk.ac.gda.devices.bssc.beans.BSSCSessionBean.setPlates" />
+		<property name="arguments" >
+			<list>
+				<ref bean="bsscPlates" />
+			</list>
+		</property>
+	</bean>
+</beans>

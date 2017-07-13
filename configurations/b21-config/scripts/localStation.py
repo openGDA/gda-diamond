@@ -21,6 +21,7 @@ execfile(gdascripts + "/pd/epics_pds.py");
 execfile(gdascripts + "/pd/time_pds.py");
 execfile(gdascripts + "/pd/dummy_pds.py");
 execfile(gdascripts + "/utils.py");
+execfile(gdaScriptDir + 'bsaxs_table.py')
 
 print "Creating beamline specific devices...";
 execfile(gdaScriptDir + "TopupCountdown.py")
@@ -67,11 +68,12 @@ finder.find("ncdlistener").monitorLive("Waxs Plot", "WAXS")
 ## gridxy.configure()
 ## ncdgridscan=gridscan.Grid("Camera View", "Mapping Grid", mfgige, gridxy, ncddetectors)
 ## ncdgridscan.snap()
-from ncdutils import DetectorMeta
+from ncdutils import DetectorMeta, DetectorMetaString
 waxs_distance = DetectorMeta("waxs_distance", ncddetectors, "WAXS", "distance", "m")
 saxs_distance = DetectorMeta("saxs_distance", ncddetectors, "SAXS", "distance", "m")
 saxs_centre_x = DetectorMeta("saxs_centre_x", ncddetectors, "SAXS", "beam_center_x")
 saxs_centre_y = DetectorMeta("saxs_centre_y", ncddetectors, "SAXS", "beam_center_y")
+saxs_mask = DetectorMetaString('saxs_mask', ncddetectors, 'SAXS', 'maskFile')
 
 run("energy.py")
 
@@ -95,4 +97,6 @@ import gda.util.ElogEntry
 string = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
 gda.util.ElogEntry.postAsyn("device list from gda", string, "gda", None, "BLB21", "BLB21-RUNL", None)
 
+print 'Importing fast shutter control: fs'
+from tfgsetup import fs
 print "==================================================================="

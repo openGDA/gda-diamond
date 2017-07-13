@@ -76,7 +76,7 @@
 	</bean>
 	
 		<bean id="energy" class="uk.ac.gda.server.ncd.scannable.EnergyScannable">
-			<property name="bragg" ref="dcm_energy" />
+			<property name="bragg" ref="dmm_energy" />
 		</bean>
 
 	<bean id="ncdlistener" class="uk.ac.gda.server.ncd.plotting.ListenerDispatcher">
@@ -112,7 +112,7 @@
 		<property name="prefix" value="biosaxs" />
 	</bean>
 	
-	<bean id="biosaxsprocessingrunner" class="uk.ac.gda.server.ncd.data.ProcessingRunner">
+	<bean id="biosaxsprocessingrunner" class="uk.ac.gda.server.ncd.data.BiosaxsProcessingRunner">
 		<property name="environment">
 			<map>
 				<entry key="GDA_CONFIG" value="${gda.config}" />

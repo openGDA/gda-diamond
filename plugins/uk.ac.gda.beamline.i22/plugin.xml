@@ -94,6 +94,15 @@
    </config>
 </extension>
       <extension
+            point="org.eclipse.ui.views">
+         <view
+               class="gda.rcp.ncd.views.SyringeControlView"
+               id="gda.rcp.ncd.views.SyringeControlView"
+               name="Syringe Control"
+               restorable="true">
+         </view>
+      </extension>
+      <extension
             point="org.eclipse.ui.menus">
          <menuContribution
 		      allPopups="false"

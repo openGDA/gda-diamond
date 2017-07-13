@@ -3,6 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!-- These motors do not exist -->
 	<bean id="bsaxs_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21B-EA-BSAXS-01:X" />
 	</bean>
