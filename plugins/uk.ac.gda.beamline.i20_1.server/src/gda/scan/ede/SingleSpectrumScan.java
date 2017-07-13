@@ -116,7 +116,7 @@ public class SingleSpectrumScan extends EdeExperiment {
 		if (shouldRunItDark()) {
 			EdeScanParameters itDarkScanParameters = deriveItDarkParametersFromItParameters();
 			itDarkScanParameters.setUseFrameTime(false);
-			itDarkScan = makeEdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, null);
+			itDarkScan = makeEdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, firstRepetitionIndex, null);
 			itDarkScan.setProgressUpdater(this);
 			scansBeforeIt.add(itDarkScan);
 		} else {
@@ -128,18 +128,18 @@ public class SingleSpectrumScan extends EdeExperiment {
 		TopupChecker topupChecker = getItWaitForTopup() ? createTopupChecker(timeRequired, timeToTopup) : null;
 
 		i0ScanParameters.setUseFrameTime(false);
-		i0LightScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, topupChecker);
+		i0LightScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, firstRepetitionIndex, topupChecker);
 		i0LightScan.setProgressUpdater(this);
 		scansBeforeIt.add(i0LightScan);
 
 		if (runIRef) {
 			i0ForiRefScanParameters.setUseFrameTime(false);
-			i0ForiRefScan = makeEdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, null);
+			i0ForiRefScan = makeEdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, firstRepetitionIndex, null);
 			scansBeforeIt.add(i0ForiRefScan);
 			i0ForiRefScan.setProgressUpdater(this);
 
 			iRefScanParameters.setUseFrameTime(false);
-			iRefScan = makeEdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, null);
+			iRefScan = makeEdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, firstRepetitionIndex, null);
 			scansBeforeIt.add(iRefScan);
 			iRefScan.setProgressUpdater(this);
 		}
@@ -157,7 +157,7 @@ public class SingleSpectrumScan extends EdeExperiment {
 			itScans = new EdeScan[repetitions];
 			itScanParameters.setUseFrameTime(false);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				itScans[repIndex] = makeEdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, null);
+				itScans[repIndex] = makeEdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, repIndex, null);
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);
 			}

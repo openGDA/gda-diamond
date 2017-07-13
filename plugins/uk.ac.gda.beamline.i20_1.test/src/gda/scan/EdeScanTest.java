@@ -36,6 +36,9 @@ import java.util.Map;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -44,6 +47,7 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import gda.configuration.properties.LocalProperties;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.device.DeviceException;
+import gda.device.detector.EdeDummyDetector;
 import gda.device.detector.StepScanEdeDetector;
 import gda.device.detector.xstrip.DummyXStripDAServer;
 import gda.device.detector.xstrip.XhDetector;
@@ -61,6 +65,7 @@ import gda.scan.ede.SingleSpectrumScan;
 import gda.scan.ede.TimeResolvedExperiment;
 import gda.scan.ede.TimeResolvedExperimentParameters;
 import gda.scan.ede.datawriters.EdeDataConstants;
+import gda.scan.ede.datawriters.TimeResolvedDataFileHelper;
 import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.ExplicitScanPositions;
@@ -83,6 +88,7 @@ public class EdeScanTest extends EdeTestBase {
 	private Map<String, Double> inOutBeamMotors;
 	ScriptControllerBase edeProgressUpdater;
 	AsciiDataWriterConfiguration config;
+	private EdeDummyDetector dummyEdeDetector;
 
 	@Before
 	public void setupEnvironment() throws Exception {
@@ -96,6 +102,15 @@ public class EdeScanTest extends EdeTestBase {
 		File file = new File(LocalProperties.getVarDir(), "/templates/EdeScan_Parameters.xml");
 		xh.setTemplateFileName(file.getAbsolutePath());
 		xh.configure();
+
+		dummyEdeDetector = new EdeDummyDetector();
+		dummyEdeDetector.setName("dummyEdeDetector");
+		dummyEdeDetector.setMainDetectorName(xh.getName());
+//		dummyEdeDetector.setLowerChannel(0);
+		dummyEdeDetector.setMaxPixel(MCA_WIDTH);
+		dummyEdeDetector.setUpperChannel(dummyEdeDetector.getMaxPixel());
+		dummyEdeDetector.configure();
+
 		// topup monitor
 		topupMonitor = new DummyMonitor();
 		topupMonitor.setName("topup");
@@ -109,6 +124,7 @@ public class EdeScanTest extends EdeTestBase {
 
 		ObjectFactory factory = new ObjectFactory();
 		factory.addFindable(xh);
+		factory.addFindable(dummyEdeDetector);
 		factory.addFindable(topupMonitor);
 		factory.addFindable(shutter);
 		factory.addFindable(xScannable);
@@ -595,6 +611,30 @@ public class EdeScanTest extends EdeTestBase {
 		setup(EdeScanTest.class, "testEdeScanRunsFromParameters");
 		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
 		TimeResolvedExperiment theExperiment = allParams.createTimeResolvedExperiment();
+		theExperiment.runExperiment();
+
+		int numberExpectedSpectra = getNumSpectra(allParams.getItTimingGroups());
+
+		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
+		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
+	}
+
+	@Test
+	public void testEdeScanRunsWithDummyDetector() throws Exception {
+		setup(EdeScanTest.class, "testEdeScanRunsWithDummyDetector");
+
+		// Setup dummy detector with some data
+		Dataset detData = DatasetFactory.createLinearSpace(DoubleDataset.class, 0.0, 1000.0, MCA_WIDTH/2);
+		dummyEdeDetector.setDetectorData(detData);
+		// TODO Should also make a test that loads data from NExus file. e,g, 
+		//dummyEdeDetector.loadDetectorDataFromNexusFile(nexusFileName, "/entry1/xh/data", -1);
+
+		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
+		TimeResolvedExperiment theExperiment = allParams.createTimeResolvedExperiment();
+		
+		// use dummy detector for light I0 part of the scan
+		theExperiment.setDetectorForScanPart(EdePositionType.OUTBEAM, EdeScanType.LIGHT, dummyEdeDetector);
 		theExperiment.runExperiment();
 
 		int numberExpectedSpectra = getNumSpectra(allParams.getItTimingGroups());
