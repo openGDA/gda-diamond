@@ -82,4 +82,34 @@
 		<property name="local" value="true" />
 	</bean>
 
+	<!-- Configuration for XMAP Area Detector part  -->
+	<!-- This can be used for file writing, corresponding to pos and hdf5 tabs in the EDM screens -->
+	<!-- For detector control, use xmapMca and associated objects -->
+
+	<bean id="xmap_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL08I-EA-DET-02:RX:" />
+	</bean>
+
+	<bean id="xmap_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL08I-EA-DET-02:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL08I-EA-DET-02:HDF5:" />
+				<property name="initialArrayPort" value="DET2.stat.stat1" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="det" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+
+	<bean id="xmap_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL08I-EA-DET-02:HDF5:" />
+		<property name="file" ref="xmap_ndfile" />
+	</bean>
+
 </beans>

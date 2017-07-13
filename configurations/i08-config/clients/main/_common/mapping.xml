@@ -51,9 +51,11 @@
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Xmap Detector" />
 					<constructor-arg name="model">
-						<bean class="gda.device.detector.xmap.api.XmapRunnableDeviceModel">
-							<property name="name" value="xmapMca" />
-							<property name="exposureTime" value="1.0" />
+						<bean class="gda.device.detector.xmap.api.XmapWritingFilesRunnableDeviceModel">
+							<property name="name" value="xmap_runnable" />
+							<property name="areaDetectorName" value="xmap_addetector" />
+							<property name="xmapDetectorName" value="xmapMca" />
+							<property name="exposureTime" value="0.1" />
 						</bean>
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
