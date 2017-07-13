@@ -20,6 +20,8 @@
         <cs:dependency name="i13i-config" componentType="buckminster"/>
         <cs:dependency name="i13j-config" componentType="buckminster"/>
         <cs:dependency name="i14-config" componentType="buckminster"/>
+        <cs:dependency name="i15-1-config" componentType="buckminster"/>
+        <cs:dependency name="i15-config" componentType="buckminster"/>
         <cs:dependency name="i18-config" componentType="buckminster"/>
         <cs:dependency name="i20-1-config" componentType="buckminster"/>
         <cs:dependency name="i20-config" componentType="buckminster"/>
