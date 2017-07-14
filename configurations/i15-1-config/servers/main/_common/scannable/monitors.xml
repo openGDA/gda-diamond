@@ -67,18 +67,18 @@
 					<property name="destinationFieldName"	value="y_gap"/>
 				</bean>
 				<?ignore Cannot add transformsNode as it it can't be defined in spring
-				<bean class="org.eclipse.scanning.example.scannable.composite.ChildGroupNode">
+				<bean class="org.eclipse.scanning.device.composite.ChildGroupNode">
 					<constructor-arg index = "0" value = "primary_slit_transformsNode"/>
 				</bean>
 				 ?>
 				<?ignore Cannot add beamNode as it can't be defined in spring
-				<bean class="org.eclipse.scanning.example.scannable.composite.ChildGroupNode">
+				<bean class="org.eclipse.scanning.device.composite.ChildGroupNode">
 					<constructor-arg index = "0" value = "primary_slit_beamNode"/>
 					<constructor-arg index = "1" value = "beam"/>
 				</bean>
 				 ?>
 				<?ignore Cannot add beamNode as it can't be defined in spring
-				<bean class="org.eclipse.scanning.example.scannable.composite.ChildGroupNode">
+				<bean class="org.eclipse.scanning.device.composite.ChildGroupNode">
 					<constructor-arg index = "0" value = "primary_slit_motors"/>
 					<constructor-arg index = "1" value = "motors"/>
 				</bean>

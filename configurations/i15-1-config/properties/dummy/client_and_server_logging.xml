@@ -25,6 +25,8 @@
 	<!-- Classes for which TRACE messages are excessive
     <logger name="gda.device.zebra.ZebraConstantVelocityMoveController">				<level value="DEBUG"/></logger>
     <logger name="gda.epics.LazyPVFactory">												<level value="DEBUG"/></logger>
+    <logger name="gda.observable.ObservableComponent">									<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.ActiveMQMessageConsumer">							<level value="DEBUG"/></logger>
 	 -->
 
 	<!-- Classes where we want all messages
