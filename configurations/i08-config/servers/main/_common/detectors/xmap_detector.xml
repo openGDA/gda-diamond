@@ -23,7 +23,7 @@
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/xmap" />
+		<property name="serviceName" value="gda/xmapFluorescenceDetector" />
 		<property name="service" ref="xmapFluorescenceDetector" />
 		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
 	</bean>
