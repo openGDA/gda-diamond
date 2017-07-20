@@ -129,7 +129,7 @@ def scan_processing_off():
 
 print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
 print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
-scan_processing_on()
+scan_processing_off()
 
 print "Adding dummy devices x,y and z"
 dummies = ScannableGroup()
@@ -194,6 +194,7 @@ alias("meta_ls")
 alias("meta_rm")
 
 b2.setOutputFormat(["%7.4f"])  # @UndefinedVariable
+sax.setOutputFormat(["%10.6f"])  # @UndefinedVariable
 
 #DiffCalc
 from startup import i21 as dc  # @UnusedWildImport
