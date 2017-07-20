@@ -112,93 +112,95 @@
 	</bean>
 
 	
-	<!-- Area detector Region of Interest (ROIs) -->
-	<bean id="andorPlotServerRoiProvider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
-		<constructor-arg value="ANDOR" />
-		<constructor-arg value="6" />
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="andor_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/andorRoi" />
+		<property name="service" ref="andor_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 	</bean>
-	<bean id="andorRoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="andorRoiStats1" />
+	<bean id="andor_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andor_RoiStats1" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI1:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT1:" />
 		<property name="roiInputNdArrayPort" value="ANDOR.rot" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="andorPlotServerRoiProvider" />
-				<constructor-arg value="0" />
-			</bean>
-		</property>
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="andor_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+	    </property>
 	</bean>
-	<bean id="andorRoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="andorRoiStats2" />
+	<bean id="andor_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andor_RoiStats2" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI2:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT2:" />
 		<property name="roiInputNdArrayPort" value="ANDOR.rot" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="andorPlotServerRoiProvider" />
-				<constructor-arg value="1" />
-			</bean>
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="andor_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
 		</property>
 	</bean>
-	<bean id="andorRoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="andorRoiStats3" />
+	<bean id="andor_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andor_RoiStats3" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI3:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT3:" />
 		<property name="roiInputNdArrayPort" value="ANDOR.rot" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="andorPlotServerRoiProvider" />
-				<constructor-arg value="2" />
-			</bean>
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="andor_roi" />
+	            <property name="index" value="2" />
+	        </bean>
 		</property>
 	</bean>
-	<bean id="andorRoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="andorRoiStats4" />
+	<bean id="andor_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andor_RoiStats4" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI4:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT4:" />
 		<property name="roiInputNdArrayPort" value="ANDOR.rot" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="andorPlotServerRoiProvider" />
-				<constructor-arg value="3" />
-			</bean>
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="andor_roi" />
+	            <property name="index" value="3" /> 
+	        </bean>
 		</property>
 	</bean>
-	<bean id="andorRoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="andorRoiStats5" />
+	<bean id="andor_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andor_RoiStats5" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI5:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT5:" />
 		<property name="roiInputNdArrayPort" value="ANDOR.rot" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="andorPlotServerRoiProvider" />
-				<constructor-arg value="4" />
-			</bean>
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="andor_roi" />
+	            <property name="index" value="4" /> 
+	        </bean>
 		</property>
 	</bean>
-	<bean id="andorRoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="andorRoiStats6" />
+	<bean id="andor_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="andor_RoiStats6" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI6:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT6:" />
 		<property name="roiInputNdArrayPort" value="ANDOR.rot" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="andorPlotServerRoiProvider" />
-				<constructor-arg value="5" />
-			</bean>
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="andor_roi" />
+	            <property name="index" value="5" /> 
+	        </bean>
 		</property>
 	</bean>
 

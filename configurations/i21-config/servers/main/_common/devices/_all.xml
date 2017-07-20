@@ -46,5 +46,6 @@
 	<import resource="sgm.xml" />
 	<import resource="spectrometer.xml"/>
 	<import resource="andor.xml"/>
+	<import resource="andor_nx.xml"/>
 
 </beans>
