@@ -16,9 +16,11 @@ Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i21
 Import-Package: org.dawb.workbench.ui.perspective,
  org.dawnsci.mapping.ui,
+ org.dawnsci.plotting.views,
  org.dawnsci.processing.ui,
  org.eclipse.scanning.api.event,
  org.eclipse.scanning.api.event.queues,
  org.eclipse.scanning.api.event.scan,
  org.eclipse.scanning.api.ui,
- org.eclipse.ui.intro.config
+ org.eclipse.ui.intro.config,
+ uk.ac.gda.client.live.stream.view
