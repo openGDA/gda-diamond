@@ -40,17 +40,18 @@
 		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
 	</bean>
+	<!-- used with live stream view -->
  	<bean id="andor" class="gda.device.detector.NXDetector">
 		<property name="name" value="andor" />
 		<property name="collectionStrategy" ref="andorCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="andorRoiStats1" />
-				<ref bean="andorRoiStats2" />
-				<ref bean="andorRoiStats3" />
-				<ref bean="andorRoiStats4" />
-				<ref bean="andorRoiStats5" />
-				<ref bean="andorRoiStats6" />
+				<ref bean="andor_RoiStats1" />
+				<ref bean="andor_RoiStats2" />
+				<ref bean="andor_RoiStats3" />
+				<ref bean="andor_RoiStats4" />
+				<ref bean="andor_RoiStats5" />
+				<ref bean="andor_RoiStats6" />
 				<ref bean="andorHdf5Filewriter" />
 			</list>
 		</property>
