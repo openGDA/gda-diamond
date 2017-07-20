@@ -157,5 +157,6 @@
 				<ref bean="simHdf5Filewriter" />
 			</list>
 		</property>	
+	</bean>
 
 </beans>
