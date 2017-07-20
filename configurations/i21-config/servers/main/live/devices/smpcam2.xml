@@ -4,12 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Area detector camera -->
-	<bean id="smplcam2PlotServerRoiProvider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
-		<constructor-arg value="SMPLCAM2" />
-		<constructor-arg value="6" />
-	</bean>
-
 	<bean id="smplcam2CamBase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL21I-DI-DCAM-21:CAM:" />
 	</bean>
@@ -32,96 +26,6 @@
 			</bean>
 		</property>
 	</bean>
-	
-	<bean id="smplcam2RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats1" />
-		<property name="baseRoiPVName" value="BL21I-DI-DCAM-21:ROI1:" />
-		<property name="baseStatsPVName" value="BL21I-DI-DCAM-21:STAT1:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam2.cam" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="smplcam2PlotServerRoiProvider" />
-				<constructor-arg value="0" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="smplcam2RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats2" />
-		<property name="baseRoiPVName" value="BL21I-DI-DCAM-21:ROI2:" />
-		<property name="baseStatsPVName" value="BL21I-DI-DCAM-21:STAT2:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam2.cam" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="smplcam2PlotServerRoiProvider" />
-				<constructor-arg value="1" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="smplcam2RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats3" />
-		<property name="baseRoiPVName" value="BL21I-DI-DCAM-21:ROI3:" />
-		<property name="baseStatsPVName" value="BL21I-DI-DCAM-21:STAT3:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam2.cam" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="smplcam2PlotServerRoiProvider" />
-				<constructor-arg value="2" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="smplcam2RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats4" />
-		<property name="baseRoiPVName" value="BL21I-DI-DCAM-21:ROI4:" />
-		<property name="baseStatsPVName" value="BL21I-DI-DCAM-21:STAT4:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam2.cam" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="smplcam2PlotServerRoiProvider" />
-				<constructor-arg value="3" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="smplcam2RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats5" />
-		<property name="baseRoiPVName" value="BL21I-DI-DCAM-21:ROI5:" />
-		<property name="baseStatsPVName" value="BL21I-DI-DCAM-21:STAT5:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam2.cam" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="smplcam2PlotServerRoiProvider" />
-				<constructor-arg value="4" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="smplcam2RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats6" />
-		<property name="baseRoiPVName" value="BL21I-DI-DCAM-21:ROI6:" />
-		<property name="baseStatsPVName" value="BL21I-DI-DCAM-21:STAT6:" />
-		<property name="roiInputNdArrayPort" value="SMPL.cam2.cam" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="smplcam2PlotServerRoiProvider" />
-				<constructor-arg value="5" />
-			</bean>
-		</property>
-	</bean>
 
 	<bean id="smplcam2Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
 		<property name="fileNameTemplate" value="smplcam2"/>
@@ -136,18 +40,116 @@
 			</bean>
 		</property>
 	</bean>
+	
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="smplcam2_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/smplcam2Roi" />
+	    <property name="service" ref="smplcam2_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>	
+	<bean id="smplcam2_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="smplcam2_RoiStats1" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-21:ROI1:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-21:STAT1:" />
+		<property name="roiInputNdArrayPort" value="SMPL.cam2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="smplcam2_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="smplcam2_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="smplcam2_RoiStats2" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-21:ROI2:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-21:STAT2:" />
+		<property name="roiInputNdArrayPort" value="SMPL.cam2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="smplcam2_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="smplcam2_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="smplcam2_RoiStats3" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-21:ROI3:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-21:STAT3:" />
+		<property name="roiInputNdArrayPort" value="SMPL.cam2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="smplcam2_roi" />
+	            <property name="index" value="2" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="smplcam2_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="smplcam2_RoiStats4" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-21:ROI4:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-21:STAT4:" />
+		<property name="roiInputNdArrayPort" value="SMPL.cam2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="smplcam2_roi" />
+	            <property name="index" value="3" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="smplcam2_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="smplcam2_RoiStats5" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-21:ROI5:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-21:STAT5:" />
+		<property name="roiInputNdArrayPort" value="SMPL.cam2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="smplcam2_roi" />
+	            <property name="index" value="4" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="smplcam2_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="smplcam2_RoiStats6" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-21:ROI6:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-21:STAT6:" />
+		<property name="roiInputNdArrayPort" value="SMPL.cam2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="smplcam2_roi" />
+	            <property name="index" value="5" /> 
+	        </bean>
+		</property>
+	</bean>
 
  	<bean id="smplcam2" class="gda.device.detector.NXDetector">
 		<property name="name" value="smplcam2" />
 		<property name="collectionStrategy" ref="smplcam2CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="smplcam2RoiStats1" />
-				<ref bean="smplcam2RoiStats2" />
-				<ref bean="smplcam2RoiStats3" />
-				<ref bean="smplcam2RoiStats4" />
-				<ref bean="smplcam2RoiStats5" />
-				<ref bean="smplcam2RoiStats6" />
+				<ref bean="smplcam2_RoiStats1" />
+				<ref bean="smplcam2_RoiStats2" />
+				<ref bean="smplcam2_RoiStats3" />
+				<ref bean="smplcam2_RoiStats4" />
+				<ref bean="smplcam2_RoiStats5" />
+				<ref bean="smplcam2_RoiStats6" />
 				<ref bean="smplcam2Hdf5Filewriter" />
 			</list>
 		</property>

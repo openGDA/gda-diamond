@@ -21,12 +21,6 @@
 		<property name="pvName" value="BL21I-DI-PHDGN-04:FEMTO1" />
 		<property name="local" value="true" />
 	</bean>
-	
-	<!-- Area detector camera -->
-	<bean id="d4PlotServerRoiProvider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
-		<constructor-arg value="D4" />
-		<constructor-arg value="6" />
-	</bean>
 
 	<bean id="d4CamBase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL21I-DI-DCAM-04:CAM:" />
@@ -51,96 +45,6 @@
 		</property>
 	</bean>
 	
-	<bean id="d4RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats1" />
-		<property name="baseRoiPVName" value="BL21I-DI-DCAM-04:ROI1:" />
-		<property name="baseStatsPVName" value="BL21I-DI-DCAM-04:STAT1:" />
-		<property name="roiInputNdArrayPort" value="D4.cam" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="d4PlotServerRoiProvider" />
-				<constructor-arg value="0" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="d4RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats2" />
-		<property name="baseRoiPVName" value="BL21I-DI-DCAM-04:ROI2:" />
-		<property name="baseStatsPVName" value="BL21I-DI-DCAM-04:STAT2:" />
-		<property name="roiInputNdArrayPort" value="D4.cam" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="d4PlotServerRoiProvider" />
-				<constructor-arg value="1" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="d4RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats3" />
-		<property name="baseRoiPVName" value="BL21I-DI-DCAM-04:ROI3:" />
-		<property name="baseStatsPVName" value="BL21I-DI-DCAM-04:STAT3:" />
-		<property name="roiInputNdArrayPort" value="D4.cam" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="d4PlotServerRoiProvider" />
-				<constructor-arg value="2" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="d4RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats4" />
-		<property name="baseRoiPVName" value="BL21I-DI-DCAM-04:ROI4:" />
-		<property name="baseStatsPVName" value="BL21I-DI-DCAM-04:STAT4:" />
-		<property name="roiInputNdArrayPort" value="D4.cam" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="d4PlotServerRoiProvider" />
-				<constructor-arg value="3" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="d4RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats5" />
-		<property name="baseRoiPVName" value="BL21I-DI-DCAM-04:ROI5:" />
-		<property name="baseStatsPVName" value="BL21I-DI-DCAM-04:STAT5:" />
-		<property name="roiInputNdArrayPort" value="D4.cam" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="d4PlotServerRoiProvider" />
-				<constructor-arg value="4" />
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="d4RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="roistats6" />
-		<property name="baseRoiPVName" value="BL21I-DI-DCAM-04:ROI6:" />
-		<property name="baseStatsPVName" value="BL21I-DI-DCAM-04:STAT6:" />
-		<property name="roiInputNdArrayPort" value="D4.cam" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="d4PlotServerRoiProvider" />
-				<constructor-arg value="5" />
-			</bean>
-		</property>
-	</bean>
-
 	<bean id="d4Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
 		<property name="fileNameTemplate" value="d4"/>
 		<property name="ndFileHDF5">
@@ -154,18 +58,117 @@
 			</bean>
 		</property>
 	</bean>
+	
+	
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="d4_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/d4Roi" />
+	    <property name="service" ref="d4_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>	
+	<bean id="d4_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d4_RoiStats1" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-04:ROI1:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-04:STAT1:" />
+		<property name="roiInputNdArrayPort" value="D4.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d4_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="d4_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d4_RoiStats2" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-04:ROI2:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-04:STAT2:" />
+		<property name="roiInputNdArrayPort" value="D4.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d4_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="d4_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d4_RoiStats3" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-04:ROI3:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-04:STAT3:" />
+		<property name="roiInputNdArrayPort" value="D4.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d4_roi" />
+	            <property name="index" value="2" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="d4_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d4_RoiStats4" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-04:ROI4:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-04:STAT4:" />
+		<property name="roiInputNdArrayPort" value="D4.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d4_roi" />
+	            <property name="index" value="3" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="d4_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d4_RoiStats5" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-04:ROI5:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-04:STAT5:" />
+		<property name="roiInputNdArrayPort" value="D4.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d4_roi" />
+	            <property name="index" value="4" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="d4_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d4_RoiStats6" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-04:ROI6:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-04:STAT6:" />
+		<property name="roiInputNdArrayPort" value="D4.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d4_roi" />
+	            <property name="index" value="5" /> 
+	        </bean>
+		</property>
+	</bean>
 
  	<bean id="d4cam" class="gda.device.detector.NXDetector">
 		<property name="name" value="d4cam" />
 		<property name="collectionStrategy" ref="d4CollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="d4RoiStats1" />
-				<ref bean="d4RoiStats2" />
-				<ref bean="d4RoiStats3" />
-				<ref bean="d4RoiStats4" />
-				<ref bean="d4RoiStats5" />
-				<ref bean="d4RoiStats6" />
+				<ref bean="d4_RoiStats1" />
+				<ref bean="d4_RoiStats2" />
+				<ref bean="d4_RoiStats3" />
+				<ref bean="d4_RoiStats4" />
+				<ref bean="d4_RoiStats5" />
+				<ref bean="d4_RoiStats6" />
 				<ref bean="d4Hdf5Filewriter" />
 			</list>
 		</property>
