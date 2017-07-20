@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- used for 2D Array view -->
+ 	<bean id="andor_nx" class="gda.device.detector.NXDetector">
+		<property name="name" value="andor" />
+		<property name="collectionStrategy" ref="andorCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="andorRoiStats1" />
+				<ref bean="andorRoiStats2" />
+				<ref bean="andorRoiStats3" />
+				<ref bean="andorRoiStats4" />
+				<ref bean="andorRoiStats5" />
+				<ref bean="andorRoiStats6" />
+				<ref bean="andorHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+</beans>
