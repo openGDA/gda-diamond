@@ -31,8 +31,11 @@ class DeviceDerivativeClass(ScannableBase):
 		self.refObj1 = scannable1
 		self.refObj2 = scannable2
 		self.deviceFun = deviceFun
+		self.firstPoint=False
 		
-
+	def atScanStart(self):
+		self.firstPoint=True
+		
 	def getPosition(self):
 		'''return the derivative value of two scannables. The first value must be discarded as zeros are used for the starting point. '''
 		global lastx1
@@ -41,6 +44,9 @@ class DeviceDerivativeClass(ScannableBase):
 		lastx2 = self.x2
 		self.x1=self.refObj1.getPosition();
 		self.x2=self.refObj2.getPosition();
+		if self.firstPoint:
+			self.firstPoint=False
+			return self.x2/self.x1
 		self.y = self.funForeward(self.x1, self.x2);
 		return self.y;
 
@@ -52,13 +58,13 @@ class DeviceDerivativeClass(ScannableBase):
 
 	def isBusy(self):
 		'''returns busy if the two scannables are busy'''
-		return (self.refObj1.isBusy() & self.refObj2.isBusy());
+		return (self.refObj1.isBusy() or self.refObj2.isBusy());
 
 lastx1 = 0
 lastx2 = 0
 
 def derivative(x1, x2):
 	'''returns the differential ratio of two scannables'''
-	y=(x2-lastx2)/(x2-lastx1);
+	y=-(x2-lastx2)/(x1-lastx1);
 	return y;
 

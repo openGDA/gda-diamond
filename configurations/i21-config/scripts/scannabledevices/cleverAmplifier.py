@@ -56,9 +56,10 @@ class CleverAmplifier(ScannableMotionBase):
         self.amp=amp    #EpicsCurrAmpSingle()
         self.lowerthreshold=lowerthreshold
         self.upperthreshold=upperthreshold
+        self.gainAtScanStart=gainmap[1]
         
     def atScanStart(self):
-        pass
+        self.gainAtScanStart=self.amp.getGain()
     
     def atPointStart(self):
         currentGain=str(self.amp.getGain())
@@ -89,7 +90,7 @@ class CleverAmplifier(ScannableMotionBase):
         pass
     
     def atScanEnd(self):
-        pass
+        self.amp.setGain(self.gainAtScanStart)
             
     def stop(self):
         pass
