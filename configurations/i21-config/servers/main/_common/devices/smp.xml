@@ -6,33 +6,68 @@
 
 	<bean id="sapolar" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smprzMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="deg" />
 	</bean>
 
 	<bean id="sax" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpxMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
 
 	<bean id="say" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpyMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
 
 	<bean id="saz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpzMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
 	<bean id="saazimuth" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpazimuthMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="deg" />
 	</bean>
 	<bean id="diodetth" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpdiodetthMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="deg" />
 	</bean>
 	<bean id="satilt" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smptiltMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="deg" />
 	</bean>
 

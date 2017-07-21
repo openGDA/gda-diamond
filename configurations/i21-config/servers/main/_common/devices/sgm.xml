@@ -6,37 +6,72 @@
 
 	<bean id="sgmGratingSelect" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sgmgratingtranslationMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
 	
 	<bean id="sgmh" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sgmheightMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
 	
 	<bean id="sgmpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sgmgratingpitchMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="deg" />
 	</bean>
 
 	<bean id="sgmroll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sgmrollMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="deg" />
 	</bean>
 
 	<bean id="sgmr1" class="gda.device.scannable.AirBearingScannableMotor">
 		<property name="motor" ref="sgmlongxMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="mm"/>
 		<property name="airBearingScannable" ref="sgm_traveler_air"/>
 	</bean>
 
 	<bean id="sgmwedgeoffside" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sgmwedgeoffsideMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
 
 	<bean id="sgmwedgenearside" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sgmwedgenearsideMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
 
