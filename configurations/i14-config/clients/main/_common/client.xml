@@ -13,7 +13,7 @@
 	<context:property-placeholder />
 
 	<corba:import namespace="${gda.factory.factoryName}"
-		names="plot_server, dcm_energy, dcm_bragg, oh1_shutter_status, oh2_shutter_status, oh3_shutter_status, eh2_nano_shutter_status" />
+		names="dcm_energy, dcm_bragg, oh1_shutter_status, oh2_shutter_status, oh3_shutter_status, eh2_nano_shutter_status" />
 
 	<!-- =========================================================== -->
 	<!-- Files with separate live and dummy versions                 -->
