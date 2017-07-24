@@ -70,7 +70,7 @@ public class MotorControlsGui implements IObserver {
 	private final Composite parent;
 	private final Scannable scannableMotor;
 
-	private Group group;
+	private Composite group;
 	private Label nameLabel;
 	private Text demandPositionTextbox;
 	private Text actualPositionTextbox;
@@ -94,6 +94,12 @@ public class MotorControlsGui implements IObserver {
 	/** Current update status of the widget - i.e. updating labels due to motor moves, moving motor to new position */
 	private volatile Status currentWidgetStatus;
 
+	public final static int FULL_LAYOUT = 0;
+	public final static int COMPACT_LAYOUT = 1;
+	public final static int HIDE_BORDER = 2;
+	public final static int HIDE_STOP_CONTROLS = 4;
+	private int layoutOptions = FULL_LAYOUT;
+
 	/** States that the gui can be in */
 	enum Status {
 		IDLE, // Nothing happening
@@ -101,13 +107,30 @@ public class MotorControlsGui implements IObserver {
 	}
 
 	public MotorControlsGui(Composite parent, String scannableMotorName) throws DeviceException {
+		this(parent, scannableMotorName, false);
+	}
+
+	public MotorControlsGui(Composite parent, Scannable scannableMotor) throws DeviceException {
+		this(parent, scannableMotor, false);
+	}
+
+	public MotorControlsGui(Composite parent, String scannableMotorName, int options) throws DeviceException {
 		this.parent = parent;
+		layoutOptions = options;
 		scannableMotor = Finder.getInstance().find(scannableMotorName);
 		setup();
 	}
 
-	public MotorControlsGui(Composite parent, Scannable scannableMotor) throws DeviceException {
+	public MotorControlsGui(Composite parent, String scannableMotorName, boolean useCompactLayout) throws DeviceException {
 		this.parent = parent;
+		layoutOptions = useCompactLayout==true ? COMPACT_LAYOUT : FULL_LAYOUT;
+		scannableMotor = Finder.getInstance().find(scannableMotorName);
+		setup();
+	}
+
+	public MotorControlsGui(Composite parent, Scannable scannableMotor, boolean useCompactLayout) throws DeviceException {
+		this.parent = parent;
+		layoutOptions = useCompactLayout==true ? COMPACT_LAYOUT : FULL_LAYOUT;
 		this.scannableMotor = scannableMotor;
 		setup();
 	}
@@ -124,31 +147,43 @@ public class MotorControlsGui implements IObserver {
 		currentWidgetStatus = Status.IDLE;
 	}
 
+	private void addMoveButtons(Composite parent) {
+		decreaseButton = new Button(parent, SWT.PUSH);
+		decreaseButton.setText("-");
+
+		increaseButton = new Button(parent, SWT.PUSH);
+		increaseButton.setText("+");
+	}
+
 	/**
 	 * Create GUI elements
 	 * @throws DeviceException
 	 */
 	private void createControls() throws DeviceException {
-		group = new Group(parent, SWT.NONE);
-		group.setLayout(new GridLayout(1, false));
-		Composite controlWidgets = new Composite(group, SWT.NONE);
-		controlWidgets.setLayout(new GridLayout(3, false));
-		controlWidgets.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
+		boolean useCompactLayout = (layoutOptions & COMPACT_LAYOUT) > 0;
 
-		nameLabel = new Label(controlWidgets, SWT.SINGLE);
+		int numColumns = useCompactLayout ? 4 : 3;
+
+		if ((layoutOptions & HIDE_BORDER)>0) {
+			group = new Composite(parent, SWT.NONE);
+		} else {
+			group = new Group(parent, SWT.NONE);
+		}
+
+		group.setLayout(new GridLayout(numColumns, false));
+		group.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
+
+		nameLabel = new Label(group, SWT.SINGLE);
 		nameLabel.setText(scannableMotor.getName());
-		nameLabel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 3, 1));
+		// Namelabel on first row on its own
+		if (!useCompactLayout) {
+			nameLabel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, numColumns, 1));
+		}
 
-		decreaseButton = new Button(controlWidgets, SWT.PUSH);
-		decreaseButton.setText("-");
-//		decreaseButton.setLayoutData(gridDat);
+		addMoveButtons(group);
 
-		increaseButton = new Button(controlWidgets, SWT.PUSH);
-		increaseButton.setText("+");
-//		increaseButton.setLayoutData(gridDat);
-
-		demandPositionTextbox = new Text(controlWidgets, SWT.SINGLE | SWT.BORDER);
-		demandPositionTextbox.setText("0");
+		demandPositionTextbox = new Text(group, SWT.SINGLE | SWT.BORDER);
+		demandPositionTextbox.setText(getFormattedScannablePos(scannableMotor));
 		demandPositionTextbox.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 
 		Point size = demandPositionTextbox.computeSize(SWT.DEFAULT, SWT.DEFAULT);
@@ -158,25 +193,34 @@ public class MotorControlsGui implements IObserver {
 		increaseButton.setLayoutData(gridDat);
 		decreaseButton.setLayoutData(gridDat);
 
-		stopButton = new Button(controlWidgets, SWT.ICON_CANCEL);
-		Image stopButtonImage = GDAClientActivator.getImageDescriptor("icons/stop.png").createImage();
-		stopButton.setImage(stopButtonImage);
-		stopButton.setEnabled(false);
-		stopButton.setLayoutData(gridDat);
+		// Show stop button, current position (if not hidden)
+		if ((layoutOptions & HIDE_STOP_CONTROLS)==0) {
 
-		actualPositionTextbox = new Text(controlWidgets, SWT.SINGLE);
-		actualPositionTextbox.setText("0");
-		actualPositionTextbox.setEditable(false);
-		// fill up to end of parent group
-		actualPositionTextbox.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1));
+			// Fill empty space below name label
+			if (useCompactLayout) {
+				new Label(group, SWT.NONE);
+			}
+
+			stopButton = new Button(group, SWT.ICON_CANCEL);
+			Image stopButtonImage = GDAClientActivator.getImageDescriptor("icons/stop.png").createImage();
+			stopButton.setImage(stopButtonImage);
+			stopButton.setEnabled(false);
+			stopButton.setLayoutData(gridDat);
+
+			actualPositionTextbox = new Text(group, SWT.SINGLE);
+			actualPositionTextbox.setText("0");
+			actualPositionTextbox.setEditable(false);
+			// fill up to end of parent group
+			actualPositionTextbox.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1));
+
+			// Set initial value of position textboxes using position of scannable
+			actualPositionTextbox.setText(getFormattedScannablePos(scannableMotor));
+			demandPositionTextbox.setText(actualPositionTextbox.getText());
+		}
 
 		// Resize the group to fit the widgets
 		Point totalSize = group.computeSize(150, SWT.DEFAULT);
 		group.setSize(totalSize);
-
-		// Set initial value of position textboxes using position of scannable
-		actualPositionTextbox.setText(getFormattedScannablePos(scannableMotor));
-		demandPositionTextbox.setText(actualPositionTextbox.getText());
 
 		// Context menu to allow size of tweak step to be adjusted
 		Menu popupMenu = new Menu(increaseButton);
@@ -247,7 +291,9 @@ public class MotorControlsGui implements IObserver {
 		Control[] comps = new Control[]{ demandPositionTextbox, actualPositionTextbox};
 		String text = String.format("Scannable : %s\nLimits : %.4g ... %.4g %s\nMotor tweak step size : %.4g", scannableMotor.getName(), minPos, maxPos, unitString, motorStepSize);
 		for( Control c : comps) {
-			c.setToolTipText(text);
+			if (c!=null) {
+				c.setToolTipText(text);
+			}
 		}
 	}
 
@@ -278,6 +324,10 @@ public class MotorControlsGui implements IObserver {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
+
+		if ((layoutOptions & HIDE_STOP_CONTROLS)>0) {
+			return;
+		}
 
 		// Button to nicely try and stop current motor move
 		stopButton.addSelectionListener(new SelectionListener() {
@@ -435,7 +485,7 @@ public class MotorControlsGui implements IObserver {
 	 * @param newText
 	 */
 	private void updateTextboxLabel(final Text textbox, final String newText) {
-		if (parent.isDisposed()) {
+		if (parent.isDisposed() || textbox==null) {
 			return;
 		}
 		parent.getDisplay().asyncExec(new Runnable() {

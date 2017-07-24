@@ -58,19 +58,29 @@ class HighlightImageLabel implements IObserver {
 	/** Highlight colour used to modify normalImage to create busyImage (default = red)*/
 	private RGB highlightColor = new RGB(255,0,0);
 
-	public HighlightImageLabel(Composite parent) {
+
+	public HighlightImageLabel(final Composite parent) {
 		this.parent = parent;
-		nameLabel = new Label(parent, SWT.NONE);
-		nameLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+		setLayout();
 		scannable = null;
+	}
+
+	public HighlightImageLabel(Composite parent, Scannable scannable) {
+		this.parent = parent;
+		setLayout();
+		setScannable(scannable);
 	}
 
 	public HighlightImageLabel(Composite parent, String scannableName) {
 		this.parent = parent;
-		nameLabel = new Label(parent, SWT.NONE);
-		nameLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
+		setLayout();
 		scannable = Finder.getInstance().find(scannableName);
 		setScannable(scannable);
+	}
+
+	private void setLayout() {
+		nameLabel = new Label(parent, SWT.NONE);
+		nameLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, 1));
 	}
 
 	public void setScannable(Scannable scannable) {
