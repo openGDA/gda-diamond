@@ -206,7 +206,7 @@ sca.assign(5, ['ct5','vsca3'])
 sca.assign(6, ['ct6','scintillator'])
 sca.assign(7, ['ct7','ionchamber'])
 sca.assign(8, ['ct8','pips'])
-sca.assign(9, ['ct9'])
+sca.assign(9, ['ct9', 'apd2'])
 sca.assign(10, ['ct10'])
 sca.assign(11, ['ct11'])
 sca.assign(12, ['ct12'])
@@ -1061,6 +1061,12 @@ try:
 except:
 	print "WARNING: Could not ensure xmapMca settings are correct"
 
+def pcoedge_multi_n(n):
+	pcoedge_multi.detector.collectionStrategy.numberOfImagesPerCollection = n
+
+def pcoedge_multi_period(t):
+	pcoedge_multi.detector.collectionStrategy.acquirePeriod = t
+
 #Configure scan interrupters
 from scannable.scan_stopper import ScanStopper, ThresholdInterrupt
 ai2thresh = ThresholdInterrupt(ai2, 0.02)
@@ -1072,7 +1078,7 @@ ai2stop = ScanStopper('ai2stop', ai2thresh)
 #print "*" * 80
 #
 #medipix.returnPathAsImageNumberOnly = True
-#LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
+LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
 
 #Linkam temp controller
 run("linkam.py")
@@ -1097,7 +1103,6 @@ Td.userUnits = 'K'
 Td.outputFormat = ['%6f']
 Td.configure()
 
-
 print "Done!"
 from epics_scripts.device.scannable.pvscannables_with_logic import PVWithSeparateReadbackAndToleranceScannable
 furnace = PVWithSeparateReadbackAndToleranceScannable('furnace', pv_set='BL16B-EA-TEMPC-01:RAMP:LIMIT:SET', pv_read='BL16B-EA-TEMPC-01:TEMP', timeout=36000, tolerance = .1)
@@ -1111,3 +1116,9 @@ run('startup_pie725')
 #peak2d=pcoedgepeak2d
 #max2d=pcoedgemax2d
 #intensity2d=pcoedgeintensity2d
+
+DebenRigEnabled = True
+
+if DebenRigEnabled:
+	from scannable.hw.user.debenRig import DebenRig
+	deben = DebenRig('deben', 'BL16B-EA-DEBEN-01:')
