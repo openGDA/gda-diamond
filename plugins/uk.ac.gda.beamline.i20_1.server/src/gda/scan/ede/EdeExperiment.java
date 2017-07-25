@@ -135,6 +135,8 @@ public abstract class EdeExperiment implements IObserver {
 	protected String fastShutterName;
 	protected Scannable fastShutter;
 
+	protected double scanDeadTime = 2.0; // Approximate time overhead (secs) when running a scan.
+
 	public EdeExperiment(List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
@@ -455,17 +457,24 @@ public abstract class EdeExperiment implements IObserver {
 		return timeForI0Spectrum*6 + timeForI0Move + timeForItMove;
 	}
 
+	protected double getTimeRequiredForLightI0Collection() {
+		return 2.0*i0ScanParameters.getTotalTime();
+	}
+
 	protected double getTimeRequiredForItCollection() {
-		int numFrames = itScanParameters.getTotalNumberOfFrames();
 		double totalTime = itScanParameters.getTotalTime();
 		return totalTime * getRepetitions();
+	}
+
+	protected double getTimeToMoveFromI0ToIt() {
+		return ( (EdeScanMotorPositions) i0Position).getTimeToMove( (EdeScanMotorPositions)itPosition );
 	}
 
 	protected double getTimeRequiredAfterItCollection() {
 		// Time for move from It to I0 position
 		double timeForI0Move = ( (EdeScanMotorPositions) i0Position).getTimeToMove( (EdeScanMotorPositions)itPosition );
-		double timePerSpectrum = i0ScanParameters.getTotalTime()/i0ScanParameters.getTotalNumberOfFrames();
-		return timePerSpectrum*2 + timeForI0Move;
+		double timeForSpectrum = getTimeRequiredForLightI0Collection();
+		return timeForSpectrum + timeForI0Move;
 	}
 
 	protected double getTimeRequiredForFullExperiment() {
@@ -518,6 +527,11 @@ public abstract class EdeExperiment implements IObserver {
 	}
 
 	protected TopupChecker createTopupChecker(Double realTimeRequired) {
+		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups.
+		if (realTimeRequired >= TOP_UP_TIME) {
+			logger.info("Time required (" + realTimeRequired + ") secs is too large to fit within a topup");
+		}
+
 		double timeRequired = Math.min(TOP_UP_TIME-30, realTimeRequired); //otherwise if realTimeRequired>TOP_UP_TIME checker runs forever...
 
 		double waitTime = 5.0, tolerance = 2.0;
@@ -529,8 +543,8 @@ public abstract class EdeExperiment implements IObserver {
 			waitTime = topupCheckerMachine.getWaittime();
 		}
 
-		// Avoid having timeout<waitTime+tolerance, otherwise get exception due to timeout whilst topup is imminent/happening
-		double timeout = 1.5*Math.max(waitTime + tolerance, timeRequired);
+		// timeout should be > collectiontime+tolerance+waitTime
+		double timeout = 2.0*(waitTime+tolerance+timeRequired);
 
 		logger.debug("createTopupChecker() : collectionTime = {}, timeout = {}, waitTime = {}, tolerance = {}", timeRequired, timeout, waitTime, tolerance);
 
@@ -565,12 +579,6 @@ public abstract class EdeExperiment implements IObserver {
 			// Don't wait for topup
 			return null;
 		}
-
-		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups.
-		if (timeRequired >= TOP_UP_TIME) {
-			logger.info("Time required ("+timeRequired+") secs is too large to fit within a topup");
-		}
-
 		return createTopupChecker(timeRequired);
 	}
 

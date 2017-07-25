@@ -192,8 +192,14 @@ public class TimeResolvedExperiment extends EdeExperiment {
 			itDarkScan = i0DarkScan;
 		}
 
+		// Make Topup checker for I0 and It collection (time for It collection + motor move time from I0 to It position)
+		TopupChecker topupChecker = null;
+		if (getItWaitForTopup()) {
+			topupChecker = createTopupChecker(2*scanDeadTime + getTimeRequiredForLightI0Collection() + getTimeToMoveFromI0ToIt() + getTimeRequiredForItCollection());
+		}
+
 		i0ScanParameters.setUseFrameTime(false);
-		i0LightScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, firstRepetitionIndex, null);
+		i0LightScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, firstRepetitionIndex, topupChecker);
 		i0LightScan.setProgressUpdater(this);
 		scansBeforeIt.add(i0LightScan);
 
@@ -211,13 +217,12 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 		runItWithTriggerOptions=itScanParameters.getGroups().get(0).isGroupTrig();
 
+		// Dont't include Topup check for It - I0 part of scan already includes time for It collection. imh 24/7/2017
 		if (runItWithTriggerOptions) {
 			itScans = new EdeScanWithTFGTrigger[repetitions];
-
 			itScanParameters.setUseFrameTime(true);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				// itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, shouldWaitForTopup(repIndex, timeToTopup));
-				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, getItWaitForTopup() && shouldItScanWaitForTopup(timeToTopup));
+				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, false);
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);
 			}
@@ -225,15 +230,20 @@ public class TimeResolvedExperiment extends EdeExperiment {
 			itScans = new EdeScan[repetitions];
 			itScanParameters.setUseFrameTime(true);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				TopupChecker topupChecker = getItWaitForTopup() ? createTopupCheckerForItCollection(timeToTopup) : null;
-				itScans[repIndex] = makeEdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, repIndex, topupChecker);
+				itScans[repIndex] = makeEdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, repIndex, null);
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);
 			}
 		}
 
+		// Make Topup checker for final I0 scan (I0 collection time + time for motor move from It to I0)
+		topupChecker= null;
+		if (getItWaitForTopup()) {
+			topupChecker = createTopupChecker(scanDeadTime + getTimeToMoveFromI0ToIt() + getTimeRequiredForLightI0Collection());
+		}
+
 		i0ScanParameters.setUseFrameTime(false);
-		i0FinalScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, firstRepetitionIndex, createTopupCheckerForAfterItScans());
+		i0FinalScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, firstRepetitionIndex, topupChecker);
 		i0FinalScan.setProgressUpdater(this);
 		scansAfterIt.add(i0FinalScan);
 
