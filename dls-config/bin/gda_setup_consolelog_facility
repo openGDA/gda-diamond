@@ -1,5 +1,5 @@
 # Parameter 1 is the console log folder name - {servers|client|logpanel}
-LOGNAME=gda_$1_output
+LOGNAME=gda-$1-output
 bashlog debug "gda_setup_consolelog_facility" "Entered"
 
 if [ $# -ne 1 ] ; then
@@ -19,7 +19,7 @@ bashlog debug "gda_setup_consolelog_facility" "set \${GDA_LOGS_DIR}=${GDA_LOGS_D
 
 # Protect against ssh being so fast that server and client try to write to the same file
 while [ -z ${GDA_LOG_FILE-} ]; do
-    export GDA_LOG_FILE=${GDA_LOGS_DIR}/$LOGNAME/${LOGNAME}_`date +%F-%T`.txt
+    export GDA_LOG_FILE=${GDA_LOGS_DIR}/$LOGNAME/${LOGNAME}-`date +%Y%m%d-%H%M%S`.txt
     if [ -f $GDA_LOG_FILE ]; then
         bashlog debug "gda_setup_consolelog_facility" "GDA_LOG_FILE exists, wait a second and try again..."
         GDA_LOG_FILE=
