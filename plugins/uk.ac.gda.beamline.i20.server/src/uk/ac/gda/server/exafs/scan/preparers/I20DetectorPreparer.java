@@ -30,6 +30,7 @@ import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.NXDetector;
+import gda.device.detector.TfgFFoverI0;
 import gda.device.detector.addetector.triggering.AbstractADTriggeringStrategy;
 import gda.device.detector.areadetector.v17.NDPluginBase;
 import gda.device.detector.areadetector.v17.impl.ADBaseImpl;
@@ -56,7 +57,6 @@ import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.IonChamberParameters;
-import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
@@ -76,6 +76,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	private Scannable[] offset_units;
 	private TfgScalerWithFrames ionchambers;
 	private TfgScalerWithFrames i1;
+	private TfgFFoverI0 ffI0;
+
 	private Xmap vortex;
 	private NXDetector medipix;
 	private TopupChecker topupChecker;
@@ -113,6 +115,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		detectors.add(i1);
 		detectors.add(vortex);
 		detectors.add(medipix);
+		detectors.add(ffI0);
 		return detectors;
 	}
 
@@ -369,39 +372,14 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	}
 
 	private void _setUpIonChambers() throws Exception {
-		// # determine max collection time
-		double maxTime = 0;
 		tfgFrameTimes = null;
 
 		if (scanBean instanceof XanesScanParameters) {
 			XanesScanParameters xanesParams = (XanesScanParameters) scanBean;
-			for (Region region : xanesParams.getRegions()) {
-				if (region.getTime() > maxTime) {
-					maxTime = region.getTime();
-				}
-			}
 			tfgFrameTimes = XanesScanPointCreator.getScanTimeArray(xanesParams);
 		}
 		else if (scanBean instanceof XasScanParameters) {
 			XasScanParameters xasParams = (XasScanParameters) scanBean;
-			if (xasParams.getPreEdgeTime() > maxTime) {
-				maxTime = xasParams.getPreEdgeTime();
-			}
-			if (xasParams.getEdgeTime() > maxTime) {
-				maxTime = xasParams.getEdgeTime();
-			}
-			if (xasParams.getExafsTimeType().equals("Constant Time")) {
-				if (xasParams.getExafsTime() > maxTime) {
-					maxTime = xasParams.getExafsTime();
-				}
-			} else {
-				if (xasParams.getExafsToTime() > maxTime) {
-					maxTime = xasParams.getExafsToTime();
-				}
-				if (xasParams.getExafsFromTime() > maxTime) {
-					maxTime = xasParams.getExafsFromTime();
-				}
-			}
 			tfgFrameTimes = ExafsScanPointCreator.getScanTimeArray(xasParams);
 		}
 		else if ( scanBean instanceof XesScanParameters ) {
@@ -435,8 +413,16 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 			tfgFrameTimes = new Double[numStepsMono * numStepsXes];
 			Arrays.fill(tfgFrameTimes, collectionTime);
-
 		}
+
+		// Determine max collection time
+		double maxTime = 0;
+		for(int i=0; i<tfgFrameTimes.length; i++) {
+			if (tfgFrameTimes[i]>maxTime) {
+				maxTime = tfgFrameTimes[i];
+			}
+		}
+
 		// # set dark current time and handle any errors here
 		if (maxTime > 0) {
 			// InterfaceProvider.getTerminalPrinter().print(
@@ -563,5 +549,13 @@ public class I20DetectorPreparer implements DetectorPreparer {
 				monoOptimiser.optimise(lowEnergy, highEnergy);
 			}
 		}
+	}
+
+	public void setFFI0(TfgFFoverI0 ffI0) {
+		this.ffI0 = ffI0;
+	}
+
+	public TfgFFoverI0 getFfI0() {
+		return ffI0;
 	}
 }

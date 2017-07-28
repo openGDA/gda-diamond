@@ -44,11 +44,15 @@ sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units
 offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
 offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units,i1_stanford_offset_units]
 
+xmapController = Finder.getInstance().find("xmapcontroller")
 if LocalProperties.get("gda.mode") == "live":
-    xmapController = Finder.getInstance().find("xmapcontroller")
     from vortex_elements import VortexElements
     vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
     vortexDetector = Finder.getInstance().find("vortexDetector")
+else :
+    # In dummy mode, set event processing times to be consistent with number of elements on detector.
+    xmapMca.setEventProcessingTimes( [1.2039752e-7]*xmapController.getNumberOfElements() )
+
 # xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
 # xspressConfig.initialize()
 # alias("xspressConfig")
@@ -75,6 +79,7 @@ monoOptimiser.setBraggScannable(bragg1WithOffset)
 
 #### preparers ###
 detectorPreparer = I20DetectorPreparer(xspress2system, sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix, topupChecker)
+detectorPreparer.setFFI0(FFI0);
 detectorPreparer.setMonoOptimiser(monoOptimiser)
 samplePreparer = I20SamplePreparer(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll, sample_pitch, filterwheel, cryostat, cryostick_pos, rcpController)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xspress2system, xmapMca, detectorPreparer)
@@ -202,6 +207,15 @@ else :
     detectorPreparer.setRoiPvName("ROI:")
     detectorPreparer.setStatPvName("STAT:")
 
+
+#Set up monoOptimiser for bragg offset adjustment
+monoOptimiser.setAllowOptimisation(True)
+monoOptimiser.setOffsetStart(-2.0)
+monoOptimiser.setOffsetEnd(2.0)
+monoOptimiser.setOffsetNumPoints(20)
+monoOptimiser.setSelectNewScansInPlotView(False) # False = don't select new bragg offset scans in Plot view
+
+bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when moving to new energy
 
 #ws146-AD-SIM-01:HDF5:MinCallbackTime
 print "****GDA startup script complete.****\n\n"

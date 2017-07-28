@@ -32,6 +32,8 @@ import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
 import gda.scan.ScanPlotSettings;
 import uk.ac.gda.beans.exafs.DetectorGroup;
+import uk.ac.gda.beans.exafs.DetectorParameters;
+import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
 import uk.ac.gda.beans.exafs.ISampleParameters;
@@ -44,7 +46,6 @@ public class I20OutputPreparer extends OutputPreparerBase {
 
 	private AsciiDataWriterConfiguration datawriterconfig;
 	private AsciiDataWriterConfiguration datawriterconfig_xes;
-	private IOutputParameters outputParameters;
 	private TfgScalerWithFrames ionchambers;
 	private Xspress2Detector xspress2system;
 	private Xmap xmapMca;
@@ -69,7 +70,7 @@ public class I20OutputPreparer extends OutputPreparerBase {
 			throws DeviceException {
 		super.configure(outputParameters, scanBean, detectorBean, sampleParameters);
 		this.detectorBean = detectorBean;
-		i20OutputParams = (I20OutputParameters) outputParameters;
+		this.i20OutputParams = (I20OutputParameters) outputParameters;
 		// redefineNexusMetadata();
 		ionchambers.setOutputLogValues(true);
 		// # Custom for I20, which is why it is here instead of the shared DetectorConfiguration.java classes.
@@ -104,8 +105,8 @@ public class I20OutputPreparer extends OutputPreparerBase {
 	// #
 	@Override
 	public ScanPlotSettings getPlotSettings() {
-		if (detectorBean.getExperimentType().equals("Fluorescence")
-				&& (detectorBean.getFluorescenceParameters().getDetectorType().equalsIgnoreCase("Germanium"))) {
+		if (detectorBean.getExperimentType().equals(DetectorParameters.FLUORESCENCE_TYPE)
+				&& (detectorBean.getFluorescenceParameters().getDetectorType().equalsIgnoreCase(FluorescenceParameters.GERMANIUM_DET_TYPE))) {
 			if (i20OutputParams.isXspressShowDTRawValues() || !i20OutputParams.isXspressOnlyShowFF()) {
 				// # create a filter for the DT columns and return it
 				LocalProperties.set("gda.scan.useScanPlotSettings", "true");
@@ -138,7 +139,7 @@ public class I20OutputPreparer extends OutputPreparerBase {
 		DetectorGroup fluoDetGroup = null;
 		List<DetectorGroup> listDetectorGroups = detectorBean.getDetectorGroups();
 		for (DetectorGroup detGroup : listDetectorGroups) {
-			if (detGroup.getName().equals("Germanium")) {
+			if (detGroup.getName().equals(FluorescenceParameters.GERMANIUM_DET_TYPE)) {
 				fluoDetGroup = detGroup;
 				break;
 			}
@@ -156,10 +157,15 @@ public class I20OutputPreparer extends OutputPreparerBase {
 			if (thisDet != null) {
 				String[] extraNames = thisDet.getExtraNames();
 				axes = (String[]) ArrayUtils.addAll(axes, extraNames);
+				// Add 'input' names as well (i.e. 'Time' for ionchambers). imh 27/7/2017
+				String[] inputNames = thisDet.getInputNames();
+				if (inputNames!=null && inputNames.length>0) {
+					axes = (String[]) ArrayUtils.addAll(axes, inputNames);
+				}
 			}
 		}
 
-		List<SignalParameters> extraColumns = outputParameters.getSignalList();
+		List<SignalParameters> extraColumns = i20OutputParams.getSignalList();
 		for (SignalParameters column : extraColumns) {
 			axes = (String[]) ArrayUtils.add(axes, column.getLabel());
 		}

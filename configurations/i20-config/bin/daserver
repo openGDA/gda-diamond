@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #Select the XSPRESS system required
-#XSPRESS_NUM_ELEMENTS=64
-XSPRESS_NUM_ELEMENTS=36
+XSPRESS_NUM_ELEMENTS=64
+#XSPRESS_NUM_ELEMENTS=36
 
 SSH_KEY_FILE=/dls_sw/i20/software/gda/config/daserver.key
 DASERVER_START_COMMAND="da.server -port=1972 -log"

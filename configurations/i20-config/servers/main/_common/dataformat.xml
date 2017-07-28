@@ -430,7 +430,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/PrimarySlit:NXaperture/s1_hgap" />
+							value="before_scan:NXinstrument/PrimarySlit:NXaperture/s1_hgap" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -438,7 +438,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/PrimarySlit:NXaperture/s1_vgap" />
+							value="before_scan:NXinstrument/PrimarySlit:NXaperture/s1_vgap" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -446,7 +446,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/PrimarySlit:NXaperture/s1_hoffset" />
+							value="before_scan:NXinstrument/PrimarySlit:NXaperture/s1_hoffset" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -454,7 +454,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/PrimarySlit:NXaperture/s1_voffset" />
+							value="before_scan:NXinstrument/PrimarySlit:NXaperture/s1_voffset" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -462,7 +462,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror1:NXmirror/m1_pitch" />
+							value="before_scan:NXinstrument/Mirror1:NXmirror/m1_pitch" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -470,7 +470,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror1:NXmirror/m1_height" />
+							value="before_scan:NXinstrument/Mirror1:NXmirror/m1_height" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -478,7 +478,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror1:NXmirror/m1_curvature" />
+							value="before_scan:NXinstrument/Mirror1:NXmirror/m1_curvature" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -486,7 +486,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror1:NXmirror/m1_elip" />
+							value="before_scan:NXinstrument/Mirror1:NXmirror/m1_elip" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -494,7 +494,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror1:NXmirror/m1_yaw" />
+							value="before_scan:NXinstrument/Mirror1:NXmirror/m1_yaw" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -502,14 +502,14 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror1:NXmirror/m1_sag" />
+							value="before_scan:NXinstrument/Mirror1:NXmirror/m1_sag" />
 					</bean>
 				</entry>
 				<entry key="m2_pitch">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror2:NXmirror/m2_pitch" />
+							value="before_scan:NXinstrument/Mirror2:NXmirror/m2_pitch" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -517,7 +517,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror2:NXmirror/m2_height" />
+							value="before_scan:NXinstrument/Mirror2:NXmirror/m2_height" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -525,7 +525,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror2:NXmirror/m2_curvature" />
+							value="before_scan:NXinstrument/Mirror2:NXmirror/m2_curvature" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -533,7 +533,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror2:NXmirror/m2_elip" />
+							value="before_scan:NXinstrument/Mirror2:NXmirror/m2_elip" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -541,7 +541,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror2:NXmirror/m2_yaw" />
+							value="before_scan:NXinstrument/Mirror2:NXmirror/m2_yaw" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -549,7 +549,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror2:NXmirror/m2_sag" />
+							value="before_scan:NXinstrument/Mirror2:NXmirror/m2_sag" />
 					</bean>
 				</entry>
 
@@ -557,140 +557,140 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN1:NXattenuator/atn1" />
+							value="before_scan:NXinstrument/ATN1:NXattenuator/atn1" />
 					</bean>
 				</entry>
 				<entry key="atn2">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN2:NXattenuator/atn2" />
+							value="before_scan:NXinstrument/ATN2:NXattenuator/atn2" />
 					</bean>
 				</entry>
 				<entry key="atn3">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN3:NXattenuator/atn3" />
+							value="before_scan:NXinstrument/ATN3:NXattenuator/atn3" />
 					</bean>
 				</entry>
 				<entry key="atn4">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN4:NXattenuators/atn4" />
+							value="before_scan:NXinstrument/ATN4:NXattenuators/atn4" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter1_name">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter1:NXfilter/atn5_filter1_name" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter1:NXfilter/atn5_filter1_name" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter1">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter1:NXfilter/atn5_filter1" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter1:NXfilter/atn5_filter1" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter2_name">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter2:NXfilter/atn5_filter2_name" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter2:NXfilter/atn5_filter2_name" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter2">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter2:NXfilter/atn5_filter2" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter2:NXfilter/atn5_filter2" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter3_name">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter3:NXfilter/atn5_filter3_name" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter3:NXfilter/atn5_filter3_name" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter3">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter3:NXfilter/atn5_filter3" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter3:NXfilter/atn5_filter3" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter4_name">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter4:NXfilter/atn5_filter4_name" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter4:NXfilter/atn5_filter4_name" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter4">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter4:NXfilter/atn5_filter4" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter4:NXfilter/atn5_filter4" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter5_name">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter5:NXfilter/atn5_filter5_name" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter5:NXfilter/atn5_filter5_name" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter5">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter5:NXfilter/atn5_filter5" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter5:NXfilter/atn5_filter5" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter6_name">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter6:NXfilter/atn5_filter6_name" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter6:NXfilter/atn5_filter6_name" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter6">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter6:NXfilter/atn5_filter6" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter6:NXfilter/atn5_filter6" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter7_name">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter7:NXfilter/atn5_filter7_name" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter7:NXfilter/atn5_filter7_name" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter7">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter7:NXfilter/atn5_filter7" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter7:NXfilter/atn5_filter7" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter8_name">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter8:NXfilter/atn5_filter8_name" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter8:NXfilter/atn5_filter8_name" />
 					</bean>
 				</entry>
 				<entry key="atn5_filter8">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ATN5:NX_attenuator/Filter8:NXfilter/atn5_filter8" />
+							value="before_scan:NXinstrument/ATN5:NX_attenuator/Filter8:NXfilter/atn5_filter8" />
 					</bean>
 				</entry>
 
@@ -698,7 +698,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Monochromator:NXmonochromator/crystal1_pitch" />
+							value="before_scan:NXinstrument/Monochromator:NXmonochromator/crystal1_pitch" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -706,7 +706,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Monochromator:NXmonochromator/crystal2_roll" />
+							value="before_scan:NXinstrument/Monochromator:NXmonochromator/crystal2_roll" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -714,7 +714,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Monochromator:NXmonochromator/crystal34_roll" />
+							value="before_scan:NXinstrument/Monochromator:NXmonochromator/crystal34_roll" />
 						<property name="units" value="urad" />
 					</bean>
 				</entry>
@@ -722,7 +722,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Monochromator:NXmonochromator/crystalcut" />
+							value="before_scan:NXinstrument/Monochromator:NXmonochromator/crystalcut" />
 					</bean>
 				</entry>
 
@@ -730,7 +730,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/SecondarySlit:NXaperture/s2_hgap" />
+							value="before_scan:NXinstrument/SecondarySlit:NXaperture/s2_hgap" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -738,7 +738,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/SecondarySlit:NXaperture/s2_vgap" />
+							value="before_scan:NXinstrument/SecondarySlit:NXaperture/s2_vgap" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -746,7 +746,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/SecondarySlit:NXaperture/s2_hoffset" />
+							value="before_scan:NXinstrument/SecondarySlit:NXaperture/s2_hoffset" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -754,7 +754,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/SecondarySlit:NXaperture/s2_voffset" />
+							value="before_scan:NXinstrument/SecondarySlit:NXaperture/s2_voffset" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -763,7 +763,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror3:NXmirror/m3_pitch" />
+							value="before_scan:NXinstrument/Mirror3:NXmirror/m3_pitch" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -771,7 +771,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror3:NXmirror/m3_height" />
+							value="before_scan:NXinstrument/Mirror3:NXmirror/m3_height" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -779,7 +779,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror3:NXmirror/m3_yaw" />
+							value="before_scan:NXinstrument/Mirror3:NXmirror/m3_yaw" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -787,7 +787,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror3:NXmirror/m3_stripe" />
+							value="before_scan:NXinstrument/Mirror3:NXmirror/m3_stripe" />
 					</bean>
 				</entry>
 
@@ -795,7 +795,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror4:NXmirror/m4_pitch" />
+							value="before_scan:NXinstrument/Mirror4:NXmirror/m4_pitch" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -803,7 +803,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror4:NXmirror/m4_height" />
+							value="before_scan:NXinstrument/Mirror4:NXmirror/m4_height" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -811,7 +811,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror4:NXmirror/m4_curvature" />
+							value="before_scan:NXinstrument/Mirror4:NXmirror/m4_curvature" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -819,7 +819,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror4:NXmirror/m4_elip" />
+							value="before_scan:NXinstrument/Mirror4:NXmirror/m4_elip" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -827,7 +827,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror4:NXmirror/m4_yaw" />
+							value="before_scan:NXinstrument/Mirror4:NXmirror/m4_yaw" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -835,7 +835,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Mirror4:NXmirror/m4_stripe" />
+							value="before_scan:NXinstrument/Mirror4:NXmirror/m4_stripe" />
 					</bean>
 				</entry>
 
@@ -843,7 +843,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/HRMirror:NXmirror/hr_pitch" />
+							value="before_scan:NXinstrument/HRMirror:NXmirror/hr_pitch" />
 						<property name="units" value="mrad" />
 					</bean>
 				</entry>
@@ -851,7 +851,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/HRMirror:NXmirror/hr_height" />
+							value="before_scan:NXinstrument/HRMirror:NXmirror/hr_height" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -859,7 +859,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/HRMirror:NXmirror/hr_stripe" />
+							value="before_scan:NXinstrument/HRMirror:NXmirror/hr_stripe" />
 					</bean>
 				</entry>
 
@@ -867,7 +867,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ExperimentalSlit:NXaperture/s3_hgap" />
+							value="before_scan:NXinstrument/ExperimentalSlit:NXaperture/s3_hgap" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -875,7 +875,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ExperimentalSlit:NXaperture/s3_vgap" />
+							value="before_scan:NXinstrument/ExperimentalSlit:NXaperture/s3_vgap" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -883,7 +883,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ExperimentalSlit:NXaperture/s3_hoffset" />
+							value="before_scan:NXinstrument/ExperimentalSlit:NXaperture/s3_hoffset" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -891,7 +891,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/ExperimentalSlit:NXaperture/s3_voffset" />
+							value="before_scan:NXinstrument/ExperimentalSlit:NXaperture/s3_voffset" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -900,35 +900,35 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/I0:NXinstrument/i0_stanford_offset_current" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/I0:NXinstrument/i0_stanford_offset_current" />
 					</bean>
 				</entry>
 				<entry key="i0_stanford_offset">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/I0:NXinstrument/i0_stanford_offset" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/I0:NXinstrument/i0_stanford_offset" />
 					</bean>
 				</entry>
 				<entry key="i0_stanford_offset_units">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/I0:NXinstrument/i0_stanford_offset_units" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/I0:NXinstrument/i0_stanford_offset_units" />
 					</bean>
 				</entry>
 				<entry key="i0_stanford_sensitivity">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/I0:NXinstrument/i0_stanford_sensitivity" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/I0:NXinstrument/i0_stanford_sensitivity" />
 					</bean>
 				</entry>
 				<entry key="i0_stanford_sensitivity_units">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/I0:NXinstrument/i0_stanford_sensitivity_units" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/I0:NXinstrument/i0_stanford_sensitivity_units" />
 					</bean>
 				</entry>
 
@@ -936,105 +936,105 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/I1:NXinstrument/i1_stanford_offset_current" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/I1:NXinstrument/i1_stanford_offset_current" />
 					</bean>
 				</entry>
 				<entry key="i1_stanford_offset">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/I1:NXinstrument/i1_stanford_offset" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/I1:NXinstrument/i1_stanford_offset" />
 					</bean>
 				</entry>
 				<entry key="i1_stanford_offset_units">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/I1:NXinstrument/i1_stanford_offset_units" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/I1:NXinstrument/i1_stanford_offset_units" />
 					</bean>
 				</entry>
 				<entry key="i1_stanford_sensitivity">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/I1:NXinstrument/i1_stanford_sensitivity" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/I1:NXinstrument/i1_stanford_sensitivity" />
 					</bean>
 				</entry>
 				<entry key="i1_stanford_sensitivity_units">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/I1:NXinstrument/i1_stanford_sensitivity_units" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/I1:NXinstrument/i1_stanford_sensitivity_units" />
 					</bean>
 				</entry>
 				<entry key="it_stanford_offset_current">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/It:NXinstrument/it_stanford_offset_current" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/It:NXinstrument/it_stanford_offset_current" />
 					</bean>
 				</entry>
 				<entry key="it_stanford_offset">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/It:NXinstrument/it_stanford_offset" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/It:NXinstrument/it_stanford_offset" />
 					</bean>
 				</entry>
 				<entry key="it_stanford_offset_units">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/It:NXinstrument/it_stanford_offset_units" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/It:NXinstrument/it_stanford_offset_units" />
 					</bean>
 				</entry>
 				<entry key="it_stanford_sensitivity">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/It:NXinstrument/It_stanford_sensitivity" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/It:NXinstrument/It_stanford_sensitivity" />
 					</bean>
 				</entry>
 				<entry key="it_stanford_sensitivity_units">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/It:NXinstrument/it_stanford_sensitivity_units" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/It:NXinstrument/it_stanford_sensitivity_units" />
 					</bean>
 				</entry>
 				<entry key="iref_stanford_offset_current">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/Iref:NXinstrument/iref_stanford_offset_current" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/Iref:NXinstrument/iref_stanford_offset_current" />
 					</bean>
 				</entry>
 				<entry key="iref_stanford_offset">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/Iref:NXinstrument/iref_stanford_offset" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/Iref:NXinstrument/iref_stanford_offset" />
 					</bean>
 				</entry>
 				<entry key="iref_stanford_offset_units">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/Iref:NXinstrument/iref_stanford_offset_units" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/Iref:NXinstrument/iref_stanford_offset_units" />
 					</bean>
 				</entry>
 				<entry key="iref_stanford_sensitivity">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/Iref:NXinstrument/iref_stanford_sensitivity" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/Iref:NXinstrument/iref_stanford_sensitivity" />
 					</bean>
 				</entry>
 				<entry key="iref_stanford_sensitivity_units">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/StanfordAmplifiers:NXinstrument/Iref:NXinstrument/iref_stanford_sensitivity_units" />
+							value="before_scan:NXinstrument/StanfordAmplifiers:NXinstrument/Iref:NXinstrument/iref_stanford_sensitivity_units" />
 					</bean>
 				</entry>
 
@@ -1042,7 +1042,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/source:NXsource/current" />
+							value="before_scan:NXinstrument/source:NXsource/current" />
 						<property name="units" value="mA" />
 					</bean>
 				</entry>
@@ -1050,7 +1050,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/source:NXsource/energy" />
+							value="before_scan:NXinstrument/source:NXsource/energy" />
 						<property name="units" value="GeV" />
 					</bean>
 				</entry>
@@ -1058,14 +1058,14 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/source:NXsource/fillMode" />
+							value="before_scan:NXinstrument/source:NXsource/fillMode" />
 					</bean>
 				</entry>
 				<entry key="wigglerGap">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/source:NXsource/wigglerGap" />
+							value="before_scan:NXinstrument/source:NXsource/wigglerGap" />
 						<property name="units" value="" />
 					</bean>
 				</entry>
@@ -1073,7 +1073,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Sample:NXsample/sample_x" />
+							value="before_scan:NXinstrument/Sample:NXsample/sample_x" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -1081,7 +1081,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Sample:NXsample/sample_y" />
+							value="before_scan:NXinstrument/Sample:NXsample/sample_y" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -1089,7 +1089,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Sample:NXsample/sample_z" />
+							value="before_scan:NXinstrument/Sample:NXsample/sample_z" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
@@ -1097,7 +1097,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Sample:NXsample/sample_rot" />
+							value="before_scan:NXinstrument/Sample:NXsample/sample_rot" />
 						<property name="units" value="deg" />
 					</bean>
 				</entry>
@@ -1105,7 +1105,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Sample:NXsample/sample_roll" />
+							value="before_scan:NXinstrument/Sample:NXsample/sample_roll" />
 						<property name="units" value="deg" />
 					</bean>
 				</entry>
@@ -1113,7 +1113,7 @@
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths"
-							value="instrument:NXinstrument/Sample:NXsample/sample_pitch" />
+							value="before_scan:NXinstrument/Sample:NXsample/sample_pitch" />
 						<property name="units" value="deg" />
 					</bean>
 				</entry>
