@@ -202,7 +202,7 @@ s6list=[s6hgap,s6hcentre,s6vgap,s6vcentre]  # @UndefinedVariable
 samplelist=[sapolar,sax,say,saz,saazimuth,satilt,diodetth,draincurrent] # @UndefinedVariable
 sgmlist=[sgmGratingSelect,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside] # @UndefinedVariable
 spectrometerlist=[specgamma,spech,specl] # @UndefinedVariable
-andorlist=[andorAccumulatePeriod,andorPreampGain,andorADCSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
+andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
 
 meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s5list+s6list+samplelist+sgmlist+spectrometerlist+andorlist
 # metadatalist=[s1, m1, s2, m2, s3, pgm, s5, m4, idgap, smp]  # @UndefinedVariable
@@ -219,7 +219,14 @@ saperp=CoupledSampleStageMotion("saperp", sax, say, sapolar) # @UndefinedVariabl
 
 b2.setOutputFormat(["%7.4f"])  # @UndefinedVariable
 sax.setOutputFormat(["%10.6f"])  # @UndefinedVariable
-print "*"*80
 
+print "*"*80
+#DiffCalc
+from startup import i21 as dc  # @UnusedWildImport
+#Mapping scan
+from mapping_scan_commands import *
+
+from scannabledevices.xrayBeamMonitor import XRayBeamMonitor
+xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 
 simpleLog("===================== GDA ONLINE =====================")
