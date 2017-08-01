@@ -20,7 +20,6 @@ import os
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
 
-simpleLog("================ INITIALISING I21 GDA ================")
 
 #global run
  
@@ -120,13 +119,14 @@ scan_processor.rootNamespaceDict=globals()
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 scan_processor_normal_processes = scan_processor.processors
 scan_processor_empty_processes  = []
-
+ 
 def scan_processing_on():
     scan_processor.processors = scan_processor_normal_processes
-
+ 
 def scan_processing_off():
     scan_processor.processors = scan_processor_empty_processes
-
+ 
+print "Switch off scan processor by default at Sarnjeet's request on 11 May 2016 in I06-1."    
 print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
 print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
 scan_processing_off()
@@ -139,10 +139,30 @@ dummies.setGroupMembers([SingleInputDummy("x"), SingleInputDummy("y"), SingleInp
 print "Adding timer devices t, dt, and w, clock"
 from gdascripts.scannable.timerelated import timerelated #@UnusedImport
 
+if installation.isLive():
+    print "Running in live mode"
+else:
+    print "Running in dummy mode"
+
+simpleLog("================ INITIALISING I21 GDA ================")
+
+print "create camera total count scannables: d1camtotal, d2camtotal, d3acamtotal, d4camtotal, smpcam1total,smpcam2total,smpcam3total, smpcam4total"
+d1camtotal=DisplayEpicsPVClass('d1camtotal', 'BL21I-DI-DCAM-01:STAT:Total_RBV', 'counts', '%10d')
+d2camtotal=DisplayEpicsPVClass('d2camtotal', 'BL21I-DI-DCAM-02:STAT:Total_RBV', 'counts', '%10d')
+d3acamtotal=DisplayEpicsPVClass('d3acamtotal', 'BL21I-DI-DCAM-03:STAT:Total_RBV', 'counts', '%10d')
+d4camtotal=DisplayEpicsPVClass('d4camtotal', 'BL21I-DI-DCAM-04:STAT:Total_RBV', 'counts', '%10d')
+d8camtotal=DisplayEpicsPVClass('d8camtotal', 'BL21I-DI-DCAM-24:STAT:Total_RBV', 'counts', '%10d')
+smpcam1total=DisplayEpicsPVClass('smpcam1total', 'BL21I-DI-DCAM-20:STAT1:Total_RBV', 'counts', '%10d')
+smpcam2total=DisplayEpicsPVClass('smpcam2total', 'BL21I-DI-DCAM-21:STAT1:Total_RBV', 'counts', '%10d')
+smpcam3total=DisplayEpicsPVClass('smpcam3total', 'BL21I-DI-DCAM-22:STAT1:Total_RBV', 'counts', '%10d')
+smpcam4total=DisplayEpicsPVClass('smpcam4total', 'BL21I-DI-DCAM-23:STAT1:Total_RBV', 'counts', '%10d')
+
+
+
 print 
 
 
-print "create clever amplifier scannables: cleverd7femto1, cleverd7femto2, cleverm4femto1, cleverm4femto2"
+print "create clever amplifier scannables: cleverd7femto1, cleverd7femto2"
 from i21_utils import DisplayEpicsPVClass_neg, DisplayEpicsPVClass_pos
 d7femto1_neg = DisplayEpicsPVClass_neg('d7femto1_neg', d7femto1)  # @UndefinedVariable
 d7femto2_pos = DisplayEpicsPVClass_pos('d7femto2_pos', d7femto2)  # @UndefinedVariable
@@ -158,9 +178,9 @@ print
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'dummies.x' and 'dummies.y'"
-dummyenergy=BeamEnergy("dummyenergy",idscannable, dummies.x, dummies.y)  # @UndefinedVariable
+dummyenergy=BeamEnergy("dummyenergy",idscannable, dummies.x, dummies.y,pgmGratingSelect)  # @UndefinedVariable
 print "Create an 'energy' scannable which can be used for energy scan in GDA. It moves both ID gap and PGM energy"
-energy=BeamEnergy("energy",idscannable, idgap, pgmEnergy)  # @UndefinedVariable
+energy=BeamEnergy("energy",idscannable, idgap, pgmEnergy, pgmGratingSelect)  # @UndefinedVariable
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm "
@@ -169,22 +189,23 @@ import metashop  # @UnusedImport
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Add meta data items"
-metadatalist=[idgap] #@UndefinedVariable
+metadatalist=[idgap, energy] #@UndefinedVariable
 m1list=[m1x,m1pitch,m1height,m1yaw,m1roll] #@UndefinedVariable
 m2list=[m2x,m2pitch,m2height]# @UndefinedVariable
 m4list=[m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2]  # @UndefinedVariable
 m5list=[m5hqx,m5hqy,m5hqz,m5hqrx,m5hqry,m5hqrz,m5lqx,m5lqy,m5lqz,m5lqrx,m5lqry,m5lqrz,m5longy,m5tth]  # @UndefinedVariable
-pgmlist=[pgmEnergy, pgmGratingSelectReal,pgmMirrorSelectReal,pgmMirrorPitch,pgmGratingPitch]  # @UndefinedVariable
+pgmlist=[pgmEnergy, pgmGratingSelectReal,pgmMirrorSelectReal,pgmMirrorPitch,pgmGratingPitch,cff, pgmB2Shadow]  # @UndefinedVariable
 s1list=[s1hsize,s1vsize,s1hcentre,s1vcentre] #@UndefinedVariable
 s2list=[s2hsize,s2vsize,s2hcentre,s2vcentre] #@UndefinedVariable
 s3list=[s3hsize,s3vsize,s3hcentre,s3vcentre] #@UndefinedVariable
 s5list=[s5v1gap,s5v2gap,s5hgap] #@UndefinedVariable
+s6list=[s6hgap,s6hcentre,s6vgap,s6vcentre]  # @UndefinedVariable
 samplelist=[sapolar,sax,say,saz,saazimuth,satilt,diodetth,draincurrent] # @UndefinedVariable
 sgmlist=[sgmGratingSelect,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside] # @UndefinedVariable
 spectrometerlist=[specgamma,spech,specl] # @UndefinedVariable
-andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
+andorlist=[andorAccumulatePeriod,andorPreampGain,andorADCSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
 
-meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s5list+samplelist+sgmlist+spectrometerlist+andorlist
+meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s5list+s6list+samplelist+sgmlist+spectrometerlist+andorlist
 # metadatalist=[s1, m1, s2, m2, s3, pgm, s5, m4, idgap, smp]  # @UndefinedVariable
 for each in meta_data_list:
     meta_add(each)
@@ -193,37 +214,20 @@ alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
 
+from epics_scripts.pv_scannable_utils import createPVScannable
+pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
+pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
+
+from scannabledevices.coupledSampleStageMotion import CoupledSampleStageMotion
+sapara=CoupledSampleStageMotion("sapara", sax, say, sapolar) # @UndefinedVariable
+saperp=CoupledSampleStageMotion("saperp", sax, say, sapolar) # @UndefinedVariable
+
 b2.setOutputFormat(["%7.4f"])  # @UndefinedVariable
 sax.setOutputFormat(["%10.6f"])  # @UndefinedVariable
+print "*"*80
+print "Attempting to run localStationUser.py from users script directory"
 
-#DiffCalc
-from startup import i21 as dc  # @UnusedWildImport
-
-#Mapping scan
-from mapping_scan_commands import *
-
-from scannabledevices.xrayBeamMonitor import XRayBeamMonitor
-xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
-
-if installation.isLive():
-    print "Running in live mode"
-    print "create camera total count scannables: d1camtotal, d2camtotal, d3acamtotal, d4camtotal, smpcam1total,smpcam2total,smpcam3total, smpcam4total"
-    d1camtotal=DisplayEpicsPVClass('d1camtotal', 'BL21I-DI-DCAM-01:STAT:Total_RBV', 'counts', '%10d')
-    d2camtotal=DisplayEpicsPVClass('d2camtotal', 'BL21I-DI-DCAM-02:STAT:Total_RBV', 'counts', '%10d')
-    d3acamtotal=DisplayEpicsPVClass('d3acamtotal', 'BL21I-DI-DCAM-03:STAT:Total_RBV', 'counts', '%10d')
-    d4camtotal=DisplayEpicsPVClass('d4camtotal', 'BL21I-DI-DCAM-04:STAT:Total_RBV', 'counts', '%10d')
-    d8camtotal=DisplayEpicsPVClass('d8camtotal', 'BL21I-DI-DCAM-24:STAT:Total_RBV', 'counts', '%10d')
-    smpcam1total=DisplayEpicsPVClass('smpcam1total', 'BL21I-DI-DCAM-20:STAT1:Total_RBV', 'counts', '%10d')
-    smpcam2total=DisplayEpicsPVClass('smpcam2total', 'BL21I-DI-DCAM-21:STAT1:Total_RBV', 'counts', '%10d')
-    smpcam3total=DisplayEpicsPVClass('smpcam3total', 'BL21I-DI-DCAM-22:STAT1:Total_RBV', 'counts', '%10d')
-    smpcam4total=DisplayEpicsPVClass('smpcam4total', 'BL21I-DI-DCAM-23:STAT1:Total_RBV', 'counts', '%10d')
-
-    from epics_scripts.pv_scannable_utils import createPVScannable
-    pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
-    pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
-else:
-    print "Running in dummy mode"
-         
-
+run("localStationUser")
+print "localStationUser.py completed."
 
 simpleLog("===================== GDA ONLINE =====================")
