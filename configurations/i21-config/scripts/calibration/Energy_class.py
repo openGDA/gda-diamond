@@ -7,7 +7,6 @@ from time import sleep
 from lookup.twoKeysLookupTable import loadLookupTable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
-#from localStation import pgmGratingPitch_UserOffset
 
 
 class BeamEnergy(ScannableMotionBase):
