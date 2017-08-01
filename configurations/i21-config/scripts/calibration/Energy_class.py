@@ -7,6 +7,7 @@ from time import sleep
 from lookup.twoKeysLookupTable import loadLookupTable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
+#from localStation import pgmGratingPitch_UserOffset
 
 
 class BeamEnergy(ScannableMotionBase):
@@ -14,11 +15,11 @@ class BeamEnergy(ScannableMotionBase):
     
         This pseudo device requires a lookupTable table object to provide ID parameters for calculation of ID idgap from beam 
         energy required and harmonic order. The lookupTable table object must be created before the instance creation of this class.
-        The child scannable or pseudo devices must exist in jython's global namespace prior to any method call of this class 
+        The child scannables or pseudo devices must exist in jython's global namespace prior to any method call of this class 
         instance.
         '''
         
-    def __init__(self, name, idctrl, idgap, pgmenergy, lut="IDEnergy2GapCalibrations.txt"):
+    def __init__(self, name, idctrl, idgap, pgmenergy, pgmsratingselect, lut="IDEnergy2GapCalibrations.txt"):  # @UndefinedVariable
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut=loadLookupTable(LocalProperties.get("gda.config")+"/lookupTables/"+lut)
         self.idgap=idgap
@@ -32,7 +33,8 @@ class BeamEnergy(ScannableMotionBase):
         self.inputNames=[name]
         self.order=1
         self.polarisationMode='LH'
-    
+        self.pgmsratingselect=pgmsratingselect
+        
     def setPolarisation(self, value, rowPhase=None):
         if self.getName() == "dummyenergy":
             print "'dummyenergy' does not simulate polarisationMode"
@@ -90,18 +92,32 @@ class BeamEnergy(ScannableMotionBase):
         if (self.getPolarisationMode()=="LH"):
             if (Ep<600 or Ep > 1000):
                 raise ValueError("Demanding energy must lie between 600 and 1000eV!")
-            gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15
-            #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
-            #gap = 18.522577 + 0.02399627*Ep #Corrected for VPG3 on 2017/02/15
-            #gap = 23.271 + 0.01748*Ep #Corrected for VPG1 on 2016/10/06
-            #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
-            
+            if self.pgmsratingselect.getPosition()=="VPG1":
+                gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15
+                #gap = 23.271 + 0.01748*Ep #Corrected for VPG1 on 2016/10/06
+            elif self.pgmsratingselect.getPosition()=="VPG2":
+                gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
+                #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
+            elif self.pgmsratingselect.getPosition()=="VPG3":
+                gap = 18.522577 + 0.02399627*Ep #Corrected for VPG3 on 2017/02/15
+            else:
+                raise ValueError("Unknown Grating select in LH polarisationMode")
+           
             if (gap<20 or gap>70):
                 raise ValueError("Required Soft X-Ray ID idgap is out side allowable bound (20, 70)!")
         
         # Linear Vertical
         elif self.getPolarisationMode()=="LV":
-            gap = 11.6401974 + 0.01819208*Ep #Corrected for VPG1 on 2017/07/07 ---> Linear Vertical
+            if self.pgmsratingselect.getPosition()=="VPG1":
+                gap = 11.1441137 + 0.01881376*Ep #Corrected for VPG1 on 2017/07/31 ---> Linear Vertical
+                # gap = 11.6401974 + 0.01819208*Ep #Corrected for VPG1 on 2017/07/07 ---> Linear Vertical
+            elif self.pgmsratingselect.getPosition()=="VPG2":
+                raise ValueError("LV polarisationMode for VGP2 grating is not yet implemented")
+            elif self.pgmsratingselect.getPosition()=="VPG3":
+                gap = 11.2972185 + 0.01862358*Ep #Corrected for VPG3 on 2017/07/27 ---> Linear Vertical
+            else:
+                raise ValueError("Unknown Grating select in LV polarisationMode")
+            
         # Circular left
         elif self.getPolarisationMode()=="C":
             raise ValueError("C polarisationMode is not yet implemented")
