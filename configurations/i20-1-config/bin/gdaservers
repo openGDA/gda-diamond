@@ -1,2 +1,2 @@
 gda --start logpanel $@
-gda --restart servers $@
+gda --debug --restart servers --force $@
