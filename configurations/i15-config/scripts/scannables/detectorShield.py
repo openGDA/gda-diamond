@@ -22,6 +22,7 @@ class DetectorShield(ScannableBase):
         
         self.verbose = False
         self.ignoreFault = False
+        self.suppressOnceCloseAtScanEnd = False
         
         self.TIMEOUT=10
         
@@ -133,7 +134,10 @@ class DetectorShield(ScannableBase):
         return jythonNameMap[parameter]
 
     def atScanEnd(self):
-        self.closeDetectorShield(suppressWaitForClose=True)
+        if self.suppressOnceCloseAtScanEnd:
+            self.suppressOnceCloseAtScanEnd = False
+        else:
+            self.closeDetectorShield(suppressWaitForClose=True)
 
     def closeDetectorShield(self, suppressWaitForClose=False):
         if self.verbose:
