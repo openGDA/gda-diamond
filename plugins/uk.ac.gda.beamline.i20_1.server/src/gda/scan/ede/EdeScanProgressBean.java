@@ -30,6 +30,7 @@ public class EdeScanProgressBean implements Serializable {
 
 	private final int groupNumOfThisSDP;
 	private final int frameNumOfThisSDP;
+	private String customLabelForSDP;
 	private final EdeScanType scanType;
 	private final EdePositionType positionType;
 	private final ScanDataPoint thisPoint;
@@ -41,6 +42,7 @@ public class EdeScanProgressBean implements Serializable {
 		this.scanType = scanType;
 		this.positionType = positionType;
 		this.thisPoint = thisPoint;
+		customLabelForSDP = null;
 	}
 
 	public int getGroupNumOfThisSDP() {
@@ -49,6 +51,14 @@ public class EdeScanProgressBean implements Serializable {
 
 	public int getFrameNumOfThisSDP() {
 		return frameNumOfThisSDP;
+	}
+
+	public void setCustomLabelForSDP(String customLabelForSDP) {
+		this.customLabelForSDP = customLabelForSDP;
+	}
+
+	public String getCustomLabelForSDP() {
+		return this.customLabelForSDP;
 	}
 
 	public EdeScanType getScanType() {

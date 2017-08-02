@@ -90,6 +90,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private Scannable fastShutter;
 
 	private Scannable motorToMoveDuringScan;
+	private boolean moveMotorDuringScan;
 
 	/**
 	 * @param scanParameters
@@ -255,6 +256,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		}
 
 		terminalPrinter.print("Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
+		moveMotorDuringScan = false;
 		if (motorPositions instanceof EdeScanMotorPositions) {
 			EdeScanMotorPositions scanMotorPositions = (EdeScanMotorPositions)motorPositions;
 			List<Double> motorPositionsToScan = scanMotorPositions.getMotorPositionsDuringScan();
@@ -263,6 +265,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 			if (lightItScan && motorToMoveDuringScan !=null && motorPositionsToScan != null && motorPositionsToScan.size()>0) {
 				int count = 1;
+				moveMotorDuringScan = true;
 				for(Double pos : motorPositionsToScan) {
 					logger.info("Moving motor {} to position {} (step {} of {})...", motorToMoveDuringScan.getName(), pos, count++, motorPositionsToScan.size());
 					motorToMoveDuringScan.moveTo(pos);
@@ -578,8 +581,40 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			}
 			EdeScanProgressBean progress = new EdeScanProgressBean(groupNumOfThisSDP, frameNumOfThisSDP, scanType,
 					motorPositions.getType(), thisPoint);
+			String customLabelForSDP = getLabelForScanDataPoint(groupNumOfThisSDP, frameNumOfThisSDP);
+			progress.setCustomLabelForSDP(customLabelForSDP);
 			progressUpdater.update(this, progress);
 		}
+	}
+
+	/**
+	 * Create a label for scan data point showing the group, spectrum number of scan data point.
+	 * The current position of any scannable being moved during the scan is also included.
+	 * (this is used for the label in the 'Ede experiment plot' view).
+	 * @param groupNum
+	 * @param frameNum
+	 * @since 17/5/2017
+	 * @return
+	 */
+	private String getLabelForScanDataPoint(int groupNum, int frameNum) {
+		String label = "";
+		// Only include group part of label if there's more than one timing group
+		if (scanParameters.getGroups().size()>1) {
+			label += "Group "+groupNum+" ";
+		}
+
+		label += "Spectrum "+frameNum;
+
+		// Add motor position (if it's being used)
+		if (moveMotorDuringScan) {
+			try {
+				String pos = ScannableUtils.getFormattedCurrentPosition(motorToMoveDuringScan);
+				label += " Position : "+pos;
+			} catch (DeviceException e) {
+				logger.warn("Problem getting position from {}", motorToMoveDuringScan.getName(), e);
+			}
+		}
+		return label;
 	}
 
 	public DoubleDataset extractLastDetectorDataSet() {
