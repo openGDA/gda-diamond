@@ -19,6 +19,7 @@
 package gda.scan;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,12 +28,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
+import org.dawnsci.plotting.tools.profile.DataFileHelper;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.nexus.NexusException;
@@ -381,25 +385,14 @@ public class EdeScanTest extends EdeTestBase {
 		TimeResolvedExperiment theExperiment = new TimeResolvedExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
 				xh.getName(), topupMonitor.getName(), shutter.getName());
 		theExperiment.setIRefParameters(inOutBeamMotors, inOutBeamMotors, 0.1, 1, 0.1, 1);
-		String filename = theExperiment.runExperiment();
+		theExperiment.runExperiment();
 
 		int numberExpectedSpectra = getNumSpectra(groups);
 
 		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+16);
 		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+16);
-//		String filename = theExperiment.getItAveragedFilename();
-//		testNumberColumnsInEDEFile(filename, 9);
-//		testNumberLinesInEDEFile(filename, MCA_WIDTH * numberExpectedSpectra);
-//		testNumberColumnsInEDEFile(theExperiment.getI0Filename(), 7);
-//		testNumberLinesInEDEFile(theExperiment.getI0Filename(), MCA_WIDTH * 3 * 2);
-//		testNumberColumnsInEDEFile(theExperiment.getIRefFilename(), 4);
-//		testNumberLinesInEDEFile(theExperiment.getIRefFilename(), MCA_WIDTH * 2);
-//		testNumberColumnsInEDEFile(theExperiment.getItFinalFilename(), 9);
-//		testNumberLinesInEDEFile(theExperiment.getItFinalFilename(), MCA_WIDTH * numberExpectedSpectra);
-//		testNumberColumnsInEDEFile(theExperiment.getItAveragedFilename(), 9);
-//		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), MCA_WIDTH * numberExpectedSpectra);
-
+		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, groups.size(), true);
 	}
 
 	private void testNexusStructure(String nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws Exception {
@@ -463,6 +456,9 @@ public class EdeScanTest extends EdeTestBase {
 				"xh", "topup", shutter.getName(), numCycles);
 		theExperiment.setIRefParameters(inOutBeamMotors, inOutBeamMotors, 0.1, 1, 0.1, 1);
 		String filename = theExperiment.runExperiment();
+
+		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, 3, false);
+
 //
 //		testNumberColumnsInEDEFile(filename, 10);
 //		testNumberLinesInEDEFile(filename, (1024 * 25 * 3));
@@ -484,6 +480,31 @@ public class EdeScanTest extends EdeTestBase {
 
 
 		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, numCycles);
+	}
+
+	private String getAsciiName(String nexusFilename, String filenameExt) {
+		String asciiFolder = DataFileHelper.convertFromNexusToAsciiFolder(nexusFilename);
+		String filenameNoPrefix = FilenameUtils.getName(nexusFilename);
+		return asciiFolder + FilenameUtils.removeExtension(filenameNoPrefix) + "_" + filenameExt + "." +  EdeDataConstants.ASCII_FILE_EXTENSION;
+	}
+
+	private void testEdeAsciiFiles(String nexusFilename, int numberExpectedSpectra, int numTimingGroups, boolean testIref) throws IOException {
+		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.IT_COLUMN_NAME), 3, MCA_WIDTH*numberExpectedSpectra);
+		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME), 3, MCA_WIDTH*numberExpectedSpectra);
+		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.LN_I0_IT__FINAL_I0_COLUMN_NAME), 3, MCA_WIDTH*numberExpectedSpectra);
+		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.IT_RAW_COLUMN_NAME), 7, MCA_WIDTH*numberExpectedSpectra);
+		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.IT_RAW_COLUMN_NAME), 7, MCA_WIDTH*numberExpectedSpectra);
+		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.I0_RAW_COLUMN_NAME), 6, MCA_WIDTH*numTimingGroups*2);
+		if (testIref) {
+			testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.IREF_RAW_DATA_NAME), 7, MCA_WIDTH);
+			testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.IREF_DATA_NAME), 3, MCA_WIDTH);
+			testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.IREF_FINAL_DATA_NAME), 3, MCA_WIDTH);
+		}
+	}
+
+	private void testEdeAsciiFile(String path, int numColumns, int numRows) throws IOException {
+		testNumberColumnsInEDEFile(path, numColumns);
+		testNumberLinesInEDEFile(path, numRows);
 	}
 
 	private void testNumberLinesInEDEFile(String filename, int numExpectedLines) throws IOException {
@@ -618,23 +639,31 @@ public class EdeScanTest extends EdeTestBase {
 		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
+		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, allParams.getItTimingGroups().size(), false);
+	}
+
+	// Setup dummy detector with some data and set scan object to use it for specified position and type part of scan
+	private void setDummyDetectorForScanPart(EdeExperiment edeExperiment, EdePositionType positionType, EdeScanType scanType) {
+		// Setup dummy detector with some data
+		Dataset detData = DatasetFactory.createLinearSpace(DoubleDataset.class, 0.0, 1000.0, MCA_WIDTH/2);
+		dummyEdeDetector.setDetectorData(detData);
+		edeExperiment.setDetectorForScanPart(positionType, scanType, dummyEdeDetector);
 	}
 
 	@Test
 	public void testEdeScanRunsWithDummyDetector() throws Exception {
 		setup(EdeScanTest.class, "testEdeScanRunsWithDummyDetector");
 
-		// Setup dummy detector with some data
-		Dataset detData = DatasetFactory.createLinearSpace(DoubleDataset.class, 0.0, 1000.0, MCA_WIDTH/2);
-		dummyEdeDetector.setDetectorData(detData);
-		// TODO Should also make a test that loads data from NExus file. e,g, 
+		// TODO Should also make a test that loads data from NExus file. e,g,
 		//dummyEdeDetector.loadDetectorDataFromNexusFile(nexusFileName, "/entry1/xh/data", -1);
 
 		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
 		TimeResolvedExperiment theExperiment = allParams.createTimeResolvedExperiment();
-		
+
+		setDummyDetectorForScanPart(theExperiment, EdePositionType.OUTBEAM, EdeScanType.LIGHT);
+
 		// use dummy detector for light I0 part of the scan
-		theExperiment.setDetectorForScanPart(EdePositionType.OUTBEAM, EdeScanType.LIGHT, dummyEdeDetector);
+		setDummyDetectorForScanPart(theExperiment, EdePositionType.OUTBEAM, EdeScanType.LIGHT);
 		theExperiment.runExperiment();
 
 		int numberExpectedSpectra = getNumSpectra(allParams.getItTimingGroups());
@@ -642,5 +671,29 @@ public class EdeScanTest extends EdeTestBase {
 		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
+	}
+
+	@Test
+	public void testAsciiFilesCanBeCreatedFromNexusAfterScan() throws Exception {
+		setup(EdeScanTest.class, "testAsciiFilesCanBeCreatedFromNexusAfterScan");
+		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
+		TimeResolvedExperiment theExperiment = allParams.createTimeResolvedExperiment();
+		theExperiment.setWriteAsciiData(false); // don't generate ascii files after scan
+		theExperiment.runExperiment();
+
+		int numberExpectedSpectra = getNumSpectra(allParams.getItTimingGroups());
+
+		// First check to make sure ascii files were *not* generated
+		boolean filesNotFound = false;
+		try {
+			testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, allParams.getItTimingGroups().size(), false);
+		} catch(NoSuchFileException fnf) {
+			filesNotFound = true;
+		}
+		assertTrue(filesNotFound);
+
+		// Create the ascii files
+		TimeResolvedDataFileHelper.createAsciiFiles(theExperiment.getNexusFilename());
+		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, allParams.getItTimingGroups().size(), false);
 	}
 }

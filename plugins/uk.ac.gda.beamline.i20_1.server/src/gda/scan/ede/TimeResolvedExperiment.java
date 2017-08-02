@@ -53,6 +53,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	private int totalNumberOfspectra;
 	private double totalTime;
 	private double i0accumulationTime;
+	private boolean writeAsciiData;
 
 	public TimeResolvedExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
@@ -62,6 +63,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		this.i0accumulationTime = i0accumulationTime;
 		setDefaultI0Parameters(i0accumulationTime);
 		setupTimingGroups();
+		writeAsciiData = true;
 	}
 
 	/**
@@ -299,8 +301,10 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	@Override
 	protected EdeExperimentDataWriter createFileWritter() {
-		return new EdeTimeResolvedExperimentDataWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan,
+		EdeTimeResolvedExperimentDataWriter writer = new EdeTimeResolvedExperimentDataWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan,
 				itScans, i0FinalScan, iRefFinalScan, theDetector, nexusFilename);
+		writer.setWriteAsciiData(writeAsciiData);
+		return writer;
 	}
 
 	@Override
@@ -334,5 +338,13 @@ public class TimeResolvedExperiment extends EdeExperiment {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean getWriteAsciiData() {
+		return writeAsciiData;
+	}
+
+	public void setWriteAsciiData(boolean writeAsciiData) {
+		this.writeAsciiData = writeAsciiData;
 	}
 }

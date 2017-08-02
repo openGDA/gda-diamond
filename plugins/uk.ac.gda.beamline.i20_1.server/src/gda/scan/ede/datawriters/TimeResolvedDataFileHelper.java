@@ -36,6 +36,7 @@ import org.eclipse.dawnsci.hdf.object.HierarchicalDataFileUtils;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.hdf.object.Nexus;
 import org.eclipse.dawnsci.hdf.object.nexus.NexusUtils;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DatasetUtils;
@@ -399,8 +400,49 @@ public class TimeResolvedDataFileHelper {
 		}
 	}
 
+	public static void createAsciiFiles(String nexusfileName) throws Exception {
+		TimeResolvedDataFileHelper datafileHelper = new TimeResolvedDataFileHelper(nexusfileName);
+		datafileHelper.createAsciiFiles();
+	}
+
+	public void createAsciiFiles() throws Exception {
+		String messageStart = "Problem processing file "+nexusfileName+" to ascii";
+		File file = new File(nexusfileName);
+		IHierarchicalDataFile nexusFile = null;
+		if (!file.exists()) {
+			InterfaceProvider.getTerminalPrinter().print(messageStart+" : File not found.");
+			logger.warn(messageStart+" : File not found.");
+			return;
+		}
+		try {
+			// Read detector name from string in /entry1/scan_command
+			NexusFileHDF5 nexusFileHdf5 = new NexusFileHDF5(nexusfileName);
+			nexusFileHdf5.openToRead();
+			String detectorName = nexusFileHdf5.getData("/entry1/scan_command").getString();
+			setDetectorName4Node(detectorName);
+			nexusFileHdf5.close();
+
+			nexusFile = HierarchicalDataFactory.getWriter(nexusfileName);
+			createAsciiFiles(nexusFile);
+			nexusFile.close();
+		} catch (Exception e) {
+			InterfaceProvider.getTerminalPrinter().print(messageStart + " : " + e.getStackTrace().toString());
+			logger.error("{}.", messageStart, e);
+		} finally {
+			if (nexusFile!=null) {
+				nexusFile.close();
+			}
+		}
+	}
+
 	private void createAsciiFiles(IHierarchicalDataFile file) throws Exception {
 		File nexusFile = new File(nexusfileName);
+
+		// Generate normalised data if not done already (in case running ascii file creation from script after a scan).
+		if (i0iCorrectedDataSet==null || i0iDataSet==null|| i0darkDataSet==null || itCorrectedDataSet==null) {
+			deriveTimingGroupsAndGenerateNormalisedData(file);
+		}
+
 		String assciiFolder = DataFileHelper.convertFromNexusToAsciiFolder(nexusfileName);
 
 		DoubleDataset energyData = getDataFromFile(file, this.getDetectorDataPath() + EdeDataConstants.ENERGY_COLUMN_NAME);
@@ -437,7 +479,7 @@ public class TimeResolvedDataFileHelper {
 		} finally {
 			writer.close();
 		}
-		itNormalisedWithI0iData.getShape();
+//		itNormalisedWithI0iData.getShape();
 		DoubleDataset avgLogI0It = getDataFromFile(file, NEXUS_ROOT_ENTRY_NAME + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "/" + EdeDataConstants.DATA_COLUMN_NAME);
 
 		// Create It_raw
