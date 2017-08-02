@@ -7,6 +7,7 @@ from time import sleep
 from lookup.twoKeysLookupTable import loadLookupTable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
+#from localStation import pgmGratingPitch_UserOffset
 
 
 class BeamEnergy(ScannableMotionBase):
@@ -111,7 +112,7 @@ class BeamEnergy(ScannableMotionBase):
                 gap = 11.1441137 + 0.01881376*Ep #Corrected for VPG1 on 2017/07/31 ---> Linear Vertical
                 # gap = 11.6401974 + 0.01819208*Ep #Corrected for VPG1 on 2017/07/07 ---> Linear Vertical
             elif self.pgmsratingselect.getPosition()=="VPG2":
-                raise ValueError("LV polarisationMode for VGP2 grating is not yet implemented")
+                gap = 11.3014613 + 0.01856236*Ep #Corrected for VPG2 on 2017/08/02
             elif self.pgmsratingselect.getPosition()=="VPG3":
                 gap = 11.2972185 + 0.01862358*Ep #Corrected for VPG3 on 2017/07/27 ---> Linear Vertical
             else:
