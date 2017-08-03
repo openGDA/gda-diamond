@@ -54,6 +54,15 @@
 		<property name="incrementTextWidth" value="60" />
 	</bean>
 
+	<!-- DCM energy -->
+ 	<bean id="dcm_enrg_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="DCM energy" />
+		<property name="scannableName" value="dcm_enrg" />
+		<property name="group" value="DCM" />
+		<property name="increment" value="0.1" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
 	<!-- Overall control set -->
 	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
@@ -62,6 +71,7 @@
 				<ref bean="xreyeStop" />
 				<ref bean="xsp3Start" />
 				<ref bean="xsp3Stop" />
+				<ref bean="dcm_enrg_control" />
 				<ref bean="stage1_x_control" />
 				<ref bean="stage1_y_control" />
 				<ref bean="stage1_z_control" />

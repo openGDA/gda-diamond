@@ -6,6 +6,7 @@ from gda.analysis.numerical.interpolation import Interpolator
 from gda.jython.commands.ScannableCommands import pos
 from Beamline.Utilities.file_io_tools import *
 from gda.epics import CAClient
+from gda.device.scannable import ScannableStatus
 import codecs
 import os.path
 
@@ -70,6 +71,7 @@ class DCMpdq(ScannableMotionUnitsBase):
             if(position < self.minEnergy or position > self.maxEnergy):
                 print "Energy out of range"
                 self.iambusy = 0
+                self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.IDLE))
                 return
             else:
                 # if harmonic switching is off keep the current harmonic and just interpolate the gap
@@ -111,6 +113,7 @@ class DCMpdq(ScannableMotionUnitsBase):
                 newid_gap = self.lookup_gap(position)
                 if(moveDCMFirst):
                     self.iambusy = 1
+                    self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.BUSY))
                     # Look up the bragg, perp and id- linear interpolation of lookuptables
                     #print "Moving DCM to :", position
                     if(self.disablegap):
@@ -120,6 +123,7 @@ class DCMpdq(ScannableMotionUnitsBase):
                     #print "DCM move completed"
                     if(moveMirror):
                         self.iambusy = 1
+                        self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.BUSY))
                         # Turn off DCM feedback - we're assuming the DCM crystals are parallel
                         #self.disableDCMFeedback()
                         # Move the mirror stripes before a gap change
@@ -137,9 +141,12 @@ class DCMpdq(ScannableMotionUnitsBase):
                     #else:
                     #    print "Keeping mirror stripe as :",self.current_mirror_stripe
                     self.iambusy = 0
+                    self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.IDLE))
+
                 else:
                     if(moveMirror):
                         self.iambusy = 1
+                        self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.BUSY))
                         # Turn off DCM feedback
                         #self.disableDCMFeedback()
                         # Move the mirror stripes before a gap change
@@ -163,6 +170,7 @@ class DCMpdq(ScannableMotionUnitsBase):
                         pos(self.dcm_bragg, bragg, self.dcm_perp, perp, self.id_gap, newid_gap)
                     #print "DCM move completed"
                     self.iambusy = 0
+                    self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.IDLE))
 
     def rawIsBusy(self):
             return self.iambusy

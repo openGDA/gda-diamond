@@ -25,4 +25,10 @@
 		</property>
 	</bean>
 
+	<bean id="dcm_enrg" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}dcm_enrg" />
+		<property name="serviceInterface" value="gda.device.Scannable" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
 </beans>

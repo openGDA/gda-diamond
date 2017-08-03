@@ -62,7 +62,14 @@ if isLive():
 else:
     print "Running in dummy mode"
     from beamline.dcm_enrg import DCMpdq
-    dcm_enrg = DCMpdq("dcm_enrg", dcm_bragg, dcm_perp, id_gap)
-    
+    dcm_enrg = DCMpdq("dcm_enrg", dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe)
+
+# Export dcm_enrg over RMI
+from uk.ac.gda.remoting.server import GdaRmiServiceExporter
+dcm_enrg_exporter = GdaRmiServiceExporter()
+dcm_enrg_exporter.serviceName = "gda/dcm_enrg"
+dcm_enrg_exporter.service = dcm_enrg
+dcm_enrg_exporter.serviceInterface = Scannable
+dcm_enrg_exporter.afterPropertiesSet()
 
 print "Initialisation Complete";
