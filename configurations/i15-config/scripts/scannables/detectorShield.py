@@ -22,7 +22,7 @@ class DetectorShield(ScannableBase):
         
         self.verbose = False
         self.ignoreFault = False
-        self.suppressOnceCloseAtScanEnd = False
+        self.suppressCloseDetectorShieldAtScanEnd = False
         
         self.TIMEOUT=10
         
@@ -134,8 +134,12 @@ class DetectorShield(ScannableBase):
         return jythonNameMap[parameter]
 
     def atScanEnd(self):
-        if self.suppressOnceCloseAtScanEnd:
-            self.suppressOnceCloseAtScanEnd = False
+        if self.suppressCloseDetectorShieldAtScanEnd:
+            simpleLog("""%s
+              Detector Shield close is suppressed.
+              You MUST ensure the shield is closed manually after your scan:
+              >>> %s.closeDetectorShield()""" % ("DetectorShield: ".ljust(80, "*"), self.name))
+            simpleLog("*"*80)
         else:
             self.closeDetectorShield(suppressWaitForClose=True)
 

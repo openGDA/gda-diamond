@@ -12,7 +12,7 @@ from org.slf4j import LoggerFactory
 # If the functions or defaults values below change, please update the user wiki
 # page: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Exposures%20and%20scans%20using%20mar%2C%20ccd%2C%20Pilatus%2C%20etc.
 class DiodeController(ScannableBase):
-	def __init__(self, d1out, d2out, exposeDarkFlag=False):
+	def __init__(self, d1out, d2out, exposeDarkFlag=False, suppressCloseEHShutterAtScanEnd=False):
 		self.setName("diodes")
 		self.setInputNames([])
 		self.setExtraNames([]);
@@ -24,6 +24,7 @@ class DiodeController(ScannableBase):
 		self.zebraFastShutter = jythonNameMap.zebraFastShutter
 		self.openEHShutter = jythonNameMap.openEHShutter
 		self.exposeDarkFlag = exposeDarkFlag
+		self.suppressCloseEHShutterAtScanEnd = suppressCloseEHShutterAtScanEnd
 		
 	def atScanStart(self):
 		if self.d1out:
@@ -41,14 +42,21 @@ class DiodeController(ScannableBase):
 		self.zebraFastShutter.forceOpenRelease()
 		
 		if (self.exposeDarkFlag):
-			simpleLog("Dark expose, so closing the EH shutter...")
+			simpleLog("DiodeController: Dark expose, so closing the EH shutter...")
 			closeEHShutter()
 		else:
 			openEHShutter()
 		
 	def atScanEnd(self):
 		self.zebraFastShutter.forceOpenRelease()
-		closeEHShutter()
+		if self.suppressCloseEHShutterAtScanEnd:
+			simpleLog("""%s
+			  EH shutter close is suppressed.
+			  You MUST ensure the shutter is closed manually after your scan:
+			  >>> closeEHShutter()""" % ("DiodeController: ".ljust(80, "*")))
+			simpleLog("*"*80)
+		else:
+			closeEHShutter()
 
 	def getPosition(self):
 		return None
