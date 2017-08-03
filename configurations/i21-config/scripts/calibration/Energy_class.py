@@ -19,7 +19,7 @@ class BeamEnergy(ScannableMotionBase):
         instance.
         '''
         
-    def __init__(self, name, idctrl, idgap, pgmenergy, pgmsratingselect, lut="IDEnergy2GapCalibrations.txt"):  # @UndefinedVariable
+    def __init__(self, name, idctrl, idgap, pgmenergy, pgmgratingselect, lut="IDEnergy2GapCalibrations.txt"):  # @UndefinedVariable
         '''Constructor - Only succeed if it find the lookupTable table, otherwise raise exception.'''
         self.lut=loadLookupTable(LocalProperties.get("gda.config")+"/lookupTables/"+lut)
         self.idgap=idgap
@@ -33,7 +33,7 @@ class BeamEnergy(ScannableMotionBase):
         self.inputNames=[name]
         self.order=1
         self.polarisationMode='LH'
-        self.pgmsratingselect=pgmsratingselect
+        self.pgmgratingselect=pgmgratingselect
         
     def setPolarisation(self, value, rowPhase=None):
         if self.getName() == "dummyenergy":
@@ -92,13 +92,13 @@ class BeamEnergy(ScannableMotionBase):
         if (self.getPolarisationMode()=="LH"):
             if (Ep<600 or Ep > 1000):
                 raise ValueError("Demanding energy must lie between 600 and 1000eV!")
-            if self.pgmsratingselect.getPosition()=="VPG1":
+            if self.pgmgratingselect.getPosition()=="VPG1":
                 gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15
                 #gap = 23.271 + 0.01748*Ep #Corrected for VPG1 on 2016/10/06
-            elif self.pgmsratingselect.getPosition()=="VPG2":
+            elif self.pgmgratingselect.getPosition()=="VPG2":
                 gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
                 #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
-            elif self.pgmsratingselect.getPosition()=="VPG3":
+            elif self.pgmgratingselect.getPosition()=="VPG3":
                 gap = 18.522577 + 0.02399627*Ep #Corrected for VPG3 on 2017/02/15
             else:
                 raise ValueError("Unknown Grating select in LH polarisationMode")
@@ -108,12 +108,12 @@ class BeamEnergy(ScannableMotionBase):
         
         # Linear Vertical
         elif self.getPolarisationMode()=="LV":
-            if self.pgmsratingselect.getPosition()=="VPG1":
+            if self.pgmgratingselect.getPosition()=="VPG1":
                 gap = 11.1441137 + 0.01881376*Ep #Corrected for VPG1 on 2017/07/31 ---> Linear Vertical
                 # gap = 11.6401974 + 0.01819208*Ep #Corrected for VPG1 on 2017/07/07 ---> Linear Vertical
-            elif self.pgmsratingselect.getPosition()=="VPG2":
+            elif self.pgmgratingselect.getPosition()=="VPG2":
                 gap = 11.3014613 + 0.01856236*Ep #Corrected for VPG2 on 2017/08/02
-            elif self.pgmsratingselect.getPosition()=="VPG3":
+            elif self.pgmgratingselect.getPosition()=="VPG3":
                 gap = 11.2972185 + 0.01862358*Ep #Corrected for VPG3 on 2017/07/27 ---> Linear Vertical
             else:
                 raise ValueError("Unknown Grating select in LV polarisationMode")
