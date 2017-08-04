@@ -48,21 +48,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.commons.lang"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.diamond.scisoft.spectroscopy.rcp"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.server.exafs.epics"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -116,27 +102,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.devices.xspress3"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.devices.xmap"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.devices.xmap.epics"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="com.github.tschoonj.xraylib"
          download-size="0"
          install-size="0"
@@ -151,14 +116,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.dawnsci.processing.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.dawnsci.processing.ui.api"
+         id="uk.ac.gda.devices.xmap.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
