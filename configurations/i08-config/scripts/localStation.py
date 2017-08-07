@@ -10,7 +10,6 @@ sys.path.append(os.path.abspath(scriptDir))
 from andormap import AndorMap
 from andormapWithCorrection import AndorMapWithCorrection
 from scanForImageCorrection import ScanForImageCorrection
-from energyStepScan import EnergyStepScan
 
 print "Initialisation Started";
 from gda.device import Scannable
@@ -40,11 +39,6 @@ showtime=showtimeClass('showtime')
 inctime=showincrementaltimeClass('inctime')
 actualTime=actualTimeClass("actualTime")
 
-#if (LocalProperties.get("gda.mode") == 'live'):
-#    beamMonitor.configure()
-#    add_default beamMonitor
-#    add_default topupMonitor
-
 # create the command to run STXM mpas which involve andor
 andormap = AndorMap(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor)  # @UndefinedVariable
 
@@ -55,15 +49,6 @@ print "Command andormap(mapSize) created for arming the Andor detector before ru
 scanForImageCorrection = ScanForImageCorrection(andor)  # @UndefinedVariable
 andormapWithCorrection = AndorMapWithCorrection(stxmDummy.stxmDummyY,stxmDummy.stxmDummyX,_andorrastor,scanForImageCorrection)  # @UndefinedVariable
 alias("andormapWithCorrection")
-
-# if (LocalProperties.get("gda.mode") == 'live'):
-#     run(scriptDir+"xrfmap.py")
-#     LocalProperties.set("gda.scan.executeAtEnd","/dls_sw/i08/software/gda/config/scripts/I08_NeXus_Fix.sh")
-# else:
-LocalProperties.set("gda.scan.executeAtEnd",None)
-
-#energyStepScan = EnergyStepScan(IDEnergy,xmapMca)  # @UndefinedVariable
-#alias("energyStepScan")
 
 # Property so that user can drag ROIs in FluorescenceDetector views. imh 11/11/2016
 LocalProperties.set("exafs.editor.overlay.Preference", "True")
