@@ -38,7 +38,7 @@ public class TurboXasPerspective implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
 
-		IFolderLayout turboXasControlsFolder = layout.createFolder(TURBOXAS_PERSPECTIVE_ID, IPageLayout.LEFT, 0, editorArea);
+		IFolderLayout turboXasControlsFolder = layout.createFolder(TURBOXAS_PERSPECTIVE_ID, IPageLayout.LEFT, 0.4f, editorArea);
 		turboXasControlsFolder.addView(TurboXasExperimentView.ID);
 
 		// the 'ratio' seems to control the fraction of horiz. perspective space the 'folder' doesn't use (i.e. large = leave lots of space).

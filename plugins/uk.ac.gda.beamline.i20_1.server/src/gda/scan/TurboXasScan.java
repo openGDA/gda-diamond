@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.dawnsci.hdf.object.H5Utils;
+import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
@@ -43,6 +44,7 @@ import gda.device.detector.BufferedDetector;
 import gda.device.detector.DummyNXDetector;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.countertimer.BufferedScaler;
+import gda.device.detector.countertimer.TfgScalerWithLogValues;
 import gda.device.scannable.ContinuouslyScannable;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TurboXasScannable;
@@ -56,6 +58,7 @@ import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.EdeScanProgressBean;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.position.EdePositionType;
+import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 
 /**
  *  A TurboXasScan is a type of Continuous scan which can perform multiple sweeps of a fast slit and collect the spectra for each sweep.
@@ -156,8 +159,8 @@ public class TurboXasScan extends ContinuousScan {
 		turboXasScannable.setMotorParameters(turboXasMotorParams);
 		// Calculate motor parameters for first timing group (i.e. positions and num readouts for spectrum)
 		turboXasMotorParams.setMotorParametersForTimingGroup(0);
-		// Move motor to scan start position to avoid following error, if motor is a long way from where it needs to be...
-		turboXasScannable.moveTo(turboXasMotorParams.getScanStartPosition());
+		// Move motor to near scan start position to avoid following error, if motor is a long way from where it needs to be...
+		// turboXasScannable.moveTo(turboXasMotorParams.getScanStartPosition());
 
 		// Configure the zebra
 		turboXasScannable.configureZebra(); // would normally get called in ContinuousScan.prepareForContinuousMove()
@@ -176,8 +179,14 @@ public class TurboXasScan extends ContinuousScan {
 		trajScanPreparer.addPointsForTimingGroups(turboXasMotorParams);
 		trajScanPreparer.sendProfileValues();
 		trajScanPreparer.setBuildProfile();
-		trajScanPreparer.setExecuteProfile();
+		if (trajScanPreparer.getBuildProfileStatus().equals("Failure")){
+			throw new Exception("Failure when building trajectory scan profile - check Epics EDM screen");
+		}
 
+		trajScanPreparer.setExecuteProfile();
+		if (trajScanPreparer.getBuildProfileStatus().equals("Failure")){
+			throw new Exception("Failure when executing trajectory scan - check Epics EDM screen.");
+		}
 		// Wait until some points have been captured by zebra (i.e. motor has started moving)
 		while(zebra.getPCNumberOfPointsCaptured()==0) {
 			logger.info("Waiting for points to be captured by Zebra before starting data collection");
@@ -209,7 +218,7 @@ public class TurboXasScan extends ContinuousScan {
 	private void addTimeAxis() throws Exception {
 		IHierarchicalDataFile file = null;
 		try {
-			file = org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory.getWriter(getDataWriter().getCurrentFileName());
+			file = HierarchicalDataFactory.getWriter(getDataWriter().getCurrentFileName());
 
 			// Read 'frame_time' and 'time between spectra' datasets from Nexus file
 			String detectorEntry = "/entry1/"+getScanDetectors()[0].getName()+"/";
@@ -373,6 +382,16 @@ public class TurboXasScan extends ContinuousScan {
 			detector.setContinuousParameters(params);
 			detector.setContinuousMode(true);
 			checkThreadInterrupted();
+			if (detector instanceof Xspress3BufferedDetector) {
+				((Xspress3BufferedDetector)detector).getController().setSavingFiles(false);
+				((Xspress3BufferedDetector)detector).getController().doStop();
+				((Xspress3BufferedDetector)detector).getController().doReset();
+				((Xspress3BufferedDetector)detector).getController().setNumFramesToAcquire(params.getNumberDataPoints());
+//				((Xspress3BufferedDetector)detector).getController().doReset();
+				((Xspress3BufferedDetector)detector).getController().setNextFileNumber(0);
+				((Xspress3BufferedDetector)detector).getController().setSavingFiles(true);
+				((Xspress3BufferedDetector)detector).getController().doStart();
+			}
 		}
 	}
 
@@ -768,6 +787,9 @@ public class TurboXasScan extends ContinuousScan {
 				return null;
 		}
 
+		private boolean isIrefData(String name) {
+			return (name.equalsIgnoreCase(TfgScalerWithLogValues.LNITIREF_LABEL) || name.equalsIgnoreCase("Iref"));
+		}
 		/**
 		 * Extract detector data from scan data point and send spectra of I0, It, time etc to the progress updater.
 		 * Only data from the first detector is extracted.
@@ -808,7 +830,7 @@ public class TurboXasScan extends ContinuousScan {
 				for(int i = 0; i<dataNames.size(); i++) {
 					// Don't plot position column or energy datasets
 					String dataName=dataNames.get(i);
-					if (!dataName.equals(ENERGY_COLUMN_NAME) && !dataName.equals(POSITION_COLUMN_NAME)) {
+					if (!dataName.equals(ENERGY_COLUMN_NAME) && !dataName.equals(POSITION_COLUMN_NAME) && !isIrefData(dataName)) {
 						controller.update(null, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, scanProgressBean,
 											dataNames.get(i), dataSets.get(i), dataSets.get(energyAxisIndex)));
 					}
