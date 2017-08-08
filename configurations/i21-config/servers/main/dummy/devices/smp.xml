@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<!-- motors -->
 	<bean id="smprzMotor" class="gda.device.motor.DummyMotor">
@@ -62,4 +65,76 @@
 	<import resource="smpcam3.xml"/>
 	<import resource="smpcam4.xml"/>
 
+	<bean id="smplXPositioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Screws</value>
+				<value>Transfer</value>
+				<value>RIXS</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="smplYPositioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Screws</value>
+				<value>Transfer</value>
+				<value>RIXS</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="smplZPositioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Screws</value>
+				<value>Transfer</value>
+				<value>RIXS</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="smplAzimuthPositioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Screws</value>
+				<value>Transfer</value>
+				<value>RIXS</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="smplDiodetthPositioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Screws</value>
+				<value>Transfer</value>
+				<value>RIXS</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="smplTiltPositioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Screws</value>
+				<value>Transfer</value>
+				<value>RIXS</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="smplRZPositioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Screws</value>
+				<value>Transfer</value>
+				<value>RIXS</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="m5tthPositioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Screws</value>
+				<value>Transfer</value>
+				<value>RIXS</value>
+			</util:list>
+		</property>
+	</bean>
 </beans>
