@@ -222,7 +222,7 @@ sax.setOutputFormat(["%10.6f"])  # @UndefinedVariable
 
 print "*"*80
 #DiffCalc
-from startup import i21 as dc  # @UnusedWildImport
+from startup.i21 import *  # @UnusedWildImport
 #Mapping scan
 from mapping_scan_commands import *
 
