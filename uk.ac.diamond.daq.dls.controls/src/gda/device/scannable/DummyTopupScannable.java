@@ -102,4 +102,13 @@ public class DummyTopupScannable extends ScannableBase implements Scannable, Mon
 		this.elementCount = elementCount;
 	}
 
+	@Override
+	public String toFormattedString() {
+		try {
+			return String.format("%s %s", ScannableUtils.getFormattedCurrentPosition(this), unit);
+		} catch (DeviceException e) {
+			return "UNAVAILABLE";
+		}
+	}
+
 }
