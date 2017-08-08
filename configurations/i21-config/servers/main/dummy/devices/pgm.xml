@@ -36,8 +36,9 @@
 	<bean id="pgmGratingSelect" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<util:list list-class="java.util.ArrayList">
-				<value>400 lines/mm</value>
-				<value>800 lines/mm</value>
+				<value>VPG1</value>
+				<value>VPG2</value>
+				<value>VPG3</value>
 			</util:list>
 		</property>
 	</bean>
