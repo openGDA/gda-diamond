@@ -339,3 +339,5 @@ if bm1.isBeamOn():
 else:
     print "NO PHOTON BEAM ON SAMPLE."
 
+from fastshutterwrapper import FastShutter
+fs = FastShutter(fastshutter1)
