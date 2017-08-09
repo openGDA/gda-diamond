@@ -1,7 +1,8 @@
 #!/bin/bash
 
+module load python/ana
 # a gda launcher wrapper that permits easy switch between real GDA and Simulation GDA for a beamline;
-# To access this from anywhere, you must put config/bin in the PATH in gda_environment; 
+# To access this from anywhere, you must put config/bin in the PATH in gda_environment;
 # Note the location of the original python gda launcher must point to its correct location
 here=`dirname $0`
 config1=`cd $here/../; pwd`
@@ -14,11 +15,11 @@ fi
 
 if [ -z $GDA_SIMULATION ] ; then
 
-	/dls_sw/tools/bin/python2.5  $root/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --config=$config -v $@
+	python2.7  $root/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --config=$config -v $@
 
 else
 	export GDA_DATADIR=/scratch/data
-	/dls_sw/tools/bin/python2.5  ${root}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --config=${config}  \
+	python2.7  ${root}/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda  --config=${config}  \
 	--profile=main --mode=dummy --lib_subdir=Linux-i386 $@
 
 fi
