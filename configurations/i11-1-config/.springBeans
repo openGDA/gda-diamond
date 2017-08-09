@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.7.0.201506251244-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.8.3.201612191259-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -286,6 +286,7 @@
 		<config>servers/main/live/usermotors.xml</config>
 		<config>servers/main/usermotors.xml</config>
 		<config>servers/main/wavelength.xml</config>
+		<config>servers/main/perkin_elmer.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
