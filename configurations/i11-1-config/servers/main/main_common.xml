@@ -68,6 +68,7 @@
 	<import resource="pixium.xml"/>
 <!-- 	<import resource="Mar345.xml"/> -->
 	<import resource="datareductionscannable.xml"/>
+	<import resource="Table1.xml"/>
 	<import resource="topup.xml"/>
 <!-- 	<import resource="datacollection.xml"/> -->
 

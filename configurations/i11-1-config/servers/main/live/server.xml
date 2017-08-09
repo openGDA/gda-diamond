@@ -96,6 +96,7 @@
 	<import resource="BSTP1.xml"/>
 	<import resource="detectorArm.xml"/>
 	<import resource="Spinner.xml"/>
+	<import resource="Table1.xml"/>
 <!-- 	<import resource="RobotNX100.xml"/> -->
 	<import resource="DummyMotors.xml"/>
 <!-- 	<import resource="Mar345.xml"/> -->
