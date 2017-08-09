@@ -7,60 +7,74 @@
 
 	<!-- Devices which are defined in Epics but not needed by the client are defined below -->
 
-	<bean id="mpxAD_summary_roi1" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="mpxAD_summary_roi1"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:ROI1:" />
 	</bean>
 
-	<bean id="mpxAD_summary_roi2" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="mpxAD_summary_roi2"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:ROI2:" />
 	</bean>
 
-	<bean id="mpxAD_summary_roi3" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="mpxAD_summary_roi3"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:ROI3:" />
 	</bean>
 
-	<bean id="mpxAD_summary_roi4" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="mpxAD_summary_roi4"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:ROI4:" />
 	</bean>
 
-	<bean id="mpxAD_summary_roi5" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="mpxAD_summary_roi5"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:ROI5:" />
 	</bean>
 
-	<bean id="mpxAD_summary_roi6" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="mpxAD_summary_roi6"
+			class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:ROI6:" />
 	</bean>
 
-	<bean id="mpxAD_summary_stat1" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="mpxAD_summary_stat1"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:STAT1:" />
 	</bean>
 
-	<bean id="mpxAD_summary_stat2" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="mpxAD_summary_stat2"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:STAT2:" />
 	</bean>
 
-	<bean id="mpxAD_summary_stat3" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="mpxAD_summary_stat3"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:STAT3:" />
 	</bean>
 
-	<bean id="mpxAD_summary_stat4" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="mpxAD_summary_stat4"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:STAT4:" />
 	</bean>
 
-	<bean id="mpxAD_summary_stat5" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="mpxAD_summary_stat5"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:STAT5:" />
 	</bean>
 
-	<bean id="mpxAD_summary_stat6" class="gda.spring.V17NDStatsFactoryBean">
+	<bean id="mpxAD_summary_stat6"
+			class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:STAT6:" />
 	</bean>
 
-	<bean id="mpx_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+	<bean id="mpx_NDFileTiff"
+			class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL15I-EA-DET-18:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
-	<bean id="mpx_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+	<bean id="mpx_NDFileHDF5"
+			class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl">
 			<bean class="gda.spring.V17NDFileFactoryBean">
 				<property name="prefix" value="BL15I-EA-DET-18:HDF5:" />
@@ -71,7 +85,7 @@
 	</bean>
 
 	<bean id="mpx_sweep_driver"
-		class="gda.device.detector.areadetector.v17.impl.ADDriverMerlinThresholdSweepImpl">
+			class="gda.device.detector.areadetector.v17.impl.ADDriverMerlinThresholdSweepImpl">
 		<property name="basePVName" value="BL15I-EA-DET-18:Merlin1:" />
 		<property name="useTriggerModeNotStartThresholdScanning" value="True" />
 	</bean>
@@ -95,7 +109,8 @@
 	</bean>
 
 	<!-- We also need a Merlin specific colour mode -->
-	<bean id="mpx_MerlinColourModeCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.MerlinColourModeDecorator">
+	<bean id="mpx_MerlinColourModeCollectionStrategy"
+			class="gda.device.detector.addetector.collectionstrategy.MerlinColourModeDecorator">
 		<property name="imagesPerCollectionMultiplier" value="8" />
 		<property name="decoratee" ref="mpx_MultipleImageModeInternalTriggerSoftwareStartStopCollectionStrategy" />
 	</bean>
@@ -138,7 +153,8 @@
 	</bean>
 
 	<!-- TODO: Test this ListFactoryBean, it should simplify later config
-	<bean id="mpx_additionalPluginList" class="org.springframework.beans.factory.config.ListFactoryBean">
+	<bean id="mpx_additionalPluginList"
+			class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
 				<ref bean="mpx_hdf5_MultipleImagesPerHDF5FileWriter" />
@@ -150,7 +166,8 @@
 
 	<!-- NXDetectors -->
 
-	<bean id="mpx" class="gda.device.detector.NXDetector">
+	<bean id="mpx"
+			class="gda.device.detector.NXDetector">
 		<property name="name" value="mpx" />
 		<property name="collectionStrategy" ref="mpx_MultipleImageModeInternalTriggerSoftwareStartStopCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -164,7 +181,8 @@
 		 -->
 	</bean>
 
-	<bean id="mpxc" class="gda.device.detector.NXDetector">
+	<bean id="mpxc"
+			class="gda.device.detector.NXDetector">
 		<property name="name" value="mpx"/>
 		<property name="collectionStrategy" ref="mpx_MerlinColourModeCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -175,7 +193,8 @@
 		</property>
 	</bean>
 
-	<bean id="mpxHWT" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+	<bean id="mpxHWT"
+			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="mpx"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		<property name="collectionStrategy" ref="mpx_MultipleImageModeInternalTriggerSoftwareStartStopCollectionStrategy" />
@@ -187,7 +206,8 @@
 		</property>
 	</bean>
 
-	<bean id="mpxcHWT" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+	<bean id="mpxcHWT"
+			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="mpx"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		<property name="collectionStrategy" ref="mpx_MerlinColourModeCollectionStrategy" />
@@ -199,7 +219,8 @@
 		</property>
 	</bean>
 
-	<bean id="mpxthr" class="gda.device.detector.NXDetector">
+	<bean id="mpxthr"
+			class="gda.device.detector.NXDetector">
 		<property name="name" value="medipixthr" />
 		<property name="collectionStrategy" ref="mpx_threshold_sweep_strategy" />
 		<property name="additionalPluginList">
@@ -211,7 +232,8 @@
 		</property>
 	</bean>
 
-	<bean id="mpxthrHWT" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+	<bean id="mpxthrHWT"
+			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="mpxthr"/>
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		<property name="collectionStrategy" ref="mpx_threshold_sweep_strategy" />

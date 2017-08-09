@@ -5,7 +5,8 @@
 
 	<bean id="ODCCD" class="gda.device.detector.odccd.ODCCDController" />
 
-	<bean id="atlas_FilePathConverter" class="uk.ac.gda.util.SimpleFilePathConverter">
+	<bean id="atlas_FilePathConverter"
+			class="uk.ac.gda.util.SimpleFilePathConverter">
 		<property name="userSubString" value="/dls/i15/data/" /> <!-- The user is the path in GDA -->
 		<property name="internalSubString" value="x:/y" />       <!-- The internal path in the Atlas -->
 		<!-- Note that IS does not support file or directory names starting with a number, so we have to prefix
@@ -45,7 +46,8 @@
 
 	<!-- NXDetectors -->
 
-	<bean id="atlas" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+	<bean id="atlas"
+			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="atlas" />
 		<!-- 
 		<property name="readOutTime" value="240"/>
@@ -54,7 +56,8 @@
 		<property name="collectionStrategy" ref="atlas_SingleExposureCollectionStrategy" />
 	</bean>
 
-	<bean id="atlasOverflow" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTimeAndVariableCollectionTime">
+	<bean id="atlasOverflow"
+			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTimeAndVariableCollectionTime">
 		<property name="name" value="atlasOverflow" />
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
 		<property name="collectionStrategy" ref="atlas_OverflowCollectionStrategy" />

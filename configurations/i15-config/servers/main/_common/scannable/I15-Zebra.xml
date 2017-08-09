@@ -52,6 +52,14 @@
 		<property name="pcEnc" value="2"/> <!-- Default 0=Enc1? -->
 	</bean>
 
+	<bean id="sphiZebraScannableMotor" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="sphiMotor" />
+		<property name="local" value="true" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value=".5"/> <!-- From ACCL -->
+		<property name="pcEnc" value="3"/> <!-- Default 0=Enc1? -->
+	</bean>
+
 	<bean id="zebra2" class="gda.device.zebra.controller.impl.ZebraImpl">
 		<property name="zebraPrefix" value="BL15I-EA-ZEBRA-02:"/>
 	</bean>

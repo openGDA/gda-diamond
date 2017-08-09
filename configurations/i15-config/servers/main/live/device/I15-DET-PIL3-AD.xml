@@ -7,7 +7,8 @@
 
 	<!-- Devices which are defined in Epics but not needed by the client are defined below -->
 
-	<bean id="pil3_NDFileHDF5" class="gda.spring.V17NDFileHDF5FactoryBean">
+	<bean id="pil3_NDFileHDF5"
+			class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl">
 			<bean class="gda.spring.V17NDFileFactoryBean">
 				<property name="prefix" value="BL15I-EA-PILAT-03:HDF5:" />
@@ -17,7 +18,8 @@
 		<property name="initialCompression" value="zlib" />
 	</bean>
 
-	<bean id="pil3_NDFileTiff" class="gda.spring.V17NDFileFactoryBean">
+	<bean id="pil3_NDFileTiff"
+			class="gda.spring.V17NDFileFactoryBean">
 		<property name="prefix" value="BL15I-EA-PILAT-03:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
@@ -45,7 +47,8 @@
 
 	<!-- NXDetector file writers -->
 
-	<bean id="pil3_hdf5_MultipleImagesPerHDF5FileWriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+	<bean id="pil3_hdf5_MultipleImagesPerHDF5FileWriter"
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pil3_NDFileHDF5" />
 		<property name="fileTemplate" value="%s%s%05d.hdf5" />
 		<property name="filePathTemplate" value="$datadir$" />
@@ -57,7 +60,8 @@
 		<property name="lazyOpen" value="true" />
 	</bean>
 
-	<bean id="pil3_tiff_SingleImagePerFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+	<bean id="pil3_tiff_SingleImagePerFileWriter"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pil3" />
 		<property name="ndFile" ref="pil3_NDFileTiff" />
 		<property name="pathErrorSuppressed" value="true" />
@@ -65,7 +69,8 @@
 
 	<!-- NXDetectors -->
 
-	<bean id="pil3HWT" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+	<bean id="pil3HWT"
+			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="pil3"/>
 		<!-- 
 		<property name="readOutTime" value="240"/>
@@ -80,7 +85,8 @@
 		</property>
 	</bean>
 
-	<bean id="pil3" class="gda.device.detector.NXDetector">
+	<bean id="pil3"
+			class="gda.device.detector.NXDetector">
 		<property name="name" value="pil3" />
 		<property name="collectionStrategy" ref="pil3_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" />
 		<property name="additionalPluginList">
