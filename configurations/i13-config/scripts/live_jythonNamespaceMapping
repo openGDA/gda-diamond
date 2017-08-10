@@ -10,14 +10,14 @@
 #ss1_sampley - to move the sample vertically
 #translate_x - translation table on which the sample stages are mounted, useful if using the hexapod
 #tomography_translation=hex_samplex
-tomography_translation=hex_x
+#tomography_translation=hex_x
 #tomography_translation=hex_y
 #tomography_translation=ss1_sampley #Vertical
 #tomography_translation=ss1_sampley
 #tomography_translation=ss1_X  #Base
 #tomography_translation=ss1_samplex
 #tomography_translation=ss1_X_dummy
-#tomography_translation=translate_x
+tomography_translation=translate_x
 #tomography_translation=newport_3
 
 #tomography_theta is the motor used to rotate the sample
@@ -30,9 +30,9 @@ tomography_translation=hex_x
 #tomography_theta=smar_rot
 #tomography_theta=p2r_rot
 #tomography_theta=ss1_rot_dummy 
-tomography_theta=hex_rot
+#tomography_theta=hex_rot
 #tomography_theta=deben_rot_bottom
-#tomography_theta=dbn_rotb
+tomography_theta=dbn_rotb
 
 #tomography_optimizer is the device that checks if the beam current is of high enough value
 tomography_optimizer=beam_optimizer
@@ -84,8 +84,8 @@ tomography_beammonitor=ionc_i
 
 #### Collecting HDF data with flyscans writing to hdf with chunking set for maximum write speed
 #tomography_flyscan_theta=zebraSM1	# to use mikos rot stage on Huber
-tomography_flyscan_theta=zebraSM2	# to use slip-ring rot stage (hex_rot)
-#tomography_flyscan_theta=debenSM3	# to use deben rot stage 
+#tomography_flyscan_theta=zebraSM2	# to use slip-ring rot stage (hex_rot)
+tomography_flyscan_theta=debenSM3	# to use deben rot stage 
 tomography_flyscan_det=flyScanDetectorNoChunking
 tomography_flyscan_flat_dark_det=flyScanFlatDarkDetectorNoChunking
 

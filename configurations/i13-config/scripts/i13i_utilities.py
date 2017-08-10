@@ -575,18 +575,56 @@ def use_storage(storage_name, notify=False, comment=''):
 
     storage_name_ = storage_name.lower()
     windowsSubString_dct = {"na": "d:\\i13\\data\\", "gpfs": "t:\\i13\\data\\"}
-    storage = windowsSubString_dct[storage_name_]
+    windowsSubString_rvr_dct = {"d": "NetApp", "t": "GPFS01"}
+
+    storage_path = windowsSubString_dct[storage_name_]
+    setn_out_str = "Setting %s to use %s (%s)..."
+    fin_out_str = "Finished setting %s to use %s (%s)."
+    curr_out_str = "%s is now set to use %s (%s).\n"
 
     # loop over objects in detectors_obj, finding each obj and then executing the corresponding command (handle failures gracefully without aborting the loop)
+
+    # PCO HDF detectors
     flyScanDetectorNoChunking = finder.find("flyScanDetectorNoChunking")
-    print "Setting windowsSubString for %s to %s..." %(flyScanDetectorNoChunking.getName(), storage)
-    flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage)
-    print "Current windowsSubString = %s" %(flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString())
+    det_name = flyScanDetectorNoChunking.getName()
+    det_drv = storage_path.split(':')[0]
+    print setn_out_str %(det_name, windowsSubString_rvr_dct[det_drv], storage_path)
+    flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage_path)
+    print fin_out_str %(det_name, windowsSubString_rvr_dct[det_drv], storage_path)
+    det_cfg = flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
     flyScanFlatDarkDetectorNoChunking = finder.find("flyScanFlatDarkDetectorNoChunking")
-    print "Setting windowsSubString for %s to %s..." %(flyScanFlatDarkDetectorNoChunking.getName(), storage)
-    flyScanFlatDarkDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage)
-    print "Current windowsSubString = %s" %(flyScanFlatDarkDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString())
+    det_name = flyScanFlatDarkDetectorNoChunking.getName()
+    det_drv = storage_path.split(':')[0]
+    print setn_out_str %(det_name, windowsSubString_rvr_dct[det_drv], storage_path)
+    flyScanFlatDarkDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage_path)
+    print fin_out_str %(det_name, windowsSubString_rvr_dct[det_drv], storage_path)
+    det_cfg = flyScanFlatDarkDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    # PCO TIFF detectors 
+    flyScanDetectorTIF = finder.find("flyScanDetectorTIF")
+    det_name = flyScanDetectorTIF.getName()
+    det_drv = storage_path.split(':')[0]
+    print setn_out_str %(det_name, windowsSubString_rvr_dct[det_drv], storage_path)
+    flyScanDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().setWindowsSubString(storage_path)
+    print fin_out_str %(det_name, windowsSubString_rvr_dct[det_drv], storage_path)
+    det_cfg = flyScanDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    flyScanFlatDarkDetectorTIF = finder.find("flyScanFlatDarkDetectorTIF")
+    det_name = flyScanFlatDarkDetectorTIF.getName()
+    det_drv = storage_path.split(':')[0]
+    print setn_out_str %(det_name, windowsSubString_rvr_dct[det_drv], storage_path)
+    flyScanFlatDarkDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().setWindowsSubString(storage_path)
+    print fin_out_str %(det_name, windowsSubString_rvr_dct[det_drv], storage_path)
+    det_cfg = flyScanFlatDarkDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
     # pco_hw_hdf, pco_hw_hdf_nochunking, pco_hw_tif, pco1_tif?  
     # pco1_hw_hdf.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
@@ -643,7 +681,7 @@ def use_storage(storage_name, notify=False, comment=''):
         storage_name = pretty_print_dct[storage_name_]
         hst = socket.gethostname()
         beamline = 'i13'
-        sbj = '%s: storage changed to %s.' %(beamline, storage_name)
+        sbj = '%s storage changed to %s.' %(beamline, storage_name)
         filepath = pwd()+'.nxs'
         visit_id = filepath
         bdy = '%s: storage changed to %s for visit %s at %s.' %(beamline, storage_name, visit_id, now)

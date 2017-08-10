@@ -873,6 +873,8 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         atTomoScanEnd(**kwargs)
         endTm = datetime.datetime.now()
         elapsedTm = endTm - startTm
+        jns=beamline_parameters.JythonNameSpaceMapping()
+        print("This scan's data can be found in Nexus scan file %s." %(jns.lastScanDataPoint().currentFilename))
         print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
 
 def atTomoScanStart(**kwargs):

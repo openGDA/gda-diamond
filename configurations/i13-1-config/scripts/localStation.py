@@ -134,7 +134,7 @@ beamok = gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOn
 from i13j_utilities import WaitWhileScannableBelowThresholdMonitorOnlyWithEmailFeedback
 ebeamok = WaitWhileScannableBelowThresholdMonitorOnlyWithEmailFeedback("ebeamok",ic1,0.1,emails=['kaz.wanelik@diamond.ac.uk', 'silvia.cipiccia@diamond.ac.uk', 'darren.batey@diamond.ac.uk', 'xiaowen.shi@diamond.ac.uk', 'physicshome@gmail.com'])
 
-from i13j_utilities import ShutterDirector, CAShutterDirector, StepScanMinder
+from i13j_utilities import ShutterDirector, CAShutterDirector, StepScanMinder, pcotif_minder
 #shutter_director = ShutterDirector('shutter_director', fs, delay_after_open_sec=0, delay_after_close_sec=0)
 
 #make ScanPointProvider
@@ -445,12 +445,15 @@ except:
 print(section_sep)
 
 # for vortex to set Preset Mode to 'Real time' (the default is 'No preset')
-caput("ME13C-EA-DET-01:PresetMode", 1)
+try:
+	caput("ME13C-EA-DET-01:PresetMode", 1)
+except:
+	print("Failed to set Preset Mode to 'Real time' on XMAP - is XMAP present on the beamline and its IOC running?")
 
 #8/4/2014 pie725 not present
 #run("startup_pie725")
 
-shutter_director = ShutterDirector('shutter_director', delay_after_open_sec=0, delay_after_close_sec=0)
+#shutter_director = ShutterDirector('shutter_director', delay_after_open_sec=0, delay_after_close_sec=0)
 
 print(section_sep)
 # localStationUser.py should be run at the very end of this localStation.py

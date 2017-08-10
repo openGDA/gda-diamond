@@ -312,7 +312,8 @@ try:
 	bl = beamlineEnergy.beamLineEnergy()
 	bl.setName("bl")
 
-	
+	debenforce=createPVScannable ("debenforce", "BL13I-EA-DOF-01:RIG:TENSIONFORCE")
+        meta_add(debenforce)
 	if isLive():
 		pco1_hw_tif.pluginList[1].waitForFileArrival=False
 		pco1_tif.pluginList[1].waitForFileArrival=False
@@ -348,6 +349,7 @@ try:
 
 		from deben import *
 		deben_configure()
+		deben_after_ioc_restart()
 
 		print("\n Adding beamline meta scannables...")
 		meta_add_i13i()
@@ -367,6 +369,7 @@ try:
 			LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/tmp")
 
                 #use_storage("gpfs")
+        #use_storage("gpfs")
 except:
 	exceptionType, exception, traceback = sys.exc_info()
 	handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)

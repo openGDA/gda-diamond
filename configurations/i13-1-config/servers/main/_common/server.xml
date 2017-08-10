@@ -160,6 +160,7 @@
 
 	<import resource="file:${gda.config}/devices/_common/t1_vac.xml" />
 	<import resource="file:${gda.config}/devices/_common/t2.xml" />
+	<!-- <import resource="file:${gda.config}/devices/_common/sample_lab.xml" /> -->
 
 	<import resource="file:${gda.config}/devices/_common/pco1.xml" />
 	<import resource="file:${gda.config}/devices/_common/pco_binning.xml"/>
