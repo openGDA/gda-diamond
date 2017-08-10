@@ -19,10 +19,10 @@
 package gda.scan;
 import static org.junit.Assert.assertEquals;
 
+import org.dawnsci.ede.herebedragons.EdePositionType;
 import org.junit.Test;
 
 import gda.device.scannable.ScannableMotor;
-import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.ExplicitScanPositions;
 import gda.scan.ede.timeestimators.LinearExperimentTimeEstimator;
 import gda.scan.ede.timeestimators.SingleExperimentTimeEstimator;

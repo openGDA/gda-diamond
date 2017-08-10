@@ -18,10 +18,11 @@
 
 package gda.device.scannable;
 
+import org.dawnsci.ede.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.herebedragons.EdePositionType;
+import org.dawnsci.ede.herebedragons.EdeScanType;
+
 import gda.device.DeviceException;
-import gda.scan.ede.EdeScanType;
-import gda.scan.ede.datawriters.EdeDataConstants;
-import gda.scan.ede.position.EdePositionType;
 
 /**
  * This should be used within EdeScans to describe every spectrum collected.

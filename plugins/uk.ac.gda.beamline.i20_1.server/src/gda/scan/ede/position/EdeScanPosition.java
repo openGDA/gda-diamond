@@ -18,6 +18,8 @@
 
 package gda.scan.ede.position;
 
+import org.dawnsci.ede.herebedragons.EdePositionType;
+
 import gda.device.DeviceException;
 
 public interface EdeScanPosition {

@@ -21,6 +21,7 @@ package gda.scan;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math3.analysis.solvers.PolynomialSolver;
+import org.dawnsci.ede.herebedragons.PolynomialParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +30,6 @@ import com.thoughtworks.xstream.annotations.Annotations;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import gda.jython.InterfaceProvider;
-import uk.ac.gda.beamline.i20_1.utils.PolynomialParser;
 
 /**
  * This class calculates real space motor positions for a Turbo XAS scan from user specified set of parameters based on energy.

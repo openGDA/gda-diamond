@@ -18,10 +18,11 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
+import org.dawnsci.ede.herebedragons.DataHelper;
+
 import com.google.gson.annotations.Expose;
 
 import de.jaret.util.date.IntervalImpl;
-import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.beamline.i20_1.utils.ExperimentTimeHelper;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 

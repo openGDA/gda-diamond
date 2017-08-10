@@ -23,6 +23,8 @@ import static gda.jython.InterfaceProvider.getJythonServerNotifer;
 import java.util.List;
 import java.util.Vector;
 
+import org.dawnsci.ede.herebedragons.EdePositionType;
+import org.dawnsci.ede.herebedragons.EdeScanType;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,9 +46,7 @@ import gda.jython.ITerminalPrinter;
 import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeScanProgressBean;
-import gda.scan.ede.EdeScanType;
 import gda.scan.ede.datawriters.ScanDataHelper;
-import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;

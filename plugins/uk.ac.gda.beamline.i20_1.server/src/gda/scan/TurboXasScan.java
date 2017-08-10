@@ -24,6 +24,8 @@ import java.util.List;
 
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
 import org.eclipse.dawnsci.nexus.NexusFile;
+import org.dawnsci.ede.herebedragons.EdePositionType;
+import org.dawnsci.ede.herebedragons.EdeScanType;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
@@ -56,8 +58,6 @@ import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeExperimentProgressBean;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.EdeScanProgressBean;
-import gda.scan.ede.EdeScanType;
-import gda.scan.ede.position.EdePositionType;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 
 /**

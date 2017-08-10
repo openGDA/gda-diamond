@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
+import org.dawnsci.ede.herebedragons.DataHelper;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -27,7 +28,6 @@ import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
 import de.jaret.util.ui.timebars.swt.TimeBarViewer;
 import de.jaret.util.ui.timebars.swt.renderer.RendererBase;
 import de.jaret.util.ui.timebars.swt.renderer.TimeScaleRenderer;
-import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 
 
 public class TimingGroupsScaleRenderer extends RendererBase implements TimeScaleRenderer {

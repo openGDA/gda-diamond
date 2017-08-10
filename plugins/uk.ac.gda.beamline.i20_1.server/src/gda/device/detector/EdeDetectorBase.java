@@ -23,7 +23,9 @@ import java.io.FileWriter;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.dawnsci.plotting.tools.profile.DataFileHelper;
+import org.dawnsci.ede.DataFileHelper;
+import org.dawnsci.ede.herebedragons.CalibrationDetails;
+import org.dawnsci.ede.herebedragons.EdeDataConstants;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
@@ -38,9 +40,7 @@ import gda.device.DeviceException;
 import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
 import gda.scan.ScanDataPoint;
-import gda.scan.ede.datawriters.EdeDataConstants;
 import gda.scan.ede.datawriters.ScanDataHelper;
-import uk.ac.gda.exafs.calibration.data.CalibrationDetails;
 import uk.ac.gda.exafs.data.DetectorSetupType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 

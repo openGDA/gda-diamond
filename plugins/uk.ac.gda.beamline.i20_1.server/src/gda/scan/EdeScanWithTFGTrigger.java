@@ -18,6 +18,8 @@
 
 package gda.scan;
 
+import org.dawnsci.ede.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.herebedragons.EdeScanType;
 import org.eclipse.dawnsci.hdf.object.H5Utils;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFileUtils;
@@ -41,8 +43,6 @@ import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TopupChecker;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.scan.ede.EdeScanType;
-import gda.scan.ede.datawriters.EdeDataConstants;
 import gda.scan.ede.position.EdeScanPosition;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;

@@ -21,14 +21,14 @@ package gda.scan;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
+import org.dawnsci.ede.herebedragons.EdePositionType;
+import org.dawnsci.ede.herebedragons.EdeScanType;
 import org.junit.Test;
 
 import gda.device.DeviceException;
 import gda.device.detector.DetectorScanInfo;
 import gda.device.detector.xstrip.DetectorScanDataUtils;
 import gda.device.scannable.FrameIndexer;
-import gda.scan.ede.EdeScanType;
-import gda.scan.ede.position.EdePositionType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 

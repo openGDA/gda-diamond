@@ -462,12 +462,6 @@
          point="org.eclipse.dawnsci.plotting.api.toolPage">
       <plotting_tool_page
             category="org.dawnsci.plotting.tools.category.Science"
-            class="org.dawnsci.plotting.tools.profile.TimeResolvedToolPage"
-            id="org.dawnsci.plotting.tools.profile.timeresolvedtool"
-            label="Time resolved Tool">
-      </plotting_tool_page>
-      <plotting_tool_page
-            category="org.dawnsci.plotting.tools.category.Science"
             class="org.dawnsci.plotting.tools.hyper2d.Hyper2DTool"
             id="org.dawnsci.plotting.tools.hyper2d.Hyper2DTool"
             label="EDE energy slicing tool">

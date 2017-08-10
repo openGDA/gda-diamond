@@ -18,12 +18,12 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
+import org.dawnsci.ede.herebedragons.EdeDataConstants;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.january.dataset.DoubleDataset;
 
-import gda.scan.ede.datawriters.EdeDataConstants;
 import uk.ac.gda.client.plotting.model.LineTraceProviderNode;
 import uk.ac.gda.client.plotting.model.Node;
 import uk.ac.gda.client.plotting.model.ScanNode;

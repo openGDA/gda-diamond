@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
+import org.dawnsci.ede.herebedragons.DataHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -30,7 +31,6 @@ import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
 import de.jaret.util.ui.timebars.TimeBarViewerInterface;
 import de.jaret.util.ui.timebars.swt.renderer.DefaultRenderer;
-import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 
 public class CollectionModelRenderer extends DefaultRenderer {
 

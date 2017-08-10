@@ -20,6 +20,8 @@ package uk.ac.gda.exafs.calibration.ui;
 
 import java.io.File;
 
+import org.dawnsci.ede.herebedragons.EnergyCalibration;
+import org.dawnsci.ede.herebedragons.EnergyCalibrationWizard;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
@@ -45,7 +47,6 @@ import gda.configuration.properties.LocalProperties;
 import gda.util.exafs.Element;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
-import uk.ac.gda.exafs.calibration.data.EnergyCalibration;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorModel.EnergyCalibrationSetObserver;

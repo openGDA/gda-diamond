@@ -20,8 +20,9 @@ package gda.scan.ede.drivers;
 
 import java.util.Map;
 
+import org.dawnsci.ede.herebedragons.EdePositionType;
+
 import gda.device.DeviceException;
-import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
 

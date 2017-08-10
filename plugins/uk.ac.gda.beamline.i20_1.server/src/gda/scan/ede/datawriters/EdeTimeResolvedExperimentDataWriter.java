@@ -22,7 +22,10 @@ import java.io.File;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.dawnsci.plotting.tools.profile.DataFileHelper;
+import org.dawnsci.ede.DataFileHelper;
+import org.dawnsci.ede.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.herebedragons.EdeDataConstants.TimingGroupMetadata;
+import org.dawnsci.ede.herebedragons.TimeResolvedDataFileHelper;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;
@@ -32,7 +35,6 @@ import gda.device.detector.EdeDetector;
 import gda.scan.EdeScan;
 import gda.scan.EnergyDispersiveExafsScan;
 import gda.scan.ScanDataPoint;
-import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
 
 public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter {
 

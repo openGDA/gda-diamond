@@ -36,7 +36,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
-import org.dawnsci.plotting.tools.profile.DataFileHelper;
+import org.dawnsci.ede.DataFileHelper;
+import org.dawnsci.ede.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.herebedragons.EdePositionType;
+import org.dawnsci.ede.herebedragons.EdeScanType;
+import org.dawnsci.ede.herebedragons.TimeResolvedDataFileHelper;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.nexus.NexusException;
@@ -64,13 +68,9 @@ import gda.jython.InterfaceProvider;
 import gda.jython.scriptcontroller.ScriptControllerBase;
 import gda.scan.ede.CyclicExperiment;
 import gda.scan.ede.EdeExperiment;
-import gda.scan.ede.EdeScanType;
 import gda.scan.ede.SingleSpectrumScan;
 import gda.scan.ede.TimeResolvedExperiment;
 import gda.scan.ede.TimeResolvedExperimentParameters;
-import gda.scan.ede.datawriters.EdeDataConstants;
-import gda.scan.ede.datawriters.TimeResolvedDataFileHelper;
-import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.ExplicitScanPositions;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
@@ -402,7 +402,7 @@ public class EdeScanTest extends EdeTestBase {
 			numberExpectedSpectra *= numberRepetitions;
 			assertLinearData(nexusFilename, EdeDataConstants.LN_I0_IT_COLUMN_NAME,numberExpectedSpectra, checkForCycles);
 			assertLinearData(nexusFilename, EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME,numberExpectedSpectra, checkForCycles);
-			assertLinearData(nexusFilename, EdeDataConstants.LN_I0_IT__FINAL_I0_COLUMN_NAME,numberExpectedSpectra, checkForCycles);
+			assertLinearData(nexusFilename, EdeDataConstants.LN_I0_IT_FINAL_I0_COLUMN_NAME,numberExpectedSpectra, checkForCycles);
 		} else {
 			// numberRepetitions = 0 -> single spectrum scan (no final I0 measurement)
 			assertLinearData(nexusFilename, EdeDataConstants.LN_I0_IT_COLUMN_NAME,numberExpectedSpectra, checkForCycles);
@@ -491,7 +491,7 @@ public class EdeScanTest extends EdeTestBase {
 	private void testEdeAsciiFiles(String nexusFilename, int numberExpectedSpectra, int numTimingGroups, boolean testIref) throws IOException {
 		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.IT_COLUMN_NAME), 3, MCA_WIDTH*numberExpectedSpectra);
 		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME), 3, MCA_WIDTH*numberExpectedSpectra);
-		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.LN_I0_IT__FINAL_I0_COLUMN_NAME), 3, MCA_WIDTH*numberExpectedSpectra);
+		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.LN_I0_IT_FINAL_I0_COLUMN_NAME), 3, MCA_WIDTH*numberExpectedSpectra);
 		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.IT_RAW_COLUMN_NAME), 7, MCA_WIDTH*numberExpectedSpectra);
 		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.IT_RAW_COLUMN_NAME), 7, MCA_WIDTH*numberExpectedSpectra);
 		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.I0_RAW_COLUMN_NAME), 6, MCA_WIDTH*numTimingGroups*2);

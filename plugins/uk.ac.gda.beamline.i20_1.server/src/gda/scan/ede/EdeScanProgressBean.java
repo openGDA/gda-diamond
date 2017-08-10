@@ -20,7 +20,8 @@ package gda.scan.ede;
 
 import java.io.Serializable;
 
-import gda.scan.ede.position.EdePositionType;
+import org.dawnsci.ede.herebedragons.EdePositionType;
+import org.dawnsci.ede.herebedragons.EdeScanType;
 
 /**
  * Message bean holding the current progress and latest spectra from an EDEScan.

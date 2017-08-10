@@ -23,6 +23,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dawnsci.ede.herebedragons.DataHelper;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -67,7 +68,6 @@ import org.slf4j.LoggerFactory;
 import com.swtdesigner.ResourceManager;
 
 import gda.device.detector.frelon.FrelonCcdDetectorData;
-import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;

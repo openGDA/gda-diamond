@@ -20,6 +20,8 @@ package gda.scan.ede.datawriters;
 
 import java.util.ArrayList;
 
+import org.dawnsci.ede.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.herebedragons.EdeDataConstants.TimingGroupMetadata;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;
@@ -32,7 +34,6 @@ import gda.device.detector.EdeDetector;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.scan.ede.datawriters.EdeDataConstants.TimingGroupMetadata;
 import uk.ac.gda.exafs.data.AlignmentParametersBean;
 import uk.ac.gda.exafs.data.ClientConfig;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;

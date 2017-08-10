@@ -26,10 +26,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import org.dawnsci.ede.herebedragons.PolynomialParser;
 import org.junit.Before;
 import org.junit.Test;
-
-import uk.ac.gda.beamline.i20_1.utils.PolynomialParser;
 
 public class TurboXasParametersTest {
 

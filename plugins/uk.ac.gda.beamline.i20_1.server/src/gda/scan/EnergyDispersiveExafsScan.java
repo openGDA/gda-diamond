@@ -20,11 +20,11 @@ package gda.scan;
 
 import java.util.List;
 
+import org.dawnsci.ede.herebedragons.EdeScanType;
 import org.eclipse.january.dataset.DoubleDataset;
 
 import gda.device.detector.EdeDetector;
 import gda.observable.IObserver;
-import gda.scan.ede.EdeScanType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public interface EnergyDispersiveExafsScan extends Scan {
