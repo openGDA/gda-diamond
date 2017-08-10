@@ -488,10 +488,9 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				realFrameNumber=thisFrame-1;
 				realLowFrameNumber=lowFrame-1;
 				thisPoint = createScanDataPoint(realLowFrameNumber, detData, realFrameNumber);
-				storeAndBroadcastSDP(realFrameNumber, thisPoint);
 			} else {
 				thisPoint = createScanDataPoint(lowFrame, detData, thisFrame);
-				storeAndBroadcastSDP(thisFrame, thisPoint);
+				realFrameNumber = thisFrame;
 			}
 
 			// then write data to data handler
@@ -506,6 +505,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			// update the filename (if this was the first data point and so filename would never be defined until first
 			// data added
 			thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
+
+			storeAndBroadcastSDP(realFrameNumber, thisPoint);
 
 			// then notify IObservers of this scan (e.g. GUI panels)
 			getJythonServerNotifer().notifyServer(this, thisPoint);
@@ -580,7 +581,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				frameNumOfThisSDP = DetectorScanDataUtils.getFrameNum(scanParameters, absoulteFrameNumber);
 			}
 			EdeScanProgressBean progress = new EdeScanProgressBean(groupNumOfThisSDP, frameNumOfThisSDP, scanType,
-					motorPositions.getType(), thisPoint);
+					motorPositions.getType(), thisPoint.getCurrentFilename());
 			String customLabelForSDP = getLabelForScanDataPoint(groupNumOfThisSDP, frameNumOfThisSDP);
 			progress.setCustomLabelForSDP(customLabelForSDP);
 			progressUpdater.update(this, progress);

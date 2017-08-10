@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.apache.commons.io.FilenameUtils;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.january.dataset.DoubleDataset;
@@ -125,11 +126,11 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 		if (arg instanceof EdeExperimentProgressBean) {
 			final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
 			final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
-			final int scanIdentifier = edeScanProgress.getThisPoint().getScanIdentifier();
+			final int scanIdentifier = edeScanProgress.getFilename().hashCode(); //should be unique (or at least, unique enough...)
 			EdeScanNode datasetNode;
 			if (!scans.containsKey(scanIdentifier)) {
 				boolean isMulti = (edeExperimentProgress.getExperimentCollectionType() == ExperimentCollectionType.MULTI);
-				final EdeScanNode newNode = new EdeScanNode(Integer.toString(scanIdentifier), edeScanProgress.getThisPoint().getCurrentFilename(), isMulti, this);
+				final EdeScanNode newNode = new EdeScanNode(FilenameUtils.getBaseName(edeScanProgress.getFilename()), edeScanProgress.getFilename(), isMulti, this);
 				scans.put(scanIdentifier, newNode);
 				dataset.add(0, newNode);
 				datasetNode = newNode;

@@ -37,6 +37,12 @@ public class EdeScanNode extends ScanNode {
 
 	private final boolean multiCollection;
 
+	/**
+	 * @param scanIdentifier - label for scan in plot view
+	 * @param fileName
+	 * @param multiCollection
+	 * @param parent
+	 */
 	public EdeScanNode(String scanIdentifier, String fileName, boolean multiCollection, Node parent) {
 		super(scanIdentifier, fileName, parent);
 		this.scanIdentifier = scanIdentifier;
