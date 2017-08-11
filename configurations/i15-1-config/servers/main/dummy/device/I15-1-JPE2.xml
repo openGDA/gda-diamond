@@ -118,4 +118,10 @@
 		<property name="resetToInitialValues" value="false" />
 		<!-- Dummy Area Detector IOCs are run on Linux so there is no need for a file converter -->
 	</bean>
+
+	<!-- Detector Motors -->
+
+	<bean id="det2Y_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="det2Z_motor" class="gda.device.motor.DummyMotor"/>
 </beans>
