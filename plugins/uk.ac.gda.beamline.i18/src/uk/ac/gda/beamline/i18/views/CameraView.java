@@ -49,7 +49,7 @@ public class CameraView extends ViewPart {
 	public static final String ID = "uk.ac.gda.beamline.i18.cameraView";
 	private static final Logger logger = LoggerFactory.getLogger(CameraView.class);
 
-	private static final String I18_SAMPLE_CAMERA_STREAM_PV = "http://bl18i-di-serv-01.diamond.ac.uk:8081/DCAM.CAM1.MJPG.mjpg";
+	private static final String I18_SAMPLE_CAMERA_STREAM_PV = "http://bl18i-di-serv-01.diamond.ac.uk:8081/DCAM.CAM1.mjpg.mjpg";
 	private ImageViewer viewer;
 	private VideoReceiver<ImageData> videoReceiver;
 	private ImageListener<ImageData> listener = new VideoListener();
