@@ -22,10 +22,10 @@ import java.io.File;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.dawnsci.ede.DataFileHelper;
-import org.dawnsci.ede.herebedragons.EdeDataConstants;
-import org.dawnsci.ede.herebedragons.EdeDataConstants.TimingGroupMetadata;
-import org.dawnsci.ede.herebedragons.TimeResolvedDataFileHelper;
+import org.dawnsci.ede.rcp.DataFileHelper;
+import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants.TimingGroupMetadata;
+import org.dawnsci.ede.rcp.herebedragons.TimeResolvedDataFileHelper;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;

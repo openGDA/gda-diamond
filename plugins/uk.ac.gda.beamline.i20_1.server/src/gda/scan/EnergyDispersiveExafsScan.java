@@ -20,7 +20,7 @@ package gda.scan;
 
 import java.util.List;
 
-import org.dawnsci.ede.herebedragons.EdeScanType;
+import org.dawnsci.ede.rcp.herebedragons.EdeScanType;
 import org.eclipse.january.dataset.DoubleDataset;
 
 import gda.device.detector.EdeDetector;

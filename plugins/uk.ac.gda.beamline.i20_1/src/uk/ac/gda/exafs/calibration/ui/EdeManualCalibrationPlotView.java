@@ -23,7 +23,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dawnsci.ede.herebedragons.CalibrationEnergyData;
+import org.dawnsci.ede.rcp.herebedragons.CalibrationEnergyData;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.PlotType;

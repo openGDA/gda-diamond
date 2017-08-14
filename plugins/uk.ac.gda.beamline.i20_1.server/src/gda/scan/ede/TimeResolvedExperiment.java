@@ -22,7 +22,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-import org.dawnsci.ede.herebedragons.EdeScanType;
+import org.dawnsci.ede.rcp.herebedragons.EdeScanType;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

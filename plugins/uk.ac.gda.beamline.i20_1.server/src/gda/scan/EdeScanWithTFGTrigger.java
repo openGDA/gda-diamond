@@ -18,8 +18,8 @@
 
 package gda.scan;
 
-import org.dawnsci.ede.herebedragons.EdeDataConstants;
-import org.dawnsci.ede.herebedragons.EdeScanType;
+import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.rcp.herebedragons.EdeScanType;
 import org.eclipse.dawnsci.hdf.object.H5Utils;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFileUtils;

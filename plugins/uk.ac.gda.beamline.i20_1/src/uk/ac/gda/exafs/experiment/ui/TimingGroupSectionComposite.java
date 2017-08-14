@@ -23,7 +23,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dawnsci.ede.herebedragons.DataHelper;
+import org.dawnsci.ede.rcp.herebedragons.DataHelper;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;

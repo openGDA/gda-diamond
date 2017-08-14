@@ -36,11 +36,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
-import org.dawnsci.ede.DataFileHelper;
-import org.dawnsci.ede.herebedragons.EdeDataConstants;
-import org.dawnsci.ede.herebedragons.EdePositionType;
-import org.dawnsci.ede.herebedragons.EdeScanType;
-import org.dawnsci.ede.herebedragons.TimeResolvedDataFileHelper;
+import org.dawnsci.ede.rcp.DataFileHelper;
+import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.rcp.herebedragons.EdePositionType;
+import org.dawnsci.ede.rcp.herebedragons.EdeScanType;
+import org.dawnsci.ede.rcp.herebedragons.TimeResolvedDataFileHelper;
 import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
 import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
 import org.eclipse.dawnsci.nexus.NexusException;

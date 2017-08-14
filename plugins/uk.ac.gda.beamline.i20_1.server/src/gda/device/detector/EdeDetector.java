@@ -20,7 +20,7 @@ package gda.device.detector;
 
 import java.util.HashMap;
 
-import org.dawnsci.ede.herebedragons.CalibrationDetails;
+import org.dawnsci.ede.rcp.herebedragons.CalibrationDetails;
 import org.eclipse.january.dataset.DoubleDataset;
 
 import gda.data.nexus.tree.NexusTreeProvider;

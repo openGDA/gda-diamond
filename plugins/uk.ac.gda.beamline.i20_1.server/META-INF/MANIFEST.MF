@@ -44,7 +44,7 @@ Require-Bundle: uk.ac.gda.core,
  uk.ac.gda.server.exafs.epics;bundle-version="1.0.0",
  uk.ac.gda.api,
  uk.ac.diamond.daq.dls.controls;bundle-version="1.0.0",
- org.dawnsci.ede
+ org.dawnsci.ede.rcp
 Import-Package: org.eclipse.dawnsci.hdf5,
  org.eclipse.dawnsci.hdf5.nexus,
  org.eclipse.january.dataset,

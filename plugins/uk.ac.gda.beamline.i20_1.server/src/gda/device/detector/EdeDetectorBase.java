@@ -23,9 +23,9 @@ import java.io.FileWriter;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
-import org.dawnsci.ede.DataFileHelper;
-import org.dawnsci.ede.herebedragons.CalibrationDetails;
-import org.dawnsci.ede.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.rcp.DataFileHelper;
+import org.dawnsci.ede.rcp.herebedragons.CalibrationDetails;
+import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;

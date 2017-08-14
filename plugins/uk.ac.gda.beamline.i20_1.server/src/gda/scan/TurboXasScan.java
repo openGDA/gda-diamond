@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.dawnsci.ede.rcp.herebedragons.EdePositionType;
+import org.dawnsci.ede.rcp.herebedragons.EdeScanType;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
 import org.eclipse.dawnsci.nexus.NexusFile;
-import org.dawnsci.ede.herebedragons.EdePositionType;
-import org.dawnsci.ede.herebedragons.EdeScanType;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;

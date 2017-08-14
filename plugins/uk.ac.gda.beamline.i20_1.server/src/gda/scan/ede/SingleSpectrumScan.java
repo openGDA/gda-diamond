@@ -20,7 +20,7 @@ package gda.scan.ede;
 
 import java.util.Map;
 
-import org.dawnsci.ede.herebedragons.EdeScanType;
+import org.dawnsci.ede.rcp.herebedragons.EdeScanType;
 
 import gda.device.DeviceException;
 import gda.device.scannable.TopupChecker;

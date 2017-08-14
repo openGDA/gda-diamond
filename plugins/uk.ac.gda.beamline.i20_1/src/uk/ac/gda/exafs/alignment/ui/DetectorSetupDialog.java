@@ -21,7 +21,7 @@ package uk.ac.gda.exafs.alignment.ui;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.dawnsci.ede.herebedragons.DataHelper;
+import org.dawnsci.ede.rcp.herebedragons.DataHelper;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;

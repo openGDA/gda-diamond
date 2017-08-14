@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import org.dawnsci.ede.herebedragons.EdePositionType;
+import org.dawnsci.ede.rcp.herebedragons.EdePositionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

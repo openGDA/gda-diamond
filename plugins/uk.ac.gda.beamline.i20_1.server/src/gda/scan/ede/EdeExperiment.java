@@ -26,9 +26,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.math3.util.Pair;
-import org.dawnsci.ede.herebedragons.EdeDataConstants;
-import org.dawnsci.ede.herebedragons.EdePositionType;
-import org.dawnsci.ede.herebedragons.EdeScanType;
+import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.rcp.herebedragons.EdePositionType;
+import org.dawnsci.ede.rcp.herebedragons.EdeScanType;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

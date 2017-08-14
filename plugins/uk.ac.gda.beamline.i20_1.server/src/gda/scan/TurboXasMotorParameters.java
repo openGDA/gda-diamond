@@ -21,7 +21,7 @@ package gda.scan;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math3.analysis.solvers.PolynomialSolver;
-import org.dawnsci.ede.herebedragons.PolynomialParser;
+import org.dawnsci.ede.rcp.herebedragons.PolynomialParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

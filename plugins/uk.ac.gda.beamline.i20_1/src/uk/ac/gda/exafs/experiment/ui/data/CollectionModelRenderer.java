@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
-import org.dawnsci.ede.herebedragons.DataHelper;
+import org.dawnsci.ede.rcp.herebedragons.DataHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;

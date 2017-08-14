@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import org.dawnsci.ede.herebedragons.PolynomialParser;
+import org.dawnsci.ede.rcp.herebedragons.PolynomialParser;
 import org.junit.Before;
 import org.junit.Test;
 

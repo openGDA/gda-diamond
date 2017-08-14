@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
-import org.dawnsci.ede.herebedragons.DataHelper;
+import org.dawnsci.ede.rcp.herebedragons.DataHelper;
 
 import com.google.gson.annotations.Expose;
 

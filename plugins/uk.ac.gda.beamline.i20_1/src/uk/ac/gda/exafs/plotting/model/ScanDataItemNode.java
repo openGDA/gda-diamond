@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
-import org.dawnsci.ede.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
