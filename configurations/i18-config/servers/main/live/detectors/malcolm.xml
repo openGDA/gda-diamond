@@ -51,5 +51,20 @@
 		<property name="description" value="Scan of Xspress3 and ion chambers over T3 X (fast) and Y (slow)"/>
 	</bean>
 
-</beans>
+	<bean id="t3xtDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="I18-SCAN03FT"/>
+		<property name="model" ref="t3xtModel"/>
+		<property name="deviceInformation" ref="t3xtInfo"/>
+		<property name="activated" value="false"/>
+	</bean>
+	<bean id="t3xtModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="I18-SCAN03FT"/>
+		<property name="exposureTime" value="0.01"/>
+	</bean>
+	<bean id="t3xtInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id" value="org.eclipse.scanning.malcolm.t3xtDevice"/>
+		<property name="label" value="T3 X vs theta"/>
+		<property name="description" value="Scan of Xspress3 and ion chambers over T3 X (fast) and fine theta (slow)"/>
+	</bean>
 
+</beans>
