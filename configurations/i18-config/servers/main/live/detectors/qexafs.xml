@@ -5,6 +5,7 @@
 
 	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraImpl">
 		<property name="zebraPrefix" value="BL18I-OP-DCM-01:ZEBRA:"/>
+                <property name="armPutNoWait" value="true"/>
 	</bean>
 
 	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
