@@ -24,6 +24,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/qexafs.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/VMA_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/table1.xml" />
@@ -37,6 +38,7 @@
 	<import resource="detectors/qexafs.xml" />
 	<import resource="detectors/xspress3.xml" />
 	<import resource="detectors/xspress3_addetector.xml" />
+	<import resource="detectors/VMA_addetector.xml" />
 	<import resource="detectors/processing.xml" />
 	<import resource="converters.xml" />
 	<import resource="datawriter.xml" />
