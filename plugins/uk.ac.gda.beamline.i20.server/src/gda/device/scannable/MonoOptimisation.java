@@ -56,8 +56,12 @@ public class MonoOptimisation implements Findable {
 
 	/** Scannable to be monitored during optimisation scans e.g. ionchamber, or a ScannableGaussian (for testing) */
 	private Scannable scannableToMonitor;
+
 	/** Scannable to be moved during optimisation scans e.g. braggOffset */
 	private Scannable scannableToMove;
+
+	/** Scannable for the bragg motor that adjusts the monochromator energy */
+	private Scannable braggScannable;
 
 	// Parameters controlling range and number of steps used for offset optimisation scan
 	private double offsetStart, offsetEnd;
@@ -76,11 +80,14 @@ public class MonoOptimisation implements Findable {
 	private boolean selectNewScansInPlotView;
 	private String name;
 
+	private boolean allowOptimisation;
+
 	public MonoOptimisation(Scannable scannableToMove, Scannable scannableToMonitor) {
 		collectionTime = 1.0;
 		offsetStart = -10;
 		offsetEnd = 10;
 		offsetNumPoints = 20;
+		allowOptimisation = true;
 		this.scannableToMove = scannableToMove;
 		this.scannableToMonitor = scannableToMonitor;
 
@@ -89,6 +96,10 @@ public class MonoOptimisation implements Findable {
 
 		selectNewScansInPlotView = true;
 		setName(scannableToMove.getName()+"Optimiser");
+	}
+
+	public void optimise(double lowEnergy, double highEnergy) throws Exception {
+		optimise(braggScannable, lowEnergy, highEnergy);
 	}
 
 	/**
@@ -101,6 +112,11 @@ public class MonoOptimisation implements Findable {
 	 * @throws Exception
 	 */
 	public void optimise(Scannable bragg, double lowEnergy, double highEnergy) throws Exception {
+		if (allowOptimisation==false) {
+			logger.info("allowOptimisation flag set to false - skipping optimisation.");
+			return;
+		}
+
 		logger.info("Running optimisation for energies "+lowEnergy+" and "+highEnergy);
 		Object initialPos = bragg.getPosition();
 
@@ -520,4 +536,19 @@ public class MonoOptimisation implements Findable {
 		return bestX;
 	}
 
+	public Scannable getBraggScannable() {
+		return braggScannable;
+	}
+
+	public void setBraggScannable(Scannable braggScannable) {
+		this.braggScannable = braggScannable;
+	}
+
+	public boolean getAllowOptimisation() {
+		return allowOptimisation;
+	}
+
+	public void setAllowOptimisation(boolean allowOptimisation) {
+		this.allowOptimisation = allowOptimisation;
+	}
 }

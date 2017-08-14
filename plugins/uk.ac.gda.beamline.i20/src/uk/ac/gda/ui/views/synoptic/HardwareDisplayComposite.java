@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.MouseEvent;
@@ -34,15 +35,17 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
 
-public abstract class HardwareDisplayComposite extends Composite {
+public abstract class HardwareDisplayComposite {
 
-	private static final Logger logger = LoggerFactory.getLogger(HardwareDisplayComposite.class);
+	protected static final Logger logger = LoggerFactory.getLogger(HardwareDisplayComposite.class);
+
 	protected final Composite parent;
 
 	private String viewName;
@@ -57,14 +60,37 @@ public abstract class HardwareDisplayComposite extends Composite {
 	private Image backgroundImage;
 
 	public HardwareDisplayComposite(final Composite parent, int style) {
-		super(parent, style);
+		this(parent, style, null);
+	}
+
+	public HardwareDisplayComposite(final Composite parent, int style, Layout layout) {
 		this.parent = parent;
-		parent.setLayout(null); // set to null so can use absolute position coords
+
+		ScrolledComposite scrolledComposite = new ScrolledComposite(parent,  SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+
+		Composite comp = new Composite(scrolledComposite, SWT.NONE);
+		scrolledComposite.setContent(comp);
+		comp.setLayout(layout);
 		try {
-			createControls(parent);
+			createControls(comp);
 		} catch (Exception e) {
 			logger.error("Problem creating hardware view : ", e);
 		}
+		//Compute size needed to fully display the composite
+		Point widgetSize = comp.computeSize(SWT.DEFAULT, SWT.DEFAULT); // does not include extent of background image -
+		// increase widgetSize if using background image...
+		if (imageSize!=null && imageStart!=null) {
+			widgetSize.x = Math.max(widgetSize.x, imageSize.x+imageStart.x);
+			widgetSize.y = Math.max(widgetSize.y, imageSize.y+imageStart.y);
+		}
+
+		// size of widget below which scroll bars get added
+		scrolledComposite.setMinSize(widgetSize);
+	}
+
+	public void setFocus() {
 	}
 
 	protected abstract void createControls(Composite parent) throws Exception;

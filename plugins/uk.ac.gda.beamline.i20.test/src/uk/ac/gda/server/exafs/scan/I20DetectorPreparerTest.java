@@ -28,6 +28,7 @@ import org.powermock.api.mockito.PowerMockito;
 import gda.device.Detector;
 import gda.device.Scannable;
 import gda.device.detector.NXDetector;
+import gda.device.detector.TfgFFoverI0;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
@@ -53,6 +54,7 @@ public class I20DetectorPreparerTest {
 	private Scannable[] offset_units;
 	private TopupChecker topupChecker;
 	private I20DetectorPreparer thePreparer;
+	private TfgFFoverI0 ffI0;
 
 	@Before
 	public void setup() {
@@ -61,6 +63,7 @@ public class I20DetectorPreparerTest {
 		medipix = (NXDetector) createMock(NXDetector.class, "medipix");
 		ionchambers = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
 		I1 = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
+		ffI0 = (TfgFFoverI0) createMock(TfgFFoverI0.class, "ffI0");
 
 		sensitivities = new Scannable[4];
 		sensitivities[0] = createMockScannable("i0_stanford_sensitivity");
@@ -90,6 +93,7 @@ public class I20DetectorPreparerTest {
 
 		thePreparer = new I20DetectorPreparer(xspressSystem, sensitivities, sensitivity_units, offset, offset_units,
 				ionchambers, I1, xmpaMca, medipix, topupChecker);
+		thePreparer.setFFI0(ffI0);
 	}
 
 	private Scannable createMockScannable(String string) {
@@ -106,13 +110,14 @@ public class I20DetectorPreparerTest {
 	public void testGetDetectors() {
 		List<Detector> arraylist = thePreparer.getDetectors();
 
-		org.junit.Assert.assertEquals(5, arraylist.size());
+		org.junit.Assert.assertEquals(6, arraylist.size());
 
 		org.junit.Assert.assertTrue(arraylist.contains(xspressSystem));
 		org.junit.Assert.assertTrue(arraylist.contains(xmpaMca));
 		org.junit.Assert.assertTrue(arraylist.contains(ionchambers));
 		org.junit.Assert.assertTrue(arraylist.contains(I1));
 		org.junit.Assert.assertTrue(arraylist.contains(medipix));
+		org.junit.Assert.assertTrue(arraylist.contains(ffI0));
 	}
 
 	@Test

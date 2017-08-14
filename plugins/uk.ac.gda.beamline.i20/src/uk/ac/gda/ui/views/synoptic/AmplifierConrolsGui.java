@@ -72,22 +72,22 @@ public class AmplifierConrolsGui {
 		group = new Group(parent, SWT.NONE);
 		group.setText(label);
 		group.setLayout(new GridLayout(3, false));
-		group.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+		group.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
 		Label lblSensitivity = new Label(group, SWT.NONE);
-		lblSensitivity.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblSensitivity.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
 		lblSensitivity.setText("Sensitivity");
 		EnumPositionerGui sensValueControl = EnumPositionerGui.getCombo(group, sensValue);
 		EnumPositionerGui sensUnitControl = EnumPositionerGui.getCombo(group, sensUnits);
 
 		Label offsetLabel = new Label(group, SWT.NONE);
-		offsetLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		offsetLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
 		offsetLabel.setText("Offset");
 		EnumPositionerGui offsetValueControl = EnumPositionerGui.getCombo(group, offsetValue);
 		EnumPositionerGui offsetUnitControl = EnumPositionerGui.getCombo(group, offsetUnits);
 
 		Label currentLabel = new Label(group, SWT.NONE);
-		currentLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		currentLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
 		currentLabel.setText("Current");
 		EnumPositionerGui currentControl = EnumPositionerGui.getCombo(group, currenOnOff);
 	}

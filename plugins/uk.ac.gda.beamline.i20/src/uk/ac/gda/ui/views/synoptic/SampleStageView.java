@@ -26,14 +26,11 @@ import org.eclipse.swt.widgets.Composite;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
-import gda.device.ScannableMotion;
-import gda.device.ScannableMotionUnits;
-import gda.device.scannable.ScannableMotionUnitsBase;
 import gda.factory.Finder;
-import uk.ac.gda.ui.viewer.RotationViewer;
 
 public class SampleStageView extends HardwareDisplayComposite {
 	public static final String ID = "uk.ac.gda.ui.views.synoptic.SampleStageView";
+	private boolean sampleStageForXes = false;
 
 	public SampleStageView(final Composite parent, int style) {
 		super(parent, style);
@@ -42,20 +39,37 @@ public class SampleStageView extends HardwareDisplayComposite {
 	@Override
 	protected void createControls(final Composite parent) throws Exception {
 		setViewName("Sample stage");
-		setBackgroundImage(getImageFromDalPlugin("oe images/stage_01.jpg"), new Point(200, 75));
-		parent.getShell().setBackgroundMode(SWT.INHERIT_DEFAULT);
-
-		createMotorControls();
-		createArrows();
+		setBackgroundImage(getImageFromDalPlugin("oe images/stage_01.jpg"), new Point(200, 150));
+		parent.getShell().setBackgroundMode(SWT.INHERIT_FORCE);
+		// sampleStageForXes=true;
+		createMotorControls(parent);
+		createArrows(parent);
 		addResizeListener(parent);
 	}
 
-	private void createMotorControls() throws DeviceException {
-		MotorControlsGui motorControls = new MotorControlsGui(parent, "sample_roll");
-		motorControls.setLabel("Roll");
-		setWidgetPosition(motorControls.getControls(), -30, -5);
+	private void createMotorControls(Composite parent) throws DeviceException {
+		MotorControlsGui motorControlsRoll = new MotorControlsGui(parent, "sample_roll");
+		motorControlsRoll.setLabel("Roll");
 
-		motorControls = new MotorControlsGui(parent, "sample_x");
+		MotorControlsGui motorControlsPitch = new MotorControlsGui(parent, "sample_pitch");
+		motorControlsPitch.setLabel("Pitch");
+
+		// Sample pitch, roll controls are reversed between XES and XAS
+		if (sampleStageForXes) {
+			setWidgetPosition(motorControlsRoll.getControls(), -30, -5);
+			setWidgetPosition(motorControlsPitch.getControls(), 90, 15);
+		} else {
+			setWidgetPosition(motorControlsRoll.getControls(), 90, 15);
+			setWidgetPosition(motorControlsPitch.getControls(), -30, -5);
+		}
+
+		if (sampleStageForXes) {
+			MotorControlsGui motorControlsFine = new MotorControlsGui(parent, "sample_fine_rot");
+			motorControlsFine.setLabel("Fine rotation");
+			setWidgetPosition(motorControlsFine.getControls(), 30, -30);
+		}
+
+		MotorControlsGui motorControls = new MotorControlsGui(parent, "sample_x");
 		motorControls.setLabel("Translation (x)");
 		setWidgetPosition(motorControls.getControls(), 95, 40);
 
@@ -71,18 +85,29 @@ public class SampleStageView extends HardwareDisplayComposite {
 		motorControls.setLabel("Height (Y)");
 		setWidgetPosition(motorControls.getControls(), -40, 25);
 
-		motorControls = new MotorControlsGui(parent, "sample_pitch");
-		motorControls.setLabel("Pitch");
-		setWidgetPosition(motorControls.getControls(), 90, 15);
 	}
 
-	private void createArrows() throws IOException {
-		HighlightImageLabel lineLabel = new HighlightImageLabel(parent, "sample_pitch");
+	private void createArrows(Composite parent) throws IOException {
+		// Add 'fine motor' control rotation arrow
+		if (sampleStageForXes) {
+			HighlightImageLabel lineLabel = new HighlightImageLabel(parent, "sample_fine_rot");
+			lineLabel.setImage(getImageFromDalPlugin("arrow images/yaw.png"));
+			lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/yaw_red.png"));
+			setWidgetPosition(lineLabel.getControl(), 40, -5);
+		}
+
+		Scannable samplePitchScannable = Finder.getInstance().find("sample_pitch");
+		Scannable sampleRollScannable = Finder.getInstance().find("sample_roll");
+
+		// NB sample stage for XAS : pitch and roll arrows are reversed.
+		HighlightImageLabel lineLabel = new HighlightImageLabel(parent);
+		lineLabel.setScannable(sampleStageForXes ? samplePitchScannable : sampleRollScannable);
 		lineLabel.setImage(getImageFromDalPlugin("arrow images/pitch.png"));
 		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/pitch_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 60, 15);
 
-		lineLabel = new HighlightImageLabel(parent, "sample_roll");
+		lineLabel = new HighlightImageLabel(parent);
+		lineLabel.setScannable(sampleStageForXes ? sampleRollScannable : samplePitchScannable);
 		lineLabel.setImage(getImageFromDalPlugin("arrow images/roll.png"));
 		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/roll_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 15, 3);
@@ -114,5 +139,13 @@ public class SampleStageView extends HardwareDisplayComposite {
 		lineLabel = new HighlightImageLabel(parent);
 		lineLabel.setLabelText("X-ray beam");
 		setWidgetPosition(lineLabel.getControl(), 35, -15);
+	}
+
+	public boolean getSampleStageForXes() {
+		return sampleStageForXes;
+	}
+
+	public void setSampleStageForXes(boolean sampleStageForXes) {
+		this.sampleStageForXes = sampleStageForXes;
 	}
 }

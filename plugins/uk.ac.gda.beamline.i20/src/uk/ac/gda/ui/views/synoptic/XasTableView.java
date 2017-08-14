@@ -41,8 +41,7 @@ public class XasTableView extends HardwareDisplayComposite {
 	protected void createControls(Composite parent) throws Exception {
 		setViewName("Xas table view (T1)");
 		setBackgroundImage(getImageFromDalPlugin("oe images/table_right_scaled.jpg"), new Point(150, 200));
-		parent.getShell().setBackgroundMode(SWT.INHERIT_DEFAULT);
-
+		parent.getShell().setBackgroundMode(SWT.INHERIT_FORCE);
 		createStanfordControls(parent);
 		createMotorControls(parent);
 		createArrows(parent);
@@ -92,7 +91,7 @@ public class XasTableView extends HardwareDisplayComposite {
 		enumpositioner.createControls();
 		enumpositioner.setLabel("Filter wheel");
 		setBackGround(enumpositioner.getGroup(), SWT.COLOR_WHITE);
-		setWidgetPosition(enumpositioner.getGroup(), 60, 20, 120);
+		setWidgetPosition(enumpositioner.getGroup(), 60, 20);
 	}
 
 	private void createArrows(Composite parent) throws IOException {

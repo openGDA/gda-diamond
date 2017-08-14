@@ -44,11 +44,15 @@ sensitivity_units = [i0_stanford_sensitivity_units,it_stanford_sensitivity_units
 offsets = [i0_stanford_offset,it_stanford_offset,iref_stanford_offset,i1_stanford_offset]
 offset_units = [i0_stanford_offset_units,it_stanford_offset_units,iref_stanford_offset_units,i1_stanford_offset_units]
 
+xmapController = Finder.getInstance().find("xmapcontroller")
 if LocalProperties.get("gda.mode") == "live":
-    xmapController = Finder.getInstance().find("xmapcontroller")
     from vortex_elements import VortexElements
     vortexElements = VortexElements(edxdcontroller, xmapController, xmapMca)
     vortexDetector = Finder.getInstance().find("vortexDetector")
+else :
+    # In dummy mode, set event processing times to be consistent with number of elements on detector.
+    xmapMca.setEventProcessingTimes( [1.2039752e-7]*xmapController.getNumberOfElements() )
+
 # xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
 # xspressConfig.initialize()
 # alias("xspressConfig")
@@ -63,10 +67,20 @@ if LocalProperties.get("gda.mode") == "live":
 
 # Create mono optimiser object - this will also need sending into one of the preparers... imh 31/8/2016
 from gda.device.scannable import MonoOptimisation
-monoOptimiser = MonoOptimisation( braggoffset, ionchambers )
+if LocalProperties.get("gda.mode") == "live":
+    monoOptimiser = MonoOptimisation( braggoffset, ionchambers )
+else :
+    #Setup gaussian used to provide signal when optimising mono
+    from gda.device.scannable import ScannableGaussian
+    scannableGaussian = ScannableGaussian("scannableGaussian", 0.1, 5, 1)
+    scannableGaussian.setScannableToMonitorForPosition(braggoffset) # position of braggoffset determines value returned by scannable
+    monoOptimiser = MonoOptimisation( braggoffset, scannableGaussian )
+monoOptimiser.setBraggScannable(bragg1WithOffset)
 
 #### preparers ###
 detectorPreparer = I20DetectorPreparer(xspress2system, sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix, topupChecker)
+detectorPreparer.setFFI0(FFI0);
+detectorPreparer.setMonoOptimiser(monoOptimiser)
 samplePreparer = I20SamplePreparer(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll, sample_pitch, filterwheel, cryostat, cryostick_pos, rcpController)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xspress2system, xmapMca, detectorPreparer)
 beamlinePreparer = I20BeamlinePreparer()
@@ -180,7 +194,28 @@ if LocalProperties.get("gda.mode") == "live":
 else :
     if material() == None:
         material('Si')
-        
+    # Set positions of some scannables to reasonable positions so that XESBragg calculation has a chance of working
+    pos det_y 475.0
+    pos xtal_x 1000.0
+    pos radius 1000.0
+
+    #Set medupux base PV name (using areadetector)
+    simulated_addetector_pv=medipix_addetector.getAdBase().getBasePVName()
+    detectorPreparer.setMedipixDefaultBasePvName(simulated_addetector_pv)
+    # PVs to use for ROI and STAT area detector plugins (real detector usings ROI1, STAT1,
+    # which are not available in simulated area detector)
+    detectorPreparer.setRoiPvName("ROI:")
+    detectorPreparer.setStatPvName("STAT:")
 
 
+#Set up monoOptimiser for bragg offset adjustment
+monoOptimiser.setAllowOptimisation(True)
+monoOptimiser.setOffsetStart(-2.0)
+monoOptimiser.setOffsetEnd(2.0)
+monoOptimiser.setOffsetNumPoints(20)
+monoOptimiser.setSelectNewScansInPlotView(False) # False = don't select new bragg offset scans in Plot view
+
+bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when moving to new energy
+
+#ws146-AD-SIM-01:HDF5:MinCallbackTime
 print "****GDA startup script complete.****\n\n"

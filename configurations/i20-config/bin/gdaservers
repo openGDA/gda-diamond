@@ -1,2 +1,3 @@
 # ssh into i20-control as gda which should then run the servers script locally there
+gdalog &
 gnome-terminal -x ssh -i /dls_sw/i20/software/gda_versions/var/i20ssh.key gda2@i20-control.diamond.ac.uk

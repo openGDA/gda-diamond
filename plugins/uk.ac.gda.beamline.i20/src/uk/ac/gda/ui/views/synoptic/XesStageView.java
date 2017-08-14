@@ -21,7 +21,10 @@ package uk.ac.gda.ui.views.synoptic;
 import java.io.IOException;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 import gda.device.DeviceException;
@@ -38,14 +41,15 @@ public class XesStageView extends HardwareDisplayComposite {
 		setViewName("XES stage");
 
 		setBackgroundImage(getImageFromDalPlugin("oe images/xes_main.bmp"), new Point(150,150));
-		parent.getShell().setBackgroundMode(SWT.INHERIT_DEFAULT);
+		parent.getShell().setBackgroundMode(SWT.INHERIT_FORCE);
 
-		createMotorControls();
-		createArrows();
+		createMotorControls(parent);
+		createArrows(parent);
+		addButtons(parent);
 		addResizeListener(parent);
 	}
 
-	private void createArrows() throws IOException {
+	private void createArrows(Composite parent) throws IOException {
 		HighlightImageLabel lineLabel = new HighlightImageLabel(parent, "det_x");
 		lineLabel.setImage(getImageFromDalPlugin("arrow images/z.png"));
 		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/z_red.png"));
@@ -64,7 +68,7 @@ public class XesStageView extends HardwareDisplayComposite {
 		lineLabel = new HighlightImageLabel(parent, "table2_y");
 		lineLabel.setImage(getImageFromDalPlugin("arrow images/y.png"));
 		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/y_red.png"));
-		setWidgetPosition(lineLabel.getControl(), 3, 50);
+		setWidgetPosition(lineLabel.getControl(), 3, 58);
 
 		lineLabel = new HighlightImageLabel(parent, "table2_x");
 		lineLabel.setImage(getImageFromDalPlugin("arrow images/z.png"));
@@ -77,7 +81,7 @@ public class XesStageView extends HardwareDisplayComposite {
 		setWidgetPosition(lineLabel.getControl(), 78, 62);
 	}
 
-	private void createMotorControls() throws DeviceException {
+	private void createMotorControls(Composite parent) throws DeviceException {
 		MotorControlsGui motorControls = new MotorControlsGui(parent, "det_x");
 		setWidgetPosition(motorControls.getControls(), 0, 0);
 
@@ -106,5 +110,28 @@ public class XesStageView extends HardwareDisplayComposite {
 
 		motorControls = new MotorControlsGui(parent, "XESBragg");
 		setWidgetPosition(motorControls.getControls(), 75, 12);
+	}
+
+	private void addButtons(Composite parent) {
+		Button analysersButton = new Button(parent, SWT.PUSH);
+		analysersButton.setText("Analysers");
+		analysersButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				SynopticView.openView(XesCrystalAnalysersView.ID);
+			}
+		});
+		setWidgetPosition(analysersButton, 65, 30);
+
+
+		Button calibrationButton = new Button(parent, SWT.PUSH);
+		calibrationButton.setText("Calibration");
+		calibrationButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				SynopticView.openView(XesCalibrationView.ID);
+			}
+		});
+		setWidgetPosition(calibrationButton, 75, 25);
 	}
 }

@@ -127,10 +127,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA I20 Offline">
+            name="GDA I20 Beamline">
          <property
                name="appName"
-               value="GDA I20 Offline">
+               value="GDA I20 Beamline">
          </property>
          <property
                name="aboutImage"
@@ -638,6 +638,11 @@
             id="org.diamond.exafs.ui.XESPlottingPerspective"
             name="XES Plot">
       </perspective>
+      <perspective
+            class="uk.ac.gda.ui.views.synoptic.SynopticPerspective"
+            id="uk.ac.gda.beamline.i20.SynopticPerspective"
+            name="Synoptic views">
+      </perspective>
    </extension>  
    <extension
          point="org.eclipse.ui.preferencePages">
@@ -698,6 +703,19 @@
 	      </menu>
        <menu
              label="Synoptic views">
+           <command
+                commandId="org.eclipse.ui.views.showView"
+                label="Beamline overview (XES)"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.ui.views.synoptic.SynopticView">
+             </parameter>
+             <parameter
+                   name="org.eclipse.ui.views.showView.secondaryId"
+                   value="uk.ac.gda.ui.views.synoptic.OverviewButtonsView">
+             </parameter>
+          </command>
           <command
                 commandId="org.eclipse.ui.views.showView"
                 label="XES stage"
@@ -737,6 +755,32 @@
                    value="uk.ac.gda.ui.views.synoptic.XasTableView">
              </parameter>
           </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="Xes Crystal Analysers"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.ui.views.synoptic.SynopticView">
+             </parameter>
+             <parameter
+                   name="org.eclipse.ui.views.showView.secondaryId"
+                   value="uk.ac.gda.ui.views.synoptic.XesCrystalAnalyserView">
+             </parameter>
+          </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="ATN5 filters"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.ui.views.synoptic.SynopticView">
+             </parameter>
+             <parameter
+                   name="org.eclipse.ui.views.showView.secondaryId"
+                   value="uk.ac.gda.ui.views.synoptic.HutchFilterView">
+             </parameter>
+          </command>
        </menu>
 	   </menuContribution>
 	</extension>
@@ -749,5 +793,32 @@
           name="Synoptic View"
           restorable="true">
     </view>
+    <view
+            allowMultiple="false"
+            category="uk.ac.gda.client.exafs.category"
+            id="uk.ac.gda.exafs.ui.views.xmapmonitor"
+            class="uk.ac.gda.exafs.ui.views.scalersmonitor.XmapMonitorView"
+            icon="icons/cog_go.png"
+            name="Detector Rates (XMap)"
+            restorable="true">
+     </view>
+    <view
+            allowMultiple="false"
+            category="uk.ac.gda.client.exafs.category"
+            class="uk.ac.gda.exafs.ui.views.scalersmonitor.XmapI1MonitorView"
+            icon="icons/cog_go.png"
+            id="uk.ac.gda.exafs.ui.views.xmapi1monitor"
+            name="Detector Rates (XMapI1)"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.client.exafs.category"
+            class="uk.ac.gda.exafs.ui.views.scalersmonitor.MedipixMonitorView"
+            icon="icons/cog_go.png"
+            id="uk.ac.gda.exafs.ui.views.medipixmonitor"
+            name="Detector Rates (Medipix)"
+            restorable="true">
+      </view>
  </extension>
 </plugin>
