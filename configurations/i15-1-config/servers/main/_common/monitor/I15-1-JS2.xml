@@ -6,13 +6,100 @@
 	<!-- Old non generic NexusSlitsWrapper slits scannables -->
 
 	<bean id="s2NeXusSlit" class="uk.ac.diamond.daq.scanning.NexusSlitsWrapper" init-method="register">
-		<property name="name"              value="s2NeXusSlit"/>
-		<property name="x_gap"			   ref="s2gapX"/>
-		<property name="y_gap"			   ref="s2gapY"/>
+		<property name="name"				value="s2NeXusSlit"/>
+		<property name="x_gap"				ref="s2gapX"/>
+		<property name="y_gap"				ref="s2gapY"/>
 		<property name="monitorRole"		value="PER_SCAN"/>
-		<property name="activated"         value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
+		<property name="activated"			value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
 	</bean>
 
 	<!-- New generic CompositeNexusScannable based slits scannables -->
 
+	<!-- Based on CompositeNexusScannableTest.testNXSlitCompositeNexusScannable() -->
+	<!-- Cannot add CompositeNexusScannable as it needs class references that don't convert
+	 -->
+	<bean id="secondary_slit" class="org.eclipse.scanning.device.composite.CompositeNexusScannable" init-method="register">
+		<property name="name"				value="secondary_slit"/>
+		<property name="nexusClass"			value="NX_SLIT"/>
+		<property name="nexusCategory"		value="NX_INSTRUMENT"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="scannableName"			value="s2gapX"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="destinationFieldName"	value="x_gap"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="scannableName"			value="s2gapY"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="destinationFieldName"	value="y_gap"/>
+				</bean>
+				<?ignore Cannot add transforms:NXtransformations node as it it can't be defined in spring
+				<bean class="org.eclipse.scanning.device.composite.ChildGroupNode">
+					<constructor-arg index = "0" value = "secondary_slit_transformsNode"/>
+				</bean>
+				 ?>
+				<?ignore Cannot add beam:NXbeam as it can't be defined in spring
+				<bean class="org.eclipse.scanning.device.composite.ChildGroupNode">
+					<constructor-arg index = "0" value = "secondary_slit_beamNode"/>
+					<constructor-arg index = "1" value = "beam"/>
+				</bean>
+				 ?>
+				<?ignore Cannot add motors:NXcollection as it can't be defined in spring
+Unable to start ObjectServer
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'secondary_slit'
+ defined in URL [file:/dls_sw/i15-1/software/gda_versions/gda_9.5pre3/workspace_git/gda-diamond.git/configurations/i15-1-config/servers/main/dummy/metadata.xml]:
+
+ Cannot create inner bean 'org.eclipse.scanning.device.composite.ChildGroupNode#3b8214eb'
+  of type [org.eclipse.scanning.device.composite.ChildGroupNode]
+   while setting bean property 'childNodes' with key [2];
+
+ nested exception is org.springframework.beans.factory.CannotLoadBeanClassException:
+  Cannot find class [org.eclipse.scanning.device.composite.ChildGroupNode]
+   for bean with name 'org.eclipse.scanning.device.composite.ChildGroupNode#3b8214eb'
+    defined in URL [file:/dls_sw/i15-1/software/gda_versions/gda_9.5pre3/workspace_git/gda-diamond.git/configurations/i15-1-config/servers/main/dummy/metadata.xml];
+     nested exception is java.lang.ClassNotFoundException: org.eclipse.scanning.device.composite.ChildGroupNode
+
+				 ?>
+				<bean class="org.eclipse.scanning.device.composite.ChildGroupNode">
+					<property name="scannableName"			value="secondary_slit_motors"/>
+					<property name="groupName"				value="motors"/>
+				</bean>
+			</list>
+		</property>
+		<property name="monitorRole"		value="PER_SCAN"/>
+		<property name="activated"			value="true"/> <?ignore Use as a monitor with scans, we always want this NeXus information ?>
+	</bean>
+
+	<bean id="secondary_slit_motors" class="org.eclipse.scanning.device.composite.CompositeNexusScannable" init-method="register">
+		<property name="name"				value="secondary_slit_motors"/>
+		<property name="nexusClass"			value="NX_COLLECTION"/>
+		<property name="nexusCategory"		value="NX_INSTRUMENT"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="scannableName"			value="s2obX"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="destinationFieldName"	value="left_slit"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="scannableName"			value="s2ibX"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="destinationFieldName"	value="right_slit"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="scannableName"			value="s2topY"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="destinationFieldName"	value="top_slit"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="scannableName"			value="s2botY"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+					<property name="destinationFieldName"	value="bottom_slit"/>
+				</bean>
+			</list>
+		</property>
+		<property name="monitorRole"		value="PER_SCAN"/>
+		<property name="activated"			value="false"/> <?ignore Use as a monitor with scans, we always want this NeXus information ?>
+	</bean>
 </beans>

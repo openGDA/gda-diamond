@@ -6,11 +6,11 @@
 	<!-- Old non generic NexusSlitsWrapper slits scannables -->
 
 	<bean id="s4NeXusSlit" class="uk.ac.diamond.daq.scanning.NexusSlitsWrapper" init-method="register">
-		<property name="name"              value="s4NeXusSlit"/>
-		<property name="x_gap"			   ref="s4gapX"/>
-		<property name="y_gap"			   ref="s4gapY"/>
+		<property name="name"				value="s4NeXusSlit"/>
+		<property name="x_gap"				ref="s4gapX"/>
+		<property name="y_gap"				ref="s4gapY"/>
 		<property name="monitorRole"		value="PER_SCAN"/>
-		<property name="activated"         value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
+		<property name="activated"			value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
 	</bean>
 
 	<!-- New generic CompositeNexusScannable based slits scannables -->
