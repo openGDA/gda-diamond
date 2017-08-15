@@ -22,6 +22,7 @@ import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
+import gda.jython.InterfaceProvider;
 import gda.rcp.views.JythonTerminalView;
 import uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView;
 import uk.ac.gda.exafs.experiment.ui.CyclicExperimentView;
@@ -48,5 +49,7 @@ public class ExperimentPerspective implements IPerspectiveFactory {
 		topPlotFolder.addView(DetectorLiveModeView.ID);
 		topPlotFolder.addView(ExperimentDataPlotView.ID);
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
+
+		InterfaceProvider.getScanDataPointProvider().addScanEventObserver(new PlotStyleUpdater());
 	}
 }

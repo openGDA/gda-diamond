@@ -22,11 +22,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.hdf.object.H5Utils;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.ILazyDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,7 @@ import gda.device.detector.BufferedDetector;
 import gda.device.detector.DummyNXDetector;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.countertimer.BufferedScaler;
+import gda.device.detector.countertimer.TfgScalerWithLogValues;
 import gda.device.scannable.ContinuouslyScannable;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TurboXasScannable;
@@ -56,6 +58,7 @@ import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.EdeScanProgressBean;
 import gda.scan.ede.EdeScanType;
 import gda.scan.ede.position.EdePositionType;
+import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 
 /**
  *  A TurboXasScan is a type of Continuous scan which can perform multiple sweeps of a fast slit and collect the spectra for each sweep.
@@ -156,8 +159,8 @@ public class TurboXasScan extends ContinuousScan {
 		turboXasScannable.setMotorParameters(turboXasMotorParams);
 		// Calculate motor parameters for first timing group (i.e. positions and num readouts for spectrum)
 		turboXasMotorParams.setMotorParametersForTimingGroup(0);
-		// Move motor to scan start position to avoid following error, if motor is a long way from where it needs to be...
-		turboXasScannable.moveTo(turboXasMotorParams.getScanStartPosition());
+		// Move motor to near scan start position to avoid following error, if motor is a long way from where it needs to be...
+		// turboXasScannable.moveTo(turboXasMotorParams.getScanStartPosition());
 
 		// Configure the zebra
 		turboXasScannable.configureZebra(); // would normally get called in ContinuousScan.prepareForContinuousMove()
@@ -176,8 +179,14 @@ public class TurboXasScan extends ContinuousScan {
 		trajScanPreparer.addPointsForTimingGroups(turboXasMotorParams);
 		trajScanPreparer.sendProfileValues();
 		trajScanPreparer.setBuildProfile();
-		trajScanPreparer.setExecuteProfile();
+		if (trajScanPreparer.getBuildProfileStatus().equals("Failure")){
+			throw new Exception("Failure when building trajectory scan profile - check Epics EDM screen");
+		}
 
+		trajScanPreparer.setExecuteProfile();
+		if (trajScanPreparer.getBuildProfileStatus().equals("Failure")){
+			throw new Exception("Failure when executing trajectory scan - check Epics EDM screen.");
+		}
 		// Wait until some points have been captured by zebra (i.e. motor has started moving)
 		while(zebra.getPCNumberOfPointsCaptured()==0) {
 			logger.info("Waiting for points to be captured by Zebra before starting data collection");
@@ -207,21 +216,21 @@ public class TurboXasScan extends ContinuousScan {
 	 * @throws Exception
 	 */
 	private void addTimeAxis() throws Exception {
-		IHierarchicalDataFile file = null;
+		NexusFile file = null;
 		try {
-			file = org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory.getWriter(getDataWriter().getCurrentFileName());
-
+			file = NexusFileHDF5.openNexusFile(getDataWriter().getCurrentFileName());
 			// Read 'frame_time' and 'time between spectra' datasets from Nexus file
 			String detectorEntry = "/entry1/"+getScanDetectors()[0].getName()+"/";
 			String frameTimeName = getFrameTimeFieldName();
-			Dataset times = H5Utils.getSet(file, detectorEntry + frameTimeName);
-			Dataset timeBetweenSpectra = H5Utils.getSet(file, detectorEntry + TIME_BETWEEN_SPECTRA_COLUMN_NAME);
+
+			ILazyDataset times = file.getData(detectorEntry+frameTimeName).getDataset();
+			ILazyDataset timeBetweenSpectra = file.getData(detectorEntry+TIME_BETWEEN_SPECTRA_COLUMN_NAME).getDataset();
+			DoubleDataset timeBetweenSpectraVals = (DoubleDataset) timeBetweenSpectra.getSlice(null, null, null).squeeze();
 
 			// Create dataset to store start time of each spectrum
 			int numSpectra = times.getShape()[0];
 			int numReadouts = times.getShape()[1];
 			Dataset absoluteTime = DatasetFactory.zeros(DoubleDataset.class, numSpectra);
-
 			// First spectrum starts at t=0
 			double timeAtSpectrumStart = 0;
 			absoluteTime.set(timeAtSpectrumStart, 0);
@@ -229,15 +238,17 @@ public class TurboXasScan extends ContinuousScan {
 			// Calculate start time for each spectrum
 			for (int i = 0; i < numSpectra - 1; i++) {
 				// Take slice along time for current spectrum, find sum and add to time-between-spectra
-				Dataset row = times.getSlice(new int[] { i, 0 }, new int[] { i + 1, numReadouts }, null);
+				DoubleDataset row = (DoubleDataset) times.getSlice(new int[] { i, 0 }, new int[] { i + 1, numReadouts }, null);
 				double rowSum = new Double((Double) row.sum());
-				double timeForSpectra = rowSum + timeBetweenSpectra.getDouble(i);
+				double timeForSpectra = rowSum + timeBetweenSpectraVals.get(i);
 				timeAtSpectrumStart += timeForSpectra;
 				absoluteTime.set(timeAtSpectrumStart, i + 1);
 			}
-			file.createDataset(TIME_COLUMN_NAME, absoluteTime, detectorEntry);
+			file.createData(detectorEntry, TIME_COLUMN_NAME, absoluteTime, true);
 		} finally {
-			file.close();
+			if (file != null) {
+				file.close();
+			}
 		}
 	}
 
@@ -373,6 +384,16 @@ public class TurboXasScan extends ContinuousScan {
 			detector.setContinuousParameters(params);
 			detector.setContinuousMode(true);
 			checkThreadInterrupted();
+			if (detector instanceof Xspress3BufferedDetector) {
+				((Xspress3BufferedDetector)detector).getController().setSavingFiles(false);
+				((Xspress3BufferedDetector)detector).getController().doStop();
+				((Xspress3BufferedDetector)detector).getController().doReset();
+				((Xspress3BufferedDetector)detector).getController().setNumFramesToAcquire(params.getNumberDataPoints());
+//				((Xspress3BufferedDetector)detector).getController().doReset();
+				((Xspress3BufferedDetector)detector).getController().setNextFileNumber(0);
+				((Xspress3BufferedDetector)detector).getController().setSavingFiles(true);
+				((Xspress3BufferedDetector)detector).getController().doStart();
+			}
 		}
 	}
 
@@ -724,9 +745,10 @@ public class TurboXasScan extends ContinuousScan {
 		thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
 
 		//InterfaceProvider.getJythonServerNotifer().notifyServer(this, thisPoint); // for the CommandQueue
-
-		plotUpdater.updateShowAll(thisPoint);
-
+		plotUpdater.setFilename(thisPoint.getCurrentFilename());
+		plotUpdater.clearDatasets();
+		plotUpdater.addDatasetsFromScanDataPoint(thisPoint);
+		plotUpdater.sendDataToController();
 	}
 
 	private void addMetaDataAtScanStart() {
@@ -739,10 +761,26 @@ public class TurboXasScan extends ContinuousScan {
 	}
 
 	private static class PlotUpdater {
+		private List<String> dataNames = new ArrayList<String>();
+		private List<DoubleDataset> dataSets = new ArrayList<DoubleDataset>();
+		private ScriptControllerBase controller;
+		private String filename;
 
 		private int currentGroupNumber;
 		private int currentSpectrumNumber;
 		private String energyAxisName;
+
+		public PlotUpdater() {
+			controller = Finder.getInstance().find(EdeExperiment.PROGRESS_UPDATER_NAME);
+		}
+
+		public String getFilename() {
+			return filename;
+		}
+
+		public void setFilename(String filename) {
+			this.filename = filename;
+		}
 
 		public void setCurrentGroupNumber(int currentGroupNumber) {
 			this.currentGroupNumber = currentGroupNumber;
@@ -768,50 +806,66 @@ public class TurboXasScan extends ContinuousScan {
 				return null;
 		}
 
+		private boolean isIrefData(String name) {
+			return (name.equalsIgnoreCase(TfgScalerWithLogValues.LNITIREF_LABEL) || name.equalsIgnoreCase("Iref"));
+		}
 		/**
 		 * Extract detector data from scan data point and send spectra of I0, It, time etc to the progress updater.
 		 * Only data from the first detector is extracted.
 		 * @param scanDataPoint
 		 */
-		public void updateShowAll(ScanDataPoint scanDataPoint) {
-			ScriptControllerBase controller = Finder.getInstance().find(EdeExperiment.PROGRESS_UPDATER_NAME);
-			if ( controller != null ) {
-				logger.info("PlotUpdater.updateShowAll() called");
-				NXDetectorData data = (NXDetectorData) scanDataPoint.getDetectorData().get(0);
+		public void addDatasetsFromScanDataPoint(ScanDataPoint scanDataPoint) {
+			logger.debug("PlotUpdater.updateShowAll() called");
+			NXDetectorData data = (NXDetectorData) scanDataPoint.getDetectorData().get(0);
 
-				// Extract numerical (floating point) detector data from Nexus data in scan data point
-				List<String> dataNames = new ArrayList<String>();
-				List<DoubleDataset> dataSets = new ArrayList<DoubleDataset>();
-				INexusTree nexusDetData = data.getNexusTree().getChildNode(0);
-				String detectorName = data.getNexusTree().getChildNode(0).getName();
+			// Extract numerical (floating point) detector data from Nexus data in scan data point
+			INexusTree nexusDetData = data.getNexusTree().getChildNode(0);
+			String detectorName = data.getNexusTree().getChildNode(0).getName();
 
-				for(int i = 0; i<nexusDetData.getNumberOfChildNodes(); i++) {
-					String dataName = nexusDetData.getChildNode(i).getName();
-					NexusGroupData groupData = data.getData(detectorName, dataName, NexusExtractor.SDSClassName);
-					DoubleDataset dataset = extractDoubleDatset(groupData);
-					if (dataset!=null) {
-						dataNames.add(dataName);
-						dataSets.add(dataset);
-					}
+			for (int i = 0; i < nexusDetData.getNumberOfChildNodes(); i++) {
+				String dataName = nexusDetData.getChildNode(i).getName();
+				NexusGroupData groupData = data.getData(detectorName, dataName, NexusExtractor.SDSClassName);
+				DoubleDataset dataset = extractDoubleDatset(groupData);
+				if (dataset != null) {
+					addDataset(dataName, dataset);
 				}
+			}
+		}
 
-				// Determine index of dataset to use for energy axis
-				int energyAxisIndex = dataNames.indexOf(energyAxisName);
-				if (energyAxisIndex==-1) {
-					logger.info("PlotUpdater could not find energy axis data (axis name = {})",energyAxisName);
-					return;
-				}
+		public void addDataset(String dataName, DoubleDataset dataset) {
+			dataNames.add(dataName);
+			dataSets.add(dataset);
+		}
 
-				// Create progress beans and notify plot controller
-				EdeScanProgressBean scanProgressBean = new EdeScanProgressBean(currentGroupNumber, currentSpectrumNumber, EdeScanType.LIGHT,
-						EdePositionType.INBEAM, scanDataPoint);
-				for(int i = 0; i<dataNames.size(); i++) {
-					// Don't plot position column or energy datasets
-					String dataName=dataNames.get(i);
-					if (!dataName.equals(ENERGY_COLUMN_NAME) && !dataName.equals(POSITION_COLUMN_NAME)) {
-						controller.update(null, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, scanProgressBean,
-											dataNames.get(i), dataSets.get(i), dataSets.get(energyAxisIndex)));
-					}
+		public void clearDatasets() {
+			dataNames.clear();
+			dataSets.clear();
+		}
+
+		public void sendDataToController() {
+
+			if (controller == null) {
+				logger.info("PlotUpdater cannot send plot data to client - controller has not been set");
+				return;
+			}
+
+			// Determine index of dataset to use for energy axis
+			int energyAxisIndex = dataNames.indexOf(energyAxisName);
+			if (energyAxisIndex == -1) {
+				logger.info("PlotUpdater could not find energy axis data (axis name = {})", energyAxisName);
+				return;
+			}
+
+			// Create progress beans and notify plot controller
+			EdeScanProgressBean scanProgressBean = new EdeScanProgressBean(currentGroupNumber, currentSpectrumNumber,
+					EdeScanType.LIGHT, EdePositionType.INBEAM, filename);
+
+			for (int i = 0; i < dataNames.size(); i++) {
+				// Don't plot position column or energy datasets
+				String dataName = dataNames.get(i);
+				if (!dataName.equals(ENERGY_COLUMN_NAME) && !dataName.equals(POSITION_COLUMN_NAME) && !isIrefData(dataName)) {
+					controller.update(null, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, scanProgressBean,
+										dataNames.get(i), dataSets.get(i), dataSets.get(energyAxisIndex)));
 				}
 			}
 		}

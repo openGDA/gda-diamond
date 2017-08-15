@@ -20,14 +20,14 @@
 -Dgda.propertiesFile=${project_loc:i20-1-config}/properties/dummy/dummy_instance_java.properties
 -Djacorb.config.dir=${project_loc:i20-1-config}/properties/dummy/jacorb
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i20-1-config}/properties/dummyJCALibrary.properties
+-Declipse.pluginCustomization=${project_loc:uk.ac.gda.core/}/../../gda-dls-beamlines-xas.git/uk.ac.gda.beamline.i20_1/plugin_customization.ini
 -Dgda.mode=dummy
 -Dgda.client.jython.automatic.interpreter=1
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms128m
 -Xmx1024m
--XX:PermSize=128m 
--XX:MaxPermSize=256m
 -XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts

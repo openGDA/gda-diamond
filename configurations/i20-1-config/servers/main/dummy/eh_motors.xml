@@ -1,6 +1,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	    http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 
 	<bean id="stage3_z_motor" class="gda.device.motor.DummyMotor"/>
@@ -34,13 +37,31 @@
 	<bean id="twotheta_motor" class="gda.device.motor.DummyMotor"/>
 <!-- <bean id="twotheta_mm_motor" class="gda.device.motor.DummyMotor"/>  -->
 	<bean id="counterbalance_motor" class="gda.device.motor.DummyMotor"/>
+				
+	<bean id="onOffPositions" class="java.util.ArrayList">
+	    <constructor-arg>
+	        <list>
+	            <value>on</value>
+	            <value>off</value>                
+	        </list>
+    	</constructor-arg>
+	</bean>
 
-<!--  Dummy air controls added. imh 16/11/2015 -->
-	<bean id="stage3_z_air" class="gda.device.enumpositioner.DummyEnumPositioner"/>
-	<bean id="sample_z_air" class="gda.device.enumpositioner.DummyEnumPositioner"/>
-	<bean id="det_z_air" class="gda.device.enumpositioner.DummyEnumPositioner"/>
-	<bean id="twotheta_air" class="gda.device.enumpositioner.DummyEnumPositioner"/>
+	<bean id="stage3_z_air" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" ref="onOffPositions" />
+	</bean>
 
+	<bean id="sample_z_air" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" ref="onOffPositions" />
+	</bean>
+
+	<bean id="det_z_air" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" ref="onOffPositions" />
+	</bean>
+
+	<bean id="twotheta_air" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" ref="onOffPositions" />
+	</bean>
 
 	<import resource="file:${gda.config}/servers/main/eh_motors_common.xml" />
 

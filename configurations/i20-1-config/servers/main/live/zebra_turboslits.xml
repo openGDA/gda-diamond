@@ -26,6 +26,7 @@
 	<bean id="zebra_device" class="gda.device.zebra.controller.impl.ZebraImpl">
 		<property name="name" value="zebra_device" />
 		<property name="zebraPrefix" value="BL20J-EA-ZEBRA-01:"/>
+		<property name="armPutNoWait" value="true" />
 	</bean>
 
 <!-- Zebra gate and pulse preparer bean. 12/1/2017 -->

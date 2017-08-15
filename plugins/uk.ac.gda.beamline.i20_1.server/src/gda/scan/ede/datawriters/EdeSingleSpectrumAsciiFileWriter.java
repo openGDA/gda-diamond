@@ -20,13 +20,15 @@ package gda.scan.ede.datawriters;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.dawnsci.plotting.tools.profile.DataFileHelper;
-import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.Dataset;
 
 import gda.device.detector.EdeDetector;
 import gda.scan.EnergyDispersiveExafsScan;
+import gda.scan.ScanDataPoint;
 
 public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 
@@ -98,6 +100,11 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		dataWriter.writeDataFile( theDetector );
 	}
 
+	private Dataset getDetectorDataset(EnergyDispersiveExafsScan scan) {
+		List<ScanDataPoint> datapoints = scan.getData();
+		return ScanDataHelper.extractDetectorDataFromSDP(theDetector.getName(), datapoints.get(0));
+	}
+
 	/**
 	 * Write Ascii data file with lnI0It and dark current corrected data.
 	 * (Refactored from 'writeDataFile')
@@ -106,15 +113,11 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 	 * @throws Exception
 	 */
 	private String writeAsciiData() throws Exception {
-		DoubleDataset i0DarkDataSet;
-		DoubleDataset itDarkDataSet;
-		DoubleDataset i0InitialDataSet;
-		DoubleDataset itDataSet;
-		// FIXME Check this
-		i0DarkDataSet = i0DarkScan.extractDetectorDataSet(0);
-		itDarkDataSet = itDarkScan.extractDetectorDataSet(0);
-		i0InitialDataSet = i0InitialScan.extractDetectorDataSet(0);
-		itDataSet = itScan.extractDetectorDataSet(0);
+		Dataset i0DarkDataSet = getDetectorDataset(i0DarkScan);
+		Dataset itDarkDataSet = getDetectorDataset(itDarkScan);
+		Dataset i0InitialDataSet = getDetectorDataset(i0InitialScan);
+		Dataset itDataSet = getDetectorDataset(itScan);
+
 		determineFileAsciiFilePath();
 
 		File asciiFile = new File(asciiFilename);
@@ -143,11 +146,11 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 				+ EdeDataConstants.IT_CORR_COLUMN_NAME + "\t" + EdeDataConstants.LN_I0_IT_COLUMN_NAME + "\t " + EdeDataConstants.I0_RAW_COLUMN_NAME + "\t"
 				+ EdeDataConstants.IT_RAW_COLUMN_NAME + "\t" + EdeDataConstants.I0_DARK_COLUMN_NAME + "\t" + EdeDataConstants.IT_DARK_COLUMN_NAME + "\n");
 		for (int channel = 0; channel < theDetector.getMaxPixel(); channel++) {
-			Double i0Initial = i0InitialDataSet.get(channel);
-			Double it = itDataSet.get(channel);
+			Double i0Initial = i0InitialDataSet.getDouble(channel);
+			Double it = itDataSet.getDouble(channel);
 
-			Double i0DK = i0DarkDataSet.get(channel);
-			Double itDK = itDarkDataSet.get(channel);
+			Double i0DK = i0DarkDataSet.getDouble(channel);
+			Double itDK = itDarkDataSet.getDouble(channel);
 
 			Double i0_corrected = i0Initial - i0DK;
 			Double it_corrected = it - itDK;

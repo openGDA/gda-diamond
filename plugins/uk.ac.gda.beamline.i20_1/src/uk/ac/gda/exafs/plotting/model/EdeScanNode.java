@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
@@ -36,6 +37,12 @@ public class EdeScanNode extends ScanNode {
 
 	private final boolean multiCollection;
 
+	/**
+	 * @param scanIdentifier - label for scan in plot view
+	 * @param fileName
+	 * @param multiCollection
+	 * @param parent
+	 */
 	public EdeScanNode(String scanIdentifier, String fileName, boolean multiCollection, Node parent) {
 		super(scanIdentifier, fileName, parent);
 		this.scanIdentifier = scanIdentifier;
@@ -49,18 +56,29 @@ public class EdeScanNode extends ScanNode {
 	public Node updateData(final EdeExperimentProgressBean arg) {
 		SpectraNode dataNode;
 		String label = arg.getDataLabel();
-		String identifier = this.toString() + "@" + label;
-		if (!scans.containsKey(identifier)) {
-			final SpectraNode newNode = new SpectraNode(identifier, label, this);
-			scans.put(identifier, newNode);
+		String scanIdentifier = this.toString() + "@" + label;
+		if (!scans.containsKey(scanIdentifier)) {
+			final SpectraNode newNode = new SpectraNode(scanIdentifier, label, this);
+			scans.put(scanIdentifier, newNode);
 			dataNodeList.add(newNode);
 			dataNode = newNode;
 		} else {
-			dataNode = scans.get(identifier);
+			dataNode = scans.get(scanIdentifier);
 		}
-		identifier =  identifier + "@" + arg.getProgress().getGroupNumOfThisSDP() + "@" + arg.getProgress().getFrameNumOfThisSDP();
-		label = "Group " + arg.getProgress().getGroupNumOfThisSDP() + " spectrum " + arg.getProgress().getFrameNumOfThisSDP();
-		dataNode.updateData(arg.getEnergyData(), arg.getData(), identifier, label);
+		// plotIdentifier is the key for the spectrum (should be unique for each scan datapoint).
+		String plotIdentifier =  scanIdentifier + "@" + arg.getProgress().getGroupNumOfThisSDP() + "@" + arg.getProgress().getFrameNumOfThisSDP();
+
+		// plotLabel is used for the spectrum label in the tree view.
+		String plotLabel = "Group " + arg.getProgress().getGroupNumOfThisSDP() + " spectrum " + arg.getProgress().getFrameNumOfThisSDP();
+
+		// Use custom label and identifier for the plot if one has been set
+		String customLabel = arg.getProgress().getCustomLabelForSDP();
+		if (StringUtils.isNotEmpty(customLabel)) {
+			plotLabel = customLabel;
+			plotIdentifier = scanIdentifier + ":" + customLabel;
+		}
+
+		dataNode.updateData(arg.getEnergyData(), arg.getData(), plotIdentifier, plotLabel);
 		return dataNode;
 	}
 

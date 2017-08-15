@@ -53,6 +53,11 @@
 		<property name="writeHDF5Files" value="true" />
 	</bean>
 
+	<bean id="buffered_xspress3"
+		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
+		<property name="xspress3Detector" ref="xspress3" />
+	</bean>
+
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xspress3" />
 		<property name="service" ref="xspress3" />

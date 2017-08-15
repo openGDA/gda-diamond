@@ -170,15 +170,15 @@
 		</property>
 	</bean>
 
-	<bean id="s3_hgap" class="gda.device.scannable.ScannableMotor">
+	<bean id="as_hgap" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="s3_hgap_motor" />
+		<property name="motor" ref="as_hgap_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false" />
 	</bean>
-	<bean id="s3_hoffset" class="gda.device.scannable.ScannableMotor">
+	<bean id="as_hoffset" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="s3_hoffset_motor" />
+		<property name="motor" ref="as_hoffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="local" value="false" />
 	</bean>
@@ -195,11 +195,11 @@
 <!-- 		<property name="hardwareUnitString" value="mm" /> -->
 <!-- 		<property name="local" value="false" /> -->
 <!-- 	</bean> -->
-	<bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="as_slits" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="s3_hgap" />
-				<ref bean="s3_hoffset" />
+				<ref bean="as_hgap" />
+				<ref bean="as_hoffset" />
 			</list>
 		</property>
 	</bean>
@@ -272,13 +272,13 @@
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/s3_hgap" />
-		<property name="service" ref="s3_hgap" />
+		<property name="serviceName" value="gda/as_hgap" />
+		<property name="service" ref="as_hgap" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/s3_hoffset" />
-		<property name="service" ref="s3_hoffset" />
+		<property name="serviceName" value="gda/as_hoffset" />
+		<property name="service" ref="as_hoffset" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 

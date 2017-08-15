@@ -37,7 +37,7 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 
 	private Scannable scannableToMoveDuringScan;
 	private String nameOfScannableToMoveDuringScan;
-	private List<Double> motorPositionsDuringScan = null;
+	private List<Double> motorPositionsDuringScan = new ArrayList<Double>();
 
 	/**
 	 * No-args constructor (added for serialisation)
@@ -91,7 +91,7 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 		}
 		double stepSize = (endPos-startPos)/(numPoints-1);
 
-		motorPositionsDuringScan = new ArrayList<Double>();
+		motorPositionsDuringScan.clear();
 		int count = 0;
 		while(count < numPoints) {
 			double posToAdd = startPos + count*stepSize;

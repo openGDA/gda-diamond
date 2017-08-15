@@ -33,6 +33,7 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DetectorStatus;
 import gda.device.detector.EdeDetector;
+import gda.device.detector.EdeDummyDetector;
 import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.xstrip.DetectorScanDataUtils;
 import gda.device.detector.xstrip.XhDetector;
@@ -89,6 +90,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private Scannable fastShutter;
 
 	private Scannable motorToMoveDuringScan;
+	private boolean moveMotorDuringScan;
 
 	/**
 	 * @param scanParameters
@@ -179,64 +181,21 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	 * @since 28/1/2016.
 	 */
 	public void fastShutterMoveTo(String position) throws DeviceException, InterruptedException {
-		final int pollSleepInterval = 250;
-		final int maxWaitTime = 10000;
+		if (useFastShutter && fastShutter != null) {
+			try {
+				String message = "Fast shutter move to \'" + position + "\'";
+				logger.info(message);
+				InterfaceProvider.getTerminalPrinter().print(message);
 
-		if ( useFastShutter == false || fastShutter == null ) {
-			return;
-		}
+				fastShutter.moveTo(position);
 
-		String currentPosition = (String) fastShutter.getPosition();
-		String finalPosition = position;
-		if ( position.equals("Close") ) {
-			finalPosition = "Closed";
-		}
-
-		if ( currentPosition.equals(finalPosition) ) {
-			logger.info("Fast shutter move - already in requested position ("+finalPosition+")");
-			return;
-		}
-
-		if ( useFastShutter && fastShutter != null ) {
-
-			String message = "Fast shutter move to \'"+position+"\'";
-			logger.info(message);
-			InterfaceProvider.getTerminalPrinter().print(message);
-
-			fastShutter.moveTo(position); // does not block!
-
-			// Sleep until fast shutter has moved, been interrupted or failed to move for some reason...
-			int waitTime = 0;
-			String shutterExceptionMessage = "";
-			while( !currentPosition.equals( finalPosition ) ) {
-				try {
-					//InterfaceProvider.getTerminalPrinter().print("Sleep for "+pollSleepInterval+" ms ... ");
-
-					Thread.sleep( pollSleepInterval );
-					currentPosition = (String) fastShutter.getPosition();
-
-					//InterfaceProvider.getTerminalPrinter().print("Fast shutter position : "+currentPosition);
-
-					waitTime += pollSleepInterval;
-				}
-				catch( gda.device.DeviceException deviceException ) {
-					// Ignore this exception - happens when getPosition is called whilst shutter is still in process of moving.
-					shutterExceptionMessage = deviceException.getMessage();
-					//InterfaceProvider.getTerminalPrinter().print("Fast shutter exception caught : "+shutterExceptionMessage);
-				}
-
-				// Max wait time exceeded - something probably really is wrong with shutter
-				if ( waitTime > maxWaitTime ) {
-					String exceptionMessage = "Maximum wait time exceeded for fast shutter, last shutter exception - "+shutterExceptionMessage;
-					logger.info(exceptionMessage);
-					InterfaceProvider.getTerminalPrinter().print(exceptionMessage);
-					throw new DeviceException(exceptionMessage);
-				}
+				message = "Fast shutter move finished";
+				logger.info(message);
+				InterfaceProvider.getTerminalPrinter().print(message);
+			} catch (DeviceException e) {
+				logger.warn("Problem moving fast shutter to '{}' position during scan", position, e);
+				throw new DeviceException(e);
 			}
-
-			message = "Fast shutter move finished";
-			logger.info(message);
-			// InterfaceProvider.getTerminalPrinter().print(message);
 		}
 	}
 
@@ -297,6 +256,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		}
 
 		terminalPrinter.print("Starting " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
+		moveMotorDuringScan = false;
 		if (motorPositions instanceof EdeScanMotorPositions) {
 			EdeScanMotorPositions scanMotorPositions = (EdeScanMotorPositions)motorPositions;
 			List<Double> motorPositionsToScan = scanMotorPositions.getMotorPositionsDuringScan();
@@ -305,6 +265,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 			if (lightItScan && motorToMoveDuringScan !=null && motorPositionsToScan != null && motorPositionsToScan.size()>0) {
 				int count = 1;
+				moveMotorDuringScan = true;
 				for(Double pos : motorPositionsToScan) {
 					logger.info("Moving motor {} to position {} (step {} of {})...", motorToMoveDuringScan.getName(), pos, count++, motorPositionsToScan.size());
 					motorToMoveDuringScan.moveTo(pos);
@@ -396,6 +357,10 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 						theDetector.stop();
 					}
 					lastImageReady=detector.getLimaCcd().getLastImageReady();
+				}
+			} else if (theDetector instanceof EdeDummyDetector) {
+				for(TimingGroup group : scanParameters.getGroups()) {
+					createDataPoints(0, group.getNumberOfFrames()-1);
 				}
 			}
 		} catch (Exception e) {
@@ -523,10 +488,9 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				realFrameNumber=thisFrame-1;
 				realLowFrameNumber=lowFrame-1;
 				thisPoint = createScanDataPoint(realLowFrameNumber, detData, realFrameNumber);
-				storeAndBroadcastSDP(realFrameNumber, thisPoint);
 			} else {
 				thisPoint = createScanDataPoint(lowFrame, detData, thisFrame);
-				storeAndBroadcastSDP(thisFrame, thisPoint);
+				realFrameNumber = thisFrame;
 			}
 
 			// then write data to data handler
@@ -542,6 +506,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			// data added
 			thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
 
+			storeAndBroadcastSDP(realFrameNumber, thisPoint);
+
 			// then notify IObservers of this scan (e.g. GUI panels)
 			getJythonServerNotifer().notifyServer(this, thisPoint);
 		}
@@ -556,6 +522,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		thisPoint.setScanPlotSettings(getScanPlotSettings());
 		thisPoint.setScanDimensions(getDimensions());
 		if (indexer != null) {
+			indexer.setName(theDetector.getName() + "_progress"); // make sure indexer name is consistent with detector name (in case detector was renamed after EdeScan was created)
 			if (theDetector instanceof EdeFrelon) {
 				indexer.setGroup(scanParameters.getGroups().indexOf(currentTimingGroup));
 				indexer.setFrame(thisFrame);
@@ -614,9 +581,41 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				frameNumOfThisSDP = DetectorScanDataUtils.getFrameNum(scanParameters, absoulteFrameNumber);
 			}
 			EdeScanProgressBean progress = new EdeScanProgressBean(groupNumOfThisSDP, frameNumOfThisSDP, scanType,
-					motorPositions.getType(), thisPoint);
+					motorPositions.getType(), thisPoint.getCurrentFilename());
+			String customLabelForSDP = getLabelForScanDataPoint(groupNumOfThisSDP, frameNumOfThisSDP);
+			progress.setCustomLabelForSDP(customLabelForSDP);
 			progressUpdater.update(this, progress);
 		}
+	}
+
+	/**
+	 * Create a label for scan data point showing the group, spectrum number of scan data point.
+	 * The current position of any scannable being moved during the scan is also included.
+	 * (this is used for the label in the 'Ede experiment plot' view).
+	 * @param groupNum
+	 * @param frameNum
+	 * @since 17/5/2017
+	 * @return
+	 */
+	private String getLabelForScanDataPoint(int groupNum, int frameNum) {
+		String label = "";
+		// Only include group part of label if there's more than one timing group
+		if (scanParameters.getGroups().size()>1) {
+			label += "Group "+groupNum+" ";
+		}
+
+		label += "Spectrum "+frameNum;
+
+		// Add motor position (if it's being used)
+		if (moveMotorDuringScan) {
+			try {
+				String pos = ScannableUtils.getFormattedCurrentPosition(motorToMoveDuringScan);
+				label += " Position : "+pos;
+			} catch (DeviceException e) {
+				logger.warn("Problem getting position from {}", motorToMoveDuringScan.getName(), e);
+			}
+		}
+		return label;
 	}
 
 	public DoubleDataset extractLastDetectorDataSet() {

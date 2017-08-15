@@ -21,6 +21,8 @@ package uk.ac.gda.exafs.plotting.ui;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
+import org.eclipse.dawnsci.plotting.api.tool.IToolPageSystem;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -107,5 +109,13 @@ public class ExperimentDataPlotView extends ViewPart {
 		if (!scanDataPlotter.isDisposed()) {
 			scanDataPlotter.setFocus();
 		}
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (IPlottingSystem.class == adapter) return scanDataPlotter.getPlottingSystem();
+		if (IToolPageSystem.class == adapter) return scanDataPlotter.getPlottingSystem().getAdapter(adapter);
+		return super.getAdapter(adapter);
 	}
 }

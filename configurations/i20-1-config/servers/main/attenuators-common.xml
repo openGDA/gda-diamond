@@ -2,6 +2,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<bean id="atn" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="atn1" />
+				<ref bean="atn2" />
+				<ref bean="atn3" />
+				<ref bean="atn4" />
+				<ref bean="atn5" />
+			</list>
+		</property>
+	</bean>
+
 	<!-- rmi exports -->
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">

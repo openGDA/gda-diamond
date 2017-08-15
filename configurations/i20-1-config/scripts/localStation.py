@@ -1,5 +1,5 @@
 from uk.ac.gda.exafs.ui.data import EdeScanParameters
-
+from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
 from gdascripts.utils import caget
 
@@ -11,6 +11,7 @@ run("frelon_scan_runner.py")
 run("turboxas_scan_runner.py")
 
 
+finder = Finder.getInstance()
 das = finder.find("DAServer")
 das4tfg=finder.find("daserverForTfg")
 
@@ -63,11 +64,23 @@ print "Stopping tfg and setting it to use scaler64 collection mode"
 das4tfg.sendCommand("tfg stop")
 das4tfg.sendCommand("tfg setup-cc-mode scaler64");
 
+# -- DAserver options for triggering XSpress3
+print "Setting Veto options for XSpress3"
+# veto signal : high veto signal when input is high
+das4tfg.sendCommand("tfg setup-veto veto0-inv 0")
+# veto output termination (see manual)
+das4tfg.sendCommand("tfg setup-veto veto0-drive 1")
+
+xspress3Controller = finder.find("xspress3Controller")
+if xspress3Controller != None :
+    print "Setting XSpress3 trigger mode to 'TTL Veto Only'"
+    from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
+    xspress3Controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
+
 # Set turboslit positions to use when operating as a 'shutter'. imh 21/4/2017
 if LocalProperties.get("gda.mode") == "live":
     setTurboSlitShutterPositions(0, 1)
+    configureFastShutter()
 
 # Set name of shutter to be operated when collecting dark current on ionchambers. imh 21/4/2017
 LocalProperties.set("gda.exafs.darkcurrent.shutter", turbo_slit_shutter.getName())
-
-

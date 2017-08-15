@@ -22,16 +22,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
-import org.eclipse.core.databinding.observable.list.IListChangeListener;
-import org.eclipse.core.databinding.observable.list.ListChangeEvent;
-import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
@@ -78,6 +73,7 @@ import gda.factory.Finder;
 import gda.observable.IObserver;
 import gda.util.exafs.AbsorptionEdge;
 import gda.util.exafs.Element;
+import uk.ac.gda.beamline.i20_1.Activator;
 import uk.ac.gda.beamline.i20_1.utils.DataHelper;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.composites.MotorPositionEditorControl;
@@ -100,6 +96,7 @@ import uk.ac.gda.ui.viewer.EnumPositionViewer;
 public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySheetPageContributor {
 
 	public static String ID = "uk.ac.gda.exafs.ui.views.beamlinealignmentview";
+	public static final String ENABLE_CONTROLS_PROPERTY = "uk.ac.gda.exafs.alignment.ui.enablecontrols";
 
 	private static final int LABEL_WIDTH = 125;
 	private static final int SUGGESTION_LABEL_WIDTH = 100;
@@ -136,7 +133,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private FormText labelPowerEstimateValue;
 	private FormText labelDeltaEValueSuggestion;
 
-	private final Map<Button, Label> suggestionControls = new HashMap<Button, Label>();
 	private final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
 	private final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
 	private Label energyLabel;
@@ -144,6 +140,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	private final Binding detectorValueBinding = null;
 	private FormText labelDeltaEValue;
+
+	/** Set to false to disable gui controls; widgets will still update to show current scannable values */
+	private boolean controlsEnabled;
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -153,6 +152,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		scrolledPolyForm.getBody().setLayout(layout);
 		toolkit.decorateFormHeading(scrolledPolyForm.getForm());
 		scrolledPolyForm.setText("Configuration");
+
+		controlsEnabled = Activator.getDefault().getPreferenceStore().getBoolean(ENABLE_CONTROLS_PROPERTY);
+
 		try {
 			createMainControls(scrolledPolyForm.getForm());
 			createMotorControls(scrolledPolyForm.getForm());
@@ -165,7 +167,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 			UIHelper.showError("Unable to create motor controls", e.getMessage());
 			logger.error("Unable to create motor controls", e);
 		}
-
 	}
 
 
@@ -479,34 +480,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 			cmbDetectorType.setInput(DetectorModel.INSTANCE.getAvailableDetectors());
 
-			// TODO Assume only one
-
-			//			UpdateValueStrategy detectorSelectionUpdateStrategy = new UpdateValueStrategy() {
-			//				@Override
-			//				protected IStatus doSet(IObservableValue observableValue, Object value) {
-			//					StripDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
-			//					boolean changeConfirm = true;
-			//					if (detector != null && detector.isConnected()) {
-			//						changeConfirm = MessageDialog.openConfirm(Display.getDefault().getActiveShell(), "Changing Detectors", detector.getName() + " is currently connected. Disconnect " + detector.getName() + " and connect " + ((StripDetector)value).getName() + "?");
-			//					}
-			//					if (changeConfirm) {
-			//						IStatus status = super.doSet(observableValue, value);
-			//						if (!status.isOK()) {
-			//							revertToModel();
-			//							logger.error("Unable to set new detector", status.getMessage());
-			//							UIHelper.showError("Unable to set new detector", status.getMessage());
-			//						}
-			//						return status;
-			//					}
-			//					revertToModel();
-			//					return ValidationStatus.ok();
-			//				}
-			//			};
-			//			detectorValueBinding = dataBindingCtx.bindValue(
-			//					ViewersObservables.observeSingleSelection(cmbDetectorType),
-			//					BeanProperties.value(DetectorModel.CURRENT_DETECTOR_SETUP_PROP_NAME).observe(DetectorModel.INSTANCE),
-			//					detectorSelectionUpdateStrategy, null);
-
 			AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.SUGGESTED_PARAMETERS_PROP_KEY, new PropertyChangeListener() {
 				@Override
 				public void propertyChange(PropertyChangeEvent evt) {
@@ -549,204 +522,71 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		toolkit.createLabel(motorSectionComposite, "Calculated");
 		toolkit.createLabel(motorSectionComposite, ""); // Place holder
 		toolkit.createLabel(motorSectionComposite, "Motor Readback");
-		lblWigglerSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.WIGGLER_GAP);
+		lblWigglerSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.WIGGLER_GAP);
 
-		Button applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblWigglerSuggestion);
+		Button applyButton = createApplyButtonControl(motorSectionComposite);
+		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.WIGGLER_GAP, lblWigglerSuggestion, applyButton);
 
-		Scannable scannable = ScannableSetup.WIGGLER_GAP.getScannable();
-		// We do not observe the movement to stop because we cant control the stop from GDA
-		// scannable.addIObserver(moveObserver);
-		ScannableWrapper scannableWrapper = ScannableSetup.WIGGLER_GAP.getScannableWrapper();
-		scannableWrapper.addPropertyChangeListener(ScannableWrapper.POSITION_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				updatePower();
-			}
-		});
-		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, scannableWrapper, true);
+		lblSlitGapSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.SLIT_1_HORIZONAL_GAP);
+		applyButton = createApplyButtonControl(motorSectionComposite);
+		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.SLIT_1_HORIZONAL_GAP, lblSlitGapSuggestion, applyButton);
 
-		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.WIGGLER_GAP, lblWigglerSuggestion, motorPositionEditorControl));
+		lblAtn1Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ATN1);
+		applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ATN1, lblAtn1Suggestion);
+		createEnumPositioner(motorSectionComposite, ScannableSetup.ATN1, lblAtn1Suggestion, applyButton);
 
-		lblSlitGapSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.SLIT_1_HORIZONAL_GAP);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblSlitGapSuggestion);
+		lblAtn2Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ATN2);
+		applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ATN2, lblAtn2Suggestion);
+		createEnumPositioner(motorSectionComposite, ScannableSetup.ATN2, lblAtn2Suggestion, applyButton);
 
-		scannable = ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannable();
-		scannable.addIObserver(moveObserver);
-		scannableWrapper = ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannableWrapper();
-		scannableWrapper.addPropertyChangeListener(ScannableWrapper.POSITION_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				updatePower();
-			}
-		});
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, scannableWrapper, true);
-		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.SLIT_1_HORIZONAL_GAP, lblSlitGapSuggestion, motorPositionEditorControl));
+		lblAtn3Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ATN3);
+		applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ATN3, lblAtn3Suggestion);
+		createEnumPositioner(motorSectionComposite, ScannableSetup.ATN3, lblAtn3Suggestion, applyButton);
 
-		lblAtn1Suggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ATN1);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblAtn1Suggestion);
-		EnumPositionViewer enumPositionViewer = new EnumPositionViewer(motorSectionComposite, (EnumPositioner) ScannableSetup.ATN1.getScannable(), "", true);
-		enumPositionViewer.getComboWrapper().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		applyButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					ScannableSetup.ATN1.getScannable().asynchronousMoveTo(lblAtn1Suggestion.getText());
-				} catch (Exception e) {
-					String errorMessage = "Exception setting motor to " + lblAtn1Suggestion.getText();
-					UIHelper.showError(errorMessage, e.getMessage());
-					logger.error(errorMessage, e);
-				}
-			}
-		});
+		lblMe1StripSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ME1_STRIPE);
+		applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ME1_STRIPE, lblMe1StripSuggestion);
+		createEnumPositioner(motorSectionComposite, ScannableSetup.ME1_STRIPE, lblMe1StripSuggestion, applyButton);
 
-		lblAtn2Suggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ATN2);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblAtn2Suggestion);
-		enumPositionViewer = new EnumPositionViewer(motorSectionComposite, (EnumPositioner) ScannableSetup.ATN2.getScannable(), "", true);
-		enumPositionViewer.getComboWrapper().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		applyButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					ScannableSetup.ATN2.getScannable().asynchronousMoveTo(lblAtn2Suggestion.getText());
-				} catch (Exception e) {
-					String errorMessage = "Exception setting motor to " + lblAtn2Suggestion.getText();
-					UIHelper.showError(errorMessage, e.getMessage());
-					logger.error(errorMessage, e);
-				}
-			}
-		});
+		lblMe2StripSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ME2_STRIPE);
+		applyButton = createApplyButtonControl(motorSectionComposite, ScannableSetup.ME2_STRIPE, lblMe2StripSuggestion);
+		createEnumPositioner(motorSectionComposite, ScannableSetup.ME2_STRIPE, lblMe2StripSuggestion, applyButton);
 
-		lblAtn3Suggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ATN3);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblAtn3Suggestion);
-		enumPositionViewer = new EnumPositionViewer(motorSectionComposite, (EnumPositioner) ScannableSetup.ATN3.getScannable(), "", true);
-		enumPositionViewer.getComboWrapper().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		applyButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					ScannableSetup.ATN3.getScannable().asynchronousMoveTo(lblAtn3Suggestion.getText());
-				} catch (Exception e) {
-					String errorMessage = "Exception setting motor to " + lblAtn3Suggestion.getText();
-					UIHelper.showError(errorMessage, e.getMessage());
-					logger.error(errorMessage);
-				}
-			}
-		});
+		lblMe2PitchAngleSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ME2_PITCH_ANGLE);
+		applyButton = createApplyButtonControl(motorSectionComposite);
+		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.ME2_PITCH_ANGLE, lblMe2PitchAngleSuggestion, applyButton);
 
-		lblMe1StripSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ME1_STRIPE);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblMe1StripSuggestion);
-		enumPositionViewer = new EnumPositionViewer(motorSectionComposite, (EnumPositioner) ScannableSetup.ME1_STRIPE.getScannable(), "", true);
-		enumPositionViewer.getComboWrapper().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		applyButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					ScannableSetup.ME1_STRIPE.getScannable().asynchronousMoveTo(lblMe1StripSuggestion.getText());
-				} catch (Exception e) {
-					String errorMessage = "Exception setting motor to " + lblMe1StripSuggestion.getText();
-					UIHelper.showError(errorMessage, e.getMessage());
-					logger.error(errorMessage, e);
-				}
-			}
-		});
+		lblPolyBender1Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.POLY_BENDER_1);
+		applyButton = createApplyButtonControl(motorSectionComposite);
+		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.POLY_BENDER_1, lblPolyBender1Suggestion, applyButton);
 
-		lblMe2StripSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ME2_STRIPE);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblMe2StripSuggestion);
-		enumPositionViewer = new EnumPositionViewer(motorSectionComposite, (EnumPositioner) ScannableSetup.ME2_STRIPE.getScannable(), "", true);
-		enumPositionViewer.getComboWrapper().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-		applyButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					ScannableSetup.ME2_STRIPE.getScannable().asynchronousMoveTo(lblMe2StripSuggestion.getText());
-				} catch (Exception e) {
-					String errorMessage = "Exception setting motor to " + lblMe2StripSuggestion.getText();
-					UIHelper.showError(errorMessage, e.getMessage());
-					logger.error(errorMessage, e);
-				}
-			}
-		});
-
-		lblMe2PitchAngleSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ME2_PITCH_ANGLE);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblMe2PitchAngleSuggestion);
-
-		scannable = ScannableSetup.ME2_PITCH_ANGLE.getScannable();
-		// TODO Add remove observers on dispose
-		scannable.addIObserver(moveObserver);
-		scannableWrapper = ScannableSetup.ME2_PITCH_ANGLE.getScannableWrapper();
-		scannableWrapper.addPropertyChangeListener(ScannableWrapper.POSITION_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				updatePower();
-			}
-		});
-
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, scannableWrapper, true);
-		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.ME2_PITCH_ANGLE, lblMe2PitchAngleSuggestion, motorPositionEditorControl));
-
-		lblPolyBender1Suggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.POLY_BENDER_1);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblPolyBender1Suggestion);
-
-		scannable = ScannableSetup.POLY_BENDER_1.getScannable();
-		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, ScannableSetup.POLY_BENDER_1.getScannableWrapper(), true);
-		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.POLY_BENDER_1, lblPolyBender1Suggestion, motorPositionEditorControl));
-
-		lblPolyBender2Suggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.POLY_BENDER_2);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblPolyBender2Suggestion);
-
-		scannable = ScannableSetup.POLY_BENDER_2.getScannable();
-		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, ScannableSetup.POLY_BENDER_2.getScannableWrapper(), true);
-		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.POLY_BENDER_2, lblPolyBender2Suggestion, motorPositionEditorControl));
+		lblPolyBender2Suggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.POLY_BENDER_2);
+		applyButton = createApplyButtonControl(motorSectionComposite);
+		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.POLY_BENDER_2, lblPolyBender2Suggestion, applyButton);
 
 		final Button btnSynchroniseThetas = toolkit.createButton(motorSectionComposite, "Match TwoTheta arm to Poly Bragg value", SWT.CHECK | SWT.WRAP);
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gridData.horizontalSpan = 4;
 		btnSynchroniseThetas.setLayoutData(gridData);
 		btnSynchroniseThetas.setSelection(true);
+		btnSynchroniseThetas.setEnabled(controlsEnabled);
 
-		lblPolyBraggSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.POLY_BRAGG);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblPolyBraggSuggestion);
-
-		scannable = ScannableSetup.POLY_BRAGG.getScannable();
-		scannable.addIObserver(moveObserver);
-		//TODO Refactor to create singleton
-		BraggAngleAndTwoThetaScannableWrapper braggAngleScannableWrapper = new BraggAngleAndTwoThetaScannableWrapper(scannable, btnSynchroniseThetas);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, braggAngleScannableWrapper, true);
-		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.POLY_BRAGG, lblPolyBraggSuggestion, motorPositionEditorControl));
-
-		lblArm2ThetaAngleSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.ARM_2_THETA_ANGLE);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblArm2ThetaAngleSuggestion);
-
-		scannable = ScannableSetup.ARM_2_THETA_ANGLE.getScannable();
-		scannable.addIObserver(moveObserver);
-		//TODO Refactor to create singleton
-		BraggAngleAndTwoThetaScannableWrapper twoThetacannableWrapper = new BraggAngleAndTwoThetaScannableWrapper(scannable, btnSynchroniseThetas);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, twoThetacannableWrapper, true);
-		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.ARM_2_THETA_ANGLE, lblArm2ThetaAngleSuggestion, motorPositionEditorControl));
-
-		braggAngleScannableWrapper.setLinkedMotorPositionEditor(twoThetacannableWrapper, true);
+		BraggAngleAndTwoThetaScannableWrapper braggAngleScannableWrapper = new BraggAngleAndTwoThetaScannableWrapper(ScannableSetup.POLY_BRAGG.getScannable(), btnSynchroniseThetas);
+		BraggAngleAndTwoThetaScannableWrapper twoThetacannableWrapper = new BraggAngleAndTwoThetaScannableWrapper(ScannableSetup.ARM_2_THETA_ANGLE.getScannable(), btnSynchroniseThetas);
 		twoThetacannableWrapper.setLinkedMotorPositionEditor(braggAngleScannableWrapper, false);
+		braggAngleScannableWrapper.setLinkedMotorPositionEditor(twoThetacannableWrapper, true);
+
+		lblPolyBraggSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.POLY_BRAGG);
+		applyButton = createApplyButtonControl(motorSectionComposite);
+		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.POLY_BRAGG, lblPolyBraggSuggestion, applyButton);
+
+		lblArm2ThetaAngleSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.ARM_2_THETA_ANGLE);
+		applyButton = createApplyButtonControl(motorSectionComposite);
+
+		ScannableSetup.ARM_2_THETA_ANGLE.getScannable().addIObserver(moveObserver);
+		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, twoThetacannableWrapper, controlsEnabled, controlsEnabled);
+		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		motorPositionEditorControl.setEditable(controlsEnabled);
+		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.ARM_2_THETA_ANGLE, lblArm2ThetaAngleSuggestion, motorPositionEditorControl));
 
 		Label lblPowerEstimate = toolkit.createLabel(motorSectionComposite, "Estimated power is: ");
 		lblPowerEstimate.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
@@ -756,49 +596,13 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		gridData.horizontalSpan = 3;
 		labelPowerEstimateValue.setLayoutData(gridData);
 
-		lblDetectorHeightSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.DETECTOR_HEIGHT);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblDetectorHeightSuggestion);
+		lblDetectorHeightSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.DETECTOR_HEIGHT);
+		applyButton = createApplyButtonControl(motorSectionComposite);
+		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.DETECTOR_HEIGHT, lblDetectorHeightSuggestion, applyButton);
 
-		scannable = ScannableSetup.DETECTOR_HEIGHT.getScannable();
-		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, ScannableSetup.DETECTOR_HEIGHT.getScannableWrapper(), true);
-		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.DETECTOR_HEIGHT, lblDetectorHeightSuggestion, motorPositionEditorControl));
-
-		try {
-			final Scannable detectorHeight = ScannableSetup.DETECTOR_HEIGHT.getScannable();
-			final Scannable detectorDistance = ScannableSetup.DETECTOR_Z_POSITION.getScannable();
-			// FIXME This doesn't do anything
-			movingScannables.addListChangeListener(new IListChangeListener() {
-				@Override
-				public void handleListChange(ListChangeEvent event) {
-					event.diff.accept(new ListDiffVisitor() {
-						@Override
-						public void handleRemove(int index, Object element) {
-							if (element == detectorHeight | element == detectorDistance) {
-								//								getScannableValuesSuggestion();
-							}
-						}
-						@Override
-						public void handleAdd(int index, Object element) {}
-					});
-				}
-			});
-		} catch (Exception e) {
-			UIHelper.showError("Unable to find detector details", e.getMessage());
-			logger.error("Unable to find detector details", e);
-		}
-
-		lblDetectorDistanceSuggestion = createSuggestionLabel(motorSectionComposite, ScannableSetup.DETECTOR_Z_POSITION);
-		applyButton = createMotorControl(motorSectionComposite);
-		suggestionControls.put(applyButton, lblDetectorDistanceSuggestion);
-
-		scannable = ScannableSetup.DETECTOR_Z_POSITION.getScannable();
-		scannable.addIObserver(moveObserver);
-		motorPositionEditorControl = new MotorPositionEditorControl(motorSectionComposite, SWT.None, ScannableSetup.DETECTOR_Z_POSITION.getScannableWrapper(), true);
-		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(ScannableSetup.DETECTOR_Z_POSITION, lblDetectorDistanceSuggestion, motorPositionEditorControl));
+		lblDetectorDistanceSuggestion = createScannableAndSuggestionLabel(motorSectionComposite, ScannableSetup.DETECTOR_Z_POSITION);
+		applyButton = createApplyButtonControl(motorSectionComposite);
+		createMotorPositionEditorControl(motorSectionComposite, ScannableSetup.DETECTOR_Z_POSITION, lblDetectorDistanceSuggestion, applyButton);
 
 		Label lblDeltaE = toolkit.createLabel(motorSectionComposite, "Energy bandwidth for\n calculated detector distance:", SWT.WRAP);
 		gridData = new GridData(SWT.BEGINNING, SWT.BEGINNING, false, false);
@@ -831,9 +635,10 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		return String.format("<form><p><b>%s</b></p></form>", value);
 	}
 
-	private Label createSuggestionLabel(Composite parent, ScannableSetup scannableSetup) {
+	private Label createScannableAndSuggestionLabel(Composite parent, ScannableSetup scannableSetup) {
 		Label lbl = toolkit.createLabel(parent, scannableSetup.getLabel(), SWT.NONE);
 		lbl.setLayoutData(createLabelGridData());
+		lbl.setToolTipText(scannableSetup.getScannableName());
 		Label lblSuggestion = toolkit.createLabel(parent, SUGGESTION_UNAVAILABLE_TEXT, SWT.NONE);
 		lblSuggestion.setLayoutData(createSuggestionLabelLayout());
 		return lblSuggestion;
@@ -851,11 +656,62 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		return gridData;
 	}
 
-	private Button createMotorControl(Composite parent) {
+	private Button createApplyButtonControl(Composite parent) {
 		Button suggestionApplyButton = toolkit.createButton(parent, "", SWT.FLAT);
 		suggestionApplyButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_FORWARD));
 		suggestionApplyButton.setLayoutData(new GridData(GridData.BEGINNING, GridData.BEGINNING, false, false));
+		suggestionApplyButton.setVisible(controlsEnabled); // hide the button if controls are disabled
 		return suggestionApplyButton;
+	}
+
+	private Button createApplyButtonControl(Composite parent, ScannableSetup scannableSetup, Label posLabel) {
+		Button button = createApplyButtonControl(parent);
+		button.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				try {
+					scannableSetup.getScannable().asynchronousMoveTo(posLabel.getText());
+				} catch (Exception e) {
+					String errorMessage = "Exception setting motor to " + posLabel.getText();
+					UIHelper.showError(errorMessage, e.getMessage());
+					logger.error(errorMessage, e);
+				}
+			}
+		});
+		return button;
+	}
+
+	private EnumPositionViewer createEnumPositioner(Composite parent, ScannableSetup scnSetup, Label suggestionLabel, Button applyButton) throws Exception {
+
+		EnumPositionViewer enumPositionViewer = new EnumPositionViewer(parent, (EnumPositioner) scnSetup.getScannable(), "", true);
+		enumPositionViewer.getComboWrapper().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		enumPositionViewer.setEnabled(controlsEnabled);
+
+		applyButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				try {
+					scnSetup.getScannable().asynchronousMoveTo(suggestionLabel.getText());
+				} catch (Exception e) {
+					String errorMessage = "Exception setting motor to " + suggestionLabel.getText();
+					UIHelper.showError(errorMessage, e.getMessage());
+					logger.error(errorMessage, e);
+				}
+			}
+		});
+		return enumPositionViewer;
+	}
+
+	private MotorPositionEditorControl createMotorPositionEditorControl(Composite parent, ScannableSetup scnSetup, Label suggestionLabel, Button applyButton) throws Exception {
+		MotorPositionEditorControl motorPositionEditorControl = new MotorPositionEditorControl(parent, SWT.None, scnSetup.getScannableWrapper(), controlsEnabled, controlsEnabled);
+		motorPositionEditorControl.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		motorPositionEditorControl.setEditable(controlsEnabled);
+
+		applyButton.addListener(SWT.Selection, new SuggestionApplyButtonListener(scnSetup, suggestionLabel, motorPositionEditorControl));
+
+		scnSetup.getScannable().addIObserver(moveObserver);
+
+		return motorPositionEditorControl;
 	}
 
 	private static class BraggAngleAndTwoThetaScannableWrapper extends ScannableWrapper {

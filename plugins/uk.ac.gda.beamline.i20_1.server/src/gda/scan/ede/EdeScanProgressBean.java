@@ -20,7 +20,6 @@ package gda.scan.ede;
 
 import java.io.Serializable;
 
-import gda.scan.ScanDataPoint;
 import gda.scan.ede.position.EdePositionType;
 
 /**
@@ -30,17 +29,19 @@ public class EdeScanProgressBean implements Serializable {
 
 	private final int groupNumOfThisSDP;
 	private final int frameNumOfThisSDP;
+	private String customLabelForSDP;
 	private final EdeScanType scanType;
 	private final EdePositionType positionType;
-	private final ScanDataPoint thisPoint;
+	private String fileName;
 
 	public EdeScanProgressBean(int groupNumOfThisSDP, int frameNumOfThisSDP, EdeScanType scanType,
-			EdePositionType positionType, ScanDataPoint thisPoint) {
+			EdePositionType positionType, String filename) {
 		this.groupNumOfThisSDP = groupNumOfThisSDP;
 		this.frameNumOfThisSDP = frameNumOfThisSDP;
 		this.scanType = scanType;
 		this.positionType = positionType;
-		this.thisPoint = thisPoint;
+		this.fileName = filename;
+		customLabelForSDP = null;
 	}
 
 	public int getGroupNumOfThisSDP() {
@@ -51,6 +52,14 @@ public class EdeScanProgressBean implements Serializable {
 		return frameNumOfThisSDP;
 	}
 
+	public void setCustomLabelForSDP(String customLabelForSDP) {
+		this.customLabelForSDP = customLabelForSDP;
+	}
+
+	public String getCustomLabelForSDP() {
+		return this.customLabelForSDP;
+	}
+
 	public EdeScanType getScanType() {
 		return scanType;
 	}
@@ -59,7 +68,7 @@ public class EdeScanProgressBean implements Serializable {
 		return positionType;
 	}
 
-	public ScanDataPoint getThisPoint() {
-		return thisPoint;
+	public String getFilename() {
+		return fileName;
 	}
 }

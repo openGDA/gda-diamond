@@ -78,6 +78,14 @@ public class SpectraNode extends Node {
 		return yDoubleDataset;
 	}
 
+	/**
+	 * Add new dataset to the node
+	 * @param xDoubleDataset
+	 * @param yDoubleDataset
+	 * @param identifier Unique identifier for the data
+	 * @param label Label used to identify the data in the tree view
+	 * @return new ScanDataItemNode object created using yDoubleDataset, identifer, label etc.
+	 */
 	public ScanDataItemNode updateData(DoubleDataset xDoubleDataset, DoubleDataset yDoubleDataset, String identifier, String label) {
 		this.xDoubleDataset = xDoubleDataset;
 		lastYaxisData = new ScanDataItemNode(identifier, label, yDoubleDataset, (ScanNode) this.getParent(), this);

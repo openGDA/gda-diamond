@@ -19,11 +19,13 @@
 package gda.scan.ede;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.math3.util.Pair;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,7 @@ import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.EdeDetector;
+import gda.device.detector.EdeDummyDetector;
 import gda.device.scannable.TopupChecker;
 import gda.factory.Findable;
 import gda.factory.Finder;
@@ -131,6 +134,8 @@ public abstract class EdeExperiment implements IObserver {
 	protected boolean useFastShutter;
 	protected String fastShutterName;
 	protected Scannable fastShutter;
+
+	protected double scanDeadTime = 2.0; // Approximate time overhead (secs) when running a scan.
 
 	public EdeExperiment(List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
@@ -254,6 +259,44 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected abstract boolean shouldRunItDark();
 
+	/** Map to specify which detector to use for particular combination of position (Inbeam, outbeam..) and type (light, dark) */
+	private Map< Pair<EdePositionType,EdeScanType>, EdeDetector> detectorsForScanParts = new HashMap< Pair<EdePositionType,EdeScanType>, EdeDetector>();
+
+	/**
+	 * Set a specific EdeDetector to be used for particular position (inbeam, outbeam..) and scantype (inbeam, outbeam) combination.
+	 * This function allows dummy detector to be used to provide data for specific part of the scan.
+	 * The default behaviour to use xh or frelon (as before).
+	 * @param positionType {@link EdePositionType}
+	 * @param scanType {@link EdeScanType}
+	 * @param detector {@link EdeDetector} to use (probably an {@link EdeDummyDetector}).
+	 */
+	public void setDetectorForScanPart(EdePositionType positionType, EdeScanType scanType, EdeDetector detector) {
+		detectorsForScanParts.put(Pair.create(positionType, scanType), detector);
+	}
+
+	public Map< Pair<EdePositionType,EdeScanType>, EdeDetector> getDetectorsForScanParts() {
+		return detectorsForScanParts;
+	}
+
+	/**
+	 * Method for creating EdeScan object; sets the detector to be used for the scan part by looking up from detectorsForScanParts map
+	 * @param scanParams
+	 * @param scanPosition
+	 * @param scanType
+	 * @param firstRepetitionIndex
+	 * @param topupChecker
+	 * @return
+	 */
+	public EdeScan makeEdeScan( EdeScanParameters scanParams, EdeScanPosition scanPosition, EdeScanType scanType, int firstRepetitionIndex, TopupChecker topupChecker ) {
+		EdeDetector detectorForScan = theDetector;
+		// Try to look up detector for this particular position and scan type :
+		Pair<EdePositionType, EdeScanType> expPart = Pair.create(scanPosition.getType(), scanType);
+		if (detectorsForScanParts.containsKey(expPart) ){
+			detectorForScan = detectorsForScanParts.get(expPart);
+		}
+		return makeEdeScan(scanParams, scanPosition, scanType, detectorForScan, firstRepetitionIndex, topupChecker);
+	}
+
 	/**
 	 * Method for creating EdeScan objects; includes setting of fastShutter
 	 * @param scanParams
@@ -266,6 +309,11 @@ public abstract class EdeExperiment implements IObserver {
 	 * @since 23/2/2016
 	 */
 	public EdeScan makeEdeScan( EdeScanParameters scanParams, EdeScanPosition scanPosition, EdeScanType scanType, EdeDetector detector, int firstRepetitionIndex, TopupChecker topupChecker ) {
+
+		if (detector instanceof EdeDummyDetector) {
+			((EdeDummyDetector)detector).setMainDetectorName(theDetector.getName());
+		}
+
 		EdeScan edeScan = new EdeScan( scanParams, scanPosition, scanType, detector, firstRepetitionIndex, beamLightShutter, topupChecker );
 
 		// Set option for using fast shutter during scan
@@ -286,13 +334,13 @@ public abstract class EdeExperiment implements IObserver {
 
 		double timeToTopup = getNextTopupTime();
 		i0ScanParameters.setUseFrameTime(false);
-		i0DarkScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, theDetector, firstRepetitionIndex, createTopupCheckerForStartOfExperiment(timeToTopup));
+		i0DarkScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.DARK, firstRepetitionIndex, createTopupCheckerForStartOfExperiment(timeToTopup));
 		i0DarkScan.setProgressUpdater(this);
 		scansBeforeIt.add(i0DarkScan);
 
 		if (runIRef) {
 			iRefScanParameters.setUseFrameTime(false);
-			iRefDarkScan = makeEdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex, null);
+			iRefDarkScan = makeEdeScan(iRefScanParameters, iRefPosition, EdeScanType.DARK, firstRepetitionIndex, null);
 			scansBeforeIt.add(iRefDarkScan);
 			iRefDarkScan.setProgressUpdater(this);
 		}
@@ -409,17 +457,24 @@ public abstract class EdeExperiment implements IObserver {
 		return timeForI0Spectrum*6 + timeForI0Move + timeForItMove;
 	}
 
+	protected double getTimeRequiredForLightI0Collection() {
+		return 2.0*i0ScanParameters.getTotalTime();
+	}
+
 	protected double getTimeRequiredForItCollection() {
-		int numFrames = itScanParameters.getTotalNumberOfFrames();
 		double totalTime = itScanParameters.getTotalTime();
 		return totalTime * getRepetitions();
+	}
+
+	protected double getTimeToMoveFromI0ToIt() {
+		return ( (EdeScanMotorPositions) i0Position).getTimeToMove( (EdeScanMotorPositions)itPosition );
 	}
 
 	protected double getTimeRequiredAfterItCollection() {
 		// Time for move from It to I0 position
 		double timeForI0Move = ( (EdeScanMotorPositions) i0Position).getTimeToMove( (EdeScanMotorPositions)itPosition );
-		double timePerSpectrum = i0ScanParameters.getTotalTime()/i0ScanParameters.getTotalNumberOfFrames();
-		return timePerSpectrum*2 + timeForI0Move;
+		double timeForSpectrum = getTimeRequiredForLightI0Collection();
+		return timeForSpectrum + timeForI0Move;
 	}
 
 	protected double getTimeRequiredForFullExperiment() {
@@ -472,6 +527,11 @@ public abstract class EdeExperiment implements IObserver {
 	}
 
 	protected TopupChecker createTopupChecker(Double realTimeRequired) {
+		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups.
+		if (realTimeRequired >= TOP_UP_TIME) {
+			logger.info("Time required (" + realTimeRequired + ") secs is too large to fit within a topup");
+		}
+
 		double timeRequired = Math.min(TOP_UP_TIME-30, realTimeRequired); //otherwise if realTimeRequired>TOP_UP_TIME checker runs forever...
 
 		double waitTime = 5.0, tolerance = 2.0;
@@ -483,8 +543,8 @@ public abstract class EdeExperiment implements IObserver {
 			waitTime = topupCheckerMachine.getWaittime();
 		}
 
-		// Avoid having timeout<waitTime+tolerance, otherwise get exception due to timeout whilst topup is imminent/happening
-		double timeout = 1.5*Math.max(waitTime + tolerance, timeRequired);
+		// timeout should be > collectiontime+tolerance+waitTime
+		double timeout = 2.0*(waitTime+tolerance+timeRequired);
 
 		logger.debug("createTopupChecker() : collectionTime = {}, timeout = {}, waitTime = {}, tolerance = {}", timeRequired, timeout, waitTime, tolerance);
 
@@ -519,12 +579,6 @@ public abstract class EdeExperiment implements IObserver {
 			// Don't wait for topup
 			return null;
 		}
-
-		// Display warning in log panel rather than throw exception if 'before It' collection is longer than time between topups.
-		if (timeRequired >= TOP_UP_TIME) {
-			logger.info("Time required ("+timeRequired+") secs is too large to fit within a topup");
-		}
-
 		return createTopupChecker(timeRequired);
 	}
 
@@ -702,23 +756,23 @@ public abstract class EdeExperiment implements IObserver {
 	public EdeScanMotorPositions getItScanPositions() {
 		return (EdeScanMotorPositions)itPosition;
 	}
-	
+
 	public EdeScanMotorPositions getI0ScanPositions() {
 		return (EdeScanMotorPositions)i0Position;
 	}
-	
+
 	public EdeScanParameters getItScanParameters() {
 		return itScanParameters;
 	}
-	
+
 	public void setItTriggerOptions(String itTriggerOptionsString) {
 		this.itTriggerOptions = gson.fromJson(itTriggerOptionsString, TFGTrigger.class);
 	}
-	
+
 	public void setItTriggerOptions(TFGTrigger itTriggerOptions) {
 		this.itTriggerOptions = itTriggerOptions;
 	}
-	
+
 	public TFGTrigger getItTriggerOptions() {
 		return itTriggerOptions;
 	}

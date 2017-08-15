@@ -19,7 +19,6 @@
 package gda.scan.ede;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,10 +32,6 @@ import gda.scan.EdeScanWithTFGTrigger;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.datawriters.EdeExperimentDataWriter;
 import gda.scan.ede.datawriters.EdeTimeResolvedExperimentDataWriter;
-import gda.scan.ede.position.EdePositionType;
-import gda.scan.ede.position.EdeScanMotorPositions;
-import gda.scan.ede.position.EdeScanPosition;
-import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -58,6 +53,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 	private int totalNumberOfspectra;
 	private double totalTime;
 	private double i0accumulationTime;
+	private boolean writeAsciiData;
 
 	public TimeResolvedExperiment(double i0accumulationTime, List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions, Map<String, Double> iTScanableMotorPositions,
@@ -67,6 +63,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		this.i0accumulationTime = i0accumulationTime;
 		setDefaultI0Parameters(i0accumulationTime);
 		setupTimingGroups();
+		writeAsciiData = true;
 	}
 
 	/**
@@ -190,39 +187,44 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		if (shouldRunItDark()) {
 			EdeScanParameters itDarkScanParameters = deriveItDarkParametersFromItParameters();
 			itDarkScanParameters.setUseFrameTime(true);
-			itDarkScan = makeEdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, theDetector, firstRepetitionIndex,  null);
+			itDarkScan = makeEdeScan(itDarkScanParameters, itPosition, EdeScanType.DARK, firstRepetitionIndex,  null);
 			itDarkScan.setProgressUpdater(this);
 			scansBeforeIt.add(itDarkScan);
 		} else {
 			itDarkScan = i0DarkScan;
 		}
 
+		// Make Topup checker for I0 and It collection (time for It collection + motor move time from I0 to It position)
+		TopupChecker topupChecker = null;
+		if (getItWaitForTopup()) {
+			topupChecker = createTopupChecker(2*scanDeadTime + getTimeRequiredForLightI0Collection() + getTimeToMoveFromI0ToIt() + getTimeRequiredForItCollection());
+		}
+
 		i0ScanParameters.setUseFrameTime(false);
-		i0LightScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, null);
+		i0LightScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, firstRepetitionIndex, topupChecker);
 		i0LightScan.setProgressUpdater(this);
 		scansBeforeIt.add(i0LightScan);
 
 		if (runIRef) {
 			i0ForiRefScanParameters.setUseFrameTime(false);
-			i0ForiRefScan = makeEdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, null);
+			i0ForiRefScan = makeEdeScan(i0ForiRefScanParameters, i0ForiRefPosition, EdeScanType.LIGHT, firstRepetitionIndex, null);
 			scansBeforeIt.add(i0ForiRefScan);
 			i0ForiRefScan.setProgressUpdater(this);
 
 			iRefScanParameters.setUseFrameTime(false);
-			iRefScan = makeEdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector, firstRepetitionIndex, null);
+			iRefScan = makeEdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, firstRepetitionIndex, null);
 			scansBeforeIt.add(iRefScan);
 			iRefScan.setProgressUpdater(this);
 		}
 
 		runItWithTriggerOptions=itScanParameters.getGroups().get(0).isGroupTrig();
 
+		// Dont't include Topup check for It - I0 part of scan already includes time for It collection. imh 24/7/2017
 		if (runItWithTriggerOptions) {
 			itScans = new EdeScanWithTFGTrigger[repetitions];
-
 			itScanParameters.setUseFrameTime(true);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				// itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, shouldWaitForTopup(repIndex, timeToTopup));
-				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, getItWaitForTopup() && shouldItScanWaitForTopup(timeToTopup));
+				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, false);
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);
 			}
@@ -230,23 +232,26 @@ public class TimeResolvedExperiment extends EdeExperiment {
 			itScans = new EdeScan[repetitions];
 			itScanParameters.setUseFrameTime(true);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				TopupChecker topupChecker = getItWaitForTopup() ? createTopupCheckerForItCollection(timeToTopup) : null;
-				itScans[repIndex] = makeEdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, theDetector, repIndex, topupChecker);
+				itScans[repIndex] = makeEdeScan(itScanParameters, itPosition, EdeScanType.LIGHT, repIndex, null);
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);
 			}
 		}
 
+		// Make Topup checker for final I0 scan (I0 collection time + time for motor move from It to I0)
+		topupChecker= null;
+		if (getItWaitForTopup()) {
+			topupChecker = createTopupChecker(scanDeadTime + getTimeToMoveFromI0ToIt() + getTimeRequiredForLightI0Collection());
+		}
+
 		i0ScanParameters.setUseFrameTime(false);
-		i0FinalScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, theDetector,
-				firstRepetitionIndex, createTopupCheckerForAfterItScans());
+		i0FinalScan = makeEdeScan(i0ScanParameters, i0Position, EdeScanType.LIGHT, firstRepetitionIndex, topupChecker);
 		i0FinalScan.setProgressUpdater(this);
 		scansAfterIt.add(i0FinalScan);
 
 		if (runIRef) {
 			iRefScanParameters.setUseFrameTime(false);
-			iRefFinalScan = makeEdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, theDetector,
-					firstRepetitionIndex, null);
+			iRefFinalScan = makeEdeScan(iRefScanParameters, iRefPosition, EdeScanType.LIGHT, firstRepetitionIndex, null);
 			iRefFinalScan.setProgressUpdater(this);
 			scansAfterIt.add(iRefFinalScan);
 		}
@@ -296,8 +301,10 @@ public class TimeResolvedExperiment extends EdeExperiment {
 
 	@Override
 	protected EdeExperimentDataWriter createFileWritter() {
-		return new EdeTimeResolvedExperimentDataWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan,
+		EdeTimeResolvedExperimentDataWriter writer = new EdeTimeResolvedExperimentDataWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan,
 				itScans, i0FinalScan, iRefFinalScan, theDetector, nexusFilename);
+		writer.setWriteAsciiData(writeAsciiData);
+		return writer;
 	}
 
 	@Override
@@ -331,5 +338,13 @@ public class TimeResolvedExperiment extends EdeExperiment {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean getWriteAsciiData() {
+		return writeAsciiData;
+	}
+
+	public void setWriteAsciiData(boolean writeAsciiData) {
+		this.writeAsciiData = writeAsciiData;
 	}
 }
