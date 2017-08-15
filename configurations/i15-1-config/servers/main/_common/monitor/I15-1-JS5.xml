@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Old non generic NexusSlitsWrapper slits scannables -->
+
+	<bean id="s5NeXusSlit" class="uk.ac.diamond.daq.scanning.NexusSlitsWrapper" init-method="register">
+		<property name="name"              value="s5NeXusSlit"/>
+		<property name="x_gap"			   ref="s5gapX"/>
+		<property name="y_gap"			   ref="s5gapY"/>
+		<property name="monitorRole"		value="PER_SCAN"/>
+		<property name="activated"         value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
+	</bean>
+
+	<!-- New generic CompositeNexusScannable based slits scannables -->
+
+</beans>
