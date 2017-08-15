@@ -20,8 +20,8 @@ package gda.scan.ede.datawriters;
 
 import java.util.ArrayList;
 
-import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants;
-import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants.TimingGroupMetadata;
+import org.dawnsci.ede.EdeDataConstants;
+import org.dawnsci.ede.EdeDataConstants.TimingGroupMetadata;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;

@@ -23,9 +23,10 @@ import java.io.FileWriter;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
-import org.dawnsci.ede.rcp.DataFileHelper;
-import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants;
 import org.eclipse.january.dataset.Dataset;
+import org.dawnsci.ede.DataFileHelper;
+import org.dawnsci.ede.EdeDataConstants;
+import org.eclipse.january.dataset.DoubleDataset;
 
 import gda.device.detector.EdeDetector;
 import gda.scan.EnergyDispersiveExafsScan;

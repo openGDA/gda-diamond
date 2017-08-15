@@ -23,8 +23,8 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.dawnsci.ede.rcp.herebedragons.DataHelper;
-import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.DataHelper;
+import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.dawnsci.plotting.api.IPlottingSystem;

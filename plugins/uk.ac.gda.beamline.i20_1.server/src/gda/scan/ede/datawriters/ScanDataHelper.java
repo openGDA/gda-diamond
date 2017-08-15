@@ -21,7 +21,7 @@ package gda.scan.ede.datawriters;
 import java.util.Arrays;
 import java.util.Vector;
 
-import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants;
+import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;

@@ -20,7 +20,7 @@ package gda.scan.ede.position;
 
 import java.io.Serializable;
 
-import org.dawnsci.ede.rcp.herebedragons.EdePositionType;
+import org.dawnsci.ede.EdePositionType;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;

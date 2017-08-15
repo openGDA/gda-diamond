@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.calibration.ui;
 
-import org.dawnsci.ede.rcp.herebedragons.CalibrationEnergyData;
+import org.dawnsci.ede.CalibrationEnergyData;
 
 public interface CalibrationPlotViewer {
 	void setCalibrationData(CalibrationEnergyData dataSet);

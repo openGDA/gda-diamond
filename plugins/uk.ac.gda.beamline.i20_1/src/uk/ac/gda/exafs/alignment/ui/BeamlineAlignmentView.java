@@ -23,7 +23,7 @@ import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import org.dawnsci.ede.rcp.herebedragons.DataHelper;
+import org.dawnsci.ede.DataHelper;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;

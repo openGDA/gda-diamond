@@ -20,7 +20,7 @@ package uk.ac.gda.exafs.calibration.ui;
 
 import java.io.File;
 
-import org.dawnsci.ede.rcp.herebedragons.EnergyCalibration;
+import org.dawnsci.ede.EnergyCalibration;
 import org.dawnsci.ede.rcp.herebedragons.EnergyCalibrationWizard;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeanProperties;

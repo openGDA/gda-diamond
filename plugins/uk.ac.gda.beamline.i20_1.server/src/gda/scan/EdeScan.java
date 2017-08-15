@@ -23,8 +23,8 @@ import static gda.jython.InterfaceProvider.getJythonServerNotifer;
 import java.util.List;
 import java.util.Vector;
 
-import org.dawnsci.ede.rcp.herebedragons.EdePositionType;
-import org.dawnsci.ede.rcp.herebedragons.EdeScanType;
+import org.dawnsci.ede.EdePositionType;
+import org.dawnsci.ede.EdeScanType;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

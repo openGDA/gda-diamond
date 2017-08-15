@@ -21,8 +21,8 @@ package gda.scan;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-import org.dawnsci.ede.rcp.herebedragons.EdePositionType;
-import org.dawnsci.ede.rcp.herebedragons.EdeScanType;
+import org.dawnsci.ede.EdePositionType;
+import org.dawnsci.ede.EdeScanType;
 import org.junit.Test;
 
 import gda.device.DeviceException;

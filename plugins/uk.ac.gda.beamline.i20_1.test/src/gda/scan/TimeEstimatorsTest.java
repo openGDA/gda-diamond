@@ -19,7 +19,7 @@
 package gda.scan;
 import static org.junit.Assert.assertEquals;
 
-import org.dawnsci.ede.rcp.herebedragons.EdePositionType;
+import org.dawnsci.ede.EdePositionType;
 import org.junit.Test;
 
 import gda.device.scannable.ScannableMotor;

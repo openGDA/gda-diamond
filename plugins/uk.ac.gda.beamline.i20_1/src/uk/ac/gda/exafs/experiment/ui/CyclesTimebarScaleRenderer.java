@@ -18,7 +18,7 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
-import org.dawnsci.ede.rcp.herebedragons.DataHelper;
+import org.dawnsci.ede.DataHelper;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;

@@ -18,9 +18,9 @@
 
 package gda.device.scannable;
 
-import org.dawnsci.ede.rcp.herebedragons.EdeDataConstants;
-import org.dawnsci.ede.rcp.herebedragons.EdePositionType;
-import org.dawnsci.ede.rcp.herebedragons.EdeScanType;
+import org.dawnsci.ede.EdeDataConstants;
+import org.dawnsci.ede.EdePositionType;
+import org.dawnsci.ede.EdeScanType;
 
 import gda.device.DeviceException;
 
