@@ -46,6 +46,8 @@ public class XesScan extends XasScanBase implements XasScan {
 	private Object[] xes_args;
 	private TwoDScanPlotter twodplotter = new TwoDScanPlotter();
 	private I20OutputParameters i20OutputParameters;
+	private String monoAxisLabel = "bragg1 energy [eV]";
+	private String xesAxisLabel = "XESEnergy [eV]";
 
 	public XesScan() {
 	}
@@ -59,6 +61,7 @@ public class XesScan extends XasScanBase implements XasScan {
 	public void doCollection(ISampleParameters sampleBean, IScanParameters scanBean, IDetectorParameters detectorBean,
 			IOutputParameters outputBean, IDetectorConfigurationParameters detectorConfigurationBean,
 			String experimentFullPath, int numRepetitions) throws Exception {
+
 		xesScanParameters = (XesScanParameters) scanBean;
 		i20OutputParameters = (I20OutputParameters) outputBean;
 		this.numRepetitions = numRepetitions;
@@ -69,15 +72,21 @@ public class XesScan extends XasScanBase implements XasScan {
 		this.sampleBean = sampleBean;
 		this.scanBean = scanBean;
 
+		setXmlFileNames("", "", "", "");
+		determineExperimentPath(experimentFullPath);
 		scan_unique_id = LoggingScriptController.createUniqueID(getScanType());
-		_runCorrectScanType();
+		doCollection();
 	}
 
-	private void _runCorrectScanType() throws Exception {
+	@Override
+	protected void doCollection() throws Exception {
+		xesScanParameters = (XesScanParameters) scanBean;
+		i20OutputParameters = (I20OutputParameters) outputBean;
 
 		if (analyserAngle.isBusy()) {
 			analyserAngle.waitWhileBusy();
 		}
+
 		int innerScanType = xesScanParameters.getScanType();
 		if (innerScanType == XesScanParameters.FIXED_XES_SCAN_XAS || innerScanType == XesScanParameters.FIXED_XES_SCAN_XANES) {
 			_doXASScan();
@@ -85,25 +94,22 @@ public class XesScan extends XasScanBase implements XasScan {
 		}
 
 		try {
-			doCollection();
+			super.doCollection();
 		} finally {
 			// make sure the plotter is switched off
 			twodplotter.atScanEnd();
 		}
-
 	}
 
 	// args do run a single concurrentscan
 	@Override
 	protected Object[] createScanArguments(String sampleName, List<String> descriptions) throws Exception {
 
-		xesScanParameters = (XesScanParameters) scanBean;
-		i20OutputParameters = (I20OutputParameters) outputBean;
-
 		int innerScanType = xesScanParameters.getScanType();
 
-		if (innerScanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
-
+		if (innerScanType == XesScanParameters.FIXED_XES_SCAN_XAS) {
+			xes_args = new Object[] { xes_energy, xesScanParameters.getXesEnergy(), xesScanParameters.getXesEnergy(), 1};
+		} else if (innerScanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
 			xes_args = new Object[] { xes_energy, xesScanParameters.getXesInitialEnergy(),
 					xesScanParameters.getXesFinalEnergy(), xesScanParameters.getXesStepSize(), mono_energy,
 					xesScanParameters.getMonoEnergy() };
@@ -113,23 +119,25 @@ public class XesScan extends XasScanBase implements XasScan {
 					xesScanParameters.getXesFinalEnergy(), xesScanParameters.getXesStepSize() };
 			Object[] e0_args = new Object[] { mono_energy, xesScanParameters.getMonoInitialEnergy(),
 					xesScanParameters.getMonoFinalEnergy(), xesScanParameters.getMonoStepSize() };
-			if (xesScanParameters.getLoopChoice() == XesScanParameters.LOOPOPTIONS[0]) {
-
+			if (xesScanParameters.getLoopChoice().equals(XesScanParameters.LOOPOPTIONS[0])) {
 				xes_args = ArrayUtils.addAll(ef_args, e0_args);
-				twodplotter.setZ_colName("FFI1");
+				twodplotter.setXArgs(xesScanParameters.getMonoInitialEnergy(), xesScanParameters.getMonoFinalEnergy(),
+						xesScanParameters.getMonoStepSize());
+				twodplotter.setYArgs(xesScanParameters.getXesInitialEnergy(), xesScanParameters.getXesFinalEnergy(),
+						xesScanParameters.getXesStepSize());
+				twodplotter.setXAxisName(monoAxisLabel);
+				twodplotter.setYAxisName(xesAxisLabel);
+			} else { // innerScanType == XesScanParameters.SCAN_XES_FIXED_MONO
+				xes_args = ArrayUtils.addAll(e0_args, ef_args);
 				twodplotter.setXArgs(xesScanParameters.getXesInitialEnergy(), xesScanParameters.getXesFinalEnergy(),
 						xesScanParameters.getXesStepSize());
 				twodplotter.setYArgs(xesScanParameters.getMonoInitialEnergy(), xesScanParameters.getMonoFinalEnergy(),
 						xesScanParameters.getMonoStepSize());
-			} else { // innerScanType == XesScanParameters.SCAN_XES_FIXED_MONO
-
-				xes_args = ArrayUtils.addAll(e0_args, ef_args);
-				twodplotter.setZ_colName("FFI1");
-				twodplotter.setYArgs(xesScanParameters.getXesInitialEnergy(), xesScanParameters.getXesFinalEnergy(),
-						xesScanParameters.getXesStepSize());
-				twodplotter.setXArgs(xesScanParameters.getMonoInitialEnergy(), xesScanParameters.getMonoFinalEnergy(),
-						xesScanParameters.getMonoStepSize());
+				twodplotter.setYAxisName(monoAxisLabel);
+				twodplotter.setXAxisName(xesAxisLabel);
 			}
+			twodplotter.setZ_colName("FFI1");
+			twodplotter.setName("twoDPlotter");
 			xes_args = ArrayUtils.add(xes_args, twodplotter);
 		}
 		Detector[] detList = getDetectors();

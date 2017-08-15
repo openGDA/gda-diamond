@@ -24,6 +24,7 @@
 -Dgda.facility.dir=/dls_sw/i20/software/gda_git/gda-diamond.git/dls-config
 -Djacorb.config.dir=/dls_sw/i20/software/gda/config/properties/live/jacorb
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i20/software/gda/config/properties/live/JCALibrary.properties
+-Declipse.pluginCustomization=/dls_sw/i20/software/gda_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.i20/plugin_customization.ini
 -Dgda.mode=live
 -Dgda.client.jython.automatic.interpreter=1
 -Xms512m

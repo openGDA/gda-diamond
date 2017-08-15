@@ -3,7 +3,7 @@
     <detectorName>xspress2system</detectorName>
     <resGrade>res-none</resGrade>
     <regionType>Virtual Scaler</regionType>
-    <readoutMode>Scalers only</readoutMode>
+    <readoutMode>Scalers and MCA</readoutMode>
     <editIndividualElements>true</editIndividualElements>
     <DetectorElement>
         <name>Element 0</name>
@@ -428,6 +428,342 @@
     <DetectorElement>
         <name>Element 35</name>
         <number>35</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 36</name>
+        <number>36</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 37</name>
+        <number>37</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 38</name>
+        <number>38</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 39</name>
+        <number>39</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 40</name>
+        <number>40</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 41</name>
+        <number>41</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 42</name>
+        <number>42</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 43</name>
+        <number>43</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 44</name>
+        <number>44</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 45</name>
+        <number>45</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 46</name>
+        <number>46</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 47</name>
+        <number>47</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 48</name>
+        <number>48</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 49</name>
+        <number>49</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 50</name>
+        <number>50</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 51</name>
+        <number>51</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 52</name>
+        <number>52</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 53</name>
+        <number>53</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 54</name>
+        <number>54</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 55</name>
+        <number>55</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 56</name>
+        <number>56</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 57</name>
+        <number>57</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 58</name>
+        <number>58</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 59</name>
+        <number>59</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 60</name>
+        <number>60</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 61</name>
+        <number>61</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 62</name>
+        <number>62</number>
+        <windowStart>742</windowStart>
+        <windowEnd>850</windowEnd>
+        <excluded>false</excluded>
+        <Region>
+            <roiName>ROI_1</roiName>
+            <roiStart>760</roiStart>
+            <roiEnd>841</roiEnd>
+        </Region>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element 63</name>
+        <number>63</number>
         <windowStart>742</windowStart>
         <windowEnd>850</windowEnd>
         <excluded>false</excluded>

@@ -65,6 +65,7 @@
 		<property name="xspress2Detector" ref="xspress2system" />
 		<property name="xmapDetector" ref="xmapMca" />
 		<property name="ionChambers" ref="ionchambers" />
+		<property name="medipixDetector" ref="medipix_addetector" />
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">

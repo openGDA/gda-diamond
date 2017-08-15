@@ -22,6 +22,8 @@ import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -74,7 +76,7 @@ public class EnumPositionerGui implements IObserver {
 	 */
 	public static EnumPositionerGui getCombo(Composite parent, EnumPositioner enumPositioner) throws DeviceException {
 		EnumPositionerGui gui = new EnumPositionerGui(parent, enumPositioner);
-		gui.createCombo();
+		gui.createCombo(parent);
 		return gui;
 	}
 
@@ -82,13 +84,36 @@ public class EnumPositionerGui implements IObserver {
 	 * Add combo box to parent composite
 	 * @throws DeviceException
 	 */
-	public void createCombo() throws DeviceException {
+	public void createCombo(Composite parent) throws DeviceException {
 		selectionCombo = new Combo(parent, SWT.NONE);
 		selectionCombo.setItems( enumPositioner.getPositions() );
 		selectionCombo.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 
 		updateComboBox();
 		addListenerObservers();
+		setComboWidth();
+	}
+
+	public void createCombo() throws DeviceException {
+		createCombo(parent);
+	}
+
+	/**
+	 * Set width of combo box based based on max pixel width of
+	 * the text items it contains.
+	 */
+	public void setComboWidth() {
+		GridData gridData = (GridData) selectionCombo.getLayoutData();
+		String[] items = selectionCombo.getItems();
+		int maxLength = 0;
+		GC gc = new GC(selectionCombo);
+		for(String item : items) {
+			Point size = gc.stringExtent(item);
+			if (size.x>maxLength) {
+				maxLength = size.x;
+			}
+		}
+		gridData.widthHint = maxLength+20;
 	}
 
 	/**
@@ -108,11 +133,8 @@ public class EnumPositionerGui implements IObserver {
 		nameLabel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		nameLabel.setToolTipText(enumPositioner.getName()+ " : "+ArrayUtils.toString(enumPositioner.getPositions()));
 
-		selectionCombo = new Combo(group, SWT.NONE);
-		selectionCombo.setItems( enumPositioner.getPositions() );
-		selectionCombo.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
+		createCombo(group);
 
-//		selectionCombo.setToolTipText(enumPositioner.getName()+ " : "+ArrayUtils.toString(enumPositioner.getPositions()));
 		updateComboBox();
 		addListenerObservers();
 	}
