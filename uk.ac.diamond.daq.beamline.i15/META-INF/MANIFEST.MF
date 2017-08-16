@@ -11,3 +11,4 @@ Require-Bundle: org.eclipse.scanning.api,
 Import-Package: org.slf4j
 Service-Component: OSGI-INF/*.xml
 Bundle-ActivationPolicy: lazy
+Export-Package: uk.ac.diamond.daq.beamline.i15.database
