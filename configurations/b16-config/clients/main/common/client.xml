@@ -17,8 +17,8 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<!--  ${gda.factory.factoryName} -->
 
-	<corba:import namespace="b16server" names="plot_server" />
-	
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="b16server" />
 		<constructor-arg index="1">

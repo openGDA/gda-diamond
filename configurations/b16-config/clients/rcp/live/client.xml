@@ -23,7 +23,8 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 		</property>
 	</bean>
 
-	<corba:import namespace="b16server" names="plot_server" />
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+
 	<corba:import namespace="b16server" names="GDAMetadata" />
 	
 	<bean class="gda.factory.corba.util.AdapterFactory">
@@ -31,11 +32,6 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 		<constructor-arg index="1">
 			<bean class="gda.spring.NetServiceFactoryBean" />
 		</constructor-arg>
-	</bean>
-
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
-		<property name="service" ref="plot_server" />
 	</bean>
 
 <!-- 	<bean id="XASLoggingScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
