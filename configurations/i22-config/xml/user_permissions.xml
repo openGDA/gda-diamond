@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <user_permissions>
+	<!--BEAMLINE STAFF-->
+<i22user>2</i22user>
+<njt78>3</njt78><!--Nick-->
+<lsd43>3</lsd43><!--Lee-->
+<zbs27213>3</zbs27213><!--Olga-->
+<ckn54496>3</ckn54496><!--Andy-->
+<!-- data acq -->
+<qan22331>4</qan22331><!--Peter-->
+<rng73417>3</rng73417><!-- Tim -->
 
+
+	<!-- BEAMLINE USERS -->
 <!-- by default users have permission 1 -->
 <!-- level 2 will allow them to drive some extra motors (e.g. energy, finepitch, mfsaxs) -->
 <!-- with the current configuration all motors are accessible with level 3 -->
