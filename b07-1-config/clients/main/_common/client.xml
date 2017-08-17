@@ -23,7 +23,7 @@
 		</constructor-arg>
 	</bean>
 
-	<import resource="plot_server.xml" />
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 
 	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
