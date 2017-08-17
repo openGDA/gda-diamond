@@ -104,7 +104,7 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
-	<import resource="plot_server.xml"/>
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="analyser.xml"/>
 	<gda:rbac />
 
