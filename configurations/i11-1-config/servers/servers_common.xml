@@ -9,8 +9,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
 	
-
-	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 	
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml" />
