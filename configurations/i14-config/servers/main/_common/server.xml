@@ -15,7 +15,7 @@
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
-	<import resource="file:${gda.config}/servers/main/_common/plotServer.xml" />
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 
 	<!-- Command Server -->
 	<import resource="file:${gda.config}/servers/main/_common/jythonServerFacade.xml" />
