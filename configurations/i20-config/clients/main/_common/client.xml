@@ -62,12 +62,7 @@
 		</property>
 	</bean>
 
-	<corba:import namespace="i20" names="plot_server" />
-
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
-		<property name="service" ref="plot_server" />
-	</bean>
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 
 	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}/rcpController" />
