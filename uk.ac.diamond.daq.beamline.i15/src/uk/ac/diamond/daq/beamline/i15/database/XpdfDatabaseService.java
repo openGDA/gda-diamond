@@ -1,3 +1,21 @@
+/*-
+ * Copyright © 2017 Diamond Light Source Ltd.
+ *
+ * This file is part of GDA.
+ *
+ * GDA is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License version 3 as published by the Free
+ * Software Foundation.
+ *
+ * GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with GDA. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package uk.ac.diamond.daq.beamline.i15.database;
 
 import java.sql.SQLException;
@@ -16,7 +34,11 @@ import uk.ac.diamond.ispyb.api.IspybXpdfFactoryService;
 import uk.ac.diamond.ispyb.api.Sample;
 import uk.ac.diamond.ispyb.api.Schema;
 
-
+/**
+ * Class to provide a ISampleDescriptionService as a OSGi service it uses IspyB database.
+ *
+ * @author James Mudd
+ */
 public class XpdfDatabaseService implements ISampleDescriptionService {
 	private static final Logger logger = LoggerFactory.getLogger(XpdfDatabaseService.class);
 
@@ -27,25 +49,62 @@ public class XpdfDatabaseService implements ISampleDescriptionService {
 
 	private static IspybXpdfFactoryService factoryService;
 
-	@Override
-	public Map<Long, String> getSampleIdNames(String proposalCode, long proposalNumber) {
+	private IspybXpdfApi api;
 
-		String url = LocalProperties.get(XPDF_URL_PROP);
-		Optional<String> username = Optional.ofNullable(LocalProperties.get(XPDF_USER_PROP));
-		Optional<String> password = Optional.ofNullable(LocalProperties.get(XPDF_PASSWORD_PROP));
-		Optional<String> schema = Optional.of(Schema.convert(LocalProperties.get(XPDF_DATABASE_PROP)).toString());
+	@Override
+	public synchronized Map<Long, String> getSampleIdNames(String proposalCode, long proposalNumber) {
+		if (proposalCode.length() > 3) {
+			throw new IllegalArgumentException("proposalCode mush be <=3 characters eg 'cm'");
+		}
+
+		if (api == null) {
+			setupApi();
+		}
+
+		// Access the DB
+		List<Sample> samples = api.retrieveSamplesAssignedForProposal(proposalCode, proposalNumber);
+
+		// Transform to the required map
+		return samples.stream().collect(Collectors.toMap(Sample::getSampleId, Sample::getSampleName));
+	}
+
+	private void setupApi() {
+		String url = getUrl();
+		Optional<String> username = getUsername();
+		Optional<String> password = getPassword();
+		Optional<String> database = getDatabase();
 
 		try {
-			IspybXpdfApi api = factoryService.buildIspybApi(url, username, password, schema);
-
-			List<Sample> samples = api.retrieveSamplesAssignedForProposal(proposalCode, proposalNumber);
-
-			return samples.stream().collect(Collectors.toMap(Sample::getSampleId, Sample::getSampleName));
-
+			api = factoryService.buildIspybApi(url, username, password, database);
 		} catch (SQLException e) {
 			logger.error("Failed to access IspyB", e);
 			throw new RuntimeException(e);
 		}
+	}
+
+	private String getUrl() {
+		return LocalProperties.get(XPDF_URL_PROP);
+	}
+
+	/**
+	 * The MariaDB hosting IspyB host several other databases see
+	 * <a href="http://confluence.diamond.ac.uk/display/SCI/Database+Systems">Database Systems</a>
+	 *
+	 * @return Database name
+	 */
+	private Optional<String> getDatabase() {
+		return Optional.of(Schema.convert(LocalProperties.get(XPDF_DATABASE_PROP)).toString());
+	}
+
+	private Optional<String> getPassword() {
+		// If the password contains commas it will be split into a list which is not what is wanted here so join it
+		// again.
+		String password = String.join(",", LocalProperties.getStringArray(XPDF_PASSWORD_PROP));
+		return Optional.ofNullable(password);
+	}
+
+	private Optional<String> getUsername() {
+		return Optional.ofNullable(LocalProperties.get(XPDF_USER_PROP));
 	}
 
 	public static synchronized void setFactoryService(IspybXpdfFactoryService factoryService) {
