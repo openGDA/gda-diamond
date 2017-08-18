@@ -9,7 +9,7 @@
 
 	<import resource="commandQueueProcessor.xml" />
 	<import resource="rmi_imports.xml" />
-	<import resource="plot_server.xml" />
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="osgi_services.xml" />
 	<import resource="mapping.xml" />
 	<import resource="adController.xml" />
