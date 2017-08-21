@@ -96,8 +96,9 @@ class BeamEnergy(ScannableMotionBase):
                 gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15
                 #gap = 23.271 + 0.01748*Ep #Corrected for VPG1 on 2016/10/06
             elif self.pgmgratingselect.getPosition()=="VPG2":
-                gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
+                #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
                 #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
+                gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
             elif self.pgmgratingselect.getPosition()=="VPG3":
                 gap = 18.522577 + 0.02399627*Ep #Corrected for VPG3 on 2017/02/15
             else:
@@ -109,12 +110,15 @@ class BeamEnergy(ScannableMotionBase):
         # Linear Vertical
         elif self.getPolarisationMode()=="LV":
             if self.pgmgratingselect.getPosition()=="VPG1":
-                gap = 11.1441137 + 0.01881376*Ep #Corrected for VPG1 on 2017/07/31 ---> Linear Vertical
+                # gap = 11.1441137 + 0.01881376*Ep #Corrected for VPG1 on 2017/07/31 ---> Linear Vertical
                 # gap = 11.6401974 + 0.01819208*Ep #Corrected for VPG1 on 2017/07/07 ---> Linear Vertical
+                gap = 11.0806699 + 0.01891585*Ep #Corrected for VPG1 at 930 eV on 2017/08/03 ---> Linear Vertical
             elif self.pgmgratingselect.getPosition()=="VPG2":
-                gap = 11.3014613 + 0.01856236*Ep #Corrected for VPG2 on 2017/08/02
+                # gap = 11.3014613 + 0.01856236*Ep #Corrected for VPG2 on 2017/08/02 ---> Linear Vertical
+                gap = 11.2363888 + 0.01864200*Ep #Corrected for VPG2 at 930 eV on 2017/08/03 ---> Linear Vertical
             elif self.pgmgratingselect.getPosition()=="VPG3":
-                gap = 11.2972185 + 0.01862358*Ep #Corrected for VPG3 on 2017/07/27 ---> Linear Vertical
+                # gap = 11.2972185 + 0.01862358*Ep #Corrected for VPG3 on 2017/07/27 ---> Linear Vertical
+                gap = 11.3218637 + 0.01860144*Ep #Corrected for VPG3 at 930 eV on 2017/08/03 ---> Linear Vertical
             else:
                 raise ValueError("Unknown Grating select in LV polarisationMode")
             
