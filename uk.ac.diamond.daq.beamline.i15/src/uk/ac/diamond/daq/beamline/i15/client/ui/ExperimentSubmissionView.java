@@ -64,7 +64,7 @@ public class ExperimentSubmissionView {
 	private IEventService eventService;
 
 	@Inject
-	private static IFilePathService filePathService;
+	private IFilePathService filePathService;
 
 	/**
 	 * Create contents of the view part.
