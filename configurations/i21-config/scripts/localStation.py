@@ -188,7 +188,7 @@ import metashop  # @UnusedImport
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Add meta data items"
-metadatalist=[idgap, energy] #@UndefinedVariable
+metadatalist=[idgap, idscannable, energy] #@UndefinedVariable
 m1list=[m1x,m1pitch,m1height,m1yaw,m1roll] #@UndefinedVariable
 m2list=[m2x,m2pitch,m2height]# @UndefinedVariable
 m4list=[m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2]  # @UndefinedVariable
