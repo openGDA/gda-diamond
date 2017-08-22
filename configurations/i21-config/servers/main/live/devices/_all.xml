@@ -52,6 +52,7 @@
 	<import resource="sgm.xml" />
 	<import resource="spectrometer.xml"/>
 	<import resource="fastshutter.xml" />
+	<import resource="AndorShutter.xml" />
 	<import resource="andor.xml" />
 	
 	<!-- Array Views - To be discontinued in the following release-->
