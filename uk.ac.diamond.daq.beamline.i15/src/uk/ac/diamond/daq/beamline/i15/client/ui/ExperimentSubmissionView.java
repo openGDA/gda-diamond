@@ -18,6 +18,8 @@
 
 package uk.ac.diamond.daq.beamline.i15.client.ui;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -32,7 +34,9 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.richbeans.widgets.shuffle.ShuffleConfiguration;
 import org.eclipse.richbeans.widgets.shuffle.ShuffleViewer;
 import org.eclipse.scanning.api.database.ISampleDescriptionService;
+import org.eclipse.scanning.api.event.EventException;
 import org.eclipse.scanning.api.event.IEventService;
+import org.eclipse.scanning.api.event.core.ISubmitter;
 import org.eclipse.scanning.api.scan.IFilePathService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -48,10 +52,13 @@ import org.eclipse.swt.widgets.Display;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.configuration.properties.LocalProperties;
+
 public class ExperimentSubmissionView {
 
 	public static final String ID = "org.eclipse.scanning.device.ui.expr.experimentSubmissionView"; //$NON-NLS-1$
 	private static final Logger logger = LoggerFactory.getLogger(ExperimentSubmissionView.class);
+	private static final String XPDF_TASK_QUEUE = "uk.ac.diamond.daq.beamline.i15.tasks";
 
 	private ShuffleConfiguration<SampleEntry> conf;
 	private ShuffleViewer<SampleEntry> viewer;
@@ -195,19 +202,28 @@ public class ExperimentSubmissionView {
 		logger.info("Submitting for proposal: {}-{}", proposalCode, proposalNumber);
 		logger.info("Submitting samples: {}", samples);
 
+		ISubmitter<TaskBean> submitter = createScanSubmitter();
+
+		for (SampleEntry sampleEntry : samples) {
+			TaskBean bean = new TaskBean(proposalCode, proposalNumber, sampleEntry.getSampleId());
+			try {
+				submitter.submit(bean);
+			} catch (EventException e) {
+				logger.error("Failed to submit task: {}", bean, e);
+			}
+		}
 	}
 
-	// private ISubmitter<ScanBean> createScanSubmitter() {
-	// if (eventService != null) {
-	// try {
-	// URI queueServerURI = new URI(LocalProperties.getActiveMQBrokerURI());
-	// return eventService.createSubmitter(queueServerURI, EventConstants.SUBMISSION_QUEUE);
-	//
-	// } catch (URISyntaxException e) {
-	// logger.error("URI syntax problem", e);
-	// throw new RuntimeException(e);
-	// }
-	// }
-	// throw new NullPointerException("Event service is not set - check OSGi settings");
-	// }
+	private ISubmitter<TaskBean> createScanSubmitter() {
+		if (eventService != null) {
+			try {
+				URI queueServerURI = new URI(LocalProperties.getActiveMQBrokerURI());
+				return eventService.createSubmitter(queueServerURI, XPDF_TASK_QUEUE);
+			} catch (URISyntaxException e) {
+				logger.error("URI syntax problem", e);
+				throw new RuntimeException(e);
+			}
+		}
+		throw new NullPointerException("Event service is not set - check OSGi settings");
+	}
 }
