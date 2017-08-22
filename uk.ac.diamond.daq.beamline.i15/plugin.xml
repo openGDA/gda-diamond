@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <e4view
+            class="uk.ac.diamond.daq.beamline.i15.client.ui.ExperimentSubmissionView"
+            id="uk.ac.diamond.daq.beamline.i15.e4view1"
+            name="name"
+            restorable="true">
+      </e4view>
+   </extension>
+</plugin>

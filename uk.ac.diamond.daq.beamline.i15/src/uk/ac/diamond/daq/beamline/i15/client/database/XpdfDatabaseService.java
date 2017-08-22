@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.diamond.daq.beamline.i15.database;
+package uk.ac.diamond.daq.beamline.i15.client.database;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -33,6 +33,7 @@ import uk.ac.diamond.ispyb.api.IspybXpdfApi;
 import uk.ac.diamond.ispyb.api.IspybXpdfFactoryService;
 import uk.ac.diamond.ispyb.api.Sample;
 import uk.ac.diamond.ispyb.api.Schema;
+
 
 /**
  * Class to provide a ISampleDescriptionService as a OSGi service it uses IspyB database.
@@ -82,13 +83,19 @@ public class XpdfDatabaseService implements ISampleDescriptionService {
 		}
 	}
 
+	@Override
+	public <T> T getSampleInformation(String proposalCode, long proposalNumber, long sampleId) {
+		// TODO Auto-generated method stub
+
+		return ISampleDescriptionService.super.getSampleInformation(proposalCode, proposalNumber, sampleId);
+	}
+
 	private String getUrl() {
 		return LocalProperties.get(XPDF_URL_PROP);
 	}
 
 	/**
-	 * The MariaDB hosting IspyB host several other databases see
-	 * <a href="http://confluence.diamond.ac.uk/display/SCI/Database+Systems">Database Systems</a>
+	 * The MariaDB hosting IspyB host several other databases see  <a href="http://confluence.diamond.ac.uk/display/SCI/Database+Systems">Database Systems</a>
 	 *
 	 * @return Database name
 	 */
@@ -97,8 +104,7 @@ public class XpdfDatabaseService implements ISampleDescriptionService {
 	}
 
 	private Optional<String> getPassword() {
-		// If the password contains commas it will be split into a list which is not what is wanted here so join it
-		// again.
+		// If the password contains commas it will be split into a list which is not what is wanted here so join it again.
 		String password = String.join(",", LocalProperties.getStringArray(XPDF_PASSWORD_PROP));
 		return Optional.ofNullable(password);
 	}
