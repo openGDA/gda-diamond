@@ -53,6 +53,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
+import uk.ac.diamond.daq.beamline.i15.api.TaskBean;
 
 public class ExperimentSubmissionView {
 

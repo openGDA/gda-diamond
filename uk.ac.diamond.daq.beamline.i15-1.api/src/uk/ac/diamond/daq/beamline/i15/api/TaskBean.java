@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.diamond.daq.beamline.i15.client.ui;
+package uk.ac.diamond.daq.beamline.i15.api;
 
 import org.eclipse.scanning.api.event.status.StatusBean;
 
@@ -25,6 +25,10 @@ public class TaskBean extends StatusBean {
 	String proposalCode;
 	long proposalNumber;
 	long sampleId;
+
+	public TaskBean() {
+		// Needed for JSON deserialize
+	}
 
 	public TaskBean(String proposalCode, long proposalNumber, long sampleId) {
 		super();

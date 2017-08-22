@@ -5,7 +5,7 @@
          point="org.eclipse.ui.views">
       <e4view
             class="uk.ac.diamond.daq.beamline.i15.client.ui.ExperimentSubmissionView"
-            id="uk.ac.diamond.daq.beamline.i15.e4view1"
+            id="uk.ac.diamond.daq.beamline.i15.experimentSubmissionView"
             name="Experiment Submission View"
             restorable="true">
       </e4view>
