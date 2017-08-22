@@ -68,6 +68,7 @@ public class ExperimentSubmissionView {
 
 	/**
 	 * Create contents of the view part.
+	 *
 	 * @param parent
 	 */
 	@PostConstruct
@@ -93,29 +94,27 @@ public class ExperimentSubmissionView {
 		buttons.setLayout(new RowLayout(SWT.HORIZONTAL));
 		buttons.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, false));
 
-		Button refresh = new Button(buttons, SWT.PUSH|SWT.FLAT);
+		Button refresh = new Button(buttons, SWT.PUSH | SWT.FLAT);
 		refresh.setText("Refresh");
 		refresh.setBackground(white);
 		refresh.setImage(new Image(Display.getCurrent(), getClass().getResourceAsStream("/icons/recycle.png")));
-		refresh.addSelectionListener(
-				new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						refresh();
-					}
-				});
+		refresh.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				refresh();
+			}
+		});
 
-		Button submit = new Button(buttons, SWT.PUSH|SWT.FLAT);
+		Button submit = new Button(buttons, SWT.PUSH | SWT.FLAT);
 		submit.setText("Submit");
 		submit.setBackground(white);
 		submit.setImage(new Image(Display.getCurrent(), getClass().getResourceAsStream("/icons/shoe--arrow.png")));
-		submit.addSelectionListener(
-				new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						submit();
-					}
-				});
+		submit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				submit();
+			}
+		});
 
 		processVisitID();
 		refresh();
@@ -149,12 +148,11 @@ public class ExperimentSubmissionView {
 		String visitID;
 		try {
 			visitID = filePathService.getVisit();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			logger.error("Cannot get visit ID", e);
 			return;
 		}
-		try(Scanner scanner = new Scanner(visitID)) {
+		try (Scanner scanner = new Scanner(visitID)) {
 			proposalCode = scanner.findInLine("\\D+");
 			if (proposalCode == null) {
 				logger.error("Error while parsing visit ID: invalid proposal code");
@@ -167,11 +165,10 @@ public class ExperimentSubmissionView {
 				return;
 			}
 			proposalNumber = Long.parseLong(lineProposalNumber);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			logger.error("Cannot parse visit ID", e);
 		}
-		}
+	}
 
 	/**
 	 * Get the samples information and show it in the UI
@@ -182,8 +179,8 @@ public class ExperimentSubmissionView {
 			return;
 		}
 		sampleIdNames = sampleDescriptionService.getSampleIdNames(proposalCode, proposalNumber);
-		ArrayList <SampleEntry> fromList = new ArrayList<>();
-		HashSet <SampleEntry> shuffleToList = new HashSet<>(conf.getToList());
+		ArrayList<SampleEntry> fromList = new ArrayList<>();
+		HashSet<SampleEntry> shuffleToList = new HashSet<>(conf.getToList());
 		sampleIdNames.forEach((k, v) -> {
 			SampleEntry sampleEntry = new SampleEntry(k, v);
 			if (!shuffleToList.contains(sampleEntry)) {
@@ -200,17 +197,17 @@ public class ExperimentSubmissionView {
 
 	}
 
-//	private ISubmitter<ScanBean> createScanSubmitter() {
-//		if (eventService != null) {
-//			try {
-//				URI queueServerURI = new URI(LocalProperties.getActiveMQBrokerURI());
-//				return eventService.createSubmitter(queueServerURI, EventConstants.SUBMISSION_QUEUE);
-//
-//			} catch (URISyntaxException e) {
-//				logger.error("URI syntax problem", e);
-//				throw new RuntimeException(e);
-//			}
-//		}
-//		throw new NullPointerException("Event service is not set - check OSGi settings");
-//	}
+	// private ISubmitter<ScanBean> createScanSubmitter() {
+	// if (eventService != null) {
+	// try {
+	// URI queueServerURI = new URI(LocalProperties.getActiveMQBrokerURI());
+	// return eventService.createSubmitter(queueServerURI, EventConstants.SUBMISSION_QUEUE);
+	//
+	// } catch (URISyntaxException e) {
+	// logger.error("URI syntax problem", e);
+	// throw new RuntimeException(e);
+	// }
+	// }
+	// throw new NullPointerException("Event service is not set - check OSGi settings");
+	// }
 }
