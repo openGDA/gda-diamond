@@ -390,8 +390,8 @@ class ID_PolarisationClass(PseudoDevice):
 			self.logger.warn("setPol(): %r not in %r" % (x, ", ".join(self.positions)))
 			self.logger.info("setPol(): %s" %
 				  "Wrong parameter, must be one of this: 'PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LinArb'")
-			print "Wrong parameter, must be one of this: 'PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LinArb'"
-			return;
+			msg="Wrong parameter, must be one of this: 'PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LinArb'"
+			raise Exception(msg)
 		xx=self.positions.index(x);
 		if self.chSetPol.isConfigured():
 			self.chSetPol.caput(xx)

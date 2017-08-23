@@ -55,8 +55,8 @@ class Polarisation(ScannableBase):
         '''set polarisation of ID according to source mode.
         '''
         if newpos not in Polarisation.POLARISATIONS:
-            print "polarisation string is wrong: legal values are %s" % (Polarisation.POLARISATIONS)
-            return 
+            message="polarisation string is wrong: legal values are %s" % (Polarisation.POLARISATIONS)
+            raise Exception(message)
         mode=self.smode.getPosition()
         if mode == SourceMode.SOURCE_MODES[0]:
             self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[newpos])
