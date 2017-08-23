@@ -218,13 +218,13 @@ class NewEnergyConsolidationClass(ScannableMotor):
 
 #The Class for changing the ID polarisation
 class ID_PolarisationClass(PseudoDevice):
-	READBACK_POSITIONS = ['None', 'PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LA', 'ERROR']
+	READBACK_POSITIONS = ['None', 'PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LinArb', 'ERROR']
 	POLARISATIONS = { 0:'None', 
 					  1:'PosCirc', 
 					  2:'NegCirc',
 					  3:'Horizontal',
 					  4:'Vertical',
-					  5:'LA',
+					  5:'LinArb',
 					  6:'ERROR' }
 	
 	def __init__(self, name, strSetPV, strGetPV, strStatusPV, strEnablePV):
@@ -238,7 +238,7 @@ class ID_PolarisationClass(PseudoDevice):
 		self.setLevel(7);
 #		self.setOutputFormat(["%20.12f"]);
 		self.enable = ['Beamline', 'Machine Control Room'];
-		self.positions = ['PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LA'];
+		self.positions = ['PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LinArb'];
 		
 		self.chSetPol=CAClient(strSetPV);
 		self.chSetPol.configure();
@@ -389,8 +389,8 @@ class ID_PolarisationClass(PseudoDevice):
 		if not (x in self.positions):
 			self.logger.warn("setPol(): %r not in %r" % (x, ", ".join(self.positions)))
 			self.logger.info("setPol(): %s" %
-				  "Wrong parameter, must be one of this: 'PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LA'")
-			print "Wrong parameter, must be one of this: 'PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LA'"
+				  "Wrong parameter, must be one of this: 'PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LinArb'")
+			print "Wrong parameter, must be one of this: 'PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LinArb'"
 			return;
 		xx=self.positions.index(x);
 		if self.chSetPol.isConfigured():
