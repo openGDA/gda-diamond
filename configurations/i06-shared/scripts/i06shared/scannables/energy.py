@@ -28,8 +28,8 @@ class CombinedEnergy(ScannableBase):
         self.smode=smode
         self.pol=pol
         self.energy=defaultenergy
-        self.dgap=0.0
-        self.ugap=0.0
+        self.dgap=None
+        self.ugap=None
         self.offhar=offhar
         self.tolerance=PositionTolerance
         
@@ -37,36 +37,44 @@ class CombinedEnergy(ScannableBase):
         haroff=float(offset)
         mode = self.smode.getPosition()
         if mode == SourceMode.SOURCE_MODES[0]:
-            if abs(self.energy.dgap - float(self.dgap.getPosition()))<=self.tolerance+self.offhar:
-                self.dgap.asynchronousMoveTo(self.energy.dgap+haroff)
+            if self.dgap is None:
+                self.getPosition()
+            if abs(self.dgap - float(self.iddgap.getPosition()))<=self.tolerance+self.offhar:
+                self.iddgap.asynchronousMoveTo(self.dgap+haroff)
             else:
-                print "ID gap is not at the energy %f! Please update energy again before applying harmonic offset."
+                print "IDD gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
         elif mode == SourceMode.SOURCE_MODES[1]:
-            if abs(self.energy.ugap - float(self.ugap.getPosition()))<=self.tolerance+self.offhar:
-                self.ugap.asynchronousMoveTo(self.energy.ugap+haroff)
+            if self.ugap is None:
+                self.getPosition()
+            if abs(self.ugap - float(self.idugap.getPosition()))<=self.tolerance+self.offhar:
+                self.idugap.asynchronousMoveTo(self.ugap+haroff)
             else:
-                print "ID gap is not at the energy %f! Please update energy again before applying harmonic offset."
-        elif mode == SourceMode.SOURCE_MODES[3]:
-            if abs(self.energy.dgap - float(self.dgap.getPosition()))<=self.tolerance+self.offhar:
-                self.dgap.asynchronousMoveTo(self.energy.dgap+haroff)
+                print "IDU gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
+        elif mode == SourceMode.SOURCE_MODES[2]:
+            if self.dgap is None:
+                self.getPosition()
+            if abs(self.dgap - float(self.iddgap.getPosition()))<=self.tolerance+self.offhar:
+                self.idddgap.asynchronousMoveTo(self.dgap+haroff)
             else:
-                print "ID gap is not at the energy %f! Please update energy again before applying harmonic offset."
-            if abs(self.energy.ugap - float(self.ugap.getPosition()))<=self.tolerance+self.offhar:
-                self.ugap.asynchronousMoveTo(self.energy.ugap+haroff)
+                print "IDD gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
+            if self.ugap is None:
+                self.getPosition()
+            if abs(self.ugap - float(self.idugap.getPosition()))<=self.tolerance+self.offhar:
+                self.idugap.asynchronousMoveTo(self.ugap+haroff)
             else:
-                print "ID gap is not at the energy %f! Please update energy again before applying harmonic offset."
+                print "IDU gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
         elif mode == SourceMode.SOURCE_MODES[3]:
             pol=self.pol.getPosition()
             if pol == Polarisation.POLARISATIONS[0] or pol == Polarisation.POLARISATIONS[2]:
-                if abs(self.energy.dgap - float(self.dgap.getPosition()))<=self.tolerance+self.offhar:
-                    self.dgap.asynchronousMoveTo(self.energy.dgap+haroff)
+                if abs(self.dgap - float(self.iddgap.getPosition()))<=self.tolerance+self.offhar:
+                    self.iddgap.asynchronousMoveTo(self.dgap+haroff)
                 else:
-                    print "ID gap is not at the energy %f! Please update energy again before applying harmonic offset."
+                    print "IDD gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
             elif pol == Polarisation.POLARISATIONS[1] or pol == Polarisation.POLARISATIONS[3]:
-                if abs(self.energy.ugap - float(self.ugap.getPosition()))<=self.tolerance+self.offhar:
-                    self.ugap.asynchronousMoveTo(self.energy.ugap+haroff)
+                if abs(self.ugap - float(self.idugap.getPosition()))<=self.tolerance+self.offhar:
+                    self.idugap.asynchronousMoveTo(self.ugap+haroff)
                 else:
-                    print "ID gap is not at the energy %f! Please update energy again before applying harmonic offset."
+                    print "IDU gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
             elif pol == Polarisation.POLARISATIONS[4]:
                 message="Linear Polarisation is not supported in '%s' source mode" % (mode)
                 raise RuntimeError(message)
@@ -75,22 +83,22 @@ class CombinedEnergy(ScannableBase):
     def getOffhar(self):
         mode = self.smode.getPosition()
         if mode == SourceMode.SOURCE_MODES[0]:
-            position = float(self.dgap.getPosition())
-            haroff=position-self.energy.dgap
+            position = float(self.iddgap.getPosition())
+            haroff=position-self.dgap
         elif mode == SourceMode.SOURCE_MODES[1]:
-            position = float(self.ugap.getPosition())
-            haroff=position-self.energy.ugap
-        elif mode == SourceMode.SOURCE_MODES[3]:
-            position = float(self.dgap.getPosition())
-            haroff = position-self.energy.dgap            
+            position = float(self.idugap.getPosition())
+            haroff=position-self.ugap
+        elif mode == SourceMode.SOURCE_MODES[2]:
+            position = float(self.iddgap.getPosition())
+            haroff = position-self.dgap            
         elif mode == SourceMode.SOURCE_MODES[3]:
             pol=self.pol.getPosition()
             if pol == Polarisation.POLARISATIONS[0] or pol == Polarisation.POLARISATIONS[2]:
-                position = float(self.dgap.getPosition())
-                haroff = position - self.energy.dgap
+                position = float(self.iddgap.getPosition())
+                haroff = position - self.dgap
             elif pol == Polarisation.POLARISATIONS[1] or pol == Polarisation.POLARISATIONS[3]:
-                position = float(self.ugap.getPosition())
-                haroff = position - self.energy.ugap
+                position = float(self.idugap.getPosition())
+                haroff = position - self.ugap
             elif pol == Polarisation.POLARISATIONS[4]:
                 message="Linear Polarisation is not supported in '%s' source mode" % (mode)
                 raise RuntimeError(message)
@@ -99,7 +107,23 @@ class CombinedEnergy(ScannableBase):
 
         
     def isHaroffBusy(self):
-        return self.dgap.isBusy() or self.ugap.isBusy()
+        mode = self.smode.getPosition()
+        if mode == SourceMode.SOURCE_MODES[0]:
+            return self.iddgap.isBusy()
+        elif mode == SourceMode.SOURCE_MODES[1]:
+            return self.idugap.isBusy()
+        elif mode == SourceMode.SOURCE_MODES[2]:
+            return self.iddgap.isBusy() or self.idugap.isBusy()
+        elif mode == SourceMode.SOURCE_MODES[3]:
+            pol=self.pol.getPosition()
+            if pol == Polarisation.POLARISATIONS[0] or pol == Polarisation.POLARISATIONS[2]:
+                return self.iddgap.isBusy()
+            elif pol == Polarisation.POLARISATIONS[1] or pol == Polarisation.POLARISATIONS[3]:
+                return self.idugap.isBusy()
+            elif pol == Polarisation.POLARISATIONS[4]:
+                message="Linear Polarisation is not supported in '%s' source mode" % (mode)
+                raise RuntimeError(message)
+        return self.iddgap.isBusy() or self.idugap.isBusy()
         
     def getPosition(self):
         ''' get X-ray beam energy from EPICS
