@@ -46,5 +46,6 @@ setmax(delta, 179)
 setmin(gam, -2)
 setmax(gam, 179)
 
+setcut(phi, -180)
 
 print "... Leaving: startup_diffcalc.py >>>"

@@ -154,92 +154,92 @@
 
     <!--  ============= Current Amplifier Controller, BPM Controller and BPM definition section ============ -->
     <!-- QBPM1 (D2) Current Amplifier Controller, BPM Controller and BPM -->
-    <bean id="bpm1qca" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier">
+    <bean id="bpm1qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
         <property name="deviceName" value="D2.AMP"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="bpm1" class="gda.device.monitor.EpicsBeamPositionMonitor">
+    <bean id="bpm1" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="D2.BPM"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="qbpm1" class="gda.device.monitor.EpicsQuadrantBeamPositionMointor">
-        <property name="currAmpQuadName" value="bpm1qca"/>
+    <bean id="qbpm1" class="gda.device.qbpm.EpicsQbpm">
+        <property name="currAmpController" ref="bpm1qca"/>
         <property name="local" value="true"/>
-        <property name="bpmName" value="bpm1"/>
+        <property name="bpmController" ref="bpm1"/>
     </bean>
 
     <!-- QBPM2 (D3) Current Amplifier Controller, BPM Controller and BPM -->
-    <bean id="bpm2qca" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier">
+    <bean id="bpm2qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
         <property name="deviceName" value="D3.AMP"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="bpm2" class="gda.device.monitor.EpicsBeamPositionMonitor">
+    <bean id="bpm2" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="D3.BPM"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="qbpm2" class="gda.device.monitor.EpicsQuadrantBeamPositionMointor">
+    <bean id="qbpm2" class="gda.device.qbpm.EpicsQbpm">
         <property name="local" value="true"/>
-        <property name="currAmpQuadName" value="bpm2qca"/>
-        <property name="bpmName" value="bpm2"/>
+        <property name="currAmpController" ref="bpm2qca"/>
+        <property name="bpmController" ref="bpm2"/>
     </bean>
     
     <!-- QBPM3 D5 Current Amplifier Controller, BPM Controller and BPM -->
-    <bean id="bpm3qca" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier">
+    <bean id="bpm3qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
         <property name="deviceName" value="D5.AMP"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="bpm3" class="gda.device.monitor.EpicsBeamPositionMonitor">
+    <bean id="bpm3" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="D5.BPM"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="qbpm3" class="gda.device.monitor.EpicsQuadrantBeamPositionMointor">
+    <bean id="qbpm3" class="gda.device.qbpm.EpicsQbpm">
         <property name="local" value="true"/>
-        <property name="currAmpQuadName" value="bpm3qca"/>
-        <property name="bpmName" value="bpm3"/>
+        <property name="currAmpController" ref="bpm3qca"/>
+        <property name="bpmController" ref="bpm3"/>
     </bean>
     
     <!-- MBS1 Current Amplifier Controller, BPM Controller and BPM -->
-    <bean id="mbs1qca" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier">
+    <bean id="mbs1qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
         <property name="deviceName" value="MBS1.AMP"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="mbs1bpm" class="gda.device.monitor.EpicsBeamPositionMonitor">
+    <bean id="mbs1bpm" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="MBS1.BPM"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="mbs1qbpm" class="gda.device.monitor.EpicsQuadrantBeamPositionMointor">
+    <bean id="mbs1qbpm" class="gda.device.qbpm.EpicsQbpm">
         <property name="local" value="true"/>
-        <property name="currAmpQuadName" value="mbs1qca"/>
-        <property name="bpmName" value="mbs1bpm"/>
+        <property name="currAmpController" ref="mbs1qca"/>
+        <property name="bpmController" ref="mbs1bpm"/>
     </bean>
 
     <!-- MBS2 Current Amplifier Controller, BPM Controller and BPM -->
-    <bean id="mbs2qca" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier">
+    <bean id="mbs2qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
         <property name="deviceName" value="MBS2.AMP"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="mbs2bpm" class="gda.device.monitor.EpicsBeamPositionMonitor">
+    <bean id="mbs2bpm" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="MBS2.BPM"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="mbs2qbpm" class="gda.device.monitor.EpicsQuadrantBeamPositionMointor">
+    <bean id="mbs2qbpm" class="gda.device.qbpm.EpicsQbpm">
         <property name="local" value="true"/>
-        <property name="currAmpQuadName" value="mbs2qca"/>
-        <property name="bpmName" value="mbs2bpm"/>
+        <property name="currAmpController" ref="mbs2qca"/>
+        <property name="bpmController" ref="mbs2bpm"/>
     </bean>
 
     <!-- MBS3 Current Amplifier Controller, BPM Controller and BPM -->
-    <bean id="mbs3qca" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier">
+    <bean id="mbs3qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
         <property name="deviceName" value="MBS3.AMP"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="mbs3bpm" class="gda.device.monitor.EpicsBeamPositionMonitor">
+    <bean id="mbs3bpm" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="MBS3.BPM"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="mbs3qbpm" class="gda.device.monitor.EpicsQuadrantBeamPositionMointor">
-        <property name="currAmpQuadName" value="mbs3qca"/>
-        <property name="bpmName" value="mbs3bpm"/>
+    <bean id="mbs3qbpm" class="gda.device.qbpm.EpicsQbpm">
+        <property name="currAmpController" ref="mbs3qca"/>
+        <property name="bpmController" ref="mbs3bpm"/>
         <property name="local" value="true"/>
     </bean>
     
@@ -266,19 +266,19 @@
 -->    
     <!--  ==================== Quadra Current Amplifier definition section ===================== -->
     <!-- Ion Chamber Quadra Current Amplifier-->
-    <bean id="adcqca" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier">
+    <bean id="adcqca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
         <property name="deviceName" value="IONC1.AMP"/>
         <property name="local" value="true"/>
     </bean>
 
-    <bean id="adcbpm" class="gda.device.monitor.EpicsBeamPositionMonitor">
+    <bean id="adcbpm" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="IONC1.BPM"/>
         <property name="local" value="true"/>
     </bean>
-    <bean id="adcqbpm" class="gda.device.monitor.EpicsQuadrantBeamPositionMointor">
+    <bean id="adcqbpm" class="gda.device.qbpm.EpicsQbpm">
         <property name="local" value="true"/>
-        <property name="currAmpQuadName" value="adcqca"/>
-        <property name="bpmName" value="adcbpm"/>
+        <property name="currAmpController" ref="adcqca"/>
+        <property name="bpmController" ref="adcbpm"/>
     </bean>
 
     <!--  ============================== Epics Enum Positioner definition section ============== -->

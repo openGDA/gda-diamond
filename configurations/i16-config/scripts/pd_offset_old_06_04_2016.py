@@ -1,4 +1,4 @@
-from gda.util.persistence import LocalJythonShelfManager
+from uk.ac.diamond.daq.persistence.jythonshelf import LocalJythonShelfManager
 from gda.device.scannable import PseudoDevice
 
 import ShelveIO

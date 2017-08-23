@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Diamond Light Source Beamline I16" id="uk.ac.gda.beamline.i16.product" application="uk.ac.gda.client.application" version="9.4.0" useFeatures="true" includeLaunchers="true">
+<product name="Diamond Light Source Beamline I16" id="uk.ac.gda.beamline.i16.product" application="uk.ac.gda.client.application" version="9.5.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -13,14 +13,18 @@
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Declipse.pluginCustomization=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/pluginCustomization.ini
--Dgda.mode=live
--Djacorb.config.dir=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/jacorb/live
--Dgda.install.workspace.loc=/dls_sw/i16/software/gda/workspace
--Dgda.install.git.loc=/dls_sw/i16/software/gda/workspace_git
--Dgda.config=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config
--Dgda.propertiesFile=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/properties/live/rcpclient.java.properties
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/jca/live/JCALibrary.properties
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Declipse.pluginCustomization=${project_loc:i16-config}/pluginCustomization.ini
+-Dgda.mode=dummy
+-Djacorb.config.dir=${project_loc:i16-config}/properties/dummy/jacorb
+-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.instance.dir=${project_loc:i16-config}
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.core.dir=${project_loc:core-config}
+-Dgda.config=${project_loc:i16-config}
+-Dgda.propertiesFile=${project_loc:i16-config}/properties/dummy/dummy_instance_java.properties
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i16-config}/properties/dummy/JCALibrary.properties
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Duk.ac.diamond.scisoft.analysis.io.nocaching=true
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
@@ -29,8 +33,10 @@
 -Xms256m
 -Xmx2024m
 -XX:MaxPermSize=256m
--XX:+DisableExplicitGC</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -75,5 +81,12 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <feature id="uk.ac.gda.beamline.i16.feature"/>
    </features>
 
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>

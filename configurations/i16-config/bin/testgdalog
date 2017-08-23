@@ -1,9 +1,6 @@
 #!/bin/bash
 
-. gda_setup_env_test gda_swingclient_output
+config_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd -P )"
+echo GDA_CONFIG = "${config_absolute_path}" , BEAMLINE = $BEAMLINE
 
-echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
-
-
-#unset BEAMLINE
-$GDA_CORE_SCRIPT logpanel --mode=dummy $@
+$config_absolute_path/bin/gda logpanel --mode=dummy $@

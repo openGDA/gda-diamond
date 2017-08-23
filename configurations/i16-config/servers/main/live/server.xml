@@ -1,25 +1,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/live/java.properties
-				</value>
-				<value>file:${gda.config}/properties/common/java.properties</value>
-<!-- 				<value>file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/properties/common/derived.propertiesyy</value> -->
-			</list>
-		</property>
-	</bean>
+	<context:property-placeholder/>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
-
-	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
 
 	<import resource="epics/motor/atten.xml" />
 	<import resource="epics/motor/diag.xml" />
@@ -37,10 +28,11 @@
 	<import resource="epics/motor/sixc.xml" />
 	<import resource="epics/motor/sixcbase.xml" />
 	<!--<import resource="transient/kbmbase.xml" />-->
+	<!--<import resource="transient/smargon.xml" />-->
 	
 	<import resource="epics/motor/sixcsample.xml" />
 
-	<import resource="../common/scannable/motors.xml" />
+	<import resource="../_common/scannable/motors.xml" />
 	<import resource="../live/epics/pie725_raster.xml" />
 	<import resource="../live/epics/detector/rasterpil1.xml" />
 
@@ -60,7 +52,7 @@
 	</bean>
 
 	<import resource="epics/detector/struck.xml" />
-	<import resource="epics/detector/vortex.xml" />
+	<import resource="epics/detector/vortex.xml" /> 
 	<import resource="epics/detector/pilatus100k.xml" />
 <!-- 	<import resource="epics/detector/fastpil1.xml" /> -->
 	<import resource="epics/detector/pilatus2M.xml" />
@@ -73,8 +65,6 @@
 	<import resource="epics/detector/xeye.xml" />
 	<import resource="epics/detector/zylar.xml" />
 
-
-	<import resource="epics/trajectory_scan_controller_xps2.xml" />
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
 
@@ -111,7 +101,7 @@
 	<!-- live only -->
 
 	<import resource="metadata.xml" />
-	<import resource="../common/nxmetadata.xml" />
+	<import resource="../_common/nxmetadata.xml" />
 
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="name" value="FileRegistrar" />

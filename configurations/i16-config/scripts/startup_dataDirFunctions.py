@@ -1,6 +1,6 @@
 from gda.configuration.properties import LocalProperties
-from gda.util.persistence import LocalJythonShelfManager
-from gda.util.persistence import ObjectShelfException
+from uk.ac.diamond.daq.persistence.jythonshelf import LocalJythonShelfManager
+from uk.ac.diamond.daq.persistence.jythonshelf import ObjectShelfException
 from gda.factory import Finder
 import os
 

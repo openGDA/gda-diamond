@@ -155,6 +155,16 @@ def getDelta():
 def getGam():
 	return my_gam
 
+def getsgomega():
+	return my_smaromega
+
+def getsgchi():
+	return my_smarchi
+
+def getsgphi():
+	return my_smarphi
+
+
 #
 # Return a Pesudo Device which holds the wavelength of the system.
 #

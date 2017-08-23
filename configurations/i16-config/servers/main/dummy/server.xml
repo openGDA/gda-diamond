@@ -1,22 +1,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/dummy/java.properties
-				</value>
-				<value>file:${gda.config}/properties/common/java.properties</value>
-			</list>
-		</property>
-	</bean>
+	<context:property-placeholder/>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
 
@@ -38,7 +32,7 @@
 	<import resource="motor/sixcsample.xml" />
 	<import resource="transient/kbmbase.xml" />
 
-	<import resource="../common/scannable/motors.xml" />
+	<import resource="../_common/scannable/motors.xml" />
 	<import resource="../live/epics/pie725_raster.xml" />
 	<import resource="../live/epics/detector/labcam.xml" />
 
@@ -48,8 +42,6 @@
 
 	<import resource="detector/struck.xml" />
 	<import resource="detector/vortex.xml" />
-	
-	<import resource="trajectory_scan_controller_xps2.xml" />
 	
 	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
 		<property name="local" value="true" />
@@ -70,7 +62,7 @@
 	<!-- dummy only -->
 <!-- 	<import resource="../live/epics/detector/pilatus100k.xml" /> -->
 
-	<import resource="../common/nxmetadata.xml" />
+	<import resource="../_common/nxmetadata.xml" />
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="name" value="DefaultDataWriterFactory" />

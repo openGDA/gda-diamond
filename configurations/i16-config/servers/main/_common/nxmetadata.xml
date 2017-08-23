@@ -1,0 +1,180 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
+		<property name="arguments">
+			<map>
+				<entry key="frontend">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>instrument:NXinstrument/Frontend:NXcollection/frontendx</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="en">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths">
+							<list>
+								<value>sample:NXsample/beam:NXbeam/incident_energy</value>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="delta_axis_offset">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/transformations:NXtransformations/offsetdelta" />
+						<property name="depends_on"
+							value="entry1/instrument/transformations/delta" />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list><list>
+								<value>0</value>
+								<value>-1</value> <!-- rotation is in opposite direction to delta -->
+								<value>0</value>
+							</list></list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kdelta">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/transformations:NXtransformations/delta" />
+						<property name="depends_on"
+							value="entry1/instrument/transformations/gamma" />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list><list>
+								<value>0</value>
+								<value>1</value>
+								<value>0</value>
+							</list></list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kgam">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/transformations:NXtransformations/gamma" />
+						<property name="depends_on" value="." />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list><list>
+								<value>1</value>
+								<value>0</value>
+								<value>0</value>
+							</list></list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kphi">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="sample:NXsample/transformations:NXtransformations/phi" />
+						<property name="depends_on"
+							value="entry1/sample/transformations/kappa" />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list><list>
+								<value>0</value><value>1</value><value>0</value>
+							</list></list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kap">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="sample:NXsample/transformations:NXtransformations/kappa" />
+						<property name="depends_on"
+							value="entry1/sample/transformations/theta" />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list><list>
+								<value>0</value><value>0.64278761</value><value>-0.76604443</value>
+							</list></list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kth">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="sample:NXsample/transformations:NXtransformations/theta" />
+						<property name="depends_on"
+							value="entry1/sample/transformations/mu" />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list>
+								<list><value>0</value><value>1</value><value>0</value></list>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<entry key="kmu">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+							value="sample:NXsample/transformations:NXtransformations/mu" />
+						<property name="depends_on"
+							value="." />
+						<property name="transformation" value="rotation" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list>
+								<list><value>1</value><value>0</value><value>0</value></list>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				<!-- uncomment when the NXMeta thing is fixed or cryophi is online
+				<entry key="cryophi">
+					<bean class="gda.data.scan.datawriter.scannablewriter.TransformationWriter">
+						<property name="paths"
+								value="sample:NXsample/transformations:NXtransfromation/cryophi" />
+						<property name="depends_on"
+								value="entry1/sample/transformations/phi" />
+						<property name="units" value="deg" />
+						<property name="vector">
+							<list>
+								<list><value>0.567744</value><value>-0.0003651</value><value>0.82389</value></list>
+							</list>
+						</property>
+					</bean>
+				</entry>
+				-->
+				<entry key="x">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="test:NXcollection/x" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+		<property name="arguments">
+			<set>
+				<value>kgam</value>
+				<value>kdelta</value>
+				<value>delta_offset</value>
+				<value>kap</value>
+				<value>kphi</value>
+				<value>kth</value>
+				<value>kmu</value>
+			</set>
+		</property>
+	</bean>
+
+</beans>

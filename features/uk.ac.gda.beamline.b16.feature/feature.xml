@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.b16.feature"
       label="Diamond Light Source Beamline B16 Feature"
-      version="9.4.0.qualifier"
+      version="9.5.0.qualifier"
       provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
@@ -65,13 +65,6 @@
 
    <plugin
          id="uk.ac.gda.bimorph.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.devices.xmap"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -146,6 +139,27 @@
 
    <plugin
          id="org.dawnsci.processing.ui.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.scanning.example"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.scanning.connector.epics"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ch.qos.logback.classic"
          download-size="0"
          install-size="0"
          version="0.0.0"
