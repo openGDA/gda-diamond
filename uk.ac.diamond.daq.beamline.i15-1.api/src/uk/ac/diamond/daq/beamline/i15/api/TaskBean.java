@@ -92,4 +92,10 @@ public class TaskBean extends StatusBean {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "TaskBean [proposalCode=" + proposalCode + ", proposalNumber=" + proposalNumber + ", sampleId="
+				+ sampleId + "]";
+	}
+
 }
