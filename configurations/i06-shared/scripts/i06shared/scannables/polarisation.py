@@ -18,7 +18,7 @@ class Polarisation(ScannableBase):
     POLARISATIONS=['pc','nc', 'lh', 'lv', 'la']
     POLARISATIONS_EPICS={'pc':'PosCirc', 'nc':'NegCirc','lh':'Horizontal','lv':'Vertical','la':'LinArb'}
     
-    def __init__(self, name, dpol, dgap, upol, ugap, smode, detune=3.0, gap=150.0, defaultPolarisation='pc'):
+    def __init__(self, name, dpol, dgap, upol, ugap, smode, detune=3.0, gap=100.0, defaultPolarisation='pc'):
         '''
         Constructor - default polarisation mode is 'pc'
         '''
