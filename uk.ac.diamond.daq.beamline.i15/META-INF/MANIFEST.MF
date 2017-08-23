@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: I15
-Bundle-SymbolicName: uk.ac.diamond.daq.beamline.i15.client;singleton:=true
+Bundle-SymbolicName: uk.ac.diamond.daq.beamline.i15-1.client;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Diamond Light Source
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

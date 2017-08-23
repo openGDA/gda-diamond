@@ -53,14 +53,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
+import uk.ac.diamond.daq.beamline.i15.api.QueueConstants;
 import uk.ac.diamond.daq.beamline.i15.api.TaskBean;
 
 public class ExperimentSubmissionView {
 
 	public static final String ID = "org.eclipse.scanning.device.ui.expr.experimentSubmissionView"; //$NON-NLS-1$
 	private static final Logger logger = LoggerFactory.getLogger(ExperimentSubmissionView.class);
-	private static final String XPDF_TASK_QUEUE = "uk.ac.diamond.daq.beamline.i15.tasks";
-
 	private ShuffleConfiguration<SampleEntry> conf;
 	private ShuffleViewer<SampleEntry> viewer;
 	private String proposalCode;
@@ -219,7 +218,7 @@ public class ExperimentSubmissionView {
 		if (eventService != null) {
 			try {
 				URI queueServerURI = new URI(LocalProperties.getActiveMQBrokerURI());
-				return eventService.createSubmitter(queueServerURI, XPDF_TASK_QUEUE);
+				return eventService.createSubmitter(queueServerURI, QueueConstants.XPDF_TASK_QUEUE);
 			} catch (URISyntaxException e) {
 				logger.error("URI syntax problem", e);
 				throw new RuntimeException(e);
