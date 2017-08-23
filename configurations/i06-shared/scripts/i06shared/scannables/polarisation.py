@@ -37,6 +37,7 @@ class Polarisation(ScannableBase):
         return its corresponding GDA polarisation name
         '''
         mode=self.smode.getPosition()
+        currentpol=self.polaristaion
         if mode == SourceMode.SOURCE_MODES[0] :
             currentpol=self.dpol.getPosition()
         elif mode == SourceMode.SOURCE_MODES[1]:
@@ -48,6 +49,7 @@ class Polarisation(ScannableBase):
             if currentpol==Polarisation.POLARISATIONS_EPICS['la']:
                 message="Wrong Polarisation: Linear Angular Polarisation is not supported in '%s' source mode" % (mode)
                 raise RuntimeError(message)
+        
         self.polaristaion=[key for key, value in Polarisation.POLARISATIONS_EPICS.iteritems() if value == currentpol][0]
         return self.polaristaion
     
