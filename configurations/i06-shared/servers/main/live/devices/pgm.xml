@@ -40,10 +40,13 @@
 	</bean>
 	
 	<!-- do access check method intercepter -->
-	<bean id="doAccessCheck" class="gda.aop.CheckAccessBeforeMethod">
+	<bean id="accessCheckAdvice" class="gda.aop.CheckAccessBeforeMethod">
 		<property name="accessControl" ref="accessControl"/>
 	</bean>
-	
+	<bean id="accessCheckAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="mappedNames" value="setValue,home,moveBy,moveContinuously,moveTo,setMaxPositionsetMinPosition,setPosition,setSpeed,setTimeToVelocity,setUserOffset,stop,stopGo" />
+		<property name="advice" ref="accessCheckAdvice" />
+	</bean>	
 	<!-- Plane Grating Monochromator CFF -->
 	<bean id="cff" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
@@ -55,7 +58,7 @@
 		</property>
 		<property name="interceptorNames">
 			<list>
-				<value>doAccessCheck</value>
+				<value>accessCheckAdvisor</value>
 			</list>
 		</property>
 	</bean>
@@ -69,7 +72,7 @@
 		</property>
 		<property name="interceptorNames">
 			<list>
-				<value>doAccessCheck</value>
+				<value>accessCheckAdvisor</value>
 			</list>
 		</property>
 	</bean>
@@ -84,7 +87,7 @@
 		</property>
 		<property name="interceptorNames">
 			<list>
-				<value>doAccessCheck</value>
+				<value>accessCheckAdvisor</value>
 			</list>
 		</property>
 	</bean>
@@ -98,7 +101,7 @@
 		</property>
 		<property name="interceptorNames">
 			<list>
-				<value>doAccessCheck</value>
+				<value>accessCheckAdvisor</value>
 			</list>
 		</property>
 	</bean>
@@ -112,7 +115,7 @@
 		</property>
 		<property name="interceptorNames">
 			<list>
-				<value>doAccessCheck</value>
+				<value>accessCheckAdvisor</value>
 			</list>
 		</property>
 	</bean>
@@ -126,7 +129,7 @@
 		</property>
 		<property name="interceptorNames">
 			<list>
-				<value>doAccessCheck</value>
+				<value>accessCheckAdvisor</value>
 			</list>
 		</property>
 	</bean>
@@ -140,7 +143,7 @@
 		</property>
 		<property name="interceptorNames">
 			<list>
-				<value>doAccessCheck</value>
+				<value>accessCheckAdvisor</value>
 			</list>
 		</property>
 	</bean>
@@ -154,7 +157,7 @@
 		</property>
 		<property name="interceptorNames">
 			<list>
-				<value>doAccessCheck</value>
+				<value>accessCheckAdvisor</value>
 			</list>
 		</property>
 	</bean>

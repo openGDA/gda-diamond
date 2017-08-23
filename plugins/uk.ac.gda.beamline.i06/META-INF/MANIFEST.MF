@@ -28,5 +28,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i06,
- uk.ac.gda.beamline.i06.perspective,
- uk.ac.gda.beamline.i06.view
+ uk.ac.gda.beamline.i06.perspective

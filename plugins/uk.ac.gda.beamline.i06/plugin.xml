@@ -215,12 +215,6 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="uk.ac.gda.beamline.i06.view.I06TerminalView"
-            id="uk.ac.gda.beamline.i06.terminalView"
-            name="I06 Terminal"
-            restorable="true">
-      </view>
-      <view
             allowMultiple="true"
             class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
             id="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL06I-EA-DET-01@"
