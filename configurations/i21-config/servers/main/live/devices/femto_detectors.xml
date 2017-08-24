@@ -102,7 +102,7 @@
 		<property name="local" value="true"/>
 	</bean>
 	
-	<!--  M4 Femtos http://jira.diamond.ac.uk/browse/I21-335-->
+	<!--  M4 Femtos -->
 	<bean id="m4c1" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-MO-POD-01:FEMTO1:"/>
 		<property name="adcChannel" value="1" />
@@ -120,7 +120,7 @@
 		<property name="local" value="true"/>
 	</bean>
 	
-	<!-- D8 FEMTO http://jira.diamond.ac.uk/browse/I21-336-->
+	<!-- D8 FEMTO -->
 	<bean id="d8c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-DI-PHDGN-08:FEMTO1:"/>
 		<property name="adcChannel" value="1" />
