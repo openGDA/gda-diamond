@@ -130,7 +130,7 @@
 		<property name="local" value="true"/>
 	</bean>
 	
-	<!-- Sample Femtos http://jira.diamond.ac.uk/browse/I21-337-->
+	<!-- Sample Femtos -->
 	<bean id="smpcdrain" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO1:"/>
 		<property name="adcChannel" value="2" />
@@ -149,7 +149,7 @@
 	</bean>
 	<bean id="smpcstrait" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO3:"/>
-		<property name="adcChannel" value="3" />
+		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
@@ -157,7 +157,7 @@
 	</bean>
 	<bean id="smpcrotating" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO4:"/>
-		<property name="adcChannel" value="4" />
+		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
@@ -165,7 +165,7 @@
 	</bean>
 	<bean id="smpcfixed" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO5:"/>
-		<property name="adcChannel" value="5" />
+		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
@@ -173,7 +173,7 @@
 	</bean>
 	<bean id="smpc2theta" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO6:"/>
-		<property name="adcChannel" value="6" />
+		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
@@ -181,7 +181,7 @@
 	</bean>
 	<bean id="smpcextra" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO7:"/>
-		<property name="adcChannel" value="7" />
+		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
