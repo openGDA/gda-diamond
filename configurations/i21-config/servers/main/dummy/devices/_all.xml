@@ -48,6 +48,7 @@
 	<!-- ID -->
 	<import resource="id.xml" />
 	<import resource="smp.xml" />
+	<import resource="lakeshore.xml" />
 	<import resource="sgm.xml" />
 	<import resource="spectrometer.xml"/>
 
