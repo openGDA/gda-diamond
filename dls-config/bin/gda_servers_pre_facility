@@ -35,6 +35,7 @@ if [ -n "${BEAMLINE-}" ]; then
     # This is the normal way the control machine name is constructed at Diamond
     #Set CONTROL_MACHINE_NAME in gda_servers_pre_instance if non-standard
     export CONTROL_MACHINE_NAME=${BEAMLINE}-control.diamond.ac.uk
+    bashlog debug "gda_servers_pre_facility" "CONTROL_MACHINE_NAME = $CONTROL_MACHINE_NAME"
 else
     bashlog error "gda_servers_pre_facility" "BEAMLINE environment variable must be set"
     exit 1
