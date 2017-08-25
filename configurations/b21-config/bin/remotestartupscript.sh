@@ -1,42 +1,16 @@
-#! /bin/bash
+#!/bin/bash
+# This script is only invoked when user gda2 ssh's to the control machine. It is run by an entry in gda's ~/.ssh/authorized_keys
+# Because of this, no environment variables (other than SSH_ORIGINAL_COMMAND potentially) have been set when it executes.
+#
+# If you wish to use the dls-config common /remote/startupscript.sh you must source it, performing any custom operations beforehand.
+# If you don't have any custom operations then you can just invoke the common script directly from your authorized_keys file.
+#
+# If not using the common script, you will need to set GDA_NO_PROMPT and GDA_IN_REMOTE_STARTUP to true and initialise your Bash
+# environment before invoking the main gda script to get correct startup behaviour. Also please add "< /dev/null > /dev/null 2>&1"
+# to the end of the line that calls the gda script to prevent ssh from hanging incorrectly due to an unclosed stream.
 
-export BEAMLINE=b21
-. /usr/share/Modules/init/bash
 
-. /dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/dls-config/bin/loadjava.sh
 
-mv -f nohup.out nohup.out.0 || true
-touch nohup.out
-
-( 
-
-OBJECT_CONSOLE_LOG_FILE="/dls_sw/$BEAMLINE/logs/gda_server_console.$(date +%F_%T).log"
-
-/dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config --stop logserver || true
-nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config nameserver >> $OBJECT_CONSOLE_LOG_FILE
-nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config eventserver >> $OBJECT_CONSOLE_LOG_FILE
-nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config --start logserver >> $OBJECT_CONSOLE_LOG_FILE
-nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config --properties=/dls_sw/$BEAMLINE/software/gda/config/properties/java.properties.clientlogserver --start logserver >> $OBJECT_CONSOLE_LOG_FILE
-JAVA_OPTS="-Duser.timezone=GMT -Xms1024m -Xmx8192m -XX:PermSize=256m -XX:MaxPermSize=512m" nohup /dls_sw/$BEAMLINE/software/gda/bin/gda --config=/dls_sw/$BEAMLINE/software/gda/config --debug --verbose objectserver >> $OBJECT_CONSOLE_LOG_FILE
-) &
-
-cat >> /dls_sw/$BEAMLINE/logs/gda_server.log <<EOF
-
-gda server restart
-
-EOF
-
-## show log until 'Server initialisation complete' is seen
-PIP=/tmp/`basename $0`-$$
-mknod $PIP p
-tail -n 1 -f /dls_sw/$BEAMLINE/logs/gda_server.log >  $PIP &
-awk '{
-        if (!/DEBUG/) print ;
-        if (/gda.util.ObjectServer - Server initialisation complete.*live.server.xml/) {
-                print "\nAll done, you can start the client now\n" ;
-                exit ;
-        }
-}' < $PIP
-rm $PIP
-
-sleep 6
+# If you want any special behaviour add it above this line
+here_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
+source ${here_absolute_path}/../../../../gda-diamond.git/dls-config/live/gda-servers-startup-script.sh  # Derive dls-config relative path as appropriate
