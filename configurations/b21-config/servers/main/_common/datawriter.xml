@@ -194,6 +194,22 @@
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
+				<entry key="experiment_definition">
+                    <bean
+                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+                        <property name="paths">
+                            <list>
+                                <value>experiment_definition:NXparameters/samples</value>
+                                <value>experiment_definition:NXparameters/index</value>
+                                <value>experiment_definition:NXparameters/identifier</value>
+                            </list>
+                        </property>
+                        <!-- <property name="paths" value="experiment_definition:NXcollection/samples" /> -->
+                        <property name="prerequisiteScannableNames">
+                            <list />
+                        </property>
+                    </bean>
+                </entry>
 			</map>
 		</property>
 	</bean>

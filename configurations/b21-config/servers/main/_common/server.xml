@@ -37,6 +37,8 @@
 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
 	</bean>
 
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider"/>
+
 	<corba:export namespace="b21" />
 	<gda:rbac />
 	<context:property-placeholder />

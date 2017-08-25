@@ -100,4 +100,18 @@
 			</list>
 		</property>
 	</bean>
+
+	<bean id="experiment_definition" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="experiment_samples" />
+				<ref bean="experiment_index" />
+				<ref bean="experiment_id" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="experiment_samples" class="gda.device.scannable.SimpleScannable"/>
+	<bean id="experiment_id" class="gda.device.scannable.SimpleScannable"/>
+	<bean id="experiment_index" class="gda.device.scannable.SimpleScannable"/>
 </beans>
