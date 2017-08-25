@@ -664,15 +664,8 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
     
     print "min_i = %.3f" %(min_i)
     
-    if addNXEntry:
-        print "addNXEntry = True"
-    else:
-        print "addNXEntry = False"
-    
-    if autoAnalyse:
-        print "autoAnalyse = True"
-    else:
-        print "autoAnalyse = False"
+    print "addNXEntry = %s" %(addNXEntry)
+    print "autoAnalyse = %s" %(autoAnalyse)
         
     if flatFieldAngle is None:
         print "flatFieldAngle = None"
@@ -874,8 +867,14 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         endTm = datetime.datetime.now()
         elapsedTm = endTm - startTm
         jns=beamline_parameters.JythonNameSpaceMapping()
-        print("This scan's data can be found in Nexus scan file %s." %(jns.lastScanDataPoint().currentFilename))
+        if isLive():
+            print("This scan's data can be found in Nexus scan file %s." %(jns.lastScanDataPoint().currentFilename))
         print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
+
+def restore_path(**kwargs):
+    if kwargs.has_key("sendDataToTemporaryDirectory") and (kwargs["sendDataToTemporaryDirectory"] is not None) and kwargs["sendDataToTemporaryDirectory"]:
+        print "Restoring data to the original data directory: %s" %(kwargs['data_path_saved'])
+        LocalProperties.set("gda.data.scan.datawriter.datadir", kwargs['data_path_saved'])
 
 def atTomoScanStart(**kwargs):
     """
@@ -887,7 +886,7 @@ def atTomoScanEnd(**kwargs):
     """
     Function to perform beamline-specific tasks before fly scan, eg...
     """
-    pass
+    restore_path(**kwargs)
 
 from gda.commandqueue import JythonScriptProgressProvider
 def updateProgress( percent, msg):
@@ -925,17 +924,17 @@ def ProcessScanParameters(scanParameterModelXML):
     kwargs = {}
     kwargs.update({'approxCOR': (cor_x, cor_y)})
     kwargs.update({'detectorToSampleDistance': det_dist})
-    kwargs.update({'detectorToSampleDistanceUnits': "\'%s\'" %(det_dist_units)})
+    kwargs.update({'detectorToSampleDistanceUnits': "%s" %(det_dist_units)})
     kwargs.update({'XPixelSize': x_pixel_size})
-    kwargs.update({'XPixelSizeUnits': "\'%s\'" %(x_pixel_size_units)})
+    kwargs.update({'XPixelSizeUnits': "%s" %(x_pixel_size_units)})
     kwargs.update({'YPixelSize': y_pixel_size})
-    kwargs.update({'YPixelSizeUnits': "\'%s\'" %(y_pixel_size_units)})
+    kwargs.update({'YPixelSizeUnits': "%s" %(y_pixel_size_units)})
     kwargs.update({'closeShutterAfterLastScan': parameters.closeShutterAfterLastScan})
     kwargs.update({'sendDataToTemporaryDirectory': parameters.sendDataToTemporaryDirectory})
     
     if parameters.sendDataToTemporaryDirectory:
         data_path_saved = LocalProperties.get("gda.data.scan.datawriter.datadir")
-        kwargs.update({'data_path_saved': "\'%s\'" %(data_path_saved)})
+        kwargs.update({'data_path_saved': "%s" %(data_path_saved)})
         visit_tmp_path = os.path.join(getVisitPath(),'tmp')
         LocalProperties.set("gda.data.scan.datawriter.datadir", visit_tmp_path)
         print "Saving data to the throw-away TMP sub-directory! - %s!" %(visit_tmp_path)
@@ -955,7 +954,7 @@ def ProcessScanParameters(scanParameterModelXML):
         exceptionType, exception, traceback = sys.exc_info()
         if parameters.sendDataToTemporaryDirectory:
             print "*Restoring data path to the original data directory: %s" %(data_path_saved)
-            LocalProperties.get("gda.data.scan.datawriter.datadir", "\'%s\'" %(data_path_saved))
+            LocalProperties.set("gda.data.scan.datawriter.datadir", "%s" %(data_path_saved))
         handle_messages.log(None, "Error in ProcessScanParameters", exceptionType, exception, traceback, True)
     updateProgress(100,"Done");
     
@@ -998,6 +997,7 @@ def atTomoFlyScanEnd(**kwargs):
                 # the 2nd attempt is usually successful
                 tomography_flyscan_theta.setSpeed(30)
                 #_p2r_telnet.sendCmdNoReply("MMPOSITION")
+    restore_path(**kwargs)
                 
 def atTomoFlyScanStart(**kwargs):
     """
@@ -1384,7 +1384,7 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
     if (title_saved is None) or len(title_saved)==0:
         title_saved = "undefined"
     
-    scan_cmd = ",".join(["%s=%s" %(p[0], str(p[1])) for p in _args])
+    scan_cmd = ",".join(["%s=\'%s\'" %(p[0], str(p[1])) for p in _args])
     #scan_cmd = "tomoFlyScan(" + scan_cmd + ")"
     scan_cmd = "tomographyScan.tomoFlyScan(" + scan_cmd + ")"
     #print "scan_cmd = %s" %(scan_cmd)
