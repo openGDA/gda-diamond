@@ -15,6 +15,7 @@
 		<property name="adBase" ref="area" />
 		<property name="controller" ref="controller" />
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="analyser_roi_provider"
