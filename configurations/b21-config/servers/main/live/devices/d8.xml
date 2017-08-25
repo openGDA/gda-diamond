@@ -31,7 +31,7 @@
 		</property>
 	</bean>	
 	
-	<bean id="d8cam" class="uk.ac.gda.server.ncd.camera.ADCameraDetector">
+	<bean id="d8cam" class="gda.device.detector.addetector.ADCameraDetector">
 		<property name="basePVName" value="BL21B-DI-PHDGN-08:CAM:" />
 		<property name="areaDetector" ref="d8cam_ad" />
 		<property name="array" ref="d8cam_array" />
