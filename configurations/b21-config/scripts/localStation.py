@@ -90,7 +90,6 @@ getVisit = metadatatweaks.getVisit
 alias("getVisit")
 setVisit = metadatatweaks.setVisit
 alias("setVisit")
-sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
 
 import uk.ac.gda.server.ncd.config.DeviceLister
 import gda.util.ElogEntry
