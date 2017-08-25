@@ -18,10 +18,10 @@
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="xsp3_addetector" />
+					<constructor-arg name="name" value="Xspress3A" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-							<property name="name" value="xsp3_addetector" />
+							<property name="name" value="Xspress3A" />
 							<property name="exposureTime" value="0.1" />
 						</bean>
 					</constructor-arg>

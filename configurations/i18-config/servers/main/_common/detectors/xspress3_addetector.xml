@@ -17,7 +17,7 @@
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
 
-	<bean id="xsp3_addetector" class="gda.device.detector.addetector.ADDetector">
+	<bean id="Xspress3A" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="xsp3_adbase" />
 		<property name="ndFile" ref="xsp3_ndfile" />
 		<property name="ndArray" ref="xsp3_ndarray" />
@@ -26,7 +26,7 @@
 	</bean>
 
 	<bean id="xsp3Model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-		<property name="name" value="xsp3_addetector" />
+		<property name="name" value="Xspress3A" />
 		<property name="exposureTime" value="0.1" />
 	</bean>
 	<bean id="xsp3Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -35,7 +35,7 @@
 		<property name="description" value="Xspress3" />
 	</bean>
 	<bean id="Xspress3" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
-		<property name="name" value="xsp3_addetector" />
+		<property name="name" value="Xspress3A" />
 		<property name="model" ref="xsp3Model" />
 		<property name="deviceInformation" ref="xsp3Info" />
 		<property name="activated" value="true" />
