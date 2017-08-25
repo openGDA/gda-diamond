@@ -4,13 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="t1xyDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
-		<property name="name" value="I18-SCAN01"/>
+		<property name="name" value="BL18I-ML-SCAN-01"/>
 		<property name="model" ref="t1xyModel"/>
 		<property name="deviceInformation" ref="t1xyInfo"/>
 		<property name="activated" value="false"/>
 	</bean>
 	<bean id="t1xyModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="I18-SCAN01"/>
+		<property name="name" value="BL18I-ML-SCAN-01"/>
 		<property name="exposureTime" value="0.01"/>
 	</bean>
 	<bean id="t1xyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -20,13 +20,13 @@
 	</bean>
 
 	<bean id="t1xtDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
-		<property name="name" value="I18-SCANFT"/>
+		<property name="name" value="BL18I-ML-SCAN-02"/>
 		<property name="model" ref="t1xtModel"/>
 		<property name="deviceInformation" ref="t1xtInfo"/>
 		<property name="activated" value="false"/>
 	</bean>
 	<bean id="t1xtModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="I18-SCANFT"/>
+		<property name="name" value="BL18I-ML-SCAN-02"/>
 		<property name="exposureTime" value="0.01"/>
 	</bean>
 	<bean id="t1xtInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -36,13 +36,13 @@
 	</bean>
 
 	<bean id="t3xyDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
-		<property name="name" value="I18-SCAN03"/>
+		<property name="name" value="BL18I-ML-SCAN-03"/>
 		<property name="model" ref="t3xyModel"/>
 		<property name="deviceInformation" ref="t3xyInfo"/>
 		<property name="activated" value="false"/>
 	</bean>
 	<bean id="t3xyModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="I18-SCAN03"/>
+		<property name="name" value="BL18I-ML-SCAN-03"/>
 		<property name="exposureTime" value="0.01"/>
 	</bean>
 	<bean id="t3xyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
@@ -52,13 +52,13 @@
 	</bean>
 
 	<bean id="t3xtDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
-		<property name="name" value="I18-SCAN03FT"/>
+		<property name="name" value="BL18I-ML-SCAN-04"/>
 		<property name="model" ref="t3xtModel"/>
 		<property name="deviceInformation" ref="t3xtInfo"/>
 		<property name="activated" value="false"/>
 	</bean>
 	<bean id="t3xtModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
-		<property name="name" value="I18-SCAN03FT"/>
+		<property name="name" value="BL18I-ML-SCAN-04"/>
 		<property name="exposureTime" value="0.01"/>
 	</bean>
 	<bean id="t3xtInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
