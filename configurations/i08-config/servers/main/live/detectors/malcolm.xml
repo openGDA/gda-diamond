@@ -3,82 +3,103 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Malcolm sample scan -->
-	<bean id="malcolmModel01" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+	<!-- Sample scan -->
+	<bean id="malcolmModelSample" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="I08-SCAN01" />
 		<property name="exposureTime" value="0.01" />
 	</bean>
 
-	<bean id="malcolmInfo01" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	<bean id="malcolmInfoSample" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Malcolm sample scan" />
 		<property name="description" value="X/Y sample scan using Malcolm" />
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
-	<bean id="malcolmDevice01" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="malcolmDeviceSample" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="I08-SCAN01" />
-		<property name="model" ref="malcolmModel01" />
-		<property name="deviceInformation" ref="malcolmInfo01" />
+		<property name="model" ref="malcolmModelSample" />
+		<property name="deviceInformation" ref="malcolmInfoSample" />
 		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
-	<!-- Malcolm focus scan -->
-	<bean id="malcolmModel02" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+	<!-- Focus scan -->
+	<bean id="malcolmModelFocus" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="I08-SCAN02" />
 		<property name="exposureTime" value="0.02" />
 	</bean>
 
-	<bean id="malcolmInfo02" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	<bean id="malcolmInfoFocus" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Malcolm focus scan" />
 		<property name="description" value="Butterfly scan to find focus point, changing zone plate" />
 		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
 	</bean>
 
-	<bean id="malcolmDevice02" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="malcolmDeviceFocus" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="I08-SCAN02" />
-		<property name="model" ref="malcolmModel02" />
-		<property name="deviceInformation" ref="malcolmInfo02" />
+		<property name="model" ref="malcolmModelFocus" />
+		<property name="deviceInformation" ref="malcolmInfoFocus" />
 		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
-	<!-- Malcolm sample scan Xmap -->
-	<bean id="malcolmModel03" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+	<!-- Sample scan (Xmap) -->
+	<bean id="malcolmModelSampleXmap" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="I08-SCAN03-XMAP" />
 		<property name="exposureTime" value="0.02" />
 	</bean>
 
-	<bean id="malcolmInfo03" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	<bean id="malcolmInfoSampleXmap" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Malcolm sample scan (Xmap)" />
 		<property name="description" value="Malcolm sample scan with Xmap detector" />
 		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
 	</bean>
 
-	<bean id="malcolmDevice03" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="malcolmDeviceSampleXmap" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="I08-SCAN03-XMAP" />
-		<property name="model" ref="malcolmModel03" />
-		<property name="deviceInformation" ref="malcolmInfo03" />
+		<property name="model" ref="malcolmModelSampleXmap" />
+		<property name="deviceInformation" ref="malcolmInfoSampleXmap" />
 		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
-	<!-- Malcolm sample scan Andor -->
-	<bean id="malcolmModel04" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+	<!-- Sample scan (Andor) -->
+	<bean id="malcolmModelSampleAndor" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="I08-SCAN04-ANDOR" />
 		<property name="exposureTime" value="0.02" />
 	</bean>
 
-	<bean id="malcolmInfo04" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	<bean id="malcolmInfoSampleAndor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Malcolm sample scan (Andor)" />
 		<property name="description" value="Malcolm sample scan with Andor detector" />
 		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
 	</bean>
 
-	<bean id="malcolmDevice04" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+	<bean id="malcolmDeviceSampleAndor" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
 		<property name="name" value="I08-SCAN04-ANDOR" />
-		<property name="model" ref="malcolmModel04" />
-		<property name="deviceInformation" ref="malcolmInfo04" />
+		<property name="model" ref="malcolmModelSampleAndor" />
+		<property name="deviceInformation" ref="malcolmInfoSampleAndor" />
+		<!-- Whether this is the default device to use in a scan -->
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- Sample scan (Andor/Xmap) -->
+
+	<bean id="malcolmModelSampleAndorXmap" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="I08-SCAN05-ANDOR-XMAP" />
+		<property name="exposureTime" value="0.02" />
+	</bean>
+
+	<bean id="malcolmInfoSampleAndorXmap" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Malcolm sample scan (Andor/Xmap)" />
+		<property name="description" value="Malcolm sample scan with Andor and Xmap detectors" />
+		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
+	</bean>
+
+	<bean id="malcolmDeviceSampleAndorXmap" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="I08-SCAN05-ANDOR-XMAP" />
+		<property name="model" ref="malcolmModelSampleAndorXmap" />
+		<property name="deviceInformation" ref="malcolmInfoSampleAndorXmap" />
 		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
