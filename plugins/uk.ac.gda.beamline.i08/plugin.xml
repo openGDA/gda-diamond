@@ -186,9 +186,9 @@
          <command
                commandId="uk.ac.gda.beamline.i08.EditEnergyFocusFunction"
                icon="icons/chart_line.png"
-               label="Edit Energy Focus Function"
+               label="Edit energy focus function"
                style="push"
-               tooltip="Edit slope dividend and interception">
+               tooltip="Edit energy focus function">
          </command>
       </menuContribution>
    </extension>
@@ -205,9 +205,9 @@
          point="org.eclipse.ui.commands">
       <command
             defaultHandler="uk.ac.gda.beamline.i08.energyfocus.EditEnergyFocusFunctionHandler"
-            description="Edit the slope dividend and interception"
+            description="Edit energy focus function"
             id="uk.ac.gda.beamline.i08.EditEnergyFocusFunction"
-            name="Edit Energy Focus Function">
+            name="Edit energy focus function">
       </command>
    </extension>
 </plugin>
