@@ -608,7 +608,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         tomography_flyscan_flat_dark_det.name = savename
         if setupForAlignment:
             tomodet.setupForAlignment()
-        if kwargs.has_key("sendDataToTemporaryDirectory") and (kwargs["sendDataToTemporaryDirectory"] is not None) and kwargs["sendDataToTemporaryDirectory"]:
+        if kwargs.has_key("sendDataToTempDirectory") and (kwargs["sendDataToTempDirectory"] is not None) and kwargs["sendDataToTempDirectory"]:
             print "*Restoring data path to the original data directory: %s" %(kwargs['data_path_saved'])
             LocalProperties.set("gda.data.scan.datawriter.datadir", kwargs['data_path_saved'])
         handle_messages.log(None, "Error in tomoFlyScan", exceptionType, exception, traceback, True)
@@ -872,7 +872,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
 
 def restore_path(**kwargs):
-    if kwargs.has_key("sendDataToTemporaryDirectory") and (kwargs["sendDataToTemporaryDirectory"] is not None) and kwargs["sendDataToTemporaryDirectory"]:
+    if kwargs.has_key("sendDataToTempDirectory") and (kwargs["sendDataToTempDirectory"] is not None) and kwargs["sendDataToTempDirectory"]:
         print "Restoring data to the original data directory: %s" %(kwargs['data_path_saved'])
         LocalProperties.set("gda.data.scan.datawriter.datadir", kwargs['data_path_saved'])
 
@@ -893,29 +893,76 @@ def updateProgress( percent, msg):
     JythonScriptProgressProvider.sendProgress( percent, msg)
     print "percentage %d %s" % (percent, msg)
     
-from uk.ac.gda.tomography.scan.util import ScanXMLProcessor
-from java.io import FileInputStream
+import json
+from uk.ac.gda.tomography.scan import TomoScanParameters
+    
+def parameters_from_json(json_stash):
+    
+    logger = LoggerFactory.getLogger("tomographyScan.parameters_from_json()")
+    logger.debug("processing scan parameters from " + json_stash)
+
+    stash_file = open(json_stash, 'r')
+    stash = json.load(stash_file)
+    stash_file.close()
+    
+    model = TomoScanParameters()
+    model.setTitle(stash.get('title'))
+    model.setExposureTime(stash.get('exposureTime'))
+    model.setMinI(stash.get('minI'))
+    
+    model.setInBeamPosition(stash.get('inBeamPosition'))
+    model.setOutOfBeamPosition(stash.get('outOfBeamPosition'))
+    
+    model.setStart(stash.get('start'))
+    model.setStop(stash.get('stop'))
+    model.setStep(stash.get('step'))
+    
+    model.setImagesPerDark(stash.get('imagesPerDark'))
+    model.setDarkFieldInterval(stash.get('darkFieldInterval'))
+    model.setImagesPerFlat(stash.get('imagesPerFlat'))
+    model.setFlatFieldInterval(stash.get('flatFieldInterval'))
+    
+    model.setFlyScan(stash.get('flyScan'))
+    model.setExtraFlatsAtEnd(stash.get('extraFlatsAtEnd'))
+    
+    model.setNumFlyScans(stash.get('numFlyScans'))
+    model.setFlyScanDelay(stash.get('flyScanDelay'))
+    
+    model.setCloseShutterAfterLastScan(stash.get('closeShutterAfterLastScan'))
+    
+    model.setRotationStage(stash.get('rotationStage'))
+    model.setLinearStage(stash.get('linearStage'))
+    
+    model.setSendDataToTempDirectory(stash.get('sendDataToTempDirectory'))    
+    
+    model.setDetectorToSampleDistance(stash.get('detectorToSampleDistance'))
+    model.setDetectorToSampleDistanceUnits(stash.get('detectorToSampleDistanceUnits'))
+    model.setxPixelSize(stash.get('xPixelSize'))
+    model.setxPixelSizeUnits(stash.get('xPixelSizeUnits'))
+    model.setyPixelSize(stash.get('yPixelSize'))
+    model.setyPixelSizeUnits(stash.get('yPixelSizeUnits'))
+    model.setApproxCentreOfRotation(stash.get('approxCentreOfRotation'))
+    
+    ProcessScanParameters(model)
+    
 from gdascripts.metadata.metadata_commands import setTitle, getTitle
 
-def ProcessScanParameters(scanParameterModelXML):
+def ProcessScanParameters(model):
+    
     logger = LoggerFactory.getLogger("tomographyScan.ProcessScanParameters()")
-    logger.debug("processing scan parameters from " + scanParameterModelXML)
 
-    scanXMLProcessor = ScanXMLProcessor();
-    resource = scanXMLProcessor.load(FileInputStream(scanParameterModelXML), None);
-    parameters = resource.getContents().get(0); 
     jns=beamline_parameters.JythonNameSpaceMapping()
     additionalScannables=jns.tomography_additional_scannables
-    setTitle(parameters.getTitle())
+    setTitle(model.getTitle())
 
-    updateProgress(0, "Starting tomoscan " + parameters.getTitle());
-    logger.info("Starting tomoscan with parameters: " + parameters.toString())
+    updateProgress(0, "Starting tomoscan " + model.getTitle());
+    logger.info("Starting tomoscan with parameters from: " + model.toString())
 
-    det_dist, det_dist_units = _process_scan_parameters_det_dist(parameters)
-    x_pixel_size, x_pixel_size_units, y_pixel_size, y_pixel_size_units = _process_scan_parameters_pixel_size(parameters)
-    cor_x, cor_y = _process_scan_parameters_cor(parameters)
+    det_dist, det_dist_units = _process_scan_parameters_det_dist(model)
+    x_pixel_size, x_pixel_size_units, y_pixel_size, y_pixel_size_units = _process_scan_parameters_pixel_size(model)
+    cor_x, cor_y = _process_scan_parameters_cor(model)
     print("Input (cor_x, cor_y) = (%s, %s)" %(str(cor_x), str(cor_y)))
-    lin_stage, rot_stage = _process_scan_parameters_stages(parameters)
+    lin_stage, rot_stage = _process_scan_parameters_stages(model)
     if not lin_stage is None:
         print("Input lin_stage: %s" %(lin_stage.getName()))
     if not rot_stage is None:
@@ -928,31 +975,32 @@ def ProcessScanParameters(scanParameterModelXML):
     kwargs.update({'XPixelSize': x_pixel_size})
     kwargs.update({'XPixelSizeUnits': "%s" %(x_pixel_size_units)})
     kwargs.update({'YPixelSize': y_pixel_size})
-    kwargs.update({'YPixelSizeUnits': "%s" %(y_pixel_size_units)})
-    kwargs.update({'closeShutterAfterLastScan': parameters.closeShutterAfterLastScan})
-    kwargs.update({'sendDataToTemporaryDirectory': parameters.sendDataToTemporaryDirectory})
+    kwargs.update({'YPixelSizeUnits': '%s' %(y_pixel_size_units)})
+    kwargs.update({'closeShutterAfterLastScan': model.closeShutterAfterLastScan})
+    kwargs.update({'sendDataToTempDirectory': model.sendDataToTempDirectory})
     
-    if parameters.sendDataToTemporaryDirectory:
+    if model.sendDataToTempDirectory:
         data_path_saved = LocalProperties.get("gda.data.scan.datawriter.datadir")
-        kwargs.update({'data_path_saved': "%s" %(data_path_saved)})
+        print "data_path_saved = %s" %(data_path_saved)
+        kwargs.update({'data_path_saved': '%s' %(data_path_saved)})
         visit_tmp_path = os.path.join(getVisitPath(),'tmp')
         LocalProperties.set("gda.data.scan.datawriter.datadir", visit_tmp_path)
         print "Saving data to the throw-away TMP sub-directory! - %s!" %(visit_tmp_path)
         
     try:
-        if (parameters.flyScan):
-            qFlyScanBatch(parameters.numFlyScans, parameters.title, parameters.flyScanDelay, 
-                          parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
-                          darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-                          imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI,
-                          extraFlatsAtEnd=parameters.extraFlatsAtEnd, **kwargs)
+        if (model.flyScan):
+            qFlyScanBatch(model.numFlyScans, model.title, model.flyScanDelay, 
+                          model.inBeamPosition, model.outOfBeamPosition, exposureTime=model.exposureTime, start=model.start, stop=model.stop, step=model.step, 
+                          darkFieldInterval=model.darkFieldInterval,  flatFieldInterval=model.flatFieldInterval,
+                          imagesPerDark=model.imagesPerDark, imagesPerFlat=model.imagesPerFlat, min_i=model.minI,
+                          extraFlatsAtEnd=model.extraFlatsAtEnd, **kwargs)
         else:
-            tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
-                     darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-                      imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI, additionalScannables=additionalScannables, **kwargs)
+            tomoScan(model.inBeamPosition, model.outOfBeamPosition, exposureTime=model.exposureTime, start=model.start, stop=model.stop, step=model.step, 
+                     darkFieldInterval=model.darkFieldInterval,  flatFieldInterval=model.flatFieldInterval,
+                      imagesPerDark=model.imagesPerDark, imagesPerFlat=model.imagesPerFlat, min_i=model.minI, additionalScannables=additionalScannables, **kwargs)
     except:
         exceptionType, exception, traceback = sys.exc_info()
-        if parameters.sendDataToTemporaryDirectory:
+        if model.sendDataToTempDirectory:
             print "*Restoring data path to the original data directory: %s" %(data_path_saved)
             LocalProperties.set("gda.data.scan.datawriter.datadir", "%s" %(data_path_saved))
         handle_messages.log(None, "Error in ProcessScanParameters", exceptionType, exception, traceback, True)
@@ -1661,12 +1709,12 @@ def _process_scan_parameters_det_dist(parameters):
 
 def _process_scan_parameters_pixel_size(parameters):
     x_pixel_size = None
-    if len(parameters.XPixelSize) > 0:
-        print "Input XPixelSize = %s" %(parameters.XPixelSize)
-        print "Input XPixelSize len = %i" %(len(parameters.XPixelSize))
-        print("Input XPixelSize's type = %s" %(type(parameters.XPixelSize)))
+    if len(parameters.xPixelSize) > 0:
+        print "Input XPixelSize = %s" %(parameters.xPixelSize)
+        print "Input XPixelSize len = %i" %(len(parameters.xPixelSize))
+        print("Input XPixelSize's type = %s" %(type(parameters.xPixelSize)))
         try:
-            x_pixel_size = float(parameters.XPixelSize)
+            x_pixel_size = float(parameters.xPixelSize)
         except Exception, e:
             msg = "Error reading input XPixelSize: %s. Using default value instead!" %(str(e))
             print msg
@@ -1674,18 +1722,18 @@ def _process_scan_parameters_pixel_size(parameters):
         print("No input XPixelSize. Using default value.")
         
     y_pixel_size = None
-    if len(parameters.YPixelSize) > 0:
-        print "Input YPixelSize = %s" %(parameters.YPixelSize)
-        print "Input YPixelSize len = %i" %(len(parameters.YPixelSize))
-        print("Input YPixelSize's type = %s" %(type(parameters.YPixelSize)))
+    if len(parameters.yPixelSize) > 0:
+        print "Input YPixelSize = %s" %(parameters.yPixelSize)
+        print "Input YPixelSize len = %i" %(len(parameters.yPixelSize))
+        print("Input YPixelSize's type = %s" %(type(parameters.yPixelSize)))
         try:
-            y_pixel_size = float(parameters.YPixelSize)
+            y_pixel_size = float(parameters.yPixelSize)
         except Exception, e:
             msg = "Error reading input YPixelSize: %s. Using default value instead!" %(str(e))
             print msg
     else:
         print("No input YPixelSize. Using default value.")
-    return x_pixel_size, parameters.XPixelSizeUnits, y_pixel_size, parameters.YPixelSizeUnits
+    return x_pixel_size, parameters.xPixelSizeUnits, y_pixel_size, parameters.yPixelSizeUnits
 
 def _process_scan_parameters_stages(parameters):
     lin_stage = None

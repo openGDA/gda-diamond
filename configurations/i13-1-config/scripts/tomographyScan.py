@@ -730,26 +730,72 @@ def updateProgress( percent, msg):
     JythonScriptProgressProvider.sendProgress( percent, msg)
     print "percentage %d %s" % (percent, msg)
     
-from uk.ac.gda.tomography.scan.util import ScanXMLProcessor
-from java.io import FileInputStream
+import json
+from uk.ac.gda.tomography.scan import TomoScanParameters
+    
+def parameters_from_json(json_stash):
+    
+    logger = LoggerFactory.getLogger("tomographyScan.parameters_from_json()")
+    logger.debug("processing scan parameters from " + json_stash)
+
+    stash_file = open(json_stash, 'r')
+    stash = json.load(stash_file)
+    stash_file.close()
+    
+    model = TomoScanParameters()
+    model.setTitle(stash.get('title'))
+    model.setExposureTime(stash.get('exposureTime'))
+    model.setMinI(stash.get('minI'))
+    
+    model.setInBeamPosition(stash.get('inBeamPosition'))
+    model.setOutOfBeamPosition(stash.get('outOfBeamPosition'))
+    
+    model.setStart(stash.get('start'))
+    model.setStop(stash.get('stop'))
+    model.setStep(stash.get('step'))
+    
+    model.setImagesPerDark(stash.get('imagesPerDark'))
+    model.setDarkFieldInterval(stash.get('darkFieldInterval'))
+    model.setImagesPerFlat(stash.get('imagesPerFlat'))
+    model.setFlatFieldInterval(stash.get('flatFieldInterval'))
+    
+    model.setFlyScan(stash.get('flyScan'))
+    model.setExtraFlatsAtEnd(stash.get('extraFlatsAtEnd'))
+    
+    model.setNumFlyScans(stash.get('numFlyScans'))
+    model.setFlyScanDelay(stash.get('flyScanDelay'))
+    
+    model.setCloseShutterAfterLastScan(stash.get('closeShutterAfterLastScan'))
+    
+    model.setRotationStage(stash.get('rotationStage'))
+    model.setLinearStage(stash.get('linearStage'))
+    
+    model.setSendDataToTempDirectory(stash.get('sendDataToTempDirectory'))    
+    
+    model.setDetectorToSampleDistance(stash.get('detectorToSampleDistance'))
+    model.setDetectorToSampleDistanceUnits(stash.get('detectorToSampleDistanceUnits'))
+    model.setxPixelSize(stash.get('xPixelSize'))
+    model.setxPixelSizeUnits(stash.get('xPixelSizeUnits'))
+    model.setyPixelSize(stash.get('yPixelSize'))
+    model.setyPixelSizeUnits(stash.get('yPixelSizeUnits'))
+    model.setApproxCentreOfRotation(stash.get('approxCentreOfRotation'))
+    
+    ProcessScanParameters(model)
+    
 from gdascripts.metadata.metadata_commands import setTitle, getTitle
 
-def ProcessScanParameters(scanParameterModelXML):
+def ProcessScanParameters(model):
     logger = LoggerFactory.getLogger("tomographyScan.ProcessScanParameters()")
-    logger.debug("processing scan parameters from " + scanParameterModelXML)
-
-    scanXMLProcessor = ScanXMLProcessor();
-    resource = scanXMLProcessor.load(FileInputStream(scanParameterModelXML), None);
-    parameters = resource.getContents().get(0);
+    logger.debug("processing scan parameters from " + model.toString())
     jns=beamline_parameters.JythonNameSpaceMapping()
     additionalScannables=jns.tomography_additional_scannables
-    setTitle(parameters.getTitle())
+    setTitle(model.getTitle())
 
-    updateProgress(0, "Starting tomoscan " + parameters.getTitle());
-    logger.info("Starting tomoscan with parameters: " + parameters.toString())
+    updateProgress(0, "Starting tomoscan " + model.getTitle());
+    logger.info("Starting tomoscan with parameters: " + model.toString())
 
     cor_x = cor_y = None
-    if (parameters.flyScan):
+    if (model.flyScan):
         logger.info("Fly scan not supported")
 #         #cor_x = cor_y = None
 #         if parameters.approxCentreOfRotation is not None:
@@ -764,9 +810,9 @@ def ProcessScanParameters(scanParameterModelXML):
 #                       imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI,
 #                       extraFlatsAtEnd=parameters.extraFlatsAtEnd, approxCOR=(cor_x,cor_y))
     else:
-        tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
-                 darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI, additionalScannables=additionalScannables, approxCOR=(cor_x,cor_y))
+        tomoScan(model.inBeamPosition, model.outOfBeamPosition, exposureTime=model.exposureTime, start=model.start, stop=model.stop, step=model.step, 
+                 darkFieldInterval=model.darkFieldInterval,  flatFieldInterval=model.flatFieldInterval,
+                  imagesPerDark=model.imagesPerDark, imagesPerFlat=model.imagesPerFlat, min_i=model.minI, additionalScannables=additionalScannables, approxCOR=(cor_x,cor_y))
     updateProgress(100,"Done");
     
 

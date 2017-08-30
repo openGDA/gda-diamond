@@ -613,34 +613,6 @@ from gda.commandqueue import JythonScriptProgressProvider
 def updateProgress( percent, msg):
     JythonScriptProgressProvider.sendProgress( percent, msg)
     print "percentage %d %s" % (percent, msg)
-#epg 17/4/2014 Not available on I13-1 yet - need to add tomography plugings    
-#from uk.ac.gda.tomography.scan.util import ScanXMLProcessor
-#from java.io import FileInputStream
-#from gdascripts.metadata.metadata_commands import setTitle
-#def ProcessScanParameters(scanParameterModelXML):
-#    print scanParameterModelXML
-#    scanXMLProcessor = ScanXMLProcessor();
-#    resource = scanXMLProcessor.load(FileInputStream(scanParameterModelXML), None);
-#    parameters = resource.getContents().get(0);
-#    jns=beamline_parameters.JythonNameSpaceMapping()
-#    additionalScannables=jns.tomography_additional_scannables
-#    setTitle(parameters.getTitle())
-#    updateProgress(0, "Starting tomoscan" + parameters.getTitle());
-#    print "Flyscan:" + `parameters.flyScan`
-#    if( parameters.flyScan ):
-##        if parameters.imagesPerDark > 0:
-##            updateProgress(5, "Getting flats and darks")
-##            showNormalisedImageEx(parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, getDataOnly=True)
-##        updateProgress(10, "Starting collection of tomograms")
-#        tomoFlyScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
-#                 darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-#                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI)
-#    else:
-#        tomoScan(parameters.inBeamPosition, parameters.outOfBeamPosition, exposureTime=parameters.exposureTime, start=parameters.start, stop=parameters.stop, step=parameters.step, 
-#                 darkFieldInterval=parameters.darkFieldInterval,  flatFieldInterval=parameters.flatFieldInterval,
-#                  imagesPerDark=parameters.imagesPerDark, imagesPerFlat=parameters.imagesPerFlat, min_i=parameters.minI, additionalScannables=additionalScannables)
-#    updateProgress(100,"Done");
-    
 
 def __test1_tomoScan():
     jns=beamline_parameters.JythonNameSpaceMapping()    
