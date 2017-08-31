@@ -26,7 +26,7 @@ from gda.configuration.properties import LocalProperties
 uuu=UtilFunctions();
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
 beamlineutil=BeamlineFunctionClass(beamline_name);
-exec('[fesController, zacmode, fesData, fastEnergy] = [None, None, None, None]')
+#exec('[fesController, zacmode, fesData, fastEnergy] = [None, None, None, None]')
 
 if beamline_name=="i06-1":
     rootPV = "BL06J-MO-FSCAN-02"
