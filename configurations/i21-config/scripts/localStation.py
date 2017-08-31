@@ -229,4 +229,6 @@ from mapping_scan_commands import *
 from scannabledevices.xrayBeamMonitor import XRayBeamMonitor
 xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 
+from scannabledevices.samplePoistioner_instance import smp_positioner  # @UnusedImport
+
 simpleLog("===================== GDA ONLINE =====================")

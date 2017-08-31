@@ -60,6 +60,23 @@
 		<property name="group" value="Andor" />
 	</bean>
 
+	<!-- Sample Positioner control -->
+	<bean id="screws_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('Screws')" />
+		<property name="buttonText" value="Screws" />
+		<property name="group" value="Sample Positioner" />
+	</bean>
+	<bean id="transfer_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('Transfer')" />
+		<property name="buttonText" value="Transfer" />
+		<property name="group" value="Sample Positioner" />
+	</bean>
+	<bean id="rixs_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('RIXS')" />
+		<property name="buttonText" value="RIXS" />
+		<property name="group" value="Sample Positioner" />
+	</bean>
+
 	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
@@ -69,6 +86,9 @@
 				<ref bean="sapolar_control" />
 				<ref bean="satilt_control" />
 				<ref bean="saazimuth_control" />
+				<ref bean="screws_position" />
+				<ref bean="transfer_position" />
+				<ref bean="rixs_position" />
 				<ref bean="andorStart" />
 				<ref bean="andorStop" />
 			</list>
