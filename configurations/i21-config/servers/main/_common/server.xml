@@ -12,7 +12,6 @@
 
 
 	<import resource="plotServer.xml"/>	
-
 	<import resource="GDAMetadata.xml"/>
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
@@ -20,8 +19,6 @@
 	<import resource="expressionWatchdog.xml"/>
 	<import resource="xRayWatchdog.xml"/>
 	
-	
-	<import resource="commandServer.xml" />
 	<import resource="terminal_logger.xml"/>
 	<import resource="dataArchieval.xml"/>
 	<import resource="dataWriter.xml"/>
@@ -37,6 +34,7 @@
 	<import resource="../../../../p45-config/servers/main/_common/mandelbrot_detectors.xml"/>
 	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<import resource="commandServer.xml" />
 	<corba:export namespace="${gda.factory.factoryName}" />
 	<!--  
 	      IMPORTANT: this will start processing the scanning queue. 
