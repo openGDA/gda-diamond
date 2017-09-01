@@ -312,8 +312,8 @@ try:
 	bl = beamlineEnergy.beamLineEnergy()
 	bl.setName("bl")
 
-	debenforce=createPVScannable ("debenforce", "BL13I-EA-DOF-01:RIG:TENSIONFORCE")
-        meta_add(debenforce)
+	#debenforce=createPVScannable ("debenforce", "BL13I-EA-DOF-01:RIG:TENSIONFORCE")
+    #    meta_add(debenforce)
 	if isLive():
 		pco1_hw_tif.pluginList[1].waitForFileArrival=False
 		pco1_tif.pluginList[1].waitForFileArrival=False
