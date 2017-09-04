@@ -971,18 +971,18 @@ def ProcessScanParameters(model):
     kwargs = {}
     kwargs.update({'approxCOR': (cor_x, cor_y)})
     kwargs.update({'detectorToSampleDistance': det_dist})
-    kwargs.update({'detectorToSampleDistanceUnits': "%s" %(det_dist_units)})
+    kwargs.update({'detectorToSampleDistanceUnits': "\'%s\'" %(det_dist_units)})
     kwargs.update({'XPixelSize': x_pixel_size})
-    kwargs.update({'XPixelSizeUnits': "%s" %(x_pixel_size_units)})
+    kwargs.update({'XPixelSizeUnits': "\'%s\'" %(x_pixel_size_units)})
     kwargs.update({'YPixelSize': y_pixel_size})
-    kwargs.update({'YPixelSizeUnits': '%s' %(y_pixel_size_units)})
+    kwargs.update({'YPixelSizeUnits': "\'%s\'" %(y_pixel_size_units)})
     kwargs.update({'closeShutterAfterLastScan': model.closeShutterAfterLastScan})
     kwargs.update({'sendDataToTempDirectory': model.sendDataToTempDirectory})
     
     if model.sendDataToTempDirectory:
         data_path_saved = LocalProperties.get("gda.data.scan.datawriter.datadir")
         print "data_path_saved = %s" %(data_path_saved)
-        kwargs.update({'data_path_saved': '%s' %(data_path_saved)})
+        kwargs.update({'data_path_saved': "\'%s\'" %(data_path_saved)})
         visit_tmp_path = os.path.join(getVisitPath(),'tmp')
         LocalProperties.set("gda.data.scan.datawriter.datadir", visit_tmp_path)
         print "Saving data to the throw-away TMP sub-directory! - %s!" %(visit_tmp_path)
@@ -1002,7 +1002,7 @@ def ProcessScanParameters(model):
         exceptionType, exception, traceback = sys.exc_info()
         if model.sendDataToTempDirectory:
             print "*Restoring data path to the original data directory: %s" %(data_path_saved)
-            LocalProperties.set("gda.data.scan.datawriter.datadir", "%s" %(data_path_saved))
+            LocalProperties.set("gda.data.scan.datawriter.datadir", "\'%s\'" %(data_path_saved))
         handle_messages.log(None, "Error in ProcessScanParameters", exceptionType, exception, traceback, True)
     updateProgress(100,"Done");
     
@@ -1432,7 +1432,7 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
     if (title_saved is None) or len(title_saved)==0:
         title_saved = "undefined"
     
-    scan_cmd = ",".join(["%s=\'%s\'" %(p[0], str(p[1])) for p in _args])
+    scan_cmd = ",".join(["%s=%s" %(p[0], str(p[1])) for p in _args])
     #scan_cmd = "tomoFlyScan(" + scan_cmd + ")"
     scan_cmd = "tomographyScan.tomoFlyScan(" + scan_cmd + ")"
     #print "scan_cmd = %s" %(scan_cmd)
