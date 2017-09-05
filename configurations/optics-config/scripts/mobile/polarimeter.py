@@ -28,4 +28,4 @@ sys.path.append(str(gda_git_loc)+"/gda-mt.git/configurations/optics-config/scrip
 #import polarimeter scannable objects
 from polarimeter.polarimeterHexapod import hpx, hpy, hpz, hpa, hpb, hpc, hexapod  # @UnusedImport
 from polarimeter.polarimeterTemperatureMonitor import anatemp,rettemp  # @UnusedImport
-from polarimeter.Scaler8512 import ca1sr,ca2sr,ca3sr,ca4sr,ca5sr,ca6sr,ca7sr,ca8sr,scaler  # @UnusedImport
+from polarimeter.Scaler8512 import ca01sr,ca02sr,ca03sr,ca04sr,ca05sr,ca06sr,ca07sr,ca08sr,scaler  # @UnusedImport
