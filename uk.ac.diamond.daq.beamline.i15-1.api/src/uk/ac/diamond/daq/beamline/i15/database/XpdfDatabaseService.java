@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.diamond.daq.beamline.i15.client.database;
+package uk.ac.diamond.daq.beamline.i15.database;
 
 import java.sql.SQLException;
 import java.util.List;
