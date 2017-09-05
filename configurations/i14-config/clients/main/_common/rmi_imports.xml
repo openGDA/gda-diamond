@@ -4,12 +4,6 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="XASLoggingScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}XASLoggingScriptController" />
-		<property name="serviceInterface" value="gda.jython.scriptcontroller.logging.ILoggingScriptController" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
 	<bean id="plot_server" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}plotserver" />
 		<property name="serviceInterface" value="uk.ac.diamond.scisoft.analysis.PlotServer" />

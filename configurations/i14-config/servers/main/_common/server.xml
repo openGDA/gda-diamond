@@ -76,9 +76,6 @@
 	<!-- monitors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/monitors/beam_monitors.xml" />
 
-	<!-- movable devices -->
-	<!-- <import resource="file:${gda.config}/servers/main/${gda.mode}/movable/me07m/all.xml" /> -->
-
 	<!-- =========================================================== -->
 	<!-- Shared files                                                -->
 	<!-- =========================================================== -->
@@ -126,9 +123,6 @@
 	<!-- You will also have to uncomment the appropriate section of the client MappingExperimentBean -->
 	<!-- <import resource="file:${gda.config}/servers/main/_common/detectors/example_detectors.xml" /> -->
 
-	<!-- EXAFS -->
-	<import resource="file:${gda.config}/servers/main/_common/exafs/exafs.xml" />
-
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/detector_table.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/mapping_stage.xml" />
@@ -142,9 +136,6 @@
 
 	<!-- Dummies -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
-
-	<!-- movable devices -->
-	<!-- <import resource="file:${gda.config}/servers/main/_common/movable/me07m/all.xml" /> -->
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
