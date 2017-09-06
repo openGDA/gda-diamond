@@ -179,7 +179,7 @@
 		<property name="hasIinPV" value="false"/>
 		<property name="local" value="true"/>
 	</bean>
-	<bean id="smpcstrait" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="smpcstraight" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO3:"/>
 		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
