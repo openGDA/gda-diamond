@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="filter" class="org.eclipse.scanning.api.filter.Filter" init-method="register">
+		<property name="name" value="org.eclipse.scanning.scannableFilter"/>
+		<property name="excludes">
+			<list>
+				<value>attn.*</value>
+				<value>dcm_energy</value>
+			</list>
+		</property>
+	</bean>
+</beans>
