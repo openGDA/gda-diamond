@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
+import uk.ac.diamond.ispyb.api.DataCollectionPlan;
 import uk.ac.diamond.ispyb.api.IspybXpdfApi;
 import uk.ac.diamond.ispyb.api.IspybXpdfFactoryService;
 import uk.ac.diamond.ispyb.api.Sample;
@@ -37,6 +38,9 @@ import uk.ac.diamond.ispyb.api.Schema;
 
 /**
  * Class to provide a ISampleDescriptionService as a OSGi service it uses IspyB database.
+ *
+ * FIXME There are some warnings on this class relating to the fact it implements a interface which doens't declare
+ * correctly the return types. This interface should be fixed or removed.
  *
  * @author James Mudd
  */
@@ -50,26 +54,9 @@ public class XpdfDatabaseService implements ISampleDescriptionService {
 
 	private static IspybXpdfFactoryService factoryService;
 
-	private IspybXpdfApi api;
+	private final IspybXpdfApi api;
 
-	@Override
-	public synchronized Map<Long, String> getSampleIdNames(String proposalCode, long proposalNumber) {
-		if (proposalCode.length() > 3) {
-			throw new IllegalArgumentException("proposalCode mush be <=3 characters eg 'cm'");
-		}
-
-		if (api == null) {
-			setupApi();
-		}
-
-		// Access the DB
-		List<Sample> samples = api.retrieveSamplesAssignedForProposal(proposalCode, proposalNumber);
-
-		// Transform to the required map
-		return samples.stream().collect(Collectors.toMap(Sample::getSampleId, Sample::getSampleName));
-	}
-
-	private void setupApi() {
+	public XpdfDatabaseService() {
 		String url = getUrl();
 		Optional<String> username = getUsername();
 		Optional<String> password = getPassword();
@@ -78,16 +65,39 @@ public class XpdfDatabaseService implements ISampleDescriptionService {
 		try {
 			api = factoryService.buildIspybApi(url, username, password, database);
 		} catch (SQLException e) {
-			logger.error("Failed to access IspyB", e);
-			throw new RuntimeException(e);
+			logger.error("Failed to connect to ISPyB", e);
+			throw new RuntimeException("Failed to connect to ISPyB", e);
 		}
 	}
 
 	@Override
-	public <T> T getSampleInformation(String proposalCode, long proposalNumber, long sampleId) {
-		// TODO Auto-generated method stub
+	public Map<Long, String> getSampleIdNames(String proposalCode, long proposalNumber) {
+		List<Sample> samples = getSamples(proposalCode, proposalNumber);
 
-		return ISampleDescriptionService.super.getSampleInformation(proposalCode, proposalNumber, sampleId);
+		// Transform to the required map
+		return samples.stream().collect(Collectors.toMap(Sample::getSampleId, Sample::getSampleName));
+	}
+
+	@Override
+	public List<Sample> getSamples(String proposalCode, long proposalNumber) {
+		if (proposalCode.length() > 3) {
+			throw new IllegalArgumentException("proposalCode mush be <=3 characters eg 'cm'");
+		}
+
+		// Access the DB
+		return  api.retrieveSamplesAssignedForProposal(proposalCode, proposalNumber);
+	}
+
+	@Override
+	public Sample getSampleInformation(String proposalCode, long proposalNumber, long sampleId) {
+		return getSamples(proposalCode, proposalNumber).stream(). // Get all samples for proposal
+				filter(s -> s.getSampleId().longValue() == sampleId). // find the one with right ID
+				findFirst(). // Get as a Optional<Samples>
+				orElseThrow(() -> new IllegalArgumentException("No sample exisits with that ID")); // Throw if it doesn't exist else return
+	}
+
+	public List<DataCollectionPlan> getDataCollectionPlanForSample(long sampleId) {
+		return api.retrieveDataCollectionPlansForSample(sampleId);
 	}
 
 	private String getUrl() {
