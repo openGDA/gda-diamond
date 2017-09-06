@@ -59,7 +59,18 @@
 		<property name="buttonText" value="Stop" />
 		<property name="group" value="Andor" />
 	</bean>
+	<bean id="andorShutterOpen" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andorshutter.moveTo('Open')" />
+		<property name="buttonText" value="Open Shutter" />
+		<property name="group" value="Andor" />
+	</bean>
 
+	<bean id="andorShutterClose" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andorshutter.moveTo('Close')" />
+		<property name="buttonText" value="Close Shutter" />
+		<property name="group" value="Andor" />
+	</bean>
+	
 	<!-- Sample Positioner control -->
 	<bean id="screws_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('Screws')" />
@@ -91,6 +102,8 @@
 				<ref bean="rixs_position" />
 				<ref bean="andorStart" />
 				<ref bean="andorStop" />
+				<ref bean="andorShutterOpen" />
+				<ref bean="andorShutterClose" />
 			</list>
 		</property>
 	</bean>
