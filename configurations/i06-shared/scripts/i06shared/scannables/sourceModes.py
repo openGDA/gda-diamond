@@ -10,6 +10,7 @@ from gda.device.scannable import ScannableBase
 from gda.jython import InterfaceProvider
 from gda.configuration.properties import LocalProperties
 from java.io import File
+from time import sleep
 
 gda_git_loc = LocalProperties.get(LocalProperties.GDA_GIT_LOC)
 
@@ -34,6 +35,9 @@ class SourceMode(ScannableBase):
         self.setName(name)
         self.amIBusy=False
         self.mode=defaultmode
+        self.idd_fast_energy_scan_script=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/idd_fast_energy_scan.py")
+        self.idu_fast_energy_scan_script=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/idu_fast_energy_scan.py")
+        self.remove_zacscan_script=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/remove_zacscan.py")
         
     def getPosition(self):
         return self.mode
@@ -44,17 +48,21 @@ class SourceMode(ScannableBase):
             return 
         self.amIBusy=True # need to block to ensure script run complete before any other actions
         if mode == SourceMode.SOURCE_MODES[0]:
-            scriptFile=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/idd_fast_energy_scan.py")
-            scriptfile=File(scriptFile)
+            scriptfile=File(self.remove_zacscan_script)
+            InterfaceProvider.getCommandRunner().runScript(scriptfile,"remove_zacscan")
+            sleep(1)
+            scriptfile=File(self.idd_fast_energy_scan_script)
             InterfaceProvider.getCommandRunner().runScript(scriptfile,"idd_fast_energy_scan")
         elif mode == SourceMode.SOURCE_MODES[1]:
-            scriptFile=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/idu_fast_energy_scan.py")
-            scriptfile=File(scriptFile)
+            scriptfile=File(self.remove_zacscan_script)
+            InterfaceProvider.getCommandRunner().runScript(scriptfile,"remove_zacscan")
+            sleep(1)
+            scriptfile=File(self.idu_fast_energy_scan_script)
             InterfaceProvider.getCommandRunner().runScript(scriptfile,"idu_fast_energy_scan")
         elif mode == SourceMode.SOURCE_MODES[2] or mode == SourceMode.SOURCE_MODES[3]:
-            scriptFile=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/remove_zacscan.py")
-            scriptfile=File(scriptFile)
+            scriptfile=File(self.remove_zacscan_script)
             InterfaceProvider.getCommandRunner().runScript(scriptfile,"remove_zacscan")
+            sleep(1)
         else:
             print "Input mode is wrong: legal values %s or [SourceModeScannable.d, SourceModeScannable.u, SourceModeScannable.dpu, SourceModeScannable.dmu]. Operation cancelled." % (SourceMode.SOURCE_MODES)
             raise ValueError("Input mode %s is not supported." % (str(mode)))

@@ -22,11 +22,12 @@ from Diamond.Utility.UtilFun import UtilFunctions
 from Diamond.Utility.BeamlineFunctions import BeamlineFunctionClass, logger
 
 from gda.configuration.properties import LocalProperties
+from time import sleep
 
 uuu=UtilFunctions();
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
 beamlineutil=BeamlineFunctionClass(beamline_name);
-exec('[fesController, zacmode, fesData, fastEnergy] = [None, None, None, None]')
+#exec('[fesController, zacmode, fesData, fastEnergy] = [None, None, None, None]')
 
 if beamline_name=="i06-1":
     rootPV = "BL06J-MO-FSCAN-01"
@@ -39,7 +40,6 @@ fastScanElementCounter="iddFastScanElementCounter"
 
 fesController = FastEnergyScanControlClass("fesController", rootPV);
 zacmode = FastEnergyScanIDModeClass("zacmode", fesController);
-#fesData = EpicsScandataDeviceClass("fesData", rootPV);
 fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'iddenergy', 'pgmenergy', 'C5', 'C6'], ['idio', 'ifio'],elementCounter=fastScanElementCounter);
 fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData);
 fastEnergy.filterByEnergy = False

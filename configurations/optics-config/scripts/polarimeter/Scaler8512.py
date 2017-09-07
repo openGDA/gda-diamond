@@ -2,7 +2,7 @@
 from scannables.Scaler8512Device import Scaler8512ChannelEpicsDeviceClass;
 print "-"*100
 print "Set up scaler card"
-print "Create RAW scalar objects: 'ca1sr','ca2sr','ca3sr','ca4sr','ca5sr','ca6sr','ca7sr','ca8sr'"
+print "Create RAW scalar objects: 'ca01sr','ca02sr','ca03sr','ca04sr','ca05sr','ca06sr','ca07sr','ca08sr'"
 
 #Patch Panel U2 use the same scaler preset/trigger signal from the same scaler card
 pvPatchPanelScalerTP='ME02P-EA-DET-01:SCALER:PRESET';
@@ -19,16 +19,16 @@ pvCA66CRAW = 'ME02P-EA-DET-01:SCALER:CH6-RAW';
 pvCA67CRAW = 'ME02P-EA-DET-01:SCALER:CH7-RAW';
 pvCA68CRAW = 'ME02P-EA-DET-01:SCALER:CH8-RAW';
 
-ca1sr = Scaler8512ChannelEpicsDeviceClass('ca1sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA61CRAW);
-ca2sr = Scaler8512ChannelEpicsDeviceClass('ca2sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA62CRAW);
-ca3sr = Scaler8512ChannelEpicsDeviceClass('ca3sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA63CRAW);
-ca4sr = Scaler8512ChannelEpicsDeviceClass('ca4sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA64CRAW);
-ca5sr = Scaler8512ChannelEpicsDeviceClass('ca5sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA65CRAW);
-ca6sr = Scaler8512ChannelEpicsDeviceClass('ca6sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA66CRAW);
-ca7sr = Scaler8512ChannelEpicsDeviceClass('ca7sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA67CRAW);
-ca8sr = Scaler8512ChannelEpicsDeviceClass('ca8sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA68CRAW);
+ca01sr = Scaler8512ChannelEpicsDeviceClass('ca01sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA61CRAW);
+ca02sr = Scaler8512ChannelEpicsDeviceClass('ca02sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA62CRAW);
+ca03sr = Scaler8512ChannelEpicsDeviceClass('ca03sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA63CRAW);
+ca04sr = Scaler8512ChannelEpicsDeviceClass('ca04sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA64CRAW);
+ca05sr = Scaler8512ChannelEpicsDeviceClass('ca05sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA65CRAW);
+ca06sr = Scaler8512ChannelEpicsDeviceClass('ca06sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA66CRAW);
+ca07sr = Scaler8512ChannelEpicsDeviceClass('ca07sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA67CRAW);
+ca08sr = Scaler8512ChannelEpicsDeviceClass('ca08sr',pvPatchPanelScalerTP, pvPatchPanelScalerCNT, pvCA68CRAW);
 
-scaler=[ca1sr,ca2sr,ca3sr,ca4sr,ca5sr,ca6sr,ca7sr,ca8sr]
+scaler=[ca01sr,ca02sr,ca03sr,ca04sr,ca05sr,ca06sr,ca07sr,ca08sr]
 
 #acqtime = DetectorIntegrationsDevice('acqtime', [ca61sr]);
 #acqtime.addDetectors([ca11sr]);
