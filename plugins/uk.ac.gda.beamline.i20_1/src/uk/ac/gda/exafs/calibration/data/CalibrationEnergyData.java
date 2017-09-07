@@ -23,15 +23,19 @@ import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.io.IDataHolder;
 import org.eclipse.january.dataset.Dataset;
-import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.DoubleDataset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.scan.ede.datawriters.EdeDataConstants;
 import uk.ac.diamond.scisoft.analysis.io.LoaderFactory;
 import uk.ac.gda.beans.ObservableModel;
 
 public abstract class CalibrationEnergyData extends ObservableModel {
+	private static final Logger logger = LoggerFactory.getLogger(CalibrationEnergyData.class);
+
 	// TODO Refactor to create ref data model
 	public static final String FILE_NAME_PROP_NAME = "fileName";
 	public static final String MANUAL_CALIBRATION_PROP_NAME = "manualCalibration";
@@ -148,7 +152,7 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 		xAxisName = energyNodePath;
 		this.dataHolder = dataHolder;
 		energyNode = (Dataset) this.dataHolder.getLazyDataset(energyNodePath).getSlice();
-		Dataset allData = (Dataset) dataHolder.getLazyDataset(dataNodePath).getSlice();
+		Dataset allData = (Dataset) dataHolder.getLazyDataset(dataNodePath).getSlice().squeeze();
 
 		int[] shape = allData.getShape();
 
@@ -202,7 +206,8 @@ public abstract class CalibrationEnergyData extends ObservableModel {
 		} catch (Exception e) {
 			firePropertyChange(FILE_NAME_PROP_NAME, this.fileName, this.fileName = null);
 			this.setManualCalibration(false);
-			throw new Exception("Unable to load data for " + fileName, e);
+			logger.error("Problem loading data for {}", fileName, e);
+			throw new Exception("Problem loading data for " + fileName + " : " + e.getMessage());
 		}
 	}
 
