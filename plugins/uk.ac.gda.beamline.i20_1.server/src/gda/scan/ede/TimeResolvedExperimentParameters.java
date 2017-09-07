@@ -226,15 +226,23 @@ public class TimeResolvedExperimentParameters {
 		TimeResolvedExperimentParameters newParams = (TimeResolvedExperimentParameters)xstream.fromXML(in);
 
 		//Setup the I0, It scan position (maps with scannable motor as key and and position as the value)
+		// and copy over to parameters.
 		EdeScanMotorPositions motorPos = new EdeScanMotorPositions();
 		try {
 			motorPos = (EdeScanMotorPositions) newParams.getI0ScanPosition();
 			if (motorPos!=null) {
 				motorPos.setupScannablePositionMap();
+				newParams.setI0MotorPositions( motorPos.getPositionMap() );
 			}
 			motorPos = (EdeScanMotorPositions) newParams.getItScanPosition();
 			if (motorPos!=null) {
 				motorPos.setupScannablePositionMap();
+				newParams.setItMotorPositions( motorPos.getPositionMap() );
+			}
+			motorPos = (EdeScanMotorPositions) newParams.getiRefScanPosition();
+			if (motorPos!=null) {
+				motorPos.setupScannablePositionMap();
+				newParams.setiRefMotorPositions( motorPos.getPositionMap() );
 			}
 		} catch (DeviceException e) {
 				logger.warn("Problem setting up {} scannable position map.", motorPos.getType(), e);
