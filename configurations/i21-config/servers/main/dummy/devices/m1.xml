@@ -95,7 +95,7 @@
 		<property name="increment" value="0.5" />
 	</bean>
 	<bean id="m1feedback" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="C" />
+		<property name="unit" value="" />
 		<property name="value">
 			<value type="double">0.06</value>
 		</property>

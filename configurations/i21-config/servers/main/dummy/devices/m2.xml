@@ -116,7 +116,7 @@
 	</bean>
 	
 	<bean id="m2feedback" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="C" />
+		<property name="unit" value="" />
 		<property name="value">
 			<value type="double">589.7</value>
 		</property>
