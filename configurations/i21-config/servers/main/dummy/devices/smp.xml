@@ -64,6 +64,7 @@
 	<import resource="smpcam2.xml"/>
 	<import resource="smpcam3.xml"/>
 	<import resource="smpcam4.xml"/>
+	<import resource="smpcam5.xml"/>
 
 	<bean id="smplXPositioner" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
