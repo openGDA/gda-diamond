@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" enabled="true" immediate="true" name="XPDF Database Service">
-   <implementation class="uk.ac.diamond.daq.beamline.i15.database.XpdfDatabaseService"/>
-   <reference bind="setFactoryService" cardinality="1..1" interface="uk.ac.diamond.ispyb.api.IspybXpdfFactoryService" name="IspybXpdfFactoryService" policy="static"/>
-   <service>
-      <provide interface="org.eclipse.scanning.api.database.ISampleDescriptionService"/>
-   </service>
-</scr:component>

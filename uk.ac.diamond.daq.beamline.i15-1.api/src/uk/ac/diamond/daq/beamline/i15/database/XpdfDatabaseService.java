@@ -25,6 +25,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.eclipse.scanning.api.database.ISampleDescriptionService;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +47,7 @@ import uk.ac.diamond.ispyb.api.Schema;
  *
  * @author James Mudd
  */
+@Component(name="XpdfDatabaseService")
 public class XpdfDatabaseService implements ISampleDescriptionService {
 	private static final Logger logger = LoggerFactory.getLogger(XpdfDatabaseService.class);
 
@@ -52,11 +56,11 @@ public class XpdfDatabaseService implements ISampleDescriptionService {
 	private static final String XPDF_PASSWORD_PROP = "xpdf.server.ispyb.connector.password";
 	private static final String XPDF_DATABASE_PROP = "xpdf.server.ispyb.connector.database";
 
-	private static IspybXpdfFactoryService factoryService;
+	private IspybXpdfFactoryService factoryService;
+	private IspybXpdfApi api;
 
-	private final IspybXpdfApi api;
-
-	public XpdfDatabaseService() {
+	@Activate
+	public void activate() {
 		String url = getUrl();
 		Optional<String> username = getUsername();
 		Optional<String> password = getPassword();
@@ -105,7 +109,7 @@ public class XpdfDatabaseService implements ISampleDescriptionService {
 	}
 
 	/**
-	 * The MariaDB hosting IspyB host several other databases see  <a href="http://confluence.diamond.ac.uk/display/SCI/Database+Systems">Database Systems</a>
+	 * The MariaDB hosting IspyB host several other databases see <a href="http://confluence.diamond.ac.uk/display/SCI/Database+Systems">Database Systems</a>
 	 *
 	 * @return Database name
 	 */
@@ -123,8 +127,9 @@ public class XpdfDatabaseService implements ISampleDescriptionService {
 		return Optional.ofNullable(LocalProperties.get(XPDF_USER_PROP));
 	}
 
-	public static synchronized void setFactoryService(IspybXpdfFactoryService factoryService) {
-		XpdfDatabaseService.factoryService = factoryService;
+	@Reference
+	public synchronized void setFactoryService(IspybXpdfFactoryService factoryService) {
+		this.factoryService = factoryService;
 		logger.info("Set IspybXpdfFactoryService to {}", factoryService);
 	}
 
