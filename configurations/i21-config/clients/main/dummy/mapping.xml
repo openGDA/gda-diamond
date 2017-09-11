@@ -12,7 +12,7 @@
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 							<property name="name" value="andor_addetector" />
-							<property name="exposureTime" value="0.1" />
+							<property name="exposureTime" value="1.0" />
 						</bean>
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="true" />
