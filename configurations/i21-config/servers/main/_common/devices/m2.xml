@@ -80,6 +80,7 @@
 				<ref bean="m2temp1" />
 				<ref bean="m2temp2" />
 				<ref bean="m2temp3" />
+				<ref bean="m2feedback" />
 			</list>
 		</property>
 		<property name="local" value="true" />

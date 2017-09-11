@@ -114,5 +114,14 @@
 		<property name="upperLimit" value="30" />
 		<property name="increment" value="0.5" />
 	</bean>
-
+	
+	<bean id="m2feedback" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C" />
+		<property name="value">
+			<value type="double">589.7</value>
+		</property>
+		<property name="lowerLimit" value="500" />
+		<property name="upperLimit" value="600" />
+		<property name="increment" value="0.1" />
+	</bean>
 </beans>
