@@ -189,8 +189,8 @@ import metashop  # @UnusedImport
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Add meta data items"
 metadatalist=[idgap, idscannable, energy] #@UndefinedVariable
-m1list=[m1x,m1pitch,m1height,m1yaw,m1roll] #@UndefinedVariable
-m2list=[m2x,m2pitch,m2height]# @UndefinedVariable
+m1list=[m1x,m1pitch,m1height,m1yaw,m1roll,m1feedback] #@UndefinedVariable
+m2list=[m2x,m2pitch,m2height,m2feedback]# @UndefinedVariable
 m4list=[m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2]  # @UndefinedVariable
 m5list=[m5hqx,m5hqy,m5hqz,m5hqrx,m5hqry,m5hqrz,m5lqx,m5lqy,m5lqz,m5lqrx,m5lqry,m5lqrz,m5longy,m5tth]  # @UndefinedVariable
 pgmlist=[pgmEnergy, pgmGratingSelectReal,pgmMirrorSelectReal,pgmMirrorPitch,pgmGratingPitch,cff, pgmB2Shadow]  # @UndefinedVariable
