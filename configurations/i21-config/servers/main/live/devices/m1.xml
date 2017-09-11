@@ -20,6 +20,11 @@
 		<property name="local" value="true" />
 	</bean>
 
+	<bean id="m1finepitchMotor" class="gda.device.motor.PiezoEpicsMotor">
+		<property name="pvName" value="BL21I-OP-MIRR-01:FP" />
+		<property name="local" value="true" />
+	</bean>
+
 	<bean id="m1heightMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-01:HEIGHT" />
 		<property name="local" value="true" />

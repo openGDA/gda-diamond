@@ -20,6 +20,11 @@
 		<property name="userUnits" value="deg"/>
 	</bean>
 
+	<bean id="m1finepitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1finepitchMotor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+
 	<bean id="m1height" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1heightMotor" />
 		<property name="userUnits" value="mm"/>
@@ -64,6 +69,7 @@
 				<ref bean="m1yaw" />
 				<ref bean="m1roll" />
 				<ref bean="m1pitch" />
+				<ref bean="m1finepitch" />
 				<ref bean="m1height" />
 				<ref bean="m1x" />
 				<ref bean="m1x1Cone" />
