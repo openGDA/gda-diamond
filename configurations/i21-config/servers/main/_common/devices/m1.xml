@@ -78,6 +78,7 @@
 				<ref bean="m1y2Vee" />
 				<ref bean="m1y3flat" />
 				<ref bean="m1temp1" />
+				<ref bean="m1feedback" />
 			</list>
 		</property>
 		<property name="local" value="true" />
