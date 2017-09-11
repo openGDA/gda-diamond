@@ -10,6 +10,7 @@
 				<property name="restoreNumImagesAndImageMode" value="true"/>
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true" />
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 								<property name="adBase" ref="andor_adbase" />
