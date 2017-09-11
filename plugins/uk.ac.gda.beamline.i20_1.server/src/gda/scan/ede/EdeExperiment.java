@@ -42,7 +42,9 @@ import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.EdeDummyDetector;
+import gda.device.scannable.PVScannable;
 import gda.device.scannable.TopupChecker;
+import gda.factory.FactoryException;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -136,6 +138,8 @@ public abstract class EdeExperiment implements IObserver {
 	protected Scannable fastShutter;
 
 	protected double scanDeadTime = 2.0; // Approximate time overhead (secs) when running a scan.
+
+	private List<Scannable> scannablesToMonitorDuringScan;
 
 	public EdeExperiment(List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
@@ -322,6 +326,8 @@ public abstract class EdeExperiment implements IObserver {
 			fastShutter = (Scannable) Finder.getInstance().find( fastShutterName );
 			edeScan.setFastShutter( fastShutter );
 		}
+
+		edeScan.setScannablesToMonitorDuringScan(scannablesToMonitorDuringScan);
 
 		return edeScan;
 	}
@@ -775,5 +781,48 @@ public abstract class EdeExperiment implements IObserver {
 
 	public TFGTrigger getItTriggerOptions() {
 		return itTriggerOptions;
+	}
+
+	public List<Scannable> getScannablesToMonitorDuringScan() {
+		return scannablesToMonitorDuringScan;
+	}
+
+	/**
+	 * Add Scannable to list of scannables to be monitored.
+	 * @param nameOfScannable
+	 */
+	public void addScannableToMonitorDuringScan(Scannable scannable) {
+		if (scannablesToMonitorDuringScan==null) {
+			scannablesToMonitorDuringScan = new ArrayList<Scannable>();
+		}
+		scannablesToMonitorDuringScan.add(scannable);
+	}
+
+	/**
+	 * Find the Scannable with the specified name and add to list of scannables to be monitored.
+	 * @param nameOfScannable
+	 */
+	public void addScannableToMonitorDuringScan(String nameOfScannable) {
+		Scannable scn = Finder.getInstance().findNoWarn(nameOfScannable);
+		if (scn!=null) {
+			addScannableToMonitorDuringScan(scn);
+		} else {
+			logger.warn("Scannable {} not found - not adding to list of scannables to monitor", nameOfScannable);
+		}
+	}
+
+	/**
+	 * Create new Scannable to monitor the value of named PV, add to list of scannables to be monitored.
+	 * @param pvName
+	 * @param name (don't use ':' in scannable name or NexusWriter gets confused when creating groups...)
+	 * @throws FactoryException
+	 * @throws DeviceException
+	 */
+	public void addScannableToMonitorDuringScan(String pvName, String name) throws FactoryException  {
+		logger.info("Creating scannable {} to monitor PV {}", name, pvName);
+		PVScannable monitorForPv = new PVScannable(name, pvName);
+		monitorForPv.setCanMove(false);
+		monitorForPv.configure();
+		addScannableToMonitorDuringScan(monitorForPv);
 	}
 }

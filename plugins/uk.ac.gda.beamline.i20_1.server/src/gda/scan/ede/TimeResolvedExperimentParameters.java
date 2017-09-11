@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +16,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import gda.device.DeviceException;
+import gda.factory.FactoryException;
 import gda.scan.ede.position.EdePositionType;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
@@ -66,6 +68,16 @@ public class TimeResolvedExperimentParameters {
 	private int irefNoOfAccumulations;
 
 	private boolean hideLemoFields;
+
+	private Map<String, String> scannablesToMonitorDuringScan;
+
+	public Map<String, String> getScannablesToMonitorDuringScan() {
+		return scannablesToMonitorDuringScan;
+	}
+
+	public void setScannablesToMonitorDuringScan(Map<String, String> scannablesToMonitorDuringScan) {
+		this.scannablesToMonitorDuringScan = scannablesToMonitorDuringScan;
+	}
 
 	public EdeScanPosition getI0ScanPosition() {
 		return i0ScanPosition;
@@ -335,8 +347,9 @@ public class TimeResolvedExperimentParameters {
 	 * Take new TimeResolvedExperimentParameters and set everything up (also for cyclic, if numberOfRepetitions >1)
 	 * @param params
 	 * @throws DeviceException
+	 * @throws FactoryException
 	 */
-	static public TimeResolvedExperiment createTimeResolvedExperiment(TimeResolvedExperimentParameters params) throws DeviceException {
+	static public TimeResolvedExperiment createTimeResolvedExperiment(TimeResolvedExperimentParameters params) throws DeviceException, FactoryException {
 
 		TimeResolvedExperiment theExperiment = 	new TimeResolvedExperiment(params.getI0AccumulationTime(), params.getItTimingGroups(),
 													params.getI0MotorPositions(), params.getItMotorPositions(),
@@ -354,6 +367,8 @@ public class TimeResolvedExperimentParameters {
 		theExperiment.setUseFastShutter(params.getUseFastShutter());
 		theExperiment.setFastShutterName(params.getFastShutterName());
 		theExperiment.setItTriggerOptions(params.getItTriggerOptions());
+		params.addScannablesToMonitor(theExperiment);
+
 		if (params.getNumberOfRepetition()>1) {
 			theExperiment.setRepetitions(params.getNumberOfRepetition());
 		}
@@ -361,7 +376,22 @@ public class TimeResolvedExperimentParameters {
 		return theExperiment;
 	}
 
-	public TimeResolvedExperiment createTimeResolvedExperiment() throws DeviceException {
+	private void addScannablesToMonitor(EdeExperiment edeExperiment) throws FactoryException {
+		if (scannablesToMonitorDuringScan!=null) {
+			for(String name : scannablesToMonitorDuringScan.keySet() ) {
+				String nameOfPv = scannablesToMonitorDuringScan.get(name);
+				if (StringUtils.isEmpty(nameOfPv)) {
+					// Name of scannable
+					edeExperiment.addScannableToMonitorDuringScan(name);
+				} else {
+					// PV to monitor and name to use for scannable
+					edeExperiment.addScannableToMonitorDuringScan(name, nameOfPv);
+				}
+			}
+		}
+	}
+
+	public TimeResolvedExperiment createTimeResolvedExperiment() throws DeviceException, FactoryException {
 		return createTimeResolvedExperiment(this);
 	}
 
@@ -370,8 +400,9 @@ public class TimeResolvedExperimentParameters {
 	 * @param params
 	 * @return
 	 * @throws DeviceException
+	 * @throws FactoryException
 	 */
-	static public SingleSpectrumScan createSingleSpectrumScan(TimeResolvedExperimentParameters params) throws DeviceException {
+	static public SingleSpectrumScan createSingleSpectrumScan(TimeResolvedExperimentParameters params) throws DeviceException, FactoryException {
 		List<TimingGroup> timingGroups = params.getItTimingGroups();
 		if (timingGroups==null || timingGroups.size()==0) {
 			return null;
@@ -389,10 +420,12 @@ public class TimeResolvedExperimentParameters {
 		theExperiment.setUseFastShutter(params.getUseFastShutter());
 		theExperiment.setFastShutterName(params.getFastShutterName());
 		theExperiment.setUseTopupChecker(useTopupChecker);
+		params.addScannablesToMonitor(theExperiment);
+
 		return theExperiment;
 	}
 
-	public SingleSpectrumScan createSingleSpectrumScan() throws DeviceException {
+	public SingleSpectrumScan createSingleSpectrumScan() throws DeviceException, FactoryException {
 		return createSingleSpectrumScan(this);
 	}
 }

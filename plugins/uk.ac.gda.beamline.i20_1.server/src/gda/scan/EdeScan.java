@@ -20,6 +20,7 @@ package gda.scan;
 
 import static gda.jython.InterfaceProvider.getJythonServerNotifer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -91,6 +92,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	private Scannable motorToMoveDuringScan;
 	private boolean moveMotorDuringScan;
+
+	private List<Scannable> scannablesToMonitorDuringScan;
 
 	/**
 	 * @param scanParameters
@@ -261,6 +264,11 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			EdeScanMotorPositions scanMotorPositions = (EdeScanMotorPositions)motorPositions;
 			List<Double> motorPositionsToScan = scanMotorPositions.getMotorPositionsDuringScan();
 			motorToMoveDuringScan = scanMotorPositions.getScannableToMoveDuringScan();
+
+			// Record position of the motor in Nexus file
+			if (motorToMoveDuringScan != null) {
+				addScannableToMonitorDuringScan(motorToMoveDuringScan);
+			}
 			boolean lightItScan = scanType == EdeScanType.LIGHT && motorPositions.getType() == EdePositionType.INBEAM;
 
 			if (lightItScan && motorToMoveDuringScan !=null && motorPositionsToScan != null && motorPositionsToScan.size()>0) {
@@ -534,10 +542,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			thisPoint.addScannablePosition(indexer.getPosition(), indexer.getOutputFormat());
 		}
 
-		if (motorToMoveDuringScan != null) {
-			thisPoint.addScannable(motorToMoveDuringScan);
-			thisPoint.addScannablePosition(motorToMoveDuringScan.getPosition(), motorToMoveDuringScan.getOutputFormat());
-		}
+
+		addScannablesToScanDataPoint(thisPoint);
 
 		addDetectorsToScanDataPoint(lowFrame, detData, thisFrame, thisPoint);
 		thisPoint.setCurrentPointNumber(currentPointCount);
@@ -548,7 +554,34 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		return thisPoint;
 	}
 
-	//private static final Double placeHolderValue = new Double(0);
+	/**
+	 * Add positions of any scannables to be monitored to the scan datapoint.
+	 * @param thisPoint
+	 * @throws DeviceException
+	 */
+	private void addScannablesToScanDataPoint(ScanDataPoint thisPoint) throws DeviceException {
+		if (scannablesToMonitorDuringScan != null && scannablesToMonitorDuringScan.size()>0) {
+			for(Scannable scn : scannablesToMonitorDuringScan) {
+				thisPoint.addScannable(scn);
+				thisPoint.addScannablePosition(scn.getPosition(), scn.getOutputFormat());
+			}
+		}
+	}
+
+	public List<Scannable> getScannablesToMonitorDuringScan() {
+		return scannablesToMonitorDuringScan;
+	}
+
+	public void setScannablesToMonitorDuringScan(List<Scannable> scannablesToMonitorDuringScan) {
+		this.scannablesToMonitorDuringScan = scannablesToMonitorDuringScan;
+	}
+
+	public void addScannableToMonitorDuringScan(Scannable scannableToMonitorDuringScan) {
+		if (scannablesToMonitorDuringScan==null) {
+			scannablesToMonitorDuringScan = new ArrayList<Scannable>();
+		}
+		scannablesToMonitorDuringScan.add(scannableToMonitorDuringScan);
+	}
 
 	@SuppressWarnings("unused")
 	protected void addDetectorsToScanDataPoint(int lowFrame, Object[][] detData, int thisFrame,
