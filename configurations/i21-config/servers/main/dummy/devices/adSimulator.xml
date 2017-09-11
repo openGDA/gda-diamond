@@ -57,7 +57,8 @@
 		<property name="service" ref="sim_roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 	</bean>
-		<bean id="sim_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		
+	<bean id="sim_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="sim_RoiStats1" />
 		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:" />
 		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
