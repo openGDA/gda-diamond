@@ -36,26 +36,26 @@
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Microscope" />
-					<constructor-arg name="model">
-						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-							<property name="name" value="mic" />
-							<property name="exposureTime" value="0.002" />
-						</bean>
-					</constructor-arg>
-					<constructor-arg name="includeInScan" value="false" />
-				</bean>
-				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Spectrum" />
-					<constructor-arg name="model">
-						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-							<property name="name" value="det" />
-							<property name="exposureTime" value="0.1" />
-						</bean>
-					</constructor-arg>
-					<constructor-arg name="includeInScan" value="false" />
-				</bean>
+<!-- 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper"> -->
+<!-- 					<constructor-arg name="name" value="Microscope" /> -->
+<!-- 					<constructor-arg name="model"> -->
+<!-- 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel"> -->
+<!-- 							<property name="name" value="mic" /> -->
+<!-- 							<property name="exposureTime" value="0.002" /> -->
+<!-- 						</bean> -->
+<!-- 					</constructor-arg> -->
+<!-- 					<constructor-arg name="includeInScan" value="false" /> -->
+<!-- 				</bean> -->
+<!-- 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper"> -->
+<!-- 					<constructor-arg name="name" value="Spectrum" /> -->
+<!-- 					<constructor-arg name="model"> -->
+<!-- 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel"> -->
+<!-- 							<property name="name" value="det" /> -->
+<!-- 							<property name="exposureTime" value="0.1" /> -->
+<!-- 						</bean> -->
+<!-- 					</constructor-arg> -->
+<!-- 					<constructor-arg name="includeInScan" value="false" /> -->
+<!-- 				</bean> -->
 			</list>
 		</property>
 		<property name="scriptFiles">
