@@ -65,7 +65,9 @@ public class ExperimentSubmissionView {
 	private String proposalCode;
 	private long proposalNumber;
 	private Map<Long, String> sampleIdNames;
-	private ISampleDescriptionService sampleDescriptionService = new MockSampleDescriptionService();
+
+	@Inject
+	private ISampleDescriptionService sampleDescriptionService;
 
 	@Inject
 	private IEventService eventService;
