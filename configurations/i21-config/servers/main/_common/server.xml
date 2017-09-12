@@ -35,6 +35,7 @@
 	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="commandServer.xml" />
+	<import resource="beanAdder.xml"/>
 	<corba:export namespace="${gda.factory.factoryName}" />
 	<!--  
 	      IMPORTANT: this will start processing the scanning queue. 
