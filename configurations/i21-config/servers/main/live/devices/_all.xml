@@ -64,6 +64,7 @@
 	<import resource="d3acam_nx.xml" />
 	<import resource="d4cam_nx.xml" />
 	<import resource="d8cam_nx.xml" />
+	<import resource="s5_camera_nx.xml" />
 	<import resource="dgncam_nx.xml" />
 	<import resource="smpcam1_nx.xml" />
 	<import resource="smpcam2_nx.xml" />
