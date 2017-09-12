@@ -4,7 +4,7 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
-	<bean id="sgmGratingSelect" class="gda.device.scannable.ScannableMotor">
+	<bean id="sgmx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sgmgratingtranslationMotor" />
 		<property name="outputFormat">
 			<list>
@@ -80,11 +80,12 @@
 	<bean id="sgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="sgmGratingSelect" />
-				<ref bean="sgmh" />
 				<ref bean="sgmpitch" />
+				<ref bean="sgmx" />
+				<ref bean="sgmh" />
 				<ref bean="sgmroll" />
 				<ref bean="sgmr1" />
+				<ref bean="sgmGratingSelect" />
 				<ref bean="sgmwedgeoffside" />
 				<ref bean="sgmwedgenearside" />
 			</list>
