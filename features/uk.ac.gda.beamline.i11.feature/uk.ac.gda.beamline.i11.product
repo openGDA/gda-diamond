@@ -29,30 +29,27 @@ PyDev http://pydev.org/
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Declipse.pluginCustomization=/dls_sw/i11/software/gda/config/plugin_customization.ini
--Dgda.install.workspace.loc=/dls_sw/i11/software/gda/workspace
--Dgda.install.git.loc=/dls_sw/i11/software/gda/workspace_git
--Dgda.propertiesFile=/dls_sw/i11/software/gda/config/properties/live/java.properties
--Dgda.config=/dls_sw/i11/software/gda/config
--Djacorb.config.dir=/dls_sw/i11/software/gda/config/jacorb/live
--Djava.library.path=${workspace_loc:uk.ac.gda.core}/lib/linux-x86_64
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i11/software/gda/config/jca/live/JCALibrary.properties
--Dgda.data=/dls/i11/data
--Dgda.gui.beans.xml=/dls_sw/i11/software/gda/config/clients/rcp/live/client.xml
--Dgda.mode=live
--Dgda.var=/dls_sw/i11/software/gda_versions/var
--Dgda.logs.dir=/dls_sw/i11/logs
--Dpython.cachedir=~/python.cachedir
--Djava.net.preferIPv4Stack=true
--Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/${target.arch}/usr/lib64/xulrunner-1.9.2/
--Xms256m 
--Xmx2048m
--XX:PermSize=128m 
--XX:MaxPermSize=512m
--XX:+UseG1GC
--XX:+UnlockCommercialFeatures
--XX:+FlightRecorder</vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-Dgda.config=${workspace_loc:i11-config}
+-Dgda.mode=dummy
+-Dgda.propertiesFile=${workspace_loc:i11-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${workspace_loc:i11-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${workspace_loc:i11-config}/properties/dummy/JCALibrary.properties
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.logs.dir=${workspace_loc}/../logs
+-Dgda.instance.dir=${workspace_loc:i11-config}
+-Dgda.facility.dir=${workspace_loc:dls-config}
+-Dgda.core.dir=${workspace_loc:core-config}
+-Xms1g
+-Xmx4g
+-XX:PermSize=128m
+-XX:MaxPermSize=2048m
+-XX:-UseCompressedOops
+-Dorg.dawb.editor.h5.use.default=false
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -64,7 +61,6 @@ PyDev http://pydev.org/
       startupForegroundColor="000000" />
    <launcher name="gda-i11">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
