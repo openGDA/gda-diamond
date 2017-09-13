@@ -3,6 +3,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<bean id="s2xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="S2XGapMotor" />
+	</bean>
+
+	<bean id="s2xpos" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm"/>
+		<property name="motor" ref="S2XPosMotor" />
+	</bean>
+
 	<bean id="s2ygap" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm"/>
 		<property name="motor" ref="S2YGapMotor" />
@@ -10,12 +20,14 @@
 
 	<bean id="s2ypos" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm"/>
-		<property name="motor" ref="S2yposMotor" />
+		<property name="motor" ref="S2YPosMotor" />
 	</bean>
 
 	<bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
+				<ref bean="s2xgap" />
+				<ref bean="s2xpos" />
 				<ref bean="s2ygap" />
 				<ref bean="s2ypos" />
 			</list>

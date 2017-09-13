@@ -3,6 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<bean id="S2XGapMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="S2XPosMotor" class="gda.device.motor.DummyMotor"/>
 	<bean id="S2YGapMotor" class="gda.device.motor.DummyMotor"/>
-	<bean id="S2yposMotor" class="gda.device.motor.DummyMotor"/>
+	<bean id="S2YPosMotor" class="gda.device.motor.DummyMotor"/>
 </beans>
