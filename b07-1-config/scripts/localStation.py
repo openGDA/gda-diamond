@@ -26,4 +26,8 @@ print "Installing standard scans with processing"
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 
+# Add a string to hold extra detectors it will be appended to analyser scans run from the GUI
+# See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
+extraDetectors = ""
+
 print "-----------------------------------------------------------------------------------------------------------------"
