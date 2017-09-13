@@ -183,6 +183,10 @@ sd9iamp9=DisplayEpicsPVClass("sd9iamp9", "BL09K-MO-SD-09:IAMP9:I","V","%f")
 sd9iamp36=DisplayEpicsPVClass("sd9iamp36", "BL09K-MO-SD-09:IAMP36:I","V","%f")
 sd11iamp7=DisplayEpicsPVClass("sd11iamp7", "BL09K-MO-SD-11:IAMP7:I","V","%f")
 
+# Add a string to hold extra detectors it will be appended to analyser scans run from the GUI
+# See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
+extraDetectors = ""
+
 print
 print "=================================================================================================================";
 print "Initialisation script complete." 
