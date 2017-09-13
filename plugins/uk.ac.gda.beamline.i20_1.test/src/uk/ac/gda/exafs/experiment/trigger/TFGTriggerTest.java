@@ -22,7 +22,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 
 import gda.device.detector.EdeDetector;
@@ -33,18 +33,46 @@ import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
 
 public class TFGTriggerTest {
 
-	private void setupDetectorDataCollection( TFGTrigger tfgTrigger ) {
+	private TFGTrigger tfgTrigger;
+	private EdeDetector detector;
+
+	private double collectionDuration = 0.50688;
+	private double startTime = 0.001;
+	private int numberOfFrames = 5;
+
+	@Before
+	public void setup() {
+		tfgTrigger = new TFGTrigger();
+	}
+
+	private void setupDetectorDataCollection() {
 		// Set data collection duration, number of frames
 		tfgTrigger.getDetectorDataCollection().setTriggerDelay(0.1); //start time
-		tfgTrigger.getDetectorDataCollection().setTriggerPulseLength(0.001);
-		tfgTrigger.getDetectorDataCollection().setNumberOfFrames(5);
-		tfgTrigger.getDetectorDataCollection().setCollectionDuration(0.50688);
+		tfgTrigger.getDetectorDataCollection().setTriggerPulseLength(startTime);
+		tfgTrigger.getDetectorDataCollection().setNumberOfFrames(numberOfFrames);
+		tfgTrigger.getDetectorDataCollection().setCollectionDuration(collectionDuration);
 		tfgTrigger.setUseCountFrameScalers(false);
 
-		EdeFrelon frelonDetector = (EdeFrelon) tfgTrigger.getDetector();
-		FrelonCcdDetectorData detectorSettings = new FrelonCcdDetectorData();
-		detectorSettings.setAccumulationMaximumExposureTime(0.001);
-		frelonDetector.setDetectorData( detectorSettings );
+		if (detector instanceof EdeFrelon) {
+			EdeFrelon frelonDetector = (EdeFrelon) detector;
+			FrelonCcdDetectorData detectorSettings = new FrelonCcdDetectorData();
+			detectorSettings.setAccumulationMaximumExposureTime(0.001);
+			frelonDetector.setDetectorData( detectorSettings );
+
+		}
+	}
+
+	public void setupFrelon() {
+		detector = new EdeFrelon();
+		detector.setName("frelon");
+		detector.setNumberScansInFrame( 66 ); //number of scans per frame of Frelon
+		tfgTrigger.setDetector(detector);
+	}
+
+	public void setupXh() {
+		detector = new XhDetector();
+		detector.setName("xh");
+		tfgTrigger.setDetector(detector);
 	}
 
 	@Test
@@ -52,20 +80,15 @@ public class TFGTriggerTest {
 		// Test TFG triggering commands produced for Frelon
 		// No user-added pulses - i.e. trigger to start data collection trigger only.
 
-		TFGTrigger tfgTrigger = new TFGTrigger();
-		EdeDetector detector = new EdeFrelon();
-		tfgTrigger.setDetector(detector);
-		detector.setName("frelon");
-
-		detector.setNumberScansInFrame( 66 ); //number of scans per frame of Frelon
+		setupFrelon();
 
 		// data collection duration, number of frames
-		setupDetectorDataCollection(tfgTrigger);
+		setupDetectorDataCollection();
 
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
 
-		assertTrue("TFGTrigger testPulseOverlapCollectionStart - single 2 frame long pulse overlapping with collection start",
+		assertTrue("TFGTrigger testNoPulses",
 				command.equals("tfg setup-groups\n"+
 								"1 0.100000 0.0 0 0 0 0\n"+
 								"1 0.001000 0.0 2 0 0 0\n"+
@@ -80,15 +103,10 @@ public class TFGTriggerTest {
 		// Test TFG triggering commands produced for Frelon
 		// Pulse overlapping with collection start trigger. imh 21/9/2015
 
-		TFGTrigger tfgTrigger = new TFGTrigger();
-		EdeDetector detector = new EdeFrelon();
-		tfgTrigger.setDetector(detector);
-		detector.setName("frelon");
-
-		detector.setNumberScansInFrame( 66 ); //number of scans per frame of Frelon
+		setupFrelon();
 
 		// data collection duration, number of frames
-		setupDetectorDataCollection(tfgTrigger);
+		setupDetectorDataCollection();
 
 		DetectorDataCollection detDataCollection = 	tfgTrigger.getDetectorDataCollection();
 		int totalNumFrames = detDataCollection.getNumberOfFrames()*tfgTrigger.getDetector().getNumberScansInFrame();
@@ -103,7 +121,7 @@ public class TFGTriggerTest {
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
 
-		assertTrue("TFGTrigger testPulseOverlapCollectionStart - single 2 frame long pulse overlapping with collection start",
+		assertTrue("TFGTrigger testPulseOverlapCollectionStart - single pulse overlapping with collection start",
 				command.equals("tfg setup-groups\n" +
 						"1 0.099500 0.0 0 0 0 0\n" +
 						"1 0.000500 0.0 4 0 0 0\n" +
@@ -120,15 +138,10 @@ public class TFGTriggerTest {
 		// Test TFG triggering commands produced for Frelon
 		// Long and short pulse during data collection. imh 21/9/2015
 
-		TFGTrigger tfgTrigger = new TFGTrigger();
-		EdeDetector detector = new EdeFrelon();
-		tfgTrigger.setDetector(detector);
-		detector.setName("frelon");
-
-		detector.setNumberScansInFrame( 66 ); //number of scans per frame of Frelon
+		setupFrelon();
 
 		// data collection duration, number of frames
-		setupDetectorDataCollection(tfgTrigger);
+		setupDetectorDataCollection();
 
 		DetectorDataCollection detDataCollection = 	tfgTrigger.getDetectorDataCollection();
 		int totalNumFrames = detDataCollection.getNumberOfFrames()*tfgTrigger.getDetector().getNumberScansInFrame();
@@ -171,15 +184,10 @@ public class TFGTriggerTest {
 		// Test TFG triggering commands produced for Frelon
 		// Overlapping pulses during data collection. imh 21/9/2015
 
-		TFGTrigger tfgTrigger = new TFGTrigger();
-		EdeDetector detector = new EdeFrelon();
-		tfgTrigger.setDetector(detector);
-		detector.setName("frelon");
-
-		detector.setNumberScansInFrame( 66 ); //number of scans per frame of Frelon
+		setupFrelon();
 
 		// data collection duration, number of frames
-		setupDetectorDataCollection(tfgTrigger);
+		setupDetectorDataCollection();
 
 		DetectorDataCollection detDataCollection = 	tfgTrigger.getDetectorDataCollection();
 		int totalNumFrames = detDataCollection.getNumberOfFrames()*tfgTrigger.getDetector().getNumberScansInFrame();
@@ -217,15 +225,10 @@ public class TFGTriggerTest {
 	public void testLongPulseDuringCollection() {
 		// Test TFG triggering commands produced for Frelon
 
-		TFGTrigger tfgTrigger = new TFGTrigger();
-		EdeDetector detector = new EdeFrelon();
-		tfgTrigger.setDetector(detector);
-		detector.setName("frelon");
-
-		detector.setNumberScansInFrame( 66 ); //number of scans per frame of Frelon
+		setupFrelon();
 
 		// data collection duration, number of frames
-		setupDetectorDataCollection(tfgTrigger);
+		setupDetectorDataCollection();
 
 		// Single long pulse during data collection (pulse length covers 6 accumulation signals of camera
 		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.3, 0.01, TriggerOutputPort.USR_OUT_2 ); // < covers 6 frames
@@ -254,15 +257,10 @@ public class TFGTriggerTest {
 	public void testPulseDuringCollectionTopupTriggeredStart() {
 		// Test TFG triggering commands produced for Frelon
 
-		TFGTrigger tfgTrigger = new TFGTrigger();
-		EdeDetector detector = new EdeFrelon();
-		tfgTrigger.setDetector(detector);
-		detector.setName("frelon");
-
-		detector.setNumberScansInFrame( 66 ); //number of scans per frame of Frelon
+		setupFrelon();
 
 		// data collection duration, number of frames
-		setupDetectorDataCollection(tfgTrigger);
+		setupDetectorDataCollection();
 
 		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.05, 0.01, TriggerOutputPort.USR_OUT_2 ); // Pulse on Port 2 before data collection
 		TriggerableObject trigger2 = tfgTrigger.createNewSampleEnvEntry( 0.3, 0.01, TriggerOutputPort.USR_OUT_3 ); // Pulse on Port 3 during collection (covers 6 frames)
@@ -295,15 +293,10 @@ public class TFGTriggerTest {
 	public void test2PulsesBeforeCollection( ) {
 		// Test TFG triggering commands produced for Frelon
 
-		TFGTrigger tfgTrigger = new TFGTrigger();
-		EdeDetector detector = new EdeFrelon();
-		tfgTrigger.setDetector(detector);
-		detector.setName("frelon");
-
-		detector.setNumberScansInFrame( 66 ); //number of scans per frame of Frelon
+		setupFrelon();
 
 		// data collection duration, number of frames
-		setupDetectorDataCollection(tfgTrigger);
+		setupDetectorDataCollection();
 
 		// Two pulses, both before data collection, with different starting time and lengths
 		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.02, 0.04, TriggerOutputPort.USR_OUT_2 );
@@ -334,15 +327,10 @@ public class TFGTriggerTest {
 	public void test2PulsesAfterCollection( ) {
 		// Test TFG triggering commands produced for Frelon
 
-		TFGTrigger tfgTrigger = new TFGTrigger();
-		EdeDetector detector = new EdeFrelon();
-		tfgTrigger.setDetector(detector);
-		detector.setName("frelon");
-
-		detector.setNumberScansInFrame( 66 ); //number of scans per frame of Frelon
+		setupFrelon();
 
 		// data collection duration, number of frames
-		setupDetectorDataCollection(tfgTrigger);
+		setupDetectorDataCollection();
 
 		// Two pulses, both after data collection, with same starting time and different lengths
 		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.7, 0.10, TriggerOutputPort.USR_OUT_2 );
@@ -370,15 +358,10 @@ public class TFGTriggerTest {
 	public void test3OverlappingPulses( ) {
 		// Test TFG triggering commands produced for Frelon
 
-		TFGTrigger tfgTrigger = new TFGTrigger();
-		EdeDetector detector = new EdeFrelon();
-		tfgTrigger.setDetector(detector);
-		detector.setName("frelon");
-
-		detector.setNumberScansInFrame( 66 ); //number of scans per frame of Frelon
+		setupFrelon();
 
 		// data collection duration, number of frames
-		setupDetectorDataCollection(tfgTrigger);
+		setupDetectorDataCollection();
 
 		// 3 partially overlapping pulses, all after data collection
 		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.70, 0.10, TriggerOutputPort.USR_OUT_2 );
@@ -412,15 +395,10 @@ public class TFGTriggerTest {
 	public void test4OverlappingPulses( ) {
 		// Test TFG triggering commands produced for Frelon
 
-		TFGTrigger tfgTrigger = new TFGTrigger();
-		EdeDetector detector = new EdeFrelon();
-		tfgTrigger.setDetector(detector);
-		detector.setName("frelon");
-
-		detector.setNumberScansInFrame( 66 ); //number of scans per frame of Frelon
+		setupFrelon();
 
 		// data collection duration, number of frames
-		setupDetectorDataCollection(tfgTrigger);
+		setupDetectorDataCollection();
 
 		// 3 partially overlapping pulses, all after data collection
 		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.70, 0.10, TriggerOutputPort.USR_OUT_2 );
@@ -453,44 +431,65 @@ public class TFGTriggerTest {
 
 	}
 
-
-	//TODO taking out this test as it is test the wrong thing and cannot cover script run yet.
-	@Ignore("taking out this test as it is test the wrong thing and cannot cover script run yet.")
 	@Test
-	public void testGetTfgSetupGroupCommandParameters() throws Exception {
+	public void testXhNoPulses() throws Exception {
 
-		TFGTrigger tfgTrigger = new TFGTrigger();
-		EdeDetector detector = new XhDetector();
-		detector.setName("xh");
-		tfgTrigger.setDetector(detector);
-
-
-		tfgTrigger.getDetectorDataCollection().setTriggerDelay(4.0d);
-		tfgTrigger.getDetectorDataCollection().setTriggerPulseLength(0.1d);
-		tfgTrigger.getDetectorDataCollection().setNumberOfFrames(20);
-		tfgTrigger.getDetectorDataCollection().setCollectionDuration(10.0d);
-
-		TriggerableObject testObj = tfgTrigger.createNewSampleEnvEntry();
-		testObj.setTriggerDelay(0.5d);
-		testObj.setTriggerPulseLength(0.1d);
-		tfgTrigger.getSampleEnvironment().add(testObj);
-
-		testObj = tfgTrigger.createNewSampleEnvEntry();
-		testObj.setTriggerDelay(0.8d);
-		testObj.setTriggerPulseLength(20d);
-		tfgTrigger.getSampleEnvironment().add(testObj);
+		setupXh();
+		setupDetectorDataCollection();
 
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command);
-		assertTrue(command.equals("tfg setup-groups\n" +
-				"1 0.500000 0.0 0 0 0 0\n" +
-				"1 0.100000 0.0 4 0 0 0\n" +
-				"1 0.200000 0.0 0 0 0 0\n" +
-				"1 3.200000 0.0 8 0 0 0\n" +
-				"1 0.100000 0.0 10 0 0 0\n" +
-				"20 0 0.000001 0 8 0 9\n" +
-				"1 7.300000 0.0 8 0 0 0\n" +
+		assertTrue(command.equals("tfg setup-groups\n"+
+				"1 0.100000 0.0 0 0 0 0\n"+
+				"1 0.001000 0.0 2 0 0 0\n"+
+				"4 0 0.000001 0 0 0 9\n"+
+				"1 0.101376 0.0 0 0 0 0\n"+ // wait for final spectrum to finish
 				"-1 0 0 0 0 0 0"));
+	}
+
+	@Test
+	public void testXhPulseOverlapCollectionStart() throws Exception {
+
+		setupXh();
+		setupDetectorDataCollection();
+
+		// Pulse begins just before data collection trigger, and overlaps the first two spectra
+		double timePerSpectrum = collectionDuration/numberOfFrames;
+		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry( 0.0995, 2*timePerSpectrum, TriggerOutputPort.USR_OUT_2 );
+
+		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
+		triggerList.add( trigger1 );
+
+		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
+		System.out.print(command);
+		assertTrue(command.equals("tfg setup-groups\n"+
+					"1 0.099500 0.0 0 0 0 0\n"+
+					"1 0.000500 0.0 4 0 0 0\n"+
+					"1 0.001000 0.0 6 0 0 0\n"+
+					"1 0.201252 0.0 4 0 0 0\n"+
+					"3 0 0.000001 0 0 0 9\n"+
+					"1 0.101376 0.0 0 0 0 0\n"+
+					"-1 0 0 0 0 0 0"));
+	}
+	@Test
+	public void testXhPulsesDuringCollection() {
+
+		setupXh();
+		setupDetectorDataCollection();
+
+		// 1st pulse begins after 0.1 + 0.01 + 130*frames0.001536 secs, and is 'on' for 6 frames
+		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry(0.300, 0.010, TriggerOutputPort.USR_OUT_2);
+
+		// 2nd pulse overlaps with first, extend beyond first by 3 frames (i.e. 330 - 130 - 9 = *191* frames left count after pulse)
+		TriggerableObject trigger2 = tfgTrigger.createNewSampleEnvEntry(0.305, 0.010, TriggerOutputPort.USR_OUT_3);
+
+		List<TriggerableObject> triggerList = tfgTrigger.getSampleEnvironment();
+		triggerList.add( trigger1 );
+		triggerList.add( trigger2 );
+
+		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
+		System.out.print(command+"\n");
+
 	}
 }
 

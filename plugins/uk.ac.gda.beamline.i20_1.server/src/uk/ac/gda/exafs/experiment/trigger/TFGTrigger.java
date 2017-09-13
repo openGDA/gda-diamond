@@ -34,8 +34,11 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.annotations.Expose;
 
+import gda.device.detector.DetectorData;
 import gda.device.detector.EdeDetector;
+import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
+import gda.device.detector.xstrip.XhDetector;
 import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.ObservableModel;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
@@ -82,6 +85,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 
 	public static final String TOTAL_TIME_PROP_NAME = "totalTime";
 	private boolean useCountFrameScalers = false;
+	private boolean triggerOnRisingEdge = true; //generally true for Frelon, False for Xh
 
 	public double getTotalTime() {
 		double total = 0.0;
@@ -136,15 +140,11 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	// num_repeats sequence_name
 	// This repeats the pre-recorded sequence num_repeats times.
 	public String getTfgSetupGroupCommandParameters(int numberOfCycles, boolean shouldStartOnTopupSignal) {
-		if (detector.getName().equalsIgnoreCase("frelon")) {
-			if (isUsingExternalScripts4TFG()) {
-				String tfgCommand=InterfaceProvider.getCommandRunner().evaluateCommand("getCommands4ExternalTFG()");
-				return tfgCommand.toString();
-			}
-			// return getTfgSetupGroupsCommandParameters4Frelon(numberOfCycles, shouldStartOnTopupSignal);
-			return getTfgSetupGroupsCommandParameters4Frelon_new(numberOfCycles, shouldStartOnTopupSignal);
+		if (isUsingExternalScripts4TFG()) {
+			String tfgCommand = InterfaceProvider.getCommandRunner().evaluateCommand("getCommands4ExternalTFG()");
+			return tfgCommand.toString();
 		}
-		return getTfgSetupGrupsCommandParameters4XH(numberOfCycles, shouldStartOnTopupSignal);
+		return getTfgSetupGroupsCommandParameters4Frelon_new(numberOfCycles, shouldStartOnTopupSignal);
 	}
 
 	public String getTfgSetupGrupsCommandParameters4XH(int numberOfCycles, boolean shouldStartOnTopupSignal) {
@@ -297,6 +297,27 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		return scalerMode + scalerOpen;
 	}
 
+	/**
+	 *
+	 * Number of trigger signals produced per spectrum by detector
+	 * (these are counted to keep detector and Tfg synchronized)
+	 * Frelon - number of spectra*num accumulations per spectrum
+	 * Xh - number of spectra (i.e. 1 trig. per spectrum)
+	 */
+	private int getTotalNumberOfFrames() {
+		int framesPerSpectrum = 1;
+		if (getDetector() instanceof EdeFrelon) {
+			framesPerSpectrum = getDetector().getNumberScansInFrame();
+		} else {
+			framesPerSpectrum = 1;
+		}
+		return detectorDataCollection.getNumberOfFrames()*framesPerSpectrum;
+	}
+
+	private boolean detectorIsXh() {
+		return getDetector() instanceof XhDetector;
+	}
+
 	public String getTfgSetupGroupsCommandParameters4Frelon_new(int numberOfCycles, boolean shouldStartOnTopupSignal) {
 		// using TFG setup GUI for Frelon - completely re-written version. imh 29Sept2015
 
@@ -320,7 +341,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		double iTcollectionStartTime = detectorDataCollection.getTriggerDelay();
 		double collectionDuration = detectorDataCollection.getCollectionDuration();
 
-		int totalNumberOfFrames = detectorDataCollection.getNumberOfFrames()*getDetector().getNumberScansInFrame();
+		int totalNumberOfFrames = getTotalNumberOfFrames();
 		double singleFrameLength=collectionDuration/totalNumberOfFrames;
 		boolean itCollectionAdded = false;
 		int totalnumberFramesSoFar=0;
@@ -328,19 +349,13 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 
 		boolean adjustToExactStartTime = true;
 
-		// Set accumulation and accumulation readout time (per frame) .
-		// (Total frame time = accumulation time + accumulation readout time)
-		//		double accumulationTime = singleFrameLength;
-		//		FrelonCcdDetectorData detectorSettings = (FrelonCcdDetectorData) getDetector().getDetectorData();
-		//		if ( detectorSettings != null ) {
-		//			accumulationTime = detectorSettings.getAccumulationMaximumExposureTime();
-		//		}
-
 		TriggerParams firstPoint = triggerPoints.get(0);
 		double accumulationReadoutTime = firstPoint.getAccumulationFrameLength() - firstPoint.getAccumulationLength();;
 
 
-		// NBCounting current occurs on rising edge of accumulation readout signal; middle of frame
+		// NB: Counting for Frelon occurs on rising edge of accumulation readout signal, in middle of frame
+		// Counting for Xh/Xstrip uses frame trigger (i.e. pulse at *start* of each spectrum).
+		// For Xh/Xstrip trigger signal is not produced for first spectrum.
 
 		for (int i = 0; i < triggerPoints.size()-1; i++) {
 			TriggerParams thisPoint = triggerPoints.get(i);
@@ -399,6 +414,11 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 
 		// Add data collection, after adding all trigger points if not already added
 		int framesLeft = totalNumberOfFrames - totalnumberFramesSoFar - numberOfCollectionFramesToNotCount;
+
+		// For Xh, frame trigger for first frame/spectrum is not produced
+		if (detectorIsXh()) {
+			framesLeft--;
+		}
 		if ( framesLeft > 0 ) {
 			tfgCommand.append( getCountFrameString(framesLeft, 0 ) );
 
@@ -574,8 +594,15 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		return tfgCommand.toString();
 	}
 
+	/**
+	 * Refactored from 'processTimes'
+	 * Make map from pulse edge times to list of triggerable objects that start/end at those times.
+	 * Map keys are in order of ascending time.
+	 * @since 18/9/2015
+	 * @param triggerObjList
+	 * @return TreeMap with List of TriggerableObjects for each time.
+	 */
 	private TreeMap<Double, List<TriggerableObject>> getMapPulseEdge2TriggerObj( List<TriggerableObject> triggerObjList ) {
-		// Refactored from 'processTimes' imh 18/9/2015
 
 		TreeMap<Double, List<TriggerableObject>> pulseEdgeTime2TriggerObj = new TreeMap<Double, List<TriggerableObject>>();
 		// Make map from pulse edge times to list of triggerable objects that start/end at those times
@@ -601,30 +628,40 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		return pulseEdgeTime2TriggerObj;
 	}
 
+	/**
+	 * For each trigger, set data accumulation frame number that the trigger lies within,
+	 * the trigger time relative to frame start, and frame start time.
+	 * @since 24/9/2015
+	 * @param triggerParams
+	 */
 	private void setTriggerPointFrameInfo( List<TriggerParams> triggerParams ) {
-		// For each trigger, set data accumulation frame number that the trigger lies within,
-		// the trigger time relative to frame start, and frame start time.
-		// imh 24/9/2015
 
 		double firstFrameLength = triggerParams.get(1).getTime() - triggerParams.get(0).getTime();
 		triggerParams.get(0).setLength( firstFrameLength );
 
 		double iTcollectionEndTime = detectorDataCollection.getTotalDelay();
 		double iTcollectionStartTime = detectorDataCollection.getTriggerDelay();
+
+		// If data collection starts on *falling edge* of trigger signal, add trigger pulse length to start and end collection time;
+		// (Frelon triggers on rising edge, Xh usually on falling edge)
+		if (!triggerOnRisingEdge) {
+			double triggerPulseLength = detectorDataCollection.getTriggerPulseLength();
+			iTcollectionStartTime += triggerPulseLength;
+			iTcollectionEndTime += triggerPulseLength;
+		}
+
 		double collectionDuration = detectorDataCollection.getCollectionDuration();
-		int totalNumberOfFrames = detectorDataCollection.getNumberOfFrames()*getDetector().getNumberScansInFrame();
+		int totalNumberOfFrames = getTotalNumberOfFrames();
 		double singleFrameTime=collectionDuration/totalNumberOfFrames;
 
 		double accumulationTime = 0.0;
-		FrelonCcdDetectorData detectorSettings = (FrelonCcdDetectorData) getDetector().getDetectorData();
-		if ( detectorSettings != null ) {
-			accumulationTime = detectorSettings.getAccumulationMaximumExposureTime();
+		DetectorData detectorSettings = getDetector().getDetectorData();
+		if ( detectorSettings instanceof FrelonCcdDetectorData ) {
+			accumulationTime = ((FrelonCcdDetectorData)detectorSettings).getAccumulationMaximumExposureTime();
 			// ExperimentUnit.MILLI_SEC.convertTo(accumulationTimeMilliSec, ExperimentUnit.SEC );
 		}
 
-
-		for(int i = 0; i<triggerParams.size(); i++ )
-		{
+		for(int i = 0; i<triggerParams.size(); i++ ) {
 			double triggerTime = triggerParams.get(i).getTime();
 			double timeInCollection = triggerTime - iTcollectionStartTime;
 			int frameNumber = (int) Math.floor( timeInCollection/singleFrameTime );
@@ -648,10 +685,14 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		}
 	}
 
+	/**
+	 * Set list of trigger parameters for Frelon. Derived from processTimes function (originally written for XH).
+	 * Works correctly for multiple overlapping pulses on different ports.
+	 * @since 18/9/2015
+	 * @param addDetectorTriggerToSampleEnvironment
+	 * @return
+	 */
 	private List<TriggerParams> processTimesFrelon( boolean addDetectorTriggerToSampleEnvironment ) {
-		// Set list of trigger parameters for Frelon. Derived from processTimes function (originally written for XH).
-		// Works correctly for multiple overlapping pulses on different ports.
-		// imh 18/9/2015
 
 		List<TriggerParams> triggerPoints = new ArrayList<TriggerParams>();
 		if (sampleEnvironment.isEmpty() && !addDetectorTriggerToSampleEnvironment) {
@@ -741,6 +782,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		}
 
 		// Make map of pulse edge times and list of triggerable objects that start/end at those times
+		// (TreeMap automatically sorts into ascending key order).
 		for (TriggerableObject triggerObjForPulse : sampleEnvironment) {
 			double pulseStartTime = triggerObjForPulse.getTriggerDelay();
 			double pulseEndTime = triggerObjForPulse.getTriggerDelay() + triggerObjForPulse.getTriggerPulseLength();
@@ -1018,4 +1060,11 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		this.useCountFrameScalers = useCountFrameScalers;
 	}
 
+	public void setTriggerOnRisingEdge(boolean triggerOnRisingEdge) {
+		this.triggerOnRisingEdge = triggerOnRisingEdge;
+	}
+
+	public boolean getTriggerOnRisingEdge() {
+		return triggerOnRisingEdge;
+	}
 }

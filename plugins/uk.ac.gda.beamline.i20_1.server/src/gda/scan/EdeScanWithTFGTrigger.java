@@ -36,6 +36,7 @@ import gda.device.detector.EdeDetector;
 import gda.device.detector.countertimer.TfgScaler;
 import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
+import gda.device.detector.xstrip.XhDetector;
 import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TopupChecker;
@@ -281,6 +282,18 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 
 		triggeringParameters.setDetector(theDetector);
 		triggeringParameters.getDetectorDataCollection().setNumberOfFrames(scanParameters.getTotalNumberOfFrames());
+
+		boolean triggerOnRisingEdge = true;
+		if (theDetector instanceof XhDetector) {
+			// try to get trigger rise/fall value from timing group parameters (false by default, if not set explicitly)
+			if (scanParameters.getGroups().size()>0) {
+				triggerOnRisingEdge = scanParameters.getGroups().get(0).isGroupTrigRisingEdge();
+			} else {
+				triggerOnRisingEdge = false;
+			}
+		}
+		triggeringParameters.setTriggerOnRisingEdge(triggerOnRisingEdge);
+
 		prepareTFG(shouldWaitForTopup);
 		// move into the it position
 		moveSampleIntoPosition();
