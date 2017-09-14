@@ -11,7 +11,7 @@
 		<property name="pluginName" value="andorRoiStats1" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI1:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT1:" />
-		<property name="roiInputNdArrayPort" value="ANDOR.rot" />
+		<property name="roiInputNdArrayPort" value="ANDOR.trf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -25,7 +25,7 @@
 		<property name="pluginName" value="andorRoiStats2" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI2:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT2:" />
-		<property name="roiInputNdArrayPort" value="ANDOR.rot" />
+		<property name="roiInputNdArrayPort" value="ANDOR.trf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -39,7 +39,7 @@
 		<property name="pluginName" value="andorRoiStats3" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI3:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT3:" />
-		<property name="roiInputNdArrayPort" value="ANDOR.rot" />
+		<property name="roiInputNdArrayPort" value="ANDOR.trf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -53,7 +53,7 @@
 		<property name="pluginName" value="andorRoiStats4" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI4:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT4:" />
-		<property name="roiInputNdArrayPort" value="ANDOR.rot" />
+		<property name="roiInputNdArrayPort" value="ANDOR.trf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -67,7 +67,7 @@
 		<property name="pluginName" value="andorRoiStats5" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI5:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT5:" />
-		<property name="roiInputNdArrayPort" value="ANDOR.rot" />
+		<property name="roiInputNdArrayPort" value="ANDOR.trf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -81,7 +81,7 @@
 		<property name="pluginName" value="andorRoiStats6" />
 		<property name="baseRoiPVName" value="BL21I-EA-DET-01:ROI6:" />
 		<property name="baseStatsPVName" value="BL21I-EA-DET-01:STAT6:" />
-		<property name="roiInputNdArrayPort" value="ANDOR.rot" />
+		<property name="roiInputNdArrayPort" value="ANDOR.trf" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
