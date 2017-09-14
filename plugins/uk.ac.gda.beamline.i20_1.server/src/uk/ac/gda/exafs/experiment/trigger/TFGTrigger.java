@@ -24,7 +24,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -107,16 +106,10 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	}
 
 	public TriggerableObject createNewSampleEnvEntry() {
-		// TODO clean-up once tested. the following is too restrictive, PBS/BS want to be able to select same port for
-		// different triggers.
-		// if (sampleEnvironment.size() == MAX_PORTS_FOR_SAMPLE_ENV) {
-		// throw new Exception("Maxium ports reached: " + MAX_PORTS_FOR_SAMPLE_ENV);
-		// }
 		TriggerableObject obj = new TriggerableObject();
 		obj.setName("Default");
 		obj.setTriggerPulseLength(DEFAULT_PULSE_WIDTH_IN_SEC);
 		obj.setTriggerDelay(0.1);
-		// obj.setTriggerOutputPort(TriggerOutputPort.values()[sampleEnvironment.size() + 2]);
 		obj.setTriggerOutputPort(TriggerOutputPort.values()[2]);
 		return obj;
 	}
@@ -144,121 +137,8 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 			String tfgCommand = InterfaceProvider.getCommandRunner().evaluateCommand("getCommands4ExternalTFG()");
 			return tfgCommand.toString();
 		}
-		return getTfgSetupGroupsCommandParameters4Frelon_new(numberOfCycles, shouldStartOnTopupSignal);
+		return getTfgSetupGroupsCommandParameters(numberOfCycles, shouldStartOnTopupSignal);
 	}
-
-	public String getTfgSetupGrupsCommandParameters4XH(int numberOfCycles, boolean shouldStartOnTopupSignal) {
-		// using TFG setup GUI for XH detector
-		StringBuilder tfgCommand = new StringBuilder();
-		List<TriggerParams> triggerPoints = processTimes(); //ensure there is at least one trigger point at time start point (0.0d,0,0)
-		Collections.sort(triggerPoints);
-
-		tfgCommand.append("tfg setup-groups");
-		if (numberOfCycles > 1) {
-			tfgCommand.append(" cycles ");
-			tfgCommand.append(numberOfCycles);
-		}
-		tfgCommand.append("\n");
-		if (shouldStartOnTopupSignal) {
-			//ttl0 - TTL Trigger LEMO0 is used for waiting topup signal
-			// tfgCommand.append(String.format("1 %f 0 0 0 8 0\n", MIN_DEAD_TIME));
-			// trigger on falling edge of port 0 (OR with 32 for falling edge) = 8|32 = 40
-			tfgCommand.append(String.format("1 %f 0 0 0 %d 0\n", MIN_DEAD_TIME, 40 ));
-		}
-		double iTcollectionEndTime = detectorDataCollection.getTotalDelay();
-		double iTcollectionStartTime = detectorDataCollection.getTriggerDelay();
-		double collectionDuration = detectorDataCollection.getCollectionDuration();
-		int numberOfFrames = detectorDataCollection.getNumberOfFrames();
-		double singleFrameTime=collectionDuration/numberOfFrames;
-		boolean itCollectionAdded = false;
-		boolean beginningFramesAdded=false;
-		int totalnumberFramesSoFar=0;
-
-		for (int i = 0; i < triggerPoints.size(); i++) {
-			//process trigger points added by external triggers
-			if (i + 1 < triggerPoints.size()) {
-				// at least one external trigger which gives 2 trigger points
-				TriggerParams thisPoint = triggerPoints.get(i);
-				TriggerParams nextPoint = triggerPoints.get(i + 1);
-				if (nextPoint.getTime() >= iTcollectionStartTime && nextPoint.getTime() < iTcollectionEndTime) {
-					// external triggers fall inside data collection time - split frames collected in chunks between trigger points
-					if (!beginningFramesAdded) {
-						//wait frame before collection starts
-						tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", (iTcollectionStartTime - thisPoint.getTime()), thisPoint.getPort()));
-					}
-
-					//sample environment trigger
-					tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", thisPoint.getLength(), detectorDataCollection.getTriggerOutputPort().getUsrPort() + thisPoint.getPort()));
-
-					int numberOfFramesBetweenAdjacentPoints=0;
-					if (!beginningFramesAdded) {
-						numberOfFramesBetweenAdjacentPoints=(int) ((nextPoint.getTime()-iTcollectionStartTime)/singleFrameTime);
-					} else {
-						numberOfFramesBetweenAdjacentPoints=(int) ((nextPoint.getTime()-thisPoint.getTime())/singleFrameTime);
-					}
-					if ((totalnumberFramesSoFar+numberOfFramesBetweenAdjacentPoints)<numberOfFrames) {
-						tfgCommand.append(String.format("%d 0 %f 0 %d 0 9\n", numberOfFramesBetweenAdjacentPoints, MIN_LIVE_TIME, thisPoint.getPort())); // Review if this is dead or live port
-					}
-					totalnumberFramesSoFar += numberOfFramesBetweenAdjacentPoints;
-					beginningFramesAdded=true;
-					if (i+1==triggerPoints.size()-1) {
-						//nextPoint is the last trigger point before iTCollectionEndTime
-						if (totalnumberFramesSoFar<numberOfFrames) {
-							//add last few frames in data acquisition before iTCollectionEndTime
-							int numberOfFramesLeft = numberOfFrames-totalnumberFramesSoFar;
-							tfgCommand.append(String.format("%d 0 %f 0 %d 0 9\n", numberOfFramesLeft, MIN_LIVE_TIME, thisPoint.getPort())); // Review if this is dead or live port
-							totalnumberFramesSoFar += numberOfFramesLeft;
-						}
-						// at end of data collection, external TFG2 must wait for a single frame to allow detector collection to complete.
-						tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", singleFrameTime, thisPoint.getPort()));
-						itCollectionAdded=true;
-					}
-				} else if (nextPoint.getTime() >= iTcollectionEndTime  && !itCollectionAdded) {
-					//external triggers at and after data collection end time
-					if (beginningFramesAdded) {
-						//finish what already started by previous trigger points
-						if (totalnumberFramesSoFar<numberOfFrames) {
-							//add last few frames in data acquisition before iTCollectionEndTime
-							int numberOfFramesLeft = numberOfFrames-totalnumberFramesSoFar;
-							tfgCommand.append(String.format("%d 0 %f 0 %d 0 9\n", numberOfFramesLeft, MIN_LIVE_TIME, thisPoint.getPort())); // Review if this is dead or live port
-							totalnumberFramesSoFar += numberOfFramesLeft;
-						}
-					} else {
-						//No external trigger falls inside data collection time
-						tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", (iTcollectionStartTime - thisPoint.getTime()), thisPoint.getPort()));
-						tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", detectorDataCollection.getTriggerPulseLength(), detectorDataCollection.getTriggerOutputPort().getUsrPort() + thisPoint.getPort()));
-						tfgCommand.append(String.format("%d 0 %f 0 %d 0 9\n", detectorDataCollection.getNumberOfFrames(), MIN_LIVE_TIME, thisPoint.getPort())); // Review if this is dead or live port
-					}
-					if (nextPoint.getTime() == iTcollectionEndTime) {
-						// at end of data collection wait for at least a single frame to allow detector collection to complete.
-						tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", singleFrameTime, thisPoint.getPort()));
-					} else {
-						tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", singleFrameTime + nextPoint.getTime()	- iTcollectionEndTime, thisPoint.getPort())); // Review if this is dead or live port
-					}
-					itCollectionAdded = true;
-				} else {
-					//external triggers fall before data collection start time
-					if (thisPoint.getTime() != iTcollectionStartTime && thisPoint.getTime() != iTcollectionEndTime) {
-						tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", nextPoint.getTime() - thisPoint.getTime(), thisPoint.getPort()));
-					}
-				}
-			}
-		}
-		if (!itCollectionAdded) {
-			//No external trigger after data collection start time
-			if (!triggerPoints.isEmpty()) {
-				tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", (iTcollectionStartTime - triggerPoints.get(triggerPoints.size() -1).getTime()), 0));
-			}
-			tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", detectorDataCollection.getTriggerPulseLength(), detectorDataCollection.getTriggerOutputPort().getUsrPort()));
-			tfgCommand.append(String.format("%d 0 %f 0 0 0 9\n", detectorDataCollection.getNumberOfFrames(), MIN_LIVE_TIME, detectorDataCollection.getTriggerOutputPort().getUsrPort())); // Review if this is dead or live port
-			// at end of data collection external TFG2 must wait for a single frame to allow detector collection to complete.
-			tfgCommand.append(String.format("1 %f 0.0 %d 0 0 0\n", singleFrameTime, 0));
-		}
-		tfgCommand.append("-1 0 0 0 0 0 0");
-		//		String tfgCommand=InterfaceProvider.getCommandRunner().evaluateCommand("getCommands4ExternalTFG()");
-		return tfgCommand.toString();
-	}
-
 
 	// Functions to generate commonly used TFG command strings. imh 18/9/2015
 	public String getBeginningFrameString( TriggerParams trigPoint ) {
@@ -318,11 +198,10 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		return getDetector() instanceof XhDetector;
 	}
 
-	public String getTfgSetupGroupsCommandParameters4Frelon_new(int numberOfCycles, boolean shouldStartOnTopupSignal) {
-		// using TFG setup GUI for Frelon - completely re-written version. imh 29Sept2015
+	public String getTfgSetupGroupsCommandParameters(int numberOfCycles, boolean shouldStartOnTopupSignal) {
 
 		StringBuilder tfgCommand = new StringBuilder();
-		List<TriggerParams> triggerPoints = processTimesFrelon( true ); // also includes trigger to start camera
+		List<TriggerParams> triggerPoints = processTimes( true ); // also includes trigger to start camera
 		Collections.sort(triggerPoints);
 
 		tfgCommand.append("tfg setup-groups");
@@ -337,12 +216,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 			tfgCommand.append(String.format("1 %f 0 0 0 %d 0\n", MIN_DEAD_TIME, 40 ));
 		}
 
-		double iTcollectionEndTime = detectorDataCollection.getTotalDelay();
-		double iTcollectionStartTime = detectorDataCollection.getTriggerDelay();
-		double collectionDuration = detectorDataCollection.getCollectionDuration();
-
 		int totalNumberOfFrames = getTotalNumberOfFrames();
-		double singleFrameLength=collectionDuration/totalNumberOfFrames;
 		boolean itCollectionAdded = false;
 		int totalnumberFramesSoFar=0;
 		int numberOfCollectionFramesToNotCount = 0;
@@ -374,7 +248,6 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 						double timeToNextPulse = thisPoint.getTimeFromAccumulationEnd();
 						tfgCommand.append( getWaitForTimeString(timeToNextPulse, 0) );
 					}
-
 
 					itCollectionAdded = true;
 				}
@@ -419,6 +292,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		if (detectorIsXh()) {
 			framesLeft--;
 		}
+
 		if ( framesLeft > 0 ) {
 			tfgCommand.append( getCountFrameString(framesLeft, 0 ) );
 
@@ -431,166 +305,6 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		if ( useCountFrameScalers )
 			tfgCommand.append( getPrepareScalerString() );
 
-		return tfgCommand.toString();
-	}
-
-	public String getTfgSetupGroupsCommandParameters4Frelon(int numberOfCycles, boolean shouldStartOnTopupSignal) {
-		// using TFG setup GUI for XH detector
-		StringBuilder tfgCommand = new StringBuilder();
-		List<TriggerParams> triggerPoints = processTimesFrelon( true ); // also includes trigger to start camera
-		Collections.sort(triggerPoints);
-
-		tfgCommand.append("tfg setup-groups");
-		if (numberOfCycles > 1) {
-			tfgCommand.append(" cycles ");
-			tfgCommand.append(numberOfCycles);
-		}
-		tfgCommand.append("\n");
-		if (shouldStartOnTopupSignal) {
-			//ttl0 - TTL Trigger LEMO0 is used for waiting topup signal
-			tfgCommand.append(String.format("1 %f 0 0 0 8 0\n", MIN_DEAD_TIME));
-		}
-
-
-		double iTcollectionEndTime = detectorDataCollection.getTotalDelay();
-		double iTcollectionStartTime = detectorDataCollection.getTriggerDelay();
-		double collectionDuration = detectorDataCollection.getCollectionDuration();
-		//		double timePerSpectrum = collectionDuration/(detectorDataCollection.getNumberOfFrames()-1);
-		//		iTcollectionEndTime += timePerSpectrum;
-		//		collectionDuration += timePerSpectrum;
-
-		int totalNumberOfFrames = detectorDataCollection.getNumberOfFrames()*getDetector().getNumberScansInFrame();
-		double singleFrameLength=collectionDuration/totalNumberOfFrames;
-		boolean itCollectionAdded = false;
-		boolean beginningFramesAdded=false;
-		int totalnumberFramesSoFar=0;
-
-
-		boolean adjustToExactStartTime = false;
-		int numberOfCollectionFramesToNotCount = 0;
-		double currentAbsoluteTime = 0.0;
-
-		// Set accumulation and accumulation readout time (per frame) .
-		// (Total frame time = accumulation time + accumulation readout time)
-		double accumulationTime = singleFrameLength;
-		FrelonCcdDetectorData detectorSettings = (FrelonCcdDetectorData) getDetector().getDetectorData();
-		if ( detectorSettings != null ) {
-			accumulationTime = detectorSettings.getAccumulationMaximumExposureTime();
-			// ExperimentUnit.MILLI_SEC.convertTo(accumulationTimeMilliSec, ExperimentUnit.SEC );
-		}
-		double accumulationReadoutTime = singleFrameLength - accumulationTime;
-
-
-		// NBCounting current occurs on rising edge of accumulation readout signal; middle of frame
-
-		for (int i = 0; i < triggerPoints.size()-1; i++) {
-			TriggerParams thisPoint = triggerPoints.get(i);
-			TriggerParams nextPoint = triggerPoints.get(i + 1);
-
-			if ( thisPoint.getTime() <= iTcollectionStartTime )	{
-				// Triggerpoints before data collection ...
-				tfgCommand.append( getWaitForTimeString(thisPoint.getLength(), thisPoint.getPort() ) );
-				currentAbsoluteTime += thisPoint.getLength();
-			} else if (thisPoint.getTime() > iTcollectionStartTime &&
-					thisPoint.getTime() < iTcollectionEndTime) {
-
-				//Triggerpoints during data collection ...
-
-				// Number of 'count' signals that occur between next 2 triggerpoints
-				int numberCountSignalsBetweenAdjacentPoints = nextPoint.getAccumulationFrameNumber()-thisPoint.getAccumulationFrameNumber();
-				if ( thisPoint.getAccumulationFramePart()>0 ) { // start triggerpoint happens *after* count signal
-					numberCountSignalsBetweenAdjacentPoints--;
-				}
-				if ( nextPoint.getAccumulationFramePart()>0 ) { // end triggerpoint *after* count
-					numberCountSignalsBetweenAdjacentPoints++;
-				}
-
-				// Determine number of frames to count, so that next trigger starts at correct time
-				boolean countFrames = false;
-				if ((totalnumberFramesSoFar+numberCountSignalsBetweenAdjacentPoints)<=totalNumberOfFrames
-						&& numberCountSignalsBetweenAdjacentPoints>0 ) {
-					// 'count' frames at beginning of data accumulation (to get to start of first pulse) ,
-					// and also in for *gaps between pulses* within data accumulation.
-					if ( !beginningFramesAdded || thisPoint.getPort() == 0 ) {
-						countFrames = true;
-					}
-				}
-
-				if ( countFrames ) {
-					tfgCommand.append( getCountFrameString(numberCountSignalsBetweenAdjacentPoints, 0 ) );
-				}
-
-				// Only do this if there is port output (i.e. since port=0 means wait, which now corresponds to count frames
-				if ( thisPoint.getPort() != 0 ) {
-					//add extra wait to get trigger to start at exact user specified time within data collection
-
-					double timeToNextPulse = nextPoint.getTimeFromAccumulationEnd();
-					if ( adjustToExactStartTime && timeToNextPulse > 0 ) {
-						tfgCommand.append( getWaitForTimeString(timeToNextPulse, 0) );
-					}
-
-					tfgCommand.append( getWaitForTimeString(thisPoint.getLength(), thisPoint.getPort()) );
-					double pulseOverlapStart = Math.max( thisPoint.getTime(), iTcollectionStartTime );
-					double pulseOverlapEnd = Math.min( thisPoint.getTime() + thisPoint.getLength() , iTcollectionEndTime );
-					numberOfCollectionFramesToNotCount += (pulseOverlapEnd - pulseOverlapStart)/singleFrameLength;
-					currentAbsoluteTime += timeToNextPulse + thisPoint.getLength();
-				}
-				totalnumberFramesSoFar += numberCountSignalsBetweenAdjacentPoints;
-				beginningFramesAdded=true;
-			} else if (thisPoint.getTime() > iTcollectionEndTime ) {
-				// External triggers after data collection end time ...
-				if (beginningFramesAdded && !itCollectionAdded ) {
-					// For first trigger point after data collection...
-					// Count any leftover frames not already counted from data collection
-					int numberOfFramesLeft = totalNumberOfFrames-totalnumberFramesSoFar;
-					numberOfFramesLeft -= numberOfCollectionFramesToNotCount;
-					if ( numberOfFramesLeft > 0 ) {
-						tfgCommand.append( getCountFrameString(numberOfFramesLeft, 0) );
-						tfgCommand.append( getWaitForTimeString(accumulationReadoutTime, 0) );
-						currentAbsoluteTime += numberOfFramesLeft*singleFrameLength;
-					}
-					// Place gap between end of data collection so trigger starts at correct time
-					// Port of last trigger point
-					int lastTriggerPort = triggerPoints.get(i-1).getPort();
-					// double waitTime = thisPoint.getTime() - (iTcollectionEndTime + accumulationReadoutTime);
-					double waitTime = thisPoint.getTime() - currentAbsoluteTime;
-					if ( waitTime > 0 ) {
-						tfgCommand.append( getWaitForTimeString(waitTime, lastTriggerPort ) );
-					}
-					totalnumberFramesSoFar += numberOfFramesLeft;
-				}
-				tfgCommand.append( getWaitForTimeString(thisPoint.getLength(), thisPoint.getPort() ) );
-				itCollectionAdded = true;
-			}
-
-			// On last iteration, process final trigger point
-			if (i==triggerPoints.size()-2) {
-				//if nextPoint is the last trigger point before iTCollectionEndTime
-				int numberOfFramesLeft = totalNumberOfFrames-totalnumberFramesSoFar;
-				numberOfFramesLeft -= numberOfCollectionFramesToNotCount;
-				if ( numberOfFramesLeft>0 ) {
-					//add last few frames in data acquisition before iTCollectionEndTime
-
-					// tfgCommand.append(String.format("%d 0 %f 0 0 0 9\n", numberOfFramesLeft, MIN_LIVE_TIME)); // Review if this is dead or live port
-					tfgCommand.append( getCountFrameString(numberOfFramesLeft, 0) );
-					tfgCommand.append( getWaitForTimeString(accumulationReadoutTime, 0) );
-					totalnumberFramesSoFar += numberOfFramesLeft;
-				}
-
-				itCollectionAdded=true;
-			}
-		}
-
-		// Add data collection, after adding all trigger points
-		if (!itCollectionAdded) {
-			//tfgCommand.append(String.format("%d 0 %f 0 0 0 9\n", detectorDataCollection.getNumberOfFrames()*getDetector().getNumberScansInFrame(), MIN_LIVE_TIME, detectorDataCollection.getTriggerOutputPort().getUsrPort())); // Review if this is dead or live port
-			tfgCommand.append( getCountFrameString(totalNumberOfFrames, 0) );
-
-			// at end of data collection external TFG2 must wait for a single accumulation readout to allow detector collection to complete.
-			tfgCommand.append( getWaitForTimeString(accumulationReadoutTime, 0) );
-		}
-		tfgCommand.append("-1 0 0 0 0 0 0");
-		//		String tfgCommand=InterfaceProvider.getCommandRunner().evaluateCommand("getCommands4ExternalTFG()");
 		return tfgCommand.toString();
 	}
 
@@ -686,13 +400,13 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 	}
 
 	/**
-	 * Set list of trigger parameters for Frelon. Derived from processTimes function (originally written for XH).
+	 * Generate list of trigger parameters. Derived from old processTimes function (originally written for XH).
 	 * Works correctly for multiple overlapping pulses on different ports.
 	 * @since 18/9/2015
 	 * @param addDetectorTriggerToSampleEnvironment
 	 * @return
 	 */
-	private List<TriggerParams> processTimesFrelon( boolean addDetectorTriggerToSampleEnvironment ) {
+	private List<TriggerParams> processTimes( boolean addDetectorTriggerToSampleEnvironment ) {
 
 		List<TriggerParams> triggerPoints = new ArrayList<TriggerParams>();
 		if (sampleEnvironment.isEmpty() && !addDetectorTriggerToSampleEnvironment) {
@@ -774,96 +488,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		return triggerPoints;
 	}
 
-	private List<TriggerParams> processTimes() {
-		TreeMap<Double, List<TriggerableObject>> pulseEdgeTime2TriggerObj = new TreeMap<Double, List<TriggerableObject>>();
-		List<TriggerParams> triggerPoints = new ArrayList<TriggerParams>();
-		if (sampleEnvironment.isEmpty()) {
-			return triggerPoints;
-		}
-
-		// Make map of pulse edge times and list of triggerable objects that start/end at those times
-		// (TreeMap automatically sorts into ascending key order).
-		for (TriggerableObject triggerObjForPulse : sampleEnvironment) {
-			double pulseStartTime = triggerObjForPulse.getTriggerDelay();
-			double pulseEndTime = triggerObjForPulse.getTriggerDelay() + triggerObjForPulse.getTriggerPulseLength();
-			if (pulseEdgeTime2TriggerObj.containsKey(pulseStartTime)) {
-				pulseEdgeTime2TriggerObj.get(pulseStartTime).add(triggerObjForPulse);
-			} else {
-				List<TriggerableObject> trigger = new ArrayList<TriggerableObject>();
-				trigger.add(triggerObjForPulse);
-				pulseEdgeTime2TriggerObj.put(pulseStartTime, trigger);
-			}
-			if (pulseEdgeTime2TriggerObj.containsKey(pulseEndTime)) {
-				pulseEdgeTime2TriggerObj.get(pulseEndTime).add(triggerObjForPulse);
-			} else {
-				List<TriggerableObject> trigger = new ArrayList<TriggerableObject>();
-				trigger.add(triggerObjForPulse);
-				pulseEdgeTime2TriggerObj.put(pulseEndTime, trigger);
-			}
-		}
-
-		if (pulseEdgeTime2TriggerObj.firstKey() > 0d) {
-			//define the time zero trigger point - note this is not a trigger.
-			triggerPoints.add(new TriggerParams(0.0d, 0, 0.0));
-		}
-
-		if(isTriggerPulseOverlapForTheSamePort(sampleEnvironment)) {
-			//must not allow trigger pulse overlapping on the same output port
-			throw new IllegalStateException("Signals on the same port are not allowed to overlap in time.");
-		}
-
-
-		// Map from TriggerOutputPort (USR_OUT_0, USR_OUT_1, etc) to port on/off status
-		HashMap<TriggerOutputPort, Integer> outputPort2LivePortIndex = new HashMap<TriggerOutputPort, Integer>();
-		// double currentTime=0.0;
-
-		int currentLivePort = 0;
-		for (Map.Entry<Double, List<TriggerableObject>> entry : pulseEdgeTime2TriggerObj.entrySet()) {
-			double currentEdgeTime = entry.getKey();
-
-			// For each pulse edge there may be several TriggerableObjects. But should only create *one* entry in triggerPoints list
-			// per edge, using live port corresponding to currently 'on' set of live ports.
-			// Current implementation adds 1 entry in list per port pulse edge, last entry per time has merged active port number.
-			// imh 17/9/2015
-
-			for (TriggerableObject triggerObjForTime : entry.getValue()) {
-				double pulseStartTime = triggerObjForTime.getTriggerDelay();
-				double pulseLength = triggerObjForTime.getTriggerPulseLength();
-				if (currentEdgeTime == pulseStartTime) {
-					// TriggerableObject corresponding to start of pulse (switch port on)
-					TriggerOutputPort triggerOutputPort = triggerObjForTime.getTriggerOutputPort(); // i.e. USR_OUT_0, USR_OUT_1 etc.
-					if (outputPort2LivePortIndex.containsKey(triggerOutputPort)) {
-						// port already on?
-						currentLivePort = outputPort2LivePortIndex.get(triggerOutputPort);
-					} else {
-						// add new port to current set of live ports
-						currentLivePort += triggerObjForTime.getTriggerOutputPort().getUsrPort();
-						outputPort2LivePortIndex.put(triggerOutputPort, currentLivePort);
-					}
-					triggerPoints.add(new TriggerParams(currentEdgeTime, currentLivePort, pulseLength));
-				} else {
-					// TriggerableObject corresponding to end of pulse (switch port off)
-					TriggerOutputPort triggerOutputPort = triggerObjForTime.getTriggerOutputPort();
-
-					if (outputPort2LivePortIndex.containsKey(triggerOutputPort)) {
-						// remove port from current 'set' of live ports (should be XORed not subtracted?)
-						currentLivePort = outputPort2LivePortIndex.get(triggerOutputPort);
-						currentLivePort -= triggerObjForTime.getTriggerOutputPort().getUsrPort();
-						outputPort2LivePortIndex.remove(triggerOutputPort);
-					} else {
-						logger.error("Cannot find {} for the end pulse {}.",triggerOutputPort.getPortName(), pulseStartTime+triggerObjForTime.getTriggerPulseLength());
-					}
-					triggerPoints.add(new TriggerParams(currentEdgeTime, currentLivePort, 0.0));
-				}
-			}
-		}
-		return triggerPoints;
-	}
-
 	private boolean isTriggerPulseOverlapForTheSamePort( List<TriggerableObject> triggerableObjList ) {
-		// boolean overlapping=false;
-		// TreeMap<TriggerOutputPort, List<TriggerableObject>> triggerTimesAndSamEnv = new TreeMap<TriggerOutputPort, List<TriggerableObject>>();
-
 		// Make list of triggerable objects for each output port
 		TreeMap<TriggerOutputPort, List<TriggerableObject>> outputPort2TriggerObj = new TreeMap<TriggerOutputPort, List<TriggerableObject>>();
 		for (TriggerableObject triggerObjForPulse : triggerableObjList) {
@@ -898,6 +523,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		}
 		return overlapping;
 	}
+
 	private boolean overlap(double min1, double max1, double min2, double max2) {
 		double start = Math.max(min1,min2);
 		double end = Math.min(max1,max2);
