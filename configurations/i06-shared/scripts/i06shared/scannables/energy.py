@@ -54,7 +54,7 @@ class CombinedEnergy(ScannableBase):
             if self.dgap is None:
                 self.getPosition()
             if abs(self.dgap - float(self.iddgap.getPosition()))<=self.tolerance+self.offhar:
-                self.idddgap.asynchronousMoveTo(self.dgap+haroff)
+                self.iddgap.asynchronousMoveTo(self.dgap+haroff)
             else:
                 print "IDD gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
             if self.ugap is None:
