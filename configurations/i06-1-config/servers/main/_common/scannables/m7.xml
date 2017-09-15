@@ -59,8 +59,8 @@
 	<bean id="m7qg" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorFinePitch_M7" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="cts" />
-		<property name="hardwareUnitString" value="cts" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
 	</bean>
 	
 	<bean id="M7" class="gda.device.scannable.scannablegroup.ScannableGroup">
