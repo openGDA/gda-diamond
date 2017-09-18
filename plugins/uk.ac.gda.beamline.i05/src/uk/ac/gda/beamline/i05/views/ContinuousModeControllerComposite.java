@@ -78,7 +78,7 @@ public class ContinuousModeControllerComposite extends Composite {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).grab(false, true).applyTo(lensModeLabel);
 
 		lensModeCombo = new Combo(analyserGroup, SWT.NONE);
-		GridDataFactory.swtDefaults().grab(true, false).applyTo(lensModeCombo);
+		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).applyTo(lensModeCombo);
 		// Setup lens modes and select currently selected one
 		lensModeCombo.setItems(analyser.getEnergyRange().getAllLensModes().toArray(new String[0]));
 		try {
@@ -155,7 +155,8 @@ public class ContinuousModeControllerComposite extends Composite {
 				}
 			}
 		});
-		passEnergyCombo.setLayoutData(GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).create());
+		// I05-207 Add a width hint here stops a mysterious resizing
+		passEnergyCombo.setLayoutData(GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).hint(200, SWT.DEFAULT).create());
 
 		// Analyser Stop Button
 		stopButton = new Button(analyserGroup, SWT.DEFAULT);
