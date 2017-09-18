@@ -34,6 +34,8 @@ See &lt;http://www.opengda.org/&gt;
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i21-config}/properties/dummy/JCALibrary.properties
 -Declipse.pluginCustomization=${project_loc:i21-config}/pluginCustomization.ini
 -Dgda.mode=dummy
+-Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
+-Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
 -Xms512m
 -Xmx2048m
       </vmArgs>
@@ -50,7 +52,6 @@ See &lt;http://www.opengda.org/&gt;
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>

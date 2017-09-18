@@ -34,6 +34,8 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dgda.gui.beans.xml=/dls_sw/i21/software/gda/config/clients/main/live/client.xml
 -Dgda.var=/dls_sw/i21/software/gda_versions/var
 -Dgda.mode=live
+-Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
+-Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Xms256m
@@ -50,7 +52,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
       location="uk.ac.gda.beamline.i21" />
    <launcher name="gda-i21">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
