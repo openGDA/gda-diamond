@@ -44,11 +44,10 @@ import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
-import gda.observable.IObserver;
 import gda.rcp.views.NudgePositionerComposite;
 import uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI;
 
-public class ContinuousModeControllerComposite extends Composite implements IObserver {
+public class ContinuousModeControllerComposite extends Composite {
 
 	private static final Logger logger = LoggerFactory.getLogger(ContinuousModeControllerComposite.class);
 	private Combo lensModeCombo;
@@ -102,17 +101,17 @@ public class ContinuousModeControllerComposite extends Composite implements IObs
 		});
 
 		// Centre energy
-		NudgePositionerComposite centre_energyNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
-		centre_energyNPC.setScannable((Scannable) Finder.getInstance().find("raw_centre_energy"));
-		centre_energyNPC.setDisplayName("centre_energy");
-		centre_energyNPC.hideStopButton();
-		GridDataFactory.swtDefaults().span(1, 2).applyTo(centre_energyNPC);
+		NudgePositionerComposite centreEnergyNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
+		centreEnergyNPC.setScannable((Scannable) Finder.getInstance().find("raw_centre_energy"));
+		centreEnergyNPC.setDisplayName("centre_energy");
+		centreEnergyNPC.hideStopButton();
+		GridDataFactory.swtDefaults().span(1, 2).applyTo(centreEnergyNPC);
 		// Acquire time
-		NudgePositionerComposite acquire_timeNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
-		acquire_timeNPC.setScannable((Scannable) Finder.getInstance().find("acquire_time"));
-		acquire_timeNPC.hideStopButton();
-		acquire_timeNPC.setIncrement(0.5);
-		GridDataFactory.swtDefaults().span(1, 2).applyTo(acquire_timeNPC);
+		NudgePositionerComposite acquireTimeNPC = new NudgePositionerComposite(analyserGroup, SWT.NONE);
+		acquireTimeNPC.setScannable((Scannable) Finder.getInstance().find("acquire_time"));
+		acquireTimeNPC.hideStopButton();
+		acquireTimeNPC.setIncrement(0.5);
+		GridDataFactory.swtDefaults().span(1, 2).applyTo(acquireTimeNPC);
 
 		// Analyser Start Button
 		startButton = new Button(analyserGroup, SWT.DEFAULT);
@@ -186,10 +185,10 @@ public class ContinuousModeControllerComposite extends Composite implements IObs
 		NudgePositionerComposite exitSltNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
 		exitSltNPC.setScannable((Scannable) Finder.getInstance().find("exit_slit"));
 		exitSltNPC.setIncrement(0.01); // Don't want to move the exit slit by an unreasonable amount
-		NudgePositionerComposite s2_ysizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		s2_ysizeNPC.setScannable((Scannable) Finder.getInstance().find("s2_ysize"));
-		NudgePositionerComposite s2_xsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
-		s2_xsizeNPC.setScannable((Scannable) Finder.getInstance().find("s2_xsize"));
+		NudgePositionerComposite s2YsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		s2YsizeNPC.setScannable((Scannable) Finder.getInstance().find("s2_ysize"));
+		NudgePositionerComposite s2XsizeNPC = new NudgePositionerComposite(beamlineGroup, SWT.NONE);
+		s2XsizeNPC.setScannable((Scannable) Finder.getInstance().find("s2_xsize"));
 
 		// Beamline shutter button
 		shutterButton = new Button(beamlineGroup, SWT.NONE);
@@ -233,34 +232,18 @@ public class ContinuousModeControllerComposite extends Composite implements IObs
 		saazimuthNPC.setScannable((Scannable) Finder.getInstance().find("saazimuth"));
 
 		// Add an observer to the psu_mode scannable to automatically detect changes in EPICS and update the GUI
-		final Scannable psuModeScannable = (Scannable) (Finder.getInstance().find("psu_mode"));
-		final IObserver psuModeObserver = new IObserver() {
-			@Override
-			public void update(Object source, Object arg) {
-				logger.info("Change of psu_mode detected, new mode = " + arg);
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						updatePassEnergyCombo();
-					}
-				});
-			}
-		};
-
+		final Scannable psuModeScannable = Finder.getInstance().find("psu_mode");
 		// Connect observer to scannable.
-		psuModeScannable.addIObserver(psuModeObserver);
+		psuModeScannable.addIObserver((source, arg) -> {
+			logger.info("Change of psu_mode detected, new mode = {}", arg);
+			Display.getDefault().asyncExec(this::updatePassEnergyCombo);
+		});
 
 		// Observe the analyser, to get start and stop events
-		analyser.addIObserver(this);
-	}
-
-	@Override
-	public void update(Object source, Object arg) {
-		if (arg instanceof MotorStatus) {
-			running = MotorStatus.BUSY.equals(arg);
-			Display.getDefault().asyncExec(new Runnable() {
-				@Override
-				public void run() {
+		analyser.addIObserver((source, arg) -> {
+			if (arg instanceof MotorStatus) {
+				running = MotorStatus.BUSY.equals(arg);
+				Display.getDefault().asyncExec(() -> {
 					// When running=true disable start and make selected (pressed)
 					startButton.setEnabled(!running);
 					startButton.setSelection(running);
@@ -270,44 +253,42 @@ public class ContinuousModeControllerComposite extends Composite implements IObs
 					// When running=true disable lens mode and pass energy changes
 					lensModeCombo.setEnabled(!running);
 					passEnergyCombo.setEnabled(!running);
-				}
-			});
-		}
-	}
-
-	// This is used to check if the view is disposed (Might not be the best approach??)
-	public Button getStartButton() {
-		return startButton;
+				});
+			}
+		});
 	}
 
 	private void updatePassEnergyCombo() {
-		// Get the current PSU mode
-		String psuMode;
 		try {
-			psuMode = analyser.getPsuMode();
+			// Get the current PSU mode
+			final String psuMode = analyser.getPsuMode();
 
-		// Get the available pass energies depending on the PSU mode and lens mode
-		Set<Integer> passEnergies = analyser.getEnergyRange().getPassEnergies(psuMode, lensModeCombo.getText());
+			// Get the available pass energies depending on the PSU mode and lens mode
+			Set<Integer> passEnergies = analyser.getEnergyRange().getPassEnergies(psuMode, lensModeCombo.getText());
 
-		// Convert the short array into a string ArrayList for combo box
-		String[] passEnergyStrings = new String[passEnergies.size()];
-		int i = 0;
-		for (Integer pe : passEnergies) {
-			passEnergyStrings[i++] = pe.toString();
-		}
+			// Convert the short array into a string ArrayList for combo box
+			String[] passEnergyStrings = new String[passEnergies.size()];
+			int i = 0;
+			for (Integer pe : passEnergies) {
+				passEnergyStrings[i++] = pe.toString();
+			}
 
-		// Set the new pass energies
-		logger.debug("Setting items in pass energy combo box");
-		passEnergyCombo.setItems(passEnergyStrings);
+			// Set the new pass energies
+			logger.debug("Setting items in pass energy combo box");
+			passEnergyCombo.setItems(passEnergyStrings);
 
-		// Automatically select the current pass energy if available in current PSU mode
-		logger.debug("Selecting currently active pass energy in combo box");
-		String activePassEnergy = JythonServerFacade.getInstance().evaluateCommand("analyser.getPassEnergy()");
-		passEnergyCombo.select(Arrays.asList(passEnergyStrings).indexOf(activePassEnergy));
+			// Automatically select the current pass energy if available in current PSU mode
+			logger.debug("Selecting currently active pass energy in combo box");
+			String activePassEnergy = JythonServerFacade.getInstance().evaluateCommand("analyser.getPassEnergy()");
+			passEnergyCombo.select(Arrays.asList(passEnergyStrings).indexOf(activePassEnergy));
 		} catch (Exception e) {
-
 			logger.error("Failed to get PSU mode", e);
 		}
+	}
+
+	@Override
+	public boolean setFocus() {
+		return stopButton.setFocus();
 	}
 
 }
