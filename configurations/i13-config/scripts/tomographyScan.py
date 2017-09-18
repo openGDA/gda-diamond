@@ -366,7 +366,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     nxfile.close()
 
     rcp=Finder.getInstance().find("RCPController")
-    rcp.openView("uk.ac.gda.beamline.i13i.NormalisedImage")
+    rcp.openView("uk.ac.diamond.daq.tomography.datacollection.ui.NormalisedImage")
     dnp.plot.image(image, name="Normalised Image")
     #turn camera back on
     return True
