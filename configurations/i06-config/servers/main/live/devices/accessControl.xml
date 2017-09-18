@@ -3,13 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!--   ============================== Access control for PGM   ==============================  -->
-	<!-- PEEM=0 means PEEM Line has control of PGM; BRANCHLINE=1 means Branchline has control of PGM --> 	
-	<bean id="accessControl" class="gda.epics.AccessControl">
-		<property name="accessControlPvName" value="BL06I-OP-PGM-01:CONTROLLER" />
-		<property name="enableValue" value="0" /> 
-		<property name="disableValue" value="1" />
+	<bean id="accessControl" class="gda.aop.DeviceAccess" init-method="init">
+		<property name="controller" ref="pgmController"/>
+		<property name="endStation" value="PEEM"/>
 	</bean>
-
-
+	
 </beans>

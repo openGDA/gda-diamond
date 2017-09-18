@@ -18,6 +18,7 @@
 	<import resource="m1.xml"/>
 	<import resource="s2.xml"/>
 	<import resource="d3.xml"/>
+	<import resource="pgmController.xml"/>
 	<import resource="pgm.xml"/>
 	<import resource="s3.xml"/>
 	<import resource="d4.xml"/>
