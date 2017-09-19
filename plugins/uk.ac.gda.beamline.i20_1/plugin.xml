@@ -167,7 +167,7 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
-            class="uk.ac.gda.exafs.experiment.ui.TurboXasExperimentView"
+            class="gda.rcp.views.ViewFactoryFinder:turboXasExperimentViewFactory"
             id="uk.ac.gda.exafs.ui.views.turboXasExperimentView"
             name="TurboXAS Experiment"
             restorable="true">
