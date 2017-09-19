@@ -67,7 +67,6 @@
 
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/detector_table.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/mapping_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/stage1.xml" />
 
 	<!-- ion chamber -->
@@ -125,7 +124,6 @@
 
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/detector_table.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/devices/mapping_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/stage1.xml" />
 
 	<!-- ion chamber -->
