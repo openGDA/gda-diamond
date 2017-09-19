@@ -17,11 +17,6 @@
 		</property>
 	</bean>
 
-	<bean id="malcolmInfoXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" 		 value="XSP3 coarse Malcolm" />
-		<property name="description" value="Xspress III coarse Malcolm scan" />
-	</bean>
-
 	<bean id="malcolmDeviceXsp3" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
 		<property name="name"              value="malcolmXsp3" />
 		<property name="model"             ref="malcolmModelXsp3" />
@@ -36,11 +31,6 @@
 		<property name="axesToMove">
 			<list />
 		</property>
-	</bean>
-
-	<bean id="malcolmInfoExcalibur" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" 		 value="Excalibur Malcolm" />
-		<property name="description" value="Excalibur Malcolm scan" />
 	</bean>
 
 	<bean id="malcolmDeviceExcalibur" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">

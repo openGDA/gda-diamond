@@ -4,16 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<!-- Malcolm sample scan -->
+	<!-- Xspress3 -->
 	<bean id="malcolmModelXsp3" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-01" />
 		<property name="exposureTime" value="0.01" />
-	</bean>
-
-	<bean id="malcolmInfoXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XSP3 coarse Malcolm" />
-		<property name="description" value="Xspress III coarse Malcolm scan" />
-		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
 	<bean id="malcolmDeviceXsp3" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
@@ -28,12 +22,6 @@
 	<bean id="malcolmModelExcalibur" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL14I-ML-EXCBR-01" />
 		<property name="exposureTime" value="0.01" />
-	</bean>
-
-	<bean id="malcolmInfoExcalibur" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Excalibur" />
-		<property name="description" value="Malcolm Excalibur for software scanning" />
-		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
 	<bean id="malcolmDeviceExcalibur" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
