@@ -91,19 +91,19 @@ class BeamEnergy(ScannableMotionBase):
             if self.gap=="jgap" and gap<16:
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (>=16)!")
         elif (self.getName() == "jenergy" and self.getPolarisation()=="H"):
-            if (Ep<0.15 or Ep > 1.0):
-                raise ValueError("Demanding energy must lie between 0.15 and 1.0 eV!")
-#            gap=4.68956 + 155.42742*Ep - 472.63852*Ep**2 + 1055.44757*Ep**3 - 1494.5087*Ep**4 + 1290.6552*Ep**5 - 616.22919*Ep**6 + 125.16795*Ep**7
+            if (Ep<0.11 or Ep > 1.2):
+                raise ValueError("Demanding energy must lie between 0.11 and 1.2 keV!")
             Epgap = Ep*1000
-            gap=3.46389+0.17197*Epgap + -5.84455e-4*Epgap**2 + 1.43759e-6*Epgap**3 + -2.2321e-9*Epgap**4 + 2.09444e-12*Epgap**5 + -1.07453e-15*Epgap**6 + 2.3039e-19*Epgap**7 
-            if self.gap=="jgap" and (gap<20.26 or gap>48.01):
-                raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 34)!")
+#            gap=3.46389+0.17197*Epgap + -5.84455e-4*Epgap**2 + 1.43759e-6*Epgap**3 + -2.2321e-9*Epgap**4 + 2.09444e-12*Epgap**5 + -1.07453e-15*Epgap**6 + 2.3039e-19*Epgap**7 
+            gap= 0.70492 + 232.97156*Ep - 1100.88615*Ep**2 + 3841.94972*Ep**3 - 8947.83296*Ep**4 + 13823.07663*Ep**5 - 13942.57738*Ep**6 + 8816.18277*Ep**7 - 3170.55571*Ep**8 + 495.16057*Ep**9
+            if self.gap=="jgap" and (gap<16 or gap>200):
+                raise ValueError("Required Soft X-Ray ID gap is below the lower bound 0f 16 mm!")
         elif self.getName() == "jenergy" and self.getPolarisation()=="V":
-            if (Ep<0.22 or Ep > 1.0):
-                raise ValueError("Demanding energy must lie between 0.22 and 1.0 eV!")
-            gap = 5.4468 + 71.55277*Ep - 130.21658*Ep**2 + 170.93365*Ep**3 - 118.58842*Ep**4 + 34.99142*Ep**5
-            if self.gap=="jgap" and (gap<16.44 or gap>34.13):
-                raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 34)!")
+            if (Ep<0.21 or Ep > 1.2):
+                raise ValueError("Demanding energy must lie between 0.21 and 1.2 keV!")
+            gap = 4.02266 + 89.86963*Ep - 220.65942*Ep**2 + 365.46127*Ep**3 - 168.84016*Ep**4 - 560.87782*Ep**5 + 1255.06201*Ep**6 - 1164.15704*Ep**7 + 531.63871*Ep**8 - 97.25326*Ep**9
+            if self.gap=="jgap" and (gap<16.05 or gap>40.24):
+                raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16.05, 40.24)!")
         else:
             raise ValueError("Unsupported scannable or polarisation mode")
         return gap
