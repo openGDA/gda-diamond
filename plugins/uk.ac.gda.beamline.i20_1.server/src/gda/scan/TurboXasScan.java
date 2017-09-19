@@ -91,6 +91,7 @@ public class TurboXasScan extends ContinuousScan {
 		super(energyScannable, motorParams.getScanStartPosition(), motorParams.getScanEndPosition(),
 				motorParams.getNumReadoutsForScan(), 0.0, detectors);
 		turboXasMotorParams = motorParams;
+		doTrajectoryScan = turboXasMotorParams.getScanParameters().getUseTrajectoryScan();
 	}
 
 	@Override

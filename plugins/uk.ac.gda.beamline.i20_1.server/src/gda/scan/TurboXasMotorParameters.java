@@ -18,6 +18,8 @@
 
 package gda.scan;
 
+import java.util.List;
+
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math3.analysis.solvers.PolynomialSolver;
@@ -28,6 +30,8 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.Annotations;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
 import gda.jython.InterfaceProvider;
 import uk.ac.gda.beamline.i20_1.utils.PolynomialParser;
 
@@ -83,6 +87,43 @@ public class TurboXasMotorParameters {
 		motorStabilisationDistance = 0.1;
 		motorHighLimit = 10000;
 		motorLowLimit = -10000;
+	}
+
+	/**
+	 * Get motor limits from scannableMotor
+	 * @param scannableMotor
+	 */
+	public void setMotorLimits(Scannable scannableMotor) {
+
+		if (scannableMotor==null) {
+			return;
+		}
+		try {
+			double lowerMotorLimit = (double) scannableMotor.getAttribute("lowerMotorLimit");
+			double upperMotorLimit = (double) scannableMotor.getAttribute("upperMotorLimit");
+
+			// If limits from upper/lowerMotorLimit are very big, server is probably running in dummy mode
+			// and should instead try to use gda limits.
+			final double numberTooBig = 1e100;
+			if (Math.abs(lowerMotorLimit) > numberTooBig || Math.abs(upperMotorLimit) > numberTooBig ) {
+				// gdaLimits returns Double[] as an Object
+				Double[] val = (Double[])scannableMotor.getAttribute("lowerGdaLimits");
+				if (val!=null) {
+					lowerMotorLimit = (double) val[0];
+				}
+				val = (Double[])scannableMotor.getAttribute("upperGdaLimits");
+				if (val!=null) {
+					upperMotorLimit = (double) val[0];
+				}
+			}
+			motorLowLimit = lowerMotorLimit;
+			motorHighLimit = upperMotorLimit;
+
+//			unitString = (String) scannableMotor.getAttribute(ScannableMotionUnits.USERUNITS);
+
+		} catch (DeviceException| NullPointerException e) {
+			logger.warn("Problem setting motor limits from scannable {}. Using currently set values {} and {}", motorLowLimit, motorHighLimit, e);
+		}
 	}
 
 	public void setScanParameters(TurboXasParameters params) {
@@ -237,11 +278,29 @@ public class TurboXasMotorParameters {
 	}
 
 	/**
-	 * Validate motor scan speed
+	 * Validate currently set motor scan speed
 	 * @return True if speed is < maximum speed of motor
 	 */
 	public boolean validMotorScanSpeed() {
 		return scanMotorSpeed < motorMaxSpeed && scanMotorSpeed > 0;
+	}
+
+	/**
+	 * Validate motor scan speed for all timing groups
+	 * @return True if speeds for all groups are < maximum speed of motor
+	 */
+	public boolean validMotorScanSpeeds() {
+		List<TurboSlitTimingGroup> timingGroups = scanParameters.getTimingGroups();
+
+		for(int i=0; i<timingGroups.size(); i++) {
+			double scanSpeed = getScanSpeed(timingGroups.get(i).getTimePerSpectrum());
+			if (scanSpeed>motorMaxSpeed) {
+				logger.warn("Calculated motor speed for timing group {} ({}) exceeds motor upper speed limit ({})",
+						i, scanSpeed, motorMaxSpeed);
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -256,6 +315,10 @@ public class TurboXasMotorParameters {
 		return maxPos < motorHighLimit && minPos > motorLowLimit;
 	}
 
+	/**
+	 * Validate motor parameters
+	 * @return True if motor positions, speed
+	 */
 	public boolean validateParameters() {
 		if ( !validMotorScanRange() ) {
 			logger.warn("Initial and final motor positions are the same! Check scan parameters and/or energy-position calibration polynomial");
@@ -263,11 +326,8 @@ public class TurboXasMotorParameters {
 		if ( !getMotorPositionsWithinLimits() ) {
 			logger.warn("Initial, final motor positions for scan are outside of motor limits");
 		}
-		if ( !validMotorScanSpeed() ) {
-			logger.warn("Calculated motor speed ("+scanMotorSpeed+") exceeds motor upper speed limit ("+motorMaxSpeed+")");
-		}
 
-		return validMotorScanRange() && getMotorPositionsWithinLimits() && validMotorScanSpeed();
+		return validMotorScanRange() && getMotorPositionsWithinLimits() && validMotorScanSpeeds();
 	}
 
 	/**
@@ -290,7 +350,7 @@ public class TurboXasMotorParameters {
 
 			// Run the solver
 			PolynomialSolver solver =  new LaguerreSolver();
-			double result = solver.solve(10, tmpPoly, 0.0, 1.0);
+			double result = solver.solve(10, tmpPoly, -0.1, 1.1);
 
 			// convert x from normalised to real position
 			double lowLimit = scanParameters.getEnergyCalibrationMinPosition(), highLimit = scanParameters.getEnergyCalibrationMaxPosition();

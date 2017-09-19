@@ -25,7 +25,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,9 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.converters.basic.DoubleConverter;
 
 import gda.device.ContinuousParameters;
+import gda.device.detector.BufferedDetector;
+import gda.device.scannable.ContinuouslyScannable;
+import gda.factory.Finder;
 
 
 /**
@@ -56,13 +61,27 @@ public class TurboXasParameters {
 	@XStreamAlias("energyStep")
 	private double energyStepSize;
 
-	// Polynomial to convert from motor position to energy.
-	// Polynomial returned from calibration tool use x coord normalised between 0 and 1.
+	/**
+	 * Polynomial to convert from motor position to energy.
+	 * This is typically the Polynomial returned from calibration tool (using x coordinates normalised between 0 and 1).
+	 **/
 	private String energyCalibrationPolynomial;
 
 	private double energyCalibrationMinPosition;
 
 	private double energyCalibrationMaxPosition;
+
+	/**
+	 * Name of scannable motor to be moved during the scan. This scannable should implement {@link ContinuouslyScannable} interface.
+	 */
+	private String motorToMove;
+
+	/**
+	 * Names of {@link BufferedDetector}s to be used during scan.
+	 */
+	private String[] detectors;
+
+	private boolean useTrajectoryScan;
 
 	private List<TurboSlitTimingGroup> timingGroups;
 
@@ -94,6 +113,9 @@ public class TurboXasParameters {
 		sampleName = "Default sample name";
 		startEnergy=1000; endEnergy=2000; energyStepSize=10;
 		timingGroups = new ArrayList<TurboSlitTimingGroup>();
+		motorToMove = "turbo_xas_slit";
+		useTrajectoryScan = false;
+		detectors = new String[]{"scaler_for_zebra"};
 	}
 
 	// Getters, setters...
@@ -166,6 +188,38 @@ public class TurboXasParameters {
 	}
 	public void setEnergyCalibrationMaxPosition(double energyCalibrationMaxPosition) {
 		this.energyCalibrationMaxPosition = energyCalibrationMaxPosition;
+	}
+
+	public String getMotorToMove() {
+		return motorToMove;
+	}
+
+	/**
+	 * Set name of motor to be moved during scan. This should implement the {@link ContinuouslyScannable} interface.
+	 * @param motorToMove
+	 */
+	public void setMotorToMove(String motorToMove) {
+		this.motorToMove = motorToMove;
+	}
+
+	public String[] getDetectors() {
+		return detectors;
+	}
+
+	/**
+	 * Set names of detectors to be used during scan - these should be {@link BufferedDetector}s.
+	 * @param detectors
+	 */
+	public void setDetectors(String[] detectors) {
+		this.detectors = detectors;
+	}
+
+	public boolean getUseTrajectoryScan() {
+		return useTrajectoryScan;
+	}
+
+	public void setUseTrajectoryScan(boolean useTrajectoryScan) {
+		this.useTrajectoryScan = useTrajectoryScan;
 	}
 
 	public TurboXasMotorParameters getMotorParameters() {
@@ -268,4 +322,45 @@ public class TurboXasParameters {
 		}
 	}
 
+	/**
+	 * Create a {@link TurboXasScan} object from the current set of scan parameters.
+	 * It attempts to get scannables to be used from {@link #motorToMove} and {@link #detectors} strings
+	 * using the {@link Finder}. It also attempts to validate the positions and speeds to be used
+	 * for the scan against the motor limits, sending warnings to logpanel if necessary.
+	 * @return TurboXasScan object
+	 * @throws InterruptedException If motor to move cannot be found, or if no detectors could be found.
+	 * @throws Exception
+	 */
+	public TurboXasScan createScan() throws InterruptedException, Exception {
+
+		Map<String, ContinuouslyScannable> continuouslyScannables = Finder.getInstance().getFindablesOfType(ContinuouslyScannable.class);
+		Map<String, BufferedDetector> bufferedDetector = Finder.getInstance().getFindablesOfType(BufferedDetector.class);
+
+		// Try to find the continuouslyScannable motor to be moved ...
+		ContinuouslyScannable motor = continuouslyScannables.get( getMotorToMove() );
+		if (motor == null) {
+			throw new Exception("Cannot find motor called "+motorToMove+" to be moved during scan");
+		}
+
+		// Try to find the buffered detectors ...
+		BufferedDetector[] bufDetectors = new BufferedDetector[]{};
+		for(String detname : detectors) {
+			BufferedDetector det = bufferedDetector.get(detname);
+			if (det!=null) {
+				bufDetectors = (BufferedDetector[]) ArrayUtils.add(bufDetectors, det);
+			} else {
+				logger.warn("Can't find detector {} to use for scan");
+			}
+		}
+		if (bufDetectors.length==0) {
+			throw new Exception("No suitable detectors available to use for scan");
+		}
+
+		TurboXasMotorParameters motorParams = getMotorParameters();
+		motorParams.setMotorLimits(motor);
+		motorParams.validateParameters(); // shows warnings about limits being exceeded etc.
+
+		TurboXasScan scan = new TurboXasScan(motor, motorParams, bufDetectors);
+		return scan;
+	}
 }
