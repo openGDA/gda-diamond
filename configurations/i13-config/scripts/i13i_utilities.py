@@ -156,14 +156,12 @@ def send_email(whoto, subject, body):
     msg['From'] = whofrom
     msg['To'] = ", ".join(whoto)
      
-    # send the message via our own SMTP server, but don't include the envelope header
     try:
         s = smtplib.SMTP('localhost')
         s.sendmail(whofrom, whoto, msg.as_string())
         s.quit()
         print "E-mail successfully sent!"
     except smtplib.SMTPException, ex:
-    #except Exception, ex:
         print "Failed to send e-mail: %s!" %(str(ex))
 
 def clear_defaults():
@@ -172,7 +170,6 @@ def clear_defaults():
     all_vec = srv.getDefaultScannables()
     all_arr = all_vec.toArray()
     for s in all_arr:
-        #srv.removeDefault(s)
         remove_default(s)
     return all_arr
 alias("_clear_defaults")
@@ -187,10 +184,6 @@ def clear_meta_data():
         ls_str_ = ls_str.split("meta:")[1]
         all_lst = ls_str_.split("\n")[1:]
         print all_lst
-        #txt_lst = []
-        #scn_lst = []
-        #for m in all_lst:
-        #    m.strip()
         ll_str = meta_ll()
         ll_str_ = ll_str.split("meta:")[1]
         all_ll_lst = ll_str_.split("\n")[1:]
@@ -212,7 +205,6 @@ def clear_meta_data():
                     meta_rm(m_)
             except Exception, ex:
                 print "Excepting... " + str(ex)
-                #meta_rm(m_)
     else:
         print "No meta-data found to clear!"
     return all_lst, all_kv_lst
@@ -277,9 +269,6 @@ class StringDisplayEpicsPVClass(ScannableMotionBase):
             if not self.outcli.isConfigured():
                 self.outcli.configure()
             output=str(self.outcli.caget())
-            #print output
-            #sleep(10)
-            #self.outcli.clearup()
         except Exception, ex:
             output="caget failed"
             print "Error in rawGetPosition: ", ex
@@ -322,7 +311,6 @@ class StringListDisplayEpicsPVClass(ScannableMotionBase):
                 except Exception, ex:
                     output.append("caget failed")
                     print "Trouble for %s with pv %s" %(n_pv_cac[0], n_pv_cac[1]), ex
-                    #print ex
         except Exception, ex:
             output=[None]*len(self.outcli_lst)
             print "Another trouble", ex
@@ -334,8 +322,6 @@ class StringListDisplayEpicsPVClass(ScannableMotionBase):
     def rawIsBusy(self):
         return 0
 
-#pco_cam_model = StringDisplayEpicsPVClass("pco_cam_model", "BL13I-EA-DET-01:CAM:Model_RBV")
-
 pco_cam_model = StringDisplayEpicsPVClass("pco_cam_model", "BL13I-EA-DET-01:CAM:Model_RBV")
 
 pco_focus_prefix = "BL13I-MO-CAM-02:FOCUS"
@@ -345,18 +331,12 @@ pco_edge_focus = StringDisplayEpicsPVClass("focus_pco_edge", pco_focus_prefix + 
 pco_4000_focus_label = StringDisplayEpicsPVClass("focus_pco_4000_label", "BL13I-MO-STAGE-02:FOCUS:MP:RBV:CURPOS")
 pco_4000_focus = StringDisplayEpicsPVClass("focus_pco_4000", "BL13I-MO-STAGE-02:FOCUS.RBV")
 
-#filter_stick_1 = StringDisplayEpicsPVClass("filter_stick_1", "BL13I-OP-ATTN-01:STICK1:MP:RBV:CURPOS")
-#filter_stick_2 = StringDisplayEpicsPVClass("filter_stick_2", "BL13I-OP-ATTN-01:STICK2:MP:RBV:CURPOS")
-#filter_stick_3 = StringDisplayEpicsPVClass("filter_stick_3", "BL13I-OP-ATTN-01:STICK3:MP:RBV:CURPOS")
-#filter_stick_4 = StringDisplayEpicsPVClass("filter_stick_4", "BL13I-OP-ATTN-01:STICK4:MP:RBV:CURPOS")
-#filter_stick_5 = StringDisplayEpicsPVClass("filter_stick_5", "BL13I-OP-ATTN-01:STICK5:MP:RBV:CURPOS")
-filter_stick_1 = createScannableFromPV("filter_stick_1", "BL13I-OP-ATTN-01:STICK1:MP:RBV:CURPOS", addToNameSpace=True, getAsString=True, hasUnits=False)
-filter_stick_2 = createScannableFromPV("filter_stick_2", "BL13I-OP-ATTN-01:STICK2:MP:RBV:CURPOS", addToNameSpace=True, getAsString=True, hasUnits=False)
-filter_stick_3 = createScannableFromPV("filter_stick_3", "BL13I-OP-ATTN-01:STICK3:MP:RBV:CURPOS", addToNameSpace=True, getAsString=True, hasUnits=False)
-filter_stick_4 = createScannableFromPV("filter_stick_4", "BL13I-OP-ATTN-01:STICK4:MP:RBV:CURPOS", addToNameSpace=True, getAsString=True, hasUnits=False)
-filter_stick_5 = createScannableFromPV("filter_stick_5", "BL13I-OP-ATTN-01:STICK5:MP:RBV:CURPOS", addToNameSpace=True, getAsString=True, hasUnits=False)
+filter_stick_1 = finder.find("f1_Stick1")
+filter_stick_2 = finder.find("f1_Stick2")
+filter_stick_3 = finder.find("f1_Stick3")
+filter_stick_4 = finder.find("f1_Stick4")
+filter_stick_5 = finder.find("f1_Stick5")
 
-#beamline_xray_mode = StringDisplayEpicsPVClass("beamline_xray_mode", "BL13I-OP-DCM-01:MODE:RBV")
 beamline_xray_mode = createScannableFromPV("beamline_xray_mode", "BL13I-OP-DCM-01:MODE:RBV", addToNameSpace=True, getAsString=True, hasUnits=False)
 
 ionc_A_over_V_gain = createScannableFromPV("ionc_A_over_V_gain", "BL13I-DI-FEMTO-06:GAINHIGHSPEED", addToNameSpace=True, getAsString=True, hasUnits=False)
@@ -371,7 +351,6 @@ try:
     pco_edge_agg.addGroupMember(pco_edge_focus)
     pco_edge_agg.configure()
 except Exception, ex:
-    #print "Failed to create %s due to %s: " %(pco_edge_agg.getName(), str(ex))
     print "Failed to create the pco_edge_agg group: ", str(ex)
 
 try:
@@ -382,7 +361,6 @@ try:
     pco_4000_agg.addGroupMember(pco_4000_focus)
     pco_4000_agg.configure()
 except Exception, ex:
-    #print "Failed to create %s due to %s: " %(pco_edge_agg.getName(), str(ex))
     print "Failed to create the pco_4000_agg group: ", str(ex)
     
 try:
@@ -395,12 +373,9 @@ try:
     filter_sticks.addGroupMember(filter_stick_5)
     filter_sticks.configure()
 except Exception, ex:
-    #print "Failed to create %s due to %s: " %(pco_edge_agg.getName(), str(ex))
     print "Failed to create the filter_sticks group: ", str(ex)
 
 
-#pco_edge_aggregate = StringListDisplayEpicsPVClass("pco_edge_aggregate", ["pco_cam_model", "pco_edge_focus_label", "pco_edge_focus"], ["BL13I-EA-DET-01:CAM:Model_RBV", pco_focus_prefix + ":MP:RBV:CURPOS", pco_focus_prefix + ".RBV"])
-#pco_4000_aggregate = StringListDisplayEpicsPVClass("pco_4000_aggregate", ["pco_cam_model", "pco_4000_focus_label", "pco_4000_focus"], ["BL13I-EA-DET-01:CAM:Model_RBV", "BL13I-MO-STAGE-02:FOCUS:MP:RBV:CURPOS", "BL13I-MO-STAGE-02:FOCUS.RBV"])
 
 def isLive():
     mode = LocalProperties.get("gda.mode")
