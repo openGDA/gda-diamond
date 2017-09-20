@@ -1,159 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="pco_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-        <property name="basePVName" value="BL06I-EA-DET-01:CAM:" />
-    </bean>
-    
-    <bean id="pco_ndArray"  class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-        <property name="basePVName" value="BL06I-EA-DET-01:ARR:" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="basePVName" value="BL06I-EA-DET-01:ARR:" />
-            </bean>
-        </property>
-    </bean>
-    
-    <bean id="pco_ndStats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+	<!-- PCO cam plugin -->
+	<bean id="pco_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL06I-EA-DET-01:CAM:" />
+	</bean>
+	<!-- PCO specific parameters: cam extension-->
+	<bean id="pcocontroller" class="gda.device.detector.pco.PCODriverController" init-method="afterPropertiesSet">
+		<property name="pvName" value="BL06I-EA-DET-01:CAM:"/>
+		<property name="areaDetector" ref="pco_adbase"/>
+	</bean>
+	<!-- STAT plugin -->
+    <bean id="pco_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
         <property name="basePVName" value="BL06I-EA-DET-01:STAT:" />
         <property name="pluginBase">
             <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
                 <property name="basePVName" value="BL06I-EA-DET-01:STAT:" />
+ 				<property name="initialArrayPort" value="pco.cam" />
             </bean>
         </property>
     </bean>
-
-	<bean id="pco_UnixToWindowsFilePathConverter" class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-		<property name="unixSubString" value="/dls/i06/data" />
-		<property name="windowsSubString" value="x:\data" />
+    <bean id="pco_ndarray"  class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+        <property name="basePVName" value="BL06I-EA-DET-01:ARR:" />
+        <property name="pluginBase">
+            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+                <property name="basePVName" value="BL06I-EA-DET-01:ARR:" />
+  				<property name="initialArrayPort" value="pco.cam" />
+            </bean>
+        </property>
+    </bean>
+    
+	<!-- HDF plugin -->
+	<bean id="pco_ndfile" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL06I-EA-DET-01:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/i06/data" />
+				<property name="windowsSubString" value="x:\data" />
+			</bean>
+		</property>
 	</bean>
-        
-    <bean id="pco_ndFile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-        <property name="basePVName" value="BL06I-EA-DET-01:TIFF:" />
-
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="basePVName" value="BL06I-EA-DET-01:TIFF:" />
-		        <property name="initialBlockingCallbacks" value="false"/>
-            </bean>
-        </property>
-        
-        <property name="initialAutoSave" value="Yes" /> <!-- currently yes -->
-        <property name="initialAutoIncrement" value="Yes" /> <!-- currently true -->
-        <property name="initialWriteMode" value="0" /> <!-- Single(current), Capture, Stream, -->
-        <property name="initialNumCapture" value="1" /> <!-- current = 1 -->
-        <property name="initialFileName" value="pco" />
-        <property name="initialFileTemplate" value="%s%s%d.tif" />
-        <property name="filePathConverter" ref="pco_UnixToWindowsFilePathConverter"/>
-    </bean>
-    
-    <bean id="pco_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
-        <property name="basePVName" value="BL06I-EA-DET-01:ROI:" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="basePVName" value="BL06I-EA-DET-01:ROI:" />
-            </bean>
-        </property>
-        <property name="initialBinX" value="0" />
-        <property name="initialBinY" value="0" />
-        <property name="initialMinX" value="0" />
-        <property name="initialMinY" value="0" />
-        <property name="initialSizeX" value="2048" />
-        <property name="initialSizeY" value="2048" />
-    </bean>
-    
-    <bean id="pco_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-        <property name="basePVName" value="BL06I-EA-DET-01:PROC:" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="basePVName" value="BL06I-EA-DET-01:PROC:" />
-            </bean>
-        </property>
-    </bean>
-    
-    <bean id="pco_ffmpeg" class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
-        <property name="basePVName" value="BL06I-EA-DET-01:MJPG:" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="basePVName" value="BL06I-EA-DET-01:MJPG:" />
-            </bean>
-        </property>
-    </bean>
-
-    <bean id="pco_overlay" class="gda.device.detector.areadetector.v17.impl.NDOverlayImpl">
-        <property name="basePVName" value="BL06I-EA-DET-01:OVER:" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="basePVName" value="BL06I-EA-DET-01:OVER:" />
-            </bean>
-        </property>
-    </bean>
-
-
-    <bean id="pco_adplugins" class="gda.device.FindableObjectHolder">
-        <property name="map">
-            <util:map>
-                <entry key="pco_adbase"  value-ref="pco_adbase"/>
-                <entry key="pco_ndArray" value-ref="pco_ndArray"/>
-                <entry key="pco_roi"     value-ref="pco_roi"/>
-                <entry key="pco_proc"    value-ref="pco_proc"/>
-                <entry key="pco_ffmpeg"  value-ref="pco_ffmpeg"/>
-                <entry key="pco_overlay" value-ref="pco_overlay"/>
-            </util:map>
-        </property>
-    </bean>
-	<bean id="pco_adDriver" class="gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
-		<property name="basePvName" value="BL06I-EA-DET-01:CAM"/>
+	<bean id="pco_hdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="pco_ndfile"/>
 	</bean>
-	<bean id="pco_tiffFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-		<property name="blocking" value="false"/>
-		<property name="pathErrorSuppressed" value="true"/>
-		<property name="ndFile" ref="pco_ndFile"/>
-		<property name="fileTemplate" value="%s%s_%05d.tif"/>
-		<property name="filePathTemplate" value="$datadir$/$scan$_PCOImage"/>
-		<property name="fileNameTemplate" value="pco"/>
-		<property name="fileNumberAtScanStart" value="1"/>
-	</bean>
-    <bean id="pco" class="gda.device.detector.addetector.ADDetector">
-        <property name="adBase" ref="pco_adbase"/>
-<!--
-        <property name="collectionStrategy">
-            <bean class="gda.device.detector.addetector.triggering.InternalTriggeredStandard">
-                <constructor-arg ref="pco_adbase" />
-                <constructor-arg value="0.1" />
-            </bean>
-        </property>
--->
-        <property name="collectionStrategy">
-            <bean class="gda.device.detector.addetector.triggering.SingleExposureStandard">
-                <constructor-arg ref="pco_adbase" />
-<!--                 <constructor-arg ref="pco_adDriver"/> -->
-                <constructor-arg value="0.1" />
-            </bean>
-        </property>
-        
-        <property name="ndFile"  ref="pco_ndFile"/>
-        <property name="fileWriter" ref="pco_tiffFileWriter"/>
-        <property name="ndArray" ref="pco_ndArray"/>
-        <property name="ndStats" ref="pco_ndStats"/>
 
-        <property name="readArray" value="true" />
-<!--
-        <property name="createsOwnFiles" value="true" />
-        <property name="enableFileWriterDuringScan" value="false" />
--->
-        <property name="readFilepath" value="true" />
-        <property name="readAcquisitionTime" value="true" />
-        <property name="readAcquisitionPeriod" value="false" />
-        <property name="computeStats" value="false" />
-        <property name="computeCentroid" value="false" />
-    </bean>
-    
+	<!-- TIFF plugin -->
+	<bean id="pco_tiffile" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL06I-EA-DET-01:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/i06/data" />
+				<property name="windowsSubString" value="x:\data" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="pco_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/pcoRoi" />
+		<property name="service" ref="pco_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<!-- ROI-STAT pairs for Live Stream View-->
+	<bean id="pco_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pco_RoiStats1" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI1:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT1:" />
+		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="pco_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+		</property>
+	</bean>
+	<bean id="pco_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pco_RoiStats2" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI2:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT2:" />
+		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="pco_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="pco_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pco_RoiStats3" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI3:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT3:" />
+		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="pco_roi" />
+	            <property name="index" value="2" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="pco_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pco_RoiStats4" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI4:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT4:" />
+		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="pco_roi" />
+	            <property name="index" value="3" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="pco_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pco_RoiStats5" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI5:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT5:" />
+		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="pco_roi" />
+	            <property name="index" value="4" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="pco_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pco_RoiStats6" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI6:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT6:" />
+		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="pco_roi" />
+	            <property name="index" value="6" /> 
+	        </bean>
+		</property>
+	</bean>
+	
+   	<!-- collection strategy decorator chain -->
+	<bean id="pcotriggermode" class="gda.device.detector.pco.collectionstrategy.PCOTriggerModeDecorator">
+		<property name="restoreTriggerMode" value="true"/>
+		<property name="triggerMode" value="SOFT"/> <!-- possible values: AUTO, SOFT, EXTSOFT, EXTPULSE, EXTONLY -->
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+				<property name="adBase" ref="pco_adbase" />
+				<property name="restoreAcquireState" value="true"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="pcoimagemode" class="gda.device.detector.pco.collectionstrategy.PCOImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true"/>
+		<property name="imageMode" value="SINGLE"/> <!-- possible modes: SINGLE, MULTIPLE, CONTINUOUS-->
+		<property name="decoratee" ref="pcotriggermode"/>
+	</bean>
+	<bean id="pcoacquireperiod" class="gda.device.detector.pco.collectionstrategy.PCOConfigureAcquireTimeAcquirePeriodDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="restoreAcquirePeriod" value="true"/>
+		<property name="acquiringPeriod" value="0.1"/>
+		<property name="decoratee" ref="pcoimagemode"/>
+	</bean>	
+	<bean id="pcoadcmode" class="gda.device.detector.pco.collectionstrategy.PCOADCModeDecorator">
+		<property name="restoreADCMode" value="true"/>
+		<property name="adcMode" value="TwoADC"/> <!-- possible values: OneADC, TwoADC -->
+		<property name="pcoController" ref="pcocontroller"/>
+		<property name="decoratee" ref="pcoacquireperiod"/>
+	</bean>
+	<bean id="pcoCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOArmDecorator">
+		<property name="restoreArm" value="true"/>
+		<property name="pcoController" ref="pcocontroller"/>
+		<property name="decoratee" ref="pcoadcmode"/>
+	</bean>
+	
 </beans>
