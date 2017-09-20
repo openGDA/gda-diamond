@@ -57,11 +57,6 @@ def fs_control():
 	else:
 		pos fs "Open"
 
-# def interruptable():
-# 	"""
-# 	Fn to facilitate making for-loops interruptable in GDA: need to call this fn in the 1st or the last line of a for-loop
-# 	"""
-# 	GeneralCommands.pause()
 
 def ls_scannables():
 	ls_names(Scannable)
@@ -74,14 +69,7 @@ def meta_add_i13i():
 	
 	# add meta-data scannables
 	meta_scannables = []
-	#meta_scannables.append(filters)
 	meta_scannables.append(filter_aperture)
-	#meta_scannables.append(f1_Aperture)
-	#meta_scannables.append(f1_Stick1)
-	#meta_scannables.append(f1_Stick2)
-	#meta_scannables.append(f1_Stick3)
-	#meta_scannables.append(f1_Stick4)
-	#meta_scannables.append(f1_Stick5)
 	meta_scannables.append(filter1)
 	meta_scannables.append(filter2)
 	meta_scannables.append(filter3)
@@ -101,14 +89,8 @@ def meta_add_i13i():
 		cam_pv = meta_texts_cam["pco_cam_model"]
 		pco_cam_model_rbv = caget(cam_pv)
 		if "edge" in pco_cam_model_rbv.lower():
-			#meta_texts_cam.update({"focus_pco_edge_label": "BL13I-MO-CAM-02:FOCUS:MP:RBV:CURPOS"})
-			#meta_texts_cam.update({"focus_pco_edge": "BL13I-MO-CAM-02:FOCUS.RBV"})
-			#meta_scannables.append(pco_edge_agg)
 			pass
 		elif "4000" in pco_cam_model_rbv.lower():
-			#meta_texts_cam.update({"focus_pco_4000_label": "BL13I-MO-STAGE-02:FOCUS:MP:RBV:CURPOS"})
-			#meta_texts_cam.update({"focus_pco_4000": "BL13I-MO-STAGE-02:FOCUS.RBV"})
-			#meta_scannables.append(pco_4000_agg)
 			pass
 		elif "dimax" in pco_cam_model_rbv.lower():
 			pass
@@ -123,12 +105,6 @@ def meta_add_i13i():
 		handle_messages.log(None, msg + rbv_, exceptionType, exception, traceback, False)
 	
 	meta_texts = {}
-	#meta_texts.update(meta_texts_cam)
-	#meta_texts.update({"filter_stick_1": "BL13I-OP-ATTN-01:STICK1:MP:RBV:CURPOS"})
-	#meta_texts.update({"filter_stick_2": "BL13I-OP-ATTN-01:STICK2:MP:RBV:CURPOS"})
-	#meta_texts.update({"filter_stick_3": "BL13I-OP-ATTN-01:STICK3:MP:RBV:CURPOS"})
-	#meta_texts.update({"filter_stick_4": "BL13I-OP-ATTN-01:STICK4:MP:RBV:CURPOS"})
-	#meta_texts.update({"filter_stick_5": "BL13I-OP-ATTN-01:STICK5:MP:RBV:CURPOS"})
 	
 	for k, v in meta_texts.iteritems():
 		try:
@@ -141,8 +117,6 @@ def meta_add_i13i():
 			handle_messages.log(None, msg + rbv_, exceptionType, exception, traceback, False)
 		meta_add(k, rbv)
 	
-	#meta_scannables.append(filter_sticks)
-	#meta_scannables.append(beamline_xray_mode)
 	for s in meta_scannables:
 		meta_add(s)
 		
@@ -182,8 +156,6 @@ try:
 	beamline = finder.find("Beamline")
 	ring = finder.find("Ring")
 	commandServer = InterfaceProvider.getJythonNamespace()
-#	import tests.testRunner
-#	tests.testRunner.run_tests()
 	
 	from gda.scan.RepeatScan import create_repscan, repscan
 	vararg_alias("repscan")
@@ -206,7 +178,6 @@ try:
 	
 	from flyscan_script import flyscan, flyscannable, WaitForScannableAtLineEnd
 	vararg_alias("flyscan")
-#	waitForQcm_bragg1 = WaitForScannableAtLineEnd('waitForQcm_bragg1', qcm_bragg1)
 
 	expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", fastshutter)
 	
@@ -296,7 +267,6 @@ try:
 		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="d:\\i13\\data"
 	else:
 		flyScanDetector.readOutTime=.03 #Manta_G-125B camera	
-#		flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.windowsSubString="c:\\data"	
 
 	import raster_scan
 
@@ -312,8 +282,6 @@ try:
 	bl = beamlineEnergy.beamLineEnergy()
 	bl.setName("bl")
 
-	#debenforce=createPVScannable ("debenforce", "BL13I-EA-DOF-01:RIG:TENSIONFORCE")
-    #    meta_add(debenforce)
 	if isLive():
 		pco1_hw_tif.pluginList[1].waitForFileArrival=False
 		pco1_tif.pluginList[1].waitForFileArrival=False
@@ -368,8 +336,6 @@ try:
 			from i13i_utilities import stressTest
 			LocalProperties.set("gda.data.scan.datawriter.datadir", "/dls/$instrument$/data/$year$/$visit$/tmp")
 
-                #use_storage("gpfs")
-        #use_storage("gpfs")
 except:
 	exceptionType, exception, traceback = sys.exc_info()
 	handle_messages.log(None, "Error in localStation", exceptionType, exception, traceback, False)
