@@ -81,42 +81,6 @@ def meta_add_i13i():
 	meta_scannables.append(s3)
 	meta_scannables.append(s4)
 	
-	
-	# add meta-data texts
-	meta_texts_cam = {}
-	meta_texts_cam.update({"pco_cam_model": "BL13I-EA-DET-01:CAM:Model_RBV"})
-	try:
-		cam_pv = meta_texts_cam["pco_cam_model"]
-		pco_cam_model_rbv = caget(cam_pv)
-		if "edge" in pco_cam_model_rbv.lower():
-			pass
-		elif "4000" in pco_cam_model_rbv.lower():
-			pass
-		elif "dimax" in pco_cam_model_rbv.lower():
-			pass
-		else:
-			if pco_cam_model_rbv is not None:
-				print "Unsupported camera %s detected in %s!" %(pco_cam_model_rbv,fname)
-	except:
-		rbv = "caget failed"
-		rbv_ = rbv + " on %s!" %(cam_pv)
-		msg = "Error in %s: " %(fname)
-		exceptionType, exception, traceback = sys.exc_info()
-		handle_messages.log(None, msg + rbv_, exceptionType, exception, traceback, False)
-	
-	meta_texts = {}
-	
-	for k, v in meta_texts.iteritems():
-		try:
-			rbv = caget(v)
-		except:
-			rbv = "caget failed"
-			rbv_ = rbv + " on %s!" %(v)
-			msg = "Error in %s: " %(fname)
-			exceptionType, exception, traceback = sys.exc_info()
-			handle_messages.log(None, msg + rbv_, exceptionType, exception, traceback, False)
-		meta_add(k, rbv)
-	
 	for s in meta_scannables:
 		meta_add(s)
 		
