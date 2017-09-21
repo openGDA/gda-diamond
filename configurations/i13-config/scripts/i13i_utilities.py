@@ -341,7 +341,7 @@ beamline_xray_mode = finder.find("dcm_mode")
 
 ionc_A_over_V_gain = createScannableFromPV("ionc_A_over_V_gain", "BL13I-DI-FEMTO-06:GAINHIGHSPEED", addToNameSpace=True, getAsString=True, hasUnits=False)
 ionc_gainmode = createScannableFromPV("ionc_gainmode", "BL13I-DI-FEMTO-06:GAINMODE", addToNameSpace=True, getAsString=True, hasUnits=False)
-ionc_acdc = createScannableFromPV("ionc_acdc", "BL13I-DI-FEMTO-06:ACDC", addToNameSpace=True, getAsString=True, hasUnits=False)
+ionc_acdc = finder.find("ionc_coupling")
     
 try:
     pco_edge_agg = ScannableGroup()
