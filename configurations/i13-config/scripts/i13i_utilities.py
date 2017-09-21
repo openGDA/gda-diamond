@@ -337,7 +337,7 @@ filter_stick_3 = finder.find("f1_Stick3")
 filter_stick_4 = finder.find("f1_Stick4")
 filter_stick_5 = finder.find("f1_Stick5")
 
-beamline_xray_mode = createScannableFromPV("beamline_xray_mode", "BL13I-OP-DCM-01:MODE:RBV", addToNameSpace=True, getAsString=True, hasUnits=False)
+beamline_xray_mode = finder.find("dcm_mode")
 
 ionc_A_over_V_gain = createScannableFromPV("ionc_A_over_V_gain", "BL13I-DI-FEMTO-06:GAINHIGHSPEED", addToNameSpace=True, getAsString=True, hasUnits=False)
 ionc_gainmode = createScannableFromPV("ionc_gainmode", "BL13I-DI-FEMTO-06:GAINMODE", addToNameSpace=True, getAsString=True, hasUnits=False)

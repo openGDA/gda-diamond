@@ -80,5 +80,14 @@
 		<property name="name" value="dcm_fine_pitch" />
 		<property name="currentPosition" value="1.2228urad" />
 	</bean>
+	
+	<bean id="dcm_mode" class="gda.device.enumpositioner.DummyEnumPositioner" >
+		<property name="positions">
+			<list>
+				<value>Pink</value>
+				<value>Mono</value>
+			</list>
+		</property>
+	</bean>
 
 </beans>

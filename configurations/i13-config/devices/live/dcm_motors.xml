@@ -55,5 +55,10 @@
     	<property name="pvName" value="BL13I-OP-DCM-01:BRAGG:FINE:CURPOS" />
     	<property name="useNameAsInputName" value="true" />
     </bean>
+    
+    <bean id="dcm_mode" class="gda.device.enumpositioner.EpicsEnumPositioner">
+    	<property name="recordName" value="BL13I-OP-DCM-01:MODE:RBV" />
+    	<property name="local" value="true" />
+    </bean>
 
 </beans>	
