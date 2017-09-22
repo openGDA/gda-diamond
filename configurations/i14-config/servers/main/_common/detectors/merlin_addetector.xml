@@ -11,28 +11,48 @@
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
 
+ 	<bean id="merlin_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+        <property name="restoreAcquireTime" value="true" />
+        <property name="decoratee">
+            <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+                <property name="restoreNumImagesAndImageMode" value="true"/>
+                <property name="decoratee">
+                    <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+                        <property name="decoratee">
+                            <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+                                <property name="adBase" ref="merlin_adbase" />
+                                <property name="restoreAcquireState" value="true"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
 	<bean id="merlin_addetector" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="merlin_adbase" />
 		<property name="ndFile" ref="merlin_ndfile" />
 		<property name="ndArray" ref="merlin_ndarray" />
 		<property name="ndStats" ref="merlin_stats" />
 		<property name="fileWriter" ref="merlin_hdf5_writer" />
+		<property name="collectionStrategy" ref="merlin_collection_strategy"/>
 	</bean>
 
-	<bean id="merlinModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+	<bean id="merlin_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 		<property name="name" value="merlin_addetector" />
 		<property name="exposureTime" value="0.1" />
 	</bean>
 
-	<bean id="merlinInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	<bean id="merlin_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Merlin" />
 		<property name="description" value="Merlin" />
 	</bean>
 
 	<bean id="merlin_adrunnable" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
 		<property name="name" value="merlin_addetector" />
-		<property name="model" ref="merlinModel" />
-		<property name="deviceInformation" ref="merlinInfo" />
+		<property name="model" ref="merlin_model" />
+		<property name="deviceInformation" ref="merlin_info" />
 		<property name="activated" value="true" />
 	</bean>
 

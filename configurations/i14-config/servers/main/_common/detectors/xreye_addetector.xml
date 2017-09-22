@@ -17,28 +17,48 @@
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
 
+ 	<bean id="xreye_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+        <property name="restoreAcquireTime" value="true" />
+        <property name="decoratee">
+            <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+                <property name="restoreNumImagesAndImageMode" value="true"/>
+                <property name="decoratee">
+                    <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+                        <property name="decoratee">
+                            <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+                                <property name="adBase" ref="xreye_adbase" />
+                                <property name="restoreAcquireState" value="true"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
 	<bean id="xreye_addetector" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="xreye_adbase" />
 		<property name="ndFile" ref="xreye_ndfile" />
 		<property name="ndArray" ref="xreye_ndarray" />
 		<property name="ndStats" ref="xreye_stats" />
 		<property name="fileWriter" ref="xreye_hdf5_writer" />
+		<property name="collectionStrategy" ref="xreye_collection_strategy"/>
 	</bean>
 
-	<bean id="xreyeModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+	<bean id="xreye_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 		<property name="name" value="xreye_addetector" />
 		<property name="exposureTime" value="0.1" />
 	</bean>
 
-	<bean id="xreyeInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	<bean id="xreye_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="XrayEye" />
 		<property name="description" value="XrayEye" />
 	</bean>
 
 	<bean id="xreye_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
 		<property name="name" value="xreye_addetector" />
-		<property name="model" ref="xreyeModel" />
-		<property name="deviceInformation" ref="xreyeInfo" />
+		<property name="model" ref="xreye_model" />
+		<property name="deviceInformation" ref="xreye_info" />
 		<property name="activated" value="true" />
 	</bean>
 
