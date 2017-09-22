@@ -17,28 +17,48 @@
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
 
+ 	<bean id="andor_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+        <property name="restoreAcquireTime" value="true" />
+        <property name="decoratee">
+            <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+                <property name="restoreNumImagesAndImageMode" value="true"/>
+                <property name="decoratee">
+                    <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+                        <property name="decoratee">
+                            <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+                                <property name="adBase" ref="andor_adbase" />
+                                <property name="restoreAcquireState" value="true"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
 	<bean id="andor_addetector" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="andor_adbase" />
 		<property name="ndFile" ref="andor_ndfile" />
 		<property name="ndArray" ref="andor_ndarray" />
 		<property name="ndStats" ref="andor_stats" />
 		<property name="fileWriter" ref="andor_hdf5_writer" />
+		<property name="collectionStrategy" ref="andor_collection_strategy"/>
 	</bean>
 
-	<bean id="andorModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+	<bean id="andor_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 		<property name="name" value="andor_addetector" />
 		<property name="exposureTime" value="0.1" />
 	</bean>
 
-	<bean id="andorInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	<bean id="andor_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Andor" />
 		<property name="description" value="Andor" />
 	</bean>
 
 	<bean id="andor_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
 		<property name="name" value="andor_addetector" />
-		<property name="model" ref="andorModel" />
-		<property name="deviceInformation" ref="andorInfo" />
+		<property name="model" ref="andor_model" />
+		<property name="deviceInformation" ref="andor_info" />
 		<property name="activated" value="true" />
 	</bean>
 

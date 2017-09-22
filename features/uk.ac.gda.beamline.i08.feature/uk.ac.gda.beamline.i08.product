@@ -16,7 +16,9 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.mode=dummy
+      <vmArgs>-Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
+-Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
+-Dgda.mode=dummy
 -Drebel.log=true
 -Dgda.config=${project_loc:i08-config}
 -Dgda.propertiesFile=${project_loc:i08-config}/properties/dummy/dummy_instance_java.properties
@@ -43,7 +45,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
       location="uk.ac.gda.beamline.i08" />
    <launcher name="gda-i08">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
