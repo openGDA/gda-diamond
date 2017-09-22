@@ -18,6 +18,8 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
+-Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
 -Drebel.log=true
 -Dgda.mode=dummy
 -Dgda.config=${project_loc:i14-config}
@@ -48,7 +50,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
       location="uk.ac.gda.beamline.i14" />
    <launcher name="gda-i14">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
