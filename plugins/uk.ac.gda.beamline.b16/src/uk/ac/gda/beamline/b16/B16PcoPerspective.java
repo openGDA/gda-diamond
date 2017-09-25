@@ -63,7 +63,7 @@ public class B16PcoPerspective implements IPerspectiveFactory {
 				IPageLayout.RIGHT,
 				1.0f - splitLR,
 				editorArea);
-		rightTopFolder.addView(uk.ac.gda.epics.adviewer.views.TwoDArrayView.Id + ":" + secondaryId);
+		rightTopFolder.addView(uk.ac.gda.epics.adviewer.views.TwoDArrayView.ID + ":" + secondaryId);
 
 		IFolderLayout rightMiddleFolder = layout.createFolder(
 				"B16Pco_right_middle",
