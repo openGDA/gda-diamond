@@ -18,7 +18,7 @@
 
 package gda.scan.ede.datawriters;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.dawnsci.ede.EdeDataConstants;
 import org.dawnsci.ede.EdeDataConstants.TimingGroupMetadata;
@@ -106,7 +106,7 @@ public abstract class EdeExperimentDataWriter {
 
 	// FIXME
 	protected String getScannablesConfiguration() {
-		ArrayList<Findable> configs = Finder.getInstance().listAllObjects(FindableAsciiDataWriterConfiguration.class.getSimpleName());
+		List<Findable> configs = Finder.getInstance().listAllObjects(FindableAsciiDataWriterConfiguration.class.getSimpleName());
 		if (configs == null) {
 			return "";
 		}
