@@ -20,7 +20,6 @@ Require-Bundle: uk.ac.gda.core;bundle-version="8.52.0",
  uk.ac.gda.devices.xspress3,
  uk.ac.diamond.org.springframework;bundle-version="4.0.6",
  uk.ac.gda.exafs.datawriter;bundle-version="1.0.0",
- uk.ac.diamond.daq.microfocus.api;bundle-version="1.0.0",
  uk.ac.diamond.daq.client.gui.rcpcontroller;bundle-version="1.0.0",
  uk.ac.diamond.daq.dls.controls
 Import-Package: net.sf.cglib.core,

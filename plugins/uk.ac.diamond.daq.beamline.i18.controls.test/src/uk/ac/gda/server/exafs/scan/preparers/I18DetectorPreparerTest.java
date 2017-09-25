@@ -145,17 +145,11 @@ public class I18DetectorPreparerTest {
 
 		// only return an object for step maps with diffraction flag set to true
 
-		mfParameters.setRaster(false);
 		fluoParams.setCollectDiffractionImages(true);
 		org.junit.Assert.assertEquals(cmos_for_maps,
 				thePreparer.getExtraDetectors()[0]);
 
-		mfParameters.setRaster(false);
 		fluoParams.setCollectDiffractionImages(false);
-		org.junit.Assert.assertNull(thePreparer.getExtraDetectors());
-
-		mfParameters.setRaster(true);
-		fluoParams.setCollectDiffractionImages(true);
 		org.junit.Assert.assertNull(thePreparer.getExtraDetectors());
 	}
 

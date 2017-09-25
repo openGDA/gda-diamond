@@ -120,15 +120,9 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 
 	private void configureTopupMonitor() {
 		if (scanBean instanceof MicroFocusScanParameters){
-			if (((MicroFocusScanParameters) scanBean).isRaster()){
-				// set to the row time
-				double rowTime = ((MicroFocusScanParameters) scanBean).getRowTime();
-				topupMonitor.setCollectionTime(rowTime); // Fred thinks the standard 2s tolerance in the topup monitor is enough so we don't add any extra here
-			} else {
-				// set to the point time
-				double pointTime = ((MicroFocusScanParameters) scanBean).getCollectionTime();
-				topupMonitor.setCollectionTime(pointTime);
-			}
+			// set to the point time
+			double pointTime = ((MicroFocusScanParameters) scanBean).getCollectionTime();
+			topupMonitor.setCollectionTime(pointTime);
 		} else if (scanBean instanceof XasScanParameters) {
 			// set to the longest time step
 			XasScanParameters parameters = (XasScanParameters) scanBean;
