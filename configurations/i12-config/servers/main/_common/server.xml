@@ -49,6 +49,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/camOH1.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam1_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam3_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/edxd.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/eurotherm.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/filters.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/gbc1.xml"/>
@@ -73,6 +74,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/t5.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t7.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t8.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/vortex.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml"/>
 
 	<!-- =========================================================== -->

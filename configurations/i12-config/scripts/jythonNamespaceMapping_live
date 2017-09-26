@@ -2,7 +2,6 @@
 #tomography_theta=ss1_theta_dummy
 tomography_theta=ss1_theta
 #tomography_theta=p2r_rot
-#tomography_theta=ss1_theta_dummy
 #tomography_theta=idummyscannablemotor_x
 
 #tomography_detector=dummy_cam_ad
@@ -11,11 +10,10 @@ tomography_theta=ss1_theta
 #tomography_detector=pco4000_dio_tif
 tomography_detector=pco4000_dio_hdf
 
-#tomography_shutter=eh_shtr_dummy
+#tomography_shutter=eh1shtr_dummy
 tomography_shutter=eh1shtr
 #tomography_shutter=eh1shtr_dummy
 #tomography_shutter=ix
-
 #tomography_translation=ss1_X_dummy
 tomography_translation=ss1_x
 #tomography_translation=ss1_x_dummy
@@ -30,6 +28,7 @@ tomography_beammonitor=actualTime
 
 tomography_camera_stage=cam1
 tomography_sample_stage=ss1_x
+#tomography_sample_stage=ss1_x_dummy
 
 #normal flyscan - uncomment to select the required detector
 tomography_flyscan_theta=zebraSM1
@@ -41,9 +40,13 @@ tomography_flyscan_det=flyScanDetector
 tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector
 
 #connect p2r trigger to exposure out of PCO and connect that to Zebra TTL1. The busy is used by the tfg
+
 #tomography_flyscan_det=p2r_flyScanDetector
 #tomography_flyscan_flat_dark_det=p2r_flyScanFlatDarkDetector
 #tomography_flyscan_theta=p2rSM1
 
+#tomography_translation_vert=ss1_y3
 
+sphere_align_tomomotor=ss1_theta_dummy
+sphere_align_samplemotor=ss1_x_dummy
 

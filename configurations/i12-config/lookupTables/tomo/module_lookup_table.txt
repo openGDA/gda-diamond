@@ -1,10 +1,19 @@
-#Values below for new optics module with PCOedge
+#Values below for new optics module with PCOedge & Theta
 ScannableNames  Module  cam1_x  cam1_z  cam1_roll   t3_x    t3_m1y  s2_xs   s2_ys   magnification   object_pixel_size   Resolution  HFOV    VFOV    ss1_x   ball-diameter ss1_rz defaultExposureTime AFCropStartX   AFCropStartY    AFCropEndX  AFCropEndY  ss1_rx
-ScannableUnits  No. mm  mm  deg mm  mm  mm  mm  No. micron  micron  mm  mm  mm  mm deg sec  mm  mm  mm  mm  mm
-1   54.00   -95.25  -0.0241 1339.8  39.41   40.000  12.000  0.35    18.53   000  47.43   40.0    -100    5   -0.0034   0.002   1838    1237    2115    1421    +0.0264
-2   145.9   -95.48  +0.1367 1352.0  39.36   18.000  12.000  0.82    7.91    000  20.4    17.07   -100    3   -0.0034   0.005   1706    1118    2220    1513    +0.0264
-3   224.4   -95.15  +0.262  1351.74 40.198   8.000   7.000   2       3.24    000  8.3     7.00    -100    2   -0.0034   0.04    1817    1127    2216    1506     +0.0264
-4   298.1   -98.1   +0.1266 1351.84 39.898   5.000   3.500   5       1.3     000  3.32    2.80    -100    1  -0.0034    0.6     1704    1088    2204    1500    +0.0264
+ScannableUnits  No. mm  mm  deg mm  mm  mm  mm  No. micron  micron  mm  mm  mm  mm deg sec  mm  mm  mm  mm  deg
+1   52.83   -94.91  -0.169 1352.1  40.0   40.000  12.000  0.35    18.53   000  47.43   40.0    -100    5   0.1238   0.001   1838    1237    2115    1421    +0.0298
+2   144.74   -95.25  -0.169 1352.1   40.0   18.000  12.000  0.82    7.91    000  20.4    17.07   -100    3   0.0659   0.004   1706    1118    2220    1513    -0.0036
+3   223.34   -93.835  -0.0022 1352.1 40.0   8.000   7.000   2       3.24    000  8.3     7.00    -100    2   0.000   0.03    1817    1127    2216    1506     +0.0536
+4   296.94   -94.45  -0.169 1352.1 40.0   5.000   3.500   5       1.3     000  3.32    2.80    -100    1  0.109    0.5     1704    1088    2204    1500    +0.0078
+
+#Values below for new optics module with PCOedge & P2R
+#ScannableNames  Module  cam1_x  cam1_z  cam1_roll   t3_x    t3_m1y  s2_xs   s2_ys   magnification   object_pixel_size   Resolution  HFOV    VFOV    ss1_x   ball-diameter ss1_rz defaultExposureTime AFCropStartX   AFCropStartY    AFCropEndX  AFCropEndY  ss1_rx
+#ScannableUnits  No. mm  mm  deg mm  mm  mm  mm  No. micron  micron  mm  mm  mm  mm deg sec  mm  mm  mm  mm  mm
+#1   52.95   -95.04  +.0791 1351.1  39.41   40.000  12.000  0.35    18.53   000  47.43   40.0    -100    5   +0.077   0.001   1838    1237    2115    1421    +0.40
+#2   144.75   -95.33  +0.089 1352.0  40.38   18.000  12.000  0.82    7.91    000  20.4    17.07   -100    3   +0.077   0.002   1706    1118    2220    1513    +0.40
+#3   223.9   -96.185  +0.155  1351.1 40.489   8.000   7.000   2       3.24    000  8.3     7.00    -100    2   +0.077   0.02    1817    1127    2216    1506     +0.40
+#4   297.374   -89.750  +0.204 1352.27 40.28   5.000   3.500   5       1.3     000  3.32    2.80    -100    1  +0.077    0.1     1704    1088    2204    1500    +0.40
+#
 
 
 #Values below for old optics module with PCO4000
@@ -20,4 +29,3 @@ ScannableUnits  No. mm  mm  deg mm  mm  mm  mm  No. micron  micron  mm  mm  mm  
 #2	137.05	-70.900	-0.298	1348.750	-40	18.000	12.000	1.822	49.6	9.980	19.800	13.200	-100	3	0.298
 #3	215.00	-52.4	-0.088	1350.540	-40	8.000	7.000	5.066	49.6	4.491	7.120	4.747	-100	2	0.088
 #4	290.185	-59.5	-0.459	1350.290	-40	5.000	3.500	9.321	49.6	1.796	3.870	2.580	-100	1	0.459
-

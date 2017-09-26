@@ -14,6 +14,21 @@
 		<property name="fileLocation" value="${gda.var}/edxdcalibration.ec" />
 	</bean>
 
+	<bean id="edxd" class="gda.device.detector.xmap.NexusXmap">
+		<property name="controller" ref="xmapcontroller" />
+		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list,	one value for each element -->
+		 <property name="eventProcessingTimes">
+			<list>
+				<value>1.7867731067630825e-08</value>
+			</list>
+		</property>
+		<property name="saveRawSpectrum" value="true" />
+		<property name="slave" value="false" />
+		<!-- <property name="configFileName"	value="${gda.config}/templates/Xia_parameters.xml" /> -->
+		<property name="sumAllElementData" value="true" />
+		<property name="local" value="true" />
+	</bean>
+
 	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 		<property name="serviceName" value="gda/edxdAlignment" />
 		<property name="service" ref="edxdAlignment" />

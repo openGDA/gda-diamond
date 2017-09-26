@@ -25,7 +25,7 @@ import scisoftpy as dnp
 from gda.data import NumTracker
 from gda.data import PathConstructor
 from gda.util import PropertyUtils
-import org.eclipse.dawnsci.analysis.dataset.impl.Image as Image
+import uk.ac.diamond.scisoft.analysis.dataset.Image as Image
 import uk.ac.gda.tomography.TomographyResourceUtil
 import uk.ac.gda.tomography.parameters.TomoParametersFactory as TomoParametersFactory
 from gdascripts.utils import * #@UnusedWildImport
@@ -500,7 +500,7 @@ def moveT3M1ZTo(moduleNum, t3M1zPosition):
 '''
 Move camera module to the specified module number
 '''
-def moveToModule(moduleNum):
+def moveToModule(moduleNum, delta=5):
     if getModule() == moduleNum:
         handle_messages.simpleLog("Already in the requested module")
         return
@@ -565,7 +565,30 @@ def moveToModule(moduleNum):
         #checkForPauses()
         #t3_m1y.asynchronousMoveTo(t3m1yLookup)
         #checkForPauses()
-
+        
+        # added on Oxana and Robert's request (20 Sep 16) - commented out (19 Sep 17) JIRA I12-219
+        #print "Getting position for t3_x from lookup table"
+        #t3xLookup = cameraModuleLookup.lookupValue(moduleNum, "t3_x")
+        #print "Lookup position for t3_x is: %.3f" %(t3xLookup)
+        #imaging_pos_min = 1351.0 - abs(delta)
+        #imaging_pos_max = 1351.0 + abs(delta)
+        #print "Getting current position of t3_x"
+        #t3xCurrent = t3_x.getPosition()
+        #print "Current position of t3_x is: %.3f" %(t3xCurrent)
+        #if (imaging_pos_min <= t3xCurrent) and (t3xCurrent <= imaging_pos_max):
+        #    if (imaging_pos_min <= t3xLookup) and (t3xLookup <= imaging_pos_max):
+        #        print("Moving t3_x to the configured position in lookup tables")
+        #        t3_x.asynchronousMoveTo(t3xLookup)
+        #    else:
+        #        msg2 = "\n WARNING: The configured detector table position found in lookup tables is outside Imaging Position! \n"
+        #        msg2 += "The position of t3_x should always be between %.3f and %.3f. \n" %(imaging_pos_min, imaging_pos_max)
+        #        msg2 += "Leaving t3_x at the current position and moving only camera modules to the configured position of cam1_x in lookup tables.\n"
+        #        print(msg2)
+        #else:
+        #    msg1 = "\n WARNING: The detector table t3_x can't be moved while camera is not in Imaging Position! \n"
+        #    msg1 += "The position of t3_x in lookup tables should always be between %.3f and %.3f. \n" %(imaging_pos_min, imaging_pos_max)
+        #    msg1 += "Leaving t3_x at the current position and moving only camera modules to the configured position of cam1_x in lookup tables.\n"
+        #    print(msg1)
         checkForPauses()
         
         while ss1_rx.isBusy():
