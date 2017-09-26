@@ -150,4 +150,17 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="uk.ac.gda.devices.xmap.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.exafs.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
 </feature>

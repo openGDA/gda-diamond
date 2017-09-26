@@ -2,15 +2,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
 	<description>Client reference to Shutters</description>
+
 	<bean id="eh1shtr" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}eh1shtr" />
 		<property name="serviceInterface" value="gda.device.Scannable" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+
 	<bean id="extshtr" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}extshtr" />
 		<property name="serviceInterface" value="gda.device.Scannable" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+
 </beans>

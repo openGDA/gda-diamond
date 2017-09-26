@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<alias name="simAdBaseModel" alias="pcoAdBaseModel"/>
+	<alias name="simFileSaverModel" alias="pcoFileSaverModel"/>
+	<alias name="simFfmjpeg" alias="pcoFfmjpeg1"/>
+	<alias name="simFfmjpeg" alias="pcoFfmjpeg2"/>
+	<alias name="simNdProc" alias="pcoNdProc1"/>
+	<alias name="simNdProc" alias="pcoNdProc2"/>
+	<alias name="simNdROI" alias="pcoNdROI1"/>
+	<alias name="simNdROI" alias="pcoNdROI2"/>
+	<alias name="simNdArray" alias="pcoNdArray"/>
+	<alias name="simNdStat" alias="pcoNdStat"/>
+
+</beans>

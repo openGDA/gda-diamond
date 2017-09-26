@@ -22,26 +22,36 @@
 	<import resource="rmi_imports.xml" />
 	<import resource="osgi_services.xml" />
 
+	<!-- =========================================================== -->
+	<!-- Files with separate live and dummy versions                 -->
+	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/pco.xml" />
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/pixium.xml" />
+
+	<!-- =========================================================== -->
+	<!-- Shared files                                                -->
+	<!-- =========================================================== -->
+
 	<!-- The tomoAlignment.xml must follow the pco.xml since the tomoAlignment 
 		depend on PCO objects and cam1.xml and ss1.xml. -->
-	<import resource="devices/simpleScannables.xml" />
-	<import resource="devices/pco.xml" />
-	<import resource="devices/cam1.xml" />
-	<import resource="devices/ss1.xml" />
-	<import resource="devices/t3.xml" />
-	<import resource="devices/shutters.xml" />
-	<import resource="devices/pixium.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/devices/simpleScannables.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/devices/pco.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/devices/cam1.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/devices/ss1.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/devices/t3.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/devices/shutters.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/devices/pixium.xml" />
 
-	<import resource="devices/tomoAlignment.xml" />
-	<import resource="devices/tomoConfiguration.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/devices/tomoAlignment.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/devices/tomoConfiguration.xml" />
 <!-- 	<import resource="tomoAlignment_dummy.xml" /> -->	
-	<import resource="devices/edxd.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/devices/edxd.xml" />
 
 	<bean class="uk.ac.gda.beamline.i12.HelpListener">
 		<property name="helpObservable" ref="helpScriptController" />
 	</bean>
 
-<!--  create connection to remote objects via netService -->
+	<!--  create connection to remote objects via netService -->
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">

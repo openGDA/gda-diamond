@@ -9,17 +9,7 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<context:property-placeholder
-		location="file:${gda.config}/properties/beamline.properties,
-		file:${gda.config}/logging/localhost/log.properties,
-		file:${gda.config}/epics/live/epics.properties,
-		file:${gda.config}/properties/localhost/java.properties,
-		file:${gda.config}/properties/gda.properties" />
-
-	<bean class="gda.configuration.epics.EpicsConfiguration">
-<!--		<constructor-arg value="${gda.config}/epics/live/BL12I-gda-interface_29-03-2011_rev2.xml" />-->
-		<constructor-arg value="${gda.epics.interface.xml}" />
-	</bean>
+	<context:property-placeholder />
 	
 	<import resource="cam1_motors.xml"/>
 	<import resource="Ioeh1.xml"/>

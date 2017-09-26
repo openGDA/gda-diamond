@@ -74,7 +74,6 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/t5.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t7.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t8.xml"/>
-	<import resource="file:${gda.config}/devices/${gda.mode}/vortex.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml"/>
 
 	<!-- =========================================================== -->

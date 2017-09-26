@@ -202,7 +202,7 @@ except :
 print "--------------------------------------------------"
 
 print "setup scan manager to control scan queue and their running"
-from manager_scan_functions import * #@UnusedWildImport
+#from manager_scan_functions import * #@UnusedWildImport
 
 print "--------------------------------------------------"
 print "create 'topup' object"
@@ -218,422 +218,423 @@ def view(scannable):
 
 alias("view")
 
-print "--------------------------------------------------"
-print "setup 'fastscan' object"
-from fast_scan import FastScan
-fastscan = FastScan("fastscan");
-
-print "--------------------------------------------------"
-print "setup 'sleeperWhileScan' object"
-from sleeperWhileScan import SleeperWhileScan
-sleeper = SleeperWhileScan("sleeper");
-
-print "--------------------------------------------------"
-
-print "Defines 'timer':"
-import timerelated 
-timer = timerelated.TimeSinceScanStart("timer")
-
-# tobias did this for the users at the end of run 3
-from WaitLineDummy import WaitLineDummy
-wld = WaitLineDummy("wld")
-
-print "--------------------------------------------------"
-
-print "Creating PCO external object"
-
-try :
-    #create the PCO external object
-    from pcoexternal import PCOext
-    pcoext = PCOext(pco) #@UndefinedVariable
-except :
-    print "PCO external trigger not available"
-
-from gdascripts.pd.time_pds import * #@UnusedWildImport
-from gdascripts.pd.epics_pds import * #@UnusedWildImport
-
+# For the moment, stop dummy mode here
+if isLive():
+    print "--------------------------------------------------"
+    print "setup 'fastscan' object"
+    from fast_scan import FastScan
+    fastscan = FastScan("fastscan");
+    
+    print "--------------------------------------------------"
+    print "setup 'sleeperWhileScan' object"
+    from sleeperWhileScan import SleeperWhileScan
+    sleeper = SleeperWhileScan("sleeper");
+    
+    print "--------------------------------------------------"
+    
+    print "Defines 'timer':"
+    import timerelated 
+    timer = timerelated.TimeSinceScanStart("timer")
+    
+    # tobias did this for the users at the end of run 3
+    from WaitLineDummy import WaitLineDummy
+    wld = WaitLineDummy("wld")
+    
+    print "--------------------------------------------------"
+    
+    print "Creating PCO external object"
+    
+    try :
+        #create the PCO external object
+        from pcoexternal import PCOext
+        pcoext = PCOext(pco) #@UndefinedVariable
+    except :
+        print "PCO external trigger not available"
+    
+    from gdascripts.pd.time_pds import * #@UnusedWildImport
+    from gdascripts.pd.epics_pds import * #@UnusedWildImport
+    
+         
+    try:
+        pcotimestamp = DisplayEpicsPVClass('pcotimestamp', 'TEST:TIFF0:TimeStamp_RBV', 's', '%.3f')    
+    except:
+        print "cannot create PCO timestamp scannable"
+    
+    print "--------------------------------------------------"
+    
+    print "Creating DIO scannables"
+    try:    
+        dio01_out_02 = EpicsReadWritePVClass('dio01_out_02','BL12I-EA-DIO-01:OUT:02','bool','%i')
+        dio01_out_04 = EpicsReadWritePVClass('dio01_out_04','BL12I-EA-DIO-01:OUT:04','bool','%i')
+        dio01_out_05 = EpicsReadWritePVClass('dio01_out_05','BL12I-EA-DIO-01:OUT:05','bool','%i')
+        dio01_out_06 = EpicsReadWritePVClass('dio01_out_06','BL12I-EA-DIO-01:OUT:06','bool','%i')
+        dio01_out_07 = EpicsReadWritePVClass('dio01_out_07','BL12I-EA-DIO-01:OUT:07','bool','%i')
+        dio01_out_08 = EpicsReadWritePVClass('dio01_out_08','BL12I-EA-DIO-01:OUT:08','bool','%i')
+        
+        
+        dio02_in_05 = DisplayEpicsPVClass('dio02_in_05','BL12I-EA-DIO-01:IN:05','bool','%i')  
+        dio02_in_06 = DisplayEpicsPVClass('dio02_in_06','BL12I-EA-DIO-01:IN:06','bool','%i')
+        dio02_in_07 = DisplayEpicsPVClass('dio02_in_07','BL12I-EA-DIO-01:IN:07','bool','%i')
+        dio02_in_08 = DisplayEpicsPVClass('dio02_in_08','BL12I-EA-DIO-01:IN:08','bool','%i')
+       
+        adc01_01 = DisplayEpicsPVClass('adc01_01', 'BL12I-EA-ADC-01:01', 'volt', '%.4g') #labelled according to RACK names, not EPICS
+        adc01_02 = DisplayEpicsPVClass('adc01_02', 'BL12I-EA-ADC-01:02', 'volt', '%.4g')
+        adc01_03 = DisplayEpicsPVClass('adc01_03', 'BL12I-EA-ADC-01:03', 'volt', '%.4g')
+        adc01_04 = DisplayEpicsPVClass('adc01_04', 'BL12I-EA-ADC-01:04', 'volt', '%.4g')
+        adc01_05 = DisplayEpicsPVClass('adc01_05', 'BL12I-EA-ADC-01:05', 'volt', '%.4g')
+        adc01_06 = DisplayEpicsPVClass('adc01_06', 'BL12I-EA-ADC-01:06', 'volt', '%.4g')
+        adc01_07 = DisplayEpicsPVClass('adc01_07', 'BL12I-EA-ADC-01:07', 'volt', '%.4g')
+        adc01_08 = DisplayEpicsPVClass('adc01_08', 'BL12I-EA-ADC-01:08', 'volt', '%.4g')
+        
+        adc02_01 = DisplayEpicsPVClass('adc02_01', 'BL12I-EA-ADC-02:01', 'volt', '%.4f') #labelled according to RACK names, not EPICS
+        adc02_02 = DisplayEpicsPVClass('adc02_02', 'BL12I-EA-ADC-02:02', 'volt', '%.4f')
+        adc02_03 = DisplayEpicsPVClass('adc02_03', 'BL12I-EA-ADC-02:03', 'volt', '%.4f')
+        adc02_04 = DisplayEpicsPVClass('adc02_04', 'BL12I-EA-ADC-02:04', 'volt', '%.4f')
+        adc02_05 = DisplayEpicsPVClass('adc02_05', 'BL12I-EA-ADC-02:05', 'volt', '%.4f')
+        adc02_06 = DisplayEpicsPVClass('adc02_06', 'BL12I-EA-ADC-02:06', 'volt', '%.4f')
+        adc02_07 = DisplayEpicsPVClass('adc02_07', 'BL12I-EA-ADC-02:07', 'volt', '%.4f')
+        adc02_08 = DisplayEpicsPVClass('adc02_08', 'BL12I-EA-ADC-02:08', 'volt', '%.4f')
+       
+        dac01_01 = EpicsReadWritePVClass('dac01_01', 'BL12I-EA-DAC-01:01', 'volt', '%.4g') #labelled according to RACK names, not EPICS
+        dac01_02 = EpicsReadWritePVClass('dac01_02', 'BL12I-EA-DAC-01:02', 'volt', '%.4g')
+        dac01_03 = EpicsReadWritePVClass('dac01_03', 'BL12I-EA-DAC-01:03', 'volt', '%.4g')
+        dac01_04 = EpicsReadWritePVClass('dac01_04', 'BL12I-EA-DAC-01:04', 'volt', '%.4g')
+        dac01_05 = EpicsReadWritePVClass('dac01_05', 'BL12I-EA-DAC-01:05', 'volt', '%.4g')
+        dac01_06 = EpicsReadWritePVClass('dac01_06', 'BL12I-EA-DAC-01:06', 'volt', '%.4g')
+        dac01_07 = EpicsReadWritePVClass('dac01_07', 'BL12I-EA-DAC-01:07', 'volt', '%.4g')
+        dac01_08 = EpicsReadWritePVClass('dac01_08', 'BL12I-EA-DAC-01:08', 'volt', '%.4g')  
+    
+        radvolts = DisplayEpicsPVClass('radvolts', 'BL12I-EA-ADC-01:02', 'volt', '%.4g')
+        radcounts = DisplayEpicsPVClass('radcounts', 'BL12I-DI-RDMON-01:T0', 'counts', '%.4g')
+    
+    except:
+        print "cannot create EH1 ACD/DAC scannables."      
+    
+          
+    try:
+        dio04_out_01 = EpicsReadWritePVClass('dio04_out_01','BL12I-EA-DIO-04:OUT:01','bool','%i')
+        dio04_out_02 = EpicsReadWritePVClass('dio04_out_02','BL12I-EA-DIO-04:OUT:02','bool','%i')
+        dio04_out_03 = EpicsReadWritePVClass('dio04_out_03','BL12I-EA-DIO-04:OUT:03','bool','%i')
+        dio04_out_04 = EpicsReadWritePVClass('dio04_out_04','BL12I-EA-DIO-04:OUT:04','bool','%i')
+        dio04_out_05 = EpicsReadWritePVClass('dio04_out_05','BL12I-EA-DIO-04:OUT:05','bool','%i')
+        dio04_out_06 = EpicsReadWritePVClass('dio04_out_06','BL12I-EA-DIO-04:OUT:06','bool','%i')
+        dio04_out_07 = EpicsReadWritePVClass('dio04_out_07','BL12I-EA-DIO-04:OUT:07','bool','%i')
+        dio04_out_08 = EpicsReadWritePVClass('dio04_out_08','BL12I-EA-DIO-04:OUT:08','bool','%i')
+        
+        dio03_in_01 = DisplayEpicsPVClass('dio03_in_01','BL12I-EA-DIO-03:IN:01','bool','%i')
+        dio03_in_02 = DisplayEpicsPVClass('dio03_in_02','BL12I-EA-DIO-03:IN:02','bool','%i')  
+        dio03_in_03 = DisplayEpicsPVClass('dio03_in_03','BL12I-EA-DIO-03:IN:03','bool','%i')  
+        dio03_in_04 = DisplayEpicsPVClass('dio03_in_04','BL12I-EA-DIO-03:IN:04','bool','%i')
+        dio03_in_05 = DisplayEpicsPVClass('dio03_in_05','BL12I-EA-DIO-03:IN:05','bool','%i')  
+        dio03_in_06 = DisplayEpicsPVClass('dio03_in_06','BL12I-EA-DIO-03:IN:06','bool','%i')
+        dio03_in_07 = DisplayEpicsPVClass('dio03_in_07','BL12I-EA-DIO-03:IN:07','bool','%i')
+        dio03_in_08 = DisplayEpicsPVClass('dio03_in_08','BL12I-EA-DIO-03:IN:08','bool','%i')
+        
+        dac03_01 = EpicsReadWritePVClass('dac03_01', 'BL12I-EA-DAC-03:01', 'volt', '%.4f') #labelled according to RACK names, not EPICS
+        dac03_02 = EpicsReadWritePVClass('dac03_02', 'BL12I-EA-DAC-03:02', 'volt', '%.4f')
+        dac03_03 = EpicsReadWritePVClass('dac03_03', 'BL12I-EA-DAC-03:03', 'volt', '%.4f')
+        dac03_04 = EpicsReadWritePVClass('dac03_04', 'BL12I-EA-DAC-03:04', 'volt', '%.4f')
+        dac03_05 = EpicsReadWritePVClass('dac03_05', 'BL12I-EA-DAC-03:05', 'volt', '%.4f')
+        dac03_06 = EpicsReadWritePVClass('dac03_06', 'BL12I-EA-DAC-03:06', 'volt', '%.4f')
+        dac03_07 = EpicsReadWritePVClass('dac03_07', 'BL12I-EA-DAC-03:07', 'volt', '%.4f')
+        dac03_08 = EpicsReadWritePVClass('dac03_08', 'BL12I-EA-DAC-03:08', 'volt', '%.4f')
      
-try:
-    pcotimestamp = DisplayEpicsPVClass('pcotimestamp', 'TEST:TIFF0:TimeStamp_RBV', 's', '%.3f')    
-except:
-    print "cannot create PCO timestamp scannable"
-
-print "--------------------------------------------------"
-
-print "Creating DIO scannables"
-try:    
-    dio01_out_02 = EpicsReadWritePVClass('dio01_out_02','BL12I-EA-DIO-01:OUT:02','bool','%i')
-    dio01_out_04 = EpicsReadWritePVClass('dio01_out_04','BL12I-EA-DIO-01:OUT:04','bool','%i')
-    dio01_out_05 = EpicsReadWritePVClass('dio01_out_05','BL12I-EA-DIO-01:OUT:05','bool','%i')
-    dio01_out_06 = EpicsReadWritePVClass('dio01_out_06','BL12I-EA-DIO-01:OUT:06','bool','%i')
-    dio01_out_07 = EpicsReadWritePVClass('dio01_out_07','BL12I-EA-DIO-01:OUT:07','bool','%i')
-    dio01_out_08 = EpicsReadWritePVClass('dio01_out_08','BL12I-EA-DIO-01:OUT:08','bool','%i')
-    
-    
-    dio02_in_05 = DisplayEpicsPVClass('dio02_in_05','BL12I-EA-DIO-01:IN:05','bool','%i')  
-    dio02_in_06 = DisplayEpicsPVClass('dio02_in_06','BL12I-EA-DIO-01:IN:06','bool','%i')
-    dio02_in_07 = DisplayEpicsPVClass('dio02_in_07','BL12I-EA-DIO-01:IN:07','bool','%i')
-    dio02_in_08 = DisplayEpicsPVClass('dio02_in_08','BL12I-EA-DIO-01:IN:08','bool','%i')
-   
-    adc01_01 = DisplayEpicsPVClass('adc01_01', 'BL12I-EA-ADC-01:01', 'volt', '%.4g') #labelled according to RACK names, not EPICS
-    adc01_02 = DisplayEpicsPVClass('adc01_02', 'BL12I-EA-ADC-01:02', 'volt', '%.4g')
-    adc01_03 = DisplayEpicsPVClass('adc01_03', 'BL12I-EA-ADC-01:03', 'volt', '%.4g')
-    adc01_04 = DisplayEpicsPVClass('adc01_04', 'BL12I-EA-ADC-01:04', 'volt', '%.4g')
-    adc01_05 = DisplayEpicsPVClass('adc01_05', 'BL12I-EA-ADC-01:05', 'volt', '%.4g')
-    adc01_06 = DisplayEpicsPVClass('adc01_06', 'BL12I-EA-ADC-01:06', 'volt', '%.4g')
-    adc01_07 = DisplayEpicsPVClass('adc01_07', 'BL12I-EA-ADC-01:07', 'volt', '%.4g')
-    adc01_08 = DisplayEpicsPVClass('adc01_08', 'BL12I-EA-ADC-01:08', 'volt', '%.4g')
-    
-    adc02_01 = DisplayEpicsPVClass('adc02_01', 'BL12I-EA-ADC-02:01', 'volt', '%.4f') #labelled according to RACK names, not EPICS
-    adc02_02 = DisplayEpicsPVClass('adc02_02', 'BL12I-EA-ADC-02:02', 'volt', '%.4f')
-    adc02_03 = DisplayEpicsPVClass('adc02_03', 'BL12I-EA-ADC-02:03', 'volt', '%.4f')
-    adc02_04 = DisplayEpicsPVClass('adc02_04', 'BL12I-EA-ADC-02:04', 'volt', '%.4f')
-    adc02_05 = DisplayEpicsPVClass('adc02_05', 'BL12I-EA-ADC-02:05', 'volt', '%.4f')
-    adc02_06 = DisplayEpicsPVClass('adc02_06', 'BL12I-EA-ADC-02:06', 'volt', '%.4f')
-    adc02_07 = DisplayEpicsPVClass('adc02_07', 'BL12I-EA-ADC-02:07', 'volt', '%.4f')
-    adc02_08 = DisplayEpicsPVClass('adc02_08', 'BL12I-EA-ADC-02:08', 'volt', '%.4f')
-   
-    dac01_01 = EpicsReadWritePVClass('dac01_01', 'BL12I-EA-DAC-01:01', 'volt', '%.4g') #labelled according to RACK names, not EPICS
-    dac01_02 = EpicsReadWritePVClass('dac01_02', 'BL12I-EA-DAC-01:02', 'volt', '%.4g')
-    dac01_03 = EpicsReadWritePVClass('dac01_03', 'BL12I-EA-DAC-01:03', 'volt', '%.4g')
-    dac01_04 = EpicsReadWritePVClass('dac01_04', 'BL12I-EA-DAC-01:04', 'volt', '%.4g')
-    dac01_05 = EpicsReadWritePVClass('dac01_05', 'BL12I-EA-DAC-01:05', 'volt', '%.4g')
-    dac01_06 = EpicsReadWritePVClass('dac01_06', 'BL12I-EA-DAC-01:06', 'volt', '%.4g')
-    dac01_07 = EpicsReadWritePVClass('dac01_07', 'BL12I-EA-DAC-01:07', 'volt', '%.4g')
-    dac01_08 = EpicsReadWritePVClass('dac01_08', 'BL12I-EA-DAC-01:08', 'volt', '%.4g')  
-
-    radvolts = DisplayEpicsPVClass('radvolts', 'BL12I-EA-ADC-01:02', 'volt', '%.4g')
-    radcounts = DisplayEpicsPVClass('radcounts', 'BL12I-DI-RDMON-01:T0', 'counts', '%.4g')
-
-except:
-    print "cannot create EH1 ACD/DAC scannables."      
-
+        adc03_01 = DisplayEpicsPVClass('adc03_01', 'BL12I-EA-ADC-03:01', 'volt', '%.4g') #labelled according to RACK names, not EPICS
+        adc03_02 = DisplayEpicsPVClass('adc03_02', 'BL12I-EA-ADC-03:02', 'volt', '%.4g')
+        adc03_03 = DisplayEpicsPVClass('adc03_03', 'BL12I-EA-ADC-03:03', 'volt', '%.4g')
+        adc03_04 = DisplayEpicsPVClass('adc03_04', 'BL12I-EA-ADC-03:04', 'volt', '%.4g')
+        adc03_05 = DisplayEpicsPVClass('adc03_05', 'BL12I-EA-ADC-03:05', 'volt', '%.4g')
+        adc03_06 = DisplayEpicsPVClass('adc03_06', 'BL12I-EA-ADC-03:06', 'volt', '%.4g')
+        adc03_07 = DisplayEpicsPVClass('adc03_07', 'BL12I-EA-ADC-03:07', 'volt', '%.4g')
+        adc03_08 = DisplayEpicsPVClass('adc03_08', 'BL12I-EA-ADC-03:08', 'volt', '%.4g')
       
-try:
-    dio04_out_01 = EpicsReadWritePVClass('dio04_out_01','BL12I-EA-DIO-04:OUT:01','bool','%i')
-    dio04_out_02 = EpicsReadWritePVClass('dio04_out_02','BL12I-EA-DIO-04:OUT:02','bool','%i')
-    dio04_out_03 = EpicsReadWritePVClass('dio04_out_03','BL12I-EA-DIO-04:OUT:03','bool','%i')
-    dio04_out_04 = EpicsReadWritePVClass('dio04_out_04','BL12I-EA-DIO-04:OUT:04','bool','%i')
-    dio04_out_05 = EpicsReadWritePVClass('dio04_out_05','BL12I-EA-DIO-04:OUT:05','bool','%i')
-    dio04_out_06 = EpicsReadWritePVClass('dio04_out_06','BL12I-EA-DIO-04:OUT:06','bool','%i')
-    dio04_out_07 = EpicsReadWritePVClass('dio04_out_07','BL12I-EA-DIO-04:OUT:07','bool','%i')
-    dio04_out_08 = EpicsReadWritePVClass('dio04_out_08','BL12I-EA-DIO-04:OUT:08','bool','%i')
+    except:
+        print "cannot create EH2 ADC/DAC scannables"
+        
+        
+    print "--------------------------------------------------"
+    print "Creating EH1/EH2 thermocouple scannables"   
+    try:
+        eh1therm1 = DisplayEpicsPVClass('eh1therm1', 'BL12I-OP-THERM-01:TEMP:T1', 'degree', '%.3f')
+        eh1therm2 = DisplayEpicsPVClass('eh1therm2', 'BL12I-OP-THERM-01:TEMP:T2', 'degree', '%.3f')
+        eh1therm3 = DisplayEpicsPVClass('eh1therm3', 'BL12I-OP-THERM-01:TEMP:T3', 'degree', '%.3f')
+        eh1therm4 = DisplayEpicsPVClass('eh1therm4', 'BL12I-OP-THERM-01:TEMP:T4', 'degree', '%.3f')
+        eh1therm5 = DisplayEpicsPVClass('eh1therm5', 'BL12I-OP-THERM-01:TEMP:T5', 'degree', '%.3f')
+        eh1therm6 = DisplayEpicsPVClass('eh1therm6', 'BL12I-OP-THERM-01:TEMP:T6', 'degree', '%.3f')
+    except:
+        print "cannot create EH1 thermocouple scannables"
+    try:
+        eh2therm1 = DisplayEpicsPVClass('eh2therm1', 'BL12I-OP-THERM-02:TEMP:T1', 'degree', '%.3f')
+        eh2therm2 = DisplayEpicsPVClass('eh2therm2', 'BL12I-OP-THERM-02:TEMP:T2', 'degree', '%.3f')
+        eh2therm3 = DisplayEpicsPVClass('eh2therm3', 'BL12I-OP-THERM-02:TEMP:T3', 'degree', '%.3f')
+        eh2therm4 = DisplayEpicsPVClass('eh2therm4', 'BL12I-OP-THERM-02:TEMP:T4', 'degree', '%.3f')
+        eh2therm5 = DisplayEpicsPVClass('eh2therm5', 'BL12I-OP-THERM-02:TEMP:T5', 'degree', '%.3f')
+        eh2therm6 = DisplayEpicsPVClass('eh2therm6', 'BL12I-OP-THERM-02:TEMP:T6', 'degree', '%.3f')
+    except:
+        print "cannot create EH2 thermocouple scannables"
     
-    dio03_in_01 = DisplayEpicsPVClass('dio03_in_01','BL12I-EA-DIO-03:IN:01','bool','%i')
-    dio03_in_02 = DisplayEpicsPVClass('dio03_in_02','BL12I-EA-DIO-03:IN:02','bool','%i')  
-    dio03_in_03 = DisplayEpicsPVClass('dio03_in_03','BL12I-EA-DIO-03:IN:03','bool','%i')  
-    dio03_in_04 = DisplayEpicsPVClass('dio03_in_04','BL12I-EA-DIO-03:IN:04','bool','%i')
-    dio03_in_05 = DisplayEpicsPVClass('dio03_in_05','BL12I-EA-DIO-03:IN:05','bool','%i')  
-    dio03_in_06 = DisplayEpicsPVClass('dio03_in_06','BL12I-EA-DIO-03:IN:06','bool','%i')
-    dio03_in_07 = DisplayEpicsPVClass('dio03_in_07','BL12I-EA-DIO-03:IN:07','bool','%i')
-    dio03_in_08 = DisplayEpicsPVClass('dio03_in_08','BL12I-EA-DIO-03:IN:08','bool','%i')
+    print "--------------------------------------------------"
+    print "Creating Instron scannables"
+    try:
+        instron_position = DisplayEpicsPVClass('instron_position', 'BL12I-EA-HYD-01:CH-01:POS_RBV', 'mm', '%.3f')
+        instron_load = DisplayEpicsPVClass('instron_load', 'BL12I-EA-HYD-01:CH-02:POS_RBV', 'kN', '%.3f')
+        #Instron Live Displays. These can have arbitrary units depending how the user configures them on the Instron
+        #Up to eight Live Displays are available. Four set up her for the time being.
+        instron_live01 = DisplayEpicsPVClass('instron_live01', 'BL12I-EA-HYD-01:LD-01:POS_RBV', 'arb', '%.3f')
+        instron_live02 = DisplayEpicsPVClass('instron_live02', 'BL12I-EA-HYD-01:LD-02:POS_RBV', 'arb', '%.3f')
+        instron_live03 = DisplayEpicsPVClass('instron_live03', 'BL12I-EA-HYD-01:LD-03:POS_RBV', 'arb', '%.3f')
+        instron_live04 = DisplayEpicsPVClass('instron_live04', 'BL12I-EA-HYD-01:LD-04:POS_RBV', 'arb', '%.3f')
+    except:
+        print "cannot create Instron rig scannables"
     
-    dac03_01 = EpicsReadWritePVClass('dac03_01', 'BL12I-EA-DAC-03:01', 'volt', '%.4f') #labelled according to RACK names, not EPICS
-    dac03_02 = EpicsReadWritePVClass('dac03_02', 'BL12I-EA-DAC-03:02', 'volt', '%.4f')
-    dac03_03 = EpicsReadWritePVClass('dac03_03', 'BL12I-EA-DAC-03:03', 'volt', '%.4f')
-    dac03_04 = EpicsReadWritePVClass('dac03_04', 'BL12I-EA-DAC-03:04', 'volt', '%.4f')
-    dac03_05 = EpicsReadWritePVClass('dac03_05', 'BL12I-EA-DAC-03:05', 'volt', '%.4f')
-    dac03_06 = EpicsReadWritePVClass('dac03_06', 'BL12I-EA-DAC-03:06', 'volt', '%.4f')
-    dac03_07 = EpicsReadWritePVClass('dac03_07', 'BL12I-EA-DAC-03:07', 'volt', '%.4f')
-    dac03_08 = EpicsReadWritePVClass('dac03_08', 'BL12I-EA-DAC-03:08', 'volt', '%.4f')
- 
-    adc03_01 = DisplayEpicsPVClass('adc03_01', 'BL12I-EA-ADC-03:01', 'volt', '%.4g') #labelled according to RACK names, not EPICS
-    adc03_02 = DisplayEpicsPVClass('adc03_02', 'BL12I-EA-ADC-03:02', 'volt', '%.4g')
-    adc03_03 = DisplayEpicsPVClass('adc03_03', 'BL12I-EA-ADC-03:03', 'volt', '%.4g')
-    adc03_04 = DisplayEpicsPVClass('adc03_04', 'BL12I-EA-ADC-03:04', 'volt', '%.4g')
-    adc03_05 = DisplayEpicsPVClass('adc03_05', 'BL12I-EA-ADC-03:05', 'volt', '%.4g')
-    adc03_06 = DisplayEpicsPVClass('adc03_06', 'BL12I-EA-ADC-03:06', 'volt', '%.4g')
-    adc03_07 = DisplayEpicsPVClass('adc03_07', 'BL12I-EA-ADC-03:07', 'volt', '%.4g')
-    adc03_08 = DisplayEpicsPVClass('adc03_08', 'BL12I-EA-ADC-03:08', 'volt', '%.4g')
-  
-except:
-    print "cannot create EH2 ADC/DAC scannables"
+    print "--------------------------------------------------"
     
+    # print "Adding mono_bender_adjustment"
+    # import mono_bender_adjustment
+    # from mono_bender_adjustment import *
     
-print "--------------------------------------------------"
-print "Creating EH1/EH2 thermocouple scannables"   
-try:
-    eh1therm1 = DisplayEpicsPVClass('eh1therm1', 'BL12I-OP-THERM-01:TEMP:T1', 'degree', '%.3f')
-    eh1therm2 = DisplayEpicsPVClass('eh1therm2', 'BL12I-OP-THERM-01:TEMP:T2', 'degree', '%.3f')
-    eh1therm3 = DisplayEpicsPVClass('eh1therm3', 'BL12I-OP-THERM-01:TEMP:T3', 'degree', '%.3f')
-    eh1therm4 = DisplayEpicsPVClass('eh1therm4', 'BL12I-OP-THERM-01:TEMP:T4', 'degree', '%.3f')
-    eh1therm5 = DisplayEpicsPVClass('eh1therm5', 'BL12I-OP-THERM-01:TEMP:T5', 'degree', '%.3f')
-    eh1therm6 = DisplayEpicsPVClass('eh1therm6', 'BL12I-OP-THERM-01:TEMP:T6', 'degree', '%.3f')
-except:
-    print "cannot create EH1 thermocouple scannables"
-try:
-    eh2therm1 = DisplayEpicsPVClass('eh2therm1', 'BL12I-OP-THERM-02:TEMP:T1', 'degree', '%.3f')
-    eh2therm2 = DisplayEpicsPVClass('eh2therm2', 'BL12I-OP-THERM-02:TEMP:T2', 'degree', '%.3f')
-    eh2therm3 = DisplayEpicsPVClass('eh2therm3', 'BL12I-OP-THERM-02:TEMP:T3', 'degree', '%.3f')
-    eh2therm4 = DisplayEpicsPVClass('eh2therm4', 'BL12I-OP-THERM-02:TEMP:T4', 'degree', '%.3f')
-    eh2therm5 = DisplayEpicsPVClass('eh2therm5', 'BL12I-OP-THERM-02:TEMP:T5', 'degree', '%.3f')
-    eh2therm6 = DisplayEpicsPVClass('eh2therm6', 'BL12I-OP-THERM-02:TEMP:T6', 'degree', '%.3f')
-except:
-    print "cannot create EH2 thermocouple scannables"
-
-print "--------------------------------------------------"
-print "Creating Instron scannables"
-try:
-    instron_position = DisplayEpicsPVClass('instron_position', 'BL12I-EA-HYD-01:CH-01:POS_RBV', 'mm', '%.3f')
-    instron_load = DisplayEpicsPVClass('instron_load', 'BL12I-EA-HYD-01:CH-02:POS_RBV', 'kN', '%.3f')
-    #Instron Live Displays. These can have arbitrary units depending how the user configures them on the Instron
-    #Up to eight Live Displays are available. Four set up her for the time being.
-    instron_live01 = DisplayEpicsPVClass('instron_live01', 'BL12I-EA-HYD-01:LD-01:POS_RBV', 'arb', '%.3f')
-    instron_live02 = DisplayEpicsPVClass('instron_live02', 'BL12I-EA-HYD-01:LD-02:POS_RBV', 'arb', '%.3f')
-    instron_live03 = DisplayEpicsPVClass('instron_live03', 'BL12I-EA-HYD-01:LD-03:POS_RBV', 'arb', '%.3f')
-    instron_live04 = DisplayEpicsPVClass('instron_live04', 'BL12I-EA-HYD-01:LD-04:POS_RBV', 'arb', '%.3f')
-except:
-    print "cannot create Instron rig scannables"
-
-print "--------------------------------------------------"
-
-print "Adding mono_bender_adjustment"
-import mono_bender_adjustment
-from mono_bender_adjustment import *
-
-print "-------------------------------------------------"
-print "Adding beamEnergy"
-import beamEnergy
-from beamEnergy import moveToBeamEnergy 
-from beamEnergy import calcBeamEnergyPositions
-print "--------------------------------------------------"
-
-print "disable 'waiting for file to be created'"
-pixium10_tif.pluginList[1].waitForFileArrival=False
-pco4000_dio_tif.setCheckFileExists(False)
-#pco4000_dio_hdf.setCheckFileExists(False)
-
-print "disable 'Path does not exist on IOC'"
-pixium10_tif.pluginList[1].pathErrorSuppressed=True
-pco4000_dio_tif.fileWriter.pathErrorSuppressed=True
-pco4000_dio_hdf.pluginList[1].pathErrorSuppressed=True
-flyScanDetector.getAdditionalPluginList()[0].pathErrorSuppressed=True
-flyScanFlatDarkDetector.getAdditionalPluginList()[0].pathErrorSuppressed=True
-
-
-print "--------------------------------------------------"
-
-pdnames = []
-from detector_control_pds import * #@UnusedWildImport
-
-for pd in pds:
-    pdnames.append(str(pd.getName()))
+    print "-------------------------------------------------"
+    print "Adding beamEnergy"
+    import beamEnergy
+    from beamEnergy import moveToBeamEnergy 
+    from beamEnergy import calcBeamEnergyPositions
+    print "--------------------------------------------------"
     
-print "available Detector objects are:"
-print pdnames
-print [(str(pd.getName()), pd.getTargetPosition(), pd.getPosition()) for pd in pds]
-
-print "--------------------------------------------------"
-print "Creating Long Count Time Scaler objects:"
-
-from long_count_time_scaler_pds import I0oh2l, I0eh1l, I0eh2l
-print I0oh2l.getName(), I0eh1l.getName(), I0eh2l.getName()
-
-print "--------------------------------------------------"
-print "Creating rocking motion objects"
-from rockingMotion_class import RockingMotion #@UnresolvedImport
-rocktheta = RockingMotion("rocktheta", ss1.theta, -1, 1) #@UndefinedVariable
-rockss1y3 = RockingMotion("rockss1y3", ss1.y3, 0, 50) #@UndefinedVariable
-axis1=createScannableFromPV("axis1", "BL12I-MO-USER-01:AXIS1.VAL", addToNameSpace=True, getAsString=False, hasUnits=True)
-rockaxis1 = RockingMotion("rockaxis1", axis1, -1, 1) #@UndefinedVariable
-
-print rocktheta.getName()
-
-print "--------------------------------------------------"
-print "Creating additonal EH2 motors (for ss2)"
-from positionCompareMotorClass import PositionCompareMotorClass
-ss2x = PositionCompareMotorClass("ss2x", "BL12I-MO-TAB-06:X.VAL", "BL12I-MO-TAB-06:X.RBV", "BL12I-MO-TAB-06:X.STOP", 0.002, "mm", "%.3f")
-ss2y = PositionCompareMotorClass("ss2y", "BL12I-MO-TAB-06:Y.VAL", "BL12I-MO-TAB-06:Y.RBV", "BL12I-MO-TAB-06:Y.STOP", 0.002, "mm", "%.3f")
-ss2z = PositionCompareMotorClass("ss2z", "BL12I-MO-TAB-06:Z.VAL", "BL12I-MO-TAB-06:Z.RBV", "BL12I-MO-TAB-06:Z.STOP", 0.002, "mm", "%.3f")
-ss2rx = PositionCompareMotorClass("ss2rx", "BL12I-MO-TAB-06:PITCH.VAL", "BL12I-MO-TAB-06:PITCH.RBV", "BL12I-MO-TAB-06:PITCH.STOP", 0.002, "deg", "%.3f")
-ss2ry = PositionCompareMotorClass("ss2ry", "BL12I-MO-TAB-06:THETA.VAL", "BL12I-MO-TAB-06:THETA.RBV", "BL12I-MO-TAB-06:THETA.STOP", 0.002, "deg", "%.3f")
-
-print "--------------------------------------------------"
-print "Creating additional EH1 motors (patch)"
-t1rot = PositionCompareMotorClass("t1rot", "BL12I-MO-USER-01:AXIS1.VAL", "BL12I-MO-USER-01:AXIS1.RBV", "BL12I-MO-USER-01:AXIS1.STOP", 0.001, "deg", "%.3f")
-
-print "--------------------------------------------------"
-print "Setting PCO defaults"
-pco.setHdfFormat(False) #@UndefinedVariable
-
-#EPG - 8 March 2011 - Hack to force Nexus for edxd
-#pixium.setSRSFormat() #@UndefinedVariable
-pco.setExternalTriggered(True) #@UndefinedVariable
-
-print "--------------------------------------------------"
-print "Creating 'eurotherm1' and 'eurotherm2' scannables" 
-eurotherm1temp = DisplayEpicsPVClass('eurotherm1temp', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
-eurotherm2temp = DisplayEpicsPVClass('eurotherm2temp', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
-
-print "--------------------------------------------------"
-
-print "Creating Linkam scannables"
-try:
-    linkamRampStatus = DisplayEpicsPVClass('linkamRampStatus','BL12I-CS-TEMPC-01:STATUS','bool','%i')
-    linkamRampControl = EpicsReadWritePVClass('linkamRampControl', 'BL12I-CS-TEMPC-01:RAMP:CTRL:SET', '', '%.3g')
-    linkamRampRate = EpicsReadWritePVClass('linkamRampRate', 'BL12I-CS-TEMPC-01:RAMP:RATE:SET', 'deg/min', '%.3g')
-    linkamRampLimit = EpicsReadWritePVClass('linkamRampLimit', 'BL12I-CS-TEMPC-01:RAMP:LIMIT:SET', 'deg', '%.3g')
-    linkamTemp = DisplayEpicsPVClass('linkamTemp','BL12I-CS-TEMPC-01:TEMP','degrees','%.3g')
-    cryoTemp = DisplayEpicsPVClass('cryoTemp', "BL12I-EA-CSTRM-01:TEMP",'degrees','%.3f')
-except:
-    print "cannot create linkam scannables"
-
-print "--------------------------------------------------"
-
-print "Creating tomoScan"
-import tomographyScan
-from tomographyScan import tomoScan, reportJythonNamespaceMapping, reportTomo  #@UnusedImport
-alias("reportJythonNamespaceMapping")
-alias("reportTomo")
-
-
-tomography_additional_scannables=[]
-#try:
-#    tomography_additional_scannables.append(p2r_force)
-#    tomography_additional_scannables.append(p2r_y)
-#except:
-#    print "Unable to append p2r scannables to tomography_additional_scannables"
-
-print "--------------------------------------------------"
-print "Creating tomoAlignment"
-try:
-    from tomo import tomoAlignment #@UnusedImport
-except:
-    print "Unable to import 'tomoAlignment'"
-#print
-#print "setup tomographyScan:"
-#from tomo import tomographyScan
-#run("tomo/tomographyScan.py")
-
-#from pv_scannable_utils import *
-#print "added pv_scannable_utils" 
-
-print "--------------------------------------------------"
-print "Creating mass flow controller scannables"
-try:
-    mfc_pressure = DisplayEpicsPVClass('mfc_pressure', 'ME08G-EA-GIR-01:MFC2:PBAR:RD', 'bar', '%5.3g')
-    mfc_temperature = DisplayEpicsPVClass('mfc_temperature', 'ME08G-EA-GIR-01:MFC2:TEMP:RD', 'C', '%5.3g')
-    mfc_volumetric_flow = DisplayEpicsPVClass('mfc_volumetric_flow', 'ME08G-EA-GIR-01:MFC2:VOL:FLOW:RD', 'CCM', '%5.3g')
-except:
-    print "cannot create mass flow controller scannables"
+    print "disable 'waiting for file to be created'"
+    pixium10_tif.pluginList[1].waitForFileArrival=False
+    pco4000_dio_tif.setCheckFileExists(False)
+    #pco4000_dio_hdf.setCheckFileExists(False)
     
-
-print "--------------------------------------------------"
-
-print "Creating pixium10 scannables"
-try:
-    pixium10_TriggerMode=createScannableFromPV("pixium10_TriggerMode", "BL12I-EA-DET-10:CAM:TriggerMode", addToNameSpace=True, getAsString=True, hasUnits=False)
-    pixium10_PUMode = DisplayEpicsPVClass('pixium10_PUMode', 'BL12I-EA-DET-10:CAM:PuMode_RBV', 'PU', '%i')
-    pixium10_BaseExposure = DisplayEpicsPVClass('pixium10_BaseExposure', 'BL12I-EA-DET-10:CAM:AcquireTime_RBV', 's', '%.3f')
-    pixium10_BaseAcquirePeriod = DisplayEpicsPVClass('pixium10_BaseAcquirePeriod', 'BL12I-EA-DET-10:CAM:AcquirePeriod_RBV', 's', '%.3f')
-    pixium10_ExcludeEarlyFrames = createScannableFromPV("pixium10_ExcludeEarlyFrames", "BL12I-EA-DET-10:CAM:MotionBlur", addToNameSpace=True, getAsString=True, hasUnits=False)
-    
-    pixium10_TotalCount = DisplayEpicsPVClass('pixium10_TotalCount', 'BL12I-EA-DET-10:STAT:Total_RBV', 'count', '%.0f') 
-    pixium10_TimeStamp = DisplayEpicsPVClass('pixium10_TimeStamp', 'BL12I-EA-DET-10:STAT:TimeStamp_RBV', 'time', '%.3f')
-    
-    pixium10_DataType=createScannableFromPV("pixium10_DataType", "BL12I-EA-DET-10:CAM:DataType", addToNameSpace=True, getAsString=True, hasUnits=False)
-    pixium10_ID = DisplayEpicsPVClass('pixium10_ID', 'BL12I-EA-DET-10:STAT:UniqueId_RBV', 'no', '%.0f')
-    pixium10_Counter = DisplayEpicsPVClass('pixium10_Counter', 'BL12I-EA-DET-10:CAM:ArrayCounter_RBV', 'no', '%.0f')
-    pixium10_FanSpeed1 = DisplayEpicsPVClass('pixium10_FanSpeed1', 'BL12I-EA-DET-10:CAM:DetectorFan1Speed', 'rpm', '%.0f')
-    pixium10_FanSpeed2 = DisplayEpicsPVClass('pixium10_FanSpeed2', 'BL12I-EA-DET-10:CAM:DetectorFan2Speed', 'rpm', '%.0f')
-    pixium10_DetectorTemperature = DisplayEpicsPVClass('pixium10_DetectorTemperature', 'BL12I-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f')
-     
-except:
-    print "cannot create pixium10 scannables"
-
-print "--------------------------------------------------"
-print "\n Finding requested default scannables in the Jython namespace..."
-# append items to the list below as required
-_default_scannables_names_i12 = []
-_default_scannables_names_i12.append("ring")
-_default_scannables_names_i12.append("actualTime")
-
-#_default_scannables_names_i12.append("I0eh1")
-#_default_scannables_names_i12.append("I0eh1l")
-#_default_scannables_names_i12.append("I0eh2")
-#_default_scannables_names_i12.append("I0eh2l")
-#_default_scannables_names_i12.append("I0oh2l")
-
-from types import *
-_default_scannables_i12 = []
-for sname in _default_scannables_names_i12:
-    if type(finder.find(sname)) is not NoneType:
-        _default_scannables_i12.append(finder.find(sname))
-    else:
-        try:
-            #print sname
-            eval(sname)
-            _default_scannables_i12.append(eval(sname))
-        except:
-            msg = "\t Unable to find a default scannable named: " + sname
-            print msg
-
-print "\n Adding default scannables to the list of defaults in the scan system..."
-try:
-    default_scannables = []
-    default_scannables.append(ring)
-    default_scannables.append(actualTime)
-    #default_scannables.append(I0eh1)
-    #default_scannables.append(I0eh1l)
-    #default_scannables.append(I0eh2)
-    #default_scannables.append(I0eh2l)
-    #default_scannables.append(I0oh2l)
-    
-    #for s in default_scannables:
-    for s in _default_scannables_i12:
-        add_default(s)
-except:
-    exceptionType, exception, traceback = sys.exc_info()
-    msg = "Unable to complete adding default scannables: "
-    handle_messages.log(None, msg, exceptionType, exception, traceback, False)
-
-print "\n Completed adding default scannables."
-srv = finder.find(JythonServer.SERVERNAME)
-infoAllDefaultScannables_i12 = srv.getDefaultScannables().toArray()
-print "\n ***List of all default scannables in the scan system:"
-for s in infoAllDefaultScannables_i12:
-    print s.getName()
-
-print "--------------------------------------------------"
-try:
-    print "\n Adding requested meta (before-scan) scannables to the list of metas in the scan system..."
-    meta_scannables = []
-    meta_scannables.append(cam1)
-#    meta_scannables.append(cam3)
-    
-    meta_scannables.append(f1)
-    meta_scannables.append(f2)
-    
-    meta_scannables.append(mc1_bragg)
-    meta_scannables.append(mc2_bragg)
-    meta_scannables.append(dcm1_cap_1)
-    meta_scannables.append(dcm1_cap_2)
-    meta_scannables.append(mc2)
-    meta_scannables.append(ss1)
-    meta_scannables.append(ss2)
-    meta_scannables.append(s1)
-    meta_scannables.append(s2)
-    meta_scannables.append(s3)
-    meta_scannables.append(s4)
-    
-    meta_scannables.append(t3)
-    meta_scannables.append(t7)
-#    meta_scannables.append(eh1therm1)
-    
-    for s in meta_scannables:
-        meta_add(s)
-    
-    print "\n Completed adding meta (before-scan) scannables."
-    print "\n ***List of all meta (before-scan) scannables in the scan system:"
-    infoAllMetaScannables_i12 = meta_ls()
-    print infoAllMetaScannables_i12
-except:
-    exceptionType, exception, traceback = sys.exc_info()
-    msg = "Unable to complete adding meta (before-scan) scannables: "
-    handle_messages.log(None, msg, exceptionType, exception, traceback, False)
+    print "disable 'Path does not exist on IOC'"
+    pixium10_tif.pluginList[1].pathErrorSuppressed=True
+    pco4000_dio_tif.fileWriter.pathErrorSuppressed=True
+    pco4000_dio_hdf.pluginList[1].pathErrorSuppressed=True
+    flyScanDetector.getAdditionalPluginList()[0].pathErrorSuppressed=True
+    flyScanFlatDarkDetector.getAdditionalPluginList()[0].pathErrorSuppressed=True
     
     
+    print "--------------------------------------------------"
     
+    pdnames = []
+    from detector_control_pds import * #@UnusedWildImport
+    
+    for pd in pds:
+        pdnames.append(str(pd.getName()))
+        
+    print "available Detector objects are:"
+    print pdnames
+    print [(str(pd.getName()), pd.getTargetPosition(), pd.getPosition()) for pd in pds]
+    
+    print "--------------------------------------------------"
+    print "Creating Long Count Time Scaler objects:"
+    
+    from long_count_time_scaler_pds import I0oh2l, I0eh1l, I0eh2l
+    print I0oh2l.getName(), I0eh1l.getName(), I0eh2l.getName()
+    
+    print "--------------------------------------------------"
+    print "Creating rocking motion objects"
+    from rockingMotion_class import RockingMotion #@UnresolvedImport
+    rocktheta = RockingMotion("rocktheta", ss1.theta, -1, 1) #@UndefinedVariable
+    rockss1y3 = RockingMotion("rockss1y3", ss1.y3, 0, 50) #@UndefinedVariable
+    axis1=createScannableFromPV("axis1", "BL12I-MO-USER-01:AXIS1.VAL", addToNameSpace=True, getAsString=False, hasUnits=True)
+    rockaxis1 = RockingMotion("rockaxis1", axis1, -1, 1) #@UndefinedVariable
+    
+    print rocktheta.getName()
+    
+    print "--------------------------------------------------"
+    print "Creating additonal EH2 motors (for ss2)"
+    from positionCompareMotorClass import PositionCompareMotorClass
+    ss2x = PositionCompareMotorClass("ss2x", "BL12I-MO-TAB-06:X.VAL", "BL12I-MO-TAB-06:X.RBV", "BL12I-MO-TAB-06:X.STOP", 0.002, "mm", "%.3f")
+    ss2y = PositionCompareMotorClass("ss2y", "BL12I-MO-TAB-06:Y.VAL", "BL12I-MO-TAB-06:Y.RBV", "BL12I-MO-TAB-06:Y.STOP", 0.002, "mm", "%.3f")
+    ss2z = PositionCompareMotorClass("ss2z", "BL12I-MO-TAB-06:Z.VAL", "BL12I-MO-TAB-06:Z.RBV", "BL12I-MO-TAB-06:Z.STOP", 0.002, "mm", "%.3f")
+    ss2rx = PositionCompareMotorClass("ss2rx", "BL12I-MO-TAB-06:PITCH.VAL", "BL12I-MO-TAB-06:PITCH.RBV", "BL12I-MO-TAB-06:PITCH.STOP", 0.002, "deg", "%.3f")
+    ss2ry = PositionCompareMotorClass("ss2ry", "BL12I-MO-TAB-06:THETA.VAL", "BL12I-MO-TAB-06:THETA.RBV", "BL12I-MO-TAB-06:THETA.STOP", 0.002, "deg", "%.3f")
+    
+    print "--------------------------------------------------"
+    print "Creating additional EH1 motors (patch)"
+    t1rot = PositionCompareMotorClass("t1rot", "BL12I-MO-USER-01:AXIS1.VAL", "BL12I-MO-USER-01:AXIS1.RBV", "BL12I-MO-USER-01:AXIS1.STOP", 0.001, "deg", "%.3f")
+    
+    print "--------------------------------------------------"
+    print "Setting PCO defaults"
+    pco.setHdfFormat(False) #@UndefinedVariable
+    
+    #EPG - 8 March 2011 - Hack to force Nexus for edxd
+    #pixium.setSRSFormat() #@UndefinedVariable
+    pco.setExternalTriggered(True) #@UndefinedVariable
+    
+    print "--------------------------------------------------"
+    print "Creating 'eurotherm1' and 'eurotherm2' scannables" 
+    eurotherm1temp = DisplayEpicsPVClass('eurotherm1temp', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
+    eurotherm2temp = DisplayEpicsPVClass('eurotherm2temp', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
+    
+    print "--------------------------------------------------"
+    
+    print "Creating Linkam scannables"
+    try:
+        linkamRampStatus = DisplayEpicsPVClass('linkamRampStatus','BL12I-CS-TEMPC-01:STATUS','bool','%i')
+        linkamRampControl = EpicsReadWritePVClass('linkamRampControl', 'BL12I-CS-TEMPC-01:RAMP:CTRL:SET', '', '%.3g')
+        linkamRampRate = EpicsReadWritePVClass('linkamRampRate', 'BL12I-CS-TEMPC-01:RAMP:RATE:SET', 'deg/min', '%.3g')
+        linkamRampLimit = EpicsReadWritePVClass('linkamRampLimit', 'BL12I-CS-TEMPC-01:RAMP:LIMIT:SET', 'deg', '%.3g')
+        linkamTemp = DisplayEpicsPVClass('linkamTemp','BL12I-CS-TEMPC-01:TEMP','degrees','%.3g')
+        cryoTemp = DisplayEpicsPVClass('cryoTemp', "BL12I-EA-CSTRM-01:TEMP",'degrees','%.3f')
+    except:
+        print "cannot create linkam scannables"
+    
+    print "--------------------------------------------------"
+    
+    print "Creating tomoScan"
+    import tomographyScan
+    from tomographyScan import tomoScan, reportJythonNamespaceMapping, reportTomo  #@UnusedImport
+    alias("reportJythonNamespaceMapping")
+    alias("reportTomo")
+    
+    
+    tomography_additional_scannables=[]
+    #try:
+    #    tomography_additional_scannables.append(p2r_force)
+    #    tomography_additional_scannables.append(p2r_y)
+    #except:
+    #    print "Unable to append p2r scannables to tomography_additional_scannables"
+    
+    print "--------------------------------------------------"
+    print "Creating tomoAlignment"
+    try:
+        from tomo import tomoAlignment #@UnusedImport
+    except:
+        print "Unable to import 'tomoAlignment'"
+    #print
+    #print "setup tomographyScan:"
+    #from tomo import tomographyScan
+    #run("tomo/tomographyScan.py")
+    
+    #from pv_scannable_utils import *
+    #print "added pv_scannable_utils" 
+    
+    print "--------------------------------------------------"
+    print "Creating mass flow controller scannables"
+    try:
+        mfc_pressure = DisplayEpicsPVClass('mfc_pressure', 'ME08G-EA-GIR-01:MFC2:PBAR:RD', 'bar', '%5.3g')
+        mfc_temperature = DisplayEpicsPVClass('mfc_temperature', 'ME08G-EA-GIR-01:MFC2:TEMP:RD', 'C', '%5.3g')
+        mfc_volumetric_flow = DisplayEpicsPVClass('mfc_volumetric_flow', 'ME08G-EA-GIR-01:MFC2:VOL:FLOW:RD', 'CCM', '%5.3g')
+    except:
+        print "cannot create mass flow controller scannables"
+        
+    
+    print "--------------------------------------------------"
+    
+    print "Creating pixium10 scannables"
+    try:
+        pixium10_TriggerMode=createScannableFromPV("pixium10_TriggerMode", "BL12I-EA-DET-10:CAM:TriggerMode", addToNameSpace=True, getAsString=True, hasUnits=False)
+        pixium10_PUMode = DisplayEpicsPVClass('pixium10_PUMode', 'BL12I-EA-DET-10:CAM:PuMode_RBV', 'PU', '%i')
+        pixium10_BaseExposure = DisplayEpicsPVClass('pixium10_BaseExposure', 'BL12I-EA-DET-10:CAM:AcquireTime_RBV', 's', '%.3f')
+        pixium10_BaseAcquirePeriod = DisplayEpicsPVClass('pixium10_BaseAcquirePeriod', 'BL12I-EA-DET-10:CAM:AcquirePeriod_RBV', 's', '%.3f')
+        pixium10_ExcludeEarlyFrames = createScannableFromPV("pixium10_ExcludeEarlyFrames", "BL12I-EA-DET-10:CAM:MotionBlur", addToNameSpace=True, getAsString=True, hasUnits=False)
+        
+        pixium10_TotalCount = DisplayEpicsPVClass('pixium10_TotalCount', 'BL12I-EA-DET-10:STAT:Total_RBV', 'count', '%.0f') 
+        pixium10_TimeStamp = DisplayEpicsPVClass('pixium10_TimeStamp', 'BL12I-EA-DET-10:STAT:TimeStamp_RBV', 'time', '%.3f')
+        
+        pixium10_DataType=createScannableFromPV("pixium10_DataType", "BL12I-EA-DET-10:CAM:DataType", addToNameSpace=True, getAsString=True, hasUnits=False)
+        pixium10_ID = DisplayEpicsPVClass('pixium10_ID', 'BL12I-EA-DET-10:STAT:UniqueId_RBV', 'no', '%.0f')
+        pixium10_Counter = DisplayEpicsPVClass('pixium10_Counter', 'BL12I-EA-DET-10:CAM:ArrayCounter_RBV', 'no', '%.0f')
+        pixium10_FanSpeed1 = DisplayEpicsPVClass('pixium10_FanSpeed1', 'BL12I-EA-DET-10:CAM:DetectorFan1Speed', 'rpm', '%.0f')
+        pixium10_FanSpeed2 = DisplayEpicsPVClass('pixium10_FanSpeed2', 'BL12I-EA-DET-10:CAM:DetectorFan2Speed', 'rpm', '%.0f')
+        pixium10_DetectorTemperature = DisplayEpicsPVClass('pixium10_DetectorTemperature', 'BL12I-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f')
+         
+    except:
+        print "cannot create pixium10 scannables"
+    
+    print "--------------------------------------------------"
+    print "\n Finding requested default scannables in the Jython namespace..."
+    # append items to the list below as required
+    _default_scannables_names_i12 = []
+    _default_scannables_names_i12.append("ring")
+    _default_scannables_names_i12.append("actualTime")
+    
+    #_default_scannables_names_i12.append("I0eh1")
+    #_default_scannables_names_i12.append("I0eh1l")
+    #_default_scannables_names_i12.append("I0eh2")
+    #_default_scannables_names_i12.append("I0eh2l")
+    #_default_scannables_names_i12.append("I0oh2l")
+    
+    from types import *
+    _default_scannables_i12 = []
+    for sname in _default_scannables_names_i12:
+        if type(finder.find(sname)) is not NoneType:
+            _default_scannables_i12.append(finder.find(sname))
+        else:
+            try:
+                #print sname
+                eval(sname)
+                _default_scannables_i12.append(eval(sname))
+            except:
+                msg = "\t Unable to find a default scannable named: " + sname
+                print msg
+    
+    print "\n Adding default scannables to the list of defaults in the scan system..."
+    try:
+        default_scannables = []
+        default_scannables.append(ring)
+        default_scannables.append(actualTime)
+        #default_scannables.append(I0eh1)
+        #default_scannables.append(I0eh1l)
+        #default_scannables.append(I0eh2)
+        #default_scannables.append(I0eh2l)
+        #default_scannables.append(I0oh2l)
+        
+        #for s in default_scannables:
+        for s in _default_scannables_i12:
+            add_default(s)
+    except:
+        exceptionType, exception, traceback = sys.exc_info()
+        msg = "Unable to complete adding default scannables: "
+        handle_messages.log(None, msg, exceptionType, exception, traceback, False)
+    
+    print "\n Completed adding default scannables."
+    srv = finder.find(JythonServer.SERVERNAME)
+    infoAllDefaultScannables_i12 = srv.getDefaultScannables().toArray()
+    print "\n ***List of all default scannables in the scan system:"
+    for s in infoAllDefaultScannables_i12:
+        print s.getName()
+    
+    print "--------------------------------------------------"
+    try:
+        print "\n Adding requested meta (before-scan) scannables to the list of metas in the scan system..."
+        meta_scannables = []
+        meta_scannables.append(cam1)
+    #    meta_scannables.append(cam3)
+        
+        meta_scannables.append(f1)
+        meta_scannables.append(f2)
+        
+        meta_scannables.append(mc1_bragg)
+        meta_scannables.append(mc2_bragg)
+        meta_scannables.append(dcm1_cap_1)
+        meta_scannables.append(dcm1_cap_2)
+        meta_scannables.append(mc2)
+        meta_scannables.append(ss1)
+        meta_scannables.append(ss2)
+        meta_scannables.append(s1)
+        meta_scannables.append(s2)
+        meta_scannables.append(s3)
+        meta_scannables.append(s4)
+        
+        meta_scannables.append(t3)
+        meta_scannables.append(t7)
+    #    meta_scannables.append(eh1therm1)
+        
+        for s in meta_scannables:
+            meta_add(s)
+        
+        print "\n Completed adding meta (before-scan) scannables."
+        print "\n ***List of all meta (before-scan) scannables in the scan system:"
+        infoAllMetaScannables_i12 = meta_ls()
+        print infoAllMetaScannables_i12
+    except:
+        exceptionType, exception, traceback = sys.exc_info()
+        msg = "Unable to complete adding meta (before-scan) scannables: "
+        handle_messages.log(None, msg, exceptionType, exception, traceback, False)
+    
+
 def _clear_defaults():
     """To clear all current default scannables."""
     srv = finder.find(JythonServer.SERVERNAME)
@@ -875,31 +876,31 @@ def stressfly12(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
     print "\n Finished executing %s - bye!" %(_fn)
 
 
-geo2mot1 = EpicsReadWritePVClass('geo2mot1','BL12I-ME-BRICK-02:AXIS1.VAL','um','%.4f')
-geo2mot2 = EpicsReadWritePVClass('geo2mot2','BL12I-ME-BRICK-02:AXIS2.VAL','um','%.4f')
-geo2mot3 = EpicsReadWritePVClass('geo2mot3','BL12I-ME-BRICK-02:AXIS3.VAL','um','%.4f')
-geo2mot4 = EpicsReadWritePVClass('geo2mot4','BL12I-ME-BRICK-02:AXIS4.VAL','um','%.4f')
-geo2mot5 = EpicsReadWritePVClass('geo2mot5','BL12I-ME-BRICK-02:AXIS5.VAL','um','%.4f')
-geo2mot6 = EpicsReadWritePVClass('geo2mot6','BL12I-ME-BRICK-02:AXIS6.VAL','um','%.4f')
-geo2mot7 = EpicsReadWritePVClass('geo2mot7','BL12I-ME-BRICK-02:AXIS7.VAL','um','%.4f')
-geo2mot8 = EpicsReadWritePVClass('geo2mot8','BL12I-ME-BRICK-02:AXIS8.VAL','um','%.4f')
-
-
-try:
-    # Lazy open for Pixium
-    caput("BL12I-EA-DET-10:TIFF:LazyOpen", 1)
-    caput("BL12I-EA-DET-10:HDF5:LazyOpen", 1)
-except:
-    print "unable to set LazyOpen for Pixium - is Pixium IOC running?"
-
-try:
-    # Lazy open for PCO
-    caput("BL12I-EA-DET-02:TIF:LazyOpen", 1)
-    caput("BL12I-EA-DET-02:HDF:LazyOpen", 1)
+if isLive():
+    geo2mot1 = EpicsReadWritePVClass('geo2mot1','BL12I-ME-BRICK-02:AXIS1.VAL','um','%.4f')
+    geo2mot2 = EpicsReadWritePVClass('geo2mot2','BL12I-ME-BRICK-02:AXIS2.VAL','um','%.4f')
+    geo2mot3 = EpicsReadWritePVClass('geo2mot3','BL12I-ME-BRICK-02:AXIS3.VAL','um','%.4f')
+    geo2mot4 = EpicsReadWritePVClass('geo2mot4','BL12I-ME-BRICK-02:AXIS4.VAL','um','%.4f')
+    geo2mot5 = EpicsReadWritePVClass('geo2mot5','BL12I-ME-BRICK-02:AXIS5.VAL','um','%.4f')
+    geo2mot6 = EpicsReadWritePVClass('geo2mot6','BL12I-ME-BRICK-02:AXIS6.VAL','um','%.4f')
+    geo2mot7 = EpicsReadWritePVClass('geo2mot7','BL12I-ME-BRICK-02:AXIS7.VAL','um','%.4f')
+    geo2mot8 = EpicsReadWritePVClass('geo2mot8','BL12I-ME-BRICK-02:AXIS8.VAL','um','%.4f')
     
-    caput("BL12I-EA-DET-02:HDF:CreateDirectory", 1)
-except:
-    print "unable to set LazyOpen for PCO - is PCO IOC running?"
+    try:
+        # Lazy open for Pixium
+        caput("BL12I-EA-DET-10:TIFF:LazyOpen", 1)
+        caput("BL12I-EA-DET-10:HDF5:LazyOpen", 1)
+    except:
+        print "unable to set LazyOpen for Pixium - is Pixium IOC running?"
+    
+    try:
+        # Lazy open for PCO
+        caput("BL12I-EA-DET-02:TIF:LazyOpen", 1)
+        caput("BL12I-EA-DET-02:HDF:LazyOpen", 1)
+        
+        caput("BL12I-EA-DET-02:HDF:CreateDirectory", 1)
+    except:
+        print "unable to set LazyOpen for PCO - is PCO IOC running?"
 
 import time
 from epics_scripts.pv_scannable_utils import caputStringAsWaveform
@@ -951,57 +952,62 @@ def runscan(title, nImages, expTime, visit="ee11884-1", waitsec=1):
         setTitle(old_title)
     print "...finished running runscan!"
 
-try:
-    caput("BL12I-EA-DET-02:CAM:PIX_RATE", "286000000 Hz")
-except:
-    print "unable to set pixel rate on PCO - is PCO IOC running?"
+if isLive():
+    try:
+        caput("BL12I-EA-DET-02:CAM:PIX_RATE", "286000000 Hz")
+    except:
+        print "unable to set pixel rate on PCO - is PCO IOC running?"
+        
+    flyScanDetector.readOutTime=0.011
+    hdfplugin=flyScanDetector.getPluginList()[1]
+    hdfplugin.rowChunks=0
+    hdfplugin.framesChunks=0
+    hdfplugin.colChunks=0
     
-flyScanDetector.readOutTime=0.011
-hdfplugin=flyScanDetector.getPluginList()[1]
-hdfplugin.rowChunks=0
-hdfplugin.framesChunks=0
-hdfplugin.colChunks=0
-
-hdfplugin_step = pco4000_dio_hdf.getAdditionalPluginList()[0]
-hdfplugin_step.rowChunks=2160
-hdfplugin_step.framesChunks=1
-hdfplugin_step.colChunks=2560
-
-ss1_theta_vel = EpicsReadWritePVClass('ss1_theta_vel','BL12I-MO-TAB-02:ST1:THETA.VELO','deg/s','%.4f')
-
-#caput("BL12I-EA-DET-02:TIF:NDArrayPort", "pco1.cam")
-try:
-    print "Setting up piezo objects..."
-    piezo4
-    piezo4x = piezo4.piezo4X
-    #piezo4x.setName("piezo4x")
-    piezo4y = piezo4.piezo4Y
-    #piezo4y.setName("piezo4y")
-    print "Finished setting up piezo objects."
-except Exception, e:
-    print "Problems setting up piezo objects: " + str(e)
+    hdfplugin_step = pco4000_dio_hdf.getAdditionalPluginList()[0]
+    hdfplugin_step.rowChunks=2160
+    hdfplugin_step.framesChunks=1
+    hdfplugin_step.colChunks=2560
     
-from p2r_utilities import p2r_telnet
-from i12utilities import i12tomoTRFlyScan, use_storage, report_storage
-use_storage(storage_name="gpfs")
+    ss1_theta_vel = EpicsReadWritePVClass('ss1_theta_vel','BL12I-MO-TAB-02:ST1:THETA.VELO','deg/s','%.4f')
 
-try:
-    # Set ports of file-writing plugins 
-    caput("BL12I-EA-DET-02:TIF:NDArrayPort", caget("BL12I-EA-DET-02:CAM:PortName_RBV"))
-    caput("BL12I-EA-DET-02:HDF:NDArrayPort", caget("BL12I-EA-DET-02:CAM:PortName_RBV"))
-except:
-    print "unable to set ports on file-writing plug-ins for PCO - is PCO IOC running?"
-
-setup_pixium_postprocessing() 
-i12utilities._make_subdir(dirname="rawdata")
-
-#make ScanPointProvider
-import position_provider
-npositions = position_provider.ScanPositionProviderFromFile(n=5)
-
-print("Adding ring-current (beam) monitor")
-from beam_monitor import WaitWhileScannableBelowThresholdMonitorOnly
-bm = WaitWhileScannableBelowThresholdMonitorOnly("bm", ring_current, minimumThreshold=200.0, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=10.0, shtr_obj=eh1shtr)
+    #caput("BL12I-EA-DET-02:TIF:NDArrayPort", "pco1.cam")
+    try:
+        print "Setting up piezo objects..."
+        piezo4
+        piezo4x = piezo4.piezo4X
+        #piezo4x.setName("piezo4x")
+        piezo4y = piezo4.piezo4Y
+        #piezo4y.setName("piezo4y")
+        print "Finished setting up piezo objects."
+    except Exception, e:
+        print "Problems setting up piezo objects: " + str(e)
+        
+    from p2r_utilities import p2r_telnet
+    from i12utilities import i12tomoTRFlyScan, use_storage, report_storage
+    
+    try:
+        use_storage(storage_name="gpfs")
+    except:
+        print "exception running use_storage()"
+    
+    try:
+        # Set ports of file-writing plugins 
+        caput("BL12I-EA-DET-02:TIF:NDArrayPort", caget("BL12I-EA-DET-02:CAM:PortName_RBV"))
+        caput("BL12I-EA-DET-02:HDF:NDArrayPort", caget("BL12I-EA-DET-02:CAM:PortName_RBV"))
+    except:
+        print "unable to set ports on file-writing plug-ins for PCO - is PCO IOC running?"
+    
+    setup_pixium_postprocessing() 
+    i12utilities._make_subdir(dirname="rawdata")
+    
+    #make ScanPointProvider
+    import position_provider
+    npositions = position_provider.ScanPositionProviderFromFile(n=5)
+    
+    print("Adding ring-current (beam) monitor")
+    from beam_monitor import WaitWhileScannableBelowThresholdMonitorOnly
+    bm = WaitWhileScannableBelowThresholdMonitorOnly("bm", ring_current, minimumThreshold=200.0, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=10.0, shtr_obj=eh1shtr)
 
 print 
 print "==================================================="

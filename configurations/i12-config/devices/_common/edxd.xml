@@ -16,17 +16,17 @@
 
 	<bean id="edxd" class="gda.device.detector.xmap.NexusXmap">
 		<property name="controller" ref="xmapcontroller" />
-		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list,	one value for each element -->
-		 <property name="eventProcessingTimes">
+		<property name="slave" value="false" />
+		<property name="configFileName"	value="${gda.config}/templates/VortexParameters.xml" />
+		<property name="local" value="true" />
+		<property name="eventProcessingTimes">
 			<list>
-				<value>1.7867731067630825e-08</value>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1407794527246737e-007</value>
+				<value>1.1465765791909203e-007</value>
+				<value>1.0675602460939456e-007</value>
 			</list>
 		</property>
-		<property name="saveRawSpectrum" value="true" />
-		<property name="slave" value="false" />
-		<!-- <property name="configFileName"	value="${gda.config}/templates/Xia_parameters.xml" /> -->
-		<property name="sumAllElementData" value="true" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">

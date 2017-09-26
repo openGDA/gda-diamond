@@ -7,35 +7,25 @@
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
 	<description>The tomography alignment view is configured using the PCO
 		objects, since tomography mainly uses the PCO camera
 	</description>
-	<bean id="motorsHandler"
-		class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.TomoAlignmentMotorHandlerSimulator">
-	</bean>
 
-	<bean id="detectorHandler"
-		class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.TomoDetectorHandlerSimulator">
-	</bean>
+	<bean id="motorsHandler" class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.TomoAlignmentMotorHandlerSimulator" />
 
+	<bean id="detectorHandler" class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.TomoDetectorHandlerSimulator" />
 
-	<bean id="moduleLookupTableHandler"
-		class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.ModuleLookupTableHandlerSimulator">
-	</bean>
+	<bean id="moduleLookupTableHandler" class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.ModuleLookupTableHandlerSimulator" />
 
-	<bean id="cameraModuleHandler"
-		class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.CameraModuleControllerSimulator">
-	</bean>
+	<bean id="cameraModuleHandler" class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.CameraModuleControllerSimulator" />
 
-	<bean id="tiltController"
-		class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.TiltControllerSimulator">
-	</bean>
+	<bean id="tiltController" class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.TiltControllerSimulator" />
 
-	<bean id="saveHandler"
-		class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.TomoSaveHandleSimulation"></bean>
+	<bean id="saveHandler" class="uk.ac.gda.client.tomo.alignment.view.handlers.simulator.TomoSaveHandleSimulation" />
+
 	<!-- Assuming that this is invoked after the pco.xml has been invoked. -->
-	<bean id="tomoAlignmentController"
-		class="uk.ac.gda.client.tomo.alignment.view.controller.TomoAlignmentController">
+	<bean id="tomoAlignmentController" class="uk.ac.gda.client.tomo.alignment.view.controller.TomoAlignmentController">
 		<property name="sampleStageMotorHandler" ref="motorsHandler" />
 		<property name="cameraHandler" ref="detectorHandler" />
 		<property name="cameraModuleController" ref="cameraModuleHandler" />
@@ -44,12 +34,10 @@
 		<property name="saveHandler" ref="saveHandler" />
 	</bean>
 
-	<bean id="tomoScanController"
-		class="uk.ac.gda.client.tomo.configuration.view.handlers.simulator.TomoScanControllerSimulator"></bean>
+	<bean id="tomoScanController" class="uk.ac.gda.client.tomo.configuration.view.handlers.simulator.TomoScanControllerSimulator" />
 
 	<!-- -->
-	<bean id="tomoAlignmentViewHolder"
-		class="uk.ac.gda.client.tomo.alignment.view.factory.TomoAlignmentViewFactoryFactory ">
+	<bean id="tomoAlignmentViewHolder" class="uk.ac.gda.client.tomo.alignment.view.factory.TomoAlignmentViewFactoryFactory ">
 		<property name="viewPartName" value="Alignment" />
 		<property name="screenPixelSize" value="0.27" />
 		<property name="tomoAlignmentController" ref="tomoAlignmentController" />

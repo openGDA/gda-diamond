@@ -4,7 +4,6 @@
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="pcocontroller" class="gda.device.detector.pco.PCOControllerV17">
-		<!-- <property name="deviceName" value="pco.cam_pcocam" /> -->
 		<property name="basePVName" value="BL12I-EA-DET-02:CAM:" />
 		<property name="areaDetector" ref="pco.cam" />
 		<property name="proc1" ref="pco.prc1" />

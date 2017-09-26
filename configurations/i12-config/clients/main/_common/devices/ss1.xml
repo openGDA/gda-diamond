@@ -2,9 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
 	<description>
-		Handles to the ss1 motors that needs to be used in the rcp
-		client
+		Handles to the ss1 motors that needs to be used in the rcp client
 	</description>
 
 	<bean id="ss1_theta" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
@@ -53,14 +53,17 @@
 		<property name="serviceInterface" value="gda.device.IScannableMotor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+
 	<bean id="ss1_rx" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ss1_rx" />
 		<property name="serviceInterface" value="gda.device.IScannableMotor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+
 	<bean id="ss1_rz" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ss1_rz" />
 		<property name="serviceInterface" value="gda.device.IScannableMotor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
+
 </beans>
