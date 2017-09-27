@@ -22,7 +22,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.eclipse.scanning.api.event.EventException;
 import org.eclipse.scanning.api.event.IEventService;
@@ -34,14 +33,9 @@ import org.eclipse.scanning.api.event.core.IPublisher;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.python.core.PyDictionary;
-import org.python.core.PyObject;
-import org.python.core.PyString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.factory.Finder;
-import gda.jython.Jython;
 import uk.ac.diamond.daq.beamline.i15.api.QueueConstants;
 import uk.ac.diamond.daq.beamline.i15.api.TaskBean;
 
@@ -52,10 +46,10 @@ import uk.ac.diamond.daq.beamline.i15.api.TaskBean;
  *
  * @author James Mudd
  */
-@Component(name="TaskConsumer")
-public class TaskConsumer {
+@Component(name="XpdfTaskConsumer")
+public class XpdfTaskConsumer {
 
-	private static final Logger logger = LoggerFactory.getLogger(TaskConsumer.class);
+	private static final Logger logger = LoggerFactory.getLogger(XpdfTaskConsumer.class);
 
 	private IEventService eventService;
 
@@ -101,8 +95,8 @@ public class TaskConsumer {
 
 	private class ConsumerProcess extends AbstractLockingPausableProcess<TaskBean> {
 
-		private TaskBean taskBean;
-		private IPublisher<TaskBean> publisher;
+		private final TaskBean taskBean;
+		private final IPublisher<TaskBean> publisher;
 
 		public ConsumerProcess(TaskBean taskBean, IPublisher<TaskBean> publisher) {
 			super(taskBean, publisher);
@@ -120,24 +114,8 @@ public class TaskConsumer {
 			taskConfig.put("proposal_number", Long.toString(taskBean.getProposalNumber()));
 			taskConfig.put("sample_id", Long.toString(taskBean.getSampleId()));
 
-			// TODO If we have lots of database beans here could use
-			//Map<String, String> taskConfig = BeanUtils.describe(taskConfig);
-
-			// TODO Might want more structure than a flat string to string map
-
-			// Convert Map<String, String> to PyDictionary for Jython
-			PyDictionary dict = new PyDictionary(taskConfig.entrySet().stream().
-					collect(Collectors.toMap(
-							entry -> new PyString(entry.getKey()), // Convert key String to PyString
-							entry -> new PyString(entry.getValue())))); // Convert value String to PyString
-
-			Jython jython = Finder.getInstance().find(Jython.SERVER_NAME);
-			// Get the method to call
-			PyObject taskRunner = jython.eval("task_runner");
-			// Call the method with the dictionary of database data. This is blocking
-			taskRunner.__call__(dict);
-
 			logger.info("Finished running task: {}", taskBean);
 		}
 	}
+
 }

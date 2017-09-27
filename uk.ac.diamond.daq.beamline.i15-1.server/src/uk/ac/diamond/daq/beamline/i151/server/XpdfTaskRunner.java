@@ -41,7 +41,7 @@ import uk.ac.diamond.ispyb.api.Sample;
  * @author James Mudd
  */
 @Component(name="XpdfTaskRunner")
-public class XpdfTaskRunner implements ITaskRunner {
+public class XpdfTaskRunner implements IXpdfTaskRunner {
 	private static final Logger logger = LoggerFactory.getLogger(XpdfTaskRunner.class);
 
 	/** The name of the Jython function  to call to start the experiment */
