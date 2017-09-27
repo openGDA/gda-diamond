@@ -33,7 +33,6 @@ import javax.inject.Inject;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.richbeans.widgets.shuffle.ShuffleConfiguration;
 import org.eclipse.richbeans.widgets.shuffle.ShuffleViewer;
-import org.eclipse.scanning.api.database.ISampleDescriptionService;
 import org.eclipse.scanning.api.event.EventException;
 import org.eclipse.scanning.api.event.IEventService;
 import org.eclipse.scanning.api.event.core.ISubmitter;
@@ -55,6 +54,7 @@ import org.slf4j.LoggerFactory;
 import gda.configuration.properties.LocalProperties;
 import uk.ac.diamond.daq.beamline.i15.api.QueueConstants;
 import uk.ac.diamond.daq.beamline.i15.api.TaskBean;
+import uk.ac.diamond.daq.beamline.i15.database.XpdfDatabaseService;
 
 public class ExperimentSubmissionView {
 
@@ -67,7 +67,7 @@ public class ExperimentSubmissionView {
 	private Map<Long, String> sampleIdNames;
 
 	@Inject
-	private ISampleDescriptionService sampleDescriptionService;
+	private XpdfDatabaseService databaseService;
 
 	@Inject
 	private IEventService eventService;
@@ -187,7 +187,7 @@ public class ExperimentSubmissionView {
 			logger.error("Absent or invalid visit ID");
 			return;
 		}
-		sampleIdNames = sampleDescriptionService.getSampleIdNames(proposalCode, proposalNumber);
+		sampleIdNames = databaseService.getSampleIdNames(proposalCode, proposalNumber);
 		ArrayList<SampleEntry> fromList = new ArrayList<>();
 		HashSet<SampleEntry> shuffleToList = new HashSet<>(conf.getToList());
 		sampleIdNames.forEach((k, v) -> {
@@ -207,7 +207,8 @@ public class ExperimentSubmissionView {
 		ISubmitter<TaskBean> submitter = createScanSubmitter();
 
 		for (SampleEntry sampleEntry : samples) {
-			TaskBean bean = new TaskBean(proposalCode, proposalNumber, sampleEntry.getSampleId());
+			// FIXME this will never work, just using a fake DCP ID to make it compile
+			TaskBean bean = new TaskBean(proposalCode, proposalNumber, sampleEntry.getSampleId(), 1L);
 			try {
 				submitter.submit(bean);
 			} catch (EventException e) {
