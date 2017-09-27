@@ -24,10 +24,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.eclipse.scanning.api.database.ISampleDescriptionService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,13 +42,12 @@ import uk.ac.diamond.ispyb.api.Schema;
 /**
  * Class to provide a ISampleDescriptionService as a OSGi service it uses IspyB database.
  *
- * FIXME There are some warnings on this class relating to the fact it implements a interface which doens't declare
  * correctly the return types. This interface should be fixed or removed.
  *
  * @author James Mudd
  */
 @Component(name="XpdfDatabaseService")
-public class XpdfDatabaseService implements ISampleDescriptionService {
+public class XpdfDatabaseService implements IXpdfDatabaseService {
 	private static final Logger logger = LoggerFactory.getLogger(XpdfDatabaseService.class);
 
 	private static final String XPDF_URL_PROP = "xpdf.server.ispyb.connector.url";
@@ -100,6 +99,7 @@ public class XpdfDatabaseService implements ISampleDescriptionService {
 				orElseThrow(() -> new IllegalArgumentException("No sample exisits with that ID")); // Throw if it doesn't exist else return
 	}
 
+	@Override
 	public List<DataCollectionPlan> getDataCollectionPlanForSample(long sampleId) {
 		return api.retrieveDataCollectionPlansForSample(sampleId);
 	}
@@ -127,7 +127,7 @@ public class XpdfDatabaseService implements ISampleDescriptionService {
 		return Optional.ofNullable(LocalProperties.get(XPDF_USER_PROP));
 	}
 
-	@Reference
+	@Reference(cardinality=ReferenceCardinality.MANDATORY)
 	public synchronized void setFactoryService(IspybXpdfFactoryService factoryService) {
 		this.factoryService = factoryService;
 		logger.info("Set IspybXpdfFactoryService to {}", factoryService);
