@@ -25,16 +25,18 @@ public class TaskBean extends StatusBean {
 	String proposalCode;
 	long proposalNumber;
 	long sampleId;
+	long dataCollectionPlanId;
 
 	public TaskBean() {
 		// Needed for JSON deserialize
 	}
 
-	public TaskBean(String proposalCode, long proposalNumber, long sampleId) {
+	public TaskBean(String proposalCode, long proposalNumber, long sampleId, long dataCollectionPlanId) {
 		super();
 		this.proposalCode = proposalCode;
 		this.proposalNumber = proposalNumber;
 		this.sampleId = sampleId;
+		this.dataCollectionPlanId = dataCollectionPlanId;
 	}
 
 	public String getProposalCode() {
@@ -61,10 +63,19 @@ public class TaskBean extends StatusBean {
 		this.sampleId = sampleId;
 	}
 
+	public long getDataCollectionPlanId() {
+		return dataCollectionPlanId;
+	}
+
+	public void setDataCollectionPlanId(long dataCollectionPlanId) {
+		this.dataCollectionPlanId = dataCollectionPlanId;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
+		result = prime * result + (int) (dataCollectionPlanId ^ (dataCollectionPlanId >>> 32));
 		result = prime * result + ((proposalCode == null) ? 0 : proposalCode.hashCode());
 		result = prime * result + (int) (proposalNumber ^ (proposalNumber >>> 32));
 		result = prime * result + (int) (sampleId ^ (sampleId >>> 32));
@@ -75,11 +86,13 @@ public class TaskBean extends StatusBean {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		TaskBean other = (TaskBean) obj;
+		if (dataCollectionPlanId != other.dataCollectionPlanId)
+			return false;
 		if (proposalCode == null) {
 			if (other.proposalCode != null)
 				return false;
@@ -95,7 +108,7 @@ public class TaskBean extends StatusBean {
 	@Override
 	public String toString() {
 		return "TaskBean [proposalCode=" + proposalCode + ", proposalNumber=" + proposalNumber + ", sampleId="
-				+ sampleId + "]";
+				+ sampleId + ", dataCollectionPlanId=" + dataCollectionPlanId + "]";
 	}
 
 }
