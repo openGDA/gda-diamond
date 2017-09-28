@@ -40,13 +40,17 @@ import uk.ac.diamond.ispyb.api.Schema;
 
 
 /**
- * Class to provide a ISampleDescriptionService as a OSGi service it uses IspyB database.
- *
- * correctly the return types. This interface should be fixed or removed.
+ * Class to provide XPDF access to the ISPyB database as a OSGi service.
+ * <p>
+ * Implementation details:
+ * <li>It needs to be lazy started as it need to use properties for the DB connection parameters. During the startup of
+ * OSGi these properties will not be correctly accessed see
+ * <a href="http://jira.diamond.ac.uk/browse/DAQ-836">DAQ-836</a>
+ * <li>It is using the OSGi annotations with the Eclipse DS annotation builder to auto-generate the component.xml files
  *
  * @author James Mudd
  */
-@Component(name="XpdfDatabaseService")
+@Component(name="XpdfDatabaseService", immediate=false)
 public class XpdfDatabaseService implements IXpdfDatabaseService {
 	private static final Logger logger = LoggerFactory.getLogger(XpdfDatabaseService.class);
 
@@ -60,10 +64,11 @@ public class XpdfDatabaseService implements IXpdfDatabaseService {
 
 	@Activate
 	public void activate() {
-		String url = getUrl();
-		Optional<String> username = getUsername();
-		Optional<String> password = getPassword();
-		Optional<String> database = getDatabase();
+		logger.debug("Activating...");
+		final String url = getUrl();
+		final Optional<String> username = getUsername();
+		final Optional<String> password = getPassword();
+		final Optional<String> database = getDatabase();
 
 		try {
 			api = factoryService.buildIspybApi(url, username, password, database);
@@ -71,6 +76,7 @@ public class XpdfDatabaseService implements IXpdfDatabaseService {
 			logger.error("Failed to connect to ISPyB", e);
 			throw new RuntimeException("Failed to connect to ISPyB", e);
 		}
+		logger.info("Sucessfully connected to ISPyB");
 	}
 
 	@Override
@@ -105,6 +111,12 @@ public class XpdfDatabaseService implements IXpdfDatabaseService {
 	}
 
 	private String getUrl() {
+		final String url = LocalProperties.get(XPDF_URL_PROP);
+		if(url == null) {
+			final String msg = "No DB URL defined by property: " + XPDF_URL_PROP;
+			logger.error(msg); // Log here additionally as exception is caught by OSGi framework.
+			throw new IllegalStateException(msg);
+		}
 		return LocalProperties.get(XPDF_URL_PROP);
 	}
 
@@ -114,23 +126,40 @@ public class XpdfDatabaseService implements IXpdfDatabaseService {
 	 * @return Database name
 	 */
 	private Optional<String> getDatabase() {
-		return Optional.of(Schema.convert(LocalProperties.get(XPDF_DATABASE_PROP)).toString());
+		final String database = LocalProperties.get(XPDF_DATABASE_PROP);
+		if (database == null || database.isEmpty()) {
+			final String msg = "No database defined by property: " + XPDF_DATABASE_PROP;
+			logger.error(msg); // Log here additionally as exception is caught by OSGi framework.
+			throw new IllegalStateException(msg);
+		}
+		return Optional.of(Schema.convert(database).toString());
 	}
 
 	private Optional<String> getPassword() {
 		// If the password contains commas it will be split into a list which is not what is wanted here so join it again.
-		String password = String.join(",", LocalProperties.getStringArray(XPDF_PASSWORD_PROP));
-		return Optional.ofNullable(password);
+		final String password = String.join(",", LocalProperties.getStringArray(XPDF_PASSWORD_PROP));
+		if (password == null || password.isEmpty()) {
+			final String msg = "No DB password defined by property: " + XPDF_PASSWORD_PROP;
+			logger.error(msg); // Log here additionally as exception is caught by OSGi framework.
+			throw new IllegalStateException(msg);
+		}
+		return Optional.of(password);
 	}
 
 	private Optional<String> getUsername() {
-		return Optional.ofNullable(LocalProperties.get(XPDF_USER_PROP));
+		final String username = LocalProperties.get(XPDF_USER_PROP);
+		if (username == null || username.isEmpty()) {
+			final String msg = "No DB username defined by property: " + XPDF_USER_PROP;
+			logger.error(msg); // Log here additionally as exception is caught by OSGi framework.
+			throw new IllegalStateException(msg);
+		}
+		return Optional.of(LocalProperties.get(XPDF_USER_PROP));
 	}
 
 	@Reference(cardinality=ReferenceCardinality.MANDATORY)
 	public synchronized void setFactoryService(IspybXpdfFactoryService factoryService) {
 		this.factoryService = factoryService;
-		logger.info("Set IspybXpdfFactoryService to {}", factoryService);
+		logger.debug("Set IspybXpdfFactoryService to {}", factoryService);
 	}
 
 }
