@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="Iooh2" class="gda.device.detector.etldetector.EpicsETLController">
-		<property name="deviceName" value="izero.oh2"/>
+		<property name="pvRoot" value="BL12I-AL-ATTN-02:ETL"/>
 		<property name="local" value="true"/>
 	</bean>
 

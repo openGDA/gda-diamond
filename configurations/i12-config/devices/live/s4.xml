@@ -1,30 +1,38 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<!--  Define all the motors 
-  -->
-	<bean id="s4_top_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="s4.top" />
+
+	<!-- Define all the motors -->
+	<bean id="s4_top_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-AL-SLITS-04:Y:PLUS" />
 	</bean>
-	<bean id="s4_bottom_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="s4.bottom" />
+
+	<bean id="s4_bottom_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-AL-SLITS-04:Y:MINUS" />
 	</bean>
-	<bean id="s4_in_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="s4.in" />
+
+	<bean id="s4_in_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-AL-SLITS-04:X:MINUS" />
 	</bean>
-	<bean id="s4_out_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="s4.out" />
+
+	<bean id="s4_out_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-AL-SLITS-04:X:PLUS" />
 	</bean>
-	<bean id="s4_xs_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="s4.xs" />
+
+	<bean id="s4_xs_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-AL-SLITS-04:X:SIZE" />
 	</bean>
-	<bean id="s4_xc_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="s4.xc" />
+
+	<bean id="s4_xc_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-AL-SLITS-04:X:CENTER" />
 	</bean>
-	<bean id="s4_ys_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="s4.ys" />
+
+	<bean id="s4_ys_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-AL-SLITS-04:Y:SIZE" />
 	</bean>
-	<bean id="s4_yc_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="s4.yc" />
+
+	<bean id="s4_yc_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-AL-SLITS-04:Y:CENTER" />
 	</bean>
+
 </beans>

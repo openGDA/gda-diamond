@@ -1,45 +1,58 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<!--  Define all the motors 
-  -->
-	<bean id="mc1_bragg_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="mc1.bragg" />
+
+	<!-- Define all the motors -->
+	<bean id="mc1_bragg_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:XTAL1:ROT" />
 	</bean>
-	<bean id="mc2_bragg_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="mc2.bragg" />
+
+	<bean id="mc2_bragg_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:XTAL2:ROT" />
 	</bean>
-	<bean id="mc2_tilt_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="mc2.tilt" />
+
+	<bean id="mc2_tilt_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:XTAL2:ROLL" />
 	</bean>
-	<bean id="m_x_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="m.x" />
+
+	<bean id="m_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:X" />
 	</bean>
-	<bean id="m_y1_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="m.y1" />
+
+	<bean id="m_y1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:Y1" />
 	</bean>
-	<bean id="m_y2_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="m.y2" />
+
+	<bean id="m_y2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:Y2" />
 	</bean>
-	<bean id="m_y3_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="m.y3" />
+
+	<bean id="m_y3_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:Y3" />
 	</bean>
-	<bean id="mc2_z_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="mc2.z" />
+
+	<bean id="mc2_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:XTAL2:Z" />
 	</bean>
-	<!-- <bean id="mc2_x_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="mc2.x" />
+
+	<!-- <bean id="mc2_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:XTAL2:X" />
 	</bean> -->
-	<bean id="dcm1_bender_inboard_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="dcmxtal1b1" />
+
+	<bean id="dcm1_bender_inboard_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:XTAL1:IN" />
 	</bean>
-	<bean id="dcm1_bender_outboard_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="dcmxtal1b2" />
+
+	<bean id="dcm1_bender_outboard_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:XTAL1:OUT" />
 	</bean>
-	<bean id="dcm2_bender_inboard_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="dcmxtal2b1" />
+
+	<bean id="dcm2_bender_inboard_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:XTAL2:IN" />
 	</bean>
-	<bean id="dcm2_bender_outboard_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="dcmxtal2b2" />
+
+	<bean id="dcm2_bender_outboard_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-OP-DCM-01:XTAL2:OUT" />
 	</bean>
+
 </beans>

@@ -5,47 +5,47 @@
 
 
 	<!-- Define all the motors -->
-	<bean id="s1_top_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="fe1.yplus" />
+	<bean id="s1_top_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="FE12I-AL-SLITS-01:Y:PLUS" />
 	</bean>
 
-	<bean id="s1_bottom_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="fe1.yminus" />
+	<bean id="s1_bottom_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="FE12I-AL-SLITS-01:Y:MINUS" />
 	</bean>
 
-	<bean id="s1_in_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="fe1.xminus" />
+	<bean id="s1_in_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="FE12I-AL-SLITS-01:X:MINUS" />
 	</bean>
 
-	<bean id="s1_out_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="fe1.xplus" />
+	<bean id="s1_out_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="FE12I-AL-SLITS-01:X:PLUS" />
 	</bean>
 
-	<bean id="s1_xs_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="fe1.xsize" />
+	<bean id="s1_xs_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="FE12I-AL-SLITS-01:X:SIZE" />
 	</bean>
 
-	<bean id="s1_xc_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="fe1.xcentre" />
+	<bean id="s1_xc_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="FE12I-AL-SLITS-01:X:CENTER" />
 	</bean>
 
-	<bean id="s1_ys_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="fe1.ysize" />
+	<bean id="s1_ys_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="FE12I-AL-SLITS-01:Y:SIZE" />
 	</bean>
 
-	<bean id="s1_yc_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="fe1.ycentre" />
+	<bean id="s1_yc_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="FE12I-AL-SLITS-01:Y:CENTER" />
 	</bean>
 
 	<!-- Diagnostics -->
 	<bean id="s1_t1" class="gda.device.monitor.EpicsMonitor">
 		<property name="name" value="s1_t1" />
-		<property name="deviceName" value="shtr1.temp1" />
+		<property name="pvName" value="BL12I-PS-SHTR-01:TEMP1" />
 	</bean>
 
 	<bean id="s1_t2" class="gda.device.monitor.EpicsMonitor">
 		<property name="name" value="s1_t2" />
-		<property name="deviceName" value="shtr1.temp2" />
+		<property name="pvName" value="BL12I-PS-SHTR-01:TEMP2" />
 	</bean>
 
 </beans>

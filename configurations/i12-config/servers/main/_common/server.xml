@@ -106,6 +106,7 @@
 	<import resource="file:${gda.config}/devices/_common/p2r.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco1.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco2.xml"/>
+	<import resource="file:${gda.config}/devices/_common/pipediode.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pixium2.xml"/>
 	<import resource="file:${gda.config}/devices/_common/s1.xml"/>
 	<import resource="file:${gda.config}/devices/_common/s2_new.xml"/>

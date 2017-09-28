@@ -6,7 +6,7 @@
 	<bean id="scaler1" class="gda.device.detector.EpicsScaler">
 <!--		<property name="name" value="scaler1" />-->
 <!--		<property name="local" value="true" />-->
-		<property name="deviceName" value="sca1" />
+		<property name="pvName" value="BL12I-EA-DET-01:SCALER" />
 	</bean>
 
 </beans>

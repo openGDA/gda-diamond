@@ -5,7 +5,7 @@
 
 	<bean id="gbc1_flow" class="gda.device.monitor.EpicsMonitor">
 		<property name="name" value="gbc1_flow" />
-		<property name="deviceName" value="gbc1.water" />
+		<property name="pvName" value="BL12I-AL-GBC-01:WFS:STATUS" />
 	</bean>
 
 </beans>

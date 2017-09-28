@@ -5,22 +5,22 @@
 
 	<bean id="ring_energy" class="gda.device.monitor.EpicsMonitor">
 		<property name="name" value="ring_energy" />
-		<property name="deviceName" value="MSTAT.ENERGY" />
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
 	</bean>
 
 	<bean id="ring_current" class="gda.device.monitor.EpicsMonitor">
 		<property name="name" value="ring_current" />
-		<property name="deviceName" value="MSTAT.CURRENT" />
+		<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
 	</bean>
 
 	<bean id="ring_topup_countdown" class="gda.device.monitor.EpicsMonitor">
 		<property name="name" value="ring_topup_countdown" />
-		<property name="deviceName" value="MSTAT.TOPUPCD" />
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
 	</bean>
 
 	<bean id="ring_beam_lifetime" class="gda.device.monitor.EpicsMonitor">
 		<property name="name" value="ring_beam_lifetime" />
-		<property name="deviceName" value="MSTAT.LIFETIME" />
+		<property name="pvName" value="SR21C-DI-DCCT-01:LIFETIME" />
 	</bean>
 
 </beans>

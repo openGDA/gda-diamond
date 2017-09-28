@@ -6,11 +6,11 @@
 
 	
 	<bean id="flow_diamond_filter" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="dwin.water" />
+		<property name="pvName" value="BL12I-AL-ATTN-01:WFS:STATUS" />
 	</bean>
 	
 	<bean id="flow_shutter1" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="shtr1.water" />
+		<property name="pvName" value="BL12I-PS-SHTR-01:WFS:STATUS" />
 	</bean>
 	
 <!--	<bean id="oh1_i0" class="gda.device.detector.etldetector.EpicsETLController">-->

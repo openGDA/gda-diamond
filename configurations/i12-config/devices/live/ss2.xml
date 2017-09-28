@@ -5,24 +5,24 @@
 
 
 	<!-- Define all the motors -->
-	<bean id="ss2_rx_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="ss2.rx" />
+	<bean id="ss2_rx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-06:PITCH" />
 	</bean>
 	
-	<bean id="ss2_ry_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="ss2.ry" />
+	<bean id="ss2_ry_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-06:THETA" />
 	</bean>
 
-	<bean id="ss2_x_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="ss2.x" />
+	<bean id="ss2_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-06:X" />
 	</bean>
 
-	<bean id="ss2_y_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="ss2.y" />
+	<bean id="ss2_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-06:Y" />
 	</bean>
 
-	<bean id="ss2_z_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="ss2.z" />
+	<bean id="ss2_z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-06:Z" />
 	</bean>
 
 </beans>

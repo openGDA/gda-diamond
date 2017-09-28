@@ -4,16 +4,16 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- Define all the motors -->
-	<bean id="t8_xcoarse_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t8.xcoarse" />
+	<bean id="t8_xcoarse_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-08:X" />
 	</bean>
 
-	<bean id="t8_x_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t8.x" />
+	<bean id="t8_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-08:BENCH:X" />
 	</bean>
 
-	<bean id="t8_y_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t8.y" />
+	<bean id="t8_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-08:BENCH:Y" />
 	</bean>
 
 </beans>

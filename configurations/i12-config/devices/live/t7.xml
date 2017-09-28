@@ -4,49 +4,50 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- Define all the motors -->
-	<bean id="t7_x_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t7.x" />
+	<bean id="t7_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-07:X" />
 	</bean>
 
-	<bean id="t7_y_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t7.y" />
+	<bean id="t7_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-07:Y" />
 	</bean>
 
-	<bean id="t7_m1z_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t7.m1z" />
+	<bean id="t7_m1z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-07:MOD1:Z" />
 	</bean>
-	<bean id="t7_m2x_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t7.m2x" />
-	</bean>
-
-	<bean id="t7_m2y_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t7.m2y" />
+	<bean id="t7_m2x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-07:MOD2:X" />
 	</bean>
 
-	<bean id="t7_m2ry_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t7.m2ry" />
-	</bean>
-	<bean id="t7_m2rx_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t7.m2rx" />
+	<bean id="t7_m2y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-07:MOD2:Y" />
 	</bean>
 
-	<bean id="t7_m2z_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t7.m2z" />
+	<bean id="t7_m2ry_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-07:MOD2:RY" />
+	</bean>
+	<bean id="t7_m2rx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-07:MOD2:RX" />
 	</bean>
 
-	<bean id="t7_m3z_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t7.m3z" />
-	</bean>
-	<bean id="t7_m3rz_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t7.m3rz" />
+	<bean id="t7_m2z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-07:MOD2:Z" />
 	</bean>
 
-	<bean id="t7_m3rx_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t7.m3rx" />
-	</bean>
-	<bean id="t7_m3ry_motor" class="gda.spring.EpicsMotorFactoryBean">
-		<property name="deviceName" value="t7.m3ry" />
+	<bean id="t7_m3z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-07:MOD3:Z" />
 	</bean>
 
+	<bean id="t7_m3rz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-07:MOD3:RZ" />
+	</bean>
+
+	<bean id="t7_m3rx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-07:MOD3:RX" />
+	</bean>
+
+	<bean id="t7_m3ry_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-TAB-07:MOD3:RY" />
+	</bean>
 
 </beans>

@@ -104,4 +104,20 @@
 		</property>
 	</bean>
 
-</beans>	
+	<bean id="p2r" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="p2rSM1" />
+				<ref bean="p2r_flyScanDetector" />
+				<ref bean="p2r_flyScanDetectorTIF" />
+				<ref bean="p2r_flyScanFlatDarkDetector" />
+				<ref bean="p2r_flyScanFlatDarkDetectorTIF" />
+				<ref bean="p2r_force" />
+				<ref bean="p2r_rot" />
+				<ref bean="p2r_y" />
+				<ref bean="p2rcvmc" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -4,28 +4,35 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="adc10" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="adc1.0"/>
+		<property name="pvName" value="BL12I-EA-ADC-01:CH0"/>
 	</bean>
+
 	<bean id="adc11" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="adc1.1"/>
+		<property name="pvName" value="BL12I-EA-ADC-01:CH1"/>
 	</bean>
+
 	<bean id="adc12" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="adc1.2"/>
+		<property name="pvName" value="BL12I-EA-ADC-01:CH2"/>
 	</bean>
+
 	<bean id="adc13" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="adc1.3"/>
+		<property name="pvName" value="BL12I-EA-ADC-01:CH3"/>
 	</bean>
+
 	<bean id="adc14" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="adc1.4"/>
+		<property name="pvName" value="BL12I-EA-ADC-01:CH4"/>
 	</bean>
+
 	<bean id="adc15" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="adc1.5"/>
+		<property name="pvName" value="BL12I-EA-ADC-01:CH5"/>
 	</bean>
+
 	<bean id="adc16" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="adc1.6"/>
+		<property name="pvName" value="BL12I-EA-ADC-01:CH6"/>
 	</bean>
+
 	<bean id="adc17" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="adc1.7"/>
+		<property name="pvName" value="BL12I-EA-ADC-01:CH7"/>
 	</bean>
 
 </beans>
