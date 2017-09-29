@@ -3,24 +3,21 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-        http://www.diamond.ac.uk/schema/gda/gda
-        http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
-		http://www.diamond.ac.uk/schema/gda/corba
-		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
+		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
 	<context:property-placeholder />
 
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
 	<corba:import namespace="${gda.factory.factoryName}" names="helpScriptController" />
 
-	<import resource="commandQueueProcessor.xml"/>
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
-	<import resource="rmi_imports.xml" />
-	<import resource="osgi_services.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/rmi_imports.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/osgi_services.xml" />
 
 	<!-- =========================================================== -->
 	<!-- Files with separate live and dummy versions                 -->
@@ -44,8 +41,9 @@
 
 	<import resource="file:${gda.config}/clients/main/_common/devices/tomoAlignment.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/devices/tomoConfiguration.xml" />
-<!-- 	<import resource="tomoAlignment_dummy.xml" /> -->	
 	<import resource="file:${gda.config}/clients/main/_common/devices/edxd.xml" />
+	
+	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
 
 	<bean class="uk.ac.gda.beamline.i12.HelpListener">
 		<property name="helpObservable" ref="helpScriptController" />
@@ -58,8 +56,6 @@
 			<bean class="gda.spring.NetServiceFactoryBean" />
 		</constructor-arg>
 	</bean>
-	
-    <bean class="gda.spring.FindableNameSetterPostProcessor" />
 
     <import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 

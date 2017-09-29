@@ -1,29 +1,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<context:property-placeholder/>
-
-	<!-- Core -->
-	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
 
 	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}rcpController" />
 		<property name="serviceInterface" value="gda.gui.RCPController" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
-	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}highestExistingFileMonitor" />
-		<property name="serviceInterface" value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 

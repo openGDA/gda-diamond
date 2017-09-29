@@ -21,4 +21,49 @@
 		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
+ 	<bean id="pixium10_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+        <property name="restoreAcquireTime" value="true" />
+        <property name="decoratee">
+            <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+                <property name="restoreNumImagesAndImageMode" value="true"/>
+                <property name="decoratee">
+                    <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+                        <property name="decoratee">
+                            <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+                                <property name="adBase" ref="pixium10_adbase" />
+                                <property name="restoreAcquireState" value="true"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+	<bean id="pixium10_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="pixium10_adbase" />
+		<property name="ndFile" ref="pixium10_hdf_file" />
+		<property name="ndArray" ref="pixium10_arr" />
+		<property name="ndStats" ref="pixium10_stat" />
+		<property name="fileWriter" ref="pixium10_hdf_fileWriter" />
+		<property name="collectionStrategy" ref="pixium10_collection_strategy"/>
+	</bean>
+
+	<bean id="pixium10_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="pixium10_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="pixium10_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Pixium" />
+		<property name="description" value="Pixium" />
+	</bean>
+
+	<bean id="pixium10_ad_runnable" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="pixium10_addetector" />
+		<property name="model" ref="pixium10_model" />
+		<property name="deviceInformation" ref="pixium10_info" />
+		<property name="activated" value="true" />
+	</bean>
+
 </beans>

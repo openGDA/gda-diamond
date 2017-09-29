@@ -9,31 +9,19 @@
 
 	<context:property-placeholder/>
 
-	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
-	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
-
-	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
-		<property name="name" value="metashop" />
-	</bean>
-
-	<!--enable types supported by the PropertyEditors listed in the GdaPropertyEditorRegistrar class -->
-	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
-
-	<import resource="commandQueueProcessor.xml" />
-	<import resource="GDAMetadata.xml" />
-
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
+	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+
+	<!-- Command Server -->
+	<import resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
+
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
-	<!-- Replaces ScanDataStore -->
-	<!-- This can't be replaced with gda:rmi-export as it doesn't yet handle plain objects retrieved via SpEL -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ScanDataPointServer" />
-		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
-	</bean>
+	<!--enable types supported by the PropertyEditors listed in the GdaPropertyEditorRegistrar class -->
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
 	<!-- =========================================================== --> 
 	<!-- Device files with separate live and dummy versions          -->
@@ -77,8 +65,11 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml"/>
 
 	<!-- =========================================================== -->
-	<!-- Shared device files                                         -->
+	<!-- Shared files                                         -->
 	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/servers/main/_common/GDAMetadata.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml" />
+	
 	<import resource="file:${gda.config}/devices/_common/cam1.xml"/>
 	<import resource="file:${gda.config}/devices/_common/cam3.xml"/>
 	<import resource="file:${gda.config}/devices/_common/camEH1.xml"/>
@@ -126,13 +117,10 @@
 
 	<!-- end of device list -->
 
- 	<import resource="dataFileMonitor.xml" />
- 	<import resource="rcpController.xml" />
-
  	<!-- Initialise Jython late on, as localStation refers to beans -->
-	<import resource="jythonServerFacade.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/jythonServerFacade.xml" />
 
 	<!-- ScriptControllers must be after command_server -->
-	<import resource="scriptControllers.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/scriptControllers.xml" />
 
 </beans>
