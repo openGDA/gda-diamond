@@ -37,4 +37,26 @@
 		<property name="lowerTemp" value = "0"/>
 		<property name="controller" ref= "blower_controller"/>
 	</bean>
+
+	<!-- 
+	<bean id="helios_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="local" value="true"/>
+		<property name="configureAtStartup" value="true"/>
+		<property name="basePVName" value = "BL15J-EA-HELIOS-01"/>
+		<property name="maxRampRate" value = "60"/>
+		<property name="minRampRate" value = "0.01"/>
+		<property name="maxOutput" value = "100"/>
+	</bean>
+
+	<bean id="helios" class="gda.device.temperature.Eurotherm2K">
+		<property name="local" value="true"/>
+		<property name="configureAtStartup" value="true"/>
+		<property name="accuracy" value = "0.5"/>
+		<property name="polltime" value = "1000"/>
+		<property name="fileSuffix" value = "temp"/>
+		<property name="upperTemp" value = "1250"/>
+		<property name="lowerTemp" value = "20"/>
+		<property name="controller" ref= "helios_controller"/>
+	</bean>
+	 -->
 </beans>
