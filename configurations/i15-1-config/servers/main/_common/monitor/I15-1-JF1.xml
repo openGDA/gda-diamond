@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="attenuator" class="org.eclipse.scanning.device.composite.CompositeNexusScannable" init-method="register">
+		<property name="name"				value="attenuator"/>
+		<property name="nexusClass"			value="NX_COLLECTION"/>
+		<property name="nexusCategory"		value="NX_INSTRUMENT"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.composite.ChildGroupNode">
+					<property name="scannableName"			value= "attenuator_motors"/>
+					<property name="groupName"				value = "motors"/>
+				</bean>
+			</list>
+		</property>
+		<property name="monitorRole"		value="PER_SCAN"/>
+		<property name="activated"			value="true"/> <?ignore Use as a monitor with scans, we always want this NeXus information ?>
+	</bean>
+
+	<bean id="attenuator_motors" class="org.eclipse.scanning.device.composite.CompositeNexusScannable" init-method="register">
+		<property name="name"				value="attenuator_motors"/>
+		<property name="nexusClass"			value="NX_COLLECTION"/>
+		<property name="nexusCategory"		value="NX_INSTRUMENT"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="filter1"/>
+					<property name="scannableName"			value="att1y"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="filter2"/>
+					<property name="scannableName"			value="att2y"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="filter3"/>
+					<property name="scannableName"			value="att3y"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+			</list>
+		</property>
+		<property name="monitorRole"		value="PER_SCAN"/>
+		<property name="activated"			value="false"/> <?ignore Use as a monitor with scans, we always want this NeXus information ?>
+	</bean>
+</beans>

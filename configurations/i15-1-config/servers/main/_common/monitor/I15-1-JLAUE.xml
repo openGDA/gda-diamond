@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- 
+	<bean id="bent_laue_monochromator" class="org.eclipse.scanning.device.composite.CompositeNexusScannable" init-method="register">
+		<property name="name"				value="attenuator"/>
+		<property name="nexusClass"			value="NX_MONOCHROMATOR"/>
+		<property name="nexusCategory"		value="NX_INSTRUMENT"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.composite.ChildGroupNode">
+					<property name="scannableName"			value= "bent_laue_monochromator_motors"/>
+					<property name="groupName"				value = "motors"/>
+				</bean>
+			</list>
+		</property>
+		<property name="monitorRole"		value="PER_SCAN"/>
+		<property name="activated"			value="true"/> <?ignore Use as a monitor with scans, we always want this NeXus information ?>
+	</bean>
+	 -->
+
+	<bean id="bent_laue_monochromator_motors" class="org.eclipse.scanning.device.composite.CompositeNexusScannable" init-method="register">
+		<property name="name"				value="bent_laue_monochromator_motors"/>
+		<property name="nexusClass"			value="NX_COLLECTION"/>
+		<property name="nexusCategory"		value="NX_INSTRUMENT"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="pitch"/>
+					<property name="scannableName"			value="xtalBragg"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="pitch_fine"/>
+					<property name="scannableName"			value="xtalFine"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="yaw"/>
+					<property name="scannableName"			value="xtalYaw"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="roll"/>
+					<property name="scannableName"			value="xtalRoll"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="y_position"/>
+					<property name="scannableName"			value="xtalY"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="bender"/>
+					<property name="scannableName"			value="xtalBend"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+			</list>
+		</property>
+		<property name="monitorRole"		value="PER_SCAN"/>
+		<property name="activated"			value="false"/> <?ignore Use as a monitor with scans, we always want this NeXus information ?>
+	</bean>
+</beans>

@@ -10,7 +10,7 @@
 		<property name="x_gap"				ref="s1gapX"/>
 		<property name="y_gap"				ref="s1gapY"/>
 		<property name="monitorRole"		value="PER_SCAN"/>
-		<property name="activated"			value="true"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
+		<property name="activated"			value="false"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
 	</bean>
 
 	<!-- New generic CompositeNexusScannable based slits scannables -->
@@ -45,15 +45,45 @@
 					<constructor-arg index = "1" value = "beam"/>
 				</bean>
 				 ?>
-				<?ignore Cannot add beamNode as it can't be defined in spring
 				<bean class="org.eclipse.scanning.device.composite.ChildGroupNode">
-					<constructor-arg index = "0" value = "primary_slit_motors"/>
-					<constructor-arg index = "1" value = "motors"/>
+					<property name="scannableName"			value= "primary_slit_motors"/>
+					<property name="groupName"				value = "motors"/>
 				</bean>
-				 ?>
 			</list>
 		</property>
 		<property name="monitorRole"		value="PER_SCAN"/>
 		<property name="activated"			value="true"/> <?ignore Use as a monitor with scans, we always want this NeXus information ?>
+	</bean>
+
+	<bean id="primary_slit_motors" class="org.eclipse.scanning.device.composite.CompositeNexusScannable" init-method="register">
+		<property name="name"				value="primary_slit_motors"/>
+		<property name="nexusClass"			value="NX_COLLECTION"/>
+		<property name="nexusCategory"		value="NX_INSTRUMENT"/>
+		<property name="childNodes">
+			<list>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="downstream_x"/>
+					<property name="scannableName"			value="s1dsX"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="downstream_y"/>
+					<property name="scannableName"			value="s1dsY"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="upstream_x"/>
+					<property name="scannableName"			value="s1usX"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+				<bean class="org.eclipse.scanning.device.composite.ChildFieldNode">
+					<property name="destinationFieldName"	value="upstream_y"/>
+					<property name="scannableName"			value="s1usY"/>
+					<property name="sourceFieldName"		value="org.eclipse.dawnsci.nexus.NXpositioner.NX_VALUE"/>
+				</bean>
+			</list>
+		</property>
+		<property name="monitorRole"		value="PER_SCAN"/>
+		<property name="activated"			value="false"/> <?ignore Use as a monitor with scans, we always want this NeXus information ?>
 	</bean>
 </beans>
