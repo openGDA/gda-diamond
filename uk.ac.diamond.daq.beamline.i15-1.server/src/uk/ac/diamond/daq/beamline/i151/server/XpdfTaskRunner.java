@@ -44,6 +44,8 @@ import uk.ac.diamond.ispyb.api.Sample;
 public class XpdfTaskRunner implements IXpdfTaskRunner {
 	private static final Logger logger = LoggerFactory.getLogger(XpdfTaskRunner.class);
 
+	private final Jython jython = Finder.getInstance().find(Jython.SERVER_NAME);
+
 	/** The name of the Jython function  to call to start the experiment */
 	private static final String JYTHON_FUNCTION_NAME = "xpdf_runner";
 
@@ -62,13 +64,13 @@ public class XpdfTaskRunner implements IXpdfTaskRunner {
 		}
 
 		// Lookup the sample from the DB
-		Sample sample = databaseService.getSampleInformation(proposalCode, proposalNumber, sampleId);
+		final Sample sample = databaseService.getSampleInformation(proposalCode, proposalNumber, sampleId);
 		if (sample == null) {
 			throw new IllegalArgumentException("No sample found for proposal: " + proposalCode + "-" + proposalNumber + " with ID: " + sampleId);
 		}
 
 		// Get DataCollectionPlans for the sample
-		List<DataCollectionPlan> dataCollectionPlans = databaseService.getDataCollectionPlanForSample(sampleId);
+		final List<DataCollectionPlan> dataCollectionPlans = databaseService.getDataCollectionPlanForSample(sampleId);
 		if (dataCollectionPlans.isEmpty()) {
 			throw new IllegalArgumentException("No data collection plans found for sample ID: " + sampleId);
 		}
@@ -81,15 +83,16 @@ public class XpdfTaskRunner implements IXpdfTaskRunner {
 		}
 
 		// Build the arguments to call the Jython function with
-		PyObject[] jythonArgs = new PyObject[]{PyJavaType.wrapJavaObject(sample), PyJavaType.wrapJavaObject(dataCollectionPlans)};
+		final PyObject[] jythonArgs = new PyObject[]{PyJavaType.wrapJavaObject(sample), PyJavaType.wrapJavaObject(dataCollectionPlans)};
 
-		Jython jython = Finder.getInstance().find(Jython.SERVER_NAME);
 		// Get the function to call
-		PyObject taskRunner = jython.eval(JYTHON_FUNCTION_NAME);
+		final PyObject taskRunner = jython.eval(JYTHON_FUNCTION_NAME);
 
-		logger.info("Calling '{}' with {}", JYTHON_FUNCTION_NAME, jythonArgs);
+		logger.info("Calling '{}'", JYTHON_FUNCTION_NAME);
+		logger.info("Args: {}", (Object[]) jythonArgs);
 		// Call the function arguments blocking
 		taskRunner.__call__(jythonArgs);
+		logger.info("Finished running: {}", (Object[]) jythonArgs);
 	}
 
 	@Reference(cardinality=ReferenceCardinality.MANDATORY)
