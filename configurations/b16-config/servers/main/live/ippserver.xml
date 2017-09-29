@@ -22,4 +22,14 @@
 		<property name="port" value="23" />
 	</bean>
 
+	<bean id="ippwsme07m" class="gda.device.detector.IPPserver">
+		<property name="local" value="True" />
+		<property name="outputFolderRoot" value="c:/data/" />
+		<property name="fileNameRoot" value="ipp" />
+		<property name="fileFormat" value="tif" />
+		<property name="collectionTime" value="1" />
+		<property name="host" value="172.23.86.197" />
+		<property name="port" value="23" />
+	</bean>
+
 </beans>
