@@ -69,26 +69,6 @@
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
- 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Zebra1" />
-					<constructor-arg name="model">
-						<bean class="uk.ac.diamond.daq.detectors.addetector.api.ZebraModel">
-							<property name="name" value="zebra1" />
-							<property name="exposureTime" value="0.1" />
-						</bean>
-					</constructor-arg>
-					<constructor-arg name="includeInScan" value="false" />
-				</bean>
- 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Zebra2" />
-					<constructor-arg name="model">
-						<bean class="uk.ac.diamond.daq.detectors.addetector.api.ZebraModel">
-							<property name="name" value="zebra2" />
-							<property name="exposureTime" value="0.1" />
-						</bean>
-					</constructor-arg>
-					<constructor-arg name="includeInScan" value="false" />
-				</bean>
 			</list>
 		</property>
 		<property name="scriptFiles">
