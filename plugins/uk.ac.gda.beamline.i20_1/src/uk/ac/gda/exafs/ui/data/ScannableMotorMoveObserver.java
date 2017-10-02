@@ -55,7 +55,7 @@ public class ScannableMotorMoveObserver implements IObserver {
 				@Override
 				public void run() {
 					ScannableStatus status = (ScannableStatus) arg;
-					if (status.getStatus() == ScannableStatus.BUSY) {
+					if (status == ScannableStatus.BUSY) {
 						if (!movingScannables.contains(source)) {
 							movingScannables.add(source);
 						}

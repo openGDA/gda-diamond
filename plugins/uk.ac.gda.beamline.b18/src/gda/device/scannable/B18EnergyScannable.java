@@ -135,7 +135,7 @@ public class B18EnergyScannable extends ScannableMotor implements Initialization
 		try {
 			internalDoublePosition = PositionConvertorFunctions.toDouble(internalPosition);
 			this.getMotor().moveTo(internalDoublePosition);
-			notifyIObservers(this, new ScannableStatus(getName(), ScannableStatus.BUSY));
+			notifyIObservers(this, ScannableStatus.BUSY);
 		} catch (IllegalArgumentException e) {
 			throw new DeviceException(getName() + ".rawAsynchronousMoveTo() could not convert "
 					+ internalPosition.toString() + " to a double.");
