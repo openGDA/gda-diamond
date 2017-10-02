@@ -60,6 +60,7 @@
 	<import resource="file:${gda.config}/servers/main/_common/detectors/andor.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/andor_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors/xmap_detector.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/malcolm.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/monitors/beam_monitors.xml" />
 
