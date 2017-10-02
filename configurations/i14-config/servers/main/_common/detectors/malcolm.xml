@@ -11,11 +11,17 @@
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
-	<!-- Excliabur -->
+	<!-- Excalibur -->
 	<bean id="malcolmInfoExcalibur" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Excalibur" />
 		<property name="description" value="Malcolm Excalibur for software scanning" />
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
+	</bean>
+
+	<!-- Merlin -->
+	<bean id="malcolmInfoMerlin" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Merlin Malcolm" />
+		<property name="description" value="Merlin Malcolm scan" />
 	</bean>
 
 </beans>
