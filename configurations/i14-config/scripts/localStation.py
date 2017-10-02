@@ -12,6 +12,7 @@ from gdascripts.scan import gdascans
 
 from gda.device import Scannable
 from gda.jython.commands.GeneralCommands import ls_names, alias
+from mapping_scan_commands import * 
 
 from shutter_control import toggle_oh1_shtr, toggle_oh2_shtr, toggle_oh3_shtr, toggle_eh2_nano_shtr
 
