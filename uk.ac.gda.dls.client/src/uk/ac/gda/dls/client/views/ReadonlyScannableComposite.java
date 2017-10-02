@@ -62,10 +62,10 @@ public class ReadonlyScannableComposite extends Composite {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param colourMap map of ids to pass to Display.getSystemColor to allow setting of foreground based on value
 	 * Useful for enums
-	 */	
+	 */
 	public void setColourMap(Map<String, Integer> colourMap) {
 		this.colourMap = colourMap;
 	}
@@ -84,18 +84,18 @@ public class ReadonlyScannableComposite extends Composite {
 		this.display = parent.getDisplay();
 		this.scannable = scannable;
 		this.decimalPlaces = decimalPlaces;
-		
+
 		if( StringUtils.hasLength(units)){
 			suffix = " " + units;
 		}
-		
+
 		formats = scannable.getOutputFormat();
 		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(this);
-		GridDataFactory.fillDefaults().applyTo(this);		
-		
+		GridDataFactory.fillDefaults().applyTo(this);
+
 		Label lbl = new Label(this, SWT.NONE | SWT.CENTER);
 		lbl.setText(StringUtils.hasLength(label) ? label : scannable.getName());
-		
+
 		int textStyle = SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY | SWT.CENTER;
 		text = new Text(this,textStyle);
 		text.setEditable(false);
@@ -119,16 +119,16 @@ public class ReadonlyScannableComposite extends Composite {
 				textUpdateScheduled=false;
 				afterUpdateText(text, val);
 			}
-		};		
-		
+		};
+
 		observer = new IObserver() {
-			
+
 			@Override
 			public void update(Object source, Object arg) {
 				if( arg instanceof ScannablePositionChangeEvent){
 					final ScannablePositionChangeEvent event = (ScannablePositionChangeEvent)arg;
 					setVal(new ScannableGetPositionWrapper(event.newPosition, formats).getStringFormattedValues()[0]);
-				} else if( arg instanceof ScannableStatus && ((ScannableStatus)arg).status == ScannableStatus.IDLE){
+				} else if( arg instanceof ScannableStatus && ((ScannableStatus)arg) == ScannableStatus.IDLE){
 					try {
 						ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(),formats );
 						val = wrapper.getStringFormattedValues()[0];
@@ -145,7 +145,7 @@ public class ReadonlyScannableComposite extends Composite {
 				}
 			}
 		};
-		
+
 		try {
 			ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(),formats );
 			val = wrapper.getStringFormattedValues()[0];
@@ -195,9 +195,9 @@ public class ReadonlyScannableComposite extends Composite {
 	@SuppressWarnings("unused")
 	protected void beforeUpdateText(Text text, String value) {
 	}
-	
+
 	@SuppressWarnings("unused")
 	protected void afterUpdateText(Text text, String value) {
 	}
-	
+
 }
