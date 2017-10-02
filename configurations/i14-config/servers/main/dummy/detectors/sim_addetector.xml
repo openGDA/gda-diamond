@@ -34,7 +34,7 @@
 		</property>
 	</bean>
 
-	<bean id="sim_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+	<bean id="sim_ndfile_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:HDF5:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
@@ -53,7 +53,17 @@
 
 	<bean id="sim_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
 		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:HDF5:" />
-		<property name="file" ref="sim_ndfile" />
+		<property name="file" ref="sim_ndfile_hdf5" />
+	</bean>
+
+	<bean id="sim_ndfile_tiff" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:TIFF:" />
+			</bean>
+		</property>
 	</bean>
 
 	<!-- Define ROIs -->
