@@ -60,6 +60,7 @@ class LinearArbitraryAngle(ScannableBase):
             self.ulaangle.asynchronousMoveTo(newangle)
         elif mode==SourceMode.SOURCE_MODES[2]:
             self.dlaangle.asynchronousMoveTo(newangle)
+            self.ulaangle.asynchronousMoveTo(newangle)
         elif mode==SourceMode.SOURCE_MODES[3]:
             message="Angle control is not available: Linear Polarisation is not supported in '%s' source mode" % (mode)
             raise RuntimeError(message)
