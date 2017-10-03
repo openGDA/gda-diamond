@@ -27,9 +27,9 @@ class CombinedEnergy(ScannableBase):
         self.idugap=idugap
         self.smode=smode
         self.pol=pol
-        self.energy=defaultenergy
-        self.dgap=None
-        self.ugap=None
+        self.energy=self.getPosition()
+        self.dgap=float(self.iddgap.getPosition())
+        self.ugap=float(self.idugap.getPosition())
         self.offhar=offhar
         self.tolerance=PositionTolerance
         

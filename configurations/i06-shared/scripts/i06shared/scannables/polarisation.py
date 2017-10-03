@@ -9,6 +9,7 @@ Created on 20 Apr 2017
 '''
 from gda.device.scannable import ScannableBase
 from i06shared.scannables.sourceModes import SourceMode
+import __main__  # @UnresolvedImport
 
 class Polarisation(ScannableBase):
     '''
@@ -71,14 +72,26 @@ class Polarisation(ScannableBase):
             self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[newpos])
         elif mode == SourceMode.SOURCE_MODES[3]:
             #TODO check if need to set both ID or not
-            if newpos == Polarisation.POLARISATIONS[0] or newpos == Polarisation.POLARISATIONS[2]:
-                self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[newpos])
-                position = float(self.ugap.getPosition())
-                self.ugap.asynchronousMoveTo(position+self.detune)
-            elif newpos == Polarisation.POLARISATIONS[1] or newpos == Polarisation.POLARISATIONS[3]:
-                self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[newpos])
-                position = float(self.dgap.getPosition())
-                self.dgap.asynchronousMoveTo(position+self.detune)
+            if newpos == Polarisation.POLARISATIONS[0]:
+                self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['pc'])
+                self.dgap.asynchronousMoveTo(__main__.energy.dgap)
+                self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['nc'])
+                self.ugap.asynchronousMoveTo(__main__.energy.ugap+self.detune)
+            elif newpos == Polarisation.POLARISATIONS[1]:
+                self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['nc'])
+                self.ugap.asynchronousMoveTo(__main__.energy.ugap)
+                self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['pc'])
+                self.dgap.asynchronousMoveTo(__main__.energy.dgap+self.detune)
+            elif newpos == Polarisation.POLARISATIONS[2]:
+                self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['lh'])
+                self.dgap.asynchronousMoveTo(__main__.energy.dgap)
+                self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['lv'])
+                self.ugap.asynchronousMoveTo(__main__.energy.ugap+self.detune)
+            elif newpos == Polarisation.POLARISATIONS[3]:
+                self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['lv'])
+                self.ugap.asynchronousMoveTo(__main__.energy.ugap)
+                self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['lh'])
+                self.dgap.asynchronousMoveTo(__main__.energy.dgap+self.detune)
             elif newpos == Polarisation.POLARISATIONS[4]:
                 message="Linear Angular Polarisation is not supported in '%s' source mode" % (mode)
                 raise RuntimeError(message)
