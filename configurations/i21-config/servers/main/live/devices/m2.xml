@@ -20,7 +20,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="m2finepitchMotor" class="gda.device.motor.PiezoEpicsMotor">
+	<bean id="m2finepitchMotor" class="gda.device.motor.FeedbackControlledEpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-02:FP" />
 		<property name="local" value="true" />
 	</bean>
