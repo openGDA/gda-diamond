@@ -181,6 +181,10 @@ dummyenergy=BeamEnergy("dummyenergy",idscannable, dummies.x, dummies.y,pgmGratin
 print "Create an 'energy' scannable which can be used for energy scan in GDA. It moves both ID gap and PGM energy"
 energy=BeamEnergy("energy",idscannable, idgap, pgmEnergy, pgmGratingSelect)  # @UndefinedVariable
 
+from scannabledevices.coupledSampleStageMotion import CoupledSampleStageMotion
+sapara=CoupledSampleStageMotion("sapara", sax, say, sapolar) # @UndefinedVariable
+saperp=CoupledSampleStageMotion("saperp", sax, say, sapolar) # @UndefinedVariable
+
 print "-----------------------------------------------------------------------------------------------------------------"
 print "setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm "
 from metashop import *  # @UnusedWildImport
@@ -199,8 +203,8 @@ s2list=[s2hsize,s2vsize,s2hcentre,s2vcentre] #@UndefinedVariable
 s3list=[s3hsize,s3vsize,s3hcentre,s3vcentre] #@UndefinedVariable
 s5list=[s5v1gap,s5v2gap,s5hgap] #@UndefinedVariable
 s6list=[s6hgap,s6hcentre,s6vgap,s6vcentre]  # @UndefinedVariable
-samplelist=[sapolar,sax,say,saz,saazimuth,satilt,diodetth,draincurrent, lakeshore] # @UndefinedVariable
-sgmlist=[sgmGratingSelect,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside] # @UndefinedVariable
+samplelist=[sapolar,sax,say,saz,saazimuth,satilt,diodetth,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
+sgmlist=[sgmx,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside,sgmGratingSelect] # @UndefinedVariable
 spectrometerlist=[specgamma,spech,specl] # @UndefinedVariable
 andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
 
@@ -212,10 +216,6 @@ alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
-
-from scannabledevices.coupledSampleStageMotion import CoupledSampleStageMotion
-sapara=CoupledSampleStageMotion("sapara", sax, say, sapolar) # @UndefinedVariable
-saperp=CoupledSampleStageMotion("saperp", sax, say, sapolar) # @UndefinedVariable
 
 b2.setOutputFormat(["%7.4f"])  # @UndefinedVariable
 sax.setOutputFormat(["%10.6f"])  # @UndefinedVariable
