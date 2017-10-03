@@ -29,6 +29,7 @@ m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __m
 m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
 from i06shared.scannables.mode_polarisation_energy_instances import *  # @UnusedWildImport
 idd,idu,dpu,dmu=SourceMode.SOURCE_MODES
+pc,nc,lh,lv,la=Polarisation.POLARISATIONS
 
 print "*"*80; 
 print "I06 shared localStation.py completed successfully!"
