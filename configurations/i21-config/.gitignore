@@ -43,3 +43,4 @@ Thumbs.db
 $RECYCLE.BIN/
 .Trash-*
 gdaserver.py
+*.launch
