@@ -40,7 +40,7 @@
 	</bean>
 
 	<bean id="sgmGratingSelect" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL21I-OP-SGM-01:MP:SELECT" />
+		<property name="recordName" value="BL21I-OP-SGM-01:MP" />
 	</bean>
 	
 </beans>
