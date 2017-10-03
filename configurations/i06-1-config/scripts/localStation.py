@@ -26,7 +26,8 @@ from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2lock
 #End Station Section
 
 ##Magnet
-#from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw  # @UnusedImport
+#from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw,cwAsymptote # @UnusedImport
+run('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py') # 27/9/2017 James M Temp fix as import above fails
 ##Pixis - there is a java object replement
 #from cameras.usePixis import pixis
 ##Exit Slit
@@ -37,7 +38,7 @@ m7legs = [m7leg1, m7leg2, m7leg3, m7leg4, m7leg5, m7leg6];  # @UndefinedVariable
 branchMirrorList = [m7x, m7pitch, m7qg]; fileHeader.add(branchMirrorList);  # @UndefinedVariable
 branchDiodeList = [d9y, d10y, d11y]; fileHeader.add(branchDiodeList);  # @UndefinedVariable
 branchExitSlitList = [s6x, s6xgap, s6y, s6ygap]; fileHeader.add(branchExitSlitList);  # @UndefinedVariable
-from functionDevices.idivio import idio,ifio, testFun1, testFun2  # @UnusedImport
+from functionDevices.idivio import idio,ifio,ifioft,ifiofb,testFun  # @UnusedImport
 from Beamline.waveplate3 import wp32  # @UnusedImport
 
 print "-"*100

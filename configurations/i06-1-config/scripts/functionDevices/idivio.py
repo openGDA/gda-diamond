@@ -3,14 +3,11 @@ from Diamond.PseudoDevices.DeviceFunction import DeviceFunctionClass
 print "-"*100
 print "To create objects: idio and ifio";
 
-idio = DeviceFunctionClass("idio", "ca61sr","ca62sr", "testFun1");
+idio = DeviceFunctionClass("idio", "ca61sr","ca62sr", "testFun");
+ifio = DeviceFunctionClass("ifio", "ca63sr","ca62sr", "testFun");
+ifioft = DeviceFunctionClass("ifioft", "ca64sr","ca62sr", "testFun");
+ifiofb = DeviceFunctionClass("ifiofb", "ca65sr","ca62sr", "testFun");
 
-def testFun1(ca61sr, ca62sr):
-	y=ca61sr/(ca62sr+1);
-	return y;
-
-ifio = DeviceFunctionClass("ifio", "ca63sr","ca62sr", "testFun2");
-
-def testFun2(ca63sr, ca62sr):
-	y=ca63sr/(ca62sr+1);
+def testFun(z, x):
+	y=z/(x+1);
 	return y;

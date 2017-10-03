@@ -40,7 +40,7 @@ fastScanElementCounter="iduFastScanElementCounter"
 fesController = FastEnergyScanControlClass("fesController", rootPV);
 zacmode = FastEnergyScanIDModeClass("zacmode", fesController);
 #fesData = EpicsScandataDeviceClass("fesData", rootPV);
-fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'iddenergy', 'pgmenergy', 'C5', 'C6'], ['idio', 'ifio'],elementCounter=fastScanElementCounter);
+fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'iduenergy', 'pgmenergy', 'C5', 'C6'], ['idio', 'ifio', 'ifioft', 'ifiofb'],elementCounter=fastScanElementCounter);
 fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData);
 fastEnergy.filterByEnergy = False
 

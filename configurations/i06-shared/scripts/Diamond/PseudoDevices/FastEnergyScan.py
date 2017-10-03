@@ -1021,15 +1021,17 @@ class EpicsWaveformDeviceClass(PseudoDevice):
 
 	#To artificially add extra channels of which value is a calculation of existing channels
 	def getExtraChannelValues(self, d):
-		Id, I0, If = d[0], d[1], d[2]; #Channel 2, channel 1 and channel 3
+		Id, I0, If, Ifft, Iffb = d[0], d[1], d[2], d[3], d[6]; #Channel 2, channel 1 and channel 3
 
 		if I0 <= 0.001:
 			I0 += 0.001;
 			
 		idi0 = float(Id)/I0;
 		ifi0 = float(If)/I0;
+		ifi0ft = float(Ifft)/I0;
+		ifi0fb = float(Iffb)/I0;
 		
-		return [idi0, ifi0];
+		return [idi0, ifi0, ifi0ft, ifi0fb];
 		
 	def readoutChannel(self, channelIndex):
 		result = self.readout();
