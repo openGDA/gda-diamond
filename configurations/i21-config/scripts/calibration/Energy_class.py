@@ -100,7 +100,7 @@ class BeamEnergy(ScannableMotionBase):
                 #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
                 gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
             elif self.pgmgratingselect.getPosition()=="VPG3":
-                gap = 18.522577 + 0.02399627*Ep #Corrected for VPG3 on 2017/02/15
+                gap = 18.5611846 + 0.02369966*Ep #Corrected for VPG3 on 2017/09/20
             else:
                 raise ValueError("Unknown Grating select in LH polarisationMode")
            
