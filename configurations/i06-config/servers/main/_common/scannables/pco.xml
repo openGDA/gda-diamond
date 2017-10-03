@@ -37,7 +37,65 @@
 			</list>
 		</property>
 	</bean>
+ 	<bean id="pcopreview" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco" />
+		<property name="collectionStrategy" ref="pcoPreviewCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco_RoiStats1" />
+				<ref bean="pco_RoiStats2" />
+				<ref bean="pco_RoiStats3" />
+				<ref bean="pco_RoiStats4" />
+				<ref bean="pco_RoiStats5" />
+				<ref bean="pco_RoiStats6" />
+				<ref bean="pcoHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+ 	<bean id="pcoimaging" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco" />
+		<property name="collectionStrategy" ref="pcoImagingCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco_RoiStats1" />
+				<ref bean="pco_RoiStats2" />
+				<ref bean="pco_RoiStats3" />
+				<ref bean="pco_RoiStats4" />
+				<ref bean="pco_RoiStats5" />
+				<ref bean="pco_RoiStats6" />
+				<ref bean="pcoHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
 
+<!-- ADDetector used in new scanning -->
+	<bean id="pco_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="pcoCollectionStrategy"/>
+		<property name="adBase" ref="pco_adbase" />
+		<property name="ndFile" ref="pco_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="pco_ndarray" />
+		<property name="ndStats" ref="pco_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="pcoHdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+
+	<bean id="pcoModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="pco_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="pcoInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i06.pco.DeviceInformation" />
+		<property name="label" value="PCO" />
+		<property name="description" value="PCO" />
+	</bean>
+
+	<bean id="pco_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="pco_addetector" />
+		<property name="model" ref="pcoModel" />
+		<property name="deviceInformation" ref="pcoInfo" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
+	
 	<!-- detector 'pcotif' default to write TIFF file during scan -->
 	<!-- SingleImagePerFileWriter(String detectorName)	 -->
 	<bean id="pco_nxfilewriter_for_scans" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">

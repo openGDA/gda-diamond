@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Translations -->
+	<bean id="pco_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure Time" />
+		<property name="group" value="PCO" />
+		<property name="scannableName" value="pcoExposureTime" />
+		<property name="textWidth" value="30"/>
+		<property name="userUnits" value="s" />
+	</bean>
+
+	<bean id="pco_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Rot Angle" />
+		<property name="group" value="PCO" />
+		<property name="scannableName" value="pcoRotationAngle" />
+		<property name="textWidth" value="30" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+
+	<!-- Andor detector control -->
+	<bean id="pcoStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="pco_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); pco_addetector.collectData()" />
+		<property name="buttonText" value="Start" />
+		<property name="group" value="PCO" />
+	</bean>
+
+	<bean id="pcoStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="pco_addetector.stop()" />
+		<property name="buttonText" value="Stop" />
+		<property name="group" value="PCO" />
+	</bean>
+	
+	<!-- Sample Positioner control -->
+	<bean id="preview" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="pcopreview()" />
+		<property name="buttonText" value="Preview" />
+		<property name="group" value="PCO" />
+	</bean>
+	<bean id="imaging" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="pcoimaging()" />
+		<property name="buttonText" value="Imaging" />
+		<property name="group" value="PCO" />
+	</bean>
+
+	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="pcoStart" />
+				<ref bean="pcoStop" />
+				<ref bean="pco_expsure_time_control" />
+				<ref bean="preview" />
+				<ref bean="imaging" />
+				<ref bean="pco_image_rotation_angle_control" />
+			</list>
+		</property>
+	</bean>
+</beans>

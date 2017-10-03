@@ -56,6 +56,7 @@
 		<config>clients/main/dummy/client_demo.xml</config>
 		<config>servers/main/_common/scannables/pco.xml</config>
 		<config>servers/main/live/devices/pco.xml</config>
+		<config>servers/main/live/devices/live_controls.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
