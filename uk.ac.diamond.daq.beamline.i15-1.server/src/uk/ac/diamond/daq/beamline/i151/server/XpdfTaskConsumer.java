@@ -96,12 +96,10 @@ public class XpdfTaskConsumer {
 	private class ConsumerProcess extends AbstractLockingPausableProcess<TaskBean> {
 
 		private final TaskBean taskBean;
-		private final IPublisher<TaskBean> publisher;
 
 		public ConsumerProcess(TaskBean taskBean, IPublisher<TaskBean> publisher) {
 			super(taskBean, publisher);
 			this.taskBean = taskBean;
-			this.publisher = publisher;
 		}
 
 		@Override
