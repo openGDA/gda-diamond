@@ -358,6 +358,7 @@ public class TurboXasParameters {
 
 		TurboXasMotorParameters motorParams = getMotorParameters();
 		motorParams.setMotorLimits(motor);
+		motorParams.setMotorParametersForTimingGroup(0);
 		motorParams.validateParameters(); // shows warnings about limits being exceeded etc.
 
 		TurboXasScan scan = new TurboXasScan(motor, motorParams, bufDetectors);

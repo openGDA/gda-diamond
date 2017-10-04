@@ -20,9 +20,13 @@ package gda.scan;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
+import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
@@ -33,11 +37,12 @@ import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
 import gda.data.metadata.NXMetaDataProvider;
-import gda.data.nexus.extractor.NexusExtractor;
 import gda.data.nexus.extractor.NexusGroupData;
 import gda.data.nexus.tree.INexusTree;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.scan.datawriter.NexusDataWriter;
+import gda.data.scan.datawriter.XasNexusDataWriter;
+import gda.data.swmr.SwmrFileReader;
 import gda.device.ContinuousParameters;
 import gda.device.DeviceException;
 import gda.device.detector.BufferedDetector;
@@ -49,16 +54,14 @@ import gda.device.scannable.ContinuouslyScannable;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TurboXasScannable;
 import gda.device.zebra.controller.Zebra;
+import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.jython.scriptcontroller.ScriptControllerBase;
-import gda.scan.ede.EdeExperiment;
-import gda.scan.ede.EdeExperimentProgressBean;
-import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
-import gda.scan.ede.EdeScanProgressBean;
-import gda.scan.ede.EdeScanType;
-import gda.scan.ede.position.EdePositionType;
+import gov.aps.jca.CAException;
+import uk.ac.gda.devices.detector.xspress3.TRIGGER_MODE;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
+import uk.ac.gda.devices.detector.xspress3.Xspress3Controller;
+import uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller;
 
 /**
  *  A TurboXasScan is a type of Continuous scan which can perform multiple sweeps of a fast slit and collect the spectra for each sweep.
@@ -79,7 +82,21 @@ public class TurboXasScan extends ContinuousScan {
 	private TurboXasMotorParameters turboXasMotorParams;
 	private boolean useAreaDetector = false;
 	private boolean doTrajectoryScan = false;
+	private boolean useXspress3SwmrReadout = true;
+
+	private Map<String, String> xspressAttributeMap = new HashMap<String, String>();
+	private String pathToAttributeData = "/entry/instrument/NDAttributes/";
+	private SwmrFileReader xspress3FileReader;
+
 	private int numReadoutsPerSpectrum;
+	private int numSpectraPerCycle;
+	private int numReadoutsPerCycle;
+	private int numCycles;
+	private int maxNumScalerFramesPerCycle = 250000;
+
+	private volatile int lastFrameRead;
+
+	private PlotUpdater plotUpdater = new PlotUpdater();
 
 	public TurboXasScan(ContinuouslyScannable energyScannable, Double start, Double stop, Integer numberPoints,
 			Double time, BufferedDetector[] detectors) {
@@ -96,12 +113,21 @@ public class TurboXasScan extends ContinuousScan {
 
 	@Override
 	public void doCollection() throws Exception {
+
+		XasNexusDataWriter dataWriter = new XasNexusDataWriter();
+		setDataWriter(dataWriter);
+
 		logger.info("Running scan");
 
 		plotUpdater.setCurrentSpectrumNumber(1);
 		plotUpdater.setCurrentGroupNumber(1);
 		plotUpdater.setEnergyAxisName(ENERGY_COLUMN_NAME);
-		detectorReadoutRunnable = null;
+
+		plotUpdater.clearDatanamesToIgnore();
+		plotUpdater.addDatanameToIgnore(ENERGY_COLUMN_NAME);
+		plotUpdater.addDatanameToIgnore(POSITION_COLUMN_NAME);
+		plotUpdater.addDatanameToIgnore(TfgScalerWithLogValues.LNITIREF_LABEL);
+		plotUpdater.addDatanameToIgnore("Iref");
 
 		ContinuouslyScannable scanAxis = getScanAxis();
 		if (scanAxis instanceof TurboXasScannable && turboXasMotorParams != null) {
@@ -116,7 +142,7 @@ public class TurboXasScan extends ContinuousScan {
 			lastFrameRead = 0;
 			numReadoutsPerSpectrum = getTotalNumberOfPoints();
 			prepareDetectors(numReadoutsPerSpectrum, 1);
-			collectOneSpectrum();
+			collectOneSpectrum(true);
 		}
 
 		logger.info("Scan finished");
@@ -137,6 +163,10 @@ public class TurboXasScan extends ContinuousScan {
 		return totNumSpectra;
 	}
 
+	/**
+	 * Create runnable object used for performing detector readout.	 *
+	 * @return DetectorReadoutRunnable
+	 */
 	private DetectorReadoutRunnable getDetectorReadoutRunnable() {
 		DetectorReadoutRunnable runnable = new DetectorReadoutRunnable();
 		runnable.setNumFramesPerSpectrum(turboXasMotorParams.getNumReadoutsForScan());
@@ -145,6 +175,7 @@ public class TurboXasScan extends ContinuousScan {
 		runnable.setTimingGroups(turboXasMotorParams.getScanParameters().getTimingGroups());
 		return runnable;
 	}
+
 	/**
 	 * Collect multiple spectra by performing motor moves for several timing groups.
 	 * @throws Exception
@@ -184,10 +215,13 @@ public class TurboXasScan extends ContinuousScan {
 			throw new Exception("Failure when building trajectory scan profile - check Epics EDM screen");
 		}
 
+		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
+
 		trajScanPreparer.setExecuteProfile();
-		if (trajScanPreparer.getBuildProfileStatus().equals("Failure")){
+		if (trajScanPreparer.getExecuteProfileStatus().equals("Failure")){
 			throw new Exception("Failure when executing trajectory scan - check Epics EDM screen.");
 		}
+
 		// Wait until some points have been captured by zebra (i.e. motor has started moving)
 		while(zebra.getPCNumberOfPointsCaptured()==0) {
 			logger.info("Waiting for points to be captured by Zebra before starting data collection");
@@ -195,18 +229,22 @@ public class TurboXasScan extends ContinuousScan {
 		}
 
 		// Start detector readout thread
-		detectorReadoutRunnable = getDetectorReadoutRunnable();
+		DetectorReadoutRunnable detectorReadoutRunnable = getDetectorReadoutRunnable();
 		Thread detectorReadoutThread = new Thread(detectorReadoutRunnable);
 		detectorReadoutThread.start();
 
-		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
+		// Wait while trajectory scan runs...
+		while(trajScanPreparer.getExecuteProfileState()=="Executing") {
+			Thread.sleep(500);
+		}
+
+		// Output some info on trajectory scan final execution state
+		logger.info("Trajectory scan finished. Execute state = {}, percent complete = {}", trajScanPreparer.getExecuteProfileState(), trajScanPreparer.getTscanPercent());
+
 
 		// Wait at end for data collection thread to finish
-		int maxTimeoutMillis=5000;
-		while (!detectorReadoutRunnable.collectionFinished()) {
-			logger.info("Waiting {} ms for detector collection thread to finish...", maxTimeoutMillis);
-			Thread.sleep(maxTimeoutMillis);
-		}
+		waitForReadoutToFinish(detectorReadoutRunnable, 600.0);
+
 		// flags back to default values
 		turboXasScannable.atScanEnd();
  	}
@@ -219,7 +257,8 @@ public class TurboXasScan extends ContinuousScan {
 	private void addTimeAxis() throws Exception {
 		NexusFile file = null;
 		try {
-			file = NexusFileHDF5.openNexusFile(getDataWriter().getCurrentFileName());
+			String filename = getDataWriter().getCurrentFileName();
+			file = NexusFileHDF5.openNexusFile(filename);
 			// Read 'frame_time' and 'time between spectra' datasets from Nexus file
 			String detectorEntry = "/entry1/"+getScanDetectors()[0].getName()+"/";
 			String frameTimeName = getFrameTimeFieldName();
@@ -281,7 +320,7 @@ public class TurboXasScan extends ContinuousScan {
 		prepareDetectors();
 
 		// Make new instance of detector readout runnable to collect detector data.
-		detectorReadoutRunnable = getDetectorReadoutRunnable();
+		DetectorReadoutRunnable detectorReadoutRunnable = getDetectorReadoutRunnable();
 
 		// Make detector readout thread (start it after first spectrum is available)
 		Thread detectorReadoutThread = new Thread(detectorReadoutRunnable);
@@ -303,7 +342,7 @@ public class TurboXasScan extends ContinuousScan {
 			for (int j = 0; j < numRepetitions; j++) {
 				logger.info("Collecting spectrum : repetition {} of {}", j+1, numRepetitions);
 
-				collectOneSpectrum();
+				collectOneSpectrum(false);
 
 				// Start collection thread after first spectrum
 				if (i==0 && j==0) {
@@ -317,14 +356,48 @@ public class TurboXasScan extends ContinuousScan {
 			}
 		}
 		// Wait at end for data collection thread to finish
-		int maxTimeoutMillis=5000;
-		while (!detectorReadoutRunnable.collectionFinished()) {
-			logger.info("Waiting {} ms for detector collection thread to finish...", maxTimeoutMillis);
-			Thread.sleep(maxTimeoutMillis);
-		}
+		waitForReadoutToFinish(detectorReadoutRunnable, 600.0);
+
 		// flags back to default values
 		turboXasScannable.atScanEnd();
  	}
+
+	private void waitForReadoutToFinish(DetectorReadoutRunnable detectorReadoutRunnable, double maxWaitTimeSecs) throws ScanFileHolderException, DeviceException, InterruptedException {
+		long pollIntervalMillis = 1000;
+		try {
+			// Wait while XSpress3 hdf writing is still active; then close the file so final frames are
+			// flushed to disk and available for reading.
+			double timeWaited = 0.0;
+			if (xspress3FileReader!=null && xspress3BufferedDetector!=null) {
+				logger.info("Waiting for Xspress3 hdf writer to finish...");
+				int lastFrame = 0;
+				int currentFrame = -1;
+				while (lastFrame!=currentFrame && timeWaited<maxWaitTimeSecs) {
+					Thread.sleep(pollIntervalMillis);
+					lastFrame = currentFrame;
+					currentFrame = xspress3BufferedDetector.getController().getTotalHDFFramesAvailable();
+					timeWaited += pollIntervalMillis * 0.001;
+				}
+				//stop the file writer
+				xspress3BufferedDetector.getController().setSavingFiles(false);
+			}
+
+			logger.info("Waiting for detector collection thread to finish...");
+			while (!detectorReadoutRunnable.collectionFinished() && timeWaited<maxWaitTimeSecs) {
+				Thread.sleep(pollIntervalMillis);
+				timeWaited += pollIntervalMillis * 0.001;
+			}
+		} catch (InterruptedException e) {
+			logger.error("Sleep interrupted while waiting for readout to finish", e);
+		} finally {
+			int numSpectraCollected = detectorReadoutRunnable.getNumSpectraCollected();
+			if (!detectorReadoutRunnable.collectionFinished()) {
+				logger.warn("Detector collection not finished after {} secs. {} spectra collected.", maxWaitTimeSecs, numSpectraCollected);
+			} else {
+				logger.warn("Detector collection finished. {} spectra collected.", numSpectraCollected);
+			}
+		}
+	}
 
 	public void setScalerMode() throws DeviceException {
 		// Try to set scalert64 mode first, otherwise Scalers seem to return junk. imh 14/9/2016
@@ -337,11 +410,6 @@ public class TurboXasScan extends ContinuousScan {
 		}
 	}
 
-	private int numSpectraPerCycle;
-	private int numReadoutsPerCycle;
-	private int numCycles;
-	private int maxNumScalerFramesPerCycle = 250000;
-
 	/**
 	 * Prepare detectors (BufferedScalers) for readout of all spectra
 	 * Do this once at beginning to avoid overhead of clearing out scaler memory etc for each spectra.
@@ -349,7 +417,7 @@ public class TurboXasScan extends ContinuousScan {
 	 * @throws DeviceException
 	 * @throws InterruptedException
 	 */
-	public void prepareDetectors() throws DeviceException, InterruptedException {
+	public void prepareDetectors() throws Exception {
 		int totNumSpectra = getTotalNumSpectra();
 		lastFrameRead = 0;
 		numReadoutsPerSpectrum = turboXasMotorParams.getNumReadoutsForScan();
@@ -365,8 +433,10 @@ public class TurboXasScan extends ContinuousScan {
 	 * @param numSpectra
 	 * @throws DeviceException
 	 * @throws InterruptedException
+	 * @throws FactoryException
+	 * @throws CAException
 	 */
-	public void prepareDetectors(int numReadoutsPerSpectra, int numSpectra) throws DeviceException, InterruptedException {
+	public void prepareDetectors(int numReadoutsPerSpectra, int numSpectra) throws Exception {
 		setScalerMode();
 		int maxNumSpectraPerCycle = (int) Math.floor(maxNumScalerFramesPerCycle/numReadoutsPerSpectra);
 		numSpectraPerCycle = Math.min(numSpectra,  maxNumSpectraPerCycle);
@@ -386,14 +456,54 @@ public class TurboXasScan extends ContinuousScan {
 			detector.setContinuousMode(true);
 			checkThreadInterrupted();
 			if (detector instanceof Xspress3BufferedDetector) {
-				((Xspress3BufferedDetector)detector).getController().setSavingFiles(false);
-				((Xspress3BufferedDetector)detector).getController().doStop();
-				((Xspress3BufferedDetector)detector).getController().doReset();
-				((Xspress3BufferedDetector)detector).getController().setNumFramesToAcquire(params.getNumberDataPoints());
-//				((Xspress3BufferedDetector)detector).getController().doReset();
-				((Xspress3BufferedDetector)detector).getController().setNextFileNumber(0);
-				((Xspress3BufferedDetector)detector).getController().setSavingFiles(true);
-				((Xspress3BufferedDetector)detector).getController().doStart();
+				xspress3BufferedDetector = (Xspress3BufferedDetector)detector;
+				prepareXSpress3(numSpectra*numReadoutsPerSpectra);
+			}
+		}
+	}
+
+	private Xspress3BufferedDetector xspress3BufferedDetector;
+
+	public Xspress3BufferedDetector getXspress3Detector() {
+		for (BufferedDetector detector : getScanDetectors() ) {
+			if (detector instanceof Xspress3BufferedDetector) {
+				return (Xspress3BufferedDetector) detector;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Prepeare XPress3 for collection:
+	 * set number of frames to collect (for both the detector and hdf plugin),
+	 * set trigger mode and next file number.
+	 * @param numReadouts
+	 * @throws Exception
+	 */
+	public void prepareXSpress3(int numReadouts) throws Exception{
+		if (xspress3BufferedDetector != null) {
+			Xspress3Controller controller = xspress3BufferedDetector.getController();
+
+			controller.setSavingFiles(false);
+			controller.doStop();
+			controller.doReset();
+			controller.setNumFramesToAcquire(numReadouts);
+			controller.setHDFNumFramesToAcquire(numReadouts);
+			controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only);
+
+			// controller.doReset();
+			controller.setNextFileNumber(0);
+			controller.setSavingFiles(true);
+			controller.doStart();
+
+			// create reader for loading data from Swmr file - only if using real hardware
+			if (useXspress3SwmrReadout && controller instanceof EpicsXspress3Controller) {
+				xspress3FileReader = new SwmrFileReader();
+				xspress3FileReader.openFile(controller.getFullFileName());
+				if (xspressAttributeMap.isEmpty()) {
+					setupXspressAttributeMap(xspress3BufferedDetector);
+				}
+				xspressAttributeMap.keySet().forEach((key) -> xspress3FileReader.addDatasetToRead(key, pathToAttributeData + xspressAttributeMap.get(key)));
 			}
 		}
 	}
@@ -418,9 +528,12 @@ public class TurboXasScan extends ContinuousScan {
 
 	/**
 	 * Perform motor move and collect data for a single spectrum
+	 *
+	 * @param collectData run data collection after motor move has finished. If set to false, this generally means data collection
+	 * should be happening in a separate thread.
 	 * @throws Exception
 	 */
-	public void collectOneSpectrum() throws Exception {
+	public void collectOneSpectrum(boolean collectData) throws Exception {
 		checkThreadInterrupted();
 
 		// Still need to create ContinuousParameters even if scan is setup using TurboXasMotorParams -
@@ -443,13 +556,13 @@ public class TurboXasScan extends ContinuousScan {
 		// Wait for scan to finish, then readout all frames at end into single ScanDataPoint object
 
 		// return if data collection is being done in background thread
-		if (detectorReadoutRunnable!=null){
+		if (!collectData){
 			return;
 		}
 
 		BufferedDetector[] scanDetectors = getScanDetectors();
 		if (scanDetectors.length > 0) {
-			collectData(scanDetectors[0]);
+			collectData(scanDetectors);
 		}
 	}
 
@@ -465,20 +578,18 @@ public class TurboXasScan extends ContinuousScan {
 	private static final String COUNT_UNITS = "counts";
 	private static final String INDEX_UNITS = "index";
 	private static final String POSITION_UNITS = "cm";
-
+	private static final String I0_LABEL = "I0";
+	private Dataset i0Data;
 
 	private String getFrameTimeFieldName() {
 		return getScanDetectors()[0].getExtraNames()[0];
 	}
 
-	private NXDetectorData createNXDetectorData(BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException {
-
+	private NXDetectorData createAxisData(BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException {
 		int numFramesRead = highFrame - lowFrame;
 		if (numFramesRead<numReadoutsPerSpectrum) {
 			logger.info("Expected {} frames for spectrum, {} frames available - padding with zeros...", numReadoutsPerSpectrum, numFramesRead );
 		}
-
-		int numFrames = numReadoutsPerSpectrum;
 
 		// Number of frames to be stored in Nexus file
 		// Don't record last frame of data (this corresponds to the long timeframe when
@@ -508,6 +619,113 @@ public class TurboXasScan extends ContinuousScan {
 			}
 			frame.addAxis(detector.getName(), POSITION_COLUMN_NAME, new NexusGroupData(position), 3, 1, POSITION_UNITS, false);
 		}
+		return frame;
+	}
+
+	public void addXspressDatasetToRecord(String label, String attribute) {
+		xspressAttributeMap.put(label, attribute);
+	}
+
+	private void setupXspressAttributeMap(Xspress3BufferedDetector detector) {
+		for(int channel=0; channel<detector.getNumberOfElements(); channel++) {
+			xspressAttributeMap.put(String.format("FF_%d", channel+1), String.format("Chan%dSca%d", channel+1, 5));
+		}
+	}
+
+	/**
+	 * Create NXDetector data from XSpress3 detector; Readout of detector data occurs in two ways :
+	 * <li> In the normal way. i.e. by reading arrays of scaler data from PVs.
+	 * <li> By reading data from the XSpress3 hdf (SWMR) file (using {@link #xspress3FileReader}).
+	 * When using this method, checks should be carried out before calling this function to ensure lowframe and highframe are within current dataset limits.
+	 * e.g. by calling {@link SwmrFileReader#getNumAvailableFrames()}.
+	 * @param detector
+	 * @param lowFrame
+	 * @param highFrame
+	 * @return
+	 * @throws DeviceException
+	 * @throws ScanFileHolderException
+	 */
+	private NXDetectorData createNXDetectorData(Xspress3BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException, ScanFileHolderException {
+
+		NXDetectorData frame = createAxisData(detector, lowFrame, highFrame);
+
+		INexusTree detTree = frame.getDetTree(detector.getName());
+
+		Dataset ffSum = null;
+
+		if (xspress3FileReader!=null) {
+			// Add detector data from xspress3 hdf file
+			int[] start = new int[] { lowFrame };
+			int[] shape = new int[] { highFrame - lowFrame - 1 };
+			int[] step = new int[shape.length];
+			Arrays.fill(step, 1);
+			try {
+				logger.info("Adding data from hdf file {}", xspress3FileReader.getFilename());
+				ffSum = DatasetFactory.zeros(highFrame - lowFrame -1);
+				ffSum.setName("FF_sum");
+				for (Dataset dataset : xspress3FileReader.readDatasets(start, shape, step)) {
+					NXDetectorData.addData(detTree, dataset.getName(), NexusGroupData.createFromDataset(dataset),
+							"counts", 1);
+					if (dataset.getName().startsWith("FF")) {
+						ffSum.iadd(dataset);
+					}
+				}
+				NXDetectorData.addData(detTree, ffSum.getName(), NexusGroupData.createFromDataset(ffSum), "counts", 1);
+			} catch (NexusException e) {
+				logger.error("Problem reading data from hdf file", e);
+			}
+		} else {
+			//Add detector data from xspress3 scaler readout
+			NXDetectorData[] detData = detector.readFrames(lowFrame, highFrame-1);
+			String[] names = detData[0].getExtraNames();
+			int numFrames = detData.length;
+			for(int i=0; i<names.length; i++) {
+				Dataset dataset = DatasetFactory.zeros(DoubleDataset.class, numFrames);
+				dataset.setName(names[i]);
+				for(int frameIndex = 0; frameIndex<numFrames; frameIndex++) {
+					double val = detData[frameIndex].getDoubleVals()[i];
+					dataset.set(val, frameIndex);
+				}
+				NXDetectorData.addData(detTree, dataset.getName(), NexusGroupData.createFromDataset(dataset), "counts", 1);
+
+				// last dataset from readFrames is total FF (i.e. sum over all detector elements)
+				if (i==names.length-1) {
+					ffSum = dataset;
+				}
+			}
+		}
+
+		// Add ff/I0 values
+		if (ffSum!=null && i0Data!=null) {
+			int numI0Values = i0Data.getShape()[0];
+			Dataset ffSumSlice = ffSum.getSlice(null, new int[]{numI0Values}, null).squeeze();
+			Dataset ffi0 = ffSumSlice.idivide(i0Data);
+			// Use u2215 (division slash, ∕) rather than solidus (/), so ratio is displayed nicely and Nexus writer doesn't get confused
+			ffi0.setName("FF_sum\u2215I0");
+			NXDetectorData.addData(detTree, ffi0.getName(), NexusGroupData.createFromDataset(ffi0), "counts", 1);
+		}
+		return frame;
+	}
+
+	/**
+	 * Create NXDetector data from BufferedScaler (from Tfg scaler)
+	 * @param detector
+	 * @param lowFrame
+	 * @param highFrame
+	 * @return
+	 * @throws DeviceException
+	 */
+	private NXDetectorData createNXDetectorData(BufferedScaler detector, int lowFrame, int highFrame) throws DeviceException {
+
+		int numFramesRead = highFrame - lowFrame;
+		int numFrames = numReadoutsPerSpectrum;
+//
+//		// Number of frames to be stored in Nexus file
+//		// Don't record last frame of data (this corresponds to the long timeframe when
+//		// the motor moves back to start position)
+		int numFramesToStore = numFramesRead-1;
+
+		NXDetectorData frame = createAxisData(detector, lowFrame, highFrame);
 
 		// Frame data from detector
 		Object[] detectorFrameData = detector.readFrames(lowFrame, highFrame);
@@ -521,6 +739,7 @@ public class TurboXasScan extends ContinuousScan {
 		// Copy data for each field and add to detector data
 		INexusTree detTree = frame.getDetTree(detector.getName());
 		int maxField = Math.min(fieldNames.length, frameDataArray[0].length);
+		i0Data = null;
 		for(int fieldIndex=0; fieldIndex<maxField; fieldIndex++) {
 			double[] detData = new double[numFramesToStore];
 			for(int i=0; i<numFramesToStore; i++) {
@@ -529,6 +748,11 @@ public class TurboXasScan extends ContinuousScan {
 			String fieldName = fieldNames[fieldIndex];
 			String units = fieldName.equals(frameTimeName) ? TIME_UNITS : COUNT_UNITS;
 			NXDetectorData.addData(detTree, fieldName, new NexusGroupData(detData), units, 1);
+
+			// Save the I0 dataset, so can calculate (and plot) FF/I0 after xspress3 data has been collected
+			if (fieldName.equals(I0_LABEL)){
+				i0Data = DatasetFactory.createFromObject(detData);
+			}
 		}
 
 		// Store the length of last timeframe as separate dataset ('time between spectra')
@@ -546,7 +770,11 @@ public class TurboXasScan extends ContinuousScan {
 
 	public NexusTreeProvider[] readFrames(BufferedDetector detector, int lowFrame, int highFrame) throws Exception, DeviceException {
 		NexusTreeProvider[] results = new NexusTreeProvider[1];
-		results[0] = createNXDetectorData(detector, lowFrame, highFrame);
+		if (detector instanceof BufferedScaler) {
+			results[0] = createNXDetectorData( (BufferedScaler)detector, lowFrame, highFrame);
+		} else if (detector instanceof Xspress3BufferedDetector) {
+			results[0] = createNXDetectorData( (Xspress3BufferedDetector)detector, lowFrame, highFrame);
+		}
 		return results;
 	}
 
@@ -576,16 +804,12 @@ public class TurboXasScan extends ContinuousScan {
 		return detData;
 	}
 
-	private PlotUpdater plotUpdater = new PlotUpdater();
-	private volatile  int lastFrameRead;
-
-	private DetectorReadoutRunnable detectorReadoutRunnable;
 
 	/**
 	 * Runnable that can be used to collect detector data in a background thread.
 	 * It monitors the number of frames of detector data available, and when enough frames
 	 * for a new spectrum are available, it collects the spectrum data and writes it to the Nexus file
-	 * using {@link #collectData(BufferedDetector)}
+	 * using {@link #collectData(BufferedDetector[])}.
 	 */
 	private class DetectorReadoutRunnable implements Runnable {
 
@@ -598,6 +822,8 @@ public class TurboXasScan extends ContinuousScan {
 		private int currentTimingGroupIndex=0;
 		private int numSpectraCollectedForGroup=0;
 		private List<TurboSlitTimingGroup> timingGroups;
+
+		private boolean runMethodFinished = false;
 
 		public DetectorReadoutRunnable() {
 			timingGroups = new ArrayList<TurboSlitTimingGroup>();
@@ -613,11 +839,11 @@ public class TurboXasScan extends ContinuousScan {
 			logger.debug("ReadoutThread started");
 			try {
 				while (numSpectraCollected < totalNumSpectraToCollect) {
-					int numAvailableFrames = detector.getNumberFrames();
+					int numAvailableFrames = getNumAvailableFrames();
 
 					// Break out of while loop if frames get cleared (e.g. due to 'stop scan' button being pressed)
 					if (numAvailableFrames==0 && !detector.isBusy()) {
-						logger.debug("ReadoutThread : exiting (no frames left and detector not busy)");
+						logger.debug("ReadoutThread : exiting (no frames available and detector not busy)");
 						break;
 					}
 
@@ -659,7 +885,7 @@ public class TurboXasScan extends ContinuousScan {
 						logger.debug("ReadoutThread : collecting data {}", msg);
 						InterfaceProvider.getTerminalPrinter().print(msg);
 
-						collectData(detector);
+						collectData(getScanDetectors());
 						numSpectraCollected++;
 					}
 					Thread.currentThread().sleep(pollIntervalMillis);
@@ -668,6 +894,7 @@ public class TurboXasScan extends ContinuousScan {
 				logger.error("ReadoutThread encountered an error during data collection.", e);
 			} finally {
 				logger.debug("ReadoutThread finished.");
+				runMethodFinished = true;
 			}
 		}
 
@@ -681,7 +908,7 @@ public class TurboXasScan extends ContinuousScan {
 			this.numFramesPerSpectrum = numFramesPerSpectrum;
 		}
 		public boolean collectionFinished() {
-			return numSpectraCollected == totalNumSpectraToCollect;
+			return runMethodFinished;
 		}
 		public void setDetector(BufferedDetector detector) {
 			this.detector = detector;
@@ -692,26 +919,46 @@ public class TurboXasScan extends ContinuousScan {
 	}
 
 	/**
+	 * @return Maximum available frame that can be read from all detectors (BufferedScaler and Xspress3Detector)
+	 * @throws DeviceException
+	 * @throws ScanFileHolderException
+	 * @throws NexusException
+	 */
+	private int getNumAvailableFrames() throws DeviceException, NexusException, ScanFileHolderException {
+		int minNumFrames = -1;
+		for(BufferedDetector detector : getScanDetectors()){
+			int numFramesAvailable = detector.getNumberFrames();
+			if (minNumFrames == -1) {
+				minNumFrames = numFramesAvailable;
+			}
+			if (detector instanceof Xspress3BufferedDetector) {
+				numFramesAvailable = ((Xspress3BufferedDetector) detector).getController().getTotalHDFFramesAvailable();
+				if (xspress3FileReader != null) {
+					numFramesAvailable = xspress3FileReader.getNumAvailableFrames();
+				}
+			}
+			logger.debug("Number of frames of data available for {} : {}", detector.getName(), numFramesAvailable);
+			minNumFrames = Math.min(minNumFrames,  numFramesAvailable);
+		}
+		return minNumFrames;
+	}
+
+	/**
 	 * Read out frames from scalers for one spectrum of data and write the new data into the Nexus file.
 	 * The new data is also send to the GUI progress updater.
 	 * @param detector
 	 * @throws Exception
 	 */
-	private void collectData(BufferedDetector detector) throws Exception {
+	private void collectData(BufferedDetector[] detectors) throws Exception {
 
-		// each frame is set of scaler values, corresponding to values for single photon energy/zebra pulse/motor position
-		// Readout frames from Scaler memory corresponding to latest spectra.
-		int totalNumFramesAvailable = detector.getNumberFrames();
+		int totalNumFramesAvailable = getNumAvailableFrames();
 
 		int lastFrameToRead = lastFrameRead + numReadoutsPerSpectrum;
 		if (lastFrameToRead > totalNumFramesAvailable) {
 			logger.warn("Possible problem reading out data : Last frame of scaler data is {}, but need to read up to {}", totalNumFramesAvailable, lastFrameToRead);
 		}
 
-		Object[][]nxFrameData = readDetector(detector, lastFrameRead, lastFrameToRead);
-		lastFrameRead += numReadoutsPerSpectrum;
-
-		// Create scan data point and add detector data.
+		// Create scan data point
 		ScanDataPoint thisPoint = new ScanDataPoint();
 		thisPoint.setUniqueName(getName());
 		thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
@@ -721,10 +968,16 @@ public class TurboXasScan extends ContinuousScan {
 		int[] dims = getDimensions();
 		thisPoint.setScanDimensions(dims);
 
-		// NeXus writing works using NXDetector, so put scaler data in dummy NX detector...
-		DummyNXDetector testDet = new DummyNXDetector(detector.getName(), 1);
-		thisPoint.addDetector(testDet);
-		thisPoint.addDetectorData(nxFrameData[0][0], ScannableUtils.getExtraNamesFormats(detector));
+		// Add the detector data
+		for(BufferedDetector detector : detectors) {
+			Object[][] nxFrameData = readDetector(detector, lastFrameRead, lastFrameToRead);
+
+			// NeXus writing works using NXDetector, so put scaler data in dummy NX detector...
+			DummyNXDetector testDet = new DummyNXDetector(detector.getName(), 1);
+			thisPoint.addDetector(testDet);
+			thisPoint.addDetectorData(nxFrameData[0][0], ScannableUtils.getExtraNamesFormats(detector));
+		}
+		lastFrameRead += numReadoutsPerSpectrum;
 
 		// If nested scan, determine number of times this scan will be repeated.
 		int numPoints = 1;
@@ -742,10 +995,13 @@ public class TurboXasScan extends ContinuousScan {
 		thisPoint.setScanIdentifier(getScanNumber());
 		setScanIdentifierInScanDataPoint(thisPoint);
 
-		getDataWriter().addData(thisPoint);
+		try {
+			getDataWriter().addData(thisPoint);
+		}catch(Exception ie) {
+			logger.warn("Problem adding datapoint to ascii file", ie);
+		}
 		thisPoint.setCurrentFilename(getDataWriter().getCurrentFileName());
 
-		//InterfaceProvider.getJythonServerNotifer().notifyServer(this, thisPoint); // for the CommandQueue
 		plotUpdater.setFilename(thisPoint.getCurrentFilename());
 		plotUpdater.clearDatasets();
 		plotUpdater.addDatasetsFromScanDataPoint(thisPoint);
@@ -758,117 +1014,6 @@ public class TurboXasScan extends ContinuousScan {
 		if (metashop != null) {
 			metashop.clear();
 			metashop.add("TurboXasParameters", turboXasMotorParams.getScanParameters().toXML() );
-		}
-	}
-
-	private static class PlotUpdater {
-		private List<String> dataNames = new ArrayList<String>();
-		private List<DoubleDataset> dataSets = new ArrayList<DoubleDataset>();
-		private ScriptControllerBase controller;
-		private String filename;
-
-		private int currentGroupNumber;
-		private int currentSpectrumNumber;
-		private String energyAxisName;
-
-		public PlotUpdater() {
-			controller = Finder.getInstance().find(EdeExperiment.PROGRESS_UPDATER_NAME);
-		}
-
-		public String getFilename() {
-			return filename;
-		}
-
-		public void setFilename(String filename) {
-			this.filename = filename;
-		}
-
-		public void setCurrentGroupNumber(int currentGroupNumber) {
-			this.currentGroupNumber = currentGroupNumber;
-		}
-
-		public void incrementCurrentSpectrumNumber() {
-			currentSpectrumNumber++;
-		}
-
-		public void setCurrentSpectrumNumber(int currentSpectrumNumber) {
-			this.currentSpectrumNumber = currentSpectrumNumber;
-		}
-
-		public void setEnergyAxisName(String energyAxisName) {
-			this.energyAxisName = energyAxisName;
-		}
-
-		DoubleDataset extractDoubleDatset(NexusGroupData groupData) {
-			if (groupData!=null && groupData.getBuffer() instanceof double[]) {
-				double[] originalData = (double[]) groupData.getBuffer();
-				return (DoubleDataset) DatasetFactory.createFromObject(Arrays.copyOf(originalData, originalData.length), originalData.length);
-			} else
-				return null;
-		}
-
-		private boolean isIrefData(String name) {
-			return (name.equalsIgnoreCase(TfgScalerWithLogValues.LNITIREF_LABEL) || name.equalsIgnoreCase("Iref"));
-		}
-		/**
-		 * Extract detector data from scan data point and send spectra of I0, It, time etc to the progress updater.
-		 * Only data from the first detector is extracted.
-		 * @param scanDataPoint
-		 */
-		public void addDatasetsFromScanDataPoint(ScanDataPoint scanDataPoint) {
-			logger.debug("PlotUpdater.updateShowAll() called");
-			NXDetectorData data = (NXDetectorData) scanDataPoint.getDetectorData().get(0);
-
-			// Extract numerical (floating point) detector data from Nexus data in scan data point
-			INexusTree nexusDetData = data.getNexusTree().getChildNode(0);
-			String detectorName = data.getNexusTree().getChildNode(0).getName();
-
-			for (int i = 0; i < nexusDetData.getNumberOfChildNodes(); i++) {
-				String dataName = nexusDetData.getChildNode(i).getName();
-				NexusGroupData groupData = data.getData(detectorName, dataName, NexusExtractor.SDSClassName);
-				DoubleDataset dataset = extractDoubleDatset(groupData);
-				if (dataset != null) {
-					addDataset(dataName, dataset);
-				}
-			}
-		}
-
-		public void addDataset(String dataName, DoubleDataset dataset) {
-			dataNames.add(dataName);
-			dataSets.add(dataset);
-		}
-
-		public void clearDatasets() {
-			dataNames.clear();
-			dataSets.clear();
-		}
-
-		public void sendDataToController() {
-
-			if (controller == null) {
-				logger.info("PlotUpdater cannot send plot data to client - controller has not been set");
-				return;
-			}
-
-			// Determine index of dataset to use for energy axis
-			int energyAxisIndex = dataNames.indexOf(energyAxisName);
-			if (energyAxisIndex == -1) {
-				logger.info("PlotUpdater could not find energy axis data (axis name = {})", energyAxisName);
-				return;
-			}
-
-			// Create progress beans and notify plot controller
-			EdeScanProgressBean scanProgressBean = new EdeScanProgressBean(currentGroupNumber, currentSpectrumNumber,
-					EdeScanType.LIGHT, EdePositionType.INBEAM, filename);
-
-			for (int i = 0; i < dataNames.size(); i++) {
-				// Don't plot position column or energy datasets
-				String dataName = dataNames.get(i);
-				if (!dataName.equals(ENERGY_COLUMN_NAME) && !dataName.equals(POSITION_COLUMN_NAME) && !isIrefData(dataName)) {
-					controller.update(null, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI, scanProgressBean,
-										dataNames.get(i), dataSets.get(i), dataSets.get(energyAxisIndex)));
-				}
-			}
 		}
 	}
 
@@ -890,6 +1035,14 @@ public class TurboXasScan extends ContinuousScan {
 
 	public void setDoTrajectoryScan(boolean doTrajectoryScan) {
 		this.doTrajectoryScan = doTrajectoryScan;
+	}
+
+	public boolean getUseXspress3SwmrReadout() {
+		return useXspress3SwmrReadout;
+	}
+
+	public void setUseXspress3SwmrReadout(boolean useXspress3SwmrReadout) {
+		this.useXspress3SwmrReadout = useXspress3SwmrReadout;
 	}
 
 	/** Number of spectra per Tfg cycle (calculated by {@link #prepareDetectors(int, int)}) **/
