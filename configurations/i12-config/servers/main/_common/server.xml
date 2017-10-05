@@ -48,6 +48,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco2.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/pipediode.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/pixium2.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/ring.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/s1_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/s2_new_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/s3.xml"/>
@@ -99,6 +100,7 @@
 	<import resource="file:${gda.config}/devices/_common/pco2.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pipediode.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pixium2.xml"/>
+	<import resource="file:${gda.config}/devices/_common/ring.xml" />
 	<import resource="file:${gda.config}/devices/_common/s1.xml"/>
 	<import resource="file:${gda.config}/devices/_common/s2_new.xml"/>
 	<import resource="file:${gda.config}/devices/_common/s3.xml"/>
