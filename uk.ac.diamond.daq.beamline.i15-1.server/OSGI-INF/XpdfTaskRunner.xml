@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="XpdfTaskRunner">
+   <service>
+      <provide interface="uk.ac.diamond.daq.beamline.i151.server.IXpdfTaskRunner"/>
+   </service>
+   <reference bind="setDatabaseService" cardinality="1..1" interface="uk.ac.diamond.daq.beamline.i15.database.IXpdfDatabaseService" name="DatabaseService"/>
+   <implementation class="uk.ac.diamond.daq.beamline.i151.server.XpdfTaskRunner"/>
+</scr:component>
