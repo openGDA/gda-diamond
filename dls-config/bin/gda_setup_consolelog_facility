@@ -18,13 +18,13 @@ fi
 bashlog debug "gda_setup_consolelog_facility" "set \${GDA_LOGS_DIR}=${GDA_LOGS_DIR}"
 
 # Protect against ssh being so fast that server and client try to write to the same file
-while [ -z ${GDA_LOG_FILE-} ]; do
+while true; do
     export GDA_LOG_FILE=${GDA_LOGS_DIR}/$LOGNAME/${LOGNAME}-`date +%Y%m%d-%H%M%S`.txt
-    if [ -f $GDA_LOG_FILE ]; then
-        bashlog debug "gda_setup_consolelog_facility" "GDA_LOG_FILE exists, wait a second and try again..."
-        GDA_LOG_FILE=
-        sleep 1
+    if [ ! -e $GDA_LOG_FILE ]; then
+        break;
     fi
+    bashlog debug "gda_setup_consolelog_facility" "GDA_LOG_FILE exists, wait a second and try again..."
+    sleep 1
 done
 
 consolelogfile_dir=$(dirname ${GDA_LOG_FILE})
