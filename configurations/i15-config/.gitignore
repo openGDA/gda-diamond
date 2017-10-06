@@ -1,3 +1,5 @@
+scripts/gdaserver.py
+
 # standard .gitignore file for config projects (missing bin/ in particular)
 
 ### Temporary files ###
