@@ -38,55 +38,10 @@ try:
     d1 = DisplayEpicsPVClass("d1", "BL15J-EA-ADC-01:STAT4:MeanValue_RBV", "V", "%f")
     d2 = DisplayEpicsPVClass("d2", "BL15J-EA-ADC-01:STAT5:MeanValue_RBV", "V", "%f")
 
-    from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper
-    from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessorWithRoi
-    from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
-    from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
-    global cam1rawNx, cam1rgbRawNx, cam2rawNx, bpm1rawNx, bpm2rawNx, eyeRawNx
-
-    def wrappedDetectorFactory(camdet, cam_name):
-        try:
-            pdw_name, peak2d_name, max2d_name= cam_name, cam_name+"Peak2d", cam_name+"Max2d"
-            print "Creating %s, %s and %s detector wrappers" % (pdw_name, peak2d_name, max2d_name)
-            cam    = ProcessingDetectorWrapper   (pdw_name, camdet, [], panel_name_rcp='Plot 1')
-            peak2d = DetectorDataProcessorWithRoi(peak2d_name, cam, [TwodGaussianPeak()])
-            max2d  = DetectorDataProcessorWithRoi(max2d_name, cam, [SumMaxPositionAndValue()])
-            return cam, peak2d, max2d
-        except:
-            localStation_exception(sys.exc_info(), "creating %s detector wrappers" % camdet.name)
-
-    cam1, cam1Peak2d, cam1Max2d = wrappedDetectorFactory(cam1rawNx, 'cam1')
-    cam2, cam2Peak2d, cam2Max2d = wrappedDetectorFactory(cam2rawNx, 'cam2')
-    bpm1, bpm1Peak2d, bpm1Max2d = wrappedDetectorFactory(bpm1rawNx, 'bpm1')
-    bpm2, bpm2Peak2d, bpm2Max2d = wrappedDetectorFactory(bpm2rawNx, 'bpm2')
-    eye, eyePeak2d, eyeMax2d = wrappedDetectorFactory(eyeRawNx, 'eye')
-
-    cam1rgb = ProcessingDetectorWrapper   ("cam1rgb", cam1rgbRawNx, [], panel_name_rcp='Plot 1')
-
-    print "Created processing detectors"
-
     from mapping_scan_commands import *
     print "Imported mapping_scan_commands"
 
-    pe1AreaDetectorRunnableDeviceProxyFinder = finder.find("pe1AreaDetectorRunnableDeviceProxyFinder")
-    pe1AreaDetectorRunnableDeviceProxy = pe1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
-
     from jythonAreaDetectorRunnableDeviceDelegate import JythonAreaDetectorRunnableDeviceDelegate
-
-    pe1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pe1AreaDetectorRunnableDeviceProxy)
-    pe1AreaDetectorRunnableDeviceProxy.setDelegate(pe1JythonAreaDetectorRunnableDeviceDelegate)
-    pe1AreaDetectorRunnableDeviceProxy.register()
-
-    print "Configured pe1AD detector"
-
-    pe1DarkAreaDetectorRunnableDeviceProxyFinder = finder.find("pe1DarkAreaDetectorRunnableDeviceProxyFinder")
-    pe1DarkAreaDetectorRunnableDeviceProxy = pe1DarkAreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
-
-    pe1DarkJythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pe1DarkAreaDetectorRunnableDeviceProxy)
-    pe1DarkAreaDetectorRunnableDeviceProxy.setDelegate(pe1DarkJythonAreaDetectorRunnableDeviceDelegate)
-    pe1DarkAreaDetectorRunnableDeviceProxy.register()
-
-    print "Configured pe1AD dark detector"
 
     adc1AreaDetectorRunnableDeviceProxyFinder = finder.find("adc1AreaDetectorRunnableDeviceProxyFinder")
     adc1AreaDetectorRunnableDeviceProxy = adc1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
@@ -96,6 +51,24 @@ try:
     adc1AreaDetectorRunnableDeviceProxy.register()
 
     print "Configured adc1 detector"
+
+    bpm1AreaDetectorRunnableDeviceProxyFinder = finder.find("bpm1AreaDetectorRunnableDeviceProxyFinder")
+    bpm1AreaDetectorRunnableDeviceProxy = bpm1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    bpm1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(bpm1AreaDetectorRunnableDeviceProxy)
+    bpm1AreaDetectorRunnableDeviceProxy.setDelegate(bpm1JythonAreaDetectorRunnableDeviceDelegate)
+    bpm1AreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured bpm1 detector"
+
+    bpm2AreaDetectorRunnableDeviceProxyFinder = finder.find("bpm2AreaDetectorRunnableDeviceProxyFinder")
+    bpm2AreaDetectorRunnableDeviceProxy = bpm2AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    bpm2JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(bpm2AreaDetectorRunnableDeviceProxy)
+    bpm2AreaDetectorRunnableDeviceProxy.setDelegate(bpm2JythonAreaDetectorRunnableDeviceDelegate)
+    bpm2AreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured bpm2 detector"
 
     cam1AreaDetectorRunnableDeviceProxyFinder = finder.find("cam1AreaDetectorRunnableDeviceProxyFinder")
     cam1AreaDetectorRunnableDeviceProxy = cam1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
@@ -114,6 +87,52 @@ try:
     cam2AreaDetectorRunnableDeviceProxy.register()
 
     print "Configured cam2 detector"
+
+
+    eye1AreaDetectorRunnableDeviceProxyFinder = finder.find("eye1AreaDetectorRunnableDeviceProxyFinder")
+    eye1AreaDetectorRunnableDeviceProxy = eye1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    eye1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(eye1AreaDetectorRunnableDeviceProxy)
+    eye1AreaDetectorRunnableDeviceProxy.setDelegate(eye1JythonAreaDetectorRunnableDeviceDelegate)
+    eye1AreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured eye1 detector"
+
+    pe1AreaDetectorRunnableDeviceProxyFinder = finder.find("pe1AreaDetectorRunnableDeviceProxyFinder")
+    pe1AreaDetectorRunnableDeviceProxy = pe1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    pe1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pe1AreaDetectorRunnableDeviceProxy)
+    pe1AreaDetectorRunnableDeviceProxy.setDelegate(pe1JythonAreaDetectorRunnableDeviceDelegate)
+    pe1AreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured pe1AD detector"
+
+    pe2AreaDetectorRunnableDeviceProxyFinder = finder.find("pe2AreaDetectorRunnableDeviceProxyFinder")
+    pe2AreaDetectorRunnableDeviceProxy = pe2AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    pe2JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pe2AreaDetectorRunnableDeviceProxy)
+    pe2AreaDetectorRunnableDeviceProxy.setDelegate(pe2JythonAreaDetectorRunnableDeviceDelegate)
+    pe2AreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured pe2AD detector"
+
+    web1AreaDetectorRunnableDeviceProxyFinder = finder.find("web1AreaDetectorRunnableDeviceProxyFinder")
+    web1AreaDetectorRunnableDeviceProxy = web1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    web1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(web1AreaDetectorRunnableDeviceProxy)
+    web1AreaDetectorRunnableDeviceProxy.setDelegate(web1JythonAreaDetectorRunnableDeviceDelegate)
+    web1AreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured web1 detector"
+
+    web2AreaDetectorRunnableDeviceProxyFinder = finder.find("web2AreaDetectorRunnableDeviceProxyFinder")
+    web2AreaDetectorRunnableDeviceProxy = web2AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    web2JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(web2AreaDetectorRunnableDeviceProxy)
+    web2AreaDetectorRunnableDeviceProxy.setDelegate(web2JythonAreaDetectorRunnableDeviceDelegate)
+    web2AreaDetectorRunnableDeviceProxy.register()
+
+    print "Configured web2 detector"
 
     if dummy_mode:
         print "*"*80

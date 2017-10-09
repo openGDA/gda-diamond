@@ -105,6 +105,4 @@
 		<property name="ndFileImpl" ref="cam2_NDFileHDF5file" />
 		<property name="initialCompression" value="zlib" />
 	</bean>
-	
-	<import resource="I15-1-JCAM2m.xml"/>
 </beans>

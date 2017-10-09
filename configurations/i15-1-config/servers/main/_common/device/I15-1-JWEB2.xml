@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- ADDetectors -->
+
+	<bean id="web2AD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="web2AD_cam"/>
+		<property name="readArray" value="false"/>
+	</bean>
+
+	<!-- Scanning API -->
+
+	<bean id="web2AreaDetectorRunnableDeviceProxyModel"
+			class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name"              value="web2AD"/>
+		<property name="exposureTime"      value="0.1"/>
+	</bean>
+	<bean id="web2AreaDetectorRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="web2AD"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.web2AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="label"             value="Web 2 Proxy (web2AreaDetectorRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="Web 2 Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="web2AreaDetectorRunnableDeviceProxy"
+			class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
+		<property name="name"              value="web2AD"/>
+		<property name="model"             ref="web2AreaDetectorRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="web2AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="web2AreaDetectorRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="web2AreaDetectorRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="web2AreaDetectorRunnableDeviceProxy"/>
+	</bean>
+</beans>
