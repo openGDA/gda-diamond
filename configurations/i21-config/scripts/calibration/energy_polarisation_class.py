@@ -1,4 +1,5 @@
 import sys
+import csv
 from time import sleep
 
 from gda.configuration.properties import LocalProperties
@@ -6,7 +7,6 @@ from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable.scannablegroup import ScannableGroup
 from lookup.IDLookup import lookup_file, IDLookup4LinearAngleMode
 from lookup.threeKeysLookupTable import loadLookupTable
-from lookupTable.Lookup2Dto2D import loadDataset
 
 
 #from gda.function.lookupTable import LookupTable
@@ -23,6 +23,16 @@ def getFittingCoefficents(polarisation_mode, Ep, lut={}):
             if (Ep>=low and Ep<high): 
                 return lut[(polarisation_mode, low, high)]
 
+def loadDataset(filename):
+    '''loads a CSV with the provided filename 
+    '''
+    with open(filename, 'rb') as csvfile:
+        lines = csv.reader(csvfile)
+        dataset = list(lines)[1:] #skip the header line
+        for x in range(len(dataset)-1):
+            for y in range(4):
+                dataset[x][y] = float(dataset[x][y])
+    return dataset
 
 class BeamEnergyPolarisationClass(ScannableMotionBase):
     '''Coupled beam energy and polarisation scannable that encapsulates and fan-outs control to ID gap, row phase, and PGM energy.
@@ -83,8 +93,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             print (formatstring % (key[0],key[1],key[2],value[0],value[1],value[2],value[3],value[4]))
     
     def showLinearAngleLookupTable(self):
-        dataset=[]
-        loadDataset(self.idlamlookup.lut, 1, dataset)
+        dataset=loadDataset(self.idlamlookup.lut)
         formatstring="%12s\t%12s\t%18s\t%12s"
         print (formatstring % ("Gap (mm)", "Phase (mm)", "Polarisation (deg)", "energy (eV)"))
         for value in dataset:
@@ -106,7 +115,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         if mode in ["LH", "LV", "CR", "CL"]:
             #polarisation is constant in these modes
             coef=getFittingCoefficents(self.polarisationMode, Ep, self.lut)
-            gap = coef[0] + coef[1]*Ep + coef[2]*Ep^2 +coef[3]*Ep^3 + coef[4]*Ep^4
+            gap = coef[0] + coef[1]*Ep + coef[2]*Ep^2 +coef[3]*Ep^3 + coef[4]*Ep^4 + coef[5]*Ep^5 + coef[6]*Ep^6 + coef[7]*Ep^7
             if (gap<self.minGap or gap>self.maxGap): #IDGroup Excel table only cover this range
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (%s, %s)!" % (self.minGap, self.maxGap))
             if mode == "LV":
@@ -150,6 +159,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 elif self.energyConstant:
                     self.setOutputFormat(["%s"])
                     return self.polarisation
+                else:
+                    self.setOutputFormat(["%10.6f","%s"])
+                    return self.energy, self.polarisation
+                    
             elif self.polarisationMode in ["LAP", "LAN"]:
                 self.polarisation = self.idlamlookup.getEnergyPolarisation(self.gap, self.phase)[0]
                 if self.polarisationConstant:
@@ -158,8 +171,6 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                     return self.polarisation
                 else:
                     self.setOutputFormat(["%10.6f","%5.2f"])
-                    self.setInputNames(["energy"])
-                    self.setExtraNames(["polarisation"])
                     return self.energy, self.polarisation
             
 
@@ -284,4 +295,6 @@ polarisation=BeamEnergyPolarisationClass("polarisation", idscannable, pgmEnergy,
 polarisation.configure()
 energypolarisation=BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy,idlamlookup, lut="IDEnergy2GapCalibrations.txt")  # @UndefinedVariable
 energypolarisation.configure()
+energypolarisation.setInputNames(["energy"])
+energypolarisation.setExtraNames(["polarisation"])
 
