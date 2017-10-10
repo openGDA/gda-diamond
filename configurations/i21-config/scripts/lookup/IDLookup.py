@@ -10,7 +10,7 @@ import time
 starttime=time.time()
 #The lookupTable table
 lookup_file='/dls_sw/i21/software/gda/config/lookupTables/LinearAngle.csv'
-#Lookup module
+#Lookup module - a symlink to 'i21-python' project
 local_module_path='/dls_sw/i21/software/gda/pythonscript/lookupTable'
 
 # To solve the problem that PyDev/ Jython was passing JYTHONPATH as PYTHONPATH to the subprocess.
@@ -33,13 +33,13 @@ class IDLookup4LinearAngleMode():
     def getEnergyPolarisation(self, gap, phase):
         out=self.lookupGapPhase(gap, phase, filename=self.lut)
 #         return out # used in scisoftpy
-        out= [float(x.strip()) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
+        out= [float(x.strip(',')) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
         return out
     
     def getGapPhase(self, energy, polarisation):
         out=self.lookupPolarEnergy(polarisation, energy, filename=self.lut)
 #         return out # used in scisoftpy
-        out= [float(x.strip()) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
+        out= [float(x.strip(',')) for x in out.strip('\n').strip(']').strip('[').split(' ') if x.strip() not in ('[',']','') ]
         return out
     
     def stop(self):
@@ -54,20 +54,26 @@ endtime=time.time()
 print "time taken for Initialisation: %s" % (endtime-starttime)
 
 def main():
+    # print idlam.getGapPhase(778.5350225, 30.0)
     print
+    
+    print "[gap, phase] -> [polarisation, energy]"
     for gap, phase in [(20, 0), (25, 5), (30, 10), (35, 15), (40, 20), (45, 25), (50, 28), (55, 23), (60, 17), (65, 13), (70, 8)]:
         starttime=time.time()
-        print idlam.getEnergyPolarisation(gap,phase)
+        print "[",gap,',', phase,']', "->", idlam.getEnergyPolarisation(gap,phase)
         endtime= time.time()
         print "time taken: %s" % (endtime-starttime)
+        print
     
     print 
     
+    print "[energy,polarisation] -> [gap,phase]"
     for energy, polar in [(300, 0), (400, -10), (500, -20), (600, -30), (700, -40), (800, -50), (900, -60), (1000, -70), (1100, -80)]:
         starttime=time.time()
-        print idlam.getGapPhase(energy, polar)
+        print "[",energy,",",polar,']', "->", idlam.getGapPhase(energy, polar)
         endtime= time.time()
         print "time taken: %s" % (endtime-starttime)
+        print
     
 
 if __name__=="__main__":

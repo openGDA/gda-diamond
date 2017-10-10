@@ -7,6 +7,7 @@ from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable.scannablegroup import ScannableGroup
 from lookup.IDLookup import lookup_file, IDLookup4LinearAngleMode
 from lookup.threeKeysLookupTable import loadLookupTable
+import numbers
 
 
 #from gda.function.lookupTable import LookupTable
@@ -68,6 +69,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         if self.energyConstant and self.polarisationConstant:
             raise Exception("Cannot create an instance with both energy and polarisation being constant.")
         self.isConfigured=False
+        self.inputSignSwitched=False
     
     def configure(self):
         if self.idscannable is not None:
@@ -114,33 +116,60 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         phase=0 #phase value for LH and LV is ignored by self.idscannable
         if mode in ["LH", "LV", "CR", "CL"]:
             #polarisation is constant in these modes
-            coef=getFittingCoefficents(self.polarisationMode, Ep, self.lut)
-            gap = coef[0] + coef[1]*Ep + coef[2]*Ep^2 +coef[3]*Ep^3 + coef[4]*Ep^4 + coef[5]*Ep^5 + coef[6]*Ep^6 + coef[7]*Ep^7
+            coef=getFittingCoefficents(mode, Ep, self.lut)
+            gap = coef[0] + coef[1]*Ep + coef[2]*Ep**2 +coef[3]*Ep**3 + coef[4]*Ep**4 + coef[5]*Ep**5 + coef[6]*Ep**6 + coef[7]*Ep**7
             if (gap<self.minGap or gap>self.maxGap): #IDGroup Excel table only cover this range
-                raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (%s, %s)!" % (self.minGap, self.maxGap))
+                raise ValueError("Required Soft X-Ray ID gap is %s out side allowable bound (%s, %s)!" % (gap, self.minGap, self.maxGap))
             if mode == "LV":
                 phase=self.maxPhase
             if mode in ["CR", "CL"]:
-                phase = 12.92907548 +  0.37353288*gap + -0.00614332*gap^2 + 5.3209E-06*gap^3 + 2.00631E-06*gap^4 + -3.9185E-08*gap^5 + 3.17986E-10*gap^6 + -9.93646E-13*gap^7
+                beamlinename=LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
+                if (beamlinename=="i09" or beamlinename=="i09-2"):
+                    phase=15.0
+                else:
+                    phase = 12.92907548 +  0.37353288*gap + -0.00614332*gap**2 + 5.3209E-06*gap**3 + 2.00631E-06*gap**4 + -3.9185E-08*gap**5 + 3.17986E-10*gap**6 + -9.93646E-13*gap**7
         elif mode in ["LAP","LAN"]:
-            if polar is None and Ep is not None: 
+            if self.polarisationConstant: 
                 #constant polarisation
-                polarisation,energy = self.idlamlookup.getEnergyPolarisation(self.gap, self.phase)  # @UnusedVariable
+                #print self.phase, self.gap
+                if (self.phase<0): #row phase can be negative in EPICS but lookup table only has positive phase values.
+                    polarisation,energy = self.idlamlookup.getEnergyPolarisation(self.gap, -self.phase)
+                else:
+                    polarisation,energy = self.idlamlookup.getEnergyPolarisation(self.gap, self.phase)  # @UnusedVariable
+                #print polarisation,energy
+                if (polarisation>0):
+                    polarisation=-polarisation #lookup table only contains negative polarisation angle!
+                    self.inputSignSwitched=True
                 gap, phase = self.idlamlookup.getGapPhase(Ep, polarisation) #only energy changes, keep existing polarisation
-            elif Ep is None and polar is not None:
+                #print gap, phase
+            elif self.energyConstant:
                 #constant energy
-                polarisation,energy = self.idlamlookup.getEnergyPolarisation(self.gap, self.phase)  # @UnusedVariable
+                #print self.phase, self.gap
+                if (self.phase<0):
+                    polarisation,energy = self.idlamlookup.getEnergyPolarisation(self.gap, -self.phase)
+                else:
+                    polarisation,energy = self.idlamlookup.getEnergyPolarisation(self.gap, self.phase)  # @UnusedVariable
+                #print polarisation,energy, polar
+                if (polar>0):
+                    polar=-polar #lookup table only contains negative polarisation angle!
+                    self.inputSignSwitched=True
                 gap, phase = self.idlamlookup.getGapPhase(energy, polar) #only polarisation changes, keep existing energy
+                #print gap, phase
             elif Ep is not None and polar is not None:
+                #print Ep, polar
+                if (polar>0):
+                    polar=-polar #lookup table only contains negative polarisation angle!
+                    self.inputSignSwitched=True
                 gap, phase = self.idlamlookup.getGapPhase(Ep, polar) # both energy and polarisation change
+                #print gap, phase
             else:
                 raise ValueError("Both energy and polarisation are missing.")
-            if (gap<self.minGap or gap>70): #IDGroup Excel table only cover this range
-                raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (%s, %s!" % (self.minGap, 70))
+            if (gap<self.minGap or gap>self.maxGap): #IDGroup Excel table only cover this range
+                raise ValueError("Required Soft X-Ray ID gap is %s out side allowable bound (%s, %s!" % (gap, self.minGap,self.maxGap))
         else:
             raise ValueError("Unsupported polarisationMode mode")
-        if phase<0 or phase>self.maxPhase: #Physical limits of I21 ID phase
-            raise ValueError("Required Soft X-Ray ID phase is out side allowable bound (%s, %s)!" % (0, self.maxPhase))
+        if phase<0 or phase>self.maxPhase: #Physical limits of ID Row Phase
+            raise ValueError("Required Soft X-Ray ID phase is %s out side allowable bound (%s, %s)!" % (phase, 0, self.maxPhase))
         return (gap, phase)
         
     def rawGetPosition(self):
@@ -151,7 +180,11 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             return self.polarisation
         else:
             self.gap, self.polarisationMode, self.phase = self.getIDPositions()
-            self.energy=self.pgmenergy.getPosition()
+            beamlinename=LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
+            if (beamlinename=="i09" or beamlinename=="i09-2"):
+                self.energy=self.pgmenergy.getPosition()/1000.0
+            else:
+                self.energy=self.pgmenergy.getPosition()
             self.polarisation=self.polarisationMode
             if self.polarisationMode in ["LH","LV","CR","CL"]:
                 if self.polarisationConstant:
@@ -165,6 +198,9 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                     
             elif self.polarisationMode in ["LAP", "LAN"]:
                 self.polarisation = self.idlamlookup.getEnergyPolarisation(self.gap, self.phase)[0]
+                if self.inputSignSwitched:
+                    self.polarisation=-self.polarisation
+                    self.inputSignSwitched=False
                 if self.polarisationConstant:
                     return self.energy
                 elif self.energyConstant:
@@ -182,6 +218,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             newPolarisationMode = "LAN"
         else:
             newPolarisationMode = "LAP"
+        self.polarisationMode=newPolarisationMode
         return newPolarisationMode
 
     def rawAsynchronousMoveTo(self, new_position):
@@ -208,7 +245,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                         newPolarisationMode=str(new_position)
                         if not newPolarisationMode in ["LH", "LV","CR", "CL"]:
                             raise ValueError('Input value must be one of valid polarisation mode: "LH", "LV","CR", "CL"')
-                    elif new_position.isdigit():
+                    elif isinstance(new_position, numbers.Number):
                         if self.polarisationConstant: #input must be for energy
                             self.energy=float(new_position) #energy validation is done in getFittingCoefficent() method
                             newPolarisationMode=self.polarisationMode  #using existing polarisation mode
@@ -221,21 +258,24 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                     args = list(new_position)
                     if len(args) != 2:
                         raise ValueError("Expect 2 arguments but got %s" % len(args))
-                    if args[0].isdigit():
+                    if isinstance(args[0], numbers.Number):
                         self.energy=float(args[0]) #range validation is done later
                     else:
                         raise ValueError("1st input for energy must be a number")
-                    if args[1].isdigit():
+                    if isinstance(args[1], numbers.Number):
                         self.polarisation=float(args[1])
                         newPolarisationMode = self.validatePolarisation(self.polarisation)
+                    elif isinstance(args[1], basestring):
+                        newPolarisationMode=args[1]
                     else:
                         raise ValueError("2nd input for polarisation must be a number")
                     
                 if self.polarisationConstant:
                     gap, phase = self.idgapphase(Ep=self.energy, mode=newPolarisationMode, n=self.order)
                 elif self.energyConstant:
-                    gap, phase = self.idgapphase(polar=self.polarisation, mode=newPolarisationMode, n=self.order) 
+                    gap, phase = self.idgapphase(Ep=self.energy, polar=self.polarisation, mode=newPolarisationMode, n=self.order) 
                 else:
+                    print self.energy,self.polarisation,newPolarisationMode
                     gap, phase=self.idgapphase(Ep=self.energy, polar=self.polarisation, mode=newPolarisationMode, n=self.order)
         except:
             raise #re-raise any exception from above try block
@@ -252,7 +292,11 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                     continue #do not need to move PGM energy
                 else:
                     try:
-                        s.asynchronousMoveTo(self.energy)
+                        beamlinename=LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
+                        if (beamlinename=="i09" or beamlinename=="i09-2"):
+                            s.asynchronousMoveTo(self.energy*1000)
+                        else:
+                            s.asynchronousMoveTo(self.energy)
                     except:
                         print "cannot set %s to %f." % (s.getName(), self.energy)
                         raise
@@ -288,13 +332,13 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.SCANNING=False
          
 
-idlamlookup=IDLookup4LinearAngleMode("idlamlookup", lut=lookup_file) 
-energy2=BeamEnergyPolarisationClass("energy2", idscannable, pgmEnergy,idlamlookup, lut="IDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
-energy2.configure()
-polarisation=BeamEnergyPolarisationClass("polarisation", idscannable, pgmEnergy,idlamlookup, lut="IDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
-polarisation.configure()
-energypolarisation=BeamEnergyPolarisationClass("energypolarisation", idscannable, pgmEnergy,idlamlookup, lut="IDEnergy2GapCalibrations.txt")  # @UndefinedVariable
-energypolarisation.configure()
-energypolarisation.setInputNames(["energy"])
-energypolarisation.setExtraNames(["polarisation"])
+#idlamlookup=IDLookup4LinearAngleMode("idlamlookup", lut=lookup_file) 
+#energyj=BeamEnergyPolarisationClass("energyj", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
+#energyj.configure()
+#polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
+#polarisation.configure()
+#energypolarisation=BeamEnergyPolarisationClass("energypolarisation", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt")  # @UndefinedVariable
+#energypolarisation.configure()
+#energypolarisation.setInputNames(["energy"])
+#energypolarisation.setExtraNames(["polarisation"])
 
