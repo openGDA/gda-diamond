@@ -7,13 +7,17 @@
 	<description>
 	The MCP and camera placed behind the sample position for looking at the diffraction pattern produced by the zone plate
 	</description>
-	
-	<bean id="mcp_total" class="gda.device.scannable.SimplePVScannable">
+
+	<bean id="mcp_total" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL05J-DI-PHDGN-10:DCAM:STAT:Total_RBV" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="local" value="true" />
 	</bean>
 
-	<bean id="mcp_gain" class="gda.device.scannable.SimplePVScannable">
+	<bean id="mcp_gain" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL05J-DI-PHDGN-10:DCAM:CAM:Gain" />
+		<property name="useNameAsInputName" value="true" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mcpCamBase" class="gda.spring.V17ADBaseFactoryBean">
