@@ -3,12 +3,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="s1usX_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="s1usY_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="s1dsX_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="s1dsY_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="s1cenX_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="s1cenY_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="s1gapX_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="s1gapY_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s1usX_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1usY_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1dsX_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1dsY_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1cenX_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1cenY_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1gapX_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="s1gapY_motor"
+			class="gda.device.motor.DummyMotor"/>
 </beans>

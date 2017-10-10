@@ -121,7 +121,9 @@
 
 	<!-- Detector Motors -->
 
-	<bean id="det2Y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="det2Y_motor"
+			class="gda.device.motor.DummyMotor"/>
 
-	<bean id="det2Z_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="det2Z_motor"
+			class="gda.device.motor.DummyMotor"/>
 </beans>

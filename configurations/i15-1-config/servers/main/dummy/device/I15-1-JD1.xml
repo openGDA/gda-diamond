@@ -5,7 +5,8 @@
 
 	<!-- Pneumatics -->
 	
-	<bean id="d1pneumatic" class="gda.device.scannable.DummyScannable">
+	<bean id="d1pneumatic"
+			class="gda.device.scannable.DummyScannable">
 		<property name="name" value="d1pneumatic" />
 	</bean>
 </beans>

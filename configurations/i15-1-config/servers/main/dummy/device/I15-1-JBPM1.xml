@@ -108,7 +108,8 @@
 
 	<!-- Pneumatics -->
 
-	<bean id="bpm1pneumatic" class="gda.device.scannable.DummyScannable">
+	<bean id="bpm1pneumatic"
+			class="gda.device.scannable.DummyScannable">
 		<property name="name" value="bpm1pneumatic" />
 	</bean>
 </beans>

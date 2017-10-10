@@ -5,7 +5,8 @@
 
 	<!-- Pneumatics -->
 	
-	<bean id="d1pneumatic" class="gda.device.scannable.SimplePVScannable">
+	<bean id="d1pneumatic"
+			class="gda.device.scannable.SimplePVScannable">
 		<property name="name" value="d1pneumatic" />
 		<property name="pvName" value="BL15J-DI-PHDGN-01:CON" />
 		<!-- 

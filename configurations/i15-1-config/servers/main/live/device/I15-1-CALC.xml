@@ -97,5 +97,4 @@
 			class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL15J-EA-CALC-04.P"/>
 	</bean>
-
 </beans>

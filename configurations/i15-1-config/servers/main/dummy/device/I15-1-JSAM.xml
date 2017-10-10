@@ -3,7 +3,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="samX_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="samY_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="blowerZ_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="samX_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="samY_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="blowerZ_motor"
+			class="gda.device.motor.DummyMotor"/>
 </beans>

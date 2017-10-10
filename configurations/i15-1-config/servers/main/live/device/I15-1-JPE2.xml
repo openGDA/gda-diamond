@@ -117,11 +117,13 @@
 
 	<!-- Detector Motors -->
 
-	<bean id="det2Y_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="det2Y_motor"
+			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15J-EA-DET-02:Y" />
 	</bean>
 
-	<bean id="det2Z_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="det2Z_motor"
+			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15J-EA-DET-02:Z" />
 	</bean>
 </beans>

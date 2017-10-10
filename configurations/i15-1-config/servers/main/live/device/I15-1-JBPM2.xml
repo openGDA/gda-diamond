@@ -98,7 +98,8 @@
 
 	<!-- Pneumatics -->
 
-	<bean id="bpm2pneumatic" class="gda.device.scannable.SimplePVScannable">
+	<bean id="bpm2pneumatic"
+			class="gda.device.scannable.SimplePVScannable">
 		<property name="name" value="bpm2pneumatic" />
 		<property name="pvName" value="BL15J-DI-BPM-02:CON" />
 		<!-- 
