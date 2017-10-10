@@ -103,19 +103,25 @@
 				<entry key="smx">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="instrument:NXinstrument/manipulator:NXtransformations/smx" />
-						<property name="units" value="mm" />
+						<property name="units" value="micron" />
 					</bean>
 				</entry>
 				<entry key="smy">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="instrument:NXinstrument/manipulator:NXtransformations/smy" />
-						<property name="units" value="mm" />
+						<property name="units" value="micron" />
 					</bean>
 				</entry>
 				<entry key="smz">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="instrument:NXinstrument/manipulator:NXtransformations/smz" />
-						<property name="units" value="mm" />
+						<property name="units" value="micron" />
+					</bean>
+				</entry>
+				<entry key="smdefocus">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/manipulator:NXtransformations/smdefocus" />
+						<property name="units" value="micron" />
 					</bean>
 				</entry>
 				<entry key="smpolar">
@@ -244,6 +250,7 @@
 				<value>smx</value>
 				<value>smy</value>
 				<value>smz</value>
+				<value>smdefocus</value>
 				<value>smpolar</value>
 				<value>smazimuth</value>
 				<!-- Zone Plate -->
