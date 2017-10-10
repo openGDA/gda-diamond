@@ -181,6 +181,21 @@ dummyenergy=BeamEnergy("dummyenergy",idscannable, dummies.x, dummies.y,pgmGratin
 print "Create an 'energy' scannable which can be used for energy scan in GDA. It moves both ID gap and PGM energy"
 energy=BeamEnergy("energy",idscannable, idgap, pgmEnergy, pgmGratingSelect)  # @UndefinedVariable
 
+# LH,LV,CR,CL,LAN,LAP=["LH","LV","CR","CL","LAN","LAP"]
+# from lookup.IDLookup import IDLookup4LinearAngleMode
+# from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
+# lookup_file='/dls_sw/i09-2/software/gda/config/lookupTables/LinearAngle.csv' #to be replaced by i09-2's own data
+# 
+# idlamlookup=IDLookup4LinearAngleMode("idlamlookup", lut=lookup_file) 
+# energy=BeamEnergyPolarisationClass("energy", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
+# energy.configure()
+# polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
+# polarisation.configure()
+# energypolarisation=BeamEnergyPolarisationClass("energypolarisation", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt")  # @UndefinedVariable
+# energypolarisation.configure()
+# energypolarisation.setInputNames(["energy"])
+# energypolarisation.setExtraNames(["polarisation"])
+
 from scannabledevices.coupledSampleStageMotion import CoupledSampleStageMotion
 sapara=CoupledSampleStageMotion("sapara", sax, say, sapolar) # @UndefinedVariable
 saperp=CoupledSampleStageMotion("saperp", sax, say, sapolar) # @UndefinedVariable
