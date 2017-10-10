@@ -15,7 +15,7 @@
 	</bean>
 
 	<bean id="smz_motor" class="gda.device.motor.EpicsMotor">
-	<property name="pvName" value="BL05J-EA-SM-01:SMZ" />
+		<property name="pvName" value="BL05J-EA-SM-01:SMZ" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -26,6 +26,11 @@
 
 	<bean id="smazimuth_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-SM-01:AZM" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="smdefocus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05J-EA-SM-01:SMDF" />
 		<property name="local" value="true" />
 	</bean>
 
