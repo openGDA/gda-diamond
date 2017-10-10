@@ -20,7 +20,6 @@ import os
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
 
-
 #global run
  
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -158,8 +157,9 @@ if installation.isLive():
     pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
     pgmGratingPitch_UserOffset = createPVScannable('pgmGratingPitch_UserOffset', 'BL21I-OP-PGM-01:GRT:PITCH.OFF')
     
-    from scannabledevices.feedbackScannable import FeedbackScannable
-    fbs=FeedbackScannable("fbs", pvroot="BL21I-OP-MIRR-01:FBCTRL:")
+    from scannabledevices.feedbackScannable import FeedbackScannable, FeedbackOffScannable
+    fbs=FeedbackScannable("fbs", pvroot="BL21I-OP-MIRR-01:FBCTRL")
+    fboff=FeedbackOffScannable("fboff", pvroot="BL21I-OP-MIRR-01:FBCTRL")
 else:
     print "Running in dummy mode"
 

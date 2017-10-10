@@ -63,4 +63,43 @@ class FeedbackScannable(ScannableBase):
         return False
     
 #fbs=FeedbackScannable("fbs", pvroot="BL21I-OP-MIRR-01:FBCTRL:")
+
+class FeedbackOffScannable(ScannableBase):
+    '''
+    switch off feedback during a scan
+
+    '''
+
+    PV_END_POINT={"Mode":":MODE"}
+
+    def __init__(self, name, pvroot=rootPV):
+        '''
+        Constructor
+        '''
+        self.setName(name)
+        self.setInputNames([name])
+        self.mode=CAClient(pvroot+FeedbackScannable.PV_END_POINT["Mode"])
+        self.mode.configure()
+        self.exisitingMode=int(self.mode.caget())
+        
+    def atScanStart(self):
+        self.exisitingMode=int(self.mode.caget()) #cache existing EPICS mode
+        if self.exisitingMode!=0:
+            self.mode.caput(0) #set to "Post-Capture AutoPV mode" during scan
+            self.IChangedMode=True
+    
+    def atScanEnd(self):
+        if self.IChangedMode:
+            self.mode.caput(self.exisitingMode) #put tne mode back to what I found before scan
+    
+    def getPosition(self):
+        ''' retrieve mode value
+        '''
+        return self.mode.caget()
+        
+    def asynchronousMoveTo(self, value):
+        pass
+        
+    def isBusy(self):
+        return False
         
