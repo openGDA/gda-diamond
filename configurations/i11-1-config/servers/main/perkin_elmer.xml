@@ -201,6 +201,10 @@
 		<property name="acquisitionTimeUnit" value="s"/>
 		<property name="acquisitionPeriodUnit" value="s"/>
 	</bean>
+	<bean id="perkin_hdf.proc" class="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin" >
+		<constructor-arg value="perkin_hdf_proc" />
+		<property name="ndProcess" ref="perkin.proc" />
+	</bean>
 	<bean id="perkin_hdf.adarrayplugin" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
 		<constructor-arg ref="perkin.arr" />
 		<property name="enabled" value="true"/>
@@ -220,7 +224,7 @@
 			<list>
 				<ref bean="perkin_hdf.fileWriter"/>
 				<ref bean="perkin_hdf.adarrayplugin"/>
-				<!-- <ref bean='perkin.proc'/> -->
+				<ref bean='perkin_hdf.proc'/>
 			</list>
 		</property>
 		<!-- <property name="eventAdmin" ref="eventadmin"/> -->
