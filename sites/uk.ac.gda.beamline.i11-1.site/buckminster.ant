@@ -119,10 +119,17 @@ Additional Ant tasks for Buckminster build. Based on http://www.ralfebert.de/blo
     <target name="install-product" depends="get-product-description, make_product_dir">
         <makeurl property="repository" file="${sp:repository}"/>
 
+        <!--Set where is the IDE's plugins folder to support bundle pool used in Oomph installer -->
+        <condition property="plugins.folder.location" value="${eclipse.home}/plugins" else="${user.home}/.p2/pool/plugins">
+            <resourceexists>
+                <file file="${eclipse.home}/plugins"/>
+            </resourceexists>
+        </condition>
+
         <pathconvert property="equinox.launcher.jar">
             <first count="1">
                 <sort>
-                    <fileset dir="${eclipse.home}/plugins" includes="**/org.eclipse.equinox.launcher_*.jar" />
+                    <fileset dir="${plugins.folder.location}" includes="**/org.eclipse.equinox.launcher_*.jar" />
                     <reverse xmlns="antlib:org.apache.tools.ant.types.resources.comparators">
                         <date />
                     </reverse>
