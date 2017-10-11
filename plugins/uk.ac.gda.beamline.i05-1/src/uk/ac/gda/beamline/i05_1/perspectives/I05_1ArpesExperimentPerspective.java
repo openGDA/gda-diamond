@@ -75,19 +75,26 @@ public class I05_1ArpesExperimentPerspective implements IPerspectiveFactory {
 		final String tgtDataRootPath = PathConstructor.createFromProperty("gda.analyser.sampleConf.dir");
 		final String exampleFileName = LocalProperties.get("gda.analyser.sampleConf");
 		final File targetFile = new File(tgtDataRootPath, exampleFileName);
+		logger.debug("Initial .arpes file target '{}'", targetFile.getAbsolutePath());
 
 		// Find the full path to initialExampleAnalyserConfig.arpes in the config
 		String configDir = LocalProperties.getConfigDir();
 		File exampleFile = new File(configDir, exampleFileName);
+		logger.debug("Initial .arpes file source '{}'", exampleFile.getAbsolutePath());
 
 		// Example file doesn't exist so copy it
 		if (!targetFile.exists()) {
 			try {
+				Files.createDirectories(targetFile.toPath().getParent());
+				logger.info("Created directory '{}'", targetFile.toPath().getParent());
 				Files.copy(exampleFile.toPath(), targetFile.toPath());
+				logger.info("Copied sample analyser config file from '{}' to '{}'", exampleFile, targetFile);
 			} catch (IOException e) {
-				logger.error("Failed copying sample analyser config file from {} to {}", exampleFile, targetFile, e);
+				logger.error("Failed copying sample analyser config file from '{}' to '{}'", exampleFile, targetFile, e);
 			}
-			logger.info("Copied sample analyser config file from {} to {}", exampleFile, targetFile);
+		}
+		else {
+			logger.debug("Inital .arpes file already present");
 		}
 
 		// Open the example in the editor
@@ -95,8 +102,9 @@ public class I05_1ArpesExperimentPerspective implements IPerspectiveFactory {
 		IFileStore fileStore = EFS.getLocalFileSystem().getStore(targetFile.toURI());
 		try {
 			IDE.openEditorOnFileStore(page, fileStore);
+			logger.debug("Opened sample analyser config file '{}' in editor", targetFile);
 		} catch (PartInitException e) {
-			logger.error("Could not open sample analyser config file {} in editor", targetFile, e);
+			logger.error("Could not open sample analyser config file '{}' in editor", targetFile, e);
 		}
 
 	}
