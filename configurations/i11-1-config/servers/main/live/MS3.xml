@@ -12,4 +12,14 @@
 	<bean id="ms3rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11J-MO-MSLID-03:ROT"/>
 	</bean>
+	<bean id="ms3_p1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-HTHP-01:PT1" />
+		<property name="local" value="true" />
+		<property name="unit" value="bar" />
+	</bean>
+	<bean id="ms3_p2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-HTHP-01:PT2" />
+		<property name="local" value="true" />
+		<property name="unit" value="bar" />
+	</bean>
 </beans>

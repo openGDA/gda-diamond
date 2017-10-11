@@ -54,6 +54,7 @@
 	<import resource="MS1.xml"/>
 	<import resource="MS2.xml"/>
 	<import resource="MS3.xml"/>
+	<import resource="MS3_hthp.xml"/>
 	<import resource="MS4.xml"/>
 	<import resource="SS1.xml"/>
 	<import resource="SS2.xml"/>
