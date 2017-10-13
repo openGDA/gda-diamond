@@ -30,6 +30,7 @@
 	<import resource="file:${gda.config}/clients/main/_common/osgi_services.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/rmi_imports.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/view_factories.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/scannable_ui_preferences.xml" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
