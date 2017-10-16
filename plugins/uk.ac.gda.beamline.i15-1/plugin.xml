@@ -114,8 +114,8 @@
       <view
             allowMultiple="true"
             class="org.eclipse.scanning.event.ui.view.StatusQueueView"
-            id="org.eclipse.scanning.event.ui.queueView:uri=failover%3A%28tcp%3A%2F%2Flocalhost%3A61616%29%3FstartupMaxReconnectAttempts%3D3;beanBundleName=org.eclipse.scanning.api;beanClassName=org.eclipse.scanning.api.event.scan.ScanBean;queueName=org.eclipse.scanning.status.set;topicName=org.eclipse.scanning.status.topic;submissionQueueName=org.eclipse.scanning.submission.queue;partName=Scan Status Queue"
-            name="Scan Status Queue View (Name)"
+            id="org.eclipse.scanning.event.ui.queueView:uri=failover%3A%28tcp%3A%2F%2Fi15-1-control.diamond.ac.uk%3A61616%29%3FstartupMaxReconnectAttempts%3D3;beanBundleName=org.eclipse.scanning.api;beanClassName=org.eclipse.scanning.api.event.scan.ScanBean;queueName=org.eclipse.scanning.status.set;topicName=org.eclipse.scanning.status.topic;submissionQueueName=org.eclipse.scanning.submission.queue;partName=Live Scan Status Queue"
+            name="Live Scan Status Queue View (Name)"
             restorable="true">
       </view>
    </extension>
@@ -126,11 +126,11 @@
             locationURI="menu:window?after=showView">
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="Scan Status Queue View"
+                  label="Live Scan Status Queue View"
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="org.eclipse.scanning.event.ui.queueView:uri=failover%3A%28tcp%3A%2F%2Flocalhost%3A61616%29%3FstartupMaxReconnectAttempts%3D3;beanBundleName=org.eclipse.scanning.api;beanClassName=org.eclipse.scanning.api.event.scan.ScanBean;queueName=org.eclipse.scanning.status.set;topicName=org.eclipse.scanning.status.topic;submissionQueueName=org.eclipse.scanning.submission.queue;partName=Scan Status Queue">
+                     value="org.eclipse.scanning.event.ui.queueView:uri=failover%3A%28tcp%3A%2F%2Fi15-1-control.diamond.ac.uk%3A61616%29%3FstartupMaxReconnectAttempts%3D3;beanBundleName=org.eclipse.scanning.api;beanClassName=org.eclipse.scanning.api.event.scan.ScanBean;queueName=org.eclipse.scanning.status.set;topicName=org.eclipse.scanning.status.topic;submissionQueueName=org.eclipse.scanning.submission.queue;partName=Live Scan Status Queue">
                </parameter>
             </command>
       </menuContribution>
