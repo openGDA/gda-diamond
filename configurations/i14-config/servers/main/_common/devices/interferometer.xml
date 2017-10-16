@@ -4,19 +4,19 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="intf_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="intf_x_motor" />
-	</bean>
-
 	<bean id="intf_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="intf_y_motor" />
+	</bean>
+
+	<bean id="intf_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="intf_z_motor" />
 	</bean>
 
 	<bean id="interferometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="intf_x" />
 				<ref bean="intf_y" />
+				<ref bean="intf_z" />
 			</list>
 		</property>
 	</bean>
