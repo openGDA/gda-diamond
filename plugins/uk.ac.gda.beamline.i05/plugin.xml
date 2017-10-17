@@ -12,10 +12,6 @@
                value="Beamline I05">
          </property>
          <property
-               name="preferenceCustomization"
-               value="plugin_customization.ini">
-         </property>
-         <property
                name="windowImages"
                value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
          </property>
@@ -30,14 +26,6 @@
       <startup
             class="uk.ac.gda.beamline.i05.I05Startup">
       </startup>
-   </extension>
-<extension
-          point="org.eclipse.ui.perspectiveExtensions">
-    <perspectiveExtension targetID="*">
-       <perspectiveShortcut
-             id="uk.ac.gda.client.scripting.JythonPerspective">
-       </perspectiveShortcut>
-   </perspectiveExtension>
    </extension>
 <extension point="uk.ac.gda.client.dashboard.objects">
       <Scannable name="s2_xsize" tooltip="s2 horizontal slit size" />
@@ -59,21 +47,6 @@
          value="10000">
    </preference>
 </extension>
-   <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective"
-            id="uk.ac.gda.beamline.i05.perspectives.ArpesAlignmentPerspective"
-            icon="icons/application_view_gallery.png"
-            name="ARPES Alignment">
-      </perspective>     
-      <perspective
-            class="uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective"
-            id="uk.ac.gda.beamline.i05.perspectives.ArpesExperimentPerspective"
-            icon="icons/application_view_gallery.png"
-            name="ARPES Experiment">
-      </perspective>  
-   </extension>
    <extension
          point="org.eclipse.ui.views">
       <category
@@ -108,14 +81,9 @@
             category="gda.rcp.arpes"
             class="uk.ac.gda.beamline.i05.views.ContinuousModeControllerView"
             icon="icons/sample.gif"
-            id="uk.ac.gda.arpes.ui.continuousmodecontroller"
+            id="uk.ac.gda.arpes.ContinuousModeControllerView"
             name="Continuous Mode"
             restorable="true">
       </view>
-            <view
-                  class="uk.ac.gda.beamline.i05.views.CryoView"
-                  id="uk.ac.gda.arpes.ui.views.CryoView"
-                  name="Cryo View">
-            </view>
    </extension>
  </plugin>

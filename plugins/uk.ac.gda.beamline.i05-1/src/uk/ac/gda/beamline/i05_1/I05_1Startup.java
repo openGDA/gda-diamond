@@ -81,8 +81,8 @@ public class I05_1Startup implements IStartup {
 				IWorkbench workbench = PlatformUI.getWorkbench();
 
 				logger.info("Creating perspectives");
-				for (String id : new String[] { "uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesExperimentPerspective",
-						"uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesAlignmentPerspective" }) {
+				for (String id : new String[] { "uk.ac.gda.arpes.perspectives.ArpesExperimentPerspective",
+						"uk.ac.gda.arpes.perspectives.ArpesAlignmentPerspective" }) {
 					try {
 						workbench.showPerspective(id, workbench.getActiveWorkbenchWindow());
 					} catch (WorkbenchException e) {

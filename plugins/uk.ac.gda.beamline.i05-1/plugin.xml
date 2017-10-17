@@ -13,10 +13,6 @@
                value="Beamline I05-1">
          </property>
          <property
-               name="preferenceCustomization"
-               value="plugin_customization.ini">
-         </property>
-         <property
                name="windowImages"
                value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
          </property>
@@ -25,14 +21,6 @@
                value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
          </property>         
       </product>
-   </extension>
-<extension
-          point="org.eclipse.ui.perspectiveExtensions">
-    <perspectiveExtension targetID="*">
-       <perspectiveShortcut
-             id="uk.ac.gda.client.scripting.JythonPerspective">
-       </perspectiveShortcut>
-   </perspectiveExtension>
    </extension>
 <extension point="uk.ac.gda.client.dashboard.objects">
       <Scannable name="s2_xsize" tooltip="s2 horizontal slit size" />
@@ -52,21 +40,6 @@
          value="10000">
    </preference>
 </extension>
-   <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesAlignmentPerspective"
-            id="uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesAlignmentPerspective"
-            icon="icons/application_view_gallery.png"
-            name="ARPES Alignment">
-      </perspective>     
-      <perspective
-            class="uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesExperimentPerspective"
-            id="uk.ac.gda.beamline.i05_1.perspectives.I05_1ArpesExperimentPerspective"
-            icon="icons/application_view_gallery.png"
-            name="ARPES Experiment">
-      </perspective>  
-   </extension>
    <extension
          point="org.eclipse.ui.views">
       <category
@@ -102,7 +75,7 @@
             category="gda.rcp.arpes"
             class="uk.ac.gda.beamline.i05_1.views.I05_1ContinuousModeControllerView"
             icon="icons/sample.gif"
-            id="uk.ac.gda.beamline.i05_1.views.I05_1ContinuousModeControllerView"
+            id="uk.ac.gda.arpes.ContinuousModeControllerView"
             name="Continuous Mode"
             restorable="true">
       </view>
