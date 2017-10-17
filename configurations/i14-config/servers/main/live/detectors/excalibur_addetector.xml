@@ -26,12 +26,12 @@
 		</property>
 	</bean>
 
-	<bean id="excalibur_ndfile_tiff" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL14I-EA-EXCBR-01:MASTER:TIFF:" />
+	<bean id="excalibur_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL14I-EA-EXCBR-01:MASTER:HDF5:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL14I-EA-EXCBR-01:MASTER:TIFF:" />
-				<property name="initialArrayPort" value="master.slaves" />
+				<property name="basePVName" value="BL14I-EA-EXCBR-01:MASTER:HDF5:" />
+				<property name="initialArrayPort" value="master.stat" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
@@ -39,8 +39,13 @@
 		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
 		<property name="initialWriteMode" value="0" />
 		<property name="initialNumCapture" value="1" />
-		<property name="initialFileName" value="det" />
-		<property name="initialFileTemplate" value="%s%s.tiff" />
+		<property name="initialFileName" value="excalibur" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+
+	<bean id="excalibur_ndfile_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL14I-EA-EXCBR-01:MASTER:HDF5:" />
+		<property name="file" ref="excalibur_ndfile" />
 	</bean>
 
 </beans>
