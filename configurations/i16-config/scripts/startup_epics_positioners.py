@@ -3,9 +3,9 @@ from pd_epics import *
 #===mirrors==========
 #(robw) m2bender=SingleEpicsPositionerClass('m2bender','BL16I-OP-HFM-01:BEND.VAL','BL16I-OP-HFM-01:BEND.RBV','BL16I-OP-HFM-01:BEND.DMOV','BL16I-OP-HFM-01:BEND.STOP','mm','%.2f')
 
-M1y=SingleEpicsPositionerClass('m1y','BL16I-OP-VFM-01:Y.VAL','BL16I-OP-VFM-01:Y.RBV','BL16I-OP-VFM-01:Y.DMOV','BL16I-OP-VFM-01:Y.STOP','mm','%.3f')
+#M1y=SingleEpicsPositionerClass('m1y','BL16I-OP-VFM-01:Y.VAL','BL16I-OP-VFM-01:Y.RBV','BL16I-OP-VFM-01:Y.DMOV','BL16I-OP-VFM-01:Y.STOP','mm','%.3f')#not used#
 
-M2y=SingleEpicsPositionerClass('m2y','BL16I-OP-HFM-01:Y.VAL','BL16I-OP-HFM-01:Y.RBV','BL16I-OP-HFM-01:Y.DMOV','BL16I-OP-HFM-01:Y.STOP','mm','%.3f')
+#M2y=SingleEpicsPositionerClass('m2y','BL16I-OP-HFM-01:Y.VAL','BL16I-OP-HFM-01:Y.RBV','BL16I-OP-HFM-01:Y.DMOV','BL16I-OP-HFM-01:Y.STOP','mm','%.3f')#mot used delete
 
 m3x=SingleEpicsPositionerClass('m3x','BL16I-OP-MFM-01:M3:X.VAL','BL16I-OP-MFM-01:M3:X.RBV','BL16I-OP-MFM-01:M3:X.DMOV','BL16I-OP-MFM-01:M3:X.STOP','mm','%.3f')
 m4x=SingleEpicsPositionerClass('m4x','BL16I-OP-MFM-01:M4:X.VAL','BL16I-OP-MFM-01:M4:X.RBV','BL16I-OP-MFM-01:M4:X.DMOV','BL16I-OP-MFM-01:M4:X.STOP','mm','%.3f')
@@ -65,7 +65,7 @@ frontendx=SingleEpicsPositionerClass('frontendx','FE16I-AL-APTR-02:X.VAL','FE16I
 frontendy=SingleEpicsPositionerClass('frontendy','FE16I-AL-APTR-02:Y.VAL','FE16I-AL-APTR-02:Y.RBV','FE16I-AL-APTR-02:Y.DMOV','FE16I-AL-APTR-02:Y.STOP','mm','%.3f')
 
 ## SLITS ####
-
+"""REMOVE
 S2xgap=SingleEpicsPositionerClass('S2xgap','BL16I-AL-SLITS-02:X:SIZE.VAL','BL16I-AL-SLITS-02:X:SIZE.RBV','BL16I-AL-SLITS-02:X:SIZE.DMOV','BL16I-AL-SLITS-02:X:SIZE.STOP','mm','%.4f')
 S2xgap.setLevel(6)
 
@@ -97,7 +97,7 @@ S4ygap=SingleEpicsPositionerClass('S4ygap','BL16I-AL-SLITS-04:Y:SIZE.VAL','BL16I
 S4ygap.setLevel(6)
 
 S4ycentre=SingleEpicsPositionerClass('S4ycentre','BL16I-AL-SLITS-04:Y:CENTER.VAL','BL16I-AL-SLITS-04:Y:CENTER.RBV','BL16I-AL-SLITS-04:Y:CENTER.DMOV','BL16I-AL-SLITS-04:Y:CENTER.STOP','mm','%.4f')
-
+"""
 #PA stages 
 comm1=['/home/i16user/bin/power_up_xtal_translation','/home/i16user/bin/power_down_xtal_translation']
 zp=SingleEpicsPositionerClass('zp','BL16I-EA-POLAN-01:X.VAL','BL16I-EA-POLAN-01:X.RBV','BL16I-EA-POLAN-01:X.DMOV','BL16I-EA-POLAN-01:X.STOP','mm','%.3f',comm1)

@@ -338,7 +338,7 @@ class CalcAngles(java.lang.Object):
       if psi == None:
          psi = d.sixC.Psi
       ttheta = self.c2t.calctth(hkl.getRowPackedCopy(),energy)
-      if abs(d.sixC.Delta) >= 1e-3 and abs(d.sixC.Gamma) <= 1e-3:
+      if abs(d.sixC.Delta) >= 1e-3 and abs(d.sixC.Gamma) <= 1e-2:
 # VERTICAL
          angles.theta_az =90.0
          angles.Gamma =0.0
