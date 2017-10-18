@@ -162,8 +162,10 @@ print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'x' and 'y'"
 dummyenergy=BeamEnergy("dummyenergy", gap='x', dcm='y')
-print "Create an 'jenergy' scannable which can be used for energy scan in GDA. It moves both soft X-ray ID gap and PGM energy"
-jenergy=BeamEnergy("jenergy", gap='jgap',dcm="pgmenergy",undulatorperiod=60,lut="JIDCalibrationTable.txt")
+#print "Create an 'jenergy' scannable which can be used for energy scan in GDA. It moves both soft X-ray ID gap and PGM energy"
+
+# 2017-10-13 James re-enable jenergy_old as the new way doesn't work. 
+#jenergy=BeamEnergy("jenergy", gap='jgap',dcm="pgmenergy",undulatorperiod=60,lut="JIDCalibrationTable.txt")
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -187,6 +189,21 @@ sd11iamp7=DisplayEpicsPVClass("sd11iamp7", "BL09K-MO-SD-11:IAMP7:I","V","%f")
 # See uk.ac.diamond.daq.devices.specs.phoibos.ui.handlers.RunSequenceHandler
 extraDetectors = ""
 
+print "Create an 'jenergy', 'polarisation' and 'jenergypolarisation' scannables."
+LH,LV,CR,CL,LAN,LAP=["LH","LV","CR","CL","LAN","LAP"]
+from lookup.IDLookup import IDLookup4LinearAngleMode
+from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
+lookup_file='/dls_sw/i09-2/software/gda/config/lookupTables/LinearAngle.csv' #to be replaced by i09-2's own data, discussed this with Ed Rail who will provide this theoretical table later.
+
+idlamlookup=IDLookup4LinearAngleMode("idlamlookup", lut=lookup_file) 
+jenergy=BeamEnergyPolarisationClass("jenergy", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
+jenergy.configure()
+polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
+polarisation.configure()
+jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt")  # @UndefinedVariable
+jenergypolarisation.configure()
+jenergypolarisation.setInputNames(["jenergy"])
+jenergypolarisation.setExtraNames(["polarisation"])
 print
 print "=================================================================================================================";
 print "Initialisation script complete." 
