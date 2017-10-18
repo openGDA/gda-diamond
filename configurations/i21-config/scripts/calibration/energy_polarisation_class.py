@@ -275,15 +275,17 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 elif self.energyConstant:
                     gap, phase = self.idgapphase(Ep=self.energy, polar=self.polarisation, mode=newPolarisationMode, n=self.order) 
                 else:
-                    print self.energy,self.polarisation,newPolarisationMode
+                    #print self.energy,self.polarisation,newPolarisationMode
                     gap, phase=self.idgapphase(Ep=self.energy, polar=self.polarisation, mode=newPolarisationMode, n=self.order)
         except:
             raise #re-raise any exception from above try block
 
         for s in self.scannables.getGroupMembers():
-            if s.getName() == self.idscannable.getName():
+            #print s.getName(), self.idscannable.getName()
+            if str(s.getName()) == str(self.idscannable.getName()):
                 try:
                     s.asynchronousMoveTo([gap, newPolarisationMode, phase])
+                    #print "moving %s to [%f, %s,%f]" % (s.getName(), gap, newPolarisationMode, phase)
                 except:
                     print "cannot set %s to [%f, %s, %f]" % (s.getName(), gap, newPolarisationMode, phase)
                     raise
