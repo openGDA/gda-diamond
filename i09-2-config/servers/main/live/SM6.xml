@@ -25,7 +25,7 @@
 		<property name="pvName" value="BL09K-MO-SM-06:FPITCH" />
 	</bean>
 	<bean id="sm6iamp27" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="SM6.IAMP27" />
+		<property name="pvName" value="BL09K-MO-SM-06:IAMP27" />
 		<property name="poll" value="false"/>
 	</bean>
 </beans>

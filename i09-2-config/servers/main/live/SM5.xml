@@ -5,7 +5,7 @@
 
 	<!-- Only have access to the mirror drain current from EH1. For beam alignment -->
 	<bean id="sm5iamp8" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="SM5.IAMP8" />
+		<property name="pvName" value="BL09J-MO-SM-05:IAMP8" />
 		<property name="poll" value="false"/>
 	</bean>
 
