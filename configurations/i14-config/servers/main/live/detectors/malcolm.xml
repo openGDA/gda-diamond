@@ -46,4 +46,18 @@
 		<property name="activated" value="false" />
 	</bean>
 
+	<!-- XSP3/Merlin -->
+	<bean id="malcolmModelXsp3Merlin" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-02" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolmDeviceXsp3Merlin" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-02" />
+		<property name="model" ref="malcolmModelXsp3Merlin" />
+		<property name="deviceInformation" ref="malcolmInfoXsp3Merlin" />
+		<!-- Whether this is the default device to use in a scan -->
+		<property name="activated" value="false" />
+	</bean>
+
 </beans>
