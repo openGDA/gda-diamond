@@ -3,6 +3,13 @@
 	<name>i09-2-config</name>
 	<comment></comment>
 	<projects>
+		<project>i21-python</project>
+		<project>uk.ac.gda.api</project>
+		<project>uk.ac.gda.arpes.server</project>
+		<project>uk.ac.gda.beamline.i09-2</project>
+		<project>uk.ac.gda.client</project>
+		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.epics.test</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -10,8 +17,19 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.springframework.ide.eclipse.core.springbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.springframework.ide.eclipse.boot.validation.springbootbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.springframework.ide.eclipse.core.springnature</nature>
 		<nature>org.python.pydev.pythonNature</nature>
 	</natures>
 </projectDescription>
