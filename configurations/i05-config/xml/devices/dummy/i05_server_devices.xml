@@ -17,6 +17,9 @@
 	<import resource="ring.xml"/>
 	<import resource="shtr1.xml"/>
 
+	<!-- Femtos -->
+	<import resource="femto.xml" />
+
 	<bean class="gda.device.scannable.DummyUnitsScannable" id="s6_xsize">
 		<property name="inputNames">
 			<list>

@@ -16,6 +16,7 @@
 	<import resource="d3.xml" />
 	<import resource="dj7.xml" />
 	<import resource="dj9.xml" />
+	<import resource="femto.xml" />
 
 	<!-- mirrors -->
 	<import resource="m1.xml" />

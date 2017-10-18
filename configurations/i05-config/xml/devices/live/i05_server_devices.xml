@@ -13,11 +13,10 @@
 	<import resource="sj6.xml" />
 
 	<!-- diagnostics -->
-	<import resource="d3.xml" />
 	<import resource="d7.xml" />
 	<import resource="dj7.xml" />
-	<import resource="d9.xml" />
-	
+	<import resource="femto.xml" />
+
 	<!-- mirrors -->
 	<import resource="m1.xml" />
 	<import resource="m3mj6.xml" />

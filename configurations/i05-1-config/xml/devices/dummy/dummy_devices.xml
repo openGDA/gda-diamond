@@ -26,12 +26,15 @@
 
 	<!-- storage ring -->
 	<import resource="ring.xml" />
-	
+
+	<!-- femtos -->
+	<import resource="femto.xml" />
+
 	<import resource="zone_plate.xml" />
 	<import resource="osa.xml" />
 	<import resource="analyser_rotation.xml"/>
 	<import resource="mj7j8.xml" />
-	
+
 	<import resource="mcp.xml" />
 
 </beans>
