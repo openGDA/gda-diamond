@@ -144,7 +144,6 @@
 				<bean class="uk.ac.diamond.daq.mapping.region.CircularMappingRegion" />
 				<bean class="uk.ac.diamond.daq.mapping.region.PolygonMappingRegion" />
 				<bean class="uk.ac.diamond.daq.mapping.region.LineMappingRegion" />
-				<bean class="uk.ac.diamond.daq.mapping.region.PointMappingRegion" />
 			</list>
 		</property>
 		<property name="twoDPaths">
