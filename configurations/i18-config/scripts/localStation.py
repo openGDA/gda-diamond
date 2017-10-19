@@ -117,16 +117,11 @@ mapFactory.setxScan(sc_MicroFocusSampleX); # @UndefinedVariable
 mapFactory.setyScan(sc_MicroFocusSampleY); # @UndefinedVariable
 mapFactory.setzScan(sc_sample_z); # @UndefinedVariable
 mapFactory.setElementListScriptController(elementListScriptController);
-mapFactory.setRasterMapDetectorPreparer(detectorPreparer);
-mapFactory.setTrajectoryMotor(traj1ContiniousX); # @UndefinedVariable # use the MapSelector object to switch to the large stage (stage 3)
-mapFactory.setPositionReader(traj1PositionReader); # @UndefinedVariable # use the MapSelector object to switch to the large stage (stage 3)
 mapFactory.setScanName("step map")
 
 non_raster_map = mapFactory.createStepMap()
-raster_map = mapFactory.createRasterMap()
-faster_raster_map = mapFactory.createFasterRasterMap();
 
-map = MapSelector(beamlinePreparer, non_raster_map, raster_map, faster_raster_map, traj1ContiniousX, traj3ContiniousX, traj1PositionReader, traj3PositionReader, raster_counterTimer01) # @UndefinedVariable @ReservedAssignment
+map = MapSelector(beamlinePreparer, non_raster_map) # @UndefinedVariable @ReservedAssignment
 map.setStage1X(sc_MicroFocusSampleX) # @UndefinedVariable
 map.setStage1Y(sc_MicroFocusSampleY) # @UndefinedVariable
 map.setStage1Z(sc_sample_z) # @UndefinedVariable
@@ -145,8 +140,6 @@ vararg_alias("xas")
 vararg_alias("xanes")
 vararg_alias("qexafs")
 vararg_alias("map")
-vararg_alias("raster_map")
-vararg_alias("raster_map_return_write")
 alias("meta_add")
 alias("meta_ll")
 alias("meta_ls")
@@ -156,9 +149,6 @@ selectStage = StageSelector(samplePreparer,map)
 alias("selectStage")
 selectStage(1)
 
-from gda.scan import EpicsTrajectoryScanController
-EpicsTrajectoryScanController.setMAXIMUM_ELEMENT_NUMBER(100000)
-
 from mapping_scan_commands import mscan, grid, detector
 
 print "Initialization Complete";
@@ -166,11 +156,6 @@ print "Initialization Complete";
 print "****************************************"
 print ""
 print "Useful commands:"
-print ""
-print "To switch to faster raster (two-way rastering):"
-print " map.enableFasterRaster()"
-print "and to switch back:"
-print " map.disableFasterRaster()"
 print ""
 print "To switch to use table 3 (large stage) for rastering:"
 print " selectStage(3)"
@@ -180,10 +165,6 @@ print ""
 print "To disable/enable use of the ID Gap:"
 print " map.disableUseIDGap()"
 print " map.enableUseIDGap()"
-print ""
-print "To disable/enable output of real positions in raster maps:"
-print " map.disableRealPositions()"
-print " map.enableRealPositions()"
 print ""
 print "To change the y axis used in maps to fine theta (but could be any motor) using stage1 (for tomography measurements):"
 print " map.setStage1Y(sc_sample_thetafine)"

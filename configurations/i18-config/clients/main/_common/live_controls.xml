@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="t1x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sc_MicroFocusSampleX" />
+		<property name="scannableName" value="sc_MicroFocusSampleX" />
+		<property name="group" value="Stage Controls" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean id="t1y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sc_MicroFocusSampleY" />
+		<property name="scannableName" value="sc_MicroFocusSampleY" />
+		<property name="group" value="Stage Controls" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean id="t1z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sc_sample_z" />
+		<property name="scannableName" value="sc_sample_z" />
+		<property name="group" value="Stage Controls" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean id="t1tc_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="sc_sample_thetacoarse" />
+		<property name="scannableName" value="sc_sample_thetacoarse" />
+		<property name="group" value="Stage Controls" />
+		<property name="increment" value="10" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean id="energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="energy" />
+		<property name="scannableName" value="energy" />
+		<property name="group" value="DCM and ID gap" />
+		<property name="increment" value="10" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<!-- Overall control set -->
+	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="energy_control" />
+				<ref bean="t1x_control" />
+				<ref bean="t1y_control" />
+				<ref bean="t1z_control" />
+				<ref bean="t1tc_control" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
