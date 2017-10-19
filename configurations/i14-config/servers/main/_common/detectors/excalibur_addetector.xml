@@ -25,6 +25,7 @@
                                 <property name="restoreAcquireState" value="true"/>
                             </bean>
                         </property>
+                        <property name="restoreTriggerMode" value="true" />
                     </bean>
                 </property>
             </bean>
