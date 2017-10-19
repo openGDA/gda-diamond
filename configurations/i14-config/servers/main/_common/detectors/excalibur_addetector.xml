@@ -51,11 +51,13 @@
 		<property name="description" value="Excalibur using GDA to write file" />
 	</bean>
 
-	<bean id="excalibur_adrunnable" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+	<bean id="excalibur_adrunnable" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceWaitForArray" init-method="register">
 		<property name="name" value="excalibur_addetector" />
 		<property name="model" ref="excalibur_model" />
 		<property name="deviceInformation" ref="excalibur_info" />
 		<property name="activated" value="true" />
+		<property name="writeDelay" value="50" />
+		<property name="timeout" value="3" />
 	</bean>
 
 </beans>
