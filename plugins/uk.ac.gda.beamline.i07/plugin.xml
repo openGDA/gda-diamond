@@ -46,22 +46,12 @@
          </view>
          <view
                closeable="true"
-               id="gda.rcp.jythoneditorview"
-               moveable="true"
-               ratio="0.3"
-               relationship="right"
-               relative="gda.rcp.jythonterminalview"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
                id="uk.ac.gda.client.liveplotview"
                minimized="false"
                moveable="true"
                ratio="0.6"
                relationship="top"
-               relative="gda.rcp.jythoneditorview"
+               relative="org.eclipse.ui.editorss"
                showTitle="true"
                visible="true">
          </view>
