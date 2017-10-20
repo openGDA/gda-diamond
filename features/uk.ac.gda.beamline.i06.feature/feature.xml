@@ -98,13 +98,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.swingclient"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.tomography"
          download-size="0"
          install-size="0"
@@ -211,13 +204,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
    <plugin
          id="org.eclipse.emf.edit"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="uk.ac.gda.devices.peem.client"
          download-size="0"
          install-size="0"
          version="0.0.0"
