@@ -23,9 +23,6 @@
     <logger name="gda.jython.corba.impl">
         <level value="INFO"/>
     </logger>    
-    <logger name="gda.oe.corba.impl">
-        <level value="INFO"/>
-    </logger>
     <!--logger name="gda.device.detector.IPPserver">
         <level value="DEBUG"/>
     </logger--> 

@@ -51,7 +51,7 @@ class hklPseudoDevice_offset(PseudoDevice):
       # bypass storedAngles and check limits of motors directly
       # Euler
       # There is no outside method to go all the way and check all the limits on euler, as this would also
-      # have to check the limits on the DOF motors it moves.  However if a request is made it will not 
+      # have to check the limits on the motors it moves.  However if a request is made it will not 
       # be able to perform it will throw an exception.  As long as delta and gamma are moved after it, then we 
       # logically safe (assuming the exception really stops program flow)
       panicStop = JythonServerFacade.getInstance().beamlineHalt

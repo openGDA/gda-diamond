@@ -38,20 +38,10 @@ except:
 
 #if self.isSimulation():
 	#set up beamline specific things here
-	#from gda.jython.scannable import DOFAdapter
 	#from gda.factory import Finder
 	#from gda.jython.scannable import *
 	#my_finder = Finder.getInstance()
 	#my_sixcircle = my_finder.find("sixcircle")
-	#my_kphi = DOFAdapter(my_sixcircle, "kphi")
-	#my_kap = DOFAdapter(my_sixcircle, "kap")
-	#my_kth = DOFAdapter(my_sixcircle, "kth")
-	#my_mu = DOFAdapter(my_sixcircle, "mu")
-	#my_delta = DOFAdapter(my_sixcircle, "delta")
-	#my_gam = DOFAdapter(my_sixcircle, "gam")
-
-#	my_wavelength = DOFAdapter(my_sixcircle,"wavelength")
-
 
 	# create pseudo devices to allow scanning in reciprocal space
 

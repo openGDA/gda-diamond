@@ -21,10 +21,6 @@
 
 	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
 
-	<!--AngularPositioner> <name>DCMBasePitchPos</name> <motorName>DCMBasePitchMotor</motorName> 
-	<stepsPerUnit>17.453292519943293</stepsPerUnit> <poll>false</poll> </AngularPositioner> 
-	<AngularPositioner> <name>DCMBaseRollPos</name> <motorName>DCMBaseRollMotor</motorName> 
-	<stepsPerUnit>17.453292519943293</stepsPerUnit> <poll>false</poll> </AngularPositioner -->
 	<import resource="motor/dcm.xml" />
 	<!-- <import resource="motor/dif.xml" /> -->
 	<import resource="motor/fc.xml" />

@@ -4,11 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 	
-		<!--AngularPositioner> <name>DCMBasePitchPos</name> <motorName>DCMBasePitchMotor</motorName> 
-		<stepsPerUnit>17.453292519943293</stepsPerUnit> <poll>false</poll> </AngularPositioner> 
-		<AngularPositioner> <name>DCMBaseRollPos</name> <motorName>DCMBaseRollMotor</motorName> 
-		<stepsPerUnit>17.453292519943293</stepsPerUnit> <poll>false</poll> </AngularPositioner -->
-	
 	<import resource="motor/dcm.xml" />
 	<import resource="motor/dif.xml" />
 	<import resource="motor/fc.xml" />
