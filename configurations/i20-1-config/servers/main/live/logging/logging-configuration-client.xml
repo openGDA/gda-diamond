@@ -40,9 +40,6 @@
     <logger name="gda.jython.corba.impl">
         <level value="INFO"/>
     </logger>
-    <logger name="gda.oe.corba.impl">
-        <level value="INFO"/>
-    </logger>
     <logger name="org.apache.commons">
         <level value="INFO"/>
     </logger>
@@ -59,9 +56,6 @@
         <level value="WARN"/>
     </logger>
     <logger name="gda.jython.corba.impl">
-        <level value="WARN"/>
-    </logger>
-    <logger name="gda.oe.corba.impl">
         <level value="WARN"/>
     </logger>
     <logger name="gda.data.nexus.NexusFileWrapper">
