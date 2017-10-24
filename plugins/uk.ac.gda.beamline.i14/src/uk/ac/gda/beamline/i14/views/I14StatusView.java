@@ -163,7 +163,7 @@ public class I14StatusView extends ViewPart {
 
 	@SuppressWarnings("unused")
 	private void createCommandComposite(final Composite parent, final ICommandRunner commandRunner, final String label, final String command, final String jobTitle, final String tooltip) {
-		new RunCommandComposite(parent, SWT.NONE, commandRunner, label, command, null, jobTitle, tooltip);
+		new RunCommandComposite(parent, SWT.NONE, commandRunner, label, command, jobTitle, tooltip);
 	}
 
 	private void initialiseColourMap() {
