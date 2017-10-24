@@ -111,7 +111,7 @@ public class RunCommandCompositeFactory implements CompositeFactory, Initializin
 			}
 
 			@Override
-			public CommandThreadEvent runScript(File script, String sourceName) {
+			public CommandThreadEvent runScript(File script) {
 				return null;
 			}
 
