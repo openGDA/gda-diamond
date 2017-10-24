@@ -106,7 +106,7 @@ public class RunCommandCompositeFactory implements CompositeFactory, Initializin
 		ICommandRunner iCommandRunner = new ICommandRunner() {
 
 			@Override
-			public boolean runsource(String command, String source) {
+			public boolean runsource(String command) {
 				return false;
 			}
 
