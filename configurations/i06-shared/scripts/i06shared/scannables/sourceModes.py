@@ -38,7 +38,7 @@ class SourceMode(ScannableBase):
         self.idd_fast_energy_scan_script=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/idd_fast_energy_scan.py")
         self.idu_fast_energy_scan_script=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/idu_fast_energy_scan.py")
         self.remove_zacscan_script=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/remove_zacscan.py")
-        InterfaceProvider.getCommandRunner().runScript(File(self.idd_fast_energy_scan_script),"idd_fast_energy_scan")
+        InterfaceProvider.getCommandRunner().runScript(File(self.idd_fast_energy_scan_script))
         
     def getPosition(self):
         return self.mode
@@ -50,19 +50,19 @@ class SourceMode(ScannableBase):
         self.amIBusy=True # need to block to ensure script run complete before any other actions
         if mode == SourceMode.SOURCE_MODES[0]:
             scriptfile=File(self.remove_zacscan_script)
-            InterfaceProvider.getCommandRunner().runScript(scriptfile,"remove_zacscan")
+            InterfaceProvider.getCommandRunner().runScript(scriptfile)
             sleep(1)
             scriptfile=File(self.idd_fast_energy_scan_script)
-            InterfaceProvider.getCommandRunner().runScript(scriptfile,"idd_fast_energy_scan")
+            InterfaceProvider.getCommandRunner().runScript(scriptfile)
         elif mode == SourceMode.SOURCE_MODES[1]:
             scriptfile=File(self.remove_zacscan_script)
-            InterfaceProvider.getCommandRunner().runScript(scriptfile,"remove_zacscan")
+            InterfaceProvider.getCommandRunner().runScript(scriptfile)
             sleep(1)
             scriptfile=File(self.idu_fast_energy_scan_script)
-            InterfaceProvider.getCommandRunner().runScript(scriptfile,"idu_fast_energy_scan")
+            InterfaceProvider.getCommandRunner().runScript(scriptfile)
         elif mode == SourceMode.SOURCE_MODES[2] or mode == SourceMode.SOURCE_MODES[3]:
             scriptfile=File(self.remove_zacscan_script)
-            InterfaceProvider.getCommandRunner().runScript(scriptfile,"remove_zacscan")
+            InterfaceProvider.getCommandRunner().runScript(scriptfile)
             sleep(1)
         else:
             print "Input mode is wrong: legal values %s or [SourceModeScannable.d, SourceModeScannable.u, SourceModeScannable.dpu, SourceModeScannable.dmu]. Operation cancelled." % (SourceMode.SOURCE_MODES)
