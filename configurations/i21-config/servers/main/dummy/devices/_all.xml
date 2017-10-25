@@ -57,17 +57,17 @@
 	<import resource="andor.xml"/> <!-- CAM Top -->
 	
 	<!-- Array View section -->
-	<import resource="adsim_roi_arrayview.xml"/>
-	<import resource="andor_roi_arrayview.xml"/>
-	<import resource="d1cam_nx.xml"/>
-	<import resource="d2cam_nx.xml"/>
-	<import resource="d3acam_nx.xml"/>
-	<import resource="d4cam_nx.xml"/>
-	<import resource="d8cam_nx.xml"/>
-	<import resource="dgncam_nx.xml"/>
-	<import resource="smpcam1_nx.xml"/>
-	<import resource="smpcam2_nx.xml"/>
-	<import resource="smpcam3_nx.xml"/>
-	<import resource="smpcam4_nx.xml"/>
+<!-- 	<import resource="adsim_roi_arrayview.xml"/> -->
+<!-- 	<import resource="andor_roi_arrayview.xml"/> -->
+<!-- 	<import resource="d1cam_nx.xml"/> -->
+<!-- 	<import resource="d2cam_nx.xml"/> -->
+<!-- 	<import resource="d3acam_nx.xml"/> -->
+<!-- 	<import resource="d4cam_nx.xml"/> -->
+<!-- 	<import resource="d8cam_nx.xml"/> -->
+<!-- 	<import resource="dgncam_nx.xml"/> -->
+<!-- 	<import resource="smpcam1_nx.xml"/> -->
+<!-- 	<import resource="smpcam2_nx.xml"/> -->
+<!-- 	<import resource="smpcam3_nx.xml"/> -->
+<!-- 	<import resource="smpcam4_nx.xml"/> -->
 
 </beans>
