@@ -38,6 +38,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Dpydev.funding.hide=true
 -Xms256m
 -Xmx2048m
 -XX:+DisableExplicitGC
