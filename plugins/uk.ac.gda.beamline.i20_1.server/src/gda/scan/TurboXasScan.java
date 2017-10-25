@@ -22,12 +22,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
-import org.eclipse.dawnsci.nexus.NexusFile;
 import org.dawnsci.ede.EdePositionType;
 import org.dawnsci.ede.EdeScanType;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.slf4j.Logger;
@@ -238,8 +239,8 @@ public class TurboXasScan extends ContinuousScan {
 			// Calculate start time for each spectrum
 			for (int i = 0; i < numSpectra - 1; i++) {
 				// Take slice along time for current spectrum, find sum and add to time-between-spectra
-				DoubleDataset row = (DoubleDataset) times.getSlice(new int[] { i, 0 }, new int[] { i + 1, numReadouts }, null);
-				double rowSum = new Double((Double) row.sum());
+				Dataset row = DatasetUtils.convertToDataset(times.getSlice(new int[] { i, 0 }, new int[] { i + 1, numReadouts }, null));
+				double rowSum = ((Number) row.sum()).doubleValue();
 				double timeForSpectra = rowSum + timeBetweenSpectraVals.get(i);
 				timeAtSpectrumStart += timeForSpectra;
 				absoluteTime.set(timeAtSpectrumStart, i + 1);
