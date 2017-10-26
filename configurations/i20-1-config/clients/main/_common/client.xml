@@ -76,7 +76,6 @@
 		<property name="motorNames">
 			<list>
 				<value>turbo_xas_slit</value>
-				<value>qexafs_energy</value>
 			</list>
 		</property>
 	</bean>

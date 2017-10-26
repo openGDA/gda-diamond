@@ -421,6 +421,26 @@
             tooltip="Extend the range of the plot back in time by 2 hours, if possible">
       </command>
    </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="menu:window?after=showView">
+      <menu
+            label="Detectors">
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Xspress3"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
+            </parameter>
+            <parameter
+                  name="org.eclipse.ui.views.showView.secondaryId"
+                  value="xspress3">
+            </parameter>
+         </command>
+      </menu>
+   </menuContribution>
 </extension>
    <extension
          point="org.eclipse.ui.commands">
