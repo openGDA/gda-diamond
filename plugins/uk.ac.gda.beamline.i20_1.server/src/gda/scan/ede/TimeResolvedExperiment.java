@@ -224,7 +224,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 			itScans = new EdeScanWithTFGTrigger[repetitions];
 			itScanParameters.setUseFrameTime(true);
 			for(int repIndex = 0; repIndex < repetitions; repIndex++){
-				itScans[repIndex] = new EdeScanWithTFGTrigger(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, beamLightShutter, false);
+				itScans[repIndex] = makeEdeScan(itScanParameters, itTriggerOptions, itPosition, EdeScanType.LIGHT, theDetector, repIndex, null);
 				itScans[repIndex].setProgressUpdater(this);
 				scansForIt.add(itScans[repIndex]);
 			}

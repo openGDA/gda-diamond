@@ -51,6 +51,7 @@ import gda.jython.InterfaceProvider;
 import gda.jython.scriptcontroller.ScriptControllerBase;
 import gda.observable.IObserver;
 import gda.scan.EdeScan;
+import gda.scan.EdeScanWithTFGTrigger;
 import gda.scan.MultiScan;
 import gda.scan.ScanBase;
 import gda.scan.ScanPlotSettings;
@@ -304,21 +305,25 @@ public abstract class EdeExperiment implements IObserver {
 	/**
 	 * Method for creating EdeScan objects; includes setting of fastShutter
 	 * @param scanParams
+	 * @param triggerOptions external Tfg trigger options
 	 * @param scanPosition
 	 * @param scanType
 	 * @param detector
 	 * @param firstRepetitionIndex
 	 * @param topupChecker
-	 * @return EdeScan object
-	 * @since 23/2/2016
+	 * @return
 	 */
-	public EdeScan makeEdeScan( EdeScanParameters scanParams, EdeScanPosition scanPosition, EdeScanType scanType, EdeDetector detector, int firstRepetitionIndex, TopupChecker topupChecker ) {
-
+	public EdeScan makeEdeScan( EdeScanParameters scanParams, TFGTrigger triggerOptions, EdeScanPosition scanPosition, EdeScanType scanType, EdeDetector detector, int firstRepetitionIndex, TopupChecker topupChecker ) {
 		if (detector instanceof EdeDummyDetector) {
 			((EdeDummyDetector)detector).setMainDetectorName(theDetector.getName());
 		}
 
-		EdeScan edeScan = new EdeScan( scanParams, scanPosition, scanType, detector, firstRepetitionIndex, beamLightShutter, topupChecker );
+		EdeScan edeScan = null;
+		if (triggerOptions==null) {
+			edeScan = new EdeScan( scanParams, scanPosition, scanType, detector, firstRepetitionIndex, beamLightShutter, topupChecker );
+		} else {
+			edeScan = new EdeScanWithTFGTrigger(scanParams, triggerOptions, scanPosition, scanType, detector, firstRepetitionIndex, beamLightShutter, topupChecker!=null);
+		}
 
 		// Set option for using fast shutter during scan
 		edeScan.setUseFastShutter(useFastShutter);
@@ -330,6 +335,20 @@ public abstract class EdeExperiment implements IObserver {
 		edeScan.setScannablesToMonitorDuringScan(scannablesToMonitorDuringScan);
 
 		return edeScan;
+	}
+	/**
+	 * Method for creating EdeScan objects; includes setting of fastShutter
+	 * @param scanParams
+	 * @param scanPosition
+	 * @param scanType
+	 * @param detector
+	 * @param firstRepetitionIndex
+	 * @param topupChecker
+	 * @return EdeScan object
+	 * @since 23/2/2016
+	 */
+	public EdeScan makeEdeScan( EdeScanParameters scanParams, EdeScanPosition scanPosition, EdeScanType scanType, EdeDetector detector, int firstRepetitionIndex, TopupChecker topupChecker ) {
+		return makeEdeScan(scanParams, null, scanPosition, scanType, detector, firstRepetitionIndex, topupChecker);
 	}
 
 	private void addScansForExperiment() throws Exception {
