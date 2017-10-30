@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="xspress4" class="uk.ac.gda.devices.detector.xspress4.Xspress4Detector">
+		<property name="name" value="xspress4" />
+		<property name="controller" ref="controllerForXspress4" />
+		<property name="configFileName" value="${gda.config}/var/templates/Xspress4_Parameters_64Ge.xml" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/xspress4" />
+		<property name="service" ref="xspress4" />
+		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+	</bean>
+
+	<bean id="xspress4FFI0" class="gda.device.detector.TfgFFoverI0">
+		<property name="xspress" ref="xspress4" />
+		<property name="i0_channel" value="0" />
+		<property name="counterTimer" ref="ionchambers" />
+	</bean>
+
+</beans>
