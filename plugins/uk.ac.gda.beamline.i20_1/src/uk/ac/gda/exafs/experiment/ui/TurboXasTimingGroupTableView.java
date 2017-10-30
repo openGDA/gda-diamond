@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -207,7 +209,7 @@ public class TurboXasTimingGroupTableView {
 	 * @return TableViewer object
 	 */
 	public TableViewer createTable() {
-		int style = SWT.BORDER | SWT.HIDE_SELECTION | SWT.FULL_SELECTION;
+		int style = SWT.BORDER | SWT.FULL_SELECTION |SWT.MULTI;
 		tableView = new TableViewer(parent, style);
 		tableView.getTable().setHeaderVisible(true);
 		tableView.getTable().setLinesVisible(true);
@@ -251,18 +253,26 @@ public class TurboXasTimingGroupTableView {
 		if (selectedItems == null || selectedItems.length == 0) {
 			return; // nothing selected
 		}
-		TurboSlitTimingGroup selectedScan = (TurboSlitTimingGroup) selectedItems[0].getData();
+
+		// Make list of selected TurboSlitTimingGroups from array of TableItems
+		List<TurboSlitTimingGroup> selectedGroups = new ArrayList<TurboSlitTimingGroup>();
+		Arrays.asList(selectedItems).forEach(tableitem -> selectedGroups.add((TurboSlitTimingGroup)tableitem.getData()));
 
 		// Remove selected group from timing group list
 		Iterator<TurboSlitTimingGroup> iter = timingGroups.iterator();
+		int selectionIndex = 0;
 		while (iter.hasNext()) {
 			TurboSlitTimingGroup overrides = iter.next();
-			if (overrides == selectedScan) {
+			if (selectedGroups.contains(overrides)) {
 				iter.remove();
+			}else {
+				selectionIndex++;
 			}
 		}
+		selectionIndex = Math.max(0, selectionIndex-1);
 		// Update viewer
 		tableView.refresh();
+		tableView.getTable().setSelection(selectionIndex);
 	}
 
 	/**

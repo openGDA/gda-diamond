@@ -54,6 +54,10 @@ public class TurboXasParametersTest {
 
 	static final double numericalTolerance = 1e-9;
 
+	private static final String defaultMotorToMove = "turbo_xas_slit";
+	private static final String defaultDetector = "scaler_for_zebra";
+	private static final boolean defaultUseTrajectoryScan = false;
+
 	@Before
 	public void setUp() {
 		parameters = new TurboXasParameters();
@@ -69,6 +73,7 @@ public class TurboXasParametersTest {
 		parameters.addTimingGroup( new TurboSlitTimingGroup(group2Name, group2TimePerSpectrum, group2TimeBetweenSpectra, group2NumSpectra) );
 
 		motorParameters = new TurboXasMotorParameters( parameters );
+		motorParameters.setMotorMaxSpeed(10000);
 	}
 
 	private void testDoublesEquals( double expected, double actual ) {
@@ -86,7 +91,7 @@ public class TurboXasParametersTest {
 	public void serializedXmlIsCorrect() {
 		String xmlStringFromParams = parameters.toXML();
 		String actualXmlString = getCorrectXmlString();
-		assertThat( actualXmlString, is( equalTo(xmlStringFromParams) ) );
+		assertThat(xmlStringFromParams , is( equalTo(actualXmlString) ) );
 	}
 
 	@Test
@@ -217,6 +222,11 @@ public class TurboXasParametersTest {
 						"  <energyCalibrationPolynomial>"+calibrationPoly+"</energyCalibrationPolynomial>\n" +
 						"  <energyCalibrationMinPosition>"+TurboXasParameters.doubleToString(calibrationMinPos)+"</energyCalibrationMinPosition>\n" +
 						"  <energyCalibrationMaxPosition>"+TurboXasParameters.doubleToString(calibrationMaxPos)+"</energyCalibrationMaxPosition>\n" +
+						"  <motorToMove>"+defaultMotorToMove+"</motorToMove>\n"+
+						"  <detectors>\n"+
+					    "    <string>"+defaultDetector+"</string>\n"+
+					    "  </detectors>\n"+
+					    "  <useTrajectoryScan>"+defaultUseTrajectoryScan+"</useTrajectoryScan>\n"+
 						"  <TimingGroup>\n" +
 						"    <name>"+group1Name+"</name>\n" +
 						"    <timePerSpectrum>"+TurboXasParameters.doubleToString(group1TimePerSpectrum)+"</timePerSpectrum>\n" +

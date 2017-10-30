@@ -1,7 +1,7 @@
 from uk.ac.gda.exafs.ui.data import EdeScanParameters
 from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
-from gdascripts.utils import caget
+from gdascripts.utils import caget, caput
 
 run("roi_control.py")
 run("gdascripts/javajythonutil.py")
@@ -64,18 +64,32 @@ print "Stopping tfg and setting it to use scaler64 collection mode"
 das4tfg.sendCommand("tfg stop")
 das4tfg.sendCommand("tfg setup-cc-mode scaler64");
 
-# -- DAserver options for triggering XSpress3
+# -- DAserver options for triggering XSpress3 ((TTL VETO 0)
 print "Setting Veto options for XSpress3"
 # veto signal : high veto signal when input is high
 das4tfg.sendCommand("tfg setup-veto veto0-inv 0")
 # veto output termination (see manual)
 das4tfg.sendCommand("tfg setup-veto veto0-drive 1")
 
+# Output trigger for ADC (TTL VETO 1)
+das4tfg.sendCommand("tfg setup-veto veto1-inv 0")
+das4tfg.sendCommand("tfg setup-veto veto1-drive 1")
+
 xspress3Controller = finder.find("xspress3Controller")
-if xspress3Controller != None :
+
+if xspress3Controller != None and xspress3.isConfigured() == True :
     print "Setting XSpress3 trigger mode to 'TTL Veto Only'"
     from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
     xspress3Controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
+    #Set input array port on HDF5 plugin to point to arrayport of Detector. imh 7/8/2017
+    basePvName = xspress3Controller.getEpicsTemplate()
+    detPort = caget(basePvName+":PortName_RBV")
+    caput(basePvName+":HDF5:NDArrayPort", detPort)
+    # caput(basePvName+":HDF5:SWMRMode", True) # Set SWMR mode on. Off until BL20J-EA-IOC-03 has moved to lustre filesystems and works correctly...
+    #xspress3.setFilePath(dataDirectory+"/nexus/")
+
+def setSwmrMode(onoff):
+    caput(basePvName+":HDF5:SWMRMode", onoff)
 
 # Set turboslit positions to use when operating as a 'shutter'. imh 21/4/2017
 if LocalProperties.get("gda.mode") == "live":
@@ -84,3 +98,5 @@ if LocalProperties.get("gda.mode") == "live":
 
 # Set name of shutter to be operated when collecting dark current on ionchambers. imh 21/4/2017
 LocalProperties.set("gda.exafs.darkcurrent.shutter", turbo_slit_shutter.getName())
+
+xstrip.setSynchroniseToBeamOrbit(True)

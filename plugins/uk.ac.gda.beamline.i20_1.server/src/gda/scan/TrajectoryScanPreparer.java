@@ -68,6 +68,8 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 
 	private static final String PROFILE_APPEND_PROC = "ProfileAppend.PROC";
 	private static final String PROFILE_APPEND_STATUS = "ProfileAppendStatus_RBV";
+	private static final String PROFILE_EXECUTE_STATE = "ProfileExecuteState_RBV";
+	private static final String TSCAN_PERCENT = "TscanPercent_RBV";
 
 	private PV<Integer[]> userArrayPv;
 	private PV<Integer[]> velocityModeArrayPv;
@@ -197,6 +199,15 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 	public String getExecuteProfileStatus() throws Exception {
 		return pvFactory.getPVString(PROFILE_EXECUTE_STATUS).get();
 	}
+
+	public String getExecuteProfileState() throws Exception {
+		return pvFactory.getPVString(PROFILE_EXECUTE_STATE).get();
+	}
+
+	public String getTscanPercent() throws Exception {
+		return pvFactory.getPVString(TSCAN_PERCENT).get();
+	}
+
 	public String getAppendProfileStatus() throws Exception {
 		return pvFactory.getPVString(PROFILE_APPEND_STATUS).get();
 	}

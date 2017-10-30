@@ -62,6 +62,7 @@ import gda.device.detector.xstrip.XhDetector;
 import gda.device.enumpositioner.DummyPositioner;
 import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.ScannableMotor;
+import gda.device.scannable.ScannableUtils;
 import gda.factory.Finder;
 import gda.factory.ObjectFactory;
 import gda.jython.InterfaceProvider;
@@ -120,8 +121,8 @@ public class EdeScanTest extends EdeTestBase {
 		topupMonitor.setName("topup");
 		topupMonitor.setValue(120.0);
 
-		xScannable = createMotor("xScannable");
-		yScannable = createMotor("yScannable");
+		xScannable = createMotor("xScannable", 7000);
+		yScannable = createMotor("yScannable", 8000);
 
 		edeProgressUpdater = new ScriptControllerBase();
 		edeProgressUpdater.setName(EdeExperiment.PROGRESS_UPDATER_NAME);
@@ -395,6 +396,38 @@ public class EdeScanTest extends EdeTestBase {
 		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, groups.size(), true);
 	}
 
+	@Test
+	public void testLinearExperimentMonitorScannables() throws Exception {
+		setup(EdeScanTest.class, "testLinearExperimentMonitorScannables");
+
+		List<TimingGroup> groups = new ArrayList<TimingGroup>();
+
+		TimingGroup group1 = new TimingGroup();
+		group1.setLabel("group1");
+		group1.setNumberOfFrames(10);
+		group1.setTimePerScan(0.005);
+		group1.setNumberOfScansPerFrame(5);
+		groups.add(group1);
+
+		double xposition = ScannableUtils.getCurrentPositionArray(xScannable)[0];
+		double yposition = ScannableUtils.getCurrentPositionArray(yScannable)[0];
+
+		TimeResolvedExperiment theExperiment = new TimeResolvedExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
+				xh.getName(), topupMonitor.getName(), shutter.getName());
+		theExperiment.addScannableToMonitorDuringScan(xScannable);
+		theExperiment.addScannableToMonitorDuringScan(yScannable.getName()); // use finder to locate scannable
+		theExperiment.runExperiment();
+		String nexusFilename = theExperiment.getNexusFilename();
+		int numberExpectedSpectra = getNumSpectra(groups) + 4;
+
+		// Check dataset for scannable positions have correct dimensions and content
+		assertDimensions(nexusFilename, xh.getName(), xScannable.getName(), new int[]{numberExpectedSpectra});
+		checkDataValidRange(nexusFilename, xh.getName(), xScannable.getName(), new RangeValidator(xposition, xposition, true, true));
+
+		assertDimensions(nexusFilename, xh.getName(), yScannable.getName(), new int[]{numberExpectedSpectra});
+		checkDataValidRange(nexusFilename, xh.getName(), yScannable.getName(), new RangeValidator(yposition, yposition, true, true));
+	}
+
 	private void testNexusStructure(String nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws Exception {
 		boolean checkForCycles = numberRepetitions>1;
 		if (numberRepetitions > 0){
@@ -614,6 +647,13 @@ public class EdeScanTest extends EdeTestBase {
 	public void testTimeResolvedExperimentParametersSerializeOk() throws Exception {
 		setup(EdeScanTest.class, "testTimeResolvedExperimentParametersSerializeOk");
 		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
+
+		// Add names of some scannables to monitor
+		Map<String, String> scannablesToMonitorDuringScan = new HashMap<String,String>();
+		scannablesToMonitorDuringScan.put("scannable1", "");
+		scannablesToMonitorDuringScan.put("scannable2", "pvForScannable2");
+		allParams.setScannablesToMonitorDuringScan(scannablesToMonitorDuringScan);
+
 		String origXmlString = allParams.toXML();
 
 		// Try to serialize and save to text file

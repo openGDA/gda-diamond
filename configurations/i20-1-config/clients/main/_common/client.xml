@@ -49,7 +49,7 @@
 				<entry key="It" value="#698B22" /> <!-- olive -->
 				<entry key="Repetition" value="#7A67EE" /> <!-- slateblue -->
 				
-				<entry key="s3_hgap" value="#DB7093" /> <!-- palevioletred -->
+				<entry key="as_hgap" value="#DB7093" /> <!-- palevioletred -->
 				<entry key="I0_dark" value="#FF00FF" />  <!-- magenta (fuchsia*) -->
 				<entry key="It_dark" value="#0000FF" />  <!-- blue -->
 				<entry key="I0_corr" value="#00FF00" /> <!-- green -->
@@ -59,6 +59,22 @@
 		</constructor-arg>
 	</bean>
 
+	<bean id="turboXasExperimentViewFactory" class=" uk.ac.gda.exafs.experiment.ui.TurboXasExperimentViewFactory" >
+		<property name="name" value="turboXasExperimentViewFactory" />
+		<property name="viewLabel" value="Turbo XAS experiment" />
+		<property name="detectorNames">
+			<list>
+				<value>scaler_for_zebra</value>
+				<value>buffered_xspress3</value>
+			</list>
+		</property>
+		<property name="motorNames">
+			<list>
+				<value>turbo_xas_slit</value>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="xspress3" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}/xspress3" />
 		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />

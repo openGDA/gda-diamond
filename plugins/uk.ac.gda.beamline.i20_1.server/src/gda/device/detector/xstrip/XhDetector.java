@@ -18,14 +18,6 @@
 
 package gda.device.detector.xstrip;
 
-import gda.data.nexus.tree.NexusTreeProvider;
-import gda.device.DeviceException;
-import gda.device.detector.DAServer;
-import gda.device.detector.DetectorStatus;
-import gda.device.detector.EdeDetector;
-import gda.device.detector.EdeDetectorBase;
-import gda.jython.InterfaceProvider;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +25,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.data.nexus.tree.NexusTreeProvider;
+import gda.device.DeviceException;
+import gda.device.detector.DAServer;
+import gda.device.detector.DetectorStatus;
+import gda.device.detector.EdeDetector;
+import gda.device.detector.EdeDetectorBase;
+import gda.jython.InterfaceProvider;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -85,7 +84,8 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 
 	private boolean synchroniseToBeamOrbit;
 	private int synchroniseBeamOrbitDelay = 0;
-	private OrbitWaitType orbitWaitMethod;
+	private OrbitWaitType orbitWaitMethod = OrbitWaitType.ORBIT_SCAN;
+	private int orbitMuxValue = 0;
 
 	public enum OrbitWaitType {
 		ORBIT_GROUP("orbit-group"),
@@ -363,19 +363,11 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 					command += " scan-period " + scanPeriodInClockCycles;
 				}
 
-				// Synchronise to beam orbit. imh 11/12/2015
-				command += " orbit-frame orbit-mux 0 ";
-				/*
-				// Needs testing - should be ok...
+				// Set option for synchronising to beam orbit.
 				if ( synchroniseToBeamOrbit ) {
-					String muxString = "0";
-					if ( synchroniseBeamOrbitDelay > 0 ) {
-						muxString = "1";
-					}
 					String orbitMethodString = orbitWaitMethod.getString();
-					command += " " + orbitMethodString + " orbit-mux "+muxString;
+					command += " " + orbitMethodString + " orbit-mux "+orbitMuxValue;
 				}
-				 */
 			}
 
 
@@ -776,6 +768,18 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 		InterfaceProvider.getTerminalPrinter().print("Xh orbit methods :");
 		for( OrbitWaitType orbitType : OrbitWaitType.values() ) {
 			InterfaceProvider.getTerminalPrinter().print( orbitType.getString() );
+		}
+	}
+
+	public int getOrbitMuxValue() {
+		return orbitMuxValue;
+	}
+
+	public void setOrbitMuxValue(int orbitMuxValue) {
+		if (orbitMuxValue>=0 && orbitMuxValue<=3) {
+			this.orbitMuxValue = orbitMuxValue;
+		} else {
+			logger.warn("Cannot set beam orbit mux to {}. Value should be between 0 and 3", orbitMuxValue);
 		}
 	}
 }

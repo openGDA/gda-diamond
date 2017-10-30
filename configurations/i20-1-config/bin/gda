@@ -29,6 +29,7 @@ fi
 # set the required variables below this line, also adding any environment variables specific to your installation:
 ##################################################################################################################
 
+GDA_NO_PROMPT="true"
 
 
 ######################################################################

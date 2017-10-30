@@ -39,14 +39,19 @@ import gda.device.enumpositioner.DummyPositioner;
 import gda.device.scannable.ScannableMotor;
 
 public class EdeTestBase {
+
 	public static ScannableMotor createMotor(String name) throws Exception {
+		return createMotor(name, 7000.0);
+	}
+
+	public static ScannableMotor createMotor(String name, double position) throws Exception {
 
 		ScannableMotor energy_scannable = PowerMockito.mock(ScannableMotor.class);
 		Mockito.when(energy_scannable.getName()).thenReturn(name);
 		Mockito.when(energy_scannable.getInputNames()).thenReturn(new String[] { name });
 		Mockito.when(energy_scannable.getExtraNames()).thenReturn(new String[] {});
 		Mockito.when(energy_scannable.getOutputFormat()).thenReturn(new String[] { "%.2f" });
-		Mockito.when(energy_scannable.getPosition()).thenReturn(7000.0);
+		Mockito.when(energy_scannable.getPosition()).thenReturn(position);
 
 		return energy_scannable;
 	}

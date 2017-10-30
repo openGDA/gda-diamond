@@ -29,8 +29,11 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -61,6 +64,7 @@ import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
 import uk.ac.gda.exafs.experiment.ui.data.SpectrumModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
+import uk.ac.gda.exafs.ui.composites.ScannableListEditor;
 
 public class TimeResolvedExperimentView extends ViewPart {
 
@@ -74,6 +78,10 @@ public class TimeResolvedExperimentView extends ViewPart {
 	protected Button useExternalTriggerCheckbox;
 
 	private Button useFastShutterCheckbox;
+
+	private Button setupScannableButton;
+
+	private ScannableListEditor scannableListEditor;
 
 	private Text sampleDescText;
 
@@ -279,6 +287,21 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 		useFastShutterCheckbox = toolkit.createButton(sampleDetailComp.getMainComposite(), "Use fast shutter", SWT.CHECK);
 		useFastShutterCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		setupScannableButton = toolkit.createButton(sampleDetailComp.getMainComposite(), "Setup scannables/PVs to monitor", SWT.PUSH);
+		setupScannableButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		scannableListEditor = new ScannableListEditor(parent.getShell());
+
+		setupScannableButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				scannableListEditor.setScannableInfoFromMap(getModel().getScannablesToMonitor());
+				scannableListEditor.open();
+				if (scannableListEditor.getReturnCode() == Window.OK) {
+					getModel().setScannablesToMonitor(scannableListEditor.getScannableMapFromList());
+				}
+			}
+		});
 
 		//Sample stage motors
 		sampleMotorsComposite = new SampleStageMotorsComposite(parent, SWT.None, toolkit, true);

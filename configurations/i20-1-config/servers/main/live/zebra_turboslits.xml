@@ -101,6 +101,29 @@
 		<property name="i0ScalerChannel" value="1" />
 		<property name="itScalerChannel" value="2" />
 		<property name="iRefScalerChannel" value="3" />
+
+		<property name="scalerOutputConfig">
+			<list>
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig" >
+					<property name="label" value="channel0" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="0" />
+				</bean>
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig" >
+					<property name="label" value="channel1" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="1" />
+				</bean>
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig" >
+					<property name="label" value="channel0_over_1" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="0" />
+					<property name="channel2" value="1" />
+					<property name="operationType" value="1" />
+				</bean>
+			</list>
+		</property>
+
 	</bean>
 
 	<bean id="scaler_for_zebra_testing" class="gda.device.detector.countertimer.BufferedScaler">

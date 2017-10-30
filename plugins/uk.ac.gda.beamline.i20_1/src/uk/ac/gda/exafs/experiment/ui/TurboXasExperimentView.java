@@ -19,6 +19,10 @@
 package uk.ac.gda.exafs.experiment.ui;
 
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
@@ -30,10 +34,12 @@ import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
@@ -45,6 +51,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.device.detector.BufferedDetector;
+import gda.factory.Finder;
 import gda.jython.IJythonServerStatusObserver;
 import gda.jython.InterfaceProvider;
 import gda.scan.ScanEvent;
@@ -85,11 +94,24 @@ public class TurboXasExperimentView extends ViewPart {
 
 	private boolean updatingGuiFromParameters = false;
 
+	private String[] motorNames = new String[]{"turbo_xas_slit"};
+
+	private Combo motorCombo;
+
+	private String[] detectorNames = new String[]{"scaler_for_zebra"};
+
+	private Button[] detectorCheckboxes;
+
+	private Button useTrajectoryScanButton;
+
+	private Shell shell;
+
 	private static String PREFERENCE_STORE_KEY = "turboxas_settings_key";
 
 	@Override
 	public void createPartControl(final Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
+		shell = parent.getShell();
 
 		final SashForm parentComposite = new SashForm(parent, SWT.VERTICAL);
 		parentComposite.SASH_WIDTH = 3;
@@ -101,6 +123,10 @@ public class TurboXasExperimentView extends ViewPart {
 			logger.error("Unable to create controls", e);
 		}
 		InterfaceProvider.getScanDataPointProvider().addScanEventObserver(serverObserver);
+
+		// Update parameters from gui when view is disposed (but before widgets have been disposed).
+		// The 'dispose()' function is called later, which saves the values to preference store.
+		parent.addDisposeListener(disposeEvent -> updateParametersFromGui());
 	}
 
 	final IJythonServerStatusObserver serverObserver = new IJythonServerStatusObserver() {
@@ -130,17 +156,82 @@ public class TurboXasExperimentView extends ViewPart {
 
 		scrolledform.setText("Turbo XAS experiment setup");
 		createSampleNameEnergySections(form.getBody());
-		addListenersVerifiers();
-
 		createTimingGroupSection(form.getBody());
+		createHardwareOptionsSection(form.getBody());
 		createLoadSaveSection(form.getBody());
 		loadSettingsFromPreferenceStore();
+
+		addListenersVerifiers();
 		form.layout();
 	}
 
-	private Text makeLabelAndTextBox(Composite parent, String labelText) {
+	private void createHardwareOptionsSection(Composite parent) {
+		Composite mainComposite = makeSectionAndComposite(parent, "Detector and motor options", 2);
+
+		makeLabel(mainComposite, "Motor to move during scan");
+		motorCombo = new Combo(mainComposite, SWT.READ_ONLY);
+		motorCombo.setItems(motorNames);
+		motorCombo.select(0);
+
+		useTrajectoryScanButton = new Button(mainComposite, SWT.CHECK);
+		useTrajectoryScanButton.setText("Use trajectory scan ");
+		useTrajectoryScanButton.setSelection(false);
+		addEmptyLabels(mainComposite, 1);
+
+		addDetectorSelectionControls(mainComposite);
+	}
+
+	private String[] getSelectedDetectors() {
+		String[] selectedDetectors = new String[]{};
+		for(Button detectorCheckbox : detectorCheckboxes) {
+			if (detectorCheckbox.getSelection()) {
+				selectedDetectors = (String[]) ArrayUtils.add(selectedDetectors, detectorCheckbox.getText());
+			}
+		}
+		return selectedDetectors;
+	}
+
+	private void addDetectorSelectionControls(Composite parent) {
+
+		makeLabel(parent, "Detectors to use during scan : ");
+
+		Composite detComp = new Composite(parent, SWT.NONE);
+		int numDetectors = detectorNames.length;
+		detComp.setLayout(new GridLayout(numDetectors, false));
+		detectorCheckboxes = new Button[numDetectors];
+		for(int i=0; i<numDetectors; i++) {
+			detectorCheckboxes[i] = new Button(detComp, SWT.CHECK);
+			detectorCheckboxes[i].setText(detectorNames[i]);
+			detectorCheckboxes[i].setSelection(true);
+			detectorCheckboxes[i].setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		}
+	}
+
+	/**
+	 * @return Return motor parameters for current turboXasParameter settings.
+	 * It tries to set the high and low limits from the currently selected motor.
+	 */
+	private TurboXasMotorParameters getMotorParameters() {
+		TurboXasMotorParameters motorParams = turboXasParameters.getMotorParameters();
+
+		// Try to get motor to be moved so can find upper and lower motion limits
+		String motorName = motorCombo.getText();
+		Scannable motor = Finder.getInstance().find(motorName);
+		if (motor!=null) {
+			motorParams.setMotorLimits(motor);
+		}
+		motorParams.setMotorParametersForTimingGroup(0);
+		return motorParams;
+	}
+
+	private Label makeLabel(Composite parent, String labelText) {
 		Label label = toolkit.createLabel(parent, labelText, SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		return label;
+	}
+
+	private Text makeLabelAndTextBox(Composite parent, String labelText) {
+		makeLabel(parent, labelText);
 
 		Text textBox = toolkit.createText(parent, "", SWT.BORDER);
 		textBox.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
@@ -221,7 +312,7 @@ public class TurboXasExperimentView extends ViewPart {
 
 		Button removeGroupButton = new Button(mainComposite, SWT.PUSH);
 		removeGroupButton.setText("Remove timing group");
-		removeGroupButton.setToolTipText("Remove timing group currently highlighted in table");
+		removeGroupButton.setToolTipText("Remove timing group(s) currently highlighted in table");
 
 		// Add new timing group to model, update the table
 		addGroupButton.addSelectionListener(new SelectionAdapter() {
@@ -294,17 +385,43 @@ public class TurboXasExperimentView extends ViewPart {
 
 	private void createLoadSaveSection(Composite parent) {
 		final Composite mainComposite = makeSectionAndComposite(parent, "Load, save settings", 4);
-		Button startScanButton = toolkit.createButton(parent, "Start scan", SWT.PUSH);
-		startScanButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
+		addShowMotorParametersButton(mainComposite);
+		addEmptyLabels(mainComposite, 1);
+
+		new SaveLoadButtonsForTurboXasExperiment(mainComposite, toolkit);
+
+		Button startScanButton = toolkit.createButton(mainComposite, "Start scan", SWT.PUSH);
+		startScanButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		startScanButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateParametersFromGui();
-				runScan();
+				if (getMotorParameters().validateParameters()) {
+					runScan();
+				} else {
+					showMotorParameterDialog();
+				}
 			}
 		});
-		new SaveLoadButtonsForTurboXasExperiment(mainComposite, toolkit);
+	}
+
+	private void addShowMotorParametersButton(Composite parent) {
+		Button showMotorParamButton = toolkit.createButton(parent, "Show motor parameters...", SWT.PUSH);
+		showMotorParamButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				updateParametersFromGui();
+				showMotorParameterDialog();
+			}
+		});
+	}
+
+	private void showMotorParameterDialog() {
+		TurboXasMotorParameterInfoDialog dialog = new TurboXasMotorParameterInfoDialog(shell);
+		dialog.setTurboXasMotorParameters(getMotorParameters());
+		dialog.create();
+		dialog.open();
 	}
 
 	/**
@@ -313,13 +430,12 @@ public class TurboXasExperimentView extends ViewPart {
 	 * construct a string of Jython commands to setup and run the scan.
 	 */
 	private void runScan() {
-		TurboXasMotorParameters motorParams = turboXasParameters.getMotorParameters();
-		motorParams.setMotorParametersForTimingGroup(0);
-		String motorParamString = motorParams.toXML().replace("\n", " ");
-		String imports = "from gda.scan import TurboXasParameters, TurboXasMotorParameters;\n";
-		String command = "turboXasMotorParams = TurboXasMotorParameters.fromXML(\""+motorParamString+"\");\n"+
-				"txasScan = TurboXasScan( turbo_xas_slit, turboXasMotorParams, [scaler_for_zebra] );\n" +
-				"turboXasMotorParams.toXML();txasScan.runScan()";
+		String paramString = turboXasParameters.toXML().replace("\n", " ");
+		String imports = "from gda.scan import TurboXasParameters\n";
+		String command = "turboXasParams = TurboXasParameters.fromXML(\""+paramString+"\") \n"+
+				"txasScan = turboXasParams.createScan() \n" +
+				"txasScan.runScan()";
+
 		logger.info("Scan run command : {}", imports+command);
 		InterfaceProvider.getCommandRunner().runCommand(imports+command);
 	}
@@ -336,6 +452,7 @@ public class TurboXasExperimentView extends ViewPart {
 			return false;
 		}
 	}
+
 	/**
 	 * Evaluate string to check if it is a valid number; provides true if string is allowed, false otherwise
 	 * (For use in {@link VerifyListener} to set value of doit field of {@link VerifyEvent}).
@@ -399,6 +516,17 @@ public class TurboXasExperimentView extends ViewPart {
 		energyCalibrationPolyTextbox.setText(turboXasParameters.getEnergyCalibrationPolynomial());
 		energyCalibrationPolyMinPositionTextbox.setText(String.valueOf(turboXasParameters.getEnergyCalibrationMinPosition()));
 		energyCalibrationPolyMaxPositionTextbox.setText(String.valueOf(turboXasParameters.getEnergyCalibrationMaxPosition()));
+
+		int selectionIndex = motorCombo.indexOf(turboXasParameters.getMotorToMove());
+		motorCombo.select(Math.max(selectionIndex, 0));
+
+		useTrajectoryScanButton.setSelection(turboXasParameters.getUseTrajectoryScan());
+		List<String> selectedDetectors = Arrays.asList(turboXasParameters.getDetectors());
+		for(Button box : detectorCheckboxes) {
+			boolean selected = selectedDetectors.contains(box.getText());
+			box.setSelection(selected);
+		}
+
 		updatingGuiFromParameters = false;
 	}
 
@@ -423,6 +551,10 @@ public class TurboXasExperimentView extends ViewPart {
 		turboXasParameters.setEnergyCalibrationPolynomial(energyCalibrationPolyTextbox.getText());
 		turboXasParameters.setEnergyCalibrationMinPosition(getDoubleFromTextbox(energyCalibrationPolyMinPositionTextbox));
 		turboXasParameters.setEnergyCalibrationMaxPosition(getDoubleFromTextbox(energyCalibrationPolyMaxPositionTextbox));
+
+		turboXasParameters.setUseTrajectoryScan(useTrajectoryScanButton.getSelection());
+		turboXasParameters.setDetectors(getSelectedDetectors());
+		turboXasParameters.setMotorToMove(motorCombo.getText());
 	}
 
 
@@ -454,5 +586,29 @@ public class TurboXasExperimentView extends ViewPart {
 
 	@Override
 	public void setFocus() {
+	}
+
+	public String[] getDetectorNames() {
+		return detectorNames;
+	}
+
+	/**
+	 * Set the list of detector names that can be used during a scan (should be {@link BufferedDetector}s)
+	 * @param detectorNames
+	 */
+	public void setDetectorNames(String[] detectorNames) {
+		this.detectorNames = detectorNames;
+	}
+
+	public String[] getMotorNames() {
+		return motorNames;
+	}
+
+	/**
+	 * Set names of motors that can be moved during a scan (should be {@lin ContinuouslyScannable})
+	 * @param motorNames
+	 */
+	public void setMotorNames(String[] motorNames) {
+		this.motorNames = motorNames;
 	}
 }

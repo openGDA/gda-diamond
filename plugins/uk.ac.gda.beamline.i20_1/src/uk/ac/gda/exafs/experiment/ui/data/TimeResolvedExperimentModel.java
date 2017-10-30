@@ -22,6 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
@@ -116,6 +117,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	public static final String USE_FAST_SHUTTER = "useFastShutter";
 	private boolean useFastShutter;
 
+	private Map<String, String> scannablesToMonitor = null;
+
 	public static class Topup extends TimeBarMarkerImpl {
 		public Topup(boolean draggable, JaretDate date) {
 			super(draggable, date);
@@ -144,6 +147,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	protected static final String IO_IREF_DATA_SUFFIX_KEY = "_IO_IREF_DATA";
 
 	protected static final String FAST_SHUTTER_KEY = "_USE_FAST_SHUTTER_DATA";
+
+	private static final String SCANNABLE_DATA_KEY = "_SCANNABLES_TO_MONITOR_DATA";
 
 	@Expose
 	private String unitInStr = unit.getUnitText();
@@ -188,6 +193,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		experimentDataCollectionJob.setUser(true);
 		loadSavedGroups();
 		loadFastShutterData();
+		loadScannablesToMonitorData();
 	}
 
 	public void addGroupListChangeListener(IListChangeListener listener) {
@@ -238,7 +244,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		params.setSampleDetails(experimentDataModel.getSampleDetails());
 		params.setUseFastShutter(getUseFastShutter());
 		params.setFastShutterName(DetectorModel.FAST_SHUTTER_NAME);
-
+		params.setScannablesToMonitorDuringScan(getScannablesToMonitor());
 		return params;
 	}
 
@@ -275,6 +281,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		SampleStageMotors.INSTANCE.setUseIref(params.getDoIref());
 
 		setTimingGroupUIModelFromList(params.getItTimingGroups());
+
+		setScannablesToMonitor(params.getScannablesToMonitorDuringScan());
 	}
 
 	/**
@@ -553,8 +561,26 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		// Add Iref commands
 		addIRefMethodCallStrToCommand(LINEAR_EXPERIMENT_OBJ, builder);
 
+		// Add names of pvs/scannables to be monitored
+		addScannablesMethodCallToCommand(LINEAR_EXPERIMENT_OBJ, builder);
+
 		builder.append(LINEAR_EXPERIMENT_OBJ + ".runExperiment();");
 		return builder.toString();
+	}
+
+	protected void addScannablesMethodCallToCommand(String expObject, StringBuilder builder) {
+		if (scannablesToMonitor != null) {
+			for(String name : scannablesToMonitor.keySet()) {
+				String pv = scannablesToMonitor.get(name);
+				if (pv.length()==0) {
+					// add name of scannable
+					builder.append(expObject + ".addScannableToMonitorDuringScan(\'"+name+"\');\n");
+				} else {
+					// add name of scannable and pv
+					builder.append(expObject + ".addScannableToMonitorDuringScan(\'"+pv+"\', \'"+name+"\');\n");
+				}
+			}
+		}
 	}
 
 	/**
@@ -911,6 +937,10 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		return getDataStoreKey() + FAST_SHUTTER_KEY;
 	}
 
+	private String getScannablesToMonitorDataKey() {
+		return getDataStoreKey() + SCANNABLE_DATA_KEY;
+	}
+
 	public double getDuration() {
 		return timeIntervalData.getDuration();
 	}
@@ -946,5 +976,26 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			logger.info("Problem loading data for use fast shutter preference : ", e );
 		}
 		this.useFastShutter = useFastShutter;
+	}
+
+	public Map<String, String> getScannablesToMonitor() {
+		return scannablesToMonitor;
+	}
+
+	public void setScannablesToMonitor(Map<String, String> scannablesToMonitor) {
+		this.scannablesToMonitor = scannablesToMonitor;
+		saveScannablesToMonitorData();
+	}
+
+	private void loadScannablesToMonitorData() {
+		try {
+			scannablesToMonitor = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration( getScannablesToMonitorDataKey(), Map.class );
+		} catch(NullPointerException e) {
+			logger.info("Problem loading list of scannables to monitor from preference store", e );
+		}
+	}
+
+	private void saveScannablesToMonitorData() {
+		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getScannablesToMonitorDataKey(), scannablesToMonitor );
 	}
 }

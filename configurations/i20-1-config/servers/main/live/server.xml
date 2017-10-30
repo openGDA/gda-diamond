@@ -38,8 +38,8 @@
 
 
 <!--  Frelon camera - comment out when not being used -->
-	<import resource="frelon_tango.xml" />
-	<import resource="../frelon.xml" />
+<!-- 	<import resource="frelon_tango.xml" /> -->
+<!-- 	<import resource="../frelon.xml" /> -->
 
 <!-- for when this used live: -->
 
