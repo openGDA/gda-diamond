@@ -64,9 +64,6 @@
         <level value="INFO"/>
     </logger>
 
-    <logger name="gda.oe.corba.impl">
-        <level value="INFO"/>
-    </logger>
 
     <root>
         <level value="INFO"/>
