@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.springframework.beans.factory.InitializingBean;
 
 import gda.jython.ICommandRunner;
+import gda.jython.commandinfo.CommandThreadEvent;
 import gda.rcp.views.CompositeFactory;
 import swing2swt.layout.BorderLayout;
 import uk.ac.gda.ui.utils.SWTUtils;
@@ -119,7 +120,8 @@ public class RunCommandCompositeFactory implements CompositeFactory, Initializin
 			}
 
 			@Override
-			public void runScript(File script, String sourceName) {
+			public CommandThreadEvent runScript(File script, String sourceName) {
+				return null;
 			}
 
 			@Override
