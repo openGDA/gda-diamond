@@ -180,7 +180,7 @@
         <property name="initialUserUnits" value="Angstrom" />
         <property name="hardwareUnitString" value="Angstrom" />
     </bean>
-    <!--Offset DOF -->
+    <!--Offset Motor -->
     <bean id="dcm1offset" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorOffset_DCM1" />
         <property name="protectionLevel" value="0" />
@@ -628,7 +628,7 @@
 
     </bean>
 
-    <!-- Screen Diode D4 Positioner and DOFs -->
+    <!-- Screen Diode D4 Positioner and Motors -->
     <bean id="d4x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorFoil_D4" />
         <property name="protectionLevel" value="0" />
@@ -657,7 +657,7 @@
 
     </bean>
     
-    <!-- Mono Beam Slits MBS3 Positioner and DOFs -->
+    <!-- Mono Beam Slits MBS3 Positioner and Motors -->
     <bean id="mbs3xgap" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorXGap_MBS3" />
         <property name="protectionLevel" value="0" />

@@ -3,11 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!--ngularPositioner> <name>M1PitchPos</name> <motorName>M1PitchMotor</motorName> 
-		<stepsPerUnit>17.453292519943293</stepsPerUnit> <poll>false</poll> </AngularPositioner> 
-		<AngularPositioner> <name>M1RollPos</name> <motorName>M1RollMotor</motorName> 
-		<stepsPerUnit>17.453292519943293</stepsPerUnit> <poll>false</poll> </AngularPositioner -->
-
 	<bean id="m1bend" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="M1BendMotor" />
 	</bean>
