@@ -1,3 +1,4 @@
+from gda.device.detector import DetectorMonitorDataProvider
 print "\n\n****Running the I20 startup script****\n\n"
 
 from time import sleep
@@ -217,5 +218,8 @@ monoOptimiser.setSelectNewScansInPlotView(False) # False = don't select new brag
 
 bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when moving to new energy
 
+LocalProperties.set("gda.exafs.mono.energy.rate", "0.01");
+LocalProperties.set("gda.exafs.read.out.time", "1000.0");
+add_default detectorMonitorDataProvider
 #ws146-AD-SIM-01:HDF5:MinCallbackTime
 print "****GDA startup script complete.****\n\n"
