@@ -590,6 +590,9 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         atTomoFlyScanEnd(**kwargs)
         endTm = datetime.datetime.now()
         elapsedTm = endTm - startTm
+        jns=beamline_parameters.JythonNameSpaceMapping()
+        if isLive():
+            print("This scan's data can be found in Nexus scan file %s." %(jns.lastScanDataPoint().currentFilename))
         print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
 
 
