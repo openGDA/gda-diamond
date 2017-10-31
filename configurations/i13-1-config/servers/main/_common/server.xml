@@ -97,6 +97,8 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/afg.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t1_vac_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t2_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/sample_lab_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/qcm_bragg_comb_motors.xml"/>
 
 	<!-- piezo raster scan device  - must be included for maxipix -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/pie725_raster.xml"/>
@@ -160,7 +162,8 @@
 
 	<import resource="file:${gda.config}/devices/_common/t1_vac.xml" />
 	<import resource="file:${gda.config}/devices/_common/t2.xml" />
-	<!-- <import resource="file:${gda.config}/devices/_common/sample_lab.xml" /> -->
+	<import resource="file:${gda.config}/devices/_common/sample_lab.xml" />
+	<import resource="file:${gda.config}/devices/_common/qcm_bragg_comb.xml" />
 
 	<import resource="file:${gda.config}/devices/_common/pco1.xml" />
 	<import resource="file:${gda.config}/devices/_common/pco_binning.xml"/>

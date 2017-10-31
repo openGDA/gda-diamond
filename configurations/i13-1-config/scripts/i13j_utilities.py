@@ -379,7 +379,7 @@ class StepScanMinderPCO(ScannableBase):
         self.ixx = ixx
         self.current_scan_pt_idx = 0
         self.pv_prefix=pv_prefix
-        self.mode_int = self.set_mode_from_str(mode)
+        self.mode_int = self.get_mode_from_str(mode)
 
         self.is_minder_on = False
         self.minder_check_delay_sec = delay_sec # max(delay_sec, float(caget(self.cam_acquire_priod_pv))*2) # there could be waittime as well!
@@ -402,13 +402,15 @@ class StepScanMinderPCO(ScannableBase):
 
         self._setup_sys()
 
-    def set_mode_from_str(self, mode_str):
+    def get_mode_from_str(self, mode_str):
         if mode_str=='stepscan':
-            self.mode_int = 0
+            mode_int = 0
         elif mode_str=='repscan':
-            self.mode_int = 1
+            mode_int = 1
         else:
-            print("Unsupported input mode: %s!" %(mode_str)) 
+            mode_int = None
+            print("Unsupported input mode: %s!" %(mode_str))
+        return mode_int
 
     def set_mode_from_int(self, mode_int):
         self.mode_int = mode_int 
@@ -420,7 +422,7 @@ class StepScanMinderPCO(ScannableBase):
         elif self.mode_int==1:
             self.cac_minded_val_rbv = CAClient("BL13J-EA-DET-01:TIFF:FileNumber")
         else:
-            print("Unsupported mode: %i!" %(self.mode_int)) 
+            print("Unsupported mode: %s!" %(self.mode_int)) 
 
     def configureAll(self):
         if not self.cac_minded_val_rbv.isConfigured():
