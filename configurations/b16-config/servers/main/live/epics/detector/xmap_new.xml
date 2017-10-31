@@ -6,7 +6,7 @@
 	<bean id="xmapFluorescenceDetector"
 			class="gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter">
 		<constructor-arg index="0" ref="xmapMca" />
-		<constructor-arg index="1" value="4" />
+		<constructor-arg index="1" value="1" />
 		<property name="name" value="xmapFluorescenceDetector" />
 	</bean>
 
@@ -21,7 +21,7 @@
 		<property name="local" value="true" />
 		<property name="epicsDeviceName" value="xmap_dxp" />
 		<property name="elementOffset" value="1" />
-		<property name="numberOfElements" value="4" />
+		<property name="numberOfElements" value="1" />
 		<property name="aquisitionTimeOn" value="True" />
 	</bean>
 
