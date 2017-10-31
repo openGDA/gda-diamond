@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="qcm_bragg1_comb_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg1_comb_pitch_motor" />
+		<property name="userUnits" value="urad"/>
+	</bean>
+
+	<bean id="qcm_bragg1_comb_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg1_comb_roll_motor" />
+		<property name="userUnits" value="urad"/>
+	</bean>
+	
+	<bean id="qcm_bragg1_comb" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="qcm_bragg1_comb_pitch" />
+				<ref bean="qcm_bragg1_comb_roll" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="qcm_bragg2_comb_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg2_comb_pitch_motor" />
+		<property name="userUnits" value="urad"/>
+	</bean>
+
+	<bean id="qcm_bragg2_comb_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg2_comb_roll_motor" />
+		<property name="userUnits" value="urad"/>
+	</bean>
+	
+	<bean id="qcm_bragg2_comb" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="qcm_bragg2_comb_pitch" />
+				<ref bean="qcm_bragg2_comb_roll" />
+			</list>
+		</property>
+	</bean>	
+	
+</beans>
