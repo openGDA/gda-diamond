@@ -79,13 +79,14 @@
 	<import resource="D6.xml"/>
 	<import resource="IE2.xml"/>
 	<!-- Ion chamber 2 -->
-<!-- 	<import resource="Ic6.xml"/> -->
+	<import resource="Ic6.xml"/>
 <!-- 	<import resource="FastShutter.xml"/> -->
 	<import resource="S7.xml"/>
 	<import resource="LS.xml"/>
 	<import resource="MS1.xml"/>
 	<import resource="MS2.xml"/>
 	<import resource="MS3.xml"/>
+	<import resource="MS3_hthp.xml"/>
 	<import resource="MS4.xml"/>
 	<import resource="SS1.xml"/>
 	<import resource="SS2.xml"/>
@@ -96,6 +97,7 @@
 	<import resource="BSTP1.xml"/>
 	<import resource="detectorArm.xml"/>
 	<import resource="Spinner.xml"/>
+	<import resource="Table1.xml"/>
 <!-- 	<import resource="RobotNX100.xml"/> -->
 	<import resource="DummyMotors.xml"/>
 <!-- 	<import resource="Mar345.xml"/> -->

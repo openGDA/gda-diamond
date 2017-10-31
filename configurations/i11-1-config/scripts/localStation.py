@@ -313,10 +313,10 @@ NDR=0
 CAL=1
 SAM=2
 
-def lde(t, collectionType=SAM, n=1.0):  # @UndefinedVariable
+def lde(t, collectionType=SAM, n=1.0, det=pixium_hdf):  # @UndefinedVariable
     if (collectionType==NDR):
         #just collect raw image, no data reduction
-        scan(ds, 1.0,n,1.0, pixium_hdf, t)  # @UndefinedVariable
+        scan(ds, 1.0,n,1.0, det, t)  # @UndefinedVariable
     else:
         if (collectionType==CAL):
             if (str(calibrantName.getPosition())=="Undefined"):  # @UndefinedVariable
@@ -324,7 +324,7 @@ def lde(t, collectionType=SAM, n=1.0):  # @UndefinedVariable
             datareduction.setCalibrant(True)  # @UndefinedVariable
         else:
             datareduction.setCalibrant(False)  # @UndefinedVariable
-        scan(datareduction, 1.0,n,1.0, pixium_hdf, t)  # @UndefinedVariable
+        scan(datareduction, 1.0,n,1.0, det, t)  # @UndefinedVariable
 
 alias("lde")      
 ##### new objects must be added above this line ###############
@@ -339,3 +339,5 @@ if bm1.isBeamOn():
 else:
     print "NO PHOTON BEAM ON SAMPLE."
 
+from fastshutterwrapper import FastShutter
+fs = FastShutter(fastshutter1)

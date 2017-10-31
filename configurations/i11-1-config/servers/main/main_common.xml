@@ -54,6 +54,7 @@
 	<import resource="MS1.xml"/>
 	<import resource="MS2.xml"/>
 	<import resource="MS3.xml"/>
+	<import resource="MS3_hthp.xml"/>
 	<import resource="MS4.xml"/>
 	<import resource="SS1.xml"/>
 	<import resource="SS2.xml"/>
@@ -65,9 +66,11 @@
 	<import resource="detectorArm.xml"/>
 <!-- 	<import resource="Spinner2.xml"/> -->
 <!-- 	<import resource="Robot.xml"/> -->
+	<import resource="perkin_elmer.xml" />
 	<import resource="pixium.xml"/>
 <!-- 	<import resource="Mar345.xml"/> -->
 	<import resource="datareductionscannable.xml"/>
+	<import resource="Table1.xml"/>
 	<import resource="topup.xml"/>
 <!-- 	<import resource="datacollection.xml"/> -->
 

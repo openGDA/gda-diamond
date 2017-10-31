@@ -19,6 +19,10 @@
 				<ref bean="ms3x"/>
 				<ref bean="ms3y"/>
 				<ref bean="ms3rot"/>
+				<ref bean="ms3_p1"/>
+				<ref bean="ms3_p2"/>
+				<ref bean="ms3_t1"/>
+				<ref bean="ms3_t2"/>
 			</list>
 		</property>
 		<property name="engagePosition" value="0.0"/>
