@@ -335,6 +335,9 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 					if (isFinishEarlyRequested()){
 						return;
 					}
+					if (isSmartstop()) {
+						theDetector.stop();
+					}
 					progressData = fetchStatusAndWait();
 					currentFrame = DetectorScanDataUtils.getAbsoluteFrameNumber(scanParameters, progressData.getCurrentScanInfo());
 				}
@@ -379,7 +382,16 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		} finally {
 			// have we read all the frames?
 			if (theDetector instanceof XhDetector) {
-				readoutRestOfFrames(nextFrameToRead);
+				if (isSmartstop()) {
+					int groupNum = DetectorScanDataUtils.getGroupNum(scanParameters, nextFrameToRead);
+					scanParameters.getGroups().get(groupNum).setNumberOfFrames(nextFrameToRead);
+					for(int i=groupNum+1; i<scanParameters.getGroups().size(); i++) {
+						scanParameters.getGroups().get(i).setNumberOfFrames(0);
+					}
+					setSmartstop(false);
+				} else {
+					readoutRestOfFrames(nextFrameToRead);
+				}
 			}
 			if (theDetector instanceof EdeFrelon) {
 				if (isSmartstop()) {
