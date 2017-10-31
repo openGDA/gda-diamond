@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean id="ms3_t1" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true"/>
+		<property name="accuracy" value="1"/>
+		<property name="polltime" value="1000"/>
+		<property name="fileSuffix" value="temp"/>
+		<property name="upperTemp" value="1000"/>
+		<property name="lowerTemp" value="20"/>
+		<property name="controller" ref="ms3_hthp1_controller"/>
+	</bean>
+	<bean id="ms3_t2" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true"/>
+		<property name="accuracy" value="1"/>
+		<property name="polltime" value="1000"/>
+		<property name="fileSuffix" value="temp"/>
+		<property name="upperTemp" value="1000"/>
+		<property name="lowerTemp" value="20"/>
+		<property name="controller" ref="ms3_hthp2_controller"/>
+	</bean>
+</beans>

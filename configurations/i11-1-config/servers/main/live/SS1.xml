@@ -10,4 +10,36 @@
 		<property name="pvName" value="BL11J-MO-SSLID-01:Y"/>
 	</bean>
 
+
+	<bean id="ss1_1_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-SCL-01:1:TEMP" />
+		<property name="local" value="true" />
+		<property name="unit" value="C" />
+	</bean>
+	<bean id="ss1_1_humidity" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-SCL-01:1:HUMIDITY" />
+		<property name="local" value="true" />
+		<property name="unit" value="%" />
+	</bean>
+	<bean id="ss1_2_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-SCL-01:2:TEMP" />
+		<property name="local" value="true" />
+		<property name="unit" value="C" />
+	</bean>
+	<bean id="ss1_2_humidity" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-SCL-01:2:HUMIDITY" />
+		<property name="local" value="true" />
+		<property name="unit" value="%" />
+	</bean>
+	<bean id="ss1_3_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-SCL-01:3:TEMP" />
+		<property name="local" value="true" />
+		<property name="unit" value="C" />
+	</bean>
+	<bean id="ss1_3_humidity" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-SCL-01:3:HUMIDITY" />
+		<property name="local" value="true" />
+		<property name="unit" value="%" />
+	</bean>
+
 </beans>

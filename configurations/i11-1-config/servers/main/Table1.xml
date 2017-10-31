@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	
+	<bean id="tbase" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tbase_motor"/>
+	</bean>
+	<bean id="tz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tz_motor"/>
+	</bean>
+	
+	<bean id="table1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="tbase"/>
+				<ref bean="tz"/>
+			</list>
+		</property>
+	</bean>
+</beans>

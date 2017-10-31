@@ -50,4 +50,14 @@
 	<bean id="ls2y2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11J-MO-GONIO-02:Y2"/>
 	</bean>
+	<bean id="linkam1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-TEMPC-01:TEMP" />
+		<property name="local" value="true" />
+		<property name="unit" value="C" />
+	</bean>
+	<bean id="linkam2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11J-EA-TEMPC-02:TEMP" />
+		<property name="local" value="true" />
+		<property name="unit" value="C" />
+	</bean>
 </beans>

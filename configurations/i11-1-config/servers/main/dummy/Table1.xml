@@ -3,9 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-	<!-- Ion Chamber -->
-	<bean id="Ic6" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="pvName" value="BL11J-DI-IONC-06"/>
-		<property name="enableValueMonitoring" value="true"/>
+	<bean id="tz_motor" class="gda.device.motor.DummyMotor">
+	</bean>
+	<bean id="tbase_motor" class="gda.device.motor.DummyMotor">
 	</bean>
 </beans>
