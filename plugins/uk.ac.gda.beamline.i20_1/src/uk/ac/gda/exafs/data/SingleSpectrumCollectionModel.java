@@ -186,6 +186,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		params.setBeamShutterScannableName(DetectorModel.SHUTTER_NAME);
 
 		params.setUseFastShutter(useFastShutter);
+		params.setFastShutterName(DetectorModel.FAST_SHUTTER_NAME);
 		params.setFileNamePrefix(experimentDataModel.getFileNamePrefix());
 		params.setSampleDetails(experimentDataModel.getSampleDetails());
 		return params;
