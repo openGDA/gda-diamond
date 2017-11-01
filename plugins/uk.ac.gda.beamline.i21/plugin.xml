@@ -13,15 +13,31 @@
          </property>
          <property
                name="aboutImage"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+               value="icons/i21GDA.png">
          </property>
          <property
                name="appName"
-               value="Diamond Beamline i21">
+               value="I21 GDA">
          </property>
          <property
                name="aboutText"
                value="Diamond Beamline i21 &#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="2,215,598,15">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="4,195,598,20">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
          </property>
       </product>
    </extension>
@@ -51,7 +67,7 @@
             name="uk.ac.gda.beamline.i21.dummy.product">
          <property
                name="windowImages"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png">
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
          </property>
          <property
                name="aboutText"
@@ -59,7 +75,27 @@
          </property>
          <property
                name="appName"
-               value="uk.ac.gda.beamline.i21.dummy.product">
+               value="I21 GDA">
+         </property>
+         <property
+               name="aboutImage"
+               value="icons/i21GDA.png">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="2,215,598,15">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="4,195,598,20">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
          </property>
       </product>
    </extension>

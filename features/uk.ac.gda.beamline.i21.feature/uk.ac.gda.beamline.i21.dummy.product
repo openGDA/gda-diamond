@@ -46,7 +46,10 @@ See &lt;http://www.opengda.org/&gt;
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"/>
 
    <splash
-      location="uk.ac.gda.client" />
+      location="uk.ac.gda.beamline.i21"
+      startupProgressRect="2,215,598,15"
+      startupMessageRect="4,195,598,20"
+      startupForegroundColor="000000" />
    <launcher>
       <win useIco="false">
          <bmp/>
@@ -82,6 +85,9 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <feature id="uk.ac.gda.beamline.i21.feature"/>
    </features>
 
+   <configurations>
+      <property name="eclipse.pluginCustomization" value="/scratch/gda_versions/gda_master3/workspace_git/gda-dls-beamlines-i21.git/i21-config/plugin_customization.ini" />
+   </configurations>
 
    <preferencesInfo>
       <targetfile overwrite="false"/>
