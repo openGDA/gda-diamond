@@ -15,6 +15,7 @@
 							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 								<property name="adBase" ref="andor_adbase" />
 								<property name="restoreAcquireState" value="true"/>
+								<property name="readAcquisitionTime" value="true"/>
 							</bean>
 						</property>
 					</bean>
