@@ -17,6 +17,7 @@
 		<project>uk.ac.gda.beamline.synoptics</project>
 		<project>uk.ac.gda.core</project>
 		<project>uk.ac.gda.devices.andor</project>
+		<project>uk.ac.gda.dls.client</project>
 		<project>uk.ac.gda.epics</project>
 	</projects>
 	<buildSpec>

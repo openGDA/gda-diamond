@@ -9,10 +9,10 @@
 		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd 
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 	
-	<corba:import namespace="i11-1" names="Ic4, beam, fastshutter,fastshutter1, fastshutter2, ehshutter, feshutter, portshutter, es2shutter, dcm_lambda"/>
+	<corba:import namespace="i21" names="portshutter, feshutter, feBeamPermit, fastshutter, m4femto1, m4femto2"/>
 	
 	<bean id="bm" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/bm" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}bm" />
 		<property name="serviceInterface" value="gda.device.IBeamMonitor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
@@ -22,8 +22,36 @@
 		<property name="compositeFactories">
 			<list>
 				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Shutters" />
+					<property name="columns" value="4" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.FrontEndPneumaticShutterCompositeFactory">
+								<property name="label" value="Port" />
+								<property name="controlPermitted" value="false" />
+								<property name="shutter" ref="portshutter" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.FrontEndPneumaticShutterCompositeFactory">
+								<property name="label" value="FE" />
+								<property name="controlPermitted" value="false" />
+								<property name="shutter" ref="feshutter" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.FrontEndPneumaticShutterCompositeFactory">
+								<property name="label" value="Permit" />
+								<property name="controlPermitted" value="true" />
+								<property name="shutter" ref="feBeamPermit" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlineMbbinaryShutterCompositeFactory">
+								<property name="label" value="FS" />
+								<property name="controlPermitted" value="true" />
+								<property name="shutter" ref="fastshutter" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
 					<property name="label" value="Status" />
-					<property name="columns" value="3" />
+					<property name="columns" value="2" />
 					<property name="compositeFactories">
 						<list>
 							<bean class="uk.ac.gda.dls.client.views.BatonStatusCompositeFactory">
@@ -32,57 +60,6 @@
 							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamStatusCompositeFactory">
 								<property name="label" value="Beam" />
 								<property name="beamMonitor" ref="bm"/>
-							</bean>
-<!-- 							<bean class="uk.ac.gda.beamline.synoptics.composites.SpinStatusCompositeFactory"> -->
-<!-- 								<property name="label" value="Spin" /> -->
-<!-- 								<property name="spin" ref="spin"/> -->
-<!-- 							</bean> -->
-							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamStopStatusCompositeFactory">
-								<property name="label" value="BStop" />
-								<property name="pvName" value="BL11I-PS-SHTR-01:RAWILK.B5"/>
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean class="gda.rcp.views.GroupCompositeFactory">
-					<property name="label" value="Shutter" />
-					<property name="columns" value="7" />
-					<property name="compositeFactories">
-						<list>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlineMbbinaryShutterCompositeFactory">
-								<property name="label" value="FS1" />
-								<property name="controlPermitted" value="true" />
-								<property name="shutter" ref="fastshutter1" />
-							</bean>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlineMbbinaryShutterCompositeFactory">
-								<property name="label" value="FS2" />
-								<property name="controlPermitted" value="true" />
-								<property name="shutter" ref="fastshutter2" />
-							</bean>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
-								<property name="label" value="EH2" />
-								<property name="controlPermitted" value="true" />
-								<property name="shutter" ref="es2shutter" />
-							</bean>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlineMbbinaryShutterCompositeFactory">
-								<property name="label" value="FS" />
-								<property name="controlPermitted" value="true" />
-								<property name="shutter" ref="fastshutter" />
-							</bean>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
-								<property name="label" value="EH1" />
-								<property name="controlPermitted" value="true" />
-								<property name="shutter" ref="ehshutter" />
-							</bean>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.FrontEndPneumaticShutterCompositeFactory">
-								<property name="label" value="FE" />
-								<property name="controlPermitted" value="true" />
-								<property name="shutter" ref="feshutter" />
-							</bean>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.FrontEndPneumaticShutterCompositeFactory">
-								<property name="label" value="Port" />
-								<property name="controlPermitted" value="false" />
-								<property name="shutter" ref="portshutter" />
 							</bean>
 						</list>
 					</property>
@@ -118,85 +95,29 @@
 				</bean>
 				<bean class="gda.rcp.views.GroupCompositeFactory">
 					<property name="label" value="Beamline" />
-					<property name="columns" value="3" />
+					<property name="columns" value="2" />
 					<property name="compositeFactories">
 						<list>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="Io-monitor" />
-								<property name="label" value="Io" />
-								<property name="units" value="" />
-								<property name="decimalPlaces" value="0" />
-							</bean>
-							<bean
-								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="Ie2-monitor" />
-								<property name="label" value="Ie2 " />
-								<property name="units" value="" />
-								<property name="decimalPlaces" value="0" />
-							</bean>
-							<bean
-								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="dcm_lambda" />
-								<property name="label" value="Wavelength" />
-								<property name="units" value="Ang" />
-								<property name="decimalPlaces" value="6" />
-							</bean>
-							<bean
-								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="Ie-monitor" />
-								<property name="label" value="Ie" />
-								<property name="units" value="" />
-								<property name="decimalPlaces" value="0" />
-							</bean>
-							<bean
-								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="Ic4-ionchamber" />
-								<property name="label" value="Ic4" />
+								<property name="scannable" ref="m4femto1" />
+								<property name="label" value="M4 Femto1" />
 								<property name="units" value="" />
 								<property name="decimalPlaces" value="3" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="energy" />
+								<property name="scannable" ref="m4femto2" />
+								<property name="label" value="M4 Femto2 " />
+								<property name="units" value="" />
+								<property name="decimalPlaces" value="3" />
+							</bean>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="PGMEnergy" />
 								<property name="label" value="Energy" />
-								<property name="units" value="keV" />
+								<property name="units" value="eV" />
 								<property name="decimalPlaces" value="4" />
-							</bean>
-						</list>
-					</property>
-				</bean>
-				<bean class="uk.ac.gda.beamline.synoptics.composites.LatestFilenameCompositeFactory">
-					<property name="label" value="Latest Detector File" />
-					<property name="fileProcessor" ref="detectorFileDisplayer" />
-					<property name="dirWatcher" ref="dirListener"/>
-					<property name="detectors" value="mythen,mac,pixium"/>
-					<property name="showButtonSeparator" value="true"/>
-					<property name="separatePlayPauseButtons" value="true" />
-					<property name="startNumber" value="0"/>
-				</bean>
-				<bean class="gda.rcp.views.GroupCompositeFactory">
-					<property name="label" value="Data" />
-					<property name="columns" value="2" />
-					<property name="compositeFactories">
-						<list>
-							<bean
-								class="uk.ac.gda.beamline.synoptics.composites.PropertyValueSelectionCompositeFactory">
-								<property name="eventAdminName" value="eventadmin" />
-								<property name="label" value="Directory" />
-								<property name="listIsSetExplicitlyInProperty" value="false" />
-								<property name="propertyName">
-									<util:constant static-field="gda.configuration.properties.LocalProperties.GDA_DATAWRITER_DIR"/>
-								</property>
-							</bean>
-							<bean
-								class="uk.ac.gda.beamline.synoptics.composites.PropertyValueSelectionCompositeFactory">
-								<property name="eventAdminName" value="eventadmin" />
-								<property name="label" value="Data Format" />
-								<property name="listIsSetExplicitlyInProperty" value="true" />
-								<property name="propertyName">
-									<util:constant static-field="gda.configuration.properties.LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT"/>
-								</property>
 							</bean>
 						</list>
 					</property>
@@ -205,42 +126,10 @@
 					<property name="label" value="Panic"/>
 					<property name="tooltipText" value="Stop all motors" />
 					<property name="imagePath" value="icons/panicstop80x80.png" />
-					<property name="actionId" value="uk.ac.gda.client.StopAll" />
+					<property name="actionId" value="uk.ac.gda.client.StopAllCommand" />
 				</bean>
 				
-<!-- 				<bean class="gda.rcp.views.OpenViewListBoxCompositeFactory"> -->
-<!-- 					<property name="label" value="Plots"/> -->
-<!-- 					<property name="tooltipText" value="Open the live plot view for the selected detector"/> -->
-<!-- 					<property name="options"> -->
-<!-- 						<list> -->
-<!-- 							<bean class="gda.rcp.views.OpenViewOption"> -->
-<!-- 								<constructor-arg value="Select a detector" /> -->
-<!-- 								<constructor-arg value="" /> -->
-<!-- 							</bean> -->
-<!-- 							<bean class="gda.rcp.views.OpenViewOption"> -->
-<!-- 								<constructor-arg value="Mythen" /> -->
-<!-- 								<constructor-arg value="uk.ac.gda.epics.client.mythen.views.mytheView" /> -->
-<!-- 							</bean> -->
-<!-- 							<bean class="gda.rcp.views.OpenViewOption"> -->
-<!-- 								<constructor-arg value="MAC" /> -->
-<!-- 								<constructor-arg value="uk.ac.gda.client.hrpd.views.MACPlotView" /> -->
-<!-- 							</bean> -->
-<!-- 							<bean class="gda.rcp.views.OpenViewOption"> -->
-<!-- 								<constructor-arg value="DataPlot" /> -->
-<!-- 								<constructor-arg value="uk.ac.gda.beamline.i11.dataPlot" /> -->
-<!-- 							</bean> -->
-<!-- 							<bean class="gda.rcp.views.OpenViewOption"> -->
-<!-- 								<constructor-arg value="Pixium" /> -->
-<!-- 								<constructor-arg value="uk.ac.gda.beamline.i11.PixiumView" /> -->
-<!-- 							</bean> -->
-							
-<!-- 							<bean class="gda.rcp.views.OpenViewOption"> -->
-<!-- 								<constructor-arg value="WebCams" /> -->
-<!-- 								<constructor-arg value="uk.ac.gda.video.views.cameraview" /> -->
-<!-- 							</bean> -->
-<!-- 						</list> -->
-<!-- 					</property> -->
-<!-- 				</bean> -->
+
 <!-- 				<bean class="uk.ac.gda.dls.client.feedback.FeedbackCompositeFactory"/> -->
 			</list>
 		</property>

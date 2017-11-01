@@ -6,7 +6,7 @@
 
 
     <!-- Front End Beam Permit -->
-	<bean id="feShutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="feBeamPermit" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Open</value>
@@ -17,7 +17,24 @@
 		</property>
 	</bean>
 
-	<bean id="portshutter" class="gda.device.monitor.DummyEpicsMonitor">
-		<property name="value" value="Open" />
+	<bean id="portshutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Abort</value>
+				<value>Unknown</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="feshutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Abort</value>
+				<value>Unknown</value>
+			</list>
+		</property>
 	</bean>
 </beans>

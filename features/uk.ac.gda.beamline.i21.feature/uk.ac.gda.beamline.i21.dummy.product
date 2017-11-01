@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="uk.ac.gda.beamline.i21.dummy.product" uid="uk.ac.gda.beamline.i21.dummy" id="uk.ac.gda.beamline.i21.i21_dummy_client_product" application="uk.ac.gda.client.application" useFeatures="true" includeLaunchers="true">
+<product name="uk.ac.gda.beamline.i21.dummy.product" uid="uk.ac.gda.beamline.i21.dummy" id="uk.ac.gda.beamline.i21.dummy_product" application="uk.ac.gda.client.application" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <text>
@@ -32,7 +32,7 @@ See &lt;http://www.opengda.org/&gt;
 -Dgda.propertiesFile=${project_loc:i21-config}/properties/dummy/dummy_instance_java.properties
 -Djacorb.config.dir=${project_loc:i21-config}/properties/dummy/jacorb
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i21-config}/properties/dummy/JCALibrary.properties
--Declipse.pluginCustomization=${project_loc:i21-config}/pluginCustomization.ini
+-Declipse.pluginCustomization=/scratch/gda_versions/gda_master3/workspace_git/gda-dls-beamlines-i21.git/i21-config/plugin_customization.ini
 -Dgda.mode=dummy
 -Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
 -Dorg.eclipse.scanning.event.remote.positionerTimeout=1000

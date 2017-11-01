@@ -6,14 +6,15 @@
 
 
     <!-- Front End Beam Permit -->
- 	<bean id="feShutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+ 	<bean id="feBeamPermit" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="FE21I-CS-BEAM-01" />
-		<property name="controlPv" value="FE21I-CS-BEAM-01:BLCON" />
-		<property name="local" value="true"/>
 	</bean>
 	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
 		need events to be fired for the GDA9 ExpressionWatchdog -->
-	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="FE21I-PS-SHTR-01:STA" />
+	<bean id="portshutter" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="FE21I-PS-SHTR-01:STA" />
+	</bean>
+	<bean id="feshutter" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="FE21I-PS-SHTR-02:STA" />
 	</bean>
 </beans>

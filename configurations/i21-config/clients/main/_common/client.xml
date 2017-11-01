@@ -15,6 +15,7 @@
 	<import resource="batonStateProvider.xml"/>
 	<!-- sample stage control -->
 	<import resource="live_controls.xml"/>
+	<import resource="statusView.xml"/>
 	
 	<!-- new solstice scanning sourced from p45-config project -->
 	<import resource="../../../../p45-config/clients/main/_common/stage_controls_tree.xml"/>
