@@ -26,6 +26,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -62,7 +63,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 
 	private ScrolledForm scrolledform;
 
-	private Form form;
+//	private Form form;
 
 	private Composite sampleStageSectionsParent;
 	private Text prefixText;
@@ -74,9 +75,18 @@ public class SingleSpectrumCollectionView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
 		dataBindingCtx = new DataBindingContext();
-		scrolledform = toolkit.createScrolledForm(parent);
-		form = scrolledform.getForm();
-		form.getBody().setLayout(new GridLayout());
+
+		final SashForm parentComposite = new SashForm(parent, SWT.VERTICAL);
+		parentComposite.SASH_WIDTH = 7;
+
+		Composite composite = new Composite(parentComposite, SWT.None);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(1,false));
+		scrolledform = toolkit.createScrolledForm(composite);
+		scrolledform.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		Form form = scrolledform.getForm();
+		form.getBody().setLayout(new GridLayout(1, true));
+
 		toolkit.decorateFormHeading(form);
 		form.setText("Single spectrum");
 		Composite formParent = form.getBody();
@@ -86,7 +96,9 @@ public class SingleSpectrumCollectionView extends ViewPart {
 			setupScannables();
 			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
 			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-			createStartStopScanSection(formParent, toolkit, prefixText, sampleDescText);
+			createStartStopScanSection(parentComposite, toolkit, prefixText, sampleDescText);
+			form.layout();
+			parentComposite.setWeights(new int[] {5, 4});
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
@@ -223,7 +235,6 @@ public class SingleSpectrumCollectionView extends ViewPart {
 					protected IStatus doSet(IObservableValue observableValue, Object value) {
 						IStatus status = super.doSet(observableValue, !((boolean) value));
 						((GridData) sampleStageSectionsParent.getLayoutData()).exclude = ((boolean) value);
-						form.layout();
 						return status;
 					}
 				});
