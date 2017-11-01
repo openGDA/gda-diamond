@@ -257,6 +257,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			xhDelayLabel.setText("Delay after Topup: ");
 			xhDelayText = new NumberEditorControl(xhParent, SWT.None, externalTriggerSetting.getTfgTrigger().getDetectorDataCollection(), TriggerableObject.TRIGGER_DELAY_PROP_NAME, false);
 			xhDelayText.setUnit(TFGTrigger.DEFAULT_DELAY_UNIT.getUnitText());
+			xhDelayText.setDigits(6);
 			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 			gridData.widthHint = 140;
 			xhDelayText.setLayoutData(gridData);
@@ -266,6 +267,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			xhPulseWidthLabel.setText("Pulse width: ");
 			xhPulseWidthText = new NumberEditorControl(xhParent, SWT.None, externalTriggerSetting.getTfgTrigger().getDetectorDataCollection(), TriggerableObject.TRIGGER_PULSE_LENGTH_PROP_NAME, false);
 			xhPulseWidthText.setUnit(TFGTrigger.DEFAULT_DELAY_UNIT.getUnitText());
+			xhPulseWidthText.setDigits(6);
 			gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 			gridData.widthHint = 140;
 			xhPulseWidthText.setLayoutData(gridData);

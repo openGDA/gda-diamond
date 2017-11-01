@@ -80,8 +80,6 @@ public class AlignmentStageCalibrationView extends ViewPart {
 		ScrolledForm scrolledform = toolkit.createScrolledForm(parent);
 		form = scrolledform.getForm();
 		form.getBody().setLayout(new TableWrapLayout());
-		toolkit.decorateFormHeading(form);
-		form.setText("Alignment Stage");
 		try {
 			createControlsSection();
 			loadAlignmentStageSettings();
@@ -202,7 +200,7 @@ public class AlignmentStageCalibrationView extends ViewPart {
 
 	@SuppressWarnings("static-access")
 	private void createControlsSection() throws Exception {
-		final Section section = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
+		final Section section = toolkit.createSection(form.getBody(), Section.TITLE_BAR);
 		toolkit.paintBordersFor(section);
 		section.setText("Alignment stage");
 		toolkit.paintBordersFor(section);
