@@ -1,5 +1,5 @@
 #I21 Soft X-ray ID fitting parameters, created 18 Sept 2016										
-#Mode	MinEnergy	MaxEnergy	b	1st-order	2nd-order	3rd-order	4th-order	5th-order	6th-order 	 7th-order
+ScannableNames	Mode	MinEnergy	MaxEnergy	b	1st-order	2nd-order	3rd-order	4th-order	5th-order	6th-order 	 7th-order
 LH	195	1200	9.842947196	0.027673	-0.0000085	-3.3E-009	4.6838E-012	0	0	0
 LH	1200	1400	1692.321877	-5.37292	0.006545	-0.0000035	7.24426E-010	0	0	0
 LH	1400	1500	166668.3277	-467.866	0.492814	-0.00023	4.05597E-008	0	0	0
