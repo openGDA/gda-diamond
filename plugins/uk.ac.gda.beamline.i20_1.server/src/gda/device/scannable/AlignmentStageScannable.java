@@ -23,7 +23,6 @@ import java.io.IOException;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.python.core.PyException;
 import org.python.core.PyString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -259,25 +258,20 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 	@Override
 	public String toFormattedString() {
 		try {
-
 			// get the current position as an array of doubles
-			Object position = getPosition();
+			final Object position = getPosition();
 
 			// if position is null then simply return the name
 			if (position == null) {
-				logger.warn("getPosition() from " + getName() + " returns NULL.");
-				return getName() + " : Unknown";
+				logger.warn("getPosition() from {} returns NULL.", getName());
+				return valueUnavailableString();
+			} else {
+				final String rr = createFormattedListAcceptablePositions();
+				return String.format("%s : %s %s", getName(), position, rr);
 			}
-			String rr = createFormattedListAcceptablePositions();
-
-			return getName() + " : " + position.toString() + " " + rr;
-
-		} catch (PyException e) {
-			logger.info(getName() + ": jython exception while getting position. " + e.toString());
-			return getName() + " : NOT AVAILABLE";
 		} catch (Exception e) {
-			logger.info(getName() + ": exception while getting position. " + e.getMessage() + "; " + e.getCause(), e);
-			return getName() + " : NOT AVAILABLE";
+			logger.warn("{} : exception while getting position", getName(), e);
+			return valueUnavailableString();
 		}
 	}
 
