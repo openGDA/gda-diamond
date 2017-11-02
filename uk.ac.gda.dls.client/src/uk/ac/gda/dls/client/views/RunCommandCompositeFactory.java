@@ -36,22 +36,21 @@ public class RunCommandCompositeFactory implements CompositeFactory, Initializin
 
 	ICommandRunner commandRunner;
 	String command;
-	String commandObserver;
 	String label;
 	String jobTitle;
 	String tooltip="";
 
 	public static Composite createComposite(Composite parent, int style,
-			final ICommandRunner commandRunner, String label, final String command, final String commandObserver,
+			final ICommandRunner commandRunner, String label, final String command,
 			final String jobTitle, String tooltip) {
-		return new RunCommandComposite(parent, style, commandRunner, label, command, commandObserver,
+		return new RunCommandComposite(parent, style, commandRunner, label, command,
 				jobTitle, tooltip);
 	}
 
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		return new RunCommandComposite(parent, style, commandRunner, label,
-				command, commandObserver, jobTitle, tooltip);
+				command, jobTitle, tooltip);
 	}
 
 	public ICommandRunner getCommandRunner() {
@@ -68,14 +67,6 @@ public class RunCommandCompositeFactory implements CompositeFactory, Initializin
 
 	public void setCommand(String command) {
 		this.command = command;
-	}
-
-	public String getCommandObserver() {
-		return commandObserver;
-	}
-
-	public void setCommandObserver(String commandObserver) {
-		this.commandObserver = commandObserver;
 	}
 
 	public String getLabel() {
@@ -115,17 +106,13 @@ public class RunCommandCompositeFactory implements CompositeFactory, Initializin
 		ICommandRunner iCommandRunner = new ICommandRunner() {
 
 			@Override
-			public boolean runsource(String command, String source) {
+			public boolean runsource(String command) {
 				return false;
 			}
 
 			@Override
-			public CommandThreadEvent runScript(File script, String sourceName) {
+			public CommandThreadEvent runScript(File script) {
 				return null;
-			}
-
-			@Override
-			public void runCommand(String command, String scanObserver) {
 			}
 
 			@Override
@@ -150,7 +137,7 @@ public class RunCommandCompositeFactory implements CompositeFactory, Initializin
 			}
 		};
 		final RunCommandComposite comp = new RunCommandComposite(shell, SWT.NONE, iCommandRunner, "My Label",
-				"My Command", "", "Job Title", "tooltip");
+				"My Command", "Job Title", "tooltip");
 		comp.setLayoutData(BorderLayout.NORTH);
 		comp.setVisible(true);
 		shell.pack();

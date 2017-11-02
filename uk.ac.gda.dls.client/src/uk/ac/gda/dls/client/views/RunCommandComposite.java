@@ -30,14 +30,13 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.springframework.util.StringUtils;
 
 import gda.jython.ICommandRunner;
 
 public class RunCommandComposite extends Composite {
 
 	public RunCommandComposite(Composite parent, int style, final ICommandRunner commandRunner,
-			String label, final String command, final String commandObserver, final String jobTitle, String tooltip) {
+			String label, final String command, final String jobTitle, String tooltip) {
 		super(parent, style);
 
 		final Display display = parent.getDisplay();
@@ -57,11 +56,7 @@ public class RunCommandComposite extends Composite {
 
 					@Override
 					protected IStatus run(IProgressMonitor monitor) {
-						if (StringUtils.hasLength(commandObserver)) {
-							commandRunner.runCommand(command, commandObserver);
-						} else {
-							commandRunner.runCommand(command);
-						}
+						commandRunner.runCommand(command);
 						display.asyncExec(new Runnable() {
 							@Override
 							public void run() {
