@@ -107,7 +107,7 @@ public class DummyTopupScannable extends ScannableBase implements Scannable, Mon
 		try {
 			return String.format("%s %s", ScannableUtils.getFormattedCurrentPosition(this), unit);
 		} catch (DeviceException e) {
-			return "UNAVAILABLE";
+			return valueUnavailableString();
 		}
 	}
 
