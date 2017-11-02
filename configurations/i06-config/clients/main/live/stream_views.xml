@@ -14,8 +14,8 @@
 	</bean>
 	<bean id="pco_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="PCO" />
-		<property name="url" value="http://bl06i-di-serv-01.diamond.ac.uk:8081/DET1.MJPGB.mjpg" />
-<!-- 		<property name="url" value="http://i06-ws013:8080/pco.mjpg.mjpg" /> -->
+		<property name="url" value="http://bl06i-di-serv-01.diamond.ac.uk:8081/pcoview.MJPGB.mjpg" />
+<!-- 		<property name="url" value="http://i06-control.diamond.ac.uk:8080/pcorx.mjpg.mjpg" /> -->
 		<property name="arrayPv" value="BL06I-EA-DET-01:ARR" />
 		<property name="roiProvider" ref="pco_roi" />
 	</bean>
