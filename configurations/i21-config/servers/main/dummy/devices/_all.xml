@@ -21,6 +21,7 @@
 	<import resource="s4_motors.xml" />
 	<import resource="s5_motors.xml" />
 	<import resource="s6_motors.xml" />
+	<import resource="s5_camera.xml" />
 	
 	<!-- diagnostics -->
 	<import resource="dgn.xml" />
