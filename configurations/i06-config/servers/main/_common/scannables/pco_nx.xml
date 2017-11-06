@@ -38,7 +38,7 @@
 	</bean>
 	
 	<!-- detector 'pcosnap_nx' is used to get a snapshot of the PCO detector.Data stored in $datadir$/snapped-data/ -->
- 	<bean id="pcosnap" class="gda.device.detector.NXDetector">
+ 	<bean id="pcosnap_nx" class="gda.device.detector.NXDetector">
 		<property name="name" value="pcosnap_nx" />
 		<property name="collectionStrategy" ref="pcoCollectionStrategy" />
 		<property name="additionalPluginList">

@@ -201,7 +201,7 @@
 	<bean id="pcoacquireperiod" class="gda.device.detector.pco.collectionstrategy.PCOConfigureAcquireTimeAcquirePeriodDecorator">
 		<property name="restoreAcquireTime" value="true" />
 		<property name="restoreAcquirePeriod" value="true"/>
-		<property name="acquiringPeriod" value="0.1"/>
+		<property name="acquirePeriod" value="0.1"/>
 		<property name="decoratee" ref="pcotriggermode"/>
 	</bean>	
 	
@@ -225,13 +225,13 @@
 	<bean id="pcoprocfilter" class="gda.device.detector.addetector.collectionstrategy.ProcessFilterDecorator">
 		<property name="restoreState" value="true"/>
 		<property name="ndProcess" ref="pco_proc"/>
-		<property name="processDataTypeOut" value="DatatypeOut_UInt8"/>
+		<property name="processDataTypeOut">
+		 	<util:constant static-field="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin.DataType.UINT8"/>
+		</property>
 		<property name="outputEveryArray" value="true"/>
 		<property name="resetFilterAtStart" value="true"/>
 		<property name="autoReset" value="false"/>
-		<property name="filterType">
-			<util:constant static-field="gda.device.detector.areadetector.v17.NDProcess.FilterTypeV1_8_RecursiveAve"/>
-		</property>
+		<property name="filterType" value="0"/>
 		<property name="numberOfImagesToFilter" value="3"/>
 		<property name="enableFilter" value="true"/>
 		<property name="decoratee" ref="pcoimagemodecontinuous"/>
