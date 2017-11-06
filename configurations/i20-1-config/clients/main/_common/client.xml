@@ -76,7 +76,7 @@
 	</bean>
 	
 	<bean id="xspress3" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/xspress3" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}xspress3" />
 		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
