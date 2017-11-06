@@ -120,7 +120,7 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 	@Override
 	public Composite createComposite(Composite parent, int style) {
 		ReadonlyScannableComposite readonlyScannableComposite = new ReadonlyScannableComposite(parent, style, scannable,
-				label, units, decimalPlaces);
+				label, units, decimalPlaces, forceLayoutOnLengthChange);
 		readonlyScannableComposite.setMinPeriodMS(minPeriodMS);
 		readonlyScannableComposite.setColourMap(colourMap);
 		return readonlyScannableComposite;
