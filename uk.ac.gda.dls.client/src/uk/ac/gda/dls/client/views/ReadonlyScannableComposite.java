@@ -80,6 +80,11 @@ public class ReadonlyScannableComposite extends Composite {
 
 	public ReadonlyScannableComposite(Composite parent, int style, final Scannable scannable, String label, final String units,
 			Integer decimalPlaces) {
+		this(parent, style, scannable, label, units, decimalPlaces, true);
+	}
+
+	public ReadonlyScannableComposite(Composite parent, int style, final Scannable scannable, String label, final String units,
+			Integer decimalPlaces, final boolean resize) {
 		super(parent, style);
 		this.display = parent.getDisplay();
 		this.scannable = scannable;
@@ -99,6 +104,8 @@ public class ReadonlyScannableComposite extends Composite {
 		int textStyle = SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY | SWT.CENTER;
 		text = new Text(this,textStyle);
 		text.setEditable(false);
+		text.setText("000000");
+		EclipseWidgetUtils.forceLayoutOfTopParent(ReadonlyScannableComposite.this);
 		setTextRunnable = new Runnable() {
 
 			@Override
@@ -108,7 +115,7 @@ public class ReadonlyScannableComposite extends Composite {
 				String valPlusUnits = val+suffix;
 				text.setText(valPlusUnits);
 				int diff = valPlusUnits.length()-currentLength;
-				if ( diff > 0 || diff < -3)
+				if (( diff > 0 || diff < -3) && resize)
 					EclipseWidgetUtils.forceLayoutOfTopParent(ReadonlyScannableComposite.this);
 				if( colourMap != null){
 					Integer colorId = colourMap.get(val);
