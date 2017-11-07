@@ -60,12 +60,15 @@ if isLive():
         run("localStationUser.py")
     except FileNotFoundException, e:
         print "No localStationUser run"
+    except:
+        print "Exception running localStationUser"
 else:
     print "Running in dummy mode"
     from beamline.dcm_enrg import DCMpdq
     dcm_enrg = DCMpdq("dcm_enrg", dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe)
 
 # Export dcm_enrg over RMI
+print "Exporting dcm_enrg"
 from uk.ac.gda.remoting.server import GdaRmiServiceExporter
 dcm_enrg_exporter = GdaRmiServiceExporter()
 dcm_enrg_exporter.serviceName = "gda/dcm_enrg"
