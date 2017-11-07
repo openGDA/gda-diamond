@@ -57,6 +57,7 @@
     <property name="controller" ref="controller"/>
     <property name="detectorType" value="SAXS"/>
     <property name="pixelSize" value="0.000172"/>
+    <property name="serialNumber" value="24-0113" />
     <property name="metaProviders">
       <list>
         <ref bean="saxs_mask" />
