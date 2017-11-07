@@ -11,7 +11,7 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/commandQueueProcessor" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}commandQueueProcessor" />
 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>

@@ -11,25 +11,25 @@
 	<import resource="file:${gda.config}/clients/main/_common/client.xml" />
 	
 <!-- 	<bean id="xhDetectorData" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}/xhDetectorData" /> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}xhDetectorData" /> -->
 <!-- 		<property name="serviceInterface" value="gda.device.detector.IDetectorData" /> -->
 <!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
 <!-- 	</bean> -->
 	<bean id="xh" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/xh" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}xh" />
 		<property name="serviceInterface" value="gda.device.detector.EdeDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
 	<bean id="xstrip" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/xstrip" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}xstrip" />
 		<property name="serviceInterface" value="gda.device.detector.EdeDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
 <!-- Remove frelon when using xstrip... imh 15/10/2015 -->
 <!-- 	<bean id="frelon" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}/frelon" /> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}frelon" /> -->
 <!-- 		<property name="serviceInterface" value="gda.device.detector.EdeDetector" /> -->
 <!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
 <!-- 	</bean> -->
