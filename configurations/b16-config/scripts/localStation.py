@@ -689,12 +689,12 @@ if not installation.isLive():
 else:
 	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Data Vector', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
 	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], panel_name='Data Vector', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
-	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], panel_name='Data Vector', toreplace='N://', replacement='/dls/b16/', panel_name_rcp='Plot 1')
+	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], panel_name='Data Vector', toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 1')
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws4, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp, report_path = False))
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws10, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp2, report_path = False))
-	visit_setter.addDetectorAdapter(IPPAdapter(ippwsme07m, subfolder='ippimages', create_folder=True, toreplace='/dls/b16', replacement='N:/')) #@UndefinedVariable)
+	visit_setter.addDetectorAdapter(IPPAdapter(ippwsme07m, subfolder='ippimages', create_folder=True, toreplace='/dls/b16', replacement='X:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp3, report_path = False))
 
 def configureScanPipeline(length = None, simultaneousPoints = None):
