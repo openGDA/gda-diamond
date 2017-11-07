@@ -9,14 +9,19 @@
 
 	<context:property-placeholder/>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider" />
+	
 	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 
+	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+	
 	<!-- Command Server -->
 	<import resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
