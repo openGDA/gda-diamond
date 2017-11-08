@@ -11,7 +11,7 @@
 
 	<bean id="xmap_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl" ref="xmap_ndfilehdf5_base" />
-	</bean>	
+	</bean>
 
 	<bean id="xmap_hdf5filewriter_for_scans" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="xmap_ndfilehdf5" />
@@ -33,7 +33,7 @@
 
 	<bean id="xmapMapping" class="gda.device.detector.nxdetector.xmap.controller.XmapMappingModeEpicsLayerImpl">
 		<constructor-arg value="BL08I-EA-DET-02:" />
-		<property name="pixelsPerBuffer" value="10" />
+		<constructor-arg value="10" />
 	</bean>
 
 	<bean id="edxdcontroller" class="gda.device.detector.nxdetector.xmap.controller.XmapAcquisitionBaseEpicsLayerImpl">
@@ -41,7 +41,7 @@
 		<constructor-arg index="1" ref="xmapMapping" />
 	</bean>
 
-	<!-- Separate the EPICs layer from the collection strategy -->	
+	<!-- Separate the EPICs layer from the collection strategy -->
 	<bean id="xbufferpv" class="gda.device.detector.nxdetector.xmap.xbufferPlugin.XBufferPVs">
 		<constructor-arg index="0" value="BL08I-EA-DET-02:XBUF:" />
 	</bean>
