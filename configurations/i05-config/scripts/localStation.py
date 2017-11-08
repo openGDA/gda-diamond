@@ -72,6 +72,8 @@ print "Scannable group 'energy_group' created containing 'energy' and 'centre_en
 print "Loading Photon and Centre Energy Scan calculator... "
 print "Usage: calculate_hv_scan_values(hv_start, hv_end, hv_step, start_centre_energy, centre_energy_hv_function_name)"
 execfile(gdaScriptDir + "photonCentreEnergyScan.py")
+execfile(gdaScriptDir + "centreEnergyFunc.py")
+print "Centre energy hv function loaded as 'centre_energy_func'"
 
 import arpes
 execfile(gdascripts + "scan/pathscanCommand.py");
