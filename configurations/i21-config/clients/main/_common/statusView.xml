@@ -102,14 +102,14 @@
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="m4femto1" />
 								<property name="label" value="M4 Femto1" />
-								<property name="units" value="" />
+								<property name="units" value="Amp" />
 								<property name="decimalPlaces" value="3" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="m4femto2" />
 								<property name="label" value="M4 Femto2 " />
-								<property name="units" value="" />
+								<property name="units" value="Amp" />
 								<property name="decimalPlaces" value="3" />
 							</bean>
 							<bean
