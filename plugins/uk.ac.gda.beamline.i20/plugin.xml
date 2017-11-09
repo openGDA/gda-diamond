@@ -700,6 +700,19 @@
                    value="vortexDetector">
              </parameter>
           </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="XSpress4"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
+             </parameter>
+             <parameter
+                   name="org.eclipse.ui.views.showView.secondaryId"
+                   value="xspress4">
+             </parameter>
+          </command>
 	      </menu>
        <menu
              label="Synoptic views">
