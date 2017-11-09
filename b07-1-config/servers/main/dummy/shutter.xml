@@ -12,4 +12,13 @@
 		</property>
 	</bean>
 
+	<bean id="ea_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Closed</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>
