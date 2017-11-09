@@ -1,0 +1,69 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- 9-element uses the same da.server as the ion chambers (counter timer 1) -->
+
+	<!-- So this file only includes the xspress2system object -->
+
+<!-- 	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System"> -->
+<!-- 		<property name="daServer" ref="DAServer" /> -->
+<!-- 		<property name="tfg" ref="tfg" /> -->
+<!-- 		<property name="xspressSystemName" value="xsp1" /> -->
+
+<!-- 		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" /> -->
+<!-- 		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" /> -->
+<!-- 		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" /> -->
+
+<!-- 		<property name="numberOfDetectors" value="9" /> -->
+<!-- 		<property name="configFileName" -->
+<!-- 			value="${gda.config}/templates/Xspress_Parameters.xml" /> -->
+<!-- 		<property name="dtcConfigFileName" -->
+<!-- 			value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" /> -->
+<!-- 		<property name="fullMCABits" value="12" /> -->
+
+<!-- 		<property name="outputFormat"> -->
+<!-- 			<list> -->
+<!-- 				<value>%9.2f</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+<!--  DAServer for 9 element moved here from live/detectors.xml -->
+	<bean id="DAServer" class="gda.device.detector.DAServer">
+		<property name="local" value="True" />
+		<property name="host" value="b18-xspress0" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+				<value>tfg setup-veto veto1-inv 1</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+	</bean>
+
+<!-- Updated to use refactored Controller and Detector classes. imh 9/6/2016  -->
+
+	<bean id="xspress2controller_9element"
+		class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
+		<property name="daServer" ref="DAServer" />
+		<property name="tfg" ref="tfg" />
+		<property name="xspressSystemName" value="xsp1" />
+		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
+		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
+		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
+		<property name="fullMCABits" value="12" />
+	</bean>
+
+	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2Detector">
+		<property name="controller" ref="xspress2controller_9element" />
+		<property name="configFileName"
+			value="${gda.config}/templates/Xspress_Parameters9.xml" />
+		<property name="dtcConfigFileName"
+			value="${gda.config}/templates/Xspress_DeadTime_Parameters9.xml" />
+	</bean>
+
+</beans>

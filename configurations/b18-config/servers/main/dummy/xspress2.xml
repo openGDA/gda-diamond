@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+<!--  Dummy XSpress2 detector. from dummy/detectors.xml, modified to more closely match live/xspress2_36element.xml -->
+
+	<bean id="DAServer36" class="gda.device.detector.DummyDAServer">
+		<property name="local" value="True" />
+		<property name="host" value="b18-xspress1" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+				<value>tfg setup-veto veto1-inv 1</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+		<property name="xspressMode">
+			<bean class="gda.device.detector.DUMMY_XSPRESS2_MODE"
+				factory-method="valueOf">
+				<constructor-arg>
+					<value>XSPRESS2_FULL_MCA</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Scaler channels -->
+	<bean id="CalMemory36" class="gda.device.memory.Scaler">
+		<property name="daServer" ref="DAServer36" />
+		<property name="width" value="4" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+	
+	
+<!-- Time Frame Generator -->
+	<bean id="dummy_tfg" class="gda.device.timer.Etfg">
+		<property name="daServer" ref="DAServer" />
+	</bean>
+	
+	<bean id="xspress2controller"
+		class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
+		<property name="daServer" ref="DAServer36" />
+		<property name="tfg" ref="dummy_tfg" />
+		<property name="xspressSystemName" value="xsp1" />
+
+		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
+		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
+		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
+		<property name="fullMCABits" value="12" />
+	</bean>
+
+	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2Detector">
+		<property name="controller" ref="xspress2controller" />
+		<property name="configFileName"
+			value="${gda.config}/templates/Xspress_Parameters.xml" />
+		<property name="dtcConfigFileName"
+			value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
+	</bean>
+    
+</beans>

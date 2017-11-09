@@ -569,16 +569,6 @@
 		</property>
 	</bean>
 
-<!-- Detector rate gui status object (positions added by client)-->
-	<bean id="detectorRateGuiControl" class="gda.device.enumpositioner.DummyEnumPositioner">
-	</bean>
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/detectorRateGuiControl" />
-		<property name="service" ref="detectorRateGuiControl" />
-		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
-	</bean>
-
 <!-- RMI export the Stanford scannables -->
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/ionc1_stanford" />
