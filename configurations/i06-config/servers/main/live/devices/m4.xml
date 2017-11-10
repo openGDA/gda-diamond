@@ -25,7 +25,7 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="MotorHFMFinePitch_M4" class="gda.device.motor.EpicsMotor">
+	<bean id="MotorHFMFinePitch_M4" class="gda.device.motor.FeedbackControlledEpicsMotor">
 		<property name="deviceName" value="M4.FPITCH" />
 		<property name="local" value="true"/>
 	</bean>
