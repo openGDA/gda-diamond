@@ -6,7 +6,7 @@
 	<!-- Translations -->
 	<bean id="pco_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Exposure Time" />
-		<property name="group" value="PCO" />
+		<property name="group" value="PCO Control" />
 		<property name="scannableName" value="pcoExposureTime" />
 		<property name="textWidth" value="30"/>
 		<property name="userUnits" value="s" />
@@ -14,7 +14,7 @@
 
 	<bean id="pco_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Rot Angle" />
-		<property name="group" value="PCO" />
+		<property name="group" value="PCO Advanced" />
 		<property name="scannableName" value="pcoRotationAngle" />
 		<property name="textWidth" value="30" />
 		<property name="userUnits" value="deg"/>
@@ -24,13 +24,13 @@
 	<bean id="pcoStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="pco_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); pco_addetector.collectData()" />
 		<property name="buttonText" value="Start" />
-		<property name="group" value="PCO" />
+		<property name="group" value="PCO Control" />
 	</bean>
 
 	<bean id="pcoStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="pco_addetector.stop()" />
 		<property name="buttonText" value="Stop" />
-		<property name="group" value="PCO" />
+		<property name="group" value="PCO Control" />
 	</bean>
 	
 	<!-- Sample Positioner control -->
@@ -38,13 +38,13 @@
 		<property name="jythonCommand" value="pcopreview.getCollectionStrategy().prepareForCollection(0.1, 3, None); pcopreview.collectData()" />
 <!-- 		<property name="jythonCommand" value="pcopreview()" /> -->
 		<property name="buttonText" value="Preview" />
-		<property name="group" value="PCO" />
+		<property name="group" value="PCO Advanced" />
 	</bean>
 	<bean id="imaging" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="pcoimaging.getCollectionStrategy().prepareForCollection(0.1, 1, None); pcoimaging.collectData(()" />
 <!-- 		<property name="jythonCommand" value="pcoimaging()" /> -->
 		<property name="buttonText" value="Imaging" />
-		<property name="group" value="PCO" />
+		<property name="group" value="PCO Advanced" />
 	</bean>
 
 	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
