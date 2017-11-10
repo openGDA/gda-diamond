@@ -20,6 +20,7 @@
 	<import resource="u1.xml"/>
 	<import resource="userMotors.xml"/>
 	<import resource="fastScan.xml"/>
+	<import resource="live_controls.xml"/>
 	
 <!-- 	<import resource="peemCamera1.xml"/> -->
 	<import resource="peemStage.xml"/>
@@ -27,6 +28,6 @@
 	<!-- Only one of the element below should be active at any one time -->
 	<import resource="uview.xml"/>
 	<import resource="pco.xml"/>
-	<import resource="pco_nx.xml"/>
+<!-- 	<import resource="pco_nx.xml"/> -->
 	
 </beans>
