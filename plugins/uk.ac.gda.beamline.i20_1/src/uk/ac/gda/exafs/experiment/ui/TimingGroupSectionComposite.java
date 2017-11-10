@@ -440,11 +440,11 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		externalTriggerComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 
 		useExternalTriggerCheckbox = toolkit.createButton(externalTriggerComposite, "Use external trigger", SWT.CHECK);
-		useExternalTriggerCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		useExternalTriggerCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 		useExternalTriggerCheckbox.setEnabled(true);
 
 		useTopupCheckerCheckbox = toolkit.createButton(externalTriggerComposite, "Use topup checker", SWT.CHECK);
-		useTopupCheckerCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		useTopupCheckerCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 		useTopupCheckerCheckbox.setEnabled(true);
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(groupSection);
@@ -579,7 +579,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		i0AcquisitionSection.setClient(i0AcquisitionSectionComposite);
 
 		i0NoOfAccumulationCheck = toolkit.createButton(i0AcquisitionSectionComposite, "Set I0 number of accumulations", SWT.CHECK);
-		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gridData = new GridData(SWT.LEFT, SWT.CENTER, true, false);
 		gridData.horizontalSpan = 2;
 		i0NoOfAccumulationCheck.setLayoutData(gridData);
 

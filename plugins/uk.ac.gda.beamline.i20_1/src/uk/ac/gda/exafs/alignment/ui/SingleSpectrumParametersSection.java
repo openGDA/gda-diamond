@@ -155,7 +155,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		i0AcquisitionSection.setClient(i0AcquisitionSectionComposite);
 
 		i0NoOfAccumulationCheck = toolkit.createButton(i0AcquisitionSectionComposite, "Set I0 number of accumulations", SWT.CHECK);
-		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		GridData gridData = new GridData(SWT.LEFT, SWT.CENTER, true, false);
 		gridData.horizontalSpan = 2;
 		i0NoOfAccumulationCheck.setLayoutData(gridData);
 
@@ -266,7 +266,7 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 
 		// 'Use topup checker' checkbox and databinding
 		Button useTopupCheckerCheckbox = toolkit.createButton(acquisitionSettingsComposite, "Use topup checker", SWT.CHECK);
-		useTopupCheckerCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		useTopupCheckerCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		useTopupCheckerCheckbox.setEnabled(true);
 
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useTopupCheckerCheckbox),
