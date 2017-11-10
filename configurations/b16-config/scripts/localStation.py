@@ -108,6 +108,7 @@ def disable_nexus():
 def enable_nexus():
 	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
 
+disable_nexus()
 
 #from init.init_scan_commands_and_processing import *
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
