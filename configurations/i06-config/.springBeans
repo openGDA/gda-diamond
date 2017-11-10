@@ -137,8 +137,6 @@
 				<config>/i06-shared/servers/main/live/devices/opticShutter.xml</config>
 				<config>/i06-shared/servers/main/live/devices/pgm.xml</config>
 				<config>/i06-shared/servers/main/live/devices/portShutter.xml</config>
-				<config>/i06-shared/servers/main/live/devices/ringCurrent.xml</config>
-				<config>/i06-shared/servers/main/live/devices/ringEnergy.xml</config>
 				<config>/i06-shared/servers/main/live/devices/s1.xml</config>
 				<config>/i06-shared/servers/main/live/devices/s2.xml</config>
 				<config>/i06-shared/servers/main/live/devices/s3.xml</config>
