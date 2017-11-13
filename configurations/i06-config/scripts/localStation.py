@@ -24,19 +24,14 @@ from i06shared.localStation import *  # @UnusedWildImport
 #from scan.fastEnergyScan import zacscan,zacstop,zacmode,fesController,fesData, fastEnergy,uuu,beamlineutil  # @UnusedImport
 
 # customised resources for PEEM line
-from BeamlineI06.beamline import getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
+from BeamlineI06.beamline import peemline, getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
 from BeamlineI06.createAlias import closebeam, openbeam  # @UnusedImport
 from BeamlineI06.U1Scaler8513 import ca51sr,ca52sr,ca53sr,ca54sr,scalar3  # @UnusedImport
-from slits.useS4 import news4xgap, news4ygap  # @UnusedImport
+#from slits.useS4 import news4xgap, news4ygap  # @UnusedImport
+#from slits.useS4 import s4ygap, s4xgap
 #To eLog the scan
-from BeamlineI06.beamline import peemline
 #from i06shared.setSrsDataFileHeader import fileHeader
 fileHeader.setScanLogger(peemline)
-
-#PEEM End Station
-from peem.leem_instances import leem2000, leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx  # @UnusedImport
-fileHeader.add([leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB])
-from peem.stv_obj_instance import stvobj  # @UnusedImport
 
 USE_UVIEW=False
 if USE_UVIEW:
@@ -54,8 +49,9 @@ if USE_UVIEW:
 from RGA.rga4 import rgaPeem,rga4Ar,rga4CH4,rga4CO,rga4CO2,rga4H2,rga4H2O,rga4O2,rga4tot  # @UnusedImport
 from RGA.rga5 import rgaPreparation, rga5Ar,rga5CH4,rga5CO,rga5CO2,rga5H2,rga5H2O,rga5O2,rga5tot  # @UnusedImport
 
-#from slits.useS4 import s4ygap, s4xgap
-#To add PEE line device position to the SRS file header
+#To add PEEM line device position to the SRS file header
+print "-"*100
+print "Add metadata required by PEEM to file header"
 peemMirrorList = [m3x, m3pitch, m3qg]; fileHeader.add(peemMirrorList);  # @UndefinedVariable
 peemDiodeList = [d5x, d6y, d7x, d7ax]; fileHeader.add(peemDiodeList);  # @UndefinedVariable
 peemExitSlitList = [s4x, s4xgap, s4y, s4ygap]; fileHeader.add(peemExitSlitList);  # @UndefinedVariable
@@ -66,7 +62,14 @@ m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 from BeamlineI06.KBMirrors import m4bend1g,m4bend2g,m5bend1g,m5bend2g,kbpiezoh,kbpiezov,kbraster,vertFactor,horizFactor,kbpreview,kbimaging,kboff,kbfov  # @UnusedImport
 #from BeamlineI06.Users.XEnergy.xenergy import ins_device,xenergy,offxenergy,xpol,xmode,offhar,detune,idxmcd,idxas,idd,idu  # @UnusedImport
 from pco.PCO import pcopreview, pcoimaging  # @UnusedImport
+#PEEM End Station
+from peem.leem_instances import leem2000, leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx  # @UnusedImport
+fileHeader.add([leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB])
+from peem.stv_obj_instance import stvobj  # @UnusedImport
 from peem.LEEM2000_scannables_init import leem_rot,leem_temp,objAlignY,objAlignX  # @UnusedImport
+
+from gda.jython.commands.ScannableCommands import add_default
+add_default([fileHeader]);
 
 print "==================================================================="
 print "end of localStation.py for Beamline I06)"
