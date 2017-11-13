@@ -8,8 +8,6 @@
 			<list>
 				<ref bean="d7c_y" />
 				<ref bean="d7c_y_positioner"/>
-				<ref bean="d7c_current1"/>
-				<ref bean="d7c_current2"/>
 				<ref bean="d7c_cell" />
 				<ref bean="d7c_diode" />
 			</list>
