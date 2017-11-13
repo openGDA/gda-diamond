@@ -9,8 +9,8 @@ import installation
 
 USE_NEXUS = True
 if installation.isDummy():
-	USE_DIFFCALC = False
-	USE_CRYO_GEOMETRY = True
+	USE_DIFFCALC = True
+	USE_CRYO_GEOMETRY = False
 
 else:
 	# see also notes below
@@ -1115,7 +1115,10 @@ if installation.isLive():
 	except NameError:
 		lakeshore=ReadPDGroupClass('lakeshore',[]) # LS340 is often not present
 	#minimirrors=ReadPDGroupClass('minimirrors',[m3x, m4x, m3pitch, m4pitch]) #added to metadata as mirror3
+	"""
 	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset, kbm_offsets])
+	"""
+	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset])
 	#mt6138=ReadPDGroupClass('6138', [xps3m1, xps3m2])
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
@@ -1272,10 +1275,11 @@ def open_valves():
 #ci=239.;cj=112. #02/03/16 after pilatus exchange
 #ci=240.;cj=109. #04/03/16 after pilatus reexchange
 #ci=238.;cj=111. #06/04/16 after pilatus reexchange
-#ci=242.;cj=105. #13/07/16 loan detector
+#ci=204.; cj=107; #02/05/17ci=242.;cj=105. #13/07/16 loan detector
 #ci=244.; cj=103.; #10/08/16 loan detector
 #ci=205.; cj=105; #19/02/17
-ci=204.; cj=107; #02/05/17
+ci=205.; cj=104; #23/06/17
+
 
 maxi=486; maxj=194 #08/10/15
 
@@ -1443,7 +1447,8 @@ run('select_and_move_detector')
 run('showdiff')
 run('showdiff_new')
 bpmroi1 = HardwareTriggerableDetectorDataProcessor('bpmroi1', bpm, [SumMaxPositionAndValue()])
-bpmroi1.setRoi(int(934-40),int(402-10),int(934+40),int(402+10))
+#bpmroi1.setRoi(int(972-30),int(426-5),int(972+30),int(426+5))
+bpmroi1.setRoi(int(1010-30),int(394-5),int(1010+30),int(394+5)) # set 04/10/2017 at 8 keV shtr3x 11.93 shtr3y 4.40
 #run('pd_searchref2') #put at the end as it gave some errors
 run('pd_read_list')	#to make PD's that can scan a list
 run('pd_function')	#to make PD's that return a variable

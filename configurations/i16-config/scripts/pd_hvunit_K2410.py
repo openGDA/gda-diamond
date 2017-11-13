@@ -10,13 +10,13 @@ class hvunit_K2410(PseudoDevice):
 	   To instantiate:	
               hv=hvunit_K2410('hv','BL16I-EA-K2400-01:','Volt','%6.3f')
 	   format string:
-	   hv.setOutputFormat(['%6.3f']*2+['%6.3e']*2)	 
+	   hv.setOutputFormat(['%6.3f']*2+['%6.3e']*3)	 
 	'''
 	def __init__(self, name, pvkeithley,  unitstring, formatstring,help=None):
 		self.setName(name);
 		self.setInputNames(['Vdem'])
-		self.setExtraNames(['Vmes','Cmes','Rmes']);
-		self.setOutputFormat([formatstring]*4)
+		self.setExtraNames(['Vmes','Cmes','Rmes','Pmes']);
+		self.setOutputFormat([formatstring]*5)
 		
 		self.unitstring=unitstring
 		self.setLevel(9)
@@ -38,10 +38,17 @@ class hvunit_K2410(PseudoDevice):
 		self.sourcefunc=CAClient(pvkeithley+'SOUR_FUNC')
 		self.sourcefunc.configure()
 		
-		############### Added By Gareth ###########################
+		############### Added By Me ###########################
 		
 		self.sourcerange=CAClient(pvkeithley+'SOUR_RANG')
 		self.sourcerange.configure()
+		
+		self.command=CAClient(pvkeithley+'COMMAND')
+		self.command.configure()
+		
+		self.response=CAClient(pvkeithley+'RESPONSE')
+		self.response.configure()
+		
 
 		###########################################################
 
@@ -96,7 +103,10 @@ class hvunit_K2410(PseudoDevice):
 
 
 	def getPosition(self):
-		return [float(self.sourcelev.caget()),float(self.readvol.caget()),float(self.readcur.caget()),float(self.readres.caget())]
+		Vdem=float(self.sourcelev.caget())
+		Vmes=float(self.readvol.caget())
+		Imes=float(self.readcur.caget())
+		return [Vdem,Vmes,Imes,Vmes/Imes, Vmes*Imes]
 
 
 	def asynchronousMoveTo(self,new_position):
@@ -193,7 +203,17 @@ class hvunit_K2410(PseudoDevice):
 	def getSensAutoRange(self):
 		# 0 set input to man, 1 set to auto
 		return self.sensrangeauto.caget()
-
+	
+	def setCurrProt(self,value):
+		self.command.caput(':SENS:CURR:PROT:LEV'+' '+str(value))
+		w(1)
+		self.command.caput(':SENS:CURR:PROT:LEV'+'?')
+	
+	def getCurrProt(self):
+		self.command.caput(':SENS:CURR:PROT:LEV'+'?')
+		w(1)
+		return self.response.caget()
+		
 
 class currentunit(hvunit_K2410):
 	'''

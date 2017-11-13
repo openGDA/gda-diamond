@@ -42,7 +42,7 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
                 return_performance_metrics,
                 array_monitor_for_hardware_triggering )
 
-        self.linkFunction = create_function("detectorLinkInserter", "nexusHDFLink", dls_module=True)
+        self.linkFunction = create_function("detectorLinkInserter", "nexusHDFLink", dls_module='python/ana')
         self.lastReadout = None
 
 
