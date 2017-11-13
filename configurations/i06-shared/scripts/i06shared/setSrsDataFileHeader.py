@@ -1,6 +1,5 @@
 
 from Diamond.PseudoDevices.MetadataHeaderDevice import MetadataHeaderDeviceClass
-from gda.jython.commands.ScannableCommands import add_default
 # from i06shared.devices.useID import denergy, uenergy
 # from i06shared.devices.usePGM import grating
 print "-"*100
@@ -27,4 +26,4 @@ commonMirrorList = [__main__.m1x, __main__.m1pitch, __main__.m1qg, __main__.m6x,
 #exitSlitList = [s6y, s6ygap]; fileHeader.add(exitSlitList);
 
 #fileHeader.remove([testMotor2]);
-add_default([fileHeader]);
+#add_default([fileHeader]);
