@@ -18,9 +18,4 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="d7c_current1" class="gda.device.scannable.DummyScannable" />
-	<bean id="d7c_current2" class="gda.device.scannable.DummyScannable" />
-	<bean id="d7c_cell" class="gda.device.scannable.DummyScannable" />
-	<bean id="d7c_diode" class="gda.device.scannable.DummyScannable" />
-
 </beans>

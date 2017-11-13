@@ -31,8 +31,5 @@
 	<bean id="d6c_y_motor" class="gda.device.motor.DummyMotor">
 		<property name="local" value="true" />
 	</bean>
-	
-	<bean id="d6c_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="d6c_mesh" class="gda.device.scannable.DummyScannable" />
 
 </beans>
