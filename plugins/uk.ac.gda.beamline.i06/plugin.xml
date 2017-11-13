@@ -52,7 +52,7 @@
                id="org.eclipse.ui.navigator.ProjectExplorer"
                minimized="false"
                moveable="true"
-               ratio="0.33"
+               ratio="0.27"
                relationship="left"
                relative="org.eclipse.ui.editorss"
                showTitle="true"
@@ -109,22 +109,22 @@
          </view>
          <view
                closeable="false"
-               id="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL06I-EA-DET-01@"
-               minimized="false"
-               moveable="true"
-               ratio="0.5"
-               relationship="stack"
-               relative="uk.ac.gda.client.live.stream.view.LiveStreamView"
-               visible="false">
-         </view>
-         <view
-               closeable="false"
                id="uk.ac.gda.nano.views.PeemImageView"
                minimized="false"
                moveable="true"
                relationship="stack"
-               relative="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL06I-EA-DET-01@"
+               relative="uk.ac.gda.client.live.stream.view.LiveStreamView:pco_cam#MJPEG"
                showTitle="true">
+         </view>
+         <view
+               closeable="true"
+               id="uk.ac.gda.client.livecontrol.LiveControlsView"
+               minimized="false"
+               moveable="true"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.editorss"
+               visible="true">
          </view>
          <view
                closeable="false"
@@ -162,16 +162,6 @@
                relationship="stack"
                relative="uk.ac.gda.client.live.stream.view.snapshotview"
                visible="false">
-         </view>
-         <view
-               closeable="true"
-               id="uk.ac.gda.client.livecontrol.LiveControlsView"
-               minimized="false"
-               moveable="true"
-               ratio="0.5"
-               relationship="right"
-               relative="gda.rcp.jythonterminalview"
-               visible="true">
          </view>
       </perspectiveExtension>
       <perspectiveExtension targetID="uk.ac.gda.beamline.i06.perspective.Experiment">
@@ -262,13 +252,6 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            allowMultiple="true"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL06I-EA-DET-01@"
-            name="PCO Array View"
-            restorable="true">
-      </view>
-      <view
             class="uk.ac.gda.client.live.stream.view.LiveStreamView"
             id="uk.ac.gda.client.live.stream.view.LiveStreamView:pco_cam#EPICS_ARRAY"
             name="PCO Array"
@@ -293,25 +276,6 @@
             id="uk.ac.gda.beamline.i06.perspective.Experiment"
             name="Experiment Perspective">
       </perspective>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:window?after=showView">
-         <menu
-               label="Area Detectors">
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="PCO Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL06I-EA-DET-01@">
-               </parameter>
-            </command>
-         </menu>
-      </menuContribution>
    </extension>
 
    <!-- This won't work in 8.38, requires 8.40 or later
