@@ -11,7 +11,7 @@
 
 	<bean id="malcolmInfo01" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="id" value="org.eclipse.scanning.example.malcolm.malcolmDevice01" />
-		<property name="label" value="Malcolm scan 1" />
+		<property name="label" value="DTACQ" />
 		<property name="description" value="Malcolm scan 1" />
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
