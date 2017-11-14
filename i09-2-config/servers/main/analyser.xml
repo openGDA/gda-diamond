@@ -13,8 +13,8 @@
 		</property>
 		<property name="photonEnergyProvider" ref="pgmenergy" />
 		<property name="workFunction" value="4.5" />
-		<!-- detectorEnergyWidth can be found by (analyser.endEnergy - analyser.startEnergy)/analyser.passEnergy -->
-		<property name="detectorEnergyWidth" value="0.06361180000007557" />
+		<!-- detectorEnergyWidth can be found by (analyser.highEnergy - analyser.lowEnergy)/analyser.passEnergy -->
+		<property name="detectorEnergyWidth" value="0.07386836678880104" />
 		<property name="local" value="true" />
 	</bean>
 
