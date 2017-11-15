@@ -46,6 +46,7 @@
 				</property>
 			</bean>
 		</property>
+		<property name="proxyTargetClass" value="true"/>
 		<property name="interceptorNames">
 			<list>
 				<value>accessCheckAdvisor</value>
@@ -61,6 +62,7 @@
 				<property name="hardwareUnitString" value="mm" />
 			</bean>
 		</property>
+		<property name="proxyTargetClass" value="true"/>
 		<property name="interceptorNames">
 			<list>
 				<value>accessCheckAdvisor</value>
@@ -76,6 +78,7 @@
 				<property name="hardwareUnitString" value="mm" />
 			</bean>
 		</property>
+		<property name="proxyTargetClass" value="true"/>
 		<property name="interceptorNames">
 			<list>
 				<value>accessCheckAdvisor</value>
@@ -96,6 +99,7 @@
 				</property>
 			</bean>
 		</property>
+		<property name="proxyTargetClass" value="true"/>
 		<property name="interceptorNames">
 			<list>
 				<value>accessCheckAdvisor</value>
@@ -117,6 +121,7 @@
 				</property>
 			</bean>
 		</property>
+		<property name="proxyTargetClass" value="true"/>
 		<property name="interceptorNames">
 			<list>
 				<value>accessCheckAdvisor</value>
