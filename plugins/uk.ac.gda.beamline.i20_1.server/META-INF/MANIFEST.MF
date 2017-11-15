@@ -5,11 +5,11 @@ Bundle-SymbolicName: uk.ac.gda.beamline.i20_1.server;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
-Export-Package: gda.device.detector,
- gda.device.detector.frelon,
+Export-Package: gda.device.detector;split=true;mandatory:=split,
+ gda.device.detector.frelon;split=true;mandatory:=split,
  gda.device.detector.xstrip,
- gda.device.scannable,
- gda.scan,
+ gda.device.scannable;split=true;mandatory:=split,
+ gda.scan;split=true;mandatory:=split,
  gda.scan.ede,
  gda.scan.ede.datawriters,
  gda.scan.ede.drivers,
@@ -20,7 +20,7 @@ Export-Package: gda.device.detector,
  uk.ac.gda.exafs.detectortemperature,
  uk.ac.gda.exafs.experiment.trigger,
  uk.ac.gda.exafs.experiment.ui.data,
- uk.ac.gda.exafs.ui.data
+ uk.ac.gda.exafs.ui.data;split=true;mandatory:=split
 Require-Bundle: uk.ac.gda.core,
  org.eclipse.dawnsci.hdf5,
  org.eclipse.dawnsci.nexus;bundle-version="1.0.0",
