@@ -55,21 +55,27 @@ class MetadataHeaderDeviceClass(PseudoDevice):
 			return;
 		
 		for nd in newDeviceList:
-			if ( nd in vars(gdamain).keys() ):
-				newd = vars(gdamain)[nd];
-			elif (nd in vars(gdamain).values()):
-				newd = nd;
-			elif (nd in locals() or nd in globals()):
+			try:
+				if ( nd in vars(gdamain).keys() ):
+					newd = vars(gdamain)[nd];
+				elif (nd in vars(gdamain).values()):
+					newd = nd;
+				elif (nd in locals() or nd in globals()):
+					continue
+				else:
+					print "Can not find the device with name: " + str(nd.name)+" in __main__ scope";
+					continue;
+				if 'getPosition' not in dir(newd):
+					print "Device " + str(newd) + " does not have getPosition() method."
+					continue;
+				if newd not in self.deviceList:
+					self.deviceList.append(newd);
+			except Exception, err:
+				print nd.name
+				print len(vars(gdamain).keys())
+				print "Unexpected error occurred:", err
 				continue
-			else:
-				print "Can not find the device with name: " + str(nd.name)+" in __main__ scope";
-				continue;
-			if 'getPosition' not in dir(newd):
-				print "Device " + str(newd) + " does not have getPosition() method."
-				continue;
-			if newd not in self.deviceList:
-				self.deviceList.append(newd);
-			
+				
 	def remove(self, removeDeviceList):
 		if type(removeDeviceList).__name__ != 'list':
 			print "Please use a list of device as input";
