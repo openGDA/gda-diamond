@@ -52,7 +52,7 @@
                id="org.eclipse.ui.navigator.ProjectExplorer"
                minimized="false"
                moveable="true"
-               ratio="0.27"
+               ratio="0.3"
                relationship="left"
                relative="org.eclipse.ui.editorss"
                showTitle="true"
