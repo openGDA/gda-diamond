@@ -3,6 +3,7 @@ from Diamond.PseudoDevices.MetadataHeaderDevice import MetadataHeaderDeviceClass
 # from i06shared.devices.useID import denergy, uenergy
 # from i06shared.devices.usePGM import grating
 print "-"*100
+print "SRS scan data file header setup"
 
 fileHeader = MetadataHeaderDeviceClass("fileHeader");
 
