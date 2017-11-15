@@ -76,12 +76,12 @@ class ASCIIComunicator(DeviceBase):
                     raise Exception("Terminator is required!")
                 else:
                     print "Terminator is not set, maybe not required by the device commands and replies."
-            try:
-                self.communicator.connectIfRequired()
-            except DeviceException, err:
-                print err
-            else:
-                print "Device %s is connected in port %d." % (self.ipaddress, self.port)
+#             try:
+#                 self.communicator.connectIfRequired()
+#             except DeviceException, err:
+#                 print err
+#             else:
+#                 print "Device %s is connected in port %d." % (self.ipaddress, self.port)
             
             self.configured=True
         else:
