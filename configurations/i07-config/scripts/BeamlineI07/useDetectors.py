@@ -17,6 +17,16 @@ adc6 = AdcScalerChannelClass('adc6',pvRootScaler, channel=5);
 adc7 = AdcScalerChannelClass('adc7',pvRootScaler, channel=6);
 adc8 = AdcScalerChannelClass('adc8',pvRootScaler, channel=7);
 
+DEFAULT_LEVEL = 100
+
+ionc1.setLevel(DEFAULT_LEVEL)
+adc2.setLevel(DEFAULT_LEVEL)
+adc3.setLevel(DEFAULT_LEVEL)
+adc4.setLevel(DEFAULT_LEVEL)
+adc5.setLevel(DEFAULT_LEVEL)
+adc6.setLevel(DEFAULT_LEVEL)
+adc7.setLevel(DEFAULT_LEVEL)
+adc8.setLevel(DEFAULT_LEVEL)
 
 
 
