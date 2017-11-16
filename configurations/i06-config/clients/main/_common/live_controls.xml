@@ -28,20 +28,20 @@
 	</bean>
 
 	<bean id="pcoStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pco_addetector.adBase.stop()" />
+		<property name="jythonCommand" value="pco_addetector.adBase.stopAcquiring()" />
 		<property name="buttonText" value="Stop" />
 		<property name="group" value="PCO Control" />
 	</bean>
 	
 	<!-- Sample Positioner control -->
 	<bean id="preview" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pcopreview.getCollectionStrategy().rawPrepareForCollection(0.1, 3, None); pcopreview.collectData()" />
+		<property name="jythonCommand" value="pcopreview.getCollectionStrategy().prepareForCollection(0.1, 3, None); pcopreview.collectData()" />
 <!-- 		<property name="jythonCommand" value="pcopreview()" /> -->
 		<property name="buttonText" value="Preview" />
 		<property name="group" value="PCO Advanced" />
 	</bean>
 	<bean id="imaging" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pcoimaging.getCollectionStrategy().rawPrepareForCollection(0.1, 1, None); pcoimaging.collectData(()" />
+		<property name="jythonCommand" value="pcoimaging.getCollectionStrategy().prepareForCollection(0.1, 1, None); pcoimaging.collectData()" />
 <!-- 		<property name="jythonCommand" value="pcoimaging()" /> -->
 		<property name="buttonText" value="Imaging" />
 		<property name="group" value="PCO Advanced" />
