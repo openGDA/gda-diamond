@@ -4,6 +4,9 @@ bashlog debug "gda_servers_post_instance" "Entered"
 # server machine in live mode, don't start the client on the server machine.
 if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]]; then
 
+  echo Moving GDA Log Panel...
+  wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
+
   # If SERVERS_SSH_PID isn't defined then we will have already waited for the servers to start
   if [ -n "${SERVERS_SSH_PID-}" ] ; then
     # look for the output file which will tell us when the servers have started or ssh process completing
@@ -13,8 +16,6 @@ if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]]; then
   zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
 
   if [ $? == 0 ] ; then # 0=Ok, 1=Cancel
-    echo Moving GDA Log Panel...
-    wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
     echo Starting GDA RCP Client...
     echo
     bash ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core client &
