@@ -60,8 +60,6 @@ peemList = [psx, psy]; fileHeader.add(peemList);  # @UndefinedVariable
 m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 
 from BeamlineI06.KBMirrors import m4bend1g,m4bend2g,m5bend1g,m5bend2g,kbpiezoh,kbpiezov,kbraster,vertFactor,horizFactor,kbpreview,kbimaging,kboff,kbfov  # @UnusedImport
-#from BeamlineI06.Users.XEnergy.xenergy import ins_device,xenergy,offxenergy,xpol,xmode,offhar,detune,idxmcd,idxas,idd,idu  # @UnusedImport
-from pco.PCO import pcopreview, pcoimaging  # @UnusedImport
 #PEEM End Station
 from peem.leem_instances import leem2000, leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx  # @UnusedImport
 fileHeader.add([leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB])
