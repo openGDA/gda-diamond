@@ -1373,44 +1373,44 @@
     </bean>
 
 
-    <bean id="dcdx_rot" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxrot" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_rot_motor" />
     </bean>
-    <bean id="dcdx_gap" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxgap" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_gap_motor" />
     </bean>
-    <bean id="dcdx_center" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxcenter" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_center_motor" />
     </bean>
-    <bean id="dcdx_rot_offset" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxrotoffset" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_rot_offset_motor" />
     </bean>
-    <bean id="dcdx_tilt" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxtilt" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_tilt_motor" />
     </bean>
 
     <bean id="dcdx" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
-                <ref bean="dcdx_rot" />
-                <ref bean="dcdx_gap" />
-                <ref bean="dcdx_center" />
-                <ref bean="dcdx_rot_offset" />
-                <ref bean="dcdx_tilt" />
+                <ref bean="dcdxrot" />
+                <ref bean="dcdxgap" />
+                <ref bean="dcdxcenter" />
+                <ref bean="dcdxrotoffset" />
+                <ref bean="dcdxtilt" />
             </list>
         </property>
         <property name="local" value="true"/>
     </bean>
 
-    <bean id="dcdx_rot_real" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxrotreal" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_rot_real_motor" />
     </bean>
 
-    <bean id="dcdx_slit_rot_real" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxslitrotreal" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_slit_rot_real_motor" />
     </bean>
 
-    <bean id="dcdx_filter_wheel" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxfilterwheel" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_filter_wheel_motor" />
     </bean>
 
@@ -1419,22 +1419,22 @@
         <property name="protectionLevel" value="0" />
     </bean>
 
-    <bean id="syringe_left" class="gda.device.scannable.ScannableMotor">
+    <bean id="syringeleft" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="syringe_left" />
         <property name="motor" ref="MotorSyringe_left" />
     </bean>
 
-    <bean id="syringe_right" class="gda.device.scannable.ScannableMotor">
+    <bean id="syringeright" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="syringe_right" />
         <property name="motor" ref="MotorSyringe_right" />
     </bean>
 
-    <bean id="syringe_left_valve" class="gda.device.scannable.SimplePVScannable">
+    <bean id="syringeleftvalve" class="gda.device.scannable.SimplePVScannable">
         <property name="name" value="syringe_left_valve" />
         <property name="pvName" value="BL07I-EA-SYRG-01:P1:LEFT:SETVPOS" />
     </bean>
 
-    <bean id="syringe_right_valve" class="gda.device.scannable.SimplePVScannable">
+    <bean id="syringerightvalve" class="gda.device.scannable.SimplePVScannable">
         <property name="name" value="syringe_right_valve" />
         <property name="pvName" value="BL07I-EA-SYRG-01:P1:RIGHT:SETVPOS" />
     </bean>
@@ -1443,10 +1443,10 @@
         <property name="name" value="syringes" />
         <property name="groupMembers">
             <list>
-                <ref bean="syringe_left" />
-                <ref bean="syringe_left_valve" />
-                <ref bean="syringe_right" />
-                <ref bean="syringe_right_valve" />
+                <ref bean="syringeleft" />
+                <ref bean="syringeleftvalve" />
+                <ref bean="syringeright" />
+                <ref bean="syringerightvalve" />
             </list>
         </property>
         <property name="local" value="true" />
@@ -1745,11 +1745,11 @@
                 <!-- Yogurt Pot -->
                 <ref bean="sampchange" />
                 
-                <ref bean="dcdx_rot" />
-                <ref bean="dcdx_gap" />
-                <ref bean="dcdx_center" />
-                <ref bean="dcdx_rot_offset" />
-                <ref bean="dcdx_tilt" />
+                <ref bean="dcdxrot" />
+                <ref bean="dcdxgap" />
+                <ref bean="dcdxcenter" />
+                <ref bean="dcdxrotoffset" />
+                <ref bean="dcdxtilt" />
                 
                 
             </list>
