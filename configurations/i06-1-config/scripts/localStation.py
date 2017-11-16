@@ -24,10 +24,16 @@ fileHeader.setScanLogger(branchline);
 
 from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2locking  # @UnusedImport
 #End Station Section
-
+import sys
 ##Magnet
 #from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw,cwAsymptote # @UnusedImport
-run('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py') # 27/9/2017 James M Temp fix as import above fails
+try:
+    execfile('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py');
+except:
+    exceptionType, exception, traceback=sys.exc_info();
+    print "Error:  execfile /magnet/useMagnet.py"
+    logger.dump("---> ", exceptionType, exception, traceback)
+#run('/dls_sw/i06-1/software/gda/config/scripts/magnet/useMagnet.py') # 27/9/2017 James M Temp fix as import above fails
 ##Pixis - there is a java object replement
 #from cameras.usePixis import pixis
 ##Exit Slit
