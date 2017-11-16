@@ -4,23 +4,31 @@ from localStationScripts.centreDac import CentreDAC
 def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
 		auto_fit=False, rotation_centre=None):
 	"""
-	
+
 	Centers the sample (DAC) on the beam and the diffractometer center.
-	
+
 	For rotation_axis=dkphi, finds the sample position about dkphi=-58 deg scan
 	around the current position in dx and dz +/- scanRange (mm) with a step size
 	scanStep (mm). Then the DAC is rotated +/- rockAngle (deg) about 58 degrees,
 	the centre is found again and the drift of the centre is used to correct
 	the dy axis.
-	
-	For rotation_axis=dktheta, sphi or cryorot the rotation_centre must be specified
-	but the centre() routine uses the relevant axes.
-	
+
+	For rotation_axis=sphi a rotation_centre of 0 will be used, unless specified.
+	For rotation_axis=dktheta or cryorot the rotation_centre must be specified.
+
+	For all rotation axes it knows about, the centre() routine will use the
+	relevant focus and perp2rot axes.
+
 	Example: centre(dkphi, 0.4, 0.02, 10, d4)
-	         centre(dkphi, 0.4, 0.02, 10, d4, False, 57)
+	         centre(dkphi, 0.4, 0.02, 10, d4, False, 59)
+	         centre(dkphi, 0.4, 0.02, 10, d4, rotation_centre=59)
+	         centre(sphi, 0.1, 0.005, 3, d8)
+	         centre(sphi, 0.1, 0.005, 3, d8, False, 1)
+	         centre(sphi, 0.1, 0.005, 3, d8, rotation_centre=1)
+	         centre(dktheta, 0.4, 0.02, 10, d4, False, 44)
+	         centre(dktheta, 0.4, 0.02, 10, d4, rotation_centre=44)
 	         centre(cryorot, 0.4, 0.02, 10, d4, False, 11)
 	         centre(cryorot, 0.4, 0.02, 10, d4, rotation_centre=11)
-	         centre(sphi, 0.1, 0.005, 3, d8, rotation_centre=0)
 	"""
 	jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 	beamline= jythonNameMap.beamline
@@ -36,11 +44,14 @@ def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
 			rotation_centre=default_rotcen
 		if (default_rotcen-90 > rotation_centre or
 								rotation_centre > default_rotcen+90 ):
-			print "!!! Inverting focus axis because sample is rotated !!!"
-			focus_axis_inverted = True
-			print "NOTE: This function is unverified, if your focus diverges"
-			print "      you should call your GDA representative to debug it."
-	
+			print "!!! Not inverting focus axis because of rotation_centre !!!"
+			print "    (%.4f > %.4f or %.4f > %.4f)" % (default_rotcen-90,
+				rotation_centre, rotation_centre, default_rotcen+90)
+			print "See http://jira.diamond.ac.uk/browse/I15-294"
+			#focus_axis_inverted = True
+			#print "NOTE: This function is unverified, if your focus diverges"
+			#print "      you should call your GDA representative to debug it."
+
 	elif rotation_axis == jythonNameMap.dktheta:
 		perp2rot_axis	= jythonNameMap.dv
 		focus_axis		= jythonNameMap.dy
@@ -48,21 +59,25 @@ def centre(rotation_axis, scanRange, scanStep, rockAngle, diode,
 	elif rotation_axis == jythonNameMap.cryorot:
 		perp2rot_axis	= jythonNameMap.cryox
 		focus_axis		= jythonNameMap.cryoz
+		print "Inverting focus axis because rotation_axis is cryorot"
 		focus_axis_inverted = True
-	
+		# Are cryox/y mounted on cryorot? If they are then this is fine,
+		# otherwise we may need to un-invert the focus axis given the rotation_centre
+
 	elif rotation_axis == jythonNameMap.sphi:
 		perp2rot_axis	= jythonNameMap.ssx
 		focus_axis		= jythonNameMap.ssz
 		if  rotation_centre==None:
 			rotation_centre=0
 			print "No rotation_centre specified, assuming 0."
-		#focus_axis_inverted = True
+
 	else:
 		print "not supported by centre()"
 		print "Please specify rotation_axis as dkphi, dktheta or cryorot."
 		return
+
 	if rotation_centre==None:
-		print "has no default rotation_centre."
+		print "%r has no default rotation_centre." % rotation_axis
 		print "Please specify rotation_centre for this axis. See 'help centre'"
 		return
 
