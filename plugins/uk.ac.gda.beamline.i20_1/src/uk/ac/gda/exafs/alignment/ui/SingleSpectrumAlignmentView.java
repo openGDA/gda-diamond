@@ -26,6 +26,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -81,7 +82,17 @@ public class SingleSpectrumAlignmentView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
-		scrolledform = toolkit.createScrolledForm(parent);
+
+		final SashForm parentComposite = new SashForm(parent, SWT.VERTICAL);
+		parentComposite.SASH_WIDTH = 7;
+
+		Composite composite = new Composite(parentComposite, SWT.None);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		composite.setLayout(UIHelper.createGridLayoutWithNoMargin(1,false));
+
+		scrolledform = toolkit.createScrolledForm(composite);
+		scrolledform.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
 		form = scrolledform.getForm();
 		form.getBody().setLayout(new GridLayout());
 		toolkit.decorateFormHeading(form);
@@ -97,7 +108,9 @@ public class SingleSpectrumAlignmentView extends ViewPart {
 			createSampleDetailsSection(formParent);
 			EDECalibrationSection eDECalibrationSection = new EDECalibrationSection(formParent, SWT.None);
 			eDECalibrationSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-			SingleSpectrumCollectionView.createStartStopScanSection(formParent, toolkit, null, null);
+			SingleSpectrumCollectionView.createStartStopScanSection(parentComposite, toolkit, null, null);
+			form.layout();
+			parentComposite.setWeights(new int[] {7, 3});
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
@@ -114,7 +127,7 @@ public class SingleSpectrumAlignmentView extends ViewPart {
 		sampleDetailsSection.setClient(sectionComposite);
 
 		Label fileNameLabel = toolkit.createLabel(sectionComposite, "File name: ");
-		fileNameLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		fileNameLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		Text fileNameText = toolkit.createText(sectionComposite, "", SWT.BORDER);
 		fileNameText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		fileNameText.setEditable(false);
@@ -231,7 +244,7 @@ public class SingleSpectrumAlignmentView extends ViewPart {
 		switchWithSamplePositionButton = toolkit.createButton(stageSelectionComposite, "Use alignment stage for sample positions", SWT.CHECK);
 		switchWithSamplePositionButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
-		sampleStageSectionsParent = new SampleStageMotorsComposite(body, SWT.None, toolkit);
+		sampleStageSectionsParent = new SampleStageMotorsComposite(body, SWT.None, toolkit, true);
 	}
 
 	private Listener createXPositionListener(final Location location, final AlignmentStageDevice alignmentStageDevice) {

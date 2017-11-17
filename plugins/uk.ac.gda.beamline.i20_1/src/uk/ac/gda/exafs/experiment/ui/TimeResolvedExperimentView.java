@@ -286,7 +286,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		sampleDescText = sampleDetailComp.getSampleDescriptionTextbox();
 
 		useFastShutterCheckbox = toolkit.createButton(sampleDetailComp.getMainComposite(), "Use fast shutter", SWT.CHECK);
-		useFastShutterCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		useFastShutterCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 
 		setupScannableButton = toolkit.createButton(sampleDetailComp.getMainComposite(), "Setup scannables/PVs to monitor", SWT.PUSH);
 		setupScannableButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));

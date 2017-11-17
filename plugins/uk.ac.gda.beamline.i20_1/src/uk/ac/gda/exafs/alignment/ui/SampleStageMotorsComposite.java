@@ -92,7 +92,7 @@ public class SampleStageMotorsComposite extends Composite {
 		topControlComposite.setLayoutData(gridData);
 
 		useIrefCheckButton = toolkit.createButton(topControlComposite, "Use Iref", SWT.CHECK);
-		useIrefCheckButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		useIrefCheckButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(useIrefCheckButton),

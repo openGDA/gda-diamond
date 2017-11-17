@@ -183,7 +183,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 	private void addFastShutterControls( Composite parent, FormToolkit toolkit ) {
 		// Checkbox for fast shutter
 		Button useFastShutterCheckbox = toolkit.createButton(parent, "Use fast shutter", SWT.CHECK);
-		useFastShutterCheckbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		useFastShutterCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
 				BeanProperties.value(SingleSpectrumCollectionModel.USE_FAST_SHUTTER_PROP_NAME).observe(getModel()) );
