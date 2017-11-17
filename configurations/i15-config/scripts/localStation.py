@@ -30,12 +30,6 @@ from scannables.detectors.checkZebraScannable import ZebraPositionScannable #, Z
 zebraPositionScannable=ZebraPositionScannable('zebraPositionScannable', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().dkphi)
 #zebraCheckScannable=ZebraCheckScannable(         'zebraCheckScannable', 'BL15I-EA-ZEBRA-01:', beamline_parameters.JythonNameSpaceMapping().dkphi)
 
-disableZebra2=True
-if disableZebra2:
-	beamline_parameters.JythonNameSpaceMapping().zebraContinuousMoveController.setTriggeredControllers([])
-	# Remove the zebra2 reference from triggered detectors, while it's broken. This should also cause
-	# user_commands._rockScanParams() to remove all relevant scannables and controllers from rock scans.
-
 from gdascripts.scannable.epics.PvManager import PvManager
 import scannables.detectorShield
 ds=scannables.detectorShield.DetectorShield('ds', PvManager(pvroot='BL15I-RS-ABSB-06:'))
@@ -135,7 +129,14 @@ def localStation_exception(exc_info, msg):
 
 try:
 	simpleLog("================ INITIALISING I15 GDA ================")
-	
+
+	from localStationConfiguration import disableZebra2
+	if disableZebra2:
+		simpleLog("Disabling zebra 2 by setting the move controller to have no triggered controllers.")
+		beamline_parameters.JythonNameSpaceMapping().zebraContinuousMoveController.setTriggeredControllers([])
+		# Remove the zebra2 reference from triggered detectors, while it's broken. This should also cause
+		# user_commands._rockScanParams() to remove all relevant scannables and controllers from rock scans.
+
 	scansReturnToOriginalPositions = 1;
 	
 	beamlineName = "i15"
@@ -359,7 +360,8 @@ try:
 	from future.toggleBinaryPvAndWait import ToggleBinaryPvAndWait
 	from future.binaryPvDetector import BinaryPvDetector
 	from future.timeOverThresholdDetector import TimeOverThresholdDetector
-	if False:
+	from localStationConfiguration import enableXps7out1trig
+	if enableXps7out1trig:
 		try:
 			xps7out1trig = ToggleBinaryPvAndWait('xps7out1trig', 'BL15I-MO-XPS-07:GPIO:OUT1', normalLevel='1', triggerLevel='0')
 		except:
@@ -367,7 +369,8 @@ try:
 	else:
 		simpleLog("* Not creating xps7out1trig object *")
 	
-	if True:
+	from localStationConfiguration import enablePatchX7triggers
+	if enablePatchX7triggers:
 		try:
 			patch12x7trig = ToggleBinaryPvAndWait('patch12x7trig', 'BL15I-EA-PATCH-12:X7', normalLevel='Logic 0', triggerLevel='Logic 1')
 			patch14x7trig = ToggleBinaryPvAndWait('patch14x7trig', 'BL15I-EA-PATCH-14:X7', normalLevel='Logic 0', triggerLevel='Logic 1')
@@ -464,7 +467,8 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating chi object")
 
-	if True:
+	from localStationConfiguration import enableAttoPiezos
+	if enableAttoPiezos:
 		try:
 			print "Installing atto devices from epics BL15I-EA-ATTO..."
 			
@@ -488,7 +492,8 @@ try:
 	else:
 		print "* Not installing atto devices *"
 
-	if False:
+	from localStationConfiguration import enableWirescanner
+	if enableWirescanner:
 		print "Installing example wirescanner..."
 		try:
 			from gdascripts.scan.process.ScannableScan import ScannableScan
@@ -541,7 +546,8 @@ try:
 	else:
 		print "* Not installing example wirescanner *"
 
-	if False:
+	from localStationConfiguration import enablePerpendicularSampleMotionScannables
+	if enablePerpendicularSampleMotionScannables:
 		""" TODO: Verify functionality before enabling.
 
 		Note that these were developed during a time when there was a fault with the orientation of one of the axes.
@@ -678,7 +684,7 @@ try:
 		alias('stdmeta')
 		add_default(meta)
 		meta.quiet = True
-		
+
 	except:
 		localStation_exception(sys.exc_info(), "creating metadata objects")
 
