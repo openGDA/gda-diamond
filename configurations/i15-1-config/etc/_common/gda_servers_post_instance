@@ -2,7 +2,7 @@ bashlog debug "gda_servers_post_instance" "Entered"
 
 # Since the gda_servers_* scripts are run on both the client machine and on the
 # server machine in live mode, don't start the client on the server machine.
-if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]]; then
+if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]] && [[ "$GDA_OPERATION" != "stop" ]]; then
 
   # If SERVERS_SSH_PID isn't defined then we will have already waited for the servers to start
   if [ -n "${SERVERS_SSH_PID-}" ] ; then

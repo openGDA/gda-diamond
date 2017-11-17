@@ -2,7 +2,7 @@ bashlog debug "gda_servers_post_instance" "Entered"
 
 # Since the gda_servers_* scripts are run on both the client machine and on the
 # server machine in live mode, don't start the client on the server machine.
-if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]]; then
+if [[ "${CONTROL_MACHINE_NAME}" != "$(uname -n)" ]] && [[ "$GDA_OPERATION" != "stop" ]]; then
 
   echo Moving GDA Log Panel...
   wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
