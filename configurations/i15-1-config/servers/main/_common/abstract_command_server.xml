@@ -17,7 +17,7 @@
 	
 	<bean id="dls_config_script_project" class="gda.jython.ScriptProject">
 		<property name="path" value="${gda.install.git.loc}/gda-diamond.git/dls-config/scripts" />
-		<property name="name" value="Scripts: Config-MT" />
+		<property name="name" value="Scripts: Dls-Config" />
 		<property name="type" value="CONFIG" />
 	</bean>
 
