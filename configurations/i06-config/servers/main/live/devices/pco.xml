@@ -190,6 +190,7 @@
 			<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 				<property name="adBase" ref="pco_adbase" />
 				<property name="restoreAcquireState" value="true"/>
+				<property name="stopAquiringInPreparation" value="false"/>
 			</bean>
 		</property>
 	</bean>
