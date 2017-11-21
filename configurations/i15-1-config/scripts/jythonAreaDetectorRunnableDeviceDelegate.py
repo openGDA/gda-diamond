@@ -30,13 +30,13 @@ class JythonAreaDetectorRunnableDeviceDelegate (AbstractAreaDetectorRunnableDevi
 
     # Delegated annotated methods
 
-    def preConfigure(self, model):
-        self.logger.info("preConfigure({})", model)
-        AbstractAreaDetectorRunnableDeviceDelegate.preConfigure(self, model);
+    def preConfigure(self, scanModel, scanBean, publisher):
+        self.logger.info("preConfigure({}, {}, {})", scanModel, scanBean, publisher)
+        AbstractAreaDetectorRunnableDeviceDelegate.preConfigure(self, scanModel, scanBean, publisher);
 
-    def postConfigure(self, model):
-        self.logger.info("postConfigure({})", model)
-        AbstractAreaDetectorRunnableDeviceDelegate.postConfigure(self, model);
+    def postConfigure(self, scanModel, scanBean, publisher):
+        self.logger.info("postConfigure({}, {}, {})", scanModel, scanBean, publisher)
+        AbstractAreaDetectorRunnableDeviceDelegate.postConfigure(self, scanModel, scanBean, publisher);
 
     def levelStart(self, info):
         self.logger.info("levelStart({})", info)
