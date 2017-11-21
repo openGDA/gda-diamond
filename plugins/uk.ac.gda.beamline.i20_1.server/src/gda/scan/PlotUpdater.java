@@ -20,7 +20,9 @@ package gda.scan;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.dawnsci.ede.EdePositionType;
 import org.dawnsci.ede.EdeScanType;
@@ -54,9 +56,10 @@ public class PlotUpdater {
 	private String energyAxisName;
 	private ScriptControllerBase controller;
 	private String filename;
-	private List<String> dataNames = new ArrayList<String>();
-	private List<DoubleDataset> dataSets = new ArrayList<DoubleDataset>();
-	private List<String> dataNamesToIgnore = new ArrayList<String>();
+	private Map<String, DoubleDataset> dataSets = new LinkedHashMap<>(); // set ketSet() returns keys in same order as they were added
+	private List<String> dataNamesToIgnore = new ArrayList<>();
+
+	private String positionColumnName;
 
 	public String getFilename() {
 		return filename;
@@ -84,6 +87,10 @@ public class PlotUpdater {
 
 	public void setEnergyAxisName(String energyAxisName) {
 		this.energyAxisName = energyAxisName;
+	}
+
+	public void setPositionAxisName(String positionColumnName) {
+		this.positionColumnName = positionColumnName;
 	}
 
 	DoubleDataset extractDoubleDatset(NexusGroupData groupData) {
@@ -115,20 +122,18 @@ public class PlotUpdater {
 				NexusGroupData groupData = data.getData(detectorName, dataName, NexusExtractor.SDSClassName);
 				DoubleDataset dataset = extractDoubleDatset(groupData);
 				if (dataset != null) {
-					dataNames.add(dataName);
-					dataSets.add(dataset);
+					dataset.setName(dataName);
+					dataSets.put(dataName, dataset);
 				}
 			}
 		}
 	}
 
 	public void addDataset(String dataName, DoubleDataset dataset) {
-		dataNames.add(dataName);
-		dataSets.add(dataset);
+		dataSets.put(dataName, dataset);
 	}
 
 	public void clearDatasets() {
-		dataNames.clear();
 		dataSets.clear();
 	}
 
@@ -147,8 +152,7 @@ public class PlotUpdater {
 			return;
 		}
 		// Determine index of dataset to use for energy axis
-		int energyAxisIndex = dataNames.indexOf(energyAxisName);
-		if (energyAxisIndex == -1) {
+		if (!dataSets.containsKey(energyAxisName)) {
 			logger.info("Could not find energy axis data (axis name = {})", energyAxisName);
 			return;
 		}
@@ -157,12 +161,15 @@ public class PlotUpdater {
 		EdeScanProgressBean scanProgressBean = new EdeScanProgressBean(currentGroupNumber, currentSpectrumNumber,
 				EdeScanType.LIGHT, EdePositionType.INBEAM, filename);
 
-		for (int i = 0; i < dataNames.size(); i++) {
+		for (String dataName : dataSets.keySet()) {
 			// Don't plot position column or energy datasets
-			String dataName = dataNames.get(i);
 			if (!dataNamesToIgnore.contains(dataName)) {
-				controller.update(null, new EdeExperimentProgressBean(ExperimentCollectionType.MULTI,
-						scanProgressBean, dataNames.get(i), dataSets.get(i), dataSets.get(energyAxisIndex)));
+				EdeExperimentProgressBean progressBean =  new EdeExperimentProgressBean(ExperimentCollectionType.MULTI,
+						scanProgressBean, dataName, dataSets.get(dataName), dataSets.get(energyAxisName));
+
+				progressBean.setUncalibratedXAxisData(dataSets.get(positionColumnName));
+
+				controller.update(null, progressBean);
 			}
 		}
 	}

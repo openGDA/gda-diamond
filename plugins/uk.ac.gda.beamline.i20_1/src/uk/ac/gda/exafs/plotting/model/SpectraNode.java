@@ -34,6 +34,7 @@ import uk.ac.gda.client.plotting.model.ScanNode;
 public class SpectraNode extends Node {
 
 	private DoubleDataset xDoubleDataset;
+	private DoubleDataset uncalibratedXAxisData; // e.g. strip number (for XH, XStrip), or position (for TurboXas)
 
 	public static final String DATA_SET_Y_AXIS_PROP_NAME = "yDoubleDataset";
 	private final IObservableList yDoubleDataset = new WritableList(new ArrayList<ScanDataItemNode>(), ScanDataItemNode.class);
@@ -116,4 +117,13 @@ public class SpectraNode extends Node {
 	public void removeChild(Node dataNode) {
 		// NOt supported
 	}
+
+	public DoubleDataset getUncalibratedXAxisData() {
+		return uncalibratedXAxisData;
+	}
+
+	public void setUncalibratedXAxisData(DoubleDataset uncalibratedXAxisData) {
+		this.uncalibratedXAxisData = uncalibratedXAxisData;
+	}
+
 }

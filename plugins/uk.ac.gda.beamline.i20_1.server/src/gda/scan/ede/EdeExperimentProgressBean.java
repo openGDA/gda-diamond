@@ -20,6 +20,7 @@ package gda.scan.ede;
 
 import java.io.Serializable;
 
+import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
 
 public class EdeExperimentProgressBean implements Serializable {
@@ -33,12 +34,17 @@ public class EdeExperimentProgressBean implements Serializable {
 	private final DoubleDataset energyData;
 	private final String dataLabel;
 	private final ExperimentCollectionType experimentCollectionType;
+	private DoubleDataset uncalibratedXAxisData;
+
 	public EdeExperimentProgressBean(ExperimentCollectionType experimentCollectionType, EdeScanProgressBean progress, String dataLabel, DoubleDataset data, DoubleDataset energyData) {
 		this.experimentCollectionType = experimentCollectionType;
 		this.progress = progress;
 		this.dataLabel = dataLabel;
 		this.data = data;
 		this.energyData = energyData;
+		int max = energyData.getShape()[0];
+		uncalibratedXAxisData = DatasetFactory.createRange(DoubleDataset.class, 0, max, 1);
+		uncalibratedXAxisData.setName("pixel number");
 	}
 
 	public EdeScanProgressBean getProgress() {
@@ -61,4 +67,11 @@ public class EdeExperimentProgressBean implements Serializable {
 		return experimentCollectionType;
 	}
 
+	public DoubleDataset getUncalibratedXAxisData() {
+		return uncalibratedXAxisData;
+	}
+
+	public void setUncalibratedXAxisData(DoubleDataset uncalibratedXAxisData) {
+		this.uncalibratedXAxisData = uncalibratedXAxisData;
+	}
 }

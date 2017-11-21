@@ -123,6 +123,7 @@ public class TurboXasScan extends ContinuousScan {
 		plotUpdater.setCurrentSpectrumNumber(1);
 		plotUpdater.setCurrentGroupNumber(1);
 		plotUpdater.setEnergyAxisName(ENERGY_COLUMN_NAME);
+		plotUpdater.setPositionAxisName(POSITION_COLUMN_NAME);
 
 		plotUpdater.clearDatanamesToIgnore();
 		plotUpdater.addDatanameToIgnore(ENERGY_COLUMN_NAME);
