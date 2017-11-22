@@ -15,167 +15,84 @@ class CombinedEnergy(ScannableBase):
     scannable delegates energy control to different energy scannables based on source mode and polaristaion mode.
     '''
 
-    def __init__(self, name, denergy, uenergy, duenergy, iddgap, idugap, smode, pol, offhar=0.0, PositionTolerance=0.0001, defaultenergy=400.0):
+    def __init__(self, name, iddgap, idugap, drpenergy, urpenergy, pgmenergy, smode, pol, offhar, detune=100.0, opengap=100.0):
         '''
         Constructor - default energy is set to 400.0 eV
         '''
         self.setName(name)
-        self.denergy=denergy
-        self.uenergy=uenergy
-        self.duenergy=duenergy
         self.iddgap=iddgap
         self.idugap=idugap
+        self.drpenergy=drpenergy
+        self.urpenergy=urpenergy
+        self.pgmenergy=pgmenergy
         self.smode=smode
         self.pol=pol
-        self.energy=self.getPosition()
-        self.dgap=float(self.iddgap.getPosition())
-        self.ugap=float(self.idugap.getPosition())
         self.offhar=offhar
-        self.tolerance=PositionTolerance
-        
-    def setOffhar(self,offset):
-        haroff=float(offset)
-        mode = self.smode.getPosition()
-        if mode == SourceMode.SOURCE_MODES[0]:
-            if self.dgap is None:
-                self.getPosition()
-            if abs(self.dgap - float(self.iddgap.getPosition()))<=self.tolerance+self.offhar:
-                self.iddgap.asynchronousMoveTo(self.dgap+haroff)
-            else:
-                print "IDD gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
-        elif mode == SourceMode.SOURCE_MODES[1]:
-            if self.ugap is None:
-                self.getPosition()
-            if abs(self.ugap - float(self.idugap.getPosition()))<=self.tolerance+self.offhar:
-                self.idugap.asynchronousMoveTo(self.ugap+haroff)
-            else:
-                print "IDU gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
-        elif mode == SourceMode.SOURCE_MODES[2]:
-            if self.dgap is None:
-                self.getPosition()
-            if abs(self.dgap - float(self.iddgap.getPosition()))<=self.tolerance+self.offhar:
-                self.iddgap.asynchronousMoveTo(self.dgap+haroff)
-            else:
-                print "IDD gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
-            if self.ugap is None:
-                self.getPosition()
-            if abs(self.ugap - float(self.idugap.getPosition()))<=self.tolerance+self.offhar:
-                self.idugap.asynchronousMoveTo(self.ugap+haroff)
-            else:
-                print "IDU gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
-        elif mode == SourceMode.SOURCE_MODES[3]:
-            pol=self.pol.getPosition()
-            if pol == Polarisation.POLARISATIONS[0] or pol == Polarisation.POLARISATIONS[2]:
-                if abs(self.dgap - float(self.iddgap.getPosition()))<=self.tolerance+self.offhar:
-                    self.iddgap.asynchronousMoveTo(self.dgap+haroff)
-                else:
-                    print "IDD gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
-            elif pol == Polarisation.POLARISATIONS[1] or pol == Polarisation.POLARISATIONS[3]:
-                if abs(self.ugap - float(self.idugap.getPosition()))<=self.tolerance+self.offhar:
-                    self.idugap.asynchronousMoveTo(self.ugap+haroff)
-                else:
-                    print "IDU gap is not at the energy %f! Please set energy again before applying harmonic offset." % (self.energy)
-            elif pol == Polarisation.POLARISATIONS[4]:
-                message="Linear Polarisation is not supported in '%s' source mode" % (mode)
-                raise RuntimeError(message)
-        self.offhar=haroff
-        
-    def getOffhar(self):
-        mode = self.smode.getPosition()
-        if mode == SourceMode.SOURCE_MODES[0]:
-            position = float(self.iddgap.getPosition())
-            haroff=position-self.dgap
-        elif mode == SourceMode.SOURCE_MODES[1]:
-            position = float(self.idugap.getPosition())
-            haroff=position-self.ugap
-        elif mode == SourceMode.SOURCE_MODES[2]:
-            position = float(self.iddgap.getPosition())
-            haroff = position-self.dgap            
-        elif mode == SourceMode.SOURCE_MODES[3]:
-            pol=self.pol.getPosition()
-            if pol == Polarisation.POLARISATIONS[0] or pol == Polarisation.POLARISATIONS[2]:
-                position = float(self.iddgap.getPosition())
-                haroff = position - self.dgap
-            elif pol == Polarisation.POLARISATIONS[1] or pol == Polarisation.POLARISATIONS[3]:
-                position = float(self.idugap.getPosition())
-                haroff = position - self.ugap
-            elif pol == Polarisation.POLARISATIONS[4]:
-                message="Linear Polarisation is not supported in '%s' source mode" % (mode)
-                raise RuntimeError(message)
-        self.offhar=haroff
-        return self.offhar
+        self.detune=detune
+        self.opengap=opengap
+        self.currpol='pc'
 
+    def setOpenGap(self, gap):
+        self.opengap=gap
+    
+    def getOpenGap(self):
+        return self.opengap
+    
+    def setDetune(self, val):
+        self.detune=val
         
-    def isHaroffBusy(self):
-        mode = self.smode.getPosition()
-        if mode == SourceMode.SOURCE_MODES[0]:
-            return self.iddgap.isBusy()
-        elif mode == SourceMode.SOURCE_MODES[1]:
-            return self.idugap.isBusy()
-        elif mode == SourceMode.SOURCE_MODES[2]:
-            return self.iddgap.isBusy() or self.idugap.isBusy()
-        elif mode == SourceMode.SOURCE_MODES[3]:
-            pol=self.pol.getPosition()
-            if pol == Polarisation.POLARISATIONS[0] or pol == Polarisation.POLARISATIONS[2]:
-                return self.iddgap.isBusy()
-            elif pol == Polarisation.POLARISATIONS[1] or pol == Polarisation.POLARISATIONS[3]:
-                return self.idugap.isBusy()
-            elif pol == Polarisation.POLARISATIONS[4]:
-                message="Linear Polarisation is not supported in '%s' source mode" % (mode)
-                raise RuntimeError(message)
-        return self.iddgap.isBusy() or self.idugap.isBusy()
-        
+    def getDetune(self):
+        return self.detune
+    
     def getPosition(self):
         ''' get X-ray beam energy from EPICS
         '''
-        mode=self.smode.getPosition()
-        if mode == SourceMode.SOURCE_MODES[0]:
-            position = float(self.denergy.getPosition())
-            self.dgap= float(self.iddgap.getPosition())
-        elif mode == SourceMode.SOURCE_MODES[1]:
-            position = float(self.uenergy.getPosition())
-            self.ugap= float(self.idugap.getPosition())
-        elif mode == SourceMode.SOURCE_MODES[2]:
-            position = float(self.duenergy.getPosition())
-            self.dgap = float(self.iddgap.getPosition())
-            self.ugap = float(self.idugap.getPosition())
-        elif mode == SourceMode.SOURCE_MODES[3]:
-            pol=self.pol.getPosition()
-            if pol == Polarisation.POLARISATIONS[0] or pol == Polarisation.POLARISATIONS[2]:
-                position = float(self.denergy.getPosition())
-                self.dgap= float(self.iddgap.getPosition())
-            elif pol == Polarisation.POLARISATIONS[1] or pol == Polarisation.POLARISATIONS[3]:
-                position = float(self.uenergy.getPosition())
-                self.ugap= float(self.idugap.getPosition())
-            elif pol == Polarisation.POLARISATIONS[4]:
-                message="Linear Polarisation is not supported in '%s' source mode" % (mode)
-                raise RuntimeError(message)
-        self.energy=position       
-        return self.energy
+        return float(self.pgmenergy.getPosition())
     
     def asynchronousMoveTo(self, value):
         '''set X-ray beam energy
         '''
         newenergy=float(value)
         mode=self.smode.getPosition()
+        offhar=float(self.offhar.getPosition())
+        self.currpol=self.pol.getPosition()
         if mode == SourceMode.SOURCE_MODES[0]:
-            self.denergy.asynchronousMoveTo(newenergy)
+            self.drpenergy.asynchronousMoveTo(newenergy+offhar)
+            self.idugap.asynchronousMoveTo(self.opengap)
         elif mode == SourceMode.SOURCE_MODES[1]:
-            self.uenergy.asynchronousMoveTo(newenergy)
+            self.urpenergy.asynchronousMoveTo(newenergy+offhar)
+            self.iddgap.asynchronousMoveTo(self.opengap)
         elif mode == SourceMode.SOURCE_MODES[2]:
-            self.duenergy.asynchronousMoveTo(newenergy)
+            self.drpenergy.asynchronousMoveTo(newenergy+offhar)
+            self.urpenergy.asynchronousMoveTo(newenergy+offhar)
         elif mode == SourceMode.SOURCE_MODES[3]:
-            pol=self.pol.getPosition()
-            if pol == Polarisation.POLARISATIONS[0] or pol == Polarisation.POLARISATIONS[2]:
-                self.denergy.asynchronousMoveTo(newenergy)
-            elif pol == Polarisation.POLARISATIONS[1] or pol == Polarisation.POLARISATIONS[3]:
-                self.uenergy.asynchronousMoveTo(newenergy)
-            elif pol == Polarisation.POLARISATIONS[4]:
+            if self.currpol == Polarisation.POLARISATIONS[0] or self.currpol == Polarisation.POLARISATIONS[2]:
+                self.drpenergy.asynchronousMoveTo(newenergy+offhar)
+                self.urpenergy.asynchronousMoveTo(newenergy+self.detune)
+            elif self.currpol == Polarisation.POLARISATIONS[1] or self.currpol == Polarisation.POLARISATIONS[3]:
+                self.drpenergy.asynchronousMoveTo(newenergy+self.detune)
+                self.urpenergy.asynchronousMoveTo(newenergy+offhar)
+            elif self.currpol == Polarisation.POLARISATIONS[4]:
                 message="Linear Polarisation is not supported in '%s' source mode" % (mode)
                 raise RuntimeError(message)
-        self.offhar=0.0
-        self.energy=newenergy
+        self.pgmenergy.asynchronousMoveTo(newenergy)
+
         
     def isBusy(self):
-        return self.denergy.isBusy() or self.uenergy.isBusy() or self.duenergy.isBusy()
+        mode=self.smode.getPosition()
+        if mode == SourceMode.SOURCE_MODES[0]:
+            return self.drpenergy.isBusy() or self.idugap.isBusy() or self.pgmenergy.isBusy()
+        elif mode == SourceMode.SOURCE_MODES[1]:
+            return self.urpenergy.isBusy() or self.iddgap.isBusy() or self.pgmenergy.isBusy()
+        elif mode == SourceMode.SOURCE_MODES[2]:
+            return self.drpenergy.isBusy() or self.urpenergy.isBusy() or self.pgmenergy.isBusy()
+        elif mode == SourceMode.SOURCE_MODES[3]:
+            if self.currpol == Polarisation.POLARISATIONS[0] or self.currpol == Polarisation.POLARISATIONS[2]:
+                return self.drpenergy.isBusy() or self.urpenergy.isBusy() or self.pgmenergy.isBusy()
+            elif self.currpol == Polarisation.POLARISATIONS[1] or self.currpol == Polarisation.POLARISATIONS[3]:
+                return self.drpenergy.isBusy() or self.urpenergy.isBusy() or self.pgmenergy.isBusy()
+            elif self.currpol == Polarisation.POLARISATIONS[4]:
+                message="Linear Polarisation is not supported in '%s' source mode" % (mode)
+                raise RuntimeError(message)
+        return False
     

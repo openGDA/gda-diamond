@@ -9,7 +9,6 @@ Created on 20 Apr 2017
 '''
 from gda.device.scannable import ScannableBase
 from i06shared.scannables.sourceModes import SourceMode
-import __main__  # @UnresolvedImport
 
 class Polarisation(ScannableBase):
     '''
@@ -19,7 +18,7 @@ class Polarisation(ScannableBase):
     POLARISATIONS=['pc','nc', 'lh', 'lv', 'la']
     POLARISATIONS_EPICS={'pc':'PosCirc', 'nc':'NegCirc','lh':'Horizontal','lv':'Vertical','la':'LinArb'}
     
-    def __init__(self, name, dpol, dgap, upol, ugap, smode, detune=3.0, gap=100.0, defaultPolarisation='pc'):
+    def __init__(self, name, dpol, drpenergy, dgap, upol, urpenergy, ugap, pgmenergy, smode, offhar, detune=100.0, opengap=100.0, defaultPolarisation='pc'):
         '''
         Constructor - default polarisation mode is 'pc'
         '''
@@ -28,31 +27,31 @@ class Polarisation(ScannableBase):
         self.dgap=dgap
         self.upol=upol
         self.ugap=ugap
-        self.polaristaion=defaultPolarisation
+        self.polarisation=defaultPolarisation
         self.smode=smode
         self.detune=detune
+        self.opengap=opengap
+        self.drpenergy=drpenergy
+        self.urpenergy=urpenergy
+        self.pgmenergy=pgmenergy
+        self.offhar=offhar
+    
+    def setOpenGap(self, gap):
         self.opengap=gap
+    
+    def getOpenGap(self):
+        return self.opengap
+    
+    def setDetune(self, val):
+        self.detune=val
         
+    def getDetune(self):
+        return self.detune
+    
     def getPosition(self):
-        ''' get current polarisation of ID from EPICS driver and 
-        return its corresponding GDA polarisation name
+        ''' get current polarisation that has been set last time 
         '''
-        mode=self.smode.getPosition()
-        currentpol=self.polaristaion
-        if mode == SourceMode.SOURCE_MODES[0] :
-            currentpol=self.dpol.getPosition()
-        elif mode == SourceMode.SOURCE_MODES[1]:
-            currentpol=self.upol.getPosition()
-        elif mode == SourceMode.SOURCE_MODES[2]:
-            currentpol=self.dpol.getPosition()
-        elif mode == SourceMode.SOURCE_MODES[3]:
-            currentpol=self.dpol.getPosition()
-            if currentpol==Polarisation.POLARISATIONS_EPICS['la']:
-                message="Wrong Polarisation: Linear Angular Polarisation is not supported in '%s' source mode" % (mode)
-                raise RuntimeError(message)
-        
-        self.polaristaion=[key for key, value in Polarisation.POLARISATIONS_EPICS.iteritems() if value == currentpol][0]
-        return self.polaristaion
+        return self.polarisation
     
     def asynchronousMoveTo(self, newpos):
         '''set polarisation of ID according to source mode.
@@ -61,42 +60,73 @@ class Polarisation(ScannableBase):
             message="polarisation string is wrong: legal values are %s" % (Polarisation.POLARISATIONS)
             raise Exception(message)
         mode=self.smode.getPosition()
+        offhar=float(self.offhar.getPosition())
         if mode == SourceMode.SOURCE_MODES[0]:
             self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[newpos])
             self.ugap.asynchronousMoveTo(self.opengap)
+            position = float(self.pgmenergy.getPosition())
+            self.drpenergy.asynchronousMoveTo(position+offhar)
         elif mode == SourceMode.SOURCE_MODES[1]:
             self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[newpos])
             self.dgap.asynchronousMoveTo(self.opengap)
+            position = float(self.pgmenergy.getPosition())
+            self.urpenergy.asynchronousMoveTo(position+offhar)
         elif mode == SourceMode.SOURCE_MODES[2]:
             self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[newpos])
             self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[newpos])
+            position = float(self.pgmenergy.getPosition())
+            self.urpenergy.asynchronousMoveTo(position+offhar)
+            self.drpenergy.asynchronousMoveTo(position+self.detune)
         elif mode == SourceMode.SOURCE_MODES[3]:
-            #TODO check if need to set both ID or not
             if newpos == Polarisation.POLARISATIONS[0]:
                 self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['pc'])
-                self.dgap.asynchronousMoveTo(__main__.energy.dgap)
                 self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['nc'])
-                self.ugap.asynchronousMoveTo(__main__.energy.ugap+self.detune)
+                position = float(self.pgmenergy.getPosition())
+                self.drpenergy.asynchronousMoveTo(position+offhar)
+                self.urpenergy.asynchronousMoveTo(position+self.detune)
             elif newpos == Polarisation.POLARISATIONS[1]:
                 self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['nc'])
-                self.ugap.asynchronousMoveTo(__main__.energy.ugap)
                 self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['pc'])
-                self.dgap.asynchronousMoveTo(__main__.energy.dgap+self.detune)
+                position = float(self.pgmenergy.getPosition())
+                self.urpenergy.asynchronousMoveTo(position+offhar)
+                self.drpenergy.asynchronousMoveTo(position+self.detune)
             elif newpos == Polarisation.POLARISATIONS[2]:
                 self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['lh'])
-                self.dgap.asynchronousMoveTo(__main__.energy.dgap)
                 self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['lv'])
-                self.ugap.asynchronousMoveTo(__main__.energy.ugap+self.detune)
+                position = float(self.pgmenergy.getPosition())
+                self.drpenergy.asynchronousMoveTo(position+offhar)
+                self.urpenergy.asynchronousMoveTo(position+self.detune)
             elif newpos == Polarisation.POLARISATIONS[3]:
                 self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['lv'])
-                self.ugap.asynchronousMoveTo(__main__.energy.ugap)
                 self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['lh'])
-                self.dgap.asynchronousMoveTo(__main__.energy.dgap+self.detune)
+                position = float(self.pgmenergy.getPosition())
+                self.urpenergy.asynchronousMoveTo(position+offhar)
+                self.drpenergy.asynchronousMoveTo(position+self.detune)
             elif newpos == Polarisation.POLARISATIONS[4]:
                 message="Linear Angular Polarisation is not supported in '%s' source mode" % (mode)
                 raise RuntimeError(message)
-        self.polaristaion=newpos
+        self.polarisation=newpos
     
     def isBusy(self):
-        return self.dpol.isBusy() or self.dgap.isBusy() or self.upol.isBusy() or self.ugap.isBusy()
+        mode=self.smode.getPosition()
+        if mode == SourceMode.SOURCE_MODES[0]:
+            return self.dpol.isBusy() or self.ugap.isBusy() or self.drpenergy.isBusy()
+        elif mode == SourceMode.SOURCE_MODES[1]:
+            return self.upol.isBusy() or self.dgap.isBusy() or self.urpenergy.isBusy()
+        elif mode == SourceMode.SOURCE_MODES[2]:
+            return self.dpol.isBusy() or self.upol.isBusy() or self.drpenergy.isBusy() or self.urpenergy.isBusy()
+        elif mode == SourceMode.SOURCE_MODES[3]:
+            #TODO check if need to set both ID or not
+            if self.polarisation == Polarisation.POLARISATIONS[0]:
+                return self.dpol.isBusy() or self.upol.isBusy() or self.drpenergy.isBusy() or self.urpenergy.isBusy()
+            elif self.polarisation == Polarisation.POLARISATIONS[1]:
+                return self.upol.isBusy() or self.dpol.isBusy() or self.urpenergy.isBusy() or self.drpenergy.isBusy()
+            elif self.polarisation == Polarisation.POLARISATIONS[2]:
+                return self.dpol.isBusy() or self.upol.isBusy() or self.drpenergy.isBusy() or self.urpenergy.isBusy()
+            elif self.polarisation == Polarisation.POLARISATIONS[3]:
+                return self.upol.isBusy() or self.dpol.isBusy() or self.urpenergy.isBusy() or self.drpenergy.isBusy()
+            elif self.polarisation == Polarisation.POLARISATIONS[4]:
+                message="Linear Angular Polarisation is not supported in '%s' source mode" % (mode)
+                raise RuntimeError(message)
+        return False
 
