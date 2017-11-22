@@ -19,9 +19,12 @@
 package uk.ac.gda.exafs.experiment.ui;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.layout.LayoutConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -30,6 +33,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import gda.scan.TurboXasMotorParameters;
+import uk.ac.gda.client.UIHelper;
 
 /**
  * Show motor parameters for TurboXasScan in modal dialog box. <p>
@@ -107,21 +111,38 @@ public class TurboXasMotorParameterInfoDialog extends Dialog {
 		String twoNumFormat = "%.5g, %.5g ";
 
 		Composite mainComposite = new Composite(parent, SWT.NONE);
-		mainComposite.setLayout(new GridLayout(2, false));
+//		mainComposite.setLayout(new GridLayout(2, false));
+		GridLayoutFactory.fillDefaults().margins(20, 20).numColumns(2).spacing(30, LayoutConstants.getSpacing().y).applyTo(mainComposite);
 		mainComposite.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 
-		toolkit.createLabel(mainComposite, "Start, end positions for scan energy range");
-		toolkit.createLabel(mainComposite, String.format(twoNumFormat, motorParameters.getScanStartPosition(), motorParameters.getScanEndPosition()) );
+		toolkit.createLabel(mainComposite, "Start, end positions for scan energy range", SWT.FILL);
+		toolkit.createLabel(mainComposite, String.format(twoNumFormat, motorParameters.getScanStartPosition(), motorParameters.getScanEndPosition()));
 
 		toolkit.createLabel(mainComposite, "Scan range");
 		Label rangeLabel = toolkit.createLabel(mainComposite, String.format(numFormat, motorParameters.getScanPositionRange()));
 
+		toolkit.createLabel(mainComposite, "Scan step size");
+		toolkit.createLabel(mainComposite, String.format(numFormat, motorParameters.getPositionStepsize()));
+
+		toolkit.createLabel(mainComposite, "Number of readouts per scan");
+		toolkit.createLabel(mainComposite, String.format("%d", motorParameters.getNumReadoutsForScan()));
+
 		for(int i = 0; i<motorParameters.getScanParameters().getNumTimingGroups(); i++) {
-			toolkit.createLabel(mainComposite, "Motor speed : timing group "+(i+1));
+			toolkit.createLabel(mainComposite, "Motor scan speed / return speed : timing group "+(i+1));
 			motorParameters.setMotorParametersForTimingGroup(i);
-			Label speedLabel = toolkit.createLabel(mainComposite, String.format(numFormat, motorParameters.getScanMotorSpeed()));
+
+			Composite speedComp = toolkit.createComposite(mainComposite);
+			speedComp.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+			speedComp.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+
+			Label speedLabel = toolkit.createLabel(speedComp, String.format(numFormat+" / ", motorParameters.getScanMotorSpeed()));
+			Label returnSpeedLabel = toolkit.createLabel(speedComp, String.format(numFormat, motorParameters.getReturnMotorSpeed()));
+
 			if (!motorParameters.validMotorScanSpeed()) {
 				speedLabel.setForeground(warningColor);
+			}
+			if (!motorParameters.validMotorReturnSpeed()) {
+				returnSpeedLabel.setForeground(warningColor);
 			}
 		}
 

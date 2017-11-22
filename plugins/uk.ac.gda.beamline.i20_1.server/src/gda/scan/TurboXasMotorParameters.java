@@ -176,7 +176,8 @@ public class TurboXasMotorParameters {
 			return;
 		}
 
-		setMotorParametersForTime(scanParameters.getTimingGroups().get(timingGroupIndex).getTimePerSpectrum());
+		setMotorParametersForTimingGroup(scanParameters.getTimingGroups().get(timingGroupIndex));
+
 		calculateSetPositionStepSize();
 
 	}
@@ -204,6 +205,11 @@ public class TurboXasMotorParameters {
 
 	public double getTotalTimeForScan() {
 		return getTotalTimeForScan(scanMotorSpeed);
+	}
+
+	public void setMotorParametersForTimingGroup(TurboSlitTimingGroup timingGroup) {
+		setMotorParametersForTime(timingGroup.getTimePerSpectrum());
+		returnMotorSpeed = getScanSpeed(timingGroup.getTimeBetweenSpectra());
 	}
 
 	/**
@@ -285,6 +291,9 @@ public class TurboXasMotorParameters {
 		return scanMotorSpeed < motorMaxSpeed && scanMotorSpeed > 0;
 	}
 
+	public boolean validMotorReturnSpeed() {
+		return returnMotorSpeed < motorMaxSpeed && returnMotorSpeed > 0;
+	}
 	/**
 	 * Validate motor scan speed for all timing groups
 	 * @return True if speeds for all groups are < maximum speed of motor
@@ -297,6 +306,12 @@ public class TurboXasMotorParameters {
 			if (scanSpeed>motorMaxSpeed) {
 				logger.warn("Calculated motor speed for timing group {} ({}) exceeds motor upper speed limit ({})",
 						i, scanSpeed, motorMaxSpeed);
+				return false;
+			}
+			double returnSpeed = getScanSpeed(timingGroups.get(i).getTimeBetweenSpectra());
+			if (returnSpeed>motorMaxSpeed) {
+				logger.warn("Calculated motor return speed for timing group {} ({}) exceeds motor upper speed limit ({})",
+						i, returnSpeed, motorMaxSpeed);
 				return false;
 			}
 		}
