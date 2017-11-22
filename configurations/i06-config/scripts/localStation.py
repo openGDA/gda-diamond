@@ -12,6 +12,9 @@ print "      >>>scansReturnToOriginalPositions=1"
 scansReturnToOriginalPositions=0;
 print
 import sys
+from gda.jython.commands.GeneralCommands import alias
+from gda.jython.commands.ScannableCommands import scan
+
 # try:
 #     execfile("/dls_sw/i06/software/gda/i06-shared/scripts/i06shared/localStation.py");
 # except:
@@ -52,10 +55,10 @@ from RGA.rga5 import rgaPreparation, rga5Ar,rga5CH4,rga5CO,rga5CO2,rga5H2,rga5H2
 #To add PEEM line device position to the SRS file header
 print "-"*100
 print "Add metadata required by PEEM to file header"
-peemMirrorList = [m3x, m3pitch, m3qg]; fileHeader.add(peemMirrorList);  # @UndefinedVariable
-peemDiodeList = [d5x, d6y, d7x, d7ax]; fileHeader.add(peemDiodeList);  # @UndefinedVariable
-peemExitSlitList = [s4x, s4xgap, s4y, s4ygap]; fileHeader.add(peemExitSlitList);  # @UndefinedVariable
-peemList = [psx, psy]; fileHeader.add(peemList);  # @UndefinedVariable
+fileHeader.add([m3x, m3pitch, m3qg]);  # @UndefinedVariable
+fileHeader.add([d5x, d6y, d7x, d7ax]);  # @UndefinedVariable
+fileHeader.add([s4x, s4xgap, s4y, s4ygap]);  # @UndefinedVariable
+fileHeader.add([psx, psy]);  # @UndefinedVariable
 #Group the hexapod legs into list
 m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 
@@ -65,6 +68,10 @@ from peem.leem_instances import leem2000, leem_fov, leem_obj, leem_stv, leem_obj
 fileHeader.add([leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB])
 from peem.stv_obj_instance import stvobj  # @UnusedImport
 from peem.LEEM2000_scannables_init import leem_rot,leem_temp,objAlignY,objAlignX  # @UnusedImport
+
+def picture(acqTime):
+    scan(t,1,1,1,pcotif,acqTime)  # @UndefinedVariable
+alias("picture")
 
 from gda.jython.commands.ScannableCommands import add_default
 add_default([fileHeader]);
