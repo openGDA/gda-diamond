@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="newp_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="newp_x_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="newp_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="newp_y_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="newp_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="newp_z_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	
+	<bean id="newp" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="newp_x" />
+				<ref bean="newp_y" />
+				<ref bean="newp_z" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>
