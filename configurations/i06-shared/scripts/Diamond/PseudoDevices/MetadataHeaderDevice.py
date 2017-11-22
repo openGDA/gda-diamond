@@ -75,9 +75,6 @@ class MetadataHeaderDeviceClass(PseudoDevice):
 			except ArrayIndexOutOfBoundsException, err:
 				logger.simpleLog("Name of Object: "+str(nd.name) )
 				logger.simpleLog("Length of gdamain: "+str(len(vars(gdamain).keys())))
-				indexstr=(str(err).split(":")[1])
-				logger.simpleLog("Index at which AIOBE throw: "+ indexstr)
-				logger.simpleLog("Key at which AIOBE throw: "+ vars(gdamain).keys()[int(indexstr)])
 				print nd.name
 				print len(vars(gdamain).keys())
 				print "Unexpected error occurred:", err
