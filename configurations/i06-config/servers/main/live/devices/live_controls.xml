@@ -7,6 +7,10 @@
 		<property name="pvName" value="BL06I-EA-DET-01:CAM:AcquireTime"/>
 		<property name="textInput" value="false"/>	
 	</bean>
+	<bean id="pcoAcquirePeriod" class="gda.device.scannable.SimplePVScannable">
+		<property name="pvName" value="BL06I-EA-DET-01:CAM:AcquirePeriod"/>
+		<property name="textInput" value="false"/>	
+	</bean>
 	<bean id="pcoRotationAngle" class="gda.device.scannable.SimplePVScannable">
 		<property name="pvName" value="BL06I-EA-DET-01:ROT:Angle"/>
 		<property name="textInput" value="false"/>	

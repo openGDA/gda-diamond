@@ -12,6 +12,13 @@
 		<property name="userUnits" value="s" />
 	</bean>
 
+	<bean id="pco_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Acquire Period" />
+		<property name="group" value="PCO Camera" />
+		<property name="scannableName" value="pcoAcquirePeriod" />
+		<property name="textWidth" value="30"/>
+		<property name="userUnits" value="s" />
+	</bean>
 	<bean id="pco_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Rot Angle" />
 		<property name="group" value="PCO Mode" />
@@ -63,6 +70,7 @@
 				<ref bean="pcoStart" />
 				<ref bean="pcoStop" />
 				<ref bean="pco_expsure_time_control" />
+				<ref bean="pco_acquire_period_control"/>
 				<ref bean="preview" />
 				<ref bean="imaging" />
 				<ref bean="pco_image_rotation_angle_control" />
