@@ -1,13 +1,11 @@
 from gda.device.scannable import ScannableMotionBase
 import gda.factory.Finder as Finder
 import sys
-#from gda.function.lookupTable import LookupTable
 import math
 from time import sleep
 from lookup.twoKeysLookupTable import loadLookupTable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.configuration.properties import LocalProperties
-#from localStation import pgmGratingPitch_UserOffset
 
 
 class BeamEnergy(ScannableMotionBase):
@@ -30,10 +28,12 @@ class BeamEnergy(ScannableMotionBase):
         self.setName(name)
         self.setLevel(3)
         self.setOutputFormat(["%10.6f"])
-        self.inputNames=[name]
+        self.setInputNames([name])
+        self.setExtraNames([])
         self.order=1
         self.polarisationMode='LH'
         self.pgmgratingselect=pgmgratingselect
+        print(self.name + ' created!')
         
     def setPolarisation(self, value, rowPhase=None):
         if self.getName() == "dummyenergy":
@@ -85,12 +85,17 @@ class BeamEnergy(ScannableMotionBase):
         
     def getOrder(self):
         return self.order
-    
+
     def idgap_fn(self, Ep, n):
         gap=20.0
         # Linear Horizontal
         if (self.getPolarisationMode()=="LH"):
-            if (Ep>900 and Ep < 970):
+            if (Ep>=400 and Ep<=1100):
+                if self.pgmgratingselect.getPosition()=="VPG1":
+                    gap = 10.78341 + 0.0609*Ep - (6.31E-05)*Ep*Ep + (4.75E-08)*Ep*Ep*Ep - (1.68E-11)*Ep*Ep*Ep*Ep + (2.90E-15)*Ep*Ep*Ep*Ep*Ep
+                else:
+                    raise ValueError("Unknown Grating select in LH polarisationMode")
+            elif (Ep>900 and Ep < 970):
                 if self.pgmgratingselect.getPosition()=="VPG1":
                     gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15
                     #gap = 23.271 + 0.01748*Ep #Corrected for VPG1 on 2016/10/06
@@ -109,18 +114,28 @@ class BeamEnergy(ScannableMotionBase):
                 elif self.pgmgratingselect.getPosition()=="VPG2":
                     #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
                     #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
-                    gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
+                    #gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
+                    gap = 17.6642985+ 0.02551256*Ep  #Corrected for VPG2 at 530 eV on 2017/10/12
                 elif self.pgmgratingselect.getPosition()=="VPG3":
                     gap = 11.4731251 + 0.01873832*Ep #Corrected for VPG3 on 2017/09/20
                 else:
                     raise ValueError("Unknown Grating select in LH polarisationMode")
         # Linear Vertical
         elif self.getPolarisationMode()=="LV":
-            if (Ep>900 and Ep < 970):
+            if (Ep>=400 and Ep<=1100):
+                if self.pgmgratingselect.getPosition()=="VPG1":
+                    gap = 15.75223 - 0.01915*Ep + (1.22E-04)*Ep*Ep - (1.81E-07)*Ep*Ep*Ep + (1.24E-10)*Ep*Ep*Ep*Ep - (3.10E-14)*Ep*Ep*Ep*Ep*Ep
+                    
+                    if gap < 20:
+                        gap = 20
+                else:
+                    raise ValueError("Unknown Grating select in LV polarisationMode")
+            elif (Ep>900 and Ep < 970):
                 if self.pgmgratingselect.getPosition()=="VPG1":
                     # gap = 11.1441137 + 0.01881376*Ep #Corrected for VPG1 on 2017/07/31 ---> Linear Vertical
                     # gap = 11.6401974 + 0.01819208*Ep #Corrected for VPG1 on 2017/07/07 ---> Linear Vertical
-                    gap = 11.0806699 + 0.01891585*Ep #Corrected for VPG1 at 930 eV on 2017/08/03 ---> Linear Vertical
+                    # gap = 11.0806699 + 0.01891585*Ep #Corrected for VPG1 at 930 eV on 2017/08/03 ---> Linear Vertical
+                    gap = 11.1022414 + 0.0188003*Ep #Corrected for VPG1 at 930 eV on 2017/10/12 ---> Linear Vertical
                 elif self.pgmgratingselect.getPosition()=="VPG2":
                     # gap = 11.3014613 + 0.01856236*Ep #Corrected for VPG2 on 2017/08/02 ---> Linear Vertical
     #                 gap = 11.2363888 + 0.01864200*Ep #Corrected for VPG2 at 930 eV on 2017/08/03 ---> Linear Vertical
@@ -137,7 +152,7 @@ class BeamEnergy(ScannableMotionBase):
                 elif self.pgmgratingselect.getPosition()=="VPG2":
                     #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
                     #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
-                    gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
+                    gap = 11.3543168 + 0.01888226*Ep  #Corrected for VPG2 at 930 eV on 2017/10/11
                 elif self.pgmgratingselect.getPosition()=="VPG3":
                     gap = 11.4731251 + 0.01873832*Ep #Corrected for VPG3 on 2017/10/09
                 else:
@@ -158,9 +173,9 @@ class BeamEnergy(ScannableMotionBase):
             raise ValueError("Required Soft X-Ray ID idgap is out side allowable bound (20, 70)!")
         return gap
         
-    def rawGetPosition(self):
+    def getPosition(self):
         '''returns the current position of the beam energy.'''
-        self.energy=self.pgmenergy.getPosition()
+        self.energy=float(self.pgmenergy.getPosition())
         return self.energy;
     
     def calc(self, energy, order):
