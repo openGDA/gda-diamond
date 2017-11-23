@@ -38,7 +38,7 @@ public class PowerCalulator {
 
 	private PowerCalulator() {}
 
-	public static final String REF_DATA_PATH = LocalProperties.getVarDir() + "powerCalculationData";
+	public static final String REF_DATA_PATH = DataPaths.getPowerCalculationDataPath();
 	// This needs be in sorted
 	public static final double[][] GAP_FIELD = {
 		{18.5,1.3},
