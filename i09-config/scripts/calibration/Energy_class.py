@@ -39,7 +39,7 @@ class BeamEnergy(ScannableMotionBase):
             self.order=3
         else:
             self.order=1
-        self.energy=self.scannables.getGroupMember(self.scannableNames[0]).getPosition()
+       
         self.polarisation='LH'
         if self.getName()=="jenergy":
             self.jidphase = finder.find("jidphase")
@@ -155,8 +155,7 @@ class BeamEnergy(ScannableMotionBase):
         
     def rawGetPosition(self):
         '''returns the current position of the beam energy.'''
-        self.energy=self.scannables.getGroupMember(self.scannableNames[0]).getPosition()
-        return self.energy;
+        return self.scannables.getGroupMember(self.scannableNames[0]).getPosition()
     
     def calc(self, energy, order):
         return self.idgap(energy, order)
@@ -165,17 +164,17 @@ class BeamEnergy(ScannableMotionBase):
         '''move beam energy to specified value.
         At the background this moves both ID gap and Mono Bragg to the values corresponding to this energy.
         If a child scannable can not be reached for whatever reason, it just prints out a message, then continue to next.'''
-        self.energy = float(new_position)
+        energy = float(new_position)
         gap = 7
         try:
             if self.getName() == "dummyenergy":
-                gap=self.energy
+                gap=energy
             else:
-                gap=self.idgap(self.energy, self.order)
+                gap=self.idgap(energy, self.order)
         except:
             raise
         if self.getName() == "ienergy":
-            if self.energy<self.eneryRangeForOrder(self.order)[0] or self.energy>self.eneryRangeForOrder(self.order)[1]:
+            if energy<self.eneryRangeForOrder(self.order)[0] or energy>self.eneryRangeForOrder(self.order)[1]:
                 raise ValueError("Requested photon energy is out of range for this harmonic!")
         for s in self.scannables.getGroupMembers():
             if s.getName() == self.gap:
@@ -187,13 +186,18 @@ class BeamEnergy(ScannableMotionBase):
             else:
                 try:
                     if s.getName() == "pgmenergy":
-                        s.asynchronousMoveTo(self.energy*1000)
+                        s.asynchronousMoveTo(energy*1000)
+                        # Allow time for s to become busy
+                        sleep(0.1)
                         # caput("BL09I-EA-DET-01:CAM:EXCITATION_ENERGY", self.energy*1000)
                     else:
-                        s.asynchronousMoveTo(self.energy)
+                        # dcmenergy
+                        s.asynchronousMoveTo(energy)
+                        # Allow time for s to become busy
+                        sleep(0.1)
                         # caput("BL09I-EA-DET-01:CAM:EXCITATION_ENERGY", self.energy*1000)
                 except:
-                    print "cannot set " + s.getName() + " to " + str(self.energy)
+                    print "cannot set " + s.getName() + " to " + str(energy)
                     raise
                 
     def rawIsBusy(self):
