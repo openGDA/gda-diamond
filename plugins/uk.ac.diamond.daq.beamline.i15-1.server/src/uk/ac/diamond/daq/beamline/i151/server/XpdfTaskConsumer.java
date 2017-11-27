@@ -20,8 +20,6 @@ package uk.ac.diamond.daq.beamline.i151.server;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.scanning.api.event.EventException;
 import org.eclipse.scanning.api.event.IEventService;
@@ -36,6 +34,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.configuration.properties.LocalProperties;
 import uk.ac.diamond.daq.beamline.i15.api.QueueConstants;
 import uk.ac.diamond.daq.beamline.i15.api.TaskBean;
 
@@ -53,8 +52,12 @@ public class XpdfTaskConsumer {
 
 	private IEventService eventService;
 
-	public IEventService getEventService() {
-		return eventService;
+	private IXpdfTaskRunner taskRunner;
+
+	@Reference
+	public void setTaskRunner(IXpdfTaskRunner taskRunner) {
+		this.taskRunner = taskRunner;
+		logger.debug("taskRunner set to: {}", taskRunner);
 	}
 
 	@Reference
@@ -68,11 +71,9 @@ public class XpdfTaskConsumer {
 		logger.info("Starting consumer");
 
 		try {
-			// FIXME Temp only for testing see
-			String url = "tcp://localhost:61616";
-			//String url = LocalProperties.getActiveMQBrokerURI();
+			final URI uri = new URI(LocalProperties.getActiveMQBrokerURI());
 
-			IConsumer<TaskBean> consumer = eventService.createConsumer(new URI(url));
+			IConsumer<TaskBean> consumer = eventService.createConsumer(uri);
 			consumer.setSubmitQueueName(QueueConstants.XPDF_TASK_QUEUE);
 			consumer.setRunner(new ProcessCreator());
 			consumer.setName("Task Consmer");
@@ -106,11 +107,11 @@ public class XpdfTaskConsumer {
 		public void execute() throws EventException, InterruptedException {
 			logger.info("Running Task: {}", taskBean);
 
-			// TODO here Need to access database to retrieve sample and experiment info
-			Map<String, String> taskConfig = new HashMap<>();
-			taskConfig.put("proposal_code", taskBean.getProposalCode());
-			taskConfig.put("proposal_number", Long.toString(taskBean.getProposalNumber()));
-			taskConfig.put("sample_id", Long.toString(taskBean.getSampleId()));
+			// Call the task runner with the parameters
+			taskRunner.runTask(taskBean.getProposalCode(),
+					taskBean.getProposalNumber(),
+					taskBean.getSampleId(),
+					taskBean.getDataCollectionPlanId());
 
 			logger.info("Finished running task: {}", taskBean);
 		}
