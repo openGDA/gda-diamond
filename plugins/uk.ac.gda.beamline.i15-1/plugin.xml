@@ -118,6 +118,12 @@
             name="Live Scan Status Queue View (Name)"
             restorable="true">
       </view>
+      <e4view
+            class="uk.ac.gda.beamline.i151.xpdf.ui.XpdfExperimentView"
+            id="uk.ac.gda.beamline.i15-1.xpdf.ui.submitview"
+            name="Experiement Submission"
+            restorable="true">
+      </e4view>
    </extension>
    <extension
          point="org.eclipse.ui.menus">

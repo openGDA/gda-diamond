@@ -43,4 +43,25 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="uk.ac.diamond.daq.beamline.i15-1.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.diamond.ispyb.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.commons.lang3"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
