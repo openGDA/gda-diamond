@@ -5,18 +5,22 @@
 
     <bean id="oh1_shutter_status" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="FE14I-PS-SHTR-02" />
-	</bean> 
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+	</bean>
 
     <bean id="oh2_shutter_status" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL14I-PS-SHTR-01" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
 	</bean>
 
     <bean id="oh3_shutter_status" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL14I-PS-SHTR-02" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
 	</bean>
 
     <bean id="eh2_nano_shutter_status" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL14I-PS-SHTR-03" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
 	</bean>
 
 </beans>
