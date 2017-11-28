@@ -16,8 +16,26 @@
 		<property name="motor" ref="SampleY_motor" />
 	</bean>
 
-	<bean id="SampleCoarseZ" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="SampleCoarseZ_motor" />
+	<bean id="SampleX_coarse" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SampleX_coarse_motor" />
+	</bean>
+
+	<bean id="SampleY_coarse" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SampleY_coarse_motor" />
+	</bean>
+
+	<bean id="SampleZ_coarse" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SampleZ_coarse_motor" />
+	</bean>
+
+	<bean id="SampleX_fine" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SampleX_fine_motor" />
+		<property name="level" value="6" />
+	</bean>
+
+	<bean id="SampleY_fine" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="SampleY_fine_motor" />
+		<property name="level" value="6" />
 	</bean>
 
 	<bean id="sample" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -25,7 +43,11 @@
 			<list>
 				<ref bean="SampleX" />
 				<ref bean="SampleY" />
-				<ref bean="SampleCoarseZ" />
+				<ref bean="SampleX_coarse" />
+				<ref bean="SampleY_coarse" />
+				<ref bean="SampleZ_coarse" />
+				<ref bean="SampleX_fine" />
+				<ref bean="SampleY_fine" />
 			</list>
 		</property>
 	</bean>
