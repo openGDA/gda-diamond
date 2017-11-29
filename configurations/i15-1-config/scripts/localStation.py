@@ -141,6 +141,17 @@ try:
 
         pass
 
+        from jythonRunnableDeviceDelegate import JythonRunnableDeviceDelegate
+
+        testRunnableDeviceProxyFinder = finder.find("testRunnableDeviceProxyFinder")
+        testRunnableDeviceProxy = testRunnableDeviceProxyFinder.getRunnableDevice()
+
+        testJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(testRunnableDeviceProxy)
+        testRunnableDeviceProxy.setDelegate(testJythonRunnableDeviceDelegate)
+        testRunnableDeviceProxy.register()
+
+        print "Configured test runnable device"
+
         print "*"*80
         print "Dummy mode specific setup - End"
         print "*"*80
