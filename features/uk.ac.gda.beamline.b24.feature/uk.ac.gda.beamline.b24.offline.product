@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Diamond Light Source Beamline B24" uid="uk.ac.gda.beamline.b24.product" id="uk.ac.gda.beamline.b24.product" application="uk.ac.gda.client.application" version="9.7.0" useFeatures="true" includeLaunchers="true">
+<product name="Diamond Light Source Beamline B24" uid="uk.ac.gda.beamline.b24.offline.product" id="uk.ac.gda.beamline.b24.product" application="uk.ac.gda.client.application" version="9.7.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
@@ -11,18 +11,18 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dgda.install.workspace.loc=/dls_sw/b24/software/gda/workspace
--Dgda.install.git.loc=/dls_sw/b24/software/gda/workspace_git
--Dgda.facility.dir=/dls_sw/b24/software/gda/workspace_git/gda-diamond.git/dls-config
--Dgda.core.dir=/dls_sw/b24/software/gda/workspace_git/gda-core.git/core-config
--Dgda.config=/dls_sw/b24/software/gda/config
--Dgda.group.config=/dls_sw/b24/software/gda/workspace_git/gda-mt.git/configurations/mt-config/
--Djava.library.path=/dls_sw/b24/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
--Dgda.propertiesFile=/dls_sw/b24/software/gda/config/properties/live/live_instance_java.properties
--Djacorb.config.dir=/dls_sw/b24/software/gda/config/properties/live/jacorb
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/b24/software/gda/config/properties/live/JCALibrary.properties
--Declipse.pluginCustomization=/dls_sw/b24/software/gda/workspace_git/gda-mt.git/uk.ac.gda.beamline.b24/plugin_customization.ini
--Dgda.mode=live
+      <vmArgs>-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..
+-Dgda.facility.dir=${project_loc:uk.ac.gda.dls/}/../dls-config
+-Dgda.core.dir=${project_loc:uk.ac.gda.core/}/../core-config
+-Dgda.config=${project_loc:b24-config}
+-Dgda.group.dir=${project_loc:mt-config}
+-Djava.library.path=${project_loc:uk.ac.gda.nexus)/lib/linux-x86_64
+-Dgda.propertiesFile=${project_loc:b24-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${project_loc:b24-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:b24-config}/properties/dummyJCALibrary.properties
+-Declipse.pluginCustomization=${project_loc:uk.ac.gda.core/}/../../gda-mt.git/uk.ac.gda.beamline.b24/plugin_customization.ini
+-Dgda.mode=dummy
 -Dgda.client.jython.automatic.interpreter=1
 -Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
@@ -30,8 +30,6 @@
 -Xms128m
 -Xmx1024m
 -XX:+DisableExplicitGC
--Xdebug
--Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=n
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

@@ -1,4 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
@@ -7,11 +8,22 @@
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-2.0.xsd
            http://www.diamond.ac.uk/schema/gda/corba
-           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+		   http://www.springframework.org/schema/context
+		   http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder/>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
+
+<!-- RMI export the plotserver (can remove this once mt-config uses plot_server.xml from core config...) -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/plotserver" />
+		<property name="service" ref="plot_server" />
+		<property name="serviceInterface" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
+	</bean>
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
 

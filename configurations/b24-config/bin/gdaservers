@@ -1,2 +1,2 @@
-#!/bin/bash
-gda --start all "$@"
+gda --start logpanel $@
+gda --debug --restart servers --force $@
