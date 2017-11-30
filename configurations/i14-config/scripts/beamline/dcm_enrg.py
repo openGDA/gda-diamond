@@ -140,7 +140,7 @@ class DCMpdq(ScannableMotionUnitsBase):
         #print "DCM move completed"
 
 
-    def handleMirrorMove(moveMirror, best_stripe):
+    def handleMirrorMove(self, moveMirror, best_stripe):
         if(moveMirror):
             self.moveMirrorStripe(best_stripe)
         else:
