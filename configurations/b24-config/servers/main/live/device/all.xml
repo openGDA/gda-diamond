@@ -11,4 +11,15 @@
 	<import resource="eslit.xml" />
 	<import resource="diagnostics.xml" />
 	<import resource="pgm.xml" />
+
+	<import resource="cam1.xml" />
+	<import resource="cam2.xml" />
+	<import resource="cam3.xml" />
+	<import resource="cam4.xml" />
+	<import resource="cam5.xml" />
+	<import resource="cam6.xml" />
+	<import resource="cam7.xml" />
+	
+	<import resource="s1.xml" />
+
 </beans>

@@ -18,6 +18,11 @@
 		<property name="useNameAsInputName" value="true" />
 	</bean>
 
+	<bean id="d6filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
+	  <property name="pvBase" value="BL24B-DI-PHDGN-02:MP" />
+	  <property name="local" value="true" />
+	</bean>
+
 	<bean id="d7" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL24B-DI-PHDGN-03:P:SETVALUE2" />
 		<property name="useNameAsInputName" value="true" />
@@ -41,5 +46,10 @@
 	<bean id="d7_d" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL24B-DI-IAMP-04:CHD:PEAK" />
 		<property name="local" value="true" />
+	</bean>
+
+	<bean id="d7filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
+	  <property name="pvBase" value="BL24B-DI-PHDGN-03:MP" />
+	  <property name="local" value="true" />
 	</bean>
 </beans>
