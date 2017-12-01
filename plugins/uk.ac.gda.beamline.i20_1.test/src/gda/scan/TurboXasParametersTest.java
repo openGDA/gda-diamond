@@ -43,6 +43,8 @@ public class TurboXasParametersTest {
 	static final String calibrationPoly = "1000 + 1000*x + 20x^2";
 
 	static final double calibrationMinPos = -5, calibrationMaxPos = 5;
+	static final String calibrationRefFilename = "reference_file.txt";
+	static final String calibrationSampleFilename = "sample_file.txt";
 
 	static final String group1Name ="first group";
 	static final double group1TimePerSpectrum = 5.0, group1TimeBetweenSpectra = 10.0;
@@ -68,6 +70,8 @@ public class TurboXasParametersTest {
 		parameters.setEnergyCalibrationPolynomial( calibrationPoly );
 		parameters.setEnergyCalibrationMinPosition(calibrationMinPos);
 		parameters.setEnergyCalibrationMaxPosition(calibrationMaxPos);
+		parameters.setEnergyCalibrationFile(calibrationSampleFilename);
+		parameters.setEnergyCalibrationReferenceFile(calibrationRefFilename);
 
 		parameters.addTimingGroup( new TurboSlitTimingGroup(group1Name, group1TimePerSpectrum, group1TimeBetweenSpectra, group1NumSpectra) );
 		parameters.addTimingGroup( new TurboSlitTimingGroup(group2Name, group2TimePerSpectrum, group2TimeBetweenSpectra, group2NumSpectra) );
@@ -222,11 +226,13 @@ public class TurboXasParametersTest {
 						"  <energyCalibrationPolynomial>"+calibrationPoly+"</energyCalibrationPolynomial>\n" +
 						"  <energyCalibrationMinPosition>"+TurboXasParameters.doubleToString(calibrationMinPos)+"</energyCalibrationMinPosition>\n" +
 						"  <energyCalibrationMaxPosition>"+TurboXasParameters.doubleToString(calibrationMaxPos)+"</energyCalibrationMaxPosition>\n" +
+						"  <energyCalibrationReferenceFile>"+calibrationRefFilename+"</energyCalibrationReferenceFile>\n" +
+						"  <energyCalibrationFile>"+calibrationSampleFilename+"</energyCalibrationFile>\n" +
 						"  <motorToMove>"+defaultMotorToMove+"</motorToMove>\n"+
 						"  <detectors>\n"+
-					    "    <string>"+defaultDetector+"</string>\n"+
-					    "  </detectors>\n"+
-					    "  <useTrajectoryScan>"+defaultUseTrajectoryScan+"</useTrajectoryScan>\n"+
+						"    <string>"+defaultDetector+"</string>\n"+
+						"  </detectors>\n"+
+						"  <useTrajectoryScan>"+defaultUseTrajectoryScan+"</useTrajectoryScan>\n"+
 						"  <TimingGroup>\n" +
 						"    <name>"+group1Name+"</name>\n" +
 						"    <timePerSpectrum>"+TurboXasParameters.doubleToString(group1TimePerSpectrum)+"</timePerSpectrum>\n" +

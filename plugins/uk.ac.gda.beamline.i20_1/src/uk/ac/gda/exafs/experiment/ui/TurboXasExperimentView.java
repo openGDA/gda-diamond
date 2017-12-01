@@ -19,12 +19,24 @@
 package uk.ac.gda.exafs.experiment.ui;
 
 
+
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.dawnsci.ede.EnergyCalibration;
+import org.dawnsci.ede.PolynomialParser;
+import org.dawnsci.ede.rcp.herebedragons.EnergyCalibrationWizard;
+import org.eclipse.january.dataset.Dataset;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -56,11 +68,14 @@ import gda.device.detector.BufferedDetector;
 import gda.factory.Finder;
 import gda.jython.IJythonServerStatusObserver;
 import gda.jython.InterfaceProvider;
+import gda.scan.Scan.ScanStatus;
 import gda.scan.ScanEvent;
 import gda.scan.TurboSlitTimingGroup;
 import gda.scan.TurboXasMotorParameters;
 import gda.scan.TurboXasParameters;
 import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.exafs.calibration.ui.EDECalibrationSection;
+import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.data.EdeDataStore;
 import uk.ac.gda.exafs.experiment.ui.TurboXasTimingGroupTableView.TimingGroupParamType;
 
@@ -88,6 +103,8 @@ public class TurboXasExperimentView extends ViewPart {
 	private Text energyCalibrationPolyTextbox;
 	private Text energyCalibrationPolyMinPositionTextbox;
 	private Text energyCalibrationPolyMaxPositionTextbox;
+	private Text energyCalibrationFileTextbox;
+	private String lastScanFilename = "";
 
 	private TurboXasTimingGroupTableView timingGroupTable;
 	private TurboXasParameters turboXasParameters; // parameters being viewed in gui
@@ -103,6 +120,8 @@ public class TurboXasExperimentView extends ViewPart {
 	private Button[] detectorCheckboxes;
 
 	private Button useTrajectoryScanButton;
+
+	private Button startScanButton;
 
 	private Shell shell;
 
@@ -129,19 +148,36 @@ public class TurboXasExperimentView extends ViewPart {
 		parent.addDisposeListener(disposeEvent -> updateParametersFromGui());
 	}
 
-	final IJythonServerStatusObserver serverObserver = new IJythonServerStatusObserver() {
-		@Override
-		public void update(Object theObserved, final Object changeCode) {
-			Display.getDefault().asyncExec(new Runnable() {
-				@Override
-				public void run() {
-					if (changeCode instanceof ScanEvent) {
-						//TODO Update to show progress of scan
-					}
+	/**
+	 * Store the last scan filename, update widgets in gui in response to scan starts/stop status.
+	 */
+	final IJythonServerStatusObserver serverObserver = (theObserved, changeCode) -> Display.getDefault().asyncExec(() -> {
+		if (changeCode instanceof ScanEvent) {
+			ScanEvent scanEvent = (ScanEvent) changeCode;
+			ScanStatus status = scanEvent.getLatestStatus();
+			logger.debug("ScanEvent = {}, ScanStatus = {}",changeCode.toString(), status.toString());
+			if (status.isRunning()) {
+				String nexusFilename = scanEvent.getLatestInformation().getFilename();
+				if (!StringUtils.isEmpty(nexusFilename)) {
+					lastScanFilename = nexusFilename;
 				}
-			});
+				updateWidgets(true);
+			} else if (status.isComplete() || status.isAborting()) {
+				updateWidgets(false);
+			}
 		}
-	};
+	});
+
+	/**
+	 * Update widgets when scan is running/stopped
+	 * @param scanIsRunning
+	 */
+	private void updateWidgets(boolean scanIsRunning) {
+		if (!StringUtils.isEmpty(lastScanFilename)) {
+			energyCalibrationFileTextbox.setToolTipText("Last scan : " + lastScanFilename);
+		}
+		startScanButton.setEnabled(!scanIsRunning);
+	}
 
 	protected void createSections(final SashForm parent) {
 		Composite composite = new Composite(parent, SWT.None);
@@ -156,6 +192,7 @@ public class TurboXasExperimentView extends ViewPart {
 
 		scrolledform.setText("Turbo XAS experiment setup");
 		createSampleNameEnergySections(form.getBody());
+		createEnergyCalibrationSection(form.getBody());
 		createTimingGroupSection(form.getBody());
 		createHardwareOptionsSection(form.getBody());
 		createLoadSaveSection(form.getBody());
@@ -231,12 +268,22 @@ public class TurboXasExperimentView extends ViewPart {
 	}
 
 	private Text makeLabelAndTextBox(Composite parent, String labelText) {
+		return makeLabelAndTextBox(parent, labelText, SWT.BORDER);
+	}
+
+	private Text makeLabelAndTextBox(Composite parent, String labelText, int style) {
 		makeLabel(parent, labelText);
 
-		Text textBox = toolkit.createText(parent, "", SWT.BORDER);
+		Text textBox = toolkit.createText(parent, "", style);
 		textBox.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
 		return textBox;
+	}
+
+	private Button makeButton(Composite parent, String label) {
+		Button button = toolkit.createButton(parent, label, SWT.PUSH);
+		button.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		return button;
 	}
 
 	private Composite makeSectionAndComposite(Composite parent, String sectionName, int numColumns) {
@@ -282,6 +329,14 @@ public class TurboXasExperimentView extends ViewPart {
 		}
 	}
 
+	private void setWidthHint(Control controlWidget, int widthHint) {
+		Object layoutData = controlWidget.getLayoutData();
+		if (layoutData instanceof GridData) {
+			GridData grid = (GridData) layoutData;
+			grid.widthHint = widthHint;
+		}
+	}
+
 	/**
 	 * Create timing group section part of GUI. The {@link TurboXasTimingGroupTableView} is used for this (based on JFace {@link TableViewer}).
 	 * @param parent
@@ -306,12 +361,10 @@ public class TurboXasExperimentView extends ViewPart {
 	 */
 	private void addGroupAddRemoveButtons(Composite parent) {
 		Composite mainComposite = makeSectionAndComposite(parent, "", 4);
-		Button addGroupButton = new Button(mainComposite, SWT.PUSH);
-		addGroupButton.setText("Add timing group");
+		Button addGroupButton = makeButton(mainComposite, "Add timing group");
 		addGroupButton.setToolTipText("Add new timing group");
 
-		Button removeGroupButton = new Button(mainComposite, SWT.PUSH);
-		removeGroupButton.setText("Remove timing group");
+		Button removeGroupButton = makeButton(mainComposite, "Remove timing group");
 		removeGroupButton.setToolTipText("Remove timing group(s) currently highlighted in table");
 
 		// Add new timing group to model, update the table
@@ -352,11 +405,118 @@ public class TurboXasExperimentView extends ViewPart {
 		energyStepsizeTextbox = makeLabelAndTextBox(mainComposite, "Energy step size");
 		addEmptyLabels(mainComposite, 2);
 
+	}
+
+	private void createEnergyCalibrationSection(Composite parent) {
 		Composite energyCalPolyComposite = makeSectionAndComposite(parent, "Energy calibration polynomial", 4);
 		energyCalibrationPolyTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Energy calibration polynomial");
 		setRowSpan(energyCalibrationPolyTextbox, 3);
 		energyCalibrationPolyMinPositionTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Min Position");
 		energyCalibrationPolyMaxPositionTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Max Position");
+
+		// Non user editable - set from EnergyCalibrationWizard
+		energyCalibrationPolyTextbox.setEditable(false);
+		energyCalibrationPolyMinPositionTextbox.setEditable(false);
+		energyCalibrationPolyMaxPositionTextbox.setEditable(false);
+
+		energyCalibrationFileTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Energy calibration file", SWT.BORDER | SWT.RIGHT);
+		setRowSpan(energyCalibrationFileTextbox, 2);
+		// If using long path, then textbox is made very wide and it *doesn't shrink* to fit smaller window.
+		// Set widthhint on gridlayout to something small to make it the box small initially, and have normal resize behaviour.
+		setWidthHint(energyCalibrationFileTextbox, 100);
+
+		Composite buttonComposite = toolkit.createComposite(energyCalPolyComposite, SWT.NONE);
+		buttonComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		buttonComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+
+		Button runCalibrationButton = makeButton(buttonComposite, "Run energy Calibration");
+		runCalibrationButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				openEnergyCalibrationDialog(energyCalPolyComposite);
+			}
+		});
+	}
+
+	private void openEnergyCalibrationDialog(final Composite parent) {
+
+		// Get name of reference file from Alignment parameters.
+		// Opening the 'Optics' view in Alignment perspective case would normally load settings from preference store
+		// Load preferences here, to get element and edge values for reference file in case that view hasn't been opened...
+		AlignmentParametersModel.INSTANCE.loadAlignmentParametersFromStore();
+		String referenceDataFileName = EDECalibrationSection.getCurrentReferenceDataPath();
+		String energyCalPolynomialString = energyCalibrationPolyTextbox.getText();
+
+		// Set name of sample file, use nexus file from last run scan if not set
+		String sampleFileName = energyCalibrationFileTextbox.getText();
+		if (StringUtils.isEmpty(sampleFileName)) {
+			sampleFileName = lastScanFilename; //might be empty/null
+		}
+		EnergyCalibration calibrationModel = new EnergyCalibration();
+		try {
+			String message = "";
+			if (StringUtils.isEmpty(referenceDataFileName) || !new File(referenceDataFileName).isFile() ) {
+				message += "Reference data " + referenceDataFileName + " was not found.\n";
+			} else {
+				calibrationModel.setRefData(referenceDataFileName);
+			}
+
+			if (StringUtils.isEmpty(sampleFileName) || !new File(sampleFileName).isFile() ) {
+				message += "Sample data " + sampleFileName + " was not found.\n";
+			} else {
+				calibrationModel.setSampleData(sampleFileName);
+			}
+
+			// Show warning message, but still display calibration tool if data cannot be set automatically
+			if (message.length() > 0) {
+				UIHelper.showWarning("Unable to set input for energy calibration tool automatically", message);
+			}
+
+			// Try to set the initial energy calibration polynomial
+			if (!StringUtils.isEmpty(energyCalPolynomialString)) {
+				try {
+					PolynomialFunction poly = new PolynomialFunction(PolynomialParser.extractCoefficientsFromString(energyCalPolynomialString));
+					calibrationModel.getCalibrationDetails().setCalibrationResult(poly);
+				} catch(NullArgumentException | NoDataException ex) {
+					logger.warn("Problem setting polynomial function from string {}", energyCalPolynomialString);
+				}
+			}
+
+			WizardDialog wizardDialog = new WizardDialog(parent.getShell(),
+					new EnergyCalibrationWizard(calibrationModel)) {
+				@Override
+				protected void createButtonsForButtonBar(Composite parent) {
+					super.createButtonsForButtonBar(parent);
+					this.getButton(IDialogConstants.FINISH_ID).setText("Apply Calibration");
+					((GridData) this.getButton(IDialogConstants.FINISH_ID).getLayoutData()).widthHint = 200;
+					this.getButton(IDialogConstants.FINISH_ID).getParent().layout();
+				}
+			};
+
+			wizardDialog.setPageSize(1024, 768);
+			if (wizardDialog.open() == Window.OK) {
+				PolynomialFunction function = calibrationModel.getCalibrationDetails().getCalibrationResult();
+
+				if (calibrationModel.getCalibrationDetails().getCalibrationResult() != null) {
+					logger.info("Updating energy calibration polynomial details : function = {}", function.toString());
+					turboXasParameters.setEnergyCalibrationPolynomial(function.toString());
+					turboXasParameters.setEnergyCalibrationReferenceFile(calibrationModel.getRefData().getFileName());
+					turboXasParameters.setEnergyCalibrationFile(calibrationModel.getSampleData().getFileName());
+					Dataset positions = calibrationModel.getSampleData().getEnergyNode();
+					if (positions != null) {
+						double minPos = positions.min().doubleValue();
+						double maxPos = positions.max().doubleValue();
+						turboXasParameters.setEnergyCalibrationMinPosition(minPos);
+						turboXasParameters.setEnergyCalibrationMaxPosition(maxPos);
+						logger.info("Calibration polynomial range );range = {} .. {}", minPos, maxPos);
+					}
+
+					updateGuiFromParameters();
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Unable to perform energy calibration", e);
+		}
 	}
 
 	/**
@@ -391,8 +551,7 @@ public class TurboXasExperimentView extends ViewPart {
 
 		new SaveLoadButtonsForTurboXasExperiment(mainComposite, toolkit);
 
-		Button startScanButton = toolkit.createButton(mainComposite, "Start scan", SWT.PUSH);
-		startScanButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		startScanButton = makeButton(mainComposite, "Start scan");
 		startScanButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -407,7 +566,7 @@ public class TurboXasExperimentView extends ViewPart {
 	}
 
 	private void addShowMotorParametersButton(Composite parent) {
-		Button showMotorParamButton = toolkit.createButton(parent, "Show motor parameters...", SWT.PUSH);
+		Button showMotorParamButton = makeButton(parent, "Show motor parameters...");
 		showMotorParamButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -517,6 +676,12 @@ public class TurboXasExperimentView extends ViewPart {
 		energyCalibrationPolyMinPositionTextbox.setText(String.valueOf(turboXasParameters.getEnergyCalibrationMinPosition()));
 		energyCalibrationPolyMaxPositionTextbox.setText(String.valueOf(turboXasParameters.getEnergyCalibrationMaxPosition()));
 
+		energyCalibrationFileTextbox.setText(turboXasParameters.getEnergyCalibrationFile());
+		energyCalibrationFileTextbox.setToolTipText(turboXasParameters.getEnergyCalibrationFile()); // so can see full by by hovering with mouse
+
+		// move cursor to end of text field, so filename can be seen in box (not just the leading directories in the fullpath...)
+		energyCalibrationFileTextbox.setSelection(energyCalibrationFileTextbox.getText().length());
+
 		int selectionIndex = motorCombo.indexOf(turboXasParameters.getMotorToMove());
 		motorCombo.select(Math.max(selectionIndex, 0));
 
@@ -526,6 +691,12 @@ public class TurboXasExperimentView extends ViewPart {
 			boolean selected = selectedDetectors.contains(box.getText());
 			box.setSelection(selected);
 		}
+
+		// Set tooltip on energy calibration polynomial to shows calibration energy range
+		TurboXasMotorParameters motorParams = getMotorParameters();
+		double minEnergy = motorParams.getEnergyForPosition(turboXasParameters.getEnergyCalibrationMinPosition());
+		double maxEnergy = motorParams.getEnergyForPosition(turboXasParameters.getEnergyCalibrationMaxPosition());
+		energyCalibrationPolyTextbox.setToolTipText(String.format("Energy range : %.5g ... %.5g ev", minEnergy, maxEnergy));
 
 		updatingGuiFromParameters = false;
 	}
@@ -551,6 +722,7 @@ public class TurboXasExperimentView extends ViewPart {
 		turboXasParameters.setEnergyCalibrationPolynomial(energyCalibrationPolyTextbox.getText());
 		turboXasParameters.setEnergyCalibrationMinPosition(getDoubleFromTextbox(energyCalibrationPolyMinPositionTextbox));
 		turboXasParameters.setEnergyCalibrationMaxPosition(getDoubleFromTextbox(energyCalibrationPolyMaxPositionTextbox));
+		turboXasParameters.setEnergyCalibrationFile(energyCalibrationFileTextbox.getText());
 
 		turboXasParameters.setUseTrajectoryScan(useTrajectoryScanButton.getSelection());
 		turboXasParameters.setDetectors(getSelectedDetectors());

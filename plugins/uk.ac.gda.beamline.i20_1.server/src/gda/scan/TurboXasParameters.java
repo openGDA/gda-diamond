@@ -71,6 +71,13 @@ public class TurboXasParameters {
 
 	private double energyCalibrationMaxPosition;
 
+	/** Full path to reference data file used to perform the energy-position calibration */
+	private String energyCalibrationReferenceFile;
+
+	/** Full path to data file of measurement used to perform the energy-position calibration */
+	private String energyCalibrationFile;
+
+	
 	/**
 	 * Name of scannable motor to be moved during the scan. This scannable should implement {@link ContinuouslyScannable} interface.
 	 */
@@ -110,6 +117,8 @@ public class TurboXasParameters {
 		energyCalibrationPolynomial = "";
 		energyCalibrationMinPosition = 900;
 		energyCalibrationMaxPosition = 3000;
+		energyCalibrationReferenceFile = "";
+		energyCalibrationFile = "";
 		sampleName = "Default sample name";
 		startEnergy=1000; endEnergy=2000; energyStepSize=10;
 		timingGroups = new ArrayList<TurboSlitTimingGroup>();
@@ -220,6 +229,28 @@ public class TurboXasParameters {
 
 	public void setUseTrajectoryScan(boolean useTrajectoryScan) {
 		this.useTrajectoryScan = useTrajectoryScan;
+	}
+
+	/**
+	 * @return Name of calibration file used as reference data during energy calibration.
+	 */
+	public String getEnergyCalibrationReferenceFile() {
+		return energyCalibrationReferenceFile;
+	}
+
+	public void setEnergyCalibrationReferenceFile(String energyCalibrationReferenceFile) {
+		this.energyCalibrationReferenceFile = energyCalibrationReferenceFile;
+	}
+
+	/**
+	 * @return Name of scan file used during energy calibration.
+	 */
+	public String getEnergyCalibrationFile() {
+		return energyCalibrationFile;
+	}
+
+	public void setEnergyCalibrationFile(String energyCalibrationFile) {
+		this.energyCalibrationFile = energyCalibrationFile;
 	}
 
 	public TurboXasMotorParameters getMotorParameters() {
