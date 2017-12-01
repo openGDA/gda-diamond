@@ -81,6 +81,19 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
+	<bean id="xspress3elementConfig" class=" uk.ac.gda.exafs.ui.composites.detectors.internal.FluoDetectorElementConfig">
+		<property name="name" value="xspress3elementConfig" />
+		<property name="detectorName" value="xspress3" />
+		<property name="elementMap">
+			<map>
+				<entry key="0" value="0" />
+				<entry key="1" value="3" />
+				<entry key="2" value="1" />
+				<entry key="3" value="2" />
+			</map>
+		</property>
+	</bean>
+
 	<import resource="file:${gda.config}/clients/main/_common/AlignmentPerspectiveCompositeFactories.xml" />
 
 </beans>
