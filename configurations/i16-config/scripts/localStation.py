@@ -830,6 +830,29 @@ from scannable.pilatus import PilatusThreshold, PilatusGain
 pil100kthresh = PilatusThreshold('pil100kthresh', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 pil100kgain = PilatusGain('pil100kgain', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 
+_pilatus3_counter_monitor = Finder.getInstance().find("pilatus3_plugins").get('pilatus3_counter_monitor')
+#pil3_100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil3_100k',
+pil3_100k = NxProcessingDetectorWrapper('pil3_100k',
+		pilatus3,
+		pilatus3_hardware_triggered,
+		pilatus3_for_snaps,
+		[],
+		panel_name='Pilatus3_100k',
+		panel_name_rcp='Plot 1',
+		toreplace=None,
+		replacement=None,
+		iFileLoader=PilatusTiffLoader,
+		fileLoadTimout=60,
+		returnPathAsImageNumberOnly=True,
+		array_monitor_for_hardware_triggering = _pilatus3_counter_monitor)
+pil3_100k.processors=[DetectorDataProcessorWithRoi('max', pil3_100k, [SumMaxPositionAndValue()], False)]
+pil3_100k.printNfsTimes = False
+pil3_100ks = DetectorWithShutter(pil3_100k, x1)
+pil3 = pil3_100k
+pil3s = pil3_100ks
+
+pil3_100kthresh = PilatusThreshold('pil3_100kthresh', pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
+
 
 ### cam2 ###
 cor = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor',
