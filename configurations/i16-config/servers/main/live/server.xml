@@ -63,6 +63,7 @@
 	<import resource="epics/detector/struck.xml" />
 	<import resource="epics/detector/vortex.xml" />
 	<import resource="epics/detector/pilatus100k.xml" />
+	<import resource="epics/detector/pilatus3_100k.xml" />
 <!-- 	<import resource="epics/detector/fastpil1.xml" /> -->
 	<import resource="epics/detector/pilatus2M.xml" />
 	<import resource="epics/detector/andor1.xml" />
