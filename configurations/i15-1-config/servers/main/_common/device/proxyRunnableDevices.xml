@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<description>
+		This contains the proxy runnable device definitions. They are common between live and dummy modes.
+	</description>
+
+	<bean id="metadataRunnableDeviceProxyModel"
+			class="org.eclipse.scanning.api.device.models.GenericModel">
+		<property name="name"              value="metadata"/>
+	</bean>
+	<bean id="metadataRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="metadata"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.metadataRunnableDeviceProxyInfo"/>
+		<property name="label"             value="Metadata Proxy (metadataRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="Metadata Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="metadataRunnableDeviceProxy"
+			class="org.eclipse.scanning.sequencer.RunnableDeviceProxy">
+		<property name="name"              value="metadata"/>
+		<property name="model"             ref="metadataRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="metadataRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="metadataRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="metadataRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="metadataRunnableDeviceProxy"/>
+	</bean>
+
+	<bean id="cryojetRunnableDeviceProxyModel"
+			class="org.eclipse.scanning.api.device.models.GenericModel">
+		<property name="name"              value="cryojet"/>
+	</bean>
+	<bean id="cryojetRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="cryojet"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.cryojetRunnableDeviceProxyInfo"/>
+		<property name="label"             value="Cryojet Proxy (cryojetRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="Cryojet Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="cryojetRunnableDeviceProxy"
+			class="org.eclipse.scanning.sequencer.RunnableDeviceProxy">
+		<property name="name"              value="cryojet"/>
+		<property name="model"             ref="cryojetRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="cryojetRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="cryojetRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="cryojetRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="cryojetRunnableDeviceProxy"/>
+	</bean>
+
+	<bean id="xtalRunnableDeviceProxyModel"
+			class="org.eclipse.scanning.api.device.models.GenericModel">
+		<property name="name"              value="xtal"/>
+	</bean>
+	<bean id="xtalRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="xtal"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.xtalRunnableDeviceProxyInfo"/>
+		<property name="label"             value="Xtal Proxy (xtalRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="Xtal Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="xtalRunnableDeviceProxy"
+			class="org.eclipse.scanning.sequencer.RunnableDeviceProxy">
+		<property name="name"              value="xtal"/>
+		<property name="model"             ref="xtalRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="xtalRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="xtalRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="xtalRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="xtalRunnableDeviceProxy"/>
+	</bean>
+
+	<bean id="positionerRunnableDeviceProxyModel"
+			class="org.eclipse.scanning.api.device.models.GenericModel">
+		<property name="name"              value="positioner"/>
+	</bean>
+	<bean id="positionerRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="positioner"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.positionerRunnableDeviceProxyInfo"/>
+		<property name="label"             value="Positioner Proxy (positionerRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="Positioner Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="positionerRunnableDeviceProxy"
+			class="org.eclipse.scanning.sequencer.RunnableDeviceProxy">
+		<property name="name"              value="positioner"/>
+		<property name="model"             ref="positionerRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="positionerRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="positionerRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="positionerRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="positionerRunnableDeviceProxy"/>
+	</bean>
+</beans>
