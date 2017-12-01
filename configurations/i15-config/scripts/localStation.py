@@ -284,7 +284,9 @@ try:
 		d7=diodeFactory("d7", "PHDGN7")
 		d8=diodeFactory("d8", "PHDGN8")
 		d9=diodeFactory("d9", "PHDGN9")
-		
+		d10=diodeFactory("d10", "PHDGN10")
+		d11=diodeFactory("d11", "PHDGN11")
+
 		simpleLog("Create diode ratios")
 		d2_d1 = Simple_PD_Ratio('d2_d1', d2, d1)
 		d3_d2 = Simple_PD_Ratio('d3_d2', d3, d2)
