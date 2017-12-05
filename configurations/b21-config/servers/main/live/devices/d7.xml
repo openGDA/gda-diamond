@@ -26,6 +26,7 @@
 		<property name="scalingAndOffset" ref="bsdiodegain" />
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
+		<property name="autoGain" value="false" />
 		<property name="pvProvider">
 			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
 				<property name="deviceName" value="D7.AMP" />
