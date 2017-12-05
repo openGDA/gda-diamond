@@ -24,9 +24,13 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
-		<property name="service" ref="plot_server" />
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="uk.ac.diamond.scisoft.analysis.PlotServerProvider.setPlotServer" />
+		<property name="arguments">
+			<list>
+				<ref bean="plot_server" />
+			</list>
+		</property>
 	</bean>
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
