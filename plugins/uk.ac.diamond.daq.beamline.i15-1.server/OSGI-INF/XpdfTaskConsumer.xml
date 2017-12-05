@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="startConsumer" name="XpdfTaskConsumer">
    <reference bind="setEventService" interface="org.eclipse.scanning.api.event.IEventService" name="EventService"/>
+   <reference bind="setTaskRunner" interface="uk.ac.diamond.daq.beamline.i151.server.IXpdfTaskRunner" name="TaskRunner"/>
    <implementation class="uk.ac.diamond.daq.beamline.i151.server.XpdfTaskConsumer"/>
 </scr:component>

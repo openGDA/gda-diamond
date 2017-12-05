@@ -44,8 +44,6 @@ import uk.ac.diamond.ispyb.api.Sample;
 public class XpdfTaskRunner implements IXpdfTaskRunner {
 	private static final Logger logger = LoggerFactory.getLogger(XpdfTaskRunner.class);
 
-	private final Jython jython = Finder.getInstance().find(Jython.SERVER_NAME);
-
 	/** The name of the Jython function  to call to start the experiment */
 	private static final String JYTHON_FUNCTION_NAME = "xpdf_runner";
 
@@ -86,13 +84,22 @@ public class XpdfTaskRunner implements IXpdfTaskRunner {
 		final PyObject[] jythonArgs = new PyObject[]{PyJavaType.wrapJavaObject(sample), PyJavaType.wrapJavaObject(dataCollectionPlans)};
 
 		// Get the function to call
-		final PyObject taskRunner = jython.eval(JYTHON_FUNCTION_NAME);
+		final PyObject taskRunner = getJython().eval(JYTHON_FUNCTION_NAME);
 
 		logger.info("Calling '{}'", JYTHON_FUNCTION_NAME);
 		logger.info("Args: {}", (Object[]) jythonArgs);
 		// Call the function arguments blocking
 		taskRunner.__call__(jythonArgs);
 		logger.info("Finished running: {}", (Object[]) jythonArgs);
+	}
+
+	/**
+	 * Gets the Jython interpreter lazily. This is needed because the class is instantiated by OSGi before Jython is ready.
+	 *
+	 * @return The Jython instance
+	 */
+	private Jython getJython() {
+		return Finder.getInstance().find(Jython.SERVER_NAME);
 	}
 
 	@Reference(cardinality=ReferenceCardinality.MANDATORY)
