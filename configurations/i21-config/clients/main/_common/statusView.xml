@@ -72,14 +72,14 @@
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="ringCurrent" />
-								<property name="label" value="Ring Current" />
+								<property name="label" value="Current" />
 								<property name="units" value="mA" />
 								<property name="decimalPlaces" value="2" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="timeToRefill" />
-								<property name="label" value="Time to refill" />
+								<property name="label" value="Refill" />
 								<property name="units" value="s" />
 								<property name="decimalPlaces" value="0" />
 							</bean>
@@ -95,20 +95,13 @@
 				</bean>
 				<bean class="gda.rcp.views.GroupCompositeFactory">
 					<property name="label" value="Beamline" />
-					<property name="columns" value="2" />
+					<property name="columns" value="1" />
 					<property name="compositeFactories">
 						<list>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="m4femto1" />
-								<property name="label" value="M4 Femto1" />
-								<property name="units" value="Amp" />
-								<property name="decimalPlaces" value="3" />
-							</bean>
-							<bean
-								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="m4femto2" />
-								<property name="label" value="M4 Femto2 " />
+								<property name="label" value="M4_C1" />
 								<property name="units" value="Amp" />
 								<property name="decimalPlaces" value="3" />
 							</bean>
