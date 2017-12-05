@@ -3,12 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+
 	<description>
 	This uses the simulated AD to pretend to be the MCP camera on i05-1. To use this file the simulated AD must be running 
 	</description>
-	
-	<bean id="mcp_total" class="gda.device.scannable.DummyScannable" />
 
 	<bean id="mcp_gain" class="gda.device.scannable.DummyScannable" />
 	
@@ -29,7 +27,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<import resource="adSimulator.xml"/>
 
 </beans>
