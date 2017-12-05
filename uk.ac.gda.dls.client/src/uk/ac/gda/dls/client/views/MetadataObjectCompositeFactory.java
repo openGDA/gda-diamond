@@ -28,7 +28,7 @@ import gda.observable.IObserver;
 import gda.rcp.views.CompositeFactory;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -83,7 +83,7 @@ public class MetadataObjectCompositeFactory implements CompositeFactory, Initial
 			throw new IllegalArgumentException("comboChoices is null when style set to " + COMBOBOX_STYLE);
 		}
 
-		ArrayList<IMetadataEntry> entries = GDAMetadataProvider.getInstance().getMetadataEntries();
+		List<IMetadataEntry> entries = GDAMetadataProvider.getInstance().getMetadataEntries();
 
 		for (IMetadataEntry entry : entries) {
 			if (entry.getName().equals(metadataName)) {
