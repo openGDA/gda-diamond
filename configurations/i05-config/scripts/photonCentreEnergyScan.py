@@ -24,13 +24,13 @@ def calculate_hv_scan_values(hv_start, hv_end, hv_step, start_centre_energy, cen
     print "Steps: {0}".format(number_of_steps)
 
     hv = float(hv_start)
+    if hv_end < hv_start:
+        hv_step *= -1
+
     for i in range(number_of_steps):
         tuple_list.append((hv, centre_energy_hv_function_name(hv)
         + constant))
-        if hv_end > hv_start:
-            hv += hv_step
-        else:
-            hv -= hv_step
+        hv += hv_step
 
     tuples = tuple(tuple_list)
     insert_into_namespace("energy_points", tuples)
