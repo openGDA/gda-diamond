@@ -228,7 +228,7 @@ public class TurboXasScan extends ContinuousScan {
 		detectorReadoutThread.start();
 
 		// Wait while trajectory scan runs...
-		while(trajScanPreparer.getExecuteProfileState()=="Executing") {
+		while(trajScanPreparer.getExecuteProfileState().equals("Executing")) {
 			Thread.sleep(500);
 		}
 
@@ -250,7 +250,7 @@ public class TurboXasScan extends ContinuousScan {
 			detector.stop();
 		}
 		try {
-			nexusTree.addTimeAxis(getDataWriter().getCurrentFileName(), getScanDetectors()[0].getName());
+			nexusTree.addDataAtEndOfScan(getDataWriter().getCurrentFileName(), getScanDetectors());
 		} catch (Exception e) {
 			logger.warn("Problem adding time axis data at end of scan", e);
 		}
@@ -832,5 +832,9 @@ public class TurboXasScan extends ContinuousScan {
 	 * (should be less than total than can be stored by tfg, typically <1million **/
 	public void setMaxNumScalerFramesPerCycle(int maxNumScalerFramesPerCycle) {
 		this.maxNumScalerFramesPerCycle = maxNumScalerFramesPerCycle;
+	}
+
+	public int getCurrentPointCount() {
+		return currentPointCount;
 	}
 }

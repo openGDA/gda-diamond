@@ -20,9 +20,13 @@ package gda.scan;
 
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.nexus.NexusException;
 import org.junit.Before;
 import org.junit.Test;
 
+import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.DummyDAServer;
@@ -33,6 +37,10 @@ import gda.device.scannable.TurboXasScannable;
 import gda.device.timer.Etfg;
 import gda.device.zebra.controller.Zebra;
 import gda.device.zebra.controller.impl.ZebraDummy;
+import gda.factory.FactoryException;
+import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
+import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
+import uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller;
 
 public class TurboXasScanTest extends EdeTestBase {
 
@@ -40,10 +48,16 @@ public class TurboXasScanTest extends EdeTestBase {
 	private Etfg tfg;
 	private Scaler memory;
 	private BufferedScaler bufferedScaler;
-	private TurboXasScannable turboXasScannable;
+	private TurboXasScannableForTesting turboXasScannable;
+	private DummyXspress3Controller controllerForDetector;
+	private Xspress3Detector xspress3detector;
+	Xspress3BufferedDetector xspress3bufferedDetector;
+
 
 	@Before
 	public void setupEnvironment() throws Exception {
+		LocalProperties.set(LocalProperties.GDA_VAR_DIR, "/scratch/Data");
+
 		daserver = new DummyDAServer();
 		daserver.configure();
 
@@ -80,10 +94,54 @@ public class TurboXasScanTest extends EdeTestBase {
 		dummyMotor.setPosition(0);
 		dummyMotor.configure();
 
-		turboXasScannable = new TurboXasScannable();
+		turboXasScannable = new TurboXasScannableForTesting();
 		turboXasScannable.setName("turboXasScannable");
 		turboXasScannable.setMotor(dummyMotor);
 		turboXasScannable.setZebraDevice(dummyZebra);
+
+		setupXSpress3();
+	}
+
+
+	public void setupXSpress3() throws FactoryException {
+		controllerForDetector = new DummyXspress3Controller(tfg, daserver);
+		controllerForDetector.setName("controllerForDetector");
+		controllerForDetector.setNumFramesToAcquire(1);
+		controllerForDetector.setNumberOfChannels(2048); //number of detector elements
+		controllerForDetector.configure();
+		controllerForDetector.setSimulationFileName("/scratch/testfile");
+		controllerForDetector.configure();
+
+		xspress3detector = new Xspress3Detector();
+		xspress3detector.setName("xspress3detector");
+		xspress3detector.setController(controllerForDetector);
+		xspress3detector.configure();
+
+		xspress3bufferedDetector = new Xspress3BufferedDetector();
+		xspress3bufferedDetector.setName("xspress3bufferedDetector");
+		xspress3bufferedDetector.setXspress3Detector(xspress3detector);
+		xspress3bufferedDetector.configure();
+
+	}
+
+	/**
+	 * This is used to throw an exception in the middle of a scan, to check that the 'after scan' Nexus data is written correctly.
+	 */
+	private class TurboXasScannableForTesting extends TurboXasScannable {
+		public boolean throwException = false;
+
+		public void setThrowException(boolean throwException) {
+			this.throwException = throwException;
+		}
+
+		@Override
+		public void waitWhileBusy() throws InterruptedException, DeviceException {
+			if (throwException) {
+				throw new InterruptedException("Interrupted exception thrown by TurboXasScannableForTesting");
+			} else {
+				super.waitWhileBusy();
+			}
+		}
 	}
 
 	@Test
@@ -116,29 +174,42 @@ public class TurboXasScanTest extends EdeTestBase {
 			assertDimensions(nxsFile, bufferedScaler.getName(), name, expectedDims);
 			checkDataValidRange(nxsFile, bufferedScaler.getName(), name, new RangeValidator(0, 1, true, false) );
 		}
-		assertDimensions(nxsFile, bufferedScaler.getName(), "frame_index", new int[]{numPointsPerSpectrum});
-		assertDimensions(nxsFile, bufferedScaler.getName(), "energy", new int[]{numPointsPerSpectrum});
-		assertDimensions(nxsFile, bufferedScaler.getName(), "position", new int[]{numPointsPerSpectrum});
+		assertDimensions(nxsFile, bufferedScaler.getName(), TurboXasNexusTree.FRAME_INDEX, new int[]{numPointsPerSpectrum});
+		assertDimensions(nxsFile, bufferedScaler.getName(), TurboXasNexusTree.ENERGY_COLUMN_NAME, new int[]{numPointsPerSpectrum});
+		assertDimensions(nxsFile, bufferedScaler.getName(), TurboXasNexusTree.POSITION_COLUMN_NAME, new int[]{numPointsPerSpectrum});
 	}
 
-	@Test
-	public void testTurboXasScanMultipleSpectra() throws InterruptedException, Exception {
-		setup(TurboXasScan.class, "testTurboXasScanMultipleSpectra");
-
+	private TurboXasParameters getTurboXasParameters() {
 		TurboXasParameters parameters = new TurboXasParameters();
 		parameters.setSampleName( "sample name" );
 		parameters.setStartEnergy(0);
 		parameters.setEndEnergy(10);
 		parameters.setEnergyStep(0.01);
-		// parameters.setEnergyCalibrationPolynomial("");
-		// Set energy calibration polynomial to "" or null, so that position == energy
+		return parameters;
+	}
 
+	/**
+	 * @param params
+	 * @return Total number of spectra across all timing groups
+	 */
+	public int getNumSpectra(TurboXasParameters params) {
+		return params.getTimingGroups().stream().mapToInt(TurboSlitTimingGroup::getNumSpectra).sum();
+	}
+
+	public int getNumPointsPerSpectrum(TurboXasParameters params) {
+		return (int) ((params.getEndEnergy()-params.getStartEnergy())/params.getEnergyStep()) - 1;
+	}
+
+
+	@Test
+	public void testTurboXasScanMultipleSpectra() throws InterruptedException, Exception {
+		setup(TurboXasScan.class, "testTurboXasScanMultipleSpectra");
+		TurboXasParameters parameters = getTurboXasParameters();
 		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 5));
 		parameters.addTimingGroup(new TurboSlitTimingGroup("group2", 0.10, 0.0, 7));
 
-		int numReadouts = (int) ((parameters.getEndEnergy()-parameters.getStartEnergy())/parameters.getEnergyStep());
-		int numPointsPerSpectrum = numReadouts-1;
-		int numSpectra = 12;
+		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
+		int numSpectra = getNumSpectra(parameters);
 
 		TurboXasMotorParameters motorParameters = parameters.getMotorParameters();
 		motorParameters.setMotorParametersForTimingGroup(0);
@@ -146,21 +217,61 @@ public class TurboXasScanTest extends EdeTestBase {
 		TurboXasScan scan = new TurboXasScan(turboXasScannable, motorParameters, new BufferedDetector[]{bufferedScaler});
 		scan.runScan();
 
-		String nxsFile = scan.getDataWriter().getCurrentFileName();
+		String nexusFilename = scan.getDataWriter().getCurrentFileName();
+		checkScalerNexusData(nexusFilename, numSpectra, numPointsPerSpectrum);
+	}
 
-		// Check shape and content of scaler output (should be all >0 when not also producing lnI0It values)
-		int[] expectedDims = new int[]{numSpectra, numPointsPerSpectrum};
-		for(String name : bufferedScaler.getExtraNames()) {
-			assertDimensions(nxsFile, bufferedScaler.getName(), name, expectedDims);
-			checkDataValidRange(nxsFile, bufferedScaler.getName(), name, new RangeValidator(0, 1, true, false) );
+	@Test
+	public void testTurboXasScanMultipleSpectraFinishEarly() throws InterruptedException, Exception {
+		setup(TurboXasScan.class, "testTurboXasScanMultipleSpectraFinishEarly");
+		TurboXasParameters parameters = getTurboXasParameters();
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 10));
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group2", 0.10, 0.0, 12));
+
+		// Run the scan in a background thread
+		final TurboXasScan scan = new TurboXasScan(turboXasScannable, parameters.getMotorParameters(), new BufferedDetector[]{bufferedScaler});
+		Thread runScanThread = new Thread( () -> {
+			try {
+				scan.runScan();
+			} catch (Exception e) {
+				System.out.print("Exception caught during scan : " + e);
+		}});
+		runScanThread.start();
+
+		// Wait for a few spectra to be collected, then make the scan exit early by throwing InterruptedException
+		int pointCount = 0;
+		while (runScanThread.isAlive()) {
+			Thread.sleep(500);
+			pointCount = scan.getCurrentPointCount();
+			System.out.println("Waiting for scan to complete, current point = " + pointCount);
+			if (pointCount > 5) {
+				turboXasScannable.setThrowException(true);
+			}
 		}
-		// Test frame index and energy datasets
-		assertDimensions(nxsFile, bufferedScaler.getName(), "energy", new int[]{numPointsPerSpectrum});
-		assertDimensions(nxsFile, bufferedScaler.getName(), "position", new int[]{numPointsPerSpectrum});
-		assertDimensions(nxsFile, bufferedScaler.getName(), "frame_index", new int[]{numPointsPerSpectrum});
-		assertDimensions(nxsFile, bufferedScaler.getName(), "frame_time", new int[]{numSpectra, numPointsPerSpectrum});
-		assertDimensions(nxsFile, bufferedScaler.getName(), "time_between_spectra", new int[]{numSpectra});
-		assertDimensions(nxsFile, bufferedScaler.getName(), "time", new int[]{numSpectra});
+		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
+		int numSpectra = pointCount + 1;
+		checkScalerNexusData(scan.getDataWriter().getCurrentFileName(), numSpectra, numPointsPerSpectrum);
+	}
+
+	@Test
+	public void testTurboXasScanMultipleSpectraXspress3() throws InterruptedException, Exception {
+		setup(TurboXasScan.class, "testTurboXasScanMultipleSpectraXspress3");
+		TurboXasParameters parameters = getTurboXasParameters();
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 5));
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group2", 0.10, 0.0, 7));
+
+		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
+		int numSpectra = getNumSpectra(parameters);
+
+		TurboXasMotorParameters motorParameters = parameters.getMotorParameters();
+		motorParameters.setMotorParametersForTimingGroup(0);
+		turboXasScannable.setMotorParameters(motorParameters);
+		TurboXasScan scan = new TurboXasScan(turboXasScannable, motorParameters, new BufferedDetector[]{bufferedScaler, xspress3bufferedDetector});
+		scan.runScan();
+
+		String nexusFilename = scan.getDataWriter().getCurrentFileName();
+		checkScalerNexusData(nexusFilename, numSpectra, numPointsPerSpectrum);
+		checkDetectorNexusData(nexusFilename, xspress3bufferedDetector.getName(), numSpectra, numPointsPerSpectrum);
 	}
 
 	@Test
@@ -178,4 +289,52 @@ public class TurboXasScanTest extends EdeTestBase {
 			assertEquals(positions[i], expectedPositions[i%4], 1e-6);
 		}
 	}
+
+	/**
+	 * Check the axis data and all 2d datasets in a detector group. 2d datasets should have shape [numSpectra, numPointsPerSpectrum],
+	 * axis data should have shape [numPointsPerSpectrum].
+	 * @param nexusFilename name of nexus file containing data
+	 * @param detectorNode name of group node with detector data (i.e. name of detector)
+	 * @param numSpectra
+	 * @param numPointsPerSpectrum
+	 * @throws NexusException
+	 */
+	private void checkDetectorNexusData(String nexusFilename,  String detectorNode, int numSpectra, int numPointsPerSpectrum) throws NexusException {
+		// Check shapes of axis datasets: should all be [numPointsPerSpectrum]
+		checkAxisData(nexusFilename, detectorNode, numPointsPerSpectrum);
+
+		// Check shape and content of all other datasets in group : if 2d, they should all be [numSpectra, numPointsPerSpectrum], with numbers >=0
+		int[] expectedDims = new int[]{numSpectra, numPointsPerSpectrum};
+		GroupNode groupNode = getGroupNode(nexusFilename, detectorNode);
+		for(DataNode node : groupNode.getDataNodes()) {
+			if (node.getDataset().getShape().length == expectedDims.length) {
+				checkScanData(nexusFilename, detectorNode, node.getDataset().getName(), expectedDims);
+			}
+		}
+	}
+
+	private void checkAxisData(String nexusFilename, String detectorGroup, int numPointsPerSpectrum) throws NexusException {
+		// Test frame index and energy datasets
+		assertDimensions(nexusFilename, detectorGroup, TurboXasNexusTree.ENERGY_COLUMN_NAME, new int[]{numPointsPerSpectrum});
+		assertDimensions(nexusFilename, detectorGroup, TurboXasNexusTree.POSITION_COLUMN_NAME, new int[]{numPointsPerSpectrum});
+		assertDimensions(nexusFilename, detectorGroup, TurboXasNexusTree.FRAME_INDEX, new int[]{numPointsPerSpectrum});
+	}
+
+	private void checkScanData(String nexusFilename, String detectorGroup, String name, int[] expectedDims) throws NexusException {
+		assertDimensions(nexusFilename, detectorGroup, name, expectedDims);
+		checkDataValidRange(nexusFilename, detectorGroup, name, new RangeValidator(0, 1, true, false) );
+	}
+
+	private void checkScalerNexusData(String nexusFilename, int numSpectra, int numPointsPerSpectrum) throws NexusException {
+		// Check shape and content of scaler output (should be all >0 when not also producing lnI0It values)
+		checkDetectorNexusData(nexusFilename, bufferedScaler.getName(), numSpectra, numPointsPerSpectrum);
+
+		// Check the extra datasets written at end of scan to show spectrum index and group for each spectra, time between spectra etc.
+		assertDimensions(nexusFilename, bufferedScaler.getName(), "frame_time", new int[]{numSpectra, numPointsPerSpectrum});
+		assertDimensions(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.TIME_BETWEEN_SPECTRA_COLUMN_NAME, new int[]{numSpectra});
+		assertDimensions(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.TIME_COLUMN_NAME, new int[]{numSpectra});
+		assertDimensions(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.SPECTRUM_INDEX, new int[]{numSpectra});
+		assertDimensions(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.SPECTRUM_GROUP, new int[]{numSpectra});
+	}
+
 }
