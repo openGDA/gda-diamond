@@ -76,6 +76,9 @@
 	<!-- monitors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/monitors/beam_monitors.xml" />
 
+	<!-- file registration -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/icatXmlCreator.xml" />
+
 	<!-- =========================================================== -->
 	<!-- Shared files                                                -->
 	<!-- =========================================================== -->
@@ -134,6 +137,9 @@
 
 	<!-- monitors -->
 	<import resource="file:${gda.config}/servers/main/_common/monitors/beam_monitors.xml" />
+
+	<!-- file registration -->
+	<import resource="file:${gda.config}/servers/main/_common/fileRegistrar.xml" />
 
 	<!-- Dummies -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
