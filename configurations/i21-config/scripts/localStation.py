@@ -244,6 +244,8 @@ sax.setOutputFormat(["%10.6f"])  # @UndefinedVariable
 print "*"*80
 #DiffCalc
 from startup.i21 import *  # @UnusedWildImport
+toolpoint_off()  # @UndefinedVariable
+
 #Mapping scan
 from mapping_scan_commands import *
 
