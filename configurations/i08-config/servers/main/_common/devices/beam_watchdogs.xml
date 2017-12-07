@@ -15,7 +15,7 @@
 
 	<bean id="topupWatchdog" class="org.eclipse.scanning.sequencer.watchdog.TopupWatchdog" init-method="activate">
 		<property name="model" ref="topupModel"/>
-		<property name="enabled" value="true" />
+		<property name="enabled" value="false" />
 	</bean>
 
 	<!-- Stop scan if port shutter is closed or there is no beam current -->
@@ -26,7 +26,7 @@
 
 	<bean id="expressionWatchdog" class="org.eclipse.scanning.sequencer.watchdog.ExpressionWatchdog" init-method="activate">
 		<property name="model" ref="expressionModel"/>
-		<property name="enabled" value="true" />
+		<property name="enabled" value="false" />
 	</bean>
 
 </beans>
