@@ -13,6 +13,25 @@
 	<bean id="plot_server"
 		class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
 
+	<bean id="icatXMLCreator" class="gda.data.fileregistrar.IcatXMLCreator">
+		<property name="useDirForDatasetName" value="true" />
+		<property name="directory" value="/scratch/dropZone/b18-" />
+	</bean>
+
+	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
+		<property name="name" value="FileRegistrar" />
+		<property name="icatXMLCreator" ref="icatXMLCreator" />
+	</bean>
+
+	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="name" value="DataWriterFactory" />
+		<property name="dataWriterExtenders">
+			<list>
+				<ref bean="FileRegistrar" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="command_server" class="gda.jython.JythonServer">
 		<property name="jythonScriptPaths">
 			<bean class="gda.jython.ScriptPaths">
