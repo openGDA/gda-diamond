@@ -73,6 +73,11 @@ print "Loading Photon and Centre Energy Scan calculator... "
 print "Usage: calculate_hv_scan_values(hv_start, hv_end, hv_step, start_centre_energy, centre_energy_hv_function_name)"
 execfile(gdaScriptDir + "photonCentreEnergyScan.py")
 
+print "Loading Secondary Scannable Group Creator Script... "
+print "Usage: scan_creator = ScanCreator(start, stop, step, input_list)"
+print "scan_creator.create_group_and_tuples()"
+execfile(gdaScriptDir + "scan_creator.py")
+
 import arpes
 execfile(gdascripts + "scan/pathscanCommand.py");
 from pathscanTable import pathscanTable
