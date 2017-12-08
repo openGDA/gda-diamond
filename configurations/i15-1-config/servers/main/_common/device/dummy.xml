@@ -22,4 +22,29 @@
 	<bean id="dummyMotorX" parent="abstractFastDummyMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="dummyMotorY" parent="abstractFastDummyMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="dummyMotorZ" parent="abstractFastDummyMotor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="testRunnableDeviceProxyModel"
+			class="org.eclipse.scanning.api.device.models.GenericModel">
+		<property name="name"              value="test"/>
+	</bean>
+	<bean id="testRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="test"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.testRunnableDeviceProxyInfo"/>
+		<property name="label"             value="Test Proxy (testRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="Test Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="testRunnableDeviceProxy"
+			class="org.eclipse.scanning.sequencer.RunnableDeviceProxy">
+		<property name="name"              value="test"/>
+		<property name="model"             ref="testRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="testRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="testRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="testRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="testRunnableDeviceProxy"/>
+	</bean>
 </beans>

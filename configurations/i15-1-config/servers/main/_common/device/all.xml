@@ -33,4 +33,5 @@
 	 -->
 	<import resource="I15-1-JWEB1.xml"/>
 	<import resource="I15-1-JWEB2.xml"/>
+	<import resource="proxyRunnableDevices.xml"/>
 </beans>

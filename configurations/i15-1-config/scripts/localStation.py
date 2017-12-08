@@ -134,12 +134,61 @@ try:
 
     print "Configured web2 detector"
 
+    from jythonRunnableDeviceDelegate import JythonRunnableDeviceDelegate
+
+    metadataRunnableDeviceProxyFinder = finder.find("metadataRunnableDeviceProxyFinder")
+    metadataRunnableDeviceProxy = metadataRunnableDeviceProxyFinder.getRunnableDevice()
+
+    metadataJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(metadataRunnableDeviceProxy)
+    metadataRunnableDeviceProxy.setDelegate(metadataJythonRunnableDeviceDelegate)
+    metadataRunnableDeviceProxy.register()
+
+    print "Configured metadata runnable device"
+
+    cryojetRunnableDeviceProxyFinder = finder.find("cryojetRunnableDeviceProxyFinder")
+    cryojetRunnableDeviceProxy = cryojetRunnableDeviceProxyFinder.getRunnableDevice()
+
+    cryojetJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(cryojetRunnableDeviceProxy)
+    cryojetRunnableDeviceProxy.setDelegate(cryojetJythonRunnableDeviceDelegate)
+    cryojetRunnableDeviceProxy.register()
+
+    print "Configured cryojet runnable device"
+
+    xtalRunnableDeviceProxyFinder = finder.find("xtalRunnableDeviceProxyFinder")
+    xtalRunnableDeviceProxy = xtalRunnableDeviceProxyFinder.getRunnableDevice()
+
+    xtalJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(xtalRunnableDeviceProxy)
+    xtalRunnableDeviceProxy.setDelegate(xtalJythonRunnableDeviceDelegate)
+    xtalRunnableDeviceProxy.register()
+
+    print "Configured xtal runnable device"
+
+    positionerRunnableDeviceProxyFinder = finder.find("positionerRunnableDeviceProxyFinder")
+    positionerRunnableDeviceProxy = positionerRunnableDeviceProxyFinder.getRunnableDevice()
+
+    positionerJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(positionerRunnableDeviceProxy)
+    positionerRunnableDeviceProxy.setDelegate(positionerJythonRunnableDeviceDelegate)
+    positionerRunnableDeviceProxy.register()
+
+    print "Configured positioner runnable device"
+
     if dummy_mode:
         print "*"*80
         print "Dummy mode specific setup - Start"
         print "*"*80
 
         pass
+
+        from jythonRunnableDeviceDelegate import JythonRunnableDeviceDelegate
+
+        testRunnableDeviceProxyFinder = finder.find("testRunnableDeviceProxyFinder")
+        testRunnableDeviceProxy = testRunnableDeviceProxyFinder.getRunnableDevice()
+
+        testJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(testRunnableDeviceProxy)
+        testRunnableDeviceProxy.setDelegate(testJythonRunnableDeviceDelegate)
+        testRunnableDeviceProxy.register()
+
+        print "Configured test runnable device"
 
         print "*"*80
         print "Dummy mode specific setup - End"
