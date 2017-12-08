@@ -43,6 +43,7 @@ import gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory;
 import gda.device.detector.nxdetector.roi.ImutableRectangularIntegerROI;
 import gda.device.detector.nxdetector.roi.RectangularROI;
 import gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider;
+import gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.MonoOptimisation;
@@ -50,6 +51,7 @@ import gda.device.scannable.TopupChecker;
 import gda.epics.CAClient;
 import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
+import gda.factory.Finder;
 import gda.util.Element;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
@@ -60,8 +62,12 @@ import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
+import uk.ac.gda.beans.exafs.i20.I20OutputParameters;
 import uk.ac.gda.beans.exafs.i20.MedipixParameters;
 import uk.ac.gda.beans.exafs.i20.ROIRegion;
+import uk.ac.gda.beans.xspress.XspressParameters;
+import uk.ac.gda.devices.detector.FluorescenceDetector;
+import uk.ac.gda.devices.detector.FluorescenceDetectorParameters;
 import uk.ac.gda.server.exafs.scan.BeamlinePreparer;
 import uk.ac.gda.server.exafs.scan.DetectorPreparer;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
@@ -70,6 +76,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	private static final Logger logger = LoggerFactory.getLogger(I20DetectorPreparer.class);
 
 	private Xspress2Detector xspress2system;
+	private Detector selectedXspressDetector;
+
 	private Scannable[] sensitivities;
 	private Scannable[] sensitivity_units;
 	private Scannable[] offsets;
@@ -110,13 +118,60 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 	public List<Detector> getDetectors() {
 		ArrayList<Detector> detectors = new ArrayList<Detector>();
-		detectors.add(xspress2system);
+		detectors.add(selectedXspressDetector);
 		detectors.add(ionchambers);
 		detectors.add(i1);
 		detectors.add(vortex);
 		detectors.add(medipix);
 		detectors.add(ffI0);
 		return detectors;
+	}
+
+	public FluorescenceDetectorParameters getDetectorParametersBean(String xmlFileName) throws Exception {
+		return (FluorescenceDetectorParameters) XMLHelpers.getBean(new File(xmlFileName));
+	}
+
+	/**
+	 * Configure a Fluorescence detector on server by getting the name from the xml file and using the Finder.
+	 * @param xmlFileName
+	 * @return Xspress2Detector object on server
+	 * @throws Exception if detector could not be found or there was a problem creating bean from XML.
+	 */
+	public Detector configureFluorescenceDetector(FluorescenceDetectorParameters params) throws Exception {
+
+		String detName = params.getDetectorName();
+
+		// Use fluorescence detector interface so can configure it with param bean from xml bean
+		// Expected detector types for i20 are currently Xspress2Detector, Xspress4Detector, NexusXmapFluorescenceDetectorAdapter
+		FluorescenceDetector det = Finder.getInstance().find(detName);
+		if (det==null) {
+			throw new Exception("Unable to find detector called "+detName+" on server\n");
+		}
+		det.applyConfigurationParameters(params);
+
+		// For Xmap, return NexusXmap object since is what is used as detector during scans.
+		if (det instanceof NexusXmapFluorescenceDetectorAdapter) {
+			return ((NexusXmapFluorescenceDetectorAdapter)det).getXmap();
+		}
+		return (Detector) det;
+	}
+
+	/**
+	 * Set Xspress parameterParameters options using values from I20OutputParameters options.
+	 * (save raw spectrum, only show FF, show deadtime correction values, save raw spectrum)
+	 * @param detectorParams
+	 * @param outputParams
+	 */
+	public void setXspressOutputOptions(FluorescenceDetectorParameters detectorParams, IOutputParameters outputParams) {
+		if (detectorParams instanceof XspressParameters && outputParams instanceof I20OutputParameters) {
+			XspressParameters xspressParameters = (XspressParameters) detectorParams;
+			I20OutputParameters outParams = (I20OutputParameters) outputParams;
+
+			xspressParameters.setSaveRawSpectrum(outParams.isXspressSaveRawSpectrum());
+			xspressParameters.setOnlyShowFF(outParams.isXspressOnlyShowFF());
+			xspressParameters.setShowDTRawValues(outParams.isXspressShowDTRawValues());
+			xspressParameters.setSaveRawSpectrum(outParams.isXspressSaveRawSpectrum());
+		}
 	}
 
 	@Override
@@ -144,13 +199,14 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
 			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
 			String detType = fluoresenceParameters.getDetectorType();
-			if (detType.equals(FluorescenceParameters.GERMANIUM_DET_TYPE)) {
-				xspress2system.setConfigFileName(xmlFileName);
-				xspress2system.configure();
+			FluorescenceDetectorParameters params = getDetectorParametersBean(xmlFileName);
+			setXspressOutputOptions(params, outputBean);
+			Detector configuredDetector = configureFluorescenceDetector(params);
+			if (configuredDetector instanceof Xmap) {
+				vortex = (Xmap) configuredDetector;
+			} else {
+				selectedXspressDetector = configuredDetector;
 				setXspressCorrectionParameters();
-			} else if (detType.equals(FluorescenceParameters.SILICON_DET_TYPE)) {
-				vortex.setConfigFileName(xmlFileName);
-				vortex.configure();
 			}
 		} else if (experimentType.equals(DetectorParameters.XES_TYPE)) {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getXesParameters();
@@ -455,7 +511,9 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			Element elementObj = Element.getElement(element);
 			dtEnergy = _getEmissionEnergy(elementObj, edge);
 			dtEnergy /= 1000; // # convert from eV to keV;
-			xspress2system.setDeadtimeCalculationEnergy(dtEnergy);
+
+			// this apparently does nothing for xspress2 (never implemented?)
+//			xspress2system.setDeadtimeCalculationEnergy(dtEnergy);
 		}
 
 	}
@@ -535,6 +593,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		if (monoOptimiser != null) {
 			double lowEnergy = 0;
 			double highEnergy = 0;
+			Double[] timeFrames = ionchambers.getTimes();
 
 			if (scanBean instanceof XanesScanParameters) {
 				lowEnergy = ((XanesScanParameters) scanBean).getInitialEnergy();
@@ -544,9 +603,16 @@ public class I20DetectorPreparer implements DetectorPreparer {
 				highEnergy = ((XasScanParameters) scanBean).getFinalEnergy();
 			}
 
-			if (lowEnergy>0 && highEnergy>lowEnergy) {
+			if (lowEnergy>0 && highEnergy>lowEnergy && monoOptimiser.getAllowOptimisation()) {
 				logger.info("Running monochromator optimisation for XAS/XANES scan : low energy = {}, high energy = {}", lowEnergy, highEnergy);
 				monoOptimiser.optimise(lowEnergy, highEnergy);
+			}
+
+			// Set the frame times (these will have been cleared by optimisation scans)
+			if (tfgFrameTimes!=null) {
+				ionchambers.getTimes();
+				ionchambers.clearFrameSets();
+				ionchambers.setTimes(tfgFrameTimes);
 			}
 		}
 	}
@@ -557,5 +623,21 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 	public TfgFFoverI0 getFfI0() {
 		return ffI0;
+	}
+
+	public Detector getSelectedXspressDetector() {
+		return selectedXspressDetector;
+	}
+
+	public void setSelectedXspressDetector(Detector selectedXspressDetetor) {
+		this.selectedXspressDetector = selectedXspressDetetor;
+	}
+
+	public Xmap getVortex() {
+		return vortex;
+	}
+
+	public void setVortex(Xmap vortex) {
+		this.vortex = vortex;
 	}
 }

@@ -44,7 +44,6 @@ import uk.ac.gda.beans.exafs.i20.I20OutputParameters;
 
 public class I20OutputPreparer extends OutputPreparerBase {
 
-	private AsciiDataWriterConfiguration datawriterconfig;
 	private AsciiDataWriterConfiguration datawriterconfig_xes;
 	private TfgScalerWithFrames ionchambers;
 	private Xspress2Detector xspress2system;
@@ -56,8 +55,7 @@ public class I20OutputPreparer extends OutputPreparerBase {
 	public I20OutputPreparer(AsciiDataWriterConfiguration datawriterconfig,
 			AsciiDataWriterConfiguration datawriterconfig_xes, NXMetaDataProvider metashop, TfgScalerWithFrames ionchambers,
 			Xspress2Detector xspress2system, Xmap xmapMca, I20DetectorPreparer detectorPreparer) {
-		this.datawriterconfig = datawriterconfig;
-		setDatawriterconfig(datawriterconfig);
+		super(datawriterconfig, metashop);
 		this.datawriterconfig_xes = datawriterconfig_xes;
 		this.ionchambers = ionchambers;
 		this.xspress2system = xspress2system;
@@ -97,7 +95,7 @@ public class I20OutputPreparer extends OutputPreparerBase {
 		}
 		// # will return None if not found
 		// print "Ascii (.dat) files will have XAS format header."
-		return datawriterconfig;
+		return getDatawriterconfig();
 	}
 
 	// #

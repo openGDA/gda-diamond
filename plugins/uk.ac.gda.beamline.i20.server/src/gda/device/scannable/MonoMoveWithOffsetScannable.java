@@ -106,7 +106,7 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 	public void adjustBraggOffsetMotor(double energy) throws DeviceException {
 		double offset = getOffsetForEnergy(energy);
 		if ( Math.abs(offset - offsetLastMove) > offsetMoveThreshold ) {
-			braggOffset.moveTo(offset);
+			braggOffset.asynchronousMoveTo(offset);
 			offsetLastMove = offset;
 		}
 	}
@@ -116,9 +116,11 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 
 		double energy = ScannableUtils.objectToArray(position)[0];
 
-		bragg.moveTo(energy);
-
-		if ( adjustBraggOffset ) {
+		if (!adjustBraggOffset) {
+			bragg.asynchronousMoveTo(energy);
+		} else {
+			// move bragg and block until finished so that offset can then be adjusted
+			bragg.moveTo(energy);
 
 			// XAS or 1d XES scan : adjust offset
 			if (scanType == 0 || scanType != XesScanParameters.SCAN_XES_SCAN_MONO) {
