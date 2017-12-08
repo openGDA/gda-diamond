@@ -20,6 +20,7 @@ package gda.device.detector;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -251,32 +252,28 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	}
 
 	private void writeAsciiFile(ScanDataPoint sdp, String nexusFilePath) throws Exception {
-		DoubleDataset dataSet = ScanDataHelper.extractDetectorDataFromSDP(this.getName(), sdp);
+		DoubleDataset detectorCountData = ScanDataHelper.extractDetectorDataFromSDP(this.getName(), sdp);
+		DoubleDataset detectorEnergyData = ScanDataHelper.extractDetectorEnergyFromSDP(this.getName(), sdp);
 		String asciiFileFolder = DataFileHelper.convertFromNexusToAsciiFolder(nexusFilePath);
 		String asciiFilename = FilenameUtils.getBaseName(nexusFilePath);
 		File asciiFile = new File(asciiFileFolder, asciiFilename + "." + EdeDataConstants.ASCII_FILE_EXTENSION);
 		if (asciiFile.exists()) {
 			throw new Exception("File " + asciiFilename + " already exists!");
 		}
-		FileWriter asciiFileWriter = null;
-		String line = System.getProperty("line.separator");
-		try {
-			asciiFileWriter = new FileWriter(asciiFile);
-			asciiFileWriter.write(String.format("#%s\t%s", EdeDataConstants.STRIP_COLUMN_NAME,
-					EdeDataConstants.ENERGY_COLUMN_NAME));
-			asciiFileWriter.write(line);
-			for (int i = 0; i < dataSet.getSize(); i++) {
-				asciiFileWriter.write(String.format("%d\t%f", i, dataSet.get(i)));
-				asciiFileWriter.write(line);
+
+		try (FileWriter asciiFileWriter = new FileWriter(asciiFile)) {
+			asciiFileWriter.write(String.format("#%s\t%s\t%s", EdeDataConstants.STRIP_COLUMN_NAME,
+							EdeDataConstants.ENERGY_COLUMN_NAME, this.getName()+" counts"));
+
+			InterfaceProvider.getTerminalPrinter().print("Writing data to file (Ascii): " + asciiFile.getAbsolutePath());
+			String newLine = System.getProperty("line.separator");
+			asciiFileWriter.write(newLine);
+			for (int i = 0; i < detectorCountData.getSize(); i++) {
+				asciiFileWriter.write(String.format("%d\t%f\t%f", i, detectorEnergyData.get(i), detectorCountData.get(i)));
+				asciiFileWriter.write(newLine);
 			}
-		} catch (Exception ex) {
-			throw new Exception("Unable to write ascii data");
-		} finally {
-			if (asciiFileWriter != null) {
-				asciiFileWriter.close();
-				InterfaceProvider.getTerminalPrinter().print(
-						"Writing data to file (Ascii): " + asciiFile.getAbsolutePath());
-			}
+		} catch (IOException ex) {
+			throw new Exception("Unable to write ascii data", ex);
 		}
 	}
 

@@ -59,6 +59,7 @@ public class EdeScanNode extends ScanNode {
 		String scanIdentifier = this.toString() + "@" + label;
 		if (!scans.containsKey(scanIdentifier)) {
 			final SpectraNode newNode = new SpectraNode(scanIdentifier, label, this);
+			newNode.setUncalibratedXAxisData(arg.getUncalibratedXAxisData());
 			scans.put(scanIdentifier, newNode);
 			dataNodeList.add(newNode);
 			dataNode = newNode;

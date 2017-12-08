@@ -78,7 +78,7 @@ public class ExperimentDataPlotView extends ViewPart {
 					public Object convert(Object value) {
 						StringBuilder text = new StringBuilder();
 						try {
-							text.append("Use strips number for X axis");
+							text.append("Use uncalibrated X axis");
 							if (!((String) value).isEmpty() && DetectorModel.INSTANCE.getCurrentDetector() != null) {
 								text.append(" (Energy calibrated with " + DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration().getSampleDataFileName() + ")");
 							}
@@ -89,19 +89,19 @@ public class ExperimentDataPlotView extends ViewPart {
 						return text.toString();
 					}
 				});
-		ctx.bindValue(
-				WidgetProperties.visible().observe(useStripsIndex),
-				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()),
-				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object value) {
-						if (!((String) value).isEmpty()) {
-							return true;
-						}
-						return false;
-					}
-				});
+//		ctx.bindValue(
+//				WidgetProperties.visible().observe(useStripsIndex),
+//				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()),
+//				new UpdateValueStrategy(UpdateValueStrategy.POLICY_NEVER),
+//				new UpdateValueStrategy() {
+//					@Override
+//					public Object convert(Object value) {
+//						if (!((String) value).isEmpty()) {
+//							return true;
+//						}
+//						return false;
+//					}
+//				});
 	}
 
 	@Override

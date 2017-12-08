@@ -56,6 +56,7 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	private TrajectoryScanPreparer trajectoryScanPreparer;
 
 	private ZebraGatePulsePreparer zebraGatePulsePreparer;
+	private double motorSpeedBeforeScan;
 
 	public TurboXasScannable() {
 	}
@@ -264,6 +265,12 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	public void atScanStart() {
 		resetZebraArmConfigFlags();
 
+		try {
+			motorSpeedBeforeScan = this.getSpeed();
+		} catch (DeviceException e) {
+			logger.error("Problem saving motor speed at scan start", e);
+		}
+
 		// Create default zebra gate/pulse settings preparer if one has not already been set.
 		if (zebraGatePulsePreparer==null) {
 			logger.info("Creating default ZebraGatePulsePreparer");
@@ -279,7 +286,27 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		} catch (Exception e) {
 			logger.error("Problem disarming zebra at scan end", e);
 		}
+
+		if (motorSpeedBeforeScan > 0) {
+			try {
+				this.setSpeed(motorSpeedBeforeScan);
+			} catch (DeviceException e) {
+				logger.error("Problem changing motor speed back to original value at scan end", e);
+			}
+		}
+
 		resetZebraArmConfigFlags();
+	}
+
+	@Override
+	public void atCommandFailure() {
+		atScanEnd();
+	}
+
+	@Override
+	public void stop() throws DeviceException {
+		super.stop();
+		atScanEnd();
 	}
 
 	public void setUseAreaDetector(boolean useAreaDetector) throws Exception {

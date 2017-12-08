@@ -48,6 +48,7 @@ import gda.util.exafs.Element;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
+import uk.ac.gda.exafs.data.DataPaths;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.DetectorModel.EnergyCalibrationSetObserver;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
@@ -56,7 +57,7 @@ public class EDECalibrationSection extends ResourceComposite {
 
 	private static final Logger logger = LoggerFactory.getLogger(EDECalibrationSection.class);
 
-	public static final String REF_DATA_PATH = LocalProperties.getConfigDir() + "edeRefData";
+	public static final String REF_DATA_PATH = DataPaths.getCalibrationReferenceDataPath();
 	public static final String REF_DATA_EXT = ".dat";
 
 	private final FormToolkit toolkit;
@@ -79,8 +80,12 @@ public class EDECalibrationSection extends ResourceComposite {
 				BeanProperties.value(EnergyCalibrationSetObserver.ENERGY_CALIBRATION_PROP_NAME).observe(DetectorModel.INSTANCE.getEnergyCalibrationSetObserver()));
 	}
 
-	public String getReferenceDataPath(Element element, String edgeName) {
+	public static String getReferenceDataPath(Element element, String edgeName) {
 		return REF_DATA_PATH + File.separator + element.getSymbol() + "_" + edgeName + REF_DATA_EXT;
+	}
+
+	public static String getCurrentReferenceDataPath() {
+		return getReferenceDataPath(AlignmentParametersModel.INSTANCE.getElement(), AlignmentParametersModel.INSTANCE.getEdge().getEdgeType());
 	}
 
 	public String loadReferenceData(String path) {

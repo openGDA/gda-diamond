@@ -23,7 +23,10 @@ def machineMode():
 # These scannables are checked before any scan data point
 # You may comment them out to remove the checking.
 if LocalProperties.get("gda.mode") == "live":
-    run("frelon-functions.py")
+    if frelon != None :
+        run("frelon-functions.py")
+        resetFrelonToInternalTriggerMode();
+
     # to speed up step scans
     LocalProperties.set("gda.scan.concurrentScan.readoutConcurrently","true")
     LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
@@ -41,7 +44,6 @@ if LocalProperties.get("gda.mode") == "live":
         add_default([absorberChecker])
         add_default([shutterChecker])
 
-    resetFrelonToInternalTriggerMode();
 
 else:
     remove_default([absorberChecker])
@@ -77,16 +79,25 @@ das4tfg.sendCommand("tfg setup-veto veto1-drive 1")
 
 xspress3Controller = finder.find("xspress3Controller")
 
-if xspress3Controller != None and xspress3.isConfigured() == True :
-    print "Setting XSpress3 trigger mode to 'TTL Veto Only'"
+swmrFrameFlush = 5
+if xspress3Controller != None :
+    print "Setting up XSpress3 : "
+    print "  Trigger mode = 'TTL Veto Only'"
     from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
     xspress3Controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
     #Set input array port on HDF5 plugin to point to arrayport of Detector. imh 7/8/2017
     basePvName = xspress3Controller.getEpicsTemplate()
     detPort = caget(basePvName+":PortName_RBV")
+    print "  HDF5 array port name = ", detPort
     caput(basePvName+":HDF5:NDArrayPort", detPort)
-    # caput(basePvName+":HDF5:SWMRMode", True) # Set SWMR mode on. Off until BL20J-EA-IOC-03 has moved to lustre filesystems and works correctly...
+    
+    print "  HDF5 SWMR mode = On" 
+    caput(basePvName+":HDF5:SWMRMode", True) # Set SWMR mode on.
     #xspress3.setFilePath(dataDirectory+"/nexus/")
+    print "  HDF5 SWMR : Flush on nth frame, NDAttribute flush = ", swmrFrameFlush
+    caput(basePvName+":HDF5:NumFramesFlush", swmrFrameFlush)
+    caput(basePvName+":HDF5:NDAttributeChunk", swmrFrameFlush)
+
 
 def setSwmrMode(onoff):
     caput(basePvName+":HDF5:SWMRMode", onoff)

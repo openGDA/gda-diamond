@@ -19,27 +19,17 @@
 package gda.scan;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
 import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.NexusFile;
-import org.eclipse.january.dataset.Dataset;
-import org.eclipse.january.dataset.DatasetFactory;
-import org.eclipse.january.dataset.DatasetUtils;
-import org.eclipse.january.dataset.DoubleDataset;
-import org.eclipse.january.dataset.ILazyDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
 import gda.data.metadata.NXMetaDataProvider;
-import gda.data.nexus.extractor.NexusGroupData;
-import gda.data.nexus.tree.INexusTree;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.scan.datawriter.NexusDataWriter;
 import gda.data.scan.datawriter.XasNexusDataWriter;
@@ -48,7 +38,6 @@ import gda.device.ContinuousParameters;
 import gda.device.DeviceException;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.DummyNXDetector;
-import gda.device.detector.NXDetectorData;
 import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.detector.countertimer.TfgScalerWithLogValues;
 import gda.device.scannable.ContinuouslyScannable;
@@ -81,13 +70,18 @@ import uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controlle
 public class TurboXasScan extends ContinuousScan {
 	private static final Logger logger = LoggerFactory.getLogger(TurboXasScan.class);
 	private TurboXasMotorParameters turboXasMotorParams;
+
 	private boolean useAreaDetector = false;
 	private boolean doTrajectoryScan = false;
 	private boolean useXspress3SwmrReadout = true;
 
 	private Map<String, String> xspressAttributeMap = new HashMap<String, String>();
 	private String pathToAttributeData = "/entry/instrument/NDAttributes/";
+
+	private Xspress3BufferedDetector xspress3BufferedDetector;
 	private SwmrFileReader xspress3FileReader;
+	private TurboXasNexusTree nexusTree = new TurboXasNexusTree();
+	private PlotUpdater plotUpdater = new PlotUpdater();
 
 	private int numReadoutsPerSpectrum;
 	private int numSpectraPerCycle;
@@ -96,8 +90,6 @@ public class TurboXasScan extends ContinuousScan {
 	private int maxNumScalerFramesPerCycle = 250000;
 
 	private volatile int lastFrameRead;
-
-	private PlotUpdater plotUpdater = new PlotUpdater();
 
 	public TurboXasScan(ContinuouslyScannable energyScannable, Double start, Double stop, Integer numberPoints,
 			Double time, BufferedDetector[] detectors) {
@@ -122,11 +114,12 @@ public class TurboXasScan extends ContinuousScan {
 
 		plotUpdater.setCurrentSpectrumNumber(1);
 		plotUpdater.setCurrentGroupNumber(1);
-		plotUpdater.setEnergyAxisName(ENERGY_COLUMN_NAME);
+		plotUpdater.setEnergyAxisName(TurboXasNexusTree.ENERGY_COLUMN_NAME);
+		plotUpdater.setPositionAxisName(TurboXasNexusTree.POSITION_COLUMN_NAME);
 
 		plotUpdater.clearDatanamesToIgnore();
-		plotUpdater.addDatanameToIgnore(ENERGY_COLUMN_NAME);
-		plotUpdater.addDatanameToIgnore(POSITION_COLUMN_NAME);
+		plotUpdater.addDatanameToIgnore(TurboXasNexusTree.ENERGY_COLUMN_NAME);
+		plotUpdater.addDatanameToIgnore(TurboXasNexusTree.POSITION_COLUMN_NAME);
 		plotUpdater.addDatanameToIgnore(TfgScalerWithLogValues.LNITIREF_LABEL);
 		plotUpdater.addDatanameToIgnore("Iref");
 
@@ -137,12 +130,12 @@ public class TurboXasScan extends ContinuousScan {
 			} else {
 				collectMultipleSpectra();
 			}
-			addTimeAxis();
 		} else {
 			logger.info("Setting up scan using ContinuousParameters");
 			lastFrameRead = 0;
 			numReadoutsPerSpectrum = getTotalNumberOfPoints();
 			prepareDetectors(numReadoutsPerSpectrum, 1);
+			prepareNexusTreeProvider(numReadoutsPerSpectrum);
 			collectOneSpectrum(true);
 		}
 
@@ -250,54 +243,16 @@ public class TurboXasScan extends ContinuousScan {
 		turboXasScannable.atScanEnd();
  	}
 
-	/**
-	 * Add time axis to Nexus file. This is the start time of each spectrum relative the first spectrum,
-	 * calculated using 'time between spectra' and 'frame time'.
-	 * @throws Exception
-	 */
-	private void addTimeAxis() throws Exception {
-		NexusFile file = null;
-		try {
-			String filename = getDataWriter().getCurrentFileName();
-			file = NexusFileHDF5.openNexusFile(filename);
-			// Read 'frame_time' and 'time between spectra' datasets from Nexus file
-			String detectorEntry = "/entry1/"+getScanDetectors()[0].getName()+"/";
-			String frameTimeName = getFrameTimeFieldName();
-
-			ILazyDataset times = file.getData(detectorEntry+frameTimeName).getDataset();
-			ILazyDataset timeBetweenSpectra = file.getData(detectorEntry+TIME_BETWEEN_SPECTRA_COLUMN_NAME).getDataset();
-			DoubleDataset timeBetweenSpectraVals = (DoubleDataset) timeBetweenSpectra.getSlice(null, null, null).squeeze();
-
-			// Create dataset to store start time of each spectrum
-			int numSpectra = times.getShape()[0];
-			int numReadouts = times.getShape()[1];
-			Dataset absoluteTime = DatasetFactory.zeros(DoubleDataset.class, numSpectra);
-			// First spectrum starts at t=0
-			double timeAtSpectrumStart = 0;
-			absoluteTime.set(timeAtSpectrumStart, 0);
-
-			// Calculate start time for each spectrum
-			for (int i = 0; i < numSpectra - 1; i++) {
-				// Take slice along time for current spectrum, find sum and add to time-between-spectra
-				Dataset row = DatasetUtils.convertToDataset(times.getSlice(new int[] { i, 0 }, new int[] { i + 1, numReadouts }, null));
-				double rowSum = ((Number) row.sum()).doubleValue();
-				double timeForSpectra = rowSum + timeBetweenSpectraVals.get(i);
-				timeAtSpectrumStart += timeForSpectra;
-				absoluteTime.set(timeAtSpectrumStart, i + 1);
-			}
-			file.createData(detectorEntry, TIME_COLUMN_NAME, absoluteTime, true);
-		} finally {
-			if (file != null) {
-				file.close();
-			}
-		}
-	}
-
 	@Override
 	protected void endScan() throws DeviceException, InterruptedException {
 		super.endScan();
 		for (BufferedDetector detector : getScanDetectors()) {
 			detector.stop();
+		}
+		try {
+			nexusTree.addTimeAxis(getDataWriter().getCurrentFileName(), getScanDetectors()[0].getName());
+		} catch (Exception e) {
+			logger.warn("Problem adding time axis data at end of scan", e);
 		}
 	}
 
@@ -423,6 +378,7 @@ public class TurboXasScan extends ContinuousScan {
 		lastFrameRead = 0;
 		numReadoutsPerSpectrum = turboXasMotorParams.getNumReadoutsForScan();
 		prepareDetectors(numReadoutsPerSpectrum, totNumSpectra); //also arms it
+		prepareNexusTreeProvider(numReadoutsPerSpectrum);
 	}
 
 	/**
@@ -463,7 +419,12 @@ public class TurboXasScan extends ContinuousScan {
 		}
 	}
 
-	private Xspress3BufferedDetector xspress3BufferedDetector;
+	public void prepareNexusTreeProvider(int numReadoutsPerSpectrum) {
+		nexusTree.setFrameTimeFieldName(getFrameTimeFieldName());
+		nexusTree.setScanAxis(getScanAxis());
+		nexusTree.setXspress3FileReader(xspress3FileReader);
+		nexusTree.setNumReadoutsPerSpectrum(numReadoutsPerSpectrum);
+	}
 
 	public Xspress3BufferedDetector getXspress3Detector() {
 		for (BufferedDetector detector : getScanDetectors() ) {
@@ -567,60 +528,8 @@ public class TurboXasScan extends ContinuousScan {
 		}
 	}
 
-	// Dataset names used in NeXus file
-	private static final String MOTOR_PARAMS_COLUMN_NAME = "motor_parameters";
-	private static final String TIME_COLUMN_NAME = "time";
-	private static final String TIME_BETWEEN_SPECTRA_COLUMN_NAME = "time_between_spectra";
-	private static final String ENERGY_COLUMN_NAME = "energy";
-	private static final String POSITION_COLUMN_NAME = "position";
-	private static final String FRAME_INDEX = "frame_index";
-	private static final String ENERGY_UNITS = "eV";
-	private static final String TIME_UNITS = "seconds";
-	private static final String COUNT_UNITS = "counts";
-	private static final String INDEX_UNITS = "index";
-	private static final String POSITION_UNITS = "cm";
-	private static final String I0_LABEL = "I0";
-	private Dataset i0Data;
-
 	private String getFrameTimeFieldName() {
 		return getScanDetectors()[0].getExtraNames()[0];
-	}
-
-	private NXDetectorData createAxisData(BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException {
-		int numFramesRead = highFrame - lowFrame;
-		if (numFramesRead<numReadoutsPerSpectrum) {
-			logger.info("Expected {} frames for spectrum, {} frames available - padding with zeros...", numReadoutsPerSpectrum, numFramesRead );
-		}
-
-		// Number of frames to be stored in Nexus file
-		// Don't record last frame of data (this corresponds to the long timeframe when
-		// the motor moves back to start position)
-		int numFramesToStore = numFramesRead-1;
-
-		// Setup arrays of frame index and energy of each frame
-		int[] frameIndex = new int[numFramesToStore];
-		double[] energy = new double[numFramesToStore];
-		ContinuouslyScannable scanAxis = getScanAxis();
-		for(int i=0; i<numFramesToStore; i++) {
-			frameIndex[i] = i;
-			energy[i] = scanAxis.calculateEnergy(i);
-		}
-
-		// Add frame and energy axis data
-		NXDetectorData frame = new NXDetectorData(detector);
-		frame.addAxis(detector.getName(), ENERGY_COLUMN_NAME, new NexusGroupData(energy), 1, 1, ENERGY_UNITS, false);
-		frame.addAxis(detector.getName(), FRAME_INDEX, new NexusGroupData(frameIndex), 2, 1, INDEX_UNITS, false);
-
-		// Add position axis data if using TurboXasScannable
-		if (scanAxis instanceof TurboXasScannable) {
-			TurboXasScannable txasScannable = (TurboXasScannable)scanAxis;
-			double[] position = new double[numFramesToStore];
-			for(int i=0; i<numFramesToStore; i++) {
-				position[i] = txasScannable.calculatePosition(i);
-			}
-			frame.addAxis(detector.getName(), POSITION_COLUMN_NAME, new NexusGroupData(position), 3, 1, POSITION_UNITS, false);
-		}
-		return frame;
 	}
 
 	public void addXspressDatasetToRecord(String label, String attribute) {
@@ -631,152 +540,6 @@ public class TurboXasScan extends ContinuousScan {
 		for(int channel=0; channel<detector.getNumberOfElements(); channel++) {
 			xspressAttributeMap.put(String.format("FF_%d", channel+1), String.format("Chan%dSca%d", channel+1, 5));
 		}
-	}
-
-	/**
-	 * Create NXDetector data from XSpress3 detector; Readout of detector data occurs in two ways :
-	 * <li> In the normal way. i.e. by reading arrays of scaler data from PVs.
-	 * <li> By reading data from the XSpress3 hdf (SWMR) file (using {@link #xspress3FileReader}).
-	 * When using this method, checks should be carried out before calling this function to ensure lowframe and highframe are within current dataset limits.
-	 * e.g. by calling {@link SwmrFileReader#getNumAvailableFrames()}.
-	 * @param detector
-	 * @param lowFrame
-	 * @param highFrame
-	 * @return
-	 * @throws DeviceException
-	 * @throws ScanFileHolderException
-	 */
-	private NXDetectorData createNXDetectorData(Xspress3BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException, ScanFileHolderException {
-
-		NXDetectorData frame = createAxisData(detector, lowFrame, highFrame);
-
-		INexusTree detTree = frame.getDetTree(detector.getName());
-
-		Dataset ffSum = null;
-
-		if (xspress3FileReader!=null) {
-			// Add detector data from xspress3 hdf file
-			int[] start = new int[] { lowFrame };
-			int[] shape = new int[] { highFrame - lowFrame - 1 };
-			int[] step = new int[shape.length];
-			Arrays.fill(step, 1);
-			try {
-				logger.info("Adding data from hdf file {}", xspress3FileReader.getFilename());
-				ffSum = DatasetFactory.zeros(highFrame - lowFrame -1);
-				ffSum.setName("FF_sum");
-				for (Dataset dataset : xspress3FileReader.readDatasets(start, shape, step)) {
-					NXDetectorData.addData(detTree, dataset.getName(), NexusGroupData.createFromDataset(dataset),
-							"counts", 1);
-					if (dataset.getName().startsWith("FF")) {
-						ffSum.iadd(dataset);
-					}
-				}
-				NXDetectorData.addData(detTree, ffSum.getName(), NexusGroupData.createFromDataset(ffSum), "counts", 1);
-			} catch (NexusException e) {
-				logger.error("Problem reading data from hdf file", e);
-			}
-		} else {
-			//Add detector data from xspress3 scaler readout
-			NXDetectorData[] detData = detector.readFrames(lowFrame, highFrame-1);
-			String[] names = detData[0].getExtraNames();
-			int numFrames = detData.length;
-			for(int i=0; i<names.length; i++) {
-				Dataset dataset = DatasetFactory.zeros(DoubleDataset.class, numFrames);
-				dataset.setName(names[i]);
-				for(int frameIndex = 0; frameIndex<numFrames; frameIndex++) {
-					double val = detData[frameIndex].getDoubleVals()[i];
-					dataset.set(val, frameIndex);
-				}
-				NXDetectorData.addData(detTree, dataset.getName(), NexusGroupData.createFromDataset(dataset), "counts", 1);
-
-				// last dataset from readFrames is total FF (i.e. sum over all detector elements)
-				if (i==names.length-1) {
-					ffSum = dataset;
-				}
-			}
-		}
-
-		// Add ff/I0 values
-		if (ffSum!=null && i0Data!=null) {
-			int numI0Values = i0Data.getShape()[0];
-			Dataset ffSumSlice = ffSum.getSlice(null, new int[]{numI0Values}, null).squeeze();
-			Dataset ffi0 = ffSumSlice.idivide(i0Data);
-			// Use u2215 (division slash, ∕) rather than solidus (/), so ratio is displayed nicely and Nexus writer doesn't get confused
-			ffi0.setName("FF_sum\u2215I0");
-			NXDetectorData.addData(detTree, ffi0.getName(), NexusGroupData.createFromDataset(ffi0), "counts", 1);
-		}
-		return frame;
-	}
-
-	/**
-	 * Create NXDetector data from BufferedScaler (from Tfg scaler)
-	 * @param detector
-	 * @param lowFrame
-	 * @param highFrame
-	 * @return
-	 * @throws DeviceException
-	 */
-	private NXDetectorData createNXDetectorData(BufferedScaler detector, int lowFrame, int highFrame) throws DeviceException {
-
-		int numFramesRead = highFrame - lowFrame;
-		int numFrames = numReadoutsPerSpectrum;
-//
-//		// Number of frames to be stored in Nexus file
-//		// Don't record last frame of data (this corresponds to the long timeframe when
-//		// the motor moves back to start position)
-		int numFramesToStore = numFramesRead-1;
-
-		NXDetectorData frame = createAxisData(detector, lowFrame, highFrame);
-
-		// Frame data from detector
-		Object[] detectorFrameData = detector.readFrames(lowFrame, highFrame);
-		double[][] frameDataArray = (double[][]) detectorFrameData;
-
-		// Names of data fields on the detector
-		String[] fieldNames = detector.getExtraNames();
-
-		String frameTimeName = getFrameTimeFieldName();
-
-		// Copy data for each field and add to detector data
-		INexusTree detTree = frame.getDetTree(detector.getName());
-		int maxField = Math.min(fieldNames.length, frameDataArray[0].length);
-		i0Data = null;
-		for(int fieldIndex=0; fieldIndex<maxField; fieldIndex++) {
-			double[] detData = new double[numFramesToStore];
-			for(int i=0; i<numFramesToStore; i++) {
-				detData[i] = frameDataArray[i][fieldIndex];
-			}
-			String fieldName = fieldNames[fieldIndex];
-			String units = fieldName.equals(frameTimeName) ? TIME_UNITS : COUNT_UNITS;
-			NXDetectorData.addData(detTree, fieldName, new NexusGroupData(detData), units, 1);
-
-			// Save the I0 dataset, so can calculate (and plot) FF/I0 after xspress3 data has been collected
-			if (fieldName.equals(I0_LABEL)){
-				i0Data = DatasetFactory.createFromObject(detData);
-			}
-		}
-
-		// Store the length of last timeframe as separate dataset ('time between spectra')
-		int timeFieldIndex = Arrays.asList(fieldNames).indexOf(frameTimeName);
-		if (timeFieldIndex>-1) {
-			double[] timeBetweenSpectra = new double[] {frameDataArray[numFrames-1][timeFieldIndex]};
-			NXDetectorData.addData(detTree, TIME_BETWEEN_SPECTRA_COLUMN_NAME, new NexusGroupData(timeBetweenSpectra), TIME_UNITS, 1);
-		}
-
-		if (turboXasMotorParams != null) {
-			NXDetectorData.addData(detTree, MOTOR_PARAMS_COLUMN_NAME, new NexusGroupData(turboXasMotorParams.toXML()), "", 1);
-		}
-		return frame;
-	}
-
-	public NexusTreeProvider[] readFrames(BufferedDetector detector, int lowFrame, int highFrame) throws Exception, DeviceException {
-		NexusTreeProvider[] results = new NexusTreeProvider[1];
-		if (detector instanceof BufferedScaler) {
-			results[0] = createNXDetectorData( (BufferedScaler)detector, lowFrame, highFrame);
-		} else if (detector instanceof Xspress3BufferedDetector) {
-			results[0] = createNXDetectorData( (Xspress3BufferedDetector)detector, lowFrame, highFrame);
-		}
-		return results;
 	}
 
 	@Override
@@ -798,7 +561,7 @@ public class TurboXasScan extends ContinuousScan {
 		NexusTreeProvider[][] detData = new NexusTreeProvider[1][];
 		logger.info("reading data from detectors from frames {} to {}", lowFrame, highFrame);
 
-		detData[0] = readFrames(detector, lowFrame, highFrame);
+		detData[0] = nexusTree.readFrames(detector, lowFrame, highFrame);
 		clearFrames(detector, lowFrame, highFrame-1);
 
 		logger.info("data read successfully");
@@ -1046,16 +809,16 @@ public class TurboXasScan extends ContinuousScan {
 		this.useXspress3SwmrReadout = useXspress3SwmrReadout;
 	}
 
-	/** Number of spectra per Tfg cycle (calculated by {@link #prepareDetectors(int, int)}) **/
+	/** Number of spectra per Tfg cycle (calculated by {@link #prepareDetectors()}) **/
 	public int getNumSpectraPerCycle() {
 		return numSpectraPerCycle;
 	}
 
-	/** Number of spectra per Tfg cycle (calculated by {@link #prepareDetectors(int, int)}) **/
+	/** Number of spectra per Tfg cycle (calculated by {@link #prepareDetectors()}) **/
 	public int getNumReadoutsPerCycle() {
 		return numReadoutsPerCycle;
 	}
-	/** Number of Tfg cycles needed to record all spectra (calculated by {@link #prepareDetectors(int, int)}) **/
+	/** Number of Tfg cycles needed to record all spectra (calculated by {@link #prepareDetectors()}) **/
 	public int getNumCycles() {
 		return numCycles;
 	}
