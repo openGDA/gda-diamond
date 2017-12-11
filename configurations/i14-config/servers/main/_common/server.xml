@@ -69,6 +69,7 @@
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/detector_table.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/stage1.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/sample_beamstop.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/xrf.xml" />
 
 	<!-- ion chamber -->
@@ -132,6 +133,7 @@
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/detector_table.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/stage1.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/sample_beamstop.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/xrf.xml" />
 
 	<!-- ion chamber -->
