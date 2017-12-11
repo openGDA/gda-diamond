@@ -109,18 +109,18 @@
 
    <extension
          point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i14"
+            class="gda.rcp.views.ViewFactory:shuttersView"
+            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
+            id="uk.ac.diamond.daq.mapping.ui.ShuttersView"
+            name="Shutters">
+      </view>
       <category
             name="I14 Views"
             id="uk.ac.gda.beamline.i14">
       </category>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i14"
-            class="gda.rcp.views.ViewFactory:statusView"
-            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
-            id="uk.ac.diamond.daq.microscopy.xraymicroscopyexperiment.ui.StatusView"
-            name="Status">
-      </view>
       <view
             allowMultiple="true"
             category="uk.ac.gda.beamline.i14"
@@ -177,6 +177,18 @@
             name="D7 Array View"
             restorable="true">
       </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="uk.ac.diamond.daq.mapping.ui.experiment.MappingPerspective">
+         <view
+               id="uk.ac.diamond.daq.mapping.ui.ShuttersView"
+               minimized="false"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview">
+         </view>
+      </perspectiveExtension>
    </extension>
   
 </plugin>
