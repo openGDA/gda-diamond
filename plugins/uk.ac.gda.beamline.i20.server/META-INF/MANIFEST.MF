@@ -26,8 +26,8 @@ Require-Bundle: uk.ac.gda.core,
  uk.ac.diamond.daq.dls.controls
 Import-Package: org.slf4j,
  org.springframework.util;version="4.0.6.RELEASE"
-Export-Package: gda.device.detector;split=true;mandatory:=split,
- gda.device.scannable;split=true;mandatory:=split,
- uk.ac.gda.server.exafs.scan;split=true;mandatory:=split,
- uk.ac.gda.server.exafs.scan.iterators;split=true;mandatory:=split,
- uk.ac.gda.server.exafs.scan.preparers;split=true;mandatory:=split
+Export-Package: gda.device.detector,
+ gda.device.scannable,
+ uk.ac.gda.server.exafs.scan,
+ uk.ac.gda.server.exafs.scan.iterators,
+ uk.ac.gda.server.exafs.scan.preparers
