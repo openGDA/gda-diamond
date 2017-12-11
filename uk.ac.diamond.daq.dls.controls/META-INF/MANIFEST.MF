@@ -14,5 +14,5 @@ Import-Package: net.sf.cglib.core,
  org.python.core,
  org.slf4j;version="1.7.6",
  org.springframework.beans.factory;version="4.0.6.RELEASE"
-Export-Package: gda.device.scannable;split=true;mandatory:=split
+Export-Package: gda.device.scannable
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
