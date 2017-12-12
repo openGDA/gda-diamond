@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+        <bean id="I0_stanford_coeff" class="gda.device.enumpositioner.EpicsSimplePositioner">
+                <property name="pvName" value="BL18I-EA-STANF-01:SENS:SEL1" />
+                <property name="values">
+                        <map>
+                                <entry key="1" value="1" />
+                                <entry key="2" value="2" />
+                                <entry key="5" value="5" />
+                                <entry key="10" value="10" />
+                                <entry key="20" value="20" />
+                                <entry key="50" value="50" />
+                                <entry key="100" value="100" />
+                                <entry key="200" value="200" />
+                                <entry key="500" value="500" />
+                        </map>
+                </property>
+        </bean>
+
+        <bean id="I0_stanford_unit" class="gda.device.enumpositioner.EpicsSimplePositioner">
+                <property name="pvName" value="BL18I-EA-STANF-01:SENS:SEL2" />
+                <property name="values">
+                        <map>
+                                <entry key="pA/V" value="pA/V" />
+                                <entry key="nA/V" value="nA/V" />
+                                <entry key="uA/V" value="uA/V" />
+                                <entry key="mA/V" value="mA/V" />
+                        </map>
+                </property>
+        </bean>
+
+</beans>

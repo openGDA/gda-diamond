@@ -21,6 +21,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/malcolm.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/keithleys.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/stanfords.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/qexafs.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/xspress3_addetector.xml" />
