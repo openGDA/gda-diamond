@@ -21,17 +21,43 @@ package uk.ac.diamond.daq.beamline.i15.database;
 import java.util.List;
 import java.util.Map;
 
+import uk.ac.diamond.ispyb.api.Component;
+import uk.ac.diamond.ispyb.api.ComponentLattice;
+import uk.ac.diamond.ispyb.api.ContainerInfo;
 import uk.ac.diamond.ispyb.api.DataCollectionPlan;
+import uk.ac.diamond.ispyb.api.DataCollectionPlanInfo;
+import uk.ac.diamond.ispyb.api.IspybXpdfApi;
 import uk.ac.diamond.ispyb.api.Sample;
+import uk.ac.diamond.ispyb.api.SampleGroup;
 
+/**
+ * This is a OSGi service interface to encapsualte use of the XPDF ISPyB API.
+ *
+ * @see IspybXpdfApi
+ * @author James Mudd
+ */
 public interface IXpdfDatabaseService {
+
+	/////// Convenience API Wrapper methods ///////
 
 	Map<Long, String> getSampleIdNames(String proposalCode, long proposalNumber);
 
-	List<Sample> getSamples(String proposalCode, long proposalNumber);
-
 	Sample getSampleInformation(String proposalCode, long proposalNumber, long sampleId);
 
-	List<DataCollectionPlan> getDataCollectionPlanForSample(long sampleId);
+	/////// Pure API Methods, these are thin wrappers around the same name API calls ///////
+
+	List<Sample> retrieveSamplesAssignedForProposal(String proposalCode, long proposalNumber);
+
+	List<DataCollectionPlan> retrieveDataCollectionPlansForSample(long sampleId);
+
+	List<SampleGroup> retrieveSampleGroupsForSample(long sampleId);
+
+	List<Component> retrieveComponentsForSampleType(long sampleTypeId);
+
+	List<ComponentLattice> retrieveComponentLatticesForComponent(long componentId);
+
+	ContainerInfo retrieveContainerInfoForId(long containerId);
+
+	DataCollectionPlanInfo retrieveDataCollectionPlanInfoForSample(long sampleId);
 
 }

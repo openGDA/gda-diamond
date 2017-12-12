@@ -151,11 +151,11 @@ public class XpdfExperimentView {
 	}
 
 	private List<DataCollectionPlan> getDataCollectionPlansForSample(Sample sample) {
-		return database.getDataCollectionPlanForSample(sample.getSampleId());
+		return database.retrieveDataCollectionPlansForSample(sample.getSampleId());
 	}
 
 	private List<Sample> getSamplesForCurrentVisit() {
-		return database.getSamples(visitInfo.getProposalCode(), visitInfo.getProposalNumber());
+		return database.retrieveSamplesAssignedForProposal(visitInfo.getProposalCode(), visitInfo.getProposalNumber());
 	}
 
 	@Focus

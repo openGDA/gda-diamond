@@ -32,10 +32,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
+import uk.ac.diamond.ispyb.api.ComponentLattice;
+import uk.ac.diamond.ispyb.api.ContainerInfo;
 import uk.ac.diamond.ispyb.api.DataCollectionPlan;
+import uk.ac.diamond.ispyb.api.DataCollectionPlanInfo;
 import uk.ac.diamond.ispyb.api.IspybXpdfApi;
 import uk.ac.diamond.ispyb.api.IspybXpdfFactoryService;
 import uk.ac.diamond.ispyb.api.Sample;
+import uk.ac.diamond.ispyb.api.SampleGroup;
 import uk.ac.diamond.ispyb.api.Schema;
 
 
@@ -81,14 +85,14 @@ public class XpdfDatabaseService implements IXpdfDatabaseService {
 
 	@Override
 	public Map<Long, String> getSampleIdNames(String proposalCode, long proposalNumber) {
-		List<Sample> samples = getSamples(proposalCode, proposalNumber);
+		List<Sample> samples = retrieveSamplesAssignedForProposal(proposalCode, proposalNumber);
 
 		// Transform to the required map
 		return samples.stream().collect(Collectors.toMap(Sample::getSampleId, Sample::getSampleName));
 	}
 
 	@Override
-	public List<Sample> getSamples(String proposalCode, long proposalNumber) {
+	public List<Sample> retrieveSamplesAssignedForProposal(String proposalCode, long proposalNumber) {
 		if (proposalCode.length() > 3) {
 			throw new IllegalArgumentException("proposalCode mush be <=3 characters eg 'cm'");
 		}
@@ -99,14 +103,46 @@ public class XpdfDatabaseService implements IXpdfDatabaseService {
 
 	@Override
 	public Sample getSampleInformation(String proposalCode, long proposalNumber, long sampleId) {
-		return getSamples(proposalCode, proposalNumber).stream(). // Get all samples for proposal
+		return retrieveSamplesAssignedForProposal(proposalCode, proposalNumber).stream(). // Get all samples for proposal
 				filter(s -> s.getSampleId().longValue() == sampleId). // find the one with right ID
 				findFirst(). // Get as a Optional<Samples>
 				orElseThrow(() -> new IllegalArgumentException("No sample exisits with that ID")); // Throw if it doesn't exist else return
 	}
 
 	@Override
-	public List<DataCollectionPlan> getDataCollectionPlanForSample(long sampleId) {
+	public List<SampleGroup> retrieveSampleGroupsForSample(long sampleId) {
+		return api.retrieveSampleGroupsForSample(sampleId);
+	}
+
+	@Override
+	public List<uk.ac.diamond.ispyb.api.Component> retrieveComponentsForSampleType(long sampleTypeId) {
+		return api.retrieveComponentsForSampleType(sampleTypeId);
+	}
+
+	@Override
+	public List<ComponentLattice> retrieveComponentLatticesForComponent(long componentId) {
+		return api.retrieveComponentLatticesForComponent(componentId);
+	}
+
+	@Override
+	public ContainerInfo retrieveContainerInfoForId(long containerId) {
+		Optional<ContainerInfo> optionalContainerInfo;
+		try {
+			optionalContainerInfo = api.retrieveContainerInfoForId(containerId);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return optionalContainerInfo.orElseThrow(() -> new IllegalArgumentException("No container exist with that ID"));
+	}
+
+	@Override
+	public DataCollectionPlanInfo retrieveDataCollectionPlanInfoForSample(long sampleId) {
+		return api.retrieveDataCollectionPlanInfoForSample(sampleId)
+				.orElseThrow(() -> new IllegalArgumentException("No DCPIs exists with that sample ID"));
+	}
+
+	@Override
+	public List<DataCollectionPlan> retrieveDataCollectionPlansForSample(long sampleId) {
 		return api.retrieveDataCollectionPlansForSample(sampleId);
 	}
 

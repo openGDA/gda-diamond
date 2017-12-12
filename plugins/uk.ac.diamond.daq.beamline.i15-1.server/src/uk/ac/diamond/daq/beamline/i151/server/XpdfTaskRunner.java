@@ -68,7 +68,7 @@ public class XpdfTaskRunner implements IXpdfTaskRunner {
 		}
 
 		// Get DataCollectionPlans for the sample
-		final List<DataCollectionPlan> dataCollectionPlans = databaseService.getDataCollectionPlanForSample(sampleId);
+		final List<DataCollectionPlan> dataCollectionPlans = databaseService.retrieveDataCollectionPlansForSample(sampleId);
 		if (dataCollectionPlans.isEmpty()) {
 			throw new IllegalArgumentException("No data collection plans found for sample ID: " + sampleId);
 		}
