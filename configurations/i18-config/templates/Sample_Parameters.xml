@@ -27,7 +27,8 @@
 	 
 	<Attenuator2>
 		<name>D7B</name>
-		<position>Fluorescence</position>
+                <position>diamond thin</position>
+                <position>diamond thick</position>
         <position>ni drain</position>
         <position>au drain</position>
         <position>al drain</position>
