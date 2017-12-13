@@ -3,11 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-	<!--  QBPM -->
-	<bean id="s4bpm" class="gda.device.qbpm.EpicsQbpm">
-		<property name="currAmpController" ref="s4_amp"/>
-		<property name="bpmController" ref="s4_bpm"/>
-	</bean>
 	<!--  Motors -->
 	<bean id="s4xplus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s4xplus_motor"/>

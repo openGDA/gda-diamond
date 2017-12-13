@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- S2 Motors (individual Motions) -->
+	<bean id="s2xminus_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s2xplus_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s2yminus_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s2yplus_motor" class="gda.device.motor.DummyMotor"/>
+	<!-- S2 Motors (Compound Motions) -->
+	<bean id="s2xpos_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s2xgap_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s2ypos_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s2ygap_motor" class="gda.device.motor.DummyMotor"/>
+</beans>
