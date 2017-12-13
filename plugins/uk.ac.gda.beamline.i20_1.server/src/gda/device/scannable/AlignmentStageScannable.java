@@ -222,6 +222,16 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 		return EnumPositionerStatus.IDLE;
 	}
 
+	/**
+	 * Simple implementation to check whether device is in position.<br>
+	 * If there is a PV that indicates this, use that instead.
+	 */
+	@Override
+	public boolean isInPos() throws DeviceException {
+		logger.debug("Default isInPos() called");
+		return getStatus() == EnumPositionerStatus.IDLE;
+	}
+
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 		if (checkPositionValid(position) == null) {
