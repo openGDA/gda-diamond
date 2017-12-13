@@ -9,6 +9,7 @@
 		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 	<import resource="GDAMetadata.xml" />
+	<import resource="devices/devices.xml"/>
 	<import resource="../_common/server.xml"/>
 </beans>
 
