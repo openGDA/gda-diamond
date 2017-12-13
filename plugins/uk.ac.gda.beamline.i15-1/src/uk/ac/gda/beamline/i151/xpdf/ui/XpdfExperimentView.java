@@ -21,9 +21,12 @@ package uk.ac.gda.beamline.i151.xpdf.ui;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -141,7 +144,7 @@ public class XpdfExperimentView {
 
 		final List<Sample> samples = getSamplesForCurrentVisit();
 		for (Sample sample : samples) {
-			final List<DataCollectionPlan> dcps = getDataCollectionPlansForSample(sample);
+			final Collection<DataCollectionPlan> dcps = getUniqueDataCollectionPlansForSample(sample);
 			for (DataCollectionPlan dcp : dcps) {
 				experiments.add(new ExperimentEntry(sample, dcp));
 			}
@@ -150,8 +153,17 @@ public class XpdfExperimentView {
 		conf.setFromList(experiments);
 	}
 
-	private List<DataCollectionPlan> getDataCollectionPlansForSample(Sample sample) {
-		return database.retrieveDataCollectionPlansForSample(sample.getSampleId());
+	private Collection<DataCollectionPlan> getUniqueDataCollectionPlansForSample(Sample sample) {
+		// From the DB you might have multiple DCPs with the same ID (to represent multiple scan axis)
+		final List<DataCollectionPlan> dcps = database.retrieveDataCollectionPlansForSample(sample.getSampleId());
+		// This is a trick to get unique elements by the DCP ID. Put into a map keyed by the ID and where there are
+		// duplicated keys throw away the second object. Then return all the values.
+		return dcps.stream()
+				.collect(Collectors.toMap( // Make a Map
+						DataCollectionPlan::getDcPlanId, // Key: DCP ID
+						Function.identity(), // Value: the DCP itself
+						(dcp1, dcp2) -> dcp1)) // If the keys are duplicated just keep the first DCP
+				.values(); // Get the values i.e. the unique DCPs
 	}
 
 	private List<Sample> getSamplesForCurrentVisit() {
@@ -214,7 +226,8 @@ public class XpdfExperimentView {
 				proposalNumber = Long.parseLong(matcher.group(2));
 				sessionNumber = Long.parseLong(matcher.group(3));
 			} else {
-				throw new RuntimeException("Failed to get visit infomation");
+				logger.error("Failed to parse visit: {}", visit);
+				throw new RuntimeException("Failed to parse visit infomation");
 			}
 		}
 
