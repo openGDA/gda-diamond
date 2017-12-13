@@ -4,31 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Xray Eye group -->
-	<bean id="xreyeStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="xreye_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); xreye_addetector.collectData()" />
-		<property name="buttonText" value="Start" />
-		<property name="group" value="Xray Eye" />
-	</bean>
-
-	<bean id="xreyeStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="xreye_addetector.stop()" />
-		<property name="buttonText" value="Stop" />
-		<property name="group" value="Xray Eye" />
-	</bean>
-
-	<bean id="xsp3Start" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="xsp3_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); xsp3_addetector.collectData()" />
-		<property name="buttonText" value="Start" />
-		<property name="group" value="Xspress3" />
-	</bean>
-
-	<bean id="xsp3Stop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="xsp3_addetector.stop()" />
-		<property name="buttonText" value="Stop" />
-		<property name="group" value="Xspress3" />
-	</bean>
-
 	<!-- Sample stage group -->
  	<bean id="stage1_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Stage X" />
@@ -49,6 +24,14 @@
  	<bean id="stage1_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Stage Z" />
 		<property name="scannableName" value="stage1_z" />
+		<property name="group" value="Stage Controls" />
+		<property name="increment" value="0.1" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+	
+	<bean id="stage1_rotation_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Rotation" />
+		<property name="scannableName" value="stage1_rotation" />
 		<property name="group" value="Stage Controls" />
 		<property name="increment" value="0.1" />
 		<property name="incrementTextWidth" value="60" />
@@ -86,15 +69,12 @@
 	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
-				<ref bean="xreyeStart" />
-				<ref bean="xreyeStop" />
-				<ref bean="xsp3Start" />
-				<ref bean="xsp3Stop" />
 				<ref bean="dcm_enrg_control" />
 				<ref bean="endstation_configurations" />
 				<ref bean="stage1_x_control" />
 				<ref bean="stage1_y_control" />
 				<ref bean="stage1_z_control" />
+				<ref bean="stage1_rotation_control" />
 			</list>
 		</property>
 	</bean>
