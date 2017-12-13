@@ -6,5 +6,10 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:property-placeholder />
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<import resource="GDAMetadata.xml"/>
+	<import resource="commandServer.xml"/>
+	<import resource="wavelength.xml" />
 </beans>
 

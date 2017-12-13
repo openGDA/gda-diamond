@@ -104,5 +104,6 @@
 <!-- 	<import resource="Mar345.xml"/> -->
 	
 	<import resource="../main_common.xml"/>
+	<import resource="GDAMetadata.xml"/>
 	<import resource="../_common/server.xml"/>
 </beans>
