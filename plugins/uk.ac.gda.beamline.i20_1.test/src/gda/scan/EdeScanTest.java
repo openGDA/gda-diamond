@@ -41,9 +41,9 @@ import org.dawnsci.ede.EdeDataConstants;
 import org.dawnsci.ede.EdePositionType;
 import org.dawnsci.ede.EdeScanType;
 import org.dawnsci.ede.TimeResolvedDataFileHelper;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
 import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
@@ -55,14 +55,19 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import gda.configuration.properties.LocalProperties;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.device.DeviceException;
+import gda.device.detector.DummyDAServer;
 import gda.device.detector.EdeDummyDetector;
 import gda.device.detector.StepScanEdeDetector;
+import gda.device.detector.countertimer.TfgScaler;
 import gda.device.detector.xstrip.DummyXStripDAServer;
 import gda.device.detector.xstrip.XhDetector;
 import gda.device.enumpositioner.DummyPositioner;
+import gda.device.memory.Scaler;
 import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.ScannableMotor;
 import gda.device.scannable.ScannableUtils;
+import gda.device.timer.Etfg;
+import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.factory.ObjectFactory;
 import gda.jython.InterfaceProvider;
@@ -94,6 +99,11 @@ public class EdeScanTest extends EdeTestBase {
 	ScriptControllerBase edeProgressUpdater;
 	AsciiDataWriterConfiguration config;
 	private EdeDummyDetector dummyEdeDetector;
+
+	private DummyDAServer daserverForTfg;
+	private Etfg tfg;
+	private Scaler memory;
+	private TfgScaler injectionCounter;
 
 	@Before
 	public void setupEnvironment() throws Exception {
@@ -136,6 +146,10 @@ public class EdeScanTest extends EdeTestBase {
 		factory.addFindable(yScannable);
 		factory.addFindable(edeProgressUpdater);
 
+		createObjectsForEdeScanWithTfg();
+		factory.addFindable(daserverForTfg);
+		factory.addFindable(injectionCounter);
+
 		config = new AsciiDataWriterConfiguration();
 		factory.addFindable(config);
 
@@ -144,6 +158,26 @@ public class EdeScanTest extends EdeTestBase {
 		inOutBeamMotors = new HashMap<String, Double>();
 		inOutBeamMotors.put(xScannable.getName(), 0.3);
 		inOutBeamMotors.put(yScannable.getName(), 0.3);
+	}
+
+	public void createObjectsForEdeScanWithTfg() throws FactoryException, DeviceException {
+		daserverForTfg = new DummyDAServer();
+		daserverForTfg.setName("daserverForTfg");
+		daserverForTfg.configure();
+
+		memory = new Scaler();
+		memory.setDaServer(daserverForTfg);
+		memory.setHeight(1);
+		memory.setWidth(4);
+		memory.setOpenCommand("tfg open-cc");
+		memory.configure();
+
+		injectionCounter = new TfgScaler();
+		injectionCounter.setScaler(memory);
+		injectionCounter.setName("injectionCounter");
+		injectionCounter.setNumChannelsToRead(3);
+		injectionCounter.setTimeChannelRequired(false);
+		injectionCounter.setOutputFormat(new String[] { "%6.4g", "%6.4g", "%6.4g", "%6.4g" });
 	}
 
 	@Test()
@@ -553,19 +587,12 @@ public class EdeScanTest extends EdeTestBase {
 	}
 
 	private void testSampleDetails(String nexusFilename, String expectedSampleDetails) throws Exception {
-		IHierarchicalDataFile file = HierarchicalDataFactory.getWriter(nexusFilename);
-		try {
-			Map<String, Object> attributes = file.getAttributeValues();
-			Object[] attr = (Object[]) attributes.get("/entry1/metaData@"+EdeDataConstants.SAMPLE_DETAILS_NAME);
-			String sampleDetailsFromAttribute = attr[0].toString();
+		try (NexusFile file = new NexusFileFactoryHDF5().newNexusFile(nexusFilename)) {
+			file.openToWrite(false);
+			String sampleDetailsFromAttribute = file.getAttributeValue("/entry1/metaData@" + EdeDataConstants.SAMPLE_DETAILS_NAME);
 			assertEquals(expectedSampleDetails,  sampleDetailsFromAttribute);
-			file.close();
-
-		} finally {
-			file.close();
 		}
 	}
-
 
 	private TFGTrigger getTfgTrigger() {
 		TFGTrigger triggerParams = new TFGTrigger();
@@ -675,6 +702,32 @@ public class EdeScanTest extends EdeTestBase {
 		theExperiment.runExperiment();
 
 		int numberExpectedSpectra = getNumSpectra(allParams.getItTimingGroups());
+
+		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
+		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
+		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, allParams.getItTimingGroups().size(), false);
+	}
+
+	@Test
+	public void testEdeScanWithTfg() throws Exception {
+		setup(EdeScanTest.class, "testEdeScanWithTfg");
+		LocalProperties.set(LocalProperties.GDA_DUMMY_MODE_ENABLED, "True");
+		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
+		allParams.getItTimingGroups().get(0).setGroupTrig(true);
+		TimeResolvedExperiment theExperiment = allParams.createTimeResolvedExperiment();
+		theExperiment.runExperiment();
+
+		int numberExpectedSpectra = getNumSpectra(allParams.getItTimingGroups());
+
+		// Check the topup scaler datasets have been written correctly :
+		assertDimensions(theExperiment.getNexusFilename(), xh.getName(), EdeDataConstants.SCALER_FRAME_COUNTS, new int[] { numberExpectedSpectra, injectionCounter.getNumChannelsToRead() });
+		// all values should be >= 0
+		checkDataValidRange(theExperiment.getNexusFilename(), xh.getName(), EdeDataConstants.SCALER_FRAME_COUNTS, new RangeValidator(0, 1, true, false));
+
+		assertDimensions(theExperiment.getNexusFilename(), xh.getName(), "is_topup_measured_from_scaler", new int[] { numberExpectedSpectra });
+		// All values should be = 1
+		checkDataValidRange(theExperiment.getNexusFilename(), xh.getName(), "is_topup_measured_from_scaler", new RangeValidator(1, 1, true, true));
 
 		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);

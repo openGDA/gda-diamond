@@ -20,16 +20,16 @@ package gda.scan;
 
 import org.dawnsci.ede.EdeDataConstants;
 import org.dawnsci.ede.EdeScanType;
-import org.eclipse.dawnsci.hdf.object.H5Utils;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFactory;
-import org.eclipse.dawnsci.hdf.object.HierarchicalDataFileUtils;
-import org.eclipse.dawnsci.hdf.object.IHierarchicalDataFile;
-import org.eclipse.dawnsci.hdf.object.Nexus;
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.analysis.tree.TreeFactory;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
+import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.Scannable;
@@ -45,6 +45,7 @@ import gda.device.scannable.TopupChecker;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.position.EdeScanPosition;
+import uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
@@ -217,46 +218,17 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		if (topupScalerValueForSpectra == null || topupValueUsesScalers == null) {
 			return;
 		}
-
 		String fname = getDataWriter().getCurrentFileName();
-		IHierarchicalDataFile file = null;
-		try {
-			file = HierarchicalDataFactory.getWriter(fname);
-			String targetPath = HierarchicalDataFileUtils.createParentEntry(file, "/entry1/" + theDetector.getName(), Nexus.DATA);
-			appendDataToNexus(file, EdeDataConstants.SCALER_FRAME_COUNTS, targetPath, DatasetFactory.createFromObject(topupScalerValueForSpectra));
-			appendDataToNexus(file, "is_topup_measured_from_scaler", targetPath, DatasetFactory.createFromObject(topupValueUsesScalers));
-			file.close();
-		} catch (Exception e) {
-			logger.error("Prolbem when writing topup scaler information to Nexus file", e);
-		}
-		if (file!=null) {
-			file.close();
-		}
-	}
-
-	/**
-	 * Append values to a dataset in Nexus file, one row of values at a time (1, 2-dimensional Datasets)
-	 * @param file
-	 * @param dataName
-	 * @param fullPath
-	 * @param data
-	 * @throws Exception
-	 */
-	private void appendDataToNexus(IHierarchicalDataFile file, String dataName, String fullPath, Dataset data) throws Exception {
-		long[] shape = H5Utils.getLong(data.getShape());
-		int numValues = (int) (shape.length == 2 ? shape[1]:1);
-		int numRows = (int) shape[0];
-		long[] rowShape = new long[]{numValues};
-		for(int i=0; i<numRows; i++) {
-			double[] values = new double[numValues];
-			if(numValues==1) {
-				values[0] = data.getDouble(i);
-			}else{
-				for(int j=0; j<numValues; j++) {
-					values[j] = data.getDouble(i,j);
-				}
+		try (NexusFile file = new NexusFileFactoryHDF5().newNexusFile(fname)) {
+			file.openToWrite(false);
+			GroupNode g = file.getGroup("/entry1/" + theDetector.getName(), true);
+			if (!g.containsAttribute(NexusFile.NXCLASS)) {
+				g.addAttribute(TreeFactory.createAttribute(NexusFile.NXCLASS, NexusTreeUtils.NX_DATA));
 			}
-			String insertedData = file.appendDataset(dataName, Dataset.FLOAT64, rowShape, values, fullPath);
+			file.createData(g, EdeDataConstants.SCALER_FRAME_COUNTS, topupScalerValueForSpectra);
+			file.createData(g, "is_topup_measured_from_scaler", topupValueUsesScalers);
+		} catch (Exception e) {
+			logger.error("Problem when writing topup scaler information to Nexus file", e);
 		}
 	}
 
@@ -323,6 +295,10 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 			detector.getLimaCcd().setAcqTriggerMode(acqTriggerMode);
 
 		} else {
+			// Always enable topup scalers for dummy mode to help with unit tests
+			if (LocalProperties.isDummyModeEnabled()) {
+				triggeringParameters.setUseCountFrameScalers(true);
+			}
 			theDetector.collectData();
 
 			// start the eTFG running
@@ -433,6 +409,10 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	 * @throws DeviceException
 	 */
 	private boolean readTopupFromScalers() throws DeviceException {
+		if (topupCheckerMachine==null) {
+			return true;
+		}
+
 		final double waitTimeEitherSideOfTopup = topupCheckerMachine.getWaittime();
 
 		Double timeToTopup = getTimeUntilTopup();
@@ -453,6 +433,10 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	 * @throws DeviceException
 	 */
 	double getTimeUntilTopup() throws DeviceException {
+		if (topupCheckerMachine==null) {
+			return 0.0;
+		}
+
 		Monitor monitoredScannable = topupCheckerMachine.getScannableToBeMonitored();
 		if (monitoredScannable != null) {
 			return ScannableUtils.getCurrentPositionArray(monitoredScannable)[0];
@@ -474,7 +458,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	 * @return topupCounts
 	 */
 	private double[][] getTopupValuesForSpectra(int lowFrame, int highFrame, int numAccumulationsPerSpectra, boolean readFromScalers) {
-		if (injectionCounter == null || topupCheckerMachine == null) {
+		if (injectionCounter == null) {
 			return null;
 		}
 
