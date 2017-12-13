@@ -5,6 +5,11 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+	<import resource="SS1.xml" />
+	<import resource="SS2.xml" />
+	<import resource="SS3.xml" />
+	<import resource="SS4.xml" />
+	<import resource="SS5.xml" />
 	<import resource="GV1.xml" />
 	<import resource="GV2.xml" />
 	<import resource="GV3.xml" />
