@@ -1,7 +1,0 @@
-#!/bin/bash
-here=`dirname $0`
-echo $here
-config=`cd $here/../; pwd`
-echo $config
-root=`cd $config/../../gda-core.git; pwd`
-echo $root
