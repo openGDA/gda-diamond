@@ -16,12 +16,6 @@
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/SampleCoarseZ" />
-		<property name="service" ref="SampleCoarseZ" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/andor_x" />
 		<property name="service" ref="andor_x" />
 		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
