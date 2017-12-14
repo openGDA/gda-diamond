@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean id="cs4" class="gda.device.temperature.DummyTemperature">
+		<property name="configureAtStartup" value="true"/>
+		<property name="probeNames">
+			<list>
+				<value>ocs2_probe</value>
+			</list>
+		</property>
+		<property name="accuracy" value="0.5"/>
+		<property name="polltime" value="1000"/>
+		<property name="fileSuffix" value="temp"/>
+		<property name="upperTemp" value="500.0"/>
+		<property name="lowerTemp" value="80.0"/>
+	</bean>
+</beans>
