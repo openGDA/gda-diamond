@@ -46,6 +46,20 @@
 		<property name="activated" value="false" />
 	</bean>
 
+	<!-- Combined Excalibur/Xspress3 Malcolm hardware scanning -->
+	<bean id="malcolmModelExcaliburXsp3MalcolmHardware" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-04" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolmDeviceExcaliburXsp3MalcolmHardware" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-04" />
+		<property name="model" ref="malcolmModelExcaliburXsp3MalcolmHardware" />
+		<property name="deviceInformation" ref="malcolmInfoExcaliburXsp3MalcolmHardware" />
+		<!-- Whether this is the default device to use in a scan -->
+		<property name="activated" value="false" />
+	</bean>
+
 	<!-- Merlin -->
 	<bean id="malcolmModelMerlin" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL14I-ML-MERL-01" />
