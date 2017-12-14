@@ -11,4 +11,13 @@
 		<property name="minRampRate" value="0.01"/>
 		<property name="maxOutput" value="35.0"/>
 	</bean>
+	<bean id="csb" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true"/>
+		<property name="accuracy" value="1"/>
+		<property name="polltime" value="1000"/>
+		<property name="fileSuffix" value="temp"/>
+		<property name="upperTemp" value="1000"/>
+		<property name="lowerTemp" value="20"/>
+		<property name="controller" ref="csb_controller"/>
+	</bean>
 </beans>
