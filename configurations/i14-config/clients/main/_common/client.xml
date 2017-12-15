@@ -35,6 +35,10 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
+	<bean class="uk.ac.gda.client.ServerFileListener">
+		<property name="clientFileAnnouncerName" value="client_file_announcer" />
+	</bean>
+
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">
