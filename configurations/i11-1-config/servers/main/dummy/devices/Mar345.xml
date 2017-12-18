@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- MAR345 platform motor	-->	
+	<bean id="tmar_base_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="tmar_rot_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="tmar_x_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="tmar_y_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="tmar_z_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="s6yp_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="s6ym_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="s6xm_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="s6xp_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="coly_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="colx_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="bsy_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="bsx_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="d6x_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="oavx_mtr" class="gda.device.motor.DummyMotor"/>
+	<bean id="oavy_mtr" class="gda.device.motor.DummyMotor"/>
+</beans>

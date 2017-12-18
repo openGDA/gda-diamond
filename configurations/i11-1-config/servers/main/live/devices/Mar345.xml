@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- MAR345 platform motor	-->	
+	<bean id="tmar_base_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TMAR.BASE"/>
+	</bean>
+	<bean id="tmar_rot_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TMAR.ROT"/>
+	</bean>
+	<bean id="tmar_x_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TMAR.X"/>
+	</bean>
+	<bean id="tmar_y_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TMAR.Y"/>
+	</bean>
+	<bean id="tmar_z_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="TMAR.Z"/>
+	</bean>
+	<bean id="s6yp_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S6.YP"/>
+	</bean>
+	<bean id="s6ym_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S6.YM"/>
+	</bean>
+	<bean id="s6xm_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S6.XM"/>
+	</bean>
+	<bean id="s6xp_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="S6.XP"/>
+	</bean>
+	<bean id="coly_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="COL.Y"/>
+	</bean>
+	<bean id="colx_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="COL.X"/>
+	</bean>
+	<bean id="bsy_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BS.Y"/>
+	</bean>
+	<bean id="bsx_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BS.X"/>
+	</bean>
+	<bean id="d6x_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="D6.X"/>
+	</bean>
+		<bean id="oavx_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="OAV.X"/>
+	</bean>
+	<bean id="oavy_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="OAV.Y"/>
+	</bean>
+</beans>
