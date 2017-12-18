@@ -6,10 +6,5 @@
 		<property name="enablePV" value="BL11J-EA-MCL-02:DISABLE"/>
 		<property name="speedPV" value="BL11J-EA-MCL-02:SPEED"/>
 	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/spin" />
-		<property name="service" ref="spin" />
-		<property name="serviceInterface" value="gda.device.ISpin" />
-	</bean>
 
 </beans>
