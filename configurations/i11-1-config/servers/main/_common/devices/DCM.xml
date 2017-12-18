@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmbragg" />
+	</bean>
+	<bean id="pitch2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmpitch2" />
+	</bean>
+	<bean id="roll1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmroll1" />
+	</bean>
+	<bean id="roll2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmroll2" />
+	</bean>
+	<bean id="fpitch2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmfinepitch2" />
+	</bean>
+	<bean id="translation" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmt2" />
+	</bean>
+	<bean id="energy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmenergy" />
+	</bean>
+	<bean id="offset" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmoffset" />
+	</bean>
+	<!-- lambda is reserved name now so use dcm_lambda -->
+	<bean id="dcm_lambda" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcmlambda" />
+	</bean>
+	
+	<bean id="DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="bragg"/>
+				<ref bean="pitch2"/>
+				<ref bean="roll1"/>
+				<ref bean="roll2"/>
+				<ref bean="fpitch2"/>
+				<ref bean="translation"/>
+				<ref bean="energy"/>
+				<ref bean="offset"/>
+				<ref bean="dcm_lambda"/>
+			</list>
+		</property>
+	</bean>
+</beans>
