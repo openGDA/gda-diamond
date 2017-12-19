@@ -1,7 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -104,6 +107,9 @@
 	<!-- piezo raster scan device  - must be included for maxipix -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/pie725_raster.xml"/>
 
+	<!-- file registration -->
+	<import resource="file://${gda.core.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+
 	<!-- =========================================================== -->
 	<!-- Shared device files                                         -->
 	<!-- =========================================================== -->
@@ -196,6 +202,10 @@
  	<import resource="cameraStageScannables.xml" />
  	<import resource="dataFileMonitor.xml" />
  	<import resource="rcpController.xml" />
+
+	<!-- file registration -->
+	<import resource="file://${gda.core.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/dataFileWriter.xml" />
 	
 	<!-- See uk.ac.gda.exafs.ui.detector.DetectorEditor.EXAFS_SCRIPT_OBSERVER-->
 	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
@@ -213,5 +223,8 @@
 		ADVISED: do it last or towards the end, scan will now start to run!
 	 -->
 	<import resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml"/>
-	
+
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
+
 </beans>
