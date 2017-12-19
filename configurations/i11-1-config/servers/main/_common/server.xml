@@ -14,6 +14,7 @@
 	<import resource="commandServer.xml"/>
 	<import resource="dataWriter.xml" />
 	<import resource="ldeDataCollection.xml" />
+	<import resource="datareductionscannable.xml" />
 	<import resource="MachineStatus.xml" />
 	<import resource="wavelength.xml" />
 	<import resource="RCPController.xml" />
