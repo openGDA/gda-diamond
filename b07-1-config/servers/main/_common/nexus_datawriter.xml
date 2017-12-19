@@ -83,10 +83,22 @@
 				<value>napes_vac_04</value>
 				<value>napes_vac_05</value>
 				<value>napes_vac_06</value>
+				<!-- vacuum spaces -->
+				<value>bl07c_space_01</value>
+				<value>bl07c_space_02</value>
+				<value>bl07c_space_03</value>
+				<value>bl07c_space_04</value>
+				<value>bl07c_space_05</value>
+				<value>bl07c_space_06</value>
+				<value>bl07c_space_07</value>
+				<value>bl07c_space_08</value>
+				<value>bl07c_space_09</value>
+				<value>bl07c_space_10</value>
+				<value>bl07c_space_11</value>
 			</set>
 		</property>
 	</bean>
-	
+
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="dataWriterExtenders">
 			<list>
