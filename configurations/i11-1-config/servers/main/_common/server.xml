@@ -12,6 +12,7 @@
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	<import resource="GDAMetadata.xml"/>
 	<import resource="commandServer.xml"/>
+	<import resource="dataWriter.xml" />
 	<import resource="MachineStatus.xml" />
 	<import resource="wavelength.xml" />
 	<import resource="RCPController.xml" />
