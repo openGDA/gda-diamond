@@ -50,6 +50,9 @@
 	<import resource="sample_heater.xml"/>
 	<import resource="analyser.xml"/>
 
+	<!-- NAPES vacuum gauges -->
+	<import resource="napes_vacuum.xml"/>
+	
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
