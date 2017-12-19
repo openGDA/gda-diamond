@@ -50,15 +50,18 @@
 		<property name="plotPanel" value="2D Scan Plot" />
 	</bean>
 
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+
 	<import resource="datawriter.xml" />
 	<import resource="../../../xml/devices/common_devices.xml" />
 	<import resource="gda_metadata.xml" />
-	
+
 	<import resource="solstice_scanning.xml"/>
 	<import resource="example_detectors.xml"/>
 
 	<corba:export namespace="${gda.factory.factoryName}" />
-	
+
 	<import resource="jython_server.xml" />
 
 </beans>
