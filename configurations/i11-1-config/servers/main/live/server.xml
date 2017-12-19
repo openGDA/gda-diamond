@@ -105,6 +105,7 @@
 	
 	<import resource="../main_common.xml"/>
 	<import resource="GDAMetadata.xml"/>
+	<import resource="MachineStatus.xml" />
 	<import resource="devices/devices.xml"/>
 	<import resource="../_common/server.xml"/>
 </beans>

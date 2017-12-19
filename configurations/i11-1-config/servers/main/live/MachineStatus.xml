@@ -3,18 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-	<bean id="operationmode" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="deviceName" value="MSTAT.MODE"/>
+	<bean id="operationmode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
+		<property name="local" value="false" />
 	</bean>
 	<bean id="fillmode" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="deviceName" value="MSTAT.FILL"/>
 	</bean>
-<!--	<bean id="feabsorber" class="gda.device.enumpositioner.EpicsSimpleMbbinary">-->
-<!--		<property name="deviceName" value="MSTAT.ABSB"/>-->
-<!--	</bean>-->
-<!--	<bean id="portshutterstatus" class="gda.device.enumpositioner.EpicsSimpleMbbinary">-->
-<!--		<property name="deviceName" value="MSTAT.SHTR"/>-->
-<!--	</bean>-->
 	<bean id="ringcurrent" class="gda.spring.EpicsMonitorFactoryBean">
 		<property name="deviceName" value="MSTAT.CURRENT"/>
 	</bean>
@@ -30,14 +25,9 @@
 	<bean id="lifetime" class="gda.spring.EpicsMonitorFactoryBean">
 		<property name="deviceName" value="MSTAT.LIFETIME"/>
 	</bean>
-	<bean id="countdown" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="deviceName" value="MSTAT.TOPUP"/>
+	<bean id="countdown" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+		<property name="local" value="true" />
 	</bean>
-<!--	<bean id="message1" class="gda.device.simplearray.EpicsSimpleArray">-->
-<!--		<property name="deviceName" value="MSTAT.MESS1"/>-->
-<!--	</bean>-->
-<!--	<bean id="message2" class="gda.device.simplearray.EpicsSimpleArray">-->
-<!--		<property name="deviceName" value="MSTAT.MESS2"/>-->
-<!--	</bean>-->
 
 </beans>
