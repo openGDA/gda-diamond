@@ -42,6 +42,9 @@
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/monitors/beam_monitors.xml" />
 
+	<!-- file registration -->
+	<import resource="file://${gda.core.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+
 	<!-- =========================================================== -->
 	<!-- 	shared files -->
 	<!-- =========================================================== -->
@@ -63,6 +66,10 @@
 	<import resource="file:${gda.config}/servers/main/_common/detectors/malcolm.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/monitors/beam_monitors.xml" />
+
+	<!-- file registration -->
+	<import resource="file://${gda.core.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/data_writer.xml" />
 
 	<!-- Uncomment this line and restart server to make Mandelbrot detector etc. available -->
 	<!-- You will also have to uncomment the appropriate section of the client MappingExperimentBean -->
