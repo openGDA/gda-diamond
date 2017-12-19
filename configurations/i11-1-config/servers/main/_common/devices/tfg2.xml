@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!--  Time Frame Generator -->
+	<bean id="tfg" class="gda.device.timer.Etfg">
+		<property name="daServer" ref="daserver" />
+	</bean>
+
+	<!--	 Scaler channels -->
+	<bean id="CalMemory" class="gda.device.memory.Scaler">
+		<property name="daServer" ref="daserver" />
+		<property name="width" value="3" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+
+</beans>
