@@ -38,6 +38,9 @@
 		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
 	</bean>
 
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 
 	<import resource="devices/common_devices.xml"/>
