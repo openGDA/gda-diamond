@@ -18,6 +18,16 @@
 		<!-- Use the WORKSTATION environment variable if set, otherwise use HOSTNAME -->
 		<property name="url" value="http://${HOSTNAME}:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="${WORKSTATION}-AD-SIM-01:ARR" />
+		<property name="cameraCalibration">
+			<bean class="uk.ac.gda.client.live.stream.view.CameraCalibration">
+				<property name="xAxisScannableName" value="stage1_x"/>
+				<property name="yAxisScannableName" value="stage1_y"/>
+				<property name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis-->
+				<property name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis -->
+				<property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
+				<property name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis -->
+			</bean>
+		</property>
 	</bean>
 
 </beans>

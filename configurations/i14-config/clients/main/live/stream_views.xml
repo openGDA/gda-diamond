@@ -83,8 +83,8 @@
             <bean class="uk.ac.gda.client.live.stream.view.CameraCalibration">
                 <property name="xAxisScannableName" value="stage1_x"/>
                 <property name="yAxisScannableName" value="stage1_y"/>
-                <property name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit is x axis  -->
-                <property name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit is y axis  -->
+                <property name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis  -->
+                <property name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
                 <property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
                 <property name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
             </bean>
@@ -100,8 +100,8 @@
             <bean class="uk.ac.gda.client.live.stream.view.CameraCalibration">
                 <property name="xAxisScannableName" value="stage1_x"/>
                 <property name="yAxisScannableName" value="stage1_y"/>
-                <property name="xAxisPixelScaling" value="0.000912"/> <!-- Number of pixels per scannable unit is x axis  -->
-                <property name="yAxisPixelScaling" value="0.000912"/> <!-- Number of pixels per scannable unit is y axis  -->
+                <property name="xAxisPixelScaling" value="0.000912"/> <!-- Number of pixels per scannable unit in x axis  -->
+                <property name="yAxisPixelScaling" value="0.000912"/> <!-- Number of pixels per scannable unit in y axis  -->
                 <property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
                 <property name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
             </bean>
