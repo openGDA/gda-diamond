@@ -19,6 +19,7 @@ from time import sleep  # @UnusedImport
 import os
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
+from gdaserver import sapolar, lakeshore
 
 #global run
  
@@ -229,7 +230,7 @@ sgmlist=[sgmx,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside,sgmGratingSel
 spectrometerlist=[specgamma,spech,specl] # @UndefinedVariable
 andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
 
-meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s5list+s6list+samplelist+sgmlist+spectrometerlist+andorlist
+meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist+andorlist
 # metadatalist=[s1, m1, s2, m2, s3, pgm, s5, m4, idgap, smp]  # @UndefinedVariable
 for each in meta_data_list:
     meta_add(each)
@@ -253,5 +254,37 @@ from scannabledevices.xrayBeamMonitor import XRayBeamMonitor
 xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 
 from scannabledevices.samplePoistioner_instance import smp_positioner  # @UnusedImport
+
+print "*"*80
+print "Creating aliases"
+th=sapolar
+chi = satilt  # @UndefinedVariable
+tsample=lakeshore.getTemperature(0)  # @UndefinedVariable
+tshield=lakeshore.getTemperature(1)
+tcryostat=lakeshore.getTemperature(2)
+
+def input_tsample():
+    lakeshore.setInput(1)
+    
+def input_tshield():
+    lakeshore.setInput(2)
+    
+def input_tcryostat():
+    lakeshore.setInput(3)
+    
+alias("input_tsample")
+alias("input_tshield")
+alias("input_tcryostat")
+
+#fast shutter source control
+def erio():
+    caput("BL21I-OP-SHTR-01:SRC", 0)
+
+def camera():
+    caput("BL21I-OP-SHTR-01:SRC", 1)
+
+alias("erio")
+alias("camera")
+
 
 simpleLog("===================== GDA ONLINE =====================")
