@@ -22,7 +22,7 @@
 
 	<bean id="m2finepitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m2finepitchMotor" />
-		<property name="userUnits" value="deg"/>
+		<property name="userUnits" value="um"/>
 	</bean>
 
 	<bean id="m2height" class="gda.device.scannable.ScannableMotor">
