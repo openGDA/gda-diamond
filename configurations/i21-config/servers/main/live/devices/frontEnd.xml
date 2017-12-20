@@ -9,13 +9,20 @@
  	<bean id="feBeamPermit" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="controlPv" value="FE21I-CS-BEAM-01:BLCON" />
 		<property name="statusPv" value="FE21I-CS-BEAM-01:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
 	</bean>
 	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
 		need events to be fired for the GDA9 ExpressionWatchdog -->
-	<bean id="portshutter" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="recordName" value="FE21I-PS-SHTR-01:STA" />
+	<bean id="portshutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE21I-PS-SHTR-01:CON" />
+		<property name="statusPv" value="FE21I-PS-SHTR-01:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+		<property name="readOnly" value="true"/>
 	</bean>
-	<bean id="feshutter" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="recordName" value="FE21I-PS-SHTR-02:STA" />
+	<bean id="feshutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE21I-PS-SHTR-02:CON" />
+		<property name="statusPv" value="FE21I-PS-SHTR-02:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+		<property name="readOnly" value="true"/>
 	</bean>
 </beans>
