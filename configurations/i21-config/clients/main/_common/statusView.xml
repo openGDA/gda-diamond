@@ -26,12 +26,12 @@
 					<property name="columns" value="4" />
 					<property name="compositeFactories">
 						<list>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.FrontEndPneumaticShutterCompositeFactory">
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
 								<property name="label" value="Port" />
 								<property name="controlPermitted" value="false" />
 								<property name="shutter" ref="portshutter" />
 							</bean>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.FrontEndPneumaticShutterCompositeFactory">
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
 								<property name="label" value="FE" />
 								<property name="controlPermitted" value="false" />
 								<property name="shutter" ref="feshutter" />
@@ -45,6 +45,8 @@
 								<property name="label" value="FS" />
 								<property name="controlPermitted" value="true" />
 								<property name="shutter" ref="fastshutter" />
+								<property name="openString" value="Open"/>
+								<property name="closeString" value="Closed"/>
 							</bean>
 						</list>
 					</property>
