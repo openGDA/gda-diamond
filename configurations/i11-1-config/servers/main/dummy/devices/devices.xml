@@ -5,6 +5,8 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+	<import resource="perkin_elmer.xml" />
+	<import resource="pixium.xml" />
 	<import resource="daserver.xml" />
 	<import resource="detectorArm.xml" />
 	<import resource="BSTP1.xml" />
