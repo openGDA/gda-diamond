@@ -56,6 +56,7 @@ See &lt;http://www.opengda.org/&gt;
       </win>
    </launcher>
 
+
    <vm>
    </vm>
 
@@ -85,9 +86,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <feature id="uk.ac.gda.beamline.i21.feature"/>
    </features>
 
-   <configurations>
-      <property name="eclipse.pluginCustomization" value="/scratch/gda_versions/gda_master3/workspace_git/gda-dls-beamlines-i21.git/i21-config/plugin_customization.ini" />
-   </configurations>
 
    <preferencesInfo>
       <targetfile overwrite="false"/>
