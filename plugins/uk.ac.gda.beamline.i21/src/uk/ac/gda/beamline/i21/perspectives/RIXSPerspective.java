@@ -73,6 +73,7 @@ public class RIXSPerspective implements IPerspectiveFactory {
 	}
 
 	private void defineActions(IPageLayout layout) {
+        layout.addPerspectiveShortcut(RIXSPerspective.ID);
         layout.addPerspectiveShortcut(JythonPerspective.ID);
         layout.addPerspectiveShortcut(MappingPerspective.ID);
         layout.addPerspectiveShortcut(ScanPerspective.ID);

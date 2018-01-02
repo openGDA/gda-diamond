@@ -77,10 +77,6 @@
                name="startupMessageRect"
                value="4,195,598,20">
          </property>
-         <property
-               name="preferenceCustomization"
-               value="plugin_customization.ini">
-         </property>
       </product>
    </extension>
    <extension
