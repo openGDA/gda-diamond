@@ -13,6 +13,9 @@
 
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+
 	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
@@ -76,17 +79,10 @@
 			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
 	</bean>
 
-
-	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
-		<property name="directory"
-			value="/dls/bl-misc/dropfiles2/icat/dropZone/${gda.instrument}-" />
-	</bean>
-
-
 	<bean id="DataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="dataWriterExtenders">
 			<list>
-				<ref bean="FileRegistrar" />
+				<ref bean="file_registrar" />
 			</list>
 		</property>
 	</bean>
