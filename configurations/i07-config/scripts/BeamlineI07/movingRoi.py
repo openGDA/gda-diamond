@@ -26,6 +26,8 @@ DETECTOR_INFO['pil1'] = DETECTOR_INFO['pilatus1']
 DETECTOR_INFO['pil'] = DETECTOR_INFO['pilatus1']
 DETECTOR_INFO['pil2roi'] = DETECTOR_INFO["pilatus2"]
 DETECTOR_INFO['pil1roi'] = DETECTOR_INFO['pilatus1']
+DETECTOR_INFO["fastpil1"] = DETECTOR_INFO["pilatus1"]
+DETECTOR_INFO["fastpil2"] = DETECTOR_INFO["pilatus2"]
 
 class MovingRoiPlottingManager:
     """
@@ -65,6 +67,7 @@ class MovingRoiPlottingManager:
         for rname, (x_start, y_start, x_size, y_size) in updated_rois.items():
             roi = RectangularROI(x_start, y_start, x_size, y_size, 0)
             roi.name = rname
+            roi.plot = True
             new_rois.append(roi)
         rois.clear()
         rois.addAll(new_rois)
@@ -73,7 +76,10 @@ class MovingRoiPlottingManager:
         SDAPlotter.setGuiBean(self.panel_name, guibean)
 
 MROI_PLOT_MANAGERS = {
-        "Area Detector":MovingRoiPlottingManager("Area Detector")
+        "Area Detector":MovingRoiPlottingManager("Area Detector"),
+        "Pilatus 1 Array":MovingRoiPlottingManager("Pilatus 1 Array"),
+        "Pilatus 2 Array":MovingRoiPlottingManager("Pilatus 2 Array"),
+        "Pilatus 3 Array":MovingRoiPlottingManager("Pilatus 3 Array")
 }
 
 class MovingRoiDatasetProvider:
@@ -92,8 +98,8 @@ class MovingRoiDatasetProvider:
 
 PROVIDERS = {
         pil1 : MovingRoiDatasetProvider(pil1),
-        pil1roi: MovingRoiDatasetProvider(pil1roi)
-        pil2 : MovingRoiDatasetProvider(pil2)
+        pil1roi: MovingRoiDatasetProvider(pil1roi),
+        pil2 : MovingRoiDatasetProvider(pil2),
         pil2roi : MovingRoiDatasetProvider(pil2roi)
         }
 
@@ -200,6 +206,16 @@ def createMroiLinear(name, x_start, x_size, y_start, y_size,
             distance * math.tan(math.radians(y_device.getPosition())))
     exec "_temp = MRoi(name, detector, [MinMaxSumMeanDeviationProcessor()],\
             displacement_func=f, data_provider=PROVIDERS[detector])" in globals(), locals()
+    _temp.setBeamCentre(0, 0, 50, 50) #we really don't care about beam centre
+    _temp.setRoi(x_start, y_start, x_size, y_size)
+    return _temp
+
+def createMroiLinear_fastpil(name, x_start, x_size, y_start, y_size,
+        distance, x_device=mroiDummyDevice(), y_device=mroiDummyDevice(), detector=fastpil2):
+    f = lambda: (distance * math.tan(math.radians(x_device.getPosition())),
+            distance * math.tan(math.radians(y_device.getPosition())))
+    exec "_temp = MRoi(name, detector, [], displacement_func=f, \
+            data_provider=None, panel_name='Pilatus 2 Array')" in globals(), locals()
     _temp.setBeamCentre(0, 0, 50, 50) #we really don't care about beam centre
     _temp.setRoi(x_start, y_start, x_size, y_size)
     return _temp
