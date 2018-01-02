@@ -86,14 +86,14 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="uk.ac.gda.beamline.i21.perspective.ScanPerspective"
-            id="uk.ac.gda.beamline.i21.perspective.ScanPerspective"
-            name="Scan">
+            class="uk.ac.gda.beamline.i21.perspectives.RIXSPerspective"
+            id="uk.ac.gda.beamline.i21.perspectives.RIXSPerspective"
+            name="RIXS">
       </perspective>
       <perspective
-            class="uk.ac.gda.beamline.i21.perspective.RIXSPerspective"
-            id="uk.ac.gda.beamline.i21.perspective.RIXSPerspective"
-            name="RIXS">
+            class="uk.ac.gda.beamline.i21.perspectives.ScanPerspective"
+            id="uk.ac.gda.beamline.i21.perspectives.ScanPerspective"
+            name="Scan">
       </perspective>
    </extension>
 </plugin>
