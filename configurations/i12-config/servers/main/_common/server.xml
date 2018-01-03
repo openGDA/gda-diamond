@@ -12,7 +12,9 @@
 
 	<context:property-placeholder/>
 
-	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider" />
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
+		<property name="name" value="metashop" />
+	</bean>
 	
 	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
@@ -46,9 +48,11 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam1_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam3_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/edxd.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/eulerian_cradle_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/eurotherm.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/filters.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/gbc1.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/i20_aero_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/monitors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/mono_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/p2r.xml"/>
@@ -97,7 +101,9 @@
 	<import resource="file:${gda.config}/devices/_common/dummy_motors.xml"/>
 	<import resource="file:${gda.config}/devices/_common/dummyAD.xml"/>
 	<import resource="file:${gda.config}/devices/_common/edxd.xml"/>
+	<import resource="file:${gda.config}/devices/_common/eulerian_cradle.xml"/>
 	<import resource="file:${gda.config}/devices/_common/gbc1.xml"/>
+	<import resource="file:${gda.config}/devices/_common/i20_aero.xml"/>
 	<import resource="file:${gda.config}/devices/_common/lut_ball_position.xml"/>
 	<import resource="file:${gda.config}/devices/_common/lut_camera_motion.xml"/>
 	<import resource="file:${gda.config}/devices/_common/lut_energymodule.xml"/>

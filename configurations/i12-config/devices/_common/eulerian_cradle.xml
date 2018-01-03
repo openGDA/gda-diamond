@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="cradle_x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="cradle_x" />
+		<property name="motor" ref="cradle_x_motor" />
+		<!-- <property name="tolerance" value="0.01" /> -->
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="cradle_z" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="cradle_z" />
+		<property name="motor" ref="cradle_z_motor" />
+		<!-- <property name="tolerance" value="0.01" /> -->
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="cradle_phi_y" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="cradle_phi_y" />
+		<property name="motor" ref="cradle_phi_y_motor" />
+		<!-- <property name="tolerance" value="0.01" /> -->
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="cradle_phi" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="cradle_phi" />
+		<property name="motor" ref="cradle_phi_motor" />
+		<!-- <property name="tolerance" value="0.01" /> -->
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="cradle_chi" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="cradle_chi" />
+		<property name="motor" ref="cradle_chi_motor" />
+		<!-- <property name="tolerance" value="0.01" /> -->
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cradle" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="cradle_phi" />
+				<ref bean="cradle_phi_y" />
+				<ref bean="cradle_x" />
+				<ref bean="cradle_z" />
+				<ref bean="cradle_chi" />
+			</list>
+		</property>
+	</bean>
+</beans>

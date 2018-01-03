@@ -1015,7 +1015,7 @@ def use_storage(storage_name):
         #print "enable 'Path does not exist on IOC'"
         pixium10_tif.pluginList[1].pathErrorSuppressed=False
 
-        pco4000_dio_tif.setCheckFileExists(True)
+        pco4000_dio_tif.setCheckFileExists(False) # was True 5 x 17 kz
         pco4000_dio_tif.fileWriter.pathErrorSuppressed=False
         pco4000_dio_hdf.pluginList[1].pathErrorSuppressed=False
 

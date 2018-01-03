@@ -118,6 +118,44 @@
 		<property name="readArray" value="false" />
 	</bean> -->
 
+	<bean id="pco_tif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<!-- <property name="deviceName" value="pco.tif_NDFile" /> -->
+		<property name="basePVName" value="BL12I-EA-DET-02:TIF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL12I-EA-DET-02:TIF:" />
+				<!-- <property name="deviceName" value="pco.tif_NDPluginBase" /> -->
+				<property name="initialArrayPort" value="pco1.cam" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="initialAutoIncrement" value="Yes" />
+		<property name="initialAutoSave" value="Yes" />
+		<property name="initialWriteMode" value="2" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="p" />
+		<property name="initialFileTemplate" value="%s/%s_%05d.tif" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/i12/data" />
+				<!-- <property name="windowsSubString" value="z:\data" /> -->
+				<property name="windowsSubString" value="d:\\i12\data" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco1_tif_writer" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<!--<constructor-arg value="pco1"/>-->
+		<property name="fileTemplate" value="%s%s%05d.tif" />
+		<property name="filePathTemplate" value="$datadir$/$scan$/projections/" />
+		<property name="fileNameTemplate" value="p_" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="ndFile" ref="pco_tif" />
+		<property name="blocking" value="false"/>
+	</bean>
+
 	<bean id="pco4000_dio_tif" class="gda.device.detector.addetector.ADPco">
 		<property name="adBase" ref="pco.cam" />
 		<property name="ndStats" ref="pco.stat" />

@@ -122,7 +122,6 @@ def monodiffractionMode():
     pos(t3.x, detector_diffxposition)
     pos(detector_table)
     pos(detector_diffzposition)     
-
     #pos(t3.m2z, 700) #WHY IS THIS HERE?????
 
     print "******* Large detector table now in position. \n "

@@ -199,9 +199,10 @@ except :
     exceptionType, exception, traceback = sys.exc_info()
     handle_messages.log(None, "EDXD detector not available!", exceptionType, exception, traceback, False)
 
-print "--------------------------------------------------"
+# manager_scan_functions commented out: probably not used and references client code
+#print "--------------------------------------------------"
 
-print "setup scan manager to control scan queue and their running"
+#print "setup scan manager to control scan queue and their running"
 #from manager_scan_functions import * #@UnusedWildImport
 
 print "--------------------------------------------------"
@@ -389,9 +390,9 @@ if isLive():
     
     print "--------------------------------------------------"
     
-    # print "Adding mono_bender_adjustment"
-    # import mono_bender_adjustment
-    # from mono_bender_adjustment import *
+    print "Adding mono_bender_adjustment"
+    import mono_bender_adjustment
+    from mono_bender_adjustment import *
     
     print "-------------------------------------------------"
     print "Adding beamEnergy"
@@ -464,8 +465,10 @@ if isLive():
     
     print "--------------------------------------------------"
     print "Creating 'eurotherm1' and 'eurotherm2' scannables" 
-    eurotherm1temp = DisplayEpicsPVClass('eurotherm1temp', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
-    eurotherm2temp = DisplayEpicsPVClass('eurotherm2temp', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
+    #eurotherm1temp = DisplayEpicsPVClass('eurotherm1temp', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
+    #eurotherm2temp = DisplayEpicsPVClass('eurotherm2temp', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
+    eurotherm1temp = DisplayEpicsPVClass('eurotherm1temp', 'BL12I-EA-FURN-01:EH1:PV:RBV', 'c', '%.3f')
+    eurotherm2temp = DisplayEpicsPVClass('eurotherm2temp', 'BL12I-EA-FURN-01:EH2:PV:RBV', 'c', '%.3f')
     
     print "--------------------------------------------------"
     
@@ -479,6 +482,12 @@ if isLive():
         cryoTemp = DisplayEpicsPVClass('cryoTemp', "BL12I-EA-CSTRM-01:TEMP",'degrees','%.3f')
     except:
         print "cannot create linkam scannables"
+    
+    print "Creating HELIOS objects"
+    try:
+        heliosTemp = DisplayEpicsPVClass('heliosTemp','BL12I-EA-HELIOS-01:LOOP1:PV:RBV','deg C','%.3f')
+    except Exception, e:
+        print "Error creating HELIOS objects: %s" %(str(e))
     
     print "--------------------------------------------------"
     
@@ -985,11 +994,7 @@ if isLive():
         
     from p2r_utilities import p2r_telnet
     from i12utilities import i12tomoTRFlyScan, use_storage, report_storage
-    
-    try:
-        use_storage(storage_name="gpfs")
-    except:
-        print "exception running use_storage()"
+    #use_storage(storage_name="gpfs")
     
     try:
         # Set ports of file-writing plugins 
@@ -1008,6 +1013,22 @@ if isLive():
     print("Adding ring-current (beam) monitor")
     from beam_monitor import WaitWhileScannableBelowThresholdMonitorOnly
     bm = WaitWhileScannableBelowThresholdMonitorOnly("bm", ring_current, minimumThreshold=200.0, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=10.0, shtr_obj=eh1shtr)
+
+    print "Adding pco_preview"
+    def pco_preview():
+        caput("BL12I-EA-DET-02:CAM:Acquire", 0)    # 1 for START, 0 for STOP
+        caput("BL12I-EA-DET-02:CAM:ImageMode", 2)   # 0 for SINGLE, 2 for CONTINUOUS
+        caput("BL12I-EA-DET-02:PRO1:EnableCallbacks", 1)
+        caput("BL12I-EA-DET-02:CAM:Acquire", 1)
+    alias("pco_preview")
+    
+    print "Adding pco_preview"
+    def pixium_preview():
+        caput("BL12I-EA-DET-10:CAM:Acquire", 0)    # 1 for START, 0 for STOP
+        caput("BL12I-EA-DET-102:CAM:ImageMode", 2)   # 0 for SINGLE, 2 for CONTINUOUS
+        caput("BL12I-EA-DET-10:PRO1:EnableCallbacks", 1)
+        caput("BL12I-EA-DET-10:CAM:Acquire", 1)
+    alias("pco_preview")
 
 print 
 print "==================================================="

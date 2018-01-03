@@ -1187,4 +1187,3 @@ class TomoAlignmentConfiguration:
             self.tomographyConfigurationManager.setConfigRunning(None)
             updateScriptController('Tomography Scan Complete')
             
-    

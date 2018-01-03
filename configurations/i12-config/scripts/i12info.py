@@ -67,6 +67,8 @@ http://confluence.diamond.ac.uk/display/I12Tech/I12+GDA+Help
 12. To start GDA log panel, execute the following Jython console command: 
     gda_start_logpanel
 
-
+13. To move between different camera modules, please use:
+    tomoAlignment.moveToModule(<module_number>)
+    where module_number = 1, 2, 3, or 4.
 
 """
