@@ -163,6 +163,16 @@ if installation.isLive():
     from scannabledevices.feedbackScannable import FeedbackScannable, FeedbackOffScannable
     fbs=FeedbackScannable("fbs", pvroot="BL21I-OP-MIRR-01:FBCTRL")
     fboff=FeedbackOffScannable("fboff", pvroot="BL21I-OP-MIRR-01:FBCTRL")
+    
+    #fast shutter source control
+    def erio():
+        caput("BL21I-OP-SHTR-01:SRC", 0)
+    
+    def camera():
+        caput("BL21I-OP-SHTR-01:SRC", 1)
+    
+    alias("erio")
+    alias("camera")
 else:
     print "Running in dummy mode"
 
@@ -276,15 +286,7 @@ alias("input_tsample")
 alias("input_tshield")
 alias("input_tcryostat")
 
-#fast shutter source control
-def erio():
-    caput("BL21I-OP-SHTR-01:SRC", 0)
 
-def camera():
-    caput("BL21I-OP-SHTR-01:SRC", 1)
-
-alias("erio")
-alias("camera")
 
 
 simpleLog("===================== GDA ONLINE =====================")
