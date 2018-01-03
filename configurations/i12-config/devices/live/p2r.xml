@@ -4,7 +4,14 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="p2r_telnet" class="gda.io.socket.SocketBidiAsciiCommunicator">
-	<property name="address" value="172.23.112.78"/>
+	<!-- <property name="address" value="172.23.112.78"/> -->
+	<!-- <property name="address" value="172.23.112.31"/> -->
+	<!-- <property name="address" value="172.23.112.130"/> -->
+	<!-- <property name="address" value="172.23.112.128"/> -->
+	<!-- <property name="address" value="172.23.112.130"/> -->
+	<!-- <property name="address" value="172.23.112.16"/> -->
+	<!-- <property name="address" value="172.23.112.130"/> -->
+	<property name="address" value="172.23.112.131"/>
 	<property name="port" value="23"/>
 	</bean>
 	<bean id="p2r_rot_motor_controller" class="uk.ac.gda.tomography.devices.p2r.P2RMotorController">
