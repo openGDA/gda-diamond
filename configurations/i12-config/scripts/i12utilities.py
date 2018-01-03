@@ -302,6 +302,7 @@ def i12tomoFlyScan(description="Hello World", inBeamPosition=0.,outOfBeamPositio
     #remove_default(ring)
     #remove_default(actualTime)
     #caput("BL12I-EA-ZEBRA-01:M1:SETPOS.PROC", 1)    # copy motor position to Zebra 1 (on POS1 of ENC tab)
+    caput("BL12I-EA-ZEBRA-01:SYS_RESET.PROC", 1)
     defaults_save = clear_defaults()
     try:
         i13tomographyScan.tomoFlyScan(description=description, inBeamPosition=inBeamPosition, outOfBeamPosition=outOfBeamPosition, exposureTime=exposureTime, start=start, stop=stop, step=step, imagesPerDark=imagesPerDark, imagesPerFlat=imagesPerFlat, extraFlatsAtEnd=extraFlatsAtEnd, closeShutterAfterScan=closeShutterAfterScan, beamline="I12", vetoFlatsDarksAtStart=vetoFlatsDarksAtStart, helical_axis_stage=helical_axis_stage)
@@ -319,7 +320,7 @@ def i12tomoFlyScan(description="Hello World", inBeamPosition=0.,outOfBeamPositio
         atTomoFlyScanEnd();
     print "Finished running i12tomoFlyScan"
 
-def makeSubdirectory(dirname="rawdata"):
+def _make_subdir(dirname="rawdata"):
     """
     To create a given sub-directory in the current visit directory (if this sub-directory does not already exist).
     
@@ -329,9 +330,9 @@ def makeSubdirectory(dirname="rawdata"):
         (2) The input sub-directory's name must be specified relative to the current visit directory, ie to /dls/i12/data/yyyy/visit
         rather then, eg, /dls/i12/data/yyyy/visit/rawdata (the latter being i12's default sub-directory for saving scan files)
     Example(s): 
-        (1) makeSubdirectory("test12/noname")
+        (1) _make_subdir("test12/noname")
         will, if necessary, create a new sub-directory whose path is /dls/i12/data/yyyy/visit/test12/noname
-        (2) makeSubdirectory("rawdata")
+        (2) _make_subdir("rawdata")
         will, if necessary, create a new sub-directory whose path is /dls/i12/data/yyyy/visit/rawdata
     """
     dirpath = os.path.join(getVisitRootPath(), dirname)
@@ -773,7 +774,7 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
             
         if autoAnalyse:
             lsdp=jns.lastScanDataPoint()
-            OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
+            OSCommandRunner.runNoWait(["/dls_sw/apps/tomopy/tomopy/bin/gda/tomo_at_scan_end_kz", lsdp.currentFilename], OSCommandRunner.LOGOPTION.ALWAYS, None)
     
         return multiScanObj;
     except :
@@ -876,3 +877,218 @@ def setZebra1And2ForP2RGapScan(z1config="/dls_sw/i12/epics/zebra/count_opulse_p2
     print "Awaiting implementation!"
 
     
+class BeamlineStorage:
+    def __init__(self, name, ixx='i12', windowsSubString = {"na": "d:\\i12\\data\\", "gpfs": "t:\\i12\\data\\"}, windowsSubString_rvr = {"d": "NetApp", "t": "GPFS01"}, emails=[]):
+        self.name = name
+        self.ixx = ixx
+        self.emails = emails # lst, eg ['kaz.wanelik@diamond.ac.uk', 'frederik.ferner@diamond.ac.uk', 'andy.wilson@diamond.ac.uk']
+        self.emails_enabled = False
+        self.windowsSubString_dct = windowsSubString #dct, eg {"na": "d:\\i12\\data\\", "gpfs": "t:\\i12\\data\\"}
+        self. windowsSubString_rvr = windowsSubString_rvr #dct, eg {"d": "NetApp", "t": "GPFS01"}
+        self.verbose = False
+        
+    def use(self, storage_name):
+        use_storage(storage_name)
+        
+    def report(self):
+        report_storage()
+        
+    
+def use_storage(storage_name):
+    """
+    Desc:
+    Fn to select storage for saving scan files on the beamline. Note: this command needs to be executed each time GDA servers get restarted.
+    
+    Arg(s):
+    storage_name (str) - name of storage to be used for saving any subsequent scan files: NetApp (local) or GPFS01 (central):
+        "na" - NetApp local storage 
+        "gpfs" - GPFS central storage
+    """
+    #assert na or gpfs
+    storage_name_ = storage_name.lower()
+    print "\n * Configuring beamline storage to %s...\n" %(storage_name_)
+    windowsSubString_dct = {"na": "d:\\i12\\data\\", "gpfs": "t:\\i12\\data\\"}
+    windowsSubString_rvr_dct = {"d": "NetApp", "t": "GPFS01"}
+
+    storage = windowsSubString_dct[storage_name_]
+    curr_out_str = "Current windowsSubString for %s is %s (%s).\n"
+    
+    # PIXIUM TIFF detector objects
+    pixium10_tif = finder.find("pixium10_tif")
+    det_name = pixium10_tif.getName()
+    print "Setting windowsSubString for %s to %s... " %(det_name, storage)
+    pixium10_tif.getAdditionalPluginList()[0].getNdFile().getFilePathConverter().setWindowsSubString(storage)
+    #pixium10_tif.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage)
+    print "Finished setting windowsSubString for %s to %s." %(det_name, storage)
+    det_cfg = pixium10_tif.getAdditionalPluginList()[0].getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+    #print "Current windowsSubString = %s" %(flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString())
+
+    # PIXIUM HDF detector objects
+    pixium10_hdf = finder.find("pixium10_hdf")
+    det_name = pixium10_hdf.getName()
+    print "Setting windowsSubString for %s to %s... " %(det_name, storage)
+    pixium10_hdf.getAdditionalPluginList()[0].getNdFile().getFilePathConverter().setWindowsSubString(storage)
+    print "Finished setting windowsSubString for %s to %s." %(det_name, storage)
+    det_cfg = pixium10_hdf.getAdditionalPluginList()[0].getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+    
+    # PCO TIFF detector objects
+    pco4000_dio_tif = finder.find("pco4000_dio_tif")
+    det_name = pco4000_dio_tif.getName()
+    print "Setting windowsSubString for %s to %s... " %(det_name, storage)
+    pco4000_dio_tif.getNdFile().getFilePathConverter().setWindowsSubString(storage)
+    print "Finished setting windowsSubString for %s to %s." %(det_name, storage)
+    det_cfg = pco4000_dio_tif.getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+    
+    flyScanDetectorTIF = finder.find("flyScanDetectorTIF")
+    det_name = flyScanDetectorTIF.getName()
+    print "Setting windowsSubString for %s to %s... " %(det_name, storage)
+    flyScanDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().setWindowsSubString(storage)
+    print "Finished setting windowsSubString for %s to %s." %(det_name, storage)
+    det_cfg = flyScanDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+    
+    flyScanFlatDarkDetectorTIF = finder.find("flyScanFlatDarkDetectorTIF")
+    det_name = flyScanFlatDarkDetectorTIF.getName()
+    print "Setting windowsSubString for %s to %s... " %(det_name, storage)
+    flyScanFlatDarkDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().setWindowsSubString(storage)
+    print "Finished setting windowsSubString for %s to %s." %(det_name, storage)
+    det_cfg = flyScanFlatDarkDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+    
+    # PCO HDF detector objects
+    flyScanDetector = finder.find("flyScanDetector")
+    det_name = flyScanDetector.getName()
+    print "Setting windowsSubString for %s to %s... " %(det_name, storage)
+    flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage)
+    print "Finished setting windowsSubString for %s to %s." %(det_name, storage)
+    det_cfg = flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    flyScanFlatDarkDetector = finder.find("flyScanFlatDarkDetector")
+    det_name = flyScanFlatDarkDetector.getName()
+    print "Setting windowsSubString for %s to %s... " %(det_name, storage)
+    flyScanFlatDarkDetector.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage)
+    print "Finished setting windowsSubString for %s to %s." %(det_name, storage)
+    det_cfg = flyScanFlatDarkDetector.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+    
+    pco4000_dio_hdf = finder.find("pco4000_dio_hdf")
+    det_name = pco4000_dio_hdf.getName()
+    print "Setting windowsSubString for %s to %s... " %(det_name, storage)
+    pco4000_dio_hdf.pluginList[1].ndFileHDF5.file.filePathConverter.setWindowsSubString(storage)
+    print "Finished setting windowsSubString for %s to %s." %(det_name, storage)
+    det_cfg = pco4000_dio_hdf.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+    
+    #old pco?
+    
+    #p2r...
+    
+    # need to undo .tmp and suppressing some GDA error messages
+
+    if storage_name_ == "na":
+        #print "disable 'waiting for file to be created'"
+        pixium10_tif.pluginList[1].waitForFileArrival=False
+        #print "disable 'Path does not exist on IOC'"
+        pixium10_tif.pluginList[1].pathErrorSuppressed=True
+
+        pco4000_dio_tif.setCheckFileExists(False)
+        pco4000_dio_tif.fileWriter.pathErrorSuppressed=True
+        pco4000_dio_hdf.pluginList[1].pathErrorSuppressed=True
+
+        flyScanDetector.getAdditionalPluginList()[0].pathErrorSuppressed=True
+        flyScanFlatDarkDetector.getAdditionalPluginList()[0].pathErrorSuppressed=True
+    elif storage_name_ == "gpfs":
+        #print "enable 'waiting for file to be created'"
+        pixium10_tif.pluginList[1].waitForFileArrival=True
+        #print "enable 'Path does not exist on IOC'"
+        pixium10_tif.pluginList[1].pathErrorSuppressed=False
+
+        pco4000_dio_tif.setCheckFileExists(False) # was True 5 x 17 kz
+        pco4000_dio_tif.fileWriter.pathErrorSuppressed=False
+        pco4000_dio_hdf.pluginList[1].pathErrorSuppressed=False
+
+        flyScanDetector.getAdditionalPluginList()[0].pathErrorSuppressed=False
+        flyScanFlatDarkDetector.getAdditionalPluginList()[0].pathErrorSuppressed=False
+    else:
+        msg = "Unsupported storage option: %s!" %(storage_name_)
+        print msg
+
+    print "\n * Finished configuring beamline storage to %s!" %(storage_name_)
+    
+def report_storage():
+    """
+    Desc:
+    Fn to report current storage configuration for saving scan files on the beamline.
+    """
+    windowsSubString_rvr_dct = {"d": "NetApp", "t": "GPFS01"}
+    
+    #curr_out_str = "Current windowsSubString for %s is %s (%s)."
+    curr_out_str = "%s is currently configured to use the %s storage (on %s)."
+    
+    # PIXIUM TIFF detector objects
+    pixium10_tif = finder.find("pixium10_tif")
+    det_name = pixium10_tif.getName()
+    det_cfg = pixium10_tif.getAdditionalPluginList()[0].getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+    
+    # PIXIUM HDF detector objects
+    pixium10_hdf = finder.find("pixium10_hdf")
+    det_name = pixium10_hdf.getName()
+    det_cfg = pixium10_hdf.getAdditionalPluginList()[0].getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+    
+    # PCO TIFF detector objects
+    pco4000_dio_tif = finder.find("pco4000_dio_tif")
+    det_name = pco4000_dio_tif.getName()
+    det_cfg = pco4000_dio_tif.getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    flyScanDetectorTIF = finder.find("flyScanDetectorTIF")
+    det_name = flyScanDetectorTIF.getName()
+    det_cfg = flyScanDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    flyScanFlatDarkDetectorTIF = finder.find("flyScanFlatDarkDetectorTIF")
+    det_name = flyScanFlatDarkDetectorTIF.getName()
+    det_cfg = flyScanFlatDarkDetectorTIF.pluginList[1].getNdFile().getFilePathConverter().getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    # PCO HDF detector objects
+    flyScanDetector = finder.find("flyScanDetector")
+    det_name = flyScanDetector.getName()
+    det_cfg = flyScanDetector.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    flyScanFlatDarkDetector = finder.find("flyScanFlatDarkDetector")
+    det_name = flyScanFlatDarkDetector.getName()
+    det_cfg = flyScanFlatDarkDetector.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    pco4000_dio_hdf = finder.find("pco4000_dio_hdf")
+    det_name = pco4000_dio_hdf.getName()
+    det_cfg = pco4000_dio_hdf.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
+    det_drv = det_cfg.split(':')[0]
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+
+    #p2r...
+    
+i12storage = BeamlineStorage('i12storage')

@@ -47,7 +47,7 @@
 	<import resource="../datawriter.xml"/>
 	<import resource="../../../devices/live/p2r.xml"/>
 	<!-- <import resource="../../../devices/live/p2r_gap.xml"/> -->
-	<!-- <import resource="../../../devices/live/vortex.xml"/> -->
+	<import resource="../../../devices/live/vortex.xml"/>
 	<import resource="../../../devices/epics/zebra.xml"/>
 	<import resource="../../../devices/zebra.xml"/>
 

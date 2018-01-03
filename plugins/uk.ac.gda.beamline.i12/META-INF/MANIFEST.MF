@@ -27,7 +27,8 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.edxd.common;bundle-version="1.0.0",
  uk.ac.gda.edxd.calibration;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis.plotserver;bundle-version="1.0.0",
- uk.ac.gda.epics.adviewer;bundle-version="1.0.0"
+ uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
+ uk.ac.gda.devices.xmap;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-RegisterBuddy: uk.ac.gda.core

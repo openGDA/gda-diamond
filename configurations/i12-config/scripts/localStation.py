@@ -34,7 +34,7 @@ from pv_scannable_utils import createPVScannable
 print "-------------------------------------------------"
 print "getting detectorModeSwitching"
 import detectorModeSwitching
-from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode, moveToEndOfHutchDiagnostic
+#from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode, moveToEndOfHutchDiagnostic
 
 
 print "-------------------------------------------------"
@@ -45,7 +45,7 @@ from beamAttenuation import moveToAttenuation
 
 print "-------------------------------------------------"
 print "getting pixium10_changeExposure"
-from pixium10_utilities import pixium10_changeExposure, pixium10_changeExposureAndAcquirePeriod, pixium10_preview, earlyFramesIncluded
+from pixium10_utilities import pixium10_changeExposure, pixium10_changeExposureAndAcquirePeriod, pixium10_preview, earlyFramesIncluded, pixium_redux, setup_pixium_postprocessing, pixium10_acquire_time_handler
 earlyFramesOFF=earlyFramesIncluded
 print "-------------------------------------------------"
 print "create commands for folder operations: wd, pwd, nwd, nfn, cfn, setSubdirectory('subdir-name')"
@@ -98,6 +98,7 @@ i12pixium = DocumentationScannable("i12HelpPixium", "Documentation for i12pixium
 i12edxd = DocumentationScannable("i12HelpEdxd", "Documentation for i12edxd", "http://confluence.diamond.ac.uk/display/I12Tech/EDXD%3A+Use+in+GDA")
 
 import i12info
+import i13tomographyScan
 
 # Do this last
 #setSubdirectory("default")
@@ -173,7 +174,7 @@ try :
     if isLive():
         print "setup edxd detector: edxd_counter, edxdout, edxd_binned"
         from edxd_count import edxd_count
-        edxd_counter = edxd_count("edxd_counter", edxd, 4) #@UndefinedVariable
+        edxd_counter = edxd_count("edxd_counter", edxd) #@UndefinedVariable
         # set up the edxd to monitor to begin with
         edxd.monitorAllSpectra() #@UndefinedVariable
         print("After monitorAllSpectra")
@@ -183,7 +184,7 @@ try :
         edxdout = edxd2ascii("edxdout")
         ## removing binned for the moment
         from edxd_binned_counter import EdxdBinned
-        edxd_binned = EdxdBinned("edxd_binned", edxd, 4) #@UndefinedVariable
+        edxd_binned = EdxdBinned("edxd_binned", edxd) #@UndefinedVariable
     
         from edxd_q_calibration_reader import set_edxd_q_calibration
         print("After set_edxd_q_calibration")
@@ -461,8 +462,10 @@ pco.setExternalTriggered(True) #@UndefinedVariable
 
 print "--------------------------------------------------"
 print "Creating 'eurotherm1' and 'eurotherm2' scannables" 
-eurotherm1temp = DisplayEpicsPVClass('eurotherm1temp', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
-eurotherm2temp = DisplayEpicsPVClass('eurotherm2temp', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
+#eurotherm1temp = DisplayEpicsPVClass('eurotherm1temp', 'BL12I-EA-FURN-01:PV:RBV', 'c', '%.3f')
+#eurotherm2temp = DisplayEpicsPVClass('eurotherm2temp', 'BL12I-EA-FURN-02:PV:RBV', 'c', '%.3f')
+eurotherm1temp = DisplayEpicsPVClass('eurotherm1temp', 'BL12I-EA-FURN-01:EH1:PV:RBV', 'c', '%.3f')
+eurotherm2temp = DisplayEpicsPVClass('eurotherm2temp', 'BL12I-EA-FURN-01:EH2:PV:RBV', 'c', '%.3f')
 
 print "--------------------------------------------------"
 
@@ -476,6 +479,12 @@ try:
     cryoTemp = DisplayEpicsPVClass('cryoTemp', "BL12I-EA-CSTRM-01:TEMP",'degrees','%.3f')
 except:
     print "cannot create linkam scannables"
+
+print "Creating HELIOS objects"
+try:
+    heliosTemp = DisplayEpicsPVClass('heliosTemp','BL12I-EA-HELIOS-01:LOOP1:PV:RBV','deg C','%.3f')
+except Exception, e:
+    print "Error creating HELIOS objects: %s" %(str(e))
 
 print "--------------------------------------------------"
 
@@ -886,17 +895,17 @@ geo2mot8 = EpicsReadWritePVClass('geo2mot8','BL12I-ME-BRICK-02:AXIS8.VAL','um','
 
 try:
     # Lazy open for Pixium
-    caput ("BL12I-EA-DET-10:TIFF:LazyOpen", 1)
-    caput ("BL12I-EA-DET-10:HDF5:LazyOpen", 1)
+    caput("BL12I-EA-DET-10:TIFF:LazyOpen", 1)
+    caput("BL12I-EA-DET-10:HDF5:LazyOpen", 1)
 except:
     print "unable to set LazyOpen for Pixium - is Pixium IOC running?"
 
 try:
     # Lazy open for PCO
-    caput ("BL12I-EA-DET-02:TIF:LazyOpen", 1)
-    caput ("BL12I-EA-DET-02:HDF:LazyOpen", 1)
+    caput("BL12I-EA-DET-02:TIF:LazyOpen", 1)
+    caput("BL12I-EA-DET-02:HDF:LazyOpen", 1)
     
-    caput ("BL12I-EA-DET-02:HDF:CreateDirectory", 1)
+    caput("BL12I-EA-DET-02:HDF:CreateDirectory", 1)
 except:
     print "unable to set LazyOpen for PCO - is PCO IOC running?"
 
@@ -950,8 +959,11 @@ def runscan(title, nImages, expTime, visit="ee11884-1", waitsec=1):
         setTitle(old_title)
     print "...finished running runscan!"
 
-
-caput("BL12I-EA-DET-02:CAM:PIX_RATE", "286000000 Hz")
+try:
+    caput("BL12I-EA-DET-02:CAM:PIX_RATE", "286000000 Hz")
+except:
+    print "unable to set pixel rate on PCO - is PCO IOC running?"
+    
 flyScanDetector.readOutTime=0.011
 hdfplugin=flyScanDetector.getPluginList()[1]
 hdfplugin.rowChunks=0
@@ -978,7 +990,42 @@ except Exception, e:
     print "Problems setting up piezo objects: " + str(e)
     
 from p2r_utilities import p2r_telnet
-from i12utilities import i12tomoTRFlyScan
+from i12utilities import i12tomoTRFlyScan, use_storage, report_storage
+#use_storage(storage_name="gpfs")
+
+try:
+    # Set ports of file-writing plugins 
+    caput("BL12I-EA-DET-02:TIF:NDArrayPort", caget("BL12I-EA-DET-02:CAM:PortName_RBV"))
+    caput("BL12I-EA-DET-02:HDF:NDArrayPort", caget("BL12I-EA-DET-02:CAM:PortName_RBV"))
+except:
+    print "unable to set ports on file-writing plug-ins for PCO - is PCO IOC running?"
+
+setup_pixium_postprocessing() 
+i12utilities._make_subdir(dirname="rawdata")
+
+#make ScanPointProvider
+import position_provider
+npositions = position_provider.ScanPositionProviderFromFile(n=5)
+
+print("Adding ring-current (beam) monitor")
+from beam_monitor import WaitWhileScannableBelowThresholdMonitorOnly
+bm = WaitWhileScannableBelowThresholdMonitorOnly("bm", ring_current, minimumThreshold=200.0, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=10.0, shtr_obj=eh1shtr)
+
+print "Adding pco_preview"
+def pco_preview():
+    caput("BL12I-EA-DET-02:CAM:Acquire", 0)    # 1 for START, 0 for STOP
+    caput("BL12I-EA-DET-02:CAM:ImageMode", 2)   # 0 for SINGLE, 2 for CONTINUOUS
+    caput("BL12I-EA-DET-02:PRO1:EnableCallbacks", 1)
+    caput("BL12I-EA-DET-02:CAM:Acquire", 1)
+alias("pco_preview")
+
+print "Adding pco_preview"
+def pixium_preview():
+    caput("BL12I-EA-DET-10:CAM:Acquire", 0)    # 1 for START, 0 for STOP
+    caput("BL12I-EA-DET-102:CAM:ImageMode", 2)   # 0 for SINGLE, 2 for CONTINUOUS
+    caput("BL12I-EA-DET-10:PRO1:EnableCallbacks", 1)
+    caput("BL12I-EA-DET-10:CAM:Acquire", 1)
+alias("pco_preview")
 
 print 
 print "==================================================="

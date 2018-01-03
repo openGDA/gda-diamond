@@ -43,7 +43,7 @@
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<!-- <property name="deviceName" value="pco.proc_NDPluginBase" /> -->
 				<property name="basePVName" value="BL12I-EA-DET-02:PRO1:" />
-				<property name="initialArrayPort" value="pco.cam" />
+				<property name="initialArrayPort" value="pco1.cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -63,7 +63,7 @@
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<!-- <property name="deviceName" value="pco.proc_NDPluginBase" /> -->
 				<property name="basePVName" value="BL12I-EA-DET-02:PRO2:" />
-				<property name="initialArrayPort" value="pco.cam" />
+				<property name="initialArrayPort" value="pco1.cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -84,7 +84,7 @@
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<!-- <property name="deviceName" value="pco.roi1_NDPluginBase" /> -->
 				<property name="basePVName" value="BL12I-EA-DET-02:ROI1:" />
-				<property name="initialArrayPort" value="pco.prc1" />
+				<property name="initialArrayPort" value="pco1.prc1" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -108,7 +108,7 @@
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<!-- <property name="deviceName" value="pco.roi1_NDPluginBase" /> -->
 				<property name="basePVName" value="BL12I-EA-DET-02:ROI2:" />
-				<property name="initialArrayPort" value="pco.prc2" />
+				<property name="initialArrayPort" value="pco1.prc2" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -131,7 +131,7 @@
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<!-- <property name="deviceName" value="pco.arr_NDPluginBase" /> -->
 				<property name="basePVName" value="BL12I-EA-DET-02:ARR:" />
-				<property name="initialArrayPort" value="pco.prc1" />
+				<property name="initialArrayPort" value="pco1.prc1" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -146,7 +146,7 @@
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL12I-EA-DET-02:STAT:" />
 				<!-- <property name="deviceName" value="pco.stat_NDPluginBase" /> -->
-				<property name="initialArrayPort" value="pco.prc1" />
+				<property name="initialArrayPort" value="pco1.prc1" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -161,8 +161,8 @@
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL12I-EA-DET-02:DRAW:" />
 				<!-- <property name="deviceName" value="pco.draw_NDPluginBase" /> -->
-				<!-- <property name="initialArrayPort" value="pco.cam" /> -->
-				<property name="initialArrayPort" value="pco.prc1" />
+				<!-- <property name="initialArrayPort" value="pco1.cam" /> -->
+				<property name="initialArrayPort" value="pco1.prc1" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="0" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -177,7 +177,7 @@
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL12I-EA-DET-02:TIF:" />
 				<!-- <property name="deviceName" value="pco.tif_NDPluginBase" /> -->
-				<property name="initialArrayPort" value="pco.cam" />
+				<property name="initialArrayPort" value="pco1.cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -198,7 +198,7 @@
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<!-- <property name="deviceName" value="pco.hdf_NDPluginBase" /> -->
 				<property name="basePVName" value="BL12I-EA-DET-02:HDF:" />
-				<property name="initialArrayPort" value="pco.cam" />
+				<property name="initialArrayPort" value="pco1.cam" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -244,7 +244,7 @@
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL12I-EA-DET-02:MPG1:" />
 				<!-- <property name="deviceName" value="pco.mpeg_NDPluginBase" /> -->
-				<property name="initialArrayPort" value="pco.roi1" />
+				<property name="initialArrayPort" value="pco1.roi1" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -263,7 +263,7 @@
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL12I-EA-DET-02:MPG2:" />
 				<!-- <property name="deviceName" value="pco.mpeg_NDPluginBase" /> -->
-				<property name="initialArrayPort" value="pco.roi2" />
+				<property name="initialArrayPort" value="pco1.roi2" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="1" />
 				<property name="initialBlockingCallbacks" value="false" />

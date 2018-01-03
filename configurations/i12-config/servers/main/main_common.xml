@@ -64,6 +64,8 @@
 	<import resource="filters.xml" />
 	<import resource="gbc1.xml" />
 	<import resource="pco2.xml" />
+	<import resource="pco3.xml" />
+	<import resource="pco4.xml" />
 	<import resource="ring.xml" />
 	<import resource="s2_new.xml" />
 	<import resource="s3.xml" />
@@ -88,5 +90,9 @@
 	<import resource="lut_scan_resolution.xml" />
 	<import resource="simpleScannables.xml" />
 	<import resource="dummyAD.xml" />
+	
+	<!-- Guest equipment -->
+	<!-- <import resource="eulerian_cradle.xml" /> -->
+	<!-- <import resource="i20_aero.xml" /> -->
 	<import resource="../servers_common.xml" />
 </beans>

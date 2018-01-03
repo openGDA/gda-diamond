@@ -6,8 +6,8 @@
 
 	<bean id="edxd" class="gda.device.detector.edxd.EDXDController">
 		<property name="deviceName" value="xmap_dxp" />
-		<!-- <property name="numberOfElements" value="24" /> -->
-		<property name="numberOfElements" value="4" />
+		<property name="numberOfElements" value="24" />
+		<!-- <property name="numberOfElements" value="4" /> -->
 	</bean>
 
 	<bean id="edxdAlignment" class="gda.device.detector.edxd.EDXDAlignment">

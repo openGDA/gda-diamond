@@ -454,6 +454,7 @@
 		<constructor-arg ref="pixium10_cam_base" />
 		<constructor-arg value="0.143" />
 		<property name="prefix" value="BL12I-EA-DET-10:CAM:"/>
+		<property name="forceExcludeEarlyFramesToOn" value="true"/>
 	</bean>
 	<bean id="pixium10_hdf" class ="gda.device.detector.pixium.PixiumNXDetector">
 		<property name="name" value="pixium10_hdf"/>

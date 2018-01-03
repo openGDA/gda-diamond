@@ -40,11 +40,12 @@ tomography_flyscan_det=flyScanDetector
 tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector
 
 #connect p2r trigger to exposure out of PCO and connect that to Zebra TTL1. The busy is used by the tfg
+
 #tomography_flyscan_det=p2r_flyScanDetector
 #tomography_flyscan_flat_dark_det=p2r_flyScanFlatDarkDetector
 #tomography_flyscan_theta=p2rSM1
 
-tomography_translation_vert=ss1_y3
+#tomography_translation_vert=ss1_y3
 
 sphere_align_tomomotor=ss1_theta_dummy
 sphere_align_samplemotor=ss1_x_dummy
