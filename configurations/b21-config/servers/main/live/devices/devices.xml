@@ -39,4 +39,5 @@
 
 	<import resource="bco.xml" />
 	<import resource="syringes.xml" />
+	<import resource="biosaxscam.xml" />
 </beans>
