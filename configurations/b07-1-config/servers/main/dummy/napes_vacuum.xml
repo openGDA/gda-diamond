@@ -3,13 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="napes_vac_01" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07C-VA-CAPG-01:AV"/>
-		<property name="unit" value="mbar"/>
-		<property name="poll" value="true"/>
-		<property name="sensitivity" value="2.0"/>
-	</bean>
-
 	<bean id="napes_vac_01" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
 		<property name="value">
