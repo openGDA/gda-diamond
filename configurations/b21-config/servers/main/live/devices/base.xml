@@ -3,15 +3,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-        <bean id="base_pitch_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL21B-MO-TABLE-02:PITCH" />
-                <property name="local" value="true" />
-        </bean>
 
-        <bean id="base_yaw_motor" class="gda.device.motor.EpicsMotor">
-                <property name="pvName" value="BL21B-MO-TABLE-02:YAW" />
-                <property name="local" value="true" />
-        </bean>
 
         <bean id="base_x_motor" class="gda.device.motor.EpicsMotor">
                 <property name="pvName" value="BL21B-MO-TABLE-02:X" />
