@@ -106,7 +106,7 @@
  	<import resource="file:${gda.config}/devices/${gda.mode}/deben_motors.xml"/>
 
 	<!-- file registration -->
-	<import resource="file://${gda.core.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<!-- =========================================================== -->
 	<!-- Shared device files                                         -->
@@ -184,7 +184,7 @@
  	<import resource="rcpController.xml" />
  
 	<!-- file registration -->
-	<import resource="file://${gda.core.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/dataFileWriter.xml" />
  	
  	<!-- Initialise Jython late on, as localStation refers to beans -->
