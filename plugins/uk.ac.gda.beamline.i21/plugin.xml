@@ -59,7 +59,7 @@
             name="uk.ac.gda.beamline.i21.dummy.product">
          <property
                name="windowImages"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png">
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
          </property>
          <property
                name="appName"
@@ -92,13 +92,19 @@
       <perspective
             class="uk.ac.gda.beamline.i21.perspectives.RIXSPerspective"
             icon="icons/rixs.png"
-            id="uk.ac.gda.beamline.i21.perspectives.RIXSPerspective"
+            id="uk.ac.gda.beamline.i21.perspectives.rixs"
             name="RIXS">
       </perspective>
       <perspective
             class="uk.ac.gda.beamline.i21.perspectives.ScanPerspective"
-            id="uk.ac.gda.beamline.i21.perspectives.ScanPerspective"
+            id="uk.ac.gda.beamline.i21.perspectives.scan"
             name="Scan">
       </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i21.startup.EarlyStartup">
+      </startup>
    </extension>
 </plugin>

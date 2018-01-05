@@ -20,7 +20,7 @@ import uk.ac.gda.client.scripting.JythonPerspective;
 
 public class RIXSPerspective implements IPerspectiveFactory {
 
-	public static final String ID="uk.ac.gda.beamline.i21.perspectives.RIXSPerspective";
+	public final static String ID="uk.ac.gda.beamline.i21.perspectives.rixs";
 
 	private static final String TERMINAL_FOLDER = "terminalFolder";
 	private static final String PROJ_FOLDER = "projFolder";

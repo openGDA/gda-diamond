@@ -21,7 +21,7 @@ import uk.ac.gda.client.scripting.JythonPerspective;
 import uk.ac.gda.epics.adviewer.views.TwoDArrayView;
 
 public class ScanPerspective implements IPerspectiveFactory {
-	public static final String ID="uk.ac.gda.beamline.i21.perspectives.ScanPerspective";
+	public static final String ID="uk.ac.gda.beamline.i21.perspectives.scan";
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
