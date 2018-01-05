@@ -157,10 +157,16 @@ class BeamlineFunctionClass(object):
 		
 	def backupDefaults(self):
 		defaultList=[];
-		defaultList.extend( self.cs.getDefaultScannableNames() );
+		defaultList.extend( self.getDefaultScannableNames() );
 		self.pickleIt(self.pickleFileName, defaultList);
 			
-	
+	def getDefaultScannableNames(self):
+		scannables=self.cs.getDefaultScannables()
+		defaultScannableNames=[]
+		for each in scannables:
+			defaultScannableNames.append(each.getName())
+		return defaultScannableNames
+		
 	def restoreDefaults(self):
 		'''Restore the pickled device list'''
 	

@@ -117,8 +117,12 @@ def removeDefaults(nameList):
    
 def backupDefaults():
     cs=finder.find("command_server");
+    defaultscannables=cs.getDefaultScannables()
+    defaultScannableNames=[]
+    for each in defaultscannables:
+        defaultScannableNames.append(each.getName())
     defaultList=[];
-    defaultList.extend( cs.getDefaultScannableNames() );
+    defaultList.extend( defaultScannableNames );
     beamlineName=LocalProperties.get("gda.beamline.name")
     pickleFileName='/dls_sw/'+beamlineName+'/software/gda_versions/var/defaultList.txt';
 
