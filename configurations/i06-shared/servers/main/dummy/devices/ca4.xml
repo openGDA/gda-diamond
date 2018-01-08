@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Current Amplifier CA4 Controller, BPM Controller and BPM -->
+<!-- 	<bean id="qca4" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier"> -->
+<!-- 		<property name="deviceName" value="CA4"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 	</bean> -->
+	<!-- CA4 Epics Monitor -->
+	<bean id="ca41" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle" />
+	<bean id="ca42" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle" />
+	<bean id="ca43" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle" />
+	<bean id="ca44" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle" />	
+
+</beans>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Current Amplifier CA2 Controller, BPM Controller and BPM -->
+<!-- 	<bean id="qca2" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier"> -->
+<!-- 		<property name="deviceName" value="CA2"/> -->
+<!-- 		<property name="local" value="true"/> -->
+<!-- 	</bean> -->
+
+	<!-- Drain current Monitor definition -->
+	<!-- CA2 Epics Monitor -->
+	<bean id="ca21" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle" />
+	<bean id="ca22" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle" />
+	<bean id="ca23" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle" />
+	<bean id="ca24" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle" />	
+
+</beans>

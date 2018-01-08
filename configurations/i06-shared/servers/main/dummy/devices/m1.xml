@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Collimation Mirror M1 Motors -->
+	<bean id="MotorX_M1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10" />
+		<property name="maxPosition" value="10" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorY_M1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10" />
+		<property name="maxPosition" value="10" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorZ_M1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10" />
+		<property name="maxPosition" value="10" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorYaw_M1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-35000.0" />
+		<property name="maxPosition" value="35000.0" />
+		<property name="speed" value="10" />
+		<property name="unitString" value="urad"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorPitch_M1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-35000.0" />
+		<property name="maxPosition" value="35000.0" />
+		<property name="speed" value="10" />
+		<property name="unitString" value="urad"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorRoll_M1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10000.0" />
+		<property name="maxPosition" value="10000.0" />
+		<property name="speed" value="10" />
+		<property name="unitString" value="urad"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorFinePitch_M1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="10.0" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="V"/>
+		<property name="local" value="true" />
+	</bean>
+	
+		<!-- M1 Hexapod Legs Control Point -->
+	<bean id="m1leg1" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="738.300" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="m1leg2" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="738.300" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="m1leg3" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="738.300" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="m1leg4" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="738.300" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="m1leg5" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="738.300" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="m1leg6" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="738.300" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+	
+</beans>

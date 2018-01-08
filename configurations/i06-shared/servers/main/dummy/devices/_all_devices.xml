@@ -3,7 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="epicsConfiguration.xml"/>
 	<import resource="ring.xml"/>
 	<import resource="id.xml"/>
 	<import resource="frontEndAperture.xml"/>
@@ -29,6 +28,6 @@
 	<import resource="ca2.xml"/>
 	<import resource="ca3.xml"/>
 	<import resource="ca4.xml"/>
-<!-- 	<import resource="agilentADC.xml"/> -->
+
 	
 </beans>

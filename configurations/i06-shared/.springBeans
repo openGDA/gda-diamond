@@ -29,7 +29,6 @@
 		<config>servers/main/_common/dataWriter.xml</config>
 		<config>servers/main/_common/scannables/dummyScannables.xml</config>
 		<config>servers/main/_common/scannables/energy.xml</config>
-		<config>servers/main/live/epicsConfiguration.xml</config>
 		<config>servers/main/live/devices/frontEndAbsorber.xml</config>
 		<config>servers/main/_common/scannables/frontEndAperture.xml</config>
 		<config>servers/main/live/devices/frontEndAperture.xml</config>
@@ -68,6 +67,7 @@
 		<config>clients/main/_common/client.xml</config>
 		<config>clients/main/_common/serverFileListener.xml</config>
 		<config>servers/main/live/devices/pgmController.xml</config>
+		<config>servers/main/live/devices/epicsConfiguration.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
