@@ -21,10 +21,8 @@
 
 	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
 
-	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
-		<property name="name" value="FileRegistrar" />
-		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/b16-" />
-	</bean>
+	<import resource="file://${gda.core.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+	<import resource="file://${gda.core.dir}/servers/_common/file_registrar.xml" />
 
 	<import resource="epics/motor/dcm.xml" />
 	<import resource="epics/motor/fc.xml" />
