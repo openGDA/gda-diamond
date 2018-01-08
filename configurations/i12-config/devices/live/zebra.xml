@@ -6,16 +6,19 @@
 	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraImpl">
 		<property name="zebraPrefix" value="BL12I-EA-ZEBRA-01:" />
 		<property name="name" value="zebra" />
+		<property name="armPutNoWait" value="true" />
 	</bean>
 
 	<bean id="zebra2" class="gda.device.zebra.controller.impl.ZebraImpl">
 		<property name="zebraPrefix" value="BL12I-EA-ZEBRA-02:" />
 		<property name="name" value="zebra2" />
+		<property name="armPutNoWait" value="true" />
 	</bean>
 
 	<bean id="zebra3" class="gda.device.zebra.controller.impl.ZebraImpl">
 		<property name="zebraPrefix" value="BL12I-EA-ZEBRA-03:" />
 		<property name="name" value="zebra3" />
+		<property name="armPutNoWait" value="true" />
 	</bean>
 
-</beans>	
+</beans>
