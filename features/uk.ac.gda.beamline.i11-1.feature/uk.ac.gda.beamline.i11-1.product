@@ -23,23 +23,18 @@ Visit http://www.opengda.org
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Declipse.pluginCustomization=/dls_sw/i11-1/software/gda/config/plugin_customization.ini
--Dgda.install.workspace.loc=/dls_sw/i11-1/software/gda/workspace
--Dgda.install.git.loc=/dls_sw/i11-1/software/gda/workspace_git
--Dgda.propertiesFile=/dls_sw/i11-1/software/gda/config/properties/live/java.properties
--Dgda.config=/dls_sw/i11-1/software/gda/config
--Djacorb.config.dir=/dls_sw/i11-1/software/gda/config/jacorb/live
--Djava.library.path=${workspace_loc:uk.ac.gda.core}/lib/linux-x86_64
--Dgov.aps.jca.JCALibrary.properties=/dls_sw/i11-1/software/gda/config/jca/live/JCALibrary.properties
--Dgda.data=/dls/i11-1/data
--Dgda.gui.beans.xml=/dls_sw/i11-1/software/gda/config/clients/rcp/live/client.xml
--Dgda.mode=live
--Dgda.var=/dls_sw/i11-1/software/gda_versions/var
--Dgda.logs.dir=/dls_sw/i11-1/logs
--Dpython.cachedir=~/python.cachedir
--Djava.net.preferIPv4Stack=true
--Dorg.eclipse.swt.browser.XULRunnerPath=/dls_sw/apps/xulrunner/${target.arch}/usr/lib64/xulrunner-1.9.2/
--Dorg.eclipse.swt.browser.XULRunnerPath=/usr/lib64/xulrunner/
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Declipse.pluginCustomization=${workspace_loc:i11-1-config}/plugin_customization.ini
+-Dgda.install.workspace.loc=${workspace_loc:i11-1-config}
+-Dgda.install.git.loc=${workspace_loc:i11-1-config}/../../../workspace_git
+-Dgda.propertiesFile=${workspace_loc:i11-1-config}/properties/dummy/dummy_instance_java.properties
+-Dgda.config=${workspace_loc:i11-1-config}
+-Dgda.core.dir=${workspace_loc:core-config}
+-Dgda.facility.dir=${workspace_loc:dls-config}
+-Djacorb.config.dir=${workspace_loc:i11-1-config}/jacorb/dummy
+-Dgov.aps.jca.JCALibrary.properties=${workspace_loc:i11-1-config}/jca/dummy/JCALibrary.properties
+-Dgda.gui.beans.xml=${workspace_loc:i11-1-config}/clients/main/dummy/client.xml
+-Dgda.mode=dummy
 -Xms256m 
 -Xmx2048m
 -XX:PermSize=128m 
@@ -61,7 +56,6 @@ Visit http://www.opengda.org
       startupForegroundColor="000000" />
    <launcher name="gda-i11-1">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
