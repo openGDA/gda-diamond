@@ -5,6 +5,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-	<import resource="../_common/client.xml" />
+	<context:property-placeholder/>
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.factory.corba.util.AdapterFactory">
+		<constructor-arg index="0" value="${gda.factory.factoryName}" />
+		<constructor-arg index="1">
+			<bean class="gda.spring.NetServiceFactoryBean" />
+		</constructor-arg>
+	</bean>
 
 </beans>
