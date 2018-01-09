@@ -4,79 +4,102 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- KB Mirror (M4) Strain Gauges -->
-	<bean id="m4bend1g" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL06I-OP-KBM-01:HFM:USG:POLLVALUE" />
-		<property name="local" value="true"/>
+	<bean id="m4bend1g" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="N" />
+		<property name="value">
+			<value type="double">328.8</value>
+		</property>
+		<property name="increment" value="7" />	
 	</bean>
-	<bean id="m4bend2g" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL06I-OP-KBM-01:HFM:DSG:POLLVALUE" />
-		<property name="local" value="true"/>
+	<bean id="m4bend2g" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="N" />
+		<property name="value">
+			<value type="double">565.7</value>
+		</property>
+		<property name="increment" value="7" />	
 	</bean>
 
 	<!-- KB Mirror (M4/M5) Motors -->
 	<!-- KB Mirrors M4 (HFM) -->
-	<bean id="MotorHFMX_M4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.X" />
-		<property name="local" value="true"/>
+	<bean id="MotorHFMX_M4" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-4.9000000" />
+		<property name="maxPosition" value="4.9000000" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
 	</bean>
 
-	<bean id="MotorHFMPitch_M4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.PITCH" />
-		<property name="local" value="true"/>
+	<bean id="MotorHFMPitch_M4" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-3.0200000" />
+		<property name="maxPosition" value="3.2800000" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mrad"/>
+		<property name="local" value="true" />
 	</bean>
 
-	<bean id="MotorHFMFinePitch_M4" class="gda.device.motor.FeedbackControlledEpicsMotor">
-		<property name="deviceName" value="M4.FPITCH" />
-		<property name="local" value="true"/>
+	<bean id="MotorHFMFinePitch_M4" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0" />
+		<property name="maxPosition" value="10" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="V"/>
+		<property name="local" value="true" />
 	</bean>
 
-	<bean id="MotorHFMBender1_M4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.BEND1" />
-		<property name="local" value="true"/>
+	<bean id="MotorHFMBender1_M4" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-322.6511000" />
+		<property name="maxPosition" value="3576.9487000" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="N"/>
+		<property name="local" value="true" />
 	</bean>
 
-	<bean id="MotorHFMBender2_M4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.BEND2" />
-		<property name="local" value="true"/>
+	<bean id="MotorHFMBender2_M4" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="261.50176" />
+		<property name="maxPosition" value="2160.37984" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="N"/>
+		<property name="local" value="true" />
 	</bean>
 
-	<bean id="MotorHFMRoll_M4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.ROLL" />
-		<property name="local" value="true"/>
+	<bean id="MotorHFMRoll_M4" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.000000" />
+		<property name="maxPosition" value="10.000000" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mrad"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<!-- AD hardware -->
 
 	<!-- Standard Area Detector plugins -->
-
 	<bean id="m4cam1AD_cam" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="BL06I-EA-PHDGN-03:CAM:" />
+		<property name="prefix" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:" />
 	</bean>
 
     <bean id="m4cam1AD_arr"  class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-        <property name="basePVName" value="BL06I-EA-PHDGN-03:ARR:" />
+        <property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR:" />
         <property name="pluginBase">
             <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="basePVName" value="BL06I-EA-PHDGN-03:ARR:" />
-  				<property name="initialArrayPort" value="M4.CAM1.CAM" />
+                <property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR:" />
+  				<property name="initialArrayPort" value="CAM.CAM" />
             </bean>
         </property>
     </bean>
     <bean id="m4cam1AD_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-        <property name="basePVName" value="BL06I-EA-PHDGN-03:STAT:" />
+        <property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:" />
         <property name="pluginBase">
             <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="basePVName" value="BL06I-EA-PHDGN-03:STAT:" />
- 				<property name="initialArrayPort" value="M4.CAM1.CAM" />
+                <property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:" />
+  				<property name="initialArrayPort" value="CAM.CAM" />
             </bean>
         </property>
     </bean>
 	<bean id="m4cam1AD_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-		<property name="basePVName" value="BL06I-EA-PHDGN-03:PROC:" />
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL06I-EA-PHDGN-03:PROC:" />
-				<property name="initialArrayPort" value="M4.CAM1.CAM" />
+				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
 			</bean>
 		</property>
 	</bean>
@@ -84,11 +107,11 @@
 	<!-- Area Detector Filewriters -->
 	<!-- TIFF plugin -->
 	<bean id="m4cam1_NDFileTiff" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL06I-EA-PHDGN-03:TIFF:" />
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:TIFF:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL06I-EA-PHDGN-03:TIFF:" />
-				<property name="initialArrayPort" value="M4.CAM1.CAM" />
+				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:TIFF" />
+				<property name="initialArrayPort" value="CAM.CAM" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
@@ -102,11 +125,11 @@
 	</bean>
 	<!-- HDF plugin -->
 	<bean id="m4cam1_NDFile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL06I-EA-PHDGN-03:HDF5:" />
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL06I-EA-PHDGN-03:HDF5:" />
-				<property name="initialArrayPort" value="M4.CAM1.CAM" />
+				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
 			</bean>
 		</property>
 		<!-- These arguments are here to please Spring -->
@@ -119,7 +142,7 @@
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 	<bean id="m4cam1_NDFileHDF5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="basePVName" value="BL06I-EA-PHDGN-03:HDF5:" />
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
 		<property name="file" ref="m4cam1_NDFile"/>
 	</bean>
 
@@ -133,9 +156,9 @@
 	</bean>	
 	<bean id="m4_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="m4_RoiStats1" />
-		<property name="baseRoiPVName" value="BL06I-EA-PHDGN-03:ROI1:" />
-		<property name="baseStatsPVName" value="BL06I-EA-PHDGN-03:STAT1:" />
-		<property name="roiInputNdArrayPort" value="M4.CAM1.CAM" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -148,9 +171,9 @@
 
 	<bean id="m4_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="m4_RoiStats2" />
-		<property name="baseRoiPVName" value="BL06I-EA-PHDGN-03:ROI2:" />
-		<property name="baseStatsPVName" value="BL06I-EA-PHDGN-03:STAT2:" />
-		<property name="roiInputNdArrayPort" value="M4.CAM1.CAM" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT2:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -163,9 +186,9 @@
 
 	<bean id="m4_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="m4_RoiStats3" />
-		<property name="baseRoiPVName" value="BL06I-EA-PHDGN-03:ROI3:" />
-		<property name="baseStatsPVName" value="BL06I-EA-PHDGN-03:STAT3:" />
-		<property name="roiInputNdArrayPort" value="M4.CAM1.CAM" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI3:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT3:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -178,9 +201,9 @@
 
 	<bean id="m4_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="m4_RoiStats4" />
-		<property name="baseRoiPVName" value="BL06I-EA-PHDGN-03:ROI4:" />
-		<property name="baseStatsPVName" value="BL06I-EA-PHDGN-03:STAT4:" />
-		<property name="roiInputNdArrayPort" value="M4.CAM1.CAM" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI4:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT4:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -193,9 +216,9 @@
 
 	<bean id="m4_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="m4_RoiStats5" />
-		<property name="baseRoiPVName" value="BL06I-EA-PHDGN-03:ROI5:" />
-		<property name="baseStatsPVName" value="BL06I-EA-PHDGN-03:STAT5:" />
-		<property name="roiInputNdArrayPort" value="M4.CAM1.CAM" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI5:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT5:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -208,9 +231,9 @@
 
 	<bean id="m4_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="m4_RoiStats6" />
-		<property name="baseRoiPVName" value="BL06I-EA-PHDGN-03:ROI6:" />
-		<property name="baseStatsPVName" value="BL06I-EA-PHDGN-03:STAT6:" />
-		<property name="roiInputNdArrayPort" value="55.CAM1.CAM" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI6:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT6:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
