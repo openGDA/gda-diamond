@@ -1,5 +1,6 @@
 #localStation.py
 #For beamline specific initialisation code.
+from i06shared import installation
 
 print "===================================================================";
 print "Performing Beamline I06 specific initialisation code (localStation.py).";
@@ -28,13 +29,21 @@ from i06shared.localStation import *  # @UnusedWildImport
 
 # customised resources for PEEM line
 from BeamlineI06.beamline import peemline, getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
+#from i06shared.setSrsDataFileHeader import fileHeader
+fileHeader.setScanLogger(peemline)
 from BeamlineI06.createAlias import closebeam, openbeam  # @UnusedImport
-from BeamlineI06.U1Scaler8513 import ca51sr,ca52sr,ca53sr,ca54sr,scalar3  # @UnusedImport
+
+if installation.isLive():
+    from BeamlineI06.U1Scaler8513 import ca51sr,ca52sr,ca53sr,ca54sr,scalar3  # @UnusedImport
+    from RGA.rga4 import rgaPeem,rga4Ar,rga4CH4,rga4CO,rga4CO2,rga4H2,rga4H2O,rga4O2,rga4tot  # @UnusedImport
+    from RGA.rga5 import rgaPreparation, rga5Ar,rga5CH4,rga5CO,rga5CO2,rga5H2,rga5H2O,rga5O2,rga5tot  # @UnusedImport
+    from BeamlineI06.KBMirrors import m4bend1g,m4bend2g,m5bend1g,m5bend2g,kbpiezoh,kbpiezov,kbraster,vertFactor,horizFactor,kbpreview,kbimaging,kboff,kbfov  # @UnusedImport
+else:
+    print "Running in dummy mode"
+
 #from slits.useS4 import news4xgap, news4ygap  # @UnusedImport
 #from slits.useS4 import s4ygap, s4xgap
 #To eLog the scan
-#from i06shared.setSrsDataFileHeader import fileHeader
-fileHeader.setScanLogger(peemline)
 
 USE_UVIEW=False
 if USE_UVIEW:
@@ -49,8 +58,6 @@ if USE_UVIEW:
         logger.dump("---> ", exceptionType, exception, traceback)
     
 
-from RGA.rga4 import rgaPeem,rga4Ar,rga4CH4,rga4CO,rga4CO2,rga4H2,rga4H2O,rga4O2,rga4tot  # @UnusedImport
-from RGA.rga5 import rgaPreparation, rga5Ar,rga5CH4,rga5CO,rga5CO2,rga5H2,rga5H2O,rga5O2,rga5tot  # @UnusedImport
 
 #To add PEEM line device position to the SRS file header
 print "-"*100
@@ -62,7 +69,6 @@ fileHeader.add([psx, psy]);  # @UndefinedVariable
 #Group the hexapod legs into list
 m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 
-from BeamlineI06.KBMirrors import m4bend1g,m4bend2g,m5bend1g,m5bend2g,kbpiezoh,kbpiezov,kbraster,vertFactor,horizFactor,kbpreview,kbimaging,kboff,kbfov  # @UnusedImport
 #PEEM End Station
 from peem.leem_instances import leem2000, leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx  # @UnusedImport
 fileHeader.add([leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB])
