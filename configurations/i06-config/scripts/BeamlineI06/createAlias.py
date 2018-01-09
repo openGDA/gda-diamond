@@ -3,6 +3,7 @@
 
 from gda.jython.commands.GeneralCommands import  alias
 from i06shared.constant import Close, Open
+from __main__ import gv11i  # @UnresolvedImport
 
 print "-"*100
 print "create 'closebeam' and 'openbeam' commands - GV11"
