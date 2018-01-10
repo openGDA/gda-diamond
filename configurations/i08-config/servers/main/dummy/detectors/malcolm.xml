@@ -32,6 +32,7 @@
 			<list>
 				<value>SampleX</value>
 				<value>SampleY</value>
+				<value>ZonePlateZ</value>
 			</list>
 		</property>
 	</bean>
