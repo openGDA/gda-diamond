@@ -245,10 +245,35 @@ public class TurboXasScan extends ContinuousScan {
 
 	@Override
 	protected void endScan() throws DeviceException, InterruptedException {
-		super.endScan();
-		for (BufferedDetector detector : getScanDetectors()) {
-			detector.stop();
+
+		// Catch exceptions from super.endScan, so the rest of this function can complete correctly.
+		try {
+			super.endScan();
+		} catch(DeviceException de) {
+			logger.warn("DeviceException at end of scan when trying to stop scannables.", de);
 		}
+
+		// Stop the trajectory scan if it's still running by using 'Abort' button in Epics controller
+		if (doTrajectoryScan) {
+			TurboXasScannable turboXasScannable = (TurboXasScannable) getScanAxis();
+			TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
+			try {
+				if (!trajScanPreparer.getExecuteProfileState().equals("Done")) {
+					trajScanPreparer.setAbortProfile();
+				}
+			} catch (Exception e) {
+				logger.warn("Problem stopping Epics Trajectory scan for Turbo Slit at end of scan", e);
+			}
+		}
+
+		for (BufferedDetector detector : getScanDetectors()) {
+			try {
+				detector.stop();
+			}catch(DeviceException de) {
+				logger.warn("Problem stopping detector {} at end of scan", detector.getName(), de);
+			}
+		}
+
 		try {
 			nexusTree.addDataAtEndOfScan(getDataWriter().getCurrentFileName(), getScanDetectors());
 		} catch (Exception e) {

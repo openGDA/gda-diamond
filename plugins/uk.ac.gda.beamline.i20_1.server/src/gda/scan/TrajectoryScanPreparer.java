@@ -71,6 +71,8 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 	private static final String PROFILE_EXECUTE_STATE = "ProfileExecuteState_RBV";
 	private static final String TSCAN_PERCENT = "TscanPercent_RBV";
 
+	private static final String PROFILE_ABORT = "ProfileAbort";
+
 	private PV<Integer[]> userArrayPv;
 	private PV<Integer[]> velocityModeArrayPv;
 	private PV<Double[]> profileTimeArrayPv;
@@ -219,6 +221,10 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 	// Append profile
 	public void setExecuteProfile() throws Exception {
 		pvFactory.getPVInteger(PROFILE_EXECUTE_PROC).putWait(1);
+	}
+
+	public void setAbortProfile() throws Exception {
+		pvFactory.getPVInteger(PROFILE_ABORT).putWait(1);
 	}
 
 	private static final String PROFILE_CS_NAME = "ProfileCsName";
