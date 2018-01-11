@@ -29,66 +29,14 @@ print "   To set scan returns to its start positions on completion please do:"
 print "      >>>scansReturnToOriginalPositions=1"
 scansReturnToOriginalPositions=0;
 print
-
-print "-----------------------------------------------------------------------------------------------------------------"
-print "commands for directory/file operations: "
-print "   >>>pwd - return the current data directory"
-print "   >>>lwf - return the full path of the last working data file"
-print "   >>>nwf - return the full path of the next working data file"
-print "   >>>nfn - return the next data file number to be collected"
-print "   >>>setSubdirectory('test') - change data directory to a sub-directory named 'test', created first if not exist"
-print "   >>>getSubdirectory() - return the current sub-directory setting if exist"
-print "Please note: users can only create sub-directory within their permitted visit data directory via GDA, not themselves."
-print "To create another sub-directory 'child-test' inside a sub-directory 'test', you must specify the full path as 'test/child-test' "
+print sys.path
 # set up a nice method for getting the latest file path
-i21NumTracker = NumTracker("scanbase_numtracker");
-finder=Finder.getInstance()
+from i21commands.dirFileCommands import pwd, lwf, nwf, nfn, setSubdirectory, getSubdirectory  # @UnusedImport
 
-# function to find the working directory
-def pwd():
-    '''return the working directory'''
-    cwd = PathConstructor.createFromDefaultProperty()
-    return cwd
-    
 alias("pwd")
-
-# function to find the last working file path
-def lwf():
-    '''return the last working file path root'''
-    cwd = PathConstructor.createFromDefaultProperty()
-    filenumber = i21NumTracker.getCurrentFileNumber();
-    return os.path.join(cwd,str(filenumber))
-    
 alias("lwf")
-
-# function to find the next working file path
-def nwf():
-    '''query the next working file path root'''
-    cwd = PathConstructor.createFromDefaultProperty()
-    filenumber = i21NumTracker.getCurrentFileNumber();
-    return os.path.join(cwd,str(filenumber+1))
-    
 alias("nwf")
-
-# function to find the next scan number
-def nfn():
-    '''query the next file number or scan number'''
-    filenumber = i21NumTracker.getCurrentFileNumber();
-    return filenumber+1
-    
 alias("nfn")
-
-# the subdirectory parts
-def setSubdirectory(dirname):
-    '''create a new sub-directory for data collection that follows'''
-    finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
-    try:
-        os.mkdir(pwd())
-    except :
-        pass
-    
-def getSubdirectory():
-    return finder.find("GDAMetadata").getMetadataValue("subdirectory")
 
 print
 
