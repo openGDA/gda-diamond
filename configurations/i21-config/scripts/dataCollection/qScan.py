@@ -48,7 +48,7 @@ def qscan(beam_energy,beam_polarisation,s5v1gap_val,saazimuth_val,satilt_val,say
         
         # collect point number and qval value
         meta_add("scan0_index", i)
-        meta_add("Outer", qval)
+        meta_add("qval", qval)
     
         # Move to sample position
         sax.moveTo(sax_sample)
