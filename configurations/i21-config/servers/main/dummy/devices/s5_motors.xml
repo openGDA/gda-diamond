@@ -6,21 +6,21 @@
 
 	<bean id="s5v1gapMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="0.01" />
-		<property name="maxPosition" value="5.0" />
+		<property name="maxPosition" value="15.0" />
 		<property name="speed" value="90" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5v2gapMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="0.01" />
-		<property name="maxPosition" value="5.0" />
+		<property name="maxPosition" value="15.0" />
 		<property name="speed" value="90" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5hgapMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="0.01" />
-		<property name="maxPosition" value="5.0" />
+		<property name="maxPosition" value="15.0" />
 		<property name="speed" value="90" />
 		<property name="local" value="true" />
 	</bean>
