@@ -66,6 +66,10 @@ def show_input_values(**kwargs):
     print 'sample_exposure_time       = %f' % (kwargs['sample_exposure_time'])     # in seconds
     print 'n_frames_per_point_elastic = %d' % (kwargs['n_frames_per_point_elastic'])
     print 'elastic_exposure_time      = %f' % (kwargs['elastic_exposure_time'])    #in seconds
-
+    print
+    print sorted(kwargs.keys())
+    print
+    for key, value in kwargs.items():
+        print("The value of {} is {}".format(key, value))
     
 show_input_values(**parameters)

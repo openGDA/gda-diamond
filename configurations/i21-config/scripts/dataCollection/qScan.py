@@ -6,11 +6,13 @@ Created on 10 Jan 2018
 from calibration.Energy2Gap4ID import idgap_fn
 from gdaserver import s5v1gap, idscannable, saazimuth, satilt, say, sapolar, sax,\
     saz, andor
-from gdascripts.metadata.metadata_commands import meta_add
+from gdascripts.metadata.metadata_commands import meta_add, meta_rm
 from i21commands.dirFileCommands import nfn
 from gdascripts.scan.installStandardScansWithProcessing import scan
 from dataCollection.MomentumTransfer import qtransferrlu2sapolar
 from time import sleep
+from __main__ import energy, dummies  # @UnresolvedImport
+
 
 def qscan(beam_energy,beam_polarisation,s5v1gap_val,saazimuth_val,satilt_val,say_val,\
                 start,step,n_points,energy_sample,sapolaroffset,thts_val,vec,a_val,\
@@ -25,7 +27,7 @@ def qscan(beam_energy,beam_polarisation,s5v1gap_val,saazimuth_val,satilt_val,say
     # Switch to LV
     idscannable.moveTo([id_gap, beam_polarisation, row_phase]) 
     # set beam energy
-    energy.moveTo(beam_energy)  # @UndefinedVariable
+    energy.moveTo(beam_energy)
     # set slit s5 gap
     s5v1gap.moveTo(s5v1gap_val)
     # set sample positions
@@ -41,7 +43,7 @@ def qscan(beam_energy,beam_polarisation,s5v1gap_val,saazimuth_val,satilt_val,say
     
     for i in range(n_points):
         
-        energy.moveTo(beam_energy)  # @UndefinedVariable
+        energy.moveTo(beam_energy)
         qval = start + i*step
         sapolarval = qtransferrlu2sapolar(energy_sample,qval,sapolaroffset,thts_val,vec,a_val) 
         sapolar.moveTo(sapolarval)
@@ -67,6 +69,7 @@ def qscan(beam_energy,beam_polarisation,s5v1gap_val,saazimuth_val,satilt_val,say
         saz.moveTo(saz_elastic)
         
         # collect sample type and relevant sample scan number
+        meta_rm("elastic_scan")
         meta_add("sample_type", "elastic_reference")
         meta_add("sample_scan", nfn()-1)
         
@@ -74,5 +77,11 @@ def qscan(beam_energy,beam_polarisation,s5v1gap_val,saazimuth_val,satilt_val,say
         scan(dummies.x, 1, n_frames_elastic, 1, andor, elastic_exposure)  # @UndefinedVariable
         
         sleep(0.5)
+        meta_rm("sample_scan")
         print('*******************************************************************')
         print('\n')    
+        
+    #remove qscan metadata for this collection
+    meta_rm("scan_origin_id", "scan_levels", "scan0_name", "scan0_length",\
+            "scan0_index","qval", "sample_type","elastic_scan", "sample_scan")
+        

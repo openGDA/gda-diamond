@@ -1,7 +1,18 @@
 '''
-Created on 16th Dec 2017
+The template script for users to set experiment input parameters for a q-scan.
+These parameters are organised into 4 dictionary variables as each of them will be changed for different situations.
+These 4 dictionary are merged before passing to the qscan method in module dataCollection.qScan2 to perform the data collection.
 
-@author: i21user
+Important Notes:
+1. If and when you need to change any key name in these dictionary, you must update the qscan method in module dataCollection.qScan2 accordingly!
+2. If you add more key names to these dictionaries, you must access their value in the qscan method in module dataCollection.qScan2 by its key-name.
+3. The ID gap is calculated using idgap_fn(Ep, polarisation) function in module calibration.Energy2Gap4ID, which extracted from Energy_class.py,
+   so when you update Energy calibration in Energy_class.py, you must update Energy2Gap4ID.py
+
+Created on 12 Jan 2018
+Tested in dummy mode on 12 Jan 2018
+
+@author: fy65
 '''
 from dataCollection.qScan2 import qscan
 

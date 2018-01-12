@@ -20,7 +20,7 @@ def qtransferrlupara(energy_sample,sapolarval,sapolaroffset,thts,vec, a):
     @param a: the lattice parameter 
     '''
 
-    qtransfer_rlu = qtransfer_rlu(energy_sample, thts, vec, a)
+    qtransfer_rlu = calculate_qtransfer_rlu(energy_sample, thts, vec, a)
     
     # defining the projection of the momentum transfer 
     delta_sample = (sapolarval-sapolaroffset) - thts/2
@@ -29,7 +29,7 @@ def qtransferrlupara(energy_sample,sapolarval,sapolaroffset,thts,vec, a):
     return qtransfer_rlu_para
 
 
-def qtransfer_rlu(energy_sample, thts, vec, a):
+def calculate_qtransfer_rlu(energy_sample, thts, vec, a):
     ''' calculate qtransfer_rlu
     @param energy_sample: sample energy
     @param thts: spectrometer two theta
@@ -52,7 +52,7 @@ def qtransferrlu2sapolar(energy_sample,qtransferrlupara,sapolaroffset,thts,vec, 
     @param a: the lattice parameter 
     '''
 
-    qtransfer_rlu = qtransfer_rlu(energy_sample, thts, vec, a)
+    qtransfer_rlu = calculate_qtransfer_rlu(energy_sample, thts, vec, a)
     
     delta_sample = math.asin(qtransferrlupara/qtransfer_rlu)*180/math.pi
     sapolarval = delta_sample + thts/2 + sapolaroffset
