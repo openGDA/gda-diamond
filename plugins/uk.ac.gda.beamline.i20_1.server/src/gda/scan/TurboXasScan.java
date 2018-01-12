@@ -185,8 +185,6 @@ public class TurboXasScan extends ContinuousScan {
 		turboXasScannable.setMotorParameters(turboXasMotorParams);
 		// Calculate motor parameters for first timing group (i.e. positions and num readouts for spectrum)
 		turboXasMotorParams.setMotorParametersForTimingGroup(0);
-		// Move motor to near scan start position to avoid following error, if motor is a long way from where it needs to be...
-		// turboXasScannable.moveTo(turboXasMotorParams.getScanStartPosition());
 
 		// Configure the zebra
 		turboXasScannable.configureZebra(); // would normally get called in ContinuousScan.prepareForContinuousMove()
@@ -203,11 +201,9 @@ public class TurboXasScan extends ContinuousScan {
 		trajScanPreparer.setDefaults();
 		trajScanPreparer.clearTrajectoryLists();
 		trajScanPreparer.addPointsForTimingGroups(turboXasMotorParams);
-		trajScanPreparer.sendProfileValues();
-		trajScanPreparer.setBuildProfile();
-		if (trajScanPreparer.getBuildProfileStatus().equals("Failure")){
-			throw new Exception("Failure when building trajectory scan profile - check Epics EDM screen");
-		}
+
+		// send profile points to Epics trajectory scan, building and appending as necessary
+		trajScanPreparer.sendAppendProfileValues();
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
 
@@ -234,7 +230,6 @@ public class TurboXasScan extends ContinuousScan {
 
 		// Output some info on trajectory scan final execution state
 		logger.info("Trajectory scan finished. Execute state = {}, percent complete = {}", trajScanPreparer.getExecuteProfileState(), trajScanPreparer.getTscanPercent());
-
 
 		// Wait at end for data collection thread to finish
 		waitForReadoutToFinish(detectorReadoutRunnable, 600.0);

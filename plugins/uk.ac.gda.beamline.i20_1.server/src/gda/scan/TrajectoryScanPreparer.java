@@ -92,6 +92,15 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 	/** Number of subdivision to use for return sweep part of trajectory scan */
 	private int numStepsForReturnSweep = 2;
 
+	/** Max time per step. Moves in trajectory that take longer than this will be subdivided */
+	private double maxTimePerStep = 2.0;
+
+	/** Whether to use maxTimePerStep for subdivisions; otherwise use numStepsForSpectrumSweep, numStepsForReturnSweep */
+	private boolean useMaxTimePerStep = true;
+
+	/** Number of points to build/append when sending profile values to Epics (used by {@link#sendAppendProfileValues()}. */
+	private int maxPointsPerProfileBuild = 1500;
+
 	@Override
 	public void setName(String name) {
 		this.name = name;
@@ -270,16 +279,6 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 		}
 	}
 
-	private boolean includeTurnaround = false;
-
-	public boolean getIncludeTurnaround() {
-		return includeTurnaround;
-	}
-
-	public void setIncludeTurnaround(boolean includeTurnaround) {
-		this.includeTurnaround = includeTurnaround;
-	}
-
 	/**
 	 * Setup trajectory scan points using timing groups from TurboXasParameters
 	 * @param motorParameters
@@ -298,42 +297,9 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 		for(int i=0; i<numTimingGroups; i++) {
 			TurboSlitTimingGroup timingGroup = timingGroups.get(i);
 
-			if (includeTurnaround) {
-				addSpectrumToTrajectoryWithTurnarounds(motorParameters.getScanStartPosition(), motorParameters.getScanEndPosition(), startDelta, endDelta,
-					timingGroup.getTimePerSpectrum(), timingGroup.getTimeBetweenSpectra(), timingGroup.getNumSpectra());
-			} else {
-				addSpectrumToTrajectorySubdivide(motorParameters.getScanStartPosition(), motorParameters.getScanEndPosition(), startDelta, endDelta,
-						timingGroup.getTimePerSpectrum(), timingGroup.getTimeBetweenSpectra(), timingGroup.getNumSpectra());
-			}
+			addSpectrumToTrajectorySubdivide(motorParameters.getScanStartPosition(), motorParameters.getScanEndPosition(), startDelta, endDelta,
+				timingGroup.getTimePerSpectrum(), timingGroup.getTimeBetweenSpectra(), timingGroup.getNumSpectra(), i == 0);
 
-		}
-	}
-
-	/**
-	 * Add linear profile to trajectory (time based).
-	 * Trajectory runs from userStart-startDelta to userEnd+endDelta and is broken into 3 segments;
-	 * times for each point are calculated from timeForSpectrum, timeBetween parameters.
-	 * @param userStart
-	 * @param userEnd
-	 * @param startDelta
-	 * @param endDelta
-	 * @param timeForSpectrum
-	 * @param timeBetweenSpectra
-	 * @param numRepetitions
-	 */
-	public void addSpectrumToTrajectoryTimes(double userStart, double userEnd, double startDelta, double endDelta,
-			double timeForSpectrum, double timeBetweenSpectra,	int numRepetitions) {
-
-		Double[] positions = {userStart-startDelta, userStart, userEnd, userEnd+endDelta};
-		double vSweep = (userEnd - userStart)/timeForSpectrum;
-		double timeToUserStart = (positions[1]-positions[0])/vSweep;
-		double timeForEnd = (positions[3]-positions[2])/vSweep;
-		double timeForReturn = timeBetweenSpectra - (timeToUserStart + timeForEnd);
-
-		Double[] times= {timeForReturn, timeToUserStart, timeForSpectrum, timeForEnd};
-		Integer[] velocityModes = {3, 1, 1, 1};
-		for(int i=0; i<numRepetitions; i++) {
-			addPointsToTrajectory(positions, times, velocityModes);
 		}
 	}
 
@@ -348,12 +314,16 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 	 * @param numRepetitions
 	 */
 	public void addSpectrumToTrajectorySubdivide(double userStart, double userEnd, double startDelta, double endDelta,
-			double timeForSpectrum, double timeBetweenSpectra, int numRepetitions) {
+			double timeForSpectrum, double timeBetweenSpectra, int numRepetitions, boolean firstGroup) {
 
-		// First spectrum includes move to initial position
-		addSpectrumToTrajectorySubdivide(userStart, userEnd, startDelta, endDelta, timeForSpectrum, timeBetweenSpectra, true);
+		int startIndex = 0;
+		if (firstGroup) {
+			// First spectrum of first group includes move to initial position
+			addSpectrumToTrajectorySubdivide(userStart, userEnd, startDelta, endDelta, timeForSpectrum, timeBetweenSpectra, true);
+			startIndex = 1;
+		}
 
-		for(int i=1; i<numRepetitions; i++) {
+		for(int i=startIndex; i<numRepetitions; i++) {
 			addSpectrumToTrajectorySubdivide(userStart, userEnd, startDelta, endDelta, timeForSpectrum, timeBetweenSpectra, false);
 		}
 	}
@@ -383,163 +353,34 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 		Double[] times= {timeForReturn, timeToUserStart, timeForSpectrum, timeForEnd};
 		Integer[] velocityModes = {3, 1, 1, 1};
 
-		// Move to initial position
+		// Move to initial position, use fixed time (should be slow enough to not cause trouble with the motor)
 		if (includeMoveToInitialPosition) {
-			addPointToTrajectory(positions[0], times[0], velocityModes[0]);
+			addPointToTrajectory(positions[0], maxTimePerStep, velocityModes[0]);
+		}
+
+		int numStepsForSpectrum = numStepsForSpectrumSweep;
+		int numStepsForReturn = numStepsForReturnSweep;
+
+//		// Set number of subdivisions according to max allowed time per step.
+		if (useMaxTimePerStep && maxTimePerStep>0) {
+			numStepsForSpectrum = (int) Math.ceil(timeForSpectrum / maxTimePerStep);
+			numStepsForReturn = (int) Math.ceil(timeForReturn / maxTimePerStep);
 		}
 
 		// Move to start of spectrum sweep
 		addPointToTrajectory(positions[1], times[1], velocityModes[1]);
 
 		// Spectrum sweep (subdivide)
-		addSubdividedStep(userStart, userEnd, timeForSpectrum, numStepsForSpectrumSweep, velocityModes[2]);
+		addSubdividedStep(userStart, userEnd, timeForSpectrum, numStepsForSpectrum, velocityModes[2]);
 
 		// move to final position
 		addPointToTrajectory(positions[3], times[3], 3);
 
 		// Return to start position
-		addSubdividedStep(positions[3], positions[0], timeForReturn, numStepsForReturnSweep, velocityModes[3]);
+		addSubdividedStep(positions[3], positions[0], timeForReturn, numStepsForReturn, velocityModes[3]);
 
 	}
 
-	public void addSpectrumToTrajectoryWithTurnarounds(double userStart, double userEnd, double startDelta, double endDelta,
-			double timeForSpectrum, double timeBetweenSpectra, int numRepetitions) {
-
-		// First spectrum includes move to initial position
-		addSpectrumToTrajectoryWithTurnarounds(userStart, userEnd, startDelta, endDelta, timeForSpectrum, timeBetweenSpectra, true);
-
-		for(int i=1; i<numRepetitions; i++) {
-			addSpectrumToTrajectoryWithTurnarounds(userStart, userEnd, startDelta, endDelta, timeForSpectrum, timeBetweenSpectra, false);
-		}
-	}
-
-	private int numStepsForTurnaround = 10; //should be an even number
-
-	public void setNumStepsForTurnaround(int numStepsForTurnaround) {
-		this.numStepsForTurnaround = numStepsForTurnaround;
-	}
-
-	public int getNumStepsForTurnaround() {
-		return this.numStepsForTurnaround;
-	}
-
-	public void addSpectrumToTrajectoryWithTurnarounds(double userStart, double userEnd, double startDelta, double endDelta,
-			double timeForSpectrum, double timeBetweenSpectra, boolean includeMoveToInitialPosition) {
-		Double[] positions = {userStart-startDelta, userStart, userEnd, userEnd+endDelta};
-		double vSweep = (userEnd - userStart)/timeForSpectrum;
-		double timeForTurnaroundAtEnd = endDelta/vSweep;
-		double timeForTurnaroundAtStart = startDelta/vSweep;
-		double timeForStartDelta = startDelta/vSweep;
-
-		double timeForReturn = timeBetweenSpectra - (timeForTurnaroundAtEnd+timeForTurnaroundAtStart+timeForStartDelta);
-		double vReturnApprox = vSweep*timeForSpectrum/timeForReturn; // approx return velocity
-
-//		Double[] times= {timeForReturn, timeForTurnaroundAtStart, timeForSpectrum, timeForTurnaroundAtEnd};
-		Integer[] velocityModes = {3, 1, 1, 1};
-
-		// Move to initial position for start of ramp up
-		// (use timeForReturn for 'move to' time to avoid trying to move too fast and getting 'motor following' error )
-		if (includeMoveToInitialPosition) {
-			addPointToTrajectory(positions[0], timeForReturn, velocityModes[0]);
-
-			// Move to first point of spectrum sweep
-			addPointToTrajectory(positions[1], timeForTurnaroundAtStart, velocityModes[1]);
-		}
-
-		// Spectrum sweep (subdivide)
-		List<TrajectoryPoint> spectrumSweepPoints = getSubdividedStep(positions[1], positions[2], timeForSpectrum, numStepsForSpectrumSweep, velocityModes[2]);
-		addPointsToTrajectory(spectrumSweepPoints);
-
-		// Turnaround at spectrum end:
-		List<TrajectoryPoint> pointsForEndTurnaround = getVelocityChange(positions[2], vSweep, 0, timeForTurnaroundAtEnd, numStepsForTurnaround/2, 1);
-		addPointsToTrajectory(pointsForEndTurnaround);
-		double turnaroundPos = pointsForEndTurnaround.get(pointsForEndTurnaround.size()-1).getPosition();
-		pointsForEndTurnaround = getVelocityChange(turnaroundPos, 0, -vReturnApprox, timeForTurnaroundAtEnd/2, numStepsForTurnaround/2, 1);
-		addPointsToTrajectory(pointsForEndTurnaround);
-
-		// Calc. points for turnaround at spectrum start
-		List<TrajectoryPoint> pointsForStartTurnaround = getVelocityChange(positions[0], -vReturnApprox, vSweep, timeForTurnaroundAtStart, numStepsForTurnaround, 1);
-
-		// adjust start turnaround positions so that final point is at position[1]
-		double finalPos = pointsForStartTurnaround.get(pointsForStartTurnaround.size()-1).getPosition();
-		double offset = positions[0] - finalPos;
-		for(TrajectoryPoint point : pointsForStartTurnaround) {
-			double newpos = point.getPosition() + offset;
-			point.setPosition(newpos);
-		}
-
-		double lastPointOfTurnaroundAtEnd = pointsForEndTurnaround.get(pointsForEndTurnaround.size()-1).getPosition();
-		double firstPosOfTurnaroundAtStart = pointsForStartTurnaround.get(0).getPosition();
-
-		// Return sweep (subdivided) between the two turnarounds
-		List<TrajectoryPoint> returnSweepPoints = getSubdividedStep(lastPointOfTurnaroundAtEnd, firstPosOfTurnaroundAtStart, timeForReturn, numStepsForReturnSweep, velocityModes[3]);
-		addPointsToTrajectory(returnSweepPoints);
-
-		// Turnaround at start
-		pointsForStartTurnaround.remove(0);// remove first point (this is last point of return sweep)
-		addPointsToTrajectory(pointsForStartTurnaround);
-
-		List<TrajectoryPoint> points = getSubdividedStep(positions[0], positions[1], timeForStartDelta, 5, velocityModes[3]);
-		addPointsToTrajectory(points);
-	}
-
-	public void addPointsToTrajectory(List<TrajectoryPoint> points) {
-		for(TrajectoryPoint point : points) {
-			addPointToTrajectory(point.getPosition(), point.getTime(), point.getVelocityMode());
-		}
-	}
-
-	public void addSpectrumToTrajectoryWithVelocityRamp(double userStart, double userEnd, double startDelta, double endDelta,
-			double timeForSpectrum, double timeBetweenSpectra, boolean includeMoveToInitialPosition) {
-
-		Double[] positions = {userStart-startDelta, userStart, userEnd, userEnd+endDelta};
-		double vSweep = (userEnd - userStart)/timeForSpectrum;
-		double timeToUserStart = (positions[1]-positions[0])/vSweep;
-		double timeForEnd = (positions[3]-positions[2])/vSweep;
-		double timeForReturn = timeBetweenSpectra - (2*timeToUserStart + timeForEnd);
-		double vReturnApprox = vSweep*timeForSpectrum/timeForReturn; // approx return velocity
-
-		Double[] times= {timeForReturn, timeToUserStart, timeForSpectrum, timeForEnd};
-		Integer[] velocityModes = {3, 1, 1, 1};
-
-		// Move to initial position for start of ramp up
-		if (includeMoveToInitialPosition) {
-			addPointToTrajectory(positions[0], 0, velocityModes[0]);
-			// accel from stationary to required speed
-			double endPosAfterRampUp = addVelocityChange(positions[0], 0, vSweep, timeToUserStart*0.5, 10, velocityModes[1]);
-		}
-
-
-		// Move to start of spectrum sweep
-		addPointToTrajectory(positions[1], timeToUserStart*0.5, velocityModes[1]);
-
-		// Spectrum sweep (subdivide)
-		addSubdividedStep(positions[1], positions[2], timeForSpectrum, numStepsForSpectrumSweep, velocityModes[2]);
-
-		// move to final position (velocity ramp down as well)
-		double endPosAfterTurnaround = addVelocityChange(positions[2], vSweep, -vReturnApprox, timeForEnd, 10, velocityModes[2]);
-
-		// Return to start position
-		addSubdividedStep(endPosAfterTurnaround, positions[1], timeForReturn, numStepsForReturnSweep, velocityModes[3]);
-
-		// move to final position (velocity ramp down as well)
-		double endPosAfterTurnaroundAtStart = addVelocityChange(positions[1], -vReturnApprox, vSweep, timeToUserStart*0.9, 10, velocityModes[2]);
-
-		// start position for ramp at beginning of next spectrum
-		addPointToTrajectory(positions[0], timeToUserStart*0.1, velocityModes[0]);
-	}
-
-	List<TrajectoryPoint> getSubdividedStep(double startPos, double endPos, double timeForMove,  int numSteps, int velocityMode) {
-		List<TrajectoryPoint> points = new ArrayList<TrajectoryPoint>();
-		double posStep = (endPos-startPos)/numSteps;
-		double timePerstep = timeForMove/numSteps;
-		double pos = startPos;
-		for(int i=0; i<numSteps; i++) {
-			pos += posStep;
-			points.add(new TrajectoryPoint(pos, timePerstep, velocityMode));
-		}
-		return points;
-	}
 	/**
 	 * Add 'numSteps' positions between startPos and endPos to trajectory (constant speed), taking total of timeForMove seconds for whole move.'
 	 * @param startPos start position
@@ -558,83 +399,6 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 		}
 	}
 
-	class TrajectoryPoint {
-
-		private double position;
-		private double time;
-		private int velocityMode;
-
-		public TrajectoryPoint(double position, double time, int velocityMode) {
-			this.position = position;
-			this.time = time;
-			this.velocityMode = velocityMode;
-		}
-		public double getPosition() {
-			return position;
-		}
-		public void setPosition(double position) {
-			this.position = position;
-		}
-		public double getTime() {
-			return time;
-		}
-		public void setTime(double time) {
-			this.time = time;
-		}
-		public int getVelocityMode() {
-			return velocityMode;
-		}
-		public void setVelocityMode(int velocityMode) {
-			this.velocityMode = velocityMode;
-		}
-	}
-
-	public List<TrajectoryPoint> getVelocityChange(double startPos, double startVelocity, double endVelocity, double timeForMove, int numSteps, int velocityMode) {
-		List<TrajectoryPoint> points = new ArrayList<TrajectoryPoint>();
-		double accel = (endVelocity-startVelocity)/timeForMove;
-		double deltaTime = timeForMove/numSteps;
-		double pos = 0;
-		for(int i=1; i<numSteps+1; i++) {
-			double time = i*deltaTime;
-			pos = startPos + startVelocity*time + 0.5*accel*time*time;
-			points.add(new TrajectoryPoint(pos, deltaTime, velocityMode));
-		}
-		return points;
-	}
-
-	/**
-	 *
-	 * @param startPos
-	 * @param startVelocity
-	 * @param endVelocity
-	 * @param timeForMove
-	 * @param numSteps
-	 * @param velocityMode
-	 * @return Final position
-	 */
-	public double addVelocityChange(double startPos, double startVelocity, double endVelocity, double timeForMove, int numSteps, int velocityMode) {
-		double accel = (endVelocity-startVelocity)/timeForMove;
-		double deltaTime = timeForMove/numSteps;
-		double pos = 0;
-		for(int i=1; i<numSteps+1; i++) {
-			double time = i*deltaTime;
-			pos = startPos + startVelocity*time + 0.5*accel*time*time;
-			addPointToTrajectory(pos, deltaTime, velocityMode);
-		}
-		return pos;
-	}
-
-	public double addTurnaround(double startPos, double startVelocity, double timeForMove, int numPoints) {
-		double accel = -startVelocity/timeForMove;
-		double deltaTime = timeForMove/numPoints;
-		for(int i=1; i<numPoints+1; i++) {
-			double time = i*deltaTime;
-			double pos = startPos + startVelocity*time + accel*time*time;
-			addPointToTrajectory(pos, deltaTime, 1);
-		}
-		return 0;
-	}
-
 	/**
 	 * Add linear profile to trajectory (velocity based).
 	 * Trajectory runs from userStart-startDelta to userEnd+endDelta and is broken into 3 segments;
@@ -649,7 +413,7 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 	 * @param numRepetitions
 	 */
 	public void addSpectrumToTrajectory(double userStart, double userEnd, double startDelta, double endDelta,
-			double  vSweep, double vReturn,	int numRepetitions) {
+			double vSweep, double vReturn, int numRepetitions) {
 
 		Double[] positions = {userStart-startDelta, userStart, userEnd, userEnd+endDelta};
 
@@ -665,6 +429,34 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 		for(int i=0; i<times.length; i++){
 			intTime[i] = (int) (times[i]*timeConversionFromSecondsToPmacUnits);
 		}
+		for(int i=0; i<numRepetitions; i++) {
+			addPointsToTrajectory(positions, times, velocityModes);
+		}
+	}
+
+	/**
+	 * Add linear profile to trajectory (time based).
+	 * Trajectory runs from userStart-startDelta to userEnd+endDelta and is broken into 3 segments;
+	 * times for each point are calculated from timeForSpectrum, timeBetween parameters.
+	 * @param userStart
+	 * @param userEnd
+	 * @param startDelta
+	 * @param endDelta
+	 * @param timeForSpectrum
+	 * @param timeBetweenSpectra
+	 * @param numRepetitions
+	 */
+	public void addSpectrumToTrajectoryTimes(double userStart, double userEnd, double startDelta, double endDelta,
+			double timeForSpectrum, double timeBetweenSpectra,	int numRepetitions) {
+
+		Double[] positions = {userStart-startDelta, userStart, userEnd, userEnd+endDelta};
+		double vSweep = (userEnd - userStart)/timeForSpectrum;
+		double timeToUserStart = (positions[1]-positions[0])/vSweep;
+		double timeForEnd = (positions[3]-positions[2])/vSweep;
+		double timeForReturn = timeBetweenSpectra - (timeToUserStart + timeForEnd);
+
+		Double[] times= {timeForReturn, timeToUserStart, timeForSpectrum, timeForEnd};
+		Integer[] velocityModes = {3, 1, 1, 1};
 		for(int i=0; i<numRepetitions; i++) {
 			addPointsToTrajectory(positions, times, velocityModes);
 		}
@@ -728,34 +520,97 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 	}
 
 	/**
-	 * Send currently stored trajectory scan list values to Epics.
-	 * (i.e. convert from List to array and send to appropriate PV)
-	 * @throws Exception
+	 *  Check to make sure converted times aren't too large (otherwise bad things happen and have to reboot IOC...)
+	 * 	Throws an Exception if any time is too large, with message showing faulty point number and its time.
+	 * @param convertedTime
 	 */
-	public void sendProfileValues() throws Exception {
-		int numPointsInProfile = trajectoryTimes.size();
-		Integer[] userMode = new Integer[numPointsInProfile];
-		Arrays.fill(userMode, 0);
-
-		// Get times in converted time units
-		List<Double> convertedTime = getTrajectoryConvertTimes();
-		// Check to make sure converted time isn't too large (otherwise bad things happen and have to reboot IOC...)
+	private void checkTimes(List<Double> convertedTime) throws Exception {
 		double maxAllowedTimeForPMac = Math.pow(2,  24);
 		for(int i=0; i<convertedTime.size(); i++) {
 			if (convertedTime.get(i)>maxAllowedTimeForPMac) {
 				throw new Exception("Time "+convertedTime.get(i)+" for profile point "+i+" exceeds limit ("+maxAllowedTimeForPMac+")");
 			}
 		}
+	}
+
+	/**
+	 * Send currently stored trajectory scan list values to Epics.
+	 * (i.e. convert from List to array and send to appropriate PV)
+	 * @throws Exception
+	 */
+	public void sendProfileValues() throws Exception {
+		sendProfileValues(0, trajectoryTimes.size()-1);
+	}
+
+	/**
+	 * Send values from currently stored trajectory scan list values to Epics.
+	 * (i.e. convert from List to array and send to appropriate PV)
+	 * @param startIndex index of first point in profile to send
+	 * @param endIndex index of last point in profile to send
+	 * @throws Exception
+	 */
+	public void sendProfileValues(int startIndex, int endIndex) throws Exception {
+		// Limit min, max indices to be within range of currently set arrays
+		int start = Math.max(0, startIndex);
+		start = Math.min(start, trajectoryTimes.size()-1);
+		int end = Math.min(endIndex, trajectoryTimes.size()-1);
+		int numPoints = end - start + 1;
+
+		Integer[] userMode = new Integer[numPoints];
+		Arrays.fill(userMode, 0);
+
+		List<Double> convertedTime = getTrajectoryConvertTimes();
+		checkTimes(convertedTime);
+
 		// These are used for class types by toArray function.
 		Double []dblArray = new Double[0];
 		Integer []intArray = new Integer[0];
 
-		// Apply to Epics
-		setProfileNumPointsToBuild(numPointsInProfile);
-		setProfileTimeArray(convertedTime.toArray(dblArray));
-		setProfileXPositionArray(trajectoryPositions.toArray(dblArray));
-		setProfileVelocityModeArray(trajectoryVelocityModes.toArray(intArray) );
+		setProfileNumPointsToBuild(numPoints);
+		setProfileTimeArray(convertedTime.subList(start, end+1).toArray(dblArray));
+		setProfileXPositionArray(trajectoryPositions.subList(start, end+1).toArray(dblArray));
+		setProfileVelocityModeArray(trajectoryVelocityModes.subList(start, end+1).toArray(intArray) );
 		setProfileUserArray(userMode);
+	}
+
+	/**
+	 * Build/append profile in Epics; take range of values from trajectory scan list.
+	 * Build if startPoint==0; otherwise Append. Use {@link #maxPointsPerProfileBuild} to set the
+	 * number of profile points sent per build/append operation.
+	 * @param startPoint index of first point in trajectory profile to send.
+	 * @return index of next point to be sent to Epics
+	 * @throws Exception
+	 */
+	public int sendAppendProfileValues(int startPoint) throws Exception {
+		int maxPointIndex = trajectoryTimes.size()-1;
+		int endPointIndex = Math.min(maxPointIndex, startPoint + maxPointsPerProfileBuild - 1);
+		sendProfileValues(startPoint, endPointIndex);
+		if (startPoint == 0) {
+			setBuildProfile();
+			if (getBuildProfileStatus().equals("Failure")){
+				throw new Exception("Failure when building trajectory scan profile - check Epics EDM screen");
+			}
+		} else {
+			setAppendProfile();
+			if (getAppendProfileStatus().equals("Failure")){
+				throw new Exception("Failure when appending to trajectory scan profile - check Epics EDM screen");
+			}
+		}
+		return endPointIndex+1;
+	}
+
+	/**
+	 * Send trajectory profile to Epics, building and appending as many times as
+	 * necessary to send all the points. See also {@link #sendAppendProfileValues(int)}.
+	 * @throws Exception
+	 */
+	public void sendAppendProfileValues() throws Exception {
+		int startPoint = 0;
+		int numPoints = trajectoryTimes.size();
+
+		while(startPoint < numPoints) {
+			startPoint = sendAppendProfileValues(startPoint);
+		}
 	}
 
 	public List<Double> getTrajectoryPositionsList() {
@@ -796,5 +651,29 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 
 	public void setNumStepsForSpectrumSweep(int numStepsForSpectrumSweep) {
 		this.numStepsForSpectrumSweep = numStepsForSpectrumSweep;
+	}
+
+	public double getMaxTimePerStep() {
+		return maxTimePerStep;
+	}
+
+	public void setMaxTimePerStep(double maxTimePerStep) {
+		this.maxTimePerStep = maxTimePerStep;
+	}
+
+	public boolean getUseMaxTimePerStep() {
+		return useMaxTimePerStep;
+	}
+
+	public void setUseMaxTimePerStep(boolean useMaxTimePerStep) {
+		this.useMaxTimePerStep = useMaxTimePerStep;
+	}
+
+	public int getMaxPointsPerProfileBuild() {
+		return maxPointsPerProfileBuild;
+	}
+
+	public void setMaxPointsPerProfileBuild(int maxPointsPerProfileBuild) {
+		this.maxPointsPerProfileBuild = maxPointsPerProfileBuild;
 	}
 }
