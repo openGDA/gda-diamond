@@ -63,6 +63,9 @@ public class TurboXasMotorParameters {
 	private double motorHighLimit;
 	private double motorLowLimit;
 
+	// Resolution limit of position stepsize [mm] - should be set to match encoder resolution.
+	private double stepsizeResolution;
+
 	// Not currently set from scanParameters, should it be?
 	private double motorStabilisationDistance;
 
@@ -87,6 +90,7 @@ public class TurboXasMotorParameters {
 		motorStabilisationDistance = 0.1;
 		motorHighLimit = 10000;
 		motorLowLimit = -10000;
+		stepsizeResolution = 1e-4;
 	}
 
 	/**
@@ -234,31 +238,36 @@ public class TurboXasMotorParameters {
 		endPosition = scanEndPosition + scanMotorDirection * (motorRampDistance + motorStabilisationDistance);
 	}
 
-
 	/**
-	 * Calculate motor position step size and number of readouts/steps for scan from energy values.
+	 * Calculate motor position step size and number of readouts/steps to use for scan from energy values.
 	 * (i.e. 'Pulse step' and 'Max pulses' used for Zebra).
-	 * Note that the energy-position relationship is generally non-linear, so we compute stepsize from average of step size
-	 * at the start and end scan energies.
+	 * Stepsize is encoder resolution limited to avoid rounding errors that can lead to difference between expected number
+	 * of pulses and number produced by zebra from encoder readout - see {@link#getResolutionLimitedStepSize()}.
 	 *
 	 */
 	public void calculateSetPositionStepSize() {
 		// Make sure calculateMotorParameters has been called first, so that scanStartMotorPosition, and scanEndMotorPosition are up-to-date
-		double energyStepSize = scanParameters.getEnergyStep();
-		double startEnergy = scanParameters.getStartEnergy(), endEnergy = scanParameters.getEndEnergy();
+		positionStepsize = getResolutionLimitedStepSize();
+		numReadoutsForScan = (int) Math.floor(getScanPositionRange()/positionStepsize);
+	}
 
-		double stepSizeStartEnergy = getPositionForEnergy(startEnergy + energyStepSize) - scanStartPosition;
-		double stepSizeEndEnergy = scanEndPosition - getPositionForEnergy(endEnergy - energyStepSize);
-		positionStepsize = 0.5 * (stepSizeStartEnergy + stepSizeEndEnergy);
-		double floatNumReadouts = (scanEndPosition - scanStartPosition)/positionStepsize;
-		int floorNumReadouts = (int) Math.floor(floatNumReadouts);
-		numReadoutsForScan = floorNumReadouts;
+	/**
+	 * Calculate resolution limited position step size corresponding to currently set energy.
+	 * Step size is rounded down to nearest {@link#stepsizeResolution} mm.
+	 * @return Resolution limited step size
+	 */
+	public double getResolutionLimitedStepSize() {
+		double numStepsFromEnergy = Math.floor(scanParameters.getEndEnergy() - scanParameters.getStartEnergy())/scanParameters.getEnergyStep();
+		double nonRoundedPositionStepsize = getScanPositionRange()/numStepsFromEnergy;
+		return Math.floor(nonRoundedPositionStepsize/stepsizeResolution)*stepsizeResolution;
+	}
 
-		// round up if very close to next whole number
-		double leftOver = 1 - (floatNumReadouts - floorNumReadouts);
-		if ( leftOver < minimumAllowedMotorMoveSize )
-			numReadoutsForScan++;
+	public double getStepsizeResolution() {
+		return stepsizeResolution;
+	}
 
+	public void setStepsizeResolution(double stepsizeResolution) {
+		this.stepsizeResolution = stepsizeResolution;
 	}
 
 	public void showParameters() {
@@ -497,6 +506,14 @@ public class TurboXasMotorParameters {
 
 	public double getPositionStepsize() {
 		return positionStepsize;
+	}
+
+	/**
+	 * @return Energy stepsize corresponding to currently set number of readouts.
+	 * (Number of readouts is set using a resolution limited position stepsize)
+	 */
+	public double getEnergyStepSize() {
+		return Math.floor(scanParameters.getEndEnergy() - scanParameters.getStartEnergy())/numReadoutsForScan;
 	}
 
 	/**
