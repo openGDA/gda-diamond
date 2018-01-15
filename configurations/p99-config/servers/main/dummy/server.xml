@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+
+	<!--for an 'empty' configuration, remove the imports below, and the other xml files and directories inside the xml/server directory-->
+<!-- P45 stuff left in for reference - add you own detector(s) motors in relevant xml files and include them here -->
+	<import resource="det.xml" />
+	<import resource="mic.xml" />
+	<import resource="mapping_motors.xml"/>
+
+<!-- Do not remove anything below here -->
+	<import resource="../../main/_common/server.xml" />
+
+</beans>
