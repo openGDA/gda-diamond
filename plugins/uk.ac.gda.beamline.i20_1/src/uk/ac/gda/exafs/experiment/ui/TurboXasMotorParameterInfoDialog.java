@@ -115,27 +115,32 @@ public class TurboXasMotorParameterInfoDialog extends Dialog {
 		GridLayoutFactory.fillDefaults().margins(20, 20).numColumns(2).spacing(30, LayoutConstants.getSpacing().y).applyTo(mainComposite);
 		mainComposite.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 
-		toolkit.createLabel(mainComposite, "Start, end positions for scan energy range", SWT.FILL);
+		toolkit.createLabel(mainComposite, "Start, end positions for scan energy range [mm]", SWT.FILL);
 		toolkit.createLabel(mainComposite, String.format(twoNumFormat, motorParameters.getScanStartPosition(), motorParameters.getScanEndPosition()));
 
-		toolkit.createLabel(mainComposite, "Scan range");
+		toolkit.createLabel(mainComposite, "Scan range [mm]");
 		Label rangeLabel = toolkit.createLabel(mainComposite, String.format(numFormat, motorParameters.getScanPositionRange()));
 
-		toolkit.createLabel(mainComposite, "Scan step size");
+		toolkit.createLabel(mainComposite, "Scan step size [mm]");
 		toolkit.createLabel(mainComposite, String.format(numFormat, motorParameters.getPositionStepsize()));
+
+		toolkit.createLabel(mainComposite, "Effective energy step size [eV]");
+		toolkit.createLabel(mainComposite, String.format(numFormat, motorParameters.getEnergyStepSize()));
 
 		toolkit.createLabel(mainComposite, "Number of readouts per scan");
 		toolkit.createLabel(mainComposite, String.format("%d", motorParameters.getNumReadoutsForScan()));
 
 		for(int i = 0; i<motorParameters.getScanParameters().getNumTimingGroups(); i++) {
-			toolkit.createLabel(mainComposite, "Motor scan speed / return speed : timing group "+(i+1));
+			toolkit.createLabel(mainComposite, "Motor scan speed [mm/s], time per point [s] / return speed [mm/s] : timing group "+(i+1));
 			motorParameters.setMotorParametersForTimingGroup(i);
 
 			Composite speedComp = toolkit.createComposite(mainComposite);
 			speedComp.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 			speedComp.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
-			Label speedLabel = toolkit.createLabel(speedComp, String.format(numFormat+" / ", motorParameters.getScanMotorSpeed()));
+			double timePerPoint = motorParameters.getScanParameters().getTimingGroups().get(i).getTimePerSpectrum()/motorParameters.getNumReadoutsForScan();
+
+			Label speedLabel = toolkit.createLabel(speedComp, String.format(twoNumFormat+" / ", motorParameters.getScanMotorSpeed(), timePerPoint));
 			Label returnSpeedLabel = toolkit.createLabel(speedComp, String.format(numFormat, motorParameters.getReturnMotorSpeed()));
 
 			if (!motorParameters.validMotorScanSpeed()) {
@@ -146,16 +151,16 @@ public class TurboXasMotorParameterInfoDialog extends Dialog {
 			}
 		}
 
-		toolkit.createLabel(mainComposite, "Motor start, end positions (with rampup/down)");
+		toolkit.createLabel(mainComposite, "Motor start, end positions (with rampup/down) [mm]");
 		Label positionLabel = toolkit.createLabel(mainComposite, String.format(twoNumFormat, motorParameters.getStartPosition(), motorParameters.getEndPosition() ));
 
-		toolkit.createLabel(mainComposite, "Velocity ramp distance");
+		toolkit.createLabel(mainComposite, "Velocity ramp distance [mm]");
 		toolkit.createLabel(mainComposite, String.format(numFormat, motorParameters.getMotorRampDistance()));
 
-		toolkit.createLabel(mainComposite, "Velocity stabilisation distance");
+		toolkit.createLabel(mainComposite, "Velocity stabilisation distance [mm]");
 		toolkit.createLabel(mainComposite, String.format(numFormat, motorParameters.getMotorStabilisationDistance()));
 
-		toolkit.createLabel(mainComposite, "Motor max speed");
+		toolkit.createLabel(mainComposite, "Motor max speed [mm/s]");
 		toolkit.createLabel(mainComposite, String.format(numFormat, motorParameters.getMotorMaxSpeed()));
 
 		if (!motorParameters.getMotorPositionsWithinLimits()) {

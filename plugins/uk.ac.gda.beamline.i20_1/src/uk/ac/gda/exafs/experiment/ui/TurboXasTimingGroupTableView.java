@@ -66,8 +66,8 @@ public class TurboXasTimingGroupTableView {
 
 	public enum TimingGroupParamType {
 		NAME("Group name"),
-		TIME_PER_SPECTRUM("Time per. spectrum"),
-		TIME_BETWEEN_SPECTRA("Time between spectra"),
+		TIME_PER_SPECTRUM("Time per. spectrum [s]"),
+		TIME_BETWEEN_SPECTRA("Time between spectra [s]"),
 		NUM_SPECTRA("Number of spectra");
 
 		private final String enumName;
