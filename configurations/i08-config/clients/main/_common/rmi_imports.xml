@@ -34,11 +34,4 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
-	<!-- XMAP fluorescence detector -->
-	<bean id="xmapFluorescenceDetector" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xmapFluorescenceDetector" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
 </beans>

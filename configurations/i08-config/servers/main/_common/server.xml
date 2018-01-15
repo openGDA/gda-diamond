@@ -56,7 +56,6 @@
  	<import resource="file:${gda.config}/servers/main/_common/devices/id.xml"/>
  	<import resource="file:${gda.config}/servers/main/_common/devices/opticsScannables.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/sample_stage.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/devices/stxmScannables.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/zone_plate.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/detectors/andor_addetector.xml" />

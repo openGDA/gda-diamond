@@ -4,124 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<!-- NXDetector file writers -->
-	 <bean id="xmap_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL08I-EA-DET-02:HDF:" />
-	</bean>
-
-	<bean id="xmap_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
-		<property name="ndFileImpl" ref="xmap_ndfilehdf5_base" />
-	</bean>
-
-	<bean id="xmap_hdf5filewriter_for_scans" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<property name="ndFileHDF5" ref="xmap_ndfilehdf5" />
-		<property name="fileNameTemplate" value="xmap" />
-		<property name="filePathTemplate" value="$datadir$/" />
-		<property name="fileTemplate" value="%s%s-%d.hdf" />
-		<property name="fileNumberAtScanStart" value="-1" />
-		<property name="setFileNameAndNumber" value="true" />
-		<property name="storeAttr" value="true" />
-		<property name="ndArrayPortVal" value="DET2.roi.roi9" />
-		<property name="lazyOpen" value="true" />
-		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64 -->
-		<property name="FramesChunks" value="5" />
-		<property name="setChunking" value="true" />
-		<property name="writeErrorStatusSupported" value="true" />
-		<property name="attrByDimSupported" value="true" />
-		<property name="attrByDim" value="true" />
-	</bean>
-
-	<bean id="xmapMapping" class="gda.device.detector.nxdetector.xmap.controller.XmapMappingModeEpicsLayerImpl">
-		<constructor-arg value="BL08I-EA-DET-02:" />
-		<constructor-arg value="10" />
-	</bean>
-
-	<bean id="edxdcontroller" class="gda.device.detector.nxdetector.xmap.controller.XmapAcquisitionBaseEpicsLayerImpl">
-		<constructor-arg index="0" value="BL08I-EA-DET-02:" />
-		<constructor-arg index="1" ref="xmapMapping" />
-	</bean>
-
-	<!-- Separate the EPICs layer from the collection strategy -->
-	<bean id="xbufferpv" class="gda.device.detector.nxdetector.xmap.xbufferPlugin.XBufferPVs">
-		<constructor-arg index="0" value="BL08I-EA-DET-02:XBUF:" />
-	</bean>
-
-	<!-- Define ROIs -->
-	<bean id="xmaproistats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="xmaproistats1" />
-		<property name="baseRoiPVName" value="BL08I-EA-DET-02:ROI1:" />
-		<property name="baseStatsPVName" value="BL08I-EA-DET-02:STAT1:" />
-		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<!-- <property name="EnableROIPVPairSupported" value="false" /> -->
-	</bean>
-
-	<bean id="xmaproistats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="xmaproistats2" />
-		<property name="baseRoiPVName" value="BL08I-EA-DET-02:ROI2:" />
-		<property name="baseStatsPVName" value="BL08I-EA-DET-02:STAT2:" />
-		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-	</bean>
-
-	<bean id="xmaproistats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="xmaproistats3" />
-		<property name="baseRoiPVName" value="BL08I-EA-DET-02:ROI3:" />
-		<property name="baseStatsPVName" value="BL08I-EA-DET-02:STAT3:" />
-		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-	</bean>
-	
-	<bean id="xmaproistats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="xmaproistats4" />
-		<property name="baseRoiPVName" value="BL08I-EA-DET-02:ROI4:" />
-		<property name="baseStatsPVName" value="BL08I-EA-DET-02:STAT4:" />
-		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-	</bean>
-
-	<bean id="xmaproistats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="xmaproistats5" />
-		<property name="baseRoiPVName" value="BL08I-EA-DET-02:ROI5:" />
-		<property name="baseStatsPVName" value="BL08I-EA-DET-02:STAT5:" />
-		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-	</bean>
-
-	<bean id="xmaproistats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="xmaproistats6" />
-		<property name="baseRoiPVName" value="BL08I-EA-DET-02:ROI6:" />
-		<property name="baseStatsPVName" value="BL08I-EA-DET-02:STAT6:" />
-		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<!-- <property name="EnableROIPVPairSupported" value="false" /> -->
-	</bean>
-
-	<bean id="xmaproistats7" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="xmaproistats7" />
-		<property name="baseRoiPVName" value="BL08I-EA-DET-02:ROI7:" />
-		<property name="baseStatsPVName" value="BL08I-EA-DET-02:STAT7:" />
-		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-	</bean>
-
-	<bean id="xmaproistats8" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
-		<property name="pluginName" value="xmaproistats8" />
-		<property name="baseRoiPVName" value="BL08I-EA-DET-02:ROI8:" />
-		<property name="baseStatsPVName" value="BL08I-EA-DET-02:STAT8:" />
-		<property name="roiInputNdArrayPort" value="DET2.xbuf" />
-		<property name="enabledBasicStats" value="Total" />
-		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-	</bean>
-
-	<!-- PV map for controller -->
+	<!-- Low-level control of XMAP & sub-detectors -->
 	<bean id="xmap_dxp" class="gda.device.epicsdevice.FindableEpicsDevice">
 		<property name="recordPVs">
 			<map>
@@ -186,7 +69,7 @@
 	</bean>
 
 	<!-- Controller -->
-	<bean id="edxdMappingController" class="gda.device.detector.xmap.edxd.EDXDMappingController">
+	<bean id="edxd_mapping_controller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="xmap" ref="xmap_dxp" />
 		<property name="elementOffset" value="1" />
 		<property name="local" value="true" />
@@ -194,8 +77,8 @@
 		<property name="aquisitionTimeOn" value="true" />
 	</bean>
 
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
-		<property name="edxdController" ref="edxdMappingController" />
+	<bean id="xmap_controller" class="gda.device.detector.xmap.EpicsXmapController">
+		<property name="edxdController" ref="edxd_mapping_controller" />
 		<property name="local" value="true" />
 	</bean>
 
