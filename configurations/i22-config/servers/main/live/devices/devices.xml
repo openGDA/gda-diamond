@@ -54,4 +54,6 @@
 	<import resource="bco.xml" />
 	<import resource="user.xml" />
 
+	<import resource="beamline.xml" />
+
 </beans>

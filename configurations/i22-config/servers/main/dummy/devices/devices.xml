@@ -12,6 +12,7 @@
 
     <import resource='adsim.xml'/>
     <import resource='base.xml'/>
+    <import resource="beamline.xml" />
     <import resource='bco.xml'/>
 <!--     <import resource='bsaxs-axes.xml'/> -->
     <import resource='bs.xml'/>
