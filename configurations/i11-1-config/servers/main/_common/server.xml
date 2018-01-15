@@ -29,5 +29,6 @@
 	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
 	<corba:export namespace="i11-1" />
 	<import resource="EnergyLUT.xml" />
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 </beans>
 
