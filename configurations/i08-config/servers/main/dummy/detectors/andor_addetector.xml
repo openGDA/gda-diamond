@@ -6,6 +6,7 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 
+	<alias name="sim_adbase" alias="andor_adbase"/>
 	<alias name="sim_stats" alias="andor_stats"/>
 	<alias name="sim_ndarray" alias="andor_ndarray" />
 	<alias name="sim_ndfile" alias="andor_ndfile" />
