@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+<!-- 	<bean id="dirWatcher" class="uk.ac.gda.beamline.i11.utils.WatchDirectory"> -->
+		<!-- the following property only works for String[], not List<String> --> 
+<!-- 		<property name="filenameExtensions" value="dat,tif,nxs,h5"/> -->
+<!-- 		<property name="directory" value=""/> -->
+<!-- 		<property name="recursive" value="true"/> -->
+<!-- 		<property name="excludedDirectory" value="processing,spool,tmp,xml"/> -->
+<!-- 		<property name="server" value="false"/> -->
+<!-- 	</bean> -->
+	<bean id="dirListener" class="uk.ac.gda.beamline.synoptics.utils.DataFileListener">
+		<property name="directory" value=""/>
+		<property name="recursive" value="true"/>
+		<!-- the following property only works for String[], not List<String> -->
+		<property name="filenameExtensions" value="dat,tif,nxs,h5"/>
+		<property name="excludedDirectory" value="processing,spool,tmp,xml"/>
+		<property name="server" value="false"/>
+	</bean>
+</beans>

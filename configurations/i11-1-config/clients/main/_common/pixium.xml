@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean id="pixium" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}/pixium" />
+		<property name="serviceInterface" value="gda.device.detector.pixium.IPixiumNXDetector" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="dataplotviewfactory" class="org.opengda.lde.ui.viewfactories.ReducedDataPlotViewFactory">
+		<property name="viewPartName" value="Reduced Data" />
+		<property name="eventAdminName" value="eventadmin"/>
+		<property name="resUtil" ref="resUtil"/>
+	</bean>
+</beans>

@@ -11,6 +11,9 @@
                http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
                http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-		<import resource="../_common/client.xml" />
+	<import resource="machineStatus.xml" />
+	<import resource="beamlineStatus.xml" />
+	<import resource="pixium.xml" />
+	<import resource="../_common/client.xml" />
 
 </beans>

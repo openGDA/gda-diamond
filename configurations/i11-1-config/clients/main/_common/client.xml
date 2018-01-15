@@ -31,4 +31,15 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
+	<import resource="commandQueueProcessor.xml" />
+	<import resource="batonStateProvider.xml" />
+	<import resource="commandRunner.xml" />
+	<import resource="pixium.xml" />
+	<import resource="samplesView.xml" />
+	<import resource="statusView.xml" />
+	<import resource="RCPController.xml" />
+	<import resource="detectorFileDisplayer.xml" />
+	<import resource="dataFileMonitor.xml" />
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+
 </beans>
