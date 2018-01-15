@@ -3,6 +3,7 @@ numberofframes needs to be an integer, and the timings in msec
 """
 from gda.configuration.properties import LocalProperties
 from gda.factory import Finder
+from gdaserver import operationMode
 
 DEFAULT_RUN_PULSE = int(LocalProperties.get("gda.ncd.defaultRunPulse", "11111111"), 2)
 DEFAULT_WAIT_PULSE = int(LocalProperties.get("gda.ncd.defaultWaitPulse", "00000000"), 2)
@@ -11,6 +12,15 @@ DEFAULT_WAIT_PAUSE = 0 #no pause
 
 INVERSION = 'Inversion'
 fs_channel = 2
+
+class State:
+    LOW = 0
+    HIGH = 1
+
+MF = {'Open': State.HIGH, 'Close': State.LOW}
+NORMAL = {'Open': State.LOW, 'Close': State.HIGH}
+
+FS_MODES = {'Main Beam': NORMAL, 'Microfocus': MF, 'GISAXS': NORMAL}
 
 timer = Finder.getInstance().find('Tfg')
 
@@ -42,14 +52,16 @@ def fs(actionrequested=None):
 
     action: 'Open' or 'Close'
     """
+    state_map = FS_MODES[operationMode()]
     current_inversion = timer.getAttribute(INVERSION)
-    if actionrequested == "Close":
+    requested = state_map.get(actionrequested, None)
+    if requested == State.LOW:
         timer.setAttribute(INVERSION, current_inversion & ~(1 << fs_channel))
-    elif actionrequested == "Open":
+    elif requested == State.HIGH:
         timer.setAttribute(INVERSION, current_inversion | (1 << fs_channel))
     else:
         posn = current_inversion >> fs_channel & 1
-        if posn == 0:
+        if posn == state_map.get('Close'):
             print 'fs: Closed'
-        if posn == 1:
+        elif posn == state_map.get('Open'):
             print 'fs: Open'
