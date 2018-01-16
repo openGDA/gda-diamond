@@ -53,7 +53,7 @@
 		<property name="service" ref="commandQueueProcessor" />
 	</bean>
 	<bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
-		<property name="clientFileAnnouncerName" value="sockpuppet" />
+		<property name="clientFileAnnouncerName" value="client_file_announcer" />
 	</bean>
 	<gda:rmi-import
 		id="syringe"

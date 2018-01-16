@@ -18,7 +18,7 @@
     </bean>
 
     <bean class="uk.ac.gda.client.ServerFileListener" id="dataProjectUpdater">
-        <property name="clientFileAnnouncerName" value="sockpuppet"/>
+        <property name="clientFileAnnouncerName" value="client_file_announcer"/>
     </bean>
 
     <import resource="command_queue_processor.xml"/>

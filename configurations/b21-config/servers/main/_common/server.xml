@@ -16,6 +16,9 @@
 	<gda:rmi-export service="plot_server" serviceName="gda/plotserver" serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer"/>
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">

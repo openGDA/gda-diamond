@@ -32,7 +32,7 @@
         <property name="name" value="DataWriterFactory"/>
         <property name="dataWriterExtenders">
             <list>
-                <ref bean="FileRegistrar"/>
+                <ref bean="file_registrar"/>
                 <ref bean="scan2elog"/>
                 <ref bean="scan2terminal"/>
                 <ref bean="twodscan"/>
@@ -207,9 +207,5 @@
                 </entry>
             </map>
         </property>
-    </bean>
-
-    <bean class="gda.data.fileregistrar.ClientFileAnnouncer" id="sockpuppet">
-        <property name="local" value="false"/>
     </bean>
 </beans>

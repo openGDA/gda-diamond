@@ -8,14 +8,6 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-	<bean id="sockpuppet" class="gda.data.fileregistrar.ClientFileAnnouncer" />
-
-	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
-			<property name="name" value="FileRegistrar" />
-			<property name="directory" value="${gda.archiver.dropfiledir:/tmp/}" />
-			<property name="clientFileAnnouncer" ref="sockpuppet" />
-	</bean>
-
 	<bean id="bssc_proc" class="uk.ac.gda.server.ncd.data.AutoProcessingRunner">
 		<property name="scriptPath" value="${gda.bssc.processingscript}"/>
 	</bean>
@@ -46,7 +38,7 @@
 		<property name="name" value="DataWriterFactory" />
 		<property name="dataWriterExtenders">
 			<list>
-				<ref bean="FileRegistrar" />
+				<ref bean="file_registrar" />
 				<ref bean="scan2elog" />
 				<ref bean="autoPostProcessing" />
 				<ref bean="twodscan" />
