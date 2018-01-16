@@ -27,17 +27,14 @@
 
 	<import resource="../../p45/dummy/server.xml"/>
 
-	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar" init-method="register">
-		<property name="name" value="FileRegistrar" />
-		<property name="directory"
-			value="${gda.paths.archiver.directory}" />
-	</bean>
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="name" value="DataWriterFactory" />
 		<property name="dataWriterExtenders">
 			<list>
-				<ref bean="FileRegistrar" />
+				<ref bean="file_registrar" />
 			</list>
 		</property>
 	</bean>
