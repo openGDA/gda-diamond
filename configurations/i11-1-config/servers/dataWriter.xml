@@ -6,7 +6,7 @@
 	<bean id="DataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="dataWriterExtenders">
 			<list>
-				<ref bean="FileRegistrar"/>
+				<ref bean="file_registrar"/>
 			</list>
 		</property>
 	</bean>

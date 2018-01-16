@@ -17,7 +17,8 @@
 	<import resource="CommandServer.xml" />
 
 	<import resource="dataFileMonitor.xml"/>
-	<import resource="dataArchieval.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 	<import resource="dataWriter.xml"/>
 	<import resource="pixiumMetadata.xml"/>
 	
