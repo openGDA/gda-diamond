@@ -5,6 +5,8 @@
         <cs:dependency name="uk.ac.gda.beamline.i20.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i20" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.beamline.i20.server" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.devices.xspress4" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.gda.client.exafs" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.core.resources" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.equinox.common" componentType="osgi.bundle"/>

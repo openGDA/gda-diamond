@@ -1,0 +1,75 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+	
+	
+	<bean id="mythen_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL18B-EA-DET-04:" />
+	</bean>
+	
+	<bean id="mythen_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SimpleAcquire">
+		<constructor-arg ref="mythen_adbase" />
+		<constructor-arg value="0" />
+	</bean>
+	
+	<bean id="mythen_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL18B-EA-DET-04:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL18B-EA-DET-04:ARR:" />
+				<property name="initialArrayPort" value="cam" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="mythen_areadetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="mythen_adbase" />
+		<property name="ndArray" ref="mythen_ndarray" />
+<!-- 		<property name="ndFile" ref="det_ndfile" /> -->
+<!-- 		<property name="ndStats" ref="det_stats" /> -->
+<!-- 		<property name="fileWriter" ref="det_hdf5_writer" /> -->
+	</bean>
+
+	<bean id="mythenDataConverter" class="gda.device.detector.mythen.data.DataConverter">
+		<property name="angularCalibrationParameters">
+			<bean class="gda.device.detector.mythen.data.SimpleAngularCalibrationParameters">
+				<constructor-arg>
+					<bean class="java.io.File">
+						<constructor-arg>
+							<value>/dls_sw/b18/software/mythen/MythenSoft/module/calibration.dat</value>
+						</constructor-arg>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+			
+<!-- Mythen detector - communicates with hardware using old text client  -->	
+	<bean id="mythen" class="gda.device.detector.mythen.MythenDetectorImpl">
+		<property name="detectorID" value="b18-mcs01" />
+		<property name="mythenClient">
+			<bean class="gda.device.detector.mythen.client.TextClientMythenClient">
+				<property name="mythenClientCommand"
+					value="/dls_sw/b18/software/mythen/MythenSoft/bin/text_client" />
+				<property name="host" value="b18-mcs02" />
+			</bean>
+		</property>
+	
+		<property name="dataConverter" ref="mythenDataConverter" />
+	</bean>
+
+<!-- Mythen detector - communicates with hardware via new Epics interface (through area detector)  -->
+	<bean id="mythenEpics" class="gda.device.detector.mythen.MythenDetectorImpl">
+		<property name="detectorID" value="b18-mcs01" />
+		<property name="mythenClient">
+			<bean class="gda.device.detector.mythen.client.EpicsMythenClient">
+				<property name="areaDetector" ref="mythen_areadetector" />
+			</bean>
+		</property>
+	
+		<property name="dataConverter" ref="mythenDataConverter" />
+	</bean>
+</beans>

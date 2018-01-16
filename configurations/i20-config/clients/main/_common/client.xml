@@ -21,13 +21,13 @@
 	</bean>
 
 	<bean id="XASLoggingScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/XASLoggingScriptController" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}XASLoggingScriptController" />
 		<property name="serviceInterface" value="gda.jython.scriptcontroller.logging.ILoggingScriptController" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
 	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/commandQueueProcessor" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}commandQueueProcessor" />
 		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
@@ -45,23 +45,6 @@
 
 	<corba:adapterfactory namespace="${gda.factory.factoryName}"/>
 
-	<bean class="uk.ac.gda.util.beans.BeansFactory">
-		<property name="classes">
-			<util:list>
-				<value>uk.ac.gda.beans.exafs.XasScanParameters</value>
-				<value>uk.ac.gda.beans.exafs.XanesScanParameters</value>
-				<value>uk.ac.gda.beans.exafs.XesScanParameters</value>
-				<value>uk.ac.gda.beans.exafs.i20.I20SampleParameters</value>
-				<value>uk.ac.gda.beans.exafs.SampleElements</value>
-				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
-				<value>uk.ac.gda.beans.exafs.OutputParameters</value>
-				<value>uk.ac.gda.beans.vortex.VortexParameters</value>
-				<value>uk.ac.gda.beans.xspress.XspressParameters</value>
-				<value>uk.ac.gda.beans.exafs.i20.MedipixParameters</value>
-			</util:list>
-		</property>
-	</bean>
-
 	<corba:import namespace="i20" names="plot_server" />
 
 	<bean class="gda.rcp.util.OSGIServiceRegister">
@@ -70,57 +53,106 @@
 	</bean>
 
 	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/rcpController" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}rcpController" />
 		<property name="serviceInterface" value="gda.gui.RCPController" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>	
 
 	<bean id="xspress2system" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/xspress2system" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}xspress2system" />
 		<property name="serviceInterface"
 			value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean> 
 
 	<bean id="xspressConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/xspressConfig" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}xspressConfig" />
 		<property name="serviceInterface"
 			value="gda.device.detector.FluorescentDetectorConfiguration" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	<bean id="vortexConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/vortexConfig" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}vortexConfig" />
 		<property name="serviceInterface"
 			value="gda.device.detector.FluorescentDetectorConfiguration" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>	
 	<bean id="vortexDetector" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/vortexDetector" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}vortexDetector" />
 		<property name="serviceInterface"
 			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>	
 
 	<bean id="detectorMonitorDataProvider" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/detectorMonitorDataProvider" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}detectorMonitorDataProvider" />
 		<property name="serviceInterface" value="gda.device.detector.DetectorMonitorDataProviderInterface" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
 	<bean id="ionc1_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/ionc1_stanford" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}ionc1_stanford" />
 		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	<bean id="ionc2_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/ionc2_stanford" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}ionc2_stanford" />
 		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 	<bean id="ionc3_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/ionc3_stanford" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}ionc3_stanford" />
 		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
 		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="xspress4" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}xspress4" />
+		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean> 
+
+	<bean id="detectorGroupTemplateConfiguration" class="uk.ac.gda.beans.exafs.DetectorGroupTemplateConfiguration" >
+		<property name="detectorGroupsMap">
+			<map>		
+				<entry key="Fluorescence">
+					<list>
+						<value>Silicon</value>
+						<value>Germanium</value>
+						<value>Xspress4</value>
+					</list>
+				</entry>
+							
+				<entry key="XES">
+					<list>
+						<value>XES</value>
+						<value>XES_medipix</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+		
+		<property name="detectorTemplateMap">
+			<map>
+				<entry key="xmapMca" value="${gda.config}/var/templates/Vortex_Parameters.xml"/>
+				<entry key="xspress2system" value="${gda.config}/var/templates/Xspress_Parameters_64Ge.xml"/>
+				<entry key="medipix" value="${gda.config}/var/templates/Medipix_Parameters.xml"/>
+				<entry key="xspress4" value="${gda.config}/var/templates/Xspress4_Parameters_64Ge.xml" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="vortexElementConfig" class=" uk.ac.gda.exafs.ui.composites.detectors.internal.FluoDetectorElementConfig">
+		<property name="name" value="vortexElementConfig" />
+		<property name="detectorName" value="vortexDetector" />
+		<property name="elementMap">
+			<map>
+				<entry key="0" value="0" />
+				<entry key="1" value="3" />
+				<entry key="2" value="1" />
+				<entry key="3" value="2" />
+			</map>
+		</property>
 	</bean>
 
 </beans>

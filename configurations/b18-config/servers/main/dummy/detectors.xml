@@ -70,33 +70,34 @@
 	<!-- </property> -->
 	<!-- </bean> -->
 
-	<bean id="mythen" class="gda.device.detector.mythen.MythenDetectorImpl">
-		<property name="detectorID" value="b18-mcs01" />
-		<property name="mythenClient">
-			<bean class="gda.device.detector.mythen.client.DummyMythenClient">
-				<constructor-arg>
-					<value>1</value>
-				</constructor-arg>
-			</bean>
-		</property>
+<!-- Mythen config moved to new file mythen.xml  -->
+<!-- 	<bean id="mythen" class="gda.device.detector.mythen.MythenDetectorImpl"> -->
+<!-- 		<property name="detectorID" value="b18-mcs01" /> -->
+<!-- 		<property name="mythenClient"> -->
+<!-- 			<bean class="gda.device.detector.mythen.client.DummyMythenClient"> -->
+<!-- 				<constructor-arg> -->
+<!-- 					<value>1</value> -->
+<!-- 				</constructor-arg> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
 
-		<property name="dataConverter">
-			<bean class="gda.device.detector.mythen.data.DataConverter">
-				<property name="angularCalibrationParameters">
-					<bean
-						class="gda.device.detector.mythen.data.SimpleAngularCalibrationParameters">
-						<constructor-arg>
-							<bean class="java.io.File">
-								<constructor-arg>
-									<value>${gda.config}/servers/main/calibration.dat</value>
-								</constructor-arg>
-							</bean>
-						</constructor-arg>
-					</bean>
-				</property>
-			</bean>
-		</property>
-	</bean>
+<!-- 		<property name="dataConverter"> -->
+<!-- 			<bean class="gda.device.detector.mythen.data.DataConverter"> -->
+<!-- 				<property name="angularCalibrationParameters"> -->
+<!-- 					<bean -->
+<!-- 						class="gda.device.detector.mythen.data.SimpleAngularCalibrationParameters"> -->
+<!-- 						<constructor-arg> -->
+<!-- 							<bean class="java.io.File"> -->
+<!-- 								<constructor-arg> -->
+<!-- 									<value>${gda.config}/servers/main/calibration.dat</value> -->
+<!-- 								</constructor-arg> -->
+<!-- 							</bean> -->
+<!-- 						</constructor-arg> -->
+<!-- 					</bean> -->
+<!-- 				</property> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 
 	<bean id="xspress3Controller"
 		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">

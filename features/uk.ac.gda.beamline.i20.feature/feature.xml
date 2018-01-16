@@ -29,13 +29,6 @@
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.client.exafs"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.dls.client"
          download-size="0"
          install-size="0"
@@ -154,6 +147,13 @@
 
    <plugin
          id="uk.ac.gda.epics"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.gda.client.exafs"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -32,7 +32,7 @@
 <!-- 	</bean> -->
 
 <!-- 	<bean id="filterwheel" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}/filterwheel" /> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}filterwheel" /> -->
 <!-- 		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" /> -->
 <!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
 <!-- 	</bean> -->
