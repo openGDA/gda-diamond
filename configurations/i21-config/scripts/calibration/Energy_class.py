@@ -125,9 +125,9 @@ class BeamEnergy(ScannableMotionBase):
                     #gap = 11.4731251 + 0.01873832*Ep #Corrected for VPG3 on 2017/09/20
                     raise Exception("No calibration available for VPG3 in LH mode")
                 else:
-                    raise ValueError("Unknown Grating select in LH polarisationMode")    
+                    raise ValueError("Unknown Grating select in LH polarisationMode")
             else:
-                raise ValueError("Energy demand %feV is outside calibrated ranges") % (Ep)
+                raise ValueError("Energy demand %feV is outside calibrated ranges" % (Ep))
         # Linear Vertical
         elif self.getPolarisationMode()=="LV":
             if (Ep>900 and Ep < 970):
