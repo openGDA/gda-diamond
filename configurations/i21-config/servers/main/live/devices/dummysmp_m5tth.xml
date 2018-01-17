@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- motors -->
+	<bean id="smprzDummyMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-155.000206" />
+		<property name="maxPosition" value="104.999794" />
+		<property name="speed" value="0.8" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smpxDummyMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5.000000" />
+		<property name="maxPosition" value="5.000000" />
+		<property name="speed" value="2.000000" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smpyDummyMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-4.898979" />
+		<property name="maxPosition" value="4.898979" />
+		<property name="speed" value="2.000000" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smpzDummyMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-994.900000" />
+		<property name="maxPosition" value="1005.100000" />
+		<property name="speed" value="0.500000" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smpazimuthDummyMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100.000000" />
+		<property name="maxPosition" value="100.000000" />
+		<property name="speed" value="0.500000" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smpdiodetthDummyMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1137.900" />
+		<property name="maxPosition" value="862.1000" />
+		<property name="speed" value="4.000000" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="smptiltDummyMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-45.000000" />
+		<property name="maxPosition" value="32.000000" />
+		<property name="speed" value="1.000000" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="m5rstageDummyMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-46.00000" />
+		<property name="maxPosition" value="214.00000" />
+		<property name="speed" value="0.32000" />
+		<property name="local" value="true" />
+	</bean>	
+</beans>
