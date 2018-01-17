@@ -23,7 +23,7 @@
 
 	<import resource="metadata.xml"/>
 
-	<!-- Dummy FileRegistrar? -->
+	<!-- Dummy FileRegistrar now imported in _common/server.xml -->
 
 <!-- 
 	<bean id="Ring" class="gda.spring.FindableEpicsDeviceFactoryBean">

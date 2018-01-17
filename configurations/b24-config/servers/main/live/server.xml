@@ -27,25 +27,21 @@
 
 	<import resource="metadata.xml"/>
 
-	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
-		<property name="name" value="FileRegistrar" />
-		<property name="directory"
-			value="/dls/bl-misc/dropfiles2/icat/dropZone/${gda.instrument}-" />
-	</bean>
-
 	<!-- Copy FileRegistrar xml files for debugging unknown instrument problems. -->
-	<bean id="FileRegistrarDebug" class="gda.data.fileregistrar.FileRegistrar">
-		<property name="name" value="FileRegistrarDebug" />
-		<property name="directory"
-			value="/dls/${gda.instrument}/var/dropZone/${gda.instrument}-" />
+	<bean id="file_registrar_debug" class="gda.data.fileregistrar.FileRegistrar">
+		<property name="icatXMLCreator">
+			<bean class="gda.data.fileregistrar.IcatXMLCreator">
+				<property name="directory" value="/dls/${gda.instrument}/var/dropZone/${gda.instrument}-" />
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="name" value="DataWriterFactory" />
 		<property name="dataWriterExtenders">
 			<list>
-				<ref bean="FileRegistrar" />
-				<ref bean="FileRegistrarDebug" />
+				<ref bean="file_registrar" />
+				<ref bean="file_registrar_debug" />
 			</list>
 		</property>
 	</bean>

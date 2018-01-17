@@ -37,6 +37,9 @@
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
 
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+
 	<import resource="device/all.xml"/>
 	<import resource="scannable/all.xml"/>
 
