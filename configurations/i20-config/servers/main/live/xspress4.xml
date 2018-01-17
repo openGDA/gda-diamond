@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- Controller for XSpress4  -->
+	<bean id="controllerForXspress4"
+		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
+<!-- 		Need to update this PV to point to XSpress4  -->
+		<property name="epicsTemplate" value="BL20I-EA-XSP4-01" />
+		<property name="numberOfChannels" value="64"/>
+	</bean>
+
+<!-- 	<bean id="DAServer_xspress4" class="gda.device.detector.DAServer"> -->
+<!-- 		<property name="local" value="True" /> -->
+<!-- 		<property name="host" value="bl20i-ea-serv-02" /> -->
+<!-- 		<property name="port" value="1972" /> -->
+<!-- 		<property name="startupCommands"> -->
+<!-- 			<list> -->
+<!-- 				<value>~config</value> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 		<property name="dataPort" value="20030" /> -->
+<!-- 		<property name="replyTimeOut" value="5000" /> -->
+<!-- 	</bean> -->
+
+</beans>

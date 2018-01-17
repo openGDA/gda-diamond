@@ -1,4 +1,5 @@
 from gda.device.detector import DetectorMonitorDataProvider
+from uk.ac.gda.devices.detector.xspress3.controllerimpl import EpicsXspress3Controller
 print "\n\n****Running the I20 startup script****\n\n"
 
 from time import sleep
@@ -101,7 +102,7 @@ theFactory.setOutputPreparer(outputPreparer);
 # theFactory.setCommandQueueProcessor(commandQueueProcessor);
 theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setDatawriterconfig(datawriterconfig);
-theFactory.setEnergyScannable(bragg1);
+theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(True);
 # theFactory.setOriginal_header(original_header);
@@ -117,7 +118,7 @@ theFactory.setSamplePreparer(samplePreparer);
 theFactory.setOutputPreparer(outputPreparer);
 theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setDatawriterconfig(datawriterconfig);
-theFactory.setEnergyScannable(bragg1);
+theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
 theFactory.setIncludeSampleNameInNexusName(True);
 #theFactory.setQexafsDetectorPreparer(detectorPreparer);
@@ -221,5 +222,24 @@ bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when mo
 LocalProperties.set("gda.exafs.mono.energy.rate", "0.01");
 LocalProperties.set("gda.exafs.read.out.time", "1000.0");
 add_default detectorMonitorDataProvider
+
+
+## Xspress4 settings
+# xspress4 = Finder.getInstance().find("xspress4")
+xspress4HdfFilePath = "/dls/i20/data/2017/cm16762-4/spool/"
+hdf5Values = { "FilePath" : xspress4HdfFilePath, "FileTemplate" : "%s%s%d.hdf"}
+from uk.ac.gda.devices.detector.xspress3.controllerimpl import EpicsXspress3Controller
+from gda.epics import CAClient
+## Set file path and filename format if using 'real' XSpress4 detector
+if isinstance(xspress4.getController(), EpicsXspress3Controller) :
+    xspress4.setTriggerMode(3) # set 'TTL only' trigger mode
+    if xspress4.getController().isConnected() :
+        xspress4.getController().setFilePath(xspress4HdfFilePath);
+        basename = xspress4.getController().getEpicsTemplate()
+        for key in hdf5Values :
+            pv = basename+":HDF5:"+key
+            print "Setting "+pv+" to "+hdf5Values[key]
+            CAClient.putStringAsWaveform(pv, hdf5Values[key])
+
 #ws146-AD-SIM-01:HDF5:MinCallbackTime
 print "****GDA startup script complete.****\n\n"

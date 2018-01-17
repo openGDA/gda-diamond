@@ -37,11 +37,16 @@
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/detectors-common.xml" />
-	
+
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/xspress4.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/xspress4.xml" />
+
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas-filling.xml" />
 <!-- 	<import resource="file:${gda.config}/servers/main/${gda.mode}/gas.xml" /> -->
+	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/medipix.xml" />
+	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/cryo.xml" />
 
 	<!-- Definition of the ascii data format -->

@@ -18,6 +18,12 @@
         <detector>ionchambers</detector>
     </detectorGroup>
     <detectorGroup>
+        <name>Xspress4</name>
+        <detector>xspress4FFI0</detector>
+        <detector>xspress4</detector>
+        <detector>ionchambers</detector>
+    </detectorGroup>
+    <detectorGroup>
         <name>XES</name>
         <detector>FFI1</detector>
         <detector>xmapMca</detector>
@@ -25,8 +31,8 @@
     </detectorGroup>
     <detectorGroup>
         <name>XES_medipix</name>
-        <detector>medipix</detector>
         <detector>I1</detector>
+        <detector>medipix</detector>
     </detectorGroup>
     <experimentType>Transmission</experimentType>    
     <transmission>

@@ -33,10 +33,15 @@ offsets = [i0_stanford_offset, it_stanford_offset, iref_stanford_offset]
 offset_units = [i0_stanford_offset_units, it_stanford_offset_units, iref_stanford_offset_units]
 
 
-#if (LocalProperties.get("gda.mode") == 'live'):
-detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
-#else:
-#    detectorPreparer = B18DetectorPreparer(qexafs_energy, None, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), xspressConfig, vortexConfig)
+
+
+if (LocalProperties.get("gda.mode") == 'live'):
+    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
+    #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
+else :
+    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
+
+daServer = Finder.getInstance().find("DAServer")
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
 outputPreparer = B18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 detectorPreparer.setSamplePreparer(samplePreparer)
@@ -117,7 +122,7 @@ if (LocalProperties.get("gda.mode") == 'live'):
     
     add_default(topupMonitor)
     add_default(beamMonitor)
-    
+    add_default(detectorMonitorDataProvider)
     run("userStartupScript")
 else :
     print "Moving dummy DCM's to useful positions..."
@@ -133,5 +138,36 @@ generic_cryostat.setSetPointPVName("BL18B-EA-TEMPC-06:TTEMP")  # currently OxIns
 generic_cryostat.setReadBackPVName("BL18B-EA-TEMPC-06:STEMP")
 generic_cryostat.configure()
 
+#Switch off Nexus detector compression, used faster cached version of data writer. imh 14/11/2016
+from gda.data.scan.datawriter import XasNexusDataWriter;
+LocalProperties.set(XasNexusDataWriter.GDA_XAS_NEXUS_DEFAULT_COMPRESSION, "0")
+LocalProperties.set(XasNexusDataWriter.GDA_XAS_NEXUS_USE_CACHED_WRITER, "True")
+#LocalProperties.set(XasNexusDataWriter.GDA_XAS_NEXUS_USE_CACHED_WRITER, "False")
+
+
+# Set energy scannable for Mythen, so can add energy to output file. imh 2/12/2016
+mythen.addScannableForHeader(qexafs_energy)
+mythen.addScannableForHeader(user1)
+
+mythenEpics.addScannableForHeader(qexafs_energy, "Energy")
+mythenEpics.addScannableForHeader(user1, "Motor angle")
+
+# Reset XSPress3 settings : enable ROI and deadtime corrections, set to 'TTL Veto only' trigger mode
+from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
+from gda.epics import CAClient
+if (LocalProperties.get("gda.mode") == 'live'):
+    controller=xspress3.getController()
+    controller.setPerformROICalculations(True)
+    controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
+    CAClient.put(controller.getEpicsTemplate()+":CTRL_DTC", 1)
+
+print "Reconnect daserver command : reconnect_daserver() "
+def reconnect_daserver() :
+    print "Trying to reconnect to DAServer..."
+    daServer.reconnect()
+    xspress2system.reconfigure()
+    counterTimer01.configure()
+    print "Ignore this error (it's 'normal'...)"
+    counterTimer01.getScaler().clear()
 
 print "Initialization Complete";
