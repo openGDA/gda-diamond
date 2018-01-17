@@ -3,7 +3,7 @@ Created on 10 Jan 2018
 
 @author: fy65
 '''
-from calibration.Energy2Gap4ID import idgap_fn
+from calibration.Energy2Gap4ID import idgap_calc
 from gdaserver import s5v1gap, idscannable, saazimuth, satilt, say, sapolar, sax,\
     saz, andor
 from gdascripts.metadata.metadata_commands import meta_add, meta_rm
@@ -41,7 +41,7 @@ def qscan(**kwargs):
     These metadata are dynamically add before scan, updated during scan, and removed after scan
     so it will not appears in files not related to q scan!
     '''
-    id_gap=idgap_fn(kwargs['beam_energy'],kwargs['beam_polarisation']) #for this energy and polarisation
+    id_gap=idgap_calc(kwargs['beam_energy'],kwargs['beam_polarisation']) #for this energy and polarisation
     if kwargs['beam_polarisation']=='LV':
         row_phase=28
     elif kwargs['beam_polarisation']=='LH':
@@ -70,6 +70,7 @@ def qscan(**kwargs):
         qval = kwargs['qStart'] + i*kwargs['qStep']
         sapolarval = qtransferrlu2sapolar(kwargs['energy_sample'],qval,kwargs['sapolar_offset'],kwargs['thts_val'],kwargs['vec'],kwargs['a']) 
         sapolar.moveTo(sapolarval)
+        interruptable()  # @UndefinedVariable
         
         # collect point number and qval value
         meta_add("scan0_index", i)
@@ -77,8 +78,11 @@ def qscan(**kwargs):
     
         # Move to sample position
         sax.moveTo(kwargs['sax_sample'])
+        interruptable()  # @UndefinedVariable
         say.moveTo(kwargs['say_sample'])
+        interruptable()  # @UndefinedVariable
         saz.moveTo(kwargs['saz_sample'])
+        interruptable()  # @UndefinedVariable
         
         # collect sample type and elastic reference scan number
         meta_add("sample_type", "sample")
@@ -86,12 +90,16 @@ def qscan(**kwargs):
         
         print('Total number of points is %d. Point number %d is at qtransferrlupara=%.3f, and th=%.3f for sample'%(kwargs['n_points'],i+1.0,qval,sapolarval))
         scan(dummies.x, 1, kwargs['n_frames_per_point_sample'], 1, andor, kwargs['sample_exposure_time'])
+        interruptable()  # @UndefinedVariable
     
         # Move to the carbon tape position
         #sax.moveTo(0.5)
         sax.moveTo(kwargs['sax_ctape'])
+        interruptable()  # @UndefinedVariable
         sax.moveTo(kwargs['say_ctape'])
+        interruptable()  # @UndefinedVariable
         saz.moveTo(kwargs['saz_ctape'])
+        interruptable()  # @UndefinedVariable
         
         # collect sample type and relevant sample scan number
         meta_rm("elastic_scan")
@@ -100,6 +108,7 @@ def qscan(**kwargs):
         
         print('Total number of points is %d. Point number %d is at qtransferrlupara=%.3f, and th=%.3f for ctape'%(kwargs['n_points'],i+1.0,qval,sapolarval))
         scan(dummies.x, 1, kwargs['n_frames_per_point_elastic'], 1, andor, kwargs['elastic_exposure_time'])
+        interruptable()  # @UndefinedVariable
         sleep(0.5)
         meta_rm("sample_scan")
         print('*******************************************************************')
@@ -108,5 +117,8 @@ def qscan(**kwargs):
     #remove qscan metadata for this collection
     meta_rm("scan_origin_id", "scan_levels", "scan0_name", "scan0_length",\
             "scan0_index","qval", "sample_type")
-    
+
+def qscanclean():
+    meta_rm("scan_origin_id", "scan_levels", "scan0_name", "scan0_length",\
+            "scan0_index","qval", "sample_type")    
     

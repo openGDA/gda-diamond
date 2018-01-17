@@ -14,7 +14,7 @@ Tested in dummy mode on 12 Jan 2018
 
 @author: fy65
 '''
-from dataCollection.qScan2 import qscan
+from dataCollection.qScan2 import qscan, qscanclean
 
 ###########################################################
 # input of the lattice parameter
