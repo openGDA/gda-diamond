@@ -185,8 +185,6 @@ public class TurboXasScan extends ContinuousScan {
 		turboXasScannable.setMotorParameters(turboXasMotorParams);
 		// Calculate motor parameters for first timing group (i.e. positions and num readouts for spectrum)
 		turboXasMotorParams.setMotorParametersForTimingGroup(0);
-		// Move motor to near scan start position to avoid following error, if motor is a long way from where it needs to be...
-		// turboXasScannable.moveTo(turboXasMotorParams.getScanStartPosition());
 
 		// Configure the zebra
 		turboXasScannable.configureZebra(); // would normally get called in ContinuousScan.prepareForContinuousMove()
@@ -203,11 +201,9 @@ public class TurboXasScan extends ContinuousScan {
 		trajScanPreparer.setDefaults();
 		trajScanPreparer.clearTrajectoryLists();
 		trajScanPreparer.addPointsForTimingGroups(turboXasMotorParams);
-		trajScanPreparer.sendProfileValues();
-		trajScanPreparer.setBuildProfile();
-		if (trajScanPreparer.getBuildProfileStatus().equals("Failure")){
-			throw new Exception("Failure when building trajectory scan profile - check Epics EDM screen");
-		}
+
+		// send profile points to Epics trajectory scan, building and appending as necessary
+		trajScanPreparer.sendAppendProfileValues();
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
 
@@ -228,13 +224,12 @@ public class TurboXasScan extends ContinuousScan {
 		detectorReadoutThread.start();
 
 		// Wait while trajectory scan runs...
-		while(trajScanPreparer.getExecuteProfileState()=="Executing") {
+		while(trajScanPreparer.getExecuteProfileState().equals("Executing")) {
 			Thread.sleep(500);
 		}
 
 		// Output some info on trajectory scan final execution state
 		logger.info("Trajectory scan finished. Execute state = {}, percent complete = {}", trajScanPreparer.getExecuteProfileState(), trajScanPreparer.getTscanPercent());
-
 
 		// Wait at end for data collection thread to finish
 		waitForReadoutToFinish(detectorReadoutRunnable, 600.0);
@@ -245,12 +240,37 @@ public class TurboXasScan extends ContinuousScan {
 
 	@Override
 	protected void endScan() throws DeviceException, InterruptedException {
-		super.endScan();
-		for (BufferedDetector detector : getScanDetectors()) {
-			detector.stop();
-		}
+
+		// Catch exceptions from super.endScan, so the rest of this function can complete correctly.
 		try {
-			nexusTree.addTimeAxis(getDataWriter().getCurrentFileName(), getScanDetectors()[0].getName());
+			super.endScan();
+		} catch(DeviceException de) {
+			logger.warn("DeviceException at end of scan when trying to stop scannables.", de);
+		}
+
+		// Stop the trajectory scan if it's still running by using 'Abort' button in Epics controller
+		if (doTrajectoryScan) {
+			TurboXasScannable turboXasScannable = (TurboXasScannable) getScanAxis();
+			TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
+			try {
+				if (!trajScanPreparer.getExecuteProfileState().equals("Done")) {
+					trajScanPreparer.setAbortProfile();
+				}
+			} catch (Exception e) {
+				logger.warn("Problem stopping Epics Trajectory scan for Turbo Slit at end of scan", e);
+			}
+		}
+
+		for (BufferedDetector detector : getScanDetectors()) {
+			try {
+				detector.stop();
+			}catch(DeviceException de) {
+				logger.warn("Problem stopping detector {} at end of scan", detector.getName(), de);
+			}
+		}
+
+		try {
+			nexusTree.addDataAtEndOfScan(getDataWriter().getCurrentFileName(), getScanDetectors());
 		} catch (Exception e) {
 			logger.warn("Problem adding time axis data at end of scan", e);
 		}
@@ -832,5 +852,9 @@ public class TurboXasScan extends ContinuousScan {
 	 * (should be less than total than can be stored by tfg, typically <1million **/
 	public void setMaxNumScalerFramesPerCycle(int maxNumScalerFramesPerCycle) {
 		this.maxNumScalerFramesPerCycle = maxNumScalerFramesPerCycle;
+	}
+
+	public int getCurrentPointCount() {
+		return currentPointCount;
 	}
 }

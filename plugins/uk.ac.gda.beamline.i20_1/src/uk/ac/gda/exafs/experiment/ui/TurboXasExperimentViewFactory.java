@@ -19,6 +19,7 @@
 package uk.ac.gda.exafs.experiment.ui;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.ui.part.ViewPart;
 
@@ -30,6 +31,7 @@ public class TurboXasExperimentViewFactory extends FindableViewFactoryBase {
 		private List<String> motorNames;
 		private List<String> detectorNames;
 		private String viewLabel;
+		private Map<String, String> detectorNamesMap;
 
 		public String getViewLabel() {
 			return viewLabel;
@@ -55,7 +57,18 @@ public class TurboXasExperimentViewFactory extends FindableViewFactoryBase {
 			this.detectorNames = detectorNames;
 		}
 
+		/**
+		 * Map containing detector names and corresponding GUI labels; key = GUI label, value = detector object name
+		 * @param detectorNamesMap
+		 */
+		public void setDetectorNameMap(Map<String, String> detectorNamesMap) {
+			this.detectorNamesMap = detectorNamesMap;
+		}
+
 		private String[] listToArray(List<String> list) {
+			if (list==null) {
+				return null;
+			}
 			String[] listAsArray = new String[list.size()];
 			for(int i=0; i<list.size(); i++) {
 				listAsArray[i]=list.get(i);
@@ -67,6 +80,7 @@ public class TurboXasExperimentViewFactory extends FindableViewFactoryBase {
 		public ViewPart createView() {
 			TurboXasExperimentView view = new TurboXasExperimentView();
 			view.setMotorNames(listToArray(motorNames));
+			view.setDetectorNamesMap(detectorNamesMap);
 			view.setDetectorNames(listToArray(detectorNames));
 			ViewUtils.setViewName(view, viewLabel);
 			return view;

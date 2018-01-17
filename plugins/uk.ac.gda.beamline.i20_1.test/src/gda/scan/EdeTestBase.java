@@ -18,7 +18,7 @@
 
 package gda.scan;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
@@ -65,22 +65,24 @@ public class EdeTestBase {
 
 	public static void assertDimensions(String filename, String groupName, String dataName, int[] expectedDims) throws NexusException {
 		int[] shape = getDataset(filename, groupName, dataName).getShape();
-		for (int i = 0; i < expectedDims.length; i++) {
-			assertEquals(groupName+"/"+dataName, expectedDims[i], shape[i]);
+		assertArrayEquals(expectedDims,  shape);
+		System.out.println("Shape of "+groupName+"/"+dataName+" is ok");
+	}
+
+	public static GroupNode getGroupNode(String nexusFilename, String groupName) throws NexusException {
+		try(NexusFile file = NexusFileHDF5.openNexusFileReadOnly(nexusFilename)) {
+			return file.getGroup("/entry1/"+groupName, false);
 		}
 	}
 
 	public static IDataset getDataset(String nexusFilename, String groupName, String dataName) throws NexusException {
-		NexusFile file = NexusFileHDF5.openNexusFileReadOnly(nexusFilename);
-		try {
+		try(NexusFile file = NexusFileHDF5.openNexusFileReadOnly(nexusFilename)) {
 			GroupNode group = file.getGroup("/entry1/"+groupName, false);
 			DataNode d = file.getData(group, dataName);
 			return d.getDataset().getSlice(null, null, null);
 		}catch(NexusException | DatasetException e){
 			String msg = "Problem opening nexus data group="+groupName+" data="+dataName;
 			throw new NexusException(msg+e);
-		}finally {
-			file.close();
 		}
 	}
 

@@ -30,6 +30,9 @@ import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IInputValidator;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
@@ -41,8 +44,12 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -129,10 +136,21 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			}
 		});
 
-		viewerNumberColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE, 1);
-		layout.setColumnData(viewerNumberColumn.getColumn(), new ColumnWeightData(1));
-		viewerNumberColumn.getColumn().setText("Delay after Topup");
-		viewerNumberColumn.setEditingSupport(new EditingSupport(sampleEnvironmentTableViewer) {
+		TableViewerColumn viewerDelayColumn = new TableViewerColumn(sampleEnvironmentTableViewer, SWT.NONE, 1);
+		layout.setColumnData(viewerDelayColumn.getColumn(), new ColumnWeightData(1));
+		viewerDelayColumn.getColumn().setText("Delay after Topup");
+		viewerDelayColumn.getColumn().addSelectionListener( new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				logger.debug("Change sort order");
+				sampleEnvironmentTableViewer.getTable().setSortDirection(comparator.getSortDirection());
+				sampleEnvironmentTableViewer.getTable().setSortColumn(viewerDelayColumn.getColumn());
+				sampleEnvironmentTableViewer.refresh();
+				comparator.setSortDirection( -1*comparator.getSortDirection() );
+			}
+		});
+
+		viewerDelayColumn.setEditingSupport(new EditingSupport(sampleEnvironmentTableViewer) {
 			@Override
 			protected void setValue(Object element, Object value) {
 				((TriggerableObject) element).setTriggerDelay(Double.parseDouble((String) value));
@@ -243,6 +261,43 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 			}
 		});
 
+		Button copyButton = new Button(tableContainerAddRemove, SWT.None);
+		copyButton.setText("Copy...");
+		copyButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		copyButton.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				StructuredSelection selection = (StructuredSelection) sampleEnvironmentTableViewer.getSelection();
+				if (!selection.isEmpty()) {
+
+					InputDialog numberInput = new InputDialog(parent.getShell(), "Copy trigger parameters", "Enter start time to place copied triggers : ", "0.0", new DoubleValidator() );
+					if(numberInput.open() == Dialog.OK) {
+
+						List<TriggerableObject> newTriggers = new ArrayList<>();
+						Iterator<?> iterator = selection.iterator();
+						while (iterator.hasNext()) {
+							TriggerableObject tObject = (TriggerableObject)iterator.next();
+							logger.info("Copy triggers : length = {}, delay = {}, port = {}", tObject.getTriggerPulseLength(), tObject.getTriggerDelay(), tObject.getTriggerOutputPort().getUsrPortNumber());
+
+							// Create new object, a copy of the original
+							TriggerableObject newTrigger = externalTriggerSetting.getTfgTrigger().createNewSampleEnvEntry(tObject.getTriggerDelay(), tObject.getTriggerPulseLength(), tObject.getTriggerOutputPort());
+							newTrigger.setName( tObject.getName() );
+							newTriggers.add(newTrigger);
+						}
+						double origTriggerOverallStartTime = newTriggers.stream().mapToDouble(TriggerableObject::getTriggerDelay).min().getAsDouble();
+						double userTriggerStartTime = Double.parseDouble(numberInput.getValue());
+
+						// Adjust time of each trigger to required start time
+						newTriggers.forEach((newTrigger) -> {
+							double newTime = newTrigger.getTriggerDelay() - origTriggerOverallStartTime	+ userTriggerStartTime;
+							newTrigger.setTriggerDelay(newTime);
+							externalTriggerSetting.getSampleEnvironment().add(newTrigger);
+						});
+					}
+				}
+			}
+		});
+
 		try {
 
 			Group xhParent = new Group(container, SWT.None);
@@ -321,6 +376,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 		});
 		sampleEnvironmentTableViewer.setContentProvider(sampleEnvContent);
 		sampleEnvironmentTableViewer.setInput(externalTriggerSetting.getSampleEnvironment());
+		sampleEnvironmentTableViewer.setComparator(comparator);
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.text().observe(xhUsrPortText),
@@ -366,4 +422,54 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 		String str = "Spectra " + (frameNumber+1) + " + " + timeStr + " s";
 		return str;
 	}
+
+	/**
+	 * Validator used to check floating point number input (collection time dialog box)
+	 */
+	private class DoubleValidator implements IInputValidator {
+		/**
+		 * Validates a string to make sure it's an integer > 0. Returns null for no error, or string with error message
+		 *
+		 * @param newText
+		 * @return String
+		 */
+		@Override
+		public String isValid(String newText) {
+			Double value = null;
+			try {
+				value = Double.valueOf(newText);
+			} catch (NumberFormatException nfe) {
+				// swallow, value==null
+			}
+			if (value == null || value < 0) {
+				return "Text should be a number > 0";
+			}
+			return null;
+		}
+	}
+
+	private class TimeOrderComparator extends ViewerComparator {
+		private int sortDirection = 1;
+
+		public int getSortDirection() {
+			return sortDirection;
+		}
+
+		public void setSortDirection(int dir) {
+			sortDirection = dir;
+		}
+		@Override
+		public int compare(Viewer viewer, Object e1, Object e2) {
+			TriggerableObject t1 = (TriggerableObject) e1;
+			TriggerableObject t2 = (TriggerableObject) e2;
+			int compInt = Double.compare(t1.getTotalDelay(), t2.getTotalDelay());
+			if (compInt == 0) {
+				return 0;
+			}
+			compInt *= sortDirection;
+			return compInt;
+
+		}
+	}
+	private TimeOrderComparator comparator = new TimeOrderComparator();
 }

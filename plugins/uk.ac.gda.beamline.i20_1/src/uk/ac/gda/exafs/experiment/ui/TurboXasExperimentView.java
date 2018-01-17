@@ -22,7 +22,9 @@ package uk.ac.gda.exafs.experiment.ui;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -117,6 +119,8 @@ public class TurboXasExperimentView extends ViewPart {
 
 	private String[] detectorNames = new String[]{"scaler_for_zebra"};
 
+	private Map<String,String> detectorNamesMap;
+
 	private Button[] detectorCheckboxes;
 
 	private Button useTrajectoryScanButton;
@@ -131,6 +135,13 @@ public class TurboXasExperimentView extends ViewPart {
 	public void createPartControl(final Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
 		shell = parent.getShell();
+
+		if (detectorNamesMap == null) {
+			detectorNamesMap = new LinkedHashMap<>();
+			for(String name : detectorNames) {
+				detectorNamesMap.put(name, name);
+			}
+		}
 
 		final SashForm parentComposite = new SashForm(parent, SWT.VERTICAL);
 		parentComposite.SASH_WIDTH = 3;
@@ -222,7 +233,7 @@ public class TurboXasExperimentView extends ViewPart {
 		String[] selectedDetectors = new String[]{};
 		for(Button detectorCheckbox : detectorCheckboxes) {
 			if (detectorCheckbox.getSelection()) {
-				selectedDetectors = (String[]) ArrayUtils.add(selectedDetectors, detectorCheckbox.getText());
+				selectedDetectors = (String[]) ArrayUtils.add(selectedDetectors, detectorCheckbox.getData());
 			}
 		}
 		return selectedDetectors;
@@ -233,14 +244,18 @@ public class TurboXasExperimentView extends ViewPart {
 		makeLabel(parent, "Detectors to use during scan : ");
 
 		Composite detComp = new Composite(parent, SWT.NONE);
-		int numDetectors = detectorNames.length;
+		int numDetectors = detectorNamesMap.size();
 		detComp.setLayout(new GridLayout(numDetectors, false));
 		detectorCheckboxes = new Button[numDetectors];
-		for(int i=0; i<numDetectors; i++) {
+		int i=0;
+		for(String name : detectorNamesMap.keySet() ) {
 			detectorCheckboxes[i] = new Button(detComp, SWT.CHECK);
-			detectorCheckboxes[i].setText(detectorNames[i]);
+			detectorCheckboxes[i].setText(name);  // GUI label for the detector
+			detectorCheckboxes[i].setData(detectorNamesMap.get(name)); // name of the detector object
+			detectorCheckboxes[i].setToolTipText(detectorNamesMap.get(name));
 			detectorCheckboxes[i].setSelection(true);
 			detectorCheckboxes[i].setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			i++;
 		}
 	}
 
@@ -400,19 +415,18 @@ public class TurboXasExperimentView extends ViewPart {
 		sampleNameTextbox = makeLabelAndTextBox(mainComposite, "Sample name");
 		setRowSpan(sampleNameTextbox, 3);
 
-		startEnergyTextbox = makeLabelAndTextBox(mainComposite, "Start energy");
-		endEnergyTextbox = makeLabelAndTextBox(mainComposite, "End energy");
-		energyStepsizeTextbox = makeLabelAndTextBox(mainComposite, "Energy step size");
+		startEnergyTextbox = makeLabelAndTextBox(mainComposite, "Start energy [eV]");
+		endEnergyTextbox = makeLabelAndTextBox(mainComposite, "End energy [eV]");
+		energyStepsizeTextbox = makeLabelAndTextBox(mainComposite, "Energy step size [eV]");
 		addEmptyLabels(mainComposite, 2);
-
 	}
 
 	private void createEnergyCalibrationSection(Composite parent) {
 		Composite energyCalPolyComposite = makeSectionAndComposite(parent, "Energy calibration polynomial", 4);
 		energyCalibrationPolyTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Energy calibration polynomial");
 		setRowSpan(energyCalibrationPolyTextbox, 3);
-		energyCalibrationPolyMinPositionTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Min Position");
-		energyCalibrationPolyMaxPositionTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Max Position");
+		energyCalibrationPolyMinPositionTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Min Position [mm]");
+		energyCalibrationPolyMaxPositionTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Max Position [mm]");
 
 		// Non user editable - set from EnergyCalibrationWizard
 		energyCalibrationPolyTextbox.setEditable(false);
@@ -688,7 +702,7 @@ public class TurboXasExperimentView extends ViewPart {
 		useTrajectoryScanButton.setSelection(turboXasParameters.getUseTrajectoryScan());
 		List<String> selectedDetectors = Arrays.asList(turboXasParameters.getDetectors());
 		for(Button box : detectorCheckboxes) {
-			boolean selected = selectedDetectors.contains(box.getText());
+			boolean selected = selectedDetectors.contains(box.getData());
 			box.setSelection(selected);
 		}
 
@@ -770,6 +784,10 @@ public class TurboXasExperimentView extends ViewPart {
 	 */
 	public void setDetectorNames(String[] detectorNames) {
 		this.detectorNames = detectorNames;
+	}
+
+	public void setDetectorNamesMap(Map<String,String> detectorNamesMap) {
+		this.detectorNamesMap = detectorNamesMap;
 	}
 
 	public String[] getMotorNames() {

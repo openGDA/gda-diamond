@@ -238,8 +238,7 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	}
 
 	public double calculatePosition(int frameIndex) {
-		double deltaPositionPerFrame = motorParameters.getScanPositionRange()/motorParameters.getNumReadoutsForScan();
-		return motorParameters.getScanStartPosition() + frameIndex*deltaPositionPerFrame;
+		return motorParameters.getScanStartPosition() + frameIndex*motorParameters.getPositionStepsize();
 	}
 
 	/**
