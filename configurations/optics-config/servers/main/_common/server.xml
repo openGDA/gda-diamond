@@ -15,7 +15,10 @@
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="commandServer.xml"/>
-<!-- 	<import resource="dataArchieval.xml"/> -->
+	<!-- Removed include of dataArchieval.xml -->
+	<!-- If you want to restore file registrar functionality, uncomment the following two lines -->
+	<!-- <import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" /> -->
+	<!-- <import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" /> -->
 	<import resource="dataWriter.xml"/>
 	<import resource="terminal_logger.xml"/>
 	
