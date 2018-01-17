@@ -4,7 +4,7 @@ Created on 10 Jan 2018
 @author: fy65
 '''
 from gdaserver import pgmGratingSelect
-def idgap_fn(Ep, polarisation):
+def idgap_calc(Ep, polarisation):
     gap=19.9
     # Linear Horizontal
     if (polarisation=="LH"):
