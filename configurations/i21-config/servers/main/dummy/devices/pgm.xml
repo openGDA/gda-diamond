@@ -10,17 +10,18 @@
 
 	<!-- PGM control -->
 	<bean id="pgmEnergyMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000" />
-		<property name="maxPosition" value="1000" />
-		<property name="position" value="920" /> <!-- Start at a position inside the calibration -->
-		<property name="speed" value="90" />
+		<property name="minPosition" value="-5000.0000" />
+		<property name="maxPosition" value="5000.0000" />
+		<property name="position" value="886.4000" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="200.0000" />
 		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="pgmB2ShadowMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000" />
-		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="minPosition" value="-5000.0000" />
+		<property name="maxPosition" value="5000.0000" />
+		<property name="position" value="8.4172" /> 
+		<property name="speed" value="200.000" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -46,36 +47,40 @@
 
 	<!-- real motors -->
 	<bean id="pgmMirrorPitchMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000" />
-		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="minPosition" value="19.612259" />
+		<property name="maxPosition" value="211.612259" />
+		<property name="position" value="87.904944"/>
+		<property name="speed" value="0.020000" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgmGratingPitchMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000" />
-		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="minPosition" value="-1.907834" />
+		<property name="maxPosition" value="173.092166" />
+		<property name="position" value="86.809038"/>
+		<property name="speed" value="0.025000" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgmMirrorSelectMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000" />
-		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="minPosition" value="-67.0000" />
+		<property name="maxPosition" value="15.0000" />
+		<property name="position" value="-5.000"/>
+		<property name="speed" value="1.0000" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgmGratingSelectMotor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000" />
-		<property name="maxPosition" value="1000" />
-		<property name="speed" value="90" />
+		<property name="minPosition" value="-182.0000" />
+		<property name="maxPosition" value="50.0000" />
+		<property name="position" value="-110.0000"/>
+		<property name="speed" value="1.0000" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="b2" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="V" />
 		<property name="value">
-			<value type="double">0.865</value>
+			<value type="double">8.4171</value>
 		</property>
 	</bean>
 	<bean id="cff" class="gda.device.scannable.DummyScannable">
