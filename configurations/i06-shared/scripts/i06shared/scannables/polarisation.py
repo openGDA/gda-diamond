@@ -51,6 +51,49 @@ class Polarisation(ScannableBase):
     def getPosition(self):
         ''' get current polarisation that has been set last time 
         '''
+        mode=str(self.smode.getPosition())
+        iddpolarisation=""
+        idupolarisation=""
+        errmsg=None
+        if mode == SourceMode.SOURCE_MODES[0]:
+            iddpolarisation=str(self.dpol.getPosition())
+            if iddpolarisation!=Polarisation.POLARISATIONS_EPICS[self.polarisation]:
+                errmsg="demand position %s is different from arrived position for idd %s in mode %s" % (self.polarisation, iddpolarisation, mode)
+        elif mode == SourceMode.SOURCE_MODES[1]:
+            idupolarisation=str(self.upol.getPosition())
+            if idupolarisation!=Polarisation.POLARISATIONS_EPICS[self.polarisation]:
+                errmsg="demand position %s is different from arrived position for idu %s in mode %s" % (self.polarisation, idupolarisation, mode)
+        elif mode == SourceMode.SOURCE_MODES[2]:
+            iddpolarisation=str(self.dpol.getPosition())
+            idupolarisation=str(self.upol.getPosition())
+            if iddpolarisation!=Polarisation.POLARISATIONS_EPICS[self.polarisation] or idupolarisation!=Polarisation.POLARISATIONS_EPICS[self.polarisation]:
+                errmsg="demand position %s is different from arrived positions for idd %s and for idu %s in mode %s" % (self.polarisation, iddpolarisation, idupolarisation, mode)
+        elif mode == SourceMode.SOURCE_MODES[3]:
+            if self.polarisation == Polarisation.POLARISATIONS[0]:
+                iddpolarisation=str(self.dpol.getPosition())
+                idupolarisation=str(self.upol.getPosition())
+                if iddpolarisation!=Polarisation.POLARISATIONS_EPICS['pc'] or idupolarisation!=Polarisation.POLARISATIONS_EPICS['nc']:
+                    errmsg="demand position %s is different from arrived positions for idd %s and for idu %s in mode %s" % (self.polarisation, iddpolarisation, idupolarisation, mode)  
+            elif self.polarisation == Polarisation.POLARISATIONS[1]:
+                iddpolarisation=str(self.dpol.getPosition())
+                idupolarisation=str(self.upol.getPosition())
+                if iddpolarisation!=Polarisation.POLARISATIONS_EPICS['pc'] or idupolarisation!=Polarisation.POLARISATIONS_EPICS['nc']:
+                    errmsg="demand position %s is different from arrived positions for idd %s and for idu %s in mode %s" % (self.polarisation, iddpolarisation, idupolarisation, mode)  
+            elif self.polarisation == Polarisation.POLARISATIONS[2]:
+                iddpolarisation=str(self.dpol.getPosition())
+                idupolarisation=str(self.upol.getPosition())
+                if iddpolarisation!=Polarisation.POLARISATIONS_EPICS['lh'] or idupolarisation!=Polarisation.POLARISATIONS_EPICS['lv']:
+                    errmsg="demand position %s is different from arrived positions for idd %s and for idu %s in mode %s" % (self.polarisation, iddpolarisation, idupolarisation, mode)  
+            elif self.polarisation == Polarisation.POLARISATIONS[3]:
+                iddpolarisation=str(self.dpol.getPosition())
+                idupolarisation=str(self.upol.getPosition())
+                if iddpolarisation!=Polarisation.POLARISATIONS_EPICS['lh'] or idupolarisation!=Polarisation.POLARISATIONS_EPICS['lv']:
+                    errmsg="demand position %s is different from arrived positions for idd %s and for idu %s in mode %s" % (self.polarisation, iddpolarisation, idupolarisation, mode)  
+            elif self.polarisation == Polarisation.POLARISATIONS[4]:
+                message="Linear Angular Polarisation is not supported in '%s' source mode" % (mode)
+                raise RuntimeError(message)
+        if errmsg is not None:
+            raise errmsg
         return self.polarisation
     
     def asynchronousMoveTo(self, newpos):
