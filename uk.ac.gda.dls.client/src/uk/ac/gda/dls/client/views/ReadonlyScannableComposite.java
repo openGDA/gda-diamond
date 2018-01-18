@@ -33,6 +33,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import com.swtdesigner.SWTResourceManager;
+
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.ScannableGetPositionWrapper;
@@ -100,11 +102,13 @@ public class ReadonlyScannableComposite extends Composite {
 
 		Label lbl = new Label(this, SWT.NONE | SWT.CENTER);
 		lbl.setText(StringUtils.hasLength(label) ? label : scannable.getName());
+		lbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 
 		int textStyle = SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY | SWT.CENTER;
 		text = new Text(this,textStyle);
 		text.setEditable(false);
 		text.setText("000000");
+		text.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		EclipseWidgetUtils.forceLayoutOfTopParent(ReadonlyScannableComposite.this);
 		setTextRunnable = new Runnable() {
 
