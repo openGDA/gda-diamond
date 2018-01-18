@@ -9,7 +9,6 @@
 	<configs>
 		<config>servers/main/_common/scannables/_all_scannables.xml</config>
 		<config>servers/main/live/devices/_all_devices.xml</config>
-		<config>servers/main/_common/dataArchieval.xml</config>
 		<config>servers/main/live/devices/agilentADC.xml</config>
 		<config>servers/main/_common/scannables/beam.xml</config>
 		<config>servers/main/live/devices/ca1.xml</config>

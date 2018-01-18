@@ -92,7 +92,6 @@
 				<config>servers/main/live/devices/_all_devices.xml</config>
 				<config>/i06-shared/servers/main/_common/commandQueueProcessor.xml</config>
 				<config>/i06-shared/servers/main/_common/commandServer.xml</config>
-				<config>/i06-shared/servers/main/_common/dataArchieval.xml</config>
 				<config>/i06-shared/servers/main/_common/dataWriter.xml</config>
 				<config>/i06-shared/servers/main/_common/GDAMetadata.xml</config>
 				<config>/i06-shared/servers/main/_common/plotServer.xml</config>
