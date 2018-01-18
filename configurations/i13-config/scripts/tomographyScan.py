@@ -22,7 +22,6 @@ from gda.scan import ScanPositionProvider
 from gda.device.scannable import ScannableBase, ScannableUtils
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.factory import Finder
-from uk.ac.gda.analysis.hdf5 import Hdf5Helper, Hdf5HelperData, HDF5HelperLocations
 from gda.util import OSCommandRunner
 from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFromFactory
 from gda.data.scan.datawriter import *

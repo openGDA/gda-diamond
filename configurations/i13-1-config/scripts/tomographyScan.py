@@ -21,7 +21,6 @@ from gda.scan import ScanPositionProvider
 from gda.device.scannable import ScannableBase, ScannableUtils
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.factory import Finder
-from uk.ac.gda.analysis.hdf5 import Hdf5Helper, Hdf5HelperData, HDF5HelperLocations
 from gda.util import OSCommandRunner
 from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFromFactory
 from gda.data.scan.datawriter import *
@@ -333,11 +332,15 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=.1, imagesPerDark=1, i
     flatD=flat-dark
     t=imageD/flatD
 #    t=imageD/dnp.select( dnp.not_equal(flatD,0), flatD, 1.)
+    t._jdataset().name="normalisedImage"
+    from org.eclipse.dawnsci.hdf5 import HDF5Utils
+    HDF5Utils.writeDataset(lsdp.currentFilename, "entry1", t._jdataset())
     t._jdataset().name=str(lsdp.getScanIdentifier()) + " (image-dark)/(flat-dark)"
-    hdfData = Hdf5HelperData(t.shape, t._jdataset().buffer)
-    locs = HDF5HelperLocations("entry1")
-    locs.add(tomography_detector.getName())
-    Hdf5Helper.getInstance().writeToFileSimple(hdfData, lsdp.currentFilename,locs , "normalisedImage")
+#    from uk.ac.gda.analysis.hdf5 import Hdf5Helper, Hdf5HelperData, HDF5HelperLocations
+#    hdfData = Hdf5HelperData(t.shape, t._jdataset().buffer)
+#    locs = HDF5HelperLocations("entry1")
+#    locs.add(tomography_detector.getName())
+#    Hdf5Helper.getInstance().writeToFileSimple(hdfData, lsdp.currentFilename,locs , "normalisedImage")
 #    rcp=Finder.getInstance().find("RCPController")
 #    rcp.openView("uk.ac.diamond.daq.tomography.datacollection.ui.NormalisedImage")
     dnp.plot.image(t, name="Normalised Image")
