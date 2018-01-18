@@ -3,11 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
-		<property name="name" value="FileRegistrar" />
-		<property name="directory"
-			value="/dls/bl-misc/dropfiles2/icat/dropZone/i20-" />
-	</bean>
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
 		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
@@ -20,7 +17,7 @@
 		<property name="name" value="DataWriterFactory" />
 		<property name="dataWriterExtenders">
 			<list>
-				<ref bean="FileRegistrar" />
+				<ref bean="file_registrar" />
 			</list>
 		</property>
 	</bean>

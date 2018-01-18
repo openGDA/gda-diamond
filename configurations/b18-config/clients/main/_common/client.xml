@@ -83,7 +83,7 @@
 
 
 	<!-- <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
-		<property name="clientFileAnnouncerName" value="sockpuppet" /> </bean> -->
+		<property name="clientFileAnnouncerName" value="client_file_announcer" /> </bean> -->
 <!-- 	</bean>  -->
 
 	<bean id="ionc1_gas_injector" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
@@ -123,7 +123,7 @@
 	</bean>
 
 	<!-- <bean id="dataProjectUpdater" class="uk.ac.gda.client.ServerFileListener">
-		<property name="clientFileAnnouncerName" value="sockpuppet" />
+		<property name="clientFileAnnouncerName" value="client_file_announcer" />
 	</bean> -->
 
 	<bean id="detectorMonitorDataProvider" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
