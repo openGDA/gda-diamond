@@ -18,12 +18,6 @@
 
 package uk.ac.gda.dls.client.views;
 
-import gda.jython.IBatonStateProvider;
-import gda.jython.InterfaceProvider;
-import gda.jython.UserMessage;
-import gda.observable.IObserver;
-import gda.rcp.views.CompositeFactory;
-
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -49,9 +43,16 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.swtdesigner.SWTResourceManager;
+
+import gda.jython.IBatonStateProvider;
+import gda.jython.InterfaceProvider;
+import gda.jython.UserMessage;
+import gda.observable.IObserver;
+import gda.rcp.views.CompositeFactory;
 import uk.ac.gda.views.baton.MessageView;
 import uk.ac.gda.views.baton.action.RefreshBatonAction;
 
@@ -103,6 +104,7 @@ class BatonStatusComposite extends Composite {
 		Group grp = new Group(this, style);
 		GridDataFactory.fillDefaults().applyTo(grp);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(grp);
+		grp.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		grp.setText(label);
 
 		this.display = display;
