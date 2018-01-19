@@ -110,10 +110,8 @@
 	<import resource="metadata.xml" />
 	<import resource="../_common/nxmetadata.xml" />
 
-	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
-		<property name="name" value="FileRegistrar" />
-		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/i16-" />
-	</bean>
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<bean id="Beamline" class="gda.device.epicsdevice.FindableEpicsDevice">
 		<property name="deviceName" value="Beamline" />
