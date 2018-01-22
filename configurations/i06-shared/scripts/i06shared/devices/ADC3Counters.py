@@ -11,17 +11,40 @@ print "Create Current reading objects: 'ca131sr','ca132sr','ca133sr','ca134sr','
 pvIntegrationTime='BL06I-DI-ADC-03:SC:INTTIME';
 pvTrigger='BL06I-DI-ADC-03:SC:STARTCOUNT';
 
-pvCA131C = 'BL06I-DI-ADC-03:CH1:I';
-pvCA132C = 'BL06I-DI-ADC-03:CH2:I';
-pvCA133C = 'BL06I-DI-ADC-03:CH3:I';
-pvCA134C = 'BL06I-DI-ADC-03:CH4:I';
+#Use the ADC Voltage reading
+pvCA131V = 'BL06I-DI-ADC-03:CH1:I';
+pvCA132V = 'BL06I-DI-ADC-03:CH2:I';
+pvCA133V = 'BL06I-DI-ADC-03:CH3:I';
+pvCA134V = 'BL06I-DI-ADC-03:CH4:I';
 
-pvCA141C = 'BL06I-DI-ADC-03:CH5:I';
-pvCA142C = 'BL06I-DI-ADC-03:CH6:I';
-pvCA143C = 'BL06I-DI-ADC-03:CH7:I';
-pvCA144C = 'BL06I-DI-ADC-03:CH8:I';
+pvCA141V = 'BL06I-DI-ADC-03:CH5:I';
+pvCA142V = 'BL06I-DI-ADC-03:CH6:I';
+pvCA143V = 'BL06I-DI-ADC-03:CH7:I';
+pvCA144V = 'BL06I-DI-ADC-03:CH8:I';
+
+ca131s = Scaler8512ChannelEpicsDeviceClass('ca131s',pvIntegrationTime, pvTrigger, pvCA131V);
+ca132s = Scaler8512ChannelEpicsDeviceClass('ca132s',pvIntegrationTime, pvTrigger, pvCA132V);
+ca133s = Scaler8512ChannelEpicsDeviceClass('ca133s',pvIntegrationTime, pvTrigger, pvCA133V);
+ca134s = Scaler8512ChannelEpicsDeviceClass('ca134s',pvIntegrationTime, pvTrigger, pvCA134V);
+
+ca141s = Scaler8512ChannelEpicsDeviceClass('ca141s',pvIntegrationTime, pvTrigger, pvCA141V);
+ca142s = Scaler8512ChannelEpicsDeviceClass('ca142s',pvIntegrationTime, pvTrigger, pvCA142V);
+ca143s = Scaler8512ChannelEpicsDeviceClass('ca143s',pvIntegrationTime, pvTrigger, pvCA143V);
+ca144s = Scaler8512ChannelEpicsDeviceClass('ca144s',pvIntegrationTime, pvTrigger, pvCA144V);
+
+adc3voltage=[ca131s,ca132s,ca133s,ca134s,ca141s,ca142s,ca143s,ca144s]
 
 #Use the ADC Current reading
+pvCA131C = 'BL06I-DI-ADC-03:CH1:I:UA';
+pvCA132C = 'BL06I-DI-ADC-03:CH2:I:UA';
+pvCA133C = 'BL06I-DI-ADC-03:CH3:I:UA';
+pvCA134C = 'BL06I-DI-ADC-03:CH4:I:UA';
+
+pvCA141C = 'BL06I-DI-ADC-03:CH5:I:UA';
+pvCA142C = 'BL06I-DI-ADC-03:CH6:I:UA';
+pvCA143C = 'BL06I-DI-ADC-03:CH7:I:UA';
+pvCA144C = 'BL06I-DI-ADC-03:CH8:I:UA';
+
 ca131 = Scaler8512ChannelEpicsDeviceClass('ca131',pvIntegrationTime, pvTrigger, pvCA131C);
 ca132 = Scaler8512ChannelEpicsDeviceClass('ca132',pvIntegrationTime, pvTrigger, pvCA132C);
 ca133 = Scaler8512ChannelEpicsDeviceClass('ca133',pvIntegrationTime, pvTrigger, pvCA133C);
@@ -31,7 +54,6 @@ ca141 = Scaler8512ChannelEpicsDeviceClass('ca141',pvIntegrationTime, pvTrigger, 
 ca142 = Scaler8512ChannelEpicsDeviceClass('ca142',pvIntegrationTime, pvTrigger, pvCA142C);
 ca143 = Scaler8512ChannelEpicsDeviceClass('ca143',pvIntegrationTime, pvTrigger, pvCA143C);
 ca144 = Scaler8512ChannelEpicsDeviceClass('ca144',pvIntegrationTime, pvTrigger, pvCA144C);
-
 
 adc3current=[ca131,ca132,ca133,ca134,ca141,ca142,ca143,ca144]
 

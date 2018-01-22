@@ -11,15 +11,39 @@ print "Create Current reading objects: 'ca91sr','ca92sr','ca93sr','ca94sr','ca12
 pvIntegrationTime='BL06I-DI-ADC-01:SC:INTTIME';
 pvTrigger='BL06I-DI-ADC-01:SC:STARTCOUNT';
 
-pvCA91C = 'BL06I-DI-PHDGN-02:I:B';
-pvCA92C = 'BL06I-OP-FCMIR-01:I:B';
-pvCA93C = 'BL06I-DI-PHDGN-03:I:B';
-pvCA94C = 'BL06I-DI-IONC-01:I:B';
+pvCA91V = 'BL06I-DI-PHDGN-02:I:B';
+pvCA92V = 'BL06I-OP-FCMIR-01:I:B';
+pvCA93V = 'BL06I-DI-PHDGN-03:I:B';
+pvCA94V = 'BL06I-DI-IONC-01:I:B';
 
-pvCA121C = 'BL06I-DI-LDGN-01:I';
-pvCA122C = 'BL06I-DI-LDGN-02:I';
-pvCA123C = 'BL06I-OP-FSM-01:Y:ERR';
-pvCA124C = 'BL06I-OP-FSM-01:X:ERR';
+pvCA121V = 'BL06I-DI-LDGN-01:I';
+pvCA122V = 'BL06I-DI-LDGN-02:I';
+pvCA123V = 'BL06I-OP-FSM-01:Y:ERR';
+pvCA124V = 'BL06I-OP-FSM-01:X:ERR';
+
+#Use the ADC Voltage reading
+ca91s = Scaler8512ChannelEpicsDeviceClass('ca91s',pvIntegrationTime, pvTrigger, pvCA91V);
+ca92s = Scaler8512ChannelEpicsDeviceClass('ca92s',pvIntegrationTime, pvTrigger, pvCA92V);
+ca93s = Scaler8512ChannelEpicsDeviceClass('ca93s',pvIntegrationTime, pvTrigger, pvCA93V);
+ca94s = Scaler8512ChannelEpicsDeviceClass('ca94s',pvIntegrationTime, pvTrigger, pvCA94V);
+
+ca121s = Scaler8512ChannelEpicsDeviceClass('ca121s',pvIntegrationTime, pvTrigger, pvCA121V);
+ca122s = Scaler8512ChannelEpicsDeviceClass('ca122s',pvIntegrationTime, pvTrigger, pvCA122V);
+ca123s = Scaler8512ChannelEpicsDeviceClass('ca123s',pvIntegrationTime, pvTrigger, pvCA123V);
+ca124s = Scaler8512ChannelEpicsDeviceClass('ca124s',pvIntegrationTime, pvTrigger, pvCA124V);
+
+adc1voltage=[ca91s,ca92s,ca93s,ca94s,ca121s,ca122s,ca123s,ca124s]
+
+# ADC Current reading
+pvCA91C = 'BL06I-DI-PHDGN-02:I:B:UA';
+pvCA92C = 'BL06I-OP-FCMIR-01:I:B:UA';
+pvCA93C = 'BL06I-DI-PHDGN-03:I:B:UA';
+pvCA94C = 'BL06I-DI-IONC-01:I:B:UA';
+
+pvCA121C = 'BL06I-DI-LDGN-01:I:UA';
+pvCA122C = 'BL06I-DI-LDGN-02:I:UA';
+pvCA123C = 'BL06I-OP-FSM-01:Y:ERR:UA';
+pvCA124C = 'BL06I-OP-FSM-01:X:ERR:UA';
 
 #Use the ADC Current reading
 ca91 = Scaler8512ChannelEpicsDeviceClass('ca91',pvIntegrationTime, pvTrigger, pvCA91C);
@@ -32,8 +56,7 @@ ca122 = Scaler8512ChannelEpicsDeviceClass('ca122',pvIntegrationTime, pvTrigger, 
 ca123 = Scaler8512ChannelEpicsDeviceClass('ca123',pvIntegrationTime, pvTrigger, pvCA123C);
 ca124 = Scaler8512ChannelEpicsDeviceClass('ca124',pvIntegrationTime, pvTrigger, pvCA124C);
 
-
-adc1current=[ca91,ca92,ca93,ca94,ca121,ca122,ca123,ca124]
+adc1current = [ca91, ca92, ca93, ca94, ca121,ca122,ca123,ca124]
 
 #Use the ADC integrated count
 pvCA91Count = 'BL06I-DI-ADC-01:CH5:SUM';
