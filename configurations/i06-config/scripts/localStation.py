@@ -16,7 +16,7 @@ from gdascripts.utils import caput, caget
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 from gda.jython.commands.GeneralCommands import alias
 from gda.jython.commands.ScannableCommands import scan
-from i06shared import installation
+
 from i06shared.localStation import *  # @UnusedWildImport
     
 #from scan.fastEnergyScan import zacscan,zacstop,zacmode,fesController,fesData, fastEnergy,uuu,beamlineutil  # @UnusedImport
@@ -72,21 +72,30 @@ else:
 def picture(acqTime):
     scan(t,1,1,1,pcotif,acqTime)  # @UndefinedVariable
 alias("picture")
-
-def unrotate():
-    caput("BL06I-EA-DET-01:ROT:Angle",0)
-alias("unrotate")
-
-def rotate():
-    rot=caget("BL06I-EA-LEEM-01:CALC:ROT:ANGLE")
-    caput("BL06I-EA-DET-01:ROT:Angle",rot)
-alias("rotate")
+#
+if installation.isLive():
+    def unrotate():
+        caput("BL06I-EA-DET-01:ROT:Angle",0)
+    alias("unrotate")
     
-# I06-406   
-temp1_EC3=DisplayEpicsPVClass('temp1_EC3','BL06I-EA-EC3-01:TEMP1','C','%f')
-temp2_EC3=DisplayEpicsPVClass('temp2_EC3','BL06I-EA-EC3-01:TEMP2','C','%f')
-temp3_EC3=DisplayEpicsPVClass('temp3_EC3','BL06I-EA-EC3-01:TEMP3','C','%f')
-temp4_EC3=DisplayEpicsPVClass('temp4_EC3','BL06I-EA-EC3-01:TEMP4','C','%f')
+    def rotate():
+        rot=caget("BL06I-EA-LEEM-01:CALC:ROT:ANGLE")
+        caput("BL06I-EA-DET-01:ROT:Angle",rot)
+    alias("rotate")
+        
+    # I06-406   
+    temp1_EC3=DisplayEpicsPVClass('temp1_EC3','BL06I-EA-EC3-01:TEMP1','C','%f')
+    temp2_EC3=DisplayEpicsPVClass('temp2_EC3','BL06I-EA-EC3-01:TEMP2','C','%f')
+    temp3_EC3=DisplayEpicsPVClass('temp3_EC3','BL06I-EA-EC3-01:TEMP3','C','%f')
+    temp4_EC3=DisplayEpicsPVClass('temp4_EC3','BL06I-EA-EC3-01:TEMP4','C','%f')
+else:
+    def unrotate():
+        raise RuntimeError("EPICS PV and IOC required!")
+    alias("unrotate")
+    
+    def rotate():
+        raise RuntimeError("EPICS PV and IOC required!")
+    alias("rotate")
 
 from gda.jython.commands.ScannableCommands import add_default
 add_default([fileHeader]);
