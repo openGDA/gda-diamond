@@ -53,13 +53,23 @@
 	</bean>
 	<!-- PCO Live Stream Control -->
 	<bean id="pcoarrayenable" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pco_addetector.ndArray.getPluginBase().enableCallbacks()" />
+		<property name="jythonCommand" value="caput('BL06I-EA-DET-01:ARR2:EnableCallbacks',1)" />
 		<property name="buttonText" value="Enable" />
 		<property name="group" value="PCO Array Live Stream Control" />
 	</bean>
 	<bean id="pcoarraydisable" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="pco_addetector.ndArray.getPluginBase().disableCallbacks()" />
+		<property name="jythonCommand" value="caput('BL06I-EA-DET-01:ARR2:EnableCallbacks',0)" />
 		<property name="buttonText" value="Disable" />
+		<property name="group" value="PCO Array Live Stream Control" />
+	</bean>
+	<bean id="unrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="unrotate()" />
+		<property name="buttonText" value="Unrotate" />
+		<property name="group" value="PCO Array Live Stream Control" />
+	</bean>
+	<bean id="rotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="rotate()" />
+		<property name="buttonText" value="Rotate" />
 		<property name="group" value="PCO Array Live Stream Control" />
 	</bean>
 
@@ -76,6 +86,8 @@
 				<ref bean="pco_image_rotation_angle_control" />
 				<ref bean="pcoarrayenable"/>
 				<ref bean="pcoarraydisable"/>
+				<ref bean="unrotate"/>
+				<ref bean="rotate"/>
 			</list>
 		</property>
 	</bean>
