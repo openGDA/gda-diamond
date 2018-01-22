@@ -67,7 +67,7 @@ class EnergyConsolidationClass(PseudoDevice):
 		self.energymovelog_time = datetime.now()
 		self.idpolmovelog_time = datetime.now()
 		
-		self.skipDuplicateMoveOptimisation=True
+# 		self.skipDuplicateMoveOptimisation=True
 		self.inPositionTolerance = inPositionTolerance
 
 	def switchMotor(self):
@@ -77,19 +77,19 @@ class EnergyConsolidationClass(PseudoDevice):
 		if pol != ID_PolarisationClass.READBACK_POSITIONS[5]: # None LA mode
 			if self.energy.getMotor() != self.energy0.getMotor(): # motor is not correct
 				self.energy = self.energy0;
-				self.skipDuplicateMoveOptimisation=True
+# 				self.skipDuplicateMoveOptimisation=True
 				if self.verbose: self.logger.info("switchMotor() energy now %r (non LA)" % self.energy)
 		else: # LA mode
 			if self.energy.getMotor() != self.energy1.getMotor(): # motor is not correct
 				self.energy = self.energy1;
-				self.skipDuplicateMoveOptimisation=True
+# 				self.skipDuplicateMoveOptimisation=True
 				if self.verbose: self.logger.info("switchMotor() energy now %r (LA)" % self.energy)
 
 	#Scannable Implementations
 	def atScanStart(self):
 		if self.verbose: self.logger.info("atScanStart()...")
 		self.switchMotor();
-		self.skipDuplicateMoveOptimisation=True
+# 		self.skipDuplicateMoveOptimisation=True
 		if self.verbose: self.logger.info("...atScanStart()")
 
 	def getPosition(self):
@@ -113,14 +113,14 @@ class EnergyConsolidationClass(PseudoDevice):
 				self.logger.info('delayedSwitchAndMoveEnergy(): %s.isBusy()=%r' % (self.idpol.name, self.idpol.isBusy()))
 				self.idpolmovelog_time = datetime.now()
 		self.switchMotor();
-		currentPos = self.getPosition()
-		if self.skipDuplicateMoveOptimisation or not self.inPositionTolerance or (abs(newPos-currentPos) > self.inPositionTolerance):
-			self.energy.asynchronousMoveTo(newPos);
-			self.skipDuplicateMoveOptimisation=False
-		else:
-			msg = "Skipping setting the energy as %r is closer to %r than the tolerance of %r" % (newPos, currentPos, self.inPositionTolerance)
-			self.logger.info("asynchronousMoveTo() %s" % msg)
-			if self.verbose: print "%s: %s" % (self.name, msg)
+# 		currentPos = self.getPosition()
+# 		if self.skipDuplicateMoveOptimisation or not self.inPositionTolerance or (abs(newPos-currentPos) > self.inPositionTolerance):
+		self.energy.asynchronousMoveTo(newPos);
+# 			self.skipDuplicateMoveOptimisation=False
+# 		else:
+# 			msg = "Skipping setting the energy as %r is closer to %r than the tolerance of %r" % (newPos, currentPos, self.inPositionTolerance)
+# 			self.logger.info("asynchronousMoveTo() %s" % msg)
+# 			if self.verbose: print "%s: %s" % (self.name, msg)
 		if self.verbose: self.logger.info("...delayedSwitchAndMoveEnergy()")
 
 	def isBusy(self):
@@ -253,7 +253,7 @@ class ID_PolarisationClass(PseudoDevice):
 		self.strStatus='unknown';
 		self.strEnable=self.enable[1]
 		
-		self.skipDuplicateMoveOptimisation=True
+# 		self.skipDuplicateMoveOptimisation=True
 
 	def __repr__(self):
 		format = "ID_PolarisationClass(name=%r, strSetPV=%r, strGetPV=%r, strStatusPV=%r, strEnablePV=%r)"
@@ -293,7 +293,7 @@ class ID_PolarisationClass(PseudoDevice):
 			self.chStatus.configure()
 		if not self.chEnable.isConfigured():
 			self.chEnable.configure()
-		self.skipDuplicateMoveOptimisation=True
+# 		self.skipDuplicateMoveOptimisation=True
 
 	def getPosition(self):
 		return self.getPol();
@@ -301,10 +301,10 @@ class ID_PolarisationClass(PseudoDevice):
 	def asynchronousMoveTo(self,newPos):
 		if self.verbose: self.logger.info("asynchronousMoveTo(%r)..."%newPos)
 		# Set the pol for the first point in a scan and every time the pol subsequently changes
-		if newPos <> self.getPol() or self.skipDuplicateMoveOptimisation:
+		if newPos <> self.getPol(): #or self.skipDuplicateMoveOptimisation:
 			self.demandPol = newPos
 			self.setPol(self.demandPol)
-			self.skipDuplicateMoveOptimisation=False
+# 			self.skipDuplicateMoveOptimisation=False
 		else:
 			self.logger.info("asynchronousMoveTo() skipping setting the polarisation to same value to save time %r=%r" % (newPos, self.currentPol))
 		if self.verbose: self.logger.info("...asynchronousMoveTo()")
