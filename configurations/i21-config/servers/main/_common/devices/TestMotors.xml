@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="dm_x" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400"/>
+		<property name="mediumSpeed" value="200"/>
+		<property name="slowSpeed" value="100"/>
+	</bean>
+	<bean id="dm_y" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400"/>
+		<property name="mediumSpeed" value="200"/>
+		<property name="slowSpeed" value="100"/>
+	</bean>
+	<bean id="dm_z" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400"/>
+		<property name="mediumSpeed" value="200"/>
+		<property name="slowSpeed" value="100"/>
+	</bean>
+	<bean id="dm_t" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400"/>
+		<property name="mediumSpeed" value="200"/>
+		<property name="slowSpeed" value="100"/>
+	</bean>
+	<bean id="dm_n" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400"/>
+		<property name="mediumSpeed" value="200"/>
+		<property name="slowSpeed" value="100"/>
+	</bean>
+
+	<bean id="x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dm_x"/>
+	</bean>
+	<bean id="y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dm_y"/>
+	</bean>
+	<bean id="z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dm_z"/>
+	</bean>
+	<bean id="t" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dm_t"/>
+	</bean>
+	<bean id="n" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dm_n"/>
+	</bean>
+
+	<bean id="TestMotors" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="x"/>
+				<ref bean="y"/>
+				<ref bean="z"/>
+				<ref bean="t"/>
+				<ref bean="n"/>
+			</list>
+		</property>
+	</bean>
+</beans>

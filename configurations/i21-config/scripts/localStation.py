@@ -214,9 +214,10 @@ xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 from scannabledevices.samplePoistioner_instance import smp_positioner  # @UnusedImport
 
 print "*"*80
-print "Creating aliases"
+print "Creating aliases: th=>sapolar, chi=>satilt"
 th=sapolar
 chi = satilt  # @UndefinedVariable
+
 tsample=lakeshore.getTemperature(0)  # @UndefinedVariable
 tshield=lakeshore.getTemperature(1)
 tcryostat=lakeshore.getTemperature(2)
@@ -234,6 +235,11 @@ alias("input_tsample")
 alias("input_tshield")
 alias("input_tcryostat")
 
+def loopscan(n, det, exposure_time):
+    scan(x,1,n,1,det,exposure_time)  # @UndefinedVariable
+
+alias("loopscan")
+
 if not installation.isLive():
     print "Testing scan in hkl using DiffCalc ...."
     newub('test_i21')
@@ -241,7 +247,7 @@ if not installation.isLive():
     setub([[0.00000, 0.00000, 0.31260], [1.17537, -1.17537, 0.00000], [1.17537, 1.17537, 0.00000]])
     con(a_eq_b)
     setnhkl([0, 0, 1])
-    scan(h, .1, .3, .1, k, .1, .3, .1, l, .1, .3, .1, hkl, fourc, ct, 1)  # @UndefinedVariable
+    scan(h, .1, .2, .1, k, .1, .2, .1, l, .1, .2, .1, fourc, ct, 1)  # @UndefinedVariable
     print "scan in hkl test completed."
 
 
