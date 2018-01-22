@@ -65,6 +65,7 @@ if installation.isLive():
     fileHeader.add([leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB])
     from peem.stv_obj_instance import stvobj  # @UnusedImport
     from peem.LEEM2000_scannables_init import leem_rot,leem_temp,objAlignY,objAlignX  # @UnusedImport
+    fileHeader.add([leem_rot])
 else:
     print "No simulation for LEEM control yet!"
 
