@@ -47,7 +47,9 @@ fastEnergy.filterByEnergy = False
 def zacscan(startEnergy, endEnergy, scanTime, pointTime):
     try:
         uuu.backupDefaults();
-        uuu.removeDefaults(['ca61sr', 'ca62sr','ca63sr','ca64sr','ca65sr','ca66sr']);
+        if beamline_name=="i06-1":
+            #TODO ask Sarnjeet for an update
+            uuu.removeDefaults(['ca61sr', 'ca62sr','ca63sr','ca64sr','ca65sr','ca66sr']);
 
         beamlineutil.stopArchiving();
         fastEnergy.cvscan(startEnergy, endEnergy, scanTime, pointTime);
