@@ -5,13 +5,13 @@ from gda.device.scannable import PseudoDevice
 from peem.LEEM2000_tcp import leem2000
 
 class LEEM_FOV_Rotation_Class(PseudoDevice):
-    def __init__(self,name):
+    def __init__(self,name, leem2000):
         self.setName(name);
-        self.setInputNames(['deg'])
-        self.setOutputFormat(['%3u'])
+        self.setInputNames([name])
+        self.setOutputFormat(['%3f'])
         self.setLevel(6)
         self.iambusy = False
-        self.pos = 0.0
+        self.leem2000=leem2000
        
     def atScanStart(self):
         return
@@ -20,12 +20,12 @@ class LEEM_FOV_Rotation_Class(PseudoDevice):
         return
 
     def getPosition(self):
-        command = "rir"
-        self.pos  = float(leem2000.send(command))
-        return self.pos
+        return float(self.leem2000.send('rir'))
 
     def asynchronousMoveTo(self):
         return 
 
     def isBusy(self):
         return self.iambusy
+    
+    
