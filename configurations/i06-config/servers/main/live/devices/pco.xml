@@ -101,7 +101,7 @@
 		<property name="pluginName" value="pco_RoiStats1" />
 		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI1:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT1:" />
-		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="roiInputNdArrayPort" value="pcorx.rx" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -115,7 +115,7 @@
 		<property name="pluginName" value="pco_RoiStats2" />
 		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI2:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT2:" />
-		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="roiInputNdArrayPort" value="pcorx.rx" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -129,7 +129,7 @@
 		<property name="pluginName" value="pco_RoiStats3" />
 		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI3:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT3:" />
-		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="roiInputNdArrayPort" value="pcorx.rx" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -143,7 +143,7 @@
 		<property name="pluginName" value="pco_RoiStats4" />
 		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI4:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT4:" />
-		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="roiInputNdArrayPort" value="pcorx.rx" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -157,7 +157,7 @@
 		<property name="pluginName" value="pco_RoiStats5" />
 		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI5:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT5:" />
-		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="roiInputNdArrayPort" value="pcorx.rx" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -171,7 +171,7 @@
 		<property name="pluginName" value="pco_RoiStats6" />
 		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI6:" />
 		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT6:" />
-		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="roiInputNdArrayPort" value="pcorx.rx" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
