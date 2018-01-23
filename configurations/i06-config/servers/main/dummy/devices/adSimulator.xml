@@ -36,7 +36,7 @@
 			</bean>
 		</property>
 	</bean>
-	<bean id="simHdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+	<bean id="simHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="fileNameTemplate" value="dgn"/>
 		<property name="ndFileHDF5">
 			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
@@ -48,7 +48,17 @@
 				</property>
 			</bean>
 		</property>
-	</bean>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="0" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="pathErrorSuppressed" value="true" />	</bean>
 	
 	<!-- The Object which get the ROIs from the client over RMI -->
 	<bean id="sim_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
