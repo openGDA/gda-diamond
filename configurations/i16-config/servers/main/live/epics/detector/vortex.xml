@@ -4,41 +4,6 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- epics records -->
-	
-	<bean id="epicsAdcRecord01" class="gda.epics.xml.EpicsRecord">
-		<property name="name" value="epicsAdcRecord01"/>
-		<property name="deviceName" value="Vortex1"/>
-		<property name="subsystemName" value="ADC1"/>
-	</bean>
-
-	<bean id="epicsTcaRecord01" class="gda.epics.xml.EpicsRecord">
-		<property name="name" value="epicsTcaRecord01"/>
-		<property name="deviceName" value="Vortex1"/>
-		<property name="subsystemName" value="TCA1"/>
-	</bean>
-	
-	<!-- devices -->
-	
-	<bean id="epicsMca01" class="gda.device.detector.analyser.EpicsMCA">
-		<property name="pvName" value="BL16I-EA-DET-01:aim_adc1" />
-		<property name="numberOfRegions" value="32" />
-		<property name="local" value="true" />
-	</bean>
-	
-	<bean id="epicsAdc01" class="gda.device.adc.EpicsADC">
-		<!-- property name="deviceName" value="Vortex_ADC.1" /-->
-		<property name="epicsAdcRecordName" value="epicsAdcRecord01" />
-		<property name="local" value="true" />
-	</bean>
-	
-	<bean id="epicsTca01" class="gda.device.EpicsTca">
-		<!-- property name="deviceName" value="Vortex_TCA.1" /-->
-		<property name="epicsTcaRecordName" value="epicsTcaRecord01" />
-		<property name="local" value="true" />
-	</bean>
-
-
-
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="local" value="true" />
 		<property name="epicsDeviceName" value="xmap_dxp" />
@@ -73,37 +38,4 @@
 		<property name="configFileName"
 			value="${gda.config}/xml/vortex_parameters.xml" />
 	</bean>
-
-
-
-</beans><!--
-
-    <EpicsRecord>
-   		<name>epicsAdcRecord01</name>
-   		<deviceName>Vortex1</deviceName>
-   		<subsystemName>ADC1</subsystemName>
-    </EpicsRecord> 
-    <EpicsRecord>
-   		<name>epicsTcaRecord01</name>
-   		<deviceName>Vortex1</deviceName>
-   		<subsystemName>TCA1</subsystemName>
-    </EpicsRecord> 
-
-
-   <EpicsAdc>
-        <name>epicsAdc01</name>
-        <epicsAdcRecordName>epicsAdcRecord01</epicsAdcRecordName>
-   </EpicsAdc>
-
-   EpicsAdc>
-        <name>epicsAdc02</name>
-        <epicsAdcRecordName>epicsAdcRecord02</epicsAdcRecordName>
-   </EpicsAdc
-
-   <EpicsTca>
-   	<name>epicsTca01</name>
-   	<epicsTcaRecordName>epicsTcaRecord01</epicsTcaRecordName> 	
-    		
-   </EpicsTca>
-
--->
+</beans>
