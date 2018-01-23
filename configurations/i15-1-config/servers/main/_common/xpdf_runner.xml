@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="task_runner" class="uk.ac.diamond.daq.beamline.i151.server.XpdfTaskRunner"
+		init-method="initalize">
+		<property name="jythonServer" ref="command_server"/>
+	</bean>
+
+	<bean id="task_consumer" class="uk.ac.diamond.daq.beamline.i151.server.XpdfTaskConsumer"
+		init-method="startConsumer">
+		<property name="taskRunner" ref="task_runner" />
+	</bean>
+
+</beans>

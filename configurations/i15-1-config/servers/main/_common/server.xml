@@ -18,6 +18,8 @@
 		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
 	</bean>
 
+	<import resource="xpdf_runner.xml"/>
+
 	<import resource="terminal_logger.xml" />
 
 	<import resource="device/all.xml"/>

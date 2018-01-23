@@ -19,36 +19,40 @@
 package uk.ac.diamond.daq.beamline.i151.server;
 
 import java.util.List;
+import java.util.Objects;
 
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.python.core.PyJavaType;
 import org.python.core.PyObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.factory.Finder;
 import gda.jython.Jython;
 import uk.ac.diamond.daq.beamline.i15.database.IXpdfDatabaseService;
 import uk.ac.diamond.ispyb.api.DataCollectionPlan;
 import uk.ac.diamond.ispyb.api.Sample;
 
 /**
- * The service for starting XPDF experiments by querying the database for the information and then calling into a Jython
- * function to allow the experimental logic to be scripted.
+ * Runs XPDF experiments by querying the database for the information and then calling into a Jython function to allow
+ * the experimental logic to be scripted.
  *
  * @author James Mudd
  */
-@Component(name="XpdfTaskRunner")
 public class XpdfTaskRunner implements IXpdfTaskRunner {
 	private static final Logger logger = LoggerFactory.getLogger(XpdfTaskRunner.class);
 
-	/** The name of the Jython function  to call to start the experiment */
+	/** The name of the Jython function to call to start the experiment */
 	private static final String JYTHON_FUNCTION_NAME = "xpdf_runner";
 
-	// @Reference // TODO when we upgrade the TP should be able to use field injection
 	private IXpdfDatabaseService databaseService;
+
+	private Jython jythonServer;
+
+	public void initalize() {
+		databaseService = Activator.getService(IXpdfDatabaseService.class);
+		Objects.requireNonNull(databaseService, "Could not get ISPyB database. Are properties set correctly?");
+		Objects.requireNonNull(jythonServer, "No Jython server set. Check Spring config");
+		logger.info("Initalized task runner");
+	}
 
 	/**
 	 * Looks up the experimental parameters, sample and data collection plans specified and calls into a Jython function with them.
@@ -84,7 +88,7 @@ public class XpdfTaskRunner implements IXpdfTaskRunner {
 		final PyObject[] jythonArgs = new PyObject[]{PyJavaType.wrapJavaObject(sample), PyJavaType.wrapJavaObject(dataCollectionPlans)};
 
 		// Get the function to call
-		final PyObject taskRunner = getJython().eval(JYTHON_FUNCTION_NAME);
+		final PyObject taskRunner = jythonServer.eval(JYTHON_FUNCTION_NAME);
 
 		logger.info("Calling '{}'", JYTHON_FUNCTION_NAME);
 		logger.info("Args: {}", (Object[]) jythonArgs);
@@ -93,18 +97,8 @@ public class XpdfTaskRunner implements IXpdfTaskRunner {
 		logger.info("Finished running: {}", (Object[]) jythonArgs);
 	}
 
-	/**
-	 * Gets the Jython interpreter lazily. This is needed because the class is instantiated by OSGi before Jython is ready.
-	 *
-	 * @return The Jython instance
-	 */
-	private Jython getJython() {
-		return Finder.getInstance().find(Jython.SERVER_NAME);
-	}
-
-	@Reference(cardinality=ReferenceCardinality.MANDATORY)
-	public void setDatabaseService(IXpdfDatabaseService databaseService) {
-		this.databaseService = databaseService;
+	public void setJythonServer(Jython jythonServer) {
+		this.jythonServer = jythonServer;
 	}
 
 }
