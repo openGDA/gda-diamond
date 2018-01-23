@@ -75,7 +75,6 @@ http://www.opengda.org
       startupForegroundColor="000000" />
    <launcher name="gda-i06">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
