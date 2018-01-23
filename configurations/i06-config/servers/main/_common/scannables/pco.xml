@@ -27,6 +27,7 @@
  	<bean id="pco" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco" />
 		<property name="collectionStrategy" ref="pcoCollectionStrategy" />
+		<property name="level" value="7"/>
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pco_RoiStats1" />
@@ -112,6 +113,7 @@
  	<bean id="pcotif" class="gda.device.detector.NXDetector">
 		<property name="name" value="pcotif" />
 		<property name="collectionStrategy" ref="pcoCollectionStrategy" />
+		<property name="level" value="7"/>
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pco_RoiStats1" />
