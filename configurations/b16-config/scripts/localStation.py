@@ -355,9 +355,9 @@ if installation.isLive():
 	print "Installing atto devices from epics BL16B-EA-ECC..."
 	try:
 		from scannable.epics.ecc100axis import createEcc100Axis
-		attol1 = createEcc100Axis("attol1", "BL16B-EA-ECC-03:ACT0:")
-		attol2 = createEcc100Axis("attol2", "BL16B-EA-ECC-03:ACT1:")
-		attol3 = createEcc100Axis("attol3", "BL16B-EA-ECC-03:ACT2:")
+		attol1 = createEcc100Axis("attol1", "BL16B-EA-ECC-04:ACT0:")
+		attol2 = createEcc100Axis("attol2", "BL16B-EA-ECC-04:ACT1:")
+		attol3 = createEcc100Axis("attol3", "BL16B-EA-ECC-04:ACT2:")
 	except:
 		print "Could not initialise attocube devices"
 else:
@@ -873,12 +873,12 @@ if installation.isLive():
 	ai7prompt=pd_readPvAfterWaiting.ReadPvAfterWaiting("ai7prompt","BL16B-EA-RIM-01:AI7")
 	Braggtemp=pd_readPvAfterWaiting.ReadPvAfterWaiting("Braggtemp","BL16B-OP-DCM-01:TEMP:BRAGG")
 
-	bo1trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo1trig','BL16B-EA-DIO-01:BO1',True )
-	bo1trigFancy = pd_toggleBinaryPvAndWaitFancy.ToggleBinaryPvAndWaitFancy('bo1trig','BL16B-EA-DIO-01:BO1',True )
+	bo1trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo1trig','BL16B-EA-DIO-01:BO0',True )
+	bo1trigFancy = pd_toggleBinaryPvAndWaitFancy.ToggleBinaryPvAndWaitFancy('bo1trig','BL16B-EA-DIO-01:BO0',True )
 	bo1trig = bo1trigBasic
 
-	bo2trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo2trig','BL16B-EA-DIO-01:BO2',True )
-	bo2trigFancy = pd_toggleBinaryPvAndWaitFancy.ToggleBinaryPvAndWaitFancy('bo2trig','BL16B-EA-DIO-01:BO2',True )
+	bo2trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo2trig','BL16B-EA-DIO-01:BO1',True )
+	bo2trigFancy = pd_toggleBinaryPvAndWaitFancy.ToggleBinaryPvAndWaitFancy('bo2trig','BL16B-EA-DIO-01:BO1',True )
 	bo2trig = bo2trigBasic
 
 	vortlivet = pd_readPvAfterWaiting.ReadPvAfterWaiting("vlivet","BL16B-EA-DET-01:aim_adc1.ELTM")
