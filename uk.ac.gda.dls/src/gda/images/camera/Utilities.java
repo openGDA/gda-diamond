@@ -89,19 +89,28 @@ public class Utilities {
 	 * @return beamline-specific movement
 	 */
 	public static double[] micronToXYZMove(double h, double v, double b, double omega) {
-		final String omegaDirectionProperty = LocalProperties.get(LocalProperties.GDA_PX_SAMPLE_CONTROL_OMEGA_DIRECTION);
-		boolean allowBeamAxisMovement = LocalProperties.check(LocalProperties.GDA_PX_SAMPLE_CONTROL_ALLOW_BEAM_AXIS_MOVEMENT);
-		
-		RealMatrix axisOrientationMatrix = createMatrixFromProperty(LocalProperties.GDA_PX_SAMPLE_CONTROL_AXIS_ORIENTATION);
-		
-		boolean omegaPositiveIsAnticlockwise = omegaDirectionProperty.equalsIgnoreCase("anticlockwise");
-		OmegaDirection omegaDirection = omegaPositiveIsAnticlockwise ? OmegaDirection.ANTICLOCKWISE : OmegaDirection.CLOCKWISE;
-		
+		final RealMatrix axisOrientationMatrix = getAxisOrientationMatrix();
+		final OmegaDirection omegaDirection = getOmegaDirection();
+		final boolean allowBeamAxisMovement = isAllowBeamAxisMovement();
 		final boolean gonioOnLeftOfImage = isGonioOnLeftOfImage();
-		
 		return micronToXYZMove(h, v, b, omega, axisOrientationMatrix, omegaDirection, allowBeamAxisMovement, gonioOnLeftOfImage);
 	}
+
+	public static RealMatrix getAxisOrientationMatrix() {
+		return createMatrixFromProperty(LocalProperties.GDA_PX_SAMPLE_CONTROL_AXIS_ORIENTATION);
+	}
+
+	public static OmegaDirection getOmegaDirection() {
+		final String omegaDirectionProperty = LocalProperties.get(LocalProperties.GDA_PX_SAMPLE_CONTROL_OMEGA_DIRECTION);
+		final boolean omegaPositiveIsAnticlockwise = omegaDirectionProperty.equalsIgnoreCase("anticlockwise");
+		final OmegaDirection omegaDirection = omegaPositiveIsAnticlockwise ? OmegaDirection.ANTICLOCKWISE : OmegaDirection.CLOCKWISE;
+		return omegaDirection;
+	}
 	
+	public static boolean isAllowBeamAxisMovement() {
+		return LocalProperties.check(LocalProperties.GDA_PX_SAMPLE_CONTROL_ALLOW_BEAM_AXIS_MOVEMENT);
+	}
+
 	public static boolean isGonioOnLeftOfImage() {
 		// Get the direction of the z axis wrt the horizontal movement when viewed from the image's viewpoint (this
 		// depends on the camera oreintation wrt the z-axis). It must be assumed that otherwise, the camera views in
