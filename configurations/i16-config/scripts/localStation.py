@@ -839,6 +839,29 @@ from scannable.pilatus import PilatusThreshold, PilatusGain
 pil100kthresh = PilatusThreshold('pil100kthresh', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 pil100kgain = PilatusGain('pil100kgain', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 
+_pilatus3_counter_monitor = Finder.getInstance().find("pilatus3_plugins").get('pilatus3_counter_monitor')
+#pil3_100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil3_100k',
+pil3_100k = NxProcessingDetectorWrapper('pil3_100k',
+		pilatus3,
+		pilatus3_hardware_triggered,
+		pilatus3_for_snaps,
+		[],
+		panel_name='Pilatus3_100k',
+		panel_name_rcp='Plot 1',
+		toreplace=None,
+		replacement=None,
+		iFileLoader=PilatusTiffLoader,
+		fileLoadTimout=60,
+		returnPathAsImageNumberOnly=True,
+		array_monitor_for_hardware_triggering = _pilatus3_counter_monitor)
+pil3_100k.processors=[DetectorDataProcessorWithRoi('max', pil3_100k, [SumMaxPositionAndValue()], False)]
+pil3_100k.printNfsTimes = False
+pil3_100ks = DetectorWithShutter(pil3_100k, x1)
+pil3 = pil3_100k
+pil3s = pil3_100ks
+
+pil3_100kthresh = PilatusThreshold('pil3_100kthresh', pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
+
 
 ### cam2 ###
 cor = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor',
@@ -1006,7 +1029,7 @@ print "-------------------------------MEDIPIX INIT------------------------------
 try:
 	
 	#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_medipix_det, create_folder=True, subfolder='medipix'))
-
+	'''
 	medipix = SwitchableHardwareTriggerableProcessingDetectorWrapper('medipix',
 																	_medipix,
 																	None,
@@ -1027,19 +1050,43 @@ try:
 	
 	
 	medipix.processors=[DetectorDataProcessorWithRoi('max', medipix, [SumMaxPositionAndValue()], False)]
-
+	'''
+	pass
 except gda.factory.FactoryException:
 	print " *** Could not connect to pilatus (FactoryException)"
 except 	java.lang.IllegalStateException:
 	print " *** Could not connect to pilatus (IllegalStateException)"
 print "-------------------------------MEDIPIX INIT COMPLETE---------------------------------------"
 
+
+print "-------------------------------MERLIN INIT---------------------------------------"
+try:
+	
+	merlin = SwitchableHardwareTriggerableProcessingDetectorWrapper('merlin',
+																	_merlin,
+																	None,
+																	_merlin_for_snaps,
+																	[],
+																	panel_name='Merlin',
+																	panel_name_rcp='Plot 1',
+																	iFileLoader=PilatusTiffLoader,
+																	fileLoadTimout=60,
+																	printNfsTimes=False,
+																	returnPathAsImageNumberOnly=True)
+	merlin.disable_operation_outside_scans = False
+	merlin.processors=[DetectorDataProcessorWithRoi('max', merlin, [SumMaxPositionAndValue()], False)]
+
+except gda.factory.FactoryException:
+	print " *** Could not connect to merlin (FactoryException)"
+except 	java.lang.IllegalStateException:
+	print " *** Could not connect to merlin (IllegalStateException)"
+print "-------------------------------MERLIN INIT COMPLETE---------------------------------------"
 ###############################################################################
 ###                              Configure Xmap                            ###
 ###############################################################################
 from scannable.detector.dxp import DxpSingleChannelRoiOnly
 if USE_XMAP:
-	xmap = DxpSingleChannelRoiOnly('xmap', 'BL16I-EA-XMAP-01:')
+	pass#Sxmap = DxpSingleChannelRoiOnly('xmap', 'BL16I-EA-XMAP-01:')
 ###############################################################################
 ###                             Configure firecam                           ###
 ###############################################################################
@@ -1279,6 +1326,8 @@ def open_valves():
 #ci=244.; cj=103.; #10/08/16 loan detector
 #ci=205.; cj=105; #19/02/17
 ci=205.; cj=104; #23/06/17
+ci=242.;cj=105. #13/07/16 loan detector
+ci=206.; cj=107; #20/10/17
 
 
 maxi=486; maxj=194 #08/10/15
