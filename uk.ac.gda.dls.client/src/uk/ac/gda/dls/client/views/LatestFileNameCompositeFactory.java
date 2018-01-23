@@ -21,7 +21,7 @@ package uk.ac.gda.dls.client.views;
 import gda.device.detectorfilemonitor.FileProcessor;
 import gda.device.detectorfilemonitor.HighestExistingFileMonitorData;
 import gda.device.detectorfilemonitor.HighestExistingFileMonitorDataProvider;
-import gda.device.detectorfilemonitor.HighestExitingFileMonitorSettings;
+import gda.device.detectorfilemonitor.HighestExistingFileMonitorSettings;
 import gda.device.detectorfilemonitor.impl.SimpleHighestExistingFileMonitor;
 import gda.observable.IObserver;
 import gda.rcp.GDAClientActivator;
@@ -162,9 +162,9 @@ public class LatestFileNameCompositeFactory implements CompositeFactory, Initial
 		int startNumber = 5;
 		String prefix = "/tmp";
 		String fileTemplate = "/file_%04d.tif";
-		HighestExitingFileMonitorSettings settings = new HighestExitingFileMonitorSettings(prefix, fileTemplate,
+		HighestExistingFileMonitorSettings settings = new HighestExistingFileMonitorSettings(prefix, fileTemplate,
 				startNumber);
-		simpleDetectorFileMonitor.setHighestExitingFileMonitorSettings(settings);
+		simpleDetectorFileMonitor.setHighestExistingFileMonitorSettings(settings);
 		int delay = 1000;
 		simpleDetectorFileMonitor.setDelayInMS(delay);
 		simpleDetectorFileMonitor.afterPropertiesSet();
@@ -195,7 +195,7 @@ class SimpleFileProcessor extends Composite implements FileProcessor {
 	private Text text;
 	private int nextFileNumber;
 
-	public SimpleFileProcessor(Composite parent, final HighestExitingFileMonitorSettings settings) {
+	public SimpleFileProcessor(Composite parent, final HighestExistingFileMonitorSettings settings) {
 		super(parent, SWT.NONE);
 		setLayout(new GridLayout(1, false));
 		text = new Text(this, SWT.BORDER);
@@ -262,7 +262,7 @@ class LatestFileNameComposite extends Composite {
 	private HighestExistingFileMonitorDataProvider highestExistingFileMonitorDataProvider;
 
 	private HighestExistingFileMonitorData highestExistingFileMonitorData = null;
-	private HighestExitingFileMonitorSettings latestSettings;
+	private HighestExistingFileMonitorSettings latestSettings;
 	private Integer latestFoundIndex = null;
 
 	boolean selectLatestFoundIndex = true;
@@ -647,8 +647,8 @@ class LatestFileNameComposite extends Composite {
 	private void setHighestExistingFileMonitorData(HighestExistingFileMonitorData data) {
 		latestFoundIndex = null;
 		highestExistingFileMonitorData = data;
-		HighestExitingFileMonitorSettings settings = highestExistingFileMonitorData
-				.getHighestExitingFileMonitorSettings();
+		HighestExistingFileMonitorSettings settings = highestExistingFileMonitorData
+				.getHighestExistingFileMonitorSettings();
 		if (settings != null) {
 			if (latestSettings == null || !latestSettings.equals(settings)) {
 				latestSettings = settings;
