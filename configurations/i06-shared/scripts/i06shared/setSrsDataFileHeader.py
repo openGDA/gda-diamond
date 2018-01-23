@@ -1,5 +1,6 @@
 
 from Diamond.PseudoDevices.MetadataHeaderDevice import MetadataHeaderDeviceClass
+from i06shared import installation
 # from i06shared.devices.useID import denergy, uenergy
 # from i06shared.devices.usePGM import grating
 print "-"*100
@@ -15,10 +16,16 @@ blList = [__main__.beamenergy, __main__.ringcurrent]; fileHeader.add(blList);
 #bpmList= [xbpm1x, xbpm1y, xbpm2x, xbpm2y, xbpm1anglex, xbpm1angley]; fileHeader.add(bpmList);
 
 idList = [__main__.iddgap, __main__.iddtrp, __main__.iddbrp, __main__.idugap, __main__.idutrp, __main__.idubrp,__main__.pugap]; fileHeader.add(idList);
+if installation.isLive():
+    pgmList = [__main__.pgmpitch, __main__.pgmgratpitch, __main__.cff, __main__.grating, __main__.pgmenergy]
+else:
+    #grating requires EPICS access
+    pgmList = [__main__.pgmpitch, __main__.pgmgratpitch, __main__.cff, __main__.pgmenergy]
 
-pgmList = [__main__.pgmpitch, __main__.pgmgratpitch, __main__.cff, __main__.grating, __main__.pgmenergy]; fileHeader.add(pgmList);
+fileHeader.add(pgmList);
 
-energyList = [__main__.denergy, __main__.uenergy]; fileHeader.add(energyList);
+if installation.isLive():
+    energyList = [__main__.denergy, __main__.uenergy]; fileHeader.add(energyList);
 
 slitList = [__main__.s1xgap, __main__.s1ygap]; fileHeader.add(slitList);
 
