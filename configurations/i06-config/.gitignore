@@ -7,3 +7,4 @@ jythonCache/
 *.pyc
 gdaserver.py
 
+/i06.dummy.server.product.launch
