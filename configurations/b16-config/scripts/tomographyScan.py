@@ -744,9 +744,10 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
 	else:
 		setTitle("undefined")
 	# set Pixel Rate for Edge only
-	if(caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
-		pixel_rate_bup = caget("ME07M-EA-DET-01:CAM:PIX_RATE")
-		caput("ME07M-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
+	if(caget("BL16B-EA-DET-08:CAM:Model_RBV") == "PCO.Camera Edge"):
+		pass
+		#pixel_rate_bup = caget("ME07M-EA-DET-01:CAM:PIX_RATE")	#BL16B-EA-DET-08:
+		#caput("ME07M-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
 		#pcoEdge_readout=0.011
 		#from gda.factory import Finder
 		#finder = Finder.getInstance()
@@ -760,8 +761,8 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
 	finally:
 		LocalProperties.set("gda.nexus.createSRS", createSRS)
 		setTitle(title_bup)
-		if(caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
-			caput("ME07M-EA-DET-01:CAM:PIX_RATE", pixel_rate_bup)
+		#if(caget("BL16B-EA-DET-08:CAM:Model_RBV") == "PCO.Camera Edge"):
+		#	caput("ME07M-EA-DET-01:CAM:PIX_RATE", pixel_rate_bup)
 		
 tomoFlyScan.__doc__ = _tomoFlyScan.__doc__
 	
