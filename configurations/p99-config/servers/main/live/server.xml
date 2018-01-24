@@ -15,7 +15,8 @@
 -->
 	<import resource="mapping_motors.xml"/>
 	<import resource="mic.xml" />
-  <import resource="malcolm.xml"/>
+	<import resource="malcolm.xml"/>
+	<import resource="cluster_processing.xml"/>
 
 <!-- Do not remove anything below here -->
 	<import resource="../../main/_common/server.xml" />

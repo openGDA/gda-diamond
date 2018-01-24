@@ -1,8 +1,10 @@
+# standard .gitignore file for config projects (missing bin/ in particular)
+
 ### Temporary files ###
 *.bak
 *.swp
 *.tmp
-*.*~
+*~
 
 ### Java ###
 *.class
@@ -17,14 +19,6 @@ cachedir/
 
 ### Build output ###
 .springBeans
-/bin/
-/classes/
-/src/corba/
-
-### JUnit testing ###
-/activemq-data
-/test-reports
-/test-scratch
 
 ### Security files ###
 *.ppk
@@ -42,3 +36,4 @@ passwords
 Thumbs.db
 $RECYCLE.BIN/
 .Trash-*
+
