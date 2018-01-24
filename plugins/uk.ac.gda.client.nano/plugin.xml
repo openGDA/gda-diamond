@@ -23,21 +23,6 @@
    </extension>
 
    <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="uk.ac.gda.nano.perspectives.ExperimentPerspective"
-            fixed="true"
-            id="uk.ac.gda.nano.ExperimentPerspective"
-            name="Experiment Perspective">
-      </perspective>
-      <perspective
-            class="uk.ac.gda.nano.perspectives.PeemPerspective"
-            fixed="true"
-            id="uk.ac.gda.nano.PeemPerspective"
-            name="Peem Perspective">
-      </perspective>
-   </extension>
-   <extension
          point="org.eclipse.ui.views">
       <category
             id="uk.ac.gda.nano.views.NanoCategory"
