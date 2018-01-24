@@ -6,23 +6,25 @@
 from time import sleep
 from java import lang
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableBase
 
 import socket
 import random
 
-import __main__ as gdamain
+import __main__ as gdamain  # @UnresolvedImport
 
 #The Class for creating a socket-based Psuedo Device to control the magnet
-class PomsSocketDeviceClass(PseudoDevice):
+class PomsSocketDeviceClass(ScannableBase):
     """ This sets the field in the POMS, using the array argument [field_Tesla, theta_Deg, phi_Deg]
     e.g.
         >>> pos vmag [0.1 0 180]
     """
     def __init__(self, name, hostName, hostPort):
         self.setName(name);
-        self.setInputNames(['field', 'theta', 'phi']);
-        self.setOutputFormat(["%10.4f", "%10.2f", "%10.2f"]);
+        self.input_names=['field', 'theta', 'phi']
+        self.setInputNames(self.input_names);
+        self.output_formats=["%10.4f", "%10.2f", "%10.2f"]
+        self.setOutputFormat(self.output_formats);
         #self.setExtraNames(['field']);
         self.Units=['Tesla','Deg','Deg'];
         self.setLevel(7);
@@ -33,12 +35,15 @@ class PomsSocketDeviceClass(PseudoDevice):
         self.phi=None;
         self.verbose=False
         self.alreadyBusy=False
+        self.FIRSTTIME=False
+        self.SCANNING=False
+        self.SINGLEINPUT=False
 
         self.socket=socket.socket(socket.AF_INET, socket.SOCK_STREAM);
 
     def __repr__(self):
-        format = "PomsSocketDeviceClass(name=%r, hostName=%r, hostPort=%r)"
-        return format % (self.name, self.serverHost, self.serverPort)
+        pomformat = "PomsSocketDeviceClass(name=%r, hostName=%r, hostPort=%r)"
+        return pomformat % (self.name, self.serverHost, self.serverPort)
 
     def setupServer(self, hostName, hostPort):
         self.serverHost = hostName;
@@ -91,38 +96,62 @@ class PomsSocketDeviceClass(PseudoDevice):
         
     #PseudoDevice Implementation
     def atScanStart(self):
-        return;
+        self.FIRSTTIME=True
+        self.SCANNING=True
 
     def atScanEnd(self):
+        self.SCANNING=False
         return;
     
     def toString(self):
-        ss=self.getName() + " [field, theta, phi]: " + str(self.getPosition());
+        if self.SINGLEINPUT:
+            ss=self.getName() + " [field]: " + str(self.getPosition());
+        else:
+            ss=self.getName() + " [field, theta, phi]: " + str(self.getPosition());
         return ss;
 
     def getPosition(self):
-        return [self.field, self.theta, self.phi];
+        if self.SINGLEINPUT:
+            return self.field
+        else:
+            return [self.field, self.theta, self.phi];
     
     def asynchronousMoveTo(self,newPos):
         if self.verbose:
             print "asynchronousMoveTo(%r)" % newPos
         self.alreadyBusy=True
-        #To check if theta and phi will be changed:
-        if self.theta != newPos[1] or self.phi != newPos[2]:
-            cmd='setFieldDirection %(v1)10.2f %(v2)10.2f\n\r' %{'v1': newPos[1], 'v2': newPos[2]};
-            reply = self.sendAndReply(cmd);
-            rlist=reply.strip(' \n\r').split(' ',1);
-            if rlist[0] == 'ERROR:':
-                print "The moke3d command setFieldDirection failed with reply" + reply;
+        if not self.SCANNING or self.FIRSTTIME:
+            # always parse for 'pos', but only parse once at the start in scan
+            #configure names field to support pretty print
+            if isinstance(newPos,(int, float)):
+                self.setInputNames([self.input_names[0]])
+                self.setOutputFormat([self.output_formats[0]])
+                self.SINGLEINPUT=True
+            elif isinstance(newPos, (list, tuple)):
+                self.setInputNames(self.input_names)
+                self.setOutputFormat(self.output_formats)
+                self.SINGLEINPUT=False
+            else:
+                raise ValueError("Argument must be single float or a list of 3 float value")
+            self.FIRSTTIME=False
+            
+        if not self.SINGLEINPUT:
+            #To check if theta and phi will be changed:
+            if self.theta != newPos[1] or self.phi != newPos[2]:
+                cmd='setFieldDirection %(v1)10.2f %(v2)10.2f\n\r' %{'v1': newPos[1], 'v2': newPos[2]};
+                reply = self.sendAndReply(cmd);
+                rlist=reply.strip(' \n\r').split(' ',1);
+                if rlist[0] == 'ERROR:':
+                    print "The moke3d command setFieldDirection failed with reply: " + reply;
+                else:
+                    if self.verbose:
+                        print "Angle set correctly";
+                    self.theta = newPos[1];
+                    self.phi = newPos[2];
             else:
                 if self.verbose:
-                    print "Angle set correctly";
-                self.theta = newPos[1];
-                self.phi = newPos[2];
-        else:
-            if self.verbose:
-                print 'No change of angle';
-        sleep(0.5);
+                    print 'No change of angle';
+            sleep(0.5);
 
         #Always call setField <field> <timeout> as may have been zerod for safety reason
         cmd='setField %(v1)10.4f 600000000\n\r' %{'v1': newPos[0]};
