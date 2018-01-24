@@ -235,7 +235,7 @@ alias("input_tsample")
 alias("input_tshield")
 alias("input_tcryostat")
 
-def loopscan(n, det, exposure_time):
+def acquireRIXS(n, det, exposure_time):
     scan(x,1,n,1,det,exposure_time)  # @UndefinedVariable
 
 alias("loopscan")
