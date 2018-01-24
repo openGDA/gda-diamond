@@ -36,6 +36,7 @@ import gda.data.scan.datawriter.XasNexusDataWriter;
 import gda.data.swmr.SwmrFileReader;
 import gda.device.ContinuousParameters;
 import gda.device.DeviceException;
+import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.DummyNXDetector;
 import gda.device.detector.countertimer.BufferedScaler;
@@ -82,6 +83,7 @@ public class TurboXasScan extends ContinuousScan {
 	private SwmrFileReader xspress3FileReader;
 	private TurboXasNexusTree nexusTree = new TurboXasNexusTree();
 	private PlotUpdater plotUpdater = new PlotUpdater();
+	private List<Scannable> scannablesToMonitor;
 
 	private int numReadoutsPerSpectrum;
 	private int numSpectraPerCycle;
@@ -206,6 +208,12 @@ public class TurboXasScan extends ContinuousScan {
 		trajScanPreparer.sendAppendProfileValues();
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
+
+		// Adjust start time of axis to account for motor to get to start of first spectrum
+		double timeToInitialPosition = trajScanPreparer.getMaxTimePerStep();
+		double timeToScanStart = Math.abs(turboXasMotorParams.getScanStartPosition() - turboXasMotorParams.getStartPosition())/turboXasMotorParams.getScanMotorSpeed();
+		long delay = (long)(1000*(timeToInitialPosition + timeToScanStart));
+		nexusTree.setStartTime(System.currentTimeMillis() + delay);
 
 		trajScanPreparer.setExecuteProfile();
 		if (trajScanPreparer.getExecuteProfileStatus().equals("Failure")){
@@ -444,6 +452,7 @@ public class TurboXasScan extends ContinuousScan {
 		nexusTree.setScanAxis(getScanAxis());
 		nexusTree.setXspress3FileReader(xspress3FileReader);
 		nexusTree.setNumReadoutsPerSpectrum(numReadoutsPerSpectrum);
+		nexusTree.setStartTime(System.currentTimeMillis());
 	}
 
 	public Xspress3BufferedDetector getXspress3Detector() {
@@ -752,6 +761,14 @@ public class TurboXasScan extends ContinuousScan {
 		int[] dims = getDimensions();
 		thisPoint.setScanDimensions(dims);
 
+		// Add positions of any scannables being monitored
+		if (scannablesToMonitor != null) {
+			for(Scannable scannable : scannablesToMonitor ) {
+				thisPoint.addScannable(scannable);
+				thisPoint.addScannablePosition(scannable.getPosition(), scannable.getOutputFormat());
+			}
+		}
+
 		// Add the detector data
 		for(BufferedDetector detector : detectors) {
 			Object[][] nxFrameData = readDetector(detector, lastFrameRead, lastFrameToRead);
@@ -857,4 +874,20 @@ public class TurboXasScan extends ContinuousScan {
 	public int getCurrentPointCount() {
 		return currentPointCount;
 	}
+
+	public List<Scannable> getScannablesToMonitor() {
+		return scannablesToMonitor;
+	}
+
+	public void setScannablesToMonitor(List<Scannable> scannablesToMonitor) {
+		this.scannablesToMonitor = scannablesToMonitor;
+	}
+
+	public void addScannableToMonitor(Scannable scannable) {
+		if (scannablesToMonitor==null) {
+			scannablesToMonitor = new ArrayList<>();
+		}
+		scannablesToMonitor.add(scannable);
+	}
+
 }

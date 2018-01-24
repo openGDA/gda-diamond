@@ -35,6 +35,7 @@ import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.IntegerDataset;
+import org.eclipse.january.dataset.LongDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +62,8 @@ public class TurboXasNexusTree {
 
 	public static final String MOTOR_PARAMS_COLUMN_NAME = "motor_parameters";
 	public static final String TIME_COLUMN_NAME = "time";
+	public static final String TIME_UTC_COLUMN_NAME = "time_utc_millis";
+	public static final String TOPUP_FIELD_NAME = "topup";
 	public static final String TIME_BETWEEN_SPECTRA_COLUMN_NAME = "time_between_spectra";
 	public static final String ENERGY_COLUMN_NAME = "energy";
 	public static final String POSITION_COLUMN_NAME = "position";
@@ -82,6 +85,7 @@ public class TurboXasNexusTree {
 	private ContinuouslyScannable scanAxis;
 	private SwmrFileReader xspress3FileReader;
 	private int numReadoutsPerSpectrum;
+	private long startTimeUtcMillis = System.currentTimeMillis();
 
 	/**
 	 * Add time axis dataset to Nexus file (after scan has finished).
@@ -100,13 +104,21 @@ public class TurboXasNexusTree {
 		ILazyDataset timeBetweenSpectra = file.getData(detectorEntry+TIME_BETWEEN_SPECTRA_COLUMN_NAME).getDataset();
 		DoubleDataset timeBetweenSpectraVals = (DoubleDataset) timeBetweenSpectra.getSlice(null, null, null).squeeze();
 
-		// Create dataset to store start time of each spectrum
 		int numSpectra = times.getShape()[0];
 		int numReadouts = times.getShape()[1];
+
+		// Create datasets to store start time of each spectrum :
+
+		// Time relative to start of first spectrum [seconds]
 		Dataset absoluteTime = DatasetFactory.zeros(DoubleDataset.class, numSpectra);
+
+		// Absolute start time of each spectrum [UTC, milliseconds]
+		Dataset absoluteTimeUtc = DatasetFactory.zeros(LongDataset.class, numSpectra);
+
 		// First spectrum starts at t=0
 		double timeAtSpectrumStart = 0;
 		absoluteTime.set(timeAtSpectrumStart, 0);
+		absoluteTimeUtc.set(startTimeUtcMillis, 0);
 
 		// Calculate start time for each spectrum
 		for (int i = 0; i < numSpectra - 1; i++) {
@@ -116,10 +128,45 @@ public class TurboXasNexusTree {
 			double timeForSpectra = rowSum + timeBetweenSpectraVals.get(i);
 			timeAtSpectrumStart += timeForSpectra;
 			absoluteTime.set(timeAtSpectrumStart, i + 1);
+			absoluteTimeUtc.set(timeAtSpectrumStart*1000+startTimeUtcMillis, i+1);
 		}
 		file.createData(detectorEntry, TIME_COLUMN_NAME, absoluteTime, true);
+		file.createData(detectorEntry, TIME_UTC_COLUMN_NAME, absoluteTimeUtc, true);
 	}
 
+
+	/**
+	 * Add sum of topup scaler counts for each spectrum :
+	 * 2D topup data ([numspectra, numReadouts]) is read from TOPUP_FIELD_NAME in detector entry
+	 * and counts for each spectrum summed, creating 1D new data entry TOPUP_FIELD_NAME+"_counts" [numspectra]
+	 * @param file
+	 * @param detectorName
+	 * @throws NexusException
+	 * @throws DatasetException
+	 */
+	public void addTopupData(NexusFile file, String detectorName) throws NexusException, DatasetException {
+		String detectorEntry = "/entry1/"+detectorName+"/";
+		ILazyDataset topupScalerValues = null;
+		try {
+			topupScalerValues = file.getData(detectorEntry+TOPUP_FIELD_NAME).getDataset();
+		}catch(NexusException ne) {
+			logger.info("Problem getting topup dataset {} from Nexus file", detectorEntry+TOPUP_FIELD_NAME, ne);
+		}
+		if (topupScalerValues!=null) {
+			DoubleDataset topupValues = (DoubleDataset) topupScalerValues.getSlice(null, null, null).squeeze();
+			int numSpectra = topupValues.getShape()[0];
+			int numReadouts = topupValues.getShape()[1];
+
+			Dataset topupValuePerSpectra = DatasetFactory.zeros(DoubleDataset.class, numSpectra);
+			for(int i=0; i<numSpectra; i++) {
+				Dataset row = topupValues.getSlice(new int[] { i, 0 }, new int[] { i + 1, numReadouts }, null);
+				double sum = ((Number)row.sum()).doubleValue();
+				topupValuePerSpectra.set(sum, i);
+			}
+
+			file.createData(detectorEntry, TOPUP_FIELD_NAME+"_counts", topupValuePerSpectra, true);
+		}
+	}
 
 	/**
 	 * Add link to external xspress3 hdf file containing detector data
@@ -184,6 +231,7 @@ public class TurboXasNexusTree {
 		try(NexusFile file = NexusFileHDF5.openNexusFile(filename)) {
 			addTimeAxis(file, bufferedScalerName);
 			addGroupData(file, bufferedScalerName);
+			addTopupData(file, bufferedScalerName);
 			addDetectorDataLink(file, xspress3Detector);
 		}
 	}
@@ -429,5 +477,17 @@ public class TurboXasNexusTree {
 
 	public void setXspress3FileReader(SwmrFileReader xspress3FileReader) {
 		this.xspress3FileReader = xspress3FileReader;
+	}
+
+	/**
+	 * Absolute start time of first spectrum, measured UTC in milliseconds.
+	 * @param startTimeUtcMillis
+	 */
+	public void setStartTime(long startTimeUtcMillis) {
+		this.startTimeUtcMillis = startTimeUtcMillis;
+	}
+
+	public long getStartTime() {
+		return startTimeUtcMillis;
 	}
 }
