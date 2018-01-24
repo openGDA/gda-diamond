@@ -94,17 +94,8 @@
                moveable="true"
                ratio="0.5"
                relationship="right"
-               relative="uk.ac.gda.client.liveplotview"
+               relative="org.eclipse.ui.editorss"
                visible="true">
-         </view>
-         <view
-               closeable="false"
-               id="uk.ac.gda.nano.views.PeemImageView"
-               minimized="false"
-               moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.client.live.stream.view.LiveStreamView:pco_cam#EPICS_ARRAY"
-               showTitle="true">
          </view>
          <view
                closeable="true"
@@ -112,8 +103,8 @@
                minimized="false"
                moveable="true"
                ratio="0.5"
-               relationship="right"
-               relative="org.eclipse.ui.editorss"
+               relationship="stack"
+               relative="uk.ac.gda.client.live.stream.view.LiveStreamView:pco_cam#EPICS_ARRAY"
                visible="true">
          </view>
          <view
@@ -253,7 +244,7 @@
       <perspective
             class="uk.ac.gda.beamline.i06.perspective.Peem"
             id="uk.ac.gda.beamline.i06.perspective.Peem"
-            name="Peem">
+            name="PEEM">
       </perspective>
       <perspective
             class="uk.ac.gda.beamline.i06.perspective.Experiment"
@@ -262,33 +253,38 @@
       </perspective>
    </extension>
    <extension
+         id="dummy_product"
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
             name="uk.ac.gda.beamline.i06.dummy.product">
          <property
-               name="windowImages"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
-         </property>
-         <property
                name="appName"
                value="uk.ac.gda.beamline.i06.dummy.product">
+         </property>
+         <property
+               name="aboutImage"
+               value="icons/schematic_I06_sm.png">
+         </property>
+         <property
+               name="aboutText"
+               value="GDA for DLS Beamone i06.">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
          </property>
          <property
                name="startupForegroundColor"
                value="000000">
          </property>
          <property
-               name="startupProgressRect"
-               value="2,215,598,15">
-         </property>
-         <property
                name="startupMessageRect"
                value="4,195,598,20">
          </property>
          <property
-               name="aboutText"
-               value="GDA I06 Client&#x0A;&#x0A;The GDA project is an open-source framework for creating customised data acquisition software for science facilities such as neutron and x-ray sources. The software is Java/Eclipse-based, free and released under the GPLv3.&#x0A;&#x0A;It is based on the Generic Data Acquisition (GDA) software developed at Diamond Light Source. The GDA was initially developed at SRS Daresbury but since 2003 it has been adopted by Diamond Light Source who took over as the principal developer. The team at Diamond have developed the GDA for the majority of Diamond beamlines across all the scientific techniques at Diamond. GDA is the evolution of that project and is intended to be applicable for any beamline on any synchrotron facility.&#x0A;&#x0A;See &lt;http://www.opengda.org/&gt;">
+               name="startupProgressRect"
+               value="2,215,598,15">
          </property>
          <property
                name="preferenceCustomization"
@@ -296,54 +292,5 @@
          </property>
       </product>
    </extension>
-   <extension
-         id="dummy_product"
-         point="org.eclipse.core.runtime.products">
-      <product
-            application="uk.ac.gda.client.application"
-            name="uk.ac.gda.beamline.i06.dummy.product">
-      </product>
-   </extension>
 
-   <!-- This won't work in 8.38, requires 8.40 or later
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:window?after=showView">
-         <menu
-               label="Area Detectors">
-
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="PCO 2000 (pco) Array View"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//pco//BL06I-EA-DET-01@">
-               </parameter>
-            </command>
-
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="PCO 2000 (pco) Live (MJPeg) View"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//pco//BL06I-EA-DET-01@">
-               </parameter>
-            </command>
-
-         </menu>
-      </menuContribution>
-   </extension>
-   -->
 </plugin>
