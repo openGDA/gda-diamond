@@ -48,6 +48,7 @@ public class I20Validator extends ExafsValidator {
 	private static final String DEFAULT_SAMPLE_NAME = "Please set a sample name";
 	private static final double MINENERGY = 2000; // the lowest value out of I18, B18 and I20
 	private static final double MAXENERGY = 35000; // the highest value out of I18, B18 and I20
+	private static final double MIN_XES_INTEGRATIONTIME = 0.01;
 
 	@Override
 	public void validate(final IExperimentObject b) throws InvalidBeanException {
@@ -160,7 +161,7 @@ public class I20Validator extends ExafsValidator {
 
 		if (x.getScanType() == XesScanParameters.SCAN_XES_FIXED_MONO) {
 
-			checkBounds("Integration Time", x.getXesIntegrationTime(), 0d, 25d, errors);
+			checkBounds("Integration Time", x.getXesIntegrationTime(), MIN_XES_INTEGRATIONTIME, 25d, errors);
 			double initialE = x.getXesInitialEnergy();
 			double finalE = x.getXesFinalEnergy();
 			if (initialE >= finalE) {
@@ -172,7 +173,7 @@ public class I20Validator extends ExafsValidator {
 
 		} else if (x.getScanType() == XesScanParameters.SCAN_XES_SCAN_MONO) {
 
-			checkBounds("Integration Time", x.getXesIntegrationTime(), 0d, 25d, errors);
+			checkBounds("Integration Time", x.getXesIntegrationTime(), MIN_XES_INTEGRATIONTIME, 25d, errors);
 			double initialE = x.getXesInitialEnergy();
 			double finalE = x.getXesFinalEnergy();
 			if (initialE >= finalE) {
