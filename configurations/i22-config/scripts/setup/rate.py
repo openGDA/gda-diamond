@@ -1,5 +1,7 @@
 from gda.configuration.properties import LocalProperties
 from gda.observable import IObserver
+from gdaserver import ncddetectors, eh_shutter, det_shutter
+from uk.ac.gda.server.ncd.plotting import DetectorRates
 
 class DetGuard(IObserver):
     def __init__(self, detsys, *shutters):
@@ -22,15 +24,17 @@ class DetGuard(IObserver):
                             current_value = self.checks[type](rate)
                             limit = self.limits[detname+type+severity]
                             if current_value > limit:
-                                self.severities[severity](detname, current_value, limit)
+                                self.severities[severity](detname, current_value, limit, rate.highCounts)
         except:
             pass
         
-    def softAction(self, message, current_value, limit):
+    def softAction(self, message, current_value, limit, *other):
         print "INFO: detector %s is operating close to the maximum allowed count rate (current value %g, limit %g)" % (message, current_value, limit)
         
-    def hardAction(self, message, current_value, limit):
+    def hardAction(self, message, current_value, limit, high_counts=()):
         print "ERROR: count rate %g exceeds limit %g on detector %s intolerable, closing shutter" % (current_value, limit, message)
+        if (high_counts):
+            print "High count pixels: " + ', '.join(str(hc) for hc in high_counts)
         for shutter in self.shutters:
             shutter("Close")
 
@@ -39,23 +43,15 @@ DETGUARD_CREATED_PROPERTY = 'i22.rate.detguard.created'
 if not LocalProperties.check(DETGUARD_CREATED_PROPERTY):
     detguard=DetGuard(ncddetectors, eh_shutter, det_shutter)
 
-    detguard.limits["Rapid2Dpeaksoft"]=0.75*1000000
-    detguard.limits["Rapid2Dpeakhard"]=1000000
-    detguard.limits["Rapid2Dsumsoft"]=0.75*3*1000000
-    detguard.limits["Rapid2Dsumhard"]=3*1000000
+    P2M_LIMIT = 1000000
 
-#detguard.limits["Hotwaxspeaksoft"]=0.75*1000000
-#detguard.limits["Hotwaxspeakhard"]=1000000
+    DetectorRates.setThreshold("Pilatus2M_SAXS", P2M_LIMIT)
+    DetectorRates.setThreshold("Pilatus2M_WAXS", P2M_LIMIT)
 
-#detguard.limits["Hotsaxspeaksoft"]=0.75*1000000
-#detguard.limits["Hotsaxspeakhard"]=1000000
+    detguard.limits["Pilatus2M_SAXSpeakcountssoft"] = 0.75*P2M_LIMIT
+    detguard.limits["Pilatus2M_SAXSpeakcountshard"] = P2M_LIMIT
 
-    detguard.limits["Pilatus2M_SAXSpeakcountssoft"]=0.75*1000000
-    detguard.limits["Pilatus2M_SAXSpeakcountshard"]=1000000
+    detguard.limits["Pilatus2M_WAXSpeakcountssoft"]= 0.75*P2M_LIMIT
+    detguard.limits["Pilatus2M_WAXSpeakcountshard"]= P2M_LIMIT
 
-    detguard.limits["Pilatus2M_WAXSpeakcountssoft"]=0.75*1000000
-    detguard.limits["Pilatus2M_WAXSpeakcountshard"]=1000000
-
-# 65536
-    detguard.limits["Marpeakcountssoft"]=65500
     LocalProperties.set(DETGUARD_CREATED_PROPERTY, "True")
