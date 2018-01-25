@@ -53,11 +53,17 @@
   <property name="array" ref="WAXS_L_array"/>
   <property name="stats" ref="WAXS_L_stats"/>
   </bean>
+   <bean id="pilatus_waxs_ndattributes" class="gda.device.detector.nxdetector.plugin.areadetector.ADNDAttributesPlugin" />
   <bean class="uk.ac.gda.server.ncd.subdetector.NcdPilatusAD" id="Pilatus2M_WAXS">
     <property name="controller" ref="WAXS_L_controller"/>
     <property name="detectorType" value="WAXS"/>
     <property name="pixelSize" value="0.000172"/>
     <property name="serialNumber" value="24-0120" />
+    <property name="nxplugins">
+        <list>
+            <ref bean="pilatus_waxs_ndattributes"/>
+        </list>
+    </property>
     <property name="metaProviders">
       <list>
         <ref bean="waxs_mask" />

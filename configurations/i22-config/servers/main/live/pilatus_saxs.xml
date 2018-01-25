@@ -53,11 +53,17 @@
   <property name="initialBinX" value="1"/>
   <property name="initialBinY" value="1"/>
  </bean>
+ <bean id="pilatus_saxs_ndattributes" class="gda.device.detector.nxdetector.plugin.areadetector.ADNDAttributesPlugin" />
   <bean class="uk.ac.gda.server.ncd.subdetector.NcdPilatusAD" id="Pilatus2M_SAXS">
     <property name="controller" ref="controller"/>
     <property name="detectorType" value="SAXS"/>
     <property name="pixelSize" value="0.000172"/>
     <property name="serialNumber" value="24-0113" />
+    <property name="nxplugins">
+        <list>
+            <ref bean="pilatus_saxs_ndattributes"/>
+        </list>
+    </property>
     <property name="metaProviders">
       <list>
         <ref bean="saxs_mask" />
