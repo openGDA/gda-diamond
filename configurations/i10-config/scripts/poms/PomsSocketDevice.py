@@ -154,7 +154,10 @@ class PomsSocketDeviceClass(ScannableBase):
             sleep(0.5);
 
         #Always call setField <field> <timeout> as may have been zerod for safety reason
-        cmd='setField %(v1)10.4f 600000000\n\r' %{'v1': newPos[0]};
+        if self.SINGLEINPUT:
+            cmd='setField %(v1)10.4f 600000000\n\r' %{'v1': float(newPos)};
+        else:
+            cmd='setField %(v1)10.4f 600000000\n\r' %{'v1': newPos[0]};
         reply = self.sendAndReply(cmd);
         rlist=reply.strip(' \n\r').split(' ',1);
         if rlist[0] == 'ERROR:':
