@@ -20,5 +20,7 @@ if installation.isLive():
     __main__.laa=LinearArbitraryAngle('laa', __main__.iddlaangle, __main__.idulaangle, __main__.smode, __main__.pol)
     __main__.offhar.setPolScannable(__main__.pol)
 else:
-    print "There are no 'smode', 'pol', 'energy', 'laa', 'offhar' and 'zacscan' scannables in DUMMY mode."
-    print "These scannables require EPICS soft motors, and zacscan to work"
+    print 80*"="
+    print "IMPORTANT Warning:"
+    print "    There are no 'smode', 'pol', 'energy', 'laa', 'offhar' and 'zacscan' scannables in DUMMY mode."
+    print "    These scannables require EPICS soft motors, and zacscan to work"
