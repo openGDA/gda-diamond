@@ -1,6 +1,6 @@
 ''' py file to setup highestExistingFileMonitor '''
 from gda.factory import Finder
-from gda.device.detectorfilemonitor import HighestExitingFileMonitorSettings
+from gda.device.detectorfilemonitor import HighestExistingFileMonitorSettings
 
 def configureHighestExistingFileMonitor( fileTemplatePrefix, fileTemplate, startNumber):
 	"""
@@ -13,7 +13,7 @@ def configureHighestExistingFileMonitor( fileTemplatePrefix, fileTemplate, start
 	e.g.
 	configureHighestExistingFileMonitor( "/dls/i24/data/2011/mx6387-36/ev71a/", "012121_b3_x1_1_%04d.cbf", 1)
 	"""
-	settings = HighestExitingFileMonitorSettings( fileTemplatePrefix, fileTemplate, startNumber)
+	settings = HighestExistingFileMonitorSettings( fileTemplatePrefix, fileTemplate, startNumber)
 	highestExistingFileMonitor = Finder.getInstance().find("highestExistingFileMonitor")
-	highestExistingFileMonitor.setHighestExitingFileMonitorSettings(settings)
+	highestExistingFileMonitor.setHighestExistingFileMonitorSettings(settings)
 	highestExistingFileMonitor.setRunning(True)
