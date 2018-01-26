@@ -62,6 +62,14 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          id="uk.ac.gda.diamond.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.ecf.core.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.ecf.filetransfer.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.i06"
          download-size="0"
