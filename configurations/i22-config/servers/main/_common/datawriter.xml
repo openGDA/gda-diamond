@@ -47,9 +47,17 @@
         <property name="arguments">
             <set>
                 <value>energy</value>
-                <value>sample_name</value>
                 <value>sample_thickness</value>
             </set>
+        </property>
+    </bean>
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadata"/>
+        <property name="arguments">
+            <map>
+                <entry key="sample_background" value="sample:NXsample/background"/>
+                <entry key="sample_name" value="sample:NXsample/name"/>
+            </map>
         </property>
     </bean>
 
@@ -166,17 +174,6 @@
                                 <value>K</value>
                                 <value></value>
                                 <value></value>
-                            </list>
-                        </property>
-                    </bean>
-                </entry>
-                <entry key="sample_name">
-                    <bean
-                        class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-                        <property name="paths" value="sample:NXsample/name" />
-                        <property name="prerequisiteScannableNames">
-                            <list>
-                                <!-- <value>cff</value> -->
                             </list>
                         </property>
                     </bean>
