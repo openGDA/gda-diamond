@@ -165,7 +165,10 @@ class PomsSocketDeviceClass(ScannableBase):
         else:
             if self.verbose:
                 print "Field set correctly";
-            self.field = newPos[0];
+                if self.SINGLEINPUT:
+                    self.field = float(newPos)
+                else:
+                    self.field = newPos[0];
 
         sleep(0.5);
         self.alreadyBusy=False
