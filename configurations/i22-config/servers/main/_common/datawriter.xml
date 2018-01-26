@@ -80,10 +80,6 @@
                                 <value>keV</value>
                             </list>
                         </property>
-                        <property name="prerequisiteScannableNames">
-                            <list>
-                            </list>
-                        </property>
                         <property name="uncertaintyFraction" value="1.14e-4" />
                     </bean>
                 </entry>
@@ -147,10 +143,6 @@
                         <property name="paths"
                             value="instrument:NXinstrument/monochromator:NXmonochromator/grating:NXgrating/line_density" />
                         <property name="units" value="1/mm" />
-                        <property name="prerequisiteScannableNames">
-                            <list>
-                            </list>
-                        </property>
                     </bean>
                 </entry>
                 <entry key="cryostat">
@@ -176,11 +168,6 @@
                                 <value></value>
                             </list>
                         </property>
-                        <property name="prerequisiteScannableNames">
-                            <list>
-                                <!-- <value>cff</value> -->
-                            </list>
-                        </property>
                     </bean>
                 </entry>
                 <entry key="sample_name">
@@ -198,11 +185,6 @@
                     <bean
                         class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
                         <property name="paths" value="sample:NXsample/thickness" />
-                        <property name="prerequisiteScannableNames">
-                            <list>
-                                <!-- <value>cff</value> -->
-                            </list>
-                        </property>
                     </bean>
                 </entry>
             </map>
