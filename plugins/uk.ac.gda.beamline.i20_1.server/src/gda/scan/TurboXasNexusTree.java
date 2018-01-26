@@ -319,7 +319,7 @@ public class TurboXasNexusTree {
 			int[] step = new int[shape.length];
 			Arrays.fill(step, 1);
 			try {
-				logger.info("Adding data from hdf file {}", xspress3FileReader.getFilename());
+				logger.info("Adding data from XSpress3 hdf file {}", xspress3FileReader.getFilename());
 				ffSum = DatasetFactory.zeros(highFrame - lowFrame -1);
 				ffSum.setName("FF_sum");
 				for (Dataset dataset : xspress3FileReader.readDatasets(start, shape, step)) {
@@ -335,6 +335,7 @@ public class TurboXasNexusTree {
 			}
 		} else {
 			//Add detector data from xspress3 scaler readout
+			logger.info("Adding data from XSpress3 scaler readout");
 			NXDetectorData[] detData = detector.readFrames(lowFrame, highFrame-1);
 			String[] names = detData[0].getExtraNames();
 			int numFrames = highFrame-lowFrame-1; //detData.length;
@@ -375,6 +376,17 @@ public class TurboXasNexusTree {
 	 * @throws DeviceException
 	 */
 	private NXDetectorData createNXDetectorData(BufferedScaler detector, int lowFrame, int highFrame) throws DeviceException {
+		logger.debug("Adding data from Tfg scaler readout");
+
+		int readoutsPerCycle = ((BufferedScaler)detector).getContinuousParameters().getNumberDataPoints();
+		int cycleNumber = (int) Math.floor(lowFrame/readoutsPerCycle);
+		if (cycleNumber > 0) {
+			int absFrameCycleStart = cycleNumber * readoutsPerCycle;
+			lowFrame -= absFrameCycleStart;
+			highFrame -= absFrameCycleStart;
+			logger.debug("Adjusting scaler readout frames for cycle {} : absolute start frame for cycle = {}, reading from {} to {}",
+							cycleNumber, absFrameCycleStart, lowFrame, highFrame);
+		}
 
 		int numFramesRead = highFrame - lowFrame;
 		int numFrames = numReadoutsPerSpectrum;
@@ -388,6 +400,10 @@ public class TurboXasNexusTree {
 
 		// Frame data from detector
 		Object[] detectorFrameData = detector.readFrames(lowFrame, highFrame);
+
+		// clear the frames (ready for next cycle)
+		detector.clearMemoryFrames(lowFrame,  highFrame);
+
 		double[][] frameDataArray = (double[][]) detectorFrameData;
 
 		// Names of data fields on the detector

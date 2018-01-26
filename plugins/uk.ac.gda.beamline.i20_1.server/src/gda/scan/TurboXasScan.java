@@ -167,7 +167,6 @@ public class TurboXasScan extends ContinuousScan {
 		DetectorReadoutRunnable runnable = new DetectorReadoutRunnable();
 		runnable.setNumFramesPerSpectrum(turboXasMotorParams.getNumReadoutsForScan());
 		runnable.setTotalNumSpectraToCollect(getTotalNumSpectra());
-		runnable.setDetector(getScanDetectors()[0]);
 		runnable.setTimingGroups(turboXasMotorParams.getScanParameters().getTimingGroups());
 		return runnable;
 	}
@@ -597,117 +596,23 @@ public class TurboXasScan extends ContinuousScan {
 		return detData;
 	}
 
+	private class DetectorReadoutRunnable extends DetectorReadout {
 
-	/**
-	 * Runnable that can be used to collect detector data in a background thread.
-	 * It monitors the number of frames of detector data available, and when enough frames
-	 * for a new spectrum are available, it collects the spectrum data and writes it to the Nexus file
-	 * using {@link #collectData(BufferedDetector[])}.
-	 */
-	private class DetectorReadoutRunnable implements Runnable {
-
-		private int numFramesPerSpectrum;
-		private int numSpectraCollected;
-		private int pollIntervalMillis;
-		private int totalNumSpectraToCollect;
-
-		private BufferedDetector detector;
-		private int currentTimingGroupIndex=0;
-		private int numSpectraCollectedForGroup=0;
-		private List<TurboSlitTimingGroup> timingGroups;
-
-		private boolean runMethodFinished = false;
-
-		public DetectorReadoutRunnable() {
-			timingGroups = new ArrayList<TurboSlitTimingGroup>();
-			pollIntervalMillis=500;
+		@Override
+		public int getNumAvailableFrames() throws DeviceException, NexusException, ScanFileHolderException {
+			return TurboXasScan.this.getNumAvailableFrames();
 		}
 
 		@Override
-		public void run() {
-			currentTimingGroupIndex=0;
-			numSpectraCollectedForGroup=0;
-			numSpectraCollected=0;
-
-			logger.debug("ReadoutThread started");
-			try {
-				while (numSpectraCollected < totalNumSpectraToCollect) {
-					int numAvailableFrames = getNumAvailableFrames();
-
-					// Break out of while loop if frames get cleared (e.g. due to 'stop scan' button being pressed)
-					if (numAvailableFrames==0 && !detector.isBusy()) {
-						logger.debug("ReadoutThread : exiting (no frames available and detector not busy)");
-						break;
-					}
-
-					// Last spectrum collected was final one in previous Tfg cycle - set last frame read to start of current cycle
-					if (lastFrameRead==numReadoutsPerCycle) {
-						lastFrameRead=0;
-					}
-
-					int numNewFrames = numAvailableFrames-lastFrameRead;
-
-					// Currently in next Tfg cycle (and numNewFrames=0); need to read last spectrum of previous cycle
-					if (numCycles>1 && lastFrameRead == numReadoutsPerCycle-numReadoutsPerSpectrum) {
-						// logger.debug("ReadoutThread : Read last spectrum of cycle");
-						numNewFrames = numFramesPerSpectrum;
-					}
-
-					logger.debug("ReadoutThread : {} frames of data available, {} new frames, last frame read = {}", numAvailableFrames, numNewFrames, lastFrameRead);
-
-					// Last spectrum has 1 less frame than the others (due to edge counting)
-					if (numSpectraCollected==totalNumSpectraToCollect-1) {
-						numNewFrames++;
-					}
-
-					if (numNewFrames>=numFramesPerSpectrum) {
-
-						// Update timing group number and spectrum number for spectrum being read out
-						numSpectraCollectedForGroup++;
-						if (currentTimingGroupIndex<timingGroups.size() &&
-							numSpectraCollectedForGroup>timingGroups.get(currentTimingGroupIndex).getNumSpectra()) {
-
-							currentTimingGroupIndex++;
-							numSpectraCollectedForGroup=1;
-						}
-						plotUpdater.setCurrentGroupNumber(currentTimingGroupIndex+1);
-						plotUpdater.setCurrentSpectrumNumber(numSpectraCollectedForGroup);
-
-						String msg = "\tTiming group "+(currentTimingGroupIndex+1)+" : spectrum "+(numSpectraCollectedForGroup)+" of "+timingGroups.get(currentTimingGroupIndex).getNumSpectra();
-
-						logger.debug("ReadoutThread : collecting data {}", msg);
-						InterfaceProvider.getTerminalPrinter().print(msg);
-
-						collectData(getScanDetectors());
-						numSpectraCollected++;
-					}
-					Thread.currentThread().sleep(pollIntervalMillis);
-				}
-			} catch (Exception e) {
-				logger.error("ReadoutThread encountered an error during data collection.", e);
-			} finally {
-				logger.debug("ReadoutThread finished.");
-				runMethodFinished = true;
-			}
+		public void collectData() throws Exception {
+			plotUpdater.setCurrentGroupNumber(getCurrentTimingGroupIndex()+1);
+			plotUpdater.setCurrentSpectrumNumber(getNumSpectraCollectedForGroup());
+			TurboXasScan.this.collectData(getScanDetectors());
 		}
 
-		public int getNumSpectraCollected() {
-			return numSpectraCollected;
-		}
-		public void setTotalNumSpectraToCollect(int totalNumSpectraToCollect) {
-			this.totalNumSpectraToCollect = totalNumSpectraToCollect;
-		}
-		public void setNumFramesPerSpectrum(int numFramesPerSpectrum) {
-			this.numFramesPerSpectrum = numFramesPerSpectrum;
-		}
-		public boolean collectionFinished() {
-			return runMethodFinished;
-		}
-		public void setDetector(BufferedDetector detector) {
-			this.detector = detector;
-		}
-		public void setTimingGroups(final List<TurboSlitTimingGroup> timingGroups) {
-			this.timingGroups = timingGroups;
+		@Override
+		public boolean detectorsAreBusy() throws DeviceException {
+			return getScanDetectors()[0].isBusy();
 		}
 	}
 
@@ -721,6 +626,16 @@ public class TurboXasScan extends ContinuousScan {
 		int minNumFrames = -1;
 		for(BufferedDetector detector : getScanDetectors()){
 			int numFramesAvailable = detector.getNumberFrames();
+
+			// For Tfg scalers, convert to absolute frame number in whole experiment if using cycles.
+			// (scaler readout will convert back to 'frame within cycle' as necessary)
+			if (detector instanceof BufferedScaler && numCycles > 1) {
+				int currentCycle = ((BufferedScaler) detector).getCurrentCycle(); // cycle counting starts from 0
+				int readoutsPerCycle = ((BufferedScaler) detector).getContinuousParameters().getNumberDataPoints();
+				if (currentCycle > 0) {
+					numFramesAvailable += readoutsPerCycle * currentCycle;
+				}
+			}
 			if (minNumFrames == -1) {
 				minNumFrames = numFramesAvailable;
 			}
@@ -739,17 +654,11 @@ public class TurboXasScan extends ContinuousScan {
 	/**
 	 * Read out frames from scalers for one spectrum of data and write the new data into the Nexus file.
 	 * The new data is also send to the GUI progress updater.
+	 * This function should only be called after checks to ensure the required frames of data are available.
 	 * @param detector
 	 * @throws Exception
 	 */
 	private void collectData(BufferedDetector[] detectors) throws Exception {
-
-		int totalNumFramesAvailable = getNumAvailableFrames();
-
-		int lastFrameToRead = lastFrameRead + numReadoutsPerSpectrum;
-		if (lastFrameToRead > totalNumFramesAvailable) {
-			logger.warn("Possible problem reading out data : Last frame of scaler data is {}, but need to read up to {}", totalNumFramesAvailable, lastFrameToRead);
-		}
 
 		// Create scan data point
 		ScanDataPoint thisPoint = new ScanDataPoint();
@@ -767,6 +676,12 @@ public class TurboXasScan extends ContinuousScan {
 				thisPoint.addScannable(scannable);
 				thisPoint.addScannablePosition(scannable.getPosition(), scannable.getOutputFormat());
 			}
+		}
+
+		int lastFrameToRead = lastFrameRead + numReadoutsPerSpectrum;
+		int totalNumFramesAvailable = getNumAvailableFrames();
+		if (lastFrameToRead > totalNumFramesAvailable) {
+			logger.warn("Possible problem reading out data : Last frame of scaler data is {}, but need to read up to {}", totalNumFramesAvailable, lastFrameToRead);
 		}
 
 		// Add the detector data
