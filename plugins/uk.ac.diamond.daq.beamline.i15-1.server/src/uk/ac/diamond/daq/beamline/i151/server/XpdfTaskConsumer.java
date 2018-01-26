@@ -20,6 +20,7 @@ package uk.ac.diamond.daq.beamline.i151.server;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
 
 import org.eclipse.scanning.api.event.EventException;
 import org.eclipse.scanning.api.event.IEventService;
@@ -28,9 +29,6 @@ import org.eclipse.scanning.api.event.core.IConsumer;
 import org.eclipse.scanning.api.event.core.IConsumerProcess;
 import org.eclipse.scanning.api.event.core.IProcessCreator;
 import org.eclipse.scanning.api.event.core.IPublisher;
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,36 +37,29 @@ import uk.ac.diamond.daq.beamline.i15.api.QueueConstants;
 import uk.ac.diamond.daq.beamline.i15.api.TaskBean;
 
 /**
- *
- * NOTE: This is using the PDE DS annotation builder to auto-generate the OSGI-INF file.
- * See: http://blog.vogella.com/2016/06/21/getting-started-with-osgi-declarative-services/
+ * This is the ActiveMQ consumer that handles {@link TaskBean}s. It takes them off the queue defined by
+ * {@link QueueConstants#XPDF_TASK_QUEUE} and passes them to a {@link XpdfTaskRunner} to be executed.
  *
  * @author James Mudd
  */
-@Component(name="XpdfTaskConsumer")
 public class XpdfTaskConsumer {
 
 	private static final Logger logger = LoggerFactory.getLogger(XpdfTaskConsumer.class);
 
-	private IEventService eventService;
-
 	private IXpdfTaskRunner taskRunner;
 
-	@Reference
 	public void setTaskRunner(IXpdfTaskRunner taskRunner) {
 		this.taskRunner = taskRunner;
 		logger.debug("taskRunner set to: {}", taskRunner);
 	}
 
-	@Reference
-	public void setEventService(IEventService eventService) {
-		this.eventService = eventService;
-		logger.debug("eventService set to: {}", eventService);
-	}
+	public void startConsumer() {
+		logger.info("Starting consumer...");
 
-	@Activate
-	private void startConsumer() {
-		logger.info("Starting consumer");
+		// Validate we have the required objects to work.
+		Objects.requireNonNull(taskRunner, "Task runner is not set check Spring configuration");
+		final IEventService eventService = Activator.getService(IEventService.class);
+		Objects.requireNonNull(eventService, "Could not get Event Service");
 
 		try {
 			final URI uri = new URI(LocalProperties.getActiveMQBrokerURI());
@@ -81,7 +72,7 @@ public class XpdfTaskConsumer {
 		} catch (EventException | URISyntaxException e) {
 			logger.error("Failed tosetup consumer", e);
 		}
-
+		logger.info("Started XPDF consumer");
 	}
 
 	private class ProcessCreator implements IProcessCreator<TaskBean> {
