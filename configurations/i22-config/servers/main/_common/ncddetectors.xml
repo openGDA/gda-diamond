@@ -116,22 +116,12 @@
         <property name="visitMeta" ref="visit"/>
         <property name="configFileName" value="saxs_masks" />
     </bean>
-    <bean id="saxs_bg" class="uk.ac.gda.server.ncd.meta.NcdBackground">
-        <property name="detectorType" value="SAXS"/>
-        <property name="visitMeta" ref="visit"/>
-        <property name="configFileName" value="saxs_masks" />
-    </bean>
     <bean id="waxs_mask" class="uk.ac.gda.server.ncd.meta.NcdMaskLink">
         <property name="detectorType" value="WAXS"/>
         <property name="visitMeta" ref="visit"/>
         <property name="configFileName" value="saxs_masks" />
     </bean>
     <bean id="waxs_cal" class="uk.ac.gda.server.ncd.meta.NcdCalibration">
-        <property name="detectorType" value="WAXS"/>
-        <property name="visitMeta" ref="visit"/>
-        <property name="configFileName" value="saxs_masks" />
-    </bean>
-    <bean id="waxs_bg" class="uk.ac.gda.server.ncd.meta.NcdBackground">
         <property name="detectorType" value="WAXS"/>
         <property name="visitMeta" ref="visit"/>
         <property name="configFileName" value="saxs_masks" />

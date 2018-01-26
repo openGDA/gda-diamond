@@ -72,7 +72,6 @@
 			<list>
 				<ref bean="waxs_mask" />
 				<ref bean="waxs_cal" />
-				<ref bean="waxs_bg" />
 			</list>
 		</property>
 	</bean>

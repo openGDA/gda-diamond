@@ -38,7 +38,6 @@
             <list>
                 <ref bean="saxs_mask" />
                 <ref bean="saxs_cal" />
-                <ref bean="saxs_bg" />
             </list>
         </property>
     </bean>
