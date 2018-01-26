@@ -18,13 +18,7 @@
 
 package gda.images.camera;
 
-import gda.configuration.properties.LocalProperties;
-import gda.device.DeviceException;
-import gda.factory.Finder;
-import gda.observable.IObservable;
-import gda.observable.IObserver;
-import gda.observable.ObservableComponent;
-import gda.util.exceptionUtils;
+import static gda.configuration.properties.LocalProperties.isDummyModeEnabled;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -36,15 +30,20 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static gda.configuration.properties.LocalProperties.isDummyModeEnabled;
+import gda.configuration.properties.LocalProperties;
+import gda.device.DeviceException;
+import gda.factory.Finder;
+import gda.observable.IObservable;
+import gda.observable.IObserver;
+import gda.observable.ObservableComponent;
 
 /**
  * Reads and saves the data which describes the various zoom levels of a gda.images.camera object.
  */
 public class BeamDataComponent implements IObservable {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(BeamDataComponent.class);
-	
+
 	private static BeamDataComponent theInstance;
 
 	// read in from the beamData file
@@ -60,7 +59,7 @@ public class BeamDataComponent implements IObservable {
 	private static final String convert(int x, int y) {
 		return "(" + x + ", " + y + ")";
 	}
-	
+
 	public class BeamData {
 
 		public Double zoomLevel = null;
@@ -76,7 +75,7 @@ public class BeamDataComponent implements IObservable {
 		public int xBottomRight;
 
 		public int yBottomRight;
-		
+
 		@Override
 		public String toString() {
 			return "BeamData[zoomLevel=" + zoomLevel + ", centre=" + convert(xCentre, yCentre) + ", topleft=" + convert(xTopLeft, yTopLeft) + ", bottomright=" + convert(xBottomRight, yBottomRight) + "]";
@@ -94,7 +93,7 @@ public class BeamDataComponent implements IObservable {
 		}
 		return theInstance;
 	}
-	
+
 	/**
 	 * Sets the singleton {@link BeamDataComponent}.
 	 */
@@ -103,16 +102,16 @@ public class BeamDataComponent implements IObservable {
 	}
 
 	private String filename;
-	
+
 	/**
 	 * Creates a {@link BeamDataComponent}, reading the beam data from the file specified by the
 	 * {@code gda.images.displayConfigFile} property.
 	 */
 	public BeamDataComponent() {
 		filename = LocalProperties.get(LocalProperties.GDA_IMAGES_DISPLAY_CONFIG_FILE);
-		refreshBeamData();		
+		refreshBeamData();
 	}
-	
+
 	/**
 	 * Creates a {@link BeamDataComponent}, reading the beam data from the specified file.
 	 */
@@ -124,7 +123,7 @@ public class BeamDataComponent implements IObservable {
 	public void setCamera(Camera camera) {
 		this.theCamera = camera;
 	}
-	
+
 	/**
 	 * @return the camera object this object refers to.
 	 */
@@ -133,14 +132,14 @@ public class BeamDataComponent implements IObservable {
 	}
 
 	private boolean fileExists;
-	
+
 	/**
 	 * Reads from a configuration file the beam centre and size at different zoom levels for display over the image
 	 * display panel.
 	 */
 	public void refreshBeamData() {
 		List<BeamData> newBeamData = new Vector<BeamData>();
-		
+
 		String line = null;
 
 		int singleBeamX = 0;
@@ -151,26 +150,26 @@ public class BeamDataComponent implements IObservable {
 		if (filename != null) {
 			try {
 				File file = new File(filename);
-				
+
 				fileExists = (file.exists());
 				if (!fileExists) {
-					
+
 					if (isDummyModeEnabled()) {
 						logger.warn(filename + " does not exist; will create dummy beam data for all zoom levels");
 					}
-					
+
 					else {
 						logger.warn(filename + " does not exist");
 					}
 				}
-				
+
 				else {
 					logger.debug("Reading display config from " + filename);
 
 					BufferedReader reader = new BufferedReader(new FileReader(file));
 					BeamData currentData = new BeamData();
 					while ((line = reader.readLine()) != null) {
-						
+
 						if (line.startsWith("zoomLevel")) {
 							// then we must have just completed a zoom level, so
 							// record
@@ -182,7 +181,7 @@ public class BeamDataComponent implements IObservable {
 							currentData = new BeamData();
 							currentData.zoomLevel = Double.parseDouble(line.substring(line.indexOf("=") + 2));
 						}
-						
+
 						else if (line.startsWith("crosshairX")) {
 							if (!singleBeamCenter) {
 								currentData.xCentre = Integer.parseInt(line.substring(line.indexOf("=") + 2));
@@ -193,7 +192,7 @@ public class BeamDataComponent implements IObservable {
 								}
 							}
 						}
-						
+
 						else if (line.startsWith("crosshairY")) {
 							if (!singleBeamCenter) {
 								currentData.yCentre = Integer.parseInt(line.substring(line.indexOf("=") + 2));
@@ -204,33 +203,33 @@ public class BeamDataComponent implements IObservable {
 								}
 							}
 						}
-						
+
 						else if (line.startsWith("topLeftX")) {
 							currentData.xTopLeft = Integer.parseInt(line.substring(line.indexOf("=") + 2));
 						}
-						
+
 						else if (line.startsWith("topLeftY")) {
 							currentData.yTopLeft = Integer.parseInt(line.substring(line.indexOf("=") + 2));
 						}
-						
+
 						else if (line.startsWith("bottomRightX")) {
 							currentData.xBottomRight = Integer.parseInt(line.substring(line.indexOf("=") + 2));
 						}
-						
+
 						else if (line.startsWith("bottomRightY")) {
 							currentData.yBottomRight = Integer.parseInt(line.substring(line.indexOf("=") + 2));
 						}
-	
+
 						if (singleBeamCenter) { // if there aren't lines containing crosshairX or crosshairY
 							currentData.xCentre = singleBeamX;
 							currentData.yCentre = singleBeamY;
 						}
 					}
 					newBeamData.add(currentData);
-					
+
 					this.beamDataArray = newBeamData;
 				}
-				
+
 			} catch (Exception e) {
 				logger.error("Could not read display config from " + filename, e);
 			}
@@ -238,7 +237,7 @@ public class BeamDataComponent implements IObservable {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void saveBeamData() {
 		String filename = null;
@@ -277,7 +276,7 @@ public class BeamDataComponent implements IObservable {
 			try {
 				zoom = theCamera.getZoom();
 			} catch (DeviceException e) {
-				exceptionUtils.logException(logger, "Failed to get current zoom level", e);
+				logger.error("Failed to get current zoom level", e);
 			}
 		}
 
@@ -295,7 +294,7 @@ public class BeamDataComponent implements IObservable {
 			beamDataArray.add(out);
 			return out;
 		}
-		
+
 		// if no details found, tell the user
 		if (out == null) {
 			logger.error("Details for zoom level " + zoom + " not found. This could be due to inaccuracy in the camera position, or you may need to add beam data.");
@@ -315,7 +314,7 @@ public class BeamDataComponent implements IObservable {
 		data.yBottomRight = data.yCentre + 10;
 		return data;
 	}
-	
+
 	/**
 	 * @param cameraName
 	 */
@@ -326,13 +325,13 @@ public class BeamDataComponent implements IObservable {
 	@Override
 	public void addIObserver(IObserver observer) {
 		obsComp.addIObserver(observer);
-		
+
 	}
 
 	@Override
 	public void deleteIObserver(IObserver observer) {
 		obsComp.deleteIObserver(observer);
-		
+
 	}
 
 	@Override

@@ -23,10 +23,10 @@ import java.lang.reflect.Field;
 import java.net.Socket;
 import java.net.SocketImpl;
 
-import gda.configuration.properties.LocalProperties;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gda.configuration.properties.LocalProperties;
 
 /**
  * Provides a series of methods for accessing Unix functions. Mostly the starting and stopping of processes for Protein
@@ -42,7 +42,7 @@ public class Unix {
 	private static final Logger logger = LoggerFactory.getLogger(Unix.class);
 
 	/**
-	 * 
+	 *
 	 */
 	public static native void initFIDs();
 
@@ -62,7 +62,7 @@ public class Unix {
 				initFIDs();
 			}
 		} catch (Throwable e) {
-			exceptionUtils.logException(logger, "Error initialising Unix - check JavaToUnix.so library is correct", e);
+			logger.error("Error initialising Unix - check JavaToUnix.so library is correct", e);
 		}
 	}
 
@@ -73,14 +73,14 @@ public class Unix {
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @return Status code
 	 */
 	public native int doStartBLDaemon();
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @param hostName
 	 *            host name of daemon
 	 * @param port
@@ -91,42 +91,42 @@ public class Unix {
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @return Status code
 	 */
 	public native int doEnd345Daemon();
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @return Status code
 	 */
 	public native int doStartMarDaemon();
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @return Status code
 	 */
 	public native int doEndMarDaemon();
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @return Status code
 	 */
 	public native int doStartMarSimulator();
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @return Status code
 	 */
 	public native int doEndMarSimulator();
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @param port
 	 *            for simulator
 	 * @return Status code
@@ -135,42 +135,42 @@ public class Unix {
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @return Status code
 	 */
 	public native int doStartQ4Xform();
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @return Status code
 	 */
 	public native int doStopQ4Xform();
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @return Status code
 	 */
 	public native int doStartPXGEN();
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @return Status code
 	 */
 	public native int doStartAdxv();
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @return Status code
 	 */
 	public native int doEndAdxv();
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @param command
 	 *            native string
 	 * @return Status code
@@ -179,7 +179,7 @@ public class Unix {
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @param path
 	 *            to free memory blocks
 	 * @return Status code
@@ -188,7 +188,7 @@ public class Unix {
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @param path
 	 *            to free disk blocks
 	 * @return Status code
@@ -197,7 +197,7 @@ public class Unix {
 
 	/**
 	 * JNI implementation specific.
-	 * 
+	 *
 	 * @return Status code
 	 */
 	public native int doResetXformStatusFile();
@@ -230,7 +230,7 @@ public class Unix {
 	/**
 	 * Start the firewire digital camera program. This C daemon interfaces to digital cameras over firewire. It accepts
 	 * commands as strings over a socket to grab an image.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public static void startFirewireCameraDaemon() throws Exception {
@@ -252,7 +252,7 @@ public class Unix {
 	/**
 	 * Start the grip program for controlling the Rigaku MSC automatic sample changer. This can be used interactively or
 	 * accepts commands as strings over a socket.
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public static void startGrip() throws Exception {
@@ -306,7 +306,7 @@ public class Unix {
 
 	/**
 	 * Starts a sub-process that simulates a Mar345 detector.
-	 * 
+	 *
 	 * @param port
 	 *            Port that the simulated detector will listen on.
 	 * @return Status code.
@@ -319,7 +319,7 @@ public class Unix {
 	 * Starts an ADSC beamline control daemon. The specifc daemon started is determined in the C library via the Unix
 	 * environment variable CCD_BLSERVER. These daemons communicate with clients, via sockets, using a standard text
 	 * based protocol.
-	 * 
+	 *
 	 * @return Status code.
 	 */
 	public int startBLDaemon() {
@@ -329,7 +329,7 @@ public class Unix {
 	/**
 	 * Starts the MAR detector control daemon, mardc. This is the control daemon for MAR 180 and 300 image plates. It
 	 * communicates with clients via text files.
-	 * 
+	 *
 	 * @return Status code.
 	 */
 	public int startMarDaemon() {
@@ -339,7 +339,7 @@ public class Unix {
 	/**
 	 * Stos the MAR detector control daemon, mardc. This is the control daemon for MAR 180 and 300 image plates. It
 	 * communicates with clients via text files.
-	 * 
+	 *
 	 * @return Status code.
 	 */
 	public int endMarDaemon() {
@@ -349,7 +349,7 @@ public class Unix {
 	/**
 	 * Starts the MAR detector control daemon, mardc, in simulation mode. This is the control daemon for MAR 180 and 300
 	 * image plates. Run is this way no actual detector is required. It communicates with clients via text files.
-	 * 
+	 *
 	 * @return Status code.
 	 */
 	public int startMarSimulator() {
@@ -360,7 +360,7 @@ public class Unix {
 	 * Stops the MAR detector control daemon, mardc, running in simulation mode. This is the control daemon for MAR 180
 	 * and 300 image plates. Run is this way no actual detector is required. It communicates with clients via text
 	 * files.
-	 * 
+	 *
 	 * @return Status code.
 	 */
 	public int endMarSimulator() {
@@ -370,7 +370,7 @@ public class Unix {
 	/**
 	 * Starts the ADSC detector image transform daemon. This daemon converts scanned images into 2D cartesian
 	 * co-ordinates.
-	 * 
+	 *
 	 * @return Status code.
 	 */
 	public int startQ4Xform() {
@@ -380,7 +380,7 @@ public class Unix {
 	/**
 	 * Stops the ADSC detector image transform process. This daemon converts scanned images into 2D cartesian
 	 * co-ordinates.
-	 * 
+	 *
 	 * @return Status code.
 	 */
 	public int stopQ4Xform() {
@@ -389,7 +389,7 @@ public class Unix {
 
 	/**
 	 * Starts PXGEN++ based a specified by the environment variable PXGEN_COMMAND.
-	 * 
+	 *
 	 * @return Status code.
 	 */
 	public int startPXGEN() {
@@ -398,7 +398,7 @@ public class Unix {
 
 	/**
 	 * Starts the ADSC image display program, adxv.
-	 * 
+	 *
 	 * @return Status code.
 	 */
 	public int startAdxv() {
@@ -412,7 +412,7 @@ public class Unix {
 
 	/**
 	 * Stops the ADSC image display program, adxv.
-	 * 
+	 *
 	 * @return Status code.
 	 */
 	public int endAdxv() {
@@ -426,7 +426,7 @@ public class Unix {
 
 	/**
 	 * Executes a requested Unix command.
-	 * 
+	 *
 	 * @param command
 	 *            Required command.
 	 * @return Status code.
@@ -437,7 +437,7 @@ public class Unix {
 
 	/**
 	 * Gets the free disk space.
-	 * 
+	 *
 	 * @param path
 	 *            Directory path of a file on the required disk.
 	 * @return Free space on the disk in MBytes.
@@ -448,7 +448,7 @@ public class Unix {
 
 	/**
 	 * Gets the total capacity of a disk..
-	 * 
+	 *
 	 * @param path
 	 *            Directory path of a file on the required disk.
 	 * @return Capacity of the disk in MBytes.
@@ -459,7 +459,7 @@ public class Unix {
 
 	/**
 	 * Resets the Unix environment variable XFORMSTATUSFILE.
-	 * 
+	 *
 	 * @return Status code.
 	 */
 	public int resetXformStatusFile() {
@@ -468,13 +468,13 @@ public class Unix {
 
 	/**
 	 * Gets the Unix environment variable XFORMSTATUSFILE.
-	 * 
+	 *
 	 * @return The environment variable.
 	 */
 	public String getXformStatusFileName() {
 		return (xformStatusFile);
 	}
-	
+
 	/**
 	 * Returns the TCP state of the specified socket. Will only work on Linux,
 	 * and uses reflection to access private fields - so won't work if a
@@ -486,23 +486,23 @@ public class Unix {
 			final Field socketImplField = Socket.class.getDeclaredField("impl");
 			socketImplField.setAccessible(true);
 			final SocketImpl sockImpl = (SocketImpl) socketImplField.get(socket);
-			
+
 			// Get the FileDescriptor from the SocketImpl
 			final Field fileDescObjectField = SocketImpl.class.getDeclaredField("fd");
 			fileDescObjectField.setAccessible(true);
 			final FileDescriptor fileDescObj = (FileDescriptor) fileDescObjectField.get(sockImpl);
-			
+
 			// Get the file descriptor number from the FileDescriptor object
 			final Field fileDescNumberField = FileDescriptor.class.getDeclaredField("fd");
 			fileDescNumberField.setAccessible(true);
 			final int fd = (Integer) fileDescNumberField.get(fileDescObj);
-			
+
 			return getSocketState(fd);
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to get socket state", e);
 		}
 	}
-	
+
 	private TcpSocketState getSocketState(int fd) {
 		GetSocketStateReturn ret = new GetSocketStateReturn();
 		int result = doGetSocketState(fd, ret);
@@ -514,17 +514,17 @@ public class Unix {
 			throw new RuntimeException(String.format("Could not get socket state: %s (error %d)", ret.errmsg, ret.errno));
 		}
 	}
-	
+
 	static class GetSocketStateReturn {
 		int state;
 		int errno;
 		String errmsg;
-		
+
 		@Override
 		public String toString() {
 			return String.format("GetSocketStateReturn(state=%d, errno=%d, errmsg=%s)", state, errno, errmsg);
 		}
 	}
-	
+
 	public native int doGetSocketState(int fd, GetSocketStateReturn ret);
 }
