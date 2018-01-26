@@ -33,6 +33,42 @@ from i06shared.scannables.mode_polarisation_energy_instances import *  # @Unused
 idd,idu,dpu,dmu=SourceMode.SOURCE_MODES
 pc,nc,lh,lv,la=Polarisation.POLARISATIONS
 
+print
+print "-----------------------------------------------------------------------------------------------------------------"
+print "load EPICS Pseudo Device utilities for creating scannable object from a PV name."
+from gdascripts.pd.epics_pds import * #@UnusedWildImport
+print
+print "-----------------------------------------------------------------------------------------------------------------"
+print "load time utilities for creating timer objects."
+from gdascripts.pd.time_pds import * #@UnusedWildImport
+print
+print "-----------------------------------------------------------------------------------------------------------------"
+print "Load utilities: printJythonEnvironment(), caget(pv), caput(pv,value), attributes(object), "
+print "    iterableprint(iterable), listprint(list), frange(start,end,step)"
+from gdascripts.utils import * #@UnusedWildImport
+print
+print "-----------------------------------------------------------------------------------------------------------------"
+print "load common physical constants"
+from gdascripts.constants import * #@UnusedWildImport
+
+from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
+import gdascripts.scan.concurrentScanWrapper
+scan_processor.rootNamespaceDict=globals()
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
+scan_processor_normal_processes = scan_processor.processors
+scan_processor_empty_processes  = []
+ 
+def scan_processing_on():
+    scan_processor.processors = scan_processor_normal_processes
+ 
+def scan_processing_off():
+    scan_processor.processors = scan_processor_empty_processes
+ 
+print "Switch off scan processor by default at Sarnjeet's request on 11 May 2016 in I06-1."    
+print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
+print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
+scan_processing_off()
+
 print "*"*80; 
 print "I06 shared localStation.py completed successfully!"
 print;print

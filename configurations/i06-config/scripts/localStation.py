@@ -11,11 +11,6 @@ print "   To set scan returns to its start positions on completion please do:"
 print "      >>>scansReturnToOriginalPositions=1"
 scansReturnToOriginalPositions=0;
 print
-import sys
-from gdascripts.utils import caput, caget
-from gdascripts.pd.epics_pds import DisplayEpicsPVClass
-from gda.jython.commands.GeneralCommands import alias
-from gda.jython.commands.ScannableCommands import scan
 
 from i06shared.localStation import *  # @UnusedWildImport
     
