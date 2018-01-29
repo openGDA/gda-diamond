@@ -118,6 +118,26 @@
 		<property name="dummyMode" value="false"/>
 	</bean>
 
+	<bean id="PHDGN10"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="RECORD" value="BL15I-DI-PHDGN-10:I" />
+			</map>
+		</property>
+		<property name="dummyMode" value="false"/>
+	</bean>
+
+	<bean id="PHDGN11"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="RECORD" value="BL15I-DI-PHDGN-11:I" />
+			</map>
+		</property>
+		<property name="dummyMode" value="false"/>
+	</bean>
+
 	<!-- Proportional Counter -->	
 	<bean id="prop"
 			class="gda.device.monitor.EpicsMonitor">
