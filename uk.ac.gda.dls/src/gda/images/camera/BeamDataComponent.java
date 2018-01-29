@@ -60,7 +60,7 @@ public class BeamDataComponent implements IObservable {
 		return "(" + x + ", " + y + ")";
 	}
 
-	public class BeamData {
+	public static class BeamData {
 
 		public Double zoomLevel = null;
 

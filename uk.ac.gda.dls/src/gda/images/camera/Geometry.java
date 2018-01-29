@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2009 Diamond Light Source Ltd.
+ * Copyright © 2017 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -27,17 +27,33 @@ import org.apache.commons.math.linear.RealVector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.configuration.properties.LocalProperties;
 import gda.images.camera.BeamDataComponent.BeamData;
-import gda.spring.propertyeditors.RealMatrixPropertyEditor;
+import gda.images.camera.Utilities.OmegaDirection;
 
 /**
  * Provides utility functions related to manipulating the sample viewed by a gda.images.camera object or viewed by a
  * gda.images.GUI panel.
  */
-public class Utilities {
+public class Geometry {
 
-	private static final Logger logger = LoggerFactory.getLogger(Utilities.class);
+	private static final Logger logger = LoggerFactory.getLogger(Geometry.class);
+
+	private final RealMatrix axisOrientationMatrix;
+	private final OmegaDirection omegaDirection;
+	private final boolean allowBeamAxisMovement;
+	private final boolean gonioOnLeftOfImage;
+
+	private final BeamDataComponent beamDataComponent;
+	private final Camera camera;
+
+	public Geometry(RealMatrix axisOrientationMatrix, OmegaDirection omegaDirection, boolean allowBeamAxisMovement, boolean gonioOnLeftOfImage, BeamDataComponent beamDataComponent, Camera camera) {
+		this.axisOrientationMatrix = axisOrientationMatrix;
+		this.omegaDirection = omegaDirection;
+		this.allowBeamAxisMovement = allowBeamAxisMovement;
+		this.gonioOnLeftOfImage = gonioOnLeftOfImage;
+		this.beamDataComponent = beamDataComponent;
+		this.camera = camera;
+	}
 
 	/**
 	 * Given the requested vertical and horizontal movements in microns of the sample as viewed in the image plane of a
@@ -51,33 +67,8 @@ public class Utilities {
 	 * @param omega
 	 * @return double[] - the x,y, and z sample stage movements required
 	 */
-	public static double[] micronToXYZMove(double deltaHum, double deltaVum, double omega) {
+	public double[] micronToXYZMove(double deltaHum, double deltaVum, double omega) {
 		return micronToXYZMove(deltaHum, deltaVum, 0, omega);
-	}
-
-	/**
-	 * Denotes the direction of a +ve omega rotation, when the goniometer is
-	 * viewed from behind (with the beam travelling right).
-	 */
-	public enum OmegaDirection {
-
-		/** +ve rotation of omega is clockwise */
-		CLOCKWISE,
-
-		/** +ve rotation of omega is anticlockwise */
-		ANTICLOCKWISE
-	}
-
-	public static RealMatrix createMatrixFromProperty(String propName) {
-
-		RealMatrixPropertyEditor mpe = new RealMatrixPropertyEditor();
-		mpe.setAsText(LocalProperties.get(propName));
-		RealMatrix axisOrientationMatrix = mpe.getValue();
-		if (axisOrientationMatrix.getRowDimension() != 3 || axisOrientationMatrix.getColumnDimension() != 3) {
-			throw new IllegalArgumentException("Axis orientation matrix is not 3×3: " + axisOrientationMatrix);
-		}
-
-		return axisOrientationMatrix;
 	}
 
 	/**
@@ -88,40 +79,7 @@ public class Utilities {
 	 *
 	 * @return beamline-specific movement
 	 */
-	public static double[] micronToXYZMove(double h, double v, double b, double omega) {
-		final RealMatrix axisOrientationMatrix = getAxisOrientationMatrix();
-		final OmegaDirection omegaDirection = getOmegaDirection();
-		final boolean allowBeamAxisMovement = isAllowBeamAxisMovement();
-		final boolean gonioOnLeftOfImage = isGonioOnLeftOfImage();
-		return micronToXYZMove(h, v, b, omega, axisOrientationMatrix, omegaDirection, allowBeamAxisMovement, gonioOnLeftOfImage);
-	}
-
-	public static RealMatrix getAxisOrientationMatrix() {
-		return createMatrixFromProperty(LocalProperties.GDA_PX_SAMPLE_CONTROL_AXIS_ORIENTATION);
-	}
-
-	public static OmegaDirection getOmegaDirection() {
-		final String omegaDirectionProperty = LocalProperties.get(LocalProperties.GDA_PX_SAMPLE_CONTROL_OMEGA_DIRECTION);
-		final boolean omegaPositiveIsAnticlockwise = omegaDirectionProperty.equalsIgnoreCase("anticlockwise");
-		final OmegaDirection omegaDirection = omegaPositiveIsAnticlockwise ? OmegaDirection.ANTICLOCKWISE : OmegaDirection.CLOCKWISE;
-		return omegaDirection;
-	}
-
-	public static boolean isAllowBeamAxisMovement() {
-		return LocalProperties.check(LocalProperties.GDA_PX_SAMPLE_CONTROL_ALLOW_BEAM_AXIS_MOVEMENT);
-	}
-
-	public static boolean isGonioOnLeftOfImage() {
-		// Get the direction of the z axis wrt the horizontal movement when viewed from the image's viewpoint (this
-		// depends on the camera oreintation wrt the z-axis). It must be assumed that otherwise, the camera views in
-		// the beam vector and its image edges are parallel to the microglide axes)
-		final String LEFT = "left";
-		final String whichEdgeIsXAxisPositive = LocalProperties.get(LocalProperties.GDA_IMAGES_HORIZONTAL_DIRECTION, LEFT);
-		final boolean gonioOnLeftOfImage = !whichEdgeIsXAxisPositive.equalsIgnoreCase(LEFT);
-		return gonioOnLeftOfImage;
-	}
-
-	public static double[] micronToXYZMove(double h, double v, double b, double omega, RealMatrix axisOrientationMatrix, OmegaDirection omegaDirection, boolean allowBeamAxisMovement, boolean gonioOnLeftOfImage) {
+	public double[] micronToXYZMove(double h, double v, double b, double omega) {
 		// This is designed for phase 1 mx, with the hardware located to the right of the beam, and the z axis is
 		// perpendicular to the beam and normal to the rotational plane of the omega axis. When the x axis is vertical
 		// then the y axis is anti-parallel to the beam direction.
@@ -164,15 +122,12 @@ public class Utilities {
 	/**
 	 * Converts from pixels to microns, using the microns per pixel values of the current zoom level.
 	 */
-	public static double[] pixelsToMicrons(int h, int v) {
+	public double[] pixelsToMicrons(int h, int v) {
 		try {
-			BeamDataComponent beamDataComponent = BeamDataComponent.getInstance();
-
 			BeamData currentBeamData = beamDataComponent.getCurrentBeamData();
 			if (currentBeamData == null) {
 				return new double[] {0, 0};
 			}
-			Camera camera = beamDataComponent.getCamera();
 			int hMicrons = (int) (h * camera.getMicronsPerXPixel());
 			int vMicrons = (int) (v * camera.getMicronsPerYPixel());
 			return new double[] {hMicrons, vMicrons};
@@ -193,8 +148,8 @@ public class Utilities {
 	 * @param vertDisplayClicked
 	 * @return double[] - the required horizontal and vertical movements in microns
 	 */
-	public static double[] pixelToMicronMove(int horizDisplayClicked, int vertDisplayClicked) {
-		BeamData currentBeamData = BeamDataComponent.getInstance().getCurrentBeamData();
+	public double[] pixelToMicronMove(int horizDisplayClicked, int vertDisplayClicked) {
+		BeamData currentBeamData = beamDataComponent.getCurrentBeamData();
 		if (currentBeamData == null) {
 			return new double[] {0, 0};
 		}
@@ -217,7 +172,7 @@ public class Utilities {
 	 * @param omega
 	 * @return double[] - the x,y, and z sample stage movements required
 	 */
-	public static double[] calculateSampleStageMove(int Hpix, int Vpix, double omega) {
+	public double[] calculateSampleStageMove(int Hpix, int Vpix, double omega) {
 		double[] micronMoves = pixelToMicronMove(Hpix, Vpix);
 		return micronToXYZMove(micronMoves[0], micronMoves[1], omega);
 	}
