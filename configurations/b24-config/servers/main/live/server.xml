@@ -31,7 +31,8 @@
 	<bean id="file_registrar_debug" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="icatXMLCreator">
 			<bean class="gda.data.fileregistrar.IcatXMLCreator">
-				<property name="directory" value="/dls/${gda.instrument}/var/dropZone/${gda.instrument}-" />
+				<property name="directory" value="/dls/${gda.instrument}/var/dropZone" />
+				<property name="filePrefix" value="${gda.instrument}" />
 			</bean>
 		</property>
 	</bean>
