@@ -224,4 +224,11 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="org.eclipse.equinox.concurrent"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
