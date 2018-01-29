@@ -26,7 +26,7 @@
 
 	<bean id="mic_adbase"
 			class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL99P-EA-DET-01:CAM:" />
+		<property name="basePVName" value="BL99P-EA-DET-01:DET:" />
 	</bean>
 
 	<bean id="mic_stats"
@@ -76,11 +76,11 @@
 	</bean>
 
 	<bean id="mic_gain" class="gda.device.scannable.PVScannable" >
-		<property name="pvName" value="BL99P-EA-DET-01:CAM:Gain" />
+		<property name="pvName" value="BL99P-EA-DET-01:DET:Gain" />
 	</bean>
 	
 	<bean id="mic_exposure" class="gda.device.scannable.PVScannable" >
-		<property name="pvName" value="BL99P-EA-DET-01:CAM:AcquireTime" />
+		<property name="pvName" value="BL99P-EA-DET-01:DET:AcquireTime" />
 	</bean>
 
 </beans>
