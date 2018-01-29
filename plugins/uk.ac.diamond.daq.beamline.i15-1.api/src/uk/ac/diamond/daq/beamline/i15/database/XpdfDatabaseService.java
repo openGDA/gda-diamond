@@ -38,8 +38,10 @@ import uk.ac.diamond.ispyb.api.DataCollectionPlan;
 import uk.ac.diamond.ispyb.api.DataCollectionPlanInfo;
 import uk.ac.diamond.ispyb.api.IspybXpdfApi;
 import uk.ac.diamond.ispyb.api.IspybXpdfFactoryService;
+import uk.ac.diamond.ispyb.api.PDB;
 import uk.ac.diamond.ispyb.api.Sample;
 import uk.ac.diamond.ispyb.api.SampleGroup;
+import uk.ac.diamond.ispyb.api.SampleType;
 import uk.ac.diamond.ispyb.api.Schema;
 
 
@@ -115,6 +117,11 @@ public class XpdfDatabaseService implements IXpdfDatabaseService {
 	}
 
 	@Override
+	public List<Sample> retrieveSamplesForSampleGroup(long sampleGroupId) {
+		return api.retrieveSamplesForSampleGroup(sampleGroupId);
+	}
+
+	@Override
 	public List<uk.ac.diamond.ispyb.api.Component> retrieveComponentsForSampleType(long sampleTypeId) {
 		return api.retrieveComponentsForSampleType(sampleTypeId);
 	}
@@ -133,6 +140,27 @@ public class XpdfDatabaseService implements IXpdfDatabaseService {
 			throw new RuntimeException(e);
 		}
 		return optionalContainerInfo.orElseThrow(() -> new IllegalArgumentException("No container exist with that ID"));
+	}
+
+	@Override
+	public SampleType retrieveSampleTypeForSample(long sampleId) {
+		Optional<SampleType> optionalSampleType;
+		try {
+			optionalSampleType = api.retrieveSampleTypeForSample(sampleId);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return optionalSampleType.orElseThrow(() -> new IllegalArgumentException("No container exist with that ID"));
+	}
+
+	@Override
+	public List<PDB> retrievePDBsForComponent(long componentId) {
+		try {
+			return api.retrievePDBsForComponent(componentId);
+		} catch (SQLException e) {
+			logger.error("Error calling api.retrievePDBsForComponent({})", componentId, e);
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
