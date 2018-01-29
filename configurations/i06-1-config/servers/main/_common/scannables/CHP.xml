@@ -9,21 +9,19 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<!-- 
 	<bean id="choprot" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ChopRotMotor" />
 		<property name="protectionLevel" value="0" />
 		<property name="local" value="true"/>
 	</bean>
-	 -->
+
 
 	<bean id="CHP" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="chopx" />
-				<!-- 
+				<ref bean="chopx" /> 
 				<ref bean="choprot" />
-				 -->
+				<ref bean="ChopPosn" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />

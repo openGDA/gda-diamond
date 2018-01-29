@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Mobile Rack Motors U3 Motors -->
+	<bean id="MotorMTR1_U3" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="U3.MTR1" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorMTR2_U3" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="U3.MTR2" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorMTR3_U3" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="U3.MTR3" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorMTR4_U3" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="U3.MTR4" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="MotorMTR5_U3" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="U3.MTR5" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="MotorMTR6_U3" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="U3.MTR6" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="MotorMTR7_U3" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="U3.MTR7" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="MotorMTR8_U3" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="U3.MTR8" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

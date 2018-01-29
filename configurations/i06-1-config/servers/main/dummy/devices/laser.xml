@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Laser stabillsation system Epics Monitor -->
+	<bean id="bpm1x" class="gda.device.monitor.EpicsMonitor">
+		<!--<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />-->
+		<property name="deviceName" value="LBPM1.X" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="bpm1y" class="gda.device.monitor.EpicsMonitor">
+		<!--<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />-->
+		<property name="deviceName" value="LBPM1.Y" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="bpm1pow" class="gda.device.monitor.EpicsMonitor">
+		<!--<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />-->
+		<property name="deviceName" value="LBPM1.POW" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="bpm2x" class="gda.device.monitor.EpicsMonitor">
+		<!--<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />-->
+		<property name="deviceName" value="LBPM2.X" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="bpm2y" class="gda.device.monitor.EpicsMonitor">
+		<!--<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />-->
+		<property name="deviceName" value="LBPM2.Y" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="bpm2pow" class="gda.device.monitor.EpicsMonitor">
+		<!--<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />-->
+		<property name="deviceName" value="LBPM2.POW" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="bpm3x" class="gda.device.monitor.EpicsMonitor">
+		<!--<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />-->
+		<property name="deviceName" value="LBPM3.X" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="bpm3y" class="gda.device.monitor.EpicsMonitor">
+		<!--<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />-->
+		<property name="deviceName" value="LBPM3.Y" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="bpm3pow" class="gda.device.monitor.EpicsMonitor">
+		<!--<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />-->
+		<property name="deviceName" value="LBPM3.POW" />
+		<property name="local" value="true"/>
+	</bean>
+
+
+	<!-- Epics soft motors for the Laser Stabilisation System-->
+	<bean id="MotorX_LFSM1" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="FSM1.X" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="MotorY_LFSM1" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="FSM1.Y" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorX_LFSM2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="FSM2.X" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="MotorY_LFSM2" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="FSM2.Y" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="MotorX_LFSM3" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="FSM3.X" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="MotorY_LFSM3" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="FSM3.Y" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="MotorX_LFSM4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="FSM4.X" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="MotorY_LFSM4" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="FSM4.Y" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="MotorX_LFSM22" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="FSM22.X" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="MotorY_LFSM22" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="FSM22.Y" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorX_LFSM23" class="gda.device.motor.EpicsMotor">
+		<!-- 
+		<property name="deviceName" value="FSM23.X" />
+		 -->
+		<property name="pvName" value="BL06I-OP-FSM-23:X" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="MotorY_LFSM23" class="gda.device.motor.EpicsMotor">
+		<!-- 
+		<property name="deviceName" value="FSM23.Y" />
+		 -->
+		<property name="pvName" value="BL06I-OP-FSM-23:Y" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- Control Points that control the Laser Stabilisation System Motor's Set Point -->
+
+	<bean id="fsm1xfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-01:X:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-01:X:FFB:SETPOINT" />
+	</bean>
+
+	<bean id="fsm1yfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-01:Y:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-01:Y:FFB:SETPOINT" />
+	</bean>
+
+	<!-- 
+	<bean id="fsm2xfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-02:X:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-02:X:FFB:SETPOINT" />
+	</bean>
+	
+	<bean id="fsm2yfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-02:Y:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-02:Y:FFB:SETPOINT" />
+	</bean>
+	 -->
+
+	<bean id="fsm3xfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-03:X:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-03:X:FFB:SETPOINT" />
+	</bean>
+	
+	<bean id="fsm3yfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-03:Y:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-03:Y:FFB:SETPOINT" />
+	</bean>
+
+	<bean id="fsm4xfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-04:X:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-04:X:FFB:SETPOINT" />
+	</bean>
+	
+	<bean id="fsm4yfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-04:Y:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-04:Y:FFB:SETPOINT" />
+	</bean>
+
+	<bean id="fsm22xfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-22:X:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-22:X:FFB:SETPOINT" />
+	</bean>
+	
+	<bean id="fsm22yfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-22:Y:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-22:Y:FFB:SETPOINT" />
+	</bean>
+
+	<bean id="fsm23xfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-23:X:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-23:X:FFB:SETPOINT" />
+	</bean>
+
+	<bean id="fsm23yfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-23:Y:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-23:Y:FFB:SETPOINT" />
+	</bean>
+
+</beans>

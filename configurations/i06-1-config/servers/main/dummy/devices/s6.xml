@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Branchline Exit Slits S6 Motors -->
+	<bean id="MotorXGap_S6" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="1.8651" />
+		<property name="maxPosition" value="9.5651" />
+		<property name="speed" value="1.0" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorYGap_S6" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="1.1225" />
+		<property name="maxPosition" value="12.7125" />
+		<property name="speed" value="1.0" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorZ_S6" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-200.000000" />
+		<property name="maxPosition" value="190.000000" />
+		<property name="speed" value="1.0" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorXSize_S6" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.0810" />
+		<property name="maxPosition" value="3.9200" />
+		<property name="speed" value="1.0" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorYSize_S6" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.0308" />
+		<property name="maxPosition" value="3.9702" />
+		<property name="speed" value="1.0" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+</beans>

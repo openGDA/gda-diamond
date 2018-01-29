@@ -8,10 +8,13 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<!-- 
 	<bean id="ChopRotMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="CHOP.ROT" />
 		<property name="local" value="true"/>
 	</bean>
-	 -->
+
+	<bean id="ChopPosn" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL06J-MO-CHOP-01:MP" />
+	</bean>
+	
 </beans>
