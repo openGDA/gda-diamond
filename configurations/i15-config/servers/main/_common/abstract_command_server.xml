@@ -70,7 +70,6 @@
 
 	<bean id="abstract_command_server" class="gda.jython.JythonServer"
 		abstract="true">
-		<property name="remotePort" value="9999" />
 		<!--
 		<property name="stopJythonScannablesOnStopAll" value="false" />
 		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
