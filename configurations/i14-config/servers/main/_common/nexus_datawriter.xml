@@ -36,6 +36,8 @@
 				<value>stage1</value>
 
 				<!-- detectors -->
+				<value>beam_stop_x</value>
+				<value>beam_stop_y</value>
 				<value>detector_table_x</value>
 				<value>excalibur_y</value>
 				<value>excalibur_z</value>
@@ -315,8 +317,20 @@
 						</property>
 					</bean>
 				</entry>
-				
+
 				<!-- Detectors -->
+				<entry key="beam_stop_x">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXInstrument/detectors:NXcollection/beam_stop_x" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="beam_stop_y">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXInstrument/detectors:NXcollection/beam_stop_y" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
 				<entry key="detector_table_x">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="instrument:NXInstrument/detectors:NXcollection/detector_table_x" />
@@ -353,7 +367,7 @@
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
-				
+
 			</map>
 		</property>
 	</bean>

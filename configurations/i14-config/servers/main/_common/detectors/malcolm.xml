@@ -11,30 +11,24 @@
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
-	<!-- Excalibur -->
+	<!-- Excalibur software -->
 	<bean id="malcolmInfoExcaliburMalcolmSoftware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Excalibur Malcolm software" />
 		<property name="description" value="Malcolm Excalibur for software scanning" />
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
+	<!-- Excalibur hardware -->
 	<bean id="malcolmInfoExcaliburMalcolmHardware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Excalibur Malcolm hardware" />
 		<property name="description" value="Malcolm Excalibur for true hardware scanning" />
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
-	<!-- Merlin -->
-	<!-- Merlin -->
-	<bean id="malcolmInfoMerlin" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Merlin Malcolm" />
-		<property name="description" value="Merlin Malcolm scan" />
-	</bean>
-
-	<!-- Xspress3/Merlin -->
-	<bean id="malcolmInfoXsp3Merlin" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XSP3/Merlin Malcolm" />
-		<property name="description" value="Combined XSP3 and Merlin Malcolm scan" />
+	<!-- Combined Excalibur/Xspress3 Malcolm hardware scanning -->
+	<bean id="malcolmInfoExcaliburXsp3MalcolmHardware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Excalibur/XSP3 Malcolm hardware" />
+		<property name="description" value="Malcolm combined Excalibur and Xspress3 hardware scanning" />
 	</bean>
 
 </beans>

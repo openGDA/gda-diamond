@@ -65,7 +65,7 @@ if isLive():
 else:
     print "Running in dummy mode"
     from beamline.dcm_enrg import DCMpdq
-    dcm_enrg = DCMpdq("dcm_enrg", dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe)
+    dcm_enrg = DCMpdq("dcm_enrg", dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ringCurrentMonitor)
 
 # Export dcm_enrg over RMI
 print "Exporting dcm_enrg"

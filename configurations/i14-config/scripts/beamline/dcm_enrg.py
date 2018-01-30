@@ -1,5 +1,6 @@
 
 from math import asin,sin,degrees,radians, cos
+from threading import Thread
 from gda.device.scannable import ScannableMotionUnitsBase
 from gda.analysis.datastructure import DataVector
 from gda.analysis.numerical.interpolation import Interpolator
@@ -12,7 +13,7 @@ import os.path
 
 
 class DCMpdq(ScannableMotionUnitsBase):
-    def __init__(self, name, dcm_bragg, dcm_perp, id_gap,m1_mirror_stripe,m2_mirror_stripe):
+    def __init__(self, name, dcm_bragg, dcm_perp, id_gap,m1_mirror_stripe,m2_mirror_stripe, ringCurrentMonitor):
             self.setName(name);
             self.setInputNames([name])
             self.setExtraNames([])
@@ -23,6 +24,7 @@ class DCMpdq(ScannableMotionUnitsBase):
             self.id_gap = id_gap
             self.m1_mirror_stripe = m1_mirror_stripe
             self.m2_mirror_stripe = m2_mirror_stripe
+            self.ringCurrentMonitor = ringCurrentMonitor
 
             # Si 111 spacing at 77K
             self.silicon_d111 = 3.134925
@@ -40,8 +42,6 @@ class DCMpdq(ScannableMotionUnitsBase):
             self.maxGap = 28.8
             # Default harmonic is the lowest harmonic = 5
             self.currentharmonic=5
-            # Position busy
-            self.iambusy = 0
             #self.mirror_stripe_list=[-20.0,0.0,20.0]
             # Variable to control whether to switch harmonics during scans
             # set using get set methods
@@ -54,6 +54,7 @@ class DCMpdq(ScannableMotionUnitsBase):
             self.disableDCMFeedback=1
             self.disableMirrorFeedback=1
             self.selectUndulatorHarmonic(self.currentharmonic)
+            self.iambusy=False
             self.setUserUnits("keV")
 
     def rawGetPosition(self):
@@ -63,117 +64,132 @@ class DCMpdq(ScannableMotionUnitsBase):
             return self.calcEnergyFromCurrentBragg()
 
     def rawAsynchronousMoveTo(self,position):
-            """
-            Move bragg, perp and id gap to correct values for demanded energy position
-            """
-            rollmove=False
-            # Don't allow a stupid move
-            if(position < self.minEnergy or position > self.maxEnergy):
-                print "Energy out of range"
-                self.iambusy = 0
-                self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.IDLE))
-                return
+        """
+        Move bragg, perp and id gap to correct values for demanded energy position
+        """
+        rollmove=False
+        # Don't allow a stupid move
+        if(position < self.minEnergy or position > self.maxEnergy):
+            print "Energy out of range"
+            self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.IDLE))
+            return
+        else:
+            # if harmonic switching is off keep the current harmonic and just interpolate the gap
+            # else select the best harmonic for this energy
+            if(self.disableUndulatorHarmonicSwitch):
+                best_harmonic = self.currentharmonic
             else:
-                # if harmonic switching is off keep the current harmonic and just interpolate the gap
-                # else select the best harmonic for this energy
-                if(self.disableUndulatorHarmonicSwitch):
-                    best_harmonic = self.currentharmonic
+                best_harmonic = self.selectBestUndulatorHarmonic(position)
+
+            if(self.disableMirrorStripeSwitch):
+                best_stripe = self.current_mirror_stripe
+            else:
+                best_stripe = self.selectBestMirrorStripe(position)
+                self.current_mirror_stripe = self.determine_current_stripe()
+
+            # If you've updated the harmonic read in the correct lookuptable
+            if(best_harmonic != self.currentharmonic):
+                #print "selecting harmonic :",best_harmonic
+                self.selectUndulatorHarmonic(best_harmonic)
+                self.currentharmonic=best_harmonic
+
+            # If you're moving from Rh or Pt to Si
+            # then move the DCM first then translate stripe
+            # If you're moving from Si to Rh or Pt
+            # move the mirror stripe, then the DCM
+            moveDCMFirst=True
+            moveMirror=False
+            #print best_stripe,self.current_mirror_stripe
+            if(best_stripe != self.current_mirror_stripe):
+                moveMirror=True
+                if(best_stripe == "Si"):
+                    moveDCMFirst=True
                 else:
-                    best_harmonic = self.selectBestUndulatorHarmonic(position)
-
-                if(self.disableMirrorStripeSwitch):
-                    best_stripe = self.current_mirror_stripe
-                else:
-                    best_stripe = self.selectBestMirrorStripe(position)
-                    self.current_mirror_stripe = self.determine_current_stripe()
-
-                # If you've updated the harmonic read in the correct lookuptable
-                if(best_harmonic != self.currentharmonic):
-                    #print "selecting harmonic :",best_harmonic
-                    self.selectUndulatorHarmonic(best_harmonic)
-                    self.currentharmonic=best_harmonic
-
-                # If you're moving from Rh or Pt to Si
-                # then move the DCM first then translate stripe
-                # If you're moving from Si to Rh or Pt
-                # move the mirror stripe, then the DCM
-                moveDCMFirst=True
+                    moveDCMFirst=False
+            else:
                 moveMirror=False
-                #print best_stripe,self.current_mirror_stripe
-                if(best_stripe != self.current_mirror_stripe):
-                    moveMirror=True
-                    if(best_stripe == "Si"):
-                        moveDCMFirst=True
-                    else:
-                        moveDCMFirst=False
-                else:
-                    moveMirror=False
 
-                bragg,perp=self.calcBraggandPerp(position)
-                newid_gap = self.lookup_gap(position)
-                if(moveDCMFirst):
-                    self.iambusy = 1
-                    self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.BUSY))
-                    # Look up the bragg, perp and id- linear interpolation of lookuptables
-                    #print "Moving DCM to :", position
-                    if(self.disablegap):
-                        pos(self.dcm_bragg, bragg, self.dcm_perp, perp)
-                    else:
-                        pos(self.dcm_bragg, bragg, self.dcm_perp, perp, self.id_gap, newid_gap)
-                    #print "DCM move completed"
-                    if(moveMirror):
-                        self.iambusy = 1
-                        self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.BUSY))
-                        # Turn off DCM feedback - we're assuming the DCM crystals are parallel
-                        #self.disableDCMFeedback()
-                        # Move the mirror stripes before a gap change
-                        print "Moving mirror stripe to :",best_stripe
-                        pos(self.m1_mirror_stripe,best_stripe,self.m2_mirror_stripe,best_stripe)
-                        print "Mirror stripe change completed"
-                        self.current_mirror_stripe=best_stripe
-                        #
-                        # Now optimize the mirror angle for any offset
-                        # Turn on mirror feedback, settle, then turn off
-                        #self.runMirrorFeedback()
-                        # Turn off mirror feedback
-                        # Turn on DCM feedback
-                        #self.enableDCMFeedback()
-                    #else:
-                    #    print "Keeping mirror stripe as :",self.current_mirror_stripe
-                    self.iambusy = 0
-                    self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.IDLE))
+            bragg,perp=self.calcBraggandPerp(position)
+            newid_gap = self.lookup_gap(position)
 
-                else:
-                    if(moveMirror):
-                        self.iambusy = 1
-                        self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.BUSY))
-                        # Turn off DCM feedback
-                        #self.disableDCMFeedback()
-                        # Move the mirror stripes before a gap change
-                        print "Moving mirror stripe to :",best_stripe
-                        pos(self.m1_mirror_stripe,best_stripe,self.m2_mirror_stripe,best_stripe)
-                        print "Mirror stripe change completed"
-                        self.current_mirror_stripe=best_stripe
-                        #
-                        # Now optimize the mirror angle for any offset as the DCM
-                        # Turn on mirror feedback, settle, then turn off
-                        #self.runMirrorFeedback()
-                        # Turn on DCM feedback
-                        #self.enableDCMFeedback()
-                    else:
-                        print "Keeping mirror stripe as :",self.current_mirror_stripe
-                    # Look up the bragg, perp and id- linear interpolation of lookuptables
-                    #print "Moving DCM to :", position
-                    if(self.disablegap):
-                        pos(self.dcm_bragg, bragg, self.dcm_perp, perp)
-                    else:
-                        pos(self.dcm_bragg, bragg, self.dcm_perp, perp, self.id_gap, newid_gap)
-                    #print "DCM move completed"
-                    self.iambusy = 0
-                    self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.IDLE))
+#            if(self.disablegap or self.ringCurrentMonitor.getPosition() < 10):
+#                pos(self.dcm_bragg, bragg, self.dcm_perp, perp)
+#            else:
+#                pos(self.dcm_bragg, bragg, self.dcm_perp, perp, self.id_gap, newid_gap)
+            #print "DCM move completed"
+#            self.iambusy = 0
+#            self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.IDLE))
+
+            #moveThread = Thread(target = self.doMove, args=(moveDCMFirst, bragg, perp, newid_gap, moveMirror, best_stripe))
+            #moveThread.start()
+            self.doMove(moveDCMFirst, bragg, perp, newid_gap, moveMirror, best_stripe)
+
+
+    def doMove(self, moveDCMFirst, bragg, perp, newid_gap, moveMirror, best_stripe):
+        self.notifyIObservers(self, ScannableStatus.BUSY)
+        self.iambusy=True
+        if(moveDCMFirst):
+            self.moveDcm(bragg, perp, newid_gap)
+            self.handleMirrorMove(moveMirror, best_stripe)
+        else:
+            self.handleMirrorMove(moveMirror, best_stripe)
+            self.moveDcm(bragg, perp, newid_gap)
+        self.iambusy=False
+        self.notifyIObservers(self, ScannableStatus.IDLE)
+
+
+    def moveDcm(self, bragg, perp, newid_gap):
+        # Look up the bragg, perp and id- linear interpolation of lookuptables
+        #print "Moving DCM to :", bragg
+        if(self.disablegap or self.ringCurrentMonitor.getPosition() < 10):
+            print "Not moving id gap"
+            pos(self.dcm_bragg, bragg, self.dcm_perp, perp)
+        else:
+            print "Moving id gap"
+            pos(self.dcm_bragg, bragg, self.dcm_perp, perp, self.id_gap, newid_gap)
+        print "DCM move completed"
+
+
+    def handleMirrorMove(self,moveMirror, best_stripe):
+        if(moveMirror):
+            self.moveMirrorStripe(best_stripe)
+        else:
+            print("Keeping mirror stripe as :", self.current_mirror_stripe)
+
+
+    def moveMirrorStripe(self, best_stripe):
+        self.notifyIObservers(self, ScannableStatus.BUSY)
+        # Turn off DCM feedback - we're assuming the DCM crystals are parallel
+        #self.disableDCMFeedback()
+        # Move the mirror stripes before a gap change
+        print("Moving mirror stripe to :", best_stripe)
+        pos(self.m1_mirror_stripe,best_stripe,self.m2_mirror_stripe,best_stripe)
+        print("Mirror stripe change completed")
+        self.current_mirror_stripe=best_stripe
+        #
+        # Now optimize the mirror angle for any offset
+        # Turn on mirror feedback, settle, then turn off
+        #self.runMirrorFeedback()
+        # Turn off mirror feedback
+        # Turn on DCM feedback
+        #self.enableDCMFeedback()
+
 
     def rawIsBusy(self):
-            return self.iambusy
+        # Always test these motors
+        if self.dcm_bragg.isBusy() \
+            or self.dcm_perp.isBusy() \
+            or self.m1_mirror_stripe.isBusy() \
+            or self.m2_mirror_stripe.isBusy() \
+            or self.iambusy:
+            return True
+
+        # Test id gap only if we can move it
+        # It may appear to be busy if it cannot be moved
+        if self.ringCurrentMonitor.getPosition() > 10 and self.id_gap.isBusy():
+            return True
+
+        return False
 
     def calcBraggandPerp(self,energy):
         """
