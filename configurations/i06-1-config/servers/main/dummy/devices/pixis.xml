@@ -17,7 +17,7 @@
 		<property name="prefix" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:" />
 	</bean>
 
-	<bean id="pixis_roi" class="gda.spring.V17NDROIFactoryBean">
+	<bean id="pixis_ROI" class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI:" />
 	</bean>
 
@@ -141,4 +141,26 @@
 	        </bean>
 		</property>
 	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="pixisCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="false" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="pixis_adbase" />
+								<property name="restoreAcquireState" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
 </beans>
