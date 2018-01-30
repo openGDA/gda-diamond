@@ -99,7 +99,7 @@
                id="org.eclipse.ui.navigator.ProjectExplorer"
                minimized="false"
                moveable="true"
-               ratio="0.58"
+               ratio="0.45"
                relationship="left"
                relative="org.eclipse.ui.editorss"
                showTitle="true"
