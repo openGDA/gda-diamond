@@ -3,7 +3,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<import resource="detectorProcessing.xml"/>
 	<import resource="dummy.xml"/>
+	<import resource="I15-1-JPE1.xml"/>
 	<import resource="marAreaDetector.xml"/>
 	<import resource="mpxAreaDetector.xml"/>
 	<import resource="peAreaDetector.xml"/>
