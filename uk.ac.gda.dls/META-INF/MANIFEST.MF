@@ -30,7 +30,6 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.diamond.daq.persistence;bundle-version="1.0.0"
 Export-Package: gda.analysis.io,
  gda.device.scannable.keyence,
- gda.factory;mandatory="uk.ac.gda.dls";uk.ac.gda.dls=split,
  gda.gui.exafs,
  gda.images.camera,
  gda.images.camera.corba,
