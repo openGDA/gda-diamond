@@ -1,0 +1,120 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
+
+<!-- setup CameraView -->
+       <bean id="d3_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="D3 Cam1 Preview" />
+              <property name="exposurePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod" />
+              <property name="gainPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain" />
+              <property name="acquirePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire" />
+              <property name="urlPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
+       </bean>
+       
+       <bean id="d4_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="D4 Cam1 Preview" />
+              <property name="exposurePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod" />
+              <property name="gainPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain" />
+              <property name="acquirePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire" />
+              <property name="urlPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
+       </bean>
+
+       <bean id="d7_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="D7 Cam1 Preview" />
+              <property name="exposurePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod" />
+              <property name="gainPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain" />
+              <property name="acquirePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire" />
+              <property name="urlPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
+       </bean>
+
+       <bean id="peem_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="PEEM Cam1 Preview" />
+              <property name="exposurePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod" />
+              <property name="gainPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain" />
+              <property name="acquirePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire" />
+              <property name="urlPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
+       </bean>
+       
+       <bean id="pixis_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="Pixis Camera Preview" />
+              <property name="exposurePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod" />
+              <property name="gainPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain" />
+              <property name="acquirePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire" />
+              <property name="urlPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
+       </bean>
+       
+
+       <bean id="ddiff_dcam1_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="DDIFF Cam1 Preview" />
+              <property name="exposurePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod" />
+              <property name="gainPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain" />
+              <property name="acquirePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire" />
+              <property name="urlPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
+       </bean>
+
+
+       <bean id="ddiff_dcam2_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="DDIFF Cam2 Preview" />
+              <property name="exposurePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod" />
+              <property name="gainPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain" />
+              <property name="acquirePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire" />
+              <property name="urlPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
+       </bean>
+
+       <bean id="ddiff_dcam3_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="DDIFF Cam3 Preview" />
+              <property name="exposurePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod" />
+              <property name="gainPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain" />
+              <property name="acquirePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire" />
+              <property name="urlPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
+       </bean>
+
+       <bean id="ddiff_dcam4_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="DDIFF Cam4 Preview" />
+              <property name="exposurePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod" />
+              <property name="gainPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Gain" />
+              <property name="acquirePV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire" />
+              <property name="urlPV" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:MJPG:MJPG_URL_RBV" />
+       </bean>
+       
+       <bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+              <property name="cameras">
+                     <list>
+                           <ref bean="d3_cam_config" />
+                           <ref bean="d4_cam_config" />
+                           <ref bean="d7_cam_config" />
+                           <ref bean="d7_cam_config" />
+                           <ref bean="ddiff_dcam1_config" />
+                           <ref bean="ddiff_dcam2_config" />
+                           <ref bean="ddiff_dcam3_config" />
+                           <ref bean="ddiff_dcam4_config" />
+                           <ref bean="pixis_cam_config" />
+                     </list>
+              </property>
+              <property name="plotViewID" value="uk.ac.gda.nano.views.ImageView" />
+       </bean>
+       
+        <bean class="gda.util.osgi.OSGiServiceRegister">
+                <property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+                <property name="service" ref="camera_config" />
+        </bean>
+       
+
+</beans>

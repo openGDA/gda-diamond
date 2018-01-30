@@ -53,8 +53,8 @@ from gdascripts.constants import * #@UnusedWildImport
 
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 import gdascripts.scan.concurrentScanWrapper
-scan_processor.rootNamespaceDict=globals()
-gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
+scan_processor.rootNamespaceDict=globals()  # @UndefinedVariable
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
 scan_processor_normal_processes = scan_processor.processors
 scan_processor_empty_processes  = []
  
