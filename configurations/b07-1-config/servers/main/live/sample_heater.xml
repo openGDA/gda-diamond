@@ -15,7 +15,7 @@
     <bean id="sample_temperature" class="gda.device.temperature.Eurotherm2K">
         <property name="local" value="true"/>
         <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
+        <property name="accuracy" value = "1"/>
         <property name="polltime" value = "1000"/>
         <property name="fileSuffix" value = "temp"/>
         <property name="upperTemp" value = "1000"/>
