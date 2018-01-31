@@ -171,30 +171,27 @@ actualTime = actualTimeClass("actualTime")
 print "--------------------------------------------------"
 
 try :
-    if isLive():
-        print "setup edxd detector: edxd_counter, edxdout, edxd_binned"
-        from edxd_count import edxd_count
-        edxd_counter = edxd_count("edxd_counter", edxd) #@UndefinedVariable
-        # set up the edxd to monitor to begin with
-        edxd.monitorAllSpectra() #@UndefinedVariable
-        print("After monitorAllSpectra")
-        from EDXDDataExtractor import EDXDDataExtractor #@UnusedImport
-        from EDXDDataExtractor import edxd2ascii
-        from EDXDDataExtractor import postExtractor #@UnusedImport
-        edxdout = edxd2ascii("edxdout")
-        ## removing binned for the moment
-        from edxd_binned_counter import EdxdBinned
-        edxd_binned = EdxdBinned("edxd_binned", edxd) #@UndefinedVariable
-    
-        from edxd_q_calibration_reader import set_edxd_q_calibration
-        print("After set_edxd_q_calibration")
-        #epg 8 March 2011 Force changes to allow edxd to work on the trunk
-        LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
-        if LocalProperties.get("gda.data.scan.datawriter.dataFormat") != "NexusDataWriter":
-            raise "Format not set to Nexus"
-        edxd.setOutputFormat(["%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g"])
-    else:
-        print "NOT adding edxd for the current GDA mode: %s" %(LocalProperties.get("gda.mode"))
+    print "setup edxd detector: edxd_counter, edxdout, edxd_binned"
+    from edxd_count import edxd_count
+    edxd_counter = edxd_count("edxd_counter", edxd) #@UndefinedVariable
+#     # set up the edxd to monitor to begin with
+#     edxd.monitorAllSpectra() #@UndefinedVariable
+#     print("After monitorAllSpectra")
+    from EDXDDataExtractor import EDXDDataExtractor #@UnusedImport
+    from EDXDDataExtractor import edxd2ascii
+    from EDXDDataExtractor import postExtractor #@UnusedImport
+    edxdout = edxd2ascii("edxdout")
+    ## removing binned for the moment
+    from edxd_binned_counter import EdxdBinned
+    edxd_binned = EdxdBinned("edxd_binned", edxd) #@UndefinedVariable
+
+    from edxd_q_calibration_reader import set_edxd_q_calibration
+    print("After set_edxd_q_calibration")
+    #epg 8 March 2011 Force changes to allow edxd to work on the trunk
+    LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
+    if LocalProperties.get("gda.data.scan.datawriter.dataFormat") != "NexusDataWriter":
+        raise "Format not set to Nexus"
+    edxd.setOutputFormat(["%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g"])
 except :
     exceptionType, exception, traceback = sys.exc_info()
     handle_messages.log(None, "EDXD detector not available!", exceptionType, exception, traceback, False)
