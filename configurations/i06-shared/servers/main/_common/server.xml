@@ -14,7 +14,7 @@
 	<import resource="plotServer.xml"/>
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
-	<import resource="commandServer.xml"/>
+<!-- 	<import resource="commandServer.xml"/> -->
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 	<import resource="dataWriter.xml"/>
