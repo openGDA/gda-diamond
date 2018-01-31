@@ -19,4 +19,53 @@
 	<alias name="sim_ndfiletif" alias="pixium10_ndfiletif" />
 	<alias name="sim_proc" alias="pixium10_proc" />
 
-</beans>	
+	<bean id="pixium10_hdf" class="gda.device.detector.NXDetector">
+		<property name="name" value="pixium10_hdf" />
+		<property name="collectionStrategy" ref="pixium10_simpleAcquire"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixium10_hdf5_filewriter_nochunking"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pixium10_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="pixium10_hdf" />
+		<property name="collectionStrategy" ref="pixium10_simpleAcquire"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixium10_tif_writer"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pixium10_simpleAcquire" class="gda.device.detector.addetector.triggering.SimpleAcquire">
+		<constructor-arg ref="pixium10_cam_base" />
+		<constructor-arg value="0." />
+	</bean>
+
+	<bean id="abstract_hdf5_filewriter_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter" abstract="true">
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1292" />
+		<property name="framesFlush" value="0" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+
+	<bean id="pixium10_hdf5_filewriter_nochunking" parent="abstract_hdf5_filewriter_nochunking">
+		<property name="ndFileHDF5" ref="sim_hdf5" />
+		<property name="fileNameTemplate" value="pixium10"/>
+	</bean>
+
+	<bean id="pixium10_tif_writer" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pixium10"/>
+		<property name="ndFile" ref="sim_ndfiletif" />
+	</bean>
+
+</beans>
