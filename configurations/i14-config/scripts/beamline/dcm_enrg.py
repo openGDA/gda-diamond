@@ -54,6 +54,7 @@ class DCMpdq(ScannableMotionUnitsBase):
             self.disableDCMFeedback=1
             self.disableMirrorFeedback=1
             self.selectUndulatorHarmonic(self.currentharmonic)
+            self.iambusy=False
             self.setUserUnits("keV")
 
     def rawGetPosition(self):
@@ -111,20 +112,29 @@ class DCMpdq(ScannableMotionUnitsBase):
             bragg,perp=self.calcBraggandPerp(position)
             newid_gap = self.lookup_gap(position)
 
-            moveThread = Thread(target = self.doMove, args=(moveDCMFirst, bragg, perp, newid_gap, moveMirror, best_stripe))
-            moveThread.start()
+#            if(self.disablegap or self.ringCurrentMonitor.getPosition() < 10):
+#                pos(self.dcm_bragg, bragg, self.dcm_perp, perp)
+#            else:
+#                pos(self.dcm_bragg, bragg, self.dcm_perp, perp, self.id_gap, newid_gap)
+            #print "DCM move completed"
+#            self.iambusy = 0
+#            self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.IDLE))
+
+            #moveThread = Thread(target = self.doMove, args=(moveDCMFirst, bragg, perp, newid_gap, moveMirror, best_stripe))
+            #moveThread.start()
+            self.doMove(moveDCMFirst, bragg, perp, newid_gap, moveMirror, best_stripe)
 
 
     def doMove(self, moveDCMFirst, bragg, perp, newid_gap, moveMirror, best_stripe):
         self.notifyIObservers(self, ScannableStatus.BUSY)
-
+        self.iambusy=True
         if(moveDCMFirst):
             self.moveDcm(bragg, perp, newid_gap)
             self.handleMirrorMove(moveMirror, best_stripe)
         else:
             self.handleMirrorMove(moveMirror, best_stripe)
             self.moveDcm(bragg, perp, newid_gap)
-
+        self.iambusy=False
         self.notifyIObservers(self, ScannableStatus.IDLE)
 
 
@@ -137,10 +147,10 @@ class DCMpdq(ScannableMotionUnitsBase):
         else:
             print "Moving id gap"
             pos(self.dcm_bragg, bragg, self.dcm_perp, perp, self.id_gap, newid_gap)
-        #print "DCM move completed"
+        print "DCM move completed"
 
 
-    def handleMirrorMove(self, moveMirror, best_stripe):
+    def handleMirrorMove(self,moveMirror, best_stripe):
         if(moveMirror):
             self.moveMirrorStripe(best_stripe)
         else:
@@ -148,7 +158,7 @@ class DCMpdq(ScannableMotionUnitsBase):
 
 
     def moveMirrorStripe(self, best_stripe):
-        self.notifyIObservers(self, ScannableStatus(self.getName(), ScannableStatus.BUSY))
+        self.notifyIObservers(self, ScannableStatus.BUSY)
         # Turn off DCM feedback - we're assuming the DCM crystals are parallel
         #self.disableDCMFeedback()
         # Move the mirror stripes before a gap change
@@ -170,7 +180,8 @@ class DCMpdq(ScannableMotionUnitsBase):
         if self.dcm_bragg.isBusy() \
             or self.dcm_perp.isBusy() \
             or self.m1_mirror_stripe.isBusy() \
-            or self.m2_mirror_stripe.isBusy():
+            or self.m2_mirror_stripe.isBusy() \
+            or self.iambusy:
             return True
 
         # Test id gap only if we can move it
@@ -435,4 +446,3 @@ class DCMpdq(ScannableMotionUnitsBase):
 
         else:
             print 'Cannot find a match for ',harmonic
-
