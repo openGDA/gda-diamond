@@ -22,5 +22,5 @@ ca54sr = Scaler8512ChannelEpicsDeviceClass('ca54sr',pvPatchPanelScalerTP, pvPatc
 
 scalar3=[ca51sr,ca52sr,ca53sr,ca54sr]
 
-#acqtime = DetectorIntegrationsDevice('acqtime', [ca61sr]);
-#acqtime.addDetectors([ca11sr]);
+#acqtime = DetectorIntegrationsDevice('acqtime', [ca51sr]);
+#acqtime.addDetectors([ca51sr]);
