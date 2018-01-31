@@ -1,21 +1,28 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://www.springframework.org/schema/util 
-    http://www.springframework.org/schema/util/spring-util-2.5.xsd
-    http://www.diamond.ac.uk/schema/gda/corba 
-    http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-    http://www.springframework.org/schema/tx 
-    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-    http://www.springframework.org/schema/aop 
-    http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-    http://www.springframework.org/schema/context
-    http://www.springframework.org/schema/context/spring-context.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.diamond.ac.uk/schema/gda/gda	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
+	<gda:rmi-import
+		id="magnetX"
+		serviceUrl="${gda.rmi.prefix}magnetX"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetY"
+		serviceUrl="${gda.rmi.prefix}magnetY"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetZ"
+		serviceUrl="${gda.rmi.prefix}magnetZ"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetSum"
+		serviceUrl="${gda.rmi.prefix}magnetSum"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetModeControl"
+		serviceUrl="${gda.rmi.prefix}magnetModeControl"
+		serviceInterface="gda.device.EnumPositioner" />
 
 <!-- The magnet control GUI -->
 	<bean id="magnetField" class="gda.rcp.views.FindableGroupCompositeFactory">
@@ -62,6 +69,27 @@
 	</bean>
 
 <!-- The temperature control GUI -->
+	<gda:rmi-import
+		id="magnetSampleTemp"
+		serviceUrl="${gda.rmi.prefix}magnetSampleTemp"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetHeaterControl"
+		serviceUrl="${gda.rmi.prefix}magnetHeaterControl"
+		serviceInterface="gda.device.EnumPositioner" />
+	<gda:rmi-import
+		id="magnetManualOutput"
+		serviceUrl="${gda.rmi.prefix}magnetManualOutput"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetTargetTemp"
+		serviceUrl="${gda.rmi.prefix}magnetTargetTemp"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetNeedleValve"
+		serviceUrl="${gda.rmi.prefix}magnetNeedleValve"
+		serviceInterface="gda.device.EnumPositioner" />
+
 	<bean id="magnetTemp" class="gda.rcp.views.FindableGroupCompositeFactory">
 		<property name="label" value="Temperature"/>
 		<property name="columns" value="1"/>
@@ -106,6 +134,27 @@
 
 
 <!-- The cooling control GUI -->
+	<gda:rmi-import
+		id="magnetNitrogenLevel"
+		serviceUrl="${gda.rmi.prefix}magnetNitrogenLevel"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetHeliumLevel"
+		serviceUrl="${gda.rmi.prefix}magnetHeliumLevel"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetPotHeliumLevel"
+		serviceUrl="${gda.rmi.prefix}magnetPotHeliumLevel"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetHeliumMode"
+		serviceUrl="${gda.rmi.prefix}magnetHeliumMode"
+		serviceInterface="gda.device.EnumPositioner" />
+	<gda:rmi-import
+		id="magnetDiaphragmPump"
+		serviceUrl="${gda.rmi.prefix}magnetDiaphragmPump"
+		serviceInterface="gda.device.EnumPositioner" />
+
 	<bean id="magnetCool" class="gda.rcp.views.FindableGroupCompositeFactory">
 		<property name="label" value="Cooling"/>
 		<property name="columns" value="1"/>
@@ -147,89 +196,5 @@
 			</list>
 		</property>
 	</bean>
-
-
-<!-- The magnet control part -->
-	<bean id="magnetX" class="gda.device.scannable.DummyScannable">
-	</bean>	
-	<bean id="magnetY" class="gda.device.scannable.DummyScannable">
-	</bean>	
-	<bean id="magnetZ" class="gda.device.scannable.DummyScannable">
-	</bean>	
-	<bean id="magnetSum" class="gda.device.scannable.DummyScannable">
-	</bean>	
-	<bean id="magnetModeControl" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Mode 1</value>
-				<value>Mode 2</value>
-				<value>Mode 3</value>
-			</list>
-		</property>
-		<property name="local" value="false"/>
-	</bean>	
-
-<!-- The temperature control part -->
-	<bean id="magnetSampleTemp" class="gda.device.scannable.DummyScannable">
-	</bean>	
-	<bean id="magnetHeaterControl" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Type 1</value>
-				<value>Type 2</value>
-				<value>Type 3</value>
-			</list>
-		</property>
-		<property name="local" value="false"/>
-	</bean>	
-	<bean id="magnetManualOutput" class="gda.device.scannable.DummyScannable">
-	</bean>	
-	<bean id="magnetTargetTemp" class="gda.device.scannable.DummyScannable">
-	</bean>	
-	<bean id="magnetNeedleValve" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Type 1</value>
-				<value>Type 2</value>
-				<value>Type 3</value>
-			</list>
-		</property>
-		<property name="local" value="false"/>
-	</bean>	
-
-<!-- The cooling control part -->
-	<bean id="magnetNitrogenLevel" class="gda.device.scannable.DummyScannable">
-	</bean>	
-	<bean id="magnetHeliumLevel" class="gda.device.scannable.DummyScannable">
-	</bean>	
-	<bean id="magnetPotHeliumLevel" class="gda.device.scannable.DummyScannable">
-	</bean>	
-	<bean id="magnetHeliumMode" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Mode 1</value>
-				<value>Mode 2</value>
-				<value>Mode 3</value>
-			</list>
-		</property>
-		<property name="local" value="false"/>
-	</bean>	
-	<bean id="magnetDiaphragmPump" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Pump 1</value>
-				<value>Pump 2</value>
-				<value>Pump 3</value>
-			</list>
-		</property>
-		<property name="local" value="false"/>
-	</bean>
-
-	<!-- Branch line Gate Valve 4 ( Valve 17)  -->
-<!--	<bean id="magnetDiaphragmPump" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="GV17" />
-		<property name="local" value="false"/>
-	</bean>
--->
 	
 </beans>

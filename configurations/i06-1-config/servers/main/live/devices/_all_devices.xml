@@ -27,5 +27,7 @@
 <!-- 	<import resource="mobilerack_cam1.xml"/> -->
 	<import resource="pixis.xml"/>
 <!-- 	<import resource="polarimeter.xml"/> -->
+	<import resource="DiffractionDichroism.xml"/>
+<!-- 	<import resource="magnet.xml"/> -->
 	
 </beans>

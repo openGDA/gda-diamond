@@ -1,0 +1,142 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.diamond.ac.uk/schema/gda/gda	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+
+<!-- The magnet control part -->
+	<bean id="magnetX" class="gda.device.scannable.DummyScannable">
+	</bean>	
+	<bean id="magnetY" class="gda.device.scannable.DummyScannable">
+	</bean>	
+	<bean id="magnetZ" class="gda.device.scannable.DummyScannable">
+	</bean>	
+	<bean id="magnetSum" class="gda.device.scannable.DummyScannable">
+	</bean>	
+	<bean id="magnetModeControl" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Mode 1</value>
+				<value>Mode 2</value>
+				<value>Mode 3</value>
+			</list>
+		</property>
+		<property name="local" value="false"/>
+	</bean>	
+	<gda:rmi-export
+		service="magnetX"
+		serviceName="gda/magnetX"
+		serviceInterface="gda.device.ScannableMotion" />
+	<gda:rmi-export
+		service="magnetY"
+		serviceName="gda/magnetY"
+		serviceInterface="gda.device.ScannableMotion" />
+	<gda:rmi-export
+		service="magnetZ"
+		serviceName="gda/magnetZ"
+		serviceInterface="gda.device.ScannableMotion" />
+	<gda:rmi-export
+		service="magnetSum"
+		serviceName="gda/magnetSum"
+		serviceInterface="gda.device.ScannableMotion" />
+	<gda:rmi-export
+		service="magnetModeControl"
+		serviceName="gda/magnetModeControl"
+		serviceInterface="gda.device.EnumPositioner" />
+
+<!-- The temperature control part -->
+	<bean id="magnetSampleTemp" class="gda.device.scannable.DummyScannable">
+	</bean>	
+	<bean id="magnetHeaterControl" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Type 1</value>
+				<value>Type 2</value>
+				<value>Type 3</value>
+			</list>
+		</property>
+		<property name="local" value="false"/>
+	</bean>	
+	<bean id="magnetManualOutput" class="gda.device.scannable.DummyScannable">
+	</bean>	
+	<bean id="magnetTargetTemp" class="gda.device.scannable.DummyScannable">
+	</bean>	
+	<bean id="magnetNeedleValve" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Type 1</value>
+				<value>Type 2</value>
+				<value>Type 3</value>
+			</list>
+		</property>
+		<property name="local" value="false"/>
+	</bean>	
+	<gda:rmi-export
+		service="magnetSampleTemp"
+		serviceName="gda/magnetSampleTemp"
+		serviceInterface="gda.device.ScannableMotion" />
+	<gda:rmi-export
+		service="magnetHeaterControl"
+		serviceName="gda/magnetHeaterControl"
+		serviceInterface="gda.device.EnumPositioner" />
+	<gda:rmi-export
+		service="magnetManualOutput"
+		serviceName="gda/magnetManualOutput"
+		serviceInterface="gda.device.ScannableMotion" />
+	<gda:rmi-export
+		service="magnetTargetTemp"
+		serviceName="gda/magnetTargetTemp"
+		serviceInterface="gda.device.ScannableMotion" />
+	<gda:rmi-export
+		service="magnetNeedleValve"
+		serviceName="gda/magnetNeedleValve"
+		serviceInterface="gda.device.EnumPositioner" />
+
+<!-- The cooling control part -->
+	<bean id="magnetNitrogenLevel" class="gda.device.scannable.DummyScannable">
+	</bean>	
+	<bean id="magnetHeliumLevel" class="gda.device.scannable.DummyScannable">
+	</bean>	
+	<bean id="magnetPotHeliumLevel" class="gda.device.scannable.DummyScannable">
+	</bean>	
+	<bean id="magnetHeliumMode" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Mode 1</value>
+				<value>Mode 2</value>
+				<value>Mode 3</value>
+			</list>
+		</property>
+		<property name="local" value="false"/>
+	</bean>	
+	<bean id="magnetDiaphragmPump" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Pump 1</value>
+				<value>Pump 2</value>
+				<value>Pump 3</value>
+			</list>
+		</property>
+		<property name="local" value="false"/>
+	</bean>
+	<gda:rmi-export
+		service="magnetNitrogenLevel"
+		serviceName="gda/magnetNitrogenLevel"
+		serviceInterface="gda.device.ScannableMotion" />
+	<gda:rmi-export
+		service="magnetHeliumLevel"
+		serviceName="gda/magnetHeliumLevel"
+		serviceInterface="gda.device.ScannableMotion" />
+	<gda:rmi-export
+		service="magnetPotHeliumLevel"
+		serviceName="gda/magnetPotHeliumLevel"
+		serviceInterface="gda.device.ScannableMotion" />
+	<gda:rmi-export
+		service="magnetHeliumMode"
+		serviceName="gda/magnetHeliumMode"
+		serviceInterface="gda.device.EnumPositioner" />
+	<gda:rmi-export
+		service="magnetDiaphragmPump"
+		serviceName="gda/magnetDiaphragmPump"
+		serviceInterface="gda.device.EnumPositioner" />
+	
+</beans>
