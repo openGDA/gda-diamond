@@ -50,15 +50,5 @@
  			</list>
 		</property>
 	</bean>
-
- 	<bean id="light1" class="gda.device.scannable.DummyScannable">
-		<property name="name" value="light1"/>
-	</bean>	
- 	<bean id="light2" class="gda.device.scannable.DummyScannable">
-		<property name="name" value="light2"/>
-	</bean>	
- 	<bean id="light3" class="gda.device.scannable.DummyScannable">
-		<property name="name" value="light3"/>
-	</bean>	
 	
 </beans>

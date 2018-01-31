@@ -1,20 +1,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://www.springframework.org/schema/util 
-    http://www.springframework.org/schema/util/spring-util-2.5.xsd
-    http://www.diamond.ac.uk/schema/gda/corba 
-    http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-    http://www.springframework.org/schema/tx 
-    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-    http://www.springframework.org/schema/aop 
-    http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-    http://www.springframework.org/schema/context
-    http://www.springframework.org/schema/context/spring-context.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.diamond.ac.uk/schema/gda/gda	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+		
+	<gda:rmi-import
+		id="light1"
+		serviceUrl="${gda.rmi.prefix}light1"
+		serviceInterface="gda.device.ScannableMotion" />
+	<gda:rmi-import
+		id="light2"
+		serviceUrl="${gda.rmi.prefix}light2"
+		serviceInterface="gda.device.ScannableMotion" />
+	<gda:rmi-import
+		id="light3"
+		serviceUrl="${gda.rmi.prefix}light3"
+		serviceInterface="gda.device.ScannableMotion" />
 
 	<!-- RCP client for Diffraction and Dichroism -->
 	<bean id="lightControl" class="gda.rcp.views.FindableGroupCompositeFactory">
@@ -50,15 +50,5 @@
  			</list>
 		</property>
 	</bean>
-
- 	<bean id="light1" class="gda.device.scannable.DummyScannable">
-		<property name="name" value="light1"/>
-	</bean>	
- 	<bean id="light2" class="gda.device.scannable.DummyScannable">
-		<property name="name" value="light2"/>
-	</bean>	
- 	<bean id="light3" class="gda.device.scannable.DummyScannable">
-		<property name="name" value="light3"/>
-	</bean>	
 	
 </beans>

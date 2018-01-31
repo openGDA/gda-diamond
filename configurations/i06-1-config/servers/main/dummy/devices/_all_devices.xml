@@ -26,5 +26,6 @@
 <!-- 	<import resource="mobilerack.xml"/> -->
 <!-- 	<import resource="mobilerack_cam1.xml"/> -->
 	<import resource="pixis.xml"/>
+	<import resource="DiffractionDichroism.xml"/>
 	
 </beans>

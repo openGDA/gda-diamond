@@ -6,6 +6,7 @@
 		<project>diffcalc</project>
 		<project>i06-shared</project>
 		<project>mt-config</project>
+		<project>uk.ac.gda.api</project>
 		<project>uk.ac.gda.beamline.i06</project>
 		<project>uk.ac.gda.beamline.i06_1</project>
 		<project>uk.ac.gda.core</project>
