@@ -83,4 +83,23 @@
 		<property name="pvName" value="BL99P-EA-DET-01:DET:AcquireTime" />
 	</bean>
 
+	<!--  Scanning Gui configuration -->
+
+	<bean id="micModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name"                   value="mic"/>
+		<property name="exposureTime"           value="0.1"/>
+	</bean>
+	<bean id="micInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.micInfo"/>
+		<property name="label"       value="Mic Area Detector Device Label"/>
+		<property name="description" value="Mic Area Detector Device Description"/>
+	<!-- 		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/>  bundle must be on client for that, if it isn't a default icon is used -->
+	</bean>
+	<bean id="micDetector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name"              value="mic"/>
+		<property name="model"             ref="micModel"/>
+		<property name="deviceInformation" ref="micInfo"/>
+		<property name="activated"         value="false"/> <!-- This means it is activated as the default device to use in a scan -->
+	</bean>
+
 </beans>

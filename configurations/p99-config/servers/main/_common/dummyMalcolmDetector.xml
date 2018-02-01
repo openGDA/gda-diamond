@@ -9,14 +9,14 @@
 		<property name="exposureTime"           value="0.1"/>
 		<property name="axesToMove">
 			<list>
-				<value>stagex</value>
-				<value>stagey</value>
+				<value>stage_x</value>
+				<value>stage_y</value>
 			</list>
 		</property>
 		<property name="positionerNames">
 			<list>
-				<value>stagex</value>
-				<value>stagey</value>
+				<value>stage_x</value>
+				<value>stage_y</value>
 			</list>
 		</property>
     </bean>
