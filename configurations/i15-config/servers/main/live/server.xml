@@ -188,6 +188,13 @@
 		</property>
 	</bean>
 
+	<!--  
+	      IMPORTANT: this will start processing the scanning queue. 
+	      detectors must be created before doing this.
+	      ADVISED: do it last or towards the end, scan will now start to run!
+	 -->
+	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
+
 	<corba:export namespace="${gda.factory.factoryName}" />
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
