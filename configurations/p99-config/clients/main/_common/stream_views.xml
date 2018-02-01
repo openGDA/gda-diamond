@@ -14,7 +14,7 @@
 		<property name="url" value="p99-detector01.diamond.ac.uk:8080/DET1.mjpg.mjpg" />
 		<!-- If you want the EPICS array stream option add this. Commented out by default as WORKSTATION might not be set -->
 		<property name="arrayPv" value="BL99P-EA-DET-01:ARR" />
-		<!-- <property name="roiProvider" ref="mic_roi" /> -->
+		<!-- <property name="roiProvider" ref="andor3_addetector_roi" /> -->
 	</bean>
 		 
 </beans>

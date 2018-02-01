@@ -5,7 +5,7 @@
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
 	<description>
-					Unlike mic which requires an external Area Detector IOC to
+					Unlike andor3_addetector which requires an external Area Detector IOC to
 					be running, the det simulator is run within GDA, so there
 					are no external dependencies.
 	</description>
