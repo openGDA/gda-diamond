@@ -38,8 +38,7 @@ import org.springframework.util.StringUtils;
 
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
-import gda.device.enumpositioner.DummyPositioner;
-import gda.factory.FactoryException;
+import gda.device.enumpositioner.DummyEnumPositioner;
 import gda.observable.IObserver;
 import gda.rcp.views.CompositeFactory;
 import swing2swt.layout.BorderLayout;
@@ -96,14 +95,9 @@ public class EnumPositionerCompositeFactory implements CompositeFactory, Initial
 		Shell shell = new Shell(display);
 		shell.setLayout(new BorderLayout());
 
-		DummyPositioner dummy = new DummyPositioner();
+		DummyEnumPositioner dummy = new DummyEnumPositioner();
 		dummy.setName("dummy");
-			try {
-				dummy.configure();
-			} catch (FactoryException e1) {
-				// TODO Auto-generated catch block
-			}
-
+		dummy.configure();
 		dummy.setPositions(new String[]{"position1", "position2", "position3"});
 		try {
 			dummy.moveTo(1);
