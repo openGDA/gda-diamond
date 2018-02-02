@@ -75,12 +75,8 @@
 		<property name="remotePort" value="9999" />
 	</bean>
 
-
-	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
-<!-- 		<property name="template" value="${gda.data.terminal.logger.dir}/gdaterminal.log" /> -->
-		<property name="template" value="/dls/i09/data/$year$/$visit$/spool/gdaterminal.log" />
-		<property name="gdaMetadata" ref="GDAMetadata" />
-		<property name="local" value="true" />
+	<bean id="terminallog_path_provider" class="gda.data.metadata.IntransparentLogFilePathProvider">
+		<property name="pathTemplate" value="/dls/i09-2/data/$year$/$visit$/gdaterminal.log" />
 	</bean>
 
 	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
