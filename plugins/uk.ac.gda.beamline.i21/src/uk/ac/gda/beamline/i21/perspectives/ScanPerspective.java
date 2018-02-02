@@ -8,12 +8,18 @@ import org.eclipse.scanning.api.event.EventConstants;
 import org.eclipse.scanning.api.event.queues.QueueViews;
 import org.eclipse.scanning.api.event.scan.ScanBean;
 import org.eclipse.scanning.api.ui.CommandConstants;
+import org.eclipse.scanning.device.ui.device.ControlView;
 import org.eclipse.scanning.device.ui.device.DetectorView;
+import org.eclipse.scanning.device.ui.device.MonitorView;
+import org.eclipse.scanning.device.ui.model.ModelView;
+import org.eclipse.scanning.device.ui.points.ExecuteView;
+import org.eclipse.scanning.device.ui.points.ScanRegionView;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.namespace.ExecutionEnvironmentNamespace;
 
 import uk.ac.gda.client.live.stream.view.SnapshotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
@@ -31,21 +37,20 @@ public class ScanPerspective implements IPerspectiveFactory {
 
 		{
 			IFolderLayout folderLayout = layout.createFolder("ScanDefinition", IPageLayout.RIGHT, 0.8f, IPageLayout.ID_EDITOR_AREA);
-			folderLayout.addView("org.eclipse.scanning.device.ui.scanEditor");
-			final String detectorId = DetectorView.createId(getUriString(), EventConstants.DEVICE_REQUEST_TOPIC, EventConstants.DEVICE_RESPONSE_TOPIC);
-			folderLayout.addView(detectorId);
-			folderLayout.addView("org.eclipse.scanning.device.ui.device.MonitorView");
+			folderLayout.addView(ModelView.ID);
+			folderLayout.addView(DetectorView.ID);
+			folderLayout.addView(MonitorView.ID);
 		}
 		{
 			IFolderLayout folderLayout = layout.createFolder("ScanModel", IPageLayout.BOTTOM, 0.26f, "ScanDefinition");
-			folderLayout.addView("org.eclipse.scanning.device.ui.modelEditor");
-			folderLayout.addView("org.eclipse.scanning.device.ui.device.ControlView");
-			folderLayout.addView("org.eclipse.scanning.device.ui.points.scanRegionView");
+			folderLayout.addView(ModelView.ID);
+			folderLayout.addView(ControlView.ID);
+			folderLayout.addView(ScanRegionView.ID);
 		}
 		{
 			IFolderLayout folderLayout = layout.createFolder("ScanValidation", IPageLayout.BOTTOM, 0.54f, "ScanModel");
-			folderLayout.addView("org.eclipse.scanning.device.ui.scan.executeView");
-			folderLayout.addView("uk.ac.gda.client.livecontrol.LiveControlsView");
+			folderLayout.addView(ExecuteView.ID);
+			folderLayout.addView(ControlView.ID);
 			folderLayout.addView(getConsumerViewId());
 		}
 		{
