@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	
-	<bean id="att1us" class ="gda.device.enumpositioner.DummyPositioner" />
-	<bean id="att1ds" class ="gda.device.enumpositioner.DummyPositioner" />
-	<bean id="att2" class ="gda.device.enumpositioner.DummyPositioner" />
+	<bean id="att1us" class ="gda.device.enumpositioner.DummyValve" />
+	<bean id="att1ds" class ="gda.device.enumpositioner.DummyValve" />
+	<bean id="att2" class ="gda.device.enumpositioner.DummyValve" />
 
 </beans>
