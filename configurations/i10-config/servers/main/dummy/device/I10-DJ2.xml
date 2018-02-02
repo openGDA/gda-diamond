@@ -6,6 +6,6 @@
 	<!-- DJ2 (D10) -->
 	
 	<bean id="dj2d10_gcell_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="dj2a_pos" class="gda.device.enumpositioner.DummyPositioner" />
-	<bean id="dj2_pos" class="gda.device.enumpositioner.DummyPositioner" />
+	<bean id="dj2a_pos" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="dj2_pos" class="gda.device.enumpositioner.DummyValve" />
 </beans>

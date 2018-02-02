@@ -8,5 +8,5 @@
 	<bean id="dj3d11_scrn_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="dj3d11_bim_motor" class="gda.device.motor.DummyMotor" />	
 	<bean id="dj3d11_det_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="dj3d11_pos" class="gda.device.enumpositioner.DummyPositioner" />
+	<bean id="dj3d11_pos" class="gda.device.enumpositioner.DummyValve" />
 </beans>

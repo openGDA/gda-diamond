@@ -16,7 +16,7 @@
 	<bean id="pgm_grat_x_motor" class="gda.device.motor.DummyMotor" />	
 	<bean id="pgm_m2_pitch_motor" class="gda.device.motor.DummyMotor" />	
 	<bean id="pgm_m2_plane_motor" class="gda.device.motor.DummyMotor" />	
-	<bean id="pgm_pos" class="gda.device.enumpositioner.DummyPositioner" />
+	<bean id="pgm_pos" class="gda.device.enumpositioner.DummyValve" />
 
 	<bean id="cff" class="gda.device.controlpoint.DummyControlPoint" />
 	

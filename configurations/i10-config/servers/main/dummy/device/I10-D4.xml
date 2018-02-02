@@ -8,6 +8,6 @@
 	<bean id="d4d6_scrn_motor" class="gda.device.motor.DummyMotor" />
 	<!-- 
 	<bean id="d4d6_det_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="d4_pos" class="gda.device.enumpositioner.DummyPositioner" />
+	<bean id="d4_pos" class="gda.device.enumpositioner.DummyValve" />
 	 -->
 </beans>

@@ -6,7 +6,7 @@
 	<!-- D5 (D7) -->
 
 	<bean id="d5d7_gcell_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="d5_pos" class="gda.device.enumpositioner.DummyPositioner" />
-	<bean id="d5a_pos" class="gda.device.enumpositioner.DummyPositioner" />
+	<bean id="d5_pos" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="d5a_pos" class="gda.device.enumpositioner.DummyValve" />
 	<bean id="d5d7_det_motor" class="gda.device.motor.DummyMotor" />
 </beans>

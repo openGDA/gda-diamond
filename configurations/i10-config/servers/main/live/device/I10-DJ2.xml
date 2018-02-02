@@ -11,8 +11,8 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="dj2a_pos" class="gda.device.enumpositioner.DummyPositioner" />
-	<bean id="dj2_pos" class="gda.device.enumpositioner.DummyPositioner" />
+	<bean id="dj2a_pos" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="dj2_pos" class="gda.device.enumpositioner.DummyValve" />
 	<!-- 
     <bean id="dj2a_pos" class="gda.device.enumpositioner.EpicsPositioner">
         <property name="deviceName" value="DJ2A"/>
