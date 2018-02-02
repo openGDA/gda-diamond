@@ -4,9 +4,25 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="feshtr1" class="gda.device.enumpositioner.DummyPositioner" />
+	<bean id="feshtr1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Reset</value>
+			</list>
+		</property>
+	</bean>
 
-	<bean id="feshtr2" class="gda.device.enumpositioner.DummyPositioner" />
+	<bean id="feshtr2" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Reset</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="oh2shtr" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
