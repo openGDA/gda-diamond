@@ -6,7 +6,7 @@
 
 <!-- SR08I-MO-SERVC-01:BLGAPMTR -->
 
-	<bean id="opticsShutter" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="opticsShutter" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Open</value>
@@ -70,7 +70,7 @@
 		<property name="outputFormat" value="%.4f" />
 	</bean>
 
-	<bean id="shutter1" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="shutter1" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Open</value>
