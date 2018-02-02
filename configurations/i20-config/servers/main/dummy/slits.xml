@@ -36,7 +36,7 @@
 	<bean id="s3_yplus_motor" class="gda.device.motor.DummyMotor"/>  
 	<bean id="s3_yminus_motor" class="gda.device.motor.DummyMotor"/> 
 
-	<bean id="photonshutter" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="photonshutter" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Open</value>

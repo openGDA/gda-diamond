@@ -24,7 +24,7 @@
 	<bean id="m2_bend2_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="m2_sag_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="m3_stripe" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="m3_stripe" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Rhodium</value>
@@ -38,7 +38,7 @@
 	<bean id="m3_y_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="m3_x_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="m4_stripe" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="m4_stripe" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Rhodium</value>
@@ -230,7 +230,7 @@
 		<property name="motor" ref="m4_x_motor" />
 	</bean>
 
-	<bean id="hr_stripe" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="hr_stripe" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Silicon</value>
@@ -259,7 +259,7 @@
 		<property name="upperGdaLimits" value="10" />
 	</bean>
 
-	<bean id="hrmcoating" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="hrmcoating" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Silicon</value>

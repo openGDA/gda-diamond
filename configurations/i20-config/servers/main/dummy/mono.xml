@@ -5,7 +5,7 @@
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-	<bean id="ohcoating" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="ohcoating" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Rhodium</value>
@@ -14,7 +14,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="crystalcut" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="crystalcut" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Si(111)</value>

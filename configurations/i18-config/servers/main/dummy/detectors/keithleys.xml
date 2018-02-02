@@ -36,7 +36,7 @@
 	<!-- The definitions below were previously in detectors.xml and seem to duplicate the definitions above. I've put
 		them here to make the duplication obvious.
 		TODO Check which copy is actually used by scripts/scans/GUI and delete the other. -->
-	<bean id="I0_keithley" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="I0_keithley" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10^3 V/A</value>
@@ -51,7 +51,7 @@
 		</property>
 	</bean>
 
-	<bean id="It_keithley" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="It_keithley" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10^3 V/A</value>

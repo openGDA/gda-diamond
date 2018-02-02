@@ -6,7 +6,7 @@
 
 	<!--diagnostics -->
 
-	<bean id="d1_current" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d1_current" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10^5 low noise</value>
@@ -15,7 +15,7 @@
 	</bean>
 	<bean id="d1_screen" class="gda.device.enumpositioner.DummyValve"/>
 	<bean id="d1_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="d1_gain" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d1_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10^5 low noise</value>
@@ -79,7 +79,7 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 
-	<bean id="d4_current" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d4_current" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10^5 low noise</value>
@@ -88,7 +88,7 @@
 	</bean>
 	<bean id="d4_screen" class="gda.device.enumpositioner.DummyValve"/>
 	<bean id="d4_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="d4_gain" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d4_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10^5 low noise</value>
@@ -102,7 +102,7 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 
-	<bean id="d5_current" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d5_current" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10^5 low noise</value>
@@ -111,7 +111,7 @@
 	</bean>
 	<bean id="d5_screen" class="gda.device.enumpositioner.DummyValve"/>
 	<bean id="d5_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="d5_gain" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d5_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10^5 low noise</value>
@@ -139,28 +139,28 @@
 	<bean id="d8_screen" class="gda.device.enumpositioner.DummyValve"/>
 
 	<bean id="d9_diode" class="gda.device.enumpositioner.DummyValve"/>
-	<bean id="d9_current" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d9_current" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10^5 low noise</value>
 			</list>
 		</property>
 	</bean>
-	<bean id="d9_gain" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d9_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10^5 low noise</value>
 			</list>
 		</property>
 	</bean>
-	<bean id="d10_current" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d10_current" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10^5 low noise</value>
 			</list>
 		</property>
 	</bean>
-	<bean id="d10_gain" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d10_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10^5 low noise</value>

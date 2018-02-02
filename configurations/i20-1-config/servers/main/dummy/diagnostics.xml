@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="d2" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d2" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Empty</value>
@@ -19,7 +19,7 @@
 <!-- 	<bean id="d2_current" class="gda.device.monitor.EpicsMonitor"> -->
 <!-- 		<property name="deviceName" value="D2.D1I" /> -->
 <!-- 	</bean> -->
-	<bean id="d2_gain" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d2_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
 <!-- 		<property name="pvName" value="BL20J-DI-IAMP-01:GAIN" /> -->
 				<property name="positions">
 			<list>
@@ -28,7 +28,7 @@
 		</property>
 	</bean>
 	
-	<bean id="d3_screen" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="d3_screen" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Empty</value>

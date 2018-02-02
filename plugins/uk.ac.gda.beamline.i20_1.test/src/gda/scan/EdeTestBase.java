@@ -35,7 +35,7 @@ import org.powermock.api.mockito.PowerMockito;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
-import gda.device.enumpositioner.DummyPositioner;
+import gda.device.enumpositioner.DummyEnumPositioner;
 import gda.device.scannable.ScannableMotor;
 
 public class EdeTestBase {
@@ -56,10 +56,10 @@ public class EdeTestBase {
 		return energy_scannable;
 	}
 
-	protected DummyPositioner createShutter2(){
-		DummyPositioner shutter2 = new DummyPositioner();
+	protected DummyEnumPositioner createShutter2(){
+		DummyEnumPositioner shutter2 = new DummyEnumPositioner();
 		shutter2.setName("Shutter");
-		shutter2.setPositions(new String[]{"In","Out"});
+		shutter2.setPositions(new String[] { "Open", "Close", "Reset" });
 		return shutter2;
 	}
 
@@ -102,7 +102,7 @@ public class EdeTestBase {
 		public String info() {
 			return "Range : "+min+" (check = "+checkMin+") ... "+max+" (check = "+checkMax+")";
 		}
-	};
+	}
 
 	// Check all values in a Dataset to make sure they are all within expected range
 	public static void checkDataValidRange(String filename, String groupName, String dataName, RangeValidator rangeValidator) throws NexusException {

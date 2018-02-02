@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="optics_shutter" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="optics_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>In</value>
@@ -12,7 +12,7 @@
 		</property>
 	</bean>
 
-	<bean id="shutter1" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="shutter1" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>In</value>
@@ -21,7 +21,7 @@
 		</property>
 	</bean>
 
-<!-- 	<bean id="pshut" class="gda.device.enumpositioner.DummyPositioner"> -->
+<!-- 	<bean id="pshut" class="gda.device.enumpositioner.DummyEnumPositioner"> -->
 <!-- 		<property name="positions"> -->
 <!-- 			<list> -->
 <!-- 				<value>In</value> -->
@@ -30,7 +30,7 @@
 <!-- 		</property> -->
 <!-- 	</bean> -->
 
-	<bean id="shutter2" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="shutter2" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>In</value>
@@ -39,7 +39,7 @@
 		</property>
 	</bean>
 
-	<bean id="fast_shutter" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="fast_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>Open</value>

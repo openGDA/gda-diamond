@@ -61,12 +61,11 @@ import gda.device.detector.StepScanEdeDetector;
 import gda.device.detector.countertimer.TfgScaler;
 import gda.device.detector.xstrip.DummyXStripDAServer;
 import gda.device.detector.xstrip.XhDetector;
-import gda.device.enumpositioner.DummyPositioner;
+import gda.device.enumpositioner.DummyEnumPositioner;
 import gda.device.memory.Scaler;
 import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.ScannableMotor;
 import gda.device.scannable.ScannableUtils;
-import gda.device.timer.Etfg;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.factory.ObjectFactory;
@@ -92,16 +91,15 @@ public class EdeScanTest extends EdeTestBase {
 	private DummyXStripDAServer daserver;
 	private XhDetector xh;
 	private DummyMonitor topupMonitor;
-	private final DummyPositioner shutter = createShutter2();
+	private final DummyEnumPositioner shutter = createShutter2();
 	private ScannableMotor xScannable;
 	private ScannableMotor yScannable;
 	private Map<String, Double> inOutBeamMotors;
-	ScriptControllerBase edeProgressUpdater;
-	AsciiDataWriterConfiguration config;
+	private ScriptControllerBase edeProgressUpdater;
+	private AsciiDataWriterConfiguration config;
 	private EdeDummyDetector dummyEdeDetector;
 
 	private DummyDAServer daserverForTfg;
-	private Etfg tfg;
 	private Scaler memory;
 	private TfgScaler injectionCounter;
 

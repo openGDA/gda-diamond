@@ -70,7 +70,7 @@
 		</property>
 	</bean>
 	
-	<bean id="cut1" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="cut1" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>1</value>
@@ -79,7 +79,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="cut2" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="cut2" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>1</value>
@@ -88,7 +88,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="cut3" class="gda.device.enumpositioner.DummyPositioner">
+	<bean id="cut3" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>1</value>
