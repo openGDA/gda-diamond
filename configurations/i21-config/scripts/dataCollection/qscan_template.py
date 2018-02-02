@@ -1,85 +1,107 @@
 '''
-Created on 16th Dec 2017
+The template script for users to set experiment input parameters for a q-scan.
+These parameters are organised into 4 dictionary variables as each of them will be changed for different situations.
+These 4 dictionary are merged before passing to the qscan method in module dataCollection.qScan2 to perform the data collection.
 
-@author: i21user
+Important Notes:
+1. If and when you need to change any key name in these dictionary, you must update the qscan method in module dataCollection.qScan2 accordingly!
+2. If you add more key names to these dictionaries, you must access their value in the qscan method in module dataCollection.qScan2 by its key-name.
+3. The ID gap is calculated using idgap_fn(Ep, polarisation) function in module calibration.Energy2Gap4ID, which extracted from Energy_class.py,
+   so when you update Energy calibration in Energy_class.py, you must update Energy2Gap4ID.py
+
+Created on 12 Jan 2018
+Tested in dummy mode on 12 Jan 2018
+
+@author: fy65
 '''
-from dataCollection.qScan import qscan
+from dataCollection.qScan import qscan, qscanclean
+
+#####################################################################################################
+# True - do not move motors and scanning, False - do move motor and scan to collect data
+runcontrol={'dry_run':False}
 
 ###########################################################
 # input of the lattice parameter
-a = 3.9
-c = 13.2
+latticeparameters={
+    'a' : 3.9,
+    'c' : 13.2
+    }
 
 ###########################################################
 # definition of the sample and ctape position along (pi,0)
-
-sax_LCO_pi0 = -0.076
-say_LCO_pi0 = -1.65
-saz_LCO_pi0 = 0.74
-
-sax_ctape_pi0 = 0.93
-say_ctape_pi0 = -1.65
-saz_ctape_pi0 = -1.26
-
-saazimuth_LCO_pi0 = 3
-satilt_LCO_pi0 = -1.9
-sapolaroffset_pi0 = +1.0
+motorpositions={
+    'sax_sample' : -0.076,
+    'say_sample' : -1.65,
+    'saz_sample' : 0.74,
+    
+    'sax_ctape' : 0.93,
+    'say_ctape' : -1.65,
+    'saz_ctape' : -1.26,
+    
+    'saazimuth_val' : 3,
+    'satilt_val' : -1.9,
+    'sapolar_offset' : +1.0
+    }
 
 #####################################################################################################
 # definition of the q range and the steps along (pi,0)
-
-qStart_pi0 = 0.26
-qEnd_pi0 = 0.5
-qStep_pi0 = 0.02
-n_points_pi0 = int((qEnd_pi0-qStart_pi0)/qStep_pi0 + 1) 
+qrange={
+    'qStart' : 0.26,
+    'qEnd' : 0.5,
+    'qStep' : 0.02
+    }
+n_points = int((qrange['qEnd']-qrange['qStart'])/qrange['qStep'] + 1) 
+qrange['n_points']=n_points
 
 #####################################################################################################
 # q scan over the entire q range using the M5lq mirror, s5v1gap = 10, LV, energy = 935.8 eV, (pi,0)
 print('scan over the entire q range using the M5lq mirror, s5v1gap = 10, LV, energy = 935.8 eV, (pi,0)')
 # Switch to LV
-beam_energy=935.8
-beam_polarisation='LV'
-s5v1gap_val=10
-energy_sample=932.5
-thts_val=146.0
-vec=1 #(pi,0)
-n_frames_per_point_sample=20
-sample_exposure_time=30     # in seconds
-n_frames_per_point_elastic=6
-elastic_exposure_time=10    #in seconds
+experimentparameters={
+    'beam_energy' : 935.8,
+    'beam_polarisation' : 'LV',
+    's5v1gap_val' : 10,
+    'energy_sample' : 932.5,
+    'thts_val' : 146.0,
+    'vec' : 1,   #(pi,0)
+    'n_frames_per_point_sample' : 10,
+    'sample_exposure_time' : 3,     # in seconds
+    'n_frames_per_point_elastic' : 6,
+    'elastic_exposure_time' : 2    #in seconds
+    }
 
-qscan(beam_energy,beam_polarisation,s5v1gap_val,saazimuth_LCO_pi0,satilt_LCO_pi0,say_LCO_pi0,\
-            qStart_pi0,qStep_pi0,n_points_pi0,energy_sample,sapolaroffset_pi0,thts_val,vec,a,\
-            sax_LCO_pi0,saz_LCO_pi0,n_frames_per_point_sample,sample_exposure_time,\
-            sax_ctape_pi0,saz_ctape_pi0,n_frames_per_point_elastic,elastic_exposure_time)
+parameters=dict(experimentparameters.items()+qrange.items()+motorpositions.items()+latticeparameters.items()+runcontrol.items())
+qscan(**parameters)
 
 ###################################################################
 # definition of the q range and the steps along (pi,0)
-
-qStart_pi0 = -0.5
-qEnd_pi0 = 0.5
-qStep_pi0 = 0.02
-n_points_pi0 = int((qEnd_pi0-qStart_pi0)/qStep_pi0 + 1) 
+qrange={
+    'qStart' : -0.5,
+    'qEnd' : 0.5,
+    'qStep' : 0.02
+    }
+n_points = int((qrange['qEnd']-qrange['qStart'])/qrange['qStep'] + 1) 
+qrange['n_points']=n_points
 
 #####################################################################################################
 # q scan over the entire q range using the M5lq mirror, s5v1gap = 10, LH, energy = 935.8 eV, (pi,0)
 print('scan over the entire q range using the M5lq mirror, s5v1gap = 10, LH, energy = 935.8 eV, (pi,0)')
 # Switch to LH
-beam_energy=935.8
-beam_polarisation='LH'
-s5v1gap_val=10
-energy_sample=932.5
-thts_val=146.0
-vec=1 #(pi,0)
-n_frames_per_point_sample=20
-sample_exposure_time=30     # in seconds
-n_frames_per_point_elastic=6
-elastic_exposure_time=10    #in seconds
+experimentparameters={
+    'beam_energy' : 935.8,
+    'beam_polarisation' : 'LH',
+    's5v1gap_val' : 10,
+    'energy_sample' : 932.5,
+    'thts_val' : 146.0,
+    'vec' : 1,   #(pi,0)
+    'n_frames_per_point_sample' : 10,
+    'sample_exposure_time' : 3,     # in seconds
+    'n_frames_per_point_elastic' : 6,
+    'elastic_exposure_time' : 1    #in seconds
+    }
 
-qscan(beam_energy,beam_polarisation,s5v1gap_val,saazimuth_LCO_pi0,satilt_LCO_pi0,say_LCO_pi0,\
-            qStart_pi0,qStep_pi0,n_points_pi0,energy_sample,sapolaroffset_pi0,thts_val,vec,a,\
-            sax_LCO_pi0,saz_LCO_pi0,n_frames_per_point_sample,sample_exposure_time,\
-            sax_ctape_pi0,saz_ctape_pi0,n_frames_per_point_elastic,elastic_exposure_time)
+parameters=dict(experimentparameters.items()+qrange.items()+motorpositions.items()+latticeparameters.items()+runcontrol.items())
+qscan(**parameters)
 
 ###################################################################
 
@@ -87,75 +109,80 @@ qscan(beam_energy,beam_polarisation,s5v1gap_val,saazimuth_LCO_pi0,satilt_LCO_pi0
 ###########################################################
 # definition of the sample and ctape position along (pi,pi)
 
-sax_LCO_pipi = -0.126
-say_LCO_pipi = -1.65
-saz_LCO_pipi = 1.9
-
-sax_ctape_pipi = 1.007
-say_ctape_pipi = -1.65
-saz_ctape_pipi = -1.0
-
-saazimuth_LCO_pipi = -42
-satilt_LCO_pipi = -3.7
-sapolaroffset_pipi = -3.0
+motorpositions={
+    'sax_sample' : -0.126,
+    'say_sample' : -1.65,
+    'saz_sample' : 1.9,
+    
+    'sax_ctape' : 1.007,
+    'say_ctape' : -1.65,
+    'saz_ctape' : -1.0,
+    
+    'saazimuth_val' : -42,
+    'satilt_val' : -3.7,
+    'sapolar_offset' : -3.0
+    }
 
 #####################################################################################################
 # definition of the q range and the steps along (pi,pi)
-
-qStart_pipi = -0.07
-qEnd_pipi = 0.35
-qStep_pipi = 0.02
-n_points_pipi = int((qEnd_pipi-qStart_pipi)/qStep_pipi + 1)
+qrange={
+    'qStart' : -0.07,
+    'qEnd' : 0.35,
+    'qStep' : 0.02
+    }
+n_points = int((qrange['qEnd']-qrange['qStart'])/qrange['qStep'] + 1) 
+qrange['n_points']=n_points
 
 #####################################################################################################
 # q scan over the entire q range using the M5lq mirror, s5v1gap = 10, LV, energy = 935.8 eV, (pi,pi)
 print('scan over the entire q range using the M5lq mirror, s5v1gap = 10, LV, energy = 935.8 eV, (pi,pi)')
 # Switch to LV
-beam_energy=935.8
-beam_polarisation='LV'
-s5v1gap_val=10
-energy_sample=932.5
-thts_val=146.0
-vec=2 #(pi,pi)
-n_frames_per_point_sample=20
-sample_exposure_time=30     # in seconds
-n_frames_per_point_elastic=6
-elastic_exposure_time=10    #in seconds
+experimentparameters={
+    'beam_energy' : 935.8,
+    'beam_polarisation' : 'LV',
+    's5v1gap_val' : 10,
+    'energy_sample' : 932.5,
+    'thts_val' : 146.0,
+    'vec' : 2,   #(pi,pi)
+    'n_frames_per_point_sample' : 10,
+    'sample_exposure_time' : 3,     # in seconds
+    'n_frames_per_point_elastic' : 6,
+    'elastic_exposure_time' : 1    #in seconds
+    }
 
-qscan(beam_energy,beam_polarisation,s5v1gap_val,saazimuth_LCO_pipi,satilt_LCO_pipi,say_LCO_pipi,\
-            qStart_pipi,qStep_pipi,n_points_pipi,energy_sample,sapolaroffset_pipi,thts_val,vec,a,\
-            sax_LCO_pipi,saz_LCO_pipi,n_frames_per_point_sample,sample_exposure_time,\
-            sax_ctape_pipi,saz_ctape_pipi,n_frames_per_point_elastic,elastic_exposure_time)
-
+parameters=dict(experimentparameters.items()+qrange.items()+motorpositions.items()+latticeparameters.items()+runcontrol.items())
+qscan(**parameters)
 
 #####################################################################################################
 # definition of the q range and the steps along (pi,pi)
-
-qStart_pipi = -0.35
-qEnd_pipi = 0.35
-qStep_pipi = 0.02
-n_points_pipi = int((qEnd_pipi-qStart_pipi)/qStep_pipi + 1)
+qrange={
+    'qStart' : -0.35,
+    'qEnd' : 0.35,
+    'qStep' : 0.02
+    }
+n_points = int((qrange['qEnd']-qrange['qStart'])/qrange['qStep'] + 1) 
+qrange['n_points']=n_points
 
 #####################################################################################################
 # q scan over the entire q range using the M5lq mirror, s5v1gap = 10, LH, energy = 935.8 eV, (pi,pi)
 print('scan over the entire q range using the M5lq mirror, s5v1gap = 10, LH, energy = 935.8 eV, (pi,pi)')
 
 # Switch to LH
-beam_energy=935.8
-beam_polarisation='LH'
-s5v1gap_val=10
-energy_sample=932.5
-thts_val=146.0
-vec=2 #(pi,pi)
-n_frames_per_point_sample=20
-sample_exposure_time=30     # in seconds
-n_frames_per_point_elastic=6
-elastic_exposure_time=10    #in seconds
+experimentparameters={
+    'beam_energy' : 935.8,
+    'beam_polarisation' : 'LH',
+    's5v1gap_val' : 10,
+    'energy_sample' : 932.5,
+    'thts_val' : 146.0,
+    'vec' : 2,   #(pi,pi)
+    'n_frames_per_point_sample' : 10,
+    'sample_exposure_time' : 3,     # in seconds
+    'n_frames_per_point_elastic' : 6,
+    'elastic_exposure_time' : 1    #in seconds
+   }
 
-qscan(beam_energy,beam_polarisation,s5v1gap_val,saazimuth_LCO_pipi,satilt_LCO_pipi,say_LCO_pipi,\
-            qStart_pipi,qStep_pipi,n_points_pipi,energy_sample,sapolaroffset_pipi,thts_val,vec,a,\
-            sax_LCO_pipi,saz_LCO_pipi,n_frames_per_point_sample,sample_exposure_time,\
-            sax_ctape_pipi,saz_ctape_pipi,n_frames_per_point_elastic,elastic_exposure_time)
+parameters=dict(experimentparameters.items()+qrange.items()+motorpositions.items()+latticeparameters.items()+runcontrol.items())
+qscan(**parameters)
 
 
 ###################################################################
