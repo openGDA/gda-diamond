@@ -18,6 +18,8 @@
 
 package gda.device.scannable;
 
+import java.util.Arrays;
+
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.enumpositioner.EnumPositionerBase;
@@ -65,8 +67,8 @@ public class ME2Positioner extends EnumPositionerBase implements EnumPositioner 
 	private EnumPositioner yScannable;
 
 	public ME2Positioner() {
-		setPositions(new String[] { Positions.RHODIUM.toString(), Positions.SILICON.toString(),
-				Positions.OUT.toString() });
+		setPositionsInternal(Arrays.asList(Positions.RHODIUM.toString(),
+				Positions.SILICON.toString(), Positions.OUT.toString()));
 	}
 
 	@Override

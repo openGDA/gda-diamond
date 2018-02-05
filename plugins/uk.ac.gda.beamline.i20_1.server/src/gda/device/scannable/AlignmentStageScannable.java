@@ -20,6 +20,8 @@ package gda.device.scannable;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -73,7 +75,7 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 		}
 	}
 
-	public static enum FastShutter {
+	public enum FastShutter {
 		FIRST_SHUTTER_INSTANCE;
 
 		Location inLocation = new Location();
@@ -207,6 +209,11 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 			labels[index] = AlignmentStageDevice.values()[index].toString();
 		}
 		return labels;
+	}
+
+	@Override
+	public List<String> getPositionsList() throws DeviceException {
+		return Arrays.asList(getPositions());
 	}
 
 	@Override
