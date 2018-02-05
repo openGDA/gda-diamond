@@ -65,7 +65,7 @@ public class ME2Positioner extends EnumPositionerBase implements EnumPositioner 
 	private EnumPositioner yScannable;
 
 	public ME2Positioner() {
-		setPositionsInternal(new String[] { Positions.RHODIUM.toString(), Positions.SILICON.toString(),
+		setPositions(new String[] { Positions.RHODIUM.toString(), Positions.SILICON.toString(),
 				Positions.OUT.toString() });
 	}
 
