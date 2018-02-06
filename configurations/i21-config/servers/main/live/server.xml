@@ -13,7 +13,8 @@
 	<!-- add dummy motors from p45-config for solstice scanning testing-->
 	<import resource="../../../../p45-config//servers/main/dummy/mapping_motors.xml"/>
 	<import resource="../../../../p45-config/servers/main/dummy/det.xml"/>
-
+	
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/live/icat_xml_creator.xml" />
 	<!-- do not remove anything below here -->
 	<import resource="../_common/server.xml" />
 
