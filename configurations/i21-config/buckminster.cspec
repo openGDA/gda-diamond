@@ -2,7 +2,7 @@
     <cs:dependencies>
         <cs:dependency name="dls-config" componentType="buckminster"/>
         <cs:dependency name="i21-python" componentType="buckminster"/>
-        <cs:dependency name="p45-config" componentType="buckminster"/>
         <cs:dependency name="optics-config" componentType="buckminster"/>
+        <cs:dependency name="p45-config" componentType="buckminster"/>
     </cs:dependencies>
 </cs:cspec>
