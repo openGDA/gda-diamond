@@ -153,7 +153,8 @@ class MonitorComposite extends Composite {
 		this.decimalPlaces = decimalPlaces;
 		this.labelWidth=labelWidth;
 		this.contentWidth=contentWidth;
-		
+		this.display=parent.getDisplay();
+
 		if( StringUtils.hasLength(units))
 			suffix = " " + units;
 		
