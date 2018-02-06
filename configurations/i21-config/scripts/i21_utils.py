@@ -1,4 +1,5 @@
 from gda.device.currentamplifier import EpicsCurrAmpSingle
+from scannabledevices.cleverAmplifier import gainmap, gainpositions
 
 #
 # a pseudo device representing a PV.  It will not change the value of the 
@@ -11,6 +12,8 @@ class DisplayEpicsPVClass_neg(EpicsCurrAmpSingle):
 	'''Create EpicsCurrAmpSingle to display negated value'''
 	def __init__(self, name, scannable):
 		self.setName(name);
+		self.setInputNames([name])
+		self.setExtraNames(["Actual_Value"])
 		self.scannable=scannable
 		
 	def getCurrent(self):
@@ -23,12 +26,16 @@ class DisplayEpicsPVClass_neg(EpicsCurrAmpSingle):
 		self.scannable.setGain(position)
 
 	def getPosition(self):
-		return self.getCurrent()
+		currentValue=self.getCurrent()
+		currentGain=self.getGain()
+		return [currentValue,currentValue/float(gainmap[gainpositions[currentGain]])]
 
 class DisplayEpicsPVClass_pos(EpicsCurrAmpSingle):
 	'''Create EpicsCurrAmpSingle to display positive value'''
 	def __init__(self, name, scannable):
 		self.setName(name);
+		self.setInputNames([name])
+		self.setExtraNames(["Actual_Value"])
 		self.scannable=scannable
 		
 	def getCurrent(self):
@@ -41,6 +48,8 @@ class DisplayEpicsPVClass_pos(EpicsCurrAmpSingle):
 		self.scannable.setGain(position)
 
 	def getPosition(self):
-		return self.getCurrent()
+		currentValue=self.getCurrent()
+		currentGain=self.getGain()
+		return [currentValue,currentValue/float(gainmap[gainpositions[currentGain]])]
 
 

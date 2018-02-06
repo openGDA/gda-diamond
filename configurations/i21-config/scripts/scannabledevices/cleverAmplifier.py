@@ -95,8 +95,8 @@ class CleverAmplifier(ScannableMotionBase):
     def stop(self):
         pass
 
-    def toString(self):
-        return self.name + " : " + str(self.getPosition())
+    def toFormattedString(self):
+        return self.name + " : " + self.getInputNames()[0] +" : " + str(self.getPosition()[0]) + ", " + self.getExtraNames()[0] +" : "+ str(self.getPosition()[1])
 
 #Example usages:      
 #cleverIamp10=CleverAmplifier("cleverIamp10", rfdiamp10, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
