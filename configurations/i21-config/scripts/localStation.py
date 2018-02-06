@@ -19,7 +19,8 @@ from time import sleep  # @UnusedImport
 import os
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
-from gdaserver import sapolar, lakeshore
+from gdaserver import sapolar, lakeshore, sax, say, saz, saazimuth, diodetth,\
+    satilt
 
 #global run
  
@@ -214,9 +215,14 @@ xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 from scannabledevices.samplePoistioner_instance import smp_positioner  # @UnusedImport
 
 print "*"*80
-print "Creating aliases: th=>sapolar, chi=>satilt"
-th=sapolar
-chi = satilt  # @UndefinedVariable
+print "Creating aliases: th=sapolar,x=sax,y=say,z=saz,phi=saazimuth,delta=diodetth,chi=satilt"
+th = sapolar
+x = sax
+y = say
+z = saz
+phi = saazimuth
+delta = diodetth
+chi = satilt
 
 tsample=lakeshore.getTemperature(0)  # @UndefinedVariable
 tshield=lakeshore.getTemperature(1)
@@ -240,15 +246,21 @@ def acquireRIXS(n, det, exposure_time):
 
 alias("loopscan")
 
+
 if not installation.isLive():
     print "Testing scan in hkl using DiffCalc ...."
-    newub('test_i21')
-    setlat('test_i21', 3.78, 3.78, 20.1, 90, 90, 90)
-    setub([[0.00000, 0.00000, 0.31260], [1.17537, -1.17537, 0.00000], [1.17537, 1.17537, 0.00000]])
-    con(a_eq_b)
-    setnhkl([0, 0, 1])
+    newub('test_i21')  # @UndefinedVariable
+    setlat('test_i21', 3.78, 3.78, 20.1, 90, 90, 90)  # @UndefinedVariable
+    setub([[0.00000, 0.00000, 0.31260], [1.17537, -1.17537, 0.00000], [1.17537, 1.17537, 0.00000]])  # @UndefinedVariable
+    con(a_eq_b)  # @UndefinedVariable
+    setnhkl([0, 0, 1])  # @UndefinedVariable
     scan(h, .1, .2, .1, k, .1, .2, .1, l, .1, .2, .1, fourc, ct, 1)  # @UndefinedVariable
     print "scan in hkl test completed."
+    
 
+#method to stop all Jython scannables in namespace except those listed in the exclusion list "STOP_ALL_EXCLUSIONS" below
+from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
+#scannables to be excluded from Panic stop
+STOP_ALL_EXCLUSIONS=[s5cam,d8cam]  # @UndefinedVariable
 
 simpleLog("===================== GDA ONLINE =====================")
