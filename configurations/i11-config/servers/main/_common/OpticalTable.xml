@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--  table motors -->
+	<bean id="otx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="otx_motor"/>
+	</bean>
+	<bean id="oty" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="oty_motor"/>
+	</bean>
+	<bean id="otz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="otz_motor"/>
+	</bean>
+	<!-- Focus motors -->
+	<bean id="yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="otmot_yaw_motor"/>
+	</bean>
+	<bean id="pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="otmot_pitch_motor"/>
+	</bean>
+
+	<bean id="htran" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="otmot_posn_motor"/>
+	</bean>
+	<bean id="OT" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="otx"/>
+				<ref bean="oty"/>
+				<ref bean="otz"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="F1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="yaw"/>
+				<ref bean="pitch"/>
+				<ref bean="htran"/>
+			</list>
+		</property>
+	</bean>
+</beans>

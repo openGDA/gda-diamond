@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="Io-monitor" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL11I-EA-COUNT-02.S17"/>
+		<property name="useNameAsExtraName" value="true"/>
+	</bean>	
+	<bean id="Ie-monitor" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL11I-EA-COUNT-02.S18"/>
+		<property name="useNameAsExtraName" value="true"/>
+	</bean>	
+	<bean id="Ie-analogue" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL11I-DI-IMON-02:E1"/>
+		<property name="useNameAsExtraName" value="true"/>
+	</bean>	
+	<bean id="Ic4-ionchamber" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL11I-DI-IONC-04:PHD1:I"/>
+		<property name="useNameAsExtraName" value="true"/>
+		<property name="outputFormat">
+			<list>
+				<value>%.4g</value>
+			</list>
+		</property>
+	</bean>	
+	<bean id="energy" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL11I-OP-DCM-01:ENERGY.RBV"/>
+		<property name="useNameAsExtraName" value="true"/>
+		<property name="outputFormat">
+			<list>
+				<value>%.5g</value>
+			</list>
+		</property>
+	</bean>	
+	<bean id="lambda" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL11I-OP-DCM-01:LAMBDA.RBV"/>
+		<property name="useNameAsExtraName" value="true"/>
+		<property name="outputFormat">
+			<list>
+				<value>%.5g</value>
+			</list>
+		</property>
+	</bean>	
+</beans>

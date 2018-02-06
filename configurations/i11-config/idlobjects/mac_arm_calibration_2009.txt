@@ -1,0 +1,171 @@
+# MAC Arm calibration file 2009 - do not change the structure - enter most recent first
+# example layout:
+#      10 Jun 08  - must be this format, date when offsets calculated
+#      comment line (mandatory format: 3rd space-delineated item must be a run number from which offsets were calculated
+#                                      6th space-delineated item must be run number from which offsets apply - could be retorspective)
+#      m1o = 0.02
+#      m2o = 30.3
+#      m3o = 60.1
+#      m4o = 89.9
+#      m5o = 119.76
+#      spacer line
+#preserve spaces between all items as per date and offsets in above example and
+#order in which they occur. the 4 hash symbols below indicate end of this header to rebin program
+#
+#note: very last entry in this file must have date 1 1 yy even if calibration values are
+#carried over from previous year
+#
+#next line denotes end of header preamble and must always be present
+####
+24 06 10 
+(refined from 24679 applies from 24679 - leBail)
+m1o = 0.06352596
+m2o = 30.13675405
+m3o = 60.04871295
+m4o = 89.98761082
+m5o = 119.95955820
+#
+10 05 10
+(refined from 23606 applies from 23606 - leBail)
+m1o = 0.05313516
+m2o = 30.12321944
+m3o = 60.03497058
+m4o = 89.97700891
+m5o = 119.94115573
+#
+21 04 10
+(refined from 22973 applies from 22972 - leBail)
+m1o = 0.05162175
+m2o = 30.12095768
+m3o = 60.03323559
+m4o = 89.97602181
+m5o = 119.93910965
+#
+08 04 10
+(refined from 22287 applies from 22285 - leBail)
+m1o = 0.05001593
+m2o = 30.12018448
+m3o = 60.03261374
+m4o = 89.97580737
+m5o = 119.93750879
+#
+10 03 10
+(refined from 21631 applies from 21631 - LeBail)
+m1o = 0.03718777
+m2o = 30.10682816
+m3o = 60.02239462
+m4o = 89.97345592
+m5o = 119.94026144
+#
+17 02 10
+(refined from 20727 applies from 20727 - LeBail)
+m1o = 0.03361322
+m2o = 30.10343164
+m3o = 60.01803546
+m4o = 89.96914789
+m5o = 119.93499163
+#
+14 01 10
+(refined from 19348 applies from 19348 - LeBail)
+m1o = 0.03400226
+m2o = 30.10321915
+m3o = 60.01840974
+m4o = 89.97137100
+m5o = 119.93748664
+#
+13 10 09 
+(refined from 11938 applies from 11938 - LeBail rebinspt2 data offsets)
+m1o = 0.04672217
+m2o = 30.1127242
+m3o = 60.0375237
+m4o = 89.98812867
+m5o = 119.9458856
+#
+06 10 09 
+(refined from 11633 applies from 11633 - LeBail rebinspt2 data offsets)
+m1o = 0.0497444
+m2o = 30.1156215
+m3o = 60.04076223
+m4o = 89.9928572
+m5o = 119.9593525
+#
+09 9 09 
+(refined from 11156 applies from 11156 - LeBail)
+m1o = 0.04665123
+m2o = 30.11066141
+m3o = 60.03319249
+m4o = 89.98399966
+m5o = 119.9431964
+#
+15 7 09 
+(refined from 10151 applies from 10151 - LeBail)
+m1o = 0.03409888
+m2o = 30.09970988
+m3o = 60.02372131
+m4o = 89.98199863
+m5o = 119.9184332
+#
+24 6 09 
+(refined from 9691-9702.dat applies from 9691 - leBail)
+m1o = 0.03508346
+m2o = 30.10195703
+m3o = 60.02945188
+m4o = 89.99025238
+m5o = 119.9338157
+#
+07 5 09 
+(refined from 8919-8931.dat applies from 8919 - leBail)
+m1o = 0.03840848
+m2o = 30.10539658
+m3o = 60.03058124
+m4o = 89.99045007
+m5o = 119.9310668
+#
+02 4 09 
+(refined from 8438+8457.dat applies from 8438 - leBail)
+m1o = 0.03610
+m2o = 30.09994
+m3o = 60.02383
+m4o = 89.98053
+m5o = 119.91474
+#
+23 2 09 
+(refined from 7779 applies from 7779 - leBail)
+m1o = 0.03409
+m2o = 30.10278
+m3o = 60.01616
+m4o = 89.97549
+m5o = 119.92703
+#
+16 2 09 
+(refined from 7510 applies from 7510 - leBail)
+m1o = 0.03044705
+m2o = 30.09994507
+m3o = 60.01370245
+m4o = 89.97357941
+m5o = 119.9217938
+#
+04 2 09 
+(refined from 7096-97.dat applies from 7096 - leBail)
+m1o = 0.03211836
+m2o = 30.10198274
+m3o = 60.01478888
+m4o = 89.97304215
+m5o = 119.9245909
+#
+17 1 09 
+(refined from 6293-6305.dat applies from 6293 - reitveld)
+m1o = 0.03256246
+m2o = 30.10659474
+m3o = 60.01340704
+m4o = 89.97339205
+m5o = 119.9221075
+#
+1 1 09 
+(refined from 5417-5430.dat applies from 5417 - new values jan 2009)
+m1o = 0.02077
+m2o = 30.09164
+m3o = 60.00388
+m4o = 89.96235
+m5o = 119.91277
+#

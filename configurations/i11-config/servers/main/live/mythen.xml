@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:epics="http://www.diamond.ac.uk/schema/gda/epics"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+		http://www.diamond.ac.uk/schema/gda/epics http://www.diamond.ac.uk/schema/gda/epics/gda-epics-1.0.xsd
+		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="mythen" class="gda.device.detector.mythen.MythenDetectorImpl">
+		<property name="detectorID" value="mcs02" />
+		<property name="mythenClient">
+			<bean class="gda.device.detector.mythen.client.TextClientMythenClient">
+				<property name="mythenClientCommand"
+					value="/dls/i11/software/mythen/NewMythenMCS/bin/mcs_large_client" />
+				<property name="host" value="i11-mcs02" />
+			</bean>
+		</property>
+
+		<property name="dataConverter">
+			<bean class="gda.device.detector.mythen.data.DataConverter">
+				<property name="angularCalibrationParameters">
+					<bean
+						class="gda.device.detector.mythen.data.AngularCalibrationParametersFile">
+						<constructor-arg>
+							<bean class="java.io.File">
+								<constructor-arg>
+									<value>/dls_sw/i11/software/mythen/diamond/calibration/ang.off</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+					</bean>
+				</property>
+				<property name="badChannelProvider" >
+					<bean class="gda.device.detector.mythen.data.FileBadChannelProvider">
+						<constructor-arg>
+							<bean class="java.io.File">
+								<constructor-arg>
+									<value>/dls/i11/software/mythen/diamond/calibration/badchannel_detector_standard.list</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+					</bean>
+				</property>
+				<property name="flatFieldData">
+					<bean class="gda.device.detector.mythen.data.MythenRawDataset">
+						<constructor-arg>
+							<bean class="java.io.File">
+								<constructor-arg>
+									<value>/dls/i11/software/mythen/diamond/flatfield/current_flat_field_calibration</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+					</bean>
+				</property>
+				<property name="beamlineOffset" value="0.08208"/>
+			</bean>
+		</property>
+		<property name="deltaScannable" ref="delta"/>
+		<property name="atScanStartTasks">
+			<list>
+				<bean class="gda.device.detector.mythen.tasks.OpenShutterTask">
+					<property name="shutterScannable" ref="fastshutter"/>
+				</bean>
+				<bean class="gda.hrpd.pmac.CheckCollisionTask">
+					<property name="checkedScannable" ref="tth"/>
+					<property name="safePosition" ref="macsafeposition"/>
+				</bean>
+			</list>
+		</property>
+		<property name="atPointEndTasks">
+			<list>
+				<!-- RCP Plot -->
+				<bean class="gda.device.detector.mythen.tasks.RCPPlotLastPointTask">
+					<property name="panelName" value="Mythen"/>
+					<property name="xAxisName" value="tth"/>
+					<property name="yAxisName" value="counts"/>
+				</bean>
+				<!-- Swing plot -->
+				<bean class="gda.device.detector.mythen.tasks.PlotLastPointTask">
+					<property name="panelName" value="Mythen"/>
+				</bean>
+			</list>
+		</property>
+		<property name="atScanEndTasks">
+			<list>
+				<bean class="gda.device.detector.mythen.tasks.CloseShutterTask">
+					<property name="shutterScannable" ref="fastshutter"/>
+				</bean>
+			</list>
+		</property>
+		<property name="hasChannelInfo" value="false"/>
+	</bean>
+		
+	<bean id="smythen" class="gda.device.detector.mythen.SummingMythenDetector">
+		<property name="detectorID" value="mcs02" />
+		<property name="mythenClient">
+			<bean class="gda.device.detector.mythen.client.TextClientMythenClient">
+				<property name="mythenClientCommand"
+					value="/dls/i11/software/mythen/NewMythenMCS/bin/mcs_large_client" />
+				<property name="host" value="i11-mcs02" />
+			</bean>
+		</property>
+
+		<property name="dataConverter">
+			<bean class="gda.device.detector.mythen.data.DataConverter">
+				<property name="angularCalibrationParameters">
+					<bean
+						class="gda.device.detector.mythen.data.AngularCalibrationParametersFile">
+						<constructor-arg>
+							<bean class="java.io.File">
+								<constructor-arg>
+									<value>/dls_sw/i11/software/mythen/diamond/calibration/ang.off</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+					</bean>
+				</property>
+				<property name="badChannelProvider" >
+					<bean class="gda.device.detector.mythen.data.FileBadChannelProvider">
+						<constructor-arg>
+							<bean class="java.io.File">
+								<constructor-arg>
+									<value>/dls/i11/software/mythen/diamond/calibration/badchannel_detector_standard.list</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+					</bean>
+				</property>
+				<property name="flatFieldData">
+					<bean class="gda.device.detector.mythen.data.MythenRawDataset">
+						<constructor-arg>
+							<bean class="java.io.File">
+								<constructor-arg>
+									<value>/dls/i11/software/mythen/diamond/flatfield/current_flat_field_calibration</value>
+								</constructor-arg>
+							</bean>
+						</constructor-arg>
+					</bean>
+				</property>
+				<property name="beamlineOffset" value="0.08208"/>
+			</bean>
+		</property>
+		<property name="deltaScannable" ref="delta"/>
+		<property name="numberOfModules" value="18"/>
+		<property name="atScanStartTasks">
+			<list>
+				<bean class="gda.device.detector.mythen.tasks.OpenShutterTask">
+					<property name="shutterScannable" ref="fastshutter"/>
+				</bean>
+				<bean class="gda.hrpd.pmac.CheckCollisionTask">
+					<property name="checkedScannable" ref="tth"/>
+					<property name="safePosition" ref="macsafeposition"/>
+				</bean>
+			</list>
+		</property>
+		<property name="atPointEndTasks">
+			<list>
+				<!-- RCP Plot -->
+				<bean class="gda.device.detector.mythen.tasks.RCPPlotLastPointTask">
+					<property name="panelName" value="Mythen"/>
+					<property name="xAxisName" value="tth"/>
+					<property name="yAxisName" value="counts"/>
+				</bean>
+				<!-- Swing plot -->
+				<bean class="gda.device.detector.mythen.tasks.PlotLastPointTask">
+					<property name="panelName" value="Mythen"/>
+				</bean>
+			</list>
+		</property>
+		<property name="atScanEndTasks">
+			<list>
+				<bean class="gda.device.detector.mythen.tasks.CloseShutterTask">
+					<property name="shutterScannable" ref="fastshutter"/>
+				</bean>
+			</list>
+		</property>
+		<property name="step" value="0.004"/>
+		<property name="hasChannelInfo" value="false"/>
+	</bean>
+</beans>

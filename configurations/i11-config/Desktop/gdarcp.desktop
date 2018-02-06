@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=gda-servers
+Type=Application
+Exec=startgda rcp
+Terminal=false
+Name[en_GB]=2. Interactive GDA launcher - First GDA Servers then RCP Client
+GenericName[en_GB]=Interactive GDA launcher - First GDA Servers then RCP Client
+Comment[en_GB]=Interactive GDA launcher - First GDA Servers then RCP Client
+Icon=/dls_sw/i11/software/gda/config/bin/icons/gda.png
+Icon[en_GB]=/dls_sw/i11/software/gda/config/bin/icons/gda.png
+Categories=X-ogda;

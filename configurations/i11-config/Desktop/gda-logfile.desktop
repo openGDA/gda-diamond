@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=gda-logfile
+Type=Application
+Exec=GDA_ShowLogFile
+Icon[en_GB]=/usr/share/pixmaps/gnome-term.png
+Icon=/usr/share/pixmaps/gnome-term.png
+Terminal=true
+Name[en_GB]=View GDA Log File
+GenericName[en_GB]=View GDA Log File
+Comment[en_GB]=View GDA Log File on Terminal
+Categories=X-opengda;

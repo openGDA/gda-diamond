@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="mac11" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac12" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac13" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac14" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac15" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac16" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac17" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac18" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac19" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac21" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac22" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac23" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac24" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac25" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac26" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac27" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac28" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac29" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac31" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac32" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac33" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac34" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac35" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac36" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac37" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac38" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac39" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac41" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac42" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac43" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac44" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac45" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac46" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac47" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac48" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac49" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac51" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac52" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac53" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac54" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac55" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac56" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac57" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac58" class="gda.device.etl.DummyEtlDetector" />
+	<bean id="mac59" class="gda.device.etl.DummyEtlDetector" />
+</beans>

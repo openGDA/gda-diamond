@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="Io-monitor" class="gda.device.scannable.DummyScannable" />
+	<bean id="Ie-monitor" class="gda.device.scannable.DummyScannable"/>
+	<bean id="Ie-analogue" class="gda.device.scannable.DummyScannable"/>
+	<bean id="Ic4-ionchamber" class="gda.device.scannable.DummyScannable"/>
+	<bean id="energy" class="gda.device.scannable.DummyScannable"/>
+	<bean id="lambda" class="gda.device.scannable.DummyScannable"/>
+</beans>

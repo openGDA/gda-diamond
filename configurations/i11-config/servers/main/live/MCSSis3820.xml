@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="mcs1_controller" class="gda.device.detector.multichannelscaler.EpicsDlsMcsSis3820Controller">
+		<property name="deviceName" value="SCAL1.MCS"/>
+		<property name="pollElapsedRealTime" value="true"/>
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="mcs2_controller" class="gda.device.detector.multichannelscaler.EpicsDlsMcsSis3820Controller">
+		<property name="deviceName" value="SCAL2.MCS"/>
+		<property name="pollElapsedRealTime" value="true"/>
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

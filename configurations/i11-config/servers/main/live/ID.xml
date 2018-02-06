@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+           
+    <bean id="idgap_motor" class="gda.device.motor.EpicsMotor">
+    	<property name="deviceName" value="ID.GAP"/>
+    	<property name="accessControl" ref="idblena"/>
+    </bean>
+    <!--  MCR ID Control -->
+ 	<bean id="idblena" class="gda.epics.AccessControl">
+		<property name="accessControlPvName" value="SR11I-MO-SERVC-01:IDBLENA" />
+	</bean>    	
+
+</beans>

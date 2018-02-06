@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- cobarised scan data point -->
+    <bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+	<!-- RMI scan data point - Replaces ScanDataStore -->
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="serviceName" value="gda/ScanDataPointServer" />
+		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
+		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
+	</bean>
+	
+</beans>
