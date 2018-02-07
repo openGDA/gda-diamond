@@ -7,7 +7,7 @@
 	<!-- Cluster processing config -->
 	<bean id="clusterProcessing" class="org.eclipse.scanning.api.device.models.ClusterProcessingModel">
 	    <property name="name"           value="processing"/>
-	    <property name="detectorName"   value="mic"/>
+	    <property name="detectorName"   value="andor3_addetector"/>
 	</bean>
 
 	<bean id="clusterProcessingInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">

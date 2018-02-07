@@ -6,9 +6,9 @@
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
 
-	<bean id="mic_hdf5_writer"
+	<bean id="andor3_addetector_hdf5_writer"
 		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<property name="ndFileHDF5" ref="mic_hdf5" />
+		<property name="ndFileHDF5" ref="andor3_addetector_hdf5" />
 		<property name="fileTemplate" value="%s%s.hdf5" />
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileNameTemplate" value="" />
@@ -16,20 +16,20 @@
 		<property name="setFileNameAndNumber" value="true" />
 	</bean>
 
-	<bean id="mic" class="gda.device.detector.addetector.ADDetector">
-		<property name="adBase" ref="mic_adbase" />
-		<property name="ndFile" ref="mic_ndfile" />
-		<property name="ndArray" ref="mic_ndarray" />
-		<property name="ndStats" ref="mic_stats" />
-		<property name="fileWriter" ref="mic_hdf5_writer" />
+	<bean id="andor3_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="andor3_addetector_adbase" />
+		<property name="ndFile" ref="andor3_addetector_ndfile" />
+		<property name="ndArray" ref="andor3_addetector_ndarray" />
+		<property name="ndStats" ref="andor3_addetector_stats" />
+		<property name="fileWriter" ref="andor3_addetector_hdf5_writer" />
 	</bean>
 
-	<bean id="mic_adbase"
+	<bean id="andor3_addetector_adbase"
 			class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL99P-EA-DET-01:DET:" />
 	</bean>
 
-	<bean id="mic_stats"
+	<bean id="andor3_addetector_stats"
 			class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
 		<property name="basePVName" value="BL99P-EA-DET-01:STAT:" />
 		<property name="pluginBase">
@@ -40,7 +40,7 @@
 		</property>
 	</bean>
 
-	<bean id="mic_ndarray"
+	<bean id="andor3_addetector_ndarray"
 			class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
 		<property name="basePVName" value="BL99P-EA-DET-01:ARR:" />
 		<property name="pluginBase">
@@ -51,7 +51,7 @@
 		</property>
 	</bean>
 
-	<bean id="mic_ndfile"
+	<bean id="andor3_addetector_ndfile"
 			class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL99P-EA-DET-01:HDF5:" />
 		<property name="pluginBase">
@@ -65,40 +65,40 @@
 		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
 		<property name="initialWriteMode" value="0" />
 		<property name="initialNumCapture" value="1" />
-		<property name="initialFileName" value="mic" />
+		<property name="initialFileName" value="andor3_addetector" />
 		<property name="initialFileTemplate" value="%s%s.hdf5" />
 	</bean>
 
-	<bean id="mic_hdf5"
+	<bean id="andor3_addetector_hdf5"
 			class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
 		<property name="basePVName" value="BL99P-EA-DET-01:HDF5:" />
-		<property name="file" ref="mic_ndfile" />
+		<property name="file" ref="andor3_addetector_ndfile" />
 	</bean>
 
-	<bean id="mic_gain" class="gda.device.scannable.PVScannable" >
+	<bean id="andor3_addetector_gain" class="gda.device.scannable.PVScannable" >
 		<property name="pvName" value="BL99P-EA-DET-01:DET:Gain" />
 	</bean>
 	
-	<bean id="mic_exposure" class="gda.device.scannable.PVScannable" >
+	<bean id="andor3_addetector_exposure" class="gda.device.scannable.PVScannable" >
 		<property name="pvName" value="BL99P-EA-DET-01:DET:AcquireTime" />
 	</bean>
 
 	<!--  Scanning Gui configuration -->
 
-	<bean id="micModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-		<property name="name"                   value="mic"/>
+	<bean id="andor3_addetectorModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name"                   value="andor3_addetector"/>
 		<property name="exposureTime"           value="0.1"/>
 	</bean>
-	<bean id="micInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.micInfo"/>
-		<property name="label"       value="Mic Area Detector Device Label"/>
-		<property name="description" value="Mic Area Detector Device Description"/>
+	<bean id="andor3_addetectorInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id"          value="org.eclipse.scanning.api.event.scan.DeviceInformation.andor3_addetectorInfo"/>
+		<property name="label"       value="andor3_addetector Area Detector Device Label"/>
+		<property name="description" value="andor3_addetector Area Detector Device Description"/>
 	<!-- 		<property name="icon"        value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/>  bundle must be on client for that, if it isn't a default icon is used -->
 	</bean>
-	<bean id="micDetector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
-		<property name="name"              value="mic"/>
-		<property name="model"             ref="micModel"/>
-		<property name="deviceInformation" ref="micInfo"/>
+	<bean id="andor3_addetectorDetector" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name"              value="andor3_addetector"/>
+		<property name="model"             ref="andor3_addetectorModel"/>
+		<property name="deviceInformation" ref="andor3_addetectorInfo"/>
 		<property name="activated"         value="false"/> <!-- This means it is activated as the default device to use in a scan -->
 	</bean>
 

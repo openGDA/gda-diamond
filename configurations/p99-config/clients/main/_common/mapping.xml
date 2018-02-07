@@ -47,7 +47,7 @@
 					<constructor-arg name="name" value="Microscope" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-							<property name="name" value="mic" />
+							<property name="name" value="andor3_addetector" />
 							<property name="exposureTime" value="0.002" />
 						</bean>
 					</constructor-arg>

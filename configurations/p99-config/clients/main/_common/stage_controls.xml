@@ -44,15 +44,15 @@
 	</bean>
 
 	<bean id="gain_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="MIC Gain" />
-		<property name="scannableName" value="mic_gain" />
+		<property name="displayName" value="ANDOR Gain" />
+		<property name="scannableName" value="andor3_addetector_gain" />
 		<property name="group" value="Camera Controls" />
 		<property name="increment" value="1" />
 	</bean>
 
 	<bean id="exposure_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="MIC Exposure" />
-		<property name="scannableName" value="mic_exposure" />
+		<property name="displayName" value="ANDOR Exposure" />
+		<property name="scannableName" value="andor3_addetector_exposure" />
 		<property name="group" value="Camera Controls" />
 		<property name="increment" value="0.1" />
 	</bean>
