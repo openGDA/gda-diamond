@@ -54,10 +54,5 @@ class DeviceFunctionClass(ScannableBase):
 	def isBusy(self):
 		return (self.refObj1.isBusy() & self.refObj2.isBusy());
 
-#Example:
-#logratio = DeviceFunctionClass("ratio", "Im","I0", "testFun");
 
-def testFun(x1, x2):
-	y=log(x1/x2);
-	return y;
 
