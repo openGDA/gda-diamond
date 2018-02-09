@@ -23,6 +23,7 @@ import org.dawnsci.ede.EdeScanType;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
+import org.eclipse.dawnsci.nexus.NexusConstants;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
@@ -45,7 +46,6 @@ import gda.device.scannable.TopupChecker;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.position.EdeScanPosition;
-import uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
@@ -222,8 +222,8 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		try (NexusFile file = new NexusFileFactoryHDF5().newNexusFile(fname)) {
 			file.openToWrite(false);
 			GroupNode g = file.getGroup("/entry1/" + theDetector.getName(), true);
-			if (!g.containsAttribute(NexusFile.NXCLASS)) {
-				g.addAttribute(TreeFactory.createAttribute(NexusFile.NXCLASS, NexusTreeUtils.NX_DATA));
+			if (!g.containsAttribute(NexusConstants.NXCLASS)) {
+				g.addAttribute(TreeFactory.createAttribute(NexusConstants.NXCLASS, NexusConstants.DATA));
 			}
 			file.createData(g, EdeDataConstants.SCALER_FRAME_COUNTS, topupScalerValueForSpectra);
 			file.createData(g, "is_topup_measured_from_scaler", topupValueUsesScalers);
