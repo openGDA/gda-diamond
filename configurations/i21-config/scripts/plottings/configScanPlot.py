@@ -4,7 +4,6 @@ Created on 7 Feb 2018
 @author: fy65
 '''
 from gda.configuration.properties import LocalProperties
-from java.lang import Integer
 from java.lang import Boolean
 
 print "-"*100
@@ -42,7 +41,7 @@ def getXFieldInScanPlot():
     '''return the X field currently used as X-axis in the Scan Plot.
         -1 means the last index of scannable to be scanned.
     '''
-    return LocalProperties.set("gda.plot.ScanPlotSettings.XFieldIndex", str(index)) 
+    return LocalProperties.get("gda.plot.ScanPlotSettings.XFieldIndex") 
 
 def useSeparateYAxes():
     '''use separate Y axes for each Y field in the Scan Plot

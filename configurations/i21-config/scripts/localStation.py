@@ -4,7 +4,6 @@ import gdascripts.scan.concurrentScanWrapper
 
 from gdascripts.messages.handle_messages import simpleLog, log
 from gdascripts.scannable.dummy import SingleInputDummy
-from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 from gda.device.scannable.scannablegroup import ScannableGroup
 
 from gdascripts.degas.degas import Degas
@@ -39,6 +38,10 @@ alias("lwf")
 alias("nwf")
 alias("nfn")
 
+from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis  # @UnusedImport
+alias("useSeparateYAxes")
+alias("useSingleYAxis")
+
 print
 
 def interruptable():
@@ -62,23 +65,6 @@ print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "load common physical constants"
 from gdascripts.constants import * #@UnusedWildImport
-
-from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
-scan_processor.rootNamespaceDict=globals()
-gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
-scan_processor_normal_processes = scan_processor.processors
-scan_processor_empty_processes  = []
- 
-def scan_processing_on():
-    scan_processor.processors = scan_processor_normal_processes
- 
-def scan_processing_off():
-    scan_processor.processors = scan_processor_empty_processes
- 
-print "Switch off scan processor by default at Sarnjeet's request on 11 May 2016 in I06-1."    
-print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
-print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
-scan_processing_off()
 
 print "Adding dummy devices x,y and z"
 dummies = ScannableGroup()
@@ -257,10 +243,28 @@ if not installation.isLive():
     scan(h, .1, .2, .1, k, .1, .2, .1, l, .1, .2, .1, fourc, ct, 1)  # @UndefinedVariable
     print "scan in hkl test completed."
     
+    
+from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
+scan_processor.rootNamespaceDict=globals()
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
+scan_processor_normal_processes = scan_processor.processors
+scan_processor_empty_processes  = []
+ 
+def scan_processing_on():
+    scan_processor.processors = scan_processor_normal_processes
+ 
+def scan_processing_off():
+    scan_processor.processors = scan_processor_empty_processes
+ 
+print "Switch off scan processor by default !!!"    
+print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
+print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
+scan_processing_off()
 
+#Please leave Panic stop customisation last
 #method to stop all Jython scannables in namespace except those listed in the exclusion list "STOP_ALL_EXCLUSIONS" below
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
 #scannables to be excluded from Panic stop
-STOP_ALL_EXCLUSIONS=[s5cam,d8cam]  # @UndefinedVariable
+STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable
 
 simpleLog("===================== GDA ONLINE =====================")
