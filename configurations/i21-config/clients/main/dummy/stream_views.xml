@@ -12,7 +12,7 @@
 	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
 	
 	<bean id="andor_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}andorRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
