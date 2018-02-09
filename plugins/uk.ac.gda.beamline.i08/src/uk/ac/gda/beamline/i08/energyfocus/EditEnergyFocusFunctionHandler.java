@@ -18,6 +18,10 @@
 
 package uk.ac.gda.beamline.i08.energyfocus;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -25,7 +29,6 @@ import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.scanning.api.stashing.IStashing;
 import org.eclipse.scanning.api.ui.auto.IModelDialog;
 import org.eclipse.scanning.device.ui.ServiceHolder;
 import org.eclipse.swt.widgets.Shell;
@@ -33,14 +36,20 @@ import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.configuration.properties.LocalProperties;
+import gda.data.PathConstructor;
 import gda.jython.ICommandRunner;
 import gda.jython.InterfaceProvider;
 
 public class EditEnergyFocusFunctionHandler extends AbstractHandler implements IHandler {
-	private static final String STASH_NAME = "uk.ac.gda.beamline.i08.configuration.energyfocusfunction.json";
+	private static final String ENERGY_FOCUS_FILE_NAME = "energyFocusFunction.json";
 	private static final String DEFAULT_SLOPE_DIVIDEND = "0.0 um";
 	private static final String DEFAULT_INTERCEPTION = "0.0 um";
 	private static final String DEFAULT_SLOPE_DIVISOR = "1.0 eV";
+
+	private static final Path ENERGY_FOCUS_FUNCTION_FILE_PATH = Paths.get(
+			PathConstructor.createFromProperty(LocalProperties.GDA_VAR_DIR),
+			ENERGY_FOCUS_FILE_NAME);
 
 	private static final Logger logger = LoggerFactory.getLogger(EditEnergyFocusFunctionHandler.class);
 
@@ -71,23 +80,34 @@ public class EditEnergyFocusFunctionHandler extends AbstractHandler implements I
 		return null;
 	}
 
+	/**
+	 * Get initial values for the parameters.<br>
+	 * These should come from the file read by the server, but if this does not exist, use hard-coded defaults
+	 *
+	 * @return EnergyFocusConfig object containing the parameters
+	 */
 	private static EnergyFocusConfig getConfig() {
-		final IStashing stash = ServiceHolder.getStashingService().createStash(STASH_NAME);
-		if (stash.isStashed()) {
+		if (ENERGY_FOCUS_FUNCTION_FILE_PATH.toFile().exists()) {
 			try {
-				return stash.unstash(EnergyFocusConfig.class);
+				logger.debug("Attempting to read energy focus parameters from {}", ENERGY_FOCUS_FUNCTION_FILE_PATH);
+				final String energyFocusConfigJson = new String(Files.readAllBytes(ENERGY_FOCUS_FUNCTION_FILE_PATH));
+				return ServiceHolder.getMarshallerService().unmarshal(energyFocusConfigJson, EnergyFocusConfig.class);
 			} catch (Exception e) {
-				logger.warn("Cannot get saved energy focus function parameters: using defaults", e);
+				logger.warn("Could not read energy focus parameters from {}", ENERGY_FOCUS_FUNCTION_FILE_PATH, e);
 			}
 		}
+
+		logger.debug("Using default values for energy focus function");
 		return new EnergyFocusConfig(DEFAULT_SLOPE_DIVIDEND, DEFAULT_INTERCEPTION, DEFAULT_SLOPE_DIVISOR);
 	}
 
 	// Save config values to file so they will be restored when the server is restarted
 	private static void saveConfig(final EnergyFocusConfig config) {
-		final IStashing stash = ServiceHolder.getStashingService().createStash(STASH_NAME);
 		try {
-			stash.stash(config);
+			final String energyFocusConfigJson = ServiceHolder.getMarshallerService().marshal(config);
+			// save to a file in gda_var so it can be picked up by localStation
+			ENERGY_FOCUS_FUNCTION_FILE_PATH.toFile().getParentFile().mkdirs();
+			Files.write(ENERGY_FOCUS_FUNCTION_FILE_PATH, energyFocusConfigJson.getBytes());
 		} catch (Exception e) {
 			logger.error("Error saving function configuration", e);
 		}

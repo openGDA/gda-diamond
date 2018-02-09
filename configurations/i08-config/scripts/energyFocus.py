@@ -9,7 +9,7 @@ finder = Finder.getInstance()
 
 # Load values of energy/focus function from stash file
 def loadEnergyFocus():
-    stashFilePath = LocalProperties.get("gda.var") + "/.solstice/uk.ac.gda.beamline.i08.configuration.energyfocusfunction.json"
+    stashFilePath = LocalProperties.get("gda.var") + "/energyFocusFunction.json"
 
     try:
         stashFile = open(stashFilePath, 'r')
