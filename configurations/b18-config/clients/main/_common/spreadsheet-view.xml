@@ -1,0 +1,128 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
+
+	<bean id="samplewheel_names" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}samplewheel_names" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="spreadsheet_view_config" class="uk.ac.gda.exafs.ui.dialogs.SpreadsheetViewConfig">
+		<property name="name" value="spreadsheet_view_config" />
+		<property name="parameters">
+			<list>
+				<!-- Output file name -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="File name" />
+					<property name="fullPathToGetter" value="getName" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+
+				<!-- Description -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Description (header)" />
+					<property name="fullPathToGetter" value="getDescription1" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+
+				<!-- Sample wheel -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Sample wheel" />
+					<property name="fullPathToGetter" value="getSampleWheelParameters.getFilter" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+					<property name="allowedValuesFromEnum" ref="samplewheel_names" />
+				</bean>
+
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Enable sample wheel" />
+					<property name="fullPathToGetter" value="getSampleWheelParameters.isWheelEnabled" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+					<property name="allowedValuesFromBoolean" value="true" />
+				</bean>
+
+				<!-- XY theta stage -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Sam2 X" />
+					<property name="fullPathToGetter" value="getXYThetaStageParameters.getX" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Sam2 Y" />
+					<property name="fullPathToGetter" value="getXYThetaStageParameters.getY" />
+					<property name="beanType"
+						value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Sam2 theta" />
+					<property name="fullPathToGetter" value="getXYThetaStageParameters.getTheta" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+
+				<!-- SX cryo stage -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Sam1sx cryo height" />
+					<property name="fullPathToGetter" value="getSXCryoStageParameters.getHeight" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Sam1sx cryo rotation" />
+					<property name="fullPathToGetter" value="getSXCryoStageParameters.getRot" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+
+				<!-- User stage axes 2,4,6,7,8 -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="User stage axis 2" />
+					<property name="fullPathToGetter" value="getUserStageParameters.getAxis2" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="User stage axis 4" />
+					<property name="fullPathToGetter" value="getUserStageParameters.getAxis4" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="User stage axis 5" />
+					<property name="fullPathToGetter" value="getUserStageParameters.getAxis5" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="User stage axis 6" />
+					<property name="fullPathToGetter" value="getUserStageParameters.getAxis6" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="User stage axis 7" />
+					<property name="fullPathToGetter" value="getUserStageParameters.getAxis7" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="User stage axis 8" />
+					<property name="fullPathToGetter" value="getUserStageParameters.getAxis8" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+				</bean>
+
+				<!-- 'Before first repetition' script -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Script/command before first repetition" />
+					<property name="fullPathToGetter" value="getBeforeFirstRepetition" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.OutputParameters" />
+				</bean>
+
+				<!-- <bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig"> -->
+				<!-- <property name="description" value="QEXAFS initial energy" /> -->
+				<!-- <property name="fullPathToGetter" value="getInitialEnergy" /> -->
+				<!-- <property name="beanType" value="uk.ac.gda.beans.exafs.QEXAFSParameters" 	/> -->
+				<!-- </bean> -->
+			</list>
+		</property>
+	</bean>
+
+</beans>

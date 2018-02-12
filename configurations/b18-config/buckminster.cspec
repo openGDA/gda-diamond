@@ -13,5 +13,6 @@
         <cs:dependency name="uk.ac.gda.server.exafs.epics" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
         <cs:dependency name="uk.ac.gda.devices.xspress3.epics" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
