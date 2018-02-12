@@ -11,10 +11,19 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
-	<context:property-placeholder
-		location="file:${gda.config}/properties/${gda.mode}/live_instance_synoptic.properties" />
+<!-- 	<context:property-placeholder -->
+<!-- 		location="file:${gda.config}/properties/${gda.mode}/live_instance_synoptic.properties" /> -->
 
-	<gda:rbac />
+<!-- 	<gda:rbac /> -->
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.config}/properties/${gda.mode}/live_instance_synoptic.properties</value>			
+			</list>
+		</property>
+	</bean>
 
 	<corba:adapterfactory namespace="${gda.factory.factoryName}"/>
 

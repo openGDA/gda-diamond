@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.detector.countertimer.TfgScalerWithFrames;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 
 /**
@@ -46,22 +47,41 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 	private int scanType; // 0 for XAS or 1,2,3,4 for XES (i.e.	XesScanParameters.FIXED_XES_SCAN_XAS etc)
 	private String loopType; // XesScanParameters.EF_OUTER_MONO_INNER, or XesScanParameters.MONO_OUTER_EF_INNER
 	private int numStepsPerInnerLoop;
+	private double timePerStepInnerLoop;
+
+	public double getTimePerStepInnerLoop() {
+		return timePerStepInnerLoop;
+	}
+
+	public void setTimePerStepInnerLoop(double timePerStepInnerLoop) {
+		this.timePerStepInnerLoop = timePerStepInnerLoop;
+	}
+
 	private boolean scanIsOneDimensional;
 
 	private double offsetGradient, offsetStartValue, energyOffsetStart;
 	private double offsetMoveThreshold;
 
 	private boolean adjustBraggOffset;
+	private boolean includeOffsetInPosition;
+
+	private MonoOptimisation monoOptimiser = null;
+
+	public MonoOptimisation getMonoOptimiser() {
+		return monoOptimiser;
+	}
+
+	public void setMonoOptimiser(MonoOptimisation monoOptimiser) {
+		this.monoOptimiser = monoOptimiser;
+	}
 
 	public MonoMoveWithOffsetScannable(String name, Scannable bragg, Scannable braggOffset) {
 		setName(name);
 		this.bragg = bragg;
 		this.braggOffset = braggOffset;
 
-		setInputNames(new String[] {bragg.getName()} );
-		setExtraNames(new String[] {braggOffset.getName()} );
-
-		setOutputFormat(new String[] {bragg.getOutputFormat()[0], braggOffset.getOutputFormat()[0]} );
+		setInputNames(new String[] {bragg.getName()});
+		setIncludeOffsetInPosition(false);
 
 		offsetLastMove = 0;
 		braggEnergyLastMove = 0;
@@ -81,14 +101,29 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 		return bragg.isBusy() || braggOffset.isBusy();
 	}
 
+	public boolean getIncludeOffsetInPosition() {
+		return includeOffsetInPosition;
+	}
+
+	public void setIncludeOffsetInPosition(boolean includeOffsetInPosition) {
+		this.includeOffsetInPosition = includeOffsetInPosition;
+		if (includeOffsetInPosition) {
+			setExtraNames(new String[] {braggOffset.getName()} );
+			setOutputFormat(new String[] {bragg.getOutputFormat()[0], braggOffset.getOutputFormat()[0]} );
+		} else {
+			setExtraNames(new String[] {} );
+			setOutputFormat(new String[] {bragg.getOutputFormat()[0]} );
+		}
+	}
+
 	@Override
 	public Object getPosition() throws DeviceException {
-		if  ( scanType == 0 ) {
-			// XAS mode
+		if  ( includeOffsetInPosition ) {
 			return new Object[] {ScannableUtils.getCurrentPositionArray(bragg)[0] , ScannableUtils.getCurrentPositionArray(braggOffset)[0]};
 		}
-		else
+		else {
 			return bragg.getPosition();
+		}
 	}
 
 	/**
@@ -111,6 +146,26 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 		}
 	}
 
+	/**
+	 * Set tfg time frames for next inner loop of scan.
+	 * @throws DeviceException
+	 */
+	private void setTimeFrames() throws DeviceException {
+		if (monoOptimiser==null) {
+			return;
+		}
+
+		Scannable scannableToMonitor = monoOptimiser.getScannableToMonitor();
+		if ( scannableToMonitor instanceof TfgScalerWithFrames) {
+			Double[] timeFrames = new Double[numStepsPerInnerLoop];
+			Arrays.fill(timeFrames, timePerStepInnerLoop);
+			((TfgScalerWithFrames) scannableToMonitor).clearFrameSets();
+			((TfgScalerWithFrames) scannableToMonitor).setTimes(timeFrames);
+			scannableToMonitor.atScanLineStart();
+		}
+
+	}
+
 	@Override
 	public void rawAsynchronousMoveTo(Object position) throws DeviceException {
 
@@ -128,16 +183,26 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 			} else if (scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
 				// 2D scan,
 
-				// Mono is inner loop, adjust offset motor as normal
 				if (loopType.equals(XesScanParameters.EF_OUTER_MONO_INNER)) {
+					// Mono is inner loop : optimise for low energy at start of each loop, adjust offset motor as normal,
+					if (energy < braggEnergyLastMove) {
+//						monoOptimiser.setProduceVetoOutput(false);
+						monoOptimiser.optimiseManual(this, energy);
+						setTimeFrames();
+//						monoOptimiser.setProduceVetoOutput(true);
+					}
 					adjustBraggOffsetMotor(energy);
 				} else {
-					// When XES is inner loop, each mono move corresponds to start of new line
-					if (Math.abs(energy - braggEnergyLastMove) > 0) {
-						//TODO adjust braggOffset to maximise signal, *without doing a scan*
-						// e.g. use MonoOptimisation.goldenSectionSearch() but reset Tfg frames
-						// afterwards so rest of scan proceeds correctly.
+					// When XES is inner loop : each mono move corresponds to start of new line - optimise the
+					// bragg offset each time energy changes
+					if (Math.abs(energy - braggEnergyLastMove) > 1e-3 && monoOptimiser != null) {
+//						monoOptimiser.setProduceVetoOutput(false);
+						monoOptimiser.optimiseManual(this, energy);
+						setTimeFrames();
+//						monoOptimiser.setProduceVetoOutput(true);
 					}
+					// adjust bragg offset
+					adjustBraggOffsetMotor(energy);
 				}
 			}
 		}

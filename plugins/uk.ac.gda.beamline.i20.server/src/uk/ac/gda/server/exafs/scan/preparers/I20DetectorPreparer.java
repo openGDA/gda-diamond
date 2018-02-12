@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +47,7 @@ import gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider;
 import gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
+import gda.device.scannable.MonoMoveWithOffsetScannable;
 import gda.device.scannable.MonoOptimisation;
 import gda.device.scannable.TopupChecker;
 import gda.epics.CAClient;
@@ -68,6 +70,7 @@ import uk.ac.gda.beans.exafs.i20.ROIRegion;
 import uk.ac.gda.beans.xspress.XspressParameters;
 import uk.ac.gda.devices.detector.FluorescenceDetector;
 import uk.ac.gda.devices.detector.FluorescenceDetectorParameters;
+import uk.ac.gda.devices.detector.xspress4.Xspress4Detector;
 import uk.ac.gda.server.exafs.scan.BeamlinePreparer;
 import uk.ac.gda.server.exafs.scan.DetectorPreparer;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
@@ -75,7 +78,7 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
 public class I20DetectorPreparer implements DetectorPreparer {
 	private static final Logger logger = LoggerFactory.getLogger(I20DetectorPreparer.class);
 
-	private Xspress2Detector xspress2system;
+//	private Xspress2Detector xspress2system;
 	private Detector selectedXspressDetector;
 
 	private Scannable[] sensitivities;
@@ -98,12 +101,14 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	private String statPvName = "STAT1:";
 	private boolean configureMedipixRois = true;
 
+	private boolean xesMode = false;
+
 	private MonoOptimisation monoOptimiser;
 
-	public I20DetectorPreparer(Xspress2Detector xspress2system, Scannable[] sensitivities, Scannable[] sensitivity_units,
+	public I20DetectorPreparer(Scannable[] sensitivities, Scannable[] sensitivity_units,
 			Scannable[] offsets, Scannable[] offset_units, TfgScalerWithFrames ionchambers, TfgScalerWithFrames I1,
 			Xmap vortex, NXDetector medipix, TopupChecker topupChecker) {
-		this.xspress2system = xspress2system;
+		selectedXspressDetector = null;
 		this.sensitivities = sensitivities;
 		this.sensitivity_units = sensitivity_units;
 		this.offsets = offsets;
@@ -123,8 +128,20 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		detectors.add(i1);
 		detectors.add(vortex);
 		detectors.add(medipix);
-		detectors.add(ffI0);
+//		detectors.add(ffI0);
 		return detectors;
+	}
+
+	public void setI1TimeFormatRequired(boolean timeRequired) {
+		if (timeRequired) {
+			i1.setOutputFormat(new String[]{"%.4f", "%.4f", "%.2f"});
+			i1.setExtraNames(new String[]{"Time", "I1"});
+			i1.setTimeChannelRequired(true);
+		} else {
+			i1.setOutputFormat(new String[]{"%.4f", "%.4f"});
+			i1.setExtraNames(new String[]{"I1"});
+			i1.setTimeChannelRequired(false);
+		}
 	}
 
 	public FluorescenceDetectorParameters getDetectorParametersBean(String xmlFileName) throws Exception {
@@ -156,6 +173,15 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		return (Detector) det;
 	}
 
+	private void setConfigFilename(Detector det, String xmlFilename) {
+		if (det instanceof Xspress2Detector) {
+			((Xspress2Detector) det).setConfigFileName(xmlFilename);
+		} else if (det instanceof Xspress4Detector) {
+			((Xspress4Detector) det).setConfigFileName(xmlFilename);
+		} else if (det instanceof Xmap) {
+			((Xmap)det).setConfigFileName(xmlFilename);
+		}
+	}
 	/**
 	 * Set Xspress parameterParameters options using values from I20OutputParameters options.
 	 * (save raw spectrum, only show FF, show deadtime correction values, save raw spectrum)
@@ -174,26 +200,46 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		}
 	}
 
+	// Full path to xml folder containing experiment xml files
+	private String experimentXmlFullPath;
+	private String hdfFilePathBeforeScan;
+
+	private String getNexusDataFullPath() {
+		String folder = experimentXmlFullPath.replace("/xml/", "/");
+		return FilenameUtils.getFullPathNoEndSeparator(folder)+"/nexus/";
+	}
+
+	private void setHdfPathBeforeScan(Detector detector) throws DeviceException {
+		if (detector != null && detector instanceof Xspress4Detector) {
+			Xspress4Detector det = (Xspress4Detector) detector;
+			hdfFilePathBeforeScan = det.getDetector().getController().getFilePath();
+			det.getDetector().setFilePath(getNexusDataFullPath());
+		}
+	}
+
+	private void setHdfPathAfterScan(Detector detector) {
+		if (detector != null && detector instanceof Xspress4Detector) {
+			try {
+				Xspress4Detector det = (Xspress4Detector) detector;
+				det.getDetector().getController().setFilePath(hdfFilePathBeforeScan);
+				det.getDetector().setFilePath(hdfFilePathBeforeScan);
+			} catch (DeviceException e) {
+				logger.error("Problem setting hdf directory to {} for {} at end of scan",  hdfFilePathBeforeScan, detector.getName(), e);
+			}
+		}
+	}
+
 	@Override
 	public void configure(IScanParameters scanBean, IDetectorParameters detectorBean, IOutputParameters outputBean,
 			String experimentFullPath) throws Exception {
 
 		this.scanBean = scanBean;
-
-		_setUpIonChambers();
+		this.experimentXmlFullPath = experimentFullPath;
 
 		String experimentType = detectorBean.getExperimentType();
+		xesMode = experimentType.equals(DetectorParameters.XES_TYPE);
 
-		// Set frame times for ionchambers
-		if (tfgFrameTimes != null) {
-			if (experimentType.equals(DetectorParameters.XES_TYPE)) {
-				i1.clearFrameSets();
-				i1.setTimes(tfgFrameTimes);
-			} else {
-				ionchambers.clearFrameSets();
-				ionchambers.setTimes(tfgFrameTimes);
-			}
-		}
+		_setUpIonChambers();
 
 		if (experimentType.equals(DetectorParameters.FLUORESCENCE_TYPE)) {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
@@ -202,12 +248,15 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			FluorescenceDetectorParameters params = getDetectorParametersBean(xmlFileName);
 			setXspressOutputOptions(params, outputBean);
 			Detector configuredDetector = configureFluorescenceDetector(params);
+			setConfigFilename(configuredDetector, xmlFileName);
 			if (configuredDetector instanceof Xmap) {
 				vortex = (Xmap) configuredDetector;
 			} else {
-				selectedXspressDetector = configuredDetector;
 				setXspressCorrectionParameters();
+				selectedXspressDetector = configuredDetector;
+				setHdfPathBeforeScan(selectedXspressDetector);
 			}
+
 		} else if (experimentType.equals(DetectorParameters.XES_TYPE)) {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getXesParameters();
 			String detType = fluoresenceParameters.getDetectorType();
@@ -216,7 +265,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 				vortex.setConfigFileName(xmlFileName);
 				vortex.configure();
 			}
-			else if ( detType.equals(FluorescenceParameters.MEDIPIX_DET_TYPE)) {
+			else if ( detType.toLowerCase().contains(FluorescenceParameters.MEDIPIX_DET_TYPE.toLowerCase())) {
 				if	(configureMedipixRois) {
 					configureMedipix( xmlFileName);
 				}
@@ -283,8 +332,11 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		}
 		basePvName = basePvName.replace(":CAM:", ":");
 
+
 		// Create new NXPlugin with ROI from XML settings (same PV names as plotserver ROI).
-		ADRoiStatsPair roistatPair = getNXRoiStatPair( basePvName, arrayPortName, roi );
+		// use same enabled stats as original plugin
+		List<BasicStat> enabledStats = plotserverRoiPlugin.getEnabledBasicStats();
+		ADRoiStatsPair roistatPair = getNXRoiStatPair( basePvName, arrayPortName, roi, enabledStats );
 
 		// --- Setup additionalPluginList : copy old list but replace plotserver ROI plugin with new one with ROI from XML settings :
 
@@ -335,14 +387,14 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	 * @return
 	 * @throws Exception
 	 */
-	private ADRoiStatsPair getNXRoiStatPair( String basePvName, String arrayPortName, RectangularROI<Integer> roi ) throws Exception {
+	private ADRoiStatsPair getNXRoiStatPair( String basePvName, String arrayPortName, RectangularROI<Integer> roi, List<BasicStat> stats ) throws Exception {
 
 		ADRoiStatsPairFactory fac = new ADRoiStatsPairFactory();
 		fac.setPluginName("roistats");
 		fac.setBaseRoiPVName(basePvName+roiPvName);
 		fac.setBaseStatsPVName(basePvName+statPvName);
 		fac.setRoiInputNdArrayPort(arrayPortName);
-		List<BasicStat> stats = Arrays.asList( new BasicStat[]{ BasicStat.MaxValue, BasicStat.Total } );
+
 		fac.setEnabledBasicStats(stats);
 		fac.setOneTimeSeriesCollectionPerLine(false);
 
@@ -357,6 +409,9 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	@Override
 	public void beforeEachRepetition() throws Exception {
 		doMonoOptimisation();
+
+		// Make sure timeframes, dark current collection time are set on ionchambers before each rep. of main scan
+		_setUpIonChambers();
 	}
 
 	@Override
@@ -368,6 +423,10 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	public void completeCollection() {
 		topupChecker.setCollectionTime(0.0);
 		ionchambers.setOutputLogValues(false);
+		setI1TimeFormatRequired(true);
+
+		// Set the hdf directory back to the 'before scan' value
+		setHdfPathAfterScan(selectedXspressDetector);
 
 		// Return NXPlugin list back to original state (i.e. the one using plotserver ROI plugin)
 		if ( originalMedipixPlugins != null )
@@ -427,6 +486,65 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		}
 	}
 
+	/**
+	 * Set output format to remove time column for Xas, Xanes scans.
+	 */
+	private void setupI1ForXes() {
+		if (scanBean instanceof XesScanParameters) {
+			setI1TimeFormatRequired(true);
+		} else {
+			// XAS, XANES - no time channel required for I1
+			setI1TimeFormatRequired(false);
+		}
+	}
+
+	private int getNumStepsXes(XesScanParameters xesParams) {
+		double xesEnergyRange = xesParams.getXesFinalEnergy() - xesParams.getXesInitialEnergy();
+		return 1 + getWholeNumSteps(xesEnergyRange, xesParams.getXesStepSize());
+	}
+
+	private int getNumStepsMono(XesScanParameters xesParams) {
+		if (xesParams.getScanType() == XesScanParameters.SCAN_XES_FIXED_MONO) {
+			return 1;
+		} else {
+			double monoEnergyRange = xesParams.getMonoFinalEnergy() - xesParams.getMonoInitialEnergy();
+			return 1 + getWholeNumSteps(monoEnergyRange, xesParams.getMonoStepSize());
+		}
+	}
+
+	private Double[] getScanTimeArray(XesScanParameters xesParams) throws Exception {
+		Double[] timeValues = null;
+
+		int scanType = xesParams.getScanType();
+
+		if (scanType == XesScanParameters.FIXED_XES_SCAN_XANES || scanType == XesScanParameters.FIXED_XES_SCAN_XAS) {
+			// Fixed XES, scan mono : Load bean with Xas, Xanes settings, create time array values from it
+			Object monoScanBean = getXesMonoScanBean(xesParams);
+			if (monoScanBean instanceof XasScanParameters && scanType==XesScanParameters.FIXED_XES_SCAN_XAS) {
+				timeValues = ExafsScanPointCreator.getScanTimeArray((XasScanParameters)monoScanBean);
+			} else if (monoScanBean instanceof XasScanParameters && scanType==XesScanParameters.FIXED_XES_SCAN_XANES) {
+				timeValues = XanesScanPointCreator.getScanTimeArray((XanesScanParameters)monoScanBean);
+			}
+		} else {
+			// 2d scans, same integration time for all points
+			double collectionTime = xesParams.getXesIntegrationTime();
+
+			int numStepsXes = getNumStepsXes(xesParams);
+			int numStepsMono = getNumStepsMono(xesParams);
+
+			timeValues = new Double[numStepsMono * numStepsXes];
+			Arrays.fill(timeValues, collectionTime);
+		}
+
+		return timeValues;
+	}
+
+	/**
+	 * Setup time frames required for scan and dark current collection time from max time per point, and apply to
+	 * ion chambers (I1 for xes mode, ionchambers for XAS mode).
+	 * Also set mono optimiser with correct ionchamber to use during bragg offset optimisation scans.
+	 * @throws Exception
+	 */
 	private void _setUpIonChambers() throws Exception {
 		tfgFrameTimes = null;
 
@@ -440,35 +558,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		}
 		else if ( scanBean instanceof XesScanParameters ) {
 			XesScanParameters xesParams = (XesScanParameters) scanBean;
-
-			double collectionTime = xesParams.getXesIntegrationTime();
-			double energyRange = xesParams.getXesFinalEnergy() - xesParams.getXesInitialEnergy();
-			int numStepsXes = 1 + getWholeNumSteps(energyRange, xesParams.getXesStepSize());
-
-			int numStepsMono = 1;
-			int scanType = xesParams.getScanType();
-
-			// 2d scan, mono is also moved.
-			if (scanType == XesScanParameters.SCAN_XES_SCAN_MONO) { // # XesScanParameters.SCAN_XES_SCAN_MONO:
-				energyRange = xesParams.getMonoFinalEnergy() - xesParams.getMonoInitialEnergy();
-				numStepsMono = 1 + getWholeNumSteps(energyRange, xesParams.getMonoStepSize());
-			}
-
-			// Determine number of steps in inner and outer loops
-			// (These will be probably be needed when implementing bragg offset optimization during 2d scan)
-
-//			int numStepsPerInnerLoop = 0, numStepsPerOuterLoop = 0;
-//			String loopType = xesParams.getLoopChoice();
-//			if (loopType.equals(XesScanParameters.EF_OUTER_MONO_INNER)) {
-//				numStepsPerOuterLoop = numStepsXes;
-//				numStepsPerInnerLoop = numStepsMono;
-//			} else if (loopType.equals(XesScanParameters.MONO_OUTER_EF_INNER)) {
-//				numStepsPerOuterLoop = numStepsMono;
-//				numStepsPerInnerLoop = numStepsXes;
-//			}
-
-			tfgFrameTimes = new Double[numStepsMono * numStepsXes];
-			Arrays.fill(tfgFrameTimes, collectionTime);
+			tfgFrameTimes = getScanTimeArray(xesParams);
 		}
 
 		// Determine max collection time
@@ -490,6 +580,18 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			// InterfaceProvider.getTerminalPrinter().print(
 			// "Setting the topup checker to pause scans for" + topupPauseTime + "s before topup");
 			topupChecker.setCollectionTime(maxTime);
+		}
+
+		if (tfgFrameTimes != null) {
+			if (xesMode) {
+				i1.clearFrameSets();
+				i1.setTimes(tfgFrameTimes);
+				monoOptimiser.setScannableToMonitor(i1);
+			} else {
+				ionchambers.clearFrameSets();
+				ionchambers.setTimes(tfgFrameTimes);
+				monoOptimiser.setScannableToMonitor(ionchambers);
+			}
 		}
 
 	}
@@ -582,6 +684,146 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		this.monoOptimiser = monoOptimiser;
 	}
 
+	private MonoEnergyRange getMonoRange(XasScanParameters bean) {
+		return new MonoEnergyRange(bean.getInitialEnergy(), bean.getFinalEnergy());
+	}
+
+	private MonoEnergyRange getMonoRange(XanesScanParameters bean) {
+		return new MonoEnergyRange(bean.getInitialEnergy(), bean.getFinalEnergy());
+	}
+
+	private Object getXesMonoScanBean(XesScanParameters bean) throws Exception {
+		Object monoScanBean = null;
+		try {
+			monoScanBean = XMLHelpers.getBean(new File(bean.getScanFileName()));
+		} catch (Exception e) {
+			logger.error("Problem loading XML file {} for XesScan : {}", bean.getScanFileName(),e.getMessage(), e);
+			throw new Exception(e);
+		}
+		return monoScanBean;
+	}
+
+	private MonoEnergyRange getMonoRange(XesScanParameters bean) throws Exception {
+		int scanType = bean.getScanType();
+		if (scanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
+			return new MonoEnergyRange(bean.getMonoEnergy(), bean.getMonoEnergy());
+		}else if (scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
+			return new MonoEnergyRange(bean.getMonoInitialEnergy(), bean.getMonoFinalEnergy());
+		}else{
+			// XAS or XANES mono scan
+			// load the xml bean of scan settings
+			Object monoScanBean = getXesMonoScanBean(bean);;
+			if (monoScanBean instanceof XasScanParameters) {
+				return getMonoRange((XasScanParameters)monoScanBean);
+			}else if (monoScanBean instanceof XanesScanParameters) {
+				return getMonoRange((XanesScanParameters)monoScanBean);
+			}
+		}
+
+		return null;
+	}
+
+	private static class MonoEnergyRange {
+		private double lowEnergy;
+		private double highEnergy;
+
+		public MonoEnergyRange(double lowEnergy, double highEnergy) {
+			this.lowEnergy = lowEnergy;
+			this.highEnergy = highEnergy;
+		}
+
+		public double getLowEnergy() {
+			return lowEnergy;
+		}
+		public void setLowEnergy(double lowEnergy) {
+			this.lowEnergy = lowEnergy;
+		}
+		public double getHighEnergy() {
+			return highEnergy;
+		}
+		public void setHighEnergy(double highEnergy) {
+			this.highEnergy = highEnergy;
+		}
+	}
+
+	/**
+	 * Set loop and scan type on MonoMoveWithOffset scannable - for XES mode scans.
+	 * @param scanBean , XesScanParameters; use null to set scantype = 0 and looptype="" (back to defaults)
+	 */
+	private void setScanLoopType(XesScanParameters scanBean) {
+		if (monoOptimiser.getBraggScannable() instanceof MonoMoveWithOffsetScannable) {
+			MonoMoveWithOffsetScannable monoWithOffset = (MonoMoveWithOffsetScannable)monoOptimiser.getBraggScannable();
+			if (scanBean!=null) {
+				monoWithOffset.setScanType(scanBean.getScanType());
+				monoWithOffset.setLoopType(scanBean.getLoopChoice());
+			}else {
+				monoWithOffset.setScanType(0);
+				monoWithOffset.setLoopType("");
+			}
+		}
+	}
+
+	private boolean monoMoves(int scanType) {
+		switch (scanType) {
+		case XesScanParameters.SCAN_XES_SCAN_MONO:
+		case XesScanParameters.FIXED_XES_SCAN_XANES:
+		case XesScanParameters.FIXED_XES_SCAN_XAS:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	private boolean xesMoves(int scanType) {
+		switch (scanType) {
+		case XesScanParameters.SCAN_XES_SCAN_MONO:
+		case XesScanParameters.SCAN_XES_FIXED_MONO:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	/**
+	 * Set 2D XES num steps per inner loop on MonoMoveWithOffset scannable
+	 * @param xesParams
+	 */
+	private void setLoopSizes(XesScanParameters xesParams) {
+		if (monoOptimiser.getBraggScannable() instanceof MonoMoveWithOffsetScannable) {
+			MonoMoveWithOffsetScannable monoWithOffset = (MonoMoveWithOffsetScannable)monoOptimiser.getBraggScannable();
+
+			int numStepsXes = getNumStepsXes(xesParams);
+			int numStepsMono = getNumStepsMono(xesParams);
+
+			int numStepsPerInnerLoop = 0, numStepsPerOuterLoop = 0;
+			int scanType = xesParams.getScanType();
+			if (xesParams.getScanType()==XesScanParameters.SCAN_XES_SCAN_MONO) {
+				String loopType = xesParams.getLoopChoice();
+				if (loopType.equals(XesScanParameters.EF_OUTER_MONO_INNER)) {
+					numStepsPerOuterLoop = numStepsXes;
+					numStepsPerInnerLoop = numStepsMono;
+				} else if (loopType.equals(XesScanParameters.MONO_OUTER_EF_INNER)) {
+					numStepsPerOuterLoop = numStepsMono;
+					numStepsPerInnerLoop = numStepsXes;
+				}
+			} else {
+				if (monoMoves(scanType)) {
+					numStepsPerInnerLoop = numStepsMono;
+				}else if (xesMoves(scanType)) {
+					numStepsPerInnerLoop = numStepsXes;
+				}
+			}
+			// set time per step (all same length for 2d scans)
+			monoWithOffset.setTimePerStepInnerLoop(xesParams.getXesIntegrationTime());
+			monoWithOffset.setNumStepsPerInnerLoop(numStepsPerInnerLoop);
+
+//			((MultipleExposureHardwareTriggeredStrategy)medipix.getCollectionStrategy()).setNumExtraPointsPerInnerLoop(monoOptimiser.getOffsetNumPoints());
+			monoOptimiser.getOffsetNumPoints();
+
+		}
+	}
+
+
 	/**
 	 * Run mono optimisation scan (i.e. adjust bragg offset for start and end scan energies to maximise signal
 	 * on the detector and set appropriate fitting parameters to be used to adjust the offset during an energy scan).<p>
@@ -591,28 +833,45 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	 */
 	private void doMonoOptimisation() throws Exception {
 		if (monoOptimiser != null) {
-			double lowEnergy = 0;
-			double highEnergy = 0;
-			Double[] timeFrames = ionchambers.getTimes();
 
+			MonoEnergyRange monoEnergyRange = null;
+			boolean is2dScan = false;
 			if (scanBean instanceof XanesScanParameters) {
-				lowEnergy = ((XanesScanParameters) scanBean).getInitialEnergy();
-				highEnergy = ((XanesScanParameters) scanBean).getFinalEnergy();
+				monoEnergyRange=getMonoRange((XanesScanParameters)scanBean);
 			} else if (scanBean instanceof XasScanParameters) {
-				lowEnergy = ((XasScanParameters) scanBean).getInitialEnergy();
-				highEnergy = ((XasScanParameters) scanBean).getFinalEnergy();
+				monoEnergyRange=getMonoRange((XasScanParameters)scanBean);
+			} else if (scanBean instanceof XesScanParameters) {
+				monoEnergyRange = getMonoRange((XesScanParameters)scanBean);
+				is2dScan = ((XesScanParameters)scanBean).getScanType() == XesScanParameters.SCAN_XES_SCAN_MONO;
 			}
 
-			if (lowEnergy>0 && highEnergy>lowEnergy && monoOptimiser.getAllowOptimisation()) {
-				logger.info("Running monochromator optimisation for XAS/XANES scan : low energy = {}, high energy = {}", lowEnergy, highEnergy);
-				monoOptimiser.optimise(lowEnergy, highEnergy);
+			setScanLoopType(null); // reset scan and loop type on the bragg1WIthOffset before doing optimisation scan
+
+			if (monoEnergyRange!=null && monoOptimiser.getAllowOptimisation()) {
+				if (!is2dScan) {
+
+					monoOptimiser.getBraggScannable().moveTo(monoEnergyRange.getLowEnergy());
+
+					if (Math.abs(monoEnergyRange.getLowEnergy() - monoEnergyRange.getHighEnergy()) < 1e-3) {
+						logger.info("Running monochromator optimisation for single mono energy : low energy = high energy = {}",
+								monoEnergyRange.getLowEnergy());
+						monoOptimiser.optimise(monoEnergyRange.getLowEnergy(), monoEnergyRange.getLowEnergy());
+					} else if (monoEnergyRange.getLowEnergy() > 0
+							&& monoEnergyRange.getHighEnergy() > monoEnergyRange.getLowEnergy()) {
+						logger.info("Running monochromator optimisation for XAS/XANES scan : low energy = {}, high energy = {}",
+								monoEnergyRange.getLowEnergy(), monoEnergyRange.getHighEnergy());
+						monoOptimiser.optimise(monoEnergyRange.getLowEnergy(), monoEnergyRange.getHighEnergy());
+					}
+				}
+				else {
+					// move to near low energy, so that first moveTo also calls optimisation
+					monoOptimiser.getBraggScannable().moveTo(monoEnergyRange.getLowEnergy()+0.2);
+				}
 			}
 
-			// Set the frame times (these will have been cleared by optimisation scans)
-			if (tfgFrameTimes!=null) {
-				ionchambers.getTimes();
-				ionchambers.clearFrameSets();
-				ionchambers.setTimes(tfgFrameTimes);
+			if (scanBean instanceof XesScanParameters) {
+				setScanLoopType((XesScanParameters)scanBean);
+				setLoopSizes((XesScanParameters)scanBean);
 			}
 		}
 	}
@@ -629,8 +888,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		return selectedXspressDetector;
 	}
 
-	public void setSelectedXspressDetector(Detector selectedXspressDetetor) {
-		this.selectedXspressDetector = selectedXspressDetetor;
+	public void setSelectedXspressDetector(Detector selectedXspressDetector) {
+		this.selectedXspressDetector = selectedXspressDetector;
 	}
 
 	public Xmap getVortex() {
@@ -640,4 +899,13 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	public void setVortex(Xmap vortex) {
 		this.vortex = vortex;
 	}
+
+	public boolean getXesMode() {
+		return xesMode;
+	}
+
+	public void setXesMode(boolean xesMode) {
+		this.xesMode = xesMode;
+	}
+
 }

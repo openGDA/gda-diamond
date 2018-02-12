@@ -58,19 +58,20 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>	
 
-	<bean id="xspress2system" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xspress2system" />
-		<property name="serviceInterface"
-			value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean> 
+<!-- 	<bean id="xspress2system" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}xspress2system" /> -->
+<!-- 		<property name="serviceInterface" -->
+<!-- 			value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" /> -->
+<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
+<!-- 	</bean>  -->
 
-	<bean id="xspressConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xspressConfig" />
-		<property name="serviceInterface"
-			value="gda.device.detector.FluorescentDetectorConfiguration" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+<!-- 	<bean id="xspressConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}xspressConfig" /> -->
+<!-- 		<property name="serviceInterface" -->
+<!-- 			value="gda.device.detector.FluorescentDetectorConfiguration" /> -->
+<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
+<!-- 	</bean> -->
+
 	<bean id="vortexConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}vortexConfig" />
 		<property name="serviceInterface"
@@ -118,7 +119,7 @@
 				<entry key="Fluorescence">
 					<list>
 						<value>Silicon</value>
-						<value>Germanium</value>
+<!-- 						<value>Germanium</value> -->
 						<value>Xspress4</value>
 					</list>
 				</entry>
@@ -135,7 +136,7 @@
 		<property name="detectorTemplateMap">
 			<map>
 				<entry key="xmapMca" value="${gda.config}/var/templates/Vortex_Parameters.xml"/>
-				<entry key="xspress2system" value="${gda.config}/var/templates/Xspress_Parameters_64Ge.xml"/>
+<!-- 				<entry key="xspress2system" value="${gda.config}/var/templates/Xspress_Parameters_64Ge.xml"/> -->
 				<entry key="medipix" value="${gda.config}/var/templates/Medipix_Parameters.xml"/>
 				<entry key="xspress4" value="${gda.config}/var/templates/Xspress4_Parameters_64Ge.xml" />
 			</map>

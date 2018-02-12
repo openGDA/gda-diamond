@@ -19,6 +19,7 @@
 package uk.ac.gda.server.exafs.scan;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -39,6 +40,8 @@ import gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.DummyScannable;
+import gda.device.scannable.DummyScannableMotor;
+import gda.device.scannable.MonoOptimisation;
 import gda.device.scannable.TopupChecker;
 import gda.factory.Findable;
 import gda.factory.Finder;
@@ -70,6 +73,7 @@ public class I20DetectorPreparerTest {
 	private TfgFFoverI0 ffI0;
 	private XspressParameters xspressParams ;
 	private VortexParameters vortexParams;
+	private MonoOptimisation monoOptimiser;
 
 	private class DetectorPreparerForTest extends I20DetectorPreparer {
 
@@ -79,7 +83,7 @@ public class I20DetectorPreparerTest {
 				Scannable[] sensitivity_units, Scannable[] offsets, Scannable[] offset_units,
 				TfgScalerWithFrames ionchambers, TfgScalerWithFrames I1, Xmap vortex, NXDetector medipix,
 				TopupChecker topupChecker) {
-			super(xspressSystem, sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, vortex, medipix,
+			super(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, vortex, medipix,
 					topupChecker);
 			setSelectedXspressDetector(xspressSystem);
 		}
@@ -139,6 +143,12 @@ public class I20DetectorPreparerTest {
 
 		vortexParams = new VortexParameters();
 		vortexParams.setDetectorName(xmapFluoDetector.getName());
+
+		Scannable dummyMotor = new DummyScannableMotor();
+		dummyMotor.setName("dummyMotor");
+
+		monoOptimiser = new MonoOptimisation(dummyMotor, ionchambers);
+		monoOptimiser.setAllowOptimisation(false);
 	}
 
 	private I20DetectorPreparer makePreparer(FluorescenceDetectorParameters params) {
@@ -146,6 +156,7 @@ public class I20DetectorPreparerTest {
 				ionchambers, I1, xmpaMca, medipix, topupChecker);
 		thePreparer.setFFI0(ffI0);
 		thePreparer.setParameterBean(params);
+		thePreparer.setMonoOptimiser(monoOptimiser);
 		return thePreparer;
 	}
 
@@ -179,14 +190,13 @@ public class I20DetectorPreparerTest {
 	public void testGetDetectors() {
 		List<Detector> arraylist = makePreparer(xspressParams).getDetectors();
 
-		org.junit.Assert.assertEquals(6, arraylist.size());
+		org.junit.Assert.assertEquals(5, arraylist.size());
 
 		assertTrue(arraylist.contains(xspressSystem));
 		assertTrue(arraylist.contains(xmpaMca));
 		assertTrue(arraylist.contains(ionchambers));
 		assertTrue(arraylist.contains(I1));
 		assertTrue(arraylist.contains(medipix));
-		assertTrue(arraylist.contains(ffI0));
 	}
 
 	@Test
@@ -245,9 +255,12 @@ public class I20DetectorPreparerTest {
 		detParams.setFluorescenceParameters(fluoParams);
 		detParams.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
 
-		makePreparer(xspressParams).configure(scanBean, detParams, outputBean, experimentFullPath);
+		I20DetectorPreparer preparer = makePreparer(xspressParams);
+		preparer.setSelectedXspressDetector(null);
+		preparer.configure(scanBean, detParams, outputBean, experimentFullPath);
 
-		Mockito.verify(xspressSystem, Mockito.times(1)).applyConfigurationParameters(xspressParams);
+		assertNotNull(preparer.getSelectedXspressDetector());
+		assertEquals(preparer.getSelectedXspressDetector().getName(), xspressSystem.getName());
 		Mockito.verify(xmapFluoDetector, Mockito.never()).applyConfigurationParameters(vortexParams);
 
 		Mockito.verify(topupChecker).setCollectionTime(2.5);
@@ -298,6 +311,7 @@ public class I20DetectorPreparerTest {
 		// Mockito.verify(xmapFluoDetector, Mockito.time(1)).applyConfigurationParameters(vortexParams);
 
 		// Check XMap detector has been set correctly by using detector object located using finder and parameters file
+		assertNotNull(preparer.getVortex());
 		assertEquals(preparer.getVortex().getName(), xmpaMca.getName());
 		Mockito.verify(xspressSystem, Mockito.never()).applyConfigurationParameters(xspressParams);
 

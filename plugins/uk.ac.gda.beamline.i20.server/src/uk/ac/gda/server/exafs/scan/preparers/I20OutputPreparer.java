@@ -29,7 +29,6 @@ import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.Xmap;
-import gda.device.detector.xspress.Xspress2Detector;
 import gda.scan.ScanPlotSettings;
 import uk.ac.gda.beans.exafs.DetectorGroup;
 import uk.ac.gda.beans.exafs.DetectorParameters;
@@ -46,7 +45,7 @@ public class I20OutputPreparer extends OutputPreparerBase {
 
 	private AsciiDataWriterConfiguration datawriterconfig_xes;
 	private TfgScalerWithFrames ionchambers;
-	private Xspress2Detector xspress2system;
+//	private Xspress2Detector xspress2system;
 	private Xmap xmapMca;
 	private IDetectorParameters detectorBean;
 	private I20OutputParameters i20OutputParams;
@@ -54,11 +53,11 @@ public class I20OutputPreparer extends OutputPreparerBase {
 
 	public I20OutputPreparer(AsciiDataWriterConfiguration datawriterconfig,
 			AsciiDataWriterConfiguration datawriterconfig_xes, NXMetaDataProvider metashop, TfgScalerWithFrames ionchambers,
-			Xspress2Detector xspress2system, Xmap xmapMca, I20DetectorPreparer detectorPreparer) {
+			Xmap xmapMca, I20DetectorPreparer detectorPreparer) {
 		super(datawriterconfig, metashop);
 		this.datawriterconfig_xes = datawriterconfig_xes;
 		this.ionchambers = ionchambers;
-		this.xspress2system = xspress2system;
+//		this.xspress2system = xspress2system;
 		this.xmapMca = xmapMca;
 		this.detectorPreparer = detectorPreparer;
 	}
@@ -74,9 +73,9 @@ public class I20OutputPreparer extends OutputPreparerBase {
 		// # Custom for I20, which is why it is here instead of the shared DetectorConfiguration.java classes.
 		// # Set the output options for the fluo detectors. Hope that this output preparer has been called AFTER the
 		// # detector preparer or these settings will be overwritten.
-		xspress2system.setOnlyDisplayFF(i20OutputParams.isXspressOnlyShowFF());
-		xspress2system.setAddDTScalerValuesToAscii(i20OutputParams.isXspressShowDTRawValues());
-		xspress2system.setSaveRawSpectrum(i20OutputParams.isXspressSaveRawSpectrum());
+//		xspress2system.setOnlyDisplayFF(i20OutputParams.isXspressOnlyShowFF());
+//		xspress2system.setAddDTScalerValuesToAscii(i20OutputParams.isXspressShowDTRawValues());
+//		xspress2system.setSaveRawSpectrum(i20OutputParams.isXspressSaveRawSpectrum());
 		xmapMca.setSaveRawSpectrum(i20OutputParams.isVortexSaveRawSpectrum());
 		// return []
 	}
