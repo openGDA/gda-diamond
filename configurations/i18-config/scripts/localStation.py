@@ -37,7 +37,6 @@ topupMonitor.configure()
 beamMonitor = BeamMonitor()
 beamMonitor.setName("beamMonitor")
 beamMonitor.setShutterPVs(["FE18I-RS-ABSB-01:STA"])
-beamMonitor.setBeamlineEnergyWithGapScannable(energy) # @UndefinedVariable
 beamMonitor.setMachineModeMonitor(machineModeMonitor) # @UndefinedVariable
 beamMonitor.configure()
 
