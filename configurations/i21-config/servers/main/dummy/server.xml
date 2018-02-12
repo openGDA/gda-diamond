@@ -7,13 +7,13 @@
 
 	<import resource="devices/_all.xml"/>
 	<import resource="clusterProcessingDevice.xml"/>
-	<!-- add dummy motors from p45-config  for solstice scanning testing-->
-	<import resource="../../../../p45-config/servers/main/dummy/mapping_motors.xml"/> <!-- Dummy motor -->
-	<import resource="../../../../p45-config/servers/main/dummy/mic.xml"/> <!-- EPICS SWMR IOC-->
-	<import resource="../../../../p45-config/servers/main/dummy/det.xml"/> <!-- Java Simulation -->
-	<import resource="../../../../p45-config/servers/main/_common/mic.xml"/>
+	<!-- add dummy motors from dls-config  for solstice scanning testing-->
+	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/> <!-- Dummy motor -->
+	<import resource="file://${gda.facility.dir}/servers/dummy/mic.xml"/> <!-- EPICS SWMR IOC-->
+	<import resource="file://${gda.facility.dir}/servers/dummy/det.xml"/> <!-- Java Simulation -->
+	<import resource="file://${gda.facility.dir}/servers/_common/mic.xml"/>
 
-	<import resource="../../../../../gda-diamond.git/dls-config/servers/dummy/icat_xml_creator.xml" />
+	<import resource="file://${gda.facility.dir}/servers/dummy/icat_xml_creator.xml" />
 
 
 <!-- do not remove anything below here -->

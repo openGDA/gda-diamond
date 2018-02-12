@@ -17,8 +17,8 @@
 	<import resource="live_controls.xml"/>
 	<import resource="statusView.xml"/>
 	
-	<!-- new solstice scanning sourced from p45-config project -->
-	<import resource="../../../../p45-config/clients/main/_common/stage_controls_tree.xml"/>
+	<!-- new solstice scanning sourced from dls-config -->
+	<import resource="file://${gda.facility.dir}/clients/_common/stage_controls_tree.xml"/>
 	<!-- mapping perspective -->
 	<import resource="mapping.xml"/>
 
