@@ -203,12 +203,6 @@ from scannabledevices.samplePoistioner_instance import smp_positioner  # @Unused
 print "*"*80
 print "Creating aliases: th=sapolar,x=sax,y=say,z=saz,phi=saazimuth,delta=diodetth,chi=satilt"
 th = sapolar
-x = sax
-y = say
-z = saz
-phi = saazimuth
-delta = diodetth
-chi = satilt
 
 tsample=lakeshore.getTemperature(0)  # @UndefinedVariable
 tshield=lakeshore.getTemperature(1)
