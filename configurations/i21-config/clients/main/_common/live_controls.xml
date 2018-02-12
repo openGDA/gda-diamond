@@ -55,7 +55,7 @@
 	</bean>
 
 	<bean id="andorStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="andor_addetector.stop()" />
+		<property name="jythonCommand" value="andor_addetector.adBase.stopAcquiring()" />
 		<property name="buttonText" value="Stop" />
 		<property name="group" value="Andor" />
 	</bean>
