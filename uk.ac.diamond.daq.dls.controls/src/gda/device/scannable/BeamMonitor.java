@@ -126,12 +126,6 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 				throw new DeviceException(e.getMessage(), e);
 			}
 		}
-
-		if (beamlineEnergyWithGapScannable != null) {
-			// set energy to same value so idgap goes to correct position.
-			final Double beamlineEnergy = (Double) beamlineEnergyWithGapScannable.getPosition();
-			beamlineEnergyWithGapScannable.moveTo(beamlineEnergy);
-		}
 	}
 
 	protected boolean portShuttersAllOpen() {
