@@ -27,6 +27,7 @@ import java.util.List;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.january.dataset.IDataset;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -253,7 +254,8 @@ public class TurboXasScanTest extends EdeTestBase {
 			}
 		}
 		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
-		int numSpectra = pointCount + 1;
+		IDataset frameTimes = getDataset(scan.getDataWriter().getCurrentFileName(), bufferedScaler.getName(), "frame_time");
+		int numSpectra = frameTimes.getShape()[0];
 		checkScalerNexusData(scan.getDataWriter().getCurrentFileName(), numSpectra, numPointsPerSpectrum);
 	}
 
