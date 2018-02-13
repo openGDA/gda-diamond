@@ -5,7 +5,7 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- motors -->
-	<bean id="smprzMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="smpthMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:RZ" />
 		<property name="local" value="true" />
 	</bean>
@@ -21,15 +21,15 @@
 		<property name="pvName" value="BL21I-EA-SMPL-01:Z" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="smpazimuthMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="smpphiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:AZIMUTH" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="smpdiodetthMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="smpdeltaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:DRING" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="smptiltMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="smpchiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:TILT" />
 		<property name="local" value="true" />
 	</bean>

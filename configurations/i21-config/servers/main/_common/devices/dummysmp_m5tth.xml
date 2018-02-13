@@ -4,8 +4,8 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
-	<bean id="simsapolar" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="smprzDummyMotor" />
+	<bean id="simth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpthDummyMotor" />
 		<property name="outputFormat">
 			<list>
 				<value>%10.6f</value>
@@ -14,7 +14,7 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 
-	<bean id="simsax" class="gda.device.scannable.ScannableMotor">
+	<bean id="simx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpxDummyMotor" />
 		<property name="outputFormat">
 			<list>
@@ -24,7 +24,7 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<bean id="simsay" class="gda.device.scannable.ScannableMotor">
+	<bean id="simy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpyDummyMotor" />
 		<property name="outputFormat">
 			<list>
@@ -34,7 +34,7 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<bean id="simsaz" class="gda.device.scannable.ScannableMotor">
+	<bean id="simz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpzDummyMotor" />
 		<property name="outputFormat">
 			<list>
@@ -43,8 +43,8 @@
 		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
-	<bean id="simsaazimuth" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="smpazimuthDummyMotor" />
+	<bean id="simphi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpphiDummyMotor" />
 		<property name="outputFormat">
 			<list>
 				<value>%10.6f</value>
@@ -52,8 +52,8 @@
 		</property>
 		<property name="userUnits" value="deg" />
 	</bean>
-	<bean id="simdiodetth" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="smpdiodetthDummyMotor" />
+	<bean id="simdelta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpdeltaDummyMotor" />
 		<property name="outputFormat">
 			<list>
 				<value>%10.6f</value>
@@ -61,8 +61,8 @@
 		</property>
 		<property name="userUnits" value="deg" />
 	</bean>
-	<bean id="simsatilt" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="smptiltDummyMotor" />
+	<bean id="simchi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpchiDummyMotor" />
 		<property name="outputFormat">
 			<list>
 				<value>%10.6f</value>
@@ -72,7 +72,7 @@
 	</bean>
 	
 	<bean id="simm5tth" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="m5rstageDummyMotor" />
+		<property name="motor" ref="m5tthDummyMotor" />
 		<property name="userUnits" value="deg"/>
 	</bean>
 	
@@ -80,13 +80,13 @@
  	<bean id="simsmp" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="simsapolar" />
-				<ref bean="simsax" />
-				<ref bean="simsay" />
-				<ref bean="simsaz" />
-				<ref bean="simsaazimuth" />
-				<ref bean="simdiodetth" />
-				<ref bean="simsatilt" />
+				<ref bean="simth" />
+				<ref bean="simx" />
+				<ref bean="simy" />
+				<ref bean="simz" />
+				<ref bean="simphi" />
+				<ref bean="simchi" />
+				<ref bean="simdelta" />
 				<ref bean="simm5tth" />
 			</list>
 		</property>

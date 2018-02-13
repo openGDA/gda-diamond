@@ -4,8 +4,8 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 
-	<bean id="sapolar" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="smprzMotor" />
+	<bean id="th" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpthMotor" />
 		<property name="outputFormat">
 			<list>
 				<value>%10.6f</value>
@@ -14,7 +14,7 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 
-	<bean id="sax" class="gda.device.scannable.ScannableMotor">
+	<bean id="x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpxMotor" />
 		<property name="outputFormat">
 			<list>
@@ -24,7 +24,7 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<bean id="say" class="gda.device.scannable.ScannableMotor">
+	<bean id="y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpyMotor" />
 		<property name="outputFormat">
 			<list>
@@ -34,7 +34,7 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<bean id="saz" class="gda.device.scannable.ScannableMotor">
+	<bean id="z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpzMotor" />
 		<property name="outputFormat">
 			<list>
@@ -43,8 +43,8 @@
 		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
-	<bean id="saazimuth" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="smpazimuthMotor" />
+	<bean id="phi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpphiMotor" />
 		<property name="outputFormat">
 			<list>
 				<value>%10.6f</value>
@@ -52,8 +52,8 @@
 		</property>
 		<property name="userUnits" value="deg" />
 	</bean>
-	<bean id="diodetth" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="smpdiodetthMotor" />
+	<bean id="delta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpdeltaMotor" />
 		<property name="outputFormat">
 			<list>
 				<value>%10.6f</value>
@@ -61,8 +61,8 @@
 		</property>
 		<property name="userUnits" value="deg" />
 	</bean>
-	<bean id="satilt" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="smptiltMotor" />
+	<bean id="chi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpchiMotor" />
 		<property name="outputFormat">
 			<list>
 				<value>%10.6f</value>
@@ -75,13 +75,13 @@
  	<bean id="smp" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="sapolar" />
-				<ref bean="sax" />
-				<ref bean="say" />
-				<ref bean="saz" />
-				<ref bean="saazimuth" />
-				<ref bean="diodetth" />
-				<ref bean="satilt" />
+				<ref bean="th" />
+				<ref bean="x" />
+				<ref bean="y" />
+				<ref bean="z" />
+				<ref bean="phi" />
+				<ref bean="delta" />
+				<ref bean="chi" />
 				<ref bean="draincurrent" />
 				<ref bean="fy1" />
 				<ref bean="straightdiode" />

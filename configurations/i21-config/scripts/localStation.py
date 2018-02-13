@@ -1,25 +1,21 @@
-import java, sys
+import sys
 import installation
-import gdascripts.scan.concurrentScanWrapper
 
-from gdascripts.messages.handle_messages import simpleLog, log
+from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.scannable.dummy import SingleInputDummy
 from gda.device.scannable.scannablegroup import ScannableGroup
 
-from gdascripts.degas.degas import Degas
+from gdascripts.degas.degas import Degas  # @UnusedImport
 
-from gda.data import PathConstructor, NumTracker
-from gda.jython.commands.GeneralCommands import alias, run
-from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interrupt
+from gda.jython.commands.GeneralCommands import alias
 from gda.jython.commands.ScannableCommands import scan
-from gda.factory import Finder
 from time import sleep  # @UnusedImport
 
-import os
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
-from gdaserver import sapolar, lakeshore, sax, say, saz, saazimuth, diodetth,\
-    satilt
+from gdaserver import lakeshore, b2, x
+import gdascripts
+# import gdascripts
 
 #global run
  
@@ -30,6 +26,7 @@ print "      >>>scansReturnToOriginalPositions=1"
 scansReturnToOriginalPositions=0;
 print
 print sys.path
+print
 # set up a nice method for getting the latest file path
 from i21commands.dirFileCommands import pwd, lwf, nwf, nfn, setSubdirectory, getSubdirectory  # @UnusedImport
 
@@ -37,7 +34,7 @@ alias("pwd")
 alias("lwf")
 alias("nwf")
 alias("nfn")
-
+print
 from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis  # @UnusedImport
 alias("useSeparateYAxes")
 alias("useSingleYAxis")
@@ -46,7 +43,6 @@ print
 
 def interruptable():
     GeneralCommands.pause()
-    
 alias("interruptable")
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -66,7 +62,7 @@ print "-------------------------------------------------------------------------
 print "load common physical constants"
 from gdascripts.constants import * #@UnusedWildImport
 
-print "Adding dummy devices x,y and z"
+print "Adding dummy devices dummies.x, dummies.y and dummies.z"
 dummies = ScannableGroup()
 dummies.setName("dummies")
 dummies.setGroupMembers([SingleInputDummy("x"), SingleInputDummy("y"), SingleInputDummy("z")])
@@ -74,6 +70,7 @@ dummies.setGroupMembers([SingleInputDummy("x"), SingleInputDummy("y"), SingleInp
 print "Adding timer devices t, dt, and w, clock"
 from gdascripts.scannable.timerelated import timerelated #@UnusedImport
 
+print
 simpleLog("================ INITIALISING I21 GDA ================")
 
 if installation.isLive():
@@ -111,8 +108,6 @@ if installation.isLive():
 else:
     print "Running in dummy mode"
 
-print 
-
 print "create clever amplifier scannables: cleverd7femto1, cleverd7femto2"
 from i21_utils import DisplayEpicsPVClass_neg, DisplayEpicsPVClass_pos
 d7femto1_neg = DisplayEpicsPVClass_neg('d7femto1_neg', d7femto1)  # @UndefinedVariable
@@ -123,7 +118,6 @@ cleverd7femto1=CleverAmplifier("cleverd7femto1", d7femto1_neg, 0.5, 9.0, "%.4f",
 cleverd7femto2=CleverAmplifier("cleverd7femto2", d7femto2_pos, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 cleverm4femto1=CleverAmplifier("cleverm4femto1", m4femto1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 cleverm4femto2=CleverAmplifier("cleverm4femto2", m4femto2, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
-print
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -148,16 +142,16 @@ energy=BeamEnergy("energy",idscannable, idgap, pgmEnergy, pgmGratingSelect)  # @
 # energypolarisation.setExtraNames(["polarisation"])
 
 from scannabledevices.coupledSampleStageMotion import CoupledSampleStageMotion
-sapara=CoupledSampleStageMotion("sapara", sax, say, sapolar) # @UndefinedVariable
-saperp=CoupledSampleStageMotion("saperp", sax, say, sapolar) # @UndefinedVariable
-
+sapara=CoupledSampleStageMotion("sapara", x, y, th) # @UndefinedVariable
+saperp=CoupledSampleStageMotion("saperp", x, y, th) # @UndefinedVariable
+print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm "
 from metashop import *  # @UnusedWildImport
 import metashop  # @UnusedImport
-
+print
 print "-----------------------------------------------------------------------------------------------------------------"
-print "Add meta data items"
+print "Add meta data items to be captured in data files."
 metadatalist=[idgap, idscannable, energy] #@UndefinedVariable
 m1list=[m1x,m1pitch,m1finepitch,m1height,m1yaw,m1roll,m1feedback] #@UndefinedVariable
 m2list=[m2x,m2pitch,m2finepitch,m2height,m2feedback]# @UndefinedVariable
@@ -170,7 +164,7 @@ s3list=[s3hsize,s3vsize,s3hcentre,s3vcentre] #@UndefinedVariable
 s4list=[s4hcentre,s4hsize,s4vcentre,s4vsize,s4offside,s4nearside,s4upper,s4lower] #@UndefinedVariable
 s5list=[s5v1gap,s5v2gap,s5hgap,s5sut,s5vdso1,s5vdso2,s5hdso] #@UndefinedVariable
 s6list=[s6hgap,s6hcentre,s6vgap,s6vcentre]  # @UndefinedVariable
-samplelist=[sapolar,sax,say,saz,saazimuth,satilt,diodetth,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
+samplelist=[th,x,y,z,phi,chi,delta,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
 sgmlist=[sgmx,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside,sgmGratingSelect] # @UndefinedVariable
 spectrometerlist=[specgamma,spech,specl] # @UndefinedVariable
 andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
@@ -184,11 +178,13 @@ alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
 
-b2.setOutputFormat(["%7.4f"])  # @UndefinedVariable
-sax.setOutputFormat(["%10.6f"])  # @UndefinedVariable
+b2.setOutputFormat(["%7.4f"])
+x.setOutputFormat(["%10.6f"])
 
+print
 print "*"*80
 #DiffCalc
+print "import DIFFCALC support for I21"
 from startup.i21 import *  # @UnusedWildImport
 toolpoint_off()  # @UndefinedVariable
 
@@ -200,11 +196,7 @@ xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 
 from scannabledevices.samplePoistioner_instance import smp_positioner  # @UnusedImport
 
-print "*"*80
-print "Creating aliases: th=sapolar,x=sax,y=say,z=saz,phi=saazimuth,delta=diodetth,chi=satilt"
-th = sapolar
-
-tsample=lakeshore.getTemperature(0)  # @UndefinedVariable
+tsample=lakeshore.getTemperature(0)
 tshield=lakeshore.getTemperature(1)
 tcryostat=lakeshore.getTemperature(2)
 
