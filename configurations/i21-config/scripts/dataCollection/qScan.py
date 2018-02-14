@@ -4,8 +4,7 @@ Created on 10 Jan 2018
 @author: fy65
 '''
 from calibration.Energy2Gap4ID import idgap_calc
-from gdaserver import s5v1gap, idscannable, saazimuth, satilt, say, sapolar, sax,\
-    saz, andor
+from gdaserver import s5v1gap, idscannable, phi, y, th, x,z, andor
 from gdascripts.metadata.metadata_commands import meta_add, meta_rm
 from i21commands.dirFileCommands import nfn
 from gdascripts.scan.installStandardScansWithProcessing import scan
@@ -55,8 +54,8 @@ def qscan(**kwargs):
         # set slit s5 gap
         s5v1gap.moveTo(kwargs['s5v1gap_val'])
         # set sample positions
-        saazimuth.moveTo(kwargs['saazimuth_val'])
-        satilt.moveTo(kwargs['satilt_val'])
+        phi.moveTo(kwargs['saazimuth_val'])
+        sa.chi.moveTo(kwargs['satilt_val'])  # @UndefinedVariable
     
     
         #add qscan metadata for this collection
@@ -72,7 +71,7 @@ def qscan(**kwargs):
         qval = kwargs['qStart'] + i*kwargs['qStep']
         sapolarval = qtransferrlu2sapolar(kwargs['energy_sample'],qval,kwargs['sapolar_offset'],kwargs['thts_val'],kwargs['vec'],kwargs['a']) 
         if not kwargs['dry_run']:
-            sapolar.moveTo(sapolarval)
+            th.moveTo(sapolarval)
             interruptable()  # @UndefinedVariable
         
         if not kwargs['dry_run']:
@@ -81,11 +80,11 @@ def qscan(**kwargs):
             meta_add("qval", qval)
     
             # Move to sample position
-            sax.moveTo(kwargs['sax_sample'])
+            x.moveTo(kwargs['sax_sample'])
             interruptable()  # @UndefinedVariable
-            say.moveTo(kwargs['say_sample'])
+            y.moveTo(kwargs['say_sample'])
             interruptable()  # @UndefinedVariable
-            saz.moveTo(kwargs['saz_sample'])
+            z.moveTo(kwargs['saz_sample'])
             interruptable()  # @UndefinedVariable
             
             # collect sample type and elastic reference scan number
@@ -100,11 +99,11 @@ def qscan(**kwargs):
     
             # Move to the carbon tape position
             #sax.moveTo(0.5)
-            sax.moveTo(kwargs['sax_ctape'])
+            x.moveTo(kwargs['sax_ctape'])
             interruptable()  # @UndefinedVariable
-            sax.moveTo(kwargs['say_ctape'])
+            y.moveTo(kwargs['say_ctape'])
             interruptable()  # @UndefinedVariable
-            saz.moveTo(kwargs['saz_ctape'])
+            z.moveTo(kwargs['saz_ctape'])
             interruptable()  # @UndefinedVariable
             
             # collect sample type and relevant sample scan number
