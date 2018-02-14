@@ -5,11 +5,11 @@
 <include file="${gda.config}/properties/_common/client_and_server_logging.xml"/>
 
     <root>
-        <level value="INFO"/>
+        <level value="DEBUG"/>
         <appender-ref ref="SOCKET"/>
     </root>
     
-    <logger name="gda.factory">
+    <!-- <logger name="gda.factory">
         <level value="INFO"/>
     </logger>
    
@@ -40,6 +40,6 @@
     <logger name="gda.epics.LazyPVFactory">
         <level value="DEBUG"/>
     </logger>
-   
+   -->
    
 </configuration>
