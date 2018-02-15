@@ -21,6 +21,7 @@ package uk.ac.gda.server.exafs.scan;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 
 import gda.device.Detector;
 import gda.device.Scannable;
@@ -48,6 +49,7 @@ public class XesScan extends XasScanBase implements XasScan {
 	private I20OutputParameters i20OutputParameters;
 	private String monoAxisLabel = "bragg1 energy [eV]";
 	private String xesAxisLabel = "XESEnergy [eV]";
+	private IXesOffsets xesOffsets;
 
 	public XesScan() {
 	}
@@ -82,6 +84,11 @@ public class XesScan extends XasScanBase implements XasScan {
 	protected void doCollection() throws Exception {
 		xesScanParameters = (XesScanParameters) scanBean;
 		i20OutputParameters = (I20OutputParameters) outputBean;
+		String offsetStoreName = xesScanParameters.getOffsetsStoreName();
+		if (StringUtils.isNotEmpty(offsetStoreName)) {
+			xesOffsets.saveToTemp(); // save current offsets to temporary files, so they can be reset at the end
+			xesOffsets.apply(offsetStoreName);
+		}
 
 		if (analyserAngle.isBusy()) {
 			analyserAngle.waitWhileBusy();
@@ -98,6 +105,15 @@ public class XesScan extends XasScanBase implements XasScan {
 		} finally {
 			// make sure the plotter is switched off
 			twodplotter.atScanEnd();
+		}
+	}
+
+	@Override
+	protected void finishRepetitions() throws Exception {
+		super.finishRepetitions();
+		// Apply the original XES offsets
+		if (StringUtils.isNotEmpty(xesScanParameters.getOffsetsStoreName())) {
+			xesOffsets.applyFromTemp();
 		}
 	}
 
@@ -199,5 +215,13 @@ public class XesScan extends XasScanBase implements XasScan {
 
 	public void setXas(XasScan xas) {
 		this.xas = xas;
+	}
+
+	public IXesOffsets getXesOffsets() {
+		return xesOffsets;
+	}
+
+	public void setXesOffsets(IXesOffsets xesOffsets) {
+		this.xesOffsets = xesOffsets;
 	}
 }

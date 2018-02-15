@@ -114,6 +114,7 @@ theFactory.setIncludeSampleNameInNexusName(True);
 theFactory.setScanName("xas")
 theFactory.setAnalyserAngle(XESBragg)
 theFactory.setXes_energy(XESEnergy)
+theFactory.setXesOffsets(xes_offsets)
 xes = theFactory.createXesScan()
 
 theFactory = XasScanFactory();

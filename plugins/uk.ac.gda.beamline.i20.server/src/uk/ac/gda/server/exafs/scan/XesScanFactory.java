@@ -26,6 +26,7 @@ public class XesScanFactory extends XasScanFactory {
 	private Scannable analyserAngle;
 	private Scannable xes_energy;
 	private XesScan xesScan;
+	private IXesOffsets xesOffsets;
 
 	public XesScan createXesScan(){
 
@@ -51,6 +52,7 @@ public class XesScanFactory extends XasScanFactory {
 		xesScan.setDatawriterconfig(datawriterconfig);
 		xesScan.setMetashop(metashop);
 		xesScan.setIncludeSampleNameInNexusName(true);
+		xesScan.setXesOffsets(xesOffsets);
 
 		return xesScan;
 	}
@@ -71,7 +73,13 @@ public class XesScanFactory extends XasScanFactory {
 		this.xes_energy = xes_energy;
 	}
 
+	public IXesOffsets getXesOffsets() {
+		return xesOffsets;
+	}
 
+	public void setXesOffsets(IXesOffsets xesOffsets) {
+		this.xesOffsets = xesOffsets;
+	}
 
 
 }
