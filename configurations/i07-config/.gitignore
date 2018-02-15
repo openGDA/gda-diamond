@@ -1,7 +1,53 @@
-### I07 specific ###
-/users
-/var
-/.settings
+### Temporary files ###
+*.bak
+*.swp
+*.tmp
+*.*~
+
+### Java ###
+*.class
+hs_err_pid*
+derby.log
+
+### Python / Jython ###
+__pycache__/
+*.py[cod]
+jythonCache/
+cachedir/
+.cmdHistory.txt
+gdaserver.py
+
+
+### Build output ###
+.springBeans
+/bin/
+/classes/
+/src/corba/
+
+### JUnit testing ###
+/activemq-data
+/test-reports
+/test-scratch
+
+### Security files ###
+*.ppk
+*ssh.key
+id_rsa
+password
+passwords
+
+### Various OS, etc. files ###
+*.lnk
+.DS_Store
+[Dd]esktop.ini
+.nfs[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f]*
+.svn/
+Thumbs.db
+$RECYCLE.BIN/
+.Trash-*
+
+
+
 
 ## .gitignore from core ###
 
@@ -49,3 +95,8 @@ passwords
 Thumbs.db
 $RECYCLE.BIN/
 .Trash-*
+
+### I07 specific ###
+###/users
+###/var
+/.settings
