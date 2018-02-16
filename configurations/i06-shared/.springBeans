@@ -43,7 +43,6 @@
 		<config>servers/main/live/devices/opticShutter.xml</config>
 		<config>servers/main/live/devices/pgm.xml</config>
 		<config>servers/main/_common/scannables/pgm.xml</config>
-		<config>servers/main/_common/plotServer.xml</config>
 		<config>servers/main/live/devices/portShutter.xml</config>
 		<config>servers/main/_common/scannables/s1.xml</config>
 		<config>servers/main/live/devices/s1.xml</config>
