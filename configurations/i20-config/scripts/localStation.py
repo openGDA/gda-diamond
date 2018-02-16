@@ -109,7 +109,7 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setDatawriterconfig(datawriterconfig);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
-theFactory.setIncludeSampleNameInNexusName(True);
+theFactory.setIncludeSampleNameInNexusName(False);
 # theFactory.setOriginal_header(original_header);
 theFactory.setScanName("xas")
 theFactory.setAnalyserAngle(XESBragg)
@@ -126,7 +126,7 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setDatawriterconfig(datawriterconfig);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
-theFactory.setIncludeSampleNameInNexusName(True);
+theFactory.setIncludeSampleNameInNexusName(False);
 #theFactory.setQexafsDetectorPreparer(detectorPreparer);
 #theFactory.setQexafsEnergyScannable(qexafs_energy);
 theFactory.setScanName("energyScan")

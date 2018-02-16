@@ -123,12 +123,10 @@ public class XesScan extends XasScanBase implements XasScan {
 
 		int innerScanType = xesScanParameters.getScanType();
 
-		if (innerScanType == XesScanParameters.FIXED_XES_SCAN_XAS) {
-			xes_args = new Object[] { xes_energy, xesScanParameters.getXesEnergy(), xesScanParameters.getXesEnergy(), 1};
-		} else if (innerScanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
+		if (innerScanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
 			xes_args = new Object[] { xes_energy, xesScanParameters.getXesInitialEnergy(),
 					xesScanParameters.getXesFinalEnergy(), xesScanParameters.getXesStepSize(), mono_energy,
-					xesScanParameters.getMonoEnergy() };
+					xesScanParameters.getMonoEnergy(), analyserAngle };
 		} else if (innerScanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
 
 			Object[] ef_args = new Object[] { xes_energy, xesScanParameters.getXesInitialEnergy(),
@@ -152,6 +150,8 @@ public class XesScan extends XasScanBase implements XasScan {
 				twodplotter.setYAxisName(monoAxisLabel);
 				twodplotter.setXAxisName(xesAxisLabel);
 			}
+			// Add XESBragg angle
+			xes_args = ArrayUtils.add(xes_args, (Object)analyserAngle);
 			twodplotter.setZ_colName("FFI1");
 			twodplotter.setName("twoDPlotter");
 			xes_args = ArrayUtils.add(xes_args, twodplotter);
