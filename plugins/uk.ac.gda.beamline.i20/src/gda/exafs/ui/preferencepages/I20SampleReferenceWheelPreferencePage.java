@@ -18,11 +18,9 @@
 
 package gda.exafs.ui.preferencepages;
 
-import gda.device.EditableEnumPositioner;
-import gda.device.EnumPositioner;
-import gda.factory.Finder;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.richbeans.api.binding.IBeanController;
 import org.eclipse.richbeans.api.binding.IBeanService;
@@ -40,6 +38,9 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.EditableEnumPositioner;
+import gda.device.EnumPositioner;
+import gda.factory.Finder;
 import uk.ac.gda.beamline.i20.I20BeamlineActivator;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.exafs.ExafsActivator;
@@ -142,10 +143,10 @@ public class I20SampleReferenceWheelPreferencePage extends PreferencePage implem
 			IBeanService service = (IBeanService) I20BeamlineActivator.getService(IBeanService.class);
 			IBeanController control = service.createController(this, elements);
 			control.uiToBean();
-			String[] labels = new String[] {};
+			final List<String> labels = new ArrayList<>();
 
 			for (PositionerLabelBean bean : elements.getLabels()) {
-				labels = (String[]) ArrayUtils.add(labels, bean.getLabel());
+				labels.add(bean.getLabel());
 			}
 
 			EditableEnumPositioner sampleWheel = Finder.getInstance().find(I20SampleParameters.SAMPLE_WHEEL_NAME);
