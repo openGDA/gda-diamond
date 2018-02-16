@@ -9,7 +9,7 @@ fi
 export GDA_INSTANCE_NAME=${BEAMLINE}
 
 export GDA_WORKSPACE_PARENT=/dls_sw/$BEAMLINE/software/gda
-export GDA_INSTANCE_CONFIG=$GDA_WORKSPACE_PARENT/workspace_git/gda-dls-beamlines-i09.git/i09-2-config
+export GDA_INSTANCE_CONFIG=$GDA_WORKSPACE_PARENT/workspace_git/gda-diamond.git/configurations/i09-2-config
 
 export PATH=${GDA_INSTANCE_CONFIG}/bin:${GDA_WORKSPACE_PARENT}/pythonscript:${PATH}
 export GDA_MODE=live

@@ -10,11 +10,28 @@
 EXPECTED_BEAMLINE_VALUE=i09
 
 # Initialise the workspace and config locations for a standard Diamond Light Source GDA 9 installation, if the
-# config tree contains the dls-config/bin folder. This will define the required config environment variables which
-# must all be set for the server and client to start successfully.
+# config tree contains the dls-config/bin folder. This will define the following environment variables which
+# must all be set for the server and client to start successfully:
+#
+#         GDA_WORKSPACE_PARENT        four folders above dls-config/bin - all subsequent definitions are relative to this
+#         GDA_WORKSPACE_GIT_NAME      name of the folder containing all the git repos under GDA_WORKSPACE_PARENT (usually workspace_git)
+#         GDA_INSTANCE_CONFIG_rel     the /config link below GDA_WORKSPACE_PARENT
+#         GDA_GROUP_CONFIG_rel        /gda-core.git/no-group below GDA_WORKSPACE_PARENT
+#         GDA_FACILITY_CONFIG_rel     /gda-diamond.git/dls-config below GDA_WORKSPACE_PARENT
+#         GDA_CORE_CONFIG_rel         /gda-core.git/core-config below GDA_WORKSPACE_PARENT
+#
+#         next it will check that the $BEAMLINE variable is set correctly for this GDA installation and if so set:
+#
+#         GDA_INSTANCE_NAME           same as $BEAMLINE as this is the default for single end station installations
+#
+#         finally set the default client launcher location based on the preceding settings and the default telnet port used to confirm startup:
+#
+#         GDA_CLIENT                  /client/gda-${GDA_INSTANCE_NAME} below GDA_WORKSPACE_PARENT
+#
+#         GDA_JYTHON_SOCKET           9999
 
 here_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
-DLS_CONFIG_BIN_RELATIVE_PATH=${here_absolute_path}/../../../gda-diamond.git/dls-config/bin    # adjust this path to suit your location
+DLS_CONFIG_BIN_RELATIVE_PATH=${here_absolute_path}/../../../../gda-diamond.git/dls-config/bin    # adjust this path to suit your location
 
 if [[ -d ${DLS_CONFIG_BIN_RELATIVE_PATH} ]]; then
 
@@ -26,7 +43,8 @@ fi
 # set the required variables below this line, also adding any environment variables specific to your installation:
 ##################################################################################################################
 
-
+# For instance if you use an actual group config (like mx) you might put
+# export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mx.git/configurations/mx-config
 
 ######################################################################
 # before the gda-core script is invoked using the environment settings
