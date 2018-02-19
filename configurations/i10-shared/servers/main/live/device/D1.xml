@@ -3,7 +3,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- D1 (D3) --> 
-
-	<bean id="d1d3_scrn_motor" class="gda.device.motor.DummyMotor" />
+	<!-- D1 --> 
+	<bean id="d1posn" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="BL10I-DI-PHDGN-01:CON"/>
+		<property name="statusPv" value="BL10I-DI-PHDGN-01:STA"/>
+		<property name="local" value="true"/>
+	</bean>
 </beans>
