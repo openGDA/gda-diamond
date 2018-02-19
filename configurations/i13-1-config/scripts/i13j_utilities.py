@@ -7,6 +7,7 @@ from gda.jython import InterfaceProvider
 from gda.device.scannable import EpicsScannable
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
 from gda.configuration.properties import LocalProperties
+from gda.device.scannable.scannablegroup import ScannableGroup
 
 # set up a nice method for getting the latest file path
 i13jNumTracker = NumTracker("i13j");
@@ -624,3 +625,6 @@ class StepScanMinderPCO(ScannableBase):
 
         
 pcotif_minder=StepScanMinderPCO("pcotif_minder")
+
+
+
