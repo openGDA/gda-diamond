@@ -5,7 +5,7 @@
 
 	<import resource="FrontEnd.xml"/>
 	<import resource="ID.xml"/>
-	<import resource="I10-D1.xml"/>
+	<import resource="D1.xml"/>
 	<import resource="I10-S1.xml"/>
 	<import resource="I10-M1.xml"/>
 	<import resource="I10-S2.xml"/>
