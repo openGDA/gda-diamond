@@ -6,7 +6,6 @@
 
 	<bean id="diffScannableBase" abstract="true">
 		<property name="userUnits" value="deg" />
-		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
 		<property name="returnDemandPosition" value="true" />
 		<property name="demandPositionTolerance" value=".01" />
 		<property name="outputFormat" value="%5.5g" />
