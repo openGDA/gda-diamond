@@ -6,58 +6,42 @@
 	<!-- Primary Slits / S1 Optical Elements -->
 
 	<bean id="s1xaptr_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS1.APTR1X" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-01:APTR1:X" />
 		<property name="local" value="true"/>
-		<property name="accessControlName" value="branchena" />
 	</bean>
 
 	<bean id="s1xhall_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS1.XHALL" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-01:APTR2:X" />
 		<property name="local" value="true"/>
-		<property name="accessControlName" value="branchena" />
 	</bean>
 	
 	<bean id="s1yplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS1.YPLUS" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-01:APTR1:Y" />
 		<property name="local" value="true"/>
-		<property name="accessControlName" value="branchena" />
 	</bean>
 	
 	<bean id="s1yminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS1.YMINUS" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-01:APTR2:Y" />
 		<property name="local" value="true"/>
-		<property name="accessControlName" value="branchena" />
 	</bean>
 	
 	<bean id="s1xsize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS1.XGAPSIZE" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-01:XSIZE" />
 		<property name="local" value="true"/>
-		<property name="accessControlName" value="branchena" />
 	</bean>
 	
 	<bean id="s1xcentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS1.XGAPCENTRE" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-01:XCENTRE" />
 		<property name="local" value="true"/>
-		<property name="accessControlName" value="branchena" />
 	</bean>
 	
 	<bean id="s1ysize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS1.YGAPSIZE" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-01:YSIZE" />
 		<property name="local" value="true"/>
-		<property name="accessControlName" value="branchena" />
 	</bean>
 	
 	<bean id="s1ycentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS1.YGAPCENTRE" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-01:YCENTRE" />
 		<property name="local" value="true"/>
-		<property name="accessControlName" value="branchena" />
 	</bean>
 </beans>
