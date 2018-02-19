@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<bean id="ringCurrent" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="ringCurrent" />
+		<property name="value" value="300mA" />
+	</bean>
+	<bean id="ringEnergy" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="ringEnergy" />
+		<property name="value" value="3GeV" />
+	</bean>
+	<bean id="iidGap" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="iidGap" />
+		<property name="value" value="8.0mm" />
+	</bean>
+	<bean id="jidGap" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="jidGap" />
+		<property name="value" value="21.0mm" />
+	</bean>
+	<bean id="softBeamEnergy" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="softBeamEnergy" />
+		<property name="value" value="500eV" />
+	</bean>
+	<bean id="hardBeamEnergy" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="hardBeamEnergy" />
+		<property name="value" value="2100eV" />
+	</bean>
+
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+		<property name="metadataEntries">
+			<list>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="instrument" />
+					<property name="propertyName" value="gda.instrument" />
+				</bean>
+
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facility" />
+					<property name="propertyName" value="gda.facility" />
+				</bean>
+
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facilityType" />
+					<property name="propertyName" value="gda.facility.type" />
+				</bean>
+
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="probe" />
+					<property name="propertyName" value="gda.facility.probe" />
+				</bean>
+
+				<bean class="gda.data.metadata.DummyMetadataEntry">
+					<property name="name" value="facilityMode" />
+					<property name="value" value="USER" />
+				</bean>
+
+				<bean class="gda.data.metadata.DummyMetadataEntry">
+					<property name="name" value="fillMode" />
+					<property name="value" value="Seq.Fill" />
+				</bean>
+
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="federalid" />
+				</bean>
+
+				<ref bean="ringEnergy" />
+				<ref bean="ringCurrent" />
+				<ref bean="iidGap" />
+				<ref bean="jidGap" />
+				<ref bean="softBeamEnergy" />
+				<ref bean="hardBeamEnergy" />
+				<ref bean="subdirectory" />
+			</list>
+		</property>
+	</bean>
+	<bean id="subdirectory" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="subdirectory" />
+		<property name="value" value="" />
+	</bean>
+
+
+</beans>

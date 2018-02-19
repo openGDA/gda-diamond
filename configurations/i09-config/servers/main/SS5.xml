@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ss5inboard" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss5inboard_motor" />
+	</bean>
+	<bean id="ss5outboard" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss5outboard_motor" />
+	</bean>
+	<bean id="ss5top" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss5top_motor" />
+	</bean>
+	<bean id="ss5bottom" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss5bottom_motor" />
+	</bean>
+
+	<bean id="ss5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ss5inboard" />
+				<ref bean="ss5outboard" />
+				<ref bean="ss5top" />
+				<ref bean="ss5bottom" />
+			</list>
+		</property>
+	</bean>
+</beans>

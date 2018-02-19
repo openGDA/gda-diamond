@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="psj1" class="gda.spring.EpicsPneumaticFactoryBean">
+		<property name="deviceName" value="PSJ1" />
+	</bean>
+	<bean id="psj2" class="gda.spring.EpicsPneumaticFactoryBean">
+		<property name="deviceName" value="PSJ2" />
+	</bean>
+	<bean id="psi1" class="gda.spring.EpicsPneumaticFactoryBean">
+		<property name="deviceName" value="PSI1" />
+	</bean>
+	<bean id="psi2" class="gda.spring.EpicsPneumaticFactoryBean">
+		<property name="deviceName" value="PSI2" />
+	</bean>
+	<bean id="psk1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="BL09K-PS-SHTR-01:CON" />
+		<property name="statusPv" value="BL09K-PS-SHTR-01:STA"/>
+	</bean>
+
+</beans>

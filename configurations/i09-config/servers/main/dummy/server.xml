@@ -1,0 +1,70 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+                           http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<context:property-placeholder/>
+
+	<bean class="gda.configuration.epics.EpicsConfiguration">
+		<constructor-arg value="${gda.epics.interface.xml}" />
+	</bean>
+	<import resource="GDAMetadata.xml"/>
+	<import resource="ID.xml" />
+	<import resource="DCM.xml" />
+	<import resource="DummyMotors.xml" />
+	<import resource="ES2.xml"/>
+	<import resource="ES3.xml"/>
+	<import resource="BFM.xml" />
+	<import resource="ExperimentHutchShutter.xml"/>
+	<import resource="GBC1.xml" />
+	<import resource="GBC2.xml" />
+	<import resource="GBC3.xml" />
+	<import resource="HD1.xml"/>
+	<import resource="HD2.xml" />
+	<import resource="HD3.xml" />
+	<import resource="HD4.xml" />
+	<import resource="HD7.xml" />
+	<import resource="HM3.xml"/>
+	<import resource="HS1.xml" />
+	<import resource="HS2.xml" />
+	<import resource="HS4.xml" />
+	<import resource="HM1.xml" />
+	<import resource="HM2.xml" />
+	<import resource="Lakeshore.xml"/>
+	<import resource="MachineStatus.xml"/>
+	<import resource="PGM.xml" />
+	<import resource="RFDMotors.xml"/>
+	<import resource="SD1.xml" />
+	<import resource="SD2.xml" />
+	<import resource="SD3.xml" />
+	<import resource="SD4.xml"/>
+	<import resource="SD5.xml" />
+	<import resource="SD6.xml" />
+	<import resource="SD7.xml"/>
+	<import resource="SD8.xml"/>
+	<import resource="SD9.xml"/>
+	<import resource="SD10.xml"/>
+	<import resource="SD11.xml"/>
+	<import resource="SM1.xml" />
+	<import resource="SM3.xml" />
+	<import resource="SM4.xml"/>
+	<import resource="SM5.xml"/>
+	<import resource="SM6.xml"/>
+	<import resource="SS1.xml" />
+	<import resource="SS2.xml" />
+	<import resource="SS3.xml" />
+	<import resource="SS4.xml" />
+	<import resource="SS7.xml" />
+	<import resource="ChannelCutCrystal.xml" />
+	<import resource="SMPM.xml" />
+	<import resource="FastShutter.xml"/>
+
+	<import resource="../main_common.xml" />
+</beans>

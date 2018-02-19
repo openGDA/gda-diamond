@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hm1y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HM1.Y" />
+	</bean>
+	<bean id="hm1upstreamx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HM1.UPSTREAMX" />
+	</bean>
+	<bean id="hm1downstreamx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HM1.DOWNSTREAMX" />
+	</bean>
+	<bean id="hm1mirroryds_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HM1.MIRRORYDS" />
+	</bean>
+	<bean id="hm1mirroryus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HM1.MIRRORYUS" />
+	</bean>
+	<bean id="hm1pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HM1.PITCH" />
+	</bean>
+	<bean id="hm1x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HM1.X" />
+	</bean>
+	<bean id="hm1yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HM1.YAW" />
+	</bean>
+	<bean id="hm1roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="HM1.ROLL" />
+	</bean>
+</beans>

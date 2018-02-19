@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="jidgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="JID.GAP" />
+		<property name="accessControl" ref="jidblena" />
+	</bean>
+	<bean id="idcontrol" class="gda.device.insertiondevice.Apple2IDEpics">
+		<property name="local" value="true" />
+		<property name="basePVName" value="SR09J-MO-SERVC-01" />
+		<property name="maxPhaseMotorPos" value="30.0" />
+		<property name="motorPosDelay" value="200" />
+		<property name="motorPositionTolerance" value="0.012"/>
+		<property name="minGapPos" value="16.0"/>
+		<property name="maxGapPos" value="300.0"/>
+	</bean>
+<!-- 	<bean id="jidphaseurp_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="deviceName" value="IDPHASE.URP" /> -->
+<!-- 		<property name="accessControl" ref="jidblena" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="jidphaselrp_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="deviceName" value="IDPHASE.LRP" /> -->
+<!-- 		<property name="accessControl" ref="jidblena" /> -->
+<!-- 	</bean> -->
+	<bean id="jidblena" class="gda.epics.AccessControl">
+		<property name="accessControlPvName" value="SR09J-MO-SERVC-01:IDBLENA" />
+	</bean>
+	<bean id="jidvelocity" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="SR09J-MO-SERVC-01:BLGSETVEL" />
+	</bean>
+
+</beans>

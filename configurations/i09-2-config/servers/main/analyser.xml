@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="analyser" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosAnalyser">
+		<property name="name" value="analyser" />
+		<property name="controller" ref="analyser_controller" />
+		<property name="collectionStrategy" >
+			<bean class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosCollectionStrategy">
+				<property name="analyser" ref="analyser" />
+			</bean>
+		</property>
+		<property name="photonEnergyProvider" ref="pgmenergy" />
+		<property name="workFunction" value="4.5" />
+		<!-- detectorEnergyWidth can be found by (analyser.highEnergy - analyser.lowEnergy)/analyser.passEnergy -->
+		<property name="detectorEnergyWidth" value="0.07386836678880104" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/analyser" />
+		<property name="service" ref="analyser" />
+		<property name="serviceInterface" value="uk.ac.diamond.daq.devices.specs.phoibos.api.ISpecsPhoibosAnalyser" />
+	</bean>
+	
+	<!-- Dummy scannable used when making a single point scan with the analyser -->
+	<bean id="dummy_a" class="gda.device.scannable.DummyScannable" />
+
+</beans>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="pgmmirrorpitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PGM.MIRRORPITCH" />
+	</bean>
+	<bean id="pgmgratingspitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PGM.GRATINGSPITCH" />
+	</bean>
+	<bean id="pgmmirrortrans_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PGM.MIRRORTRANS" />
+	</bean>
+	<bean id="pgmgratingstrans_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PGM.GRATINGSTRANS" />
+	</bean>
+	<bean id="pgmenergy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PGM.ENERGY" /> 
+	</bean>
+
+	<bean id="pgmgratingselect" class="gda.spring.EpicsPositionerFactoryBean">
+		<property name="deviceName" value="PGM.GRATINGSELECT" />
+	</bean>
+	<bean id="pgmmirrorselect" class="gda.spring.EpicsPositionerFactoryBean">
+		<property name="deviceName" value="PGM.MIRRORSELECT" />
+	</bean>
+
+	<bean id="pgmtemp1" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="PGM.TEMP1" />
+	</bean>
+	<bean id="pgmtemp2" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="PGM.TEMP2" />
+	</bean>
+<!-- 	<bean id="pgmtemp3" class="gda.spring.EpicsMonitorFactoryBean"> -->
+<!-- 		<property name="deviceName" value="PGM.TEMP3" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pgmtemp4" class="gda.spring.EpicsMonitorFactoryBean"> -->
+<!-- 		<property name="deviceName" value="PGM.TEMP4" /> -->
+<!-- 	</bean> -->
+
+</beans>

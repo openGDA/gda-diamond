@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hd1y_motor" class="gda.device.motor.DummyMotor">
+	</bean>
+	<bean id="hd1aposn" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<map>
+				<entry key="Direct" value="0.000"/>
+				<entry key="Diamond 1" value="1.000"/>
+				<entry key="Diamond 2" value="2.000"/>
+				<entry key="Diamond 3" value="3.000"/>
+			</map>
+		</property>
+		<property name="startPositionName" value="Direct"/>
+	</bean>
+	<bean id="hd1temp1" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<!-- <bean id="hd1cam" class="gda.device.diagnosis.AravisCamera"> -->
+	<!-- <property name="deviceName" value="HD1.CAM_aravisCamera"/> -->
+	<!-- </bean> -->
+
+</beans>

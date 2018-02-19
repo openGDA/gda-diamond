@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hsmpmx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HSMPM-01:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="hsmpmy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HSMPM-01:Y" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="hsmpmz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HSMPM-01:Z" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="hsmpmpolar_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HSMPM-01:POLAR" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="hsmpmazi_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HSMPM-01:AZIMUTH" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="hsmpmtilt_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HSMPM-01:TILT" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="GDA for Diamond Light Source Beamline I09-2" id="uk.ac.gda.beamline.i09-2.product" application="uk.ac.gda.client.application" version="9.7.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
+      <text>
+         GDA for DLS SISA I09-2.
+
+Build id: 
+
+Copyright © 2009 Diamond Light Source Ltd.
+
+http://www.opengda.org
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Dgda.mode=dummy
+-Dgda.config=${project_loc:i09-2-config}
+-Dgda.propertiesFile=${project_loc:i09-2-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${project_loc:i09-2-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i09-2-config}/properties/dummy/JCALibrary.properties 
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.logs.dir=${workspace_loc}/../logs
+-Dgda.instance.dir=${project_loc:i09-2-config} 
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.core.dir=${project_loc:core-config}
+-Xms1g 
+-Xmx3g
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.gda.beamline.i09-2"
+      startupProgressRect="2,215,598,15"
+      startupMessageRect="4,195,598,20"
+      startupForegroundColor="000000" />
+   <launcher name="gda-i09-2">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/licenses/</url>
+        <text>
+   Copyright © 2009 Diamond Light Source Ltd.
+
+GDA is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License version 3 as published by the Free
+Software Foundation.
+
+GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along
+with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
+         </text>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.i09-2.feature"/>
+   </features>
+
+
+</product>

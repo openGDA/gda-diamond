@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<bean id="ringCurrent" class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="ringCurrent" />
+		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+	</bean>
+	<bean id="ringEnergy" class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="ringEnergy" />
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+	</bean>
+	<bean id="iidGap" class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="iidGap" />
+		<property name="pvName" value="SR09I-MO-SERVC-01:CURRGAPD" />
+	</bean>
+	<bean id="jidGap" class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="jidGap" />
+		<property name="pvName" value="SR09J-MO-SERVC-01:CURRGAPD" />
+	</bean>
+	<bean id="softBeamEnergy" class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="softBeamEnergy" />
+		<property name="pvName" value="BL09J-MO-PGM-01:ENERGY" />
+	</bean>
+	<bean id="hardBeamEnergy" class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="hardBeamEnergy" />
+		<property name="pvName" value="BL09I-MO-DCM-01:ENERGY" />
+	</bean>
+
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+		<property name="metadataEntries">
+			<list>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="instrument" />
+					<property name="propertyName" value="gda.instrument" />
+				</bean>
+
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facility" />
+					<property name="propertyName" value="gda.facility" />
+				</bean>
+
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facilityType" />
+					<property name="propertyName" value="gda.facility.type" />
+				</bean>
+
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="probe" />
+					<property name="propertyName" value="gda.facility.probe" />
+				</bean>
+
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="facilityMode" />
+					<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
+				</bean>
+
+				<bean class="gda.data.metadata.EpicsMetadataEntry">
+					<property name="name" value="fillMode" />
+					<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
+				</bean>
+
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="federalid" />
+				</bean>
+
+				<ref bean="ringEnergy" />
+				<ref bean="ringCurrent" />
+				<ref bean="iidGap" />
+				<ref bean="jidGap" />
+				<ref bean="softBeamEnergy" />
+				<ref bean="hardBeamEnergy" />
+
+				<ref bean="subdirectory" />
+				<ref bean="filenameprefix" />
+				<ref bean="filenamesuffix" />
+			</list>
+		</property>
+	</bean>
+	<bean id="subdirectory" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="subdirectory" />
+		<property name="value" value="" />
+	</bean>
+	<bean id="filenameprefix" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="fielnameprefix" />
+		<property name="value" value="" />
+	</bean>
+	<bean id="filenamesuffix" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="filenamesuffix" />
+		<property name="value" value="" />
+	</bean>
+
+
+</beans>

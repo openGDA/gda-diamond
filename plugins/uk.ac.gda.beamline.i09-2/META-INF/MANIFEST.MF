@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Diamond Light Source Beamline I09-2 Plug-in
+Bundle-SymbolicName: uk.ac.gda.beamline.i09-2;singleton:=true
+Bundle-Version: 8.43.0
+Bundle-Activator: uk.ac.gda.beamline.i09-2.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.ui.intro,
+ org.eclipse.ui.console;bundle-version="3.4.0",
+ org.eclipse.debug.ui;bundle-version="3.5.1",
+ org.eclipse.search;bundle-version="3.5.1",
+ org.python.pydev;bundle-version="3.6.0",
+ org.python.pydev.jython;bundle-version="3.6.0",
+ uk.ac.diamond.scisoft.analysis;bundle-version="1.0.0",
+ uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.0.0",
+ uk.ac.gda.core;bundle-version="1.0.0",
+ uk.ac.gda.client;bundle-version="1.0.0",
+ uk.ac.gda.common;bundle-version="1.0.0",
+ uk.ac.gda.common.rcp;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-Vendor: Diamond Light Source

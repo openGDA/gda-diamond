@@ -1,0 +1,4 @@
+#I09 Soft X-ray ID calibration parameters, created 29 Nov 2012
+ScannableNames	n	Ee	Br	Epmin	Epmax	Gmin	Gmax	Goffset
+ScannableUnits	ONE	GeV	T	keV	keV	mm	mm
+1	3.06364	1.48181	0.105	1.	16.4796	47.979753	0.0

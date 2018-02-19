@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hm3y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm3y_motor" />
+	</bean>
+	<bean id="hm3x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm3x_motor" />
+	</bean>
+	<bean id="hm3pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm3pitch_motor" />
+	</bean>
+	<bean id="hm3upstreamx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm3upstreamx_motor" />
+	</bean>
+	<bean id="hm3downstreamx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm3downstreamx_motor" />
+	</bean>
+	<bean id="hm3mainbender" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm3mainbender_motor" />
+	</bean>
+	<bean id="hm3elipticalbender" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm3elipticalbender_motor" />
+	</bean>
+	<bean id="hm3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hm3x" />
+				<ref bean="hm3y" />
+				<ref bean="hm3pitch" />
+				<ref bean="hm3upstreamx" />
+				<ref bean="hm3downstreamx" />
+				<ref bean="hm3mainbender" />
+				<ref bean="hm3elipticalbender" />
+<!-- 				<ref bean="hm3iamp8" /> -->
+<!-- 				<ref bean="hm3iamp9" /> -->
+					<ref bean="hm3iamp20" />
+			</list>
+		</property>
+	</bean>
+</beans>

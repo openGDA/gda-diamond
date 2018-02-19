@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="pgmmirrorpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmmirrorpitch_motor" />
+	</bean>
+	<bean id="pgmgratingspitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmgratingspitch_motor" />
+	</bean>
+	<bean id="pgmmirrortrans" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmmirrortrans_motor" />
+	</bean>
+	<bean id="pgmgratingstrans" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmgratingstrans_motor" />
+	</bean>
+	<bean id="pgmenergy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmenergy_motor" />
+	</bean>
+	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pgmmirrorpitch" />
+				<ref bean="pgmgratingspitch" />
+				<ref bean="pgmmirrortrans" />
+				<ref bean="pgmgratingstrans" />
+				<ref bean="pgmenergy" />
+				<ref bean="pgmgratingselect" />
+				<ref bean="pgmmirrorselect" />
+				<ref bean="pgmtemp1" />
+				<ref bean="pgmtemp2" />
+<!-- 				<ref bean="pgmtemp3" /> -->
+<!-- 				<ref bean="pgmtemp4" /> -->
+			</list>
+		</property>
+	</bean>
+</beans>

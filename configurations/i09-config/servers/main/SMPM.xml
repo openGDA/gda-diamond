@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="smpmx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpmx_motor" />
+	</bean>
+	<bean id="smpmy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpmy_motor" />
+	</bean>
+	<bean id="smpmz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpmz_motor" />
+	</bean>
+	<bean id="smpmpolar" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpmpolar_motor" />
+	</bean>
+	<bean id="smpmazimuth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpmazimuth_motor" />
+	</bean>
+	<bean id="smpm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="smpmx" />
+				<ref bean="smpmy" />
+				<ref bean="smpmz" />
+				<ref bean="smpmpolar" />
+				<ref bean="smpmazimuth" />
+<!-- 				<ref bean="smpmiamp10" /> -->
+<!-- 				<ref bean="smpmiamp19" /> -->
+				<ref bean="smpmiamp39" />
+			</list>
+		</property>
+	</bean>
+</beans>
