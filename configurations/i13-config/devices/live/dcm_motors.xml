@@ -56,8 +56,12 @@
     	<property name="useNameAsInputName" value="true" />
     </bean>
     
-    <bean id="dcm_mode" class="gda.device.enumpositioner.EpicsEnumPositioner">
-    	<property name="recordName" value="BL13I-OP-DCM-01:MODE:RBV" />
+    <bean id="dcm_mode" class="gda.device.scannable.EpicsScannable">
+    	<!-- <property name="name" value="dcm_mode" /> -->
+    	<property name="useNameAsInputName" value="true" />	
+    	<property name="pvName" value="BL13I-OP-DCM-01:MODE:RBV" />
+    	<property name="hasUnits" value="false" />
+    	<property name="getAsString" value="true" />
     	<property name="local" value="true" />
     </bean>
 

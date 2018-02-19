@@ -27,10 +27,12 @@
 	</bean>
 
 	<bean id="excalibur_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL13J-EA-EXCBR-01:MASTER:HDF:" />
+		<!-- <property name="basePVName" value="BL13J-EA-EXCBR-01:MASTER:HDF:" /> -->
+		<property name="basePVName" value="BL13J-EA-EXCBR-01:MASTER:HDF5:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL13J-EA-EXCBR-01:MASTER:HDF:" />
+				<!-- <property name="basePVName" value="BL13J-EA-EXCBR-01:MASTER:HDF:" /> -->
+				<property name="basePVName" value="BL13J-EA-EXCBR-01:MASTER:HDF5:" />
 				<property name="initialArrayPort" value="excalibur1.stat" />
 			</bean>
 		</property>
@@ -44,7 +46,8 @@
 	</bean>
 
 	<bean id="excalibur_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="basePVName" value="BL13J-EA-EXCBR-01:MASTER:HDF:" />
+		<!-- <property name="basePVName" value="BL13J-EA-EXCBR-01:MASTER:HDF:" /> -->
+		<property name="basePVName" value="BL13J-EA-EXCBR-01:MASTER:HDF5:" />
 		<property name="file" ref="excalibur_ndfile" />
 	</bean>
 

@@ -25,6 +25,7 @@ class   ScanPositionProviderFromFile(ScanPositionProvider):
         self.values=[]
         self.offset=(0.,0)
         self.filepath=""
+        self.output_index=True
     def load(self, filepath, offset, scale=1.0):
         self.values = readfile(filepath)
         self.offset=offset
@@ -36,7 +37,8 @@ class   ScanPositionProviderFromFile(ScanPositionProvider):
         #add index last so that it is plotted as the dependent axis
         finalval.append (val[0] * self.scale + self.offset[0])
         finalval.append (val[1] * self.scale + self.offset[1])
-        finalval.append (index)
+        if self.output_index:
+            finalval.append (index)
         return finalval
     
     def size(self):

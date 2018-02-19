@@ -55,6 +55,17 @@
 		</property>
 	</bean>
 
+	<bean id="ionc_acdc" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="getAsString" value="true" />
+		<property name="pvProvider">
+			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
+				<property name="deviceName" value="ionc1.femto" />
+				<property name="fieldName" value="SETACDC" />
+			</bean>
+		</property>
+	</bean>
 
 </beans>
 	

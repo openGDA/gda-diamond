@@ -418,7 +418,7 @@ class PostScanRunnable(Runnable):
 perform a continuous tomography scan
 """
 def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=180., step=0.1, darkFieldInterval=0., flatFieldInterval=0.,
-              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False, **kwargs):
+              imagesPerDark=20, imagesPerFlat=20, min_i=-1., setupForAlignment=False, autoAnalyse=True, closeShutterAfterFlats=True, extraFlatsAtEnd=False, closeShutterAtEnd=True, **kwargs):
     """
     Function to collect a tomogram
      Arguments:
@@ -437,6 +437,7 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
     autoAnalyse - advanced use
     closeShutterAfterFlats -
     extraFlatsAtEnd=False -
+    closeShutterAtEnd
     approxCOR - approximate centre of tomography rotation in the image (x,y) coordinates which can be utilised as a hint by subsequent tomography reconstruction (default = (None,None))
         For example, use a pair (<finite float number>, None) to indicate a vertical rotation axis in the image (x,y) coordinates   
     """
@@ -559,7 +560,8 @@ def tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., sto
         multiScanObj = MultiScanRunner(multiScanItems)
         addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name, **kwargs)
         multiScanObj.runScan()
-        tomography_shutter.moveTo("Close")
+        if closeShutterAtEnd:
+            tomography_shutter.moveTo("Close")
 
         if extraFlatsAtEnd:
             print("Moving sample to in-beam position after taking flats at the end of scan")
@@ -1368,7 +1370,7 @@ def qFlyScanBatch(nScans, batchTitle, interWaitSec, inBeamPosition, outOfBeamPos
     title_saved = getTitle()
     if (title_saved is None) or len(title_saved)==0:
         title_saved = "undefined"
-    
+    print "title_saved = %s" %(title_saved)
     scan_cmd = ",".join(["%s=%s" %(p[0], str(p[1])) for p in _args])
     scan_cmd = "tomographyScan.tomoFlyScan(" + scan_cmd + ")"
     

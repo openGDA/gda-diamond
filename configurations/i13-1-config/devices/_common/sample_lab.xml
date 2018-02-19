@@ -46,4 +46,22 @@
 		</property>
 	</bean>	
 	
+	<bean id="sample_lab_xz" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sample_lab_x" />
+				<ref bean="sample_lab_z" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="sample_lab_yz" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sample_lab_y" />
+				<ref bean="sample_lab_z" />
+			</list>
+		</property>
+	</bean>	
+	
 </beans>

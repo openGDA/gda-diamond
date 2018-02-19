@@ -14,7 +14,7 @@
 		<property name="inputNames" value="ionc_gain" />
 	</bean>
 
-	<bean id="ionc_coupling" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="ionc_acdc" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>AC</value>

@@ -79,6 +79,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/camera_stage_motors.xml" />
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco1.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/pco1_aux.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam01_motors.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam02_motors.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam03_motors.xml" />
@@ -163,6 +164,7 @@
 	<import resource="file:${gda.config}/devices/_common/float3.xml" />
 
 	<import resource="file:${gda.config}/devices/_common/pco1.xml" />
+	<import resource="file:${gda.config}/devices/_common/pco1_aux.xml" />
 	<import resource="file:${gda.config}/devices/_common/zebra.xml" />
 	<import resource="file:${gda.config}/devices/_common/p2r.xml" />
 	<!-- <import resource="file:${gda.config}/devices/_common/deben_rig.xml"/> -->
@@ -186,6 +188,8 @@
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/dataFileWriter.xml" />
+
+ 	<import resource="topup.xml" />
  	
  	<!-- Initialise Jython late on, as localStation refers to beans -->
 	<import resource="jythonServerFacade.xml" />

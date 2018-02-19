@@ -16,6 +16,7 @@
 	</bean>
 
 	<import resource="../../../devices/live/pco1_ndplugins.xml" />
+	<import resource="../../../devices/live/pco1_aux_ndplugins.xml" />
 
 	<import resource="../_common/server.xml" />
 

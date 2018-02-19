@@ -14,9 +14,9 @@
 #tomography_translation=hex_y
 #tomography_translation=ss1_sampley #Vertical
 #tomography_translation=ss1_sampley
-#tomography_translation=ss1_X  #Base
+tomography_translation=ss1_X  #Base
 #tomography_translation=ss1_samplex
-tomography_translation=ss1_X_dummy
+#tomography_translation=ss1_X_dummy
 #tomography_translation=translate_x
 #tomography_translation=newport_3
 
@@ -43,7 +43,8 @@ tomography_optimizer=beam_optimizer
 #pco1_hw_hdf - uses tfg trigger, saves all images to 1 hdf file 
 #pco1_hw_hdf_nochunking - uses tfg trigger, saves all images to 1 hdf file with chunking set to maximize write speed 
 #pco1_sw - for long exposures of the pcoEdge, set accumulationMode : pco1_sw.collectionStrategy.accumlationMode=True, pco1_sw.collectionStrategy.acc_expo_time=1
-tomography_detector=pco1_hw_hdf_nochunking
+tomography_detector=pco1_sw
+#tomography_detector=pco1_hw_hdf_nochunking
 #tomography_detector=pco1_hw_tif 
 
 #tomography_normalisedImage_detector is the detector used to take normalised images

@@ -319,17 +319,23 @@ import excalibur_config
 #	caput("BL13J-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")	
 
 if not LocalProperties.check("gda.dummy.mode"):
-	if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
-		caput("BL13J-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
-	if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
-		caput("BL13J-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")	
+	try:
+		if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera 4000"):
+			caput("BL13J-EA-DET-01:CAM:PIX_RATE", "32000000 Hz")
+		if( caget("BL13J-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
+			caput("BL13J-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
+	except:
+		print "Unable to connect to PCO IOC - please check if it's running!"	
 	
 	
 # pos afg_chan1_ampl 2.
 # pos afg_chan1_state "On"
 
 import alignmentGui
-tomodet = alignmentGui.TomoDet()
+try:
+	tomodet = alignmentGui.TomoDet()
+except:
+	print "Unable to connect to PCO IOC - please check if it's running!"
 
 import tomographyScan
 from tomographyScan import reportTomo, showNormalisedImage
@@ -346,8 +352,8 @@ print "stxm_det - end"
 from trigger import trigz2
 
 print(section_sep)
-if not LocalProperties.check("gda.dummy.mode"):
-	run("localStationUser.py")
+#if not LocalProperties.check("gda.dummy.mode"):
+#	run("localStationUser.py")
 
 import tomographyXGIScan
 from tomographyXGIScan import tomoXGIScan
@@ -448,12 +454,23 @@ print(section_sep)
 try:
 	caput("ME13C-EA-DET-01:PresetMode", 1)
 except:
-	print("Failed to set Preset Mode to 'Real time' on XMAP - is XMAP present on the beamline and its IOC running?")
+	print("Failed to set Preset Mode on XMAP to 'Real time' - is XMAP present on the beamline and its IOC running?")
 
 #8/4/2014 pie725 not present
 #run("startup_pie725")
 
 #shutter_director = ShutterDirector('shutter_director', delay_after_open_sec=0, delay_after_close_sec=0)
+
+print "Adding sample_lab_x_t1_pitch..." 
+sample_lab_x_t1_pitch = ScannableGroup()
+sample_lab_x_t1_pitch.addGroupMember(sample_lab_x)
+sample_lab_x_t1_pitch.addGroupMember(t1_pitch)
+sample_lab_x_t1_pitch.setName("sample_lab_x_t1_pitch")
+sample_lab_x_t1_pitch.configure()
+
+excalibur_config_normal_vds.getCollectionStrategy().scriptEnabled=True
+excalibur_config_normal_vds.getCollectionStrategy().scriptFileName="/dls_sw/prod/tools/RHEL6-x86_64/defaults/bin/dls-vds-gen.py"
+excalibur_config_normal_vds.getAdditionalPluginList()[0].fileTemplate="%s%s-vds-%d.hdf"
 
 print(section_sep)
 # localStationUser.py should be run at the very end of this localStation.py

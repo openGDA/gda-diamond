@@ -31,7 +31,8 @@
 
 
 	<bean id="excalibur_config_hdfbase" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:HDF:" />
+		<!-- <property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:HDF:" /> -->
+		<property name="prefix" value="${gda.epics.excalibur.pvprefix}:CONFIG:HDF5:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
@@ -126,6 +127,18 @@
 		<property name="checkPathExists" value="false"/>
 	</bean>
 
+	<bean id="excalibur_config_hdf5_filewriter" class="uk.ac.gda.devices.excalibur.ExcaliburMultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="excalibur_config_hdf" />
+		<property name="fileNameTemplate" value="excalibur" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-vds-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="blocking" value="false" />
+		<property name="gapEnabledPVName" value="BL13J-EA-EXCBR-01:CONFIG:GAP:EnableCallbacks"/>
+		<!-- <property name="checkPathExists" value="false"/> -->
+	</bean>
+	
 
 	<bean id="excalibur_burstmode" class="uk.ac.gda.devices.ExcaliburCollectionStrategy">
 		<constructor-arg ref="excalibur_config_base" />
@@ -167,6 +180,20 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="excalibur_config_phdf5_filewriter" />
+				<bean
+					class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
+					<constructor-arg ref="excalibur_config_nxs_tree_provider" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="excalibur_config_normal_vds" class="gda.device.detector.NXDetector">
+		<property name="name" value="excalibur_config_normal_vds" />
+		<property name="collectionStrategy" ref="excalibur_normalmode" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="excalibur_config_hdf5_filewriter" />
 				<bean
 					class="gda.device.detector.nxdetector.plugin.NXDetectorMetadataPlugin">
 					<constructor-arg ref="excalibur_config_nxs_tree_provider" />
