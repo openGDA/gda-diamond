@@ -337,11 +337,11 @@ filter_stick_3 = finder.find("f1_Stick3")
 filter_stick_4 = finder.find("f1_Stick4")
 filter_stick_5 = finder.find("f1_Stick5")
 
-beamline_xray_mode = finder.find("dcm_mode")
+dcm_mode = finder.find("dcm_mode")
 
 ionc_A_over_V_gain = createScannableFromPV("ionc_A_over_V_gain", "BL13I-DI-FEMTO-06:GAINHIGHSPEED", addToNameSpace=True, getAsString=True, hasUnits=False)
 ionc_gainmode = createScannableFromPV("ionc_gainmode", "BL13I-DI-FEMTO-06:GAINMODE", addToNameSpace=True, getAsString=True, hasUnits=False)
-ionc_acdc = finder.find("ionc_coupling")
+ionc_acdc = finder.find("ionc_acdc")
     
 try:
     pco_edge_agg = ScannableGroup()
@@ -601,6 +601,8 @@ def use_storage(storage_name, notify=False, comment=''):
     det_drv = det_cfg.split(':')[0]
     print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
 
+    #pco1_aux_tif.pluginList[1].getNdFile().getFilePathConverter().setWindowsSubString(storage_path)
+
     # pco_hw_hdf, pco_hw_hdf_nochunking, pco_hw_tif, pco1_tif?  
     # pco1_hw_hdf.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     # pco1_hw_hdf_nochunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
@@ -751,6 +753,28 @@ class WaitWhileScannableBelowThresholdMonitorOnlyWithEmailFeedback(WaitWhileScan
             print(msg)
             self.lastStatus = False
             if len(self.emails) : send_email(whoto=self.emails, subject=ixx+": "+msg, body=msg)
-   
+  
+from gda.device.scannable import TopupChecker
+class TopupProtector(TopupChecker):
+    """
+    For example, scan ix 0 20 1 pco_det 0.1 topup_protec [0.1, 10, 2]
+    """ 
+
+    def __init__(self, name, machCountdownMonitor, machModeMonitor, level=1):
+        self.setName(name)
+        #self.setInputNames(["collectionTime", "tolerance", "waittime"])
+        self.setInputNames(["collection_interval_sec", "before_interval_sec", "after_interval_sec"])
+        self.setOutputFormat(["%.3f"])
+        self.setScannableToBeMonitored(machCountdownMonitor)
+        self.setMachineModeMonitor(machModeMonitor)
+
+    def rawAsynchronousMoveTo(self, position):
+        self.collectionTime = position[0]
+        self.tolerance = position[1]
+        self.waittime = position[2]
+
+    def rawGetPosition(self):
+        return [self.collectionTime, self.tolerance, self.waittime]
+        
 
 print "Finished running i13i_utilities.py!"

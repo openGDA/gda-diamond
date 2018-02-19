@@ -134,12 +134,18 @@
 								<constructor-arg value="" />
 								<constructor-arg value="" />
 							</bean>
-							<bean class="gda.rcp.views.OpenViewOptionImpl">
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="PCO" />
-								<constructor-arg value="uk.ac.gda.beamline.i13i.PCOAreaDetectorLiveView" />
-								<constructor-arg value="" />
+								<constructor-arg value="PCO" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13I-EA-DET-01:"/>
 							</bean>
-
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="PCO AUX" />
+								<constructor-arg value="PCO AUX" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13I-EA-DET-17:"/>
+							</bean>
 							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
 								<constructor-arg value="d1" />
 								<constructor-arg value="d1" />

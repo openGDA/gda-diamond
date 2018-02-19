@@ -73,6 +73,15 @@
 <!-- 		<property name="scalePV" value="BL13I-EA-DET-01:PRO1:Scale" />
 		<property name="cmdFormatter" value="tomodet.setupStreamForCameraView(%f,%f,%f,%f)"/>
  -->	</bean>
+ 
+	<bean id="pco_aux_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="PCO AUX"/>
+		<property name="urlPV" value="BL13I-EA-DET-17:MJPG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL13I-EA-DET-17:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL13I-EA-DET-17:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL13I-EA-DET-17:CAM:Gain" />
+		<property name="acquirePV" value="BL13I-EA-DET-17:CAM:Acquire" />
+	</bean>
 	<!-- requires anonymous viewer access to be enabled-->
  	<bean id="WebCam_UpStream" class="uk.ac.gda.video.views.CameraParameters">
 		<property name="name" value="WebCam UpStream"/>

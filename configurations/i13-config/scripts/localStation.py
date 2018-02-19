@@ -15,7 +15,7 @@ import tomographyXGIScan2d
 from tomographyXGIScan2d import tomoXGIScan2d
 
 from i13i_utilities import isLive, interruptable
-from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_sticks, beamline_xray_mode
+from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_stick_1, filter_stick_2, filter_stick_3, filter_stick_4, filter_stick_5, dcm_mode
 from i13i_utilities import ionc_A_over_V_gain, ionc_gainmode, ionc_acdc
 
 section_sep = "-"*128
@@ -84,8 +84,12 @@ def meta_add_i13i():
 	for s in meta_scannables:
 		meta_add(s)
 		
-	meta_add("filter_sticks", filter_sticks())
-	meta_add("beamline_xray_mode", beamline_xray_mode())
+	#meta_add("filter_stick_1", filter_stick_1())
+	#meta_add("filter_stick_2", filter_stick_2())
+	#meta_add("filter_stick_3", filter_stick_3())
+	#meta_add("filter_stick_4", filter_stick_4())
+	#meta_add("filter_stick_5", filter_stick_5())
+	#meta_add("dcm_mode", dcm_mode())
 	meta_add("ionc_A_over_V_gain", ionc_A_over_V_gain())
 	meta_add("ionc_gainmode", ionc_gainmode())
 	meta_add("ionc_acdc", ionc_acdc())
@@ -108,6 +112,9 @@ try:
 	alias("pwd")
 	alias("nwd")
 	
+	alias("use_storage")
+	alias("report_storage")
+
 	import i13i
 
 	from gda.util import VisitPath
@@ -243,6 +250,7 @@ try:
 	bl.setName("bl")
 
 	if isLive():
+		use_storage("gpfs", comment="Executed from localStation.py")
 		pco1_hw_tif.pluginList[1].waitForFileArrival=False
 		pco1_tif.pluginList[1].waitForFileArrival=False
 	

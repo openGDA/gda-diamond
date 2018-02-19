@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="adDriverPco1_aux"
+		class="gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
+		<property name="basePvName" value="BL13I-EA-DET-17:CAM" />
+	</bean>
+	
+	<bean id="pco1_aux_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_aux_tif"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_aux_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+ 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+				<constructor-arg value="pco1"/>
+				<property name="ndFile" ref="pco1_aux_ndfiletif" />
+				<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor"/>
+				<property name="waitForFileArrival" value="true"/>
+				<property name="pathErrorSuppressed" value="true"></property>
+				
+			</bean>
+
+			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+				<constructor-arg ref="pco1_aux_arr"/>
+			</bean>
+			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADBasicStats">
+				<constructor-arg ref="pco1_aux_stat"/>
+			</bean>
+			
+			</list>
+		</property>
+	</bean>	
+
+</beans>	
