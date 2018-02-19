@@ -4,13 +4,9 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
    
    	<!-- Insertion Device -->
-
+	<!--  IDD or ID1 -->
 	<bean id="idd_gap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="idd_gap_motor" />
-	</bean>
-
-	<bean id="idu_gap" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="idu_gap_motor" />
 	</bean>
 
 	<bean id="idd_rowphase1" class="gda.device.scannable.ScannableMotor">
@@ -35,6 +31,11 @@
 
 	<bean id="idd_sepphase" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="idd_sepphase_motor" />
+	</bean>
+	
+	<!-- IDU or ID2 -->
+	<bean id="idu_gap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idu_gap_motor" />
 	</bean>
 
 	<bean id="idu_rowphase1" class="gda.device.scannable.ScannableMotor">
