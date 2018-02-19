@@ -4,15 +4,10 @@
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<!-- Include the following lines to run with simulated area detector -->
-	<!-- NB. Corresponding changes must be made in the dummy server.xml -->
-<!--     <import resource="../../../devices/dummy/adSimulator.xml"/>
-    <import resource="../../../devices/dummy/pco1_ndplugins_sim.xml"/> -->
+	<import resource="file:${gda.config}/devices/dummy/adSimulator.xml" />
+	<import resource="file:${gda.config}/devices/dummy/pco1_ndplugins.xml" />
 
-	<!-- Include the following line to run in dummy mode -->
-    <import resource="../../../devices/dummy/pco1_ndplugins.xml"/>
-
-	<import resource="../../../devices/dummy/ion_chamber.xml" />
+	<import resource="file:${gda.config}/devices/dummy/ion_chamber.xml" />
 
     <bean id="idGap" class="gda.device.scannable.SimpleScannable">
 		<property name="name" value="idGap" />
@@ -49,6 +44,6 @@
 		<property name="currentPosition" value="Open" />
 	</bean>
     
-    <import resource="../_common/client.xml"/>
+    <import resource="file:${gda.config}/clients/main/_common/client.xml"/>
 
 </beans>
