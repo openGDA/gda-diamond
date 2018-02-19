@@ -6,16 +6,12 @@
     <!-- FrontEnd Aperture -->
 
 	<bean id="feapx_motor" class="gda.device.motor.EpicsMotor" >
-		<property name="deviceName" value="FEAPX" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="FE10I-AL-APTR-02:X" />
 		<property name="local" value="true"/>
-		<property name="accessControlName" value="branchena" />
 	</bean>
 
 	<bean id="feapy_motor" class="gda.device.motor.EpicsMotor" >
-		<property name="deviceName" value="FEAPY" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="FE10I-AL-APTR-02:Y" />
 		<property name="local" value="true"/>
-		<property name="accessControlName" value="branchena" />
 	</bean>
 </beans>
