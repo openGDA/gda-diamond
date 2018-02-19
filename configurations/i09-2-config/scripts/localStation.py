@@ -190,22 +190,19 @@ sd11iamp7=DisplayEpicsPVClass("sd11iamp7", "BL09K-MO-SD-11:IAMP7:I","V","%f")
 extraDetectors = ""
 
 print "Create an 'jenergy', 'polarisation' and 'jenergypolarisation' scannables."
-LH,LV,CR,CL,LAN,LAP=["LH","LV","CR","CL","LAN","LAP"]
-from lookup.IDLookup import IDLookup4LinearAngleMode
+LH,LV,CR,CL=["LH","LV","CR","CL"]
 from calibration.energy_polarisation_class import BeamEnergyPolarisationClass
-lookup_file='/dls_sw/i09-2/software/gda/config/lookupTables/LinearAngle.csv' #to be replaced by i09-2's own data, discussed this with Ed Rail who will provide this theoretical table later.
 
-idlamlookup=IDLookup4LinearAngleMode("idlamlookup", lut=lookup_file) 
-jenergy=BeamEnergyPolarisationClass("jenergy", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
+jenergy=BeamEnergyPolarisationClass("jenergy", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", polarisationConstant=True)  # @UndefinedVariable
 jenergy.configure()
-polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
+polarisation=BeamEnergyPolarisationClass("polarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt", energyConstant=True)  # @UndefinedVariable
 polarisation.configure()
-jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy,idlamlookup, lut="JIDEnergy2GapCalibrations.txt")  # @UndefinedVariable
+jenergypolarisation=BeamEnergyPolarisationClass("jenergypolarisation", jidscannable, pgmenergy, lut="JIDEnergy2GapCalibrations.txt")  # @UndefinedVariable
 jenergypolarisation.configure()
 jenergypolarisation.setInputNames(["jenergy"])
 jenergypolarisation.setExtraNames(["polarisation"])
 print
 print "=================================================================================================================";
-print "Initialisation script complete." 
+print "Initialisation script complete."
 print
 ###Must leave what after this line last.
