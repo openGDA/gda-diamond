@@ -10,7 +10,7 @@
 	<import resource="BeamInfo.xml" />
 
 	<!-- Front End Devices -->
-	<import resource="ID.xml" />
+	<!--<import resource="ID.xml" /> -->
 	<!-- Optics Hutch -->
 	<import resource="DCM.xml" />
 	<import resource="DummyMotors.xml" />
