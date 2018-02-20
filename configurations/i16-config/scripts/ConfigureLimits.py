@@ -16,7 +16,7 @@ NOMINAL_LIMITS = {phi : (-999, 999),
 				kap: (-180, 180),
 				}
 
-kgam_minus_kmu_min = -11
+kgam_minus_kmu_min = -1
 #kth_minus_kdelta_max_MODE1 = 80
 kth_minus_kdelta_max_MODE1 = 95
 #kth_minus_kdelta_max_MODE2 = 136
