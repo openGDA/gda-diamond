@@ -106,7 +106,7 @@
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
 
-		<property name="deferOnValue" value="2" />
+		<property name="deferOnValue" value="1" />
 
 	</bean>
 
@@ -172,7 +172,7 @@
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
 
-		<property name="deferOnValue" value="2" />
+		<property name="deferOnValue" value="1" />
 
 	</bean>
 	
@@ -195,7 +195,7 @@
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
 
-		<property name="deferOnValue" value="2" />
+		<property name="deferOnValue" value="1" />
 
 	</bean>
 
