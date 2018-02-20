@@ -15,7 +15,7 @@ if installation.isDummy():
 else:
 	# see also notes below
 	# Changed for Allesandro's experiment on Jan 20 2015 -- RobW
-	USE_DIFFCALC = False  # <-- change here for live gda!
+	USE_DIFFCALC = True  # <-- change here for live gda!
 	USE_CRYO_GEOMETRY = False
 	#USE_DIFFCALC = True  # <-- change here for live gda!
 	#USE_CRYO_GEOMETRY = True
