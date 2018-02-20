@@ -17,7 +17,7 @@ else:
 	# Changed for Allesandro's experiment on Jan 20 2015 -- RobW
 	#USE_DIFFCALC = False  # <-- change here for live gda!
 	#USE_CRYO_GEOMETRY = False
-	USE_DIFFCALC = False  # <-- change here for live gda!
+	USE_DIFFCALC = True  # <-- change here for live gda!
 	USE_CRYO_GEOMETRY = False # < -- chi will not move if True
 
 
