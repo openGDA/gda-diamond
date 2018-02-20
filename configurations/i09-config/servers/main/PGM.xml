@@ -18,6 +18,9 @@
 	<bean id="pgmenergy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgmenergy_motor" />
 	</bean>
+	<bean id="pgmcff" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgm_cff_motor" />
+	</bean>
 	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -30,6 +33,7 @@
 				<ref bean="pgmmirrorselect" />
 				<ref bean="pgmtemp1" />
 				<ref bean="pgmtemp2" />
+				<ref bean="pgmcff" />
 <!-- 				<ref bean="pgmtemp3" /> -->
 <!-- 				<ref bean="pgmtemp4" /> -->
 			</list>

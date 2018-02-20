@@ -26,6 +26,10 @@
 		<property name="deviceName" value="PGM.MIRRORSELECT" />
 	</bean>
 
+	<bean id="pgm_cff_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09J-MO-PGM-01:CFF" /> 
+	</bean>
+
 	<bean id="pgmtemp1" class="gda.spring.EpicsMonitorFactoryBean">
 		<property name="deviceName" value="PGM.TEMP1" />
 	</bean>

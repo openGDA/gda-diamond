@@ -18,7 +18,9 @@
 	<bean id="pgmenergy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="PGM.ENERGY" /> 
 	</bean>
-
+	<bean id="pgm_cff_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09J-MO-PGM-01:CFF" /> 
+	</bean>
 	<bean id="pgmgratingselect" class="gda.spring.EpicsPositionerFactoryBean">
 		<property name="deviceName" value="PGM.GRATINGSELECT" />
 	</bean>

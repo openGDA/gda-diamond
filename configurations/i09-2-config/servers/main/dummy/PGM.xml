@@ -28,6 +28,11 @@
 		<property name="mediumSpeed" value="200" />
 		<property name="slowSpeed" value="100" />
 	</bean>
+	<bean id="pgm_cff_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
 
 	<bean id="pgmgratingselect" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
