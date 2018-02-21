@@ -8,7 +8,7 @@
 		<property name="accuracy" value="1.0"/>
 		<property name="polltime" value="1000"/>
 		<property name="fileSuffix" value="temp"/>
-		<property name="upperTemp" value="300"/>
+		<property name="upperTemp" value="490"/>
 		<property name="lowerTemp" value="4"/>
 		<property name="controller" ref="lakeshore_controller"/>
 	</bean>

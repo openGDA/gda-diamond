@@ -1,0 +1,237 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- NXDetector file writers -->
+<!-- for EPICS HDF5 plugin in Linux -->
+<!-- 	 <bean id="xmap_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean"> -->
+<!-- 		<property name="prefix" value="ME13C-EA-DET-01:HDF5:" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="xmap_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean"> -->
+<!-- 		<property name="ndFileImpl" ref="xmap_ndfilehdf5_base" /> -->
+<!-- 	</bean> -->
+
+	<!-- for EPICS hdf5 plugin in Windows -->
+	<bean id="xmap_ndfilehdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="ME13C-EA-DET-01:HDF5:" />
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+				<property name="basePVName" value="ME13C-EA-DET-01:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+<!-- 				<property name="filePathConverter"> -->
+<!-- 					<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter"> -->
+<!-- 						<property name="unixSubString" value="/dls/b10" /> -->
+<!-- 						<property name="windowsSubString" value="X:" /> -->
+<!-- 					</bean> -->
+<!-- 				</property> -->
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+						<property name="basePVName" value="ME13C-EA-DET-01:HDF5:" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="xmap_hdf5filewriter_for_scans" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="xmap_ndfilehdf5" />
+		<property name="fileNameTemplate" value="xmap" />
+		<property name="filePathTemplate" value="$datadir$/" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="storeAttr" value="true" />
+		<property name="ndArrayPortVal" value="XBUF" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64 -->
+		<property name="FramesChunks" value="5" />
+		<property name="setChunking" value="true" />
+		<property name="writeErrorStatusSupported" value="true" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
+	</bean>
+
+	<bean id="xmapMapping" class="gda.device.detector.nxdetector.xmap.controller.XmapMappingModeEpicsLayerImpl">
+		<constructor-arg index="0" value="ME13C-EA-DET-01:" />
+	</bean>
+
+	<bean id="edxdcontroller" class="gda.device.detector.nxdetector.xmap.controller.XmapAcquisitionBaseEpicsLayerImpl">
+		<constructor-arg index="0" value="ME13C-EA-DET-01:" />
+		<constructor-arg index="1" ref="xmapMapping" />
+	</bean>
+
+	<!-- Separate the EPICs layer from the collection strategy -->
+	<bean id="xbufferpv" class="gda.device.detector.nxdetector.xmap.xbufferPlugin.XBufferPVs">
+		<constructor-arg index="0" value="ME13C-EA-DET-01:XBUF:" />
+	</bean>
+
+	<!-- Define ROIs -->
+	<bean id="xmaproistats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats1" />
+		<property name="baseRoiPVName" value="ME13C-EA-DET-01:ROI1:" />
+		<property name="baseStatsPVName" value="ME13C-EA-DET-01:STAT1:" />
+		<property name="roiInputNdArrayPort" value="DET1.xbuf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+ 		<property name="EnableROIPVPairSupported" value="false" /> 
+	</bean>
+
+	<bean id="xmaproistats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats2" />
+		<property name="baseRoiPVName" value="ME13C-EA-DET-01:ROI2:" />
+		<property name="baseStatsPVName" value="ME13C-EA-DET-01:STAT2:" />
+		<property name="roiInputNdArrayPort" value="DET1.xbuf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<bean id="xmaproistats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats3" />
+		<property name="baseRoiPVName" value="ME13C-EA-DET-01:ROI3:" />
+		<property name="baseStatsPVName" value="ME13C-EA-DET-01:STAT3:" />
+		<property name="roiInputNdArrayPort" value="DET1.xbuf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+	
+	<bean id="xmaproistats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats4" />
+		<property name="baseRoiPVName" value="ME13C-EA-DET-01:ROI4:" />
+		<property name="baseStatsPVName" value="ME13C-EA-DET-01:STAT4:" />
+		<property name="roiInputNdArrayPort" value="DET1.xbuf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<bean id="xmaproistats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats5" />
+		<property name="baseRoiPVName" value="ME13C-EA-DET-01:ROI5:" />
+		<property name="baseStatsPVName" value="ME13C-EA-DET-01:STAT5:" />
+		<property name="roiInputNdArrayPort" value="DET1.xbuf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<bean id="xmaproistats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats6" />
+		<property name="baseRoiPVName" value="ME13C-EA-DET-01:ROI6:" />
+		<property name="baseStatsPVName" value="ME13C-EA-DET-01:STAT6:" />
+		<property name="roiInputNdArrayPort" value="DET1.xbuf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="EnableROIPVPairSupported" value="false" />
+	</bean>
+
+	<bean id="xmaproistats7" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats7" />
+		<property name="baseRoiPVName" value="ME13C-EA-DET-01:ROI7:" />
+		<property name="baseStatsPVName" value="ME13C-EA-DET-01:STAT7:" />
+		<property name="roiInputNdArrayPort" value="DET1.xbuf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<bean id="xmaproistats8" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats8" />
+		<property name="baseRoiPVName" value="ME13C-EA-DET-01:ROI8:" />
+		<property name="baseStatsPVName" value="ME13C-EA-DET-01:STAT8:" />
+		<property name="roiInputNdArrayPort" value="DET1.xbuf" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<!-- PV map for controller -->
+	<bean id="xmap_dxp" class="gda.device.epicsdevice.FindableEpicsDevice">
+		<property name="recordPVs">
+			<map>
+				<entry key="ACQUIRE" value="ME13C-EA-DET-01:Acquire" />
+				<entry key="ACQUIRING" value="ME13C-EA-DET-01:Acquiring" />
+ 				<entry key="AUTOPIXELSPERBUFFER" value="ME13C-EA-DET-01:AutoPixelsPerBuffer" />
+				<entry key="COLLECTMODE" value="ME13C-EA-DET-01:CollectMode" />
+				<entry key="DATA1" value="ME13C-EA-DET-01:MCA1.VAL" />
+				<entry key="ELIVETIME1" value="ME13C-EA-DET-01:DXP1:ElapsedLiveTime" />
+				<entry key="ENERGYBINS1" value="ME13C-EA-DET-01:MCA1:XAXIS" />
+				<entry key="ERASEALL" value="ME13C-EA-DET-01:EraseAll" />
+				<entry key="ERASESTART" value="ME13C-EA-DET-01:EraseStart" />
+				<entry key="EVENTS1" value="ME13C-EA-DET-01:DXP1:Events" />
+				<entry key="GETADCPERCENT1" value="ME13C-EA-DET-01:DXP1:ADCPercentRule_RBV" />
+				<entry key="GETBASELENGTH1" value="ME13C-EA-DET-01:DXP1:BaselineFilterLength_RBV" />
+				<entry key="GETBASETHRESH1" value="ME13C-EA-DET-01:DXP1:BaselineThreshold_RBV" />
+				<entry key="GETBINWIDTH1" value="ME13C-EA-DET-01:DXP1:MCABinWidth_RBV" />
+				<entry key="GETDYNRANGE1" value="ME13C-EA-DET-01:DXP1:DynamicRange_RBV" />
+				<entry key="GETENERGYTHRESH1" value="ME13C-EA-DET-01:DXP1:EnergyThreshold_RBV" />
+				<entry key="GETGAPTIME1" value="ME13C-EA-DET-01:DXP1:GapTime_RBV" />
+				<entry key="GETMAXENERGY1" value="ME13C-EA-DET-01:DXP1:MaxEnergy_RBV" />
+				<entry key="GETMAXWIDTH1" value="ME13C-EA-DET-01:DXP1:MaxWidth_RBV" />
+				<entry key="GETNBINS" value="ME13C-EA-DET-01:MCA1:NBINS" />
+				<entry key="GETPEAKTIME1" value="ME13C-EA-DET-01:DXP1:PeakingTime_RBV" />
+				<entry key="GETPREAMPGAIN1" value="ME13C-EA-DET-01:DXP1:PreampGain_RBV" />
+				<entry key="GETRESETDELAY1" value="ME13C-EA-DET-01:DXP1:ResetDelay_RBV" />
+				<entry key="GETTRIGGAPTIME1" value="ME13C-EA-DET-01:DXP1:TriggerGapTime_RBV" />
+				<entry key="GETTRIGPEAKTIME1" value="ME13C-EA-DET-01:DXP1:TriggerPeakingTime_RBV" />
+				<entry key="GETTRIGTHRESH1" value="ME13C-EA-DET-01:DXP1:TriggerThreshold_RBV" />
+				<entry key="IGNOREGATE" value="ME13C-EA-DET-01:IgnoreGate" />
+				<entry key="INPUTCOUNTRATE1" value="ME13C-EA-DET-01:DXP1:InputCountRate" />
+				<entry key="MCA1" value="ME13C-EA-DET-01:MCA1" />
+				<entry key="OUTPUTCOUNTRATE1" value="ME13C-EA-DET-01:DXP1:OutputCountRate" />
+				<entry key="PIXELADVANCEMODE" value="ME13C-EA-DET-01:PixelAdvanceMode" />
+				<entry key="PIXELSPERBUFFER" value="ME13C-EA-DET-01:PixelsPerBuffer" />
+				<entry key="PIXELSPERRUN" value="ME13C-EA-DET-01:PixelsPerRun" />
+				<entry key="REALTIME1" value="ME13C-EA-DET-01:DXP1:ElapsedRealTime" />
+				<entry key="SETADCPERCENT1" value="ME13C-EA-DET-01:DXP1:ADCPercentRule" />
+				<entry key="SETBASELENGTH1" value="ME13C-EA-DET-01:DXP1:BaselineFilterLength" />
+				<entry key="SETBASETHRESH1" value="ME13C-EA-DET-01:DXP1:BaselineThreshold" />
+				<entry key="SETBINWIDTH1" value="ME13C-EA-DET-01:DXP1:MCABinWidth" />
+				<entry key="SETDYNRANGE1" value="ME13C-EA-DET-01:DXP1:DynamicRange" />
+				<entry key="SETENERGYTHRESH1" value="ME13C-EA-DET-01:DXP1:EnergyThreshold" />
+				<entry key="SETGAPTIME1" value="ME13C-EA-DET-01:DXP1:GapTime" />
+				<entry key="SETMAXENERGY1" value="ME13C-EA-DET-01:DXP1:MaxEnergy" />
+				<entry key="SETMAXWIDTH1" value="ME13C-EA-DET-01:DXP1:MaxWidth" />
+				<entry key="SETNBINS" value="ME13C-EA-DET-01:MCA1.NUSE" />
+				<entry key="SETPEAKTIME1" value="ME13C-EA-DET-01:DXP1:PeakingTime" />
+				<entry key="SETPREAMPGAIN1" value="ME13C-EA-DET-01:DXP1:PreampGain" />
+				<entry key="SETPRESETTYPE" value="ME13C-EA-DET-01:PresetMode" />
+				<entry key="SETPRESETVALUE" value="ME13C-EA-DET-01:PresetReal" />
+				<entry key="SETRESUME" value="ME13C-EA-DET-01:Resume" />
+				<entry key="SETRESETDELAY1" value="ME13C-EA-DET-01:DXP1:ResetDelay" />
+				<entry key="SETTRIGGAPTIME1" value="ME13C-EA-DET-01:DXP1:TriggerGapTime" />
+				<entry key="SETTRIGPEAKTIME1" value="ME13C-EA-DET-01:DXP1:TriggerPeakingTime" />
+				<entry key="SETTRIGTHRESH1" value="ME13C-EA-DET-01:DXP1:TriggerThreshold" />
+				<entry key="STARTALL" value="ME13C-EA-DET-01:StartAll" />
+				<entry key="STOPALL" value="ME13C-EA-DET-01:StopAll" />
+				<entry key="TLIVETIME1" value="ME13C-EA-DET-01:DXP1:ElapsedTriggerLiveTime" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Controller -->
+	<!-- GDA 8 configuration -->
+	<bean id="edxdcontrollerStepScan" class="gda.device.detector.xmap.edxd.EDXDMappingController">
+		<property name="local" value="true" />
+		<property name="xmap" ref="xmap_dxp" />
+		<property name="elementOffset" value="1" />
+		<property name="numberOfElements" value="1" />
+		<property name="aquisitionTimeOn" value="True" />
+	</bean>
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
+		<property name="edxdController" ref="edxdcontrollerStepScan" />
+		<property name="local" value="true" />
+	</bean>
+<!-- GDA 9 configuration -->
+<!-- 	<bean id="edxdMappingController" class="gda.device.detector.xmap.edxd.EDXDMappingController"> -->
+<!-- 		<property name="xmap" ref="xmap_dxp" /> -->
+<!-- 		<property name="elementOffset" value="1" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 		<property name="numberOfElements" value="1" /> -->
+<!-- 		<property name="aquisitionTimeOn" value="true" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController"> -->
+<!-- 		<property name="edxdController" ref="edxdMappingController" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
+
+</beans>

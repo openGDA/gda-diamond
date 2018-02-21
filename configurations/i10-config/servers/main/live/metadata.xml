@@ -81,8 +81,13 @@
                     <property name="name" value="user" />
                     <property name="query" value="first_name, middle_name, last_name:facility_user where facility_user_id in (select facility_user_id from investigator:investigation_id" />
                 </bean>
+ 				<ref bean="subdirectory"/>
                 
             </list>
         </property>
     </bean>	
+	<bean id="subdirectory" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="subdirectory"/>
+		<property name="value" value=""/>
+	</bean>
 </beans>

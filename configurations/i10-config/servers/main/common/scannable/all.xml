@@ -39,6 +39,7 @@
 	<import resource="I10-MAGJ1.xml"/>
 	
 	<import resource="LakeShore.xml"/>
+	<import resource="xmap_detector.xml"/>
 
 	<!-- ME02P Polarimeter -->
 	<!-- 

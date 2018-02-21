@@ -56,4 +56,6 @@
 
 	<!-- Temporary devices -->
 	<import resource="I10-Zebra.xml"/>
+<!-- 	<import resource="vortex_xmap.xml"/> -->
+	<import resource="xmap_detector.xml"/>
 </beans>

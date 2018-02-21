@@ -14,4 +14,8 @@
 	<bean id="polarimeterConfig" class="gda.configuration.epics.EpicsConfiguration">
 		<constructor-arg value="${gda.config}/xml/epics/ME02P-gda-interface.xml" />
 	</bean>
+	
+	<bean id="vortexConfig" class="gda.configuration.epics.EpicsConfiguration">
+		<constructor-arg value="${gda.config}/xml/epics/ME13C-XMAP-interface.xml" />
+	</bean> 
 </beans>
