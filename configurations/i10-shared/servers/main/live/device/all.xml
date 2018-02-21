@@ -16,5 +16,5 @@
 	<import resource="S3.xml"/>
 	<import resource="D3.xml"/>
 	<import resource="M3M5.xml"/>
-	<import resource="I10-CA1.xml"/>
+	<import resource="CA1.xml"/>
 </beans>
