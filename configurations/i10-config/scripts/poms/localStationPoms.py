@@ -1,6 +1,6 @@
-def poms_default_vmag(name):
-    from poms.PomsSocketDevice import PomsSocketDeviceClass
-    return PomsSocketDeviceClass(name, hostName='172.23.110.198', hostPort=4042)
+#def poms_default_vmag(name):
+#    from poms.PomsSocketDevice import PomsSocketDeviceClass
+#    return PomsSocketDeviceClass(name, hostName='172.23.110.198', hostPort=4042)
 
 def poms_default_vflipper(name):
     from poms.PomsVflipper import FlipperDeviceClass
@@ -37,6 +37,3 @@ def poms_default_vflipper_raw(name):
 ##vflipper = FlipperDeviceClass('vflipper', 'vmag', 'ca31sr', 'ca32sr', 'ca33sr');
 #vflipper = FlipperDeviceClass('vflipper', 'vmag', 'mac116', 'mac117', 'mac118');
 
-# Remote access to the POMS PC from DLS Beamline Network
-##rdesktop -g 1024x768 172.23.106.195
-#rdesktop -g 1024x768 172.23.110.195
