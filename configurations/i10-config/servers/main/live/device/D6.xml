@@ -5,17 +5,18 @@
 
 	<!-- D6 (D8) -->
 
-	<bean id="d6d8_bim_motor" class="gda.device.motor.DummyMotor" />
-
-	<bean id="d6d8_scrn_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="d6_scrn" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="BL10I-DI-PHDGN-05:CON:CON"/>
+		<property name="statusPv" value="BL10I-DI-PHDGN-05:STA"/>
+		<property name="local" value="true"/>
+	</bean>
 
 	<bean id="d6d8_det_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D6.DETX" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-DI-PHDGN-05:DET:X" />
 		<property name="local" value="true"/>
 	</bean>
 
     <bean id="d6_pos" class="gda.device.enumpositioner.EpicsPositioner">
-        <property name="deviceName" value="D6.POS"/>
+        <property name="recordName" value="BL10I-DI-PHDGN-05:DET:X:MP"/>
     </bean>
 </beans>
