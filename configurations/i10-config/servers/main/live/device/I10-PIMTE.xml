@@ -49,7 +49,7 @@
 		<property name="pluginName" value="roistats1" />
 		<property name="baseRoiPVName" value="BL10I-EA-PIMTE-01:ROI1:" />
 		<property name="baseStatsPVName" value="BL10I-EA-PIMTE-01:STAT1:" />
-		<property name="roiInputNdArrayPort" value="PIMTE1.CAM" />
+		<property name="roiInputNdArrayPort" value="PIMTE1SWMR.RX" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -63,7 +63,7 @@
 		<property name="pluginName" value="roistats2" />
 		<property name="baseRoiPVName" value="BL10I-EA-PIMTE-01:ROI2:" />
 		<property name="baseStatsPVName" value="BL10I-EA-PIMTE-01:STAT2:" />
-		<property name="roiInputNdArrayPort" value="PIMTE1.CAM" />
+		<property name="roiInputNdArrayPort" value="PIMTE1SWMR.RX" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -77,7 +77,7 @@
 		<property name="pluginName" value="roistats3" />
 		<property name="baseRoiPVName" value="BL10I-EA-PIMTE-01:ROI3:" />
 		<property name="baseStatsPVName" value="BL10I-EA-PIMTE-01:STAT3:" />
-		<property name="roiInputNdArrayPort" value="PIMTE1.CAM" />
+		<property name="roiInputNdArrayPort" value="PIMTE1SWMR.RX" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -91,7 +91,7 @@
 		<property name="pluginName" value="roistats4" />
 		<property name="baseRoiPVName" value="BL10I-EA-PIMTE-01:ROI4:" />
 		<property name="baseStatsPVName" value="BL10I-EA-PIMTE-01:STAT4:" />
-		<property name="roiInputNdArrayPort" value="PIMTE1.CAM" />
+		<property name="roiInputNdArrayPort" value="PIMTE1SWMR.RX" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -105,7 +105,7 @@
 		<property name="pluginName" value="roistats5" />
 		<property name="baseRoiPVName" value="BL10I-EA-PIMTE-01:ROI5:" />
 		<property name="baseStatsPVName" value="BL10I-EA-PIMTE-01:STAT5:" />
-		<property name="roiInputNdArrayPort" value="PIMTE1.CAM" />
+		<property name="roiInputNdArrayPort" value="PIMTE1SWMR.RX" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -119,7 +119,7 @@
 		<property name="pluginName" value="roistats6" />
 		<property name="baseRoiPVName" value="BL10I-EA-PIMTE-01:ROI6:" />
 		<property name="baseStatsPVName" value="BL10I-EA-PIMTE-01:STAT6:" />
-		<property name="roiInputNdArrayPort" value="PIMTE1.CAM" />
+		<property name="roiInputNdArrayPort" value="PIMTE1SWMR.RX" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
@@ -130,20 +130,22 @@
 		</property>
 	</bean>
 
-	<bean id="pimte1_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+	<bean id="pimte1_tiffile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL10I-EA-PIMTE-01:TIFF:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL10I-EA-PIMTE-01:TIFF:" />
+				<property name="initialArrayPort" value="PIMTE1SWMR.RX" />
 			</bean>
 		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="pimte" />
+		<property name="initialFileTemplate" value="%s%s-%d.hdf" />
 		<property name="resetToInitialValues" value="false" />
-		<property name="filePathConverter">
-			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/i10/data" />
-				<property name="windowsSubString" value="x:\data" />
-			</bean>
-		</property>
 	</bean>
 
 	<!-- NXDetector file writers -->
@@ -151,16 +153,55 @@
 	<!-- SingleImagePerFileWriter(String detectorName)	 -->
 	<bean id="pimte1_nxfilewriter_for_scans" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pimte" />
-		<property name="ndFile" ref="pimte1_ndfile" />
+		<property name="ndFile" ref="pimte1_tiffile" />
 		<property name="keyNameForMetadataPathTemplate" value="pimte_path_template" />
 	</bean>
 
 	<!-- SingleImagePerFileWriterWithNumTracker(String detectorName)	 -->
 	<bean id="pimte1_nxfilewriter_for_snaps" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="pimte" />
-		<property name="ndFile" ref="pimte1_ndfile" />
+		<property name="ndFile" ref="pimte1_tiffile" />
 		<property name="numTrackerExtension" value="pimte1snaps" />
 		<property name="keyNameForMetadataPathTemplate" value="pimte_path_template" />
+	</bean>
+	
+	<bean id="pimte1_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL10I-EA-PIMTE-01:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10I-EA-PIMTE-01:HDF5:" />
+				<property name="initialArrayPort" value="PIMTE1SWMR.RX" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="pimte" />
+		<property name="initialFileTemplate" value="%s%s-%d.hdf" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+	<bean id="pimte1_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL10I-EA-PIMTE-01:HDF5:" />
+		<property name="file" ref="pimte1_ndfile"/>
+	</bean>
+	
+
+	<bean id="pimte1Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pimte1_hdf5"/>
+		<property name="fileNameTemplate" value="i10"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="0" />
+		<property name="framesFlush" value="0" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
 	</bean>
 
 	<!-- NXDetectors -->
@@ -181,6 +222,21 @@
 		</property>
 	</bean>
 
+	<bean id="pimtehdf" class="gda.device.detector.NXDetector">
+		<property name="name" value="pimtehdf" />
+		<property name="collectionStrategy" ref="pimte1CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pimte1RoiStats1" />
+				<ref bean="pimte1RoiStats2" />
+				<ref bean="pimte1RoiStats3" />
+				<ref bean="pimte1RoiStats4" />
+				<ref bean="pimte1RoiStats5" />
+				<ref bean="pimte1RoiStats6" />
+				<ref bean="pimte1Hdf5Filewriter"/>
+			</list>
+		</property>
+	</bean>
 	<bean id="pimte1det_for_snaps" class="gda.device.detector.NXDetector">
 		<property name="name" value="pimte1det_for_snaps" />
 		<property name="collectionStrategy" ref="pimte1CollectionStrategy" />
