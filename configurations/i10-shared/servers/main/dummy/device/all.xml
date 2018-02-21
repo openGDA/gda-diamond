@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<import resource="I10-FE.xml"/>
-	<import resource="I10-ID.xml"/>
+	<import resource="FrontEnd.xml"/>
+	<import resource="ID.xml"/>
 	<import resource="I10-D1.xml"/>
 	<import resource="I10-S1.xml"/>
 	<import resource="I10-M1.xml"/>
