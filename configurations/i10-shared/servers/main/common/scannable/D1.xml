@@ -8,7 +8,7 @@
 	<bean id="d1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="d1posn"/>
+				<ref bean="d1_scrn"/>
 			</list>
 		</property>
 	</bean>
