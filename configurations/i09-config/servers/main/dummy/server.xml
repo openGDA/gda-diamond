@@ -64,7 +64,7 @@
 	<import resource="SS7.xml" />
 	<import resource="ChannelCutCrystal.xml" />
 	<import resource="SMPM.xml" />
-	<import resource="FastShutter.xml"/>
+	<import resource="shutters.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>

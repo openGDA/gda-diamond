@@ -15,8 +15,7 @@
 		<property name="deviceName" value="PSI2" />
 	</bean>
 	<bean id="psk1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="controlPv" value="BL09K-PS-SHTR-01:CON" />
-		<property name="statusPv" value="BL09K-PS-SHTR-01:STA"/>
+		<property name="pvBase" value="BL09K-PS-SHTR-01" />
 	</bean>
 
 </beans>

@@ -4,5 +4,7 @@
 
 	<bean id="ehshutter" class="gda.device.enumpositioner.DummyValve">
 	</bean>
+	<bean id="psk1" class="gda.device.enumpositioner.DummyValve">
+	</bean>
 
 </beans>

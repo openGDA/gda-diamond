@@ -50,6 +50,7 @@
 	<import resource="analyser.xml"/>
 	<import resource="manipulator.xml"/>
 	<import resource="lakeshore.xml"/>
+	<import resource="shutters.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>

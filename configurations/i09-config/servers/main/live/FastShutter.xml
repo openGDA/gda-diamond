@@ -16,5 +16,4 @@
 		<property name="deviceName" value="FSI1.INLIM" />
 		<property name="readonly" value="true"/>
 	</bean>
-
 </beans>
