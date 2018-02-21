@@ -9,8 +9,8 @@
 	<import resource="S1.xml"/>
 	<import resource="M1.xml"/>
 	<import resource="S2.xml"/>
-	<import resource="D2.xm"/>
-	<import resource="I10-PGM.xml"/>
+	<import resource="D2.xml"/>
+	<import resource="PGM.xml"/>
 	<import resource="I10-S3.xml"/>
 	<import resource="I10-D3.xml"/>
 	<import resource="I10-M3M5.xml"/>
