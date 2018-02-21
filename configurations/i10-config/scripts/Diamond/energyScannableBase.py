@@ -8,6 +8,10 @@ from Poly import Poly
 from scisoftpy._external.ordereddict import OrderedDict
 from scisoftpy.external import create_function
 
+python_path="/dls_sw/i21/software/miniconda2/envs/gdaenv/lib/python2.7/"
+python_exe="/dls_sw/i21/software/miniconda2/envs/gdaenv/bin/python"
+local_module_path="/dls_sw/i21/software/miniconda2/lib/python2.7/site-packages"
+
 class EnergyScannableBase(ScannableMotionBase):
     
     class ValueLookup():
@@ -21,10 +25,10 @@ class EnergyScannableBase(ScannableMotionBase):
                 self.value_lookup_x = value_from_index_sorted.keys()
                 self.value_lookup_y = value_from_index_sorted.values()
                 # Note that this function has been added to scisoft as of master (destined for gda-8.45)
-                self.interp = create_function('interp', 'numpy', dls_module=True) # TODO: Replace with scisoft function in gda-8.46
+                self.interp = create_function('interp', module='numpy', exe=python_exe, path=[python_path], extra_path=[local_module_path], dls_module=False, keep=False) # TODO: Replace with scisoft function in gda-8.46
 
         """ Annoyingly, sometimes self.interp fails and returns the input value as it's output value!
-            See I10 logs where id_energy_followermoves to pgm_energy=831.408565 (jawphase from getIdPosition 831.2583050847456!):
+            See I10 logs where id_energy_follower moves to pgm_energy=831.408565 (jawphase from getIdPosition 831.2583050847456!):
             2015-05-20 18:01:25,297 INFO  FollowerScannable:id_energy_follower - Moving idu_circ_pos_energy to 831.408565 (831.2583050847456)  
     
         def getIdPosition(self, energy_eV):
@@ -78,7 +82,10 @@ class EnergyScannableBase(ScannableMotionBase):
                 raise ValueError("jawphase %r below minimum of %r" % (value, self.value_lookup_y[0]))
             if value > self.value_lookup_y[-1]:
                 raise ValueError("jawphase %r above maximum of %r" % (value, self.jawphase_lookup_y[-1]))
-            return self.interp(value, self.value_lookup_y, self.value_lookup_x)
+#             print "### call numpy.interp method ..."
+            interp_value= self.interp(value, self.value_lookup_y, self.value_lookup_x)
+#             print "### value returned from numpy.interp: %f" % (interp_value)
+            return interp_value
 
     def __init__(self, name, id_gap_scannable,
                  id_rowphase1_scannable, id_rowphase2_scannable,
@@ -110,6 +117,7 @@ class EnergyScannableBase(ScannableMotionBase):
 
         self.verbose = False
         self.concurrentRowphaseMoves=False
+        self.energyMode=False #default to jawphase energy, if True gap controlled energy
 
     def __str__(self):
         format=", ".join([ a + "=" + b for (a,b) in zip(
@@ -128,6 +136,13 @@ class EnergyScannableBase(ScannableMotionBase):
             self.rowphase3_from_energy, self.rowphase4_from_energy, self.jawphase_from_energy)
 
     def isBusy(self):
+#         print "id_gap is busy: %s" % (self.id_gap.isBusy())
+#         print "id_rowphase1 is busy: %s" % (self.id_rowphase1.isBusy())
+#         print "id_rowphase2 is busy: %s" % (self.id_rowphase2.isBusy())
+#         print "id_rowphase3 is busy: %s" % (self.id_rowphase3.isBusy())
+#         print "id_rowphase4 is busy: %s" % (self.id_rowphase4.isBusy())
+#         print "id_jawphase is busy: %s" % (self.id_jawphase.isBusy())
+#         print "pgm_energy is busy: %s" % (self.pgm_energy.isBusy())       
         return (self.id_gap.isBusy() or 
                 self.id_rowphase1.isBusy() or
                 self.id_rowphase2.isBusy() or
@@ -196,12 +211,12 @@ class EnergyScannableBase(ScannableMotionBase):
         return ['%f', '%f', '%f', '%f', '%f', '%f', '%f', '%f', '%f']
 
     def getPosition(self):
-        pgm_energy = self.pgm_energy.getPosition()
-        diff = self.last_energy_eV - pgm_energy
+        pgmenergy = self.pgm_energy.getPosition()
+        diff = self.last_energy_eV - pgmenergy
         return (self.last_energy_eV, self.id_gap.getPosition(),
                 self.id_rowphase1.getPosition(), self.id_rowphase2.getPosition(),
                 self.id_rowphase3.getPosition(), self.id_rowphase4.getPosition(),
-                self.id_jawphase.getPosition(), pgm_energy, diff)
+                self.id_jawphase.getPosition(), pgmenergy, diff)
 
     # Derived classes must either implement getIdPosition or override asynchronousMoveTo
 
