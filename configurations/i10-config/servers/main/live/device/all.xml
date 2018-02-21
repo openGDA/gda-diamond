@@ -6,7 +6,6 @@
 	<!-- I Scattering -->
 	
 	<import resource="D4.xml"/>
-	<import resource="I10-D4CAM.xml"/>
 	<import resource="I10-S4.xml"/>
 	<import resource="I10-D5.xml"/>
 	<import resource="I10-M4.xml"/>
