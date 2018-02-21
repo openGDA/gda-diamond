@@ -17,7 +17,7 @@
 	<import resource="Scaler1.xml"/>
 	<import resource="CA2.xml"/>
 	<import resource="CA3.xml"/>
-	<import resource="I10-CA4.xml"/>
+	<import resource="CA4.xml"/>
 	<import resource="I10-PIMTE.xml"/>
 	<import resource="I10-PIXIS.xml"/>
 	<import resource="I10-RASOR.xml"/>
