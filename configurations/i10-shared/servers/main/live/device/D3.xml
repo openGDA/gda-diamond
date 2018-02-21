@@ -4,17 +4,17 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- D3 (D5) --> 
-
-	<bean id="d3d5_scrn_motor" class="gda.device.motor.DummyMotor" />
-
-	<bean id="d3d5_det_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D3.DETX" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+	<bean id="d3_scrn" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="BL10I-DI-PHDGN-03:CON"/>
+		<property name="statusPv" value="BL10I-DI-PHDGN-03:STA"/>
 		<property name="local" value="true"/>
-		<property name="accessControlName" value="branchena" />
+	</bean>
+	<bean id="d3d5_det_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10I-DI-PHDGN-03:DET:X" />
+		<property name="local" value="true"/>
 	</bean>
 
     <bean id="d3_pos" class="gda.device.enumpositioner.EpicsPositioner">
-        <property name="deviceName" value="D3.POS"/>
+        <property name="recordName" value="BL10I-DI-PHDGN-03:DET:X:MP"/>
     </bean>
 </beans>
