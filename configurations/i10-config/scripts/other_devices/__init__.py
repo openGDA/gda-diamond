@@ -1,5 +1,3 @@
-"""
-Jython package used with GDA for Diamond Light Source
 
-This module left intentionally blank.
-"""
+
+from sr570_v2 import sr570Device
