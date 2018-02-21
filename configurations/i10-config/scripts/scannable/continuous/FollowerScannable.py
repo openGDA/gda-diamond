@@ -16,9 +16,20 @@ class FollowerThread(threading.Thread):
     def moveTo(self, energy_eV):
         idPosition = self.parent.follower_scannable.getIdPosition(energy_eV)
         if self.parent.verbose:
-            msg = "Moving %s to %f (%r)" % (self.parent.follower_scannable.name, energy_eV, idPosition.jawphase)
-            self.parent.logger.info(msg)
-        self.parent.follower_scannable.id_jawphase.moveTo(idPosition.jawphase)
+            if self.parent.follower_scannable.energyMode:
+                msg = "Moving %s to %f (%r)" % (self.parent.follower_scannable.name, energy_eV, idPosition.gap)
+                self.parent.logger.info(msg)
+            else:
+                msg = "Moving %s to %f (%r)" % (self.parent.follower_scannable.name, energy_eV, idPosition.jawphase)
+                self.parent.logger.info(msg)
+        if self.parent.follower_scannable.energyMode:
+            self.parent.follower_scannable.id_gap.moveTo(idPosition.gap)
+            #self.parent.follower_scannable.id_rowphase1.moveTo(idPosition.rowphase1)
+            #self.parent.follower_scannable.id_rowphase2.moveTo(idPosition.rowphase2)
+            #self.parent.follower_scannable.id_rowphase3.moveTo(idPosition.rowphase3)
+            #self.parent.follower_scannable.id_rowphase4.moveTo(idPosition.rowphase4)
+        else:
+            self.parent.follower_scannable.id_jawphase.moveTo(idPosition.jawphase)
         self.parent.follower_scannable.last_energy_eV = energy_eV
 
     def run(self):

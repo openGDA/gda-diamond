@@ -32,7 +32,10 @@ class EnergyScannableLookup(EnergyScannableBase):
 
     def getEnergy(self, idPosition):
         # TODO: This is now wrong, given that any motor could be used
-        id_energy = self.jawphase_from_energy.index(idPosition.jawphase)
+        if self.energyMode:
+            id_energy = self.gap_from_energy.index(idPosition.gap)
+        else:
+            id_energy = self.jawphase_from_energy.index(idPosition.jawphase)
         if id_energy == None:
             id_energy = self.last_energy_eV
         return id_energy
