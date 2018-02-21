@@ -5,16 +5,6 @@
 	
 	<!-- D2 (D4) --> 
 
-	<bean id="d2_scrn" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="d2d4_scrn_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
-	</bean>
-
  	<bean id="d2_det" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d2d4_det_motor" />
