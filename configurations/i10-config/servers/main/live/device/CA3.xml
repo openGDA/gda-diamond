@@ -6,22 +6,22 @@
 	<!-- CA3 Epics Monitor -->
 	
 	<bean id="ca31" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="CA3.I1" />
+		<property name="pvName" value="BL10I-DI-IAMP-03:SIG1" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="ca32" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="CA3.I2" />
+		<property name="pvName" value="BL10I-DI-IAMP-03:SIG2" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="ca33" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="CA3.I3" />
+		<property name="pvName" value="BL10I-DI-IAMP-03:SIG3" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="ca34" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="CA3.I4" />
+		<property name="pvName" value="BL10I-DI-IAMP-03:SIG4" />
 		<property name="local" value="true"/>
 	</bean>
 
