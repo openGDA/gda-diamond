@@ -12,6 +12,29 @@
  				<entry key="AUTOPIXELSPERBUFFER" value="BL12I-EA-DET-03:AutoPixelsPerBuffer" />
 				<entry key="COLLECTMODE" value="BL12I-EA-DET-03:CollectMode" />
 				<entry key="DATA1" value="BL12I-EA-DET-03:MCA1.VAL" />
+				<entry key="DATA2" value="BL12I-EA-DET-03:MCA2.VAL" />
+				<entry key="DATA3" value="BL12I-EA-DET-03:MCA3.VAL" />
+				<entry key="DATA4" value="BL12I-EA-DET-03:MCA4.VAL" />
+				<entry key="DATA5" value="BL12I-EA-DET-03:MCA5.VAL" />
+				<entry key="DATA6" value="BL12I-EA-DET-03:MCA6.VAL" />
+				<entry key="DATA7" value="BL12I-EA-DET-03:MCA7.VAL" />
+				<entry key="DATA8" value="BL12I-EA-DET-03:MCA8.VAL" />
+				<entry key="DATA9" value="BL12I-EA-DET-03:MCA9.VAL" />
+				<entry key="DATA10" value="BL12I-EA-DET-03:MCA10.VAL" />
+				<entry key="DATA11" value="BL12I-EA-DET-03:MCA11.VAL" />
+				<entry key="DATA12" value="BL12I-EA-DET-03:MCA12.VAL" />
+				<entry key="DATA13" value="BL12I-EA-DET-03:MCA13.VAL" />
+				<entry key="DATA14" value="BL12I-EA-DET-03:MCA14.VAL" />
+				<entry key="DATA15" value="BL12I-EA-DET-03:MCA15.VAL" />
+				<entry key="DATA16" value="BL12I-EA-DET-03:MCA16.VAL" />
+				<entry key="DATA17" value="BL12I-EA-DET-03:MCA17.VAL" />
+				<entry key="DATA18" value="BL12I-EA-DET-03:MCA18.VAL" />
+				<entry key="DATA19" value="BL12I-EA-DET-03:MCA19.VAL" />
+				<entry key="DATA20" value="BL12I-EA-DET-03:MCA20.VAL" />
+				<entry key="DATA21" value="BL12I-EA-DET-03:MCA21.VAL" />
+				<entry key="DATA22" value="BL12I-EA-DET-03:MCA22.VAL" />
+				<entry key="DATA23" value="BL12I-EA-DET-03:MCA23.VAL" />
+				<entry key="DATA24" value="BL12I-EA-DET-03:MCA24.VAL" />
 				<entry key="ELIVETIME1" value="BL12I-EA-DET-03:DXP1:ElapsedLiveTime" />
 				<entry key="ENERGYBINS1" value="BL12I-EA-DET-03:MCA1:XAXIS" />
 				<entry key="ERASEALL" value="BL12I-EA-DET-03:EraseAll" />
@@ -35,6 +58,29 @@
 				<entry key="GETTRIGTHRESH1" value="BL12I-EA-DET-03:DXP1:TriggerThreshold_RBV" />
 				<entry key="IGNOREGATE" value="BL12I-EA-DET-03:IgnoreGate" />
 				<entry key="INPUTCOUNTRATE1" value="BL12I-EA-DET-03:DXP1:InputCountRate" />
+				<entry key="INPUTCOUNTRATE2" value="BL12I-EA-DET-03:DXP2:InputCountRate" />
+				<entry key="INPUTCOUNTRATE3" value="BL12I-EA-DET-03:DXP3:InputCountRate" />
+				<entry key="INPUTCOUNTRATE4" value="BL12I-EA-DET-03:DXP4:InputCountRate" />
+				<entry key="INPUTCOUNTRATE5" value="BL12I-EA-DET-03:DXP5:InputCountRate" />
+				<entry key="INPUTCOUNTRATE6" value="BL12I-EA-DET-03:DXP6:InputCountRate" />
+				<entry key="INPUTCOUNTRATE7" value="BL12I-EA-DET-03:DXP7:InputCountRate" />
+				<entry key="INPUTCOUNTRATE8" value="BL12I-EA-DET-03:DXP8:InputCountRate" />
+				<entry key="INPUTCOUNTRATE9" value="BL12I-EA-DET-03:DXP9:InputCountRate" />
+				<entry key="INPUTCOUNTRATE10" value="BL12I-EA-DET-03:DXP10:InputCountRate" />
+				<entry key="INPUTCOUNTRATE11" value="BL12I-EA-DET-03:DXP11:InputCountRate" />
+				<entry key="INPUTCOUNTRATE12" value="BL12I-EA-DET-03:DXP12:InputCountRate" />
+				<entry key="INPUTCOUNTRATE13" value="BL12I-EA-DET-03:DXP13:InputCountRate" />
+				<entry key="INPUTCOUNTRATE14" value="BL12I-EA-DET-03:DXP14:InputCountRate" />
+				<entry key="INPUTCOUNTRATE15" value="BL12I-EA-DET-03:DXP15:InputCountRate" />
+				<entry key="INPUTCOUNTRATE16" value="BL12I-EA-DET-03:DXP16:InputCountRate" />
+				<entry key="INPUTCOUNTRATE17" value="BL12I-EA-DET-03:DXP17:InputCountRate" />
+				<entry key="INPUTCOUNTRATE18" value="BL12I-EA-DET-03:DXP18:InputCountRate" />
+				<entry key="INPUTCOUNTRATE19" value="BL12I-EA-DET-03:DXP19:InputCountRate" />
+				<entry key="INPUTCOUNTRATE20" value="BL12I-EA-DET-03:DXP20:InputCountRate" />
+				<entry key="INPUTCOUNTRATE21" value="BL12I-EA-DET-03:DXP21:InputCountRate" />
+				<entry key="INPUTCOUNTRATE22" value="BL12I-EA-DET-03:DXP22:InputCountRate" />
+				<entry key="INPUTCOUNTRATE23" value="BL12I-EA-DET-03:DXP23:InputCountRate" />
+				<entry key="INPUTCOUNTRATE24" value="BL12I-EA-DET-03:DXP24:InputCountRate" />
 				<entry key="MCA1" value="BL12I-EA-DET-03:MCA1" />
 				<entry key="MCA2" value="BL12I-EA-DET-03:MCA2" />
 				<entry key="MCA3" value="BL12I-EA-DET-03:MCA3" />
