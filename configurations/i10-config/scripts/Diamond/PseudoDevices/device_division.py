@@ -9,11 +9,11 @@ Created on 24 Jun 2010
 
 @author: fy65
 '''
-from gda.device.scannable import ScannableBase
+from gda.device.continuouscontroller import CSViacontrollerScannable
 #from gda.factory import Finder
 #from scannable.continuous.try_continuous_energy import mcsr16_g, mcsr17_g
 
-class DeviceDivisionClass(ScannableBase):
+class DeviceDivisionClass(CSViacontrollerScannable):
 	def __init__(self, name, scannable1, scannable2):
 		'''constructor parameters:
 				name:   Name of the new device
