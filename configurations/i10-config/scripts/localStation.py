@@ -1,3 +1,4 @@
+from os.path import os
 print "**************************************************"
 print "Running the I10 startup script localStation.py..."
 print ""
@@ -26,6 +27,80 @@ scan_processor.rootNamespaceDict=globals()
 import gdascripts.utils #@UnusedImport
 gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
 
+print "-----------------------------------------------------------------------------------------------------------------"
+print "Set scan returns to the original positions on completion to false (0); default is 0."
+print "   To set scan returns to its start positions on completion please do:"
+print "      >>>scansReturnToOriginalPositions=1"
+scansReturnToOriginalPositions=0;
+print
+#Please change the following lines to add default scannables to i11 GDA server engine
+#print "-----------------------------------------------------------------------------------------------------------------"
+#print "Adding default scannable objects to GDA system: Io, Te"
+#add_default Io #@UndefinedVariable
+#add_default Ie #@UndefinedVariable
+
+print "-----------------------------------------------------------------------------------------------------------------"
+print "commands for directory/file operations: "
+print "   >>>pwd - return the current data directory"
+print "   >>>lwf - return the full path of the last working data file"
+print "   >>>nwf - return the full path of the next working data file"
+print "   >>>nfn - return the next data file number to be collected"
+print "   >>>setSubdirectory('test') - change data directory to a sub-directory named 'test', created first if not exist"
+print "   >>>getSubdirectory() - return the current sub-directory setting if exist"
+print "Please note: users can only create sub-directory within their permitted visit data directory via GDA, not themselves."
+print "To create another sub-directory 'child-test' inside a sub-directory 'test', you must specify the full path as 'test/child-test' "
+from gda.data import PathConstructor, NumTracker
+
+# set up a nice method for getting the latest file path
+i10NumTracker = NumTracker("i10");
+
+# function to find the working directory
+def pwd():
+    '''return the working directory'''
+    cwd = PathConstructor.createFromDefaultProperty()
+    return cwd
+    
+alias("pwd")
+
+# function to find the last working file path
+def lwf():
+    '''return the last working file path root'''
+    cwd = PathConstructor.createFromDefaultProperty()
+    filenumber = i10NumTracker.getCurrentFileNumber();
+    return os.path.join(cwd,str(filenumber))
+    
+alias("lwf")
+
+# function to find the next working file path
+def nwf():
+    '''query the next working file path root'''
+    cwd = PathConstructor.createFromDefaultProperty()
+    filenumber = i10NumTracker.getCurrentFileNumber();
+    return os.path.join(cwd,str(filenumber+1))
+    
+alias("nwf")
+
+# function to find the next scan number
+def nfn():
+    '''query the next file number or scan number'''
+    filenumber = i10NumTracker.getCurrentFileNumber();
+    return filenumber+1
+    
+alias("nfn")
+
+# the subdirectory parts
+def setSubdirectory(dirname):
+    '''create a new sub-directory for data collection that follows'''
+    finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
+    try:
+        os.mkdir(pwd())
+    except :
+        pass
+    
+def getSubdirectory():
+    return finder.find("GDAMetadata").getMetadataValue("subdirectory")
+
+print
 localStation_exceptions = []
 
 def localStation_exception(exc_info, msg):
@@ -83,6 +158,7 @@ try:
     sys.path = [diffcalcDir] + sys.path
     run("i10fourcircle.py")
     #execfile(diffcalcDir + "example/startup/i10fourcircle.py")
+    
 except:
     localStation_exception(sys.exc_info(), "initialising diffcalc")
 
@@ -497,19 +573,17 @@ try:
     note.rootNamespaceDict=globals()
 
     def stdmeta():
-        stdmetadatascannables = (idd_gap, idd_rowphase1, idd_rowphase2,
-                                 idd_rowphase3, idd_rowphase4, idd_jawphase,
-                                 idd_sepphase,
-                                 idu_gap, idu_rowphase1, idu_rowphase2,
+        iddmetadatascannables = (idd_gap, idd_rowphase1, idd_rowphase2,
+                                 idd_rowphase3, idd_rowphase4, idd_jawphase, 
+                                 idd_sepphase)
+        stdmetadatascannables = (idu_gap, idu_rowphase1, idu_rowphase2,
                                  idu_rowphase3, idu_rowphase4, idu_jawphase,
                                  idu_sepphase,
-                                 pgm_energy, s4xgap, s4ygap,
-                                 th, tth, thp, ttp, eta, sx, sy, sz)
+                                 pgm_energy)
         
         if polarimeter_installed:
             stdmetadatascannables += (RetTilt, RetRotation, AnaTilt ,AnaRotation, 
                                  AnaDetector, AnaTranslation,hpx, hpy, hpc, hpb)
-        stdmetadatascannables += (th_off, tth_off)
         setmeta_ret=setmeta(*stdmetadatascannables)
         print "Standard metadata scannables: " + setmeta_ret
 
@@ -597,6 +671,9 @@ try:
     gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
 except:
     localStation_exception(sys.exc_info(), "creating gflow2 scannable")
+
+from scan.miscan import miscan
+alias("miscan")
 
 print "*"*80
 print "Attempting to run localStationUser.py from users script directory"
