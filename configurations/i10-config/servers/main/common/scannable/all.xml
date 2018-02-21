@@ -8,7 +8,7 @@
 	<!-- I Scattering -->
 	
 	<import resource="D4.xml"/>
-	<import resource="I10-S4.xml"/>
+	<import resource="S4.xml"/>
 	<import resource="I10-D5.xml"/>
 	<import resource="I10-M4.xml"/>
 	<import resource="I10-S5.xml"/>
