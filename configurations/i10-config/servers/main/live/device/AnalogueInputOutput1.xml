@@ -4,12 +4,6 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
 
 	<!-- UI1 User Input/Output --> 
-	
-	<bean id="scaler1" class="gda.device.detector.EpicsScaler">
-		<property name="deviceName" value="SCALER1" />
-		<property name="frequency" value="50000000"/>
-	</bean>
-
 	<bean id="ui1ai1" class="gda.device.monitor.EpicsMonitor">
 		<property name="deviceName" value="UI1.AI1" />
 		<property name="local" value="true"/>
