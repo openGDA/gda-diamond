@@ -6,38 +6,32 @@
 	<!-- UMI1 (U1) User Motors --> 
 
     <bean id="user1_axis1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="UI1.motor1" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-MO-USER-01:AXIS1" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="user1_axis2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="UI1.motor2" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-MO-USER-01:AXIS2" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="user1_axis3_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="UI1.motor3" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-MO-USER-01:AXIS3" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="user1_axis4_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="UI1.motor4" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-MO-USER-01:AXIS4" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="user1_axis5_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="UI1.motor5" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-MO-USER-01:AXIS5" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="user1_axis6_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="UI1.motor6" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-MO-USER-01:AXIS6" />
 		<property name="local" value="true"/>
 	</bean>
 </beans>
