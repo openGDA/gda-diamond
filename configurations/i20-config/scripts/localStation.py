@@ -29,6 +29,7 @@ from uk.ac.gda.server.exafs.scan import EnergyScan, XesScan, XesScanFactory, Xas
 from uk.ac.gda.server.exafs.scan.preparers import I20DetectorPreparer, I20OutputPreparer, I20SamplePreparer, I20BeamlinePreparer
 
 
+DAServer = finder.find("DAServer")
 rcpController = finder.find("RCPController")
 XASLoggingScriptController = Finder.getInstance().find("XASLoggingScriptController")
 commandQueueProcessor = Finder.getInstance().find("commandQueueProcessor")
@@ -77,14 +78,18 @@ else :
     scannableGaussian = ScannableGaussian("scannableGaussian", 0.1, 5, 1)
     scannableGaussian.setScannableToMonitorForPosition(braggoffset) # position of braggoffset determines value returned by scannable
     monoOptimiser = MonoOptimisation( braggoffset, scannableGaussian )
+
 monoOptimiser.setBraggScannable(bragg1WithOffset)
+monoOptimiser.setMedipix(medipix)
+monoOptimiser.setDaServer(DAServer)
+bragg1WithOffset.setMonoOptimiser(monoOptimiser)
 
 #### preparers ###
-detectorPreparer = I20DetectorPreparer(xspress2system, sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix, topupChecker)
-detectorPreparer.setFFI0(FFI0);
+detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix, topupChecker)
+# detectorPreparer.setFFI0(FFI0);
 detectorPreparer.setMonoOptimiser(monoOptimiser)
 samplePreparer = I20SamplePreparer(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll, sample_pitch, filterwheel, cryostat, cryostick_pos, rcpController)
-outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xspress2system, xmapMca, detectorPreparer)
+outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
 beamlinePreparer = I20BeamlinePreparer()
 
 twodplotter = TwoDScanPlotter()
@@ -189,7 +194,7 @@ if LocalProperties.get("gda.mode") == "live":
     + "To find out current mode type:\n"\
     + "finder.find(\"DAServer\").getStartupCommands()\n"
     
-    FFI0.setInputNames([])
+    # FFI0.setInputNames([])
     run "vortexLiveTime"
     #testVortexWiredCorrectly()
     #calibrate_mono = mono_calibration.calibrate_mono()
@@ -226,20 +231,31 @@ add_default detectorMonitorDataProvider
 
 ## Xspress4 settings
 # xspress4 = Finder.getInstance().find("xspress4")
-xspress4HdfFilePath = "/dls/i20/data/2017/cm16762-4/spool/"
-hdf5Values = { "FilePath" : xspress4HdfFilePath, "FileTemplate" : "%s%s%d.hdf"}
+from gda.data import PathConstructor
+xspress4HdfFilePath = PathConstructor.createFromDefaultProperty()+"spool/"; # /dls/i20/data/2017/cm16762-4/spool/"
+# hdf5Values = { "FilePath" : xspress4HdfFilePath, "FileTemplate" : "%s%s%d.hdf"}
+hdf5Values = { "FileTemplate" : "%s%s%d.hdf"}
+
 from uk.ac.gda.devices.detector.xspress3.controllerimpl import EpicsXspress3Controller
 from gda.epics import CAClient
 ## Set file path and filename format if using 'real' XSpress4 detector
-if isinstance(xspress4.getController(), EpicsXspress3Controller) :
-    xspress4.setTriggerMode(3) # set 'TTL only' trigger mode
-    if xspress4.getController().isConnected() :
-        xspress4.getController().setFilePath(xspress4HdfFilePath);
-        basename = xspress4.getController().getEpicsTemplate()
-        for key in hdf5Values :
-            pv = basename+":HDF5:"+key
-            print "Setting "+pv+" to "+hdf5Values[key]
-            CAClient.putStringAsWaveform(pv, hdf5Values[key])
+if xspress4.isConfigured() == True and isinstance(xspress4.getController(), EpicsXspress3Controller) == True :
+     xspress4.setTriggerMode(3) # set 'TTL only' trigger mode
+     ## Set to empty string, so that at scan start path is set to current visit directory.
+     xspress4.getDetector().setFilePath("");
+     basename = xspress4.getController().getEpicsTemplate()
+     for key in hdf5Values :
+        pv = basename+":HDF5:"+key
+        print "Setting "+pv+" to "+hdf5Values[key]
+        CAClient.putStringAsWaveform(pv, hdf5Values[key])
+
+#Don't include count_time on medipix readout values. imh 18/1/2018 
+medipix.getCollectionStrategy().setReadAcquisitionTime(False)
+
+print "Setting Tfg veto options to normal values for output 0"
+DAServer.sendCommand("tfg setup-veto veto0-inv 0")
+DAServer.sendCommand("tfg setup-veto veto0-drive 1")
+DAServer.sendCommand("tfg alternate-veto veto0-normal")
 
 #ws146-AD-SIM-01:HDF5:MinCallbackTime
 print "****GDA startup script complete.****\n\n"

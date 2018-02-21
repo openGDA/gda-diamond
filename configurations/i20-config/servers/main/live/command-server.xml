@@ -3,10 +3,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<bean id="icatXMLCreator" class="gda.data.fileregistrar.IcatXMLCreator">
+		<property name="useDirForDatasetName" value="true" />
+		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/i20-" />
+	</bean>
+
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
 		<property name="name" value="FileRegistrar" />
-		<property name="directory"
-			value="/dls/bl-misc/dropfiles2/icat/dropZone/i20-" />
+		<property name="icatXMLCreator" ref="icatXMLCreator" />
 	</bean>
 
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">

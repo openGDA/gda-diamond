@@ -10,6 +10,7 @@
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.core.resources" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.equinox.common" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.core.jobs" componentType="osgi.bundle"/>
+	<cs:dependency name="org.eclipse.core.jobs" componentType="osgi.bundle"/>
+        <cs:dependency name="uk.ac.diamond.scisoft.python" componentType="osgi.bundle"/>	
     </cs:dependencies>
 </cs:cspec>

@@ -9,7 +9,7 @@
 		<property name="port" value="1972" />
 		<property name="startupCommands">
 			<list>
-				<value>~config 9</value>
+				<value>~config040118</value>
 			</list>
 		</property>
 		<property name="dataPort" value="20030" />

@@ -41,6 +41,7 @@
 		<constructor-arg value="bragg1WithOffset" />
 		<constructor-arg ref="bragg1" />
 		<constructor-arg ref="braggoffset" />
+		<property name="includeOffsetInPosition" value="false" />
 	</bean>
 
 	<bean id="crystal2_roll" class="gda.device.scannable.ScannableMotor">

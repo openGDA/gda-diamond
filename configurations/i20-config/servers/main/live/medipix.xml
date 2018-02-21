@@ -84,7 +84,7 @@
 		<property name="baseRoiPVName" value="BL20I-EA-DET-05:ROI1:" />
 		<property name="baseStatsPVName" value="BL20I-EA-DET-05:STAT1:" />
 		<property name="roiInputNdArrayPort" value="MPX1.DET" />
-		<property name="enabledBasicStats" value="MaxValue,Total" />
+		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider" ref="plotserver_roi_provider" />
 	</bean>
