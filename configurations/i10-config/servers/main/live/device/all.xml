@@ -15,7 +15,7 @@
 	<import resource="IUserMotor.xml"/>
 	<import resource="AnalogueInputOutput1.xml"/>
 	<import resource="Scaler1.xml"/>
-	<import resource="I10-CA2.xml"/>
+	<import resource="CA2.xml"/>
 	<import resource="I10-CA3.xml"/>
 	<import resource="I10-CA4.xml"/>
 	<import resource="I10-PIMTE.xml"/>
