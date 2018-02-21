@@ -12,7 +12,7 @@
 	<import resource="D2.xml"/>
 	<import resource="PGM.xml"/>
 	<import resource="S3.xml"/>
-	<import resource="I10-D3.xml"/>
+	<import resource="D3.xml"/>
 	<import resource="I10-M3M5.xml"/>
 	<import resource="I10-CA1.xml"/>
 </beans>
