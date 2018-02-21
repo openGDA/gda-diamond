@@ -6,32 +6,27 @@
 	<!-- Slits / S4 -->
 
   	<bean id="s4xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS4.XGAP" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-04:XGAP" />
 		<property name="local" value="true"/>
 	</bean>
   	
   	<bean id="s4z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS4.Z" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-04:Z" />
 		<property name="local" value="true"/>
 	</bean>
   	
   	<bean id="s4ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS4.YGAP" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-04:YGAP" />
 		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s4xsize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS4.XSIZE" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-04:XSIZE" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="s4ysize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS4.YSIZE" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-04:YSIZE" />
 		<property name="local" value="true"/>
 	</bean>
 </beans>
