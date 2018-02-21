@@ -4,35 +4,11 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
 	
 	<!-- D4 (D6) -->
-
-	<bean id="d4_scrn" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="d4d6_scrn_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
-	</bean>
  
- 	<!-- 
-	<bean id="d4_det" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="d4d6_det_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-	</bean>
-	 -->
-
 	<bean id="D4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="d4_scrn" />
-				<!-- 
-				<ref bean="d4_det" />
-				<ref bean="d4_pos" />
-				 -->
 			</list>
 		</property>
 		<property name="local" value="true"/>
