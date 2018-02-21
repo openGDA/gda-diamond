@@ -10,7 +10,7 @@
 	<import resource="D5.xml"/>
 	<import resource="M4.xml"/>
 	<import resource="S5.xml"/>
-	<import resource="I10-S6.xml"/>
+	<import resource="S6.xml"/>
 	<import resource="I10-D6.xml"/>
 	<import resource="I10-D6CAM.xml"/>
 	<import resource="I10-UMI1.xml"/>
