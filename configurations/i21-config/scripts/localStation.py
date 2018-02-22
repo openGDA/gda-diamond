@@ -15,10 +15,7 @@ from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
 from gdaserver import lakeshore, b2, x
 import gdascripts
-# import gdascripts
 
-#global run
- 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
 print "   To set scan returns to its start positions on completion please do:"
@@ -29,7 +26,6 @@ print sys.path
 print
 # set up a nice method for getting the latest file path
 from i21commands.dirFileCommands import pwd, lwf, nwf, nfn, setSubdirectory, getSubdirectory  # @UnusedImport
-
 alias("pwd")
 alias("lwf")
 alias("nwf")
@@ -38,9 +34,7 @@ print
 from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis  # @UnusedImport
 alias("useSeparateYAxes")
 alias("useSingleYAxis")
-
 print
-
 def interruptable():
     GeneralCommands.pause()
 alias("interruptable")
@@ -61,14 +55,16 @@ print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "load common physical constants"
 from gdascripts.constants import * #@UnusedWildImport
-
+print
+print "-----------------------------------------------------------------------------------------------------------------"
+print "Adding timer devices t, dt, and w, clock"
+from gdascripts.scannable.timerelated import timerelated #@UnusedImport
+print "-----------------------------------------------------------------------------------------------------------------"
+print "Adding timer devices t, dt, and w, clock"
 print "Adding dummy devices dummies.x, dummies.y and dummies.z"
 dummies = ScannableGroup()
 dummies.setName("dummies")
 dummies.setGroupMembers([SingleInputDummy("x"), SingleInputDummy("y"), SingleInputDummy("z")])
-
-print "Adding timer devices t, dt, and w, clock"
-from gdascripts.scannable.timerelated import timerelated #@UnusedImport
 
 print
 simpleLog("================ INITIALISING I21 GDA ================")
@@ -144,6 +140,25 @@ energy=BeamEnergy("energy",idscannable, idgap, pgmEnergy, pgmGratingSelect)  # @
 from scannabledevices.coupledSampleStageMotion import CoupledSampleStageMotion
 sapara=CoupledSampleStageMotion("sapara", x, y, th) # @UndefinedVariable
 saperp=CoupledSampleStageMotion("saperp", x, y, th) # @UndefinedVariable
+
+print "-"*80
+print "Creating sample temperature aliases: tsample, tshield, tcryostat"
+tsample=lakeshore.getTemperature(0)  # @UndefinedVariable
+tshield=lakeshore.getTemperature(1)
+tcryostat=lakeshore.getTemperature(2)
+
+def input_tsample():
+    lakeshore.setInput(1)
+    
+def input_tshield():
+    lakeshore.setInput(2)
+    
+def input_tcryostat():
+    lakeshore.setInput(3)
+    
+alias("input_tsample")
+alias("input_tshield")
+alias("input_tcryostat")
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm "
@@ -167,10 +182,10 @@ s6list=[s6hgap,s6hcentre,s6vgap,s6vcentre]  # @UndefinedVariable
 samplelist=[th,x,y,z,phi,chi,delta,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
 sgmlist=[sgmx,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside,sgmGratingSelect] # @UndefinedVariable
 spectrometerlist=[specgamma,spech,specl] # @UndefinedVariable
+sampletemperatures=[tsample, tshield,tcryostat]
 andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
 
-meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist+andorlist
-# metadatalist=[s1, m1, s2, m2, s3, pgm, s5, m4, idgap, smp]  # @UndefinedVariable
+meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist+sampletemperatures+andorlist
 for each in meta_data_list:
     meta_add(each)
 alias("meta_add")
@@ -196,28 +211,10 @@ xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 
 from scannabledevices.samplePoistioner_instance import smp_positioner  # @UnusedImport
 
-tsample=lakeshore.getTemperature(0)
-tshield=lakeshore.getTemperature(1)
-tcryostat=lakeshore.getTemperature(2)
-
-def input_tsample():
-    lakeshore.setInput(1)
-    
-def input_tshield():
-    lakeshore.setInput(2)
-    
-def input_tcryostat():
-    lakeshore.setInput(3)
-    
-alias("input_tsample")
-alias("input_tshield")
-alias("input_tcryostat")
-
 def acquireRIXS(n, det, exposure_time):
     scan(x,1,n,1,det,exposure_time)  # @UndefinedVariable
 
-alias("loopscan")
-
+alias("acquireRIXS")
 
 if not installation.isLive():
     print "Testing scan in hkl using DiffCalc ...."
