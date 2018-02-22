@@ -91,7 +91,7 @@ public class I14StatusView extends ViewPart {
 
 		createNumericComposite(grpBeamline, getScannable("idGap"), "ID Gap", "mm", 2, 1000);
 		createNumericComposite(grpBeamline, getScannable("dcm_bragg"), "Bragg", "degrees", 4, 1000);
-		createNumericComposite(grpBeamline, getScannable("dcm_energy"), "Energy", "KeV", 4, 1000);
+		createNumericComposite(grpBeamline, getScannable("dcm_enrg"), "Energy", "KeV", 4, 1000);
 
 		// OH1 shutter
 		final Group grpOH1 = new Group(parent, SWT.NONE);
