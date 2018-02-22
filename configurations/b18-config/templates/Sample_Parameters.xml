@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <B18SampleParameters>
     <shouldValidate>true</shouldValidate>
-    <name>default</name>
-    <description1>default sample description</description1>
+    <name>test</name>
+    <description1></description1>
     <description2>default additional comments</description2>
     <stage>none</stage>
     <temperaturecontrol>none</temperaturecontrol>
     <xythetastage>
-        <x>0.0</x>
-        <y>0.3</y>
+        <x>16.0</x>
+        <y>95.0</y>
         <theta>0.0</theta>
     </xythetastage>
     <ln2cryostage>
@@ -19,15 +19,15 @@
         <sampleNumberA>1</sampleNumberA>
         <sampleNumberB>1</sampleNumberB>
         <cylinderType>fluo</cylinderType>
-        <manual>true</manual>
+        <manual>false</manual>
         <editCalibration>false</editCalibration>
     </ln2cryostage>
     <sxcryostage>
-        <height>0.0</height>
-        <rot>0.0</rot>
+        <height>92.26</height>
+        <rot>1.3</rot>
         <calibHeight>0.0</calibHeight>
         <sampleNumber>0</sampleNumber>
-        <manual>false</manual>
+        <manual>true</manual>
     </sxcryostage>
     <pulsetubecryostat>
         <temperature1>0.0</temperature1>
@@ -58,4 +58,95 @@
         <time>0.0</time>
         <controlFlag>false</controlFlag>
     </lakeshore>
+    <samplewheel>
+        <demand>0.0</demand>
+        <manual>false</manual>
+        <wheelEnabled>false</wheelEnabled>
+    </samplewheel>
+    <userstage>
+        <axis2>-6777.263</axis2>
+        <axis4>-1084.382</axis4>
+        <axis5>0.442</axis5>
+        <axis6>-7.634</axis6>
+        <axis7>8.848</axis7>
+        <axis8>13.848</axis8>
+    </userstage>
+    <sampleParameterMotorPosition>
+        <scannableName>sam2x</scannableName>
+        <description>Sam2 X</description>
+        <doMove>false</doMove>
+        <demandPosition>16.0003</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sam2y</scannableName>
+        <description>Sam2 Y</description>
+        <doMove>false</doMove>
+        <demandPosition>94.9999</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sam2rot</scannableName>
+        <description>Sam2 Rotation</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>user2</scannableName>
+        <description>User stage 2</description>
+        <doMove>false</doMove>
+        <demandPosition>-6777.26</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>user4</scannableName>
+        <description>User stage 4</description>
+        <doMove>false</doMove>
+        <demandPosition>-1084.38</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>user5</scannableName>
+        <description>User stage 5</description>
+        <doMove>false</doMove>
+        <demandPosition>0.442</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>user6</scannableName>
+        <description>User stage 6</description>
+        <doMove>false</doMove>
+        <demandPosition>-7.634</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>user7</scannableName>
+        <description>User stage 7</description>
+        <doMove>false</doMove>
+        <demandPosition>8.848</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>user8</scannableName>
+        <description>User stage 8</description>
+        <doMove>false</doMove>
+        <demandPosition>13.848</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sam1y</scannableName>
+        <description>Cryo stage y</description>
+        <doMove>false</doMove>
+        <demandPosition>92.2673</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sam1rot</scannableName>
+        <description>Cryo stage rotation</description>
+        <doMove>false</doMove>
+        <demandPosition>1.30763</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>hvdtyx</scannableName>
+        <description>Heavy duty x</description>
+        <doMove>false</doMove>
+        <demandPosition>-24.0001</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>hvdtyy</scannableName>
+        <description>Heavy duty y</description>
+        <doMove>false</doMove>
+        <demandPosition>3.00001</demandPosition>
+    </sampleParameterMotorPosition>
 </B18SampleParameters>

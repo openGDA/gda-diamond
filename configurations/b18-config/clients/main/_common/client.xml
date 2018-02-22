@@ -20,6 +20,8 @@
 		</property>
 </bean>
 
+	<import resource="spreadsheet-view.xml" />
+
 	<corba:adapterfactory namespace="${gda.factory.factoryName}" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
@@ -130,6 +132,32 @@
 		<property name="serviceUrl" value="${gda.rmi.prefix}detectorMonitorDataProvider" />
 		<property name="serviceInterface" value="gda.device.detector.DetectorMonitorDataProviderInterface" />
 		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+<!-- 	Detector element order config for 9 element xspress2 detector;  -->
+	<bean id="xspress2ElementConfig" class=" uk.ac.gda.exafs.ui.composites.detectors.internal.FluoDetectorElementConfig">
+		<property name="name" value="xspress2ElementConfig" />
+		<property name="detectorName" value="xspress2system" />
+
+<!-- Grid order will be used if number of elements on detector != size of elementMap
+		(i.e. xspress2detector is 36 element detector) -->
+		<property name="gridOrder" value="1" />  <!-- Use right to left, top to bottom order-->
+
+		<property name="elementMap">
+			<map>
+				<entry key="0" value="5" />
+				<entry key="1" value="4" />
+				<entry key="2" value="3" />
+
+				<entry key="3" value="6" />
+				<entry key="4" value="8" />
+				<entry key="5" value="2" />
+
+				<entry key="6" value="7" />
+				<entry key="7" value="0" />
+				<entry key="8" value="1" />
+			</map>
+		</property>
 	</bean>
 
 </beans>

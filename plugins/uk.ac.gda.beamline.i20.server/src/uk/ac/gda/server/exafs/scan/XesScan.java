@@ -157,7 +157,7 @@ public class XesScan extends XasScanBase implements XasScan {
 				xes_energy.getName(), xes_energy.getName());
 		i20OutputParameters.addSignal(xesEnergySignal);
 		SignalParameters analyserSignal = new SignalParameters(analyserAngle.getName(), analyserAngle.getName(), 2,
-				xes_energy.getName(), analyserAngle.getName());
+				analyserAngle.getName(), analyserAngle.getName());
 		i20OutputParameters.addSignal(analyserSignal);
 		try {
 			IScanParameters xasScanParams = (IScanParameters) XMLHelpers.getBeanObject(experimentFullPath + "/",

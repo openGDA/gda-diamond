@@ -26,19 +26,19 @@
 		<property name="name" value="lastfillPressure_ionc4" />
 	</bean>
 
-	<bean id="lastfillGas_ionc1" class="gda.device.scannable.PVStringScannable" >
+	<bean id="lastfillGas_ionc1" class="gda.device.scannable.DummyScannable" >
 		<property name="name" value="lastfillGas_ionc1" />
 	</bean>
 
-	<bean id="lastfillGas_ionc2" class="gda.device.scannable.PVStringScannable" >
+	<bean id="lastfillGas_ionc2" class="gda.device.scannable.DummyScannable" >
 		<property name="name" value="lastfillGas_ionc2" />
 	</bean>
 
-	<bean id="lastfillGas_ionc3" class="gda.device.scannable.PVStringScannable" >
+	<bean id="lastfillGas_ionc3" class="gda.device.scannable.DummyScannable" >
 		<property name="name" value="lastfillGas_ionc3" />
 	</bean>
 
-	<bean id="lastfillGas_ionc4" class="gda.device.scannable.PVStringScannable" >
+	<bean id="lastfillGas_ionc4" class="gda.device.scannable.DummyScannable" >
 		<property name="name" value="lastfillGas_ionc4" />
 	</bean>
 </beans>

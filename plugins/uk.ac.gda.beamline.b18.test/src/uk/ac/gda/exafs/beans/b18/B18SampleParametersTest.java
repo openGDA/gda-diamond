@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.beans.b18;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
@@ -28,6 +30,7 @@ import org.junit.Test;
 import gda.exafs.validation.B18Validator;
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
+import uk.ac.gda.beans.exafs.b18.SampleParameterMotorPosition;
 import uk.ac.gda.beans.exafs.b18.XYThetaStageParameters;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
@@ -123,5 +126,25 @@ public class B18SampleParametersTest {
 		if (errors.size() > 0){
 			fail(errors.get(0).getPrimaryMessage());
 		}
+	}
+
+	@Test
+	public void setSampleParameterMotorsSerializeOk() throws Exception {
+		// Create sample parameters, add some motor positions
+		B18SampleParameters s = createFromXML("testfiles/uk/ac/gda/exafs/beans/b18/SampleParameters_withSmallStage.xml");
+		s.addSampleParameterMotorPosition(new SampleParameterMotorPosition("scn1", 10, true) );
+		s.addSampleParameterMotorPosition(new SampleParameterMotorPosition("scn2", 10, true) );
+
+		// Save to new file
+		String fileWithMotorPositions = "testfiles/uk/ac/gda/exafs/beans/b18/SampleParameters_sampleParameterMotorPosition.xml";
+		writeToXML(s, fileWithMotorPositions);
+
+		// Create bean from new file, check it matches original bean
+		B18SampleParameters newParams = createFromXML(fileWithMotorPositions);
+		assertEquals(s, newParams);
+
+		// This should make the two parameters not equal to each other
+		s.addSampleParameterMotorPosition(new SampleParameterMotorPosition("scn3", 30, true) );
+		assertTrue(!s.equals(newParams));
 	}
 }

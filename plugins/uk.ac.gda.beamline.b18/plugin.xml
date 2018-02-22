@@ -41,7 +41,12 @@
             name="Soft X ray detector rates "
             restorable="false">
       </view>
-      
+      <view
+            class="uk.ac.gda.exafs.ui.dialogs.SpreadsheetView"
+            id="uk.ac.gda.exafs.ui.spreadsheetview"
+            name="&apos;Spreadsheet view&apos; scan generator"
+            restorable="true">
+      </view>
    </extension>
 
    <extension

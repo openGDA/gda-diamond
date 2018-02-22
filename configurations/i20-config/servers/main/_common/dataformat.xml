@@ -162,6 +162,18 @@
 						</list>
 					</property>
 				</bean>
+				<bean id="stanford4" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label"
+						value="I1 Stanford sensitivity: %s %s Offsets: %s %s" />
+					<property name="labelValues">
+						<list>
+							<ref bean="i1_stanford_sensitivity" />
+							<ref bean="i1_stanford_sensitivity_units" />
+							<ref bean="i1_stanford_offset" />
+							<ref bean="i1_stanford_offset_units" />
+						</list>
+					</property>
+				</bean>
 				<bean id="atn5_xas" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label"
 						value="Atn5 (Xia) filters: %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s" />
@@ -222,6 +234,12 @@
 				</bean>
 			</list>
 		</property>
+
+		<property name="columnNameMap">
+			<map>
+				<entry key="roi1_total" value="FF" />
+			</map>
+		</property>	
 
 	</bean>
 
@@ -348,8 +366,43 @@
 						</list>
 					</property>
 				</bean>
-
-				<bean id="stanford4" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+				<bean id="stanford1a" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label"
+						value="I0 Stanford sensitivity: %s %s Offsets: %s %s" />
+					<property name="labelValues">
+						<list>
+							<ref bean="i0_stanford_sensitivity" />
+							<ref bean="i0_stanford_sensitivity_units" />
+							<ref bean="i0_stanford_offset" />
+							<ref bean="i0_stanford_offset_units" />
+						</list>
+					</property>
+				</bean>
+				<bean id="stanford2a" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label"
+						value="It Stanford sensitivity: %s %s Offsets: %s %s" />
+					<property name="labelValues">
+						<list>
+							<ref bean="it_stanford_sensitivity" />
+							<ref bean="it_stanford_sensitivity_units" />
+							<ref bean="it_stanford_offset" />
+							<ref bean="it_stanford_offset_units" />
+						</list>
+					</property>
+				</bean>
+				<bean id="stanford3a" class="gda.data.scan.datawriter.AsciiMetadataConfig">
+					<property name="label"
+						value="Iref Stanford sensitivity: %s %s Offsets: %s %s" />
+					<property name="labelValues">
+						<list>
+							<ref bean="iref_stanford_sensitivity" />
+							<ref bean="iref_stanford_sensitivity_units" />
+							<ref bean="iref_stanford_offset" />
+							<ref bean="iref_stanford_offset_units" />
+						</list>
+					</property>
+				</bean>
+				<bean id="stanford4a" class="gda.data.scan.datawriter.AsciiMetadataConfig">
 					<property name="label"
 						value="I1 Stanford sensitivity: %s %s Offsets: %s %s" />
 					<property name="labelValues">
@@ -418,8 +471,13 @@
 				</bean>
 			</list>
 		</property>
-
+		<property name="columnNameMap">
+			<map>
+				<entry key="roi1_total" value="FF" />
+			</map>
+		</property>	
 	</bean>
+
 	<bean
 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
 		<property name="staticMethod"

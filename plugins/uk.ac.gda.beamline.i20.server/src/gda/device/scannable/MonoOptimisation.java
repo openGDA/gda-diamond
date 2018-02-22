@@ -35,9 +35,12 @@ import org.slf4j.LoggerFactory;
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.detector.DAServer;
 import gda.device.detector.DetectorBase;
 import gda.device.detector.countertimer.TFGCounterTimer;
+import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.factory.Findable;
+import gda.jython.InterfaceProvider;
 import gda.scan.ConcurrentScan;
 import gda.scan.ScanPlotSettings;
 import uk.ac.diamond.scisoft.analysis.fitting.Fitter;
@@ -81,6 +84,18 @@ public class MonoOptimisation implements Findable {
 	private String name;
 
 	private boolean allowOptimisation;
+	private Detector medipix = null;
+
+	private Double[] tfgTimeFrames;
+	private Double tfgDarkCurrentCollectionTime;
+
+	public Detector getMedipix() {
+		return medipix;
+	}
+
+	public void setMedipix(Detector medipix) {
+		this.medipix = medipix;
+	}
 
 	public MonoOptimisation(Scannable scannableToMove, Scannable scannableToMonitor) {
 		collectionTime = 1.0;
@@ -99,7 +114,35 @@ public class MonoOptimisation implements Findable {
 	}
 
 	public void optimise(double lowEnergy, double highEnergy) throws Exception {
-		optimise(braggScannable, lowEnergy, highEnergy);
+		if (Math.abs(lowEnergy - highEnergy)<1e-3) {
+			optimise(braggScannable, lowEnergy);
+		} else {
+			optimise(braggScannable, lowEnergy, highEnergy);
+		}
+	}
+
+	public void optimise(Scannable bragg, double lowEnergy) throws Exception {
+		if (allowOptimisation==false) {
+			logger.info("allowOptimisation flag set to false - skipping optimisation.");
+			return;
+		}
+
+		logger.info("Running optimisation for single energy "+lowEnergy);
+		Object initialPos = bragg.getPosition();
+
+		bragg.moveTo(lowEnergy);
+		String filename = doOffsetScan();
+		Dataset dataFromFile = loadDataFromNexusFile(filename);
+		fittedGaussianLowEnergy = findPeakOutput(dataFromFile);
+		this.lowEnergy = lowEnergy;
+		this.highEnergy = lowEnergy;
+
+		bragg.moveTo(initialPos);
+
+		// Try to setup the offset parameters for the scannable
+		if ( bragg instanceof MonoMoveWithOffsetScannable ) {
+			configureOffsetParameters((MonoMoveWithOffsetScannable) bragg);
+		}
 	}
 
 	/**
@@ -138,6 +181,74 @@ public class MonoOptimisation implements Findable {
 		if ( bragg instanceof MonoMoveWithOffsetScannable ) {
 			configureOffsetParameters((MonoMoveWithOffsetScannable) bragg);
 		}
+	}
+
+	private DAServer daServerForTfg;
+	public void setDaServer(DAServer daServerForTfg) {
+		this.daServerForTfg = daServerForTfg;
+	}
+
+	public DAServer getDaServer() {
+		return daServerForTfg;
+	}
+
+	/** Normal output on Veto 0 */
+	private static String NORMAL_VETO_OUTPUT_COMMAND = "tfg alternate-veto veto0-normal";
+	/** No output on Veto0 : 'Veto0 is given by DC level from veto0-inv-bit' (not set, never used in scan -> no veto signal!) */
+	private static String NO_VETO_OUTPUT_COMMAND = "tfg alternate-veto veto0-dc";
+
+	/**
+	 * Send DAServer commands to switch between normal and no veto output
+	 * (Veto output is used for for triggering detectors such as Xspress2, XMap, Medipix)
+	 * {@link #NORMAL_VETO_OUTPUT_COMMAND}, {@link #NO_VETO_OUTPUT_COMMAND} are the commands sent
+	 * to DAServer to switch Veto output on and off.
+	 * @param vetoOn true = veto output, false no veto output
+	 */
+	public void setProduceVetoOutput(boolean vetoOn) {
+		if (daServerForTfg==null) {
+			return;
+		}
+
+		Object ret = null;
+		String command = "";
+		try {
+			command = vetoOn ? NORMAL_VETO_OUTPUT_COMMAND : NO_VETO_OUTPUT_COMMAND;
+			ret = daServerForTfg.sendCommand(command);
+		} catch (DeviceException e) {
+			logger.error("Problem setting veto output to {} using command '{}'. DAServer returned {}", vetoOn, command,	ret);
+		}
+	}
+
+	public void optimiseManual(Scannable bragg, double braggEnergy) throws DeviceException {
+		if (allowOptimisation==false) {
+			logger.info("allowOptimisation flag set to false - skipping optimisation.");
+			return;
+		}
+
+		logger.info("Running manual optimisation for single energy {}", braggEnergy);
+
+		if ( scannableToMonitor instanceof TFGCounterTimer) {
+//			((TFGCounterTimer) scannableToMonitor).stop();
+			((TFGCounterTimer) scannableToMonitor).clearFrameSets();
+			((TFGCounterTimer) scannableToMonitor).setCollectionTime(collectionTime);
+			// maybe set the frame times here as well ( with .setTimes( [collectionTime, collectionTime, ...] );
+		}
+
+		// Switch off Veto output trigger signal, so medipix, xspress detectors are not triggered by the offset scan
+		setProduceVetoOutput(false);
+
+		Dataset combinedData = doManualScan();
+		fittedGaussianLowEnergy = findPeakOutput(combinedData);
+		this.lowEnergy = braggEnergy;
+		this.highEnergy = braggEnergy;
+
+		// Try to setup the offset parameters for the scannable
+		if ( bragg instanceof MonoMoveWithOffsetScannable ) {
+			configureOffsetParameters((MonoMoveWithOffsetScannable) bragg);
+		}
+
+		// Switch veto output back on
+		setProduceVetoOutput(true);
 	}
 
 	/**
@@ -180,10 +291,12 @@ public class MonoOptimisation implements Findable {
 	 * @throws Exception
 	 */
 	public String doOffsetScan() throws Exception {
+
 		if ( scannableToMonitor instanceof TFGCounterTimer) {
 			((TFGCounterTimer) scannableToMonitor).clearFrameSets();
 			// maybe set the frame times here as well ( with .setTimes( [collectionTime, collectionTime, ...] );
 		}
+
 		ConcurrentScan scan = new ConcurrentScan(getScanParamsList().toArray());
 		scan.setSendUpdateEvents(true);
 
@@ -294,7 +407,7 @@ public class MonoOptimisation implements Findable {
 		Gaussian fitFunc = new Gaussian(1,1,1);
 		try {
 			Fitter.ApacheNelderMeadFit(new Dataset[] {positionData}, normDetectorData, fitFunc);
-			logger.debug("Curve fitting comleted sucessfully.");
+			logger.debug("Curve fitting completed sucessfully.");
 		} catch( Exception exception) {
 			// If fitting fails for some reason, just use position of the peak value
 			logger.debug("Curve fitting failed, using maximum detector value for peak position instead.");
@@ -324,16 +437,27 @@ public class MonoOptimisation implements Findable {
 	 * @throws DeviceException
 	 * @throws InterruptedException
 	 */
-	public Dataset doManualScan() throws DeviceException, InterruptedException {
+	public Dataset doManualScan() throws DeviceException {
 
+		InterfaceProvider.getTerminalPrinter().print("Running bragg offset optimisation scan");
+		InterfaceProvider.getTerminalPrinter().print(String.format("%15s\t%15s", scannableToMove.getName(), scannableToMonitor.getName()));
 		Dataset dataFromScan =  DatasetFactory.zeros(offsetNumPoints, 2);
 		double offsetStepsize = (offsetEnd - offsetStart)/(offsetNumPoints - 1);
 		for(int i=0; i<offsetNumPoints; i++) {
 			double pos = offsetStart + i*offsetStepsize;
 			scannableToMove.moveTo(pos);
 			Double[] detectorReadout = readoutDetector(scannableToMonitor);
+
+			// also collect and readout from medipix, so that data returned during main scan
+			// is for correct (current) collected frame of data.
+//			if (medipix!=null) {
+//				medipix.collectData();
+//				medipix.readout();
+//			}
 			dataFromScan.set(pos, i, 0);
-			dataFromScan.set(detectorReadout[0], i, 1);
+			dataFromScan.set(detectorReadout[1], i, 1);
+			InterfaceProvider.getTerminalPrinter().print(String.format("%15.4f\t%15.4f", dataFromScan.getDouble(i,0), dataFromScan.getDouble(i,1)));
+
 		}
 		return dataFromScan;
 	}
@@ -343,10 +467,22 @@ public class MonoOptimisation implements Findable {
 	 * @param braggWithOffset
 	 */
 	public void configureOffsetParameters(MonoMoveWithOffsetScannable braggWithOffset) {
-		double offsetGradient = (fittedGaussianHighEnergy.getPosition() - fittedGaussianLowEnergy.getPosition())/(highEnergy - lowEnergy);
-		braggWithOffset.setOffsetGradient(offsetGradient);
-		braggWithOffset.setEnergyOffsetStart(lowEnergy);
-		braggWithOffset.setOffsetStartValue(fittedGaussianLowEnergy.getPosition());
+		double offsetGradient = 0.0;
+		if (highEnergy>lowEnergy) {
+			offsetGradient = (fittedGaussianHighEnergy.getPosition() - fittedGaussianLowEnergy.getPosition())/(highEnergy - lowEnergy);
+		}
+
+		double offsetFitStart = fittedGaussianLowEnergy.getPosition();
+		// Check that start value for offset is in range of offset scan. If not, don't apply the new parameters
+		// to the scannable since something probably went wrong with fitting
+		if ( offsetFitStart < offsetStart || offsetFitStart > offsetEnd) {
+			logger.warn("Fitted offset start value {} is out of range of offset scan {} ... {} eV! Not applying offset settings to {}.",
+					offsetFitStart, offsetStart, offsetEnd, braggWithOffset.getName());
+		} else {
+			braggWithOffset.setOffsetGradient(offsetGradient);
+			braggWithOffset.setEnergyOffsetStart(lowEnergy);
+			braggWithOffset.setOffsetStartValue(fittedGaussianLowEnergy.getPosition());
+		}
 	}
 
 	public void setSelectNewScansInPlotView(boolean selectNewScansInPlotView) {
@@ -421,6 +557,14 @@ public class MonoOptimisation implements Findable {
 		return fitToPeakPointsOnly;
 	}
 
+	public int getPeakPointRange() {
+		return peakPointRange;
+	}
+
+	public void setPeakPointRange(int peakPointRange) {
+		this.peakPointRange = peakPointRange;
+	}
+
 	@Override
 	public void setName(String name) {
 		this.name = name;
@@ -441,15 +585,19 @@ public class MonoOptimisation implements Findable {
 	 * @throws InterruptedException
 	 * @since 31/8/2016
 	 */
-	static private Double[] readoutDetector(Scannable scannable) throws DeviceException, InterruptedException {
+	static private Double[] readoutDetector(Scannable scannable) throws DeviceException {
 		Object readout = null;
-		if ( scannable instanceof Detector ) {
-			Detector detector = (Detector) scannable;
-			detector.collectData();
-			detector.waitWhileBusy();
-			readout = detector.readout();
-		} else {
-			readout = scannable.getPosition();
+		try {
+			if (scannable instanceof Detector) {
+				Detector detector = (Detector) scannable;
+				detector.collectData();
+				detector.waitWhileBusy();
+				readout = detector.readout();
+			} else {
+				readout = scannable.getPosition();
+			}
+		} catch (InterruptedException e) {
+			throw new DeviceException(e);
 		}
 		return ScannableUtils.objectToArray(readout);
 	}
@@ -553,5 +701,31 @@ public class MonoOptimisation implements Findable {
 
 	public void setAllowOptimisation(boolean allowOptimisation) {
 		this.allowOptimisation = allowOptimisation;
+	}
+
+	/**
+	 * Save Tfg time frame and dark current collection settings
+	 */
+	public void saveTfgSettings() {
+		if (scannableToMonitor instanceof TfgScalerWithFrames) {
+			TfgScalerWithFrames tfg = (TfgScalerWithFrames) scannableToMonitor;
+			logger.info("Saving time frame and dark current collection settings from Tfg {}", tfg.getName());
+			tfgTimeFrames = tfg.getTimes();
+			tfgDarkCurrentCollectionTime = tfg.getDarkCurrentCollectionTime();
+		}
+	}
+
+	/**
+	 * Apply saved timeframe and dark current collection time settings to tfg
+	 * @throws DeviceException
+	 */
+	public void applySavedTfgSettings() throws DeviceException {
+		if (scannableToMonitor instanceof TfgScalerWithFrames) {
+			TfgScalerWithFrames tfg = (TfgScalerWithFrames) scannableToMonitor;
+			logger.info("Applying saved time frame and dark currentl collection settings to Tfg {}", tfg.getName());
+			tfg.clearFrameSets();
+			tfg.setTimes(tfgTimeFrames);
+			tfg.setDarkCurrentCollectionTime(tfgDarkCurrentCollectionTime);
+		}
 	}
 }
