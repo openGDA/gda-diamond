@@ -6,20 +6,12 @@
 	<!-- DJ2 (D10) -->
 	
 	<bean id="dj2d10_gcell_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DJ2.Y" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10J-DI-IONC-01:Y" />
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="dj2a_pos" class="gda.device.enumpositioner.DummyValve" />
-	<bean id="dj2_pos" class="gda.device.enumpositioner.DummyValve" />
-	<!-- 
-    <bean id="dj2a_pos" class="gda.device.enumpositioner.EpicsPositioner">
-        <property name="deviceName" value="DJ2A"/>
+    <bean id="dj2_pos" class="gda.device.enumpositioner.EpicsPositioner">
+        <property name="recordName" value="BL10J-DI-IONC-01:Y:MP"/>
     </bean>
 
-    <bean id="dj2_pos" class="gda.device.enumpositioner.EpicsPositioner">
-        <property name="deviceName" value="DJ2"/>
-    </bean>
-     -->
 </beans>

@@ -19,7 +19,6 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="dj2_gcell" />
-				<ref bean="dj2a_pos" />
 				<ref bean="dj2_pos" />
 			</list>
 		</property>
