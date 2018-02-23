@@ -10,7 +10,7 @@
 
 	<bean id="pimteCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.InitialiseDetectorAfterExposureTimeChangeDecorator">
 		<property name="detector">
-			<bean id="pimte" class="gda.device.detector.pvcam.EpicsPvCam" init-method="init" destroy-method="destroy">
+			<bean class="gda.device.detector.pvcam.EpicsPvCam" init-method="init" destroy-method="destroy">
 				<property name="basePVName" value="BL10I-EA-PIMTE-01:CAM:"/>
 				<property name="name" value="pimte"/>
 			</bean>
