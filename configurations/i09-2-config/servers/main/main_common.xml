@@ -18,6 +18,7 @@
 	<import resource="PGM.xml" />
 	<import resource="SD1.xml" />
 	<import resource="SD3.xml" />
+	<import resource="SD10.xml" />
 	<import resource="SD6.xml" />
 <!-- 	<import resource="SD4.xml"/> -->
 	<import resource="SM1.xml" />
