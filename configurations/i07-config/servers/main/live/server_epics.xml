@@ -160,6 +160,7 @@
     </bean>
     <bean id="bpm1" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="D2.BPM"/>
+        <property name="poll" value="true" />
         <property name="local" value="true"/>
     </bean>
     <bean id="qbpm1" class="gda.device.qbpm.EpicsQbpm">
@@ -175,6 +176,7 @@
     </bean>
     <bean id="bpm2" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="D3.BPM"/>
+        <property name="poll" value="true" />
         <property name="local" value="true"/>
     </bean>
     <bean id="qbpm2" class="gda.device.qbpm.EpicsQbpm">
@@ -190,6 +192,7 @@
     </bean>
     <bean id="bpm3" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="D5.BPM"/>
+        <property name="poll" value="true" />
         <property name="local" value="true"/>
     </bean>
     <bean id="qbpm3" class="gda.device.qbpm.EpicsQbpm">
@@ -205,6 +208,7 @@
     </bean>
     <bean id="mbs1bpm" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="MBS1.BPM"/>
+        <property name="poll" value="true" />
         <property name="local" value="true"/>
     </bean>
     <bean id="mbs1qbpm" class="gda.device.qbpm.EpicsQbpm">
@@ -220,6 +224,7 @@
     </bean>
     <bean id="mbs2bpm" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="MBS2.BPM"/>
+        <property name="poll" value="true" />
         <property name="local" value="true"/>
     </bean>
     <bean id="mbs2qbpm" class="gda.device.qbpm.EpicsQbpm">
@@ -235,6 +240,7 @@
     </bean>
     <bean id="mbs3bpm" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="MBS3.BPM"/>
+        <property name="poll" value="true" />
         <property name="local" value="true"/>
     </bean>
     <bean id="mbs3qbpm" class="gda.device.qbpm.EpicsQbpm">
@@ -273,6 +279,7 @@
 
     <bean id="adcbpm" class="gda.device.monitor.EpicsBpmController">
         <property name="deviceName" value="IONC1.BPM"/>
+        <property name="poll" value="true" />
         <property name="local" value="true"/>
     </bean>
     <bean id="adcqbpm" class="gda.device.qbpm.EpicsQbpm">
