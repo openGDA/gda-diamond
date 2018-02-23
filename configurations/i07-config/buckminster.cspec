@@ -9,5 +9,6 @@
         <cs:dependency name="uk.ac.gda.swingclient" componentType="osgi.bundle"/>
         <cs:dependency name="slf4j.api" componentType="osgi.bundle"/>
         <cs:dependency name="diffcalc" componentType="buckminster"/>
+        <cs:dependency name="uk.ac.gda.devices.xmap" componentType="osgi.bundle"/>
     </cs:dependencies>
 </cs:cspec>
