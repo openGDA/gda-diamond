@@ -7,6 +7,9 @@
 	<bean id="pixis_adbase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL10I-EA-PIXIS-01:CAM:" />
 	</bean>
+	<bean id="pixis_adarray" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL10I-EA-PIXIS-01:ARR:" />
+	</bean>
 	<bean id="pixisCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.InitialiseDetectorAfterExposureTimeChangeDecorator">
 		<property name="detector">
 			<bean class="gda.device.detector.pvcam.EpicsPvCam" init-method="init" destroy-method="destroy">
@@ -14,25 +17,31 @@
 				<property name="name" value="pixis"/>
 			</bean>
 		</property>	
-		<property name="decoratee">		
-			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
-				<property name="restoreAcquireTime" value="false" />
+		<property name="decoratee">	
+			<bean class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
+				<property name="ndArray" ref="pixis_adarray"/>
+				<property name="arrayPortName" value="PIXIS1.CAM"/>
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
-						<property name="restoreNumImagesAndImageMode" value="true"/>
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+						<property name="restoreAcquireTime" value="false" />
 						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+								<property name="restoreNumImagesAndImageMode" value="true"/>
 								<property name="decoratee">
-									<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-										<property name="adBase" ref="pixis_adbase" />
-										<property name="restoreAcquireState" value="true"/>
+									<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+										<property name="decoratee">
+											<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+												<property name="adBase" ref="pixis_adbase" />
+												<property name="restoreAcquireState" value="true"/>
+											</bean>
+										</property>
 									</bean>
 								</property>
 							</bean>
 						</property>
 					</bean>
 				</property>
-			</bean>
+			</bean>	
 		</property>
 	</bean>
 	<!-- HDF5 plugin - multiple images in one file per scan -->
