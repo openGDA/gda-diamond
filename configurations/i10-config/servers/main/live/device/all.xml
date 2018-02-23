@@ -32,7 +32,7 @@
 	<!-- 	
 	<import resource="I10-SHTRJ.xml"/>
 	 -->
-	<import resource="I10-DJ1.xml"/>
+	<import resource="DJ1.xml"/>
 	<import resource="I10-DJ1CAM.xml"/>
 	<import resource="I10-S7.xml"/>
 	<import resource="I10-DJ2.xml"/>
