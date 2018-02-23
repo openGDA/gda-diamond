@@ -29,6 +29,7 @@ import org.junit.Test;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
+import gda.device.DeviceException;
 import gda.device.Scannable;
 import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian;
 
@@ -114,6 +115,7 @@ public class MonoOptimisationTest {
 		// Value of bragg and offset after motor move
 		braggWithOffset.setAdjustBraggOffset(true);
 		braggWithOffset.moveTo(midPos);
+		braggWithOffset.setIncludeOffsetInPosition(true);
 		Object[] pos = (Object [])braggWithOffset.getPosition();
 		assertEquals(midPos, (double)pos[0], numericalTolerance);
 		assertEquals(midOffset, (double)pos[1], numericalTolerance);
@@ -121,6 +123,8 @@ public class MonoOptimisationTest {
 
 	@Test
 	public void testGoldenSectionSearchConvergesCorrectly() throws Exception {
+		TestHelpers.setUpTest(MonoOptimisationTest.class, "testGoldenSectionSearchConvergesCorrectly", true);
+
 		ScannableGaussian gaussianFunc = (ScannableGaussian) optimisation.getScannableToMonitor();
 		double centre = 0, fwhm = 0.5, area = 1.0;
 
@@ -134,8 +138,30 @@ public class MonoOptimisationTest {
 		assertEquals(centre, bestX, numericalTolerance);
 	}
 
+	private class ScannableGaussianForTest extends ScannableGaussian {
+
+		public ScannableGaussianForTest(String name, double centrePos, double fwhm, double area) {
+			super(name, centrePos, fwhm, area);
+		}
+
+		@Override
+		public Object getPosition() throws DeviceException {
+			if( scannableForPosition != null )
+				rawAsynchronousMoveTo(scannableForPosition.getPosition());
+
+			return new double[]{gaussian.val(currentPos), gaussian.val(currentPos) };
+		}
+	}
+
 	@Test
 	public void testManualScanWorksOk() throws Exception {
+		TestHelpers.setUpTest(MonoOptimisationTest.class, "testManualScanWorksOk", true);
+
+		ScannableGaussian gaussianFunc = new ScannableGaussianForTest("gauss1", centrePos, fwhm, area);
+		gaussianFunc.setScannableToMonitorForPosition(offsetMotor);
+
+		optimisation.setScannableToMonitor(gaussianFunc);
+
 		Dataset dataset = optimisation.doManualScan();
 		// Check data dimensions are correct
 		int[] shape = dataset.getShape();
@@ -144,10 +170,10 @@ public class MonoOptimisationTest {
 		assertThat(shape[1], is(equalTo(2)));
 
 		// Check values are correct for each position
-		ScannableGaussian scanGaussian = (ScannableGaussian) optimisation.getScannableToMonitor();
 		for(int i = 0; i<numSteps; i++) {
 			offsetMotor.moveTo(dataset.getObject(i,0));
-			assertEquals((double)scanGaussian.getPosition(), (double)dataset.getObject(i,1), numericalTolerance);
+			double[] pos = (double[])gaussianFunc.getPosition();
+			assertEquals(pos[0], (double)dataset.getObject(i,1), numericalTolerance);
 		}
 
 	}

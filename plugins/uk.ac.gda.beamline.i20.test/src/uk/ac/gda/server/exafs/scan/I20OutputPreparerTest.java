@@ -82,7 +82,7 @@ public class I20OutputPreparerTest {
 		detList.add(xmpaMca);
 		Mockito.when(i20DetectorPreparer.getDetectors()).thenReturn(detList);
 
-		thePreparer = new I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xspressSystem,
+		thePreparer = new I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers,
 				xmpaMca, i20DetectorPreparer);
 		thePreparer.setDatawriterconfig(datawriterconfig);
 
@@ -112,9 +112,9 @@ public class I20OutputPreparerTest {
 		thePreparer.configure(outputBean, scanBean, detBean, null);
 
 		Mockito.verify(ionchambers).setOutputLogValues(true);
-		Mockito.verify(xspressSystem).setOnlyDisplayFF(true);
-		Mockito.verify(xspressSystem).setAddDTScalerValuesToAscii(true);
-		Mockito.verify(xspressSystem).setSaveRawSpectrum(true);
+//		Mockito.verify(xspressSystem).setOnlyDisplayFF(true);
+//		Mockito.verify(xspressSystem).setAddDTScalerValuesToAscii(true);
+//		Mockito.verify(xspressSystem).setSaveRawSpectrum(true);
 		Mockito.verify(xmpaMca).setSaveRawSpectrum(true);
 
 	}
@@ -137,9 +137,9 @@ public class I20OutputPreparerTest {
 		thePreparer.configure(outputBean, scanBean, detBean, null);
 
 		Mockito.verify(ionchambers).setOutputLogValues(true);
-		Mockito.verify(xspressSystem).setOnlyDisplayFF(false);
-		Mockito.verify(xspressSystem).setAddDTScalerValuesToAscii(false);
-		Mockito.verify(xspressSystem).setSaveRawSpectrum(false);
+//		Mockito.verify(xspressSystem).setOnlyDisplayFF(false);
+//		Mockito.verify(xspressSystem).setAddDTScalerValuesToAscii(false);
+//		Mockito.verify(xspressSystem).setSaveRawSpectrum(false);
 		Mockito.verify(xmpaMca).setSaveRawSpectrum(false);
 	}
 

@@ -19,16 +19,16 @@
 		</property>
 	</bean>
 
-	<bean id="xspressConfig" class="gda.device.detector.xspress.XspressDetectorConfiguration" >
-		<constructor-arg>
-			<ref bean="xspress2system" />
-		</constructor-arg>
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/xspressConfig" />
-		<property name="service" ref="xspressConfig" />
-		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" />
-	</bean>
+<!-- 	<bean id="xspressConfig" class="gda.device.detector.xspress.XspressDetectorConfiguration" > -->
+<!-- 		<constructor-arg> -->
+<!-- 			<ref bean="xspress2system" /> -->
+<!-- 		</constructor-arg> -->
+<!-- 	</bean> -->
+<!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->
+<!-- 		<property name="serviceName" value="gda/xspressConfig" /> -->
+<!-- 		<property name="service" ref="xspressConfig" /> -->
+<!-- 		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" /> -->
+<!-- 	</bean> -->
 	
 	<bean id="vortexConfig" class="gda.device.detector.xmap.VortexDetectorConfiguration" >
 		<constructor-arg>
@@ -53,16 +53,17 @@
 	</bean>
 	
 	
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/xspress2system" />
-		<property name="service" ref="xspress2system" />
-		<property name="serviceInterface"
-			value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" />
-	</bean>
+<!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->
+<!-- 		<property name="serviceName" value="gda/xspress2system" /> -->
+<!-- 		<property name="service" ref="xspress2system" /> -->
+<!-- 		<property name="serviceInterface" -->
+<!-- 			value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" /> -->
+<!-- 	</bean> -->
 
 	<bean id="detectorMonitorDataProvider" class="gda.device.detector.DetectorMonitorDataProvider">
 		<property name="name" value="detectorMonitorDataProvider" />
-		<property name="xspress2Detector" ref="xspress2system" />
+<!-- 		<property name="xspress2Detector" ref="xspress2system" /> -->
+		<property name="xspress4Detector" ref="xspress4" />
 		<property name="xmapDetector" ref="xmapMca" />
 		<property name="ionChambers" ref="ionchambers" />
 		<property name="medipixDetector" ref="medipix_addetector" />

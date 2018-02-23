@@ -33,8 +33,9 @@
 	<bean id="shutter2" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>In</value>
-				<value>Out</value>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Reset</value>
 			</list>
 		</property>
 	</bean>

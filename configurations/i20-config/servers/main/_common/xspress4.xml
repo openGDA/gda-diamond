@@ -6,7 +6,7 @@
 	<bean id="xspress4" class="uk.ac.gda.devices.detector.xspress4.Xspress4Detector">
 		<property name="name" value="xspress4" />
 		<property name="controller" ref="controllerForXspress4" />
-		<property name="tfgFFI0" ref="FFI0" />
+		<property name="tfgFFI0" ref="xspress4FFI0" />
 		<property name="configFileName" value="${gda.config}/var/templates/Xspress4_Parameters_64Ge.xml" />
 	</bean>
 
