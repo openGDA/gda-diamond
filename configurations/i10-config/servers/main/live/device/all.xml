@@ -21,7 +21,7 @@
 	<import resource="PIMTE.xml"/>
 	<import resource="PIXIS.xml"/>
 	<import resource="PIXIS_SUMMED.xml"/>
-	<import resource="I10-RASOR.xml"/>
+	<import resource="RASOR.xml"/>
 	<!-- 
 	<import resource="I10-RASOR-ANDOR1.xml" />
 	 -->

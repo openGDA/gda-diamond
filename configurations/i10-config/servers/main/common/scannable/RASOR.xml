@@ -126,29 +126,6 @@
 		 -->
 	</bean>
 	
-	<!-- 
-	<bean id="table_y" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="table_y" />
-		<property name="motor" ref="table_y_motor" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="200" />
-	</bean>
-	
-	<bean id="table_pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="table_pitch" />
-		<property name="motor" ref="table_pitch_motor" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="200" />
-	</bean>
-	
-	<bean id="table_roll" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="table_roll" />
-		<property name="motor" ref="table_roll_motor" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="200" />
-	</bean>
-	 -->
-	
 	<bean id="table" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="name" value="table" />
 		<property name="groupMembers">
@@ -156,11 +133,6 @@
 				<ref bean="lgf" />
 				<ref bean="lgb" />
 				<ref bean="lgm" />
-				<!-- 
-				<ref bean="table_y" />
-				<ref bean="table_pitch" />
-				<ref bean="table_roll" />
-				 -->
 			</list>
 		</property>
 		<property name="local" value="true"/>
@@ -364,27 +336,4 @@
 		<property name="local" value="true"/>
 	</bean>
 	
-	<!--<property name="controller" ref="lakeshore_controller"/>							Only in I11, not I06
-		<property name="EpicsLakeshore340ControllerName" value="lakeshore_controller" />	Not in I11
-		<property name="configureAtStartup" value="true"/>									Only in I11, not I06
-		<property name="probe" value="probe" />												In I06 but not I11
-		<property name="accuracy" value="1.0" />											Same as I11
-		<property name="polltime" value="1000" />											Same as I11
-		<property name="fileSuffix" value="temp" />											Same as I11
-		<property name="upperTemp" value="360" />											I11 value is 300
-		<property name="lowerTemp" value="-20.0" />											I11 value is 4
-		-->
-	<!-- Start temporary removals
-	<bean id="lakeshore" class="gda.device.temperature.GdaLakeshore340">
-		<property name="controller" ref="lakeshore_controller"/>
-		<property name="EpicsLakeshore340ControllerName" value="lakeshore_controller" />
-		<property name="configureAtStartup" value="true"/>
-		<property name="probe" value="probe" />
-		<property name="accuracy" value="1.0" />
-		<property name="polltime" value="1000" />
-		<property name="fileSuffix" value="temp" />
-		<property name="upperTemp" value="360" />
-		<property name="lowerTemp" value="-20.0" />
-	</bean>
-		End temporary removals-->
 </beans>
