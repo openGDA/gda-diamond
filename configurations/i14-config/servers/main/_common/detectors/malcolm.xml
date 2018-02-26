@@ -31,4 +31,10 @@
 		<property name="description" value="Malcolm combined Excalibur and Xspress3 hardware scanning" />
 	</bean>
 
+	<!-- XRF TetrAMM scan -->
+	<bean id="malcolmInfoXrfTetrAMM" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XRF TetrAMM Malcolm" />
+		<property name="description" value="Malcolm XRF TetrAMM scanning" />
+	</bean>
+
 </beans>
