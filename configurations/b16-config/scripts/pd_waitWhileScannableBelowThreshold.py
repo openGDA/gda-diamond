@@ -1,6 +1,6 @@
 from gda.device.scannable import PseudoDevice
 from gda.jython import JythonServerFacade
-from gda.jython.Jython import RUNNING
+from gda.jython.JythonStatus import RUNNING
 
 from time import asctime, sleep
 from datetime import time
