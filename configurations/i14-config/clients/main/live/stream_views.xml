@@ -18,55 +18,6 @@
 		<property name="sleepTime" value="5" />
 	</bean>
 
-	<bean id="d1_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="D1 camera" />
-		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8080/D1.mjpg.mjpg" />
-		<property name="arrayPv" value="BL14I-OP-DCAM-01:ARR" />
-		<property name="sleepTime" value="5" />
-	</bean>
-
-	<bean id="d2_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="D2 camera" />
-		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8080/D2.mjpg.mjpg" />
-		<property name="arrayPv" value="BL14I-OP-DCAM-02:ARR" />
-		<property name="sleepTime" value="5" />
-	</bean>
-
-	<bean id="d3_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="D3 camera" />
-		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8080/D3.mjpg.mjpg" />
-		<property name="arrayPv" value="BL14I-OP-DCAM-03:ARR" />
-		<property name="sleepTime" value="5" />
-	</bean>
-
-	<bean id="d4_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="D4 camera" />
-		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8080/D4.mjpg.mjpg" />
-		<property name="arrayPv" value="BL14I-OP-DCAM-04:ARR" />
-		<property name="sleepTime" value="5" />
-	</bean>
-
-	<bean id="d5_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="D5 camera" />
-		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8081/D5-NAN.mjpg.mjpg" />
-		<property name="arrayPv" value="BL14I-OP-DCAM-05:ARR" />
-		<property name="sleepTime" value="5" />
-	</bean>
-
-	<bean id="d6_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="D6 camera" />
-		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8082/D6-NAN.mjpg.mjpg" />
-		<property name="arrayPv" value="BL14I-OP-DCAM-06:ARR" />
-		<property name="sleepTime" value="5" />
-	</bean>
-
-	<bean id="d7_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="D7 camera" />
-		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8082/D7-NAN.mjpg.mjpg" />
-		<property name="arrayPv" value="BL14I-OP-DCAM-07:ARR" />
-		<property name="sleepTime" value="5" />
-	</bean>
-	
 	<bean id="sample_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample camera" />
 		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/TAB.mjpg.mjpg" />
@@ -83,7 +34,7 @@
             </bean>
         </property>
 	</bean>
-	
+
 	<bean id="sample_dtab_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Sample DTAB camera" />
 		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/DTAB.mjpg.mjpg" />
@@ -100,6 +51,5 @@
             </bean>
         </property>
 	</bean>
-
 
 </beans>
