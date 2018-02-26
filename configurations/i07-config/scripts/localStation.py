@@ -14,8 +14,8 @@ from gdascripts.utils import *  # @UnusedWildImport
 import scisoftpy as dnp  # @UnusedImport
 
 	
-gdaScriptDir = LocalProperties.get("gda.jython.gdaScriptDir") + "/";
-userScriptDir = LocalProperties.get("gda.jython.userScriptDir") + "/";
+gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/";
+userScriptDir = "/dls_sw/" + LocalProperties.get("gda.beamline.name") + "/scripts/";
 
 	
 def try_execfile(filepath, description=None, full_log=False, absolute=False):

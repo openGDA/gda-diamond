@@ -16,10 +16,10 @@ import scisoftpy as dnp;
 from gdascripts.utils import *;
 	
 # Get the locatation of the GDA beamline script directory
-gdaScriptDir = LocalProperties.get("gda.jython.gdaScriptDir") + "/";
+gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/";
 
 # Get the location of the USERS script directory
-userScriptDir = LocalProperties.get("gda.jython.userScriptDir") + "/";
+userScriptDir = "/dls_sw/" + LocalProperties.get("gda.beamline.name") + "/scripts/";
 	
 
 
