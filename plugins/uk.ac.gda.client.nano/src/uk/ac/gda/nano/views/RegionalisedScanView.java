@@ -19,17 +19,17 @@
 package uk.ac.gda.nano.views;
 
 
-import gda.configuration.properties.LocalProperties;
-import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
-import gda.jython.JythonServerStatus;
-import gda.observable.IObserver;
-import gda.rcp.views.JythonTerminalView;
-
 import java.io.File;
 import java.util.Vector;
 
-
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -38,17 +38,16 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.part.*;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.SWT;
+import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gda.configuration.properties.LocalProperties;
+import gda.jython.InterfaceProvider;
+import gda.jython.JythonServerStatus;
+import gda.jython.JythonStatus;
+import gda.observable.IObserver;
+import gda.rcp.views.JythonTerminalView;
 
 public class RegionalisedScanView extends ViewPart implements IObserver{
 
@@ -62,7 +61,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 
 	RScanParameterPaser parameterParser;
 	String[] motorNames, detectorNames, monitorNames;
-	
+
 	Composite baseComposite;
 
 	Combo motor;
@@ -74,15 +73,15 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 
 	int numberOfDetectors = 0;
 	Vector<Text> collectionTimes = new Vector<Text>();
-	
+
 	Text monitors;
-	
+
 	Text commandText;
-	
+
 	Button scanButton;
 	Button stopButton;
 	Button pauseButton;
-	
+
 	public RegionalisedScanView() {
 		super();
 		//To register itself to be updated by the command server
@@ -105,14 +104,14 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		parent.setLayout(new FillLayout());
 //		guiBase = new Composite(parent, SWT.SCROLL_LINE);
 		ScrolledComposite sbase = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
-		
+
 		guiBase = new Composite(sbase, SWT.NONE);
 
 		sbase.setContent(guiBase);
 		sbase.setMinSize(600, 600);
 		sbase.setExpandHorizontal(true);
-		sbase.setExpandVertical(true);		
-		
+		sbase.setExpandVertical(true);
+
 //		guiBase = parent;
 		this.createGUI(guiBase);
 
@@ -128,11 +127,11 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 	}
 
 	public void createGUI(Composite base) {
-		
+
 		GridLayout baseLayout = new GridLayout();
 		baseLayout.numColumns = 1;
 		base.setLayout(baseLayout);
-		
+
 		Group motionGroup = new Group(base, SWT.NONE);
 		motionGroup.setText("Motion");
 		GridData gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
@@ -144,7 +143,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		regionSettingGroup.setLayoutData(gridData);
 		addRegionSetting(regionSettingGroup);
-		
+
 		Group detectorAndMonitorSettingGroup = new Group(base, SWT.NONE);
 //		detectorAndMonitorSettingGroup.setText("Detectors");
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
@@ -156,14 +155,14 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		scanControlGroup.setLayoutData(gridData);
 		addScanControls(scanControlGroup);
-		
+
 	}
-	
+
 	private void addMotionSetting(Group motionGroup){
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 4;
 		motionGroup.setLayout(gridLayout);
-		
+
 		new Label(motionGroup, SWT.NONE).setText("motor");
 		motor = new Combo(motionGroup, SWT.NONE);
 		motor.setItems(motorNames);
@@ -172,7 +171,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 //		motor.setText(motor.getItem(0));
 	}
 
-	
+
 	private void addRegionSetting(final Group settingGroup) {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 4;
@@ -182,23 +181,23 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		new Label(settingGroup, SWT.NONE).setText("start");
 		new Label(settingGroup, SWT.NONE).setText("stop");
 		new Label(settingGroup, SWT.NONE).setText("step");
-		
+
 		addScanRegion(settingGroup);
 		addScanRegion(settingGroup);
 		addScanRegion(settingGroup);
 		addScanRegion(settingGroup);
 		addScanRegion(settingGroup);
 		addScanRegion(settingGroup);
-		
+
 		setScanRegion(0, 100, 190, 10);
 		setScanRegion(1, 200, 399, 1);
 		setScanRegion(2, 400, 600, 10);
-	
+
 	}
 
 	private void addScanRegion(Group settingGroup){
 		GridData gridData;
-		
+
 		++numberOfRegions;
 		new Label(settingGroup, SWT.NONE).setText( " " + numberOfRegions );
 
@@ -207,7 +206,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		gridData.horizontalSpan =1;
 		rstart.setLayoutData(gridData);
 		regionStart.add(rstart);
-		
+
 		Text rstop = new Text(settingGroup, SWT.SINGLE | SWT.BORDER);
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		gridData.horizontalSpan =1;
@@ -220,18 +219,18 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		rstep.setLayoutData(gridData);
 		regionStep.add(rstep);
 	}
-	
+
 	private void setScanRegion(int index, double start, double stop, double step){
 		regionStart.get(index).setText(Double.toString(start));
 		regionStop.get(index).setText(Double.toString(stop));
 		regionStep.get(index).setText(Double.toString(step));
 	}
-	
+
 	private void addDetectorAndMonitorSetting(Group settingGroup) {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		settingGroup.setLayout(gridLayout);
-		
+
 		GridData gridData;
 		Group detectorSettingGroup = new Group(settingGroup, SWT.NONE);
 		detectorSettingGroup.setText("Detectors");
@@ -239,7 +238,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		gridData.horizontalSpan =1;
 		detectorSettingGroup.setLayoutData(gridData);
 		addDetectorSetting(detectorSettingGroup);
-		
+
 
 		Group monitorSettingGroup = new Group(settingGroup, SWT.NONE);
 		monitorSettingGroup.setText("Monitors");
@@ -248,9 +247,9 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		monitorSettingGroup.setLayoutData(gridData);
 		addMonitorSetting(monitorSettingGroup);
 	}
-	
+
 	private void addDetectorSetting(Group settingGroup) {
-		
+
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		settingGroup.setLayout(gridLayout);
@@ -258,12 +257,12 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		new Label(settingGroup, SWT.NONE).setText("");
 //		new Label(settingGroup, SWT.NONE).setText("detectors");
 		new Label(settingGroup, SWT.NONE).setText("integration time in second");
-		
+
 		addDetector(settingGroup);
 		addDetector(settingGroup);
 		addDetector(settingGroup);
 	}
-	
+
 	private void addMonitorSetting(Group settingGroup) {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
@@ -276,10 +275,10 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		gridData.horizontalSpan =3;
 		monitors.setLayoutData(gridData);
-		
+
 		final List monitorList = new List(settingGroup, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		monitorList.setItems(monitorNames);
-		
+
 		gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
 		gridData.verticalSpan = 4;
 		gridData.horizontalSpan =3;
@@ -287,7 +286,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		Rectangle trim = monitorList.computeTrim(0, 0, 0, listHeight);
 		gridData.heightHint = trim.height;
 		monitorList.setLayoutData(gridData);
-		
+
 		monitorList.addSelectionListener(new SelectionAdapter(){
 //			@Override
 //			//For single click selection
@@ -296,7 +295,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 //				if (selected.length >0){
 //					System.out.println("Selected: " + selected[0]);
 //				}
-//					
+//
 //			}
 			@Override
 			//For double click selection
@@ -312,23 +311,23 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 					}
 					logger.debug("Add the monitor selection: " + selected[0]);
 				}
-					
+
 			}
 		} );
-		
+
 	}
-/*	
+/*
 	class MonitorListListener extends SelectionAdapter{
 		public void widgetSelected(SelectionEvent evebt){
 			String[] selected = this.list.getSelection();
 			if (selected.length >0){
 				System.out.println("Selected: " + selected[0]);
 			}
-				
+
 		}
-		
+
 	}
-*/	
+*/
 	private void addDetector(Group settingGroup){
 		++numberOfDetectors;
 //		new Label(settingGroup, SWT.NONE).setText( " " + numberOfDetectors );
@@ -342,9 +341,9 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		GridData gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		ct.setLayoutData(gridData);
 		this.collectionTimes.add(ct);
-		
+
 	}
-	
+
 	private void addScanControls(Group scanControlGroup) {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 4;
@@ -361,10 +360,10 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				commandText.setText(getScanCommand());
-				
+
 			}
 		});
-		
+
 		commandText = new Text(scanControlGroup, SWT.SINGLE | SWT.BORDER);
 		gridData = new GridData(GridData.FILL, GridData.CENTER, true, false);
 		gridData.horizontalSpan = 3;
@@ -388,10 +387,10 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				runScan();
-				
+
 			}
 		});
-		
+
 	}
 
 	private void addStopButton(Group controlGroup){
@@ -407,7 +406,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 				stopScan();
 			}
 		});
-		
+
 	}
 
 	private void addPauseButton(Group controlGroup){
@@ -426,10 +425,10 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 				else{
 					resumeScan();
 				}
-				
+
 			}
 		});
-		
+
 	}
 
 	private boolean isDoubleLike(String textInput){
@@ -441,11 +440,11 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 				}catch (NumberFormatException e){
 					logger.info("Text can not be parsed to double.");
 				}
-			
+
 		}
 		return parseable;
 	}
-	
+
 	private String getScanCommand(){
 //		String scanCommand="scat testMotor1 0 10 1 dummyCounter1 0.1";
 		StringBuffer scanCommand = new StringBuffer();
@@ -453,12 +452,12 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 		//To check the regions
 		String start, stop, step;
 		Vector<String> regions = new Vector<String>();
-		
+
 		if (this.motor.getText().isEmpty()){//No regional setting
 			return "No motor to scan";
 		}
-		
-		
+
+
 		for(int i=0; i< this.numberOfRegions; i++){
 			start = regionStart.get(i).getText();
 			stop = regionStop.get(i).getText();
@@ -478,7 +477,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 			return "Wrong regional settings";
 		}
 		scanCommand.append("rscan " + this.motor.getText() + " (");
-		
+
 		for(String r: regions){
 			scanCommand.append(r + ", ");
 		}
@@ -486,9 +485,9 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 			scanCommand.deleteCharAt(scanCommand.length()-1);
 		else//to remove the trailing comma and white space
 			scanCommand.delete(scanCommand.length()-2, scanCommand.length());
-		
+
 		scanCommand.append(") ");
-		
+
 		String dn, dt;
 		//To assemble detectors
 		for(int i=0; i<this.numberOfDetectors; i++){
@@ -500,48 +499,48 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 				logger.warn("Wrong integration time");
 				continue;
 			}
-			
+
 			scanCommand.append(dn + " " + dt + " ");
 		}
 
 		//To assemble monitors
 		scanCommand.append(monitors.getText());
-		
+
 		return scanCommand.toString();
-	
+
 	}
-	
+
 	public void runScan(){
-		if( InterfaceProvider.getScanStatusHolder().getScanStatus() != Jython.IDLE){
+		if( InterfaceProvider.getScanStatusHolder().getScanStatus() != JythonStatus.IDLE){
 			logger.warn("Can not run scan because there is a scan running or paused");
 			return;
 		}
 		InterfaceProvider.getCommandRunner().runCommand(commandText.getText());
 		logger.info("Scan running");
 	}
-	
+
 	public void stopScan(){
-		if( InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE){
+		if( InterfaceProvider.getScanStatusHolder().getScanStatus() == JythonStatus.IDLE){
 			return;
 		}
 		InterfaceProvider.getCurrentScanController().requestFinishEarly();
 		logger.info("Scan stopped");
 	}
-	
+
 	public void pauseScan(){
-		if( InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.RUNNING){
+		if( InterfaceProvider.getScanStatusHolder().getScanStatus() == JythonStatus.RUNNING){
 			InterfaceProvider.getCurrentScanController().pauseCurrentScan();
 			logger.info("Scan paused");
 		}
 	}
-	
+
 	public void resumeScan(){
-		if( InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.PAUSED){
+		if( InterfaceProvider.getScanStatusHolder().getScanStatus() == JythonStatus.PAUSED){
 			InterfaceProvider.getCurrentScanController().resumeCurrentScan();
 			logger.info("Scan running");
 			}
 	}
-	
+
 
 	/**
 	 * From the IObservers interface.
@@ -556,7 +555,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 			JythonServerStatus status = (JythonServerStatus) dataPoint;
 
 			switch(status.scanStatus){
-			case Jython.IDLE:
+			case IDLE:
 				Display.getDefault().syncExec(new Runnable() {
 				    @Override
 					public void run() {
@@ -565,8 +564,8 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 				    }
 				});
 				break;
-				
-			case Jython.RUNNING:
+
+			case RUNNING:
 				Display.getDefault().syncExec(new Runnable() {
 				    @Override
 					public void run() {
@@ -575,10 +574,10 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 						pauseButton.setText("Pause");
 				    }
 				});
-				
+
 				break;
-				
-			case Jython.PAUSED:
+
+			case PAUSED:
 				Display.getDefault().syncExec(new Runnable() {
 				    @Override
 					public void run() {
@@ -586,11 +585,11 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 				    }
 				});
 				break;
-				
+
 			}
-			
+
 		}
 	}
 
-	
+
 }
