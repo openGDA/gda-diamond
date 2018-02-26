@@ -26,7 +26,7 @@ from gda.data import PathConstructor
 from org.opengda.detector.electronanalyser.utils import OsUtil, FilenameUtil
 from org.opengda.detector.electronanalyser.event import SequenceFileChangeEvent
 from time import sleep
-from gda.jython import InterfaceProvider, Jython
+from gda.jython import InterfaceProvider, JythonStatus
 from org.opengda.detector.electronanalyser.scan import RegionScannable,\
     RegionPositionProvider
 import os
@@ -51,10 +51,10 @@ def analyserpathscan(scannables, path, *args):
     perform single/multiple regions analyser data collection at each point on the specified path,
     and produce a single scan file recording all scannables' poistions and metadata, along with
     analyser scann data under region's name as NXdetector node.
-    
+
     implementation details:
-    This function pre-process sequence file to set up analyser 'ew4000' ready for data collection, 
-    then delegate the scan process to 'pathscan'.    
+    This function pre-process sequence file to set up analyser 'ew4000' ready for data collection,
+    then delegate the scan process to 'pathscan'.
     '''
     starttime=time.ctime()
     if PRINTTIME: print "=== Scan started: "+starttime
@@ -108,7 +108,7 @@ def analyserpathscan_v1(scannables, path, *args):
                 filename=FilenameUtil.convertSeparator(filename)
             controller.update(controller,SequenceFileChangeEvent(filename))
             sleep(1.0)
-            while (InterfaceProvider.getScanStatusHolder().getScanStatus()==Jython.PAUSED):
+            while (InterfaceProvider.getScanStatusHolder().getScanStatus()==JythonStatus.PAUSED):
                 sleep(1.0)
             newargs.append( RegionPositionProvider(filename) )
             #newargs.append( arg ) # to read the actual position

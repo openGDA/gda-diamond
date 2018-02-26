@@ -40,7 +40,7 @@ import gda.device.ScannableMotion;
 import gda.device.scannable.DummyScannable;
 import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
+import gda.jython.JythonStatus;
 import gda.observable.IObserver;
 import gda.rcp.views.CompositeFactory;
 import swing2swt.layout.BorderLayout;
@@ -263,7 +263,7 @@ class LinearPositionerComposite extends Composite {
 	  }
 
 	private void moveTo(String deviceName, double value){
-		if( InterfaceProvider.getScanStatusHolder().getScanStatus() != Jython.IDLE){
+		if( InterfaceProvider.getScanStatusHolder().getScanStatus() != JythonStatus.IDLE){
 			logger.warn("Can not run scan because there is a scan running or paused");
 			return;
 		}

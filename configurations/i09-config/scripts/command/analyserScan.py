@@ -13,7 +13,7 @@ from org.opengda.detector.electronanalyser.utils import OsUtil, FilenameUtil
 from org.opengda.detector.electronanalyser.nxdetector import EW4000,\
     EW4000CollectionStrategy
 from time import sleep
-from gda.jython import InterfaceProvider, Jython
+from gda.jython import InterfaceProvider, JythonStatus
 import time
 from gda.device.scannable import DummyScannable
 from gdascripts.utils import caput
@@ -216,7 +216,7 @@ def analyserscan_v1(*args):
                 filename=FilenameUtil.convertSeparator(filename)
             controller.update(controller,SequenceFileChangeEvent(filename))
             sleep(1.0)
-            while (InterfaceProvider.getScanStatusHolder().getScanStatus()==Jython.PAUSED):
+            while (InterfaceProvider.getScanStatusHolder().getScanStatus()==JythonStatus.PAUSED):
                 sleep(1.0)
             newargs.append( RegionPositionProvider(filename) )
             #newargs.append( arg ) # to read the actual position
