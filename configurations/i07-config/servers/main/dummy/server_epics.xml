@@ -272,51 +272,51 @@
 
     <!--  ============================== Epics Enum Positioner definition section ============== -->
     <!-- DCM crystal selection Positioner -->
-    <bean id="dcmxtal" class="gda.device.enumpositioner.DummyPositioner">
+    <bean id="dcmxtal" class="gda.device.enumpositioner.DummyEnumPositioner">
         <property name="local" value="true"/>
     </bean>
     
     <!-- White beam attenuators A1 Positioner -->
-    <bean id="a1" class="gda.device.enumpositioner.DummyPositioner">
+    <bean id="a1" class="gda.device.enumpositioner.DummyEnumPositioner">
         <property name="local" value="true"/>
     </bean>
     
     
     <!-- Fluorescence Screen D1 Positioner -->
-    <bean id="d1screen" class="gda.device.enumpositioner.DummyPositioner">
+    <bean id="d1screen" class="gda.device.enumpositioner.DummyEnumPositioner">
         <property name="local" value="true"/>
     </bean>
     
     <!-- Beam Poistion Monitor QBPM1 (D2) Positioner -->
-    <bean id="qbpm1screen" class="gda.device.enumpositioner.DummyPositioner">
+    <bean id="qbpm1screen" class="gda.device.enumpositioner.DummyEnumPositioner">
         <property name="local" value="true"/>
     </bean>
     
     <!-- Beam Poistion Monitor QBPM2 (D3) Positioners -->
-    <bean id="qbpm2screen" class="gda.device.enumpositioner.DummyPositioner">
+    <bean id="qbpm2screen" class="gda.device.enumpositioner.DummyEnumPositioner">
         <property name="local" value="true"/>
     </bean>
     
     <!-- Beam Poistion Monitor (BPM) D4 Positioners -->
-    <bean id="d4screenfoil" class="gda.device.enumpositioner.DummyPositioner">
+    <bean id="d4screenfoil" class="gda.device.enumpositioner.DummyEnumPositioner">
         <property name="local" value="true"/>
     </bean>
-    <bean id="d4screendiode" class="gda.device.enumpositioner.DummyPositioner">
+    <bean id="d4screendiode" class="gda.device.enumpositioner.DummyEnumPositioner">
         <property name="local" value="true"/>
     </bean>
     
     <!-- Beam Position Monitor (BPM) D5 Positioner -->
-    <bean id="qbpm3screen" class="gda.device.enumpositioner.DummyPositioner">
+    <bean id="qbpm3screen" class="gda.device.enumpositioner.DummyEnumPositioner">
         <property name="local" value="true"/>
     </bean>
     
     <!-- Horizontal Focusing Mirror HFM  stripe positioner -->
-    <bean id="hfmstripe" class="gda.device.enumpositioner.DummyPositioner">
+    <bean id="hfmstripe" class="gda.device.enumpositioner.DummyEnumPositioner">
         <property name="local" value="true"/>
     </bean>
     
     <!-- Vertical Focusing Mirror VFM  stripe positioner -->
-    <bean id="vfmstripe" class="gda.device.enumpositioner.DummyPositioner">
+    <bean id="vfmstripe" class="gda.device.enumpositioner.DummyEnumPositioner">
         <property name="local" value="true"/>
     </bean>
     
