@@ -32,83 +32,13 @@
             value="10000">
       </preference>
    </extension>
-  
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:window?after=showView">
-         <menu
-               label="Area Detectors">
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="D1 Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D1//BL14I-OP-DCAM-01@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="D2 Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D2//BL14I-OP-DCAM-02@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="D3 Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D3//BL14I-OP-DCAM-03@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="D4 Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D4//BL14I-OP-DCAM-04@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="D5 Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D5//BL14I-OP-DCAM-05@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="D6 Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D6//BL14I-OP-DCAM-06@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="D7 Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D7//BL14I-OP-DCAM-07@">
-               </parameter>
-            </command>
-         </menu>
-      </menuContribution>
-   </extension>
 
    <extension
          point="org.eclipse.ui.views">
+      <category
+            name="I14 Views"
+            id="uk.ac.gda.beamline.i14">
+      </category>
       <view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i14"
@@ -116,66 +46,6 @@
             icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
             id="uk.ac.diamond.daq.mapping.ui.ShuttersView"
             name="Shutters">
-      </view>
-      <category
-            name="I14 Views"
-            id="uk.ac.gda.beamline.i14">
-      </category>
-      <view
-            allowMultiple="true"
-            category="uk.ac.gda.beamline.i14"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D1//BL14I-OP-DCAM-01@"
-            name="D1 Array View"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            category="uk.ac.gda.beamline.i14"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D2//BL14I-OP-DCAM-02@"
-            name="D2 Array View"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            category="uk.ac.gda.beamline.i14"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D3//BL14I-OP-DCAM-03@"
-            name="D3 Array View"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            category="uk.ac.gda.beamline.i14"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D4//BL14I-OP-DCAM-04@"
-            name="D4 Array View"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            category="uk.ac.gda.beamline.i14"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D5//BL14I-OP-DCAM-05@"
-            name="D5 Array View"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            category="uk.ac.gda.beamline.i14"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D6//BL14I-OP-DCAM-06@"
-            name="D6 Array View"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
-            category="uk.ac.gda.beamline.i14"
-            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
-            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//D7//BL14I-OP-DCAM-07@"
-            name="D7 Array View"
-            restorable="true">
       </view>
    </extension>
    <extension
