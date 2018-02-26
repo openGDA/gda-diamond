@@ -4,7 +4,7 @@ import scisoftpy as dnp
 from gda.device.scannable import ScannableBase
 from uk.ac.diamond.scisoft.analysis import SDAPlotter
 from uk.ac.diamond.scisoft.analysis.plotserver import GuiParameters
-from org.eclipse.dawnsci.analysis.dataset.impl import Dataset
+from org.eclipse.january.dataset import Dataset
 from org.eclipse.dawnsci.analysis.dataset.roi import RectangularROI, RectangularROIList
 
 
