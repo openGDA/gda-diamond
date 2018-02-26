@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
+import gda.jython.JythonStatus;
 import uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI;
 
 public class I05Startup implements IStartup {
@@ -55,7 +55,7 @@ public class I05Startup implements IStartup {
 		@Override
 		public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective) {
 			// Check if a scan is running if not stop the analyser
-			if (InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE) {
+			if (InterfaceProvider.getScanStatusHolder().getScanStatus() == JythonStatus.IDLE) {
 				logger.info("Perspective Activated: No scan running: Stop analyser");
 				try {
 					// Stop the analyser and zero supplies
