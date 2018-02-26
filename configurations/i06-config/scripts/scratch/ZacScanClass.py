@@ -10,7 +10,7 @@ from time import sleep
 from java.util import Calendar
 from gda.data import NumTracker
 from gda.jython import JythonServerFacade
-from gda.jython import Jython
+from gda.jython import JythonStatus
 import gda.configuration.properties.LocalProperties
 from gda.scan import ScanDataPoint
 from java.io import DataInputStream
@@ -618,7 +618,7 @@ class I18ExafsScanClass(ScriptBase):
 			self.writeSummary(npoints,start,end,step,collectionTime)
 			self.interrupted=Boolean(0)
 			self.paused=Boolean(0)
-			JythonServerFacade.getInstance().setScriptStatus(Jython.IDLE)
+			JythonServerFacade.getInstance().setScriptStatus(JythonStatus.IDLE)
 			scandata = Vector()
 			scandata.add("STOP")
 			self.controller.update(None, scandata)
@@ -635,7 +635,7 @@ class I18ExafsScanClass(ScriptBase):
 	#==================================================
 	def checkForAnglePause(self,npoints,start,end,step,collectionTime):
 		if(self.paused):
-			JythonServerFacade.getInstance().setScriptStatus(Jython.PAUSED)
+			JythonServerFacade.getInstance().setScriptStatus(JythonStatus.PAUSED)
 			while(self.paused):
 				try:
 					print 'Angle Scan paused - Awaiting resume'
@@ -658,7 +658,7 @@ class I18ExafsScanClass(ScriptBase):
 			self.writeKScanSummary(npoints,start,end,step,edgeEnergy, twoD,kStartTime,kEndTime,kWeighting)
 			self.interrupted=Boolean(0)
 			self.paused=Boolean(0)
-			JythonServerFacade.getInstance().setScriptStatus(Jython.IDLE)
+			JythonServerFacade.getInstance().setScriptStatus(JythonStatus.IDLE)
 			scandata = Vector()
 			scandata.add("STOP")
 			self.controller.update(None, scandata)
@@ -673,7 +673,7 @@ class I18ExafsScanClass(ScriptBase):
 	#==================================================
 	def checkForKScanPause(self,npoints,start,end,step,edgeEnergy, twoD,kStartTime,kEndTime,kWeighting):
 		if(self.paused):
-			JythonServerFacade.getInstance().setScriptStatus(Jython.PAUSED)
+			JythonServerFacade.getInstance().setScriptStatus(JythonStatus.PAUSED)
 			while(self.paused):
 				try:
 					print 'K Scan Scan paused - Awaiting resume'
