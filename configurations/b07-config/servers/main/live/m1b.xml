@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="m1b_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-MIR-01:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1b_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-MIR-01:Y" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1b_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-MIR-01:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1b_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-MIR-01:ROLL" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1b_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07B-OP-MIR-01:YAW" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1b_pressure" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE07B-VA-SPACE-03:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+	<bean id="m1b_mask_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-OP-MIR-01:MASK:TEMP1"/>
+		<property name="unit" value="C"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+	<bean id="m1b_mirror_temp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07B-OP-MIR-01:MIR:TEMP1"/>
+		<property name="unit" value="C"/>
+		<property name="poll" value="true"/>
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+</beans>

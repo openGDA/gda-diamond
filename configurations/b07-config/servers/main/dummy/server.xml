@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd" >
+
+	<!-- Ring -->
+	<import resource="ring.xml"/>
+
+	<!-- Slits -->
+	<import resource="s1b.xml"/>
+
+	<!-- Mirrors -->
+	<import resource="m1b.xml"/>
+
+	<!-- Diagnostics -->
+	<import resource="d1b.xml"/>
+
+	<!-- Simulated Area Detector -->
+	<import resource="adSimulator.xml"/>
+
+	<!-- Do not remove anything below here -->
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+
+</beans>

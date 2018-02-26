@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod"
+			value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+		<property name="arguments">
+			<set>
+				<!-- s1b -->
+				<value>s1b_xcentre</value>
+				<value>s1b_xsize</value>
+				<value>s1b_xpos</value>
+				<value>s1b_xneg</value>
+				<!-- m1b -->
+				<value>m1b_x</value>
+				<value>m1b_y</value>
+				<value>m1b_pitch</value>
+				<value>m1b_roll</value>
+				<value>m1b_yaw</value>
+				<value>m1b_mask_temp</value>
+			</set>
+		</property>
+	</bean>
+
+	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="dataWriterExtenders">
+			<list>
+				<ref bean="file_registrar" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
