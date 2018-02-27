@@ -6,26 +6,22 @@
 	<!-- Tertiary Slits / S9 Optical Element -->
 	
 	<bean id="s9xring_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS9.XRING" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10J-AL-SLITS-03:XRING" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="s9xhall_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS9.XHALL" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10J-AL-SLITS-03:XHALL" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="s9yplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS9.YPLUS" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10J-AL-SLITS-03:YPLUS" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="s9yminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SLITS9.YMINUS" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10J-AL-SLITS-03:YMINUS" />
 		<property name="local" value="true"/>
 	</bean>
 </beans>
