@@ -1,3 +1,6 @@
+#### Take out if causes problem - Pete won't be happy.
+from scisoftpy import *
+####
 scannp = scan #@UndefinedVariable
 vararg_alias("scannp") #@UndefinedVariable
 print "*** Creating scan with no processing: scannp"
@@ -690,7 +693,8 @@ if not installation.isLive():
 else:
 	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Data Vector', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
 	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], panel_name='Data Vector', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
-	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], panel_name='Data Vector', toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 1')
+#	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], panel_name='Data Vector', toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 1')
+	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], panel_name='Secondary Plot', toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 2')
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws4, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp, report_path = False))
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws10, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
