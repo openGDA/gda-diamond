@@ -36,7 +36,7 @@
 	<import resource="S7.xml"/>
 	<import resource="DJ2A.xml"/>
 	<import resource="DJ2.xml"/>
-	<import resource="I10-M6.xml"/>
+	<import resource="M6.xml"/>
 	<import resource="I10-S8.xml"/>
 	<import resource="I10-DJ3.xml"/>
 	<import resource="I10-DJ3CAM.xml"/>
