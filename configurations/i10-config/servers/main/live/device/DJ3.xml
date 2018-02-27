@@ -5,21 +5,23 @@
 
 	<!-- DJ3 (D11) -->
 
-	<bean id="dj3d11_scrn_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="dj3_scrn" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="BL10J-DI-PHDGN-02:CON"/>
+		<property name="statusPv" value="BL10J-DI-PHDGN-02:STA"/>
+		<property name="local" value="true"/>
+	</bean>
 	
 	<bean id="dj3d11_bim_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DJ3.XBIMY" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10J-DI-PHDGN-02:XBIM:Y" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="dj3d11_det_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DJ3.DETX" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10J-DI-PHDGN-02:DET:X" />
 		<property name="local" value="true"/>
 	</bean>
 	
-	<bean id="dj3d11_pos" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="deviceName" value="DJ3.POS"/>
+	<bean id="dj3_pos" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL10J-DI-PHDGN-02:DET:X:MP"/>
 	</bean>
 </beans>
