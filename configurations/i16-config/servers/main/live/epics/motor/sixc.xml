@@ -3,32 +3,38 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
-	<bean id="sixcGammaMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="sixcGammaMotor" class="gda.device.motor.EpicsMotorDirect">
+		<property name="pvNameDirect" value ="BL16I-MO-STEP-13:CS2:M7:DirectDemand"/>
 		<property name="deviceName" value="D.Gamma" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
-	<bean id="sixcDeltaMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="sixcDeltaMotor" class="gda.device.motor.EpicsMotorDirect">
+		<property name="pvNameDirect" value ="BL16I-MO-STEP-13:CS2:M9:DirectDemand"/>
 		<property name="deviceName" value="D.2Theta" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
-	<bean id="sixcMuMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="sixcMuMotor" class="gda.device.motor.EpicsMotorDirect">
+		<property name="pvNameDirect" value ="BL16I-MO-STEP-13:CS2:M6:DirectDemand"/>
 		<property name="deviceName" value="D.Mu" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
-	<bean id="sixcKthMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="sixcKthMotor" class="gda.device.motor.EpicsMotorDirect">
+		<property name="pvNameDirect" value ="BL16I-MO-STEP-13:CS2:M8:DirectDemand"/>
 		<property name="deviceName" value="D.Theta" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
-	<bean id="sixcKappaMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="sixcKappaMotor" class="gda.device.motor.EpicsMotorDirect">
+		<property name="pvNameDirect" value ="BL16I-MO-STEP-13:CS2:M5:DirectDemand"/>
 		<property name="deviceName" value="D.Kap" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
-	<bean id="sixcKphiMotor" class="gda.device.motor.EpicsMotor">
+	<bean id="sixcKphiMotor" class="gda.device.motor.EpicsMotorDirect">
+		<property name="pvNameDirect" value ="BL16I-MO-STEP-13:CS2:M4:DirectDemand"/>
 		<property name="deviceName" value="D.Phi" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="true" />
@@ -47,12 +53,11 @@
 	</bean>
 
 	<bean id="xps2DeferFlag" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameSetPoint" value="BL16I-MO-DIFF-01:MOTOR_DEFER_MOVES" />
-		<property name="pvNameGetPoint" value="BL16I-MO-DIFF-01:MOTOR_DEFER_MOVES" />
+		<property name="pvNameSetPoint" value="BL16I-MO-STEP-13:CS2:DeferMoves"/>
+		<property name="pvNameGetPoint" value="BL16I-MO-STEP-13:CS2:DeferMoves" />
 		<property name="local" value="true" />
 	</bean>
-
-	<bean id="xps2numberAxesToMoveControlPoint" class="gda.device.controlpoint.EpicsControlPoint">
+<!-- 	<bean id="xps2numberAxesToMoveControlPoint" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameSetPoint" value="BL16I-MO-DIFF-01:MOTOR_DEFER_MOVES_COUNT" />
 		<property name="pvNameGetPoint" value="BL16I-MO-DIFF-01:MOTOR_DEFER_MOVES_COUNT" />
 		<property name="local" value="true" />
@@ -62,6 +67,6 @@
 		<property name="pvNameSetPoint" value="BL16I-MO-DIFF-01:MOTOR_DEFERRED_MOVE_RESULT_RBV" />
 		<property name="pvNameGetPoint" value="BL16I-MO-DIFF-01:MOTOR_DEFERRED_MOVE_RESULT_RBV" />
 		<property name="local" value="true" />
-	</bean>
+	</bean>-->
 	
 </beans>
