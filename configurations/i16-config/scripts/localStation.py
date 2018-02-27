@@ -9,13 +9,13 @@ import installation
 
 USE_NEXUS = True
 if installation.isDummy():
-	USE_DIFFCALC = True 
+	USE_DIFFCALC = False 
 	USE_CRYO_GEOMETRY = True
 
 else:
 	# see also notes below
 	# Changed for Allesandro's experiment on Jan 20 2015 -- RobW
-	USE_DIFFCALC = True  # <-- change here for live gda!
+	USE_DIFFCALC = False  # <-- change here for live gda!
 	USE_CRYO_GEOMETRY = False
 	#USE_DIFFCALC = True  # <-- change here for live gda!
 	#USE_CRYO_GEOMETRY = True
