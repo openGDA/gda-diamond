@@ -50,11 +50,6 @@
 
 	<import resource="LakeShore.xml"/>
 	
-	<!-- ME02P Polarimeter -->
-	<!-- 
-	<import resource="ME02P-Polarimeter.xml"/>
-	 -->
-
 	<!-- Temporary devices -->
 	<import resource="I10-Zebra.xml"/>
 <!-- 	<import resource="vortex_xmap.xml"/> -->

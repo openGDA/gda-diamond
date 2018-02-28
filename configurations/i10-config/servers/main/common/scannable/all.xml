@@ -42,8 +42,4 @@
 	<import resource="LakeShore.xml"/>
 	<import resource="xmap_detector.xml"/>
 
-	<!-- ME02P Polarimeter -->
-	<!-- 
-	<import resource="ME02P-Polarimeter.xml"/>
-	 -->
 </beans>
