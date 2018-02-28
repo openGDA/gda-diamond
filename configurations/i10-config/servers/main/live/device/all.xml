@@ -45,7 +45,7 @@
 	<import resource="UJ1.xml"/>
 	<import resource="Scaler1.xml"/>
 	<import resource="CAJ1.xml"/>
-	<import resource="I10-CAJ2.xml"/>
+	<import resource="CAJ2.xml"/>
 	<import resource="I10-MAGJ1.xml"/>
 
 	<import resource="LakeShore.xml"/>
