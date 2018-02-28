@@ -9,8 +9,7 @@
 	<bean id="magj1yins_motor" class="gda.device.motor.DummyMotor" />
 	 -->
 	<bean id="magj1yins_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="MAGJ1.INSERTY" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10J-EA-MAG-01:INSERT:Y" />
 		<property name="local" value="true"/>
 	</bean>
 
@@ -18,8 +17,7 @@
 	<bean id="magj1yrot_motor" class="gda.device.motor.DummyMotor" />
 	 -->
 	<bean id="magj1yrot_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="MAGJ1.INSERTROTY" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10J-EA-MAG-01:INSERT:ROTY" />
 		<property name="local" value="true"/>
 	</bean>
 
@@ -27,8 +25,7 @@
 	<bean id="magj1x_motor" class="gda.device.motor.DummyMotor" />
 	 -->
 	<bean id="magj1x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="MAGJ1.X" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10J-EA-MAG-01:X" />
 		<property name="local" value="true"/>
 	</bean>
 </beans>
