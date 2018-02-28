@@ -6,30 +6,23 @@
 	<!-- CAJ2 Epics Monitor -->
 	
 	<bean id="caj21" class="gda.device.monitor.EpicsMonitor">
-		<!-- <property name="deviceName" value="CAJ2.I1" /> -->
-		<property name="deviceName" value="CAJ2.I2" />
+		<property name="pvName" value="BL10J-DI-IAMP-02:SIG1" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="caj22" class="gda.device.monitor.EpicsMonitor">
-		<!-- <property name="deviceName" value="CAJ2.I2" /> -->
-		<property name="deviceName" value="CAJ2.I3" />
+		<property name="pvName" value="BL10J-DI-IAMP-02:SIG2" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="caj23" class="gda.device.monitor.EpicsMonitor">
-		<!-- <property name="deviceName" value="CAJ2.I3" /> -->
-		<property name="deviceName" value="CAJ2.I4" />
+		<property name="pvName" value="BL10J-DI-IAMP-02:SIG3" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="caj24" class="gda.device.monitor.EpicsMonitor">
-		<!-- <property name="deviceName" value="CAJ2.I4" /> -->
-		<property name="deviceName" value="CAJ2.I5" />
+		<property name="pvName" value="BL10J-DI-IAMP-02:SIG4" />
 		<property name="local" value="true"/>
 	</bean>
 
-	<!-- <bean id="caj2_ctrl" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier">
-		<property name="deviceName" value="CAJ2.CTRL"/>
-	</bean> -->
 </beans>
