@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: I13j Plug-in
-Bundle-SymbolicName: uk.ac.gda.beamline.i13j;singleton:=true
+Bundle-Name: I13-1 Plug-in
+Bundle-SymbolicName: uk.ac.gda.beamline.i13-1;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: uk.ac.gda.beamline.i13j.I13JBeamlineActivator
+Bundle-Activator: uk.ac.gda.beamline.i13_1.I131BeamlineActivator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench.texteditor;bundle-version="3.7.0",
  org.eclipse.core.runtime,
@@ -20,6 +20,6 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.epics.adviewer;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: uk.ac.gda.beamline.i13j
+Export-Package: uk.ac.gda.beamline.i13_1
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.gda.core, uk.ac.gda.libs

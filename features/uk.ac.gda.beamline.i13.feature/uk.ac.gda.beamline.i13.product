@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Diamond Beamline I13j" uid="uk.ac.gda.beamline.i13j.product" id="uk.ac.gda.beamline.i13j.product" application="uk.ac.gda.client.application" version="9.7.0" useFeatures="true" includeLaunchers="true">
+<product name="Diamond Beamline I13" uid="uk.ac.gda.beamline.i13.product" id="uk.ac.gda.beamline.i13.product" application="uk.ac.gda.client.application" version="9.7.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
       <text>
-         Diamond Beamline I13-1
+         Diamond Beamline I13 
 
 Based on GDA See &lt;http://www.opengda.org/&gt;
       </text>
    </aboutInfo>
 
    <configIni use="default">
+      <linux>/uk.ac.gda.beamline.i13.feature/config.ini</linux>
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Drebel.log=true
--Dgda.mode=dummy
--Dgda.config=${project_loc:i13j-config}
--Dgda.propertiesFile=${project_loc:i13j-config}/properties/dummy/dummy_instance_java.properties
--Djacorb.config.dir=${project_loc:i13j-config}/properties/dummy/jacorb
--Dgov.aps.jca.JCALibrary.properties=${project_loc:i13j-config}/properties/dummy/JCALibrary.properties
--Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
--Dgda.install.git.loc=${workspace_loc}/../workspace_git
+      <vmArgs>-Djacorb.config.dir=${project_loc:i13-config}/properties/dummy/jacorb
 -Dgda.install.workspace.loc=${workspace_loc}
--Dgda.instance.dir=${project_loc:i13j-config}
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.config=${project_loc:i13-config}
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}
+-Dgda.instance.dir=${project_loc:i13-config}
 -Dgda.group.dir=${project_loc:core-config}/no-group
+-Dgda.propertiesFile=${project_loc:i13-config}/properties/dummy/dummy_instance_java.properties
+-Dgda.mode=dummy
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i13-config}/properties/dummy/JCALibrary.properties
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Duk.ac.diamond.scisoft.analysis.io.nocaching=true
 -Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms256m
--Xmx2048m
+-Xmx2024m
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
@@ -41,10 +41,9 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
 
    <splash
-      location="uk.ac.gda.beamline.i13j" />
-   <launcher name="gda-i13j">
+      location="uk.ac.gda.beamline.i13" />
+   <launcher name="gda-i13">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
@@ -78,8 +77,15 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
    </plugins>
 
    <features>
-      <feature id="uk.ac.gda.beamline.i13j.feature"/>
+      <feature id="uk.ac.gda.beamline.i13.feature" version="9.7.0.qualifier"/>
    </features>
 
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>

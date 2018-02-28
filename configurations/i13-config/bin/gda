@@ -29,9 +29,6 @@ fi
 # For instance if you use an actual group config (like mx) you might put
 # export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mx.git/configurations/mx-config
 
-# The client is exported as gda-i13i, even though BEAMLINE is just i13, so we must override the default behaviour here.
-export GDA_CLIENT=$GDA_WORKSPACE_PARENT/client/gda-i13i
-
 ######################################################################
 # before the gda-core script is invoked using the environment settings
 ######################################################################

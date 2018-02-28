@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13i;
+package uk.ac.gda.beamline.i13;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -27,21 +27,21 @@ import uk.ac.gda.common.rcp.NamedServiceProvider;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class I13IBeamlineActivator extends AbstractUIPlugin {
+public class I13BeamlineActivator extends AbstractUIPlugin {
 	private static BundleContext bundleContext;
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "uk.ac.gda.beamline.i13i";
+	public static final String PLUGIN_ID = "uk.ac.gda.beamline.i13";
 
 	// The shared instance
-	private static I13IBeamlineActivator plugin;
+	private static I13BeamlineActivator plugin;
 
 	private static NamedServiceProvider namedServiceProvider;
 
 	/**
 	 * The constructor
 	 */
-	public I13IBeamlineActivator() {
+	public I13BeamlineActivator() {
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class I13IBeamlineActivator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static I13IBeamlineActivator getDefault() {
+	public static I13BeamlineActivator getDefault() {
 		return plugin;
 	}
 

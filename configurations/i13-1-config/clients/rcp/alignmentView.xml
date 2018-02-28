@@ -86,21 +86,21 @@
 			<util:list>
 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="compositeFactory" ref="sampleCentring" />
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13j" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13-1" />
 					<property name="imageFilePath" value="icons/samplestage.gif" />
 					<property name="label" value="Sample Centring" />
 					<property name="enabled" value="true" />
 				</bean>
  				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="compositeFactory" ref="base" />
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13j" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13-1" />
 					<property name="imageFilePath" value="icons/samplebasestage.gif" />
 					<property name="label" value="Base" />
 					<property name="enabled" value="true" />
 				</bean>
  				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="compositeFactory" ref="slit6" />
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13j" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13-1" />
 					<property name="imageFilePath" value="icons/camerastage.gif" />
 					<property name="label" value="Slit 6" />
 					<property name="enabled" value="true" />

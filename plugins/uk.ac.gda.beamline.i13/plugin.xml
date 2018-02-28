@@ -6,10 +6,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="Diamond Beamline I13i">
+            name="Diamond Beamline I13">
          <property
                name="appName"
-               value="Diamond Beamline I13i">
+               value="Diamond Beamline I13">
          </property>
          <property
                name="windowImages"
@@ -44,10 +44,10 @@
    </extension>
    <extension
          point="org.eclipse.ui.views">
-      <category name="I13I Views" id="uk.ac.gda.beamline.i13i"/>
+      <category name="I13 Views" id="uk.ac.gda.beamline.i13"/>
       <view
             allowMultiple="true"
-            category="uk.ac.gda.beamline.i13i"
+            category="uk.ac.gda.beamline.i13"
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             icon="icons/AreaDetectorLiveView.gif"
             id="uk.ac.gda.epics.adviewer.mpegview:pv//d1//BL13I-DI-PHDGN-01@"
@@ -56,7 +56,7 @@
       </view>
       <view
             allowMultiple="true"
-            category="uk.ac.gda.beamline.i13i"
+            category="uk.ac.gda.beamline.i13"
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             icon="icons/AreaDetectorLiveView.gif"
             id="uk.ac.gda.epics.adviewer.mpegview:pv//d2//BL13I-DI-PHDGN-02@"
@@ -65,7 +65,7 @@
       </view>
       <view
             allowMultiple="true"
-            category="uk.ac.gda.beamline.i13i"
+            category="uk.ac.gda.beamline.i13"
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             icon="icons/AreaDetectorLiveView.gif"
             id="uk.ac.gda.epics.adviewer.mpegview:pv//d3//BL13I-DI-PHDGN-03@"
@@ -74,7 +74,7 @@
       </view>
       <view
             allowMultiple="true"
-            category="uk.ac.gda.beamline.i13i"
+            category="uk.ac.gda.beamline.i13"
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             icon="icons/AreaDetectorLiveView.gif"
             id="uk.ac.gda.epics.adviewer.mpegview:pv//d4//BL13I-DI-PHDGN-04@"
@@ -83,7 +83,7 @@
       </view>
       <view
             allowMultiple="true"
-            category="uk.ac.gda.beamline.i13i"
+            category="uk.ac.gda.beamline.i13"
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             icon="icons/AreaDetectorLiveView.gif"
             id="uk.ac.gda.epics.adviewer.mpegview:pv//d5//BL13I-DI-PHDGN-05@"
@@ -93,7 +93,7 @@
 
       <view
             allowMultiple="true"
-            category="uk.ac.gda.beamline.i13i"
+            category="uk.ac.gda.beamline.i13"
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             icon="icons/AreaDetectorLiveView.gif"
             id="uk.ac.gda.epics.adviewer.mpegview:pv//Float 1//BL13I-OP-FLOAT-01@"
@@ -102,7 +102,7 @@
       </view>
       <view
             allowMultiple="true"
-            category="uk.ac.gda.beamline.i13i"
+            category="uk.ac.gda.beamline.i13"
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             icon="icons/AreaDetectorLiveView.gif"
             id="uk.ac.gda.epics.adviewer.mpegview:pv//Float 2//BL13I-OP-FLOAT-02@"
@@ -111,7 +111,7 @@
       </view>
       <view
             allowMultiple="true"
-            category="uk.ac.gda.beamline.i13i"
+            category="uk.ac.gda.beamline.i13"
             class="uk.ac.gda.epics.adviewer.views.MJPegView"
             icon="icons/AreaDetectorLiveView.gif"
             id="uk.ac.gda.epics.adviewer.mpegview:pv//Float 3//BL13I-OP-FLOAT-03@"

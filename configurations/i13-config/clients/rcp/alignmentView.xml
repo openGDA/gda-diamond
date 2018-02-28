@@ -39,7 +39,7 @@
 			<util:list>
 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
 					<property name="compositeFactory" ref="sampleCentring" />
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13" />
 					<property name="imageFilePath" value="icons/samplestage.gif" />
 					<property name="label" value="Sample Centring" />
 					<property name="enabled" value="true" />
@@ -77,7 +77,7 @@
 							<property name="labelWidth" value="100" />
 						</bean>
 					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13" />
 					<property name="imageFilePath" value="icons/samplestage.gif" />
 					<property name="label" value="Top" />
 					<property name="enabled" value="false" />
@@ -97,7 +97,7 @@
 							<property name="labelWidth" value="100" />
 						</bean>
 					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13" />
 					<property name="imageFilePath" value="icons/samplebasestage.gif" />
 					<property name="label" value="Translation" />
 					<property name="enabled" value="false" />
@@ -127,7 +127,7 @@
 							<property name="labelWidth" value="100" />
 						</bean>
 					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13" />
 					<property name="imageFilePath" value="icons/samplebasestage.gif" />
 					<property name="label" value="Base" />
 				</bean>
@@ -141,7 +141,7 @@
 					name="scannable" ref="p2r_rot" /> <property name="smallStep" value="30" /> 
 					<property name="bigStep" value="90" /> <property name="useSteps" value="true" 
 					/> </bean> </util:list> </property> <property name="labelWidth" value="80" 
-					/> </bean> </property> <property name="imagePluginId" value="uk.ac.gda.beamline.i13i" 
+					/> </bean> </property> <property name="imagePluginId" value="uk.ac.gda.beamline.i13" 
 					/> <property name="imageFilePath" value="icons/samplebasestage.gif" /> <property 
 					name="label" value="P2R" /> </bean> -->
 
@@ -186,7 +186,7 @@
 							<property name="labelWidth" value="80" />
 						</bean>
 					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13" />
 					<property name="imageFilePath" value="icons/samplebasestage.gif" />
 					<property name="label" value="Hexapod" />
 				</bean>
@@ -215,7 +215,7 @@
 							<property name="labelWidth" value="100" />
 						</bean>
 					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13" />
 					<property name="imageFilePath" value="icons/camerastage.gif" />
 					<property name="label" value="Camera" />
 				</bean>
@@ -245,7 +245,7 @@
 							<property name="labelWidth" value="100" />
 						</bean>
 					</property>
-					<property name="imagePluginId" value="uk.ac.gda.beamline.i13i" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13" />
 					<property name="imageFilePath" value="icons/camerastage.gif" />
 					<property name="label" value="Slit4" />
 				</bean>

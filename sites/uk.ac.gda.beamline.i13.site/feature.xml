@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="uk.ac.gda.beamline.i13i.site"
-      label="Diamond Light Source - Beamline i13i"
+      id="uk.ac.gda.beamline.i13.site"
+      label="Diamond Light Source - Beamline i13"
       version="1.0.0.qualifier"
       provider-name="Diamond Light Source">
 
@@ -18,7 +18,7 @@
    </license>
 
    <includes
-         id="uk.ac.gda.beamline.i13i.feature"
+         id="uk.ac.gda.beamline.i13.feature"
          version="0.0.0"/>
 
    <includes

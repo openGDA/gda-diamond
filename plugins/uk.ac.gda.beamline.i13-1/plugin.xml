@@ -6,10 +6,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="Diamond Beamline I13j">
+            name="Diamond Beamline I13-1">
          <property
                name="appName"
-               value="Diamond Beamline I13j">
+               value="Diamond Beamline I13-1">
          </property>
          <property
                name="windowImages"
@@ -73,13 +73,13 @@
    </extension>
    <extension
          point="org.eclipse.ui.views">
-      <category name="I13J Views" id="uk.ac.gda.beamline.i13j"/>
+      <category name="I13-1 Views" id="uk.ac.gda.beamline.i13-1"/>
       <view
          allowMultiple="false"
-         category="uk.ac.gda.beamline.i13j"
+         category="uk.ac.gda.beamline.i13-1"
          class="gda.rcp.views.ViewFactory:statusView"
          icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png"
-         id="uk.ac.gda.beamline.i13j.views.StatusView"
+         id="uk.ac.gda.beamline.i13-1.views.StatusView"
          name="Status">
       </view>
       <view
@@ -87,7 +87,7 @@
          category="uk.ac.diamond.scisoft.analysis.rcp"
          class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
          icon="icons/chart_curve.png"
-         id="uk.ac.gda.beamline.i13j.DetectorPlot"
+         id="uk.ac.gda.beamline.i13-1.DetectorPlot"
          name="Detector Image"
          restorable="true">
        </view>

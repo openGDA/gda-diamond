@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="uk.ac.gda.beamline.i13i.feature"
-      label="Beamline I13i Feature"
+      id="uk.ac.gda.beamline.i13.feature"
+      label="Beamline I13 Feature"
       version="9.7.0.qualifier"
       provider-name="Diamond Light Source">
 
@@ -50,7 +50,7 @@
          version="0.0.0"/>
 
    <plugin
-         id="uk.ac.gda.beamline.i13i"
+         id="uk.ac.gda.beamline.i13"
          download-size="0"
          install-size="0"
          version="0.0.0"/>

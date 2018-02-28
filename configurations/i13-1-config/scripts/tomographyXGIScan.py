@@ -217,7 +217,7 @@ def reportJythonNamespaceMapping():
     objectOfInterestFLY['tomography_flyscan_flat_dark_det'] = jns.tomography_flyscan_flat_dark_det
 
     msg = "\n These mappings can be changed by editing a file named live_jythonNamespaceMapping, "
-    msg += "\n located in i13i-config/scripts (this can be done by beamline staff).\n"
+    msg += "\n located in i13-config/scripts (this can be done by beamline staff).\n"
 
     print "****** NORMALISED IMAGE SETTINGS ******"
     idx=1

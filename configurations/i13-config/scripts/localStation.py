@@ -196,7 +196,7 @@ try:
 	#make ScanPointProvider
 	import sample_stage_position_provider
 	two_motor_positions = sample_stage_position_provider.ScanPositionProviderFromFile()
-#	two_motor_positions.load("/dls_sw/i13/software/gda_versions/gda_trunk/i13i-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
+#	two_motor_positions.load("/dls_sw/i13/software/gda_versions/gda_trunk/i13-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
 
 	imageFitter = finder.find("imageFitter")
 	imageStats = finder.find("imageStats")

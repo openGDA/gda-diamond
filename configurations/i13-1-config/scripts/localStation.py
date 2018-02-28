@@ -140,7 +140,7 @@ from i13j_utilities import ShutterDirector, CAShutterDirector, StepScanMinder, p
 #make ScanPointProvider
 import sample_stage_position_provider
 two_motor_positions = sample_stage_position_provider.ScanPositionProviderFromFile()
-#two_motor_positions.load("/dls_sw/i13-1/software/gda_versions/gda_trunk2/i13j-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
+#two_motor_positions.load("/dls_sw/i13-1/software/gda_versions/gda_trunk2/i13-1-config/scripts/tests/sample_stage_position_provider_test.dat",(0.,0.))
 
 imageFitter = finder.find("imageFitter")
 imageStats = finder.find("imageStats")

@@ -17,7 +17,7 @@ com.cosylab.epics.caj.CAJContext.addr_list           = pc0013.cs.diamond.ac.uk
 com.cosylab.epics.caj.CAJContext.repeater_port       = 5065
 com.cosylab.epics.caj.CAJContext.server_port         = 5064
 
-4. GDA I13I Dummy Client
+4. GDA I13 Dummy Client
 client.xml
 <!-- 	<import resource="../../../devices/dummy/pco1_ndplugins.xml"/>
  -->	<import resource="../../../devices/zebra/pco1_ndplugins.xml"/>

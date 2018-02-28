@@ -1,6 +1,6 @@
 from gdascripts.scan import rasterscans
 print '=' * 80
-print "running i13j/config/scripts/startup_pie725.py"
+print "running i13-1-config/scripts/startup_pie725.py"
 print '=' * 80
 
 # PIE725

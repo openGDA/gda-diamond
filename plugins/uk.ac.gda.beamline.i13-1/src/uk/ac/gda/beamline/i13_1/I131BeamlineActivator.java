@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i13j;
+package uk.ac.gda.beamline.i13_1;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -24,18 +24,18 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class I13JBeamlineActivator extends AbstractUIPlugin {
+public class I131BeamlineActivator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "uk.ac.gda.beamline.i13j";
+	public static final String PLUGIN_ID = "uk.ac.gda.beamline.i13_1";
 
 	// The shared instance
-	private static I13JBeamlineActivator plugin;
+	private static I131BeamlineActivator plugin;
 
 	/**
 	 * The constructor
 	 */
-	public I13JBeamlineActivator() {
+	public I131BeamlineActivator() {
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class I13JBeamlineActivator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static I13JBeamlineActivator getDefault() {
+	public static I131BeamlineActivator getDefault() {
 		return plugin;
 	}
 }
