@@ -6,22 +6,22 @@
 	<!-- CAJ1 Epics Monitor -->
 	
 	<bean id="caj11" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="CAJ1.I1" />
+		<property name="pvName" value="BL10J-DI-IAMP-01:SIG1" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="caj12" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="CAJ1.I2" />
+		<property name="pvName" value="BL10J-DI-IAMP-01:SIG2" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="caj13" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="CAJ1.I3" />
+		<property name="pvName" value="BL10J-DI-IAMP-01:SIG3" />
 		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="caj14" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="CAJ1.I4" />
+		<property name="pvName" value="BL10J-DI-IAMP-01:SIG4" />
 		<property name="local" value="true"/>
 	</bean>
 
