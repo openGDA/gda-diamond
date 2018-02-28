@@ -34,7 +34,7 @@
 	<import resource="S9.xml"/>
 	<import resource="M7.xml"/>
 	<import resource="UMJ1.xml"/>
-	<import resource="I10-UJ1.xml"/>
+	<import resource="UJ1.xml"/>
 	<import resource="I10-CAJ1.xml"/>
 	<import resource="I10-CAJ2.xml"/>
 	<import resource="I10-MAGJ1.xml"/>
