@@ -22,8 +22,8 @@
         <cs:dependency name="uk.ac.gda.beamline.i11-1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i11.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i12.site" componentType="eclipse.feature"/>
-        <cs:dependency name="uk.ac.gda.beamline.i13i.site" componentType="eclipse.feature"/>
-        <cs:dependency name="uk.ac.gda.beamline.i13j.site" componentType="eclipse.feature"/>
+        <cs:dependency name="uk.ac.gda.beamline.i13.site" componentType="eclipse.feature"/>
+        <cs:dependency name="uk.ac.gda.beamline.i13-1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i14.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i15-1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i15.site" componentType="eclipse.feature"/>

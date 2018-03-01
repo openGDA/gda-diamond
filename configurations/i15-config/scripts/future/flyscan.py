@@ -4,7 +4,7 @@ Demo of using ConstantVelocityScanLine and MultiScanRunner
 import flyscan
 flyscan.flyscan(zebraTestZebraScannableMotor, -90, 90, .5,zebraTestContinuousMoveController, zebraTestDetector, .01 )
 
-Copied from gda-dls-beamlines-i13x.git/i13i/scripts/flyscan.py @136034c  (8.36)
+Copied from gda-dls-beamlines-i13x.git/i13-config/scripts/flyscan.py @136034c  (8.36)
 
 Doesn't work in 8.34 even after switching run() for runScan()!
 """

@@ -45,13 +45,13 @@ i13i/devices/zebra_test.xml
 																								collectionStrategy		zebraTestCollectionStrategy
 																								additionalPluginList	zebra_hdf5_filewriter
 	Used by:
-		<!-- i13i/servers/main/common.xml -->
+		<!-- i13-config/servers/main/common.xml -->
 
 --------------------------------------------------------------------------------
 Beans for running the test camera/motor/zebra system as the pco camera:
 --------------------------------------------------------------------------------
 
-i13i/devices/zebra/pco1_ndplugins.xml
+i13-config/devices/zebra/pco1_ndplugins.xml
 	Defines:
 		pco1_cam_base							V17ADBaseFactoryBean							prefix		TESTZEBRA:CAM:
 		pco1_arr								V17NDArrayFactoryBean							prefix		TESTZEBRA:ARR:
@@ -66,11 +66,11 @@ i13i/devices/zebra/pco1_ndplugins.xml
 		pco1_proc1								V17NDProcessFactoryBean							prefix		TESTZEBRA:PROC
 		pco1_proc2								V17NDProcessFactoryBean							prefix		TESTZEBRA:PROC2
 	Used by:
-		i13i/devices/zebra/pco1.xml
-		<!-- i13i/clients/main/dummy/client.xml -->																																Why?
+		i13-config/devices/zebra/pco1.xml
+		<!-- i13-config/clients/main/dummy/client.xml -->																																Why?
 			This is used by the ADViewer system as well as ion the server	
 
-i13i/devices/zebra/pco1.xml
+i13-config/devices/zebra/pco1.xml
 	Defines:
 		pco1_plugins							FindableObjectHolder							map			All ^ + pco1_autoContinuousTrigger
 		pco1_autoContinuousTrigger				SoftwareContinuous								[]			pco1_cam_base
@@ -102,17 +102,17 @@ i13i/devices/zebra/pco1.xml
 																									[]			pco1
 																									ndFile	pco1_ndfiletif
 	Used by:
-		<!-- i13i/servers/main/dummy/server.xml -->
+		<!-- i13-config/servers/main/dummy/server.xml -->
 
-i13i/devices/zebra/sample_stage_motors.xml
+i13-config/devices/zebra/sample_stage_motors.xml
 	Defines:
 		ss1_rot_motor			EpicsMotor														pvName		TESTZEBRA:M1
 	Used by:
-		<!-- i13i/servers/main/dummy/server.xml -->
+		<!-- i13-config/servers/main/dummy/server.xml -->
 
-i13i/devices/zebra/zebra.xml
+i13-config/devices/zebra/zebra.xml
 	Defines:
 		zebra			ZebraImpl																zebraPrefix	TESTZEBRA:ZEBRA
 	Used by:
-		<!-- i13i/servers/main/dummy/server.xml -->
+		<!-- i13-config/servers/main/dummy/server.xml -->
 
