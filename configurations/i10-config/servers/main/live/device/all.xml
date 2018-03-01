@@ -12,8 +12,8 @@
 	<import resource="S5.xml"/>
 	<import resource="S6.xml"/>
 	<import resource="D6.xml"/>
-	<import resource="IUserMotor.xml"/>
-	<import resource="AnalogueInputOutput1.xml"/>
+	<import resource="UMI1.xml"/>
+	<import resource="UI1.xml"/>
 	<import resource="Scaler1.xml"/>
 	<import resource="CA2.xml"/>
 	<import resource="CA3.xml"/>
@@ -22,16 +22,10 @@
 	<import resource="PIXIS.xml"/>
 	<import resource="PIXIS_SUMMED.xml"/>
 	<import resource="RASOR.xml"/>
-	<!-- 
-	<import resource="I10-RASOR-ANDOR1.xml" />
-	 -->
 	<import resource="RASOR-SCALER1.xml"/>
 	
 	<!-- J Absorption -->
 
-	<!-- 	
-	<import resource="I10-SHTRJ.xml"/>
-	 -->
 	<import resource="DJ1.xml"/>
 	<import resource="S7.xml"/>
 	<import resource="DJ2A.xml"/>
@@ -42,7 +36,7 @@
 	<import resource="S9.xml"/>
 	<import resource="UMJ1.xml"/>
 	<import resource="UJ1.xml"/>
-	<import resource="Scaler1.xml"/>
+	<import resource="ScalerJ1.xml"/>
 	<import resource="CAJ1.xml"/>
 	<import resource="CAJ2.xml"/>
 	<import resource="MAGJ1.xml"/>

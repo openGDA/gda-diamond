@@ -14,8 +14,8 @@
 	<import resource="S5.xml"/>
 	<import resource="S6.xml"/>
 	<import resource="D6.xml"/>
-	<import resource="IUserMotor.xml"/>
-	<import resource="Scaler1.xml"/>
+	<import resource="UMI1.xml"/>
+	<import resource="UI1.xml"/>
 	<import resource="CA2.xml"/>
 	<import resource="CA3.xml"/>
 	<import resource="CA4.xml"/>
