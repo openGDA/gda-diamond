@@ -40,7 +40,6 @@
 	<import resource="S8.xml"/>
 	<import resource="DJ3.xml"/>
 	<import resource="S9.xml"/>
-	<import resource="M7.xml"/>
 	<import resource="UMJ1.xml"/>
 	<import resource="UJ1.xml"/>
 	<import resource="Scaler1.xml"/>
