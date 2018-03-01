@@ -30,7 +30,6 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<import resource="epicsConfigurations.xml"/>
 	<import resource="metadata.xml"/>
 	<import resource="device/all.xml"/>
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/servers/main/live/device/all.xml"/>
