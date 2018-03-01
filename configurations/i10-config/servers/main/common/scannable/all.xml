@@ -40,6 +40,6 @@
 	<import resource="MAGJ1.xml"/>
 	
 	<import resource="LakeShore.xml"/>
-	<import resource="xmap_detector.xml"/>
+<!-- 	<import resource="xmap_detector.xml"/> --><!-- xmapMca and _xmap for MCA mapping mode- requires trigger -->
 
 </beans>
