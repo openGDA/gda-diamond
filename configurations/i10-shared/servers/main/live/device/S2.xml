@@ -36,10 +36,8 @@
 	</bean>
 
 	<bean id="s2ysize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="SLITS2.YGAPSIZE" />
-		<property name="epicsConfiguration" ref="epicsConfig" />
+		<property name="pvName" value="BL10I-AL-SLITS-02:YSIZE" />
 		<property name="local" value="true"/>
-		<property name="accessControlName" value="branchena" />
 	</bean>
 
 	<bean id="s2ycentre_motor" class="gda.device.motor.EpicsMotor">

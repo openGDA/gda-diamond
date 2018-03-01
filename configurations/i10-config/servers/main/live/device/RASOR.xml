@@ -120,15 +120,6 @@
 	<bean id="diff_phi_motor" class="gda.device.motor.DummyMotor" >
 		<property name = "name" value="diff_phi_motor" />
 		<property name = "speed" value="360" />
-	<!-- 
-	<bean id="diff_phi_motor" class="gda.device.motor.EpicsMotor">
-		<property name="name" value="DIFF.PHI" />
-		<property name="epicsConfiguration" ref="rasorConfig" />
-		<property name="local" value="true"/>
-	 -->
-		<!-- 
-		<property name="speed" value="360" />
-		 -->
 	</bean>
 
 </beans>
