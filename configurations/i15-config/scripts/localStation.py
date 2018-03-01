@@ -709,6 +709,15 @@ try:
 	else:
 		print "* Not installing example solstice scanning devices *"
 
+	from gda.util.converters import JEPConverterHolder
+	from gda.device.scannable import ConvertorScannable
+
+	try:
+		energy_calibration = JEPConverterHolder("energy_calibration", "calibrated_energy.xml")
+		calibrated_energy = ConvertorScannable("ConvertorScannable", dcmenergy, energy_calibration)
+	except:
+		localStation_exception(sys.exc_info(), "creating calibrated_energy scannable")
+
 	try:
 		if abs(zebraPositionScannable.getPosition()[2]) > 0.01:
 			zebraPositionScannable.moveTo(1)

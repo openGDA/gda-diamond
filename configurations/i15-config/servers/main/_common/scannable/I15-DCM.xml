@@ -6,6 +6,7 @@
 	<!-- Energy -->
 
 	<bean id="dcmenergy" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="eV"/>
 		<property name="motor" ref="DcmenergyMotor" />
 	</bean>
 
