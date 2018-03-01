@@ -44,7 +44,7 @@
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="storeAttr" value="true" />
-		<property name="ndArrayPortVal" value="XBUF" />
+		<property name="ndArrayPortVal" value="DET1.xbuf" />
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64 -->
 		<property name="FramesChunks" value="5" />
@@ -209,15 +209,16 @@
 
 	<!-- Controller -->
 	<!-- GDA 8 configuration -->
-	<bean id="edxdcontrollerStepScan" class="gda.device.detector.xmap.edxd.EDXDMappingController">
+	<bean id="edxdcontrollerSpectra" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="local" value="true" />
 		<property name="xmap" ref="xmap_dxp" />
 		<property name="elementOffset" value="1" />
 		<property name="numberOfElements" value="1" />
+		<property name="hdf5" ref="xmap_ndfilehdf5"/>
 		<property name="aquisitionTimeOn" value="True" />
 	</bean>
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
-		<property name="edxdController" ref="edxdcontrollerStepScan" />
+		<property name="edxdController" ref="edxdcontrollerSpectra" />
 		<property name="local" value="true" />
 	</bean>
 <!-- GDA 9 configuration -->

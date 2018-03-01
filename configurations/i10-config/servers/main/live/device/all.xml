@@ -52,6 +52,7 @@
 	
 	<!-- Temporary devices -->
 	<import resource="Zebra.xml"/>
-<!-- 	<import resource="vortex_xmap.xml"/> -->
-	<import resource="xmap_detector.xml"/>
+	<import resource="vortex.xml"/><!-- xmapMca for MCA spectra mode -->
+
+<!-- 	<import resource="xmap_detector.xml"/> --> <!-- xmapMca and _xmap for MCA mapping mode requires Hardware trigger -->
 </beans>
