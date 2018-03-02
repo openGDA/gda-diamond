@@ -8,7 +8,6 @@
 	<!-- Elsewhere a real EpicsScaler is used in dummy mode. -->
 	<bean id="rasor_scaler1" class="gda.device.detector.EpicsScaler">
 		<property name="deviceName" value="SCALER1" />
-		<!-- <property name="epicsConfiguration" ref="rasorConfig" /> -->
 		<property name="frequency" value="50000000"/>
 	</bean>
 </beans>
