@@ -1,10 +1,41 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+    	http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<!-- DJ1 (D9) -->
 	
-	<bean id="dj1d9_scrn_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="dj1d9_det_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="dj1_scrn" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Move In</value>
+				<value>Move Out</value>
+				<value>Reset</value>
+			</util:list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+	<!-- NXDetector -->
+ 	<!-- Area detector camera -->
+	<!-- To use this, you will have to start an area detector simulator -->
+	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
+ 	<bean id="dj1cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="dj1cam" />
+		<property name="collectionStrategy" ref="simCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="sim_RoiStats1" />
+				<ref bean="sim_RoiStats2" />
+				<ref bean="sim_RoiStats3" />
+				<ref bean="sim_RoiStats4" />
+				<ref bean="sim_RoiStats5" />
+				<ref bean="sim_RoiStats6" />
+				<ref bean="simHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
 </beans>
