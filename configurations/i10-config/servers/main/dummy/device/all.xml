@@ -40,11 +40,6 @@
 	<import resource="I10-CAJ2.xml"/>
 	<import resource="I10-MAGJ1.xml"/>
 
-	<!-- ME02P Polarimeter -->
-	<!-- 
-	<import resource="ME02P-Polarimeter.xml"/>
-	 -->
-
 	<!-- Temporary devices -->
 	<import resource="I10-Zebra.xml"/>
 </beans>
