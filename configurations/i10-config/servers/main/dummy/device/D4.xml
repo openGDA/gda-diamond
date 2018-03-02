@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
     	http://www.springframework.org/schema/util
-		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+		http://www.springframework.org/schema/util/spring-util.xsd">
 	<!-- D4 (D6) --> 
 	
 	<bean id="d4_scrn" class="gda.device.enumpositioner.DummyEnumPositioner">
@@ -22,7 +22,7 @@
 	<!-- To use this, you will have to start an area detector simulator -->
 	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
  	<bean id="d4cam" class="gda.device.detector.NXDetector">
-		<property name="name" value="d1cam" />
+		<property name="name" value="d4cam" />
 		<property name="collectionStrategy" ref="simCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>

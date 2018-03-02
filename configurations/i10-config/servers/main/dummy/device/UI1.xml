@@ -1,31 +1,153 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
+           http://www.springframework.org/schema/beans/spring-beans.xsd">     
 
 	<!-- UI1 User Input/Output --> 
-	
-	<!-- Elsewhere a real EpicsScaler is used in dummy mode. -->
-	<bean id="scaler1" class="gda.device.detector.EpicsScaler">
-		<property name="deviceName" value="SCALER1" />
-		<property name="frequency" value="50000000"/>
+
+	<bean id="ui1ai1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.0751743</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.01" />
+	</bean>
+	<bean id="ui1ai2" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.0795675</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.01" />
+	</bean>
+	<bean id="ui1ai3" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.0795675</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.01" />
+	</bean>
+	<bean id="ui1ai4" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.0795675</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.01" />
+	</bean>
+	<bean id="ui1ai5" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.0795675</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.01" />
+	</bean>
+	<bean id="ui1ai6" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.0795675</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.01" />
+	</bean>
+	<bean id="ui1ai7" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.0795675</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.01" />
+	</bean>
+	<bean id="ui1ai8" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0.0795675</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.01" />
 	</bean>
 
-	<bean id="ui1ai1" class="gda.device.monitor.DummyEpicsMonitor" />
-	<bean id="ui1ai2" class="gda.device.monitor.DummyEpicsMonitor" />
-	<bean id="ui1ai3" class="gda.device.monitor.DummyEpicsMonitor" />
-	<bean id="ui1ai4" class="gda.device.monitor.DummyEpicsMonitor" />
-	<bean id="ui1ai5" class="gda.device.monitor.DummyEpicsMonitor" />
-	<bean id="ui1ai6" class="gda.device.monitor.DummyEpicsMonitor" />
-	<bean id="ui1ai7" class="gda.device.monitor.DummyEpicsMonitor" />
-	<bean id="ui1ai8" class="gda.device.monitor.DummyEpicsMonitor" />
-
- 	<bean id="ui1ao1" class="gda.device.controlpoint.DummyControlPoint" />
-	<bean id="ui1ao2" class="gda.device.controlpoint.DummyControlPoint" />
-	<bean id="ui1ao3" class="gda.device.controlpoint.DummyControlPoint" />
-	<bean id="ui1ao4" class="gda.device.controlpoint.DummyControlPoint" />
-	<bean id="ui1ao5" class="gda.device.controlpoint.DummyControlPoint" />
-	<bean id="ui1ao6" class="gda.device.controlpoint.DummyControlPoint" />
-	<bean id="ui1ao7" class="gda.device.controlpoint.DummyControlPoint" />
-	<bean id="ui1ao8" class="gda.device.controlpoint.DummyControlPoint" />
+	<bean id="ui1ao1" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.0" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="ui1ao2" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.0" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="ui1ao3" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.0" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="ui1ao4" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.0" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="ui1ao5" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.0" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="ui1ao6" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.0" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="ui1ao7" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.0" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="ui1ao8" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0.0" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>
 </beans>

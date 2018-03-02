@@ -4,76 +4,107 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
 
 	<!--   Rasor -->
-	 
-	<bean id="aptr2_trans_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="aptr2_trans_motor" />
+	<bean id="pinh_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50.0" />
+		<property name="maxPosition" value="96.0" />
+		<property name="speed" value="0.555625" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>	 
+	<bean id="pinh_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-13.1887" />
+		<property name="maxPosition" value="13.3113" />
+		<property name="speed" value="1.5625" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="aptr2_trans_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-99953.1" />
+		<property name="maxPosition" value="38" />
+		<property name="speed" value="0.078125" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="aptr1_trans_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="aptr1_trans_motor" />
+		<property name="minPosition" value="-54.573" />
+		<property name="maxPosition" value="50" />
+		<property name="speed" value="0.078125" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="cryo_x_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="cryo_x_motor" />
+		<property name="minPosition" value="-20.16" />
+		<property name="maxPosition" value="29.7276" />
+		<property name="speed" value="0.019" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="cryo_y_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="cryo_y_motor" />
+		<property name="minPosition" value="-5.53" />
+		<property name="maxPosition" value="3.9293" />
+		<property name="speed" value="0.1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="cryo_z_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="cryo_z_motor" />
+		<property name="minPosition" value="-1.95" />
+		<property name="maxPosition" value="2.81" />
+		<property name="speed" value="0.08" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="table_leg1_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="table_leg1_motor" />
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="9.0" />
+		<property name="speed" value="0.00878912" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="table_leg2_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="table_leg2_motor" />
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="9.0" />
+		<property name="speed" value="0.00878912" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="table_leg3_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="table_leg3_motor" />
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="9.0" />
+		<property name="speed" value="0.00878912" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
 	</bean>
-
-	<!-- 
-	<bean id="table_y_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="table_y_motor" />
-	</bean>
-
-	<bean id="table_pitch_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="table_pitch_motor" />
-	</bean>
-
-	<bean id="table_roll_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="table_roll_motor" />
-	</bean>
-	 -->
 
 	<bean id="diff_twotheta_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="diff_twotheta_motor" />
-		<property name = "speed" value="360" />
-	</bean>
-
-	<bean id="diff_twotheta_motor_enc" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="diff_twotheta_motor_enc" />
-		<property name = "speed" value="360" />
+		<property name="minPosition" value="-50.0573" />
+		<property name="maxPosition" value="139.998" />
+		<property name="speed" value="1.388" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="diff_theta_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="diff_theta_motor" />
-		<property name = "speed" value="360" />
-	</bean>
-
-	<bean id="diff_theta_motor_enc" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="diff_theta_motor_enc" />
-		<property name = "speed" value="360" />
+		<property name="minPosition" value="-93.4566" />
+		<property name="maxPosition" value="191.543" />
+		<property name="speed" value="1.38889" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="diff_chi_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="diff_chi_motor" />
-		<property name = "speed" value="360" />
+		<property name="minPosition" value="85.5" />
+		<property name="maxPosition" value="94.5" />
+		<property name="speed" value="0.0208" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="diff_phi_motor" class="gda.device.motor.DummyMotor" >
