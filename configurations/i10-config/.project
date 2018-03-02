@@ -8,6 +8,7 @@
 		<project>uk.ac.gda.devices.xmap.epics</project>
 		<project>uk.ac.gda.epics</project>
 		<project>uk.ac.gda.exafs.api</project>
+		<project>uk.ac.gda.test.helpers</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
