@@ -2,9 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/beans/spring-beans.xsd
 	   	http://www.springframework.org/schema/util
-		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+		http://www.springframework.org/schema/util/spring-util.xsd">
            
 	<!-- D3 (D5) --> 
 	<bean id="d3_scrn" class="gda.device.enumpositioner.DummyEnumPositioner">
@@ -18,7 +18,7 @@
 		<property name="local" value="true"/>
 	</bean>
 	<bean id="d3d5_det_motor" class="gda.device.motor.DummyMotor">
-			<property name="minPosition" value="-0.5" />
+		<property name="minPosition" value="-0.5" />
 		<property name="maxPosition" value="45.0" />
 		<property name="speed" value="0.4" />
 		<property name="unitString" value="mm"/>
