@@ -2,6 +2,7 @@
     <cs:dependencies>
         <cs:dependency name="all-mt-configs" componentType="buckminster"/>
         <cs:dependency name="all-mx-configs" componentType="buckminster"/>
+        <cs:dependency name="b07-config" componentType="buckminster"/>
         <cs:dependency name="b07-1-config" componentType="buckminster"/>
         <cs:dependency name="b18-config" componentType="buckminster"/>
         <cs:dependency name="b21-config" componentType="buckminster"/>
