@@ -40,5 +40,5 @@
 	<import resource="MAGJ1.xml"/>
 
 	<!-- Temporary devices -->
-	<import resource="I10-Zebra.xml"/>
+	<import resource="Zebra.xml"/>
 </beans>
