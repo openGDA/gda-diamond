@@ -15,7 +15,7 @@
 	<import resource="S5.xml"/>
 	<import resource="S6.xml"/>
 	<import resource="D6.xml"/>
-	<import resource="I10-UMI1.xml"/>
+	<import resource="UMI1.xml"/>
 	<import resource="I10-UI1.xml"/>
 	<import resource="I10-CA2.xml"/>
 	<import resource="I10-CA3.xml"/>
