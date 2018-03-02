@@ -17,10 +17,10 @@
 	<import resource="D6.xml"/>
 	<import resource="UMI1.xml"/>
 	<import resource="UI1.xml"/>
-	<import resource="I10-CA2.xml"/>
-	<import resource="I10-CA3.xml"/>
-	<import resource="I10-CA4.xml"/>
-	<import resource="I10-RASOR.xml"/>
+	<import resource="CA2.xml"/>
+	<import resource="CA3.xml"/>
+	<import resource="CA4.xml"/>
+	<import resource="RASOR.xml"/>
 	<!-- 
 	<import resource="I10-RASOR-ANDOR1.xml" />
 	 -->
