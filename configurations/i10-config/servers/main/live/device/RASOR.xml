@@ -117,9 +117,4 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="diff_phi_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="diff_phi_motor" />
-		<property name = "speed" value="360" />
-	</bean>
-
 </beans>

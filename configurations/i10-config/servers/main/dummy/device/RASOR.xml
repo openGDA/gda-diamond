@@ -106,37 +106,84 @@
 		<property name="unitString" value="deg"/>
 		<property name="local" value="true" />
 	</bean>
-	
-	<bean id="diff_phi_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="diff_phi_motor" />
-		<property name = "speed" value="360" />
-	</bean>
-	
+
 	<bean id="diff_alpha_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="diff_alpha_motor" />
+		<property name="minPosition" value="-5.17771" />
+		<property name="maxPosition" value="4.82229" />
+		<property name="speed" value="0.3689" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true" />
 	</bean>
 	
+	<bean id="emec_y1_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-70.1" />
+		<property name="maxPosition" value="14.9749" />
+		<property name="speed" value="0.0478125" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="emec_y2_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.0180803" />
+		<property name="maxPosition" value="70.1" />
+		<property name="speed" value="0.0478125" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="emec_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-280" />
+		<property name="maxPosition" value="220" />
+		<property name="speed" value="1.875" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true"/>
+	</bean>
+
 	<bean id="diff_x_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="diff_x_motor" />
+		<property name="minPosition" value="-5.7" />
+		<property name="maxPosition" value="5.7" />
+		<property name="speed" value="0.5859" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="polan_twotheta_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="polan_twotheta_motor" />
+		<property name="minPosition" value="-652.684" />
+		<property name="maxPosition" value="103.316" />
+		<property name="speed" value="0.937383" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="polan_theta_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="polan_theta_motor" />
+		<property name="minPosition" value="-66.1299" />
+		<property name="maxPosition" value="313.341" />
+		<property name="speed" value="0.937383" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="polan_y_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="polan_y_motor" />
+		<property name="minPosition" value="-166.0" />
+		<property name="maxPosition" value="20.0" />
+		<property name="speed" value="0.625" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="polan_z_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="polan_z_motor" />
+		<property name="minPosition" value="-99916.5" />
+		<property name="maxPosition" value="17.5" />
+		<property name="speed" value="0.625" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="polan_eta_motor" class="gda.device.motor.DummyMotor" >
-		<property name = "name" value="polan_eta_motor" />
+		<property name="minPosition" value="-129.5" />
+		<property name="maxPosition" value="359.5" />
+		<property name="speed" value="0.562556" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true"/>
 	</bean>
 </beans>
