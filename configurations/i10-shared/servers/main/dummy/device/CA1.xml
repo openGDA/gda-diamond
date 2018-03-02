@@ -5,8 +5,40 @@
 
 	<!-- CA1 Epics Monitor -->
 	
-	<bean id="ca11" class="gda.device.monitor.DummyEpicsMonitor" />	
-	<bean id="ca12" class="gda.device.monitor.DummyEpicsMonitor" />	
-	<bean id="ca13" class="gda.device.monitor.DummyEpicsMonitor" />	
-	<bean id="ca14" class="gda.device.monitor.DummyEpicsMonitor" />
+	<bean id="ca11" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">2.60</value>
+		</property>
+		<property name="lowerLimit" value="2.0" />
+		<property name="upperLimit" value="3.0" />
+		<property name="increment" value="0.01" />
+	</bean>	
+	<bean id="ca12" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">2.60</value>
+		</property>
+		<property name="lowerLimit" value="2.0" />
+		<property name="upperLimit" value="3.0" />
+		<property name="increment" value="0.02" />
+	</bean>
+	<bean id="ca13" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">2.60</value>
+		</property>
+		<property name="lowerLimit" value="2.0" />
+		<property name="upperLimit" value="3.0" />
+		<property name="increment" value="0.01" />
+	</bean>
+	<bean id="ca14" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">2.60</value>
+		</property>
+		<property name="lowerLimit" value="2.0" />
+		<property name="upperLimit" value="3.0" />
+		<property name="increment" value="0.01" />
+	</bean>
 </beans>
