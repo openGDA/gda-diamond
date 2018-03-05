@@ -14,4 +14,16 @@
 		<property name="pvName" value="FE10I-AL-APTR-02:Y" />
 		<property name="local" value="true"/>
 	</bean>
-</beans>
+	
+	<bean id="frontend" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE10I-CS-BEAM-01:BLCON"/>
+		<property name="statusPv" value="FE10I-CS-BEAM-01:STA"/>
+		<property name="local" value="true"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+
+	<bean id="ab0" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE10I-RS-ABSB-02:BLCON"/>
+		<property name="statusPv" value="FE10I-RS-ABSB-02:STA"/>
+		<property name="local" value="true"/>
+	</bean></beans>

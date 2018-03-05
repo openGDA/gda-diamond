@@ -4,6 +4,7 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<import resource="adSimulator.xml"/>
+	<import resource="ring.xml"/>
 	<import resource="FrontEnd.xml"/>
 	<import resource="ID.xml"/>
 	<import resource="D1.xml"/>
