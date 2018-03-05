@@ -1,7 +1,7 @@
 #localStation.py
 
 print "===================================================================";
-print " Performing Beanline I07 specific initialisation code (localStation.py).";
+print " Performing Beamline I07 specific initialisation code (localStation.py).";
 print
 
 

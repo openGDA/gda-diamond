@@ -6,7 +6,7 @@
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
       <text>
-         GDA for DLS Beamone i07.
+         GDA for DLS Beamline I07.
 
 Build id: 
 
@@ -20,13 +20,11 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>
--Dgda.mode=dummy
--Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
+      <vmArgs>-Dgda.mode=dummy
 -Declipse.pluginCustomization=${project_loc:i07-config}/client/pluginCustomization.ini
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
+-Duk.ac.diamond.scisoft.create_pydev_jython_interpreter=FALSE
 -Dgda.install.git.loc=${workspace_loc}_git
 -Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.config=${project_loc:i07-config}
@@ -40,10 +38,6 @@ http://www.opengda.org
 -client
 -Xms128m
 -Xmx1024m
--XX:PermSize=512m
--XX:MaxPermSize=786m
--XX:MaxHeapFreeRatio=70
--XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsLin>-client
 -Xms128m
@@ -54,12 +48,15 @@ http://www.opengda.org
 -XX:+DisableExplicitGC
 -XX:+UseGCOverheadLimit
 -XX:+UseParallelGC
--XX:ParallelGCThreads=8</vmArgsLin>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+-XX:ParallelGCThreads=8
+      </vmArgsLin>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
       <vmArgsWin>-Xms512m
 -Xmx1024m
 -XX:PermSize=182m 
--XX:MaxPermSize=786m</vmArgsWin>
+-XX:MaxPermSize=786m
+      </vmArgsWin>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
@@ -69,7 +66,6 @@ http://www.opengda.org
       handlerType="browser" />
    <launcher name="gda-i07">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
@@ -106,5 +102,12 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
       <feature id="uk.ac.gda.beamline.i07.feature"/>
    </features>
 
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>
