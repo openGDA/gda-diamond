@@ -19,7 +19,6 @@
 	<import resource="expressionWatchdog.xml"/>
 	<import resource="xRayWatchdog.xml"/>
 
-<!-- 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" /> -->
 	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/file_registrar.xml" />
 
 	<import resource="terminal_logger.xml"/>
@@ -28,12 +27,12 @@
 	<import resource="devices/_all.xml"/>
 
 	<!-- dummy beans from dls-config, can be used for testing solstice scanning. -->
-	<import resource="file://${gda.facility.dir}/servers/_common/det.xml"/>
-	<import resource="file://${gda.facility.dir}/servers/_common/mapping_motors.xml"/>
-	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml"/>
-	<import resource="file://${gda.facility.dir}/servers/_common/darkImageDetector.xml"/>
-	<import resource="file://${gda.facility.dir}/servers/_common/constantVelocityDevice.xml"/>
-	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrot_detectors.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/det.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/mapping_motors.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/mandelbrotDetector.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/darkImageDetector.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/constantVelocityDevice.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/mandelbrot_detectors.xml"/>
 	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="commandServer.xml" />
@@ -44,5 +43,5 @@
 	      detectors must be created before doing this.
 	      ADVISED: do it last or towards the end, scan will now start to run!
 	 --> 
-	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/solstice_scanning.xml"/>
 </beans>
