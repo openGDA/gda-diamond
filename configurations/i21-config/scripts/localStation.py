@@ -114,6 +114,7 @@ cleverd7femto1=CleverAmplifier("cleverd7femto1", d7femto1_neg, 0.5, 9.0, "%.4f",
 cleverd7femto2=CleverAmplifier("cleverd7femto2", d7femto2_pos, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 cleverm4femto1=CleverAmplifier("cleverm4femto1", m4femto1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 cleverm4femto2=CleverAmplifier("cleverm4femto2", m4femto2, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
+clevertthdiode=CleverAmplifier("clevertthdiode", tthdiode, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
