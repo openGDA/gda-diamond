@@ -21,8 +21,8 @@ else:
 	USE_CRYO_GEOMETRY = False # < -- chi will not move if True
 
 
-USE_DUMMY_IDGAP_MOTOR = False
-#USE_DUMMY_IDGAP_MOTOR = True
+#USE_DUMMY_IDGAP_MOTOR = False
+USE_DUMMY_IDGAP_MOTOR = True
 USE_XMAP= True
 
 # Java
