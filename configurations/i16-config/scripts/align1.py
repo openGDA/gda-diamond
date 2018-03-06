@@ -19,12 +19,13 @@ def ptl3cal():
 		ucalibrate()
 		pos d3a 12
 		scan energy ptl3-.05 ptl3+.05 .001 w .2 ic1
-#		print "Now go to edge and type: en.calibrate(11.564) "  #
-        edgeval=eedge()
-        go edgeval                                    #
-        print('Going to '+str(edgeval)+' keV and calibrating')  #  Gareth 27 April 2016
-        en.calibrate(11.564)                                    #
-        pos d3a 90 energy ptl3
+#		print "Now go to edge and type: en.calibrate(11.564) "  ##
+		edgeval=eedge()
+		go edgeval                     #
+		print('=== Energy calibration change: %.1f eV' % (1000*(edgeval-ptl3))) #Steve 28 Feb 2018
+		print('Going to '+str(edgeval)+' keV and calibrating')  #  Gareth 27 April 2016
+		en.calibrate(11.564)                                    #
+		pos d3a 90 energy ptl3
 	
 def go8keV():
 	print "===Go to 8keV - last chance to abort!"; sleep(5)
