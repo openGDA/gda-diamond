@@ -12,16 +12,19 @@
     http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	
+	<import resource="required_at_start.xml" />
 
-    <import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml" />
+    <bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
+		<property name="template"
+			value="${gda.data.scan.datawriter.datadir}/gda_terminal.log" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+		<property name="local" value="true" />
+	</bean>
 
-    <bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
-        <property name="local" value="true" />
-    </bean>
-
-    <import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
-
-    <import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml" />
+	<import resource="terminal_logger.xml" />
+ 
+    <import resource="abstract_command_server.xml" />
 
     <bean id="script_paths" parent="common_script_paths">
         <property name="projects">
