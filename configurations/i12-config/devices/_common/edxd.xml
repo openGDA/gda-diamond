@@ -29,10 +29,54 @@
 		</property>
 	</bean>
 
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
+		<property name="edxdController" ref="edxdMappingController" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<!-- edxd1 -->
+	<bean id="edxd1" class="gda.device.detector.xmap.edxd.EDXDControllerQMap">
+		<property name="xmap" ref="xmap_dxp" />
+		<property name="numberOfElements" value="24" />
+		<property name="local" value="true" />
+		<property name="extraNames">
+			<list>
+				<value>edxd_total_counts</value>
+				<value>edxd_mean_live_time</value>
+				<value>edxd_mean_dead_time</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="edxd2" class="gda.device.detector.xmap.edxd.EDXDControllerQMap">
+		<property name="xmap" ref="xmap_dxp" />
+		<property name="numberOfElements" value="24" />
+		<property name="local" value="true" />
+	</bean>
+
 	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 		<property name="serviceName" value="gda/edxdAlignment" />
 		<property name="service" ref="edxdAlignment" />
 		<property name="serviceInterface" value="uk.ac.gda.edxd.common.IEdxdAlignment" />
+	</bean>
+
+	<!-- EDXD controllers scannable group -->
+	<bean id="edxd_controllers" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="edxd" />
+				<ref bean="edxd1" />
+				<ref bean="edxdMappingController" />
+			</list>
+		</property>
 	</bean>
 
 </beans>
