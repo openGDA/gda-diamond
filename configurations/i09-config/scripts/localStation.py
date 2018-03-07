@@ -7,7 +7,8 @@ from gda.factory import Finder
 import java
 from gda.data import PathConstructor, NumTracker
 from gda.jython.commands import GeneralCommands
-from calibration.Energy_class import BeamEnergy
+from calibration.soft_energy_class import SoftEnergy
+from calibration.hard_energy_class import HardEnergy
 from gda.jython.commands.GeneralCommands import vararg_alias, alias
 from gda.jython.commands.ScannableCommands import scan 
 from gdascripts.pd.time_pds import showtimeClass, showincrementaltimeClass,\
@@ -195,11 +196,11 @@ globals()['sm3pitch'].setOutputFormat(["%10.1f"])
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create an 'ienergy' scannable which can be used for energy scan in GDA. It moves both hard X-ray ID gap and DCM energy"
-ienergy=BeamEnergy("ienergy", gap='igap',dcm="dcmenergy",undulatorperiod=27,lut="IIDCalibrationTable.txt")
-print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'x' and 'y'"
-dummyenergy=BeamEnergy("dummyenergy", gap='x', dcm='y')
+ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt")
+# print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'x' and 'y'"
+# dummyenergy=BeamEnergy("dummyenergy", gap='x', dcm='y')
 print "Create an 'jenergy' scannable which can be used for energy scan in GDA. It moves both soft X-ray ID gap and PGM energy"
-jenergy=BeamEnergy("jenergy", gap='jgap',dcm="pgmenergy",undulatorperiod=60,lut="JIDCalibrationTable.txt")
+jenergy=SoftEnergy("jenergy", "JIDCalibrationTable.txt")
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
