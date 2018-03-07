@@ -11,10 +11,10 @@
 	<import resource="../_common/client.xml" />
 
 
-	<bean id="rga" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}rga" />
-		<property name="serviceInterface" value="gda.device.HidenRGA" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+<!-- 	<bean id="rga" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}rga" /> -->
+<!-- 		<property name="serviceInterface" value="gda.device.HidenRGA" /> -->
+<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
+<!-- 	</bean> -->
 
 </beans>

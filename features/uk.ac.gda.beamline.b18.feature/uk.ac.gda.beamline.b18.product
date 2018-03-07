@@ -17,13 +17,15 @@
 -Dgda.mode=live
 -Dgda.instance.dir=/dls_sw/b18/software/gda/workspace_git/config
 -Dgda.facility.dir=/dls_sw/b18/software/gda/workspace_git/gda-diamond.git/dls-config
+-Dgda.core.dir=/dls_sw/b18/software/gda/workspace_git/gda-core.git/core-config
 -Dgda.install.workspace.loc=/dls_sw/b18/software/gda
 -Dgda.install.git.loc=/dls_sw/b18/software/gda/workspace_git
 -Dgda.config=/dls_sw/b18/software/gda/config
--Djava.library.path=/dls_sw/b18/software/gda/workspace_git/dawn-hdf.git/hdf.hdf5lib/lib/linux-x86_64:/dls_sw/b18/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/lib/linux-x86_64
+-Djava.library.path=/dls_sw/b18/software/gda/workspace_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
 -Dgda.propertiesFile=/dls_sw/b18/software/gda/config/properties/live/live_instance_java.properties
 -Djacorb.config.dir=/dls_sw/b18/software/gda/config/properties/live/jacorb
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/b18/software/gda/config/properties/live/JCALibrary.properties
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms512m
 -Xmx1024m
 -XX:MaxPermSize=1024m
@@ -38,7 +40,6 @@
    <splash
       location="uk.ac.gda.client" />
    <launcher name="gda-b18">
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>

@@ -570,7 +570,7 @@
 	</bean>
 
 <!-- samplewheel names - for use in client; list of available names updated on server using samplewheel.getFilterNames() -->
-	<bean id="samplewheel_names" class="gda.device.enumpositioner.DummyPositioner" >
+	<bean id="samplewheel_names" class="gda.device.enumpositioner.DummyEnumPositioner" >
 		<property name="name" value="samplewheel_names" />
 	</bean>
 

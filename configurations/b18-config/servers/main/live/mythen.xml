@@ -62,14 +62,14 @@
 	</bean>
 
 <!-- Mythen detector - communicates with hardware via new Epics interface (through area detector)  -->
-	<bean id="mythenEpics" class="gda.device.detector.mythen.MythenDetectorImpl">
-		<property name="detectorID" value="b18-mcs01" />
-		<property name="mythenClient">
-			<bean class="gda.device.detector.mythen.client.EpicsMythenClient">
-				<property name="areaDetector" ref="mythen_areadetector" />
-			</bean>
-		</property>
+<!-- 	<bean id="mythenEpics" class="gda.device.detector.mythen.MythenDetectorImpl"> -->
+<!-- 		<property name="detectorID" value="b18-mcs01" /> -->
+<!-- 		<property name="mythenClient"> -->
+<!-- 			<bean class="gda.device.detector.mythen.client.EpicsMythenClient"> -->
+<!-- 				<property name="areaDetector" ref="mythen_areadetector" /> -->
+<!-- 			</bean> -->
+<!-- 		</property> -->
 	
-		<property name="dataConverter" ref="mythenDataConverter" />
-	</bean>
+<!-- 		<property name="dataConverter" ref="mythenDataConverter" /> -->
+<!-- 	</bean> -->
 </beans>

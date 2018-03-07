@@ -1,16 +1,3 @@
-# Restart da.servers first
+#!/bin/bash
 
-# restart_daserver="false"
-restart_daserver="false"
-
-if [ "$restart_daserver" == "true" ]; then
-
-	/dls_sw/b18/software/gda/bin/restart_daserver.sh
-
-	notify-send -t 65000 "GDA servers are restarting. There will be a delay of 65s to restart da.server"
-
-	sleep 65
-
-fi
-
-ssh -i /dls_sw/b18/software/gda/config/b18ssh.key gda2@b18-control
+gda --restart servers --force -d $@

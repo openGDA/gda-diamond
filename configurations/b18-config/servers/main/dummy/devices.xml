@@ -171,16 +171,17 @@
 		</property>
 	</bean>
 
-	<bean id="rgaController" class="gda.device.HidenRGAController">
-		<constructor-arg type="java.lang.String" value="ME12G-EA-RGA-01" />
-	</bean>
-	<bean id="rga" class="gda.device.HidenRGAScannable">
-		<property name="controller" ref="rgaController"/>
-		<property name="configureAtStartup" value="false"/>
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/rga" />
-		<property name="service" ref="rga" />
-		<property name="serviceInterface" value="gda.device.HidenRGA" />
-	</bean>
+<!-- Not in live mode, not needed for dummy -->
+<!-- 	<bean id="rgaController" class="gda.device.HidenRGAController"> -->
+<!-- 		<constructor-arg type="java.lang.String" value="ME12G-EA-RGA-01" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="rga" class="gda.device.HidenRGAScannable"> -->
+<!-- 		<property name="controller" ref="rgaController"/> -->
+<!-- 		<property name="configureAtStartup" value="false"/> -->
+<!-- 	</bean> -->
+<!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->
+<!-- 		<property name="serviceName" value="gda/rga" /> -->
+<!-- 		<property name="service" ref="rga" /> -->
+<!-- 		<property name="serviceInterface" value="gda.device.HidenRGA" /> -->
+<!-- 	</bean> -->
 </beans>

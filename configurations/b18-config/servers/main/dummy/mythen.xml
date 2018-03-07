@@ -4,22 +4,26 @@
     http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     http://www.springframework.org/schema/util
 	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
-	
-	
-	<bean id="mythen_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:CAM:" />
+
+	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
+	<bean id="workstation" class="java.lang.String">
+		<constructor-arg value="#{localhostname.hostName.split('\.')[0]}" />
 	</bean>
-	
+
+	<bean id="mythen_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="#{workstation}-AD-SIM-01:CAM:" />
+	</bean>
+
 	<bean id="mythen_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SimpleAcquire">
 		<constructor-arg ref="mythen_adbase" />
 		<constructor-arg value="0" />
 	</bean>
-	
+
 	<bean id="mythen_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:ARR:" />
+		<property name="basePVName" value="#{workstation}-AD-SIM-01:ARR:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:ARR:" />
+				<property name="basePVName" value="#{workstation}-AD-SIM-01:ARR:" />
 				<property name="initialArrayPort" value="CAM.CAM" />
 			</bean>
 		</property>

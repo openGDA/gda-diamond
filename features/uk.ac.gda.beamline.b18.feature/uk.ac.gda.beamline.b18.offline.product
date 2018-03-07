@@ -14,9 +14,11 @@
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Dgda.install.workspace.loc=${workspace_loc}
--Dgda.install.git.loc=${project_loc:uk.ac.gda.core}/../..
+-Dgda.install.git.loc=${project_loc:uk.ac.gda.core/}/../..
+-Dgda.facility.dir=${project_loc:uk.ac.gda.dls/}/../dls-config
+-Dgda.core.dir=${project_loc:uk.ac.gda.core/}/../core-config
 -Dgda.config=${project_loc:b18-config}
--Djava.library.path=${project_loc:uk.ac.gda.nexus}/lib/linux-x86_64
+-Djava.library.path=${project_loc:uk.ac.gda.nexus)/lib/linux-x86_64
 -Declipse.pluginCustomization=${project_loc:uk.ac.gda.beamline.b18}/plugin_customization.ini
 -Dgda.propertiesFile=${project_loc:b18-config}/properties/dummy/dummy_instance_java.properties
 -Djacorb.config.dir=${project_loc:b18-config}/properties/dummy/jacorb
@@ -24,9 +26,8 @@
 -Dgda.mode=dummy
 -Dgda.client.jython.automatic.interpreter=1
 -Dgda.instance.dir=${project_loc:b18-config}
--Dgda.facility.dir=${project_loc:dls-config}
--Dgda.core.dir=${project_loc:uk.ac.gda.core}
 -Dgda.logs.dir=${workspace_loc}/../logs
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms512m
 -Xmx1024m
 -XX:MaxPermSize=1024m
@@ -41,7 +42,6 @@
    <splash
       location="uk.ac.gda.client" />
    <launcher name="gda-b18-dummy">
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
