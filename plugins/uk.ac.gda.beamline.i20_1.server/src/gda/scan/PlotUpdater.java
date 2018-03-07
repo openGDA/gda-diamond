@@ -127,6 +127,14 @@ public class PlotUpdater {
 				}
 			}
 		}
+
+		final List<String> scnNames = scanDataPoint.getScannableNames();
+		final List<Object> scnPositions = scanDataPoint.getScannablePositions();
+		for(int i=0; i<scnNames.size(); i++) {
+			DoubleDataset dataset = DatasetFactory.createFromObject(DoubleDataset.class, scnPositions.get(i));
+			dataset.setName(scnNames.get(i));
+			dataSets.put(scnNames.get(i), dataset);
+		}
 	}
 
 	public void addDataset(String dataName, DoubleDataset dataset) {

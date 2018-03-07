@@ -19,10 +19,13 @@
 package gda.scan;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
@@ -38,11 +41,14 @@ import gda.device.detector.DummyDAServer;
 import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.memory.Scaler;
 import gda.device.motor.DummyMotor;
+import gda.device.scannable.ScannableMotor;
 import gda.device.scannable.TurboXasScannable;
 import gda.device.timer.Etfg;
 import gda.device.zebra.controller.Zebra;
 import gda.device.zebra.controller.impl.ZebraDummy;
 import gda.factory.FactoryException;
+import gda.factory.Finder;
+import gda.factory.ObjectFactory;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
 import uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller;
@@ -57,6 +63,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	private DummyXspress3Controller controllerForDetector;
 	private Xspress3Detector xspress3detector;
 	private Xspress3BufferedDetector xspress3bufferedDetector;
+	private ScannableMotor testMotor;
 
 
 	@Before
@@ -105,6 +112,10 @@ public class TurboXasScanTest extends EdeTestBase {
 		turboXasScannable.setZebraDevice(dummyZebra);
 
 		setupXSpress3();
+
+		testMotor = createMotor("testMotor", 4.20);
+
+		setupFinder();
 	}
 
 
@@ -126,7 +137,16 @@ public class TurboXasScanTest extends EdeTestBase {
 		xspress3bufferedDetector.setName("xspress3bufferedDetector");
 		xspress3bufferedDetector.setXspress3Detector(xspress3detector);
 		xspress3bufferedDetector.configure();
+	}
 
+	private void setupFinder() {
+		ObjectFactory factory = new ObjectFactory();
+		factory.addFindable(turboXasScannable);
+		factory.addFindable(bufferedScaler);
+		factory.addFindable(xspress3bufferedDetector);
+		factory.addFindable(testMotor);
+		factory.addFindable(xspress3detector);
+		Finder.getInstance().addFactory(factory);
 	}
 
 	/**
@@ -190,6 +210,16 @@ public class TurboXasScanTest extends EdeTestBase {
 		parameters.setStartEnergy(0);
 		parameters.setEndEnergy(10);
 		parameters.setEnergyStep(0.01);
+
+		// Set names of motors to be moved, detectors used etc.
+		// These are used in {@link TurboXasParameters#createScan} method to create and
+		// setup the TurboXasScan object
+		parameters.setMotorToMove(turboXasScannable.getName());
+		parameters.setDetectors(new String[] {bufferedScaler.getName(), xspress3bufferedDetector.getName()});
+		// Set scannable to monitor during scan
+		Map<String, String> scnToMonitor = new HashMap<>();
+		scnToMonitor.put(testMotor.getName(), "");
+		parameters.setScannablesToMonitorDuringScan(scnToMonitor);
 		return parameters;
 	}
 
@@ -435,6 +465,46 @@ public class TurboXasScanTest extends EdeTestBase {
 		for(int i = 0; i<numPoints; i++) {
 			assertEquals("Problem with built profile point number "+i, trajScanPrep.getTrajectoryPositionsList().get(i), trajScanPrep.getBuiltProfile().get(i), 1e-6);
 		}
+	}
+
+	@Test
+	public void testTurboXasParametersCreatesScan() throws InterruptedException, Exception {
+		setup(TurboXasScan.class, "testTurboXasParametersCreatesScan");
+		TurboXasParameters parameters = getTurboXasParameters();
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 10));
+
+		TurboXasScan scan = parameters.createScan();
+
+		// Check that detector have been located and set correctly
+		BufferedDetector[] detectors = scan.getScanDetectors();
+		assertNotNull(detectors);
+		assertEquals(detectors.length, 2);
+		assertEquals(detectors[0].getName(), bufferedScaler.getName());
+		assertEquals(detectors[1].getName(), xspress3bufferedDetector.getName());
+
+		// Check that any scannables to be monitored have been set correctly
+		assertNotNull(scan.getScannablesToMonitor());
+		assertEquals(scan.getScannablesToMonitor().get(0).getName(), testMotor.getName());
+	}
+
+	@Test
+	public void testTurboXasParameterCreatedScanRuns() throws InterruptedException, Exception {
+		setup(TurboXasScan.class, "testTurboXasParameterCreatedScanRuns");
+		TurboXasParameters parameters = getTurboXasParameters();
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 10));
+		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
+		int numSpectra = 10;
+
+		TurboXasScan scan = parameters.createScan();
+		scan.runScan();
+		String nexusFilename = scan.getDataWriter().getCurrentFileName();
+		checkScalerNexusData(nexusFilename, 10, numPointsPerSpectrum);
+
+		checkScalerNexusData(nexusFilename, numSpectra, numPointsPerSpectrum);
+		checkDetectorNexusData(nexusFilename, xspress3bufferedDetector.getName(), numSpectra, numPointsPerSpectrum);
+
+		// Check data for the scannable being monitored is present and has correct dimensions (1 value per spectrum)
+		assertDimensions(nexusFilename, bufferedScaler.getName(), testMotor.getName(), new int[]{numSpectra});
 	}
 
 	/**
