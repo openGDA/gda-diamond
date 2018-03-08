@@ -81,3 +81,6 @@ showdelta=DisplayEpicsPVClass('showdelta','BL16I-MO-DIFF-01:ARM:DELTA.RBV', 'deg
 showgam=DisplayEpicsPVClass('showgam','BL16I-MO-DIFF-01:ARM:GAMMA.RBV', 'deg', '%.5f')
 showkap6=ReadPDGroupClass('showkap6',[showkphi,showkap,showkth, showmu, showdelta, showgam])
 
+
+blower_temp_c=DisplayEpicsPVClass('cyberstar_gas_blower_temp','BL16I-EA-BLOW-01:LOOP1:PV:RBV', 'C', '%.1f')
+

@@ -1,3 +1,8 @@
+
+
+########### look at FlipperClass12ttl for fixing filenum problem (.intValue() method)
+
+
 class FlipperClass(PseudoDevice):
 	'''input: [energy,offset on ppth relative to centre,number of flipping cycles,number of samples per cycle]'''
 
@@ -1302,7 +1307,8 @@ class FlipperClass12ttl(PseudoDevice):
 
 	def asynchronousMoveTo(self,newpos):
 		try:
-			self.filenum=self.pil()[1]+1
+			fNum=self.filenum=self.pil()[1]
+			self.filenum=fNum.intValue()+1
 		except:
 			self.filenum=0
 
