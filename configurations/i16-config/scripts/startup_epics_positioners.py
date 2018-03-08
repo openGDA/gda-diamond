@@ -271,3 +271,9 @@ a1x=SingleEpicsPositionerSetAndGetOnlyClass('a1x','BL16I-EA-ANC-01:M3:POS','BL16
 
 x2posneg=epics_binary_pos_neg('x2_ttl_posneg','BL16I-EA-USER-01:BO2','BL16I-EA-USER-01:BO2','logical','%.0f',help='TTL out socket x2 in posneg mode')
 
+
+p2m_thresh=SingleEpicsPositionerSetAndGetOnlyClass('p2m_tresh','BL16I-EA-PILAT-02:CAM:ThresholdEnergy','BL16I-EA-PILAT-02:CAM:ThresholdEnergy','keV','%.2f',help='Pilatus 2M threshold via Epics Jython class')
+
+blower_setpoint=SingleEpicsPositionerSetAndGetOnlyClass('cyberstar_gas_blower','BL16I-EA-BLOW-01:LOOP1:SP','BL16I-EA-BLOW-01:LOOP1:SP:RBV','deg C','%.1f',help='cyberstar gas blower setpoint deg C')
+
+
