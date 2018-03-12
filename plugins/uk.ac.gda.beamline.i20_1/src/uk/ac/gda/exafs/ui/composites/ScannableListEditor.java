@@ -53,6 +53,7 @@ public class ScannableListEditor extends Dialog {
 	private Button buttonAddPv;
 	private Button buttonRemove;
 	private ListViewer listViewer;
+	private String windowTitle;
 
 	private List<ScannableInfo> scannableInfoList = new ArrayList<ScannableInfo>();
 
@@ -61,6 +62,13 @@ public class ScannableListEditor extends Dialog {
 	public ScannableListEditor(Shell parentShell) {
 		super(parentShell);
 		updateListOfAllScannables();
+		windowTitle = "Edit list of Scannables";
+	}
+
+	@Override
+	protected void configureShell(Shell shell) {
+		super.configureShell(shell);
+		shell.setText(windowTitle);
 	}
 
 	@Override
@@ -124,10 +132,10 @@ public class ScannableListEditor extends Dialog {
 		return mainDialogArea;
 	}
 
-    @Override
-    protected boolean isResizable() {
-        return true;
-    }
+	@Override
+	protected boolean isResizable() {
+		return true;
+	}
 
 	/**
 	 * Call Finder.getInstance().listAllNames(Scannable.class.getSimpleName()) in background thread to generate client side
@@ -273,6 +281,14 @@ public class ScannableListEditor extends Dialog {
 		}
 	}
 
+	public String getWindowTitle() {
+		return windowTitle;
+	}
+
+	public void setWindowTitle(String windowTitle) {
+		this.windowTitle = windowTitle;
+	}
+
 	/**
 	 * Dialog box to allow user to input PV and a name that will be used to create a new scannable.
 	 */
@@ -309,22 +325,22 @@ public class ScannableListEditor extends Dialog {
 			return mainComposite;
 		}
 
-	    @Override
-	    protected void okPressed() {
-	        name = nameText.getText();
-	        pv = pvText.getText();
-	        super.okPressed();
-	    }
+		@Override
+		protected void okPressed() {
+			name = nameText.getText();
+			pv = pvText.getText();
+			super.okPressed();
+		}
 
-	    @Override
-	    protected Point getInitialSize() {
-	        return new Point(350, 200);
-	    }
+		@Override
+		protected Point getInitialSize() {
+			return new Point(350, 200);
+		}
 
-	    @Override
-	    protected boolean isResizable() {
-	        return true;
-	    }
+		@Override
+		protected boolean isResizable() {
+			return true;
+		}
 
 		public String getName() {
 			return name;

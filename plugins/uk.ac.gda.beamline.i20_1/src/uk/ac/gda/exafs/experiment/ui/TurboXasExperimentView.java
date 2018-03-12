@@ -80,6 +80,7 @@ import uk.ac.gda.exafs.calibration.ui.EDECalibrationSection;
 import uk.ac.gda.exafs.data.AlignmentParametersModel;
 import uk.ac.gda.exafs.data.EdeDataStore;
 import uk.ac.gda.exafs.experiment.ui.TurboXasTimingGroupTableView.TimingGroupParamType;
+import uk.ac.gda.exafs.ui.composites.ScannableListEditor;
 
 /**
  * View for setting up and running TurboXas scans.
@@ -204,6 +205,7 @@ public class TurboXasExperimentView extends ViewPart {
 		scrolledform.setText("Turbo XAS experiment setup");
 		createSampleNameEnergySections(form.getBody());
 		createEnergyCalibrationSection(form.getBody());
+		createExtraScannablesSection(form.getBody());
 		createTimingGroupSection(form.getBody());
 		createHardwareOptionsSection(form.getBody());
 		createLoadSaveSection(form.getBody());
@@ -419,6 +421,30 @@ public class TurboXasExperimentView extends ViewPart {
 		endEnergyTextbox = makeLabelAndTextBox(mainComposite, "End energy [eV]");
 		energyStepsizeTextbox = makeLabelAndTextBox(mainComposite, "Energy step size [eV]");
 		addEmptyLabels(mainComposite, 2);
+	}
+
+	private void createExtraScannablesSection(Composite parent) {
+		Composite mainComposite = makeSectionAndComposite(parent, "Record extra values", 2);
+
+		makeLabel(mainComposite, "Configure additional values to be recorded during scan    ");
+		Button extraScannableButton = toolkit.createButton(mainComposite, "Setup...", SWT.PUSH);
+		extraScannableButton.setLayoutData(new GridData(SWT.LEFT, SWT.BEGINNING, false, false));
+		extraScannableButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				openExtraScannableDialog(mainComposite);
+			}
+		});
+	}
+
+	private void openExtraScannableDialog(Composite parent) {
+		ScannableListEditor scannableListEditor = new ScannableListEditor(parent.getShell());
+		scannableListEditor.setScannableInfoFromMap(turboXasParameters.getScannablesToMonitorDuringScan());
+		scannableListEditor.setBlockOnOpen(true);
+		int retCode = scannableListEditor.open();
+		if (retCode == Window.OK) {
+			turboXasParameters.setScannablesToMonitorDuringScan( scannableListEditor.getScannableMapFromList() );
+		}
 	}
 
 	private void createEnergyCalibrationSection(Composite parent) {
