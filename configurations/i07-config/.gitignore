@@ -4,7 +4,7 @@
 ###/var
 /.settings
 
-## .gitignore from p45 ###
+### .gitignore from p45 ###
 
 ### Temporary files ###
 *.bak
