@@ -54,6 +54,7 @@
 	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
+				<ref bean="pgm_energy" />
 				<ref bean="pgm_grat_pitch" />
 				<ref bean="pgm_grat_x" />
 				<ref bean="pgm_m2_pitch" />
