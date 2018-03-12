@@ -105,8 +105,7 @@ class BeamEnergy(ScannableMotionBase):
         
     def rawGetPosition(self):
         '''returns the current position of the beam energy.'''
-        self.energy=self.pgmenergy.getPosition()
-        return self.energy;
+        return self.pgmenergy.getPosition()
     
     def calc(self, energy, order):
         return self.idgap(energy, order)
@@ -115,13 +114,13 @@ class BeamEnergy(ScannableMotionBase):
         '''move beam energy to specified value.
         At the background this moves both ID idgap and PGM energy to the values corresponding to this energy.
         If a child scannable can not be reached for whatever reason, it just prints out a message, then continue to next.'''
-        self.energy = float(new_position)
+        energy = float(new_position)
         gap = 7
         try:
             if self.getName() == "dummyenergy":
-                gap=self.energy
+                gap=energy
             else:
-                gap=self.idgap_fn(self.energy, self.order)
+                gap=self.idgap_fn(energy, self.order)
         except:
             raise
 
@@ -134,9 +133,9 @@ class BeamEnergy(ScannableMotionBase):
                     raise
             else:
                 try:
-                    s.asynchronousMoveTo(self.energy)
+                    s.asynchronousMoveTo(energy)
                 except:
-                    print "cannot set " + s.getName() + " to " + str(self.energy)
+                    print "cannot set " + s.getName() + " to " + str(energy)
                     raise
                
     def rawIsBusy(self):
