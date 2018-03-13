@@ -12,10 +12,16 @@
         <detector>xmapMca</detector>
         <detector>ionchambers</detector>
     </detectorGroup>  
+<!--     <detectorGroup> -->
+<!--         <name>Germanium</name> -->
+<!--         <detector>FFI0</detector> -->
+<!--         <detector>xspress2system</detector> -->
+<!--         <detector>ionchambers</detector> -->
+<!--     </detectorGroup> -->
     <detectorGroup>
-        <name>Germanium</name>
-        <detector>FFI0</detector>
-        <detector>xspress2system</detector>
+        <name>Xspress4</name>
+        <detector>xspress4FFI0</detector>
+        <detector>xspress4</detector>
         <detector>ionchambers</detector>
     </detectorGroup>
     <detectorGroup>
@@ -26,8 +32,8 @@
     </detectorGroup>
     <detectorGroup>
         <name>XES_medipix</name>
-        <detector>medipix</detector>
         <detector>I1</detector>
+        <detector>medipix</detector>
     </detectorGroup>
     <experimentType>XES</experimentType>    
     <transmission>

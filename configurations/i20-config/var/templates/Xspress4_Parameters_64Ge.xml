@@ -4,7 +4,7 @@
     <resGrade>res-none</resGrade>
     <regionType>Virtual Scaler</regionType>
     <readoutMode>Scalers and MCA</readoutMode>
-    <editIndividualElements>true</editIndividualElements>
+    <editIndividualElements>false</editIndividualElements>
     <DetectorElement>
         <name>Element 0</name>
         <number>0</number>
