@@ -152,12 +152,6 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.client.plotting.ScanDataPlotView"
-            id="uk.ac.gda.client.plotting.scandataplotview"
-            name="Scan plot"
-            restorable="true">
-      </view>
-      <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView"
             icon="icons/Temperature.png"
