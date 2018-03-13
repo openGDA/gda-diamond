@@ -42,6 +42,10 @@
 	<bean id="trajscan_preparer" class="gda.scan.TrajectoryScanPreparer">
 		<property name="name" value="trajscan_preparer" />
 		<property name="pvBase" value="BL20J-MO-STEP-06:TC:" />
+		<property name="maxPointsPerProfileBuild" value="1500" />
+		<property name="useMaxTimePerStep" value="true" />
+		<property name="maxTimePerStep" value="2" />
+		
 	</bean>
 
 <!-- TurboxXasScannable for driving turbo slits in a continuous scan. imh 23/5/2016 -->

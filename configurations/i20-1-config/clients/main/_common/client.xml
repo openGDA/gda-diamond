@@ -62,11 +62,13 @@
 	<bean id="turboXasExperimentViewFactory" class=" uk.ac.gda.exafs.experiment.ui.TurboXasExperimentViewFactory" >
 		<property name="name" value="turboXasExperimentViewFactory" />
 		<property name="viewLabel" value="Turbo XAS experiment" />
-		<property name="detectorNames">
-			<list>
-				<value>scaler_for_zebra</value>
-				<value>buffered_xspress3</value>
-			</list>
+
+<!-- 	key = Detector label used in GUI, value = name of detector object on server -->
+		<property name="detectorNameMap">
+			<map>
+				<entry key="Ionchambers" value="scaler_for_zebra" />
+				<entry key="Xspress3" value="buffered_xspress3" />
+			</map>
 		</property>
 		<property name="motorNames">
 			<list>
@@ -92,6 +94,12 @@
 				<entry key="3" value="2" />
 			</map>
 		</property>
+	</bean>
+
+	<bean id="detectorMonitorDataProvider" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}detectorMonitorDataProvider" />
+		<property name="serviceInterface" value="gda.device.detector.DetectorMonitorDataProviderInterface" />
+		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
 	<import resource="file:${gda.config}/clients/main/_common/AlignmentPerspectiveCompositeFactories.xml" />

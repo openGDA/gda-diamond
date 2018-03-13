@@ -102,5 +102,14 @@
 		<property name="setPV" value="BL20J-MO-ARM-01:AIR"/>
 	</bean>
 
+<!-- ionchamber y position motors. 16/2/2018 -->
+	<bean id="ionchamber_i0_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-IONC-01:Y" />
+	</bean>
+
+	<bean id="ionchamber_it_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL20J-MO-IONC-02:Y" />
+	</bean>
+
 	<import resource="file:${gda.config}/servers/main/eh_motors_common.xml" />
 </beans>
