@@ -2,6 +2,21 @@
 
 <included>
 
+<!-- address where the messages from Object Servers send to - the LogServer-->
+<!--     <appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender"> -->
+<!--        	<filter class="ch.qos.logback.core.filter.EvaluatorFilter">       -->
+<!--       		<evaluator> defaults to type ch.qos.logback.classic.boolex.JaninoEventEvaluator -->
+<!--         		<expression>return message.contains("Could not acquire access to file: ");</expression> -->
+<!--       		</evaluator> -->
+<!--       		<OnMismatch>NEUTRAL</OnMismatch> -->
+<!--       		<OnMatch>DENY</OnMatch> -->
+<!--       	</filter> -->
+<!--         <RemoteHost>i10-control.diamond.ac.uk</RemoteHost> -->
+<!--         <Port>6788</Port> -->
+<!--         <ReconnectionDelay>10000</ReconnectionDelay> -->
+<!--         <IncludeCallerData>true</IncludeCallerData> -->
+<!--     </appender> -->
+
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>%date %-5level [%thread] %logger - %message %ex %n</Pattern>
