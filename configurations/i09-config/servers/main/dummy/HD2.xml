@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hd2iamp2" class="gda.device.currentamplifier.DummyCurrentAmplifier">
+	</bean>
+	<bean id="hd2y_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="hd2aposn" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<map>
+				<entry key="Direct" value="0.0000"/>
+				<entry key="Flu Screen" value="23.0000"/>
+				<entry key="Al mylar Foil" value="47.9000"/>
+				<entry key="Cu Foil" value="67.9000"/>
+				<entry key="Ag Foil" value="87.9000"/>
+				<entry key="Zr Foil" value="107.9000"/>
+				<entry key="Photodiode" value="133.4000"/>
+			</map>
+		</property>
+		<property name="startPositionName" value="Direct"/>
+	</bean>
+	<!-- <bean id="hd2cam" class="gda.device.diagnosis.AravisCamera"> -->
+	<!-- <property name="deviceName" value="HD2.CAM_aravisCamera"/> -->
+	<!-- </bean> -->
+</beans>

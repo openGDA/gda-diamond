@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sm5x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm5x_motor" />
+	</bean>
+	<bean id="sm5y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm5y_motor" />
+	</bean>
+	<bean id="sm5pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm5pitch_motor" />
+	</bean>
+	<bean id="sm5bender1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm5bender1_motor" />
+	</bean>
+	<bean id="sm5bender2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm5bender2_motor" />
+	</bean>
+
+
+	<bean id="sm5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sm5x" />
+				<ref bean="sm5y" />
+				<ref bean="sm5pitch" />
+				<ref bean="sm5bender1" />
+				<ref bean="sm5bender2" />
+				<ref bean="sm5iamp8"/>
+			</list>
+		</property>
+	</bean>
+</beans>

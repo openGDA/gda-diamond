@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sm6x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-MO-SM-06:X" />
+	</bean>
+	<bean id="sm6y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-MO-SM-06:Y" />
+	</bean>
+	<bean id="sm6z_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-MO-SM-06:Z" />
+	</bean>
+	<bean id="sm6pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-MO-SM-06:PITCH" />
+	</bean>
+	<bean id="sm6roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-MO-SM-06:ROLL" />
+	</bean>
+	<bean id="sm6yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09K-MO-SM-06:YAW" />
+	</bean>
+	<bean id="sm6fpitch_motor" class="gda.device.motor.PiezoEpicsMotor">
+		<property name="pvName" value="BL09K-MO-SM-06:FPITCH" />
+	</bean>
+	<bean id="sm6iamp27" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL09K-MO-SM-06:IAMP27" />
+		<property name="poll" value="false"/>
+	</bean>
+</beans>

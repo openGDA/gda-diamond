@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
+
+	<context:property-placeholder/>
+	
+	<bean id="idGap" class="gda.device.scannable.DummyScannable">
+		<constructor-arg index="0" value="idgap" />
+		<constructor-arg index="1" value="7" />
+	</bean>
+
+	<bean id="ringCurrent" class="gda.device.scannable.DummyScannable">
+		<constructor-arg index="0" value="ringcurrent" />
+		<constructor-arg index="1" value="300" />
+	</bean>
+
+	<import resource="../_common/rcp-common.xml" />
+
+</beans>

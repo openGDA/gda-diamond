@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+
+	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}highestExistingFileMonitor" />
+		<property name="serviceInterface"
+			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="imageFileDisplayer" class="uk.ac.gda.dls.client.views.ImageFileDisplayer">
+		<property name="viewName" value="Detector Image" />
+		<property name="viewID" value="uk.ac.gda.beamline.i09.DetectorPlot" />
+	</bean>
+
+	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
+		<property name="viewTitle" value="Status" />
+		<property name="compositeFactories">
+			<list>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Machine" />
+					<property name="columns" value="2" />
+					<property name="compositeFactories">
+						<list>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="ringCurrent" />
+								<property name="label" value="Ring Current" />
+								<property name="units" value="mA" />
+							</bean>
+<!-- 							<bean -->
+<!-- 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory"> -->
+<!-- 								<property name="scannable" ref="timeToRefill" /> -->
+<!-- 								<property name="label" value="Time to refill" /> -->
+<!-- 								<property name="units" value="s" /> -->
+<!-- 							</bean> -->
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="idGap" />
+								<property name="label" value="ID Gap" />
+								<property name="units" value="mm" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+
+				<bean class="uk.ac.gda.dls.client.views.LatestFileNameCompositeFactory">
+					<property name="label" value="Latest Detector File" />
+					<property name="fileProcessor" ref="imageFileDisplayer" />
+					<property name="highestExistingFileMonitorDataProvider"
+						ref="highestExistingFileMonitor" />
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.OpenViewCompositeFactory">
+					<property name="tooltipText"
+						value="Display MJPEG streams from cameras and detectors" />
+					<property name="viewID" value="uk.ac.gda.video.views.cameraview" />
+					<property name="buttonText" value="Cameras" />
+					<property name="buttonImagePath" value="icons/eye.png" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+<!-- setup CameraView -->
+	<bean id="analyser_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="Analyser Camera Preview" />
+		<property name="exposurePV" value="BL09I-EA-DET-01:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL09I-EA-DET-01:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL09I-EA-DET-01:CAM:Gain" />
+		<property name="acquirePV" value="BL09I-EA-DET-01:CAM:Acquire" />
+		<property name="urlPV" value="ELECTRON-ANALYSER-01:MPG:MJPG_URL_RBV" />
+	</bean>
+	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+		<property name="cameras">
+			<list>
+				<ref bean="analyser_cam_config" />
+			</list>
+		</property>
+		<property name="plotViewID" value="uk.ac.gda.beamline.i09.plotView" />
+	</bean>
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+		<property name="service" ref="camera_config" />
+	</bean>
+
+		<corba:import namespace="i09"
+		names="command_server, ScanDataStore, SimpleServlet" />
+
+	<!-- create connection to remote objects via netService -->
+	<bean class="gda.factory.corba.util.AdapterFactory">
+		<constructor-arg index="0" value="${gda.factory.factoryName}" />
+		<constructor-arg index="1">
+			<bean class="gda.spring.NetServiceFactoryBean" />
+		</constructor-arg>
+	</bean>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+	<import resource="analyser.xml"/>
+	<gda:rbac />
+
+</beans>

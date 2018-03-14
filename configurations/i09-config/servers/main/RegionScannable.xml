@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="regions" class="org.opengda.detector.electronanalyser.scan.RegionScannable">
+		<property name="analyser" ref="analyser"/>
+		<property name="adArray" ref="analyser_adarrayplugin"/>
+		<property name="pvArray" ref="analyser_spectrumlugin"/>
+<!-- 		<property name="extIOPvArray" ref="analyser_externalIOlugin"/> -->
+		<property name="dcmenergy" ref="dcmenergy"/>
+		<property name="pgmenergy" ref="pgmenergy"/>
+		<property name="scriptController" ref="SequenceFileObserver"/>
+		<property name="sourceSelectable" value="true"/>
+		<property name="XRaySourceEnergyLimit" value="2100"/>
+		
+	</bean>
+</beans>

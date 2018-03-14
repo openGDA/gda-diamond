@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="iidgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="IID.GAP" />
+		<property name="accessControl" ref="iidblena" />
+	</bean>
+	<!-- MCR ID Control -->
+	<bean id="iidblena" class="gda.epics.AccessControl">
+		<property name="accessControlPvName" value="SR09I-MO-SERVC-01:IDBLENA" />
+	</bean>
+	<bean id="iidvelocity" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="SR09I-MO-SERVC-01:BLGSETVEL" />
+	</bean>
+
+	<bean id="jidgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="JID.GAP" />
+		<property name="accessControl" ref="jidblena" />
+	</bean>
+<!-- 	<bean id="jidphaseurp_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="deviceName" value="IDPHASE.URP" /> -->
+<!-- 		<property name="accessControl" ref="jidblena" /> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="jidphaselrp_motor" class="gda.device.motor.EpicsMotor"> -->
+<!-- 		<property name="deviceName" value="IDPHASE.LRP" /> -->
+<!-- 		<property name="accessControl" ref="jidblena" /> -->
+<!-- 	</bean> -->
+	<bean id="jidblena" class="gda.epics.AccessControl">
+		<property name="accessControlPvName" value="SR09J-MO-SERVC-01:IDBLENA" />
+	</bean>
+	<bean id="jidvelocity" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="SR09J-MO-SERVC-01:BLGSETVEL" />
+	</bean>
+	
+	<!-- Phase control for j ID -->
+	<bean id="jidphase" class="gda.device.insertiondevice.IDPhaseController">
+		<property name="basePVName" value="SR09J-MO-SERVC-01" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

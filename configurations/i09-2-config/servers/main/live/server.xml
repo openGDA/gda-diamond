@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+                           http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.configuration.epics.EpicsConfiguration">
+		<constructor-arg value="${gda.epics.interface.xml}" />
+	</bean>
+
+	<import resource="GDAMetadata.xml"/>
+	<!-- <import resource="FrontEndShutter.xml"/> -->
+	<!-- <import resource="FrontEndAperture.xml"/> -->
+	<import resource="ID.xml" />
+	<import resource="DummyMotors.xml" />
+	<!-- <import resource="MachineStatus.xml"/> -->
+	<import resource="PGM.xml" />
+	<import resource="SD1.xml" />
+	<import resource="SD3.xml" />
+<!-- 	<import resource="SD4.xml"/> -->
+	<import resource="SD6.xml" />
+	<import resource="SM1.xml" />
+	<import resource="SM3.xml" />
+	<import resource="SM5.xml" />
+	<import resource="SM6.xml" />
+	<import resource="SS1.xml" />
+	<import resource="SS2.xml" />
+	<import resource="SS3.xml" />
+	<import resource="SS4.xml" />
+	<import resource="SS7.xml" />
+	<import resource="topup.xml" />
+	<import resource="fast_shutter.xml" />
+
+	<!-- End station -->
+	<import resource="manipulator.xml" />
+	<import resource="es1.xml" />
+	<import resource="analyser.xml" />
+	<import resource="lakeshore.xml"/>
+
+	<import resource="../main_common.xml" />
+</beans>

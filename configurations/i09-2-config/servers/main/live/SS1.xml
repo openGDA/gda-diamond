@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ss1temp1" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="SS1.TEMP1" />
+	</bean>
+	<bean id="ss1temp2" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="SS1.TEMP2" />
+	</bean>
+	<bean id="ss1temp3" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="SS1.TEMP3" />
+	</bean>
+	<bean id="ss1temp4" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="SS1.TEMP4" />
+	</bean>
+
+	<bean id="ss11wfs1" class="gda.spring.EpicsMonitorFactoryBean">
+		<property name="deviceName" value="SS1.WFS1" />
+	</bean>
+
+	<bean id="ss1inboard_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS1.INBOARD" />
+	</bean>
+	<bean id="ss1outboard_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS1.OUTBOARD" />
+	</bean>
+	<bean id="ss1top_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS1.TOP" />
+	</bean>
+	<bean id="ss1bottom_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS1.BOTTOM" />
+	</bean>
+	<bean id="ss1xcentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS1.XCENTRE" />
+	</bean>
+	<bean id="ss1xgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS1.XGAP" />
+	</bean>
+	<bean id="ss1ycentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS1.YCENTRE" />
+	</bean>
+	<bean id="ss1ygap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS1.YGAP" />
+	</bean>
+</beans>

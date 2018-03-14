@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sm4x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm4x_motor" />
+	</bean>
+	<bean id="sm4y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm4y_motor" />
+	</bean>
+	<bean id="sm4z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm4z_motor" />
+	</bean>
+	<bean id="sm4pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm4pitch_motor" />
+	</bean>
+	<bean id="sm4roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm4roll_motor" />
+	</bean>
+	<bean id="sm4yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sm4yaw_motor" />
+	</bean>
+
+	<bean id="sm4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sm4x" />
+				<ref bean="sm4y" />
+				<ref bean="sm4z" />
+				<ref bean="sm4pitch" />
+				<ref bean="sm4roll" />
+				<ref bean="sm4yaw" />
+			</list>
+		</property>
+	</bean>
+</beans>

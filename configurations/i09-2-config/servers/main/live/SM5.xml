@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Only have access to the mirror drain current from EH1. For beam alignment -->
+	<bean id="sm5iamp8" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL09J-MO-SM-05:IAMP8" />
+		<property name="poll" value="false"/>
+	</bean>
+
+</beans>

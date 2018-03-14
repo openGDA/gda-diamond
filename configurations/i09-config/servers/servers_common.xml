@@ -1,0 +1,104 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+
+	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DataSetFitter">
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats">
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+		<property name="plotName" value="Detector Image" />
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imageROI"
+		class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI">
+		<property name="enable" value="false" />
+	</bean>
+
+	<util:list id="imageProcessors" value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
+		<ref bean="imageFitter" />
+		<ref bean="imageStats" />
+		<ref bean="imagePlotter" />
+	</util:list>
+
+	<bean id="cam_ad_processor"
+		class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors" />
+		<constructor-arg ref="imageROI" />
+	</bean>
+
+	<bean id="cam_ad_filename_processor"
+		class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors" />
+		<constructor-arg ref="imageROI" />
+	</bean>
+
+	<bean id="cam_ad_processors"
+		class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+		<property name="processors">
+			<list>
+				<ref bean="cam_ad_processor" />
+			</list>
+		</property>
+	</bean>
+
+	<import resource="commandQueueProcessor.xml" />
+	<import resource="CommandServer.xml" />
+
+	<bean id="highestExistingFileMonitor"
+		class="gda.device.detectorfilemonitor.impl.SimpleHighestExistingFileMonitor" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/highestExistingFileMonitor" />
+		<property name="service" ref="highestExistingFileMonitor" />
+		<property name="serviceInterface"
+			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
+	</bean>
+
+	<bean id="DataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
+		<property name="dataWriterExtenders">
+			<list>
+				<ref bean="file_registrar" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="visitPathConstructor" class="gda.data.ObservablePathConstructor">
+		<property name="template" value="${gda.data.scan.datawriter.datadir}" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- ScriptControllers must be after command_server -->
+	<import resource="scriptControllers.xml" />
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<!--enable types supported by the PropertyEditors listed in the GdaPropertyEditorRegistrar 
+		class -->
+	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+
+	<corba:export namespace="i09" />
+
+</beans>

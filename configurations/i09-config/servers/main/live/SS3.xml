@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ss3inboard_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS3.INBOARD" />
+	</bean>
+	<bean id="ss3outboard_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS3.OUTBOARD" />
+	</bean>
+	<bean id="ss3top_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS3.TOP" />
+	</bean>
+	<bean id="ss3bottom_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS3.BOTTOM" />
+	</bean>
+	<bean id="ss3xcentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS3.XCENTRE" />
+	</bean>
+	<bean id="ss3xgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS3.XGAP" />
+	</bean>
+	<bean id="ss3ycentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS3.YCENTRE" />
+	</bean>
+	<bean id="ss3ygap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="SS3.YGAP" />
+	</bean>
+</beans>

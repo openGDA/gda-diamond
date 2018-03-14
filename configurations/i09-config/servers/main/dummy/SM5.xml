@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sm5iamp8" class="gda.device.currentamplifier.DummyCurrentAmplifier">
+	</bean>
+	<bean id="sm5x_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="sm5y_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="sm5pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="sm5bender1_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="sm5bender2_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+
+</beans>

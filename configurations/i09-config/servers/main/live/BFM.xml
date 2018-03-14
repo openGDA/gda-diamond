@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="bfmx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BFM.X" />
+	</bean>
+	<bean id="bfmy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BFM.Y" />
+	</bean>
+	<bean id="bfmz_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BFM.Z" />
+	</bean>
+	<bean id="bfmiamp19" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="deviceName" value="BFM.IAMP19" />
+		<property name="poll" value="true"/>
+	</bean>
+</beans>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ss1inboard" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1inboard_motor" />
+	</bean>
+	<bean id="ss1outboard" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1outboard_motor" />
+	</bean>
+	<bean id="ss1top" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1top_motor" />
+	</bean>
+	<bean id="ss1bottom" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1bottom_motor" />
+	</bean>
+	<bean id="ss1xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1xcentre_motor" />
+	</bean>
+	<bean id="ss1xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1xgap_motor" />
+	</bean>
+	<bean id="ss1ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1ycentre_motor" />
+	</bean>
+	<bean id="ss1ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1ygap_motor" />
+	</bean>
+
+	<bean id="ss1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ss1inboard" />
+				<ref bean="ss1outboard" />
+				<ref bean="ss1top" />
+				<ref bean="ss1bottom" />
+				<ref bean="ss1xcentre" />
+				<ref bean="ss1xgap" />
+				<ref bean="ss1ycentre" />
+				<ref bean="ss1ygap" />
+				<ref bean="ss1temp1" />
+				<ref bean="ss1temp2" />
+				<ref bean="ss1temp3" />
+				<ref bean="ss1temp4" />
+			</list>
+		</property>
+	</bean>
+</beans>

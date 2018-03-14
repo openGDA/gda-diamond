@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="lakeshore" class="gda.device.temperature.DummyEpicsLakeshore336">
+		<property name="tolerance" value="0.1" />
+		<property name="local" value="true" />
+		<property name="inputNames" value="demand"></property>
+		<property name="extraNames">
+			<list>
+				<value>"coldHead"</value>
+				<value>"none"</value>
+				<value>"CuBraid"</value>
+				<value>"receptor"</value>
+				<value>"heater"</value>
+				<value>"heaterRange"</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.2f</value>
+				<value>%5.2f</value>
+				<value>%5.2f</value>
+				<value>%5.2f</value>
+				<value>%5.2f</value>
+				<value>%3.1f%%</value>
+				<value>%d</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

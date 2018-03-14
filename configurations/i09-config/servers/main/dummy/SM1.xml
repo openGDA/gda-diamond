@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- <bean id="sm1temp1" class="gda.spring.EpicsMonitorFactoryBean"> -->
+	<!-- <property name="deviceName" value="SM1.TEMP1"/> -->
+	<!-- </bean> -->
+	<!-- <bean id="sm1temp2" class="gda.spring.EpicsMonitorFactoryBean"> -->
+	<!-- <property name="deviceName" value="SM1.TEMP2"/> -->
+	<!-- </bean> -->
+
+	<bean id="sm1wfs1" class="gda.device.monitor.DummyMonitor">
+	</bean>
+
+	<bean id="sm1x_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="sm1y_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="sm1z_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="sm1pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="sm1roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="sm1yaw_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="sm1fpitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	
+	<bean id="sm1fpitchfeedback" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Enabled</value>
+				<value>Disabled</value>
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="pgmmirrorpitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="pgmgratingspitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="pgmmirrortrans_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="pgmgratingstrans_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="pgmenergy_motor" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+
+	<bean id="pgmgratingselect" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<map>
+				<entry key="150 lines/mm" value="-40.0000"/>
+				<entry key="300 lines/mm" value="0.0000"/>
+				<entry key="1200 lines/mm" value="30.0000"/>
+			</map>
+		</property>
+		<property name="startPositionName" value="300 lines/mm"/>
+	</bean>
+	<bean id="pgmmirrorselect" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<map>
+				<entry key="Gold" value="0.0000"/>
+				<entry key="Frankincense" value="25.0000"/>
+				<entry key="Myrrh" value="30.0000"/>
+			</map>
+		</property>
+		<property name="startPositionName" value="Gold"/>
+	</bean>
+
+	<bean id="pgmtemp1" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="pgmtemp2" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="pgmtemp3" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="pgmtemp4" class="gda.device.monitor.DummyMonitor">
+	</bean>
+
+</beans>
