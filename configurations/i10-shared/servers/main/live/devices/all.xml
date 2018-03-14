@@ -4,6 +4,7 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<import resource="ring.xml"/>
+	<import resource="electron_beam_monitors.xml" />
 	<import resource="deviceAccessController.xml"/>
 	<import resource="FrontEnd.xml"/>
 	<import resource="ID.xml"/>

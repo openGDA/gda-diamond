@@ -5,6 +5,7 @@
 
 	<import resource="adSimulator.xml"/>
 	<import resource="ring.xml"/>
+	<import resource="electron_beam_monitors.xml" />
 	<import resource="FrontEnd.xml"/>
 	<import resource="ID.xml"/>
 	<import resource="D1.xml"/>

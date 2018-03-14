@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="topupMonitor" class="gda.device.scannable.DummyTopupScannable" />
+	<bean id="ringModeMonitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="VMX" />
+	</bean>
+	<bean id="ringCurrentMonitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="double">300.0</value>
+		</property>
+	</bean>
+
+	<bean id="machineTopupPeriod" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="double">10</value>
+		</property>
+	</bean>
+
+	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Shutdown" />
+	</bean>
+
+
+
+</beans>
