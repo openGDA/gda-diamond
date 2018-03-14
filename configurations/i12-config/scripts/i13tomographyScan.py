@@ -195,7 +195,7 @@ def reportJythonNamespaceMapping():
     for key, val in objectOfInterest.iteritems():
         print key + ' = ' + str(val)
     msg = "\n These mappings can be changed by editing a file named live_jythonNamespaceMapping, "
-    msg += "\n located in i13i-config/scripts (this can be done by beamline staff)."
+    msg += "\n located in i13-config/scripts (this can be done by beamline staff)."
     print msg
 
 from gda.device.scannable import SimpleScannable
