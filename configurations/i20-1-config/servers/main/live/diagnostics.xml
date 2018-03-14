@@ -62,4 +62,8 @@
 		<property name="local" value="true" />
 	</bean>
 
+	<bean id="d10_diode_gain"
+		class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL20J-DI-IAMP-03:GAIN" />
+	</bean>
 </beans>

@@ -23,12 +23,19 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.dawnsci.ede.PolynomialParser;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.thoughtworks.xstream.XStream;
 
 public class TurboXasParametersTest {
 
@@ -59,6 +66,8 @@ public class TurboXasParametersTest {
 	private static final String defaultMotorToMove = "turbo_xas_slit";
 	private static final String defaultDetector = "scaler_for_zebra";
 	private static final boolean defaultUseTrajectoryScan = false;
+
+	private Map<String,String> scannablesToMonitor = null;
 
 	@Before
 	public void setUp() {
@@ -212,6 +221,61 @@ public class TurboXasParametersTest {
 		assertArrayEquals( correctCoeffs, extractedCoeffs, numericalTolerance);
 	}
 
+	public String getExpectedMapXmlString(Map<String, String> map) {
+		return getExpectedMapXmlString(map, "");
+	}
+
+	public String getExpectedMapXmlString(Map<String, String> map, String prefix) {
+		String xmlString = prefix+"<scannablesToMonitorDuringScan>\n";
+		String keyName = TurboXasParameters.MapConverter.keyNodeName;
+		String valueName = TurboXasParameters.MapConverter.valueNodeName;
+
+		for(Entry item : map.entrySet()) {
+			xmlString += String.format("%s  <%s>%s</%s>\n", prefix, keyName, item.getKey(), keyName);
+			xmlString += String.format("%s  <%s>%s</%s>\n", prefix, valueName, item.getValue(), valueName);
+		}
+		xmlString += prefix+"</scannablesToMonitorDuringScan>";
+		return xmlString;
+	}
+
+	@Test
+	public void testMapSerializesOk() {
+		Map<String, String> map = getScannableMap();
+		String expectedMapString = getExpectedMapXmlString(map);
+
+		XStream xstream = TurboXasParameters.getXStream();
+		String serializedMapString = xstream.toXML(map);
+
+		assertNotNull(serializedMapString);
+		assertEquals("Serialized map string does not match expected value", expectedMapString, serializedMapString);
+	}
+
+	@Test
+	public void testMapDeserializesOk() {
+		Map<String, String> map = getScannableMap();
+		String expectedMapString = getExpectedMapXmlString(map);
+
+		XStream xstream = TurboXasParameters.getXStream();
+		Map<String,String> deserializedMap = (Map<String,String>)xstream.fromXML(expectedMapString);
+		assertEquals("Deserialized map object not match expected value", map, deserializedMap);
+	}
+
+	private Map<String, String> getScannableMap() {
+		Map<String, String> map = new LinkedHashMap<>();
+		map.put("scannable1", "");
+		map.put("scannable2", "pv:for:scannable2");
+		return map;
+	}
+
+	@Test
+	public void testExtraScannablesSerialize() {
+		scannablesToMonitor = getScannableMap();
+		parameters.setScannablesToMonitorDuringScan(scannablesToMonitor);
+		String xmlStringFromParams = parameters.toXML();
+		String expectedXmlString = getCorrectXmlString();
+		assertThat(xmlStringFromParams , is( equalTo(expectedXmlString) ) );
+	}
+
 	/**
 	 * Return string with serialized version of TurboXasParameters test object
 	 * @return
@@ -244,8 +308,13 @@ public class TurboXasParametersTest {
 						"    <timePerSpectrum>"+TurboXasParameters.doubleToString(group2TimePerSpectrum)+"</timePerSpectrum>\n" +
 						"    <timeBetweenSpectra>"+TurboXasParameters.doubleToString(group2TimeBetweenSpectra)+"</timeBetweenSpectra>\n" +
 						"    <numSpectra>"+group2NumSpectra+"</numSpectra>\n" +
-						"  </TimingGroup>\n" +
-						"</TurboXasParameters>";
+						"  </TimingGroup>\n";
+
+		if (scannablesToMonitor != null) {
+			serializedXmlString += getExpectedMapXmlString(scannablesToMonitor, "  ")+"\n";
+		}
+
+		serializedXmlString += "</TurboXasParameters>";
 		return serializedXmlString;
 	}
 }

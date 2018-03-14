@@ -63,6 +63,9 @@
 		<property name="positions" ref="onOffPositions" />
 	</bean>
 
+	<bean id="ionchamber_i0_y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ionchamber_it_y_motor" class="gda.device.motor.DummyMotor"/>
+
 	<import resource="file:${gda.config}/servers/main/eh_motors_common.xml" />
 
 </beans>

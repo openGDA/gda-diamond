@@ -24,21 +24,34 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.Annotations;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.converters.basic.DoubleConverter;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import gda.device.ContinuousParameters;
+import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.device.scannable.ContinuouslyScannable;
+import gda.device.scannable.PVScannable;
+import gda.factory.FactoryException;
 import gda.factory.Finder;
 
 
@@ -77,7 +90,6 @@ public class TurboXasParameters {
 	/** Full path to data file of measurement used to perform the energy-position calibration */
 	private String energyCalibrationFile;
 
-	
 	/**
 	 * Name of scannable motor to be moved during the scan. This scannable should implement {@link ContinuouslyScannable} interface.
 	 */
@@ -91,6 +103,9 @@ public class TurboXasParameters {
 	private boolean useTrajectoryScan;
 
 	private List<TurboSlitTimingGroup> timingGroups;
+
+	/** Scannables to be monitored during scan : key = name of scannable, value = PV with value to record (optional) */
+	private LinkedHashMap<String, String> scannablesToMonitorDuringScan;
 
 	public TurboXasParameters() {
 		setDefaults();
@@ -257,6 +272,15 @@ public class TurboXasParameters {
 		return new TurboXasMotorParameters(this);
 	}
 
+	public Map<String, String> getScannablesToMonitorDuringScan() {
+		return scannablesToMonitorDuringScan;
+	}
+
+	public void setScannablesToMonitorDuringScan(Map<String, String> scannablesToMonitorDuringScan) {
+		this.scannablesToMonitorDuringScan = new LinkedHashMap<>();
+		this.scannablesToMonitorDuringScan.putAll(scannablesToMonitorDuringScan);
+	}
+
 	/**
 	 * Custom converter for double precision numbers, so have full control over double to string conversion
 	 * used when serializing.
@@ -267,27 +291,92 @@ public class TurboXasParameters {
 		return Double.toString(doubleVal);
 	}
 
-	public static class CustomDoubleConverter extends DoubleConverter
-	{
-	    @Override
-	    public String toString(Object obj)
-	    {
-	        return (obj == null ? null : doubleToString((double)obj) );
-	    }
+	public static class CustomDoubleConverter extends DoubleConverter {
+		@Override
+		public String toString(Object obj) {
+			return (obj == null ? null : doubleToString((double) obj));
+		}
 	}
+
+	/** Custom converter used for (de)serialization of Maps, so that the XML string output is more informative and less verbose.
+	 * Instead of series of series of lines for items in map e.g.:
+	 * <pre>
+	 * {@code
+	 * <entry>
+	 *    <value>nameOfScannable</value>
+	 *    <value>pvForScannable</value>
+	 * </entry>
+	 * }</pre>
+	 *
+	 * This formatter instead produced just two lines for each item :
+	 * <pre>{@code
+	 * <scannableName>nameOfScannable</scannableName>
+	 * <pv>pvForScannable</pv>
+	 * }</pre>
+	 *
+	 * See <a href= "http://x-stream.github.io/converter-tutorial.html"/>http://x-stream.github.io/converter-tutorial.html</a> for a useful tutorial on Converters
+	 * @see TurboXasParametersTest
+	 */
+	public static class MapConverter implements Converter {
+
+		public static final String keyNodeName = "scannableName";
+		public static final String valueNodeName = "pv";
+
+		@Override
+		public boolean canConvert(Class clazz) {
+			return clazz.equals(LinkedHashMap.class) || clazz.equals(HashMap.class);
+		}
+
+		@Override
+		public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
+			Map<String, String> map = (Map<String, String>) value;
+			for(Entry<String,String> item : map.entrySet()) {
+				writer.startNode(keyNodeName);
+				writer.setValue(item.getKey());
+				writer.endNode();
+				writer.startNode(valueNodeName);
+				writer.setValue(item.getValue());
+				writer.endNode();
+			}
+		}
+
+		@Override
+		public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
+			Map<String, String> map = new LinkedHashMap<String, String>();
+			reader.moveDown();
+			while( reader.getNodeName().equals(keyNodeName) ) {
+				String scnName = reader.getValue();
+				reader.moveUp();
+
+				reader.moveDown();
+				String scnPv = reader.getValue();
+				reader.moveUp();
+
+				map.put(scnName,  scnPv);
+				if (reader.hasMoreChildren()) {
+					reader.moveDown();
+				}
+			}
+			return map;
+		}
+	}
+
 	/**
 	 * Return new XStream object that can serialize/deserialize {@link TurboXasParameters} objects to/from XML
 	 * @return XStream
 	 */
 	static public XStream getXStream() {
-		XStream xstream = new XStream();
+		XStream xstream = new XStream( new DomDriver() );
 		xstream.setClassLoader(TurboXasParameters.class.getClassLoader());
 		// Most of this can be done automatically from annotations in newer versions of XStream > 1.3...
 		Annotations.configureAliases(xstream,  TurboXasParameters.class );
 		Annotations.configureAliases(xstream,  TurboSlitTimingGroup.class );
 		xstream.addImplicitCollection(TurboXasParameters.class, "timingGroups");
+
 		xstream.omitField(TurboXasParameters.class , "logger");
 		xstream.registerConverter(new CustomDoubleConverter(), XStream.PRIORITY_VERY_HIGH);
+		xstream.registerConverter(new MapConverter(), XStream.PRIORITY_VERY_HIGH);
+		xstream.alias("scannablesToMonitorDuringScan", LinkedHashMap.class);
 
 		return xstream;
 	}
@@ -328,9 +417,7 @@ public class TurboXasParameters {
 			return TurboXasParameters.fromXML( xmlString.toString() );
 
 		} catch ( IOException e ) {
-			String message = "Problem loading xml data from file "+filePath;
-			System.out.println(message+"\n"+e);
-			logger.error(message, e);
+			logger.error("Problem loading xml data from file {}", filePath, e);
 		}
 
 		return null;
@@ -347,10 +434,44 @@ public class TurboXasParameters {
 			bufWriter.write( xmlString );
 			bufWriter.close();
 		} catch (IOException e) {
-			String message = "Problem saving serialized object to file "+filePath;
-			System.out.println( message+"\n"+e );
-			logger.error(message,e);
+			logger.error("Problem saving serialized object to file {}", e);
 		}
+	}
+
+	/** Create list of Scannables from the {@link#scannablesToMonitorDuringScan} map by searching for/creating scannables
+	 * depending on content of values in the map :
+	 * <li> value = empty/null -> use key as name of scannable and locate it using Finder.
+	 * <li> value != empty ->create new {@link PVScannable} with : scannable name = map key, PV = map value
+	*/
+	public List<Scannable> getScannablesToMonitor() {
+		final List<Scannable> scannableList = new ArrayList<>();
+		if (scannablesToMonitorDuringScan != null) {
+			for (Map.Entry<String, String> entry : scannablesToMonitorDuringScan.entrySet() ) {
+				final String nameOfScannable = entry.getKey();
+				final String nameOfPv = entry.getValue();
+				Scannable scn = null;
+				if (StringUtils.isEmpty(nameOfPv)) {
+					scn = Finder.getInstance().find(nameOfScannable);
+					if (scn == null) {
+						logger.warn("Unable to find scannable called {} on server", nameOfScannable);
+					}
+				} else {
+					final PVScannable monitorForPv = new PVScannable(nameOfScannable, nameOfPv);
+					monitorForPv.setCanMove(false);
+					try {
+						monitorForPv.configure();
+						scn = monitorForPv;
+					} catch (FactoryException e) {
+						logger.warn("Problem creating scannable called {} for PV {} : {}", nameOfScannable, nameOfPv, e.getMessage());
+					}
+				}
+				if (scn != null) {
+					logger.debug("Adding scannable {}", scn.getName());
+					scannableList.add(scn);
+				}
+			}
+		}
+		return scannableList;
 	}
 
 	/**
@@ -362,7 +483,7 @@ public class TurboXasParameters {
 	 * @throws InterruptedException If motor to move cannot be found, or if no detectors could be found.
 	 * @throws Exception
 	 */
-	public TurboXasScan createScan() throws InterruptedException, Exception {
+	public TurboXasScan createScan() throws Exception {
 
 		Map<String, ContinuouslyScannable> continuouslyScannables = Finder.getInstance().getFindablesOfType(ContinuouslyScannable.class);
 		Map<String, BufferedDetector> bufferedDetector = Finder.getInstance().getFindablesOfType(BufferedDetector.class);
@@ -393,6 +514,7 @@ public class TurboXasParameters {
 		motorParams.validateParameters(); // shows warnings about limits being exceeded etc.
 
 		TurboXasScan scan = new TurboXasScan(motor, motorParams, bufDetectors);
+		scan.setScannablesToMonitor(getScannablesToMonitor());
 		return scan;
 	}
 }

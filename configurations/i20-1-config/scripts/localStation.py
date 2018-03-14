@@ -48,6 +48,8 @@ if LocalProperties.get("gda.mode") == "live":
 else:
     remove_default([absorberChecker])
 
+add_default detectorMonitorDataProvider
+
 xstrip.start() #Call start so data and timing handles are set correctly. imh 16/12/2015
 
 
@@ -77,10 +79,14 @@ das4tfg.sendCommand("tfg setup-veto veto0-drive 1")
 das4tfg.sendCommand("tfg setup-veto veto1-inv 0")
 das4tfg.sendCommand("tfg setup-veto veto1-drive 1")
 
+# Scaler channel input 0 : Record when input level is high (topup signal for TurboXas)
+das4tfg.sendCommand("tfg setup-cc-chan 0 level")
+
 xspress3Controller = finder.find("xspress3Controller")
+# xspress3 = finder.get("xspress3")
 
 swmrFrameFlush = 5
-if xspress3Controller != None :
+if xspress3Controller != None and LocalProperties.isDummyModeEnabled() == False:
     print "Setting up XSpress3 : "
     print "  Trigger mode = 'TTL Veto Only'"
     from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
@@ -93,10 +99,23 @@ if xspress3Controller != None :
     
     print "  HDF5 SWMR mode = On" 
     caput(basePvName+":HDF5:SWMRMode", True) # Set SWMR mode on.
-    #xspress3.setFilePath(dataDirectory+"/nexus/")
+    
     print "  HDF5 SWMR : Flush on nth frame, NDAttribute flush = ", swmrFrameFlush
     caput(basePvName+":HDF5:NumFramesFlush", swmrFrameFlush)
     caput(basePvName+":HDF5:NDAttributeChunk", swmrFrameFlush)
+    
+        # Set hdf filewriter path to nexus folder in visit directory
+    from gda.data import PathConstructor
+    # outputDir = PathConstructor.getVisitDirectory()+"/nexus/"
+    outputDir = PathConstructor.createFromDefaultProperty()+"/nexus/"
+    print "Visit directory ", PathConstructor.getVisitDirectory()
+    print "Default data directory ", PathConstructor.createFromDefaultProperty()
+    #if "0-0" in  outputDir :
+    #    reset_namespace
+    
+    print "  HDF file writer output directory : ", outputDir
+    xspress3.setFilePath(outputDir)
+    xspress3Controller.setFilePath(outputDir)
 
 
 def setSwmrMode(onoff):
@@ -111,3 +130,6 @@ if LocalProperties.get("gda.mode") == "live":
 LocalProperties.set("gda.exafs.darkcurrent.shutter", turbo_slit_shutter.getName())
 
 xstrip.setSynchroniseToBeamOrbit(True)
+
+from gda.jython.commands.ScannableCommands import cv as cvscan
+vararg_alias("cvscan")

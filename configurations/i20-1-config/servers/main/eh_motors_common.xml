@@ -108,6 +108,16 @@
 		<property name="motor" ref="counterbalance_motor" />
 	</bean>
 
+<!-- Ionchmaber y position motors 16/2/2018 -->
+	<bean id="ionchamber_i0_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ionchamber_i0_y_motor" />
+		<property name="initialUserUnits" value="mm" />	
+	</bean>
+
+	<bean id="ionchamber_it_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ionchamber_it_y_motor" />
+		<property name="initialUserUnits" value="mm" />	
+	</bean>
 
 <!-- 	rmi exports -->
 
