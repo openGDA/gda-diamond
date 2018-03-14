@@ -12,41 +12,17 @@
            http://www.diamond.ac.uk/schema/gda/gda
            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
-<gda:rbac/>
+	<import resource="../../../properties/_common/gdaProperties.xml"/>
+	<import resource="../../../../i10-shared/servers/main/live/devices/all.xml"/>
+	<import resource="devices/all.xml"/>
+	
+	<!-- add dummy motors from dls-config for solstice scanning testing-->
+<!-- 	<import resource="../../../../../gda-diamond.git/dls-config/servers/dummy/mapping_motors.xml"/> -->
+<!-- 	<import resource="../../../../../gda-diamond.git/dls-config/servers/dummy/det.xml"/> -->
+	
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/live/icat_xml_creator.xml" />
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/live/java.properties</value>
-				<value>file:${gda.config}/properties/common/java.properties</value>
-			</list>
-		</property>
-	</bean>
+	<!-- do not remove anything below here -->
+	<import resource="../_common/server.xml" />
 
-	<!-- This gda.data.ObservablePathConstructor should only be in live -->
-	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
-		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
-		<property name="gdaMetadata" ref="GDAMetadata" />
-		<property name="local" value="true" />
-	</bean>
-
-	<import resource="metadata.xml"/>
-	<import resource="device/all.xml"/>
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/servers/main/live/device/all.xml"/>
-	<import resource="../common/server.xml"/>
-
-	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
-	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
-
-	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
-		<property name="name" value="DataWriterFactory" />
-		<property name="dataWriterExtenders">
-			<list>
-				<ref bean="file_registrar" />
-				<!-- <bean class="gda.data.scan.datawriter.SrsDataFile" /> -->
-				<!-- <bean class="gda.data.scan.datawriter.NexusDataWriter" /> -->
-				<!-- <ref bean="NexusDataWriter" /> -->
-			</list>
-		</property>
-	</bean>
 </beans>

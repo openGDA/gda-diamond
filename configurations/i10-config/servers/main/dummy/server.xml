@@ -12,24 +12,22 @@
            http://www.diamond.ac.uk/schema/gda/gda
            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
-<gda:rbac/>
+	<import resource="../../../properties/_common/gdaProperties.xml"/>
+	<import resource="../../../../i10-shared/servers/main/dummy/devices/all.xml"/>
+	<import resource="devices/all.xml"/>
+	<!-- add dummy motors from dls-config  for solstice scanning testing-->
+	<!-- Dummy motor -->
+<!-- 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/mapping_motors.xml"/>  -->
+	<!-- EPICS SWMR IOC-->
+<!-- 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/mic.xml"/>  -->
+	<!-- Java Simulation -->
+<!-- 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/det.xml"/>  -->
+<!-- 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mic.xml"/> -->
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/dummy/java.properties</value>
-				<value>file:${gda.config}/properties/common/java.properties</value>
-			</list>
-		</property>
-	</bean>
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/icat_xml_creator.xml" />
 
-	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
-		<property name="local" value="true" />
-	</bean>
 
-	<import resource="metadata.xml"/>
-	<import resource="device/all.xml"/>
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/servers/main/dummy/device/all.xml"/>
+<!-- do not remove anything below here -->
+	<import resource="../_common/server.xml" />
 
-	<import resource="../common/server.xml"/>
 </beans>
