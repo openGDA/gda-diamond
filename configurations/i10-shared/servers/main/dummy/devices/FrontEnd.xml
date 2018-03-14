@@ -19,4 +19,54 @@
 		<property name="speed" value="0.06" />
 		<property name="unitString" value="mm"/>
 		<property name="local" value="true" />
-	</bean></beans>
+	</bean>
+	
+    <!-- Front End Beam Permit -->
+	<bean id="frontend" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Abort</value>
+				<value>Unknown</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ab0" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Abort</value>
+				<value>Unknown</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="portshutterMonitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="Open" />
+	</bean>
+	
+	<bean id="portshutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Abort</value>
+				<value>Unknown</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="opticsshutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Abort</value>
+				<value>Unknown</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

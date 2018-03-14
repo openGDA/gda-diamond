@@ -19,11 +19,31 @@
 		<property name="controlPv" value="FE10I-CS-BEAM-01:BLCON"/>
 		<property name="statusPv" value="FE10I-CS-BEAM-01:STA"/>
 		<property name="local" value="true"/>
-		<property name="readOnly" value="true"/>
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
 	</bean>
 
 	<bean id="ab0" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="controlPv" value="FE10I-RS-ABSB-02:BLCON"/>
 		<property name="statusPv" value="FE10I-RS-ABSB-02:STA"/>
 		<property name="local" value="true"/>
-	</bean></beans>
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+	</bean>
+	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
+		need events to be fired for the GDA9 ExpressionWatchdog -->
+	<bean id="portshutterMonitor" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE10I-PS-SHTR-01:STA" />
+	</bean>
+	<!-- port shutter for synopyics status view -->
+	<bean id="portshutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE10I-PS-SHTR-01:CON" />
+		<property name="statusPv" value="FE10I-PS-SHTR-01:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+	<bean id="opticsshutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE10I-PS-SHTR-02:CON" />
+		<property name="statusPv" value="FE10I-PS-SHTR-02:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+		<property name="readOnly" value="true"/>
+	</bean>
+</beans>

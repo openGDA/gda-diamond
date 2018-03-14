@@ -22,6 +22,10 @@
             <list>
                 <ref bean="feapx" />
                 <ref bean="feapy" />
+                <ref bean="frontend" />
+                <ref bean="ab0" />
+                <ref bean="portshutter" />
+                <ref bean="opticsshutter" />
             </list>
         </property>
 		<property name="local" value="true"/>
