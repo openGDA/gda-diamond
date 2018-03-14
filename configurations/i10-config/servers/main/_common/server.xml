@@ -16,6 +16,10 @@
 	<import resource="../../../../../gda-core.git/core-config/servers/_common/plot_server.xml" />
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
+	<!-- watch dogs for solstice scanning. -->
+<!-- 	<import resource="topupWatchdog.xml"/> -->
+<!-- 	<import resource="expressionWatchdog.xml"/> -->
+<!-- 	<import resource="xRayWatchdog.xml"/> -->
 
 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/file_registrar.xml" />
 
@@ -44,5 +48,5 @@
 	      detectors must be created before doing this.
 	      ADVISED: do it last or towards the end, scan will now start to run!
 	 --> 
-<!-- 	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/solstice_scanning.xml"/> -->
+<!-- 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/solstice_scanning.xml"/> -->
 </beans>
