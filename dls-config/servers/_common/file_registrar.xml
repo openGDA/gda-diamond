@@ -5,7 +5,7 @@
 
 
 	<!--
-		Clients can listen to this DeviceBase object to be notified of recently created files
+		Clients can listen to this object to be notified of recently created files
 		so they can refresh the project explorer when a scan finishes.
 
 		To do this, clients need to create a ServerFileListener e.g.
