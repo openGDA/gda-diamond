@@ -13,6 +13,10 @@
 	</bean>
 	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
 		need events to be fired for the GDA9 ExpressionWatchdog -->
+	<bean id="portshutterMonitor" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE21I-PS-SHTR-01:STA" />
+	</bean>
+	<!-- port shutter for synopyics status view -->
 	<bean id="portshutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="controlPv" value="FE21I-PS-SHTR-01:CON" />
 		<property name="statusPv" value="FE21I-PS-SHTR-01:STA" />
