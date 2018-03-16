@@ -108,32 +108,6 @@
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
-    <DetectorElement>
-        <name>Element8</name>
-        <number>8</number>
-        <ROI>
-            <name>Ni</name>
-            <windowStart>735</windowStart>
-            <windowEnd>765</windowEnd>
-        </ROI>
-        <gain>2.0</gain>
-        <peakingTime>1.04</peakingTime>
-        <offset>-21.0</offset>
-        <excluded>false</excluded>
-    </DetectorElement>
-    <DetectorElement>
-        <name>Element9</name>
-        <number>9</number>
-        <ROI>
-            <name>Ni</name>
-            <windowStart>735</windowStart>
-            <windowEnd>765</windowEnd>
-        </ROI>
-        <gain>2.0</gain>
-        <peakingTime>1.04</peakingTime>
-        <offset>-21.0</offset>
-        <excluded>false</excluded>
-    </DetectorElement>
     <saveRawSpectrum>false</saveRawSpectrum>
     <selectedRegionNumber>0</selectedRegionNumber>
 </Xspress3Parameters>
