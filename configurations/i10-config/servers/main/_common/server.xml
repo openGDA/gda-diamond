@@ -12,8 +12,8 @@
            http://www.diamond.ac.uk/schema/gda/gda
            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
-<!-- 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" /> -->
-	<import resource="../../../../../gda-core.git/core-config/servers/_common/plot_server.xml" />
+	<!-- 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" /> -->
+	<import resource="../../../../../../gda-core.git/core-config/servers/_common/plot_server.xml" />
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
 	<!-- watch dogs for solstice scanning. -->
