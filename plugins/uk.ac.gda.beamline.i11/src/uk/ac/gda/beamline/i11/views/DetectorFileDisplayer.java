@@ -38,7 +38,7 @@ import gda.analysis.io.MACLoader;
 import gda.device.detector.mythen.data.MythenMergedDataset;
 import gda.device.detector.mythen.data.MythenProcessedDataset;
 import gda.device.detectorfilemonitor.FileProcessor;
-import gda.factory.Configurable;
+import gda.factory.ConfigurableBase;
 import gda.factory.FactoryException;
 import gda.factory.Findable;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
@@ -57,14 +57,13 @@ import uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView;
  * <li>allow both new plot of each data file or plot over of multiple data files.</li>
  * </ul>
  */
-public class DetectorFileDisplayer implements FileProcessor, PlotConfigurable, InitializingBean, Findable, Configurable {
+public class DetectorFileDisplayer extends ConfigurableBase implements FileProcessor, PlotConfigurable, InitializingBean, Findable {
 
 	private String viewName;
 	public PlotType plotType;
 	public Boolean newPlot;
 	private String viewID;
 	private String name;
-	private boolean configured;
 	private DetectorFilePlotView plotView;
 	private static final Logger logger = LoggerFactory.getLogger(DetectorFileDisplayer.class);
 	private ArrayList<String> dataFilesPlotted;
@@ -242,14 +241,6 @@ public class DetectorFileDisplayer implements FileProcessor, PlotConfigurable, I
 		if (viewID == null) {
 			throw new IllegalArgumentException("viewID == null");
 		}
-	}
-
-	public boolean isConfigured() {
-		return configured;
-	}
-
-	public void setConfigured(boolean configured) {
-		this.configured = configured;
 	}
 
 }
