@@ -341,3 +341,10 @@ else:
 
 from fastshutterwrapper import FastShutter
 fs = FastShutter(fastshutter1)
+
+from perkin import perkin_dark_frame
+
+import butlerWarning
+butler_position_warning = butlerWarning.PositionerWarning('butlerWarning', butlerArm, 'Retract')
+add_default butler_position_warning
+

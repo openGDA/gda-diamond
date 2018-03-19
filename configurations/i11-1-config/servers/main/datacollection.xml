@@ -32,7 +32,6 @@
 				<entry key="SS3" value-ref="ss3"/>
 				<entry key="SS4" value-ref="ss4"/>
 				<entry key="SS5" value-ref="ss5"/>
-<!-- 				<entry key="SS6" value-ref="ss6"/> -->
 			</map>
 		</property>
 	</bean>

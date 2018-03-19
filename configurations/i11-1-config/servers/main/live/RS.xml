@@ -3,11 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-	<bean id="ss6x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-MO-SSLID-06:Y"/>
+	<bean id="rsx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11J-MO-RSLID-01:X"/>
 	</bean>
-	<bean id="ss6y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11J-MO-SSLID-06:Y"/>
+	<bean id="rsy_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11J-MO-RSLID-01:Y"/>
 	</bean>
 
 </beans>
