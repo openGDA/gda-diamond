@@ -101,6 +101,7 @@
 <!-- 	<import resource="RobotNX100.xml"/> -->
 	<import resource="DummyMotors.xml"/>
 <!-- 	<import resource="Mar345.xml"/> -->
+	<import resource="pixiumMetadata.xml"/>
 	
 	<import resource="../main_common.xml"/>
 	<import resource="GDAMetadata.xml"/>
