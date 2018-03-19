@@ -12,7 +12,7 @@
 	<corba:import namespace="i11-1" names="Ic4, beam, fastshutter,fastshutter1, fastshutter2, ehshutter, feshutter, portshutter, es2shutter, dcm_lambda"/>
 	
 	<bean id="bm" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/bm" />
+		<property name="serviceUrl" value="${gda.rmi.prefix}bm" />
 		<property name="serviceInterface" value="gda.device.IBeamMonitor" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
