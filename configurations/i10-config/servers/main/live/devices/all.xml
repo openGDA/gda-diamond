@@ -24,6 +24,9 @@
 	<import resource="PIXIS.xml"/>
 	<import resource="PIXIS_SUMMED.xml"/>
 	<import resource="RASOR.xml"/>
+	<import resource="RASOR-Cam1.xml"/>
+	<import resource="RASOR-Cam2.xml"/>
+	<import resource="RASOR-Cam3.xml"/>
 	<import resource="RASOR-SCALER1.xml"/>
 	
 	<!-- J Absorption -->
