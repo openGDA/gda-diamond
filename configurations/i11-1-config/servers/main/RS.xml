@@ -3,23 +3,23 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 	
-	<bean id="ss6x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ss6x_motor"/>
+	<bean id="rsx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="rsx_motor"/>
 	</bean>
-	<bean id="ss6y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="ss6y_motor"/>
+	<bean id="rsy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="rsy_motor"/>
 	</bean>
 	
-	<bean id="ss6" class="org.opengda.lde.experiments.SampleStage">
+	<bean id="rs" class="org.opengda.lde.experiments.SampleStage">
 		<property name="groupMembers">
 			<list>
-				<ref bean="ss6x"/>
-				<ref bean="ss6y"/>
+				<ref bean="rsx"/>
+				<ref bean="rsy"/>
 			</list>
 		</property>
 		<property name="engagePosition" value="0.0"/>
 		<property name="parkPosition" value="-400.0"/>
 		<property name="positionTolerance" value="0.001"/>
-		<property name="zPosition" value="2460.0"/>
+		<property name="zPosition" value="2660.0"/>
 	</bean>
 </beans>
