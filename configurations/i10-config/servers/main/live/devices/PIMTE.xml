@@ -201,7 +201,7 @@
 		</property>
 	</bean>
  	<bean id="pimtetiff" class="gda.device.detector.NXDetector">
-		<property name="name" value="pimte" />
+		<property name="name" value="pimtetiff" />
 		<property name="collectionStrategy" ref="pimteCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
