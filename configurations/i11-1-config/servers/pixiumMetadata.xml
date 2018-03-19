@@ -184,14 +184,14 @@
 						<property name="units" value="none" />
 					</bean>
 				</entry>
-				<entry key="s6xgap">
+				<entry key="s7xgap">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="sample:NXsample/beam_size_x" />
 						<property name="units" value="mm" />
 					</bean>
 				</entry>
-				<entry key="s6ygap">
+				<entry key="s7ygap">
 					<bean
 						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths" value="sample:NXsample/beam_size_y" />
@@ -222,14 +222,14 @@
 				<value>pixium_BaseExposure</value>
 				<value>pixium_ExcludeEarlyFrames</value>
 				<value>pixium_TotalCount</value>
-				<value>s6xgap</value>
-				<value>s6ygap</value>
+				<value>s7xgap</value>
+				<value>s7ygap</value>
 				<value>sampleName</value>
 				<value>calibrationScannable</value>
 			</set>
 		</property>
 	</bean>
-	
+
 	<!--Metas to be recorded for specific detector  -->
 <!-- 	<bean -->
 <!-- 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"> -->
