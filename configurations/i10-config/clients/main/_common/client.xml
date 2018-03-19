@@ -11,32 +11,13 @@
 		http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 		http://www.diamond.ac.uk/schema/gda/corba
-		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
 
-	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 
 	<corba:import namespace="${gda.factory.factoryName}" names="GDAMetadata" />
+	<import resource="../../../../i10-shared/clients/main/_common/client.xml"/>
 
-	<!-- i10-config
-	<import resource="I10-D4-DCAM.xml" />
-	<import resource="I10-D6-DCAM.xml" />
-	 -->
-	 <!-- i01-1-config
-	<import resource="I10-DJ1-DCAM.xml" />
-	<import resource="I10-DJ3-DCAM.xml" />
-	 -->
+	<import resource="live_controls.xml" />
+	<import resource="statusView.xml"/>
 
-	<!-- 
-	<import resource="I10-PIMTE.xml" />
-	 -->
-	<import resource="I10-PIXIS.xml" />
-
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
-
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 </beans>

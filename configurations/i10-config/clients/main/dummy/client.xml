@@ -3,25 +3,19 @@
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util
-		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/util/spring-util.xsd
 		http://www.springframework.org/schema/tx
-		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/tx/spring-tx.xsd
 		http://www.springframework.org/schema/aop
-		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.diamond.ac.uk/schema/gda/corba
-		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/dummy/java.properties</value>
-				<value>file:${gda.config}/properties/common/java.properties</value>
-			</list>
-		</property>
-	</bean>
+	<import resource="../../../properties/_common/gdaProperties.xml"/>
+	<import resource="../../../../i10-shared/clients/main/dummy/client.xml"/>
+	<import resource="stream_views.xml"/>
+	<import resource="../_common/client.xml" />
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/clients/main/dummy/client.xml"/>
-	<import resource="../common/client.xml"/>
 </beans>
