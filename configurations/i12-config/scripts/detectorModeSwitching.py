@@ -20,12 +20,12 @@ except:
 def masterPositions():
     print "in masterPositions"
     detector_table = t3.m2z
-    detector_diffzposition= 1000
+    detector_diffzposition= 1500
     return detector_table , detector_diffzposition
     
 def monodiffractionPositions():
      # detector positions
-    detector_diffxposition= 758.0
+    detector_diffxposition= 755.0
     detector_diffyposition= 0
     #slitpositions
     s2_diffxcentre= 0
@@ -33,15 +33,15 @@ def monodiffractionPositions():
     s2_diffxsize=0.2
     s2_diffysize=0.2
     
-#    s3_yheight=50
+    s3_yheight=50
     s3_diffxcentre=0
     s3_diffycentre=0
-    s3_diffxsize=0.2
-    s3_diffysize=0.2
+    s3_diffxsize=2
+    s3_diffysize=2
     
     #beamstop positions for diffraction
-    beamstopInBeam_x = 105.5
-    beamstopInBeam_y = 13.2
+    beamstopInBeam_x = 98.35
+    beamstopInBeam_y = 9.25
     
     #calculated values
     beamstopInBeam_lowLimit = beamstopInBeam_x-15
@@ -211,7 +211,7 @@ def moveToEndOfHutchDiagnostic():
 
     #pos(s3.xc, s3_imagingxcentre)
     #pos(s3.xs, s3_imagingxsize)
-    #pos(s3.xs, s3_imagingxsize, s3.ys, s3_imagingysize)
+    pos(s3.xs, s3_imagingxsize, s3.ys, s3_imagingysize)
     print "******* Slits now in position."
     
     print "*** Move complete! Moved to end-of-hutch diagnostic camera! Shutter is CLOSED. \n"

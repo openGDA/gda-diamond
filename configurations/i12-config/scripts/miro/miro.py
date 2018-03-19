@@ -161,4 +161,5 @@ class Miro():
 		return first_frame_idx, last_frame_idx
         
 
+miro_test_obj=Miro()
 

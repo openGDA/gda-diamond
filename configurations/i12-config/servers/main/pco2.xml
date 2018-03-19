@@ -53,16 +53,16 @@
 		<property name="nonLocalDataStoreWindows2LinuxFileName">
 			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
 				<!-- <property name="windowsPath" value="Z:" /> -->
-				<!-- <property name="windowsPath" value="t:\\i12" /> -->
-				<property name="windowsPath" value="d:\\i12" />
+				<property name="windowsPath" value="t:\\i12" />
+				<!-- <property name="windowsPath" value="d:\\i12" /> -->
 				<property name="linuxPath" value="/dls/i12" />
 			</bean>
 		</property>
 		<property name="demandRawDataStoreWindows2LinuxFileName">
 			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
 				<!-- <property name="windowsPath" value="Z:" /> -->
-				<!-- <property name="windowsPath" value="t:\\i12" /> -->
-				<property name="windowsPath" value="d:\\i12" />
+				<property name="windowsPath" value="t:\\i12" />
+				<!-- <property name="windowsPath" value="d:\\i12" /> -->
 				<property name="linuxPath" value="/dls/i12" />
 			</bean>
 		</property>

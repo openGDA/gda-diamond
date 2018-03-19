@@ -90,5 +90,8 @@
 	<!-- Guest equipment -->
 	<!-- <import resource="eulerian_cradle.xml" /> -->
 	<!-- <import resource="i20_aero.xml" /> -->
+	<!-- <import resource="lin_stage_eh1.xml" /> -->
+	<import resource="lin_stage_eh2.xml" />
+	<import resource="b16_xps.xml" />
 	<import resource="../servers_common.xml" />
 </beans>
