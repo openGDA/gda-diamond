@@ -93,7 +93,6 @@
 	<import resource="SS3.xml"/>
 	<import resource="SS4.xml"/>
 	<import resource="SS5.xml"/>
-	<import resource="RS.xml"/>
 	<import resource="BSTP1.xml"/>
 	<import resource="butler.xml"/>
 	<import resource="detectorArm.xml"/>
