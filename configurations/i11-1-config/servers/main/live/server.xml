@@ -95,6 +95,7 @@
 	<import resource="SS5.xml"/>
 	<import resource="RS.xml"/>
 	<import resource="BSTP1.xml"/>
+	<import resource="butler.xml"/>
 	<import resource="detectorArm.xml"/>
 	<import resource="Spinner.xml"/>
 	<import resource="Table1.xml"/>
