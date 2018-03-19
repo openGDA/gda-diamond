@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="lin_stage_eh2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL12I-MO-LNMOT-01:LNMOT"/>
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="lin_stage_eh2" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="lin_stage_eh2" />
+		<property name="motor" ref="lin_stage_eh2_motor" />
+		<!-- <property name="tolerance" value="0.01" /> -->
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+</beans>
