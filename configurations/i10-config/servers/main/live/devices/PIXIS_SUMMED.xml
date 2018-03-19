@@ -88,7 +88,7 @@
 	<bean id="pixisSummedTiffFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pixis" />
 		<property name="filePathTemplate" value="$datadir$" />
-		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileTemplate" value="%s%s-%d.tiff" />
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="blocking" value="false" />
