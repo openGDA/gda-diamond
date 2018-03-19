@@ -1035,7 +1035,7 @@ def report_storage():
     windowsSubString_rvr_dct = {"d": "NetApp", "t": "GPFS01"}
     
     #curr_out_str = "Current windowsSubString for %s is %s (%s)."
-    curr_out_str = "%s is currently configured to use the %s storage (on %s)."
+    curr_out_str = " %s is currently configured to use the %s storage (on %s)."
     
     # PIXIUM TIFF detector objects
     pixium10_tif = finder.find("pixium10_tif")
@@ -1056,7 +1056,7 @@ def report_storage():
     det_name = pco4000_dio_tif.getName()
     det_cfg = pco4000_dio_tif.getNdFile().getFilePathConverter().getWindowsSubString()
     det_drv = det_cfg.split(':')[0]
-    print curr_out_str %(det_name, windowsSubString_rvr_dct[det_drv], det_cfg)
+    print curr_out_str %(det_name, windowsSubString_rvr_dct[detreport_storage_drv], det_cfg)
 
     flyScanDetectorTIF = finder.find("flyScanDetectorTIF")
     det_name = flyScanDetectorTIF.getName()

@@ -976,7 +976,7 @@ if isLive():
     hdfplugin_step.colChunks=2560
     
     ss1_theta_vel = EpicsReadWritePVClass('ss1_theta_vel','BL12I-MO-TAB-02:ST1:THETA.VELO','deg/s','%.4f')
-
+    
     #caput("BL12I-EA-DET-02:TIF:NDArrayPort", "pco1.cam")
     try:
         print "Setting up piezo objects..."
@@ -991,7 +991,10 @@ if isLive():
         
     from p2r_utilities import p2r_telnet
     from i12utilities import i12tomoTRFlyScan, use_storage, report_storage
-    #use_storage(storage_name="gpfs")
+    alias("report_storage")
+    print "--------------------------------------------------"
+    use_storage(storage_name="gpfs")
+    print "--------------------------------------------------"
     
     try:
         # Set ports of file-writing plugins 
@@ -1010,7 +1013,8 @@ if isLive():
     print("Adding ring-current (beam) monitor")
     from beam_monitor import WaitWhileScannableBelowThresholdMonitorOnly
     bm = WaitWhileScannableBelowThresholdMonitorOnly("bm", ring_current, minimumThreshold=200.0, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=10.0, shtr_obj=eh1shtr)
-
+    
+    print "--------------------------------------------------"
     print "Adding pco_preview"
     def pco_preview():
         caput("BL12I-EA-DET-02:CAM:Acquire", 0)    # 1 for START, 0 for STOP
@@ -1019,13 +1023,13 @@ if isLive():
         caput("BL12I-EA-DET-02:CAM:Acquire", 1)
     alias("pco_preview")
     
-    print "Adding pco_preview"
+    print "Adding pixium_preview"
     def pixium_preview():
         caput("BL12I-EA-DET-10:CAM:Acquire", 0)    # 1 for START, 0 for STOP
-        caput("BL12I-EA-DET-102:CAM:ImageMode", 2)   # 0 for SINGLE, 2 for CONTINUOUS
+        caput("BL12I-EA-DET-10:CAM:ImageMode", 2)   # 0 for SINGLE, 2 for CONTINUOUS
         caput("BL12I-EA-DET-10:PRO1:EnableCallbacks", 1)
         caput("BL12I-EA-DET-10:CAM:Acquire", 1)
-    alias("pco_preview")
+    alias("pixium_preview")
 
 print 
 print "==================================================="
