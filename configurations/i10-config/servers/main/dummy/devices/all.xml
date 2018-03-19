@@ -19,6 +19,9 @@
 	<import resource="CA2.xml"/>
 	<import resource="CA3.xml"/>
 	<import resource="CA4.xml"/>
+	<import resource="PIMTE.xml"/>
+	<import resource="PIXIS.xml"/>
+	<import resource="PIXIS_SUMMED.xml"/>
 	<import resource="RASOR-Cam1.xml"/>
 	<import resource="RASOR-Cam2.xml"/>
 	<import resource="RASOR-Cam3.xml"/>
