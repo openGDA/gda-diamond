@@ -18,14 +18,6 @@
 
 package gda.exafs.ui;
 
-import gda.device.DeviceException;
-import gda.device.EnumPositioner;
-import gda.exafs.ui.composites.CryostatTableComposite;
-import gda.exafs.ui.composites.RoomTemperatureComposite;
-import gda.exafs.ui.preferencepages.I20SampleReferenceWheelPreferencePage;
-import gda.factory.Finder;
-import gda.observable.IObserver;
-
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -63,6 +55,13 @@ import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.slf4j.Logger;
 
+import gda.device.DeviceException;
+import gda.device.EnumPositioner;
+import gda.exafs.ui.composites.CryostatTableComposite;
+import gda.exafs.ui.composites.RoomTemperatureComposite;
+import gda.exafs.ui.preferencepages.I20SampleReferenceWheelPreferencePage;
+import gda.factory.Finder;
+import gda.observable.IObserver;
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
@@ -116,8 +115,8 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
-		createSampleCombo(composite);
 		createSampleDetailsGroup(composite);
+		createSampleCombo(composite);
 		createSampleEnvironmentGroup(composite);
 		if (!ScanObjectManager.isXESOnlyMode())
 			createSampleWheelGroup(composite);

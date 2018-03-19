@@ -108,11 +108,12 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setDatawriterconfig(datawriterconfig);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
-theFactory.setIncludeSampleNameInNexusName(True);
+theFactory.setIncludeSampleNameInNexusName(False);
 # theFactory.setOriginal_header(original_header);
 theFactory.setScanName("xas")
 theFactory.setAnalyserAngle(XESBragg)
 theFactory.setXes_energy(XESEnergy)
+theFactory.setXesOffsets(xes_offsets)
 xes = theFactory.createXesScan()
 
 theFactory = XasScanFactory();
@@ -124,7 +125,7 @@ theFactory.setLoggingScriptController(XASLoggingScriptController);
 theFactory.setDatawriterconfig(datawriterconfig);
 theFactory.setEnergyScannable(bragg1WithOffset);
 theFactory.setMetashop(metashop);
-theFactory.setIncludeSampleNameInNexusName(True);
+theFactory.setIncludeSampleNameInNexusName(False);
 #theFactory.setQexafsDetectorPreparer(detectorPreparer);
 #theFactory.setQexafsEnergyScannable(qexafs_energy);
 theFactory.setScanName("energyScan")
@@ -255,5 +256,7 @@ DAServer.sendCommand("tfg setup-veto veto0-inv 0")
 DAServer.sendCommand("tfg setup-veto veto0-drive 1")
 DAServer.sendCommand("tfg alternate-veto veto0-normal")
 
-#ws146-AD-SIM-01:HDF5:MinCallbackTime
+# Create DTC_energy scannable to set, get the XSpress4 DTC energy value
+run 'xspress4_dtc_energy_scannable.py'
+
 print "****GDA startup script complete.****\n\n"

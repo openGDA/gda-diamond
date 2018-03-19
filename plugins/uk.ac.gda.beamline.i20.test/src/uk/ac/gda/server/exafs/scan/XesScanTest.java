@@ -466,17 +466,17 @@ public class XesScanTest {
 
 		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
 
-		assertTrue(scanArgs.length == 8);
+		assertTrue(scanArgs.length == 9);
 
 		assertTrue(((Scannable) scanArgs[0]).getName().equals(xes_energy.getName()));
 		assertTrue(scanArgs[1].equals(new Double(6000.0)));
 		assertTrue(scanArgs[2].equals(new Double(7000.0)));
 		assertTrue(scanArgs[3].equals(new Double(200.0)));
-		assertTrue(((Scannable) scanArgs[4]).getName().equals(mono_energy.getName()));
+		assertTrue(getScannableName(scanArgs[4]).equals(mono_energy.getName()));
 		assertTrue(scanArgs[5].equals(new Double(10000.0)));
-
-		assertTrue(scanArgs[6] instanceof Xmap);
-		assertTrue(scanArgs[7] instanceof TfgScalerWithFrames);
+		assertTrue(getScannableName(scanArgs[6]).equals(analyserAngle.getName()));
+		assertTrue(scanArgs[7] instanceof Xmap);
+		assertTrue(scanArgs[8] instanceof TfgScalerWithFrames);
 
 	}
 
@@ -505,20 +505,21 @@ public class XesScanTest {
 
 		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
 
-		assertTrue(scanArgs.length == 11);
+		assertTrue(scanArgs.length == 12);
 
 		assertTrue(((Scannable) scanArgs[0]).getName().equals(xes_energy.getName()));
 		assertTrue(scanArgs[1].equals(new Double(6000.0)));
 		assertTrue(scanArgs[2].equals(new Double(7000.0)));
 		assertTrue(scanArgs[3].equals(new Double(200.0)));
-		assertTrue(((Scannable) scanArgs[4]).getName().equals(mono_energy.getName()));
+		assertTrue(getScannableName(scanArgs[4]).equals(mono_energy.getName()));
 		assertTrue(scanArgs[5].equals(new Double(11000.0)));
 		assertTrue(scanArgs[6].equals(new Double(12000.0)));
 		assertTrue(scanArgs[7].equals(new Double(100.0)));
+		assertTrue(getScannableName(scanArgs[8]).equals(analyserAngle.getName()));
 
-		assertTrue(scanArgs[8] instanceof TwoDScanPlotter);
-		assertTrue(scanArgs[9] instanceof Xmap);
-		assertTrue(scanArgs[10] instanceof TfgScalerWithFrames);
+		assertTrue(scanArgs[9] instanceof TwoDScanPlotter);
+		assertTrue(scanArgs[10] instanceof Xmap);
+		assertTrue(scanArgs[11] instanceof TfgScalerWithFrames);
 	}
 
 	@Test
@@ -546,20 +547,21 @@ public class XesScanTest {
 
 		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
 
-		assertTrue(scanArgs.length == 11);
+		assertTrue(scanArgs.length == 12);
 
 		assertTrue(((Scannable) scanArgs[0]).getName().equals(mono_energy.getName()));
 		assertTrue(scanArgs[1].equals(new Double(11000.0)));
 		assertTrue(scanArgs[2].equals(new Double(12000.0)));
 		assertTrue(scanArgs[3].equals(new Double(100.0)));
-		assertTrue(((Scannable) scanArgs[4]).getName().equals(xes_energy.getName()));
+		assertTrue(getScannableName(scanArgs[4]).equals(xes_energy.getName()));
 		assertTrue(scanArgs[5].equals(new Double(6000.0)));
 		assertTrue(scanArgs[6].equals(new Double(7000.0)));
 		assertTrue(scanArgs[7].equals(new Double(200.0)));
+		assertTrue(getScannableName(scanArgs[8]).equals(analyserAngle.getName()));
 
-		assertTrue(scanArgs[8] instanceof TwoDScanPlotter);
-		assertTrue(scanArgs[9] instanceof Xmap);
-		assertTrue(scanArgs[10] instanceof TfgScalerWithFrames);
+		assertTrue(scanArgs[9] instanceof TwoDScanPlotter);
+		assertTrue(scanArgs[10] instanceof Xmap);
+		assertTrue(scanArgs[11] instanceof TfgScalerWithFrames);
 	}
 
 	protected void mockI20OutputParameters() {
@@ -573,4 +575,10 @@ public class XesScanTest {
 		Mockito.when(outputParams.getSignalList()).thenReturn(new ArrayList<SignalParameters>());
 	}
 
+	private String getScannableName(Object obj) {
+		if (obj instanceof Scannable) {
+			return ((Scannable)obj).getName();
+		}
+		return "";
+	}
 }

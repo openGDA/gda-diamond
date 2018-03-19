@@ -1,7 +1,8 @@
 import os
 from uk.ac.diamond.daq.persistence.jythonshelf import LocalParameters
-
-class XESOffsets:
+from uk.ac.gda.server.exafs.scan import IXesOffsets
+ 
+class XESOffsets(IXesOffsets):
 
     def __init__(self, store_dir, spectrometer):
         self.store_dir = store_dir
@@ -10,6 +11,7 @@ class XESOffsets:
         self.temp_save_name = "xes_temp"
         self.current_offsets_file = ""
 
+    # Override
     def getCurrentFile(self):
         return self.current_offsets_file
 
@@ -38,6 +40,7 @@ class XESOffsets:
         for scannable in self.spectrometer_scannables:
             scannable.setOffset(0.0)
 
+    # Override
     def saveAs(self, storeName):
         store = LocalParameters.getXMLConfiguration(self.store_dir, storeName, True)
         for scannable in self.spectrometer_scannables:
@@ -48,9 +51,6 @@ class XESOffsets:
             store.setProperty(name,value)
         store.save()
 
-    def save(self):
-        self.saveAs(self.temp_save_name)
-        
     def view(self, filename):
         store = LocalParameters.getXMLConfiguration(self.store_dir, filename, False)
         print "Spectrometer offsets for",filename,":"
@@ -59,10 +59,12 @@ class XESOffsets:
             value = float(store.getProperty(name))
             print "%20s : %.2f" % (name, value)
 
+    # Override
     def reApply(self):
         print "Reapplying previous spectrometer offsets..."
         self.apply(self.current_offsets_file)
 
+    # Override
     #Loads and sets the Spectrometer offsets from the named store.
     def apply(self, filename):
         if filename!='var':
@@ -118,3 +120,19 @@ class XESOffsets:
         currentOffset = currentOffset[0]
         newOffset = expectedReadback - (readback - currentOffset)
         return newOffset
+
+    # Override
+    def saveToTemp(self):
+        self.saveAs(self.temp_save_name)
+
+    # Override
+    def applyFromTemp(self):
+        self.apply(self.temp_save_name)
+
+    # Override
+    def setTempSaveName(self, name):
+        self.temp_save_name = name
+
+    # Override
+    def getTempSaveName(self):
+        return self.temp_save_name
