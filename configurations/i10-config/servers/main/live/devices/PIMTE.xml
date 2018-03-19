@@ -36,6 +36,7 @@
 			</bean>
 		</property>
 	</bean>
+	<!-- HDF5 plugin - multiple images in one file per scan -->
 	<bean id="pimteHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter" abstract="true">
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileTemplate" value="%s%s-%d.hdf" />
