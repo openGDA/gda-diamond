@@ -31,7 +31,6 @@ import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.NXDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.DummyScannable;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServer;
@@ -50,13 +49,10 @@ import uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalc
 public class I18DetectorPreparerTest {
 
 	private Scannable[] sensitivities;
-	private Xspress2Detector xspressSystem;
 	private Xspress3WithFullCalculationsDetector xspress3;
 	private TfgScalerWithFrames ionchambers;
 	private I18DetectorPreparer thePreparer;
 	private BufferedDetector qexafs_counterTimer01;
-	private BufferedDetector qexafs_xspress;
-	private BufferedDetector QexafsFFI0;
 	private NXDetector cmos_for_maps;
 	private BufferedDetector buffered_cid;
 	private Xspress3BufferedDetector qexafs_xspress3;
@@ -78,22 +74,16 @@ public class I18DetectorPreparerTest {
 		Mockito.when(jythonserver.getDefaultScannables()).thenReturn(
 				new Vector<Scannable>());
 
-		xspressSystem = (Xspress2Detector) createMock(Xspress2Detector.class,
-				"xspressSystem");
 		xspress3 = (Xspress3WithFullCalculationsDetector) createMock(
 				Xspress3WithFullCalculationsDetector.class, "xspress3");
 		ionchambers = (TfgScalerWithFrames) createMock(
 				TfgScalerWithFrames.class, "ionchambers");
 		qexafs_counterTimer01 = (BufferedDetector) createMock(
 				BufferedDetector.class, "qexafs_counterTimer01");
-		qexafs_xspress = (BufferedDetector) createMock(BufferedDetector.class,
-				"qexafs_xspress");
 		qexafs_xspress3 = (Xspress3BufferedDetector) createMock(
 				Xspress3BufferedDetector.class, "qexafs_xspress3");
 		qexafs_FFI0_xspress3 = (Xspress3FFoverI0BufferedDetector) createMock(
 				Xspress3FFoverI0BufferedDetector.class, "qexafs_FFI0_xspress3");
-		QexafsFFI0 = (BufferedDetector) createMock(BufferedDetector.class,
-				"QexafsFFI0");
 		buffered_cid = (BufferedDetector) createMock(BufferedDetector.class,
 				"buffered_cid");
 		cmos_for_maps = (NXDetector) createMock(NXDetector.class,
@@ -104,8 +94,7 @@ public class I18DetectorPreparerTest {
 		sensitivities[1] = createMockScannable("it_keithley_gain");
 
 		thePreparer = new I18DetectorPreparer(sensitivities, ionchambers,
-				xspressSystem, xspress3, qexafs_counterTimer01, qexafs_xspress,
-				QexafsFFI0, qexafs_xspress3, qexafs_FFI0_xspress3,
+				xspress3, qexafs_counterTimer01, qexafs_xspress3, qexafs_FFI0_xspress3,
 				buffered_cid, cmos_for_maps);
 	}
 
@@ -172,9 +161,6 @@ public class I18DetectorPreparerTest {
 
 		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
 
-		Mockito.verify(xspressSystem).setConfigFileName(
-				"/scratch/test/xml/path/Fluo_config.xml");
-		Mockito.verify(xspressSystem).configure();
 		Mockito.verifyZeroInteractions(xspress3);
 
 		fluoParams.setDetectorType(FluorescenceParameters.XSPRESS3_DET_TYPE);

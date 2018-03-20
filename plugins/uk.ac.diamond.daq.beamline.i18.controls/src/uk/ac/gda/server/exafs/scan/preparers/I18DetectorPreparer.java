@@ -9,7 +9,6 @@ import gda.device.detector.BufferedDetector;
 import gda.device.detector.NXDetector;
 import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
-import gda.device.detector.xspress.Xspress2Detector;
 import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
 import gda.jython.InterfaceProvider;
@@ -31,33 +30,27 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
 	private final Scannable[] gains;
 	private final TfgScalerWithFrames counterTimer01;
-	private final Xspress2Detector xspress2system;
 
 	private IScanParameters scanBean;
 	private IDetectorParameters detectorBean;
 	private BufferedDetector qexafs_counterTimer01;
 	private Xspress3BufferedDetector qexafs_xspress3;
-	private BufferedDetector qexafs_xspress;
-	private BufferedDetector qexafsFFI0;
 	private BufferedDetector buffered_cid;
 	private NXDetector hardwareTriggeredCmos;
 	private Xspress3 xspress3;
 	private Xspress3FFoverI0BufferedDetector qexafs_FFI0_xspress3;
 	private boolean isBuffered_cid;
 
-	public I18DetectorPreparer(Scannable[] gains, TfgScalerWithFrames ionchambers, Xspress2Detector xspressSystem,
-			Xspress3 xspress3, BufferedDetector qexafs_counterTimer01, BufferedDetector qexafs_xspress,
-			BufferedDetector QexafsFFI0, Xspress3BufferedDetector qexafs_xspress3,
+	public I18DetectorPreparer(Scannable[] gains, TfgScalerWithFrames ionchambers,
+			Xspress3 xspress3, BufferedDetector qexafs_counterTimer01,
+			Xspress3BufferedDetector qexafs_xspress3,
 			Xspress3FFoverI0BufferedDetector qexafs_FFI0_xspress3, BufferedDetector buffered_cid,
 			NXDetector hardwareTriggeredCmos) {
 		this.gains = gains;
 		this.counterTimer01 = ionchambers;
-		this.xspress2system = xspressSystem;
 		this.xspress3 = xspress3;
-		this.qexafsFFI0 = QexafsFFI0;
 		this.qexafs_xspress3 = qexafs_xspress3;
 		this.qexafs_counterTimer01 = qexafs_counterTimer01;
-		this.qexafs_xspress = qexafs_xspress;
 		this.qexafs_FFI0_xspress3 = qexafs_FFI0_xspress3;
 		this.buffered_cid = buffered_cid;
 		this.hardwareTriggeredCmos = hardwareTriggeredCmos;
@@ -76,10 +69,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
 			String detType = fluoresenceParameters.getDetectorType();
 			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
-			if (detType.compareTo(FluorescenceParameters.GERMANIUM_DET_TYPE) == 0) {
-				xspress2system.setConfigFileName(xmlFileName);
-				xspress2system.configure();
-			} else if (detType.compareTo(FluorescenceParameters.XSPRESS3_DET_TYPE) == 0) {
+			if (detType.compareTo(FluorescenceParameters.XSPRESS3_DET_TYPE) == 0) {
 				xspress3.setConfigFileName(xmlFileName);
 				xspress3.loadConfigurationFromFile();
 			}
@@ -127,8 +117,8 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 		String det_type = detectorBean.getFluorescenceParameters().getDetectorType();
 		if (det_type.compareTo(FluorescenceParameters.XSPRESS3_DET_TYPE) == 0) {
 			return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xspress3, qexafs_FFI0_xspress3 };
-		} // else Ge
-		return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xspress, qexafsFFI0 };
+		}
+		throw new UnsupportedOperationException("Detector type not supported");
 	}
 
 	protected void control_all_ionc(List<IonChamberParameters> ion_chambers_bean) throws Exception {

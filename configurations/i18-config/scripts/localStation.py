@@ -63,7 +63,7 @@ if finder.find("datawriterconfig").getHeader() != None:
 elementListScriptController =  finder.find("elementListScriptController")
 
 gains = [i0_keithley_gain, it_keithley_gain] # @UndefinedVariable
-detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress2system, xspress3, raster_counterTimer01, raster_xspress, QexafsFFI0, raster_xspress3,raster_FFI0_xspress3, buffered_cid, None) # @UndefinedVariable
+detectorPreparer = I18DetectorPreparer(gains, counterTimer01, xspress3, raster_counterTimer01, raster_xspress3,raster_FFI0_xspress3, buffered_cid, None) # @UndefinedVariable
 
 samplePreparer   = I18SamplePreparer(rcpController, D7A, D7B, kb_vfm_x) # @UndefinedVariable
 samplePreparer.setStage1(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z) # @UndefinedVariable

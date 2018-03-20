@@ -52,19 +52,6 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
-	<bean id="xspress2system" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xspress2system" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
-	<bean id="xspressConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xspressConfig" />
-		<property name="serviceInterface"
-			value="gda.device.detector.FluorescentDetectorConfiguration" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
 	<!-- Core -->
 	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}rcpController" />

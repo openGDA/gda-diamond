@@ -3,15 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="qexafs_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
-		<property name="xspress2system" ref="xspress2system" />
-		<property name="local" value="true" />
-		<property name="inputNames">
-			<list>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
 			<list>
@@ -52,11 +43,6 @@
 		<property name="name" value="qexafsCounterTimer01" />
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveControllerForQexafs" />
 		<property name="collectionStrategy" ref="counterTimer01CollectionStrategy" />
-	</bean>
-
-	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
-		<property name="qexafsXspress" ref="qexafs_xspress" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 	</bean>
 
 	<bean id="Xspress3FFI0CollectionStrategy"

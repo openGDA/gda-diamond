@@ -3,46 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- Xspress2 Germanium detector -->
-	<bean id="xspress2controller" class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController">
-		<property name="daServer" ref="daserver" />
-		<property name="tfg" ref="tfg" />
-		<property name="xspressSystemName" value="xsp1" />
-		<property name="mcaOpenCommand" value="xspress2 open-mca 'xsp1'" />
-		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
-		<property name="startupScript" value="xspress2 format-run 'xsp1' res-none" />
-		<property name="fullMCABits" value="12" />
-	</bean>
-
-	<bean id="xspress2system" class="gda.device.detector.xspress.Xspress2Detector">
-		<property name="controller" ref="xspress2controller" />
-		<property name="configFileName"
-			value="${gda.config}/templates/Xspress_Parameters.xml" />
-		<property name="dtcConfigFileName"
-			value="${gda.config}/templates/Xspress_DeadTime_Parameters.xml" />
-		<property name="sumAllElementData" value="true" />
-		<property name="outputFormat">
-			<list>
-				<value>%5.6g</value>
-			</list>
-		</property>
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/xspress2system" />
-		<property name="service" ref="xspress2system" />
-		<property name="serviceInterface"
-			value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" />
-	</bean>
-
-	<bean id="xspressConfig" class="gda.device.detector.xspress.XspressDetectorConfiguration" >
-		<constructor-arg ref="xspress2system" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/xspressConfig" />
-		<property name="service" ref="xspressConfig" />
-		<property name="serviceInterface" value="gda.device.detector.FluorescentDetectorConfiguration" />
-	</bean>
-
 	<!-- Time Frame Generator -->
 	<bean id="tfg" class="gda.device.timer.Etfg">
 		<property name="daServer" ref="daserver" />
@@ -113,36 +73,6 @@
 		</property>
 	</bean>
 
-	<bean id="counterTimer02" class="gda.device.detector.countertimer.TfgXspress2">
-		<property name="extraNames">
-			<list>
-				<value>flu_0</value>
-				<value>flu_1</value>
-				<value>flu_2</value>
-				<value>flu_3</value>
-				<value>flu_4</value>
-				<value>flu_5</value>
-				<value>flu_6</value>
-				<value>flu_7</value>
-				<value>flu_8</value>
-				<value>FF</value>
-			</list>
-		</property>
-		<property name="xspress" ref="xspress2system" />
-		<property name="timer" ref="tfg" />
-		<property name="slave" value="true" />
-	</bean>
-
-	<bean id="raster_xspress" class="gda.device.detector.xspress.Xspress2BufferedDetector">
-		<property name="xspress2system" ref="xspress2system" />
-		<property name="daserver" ref="daserver" />
-		<property name="local" value="true" />
-		<property name="inputNames">
-			<list>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="raster_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">
 			<list>
@@ -209,12 +139,6 @@
 	<bean id="seso" class="gda.device.detector.SesoXbpmDetector">
 		<property name="host" value="172.23.118.71" />
 		<property name="port" value="20" />
-	</bean>
-
-	<bean id="FFI0" class="gda.device.detector.TfgFFoverI0">
-		<property name="xspress" ref="xspress2system" />
-		<property name="counterTimer" ref="counterTimer01" />
-		<property name="i0_channel" value="1" />
 	</bean>
 
 </beans>
