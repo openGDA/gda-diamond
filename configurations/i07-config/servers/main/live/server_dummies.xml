@@ -219,44 +219,8 @@
         </property>
         <property name="protectionLevel" value="0" />
     </bean>
-    
-    <bean id="testCounterTimer1" class="gda.device.detector.countertimer.DummyCounterTimer">
-        <property name="useGaussian" value="True" />
-        <property name="timeChannelRequired" value="False" />
-    </bean>
 
     <bean id="dummyDetector" class="gda.device.detector.DummyDetector">
     </bean>
 
-<!--
-    <bean id="testCounterTimer2" class="gda.device.detector.countertimer.DummyCounterTimer">
-        <property name="useGaussian" value="True" />
-        <property name="timeChannelRequired" value="False" />
-        <property name="channelLabels">
-            <list>
-                <value> time  </value>
-                <value> I0    </value> 
-                <value> It    </value> 
-                <value> If    </value> 
-                <value> TEY   </value> 
-                <value> PEY   </value> 
-                <value> FY    </value> 
-                <value> Drain </value> 
-            </list>
-        </property>
-        <property name="outputFormat">
-            <list>
-                <value>%6.2g</value>
-                <value>%9d</value>
-                <value>%9d</value>
-                <value>%9d</value>
-                <value>%6.4g</value>
-                <value>%6.4g</value>
-                <value>%6.4g</value>
-                <value>%6.4g</value>
-                <value>%6.4g</value>
-            </list>
-        </property>
-    </bean>
--->    
 </beans>
