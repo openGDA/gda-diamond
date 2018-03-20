@@ -172,17 +172,6 @@
 		 -->
 	</bean>
 	
-	<bean id="phi" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="phi" />
-		<property name="motor" ref="diff_phi_motor" />
-		<!-- 
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-3600" />
-		<property name="upperGdaLimits" value="3600" />
-		 -->
-	</bean>
-	
 	<bean id="difx" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="difx" />
 		<property name="initialUserUnits" value="mm" />
