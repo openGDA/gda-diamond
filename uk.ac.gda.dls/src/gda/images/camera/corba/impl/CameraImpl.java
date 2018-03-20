@@ -20,6 +20,10 @@ package gda.images.camera.corba.impl;
 
 import java.awt.image.BufferedImage;
 
+import org.omg.CORBA.Any;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.device.corba.CorbaDeviceException;
 import gda.device.corba.impl.DeviceImpl;
 import gda.factory.corba.CorbaFactoryException;
@@ -27,15 +31,11 @@ import gda.images.camera.Camera;
 import gda.images.camera.CameraUtils;
 import gda.images.camera.corba.CorbaCameraPOA;
 
-import org.omg.CORBA.Any;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * A server side implementation for a distributed Camera class
  */
 public class CameraImpl extends CorbaCameraPOA {
-	private static final Logger logger = LoggerFactory.getLogger(CameraImpl.class);	
+	private static final Logger logger = LoggerFactory.getLogger(CameraImpl.class);
 	//
 	// Private reference to implementation object
 	//
@@ -50,7 +50,7 @@ public class CameraImpl extends CorbaCameraPOA {
 
 	/**
 	 * Create server side implementation to the CORBA package.
-	 * 
+	 *
 	 * @param camera
 	 *            the Camera implementation object
 	 * @param poa
@@ -64,7 +64,7 @@ public class CameraImpl extends CorbaCameraPOA {
 
 	/**
 	 * Get the implementation object
-	 * 
+	 *
 	 * @return the Camera implementation object
 	 */
 	public Camera _delegate() {
@@ -73,7 +73,7 @@ public class CameraImpl extends CorbaCameraPOA {
 
 	/**
 	 * Set the implementation object.
-	 * 
+	 *
 	 * @param camera
 	 *            set the Camera implementation object
 	 */
@@ -182,7 +182,7 @@ public class CameraImpl extends CorbaCameraPOA {
 			throw new CorbaDeviceException(ex.getMessage());
 		}
 	}
-	
+
 	@Override
 	public Any getImage() throws CorbaDeviceException {
 		final Any any = org.omg.CORBA.ORB.init().create_any();
@@ -228,6 +228,16 @@ public class CameraImpl extends CorbaCameraPOA {
 	}
 
 	@Override
+	public void configure() throws CorbaFactoryException {
+		deviceImpl.configure();
+	}
+
+	@Override
+	public boolean isConfigured() throws CorbaDeviceException {
+		return deviceImpl.isConfigured();
+	}
+
+	@Override
 	public void reconfigure() throws CorbaFactoryException {
 		deviceImpl.reconfigure();
 	}
@@ -236,7 +246,7 @@ public class CameraImpl extends CorbaCameraPOA {
 	public void close() throws CorbaDeviceException {
 		deviceImpl.close();
 	}
-	
+
 	@Override
 	public int getProtectionLevel() throws CorbaDeviceException {
 		return deviceImpl.getProtectionLevel();
