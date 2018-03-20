@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="shtr1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="BL10I-PS-SHTR-01:CON" />
+		<property name="statusPv" value="BL10I-PS-SHTR-01:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+		<property name="readOnly" value="false"/>
+	</bean>
+</beans>

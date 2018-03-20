@@ -7,6 +7,8 @@
 	
 	<!-- I Scattering -->
 
+	<import resource="Shutter1.xml"/>
+<!-- 	<import resource="accessControl4I.xml"/> -->
 	<import resource="D4.xml"/>
 	<import resource="S4.xml"/>
 	<import resource="D5.xml"/>
@@ -30,6 +32,8 @@
 
 	<!-- J Absorption -->
 
+	<import resource="ShutterJ.xml"/>
+<!-- 	<import resource="accessControl4J.xml"/> -->
 	<import resource="DJ1.xml"/>
 	<import resource="S7.xml"/>
 	<import resource="DJ2.xml"/>
