@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+	<!-- NXDetector -->
+ 	<bean id="pixis_summed" class="gda.device.detector.NXDetector">
+		<property name="name" value="pixis_summed" />
+		<property name="collectionStrategy" ref="pixisSummedCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixis_summed_RoiStats1" />
+				<ref bean="pixis_summed_RoiStats2" />
+				<ref bean="pixis_summed_RoiStats3" />
+				<ref bean="pixis_summed_RoiStats4" />
+				<ref bean="pixis_summed_RoiStats5" />
+				<ref bean="pixis_summed_RoiStats6" />
+				<ref bean="pixisSummedHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+ 	<bean id="pixistiff_summed" class="gda.device.detector.NXDetector">
+		<property name="name" value="pixistiff_summed" />
+		<property name="collectionStrategy" ref="pixisSummedCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixis_summed_RoiStats1" />
+				<ref bean="pixis_summed_RoiStats2" />
+				<ref bean="pixis_summed_RoiStats3" />
+				<ref bean="pixis_summed_RoiStats4" />
+				<ref bean="pixis_summed_RoiStats5" />
+				<ref bean="pixis_summed_RoiStats6" />
+				<ref bean="pixisSummedTiffFileWriter" />
+			</list>
+		</property>
+	</bean>
+	<!-- ADDetector used in new scanning -->
+	<bean id="pixis_summed_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="pixisCollectionStrategy"/>
+		<property name="adBase" ref="pixis_adbase" />
+		<property name="ndFile" ref="pixis_summed_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="pixis_summed_ndarray" />
+		<property name="ndStats" ref="pixis_summed_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="pixisSummedHdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+
+	<bean id="pixis_summed_Model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="pixis_summed_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="pixis_summed_Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i10.pixis.DeviceInformation" />
+		<property name="label" value="PIXIS" />
+		<property name="description" value="PIXIS Detector" />
+	</bean>
+
+	<bean id="pixis_summed_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="pixis_summed_addetector" />
+		<property name="model" ref="pixis_summed_Model" />
+		<property name="deviceInformation" ref="pixis_summed_Info" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
+
+</beans>

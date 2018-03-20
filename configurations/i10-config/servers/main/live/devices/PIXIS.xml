@@ -7,9 +7,73 @@
 	<bean id="pixis_adbase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL10I-EA-PIXIS-01:CAM:" />
 	</bean>
-	<bean id="pixis_adarray" class="gda.spring.V17NDArrayFactoryBean">
-		<property name="prefix" value="BL10I-EA-PIXIS-01:ARR:" />
+	<bean id="pixis_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL10I-EA-PIMTE-01:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10I-EA-PIMTE-01:STAT:" />
+				<property name="initialArrayPort" value="PIXIS1.CAM" />
+			</bean>
+		</property>
 	</bean>
+	<bean id="pixis_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL10I-EA-PIMTE-01:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10I-EA-PIMTE-01:ARR:" />
+				<property name="initialArrayPort" value="PIXIS1.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="pixis_tifffile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL10I-EA-PIMTE-01:TIFF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10I-EA-PIMTE-01:TIFF:" />
+				<property name="initialArrayPort" value="PIXIS1.CAM" />
+			</bean>
+		</property>
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/i10/data" />
+				<property name="windowsSubString" value="x:\data" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="pixis" />
+		<property name="initialFileTemplate" value="%s%s-%d.tiff" />
+	</bean>
+	<bean id="pixis_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL10I-EA-PIMTE-01:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10I-EA-PIMTE-01:HDF5:" />
+				<property name="initialArrayPort" value="PIXIS1.CAM" />
+			</bean>
+		</property>
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/i10/data" />
+				<property name="windowsSubString" value="x:\data" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="pixis" />
+		<property name="initialFileTemplate" value="%s%s-%d.hdf5" />
+	</bean>
+	<bean id="pixis_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL10I-EA-PIMTE-01:HDF5:" />
+		<property name="file" ref="pixis_ndfile" />
+	</bean>
+
 	<bean id="pixisCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.InitialiseDetectorAfterExposureTimeChangeDecorator">
 		<property name="detector">
 			<bean class="gda.device.detector.pvcam.EpicsPvCam" init-method="init" destroy-method="destroy">
@@ -19,7 +83,7 @@
 		</property>	
 		<property name="decoratee">	
 			<bean class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
-				<property name="ndArray" ref="pixis_adarray"/>
+				<property name="ndArray" ref="pixis_ndarray"/>
 				<property name="arrayPortName" value="PIXIS1.CAM"/>
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
@@ -44,8 +108,11 @@
 			</bean>	
 		</property>
 	</bean>
+	
 	<!-- HDF5 plugin - multiple images in one file per scan -->
 	<bean id="pixisHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter" abstract="true">
+		<property name="ndFileHDF5" ref="pixis_hdf5"/>
+		<property name="fileNameTemplate" value="pixis"/>
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileTemplate" value="%s%s-%d.hdf" />
 		<property name="fileNumberAtScanStart" value="-1" />
@@ -54,53 +121,26 @@
 		<property name="colChunks" value="0" />
 		<property name="framesChunks" value="0" />
 		<property name="framesFlush" value="0" />
+		<property name="storeAttr" value="true" />
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
 		<property name="pathErrorSuppressed" value="true" />
-		<property name="fileNameTemplate" value="pixis"/>
-		<property name="ndFileHDF5">
-			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
-				<property name="ndFileImpl">
-					<bean class="gda.spring.V17NDFileFactoryBean">
-						<property name="prefix" value="BL10I-EA-PIXIS-01:HDF5:" />
-						<property name="resetToInitialValues" value="false" />
-						<property name="filePathConverter">
-							<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-								<property name="unixSubString" value="/dls/i10/data" />
-								<property name="windowsSubString" value="x:\data" />
-							</bean>
-						</property>
-					</bean>
-				</property>
-			</bean>
-		</property>
 		<property name="ndArrayPortVal" value="PIXIS1.CAM"/>
 	</bean>
-
 	<!-- TIFF plugin - SingleImagePerFileWriter(String detectorName), one tiff file per scan data point	 -->
 	<bean id="pixisTiffFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-		<constructor-arg value="pixis" />
-		<property name="filePathTemplate" value="$datadir$" />
-		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="ndFile" ref="pixis_tifffile"/>
+		<property name="fileNameTemplate" value="pixis"/>
+		<property name="filePathTemplate" value="$datadir$/$scan$-pixis-files" />
+		<property name="fileTemplate" value="%s%s-%d.tiff" />
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="blocking" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
-		<property name="fileNameTemplate" value="pixis"/>
-		<property name="ndFile">
-			<bean class="gda.spring.V17NDFileFactoryBean">
-				<property name="prefix" value="BL10I-EA-PIXIS-01:TIFF:" />
-				<property name="resetToInitialValues" value="false" />
-				<property name="filePathConverter">
-					<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-						<property name="unixSubString" value="/dls/i10/data" />
-						<property name="windowsSubString" value="x:\data" />
-					</bean>
-				</property>
-			</bean>		
-		</property>
-		<property name="ndArrayPortVal" value="PIXIS1.CAM"/>
 		<property name="keyNameForMetadataPathTemplate" value="pixis_path_template" />
+		<property name="ndArrayPortVal" value="PIXIS1.CAM"/>
 	</bean>
 	
 	<!-- The Object which gets the ROIs from the client over RMI -->
@@ -193,38 +233,6 @@
 	            <property name="liveStreamRoiProvider" ref="pixis_roi" />
 	            <property name="index" value="5" /> 
 	        </bean>
-		</property>
-	</bean>
-
-	<!-- NXDetector -->
- 	<bean id="pixis" class="gda.device.detector.NXDetector">
-		<property name="name" value="pixis" />
-		<property name="collectionStrategy" ref="pixisCollectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="pixis_RoiStats1" />
-				<ref bean="pixis_RoiStats2" />
-				<ref bean="pixis_RoiStats3" />
-				<ref bean="pixis_RoiStats4" />
-				<ref bean="pixis_RoiStats5" />
-				<ref bean="pixis_RoiStats6" />
-				<ref bean="pixisHdf5Filewriter" />
-			</list>
-		</property>
-	</bean>
- 	<bean id="pixistiff" class="gda.device.detector.NXDetector">
-		<property name="name" value="pixistiff" />
-		<property name="collectionStrategy" ref="pixisCollectionStrategy" />
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="pixis_RoiStats1" />
-				<ref bean="pixis_RoiStats2" />
-				<ref bean="pixis_RoiStats3" />
-				<ref bean="pixis_RoiStats4" />
-				<ref bean="pixis_RoiStats5" />
-				<ref bean="pixis_RoiStats6" />
-				<ref bean="pixisTiffFileWriter" />
-			</list>
 		</property>
 	</bean>
 
