@@ -197,6 +197,28 @@
 		<property name="group" value="PIMTE" />
 	</bean>
 	
+	<!-- RASOR TABLE -->
+	<bean id="magj1yins_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Insert Y" />
+		<property name="group" value="Magnet" />
+		<property name="scannableName" value="magj1yins" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="magj1yrot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Insert Y Rot" />
+		<property name="group" value="Magnet" />
+		<property name="scannableName" value="magj1yrot" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="magj1x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Stand X" />
+		<property name="group" value="Magnet" />
+		<property name="scannableName" value="magj1x" />
+		<property name="increment" value="1" />
+	</bean>
+
 	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
@@ -227,6 +249,9 @@
 				<ref bean="pimteStop" />
 				<ref bean="pixisStart" />
 				<ref bean="pixisStop" />
+				<ref bean="magj1yrot_control" />
+				<ref bean="magj1yrot_control" />
+				<ref bean="magj1x_control" />
 			</list>
 		</property>
 	</bean>
