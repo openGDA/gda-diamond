@@ -11,8 +11,6 @@ finder = Finder.getInstance();
 logger=ScriptLoggerClass();
 
 i07=BeamlineFunctionClass('i07');
-i07.setTerminalLogger();
-
 
 print "-------------------------------------------------------------------"
 print "Enable the setAlias/setGdaAlias functions"
