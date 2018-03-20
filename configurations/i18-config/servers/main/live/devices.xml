@@ -159,7 +159,7 @@
 	</bean>
 	
 	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="FE18I-RS-SHTR-02:STA"/>
+		<property name="pvName" value="FE18I-PS-SHTR-02:STA"/>
 	</bean>
 
 	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we need events to
