@@ -420,12 +420,6 @@
 		<property name="deviceName" value="D7B.POSITIONER" />
 	</bean>
 
-	<bean id="xpsDeferFlag" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameSetPoint" value="BL18I-MO-XPS-01:DEFER" />
-		<property name="pvNameGetPoint" value="BL18I-MO-XPS-01:DEFER.RBV" />
-		<property name="local" value="true" />
-	</bean>
-
 	<bean id="thor_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-MO-TABLE-02:X"></property>
 		<property name="local" value="true" />

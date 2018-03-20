@@ -158,8 +158,6 @@
 		</property>
 	</bean>
 
-	<bean id="xpsDeferFlag" class="gda.device.controlpoint.DummyControlPoint" />
-
 	<bean id="thor_x_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="thor_y_motor" class="gda.device.motor.DummyMotor" />
 
