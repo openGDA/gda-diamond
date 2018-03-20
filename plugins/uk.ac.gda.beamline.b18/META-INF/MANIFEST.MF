@@ -44,11 +44,8 @@ Require-Bundle: org.eclipse.ui,
  org.dawnsci.plotting.jreality;bundle-version="1.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: gda.device.detector,
- gda.device.scannable,
- gda.exafs.validation,
- uk.ac.gda.beamline.b18,
- uk.ac.gda.server.exafs.scan.preparers
+Export-Package: gda.exafs.validation,
+ uk.ac.gda.beamline.b18
 Bundle-Vendor: Diamond Light Source
 Import-Package: org.apache.commons.lang;version="2.6.0",
  org.slf4j;version="[1.7.2,2.0.0)",

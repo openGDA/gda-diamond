@@ -1,9 +1,9 @@
 print "Initialization Started";
 
-from uk.ac.gda.server.exafs.scan.preparers import B18BeamlinePreparer
-from uk.ac.gda.server.exafs.scan.preparers import B18DetectorPreparer
-from uk.ac.gda.server.exafs.scan.preparers import B18SamplePreparer
-from uk.ac.gda.server.exafs.scan.preparers import B18OutputPreparer
+from uk.ac.gda.server.exafs.b18.scan.preparers import B18BeamlinePreparer
+from uk.ac.gda.server.exafs.b18.scan.preparers import B18DetectorPreparer
+from uk.ac.gda.server.exafs.b18.scan.preparers import B18SamplePreparer
+from uk.ac.gda.server.exafs.b18.scan.preparers import B18OutputPreparer
 from uk.ac.gda.server.exafs.scan import EnergyScan, QexafsScan, XasScanFactory
 # from exafsscripts.exafs.qexafs_scan import QexafsScan
 from gda.device.scannable import TopupChecker
@@ -36,11 +36,11 @@ offset_units = [i0_stanford_offset_units, it_stanford_offset_units, iref_stanfor
 
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
-    #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
-else :
+    #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
     detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
-#    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
+else :
+    # detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
+    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
 
 daServer = Finder.getInstance().find("DAServer")
 samplePreparer = B18SamplePreparer(sam1, sam2, cryo, lakeshore, eurotherm, pulsetube, samplewheel, userstage)
@@ -140,18 +140,18 @@ generic_cryostat.setReadBackPVName("BL18B-EA-TEMPC-06:STEMP")
 generic_cryostat.configure()
 
 #Switch off Nexus detector compression, used faster cached version of data writer. imh 14/11/2016
-from gda.data.scan.datawriter import XasNexusDataWriter;
-LocalProperties.set(XasNexusDataWriter.GDA_XAS_NEXUS_DEFAULT_COMPRESSION, "0")
-LocalProperties.set(XasNexusDataWriter.GDA_XAS_NEXUS_USE_CACHED_WRITER, "True")
-#LocalProperties.set(XasNexusDataWriter.GDA_XAS_NEXUS_USE_CACHED_WRITER, "False")
+#from gda.data.scan.datawriter import XasNexusDataWriter;
+#LocalProperties.set(XasNexusDataWriter.GDA_XAS_NEXUS_DEFAULT_COMPRESSION, "0")
+#LocalProperties.set(XasNexusDataWriter.GDA_XAS_NEXUS_USE_CACHED_WRITER, "True")
+# LocalProperties.set(XasNexusDataWriter.GDA_XAS_NEXUS_USE_CACHED_WRITER, "False")
 
 
 # Set energy scannable for Mythen, so can add energy to output file. imh 2/12/2016
-mythen.addScannableForHeader(qexafs_energy)
-mythen.addScannableForHeader(user1)
+#mythen.addScannableForHeader(qexafs_energy)
+#mythen.addScannableForHeader(user1)
 
-mythenEpics.addScannableForHeader(qexafs_energy, "Energy")
-mythenEpics.addScannableForHeader(user1, "Motor angle")
+#mythenEpics.addScannableForHeader(qexafs_energy, "Energy")
+#mythenEpics.addScannableForHeader(user1, "Motor angle")
 
 # Reset XSPress3 settings : enable ROI and deadtime corrections, set to 'TTL Veto only' trigger mode
 from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
@@ -170,7 +170,5 @@ def reconnect_daserver() :
     counterTimer01.configure()
     print "Ignore this error (it's 'normal'...)"
     counterTimer01.getScaler().clear()
-
-samplewheel_names.setPositions( samplewheel.getFilterNames() )
 
 print "Initialization Complete";

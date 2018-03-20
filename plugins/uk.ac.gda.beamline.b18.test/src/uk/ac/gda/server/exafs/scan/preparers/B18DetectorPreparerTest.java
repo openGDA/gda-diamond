@@ -50,6 +50,7 @@ import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.devices.detector.xspress3.Xspress3;
+import uk.ac.gda.server.exafs.b18.scan.preparers.B18DetectorPreparer;
 
 public class B18DetectorPreparerTest {
 

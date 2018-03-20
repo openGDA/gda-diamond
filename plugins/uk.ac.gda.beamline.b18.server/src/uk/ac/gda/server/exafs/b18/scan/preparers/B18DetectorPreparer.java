@@ -1,4 +1,4 @@
-package uk.ac.gda.server.exafs.scan.preparers;
+package uk.ac.gda.server.exafs.b18.scan.preparers;
 
 import java.util.List;
 

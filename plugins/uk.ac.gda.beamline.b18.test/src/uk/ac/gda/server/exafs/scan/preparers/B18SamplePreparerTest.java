@@ -34,6 +34,7 @@ import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
 import uk.ac.gda.beans.exafs.b18.LN2CryoStageParameters;
 import uk.ac.gda.beans.exafs.b18.SampleWheelParameters;
 import uk.ac.gda.beans.exafs.b18.XYThetaStageParameters;
+import uk.ac.gda.server.exafs.b18.scan.preparers.B18SamplePreparer;
 import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
 
 public class B18SamplePreparerTest {

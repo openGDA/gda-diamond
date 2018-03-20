@@ -39,6 +39,7 @@
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.devices.xspress2/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.devices.xspress3/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.devices.xmap/bin" />
+				<pathelement location="${workspace.git.loc}/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.b18.server/bin" />
 				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.gda.client.experimentdefinition/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.exafs.api/bin" />
 				<pathelement location="${workspace.git.loc}/gda-devices-mythen.git/uk.ac.gda.devices.mythen/bin" />

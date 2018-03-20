@@ -1,7 +1,8 @@
-package uk.ac.gda.server.exafs.scan.preparers;
+package uk.ac.gda.server.exafs.b18.scan.preparers;
 
 import gda.data.metadata.NXMetaDataProvider;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import uk.ac.gda.server.exafs.scan.preparers.OutputPreparerBase;
 
 public class B18OutputPreparer extends OutputPreparerBase {
 

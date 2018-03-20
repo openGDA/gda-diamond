@@ -1,4 +1,4 @@
-package uk.ac.gda.server.exafs.scan.preparers;
+package uk.ac.gda.server.exafs.b18.scan.preparers;
 
 import gda.device.Scannable;
 import uk.ac.gda.beans.exafs.ISampleParameters;
