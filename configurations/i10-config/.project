@@ -3,6 +3,7 @@
 	<name>i10-config</name>
 	<comment></comment>
 	<projects>
+		<project>uk.ac.gda.beamline.synoptics</project>
 		<project>uk.ac.gda.core</project>
 		<project>uk.ac.gda.devices.xmap</project>
 		<project>uk.ac.gda.devices.xmap.epics</project>
