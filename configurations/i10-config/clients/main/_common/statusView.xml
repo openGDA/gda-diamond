@@ -9,13 +9,13 @@
 		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd 
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 	
-	<corba:import namespace="i10" names="portshutter, ab0, frontend, opticsshutter, shtrj, shtr1"/>
+	<corba:import namespace="i10" names="portshutter, ab0, frontend, opticsshutter, shtrj, shtr1, gv12, gvj6"/>
 	
-	<bean id="bm" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}bm" />
-		<property name="serviceInterface" value="gda.device.IBeamMonitor" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+<!-- 	<bean id="bm" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}bm" /> -->
+<!-- 		<property name="serviceInterface" value="gda.device.IBeamMonitor" /> -->
+<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
+<!-- 	</bean> -->
 
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 		<property name="viewTitle" value="Synoptics" />
@@ -23,7 +23,7 @@
 			<list>
 				<bean class="gda.rcp.views.GroupCompositeFactory">
 					<property name="label" value="Shutters" />
-					<property name="columns" value="4" />
+					<property name="columns" value="8" />
 					<property name="compositeFactories">
 						<list>
 							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
@@ -32,37 +32,55 @@
 								<property name="shutter" ref="portshutter" />
 							</bean>
 							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
-								<property name="label" value="FE" />
-								<property name="controlPermitted" value="false" />
-								<property name="shutter" ref="feshutter" />
+								<property name="label" value="Absorber" />
+								<property name="controlPermitted" value="true" />
+								<property name="shutter" ref="ab0" />
 							</bean>
 							<bean class="uk.ac.gda.beamline.synoptics.composites.FrontEndPneumaticShutterCompositeFactory">
 								<property name="label" value="Permit" />
 								<property name="controlPermitted" value="true" />
-								<property name="shutter" ref="feBeamPermit" />
+								<property name="shutter" ref="frontend" />
 							</bean>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlineMbbinaryShutterCompositeFactory">
-								<property name="label" value="FS" />
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
+								<property name="label" value="OH" />
+								<property name="controlPermitted" value="false" />
+								<property name="shutter" ref="opticsshutter" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
+								<property name="label" value="EHI" />
 								<property name="controlPermitted" value="true" />
-								<property name="shutter" ref="fastshutter" />
-								<property name="openString" value="Open"/>
-								<property name="closeString" value="Closed"/>
+								<property name="shutter" ref="shtr1" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
+								<property name="label" value="GV12" />
+								<property name="controlPermitted" value="true" />
+								<property name="shutter" ref="gv12" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
+								<property name="label" value="EHJ" />
+								<property name="controlPermitted" value="true" />
+								<property name="shutter" ref="shtrj" />
+							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamlinePneumaticShutterCompositeFactory">
+								<property name="label" value="GVJ6" />
+								<property name="controlPermitted" value="true" />
+								<property name="shutter" ref="gvj6" />
 							</bean>
 						</list>
 					</property>
 				</bean>
 				<bean class="gda.rcp.views.GroupCompositeFactory">
 					<property name="label" value="Status" />
-					<property name="columns" value="2" />
+					<property name="columns" value="1" />
 					<property name="compositeFactories">
 						<list>
 							<bean class="uk.ac.gda.dls.client.views.BatonStatusCompositeFactory">
 								<property name="label" value="Baton" />
 							</bean>
-							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamStatusCompositeFactory">
-								<property name="label" value="Beam" />
-								<property name="beamMonitor" ref="bm"/>
-							</bean>
+<!-- 							<bean class="uk.ac.gda.beamline.synoptics.composites.BeamStatusCompositeFactory"> -->
+<!-- 								<property name="label" value="Beam" /> -->
+<!-- 								<property name="beamMonitor" ref="bm"/> -->
+<!-- 							</bean> -->
 						</list>
 					</property>
 				</bean>
@@ -87,8 +105,15 @@
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="idGap" />
-								<property name="label" value="ID Gap" />
+								<property name="scannable" ref="iddGap" />
+								<property name="label" value="IDD Gap" />
+								<property name="units" value="mm" />
+								<property name="decimalPlaces" value="4" />
+							</bean>
+							<bean
+								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="iduGap" />
+								<property name="label" value="IDU Gap" />
 								<property name="units" value="mm" />
 								<property name="decimalPlaces" value="4" />
 							</bean>
@@ -102,10 +127,10 @@
 						<list>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="m4femto1" />
-								<property name="label" value="M4_C1" />
+								<property name="scannable" ref="s2Current" />
+								<property name="label" value="S2 Ring I" />
 								<property name="units" value="Amp" />
-								<property name="decimalPlaces" value="3" />
+								<property name="decimalPlaces" value="4" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
@@ -121,8 +146,8 @@
 					<property name="label" value="Panic"/>
 					<property name="tooltipText" value="Stop all motors" />
 					<property name="imagePath" value="icons/panicstop80x80.png" />
-<!-- 					<property name="actionId" value="uk.ac.gda.client.StopAllCommand" /> -->
-					<property name="actionId" value="uk.ac.gda.beamline.i21.StopAllCommand" />
+					<property name="actionId" value="uk.ac.gda.client.StopAllCommand" />
+<!-- 					<property name="actionId" value="uk.ac.gda.beamline.i21.StopAllCommand" /> -->
 				</bean>
 				
 

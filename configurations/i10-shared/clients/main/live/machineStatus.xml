@@ -28,5 +28,9 @@
 		<property name="pvName" value="BL10I-OP-PGM-01:ENERGY.RBV"/>
 		<property name="useNameAsExtraName" value="true"/>
 	</bean>	
+	<bean id="s2Current" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL10I-AL-SLITS-02:XRING:I"/>
+		<property name="useNameAsExtraName" value="true"/>
+	</bean>	
 
 </beans>

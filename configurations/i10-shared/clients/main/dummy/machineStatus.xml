@@ -47,4 +47,15 @@
 		<property name="lowerLimit" value="500" />
 		<property name="upperLimit" value="1500" />
 		<property name="increment" value="-10" />
-	</bean></beans>
+	</bean>
+	<bean id="s2Current" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="eV" />
+		<property name="value">
+			<value type="double">0.5</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="1" />
+		<property name="increment" value="0.01" />
+	</bean>
+	
+</beans>
