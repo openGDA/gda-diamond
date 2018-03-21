@@ -1,86 +1,12 @@
 #!/bin/bash
+# The local gda script is required to be on the path until the Diamond Launcher scripts in
+# /dls_sw/prod/etc/Launcher/startgda* use the standard startup commands, and
+# this cannot be done until all beamlines use the standard startup commands.
 
-if [ -z $GDA_MODE ] ; then
-  export GDA_MODE=dummy
-fi
-
-export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
-
-echo Ensure the Log panel is running...
-$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/gdalog
-
-echo
-echo Making sure we want to restart GDA servers now...
-echo
-
-zenity --title "Are you sure?" --question --text "Are you sure you want to restart the $GDA_MODE $BEAMLINE GDA servers?" --window-icon=question
-SURE=$?
-if [ $SURE == 1 ]; then # 0=Ok, 1=Cancel
-  exit
-fi
-
-echo
-echo "Restarting the GDA Server, please wait..."
-echo
-echo "Keep this window open, and you will see a pop-up when the restart has completed"
-echo
-
-if [ "$GDA_MODE" = "live" ]; then
-
-	CONTROL_MACHINE_NAME="i10-control.diamond.ac.uk,172.23.110.32 ssh-rsa"
-	CONTROL_MACHINE_PUBKEY="AAAAB3NzaC1yc2EAAAABIwAAAQEAnUb/TPXoErqFoh+5e+o7lmcN6buT3sVfXq2vlyPVXxWc02uk17uS3QJo5tNKMybXTyl22UF1sdfWCGoIhiHJyLQw1kqz8nyH4buL0Xm5qxrfXM7gyFzBdcLKKzpTQp5eYvf1lghDsenodF8k3oTX/NFxeVjXlwMUpG8+uBOslhrc9GhjR5FpqiowZenwK3o7a/kt1dS2hUqgYGoo0cNjLVcWZHZ4u4byBeIprLkdi/d2so2qsQ4q63AW1kHyPSkQGLtOTIAE3CAP5BJ/l/U3Al6ZaGLx+SJzQ+T79ugOnuAdvujhg7Ej+KxK1wQC5PABVT2mH08wwlFyGSbAycHnkw=="
-	
-	ssh-keygen -R i15-control.diamond.ac.uk &> /dev/null
-	echo $CONTROL_MACHINE_NAME $CONTROL_MACHINE_PUBKEY >> ~/.ssh/known_hosts
-
-	ssh  -i /dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/${BEAMLINE}ssh.key gda2@$BEAMLINE-control.diamond.ac.uk
-	OK=$?
-	
-	# 127 if ssh cannot run command, 0 if ran ok, maybe other values if remote command returns them
-	
-	if [ $OK != 0 ]; then
-	  zenity --title "Error starting GDA Server" --error --text "Something went wrong starting GDA server. Please try logging out and back in again before contacting your GDA representative." 
-	  exit
-	fi
-
-else
-
-	GDA_VAR=$(readlink -f $GDA_ROOT/../var)
-	if [ -d $GDA_VAR ]; then
-		export OBJECT_SERVER_STARTUP_FILE=$GDA_VAR/object_server_startup_server_main
-		echo OBJECT_SERVER_STARTUP_FILE=$OBJECT_SERVER_STARTUP_FILE
-	else
-		echo ERROR: $GDA_VAR does not exist.
-		exit
-	fi
-	rm -f $OBJECT_SERVER_STARTUP_FILE
-	
-	$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/GDA_StartServers --mode=dummy
-	
-	# look for the output file which will tell us when the servers have started
-	
-	$GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/lookForFile $OBJECT_SERVER_STARTUP_FILE
-
-fi
-
+#############
+# @DEPRECATED
+#############
 #
-# wait for the remote command, which will look for the output file which will
-# tell us when the servers have started before returning, then display to the
-# user that a client may be started.
-#
-echo
-echo Making sure we want to start GDA client now...
-echo
+# This script should not be added to as it is being phased out
 
-zenity --title "Start the Client?" --question --text "The GDA servers have restarted. Click OK to start the GDA Client." --window-icon=question
-STARTCLIENT=$?
-if [ $STARTCLIENT == 0 ] ; then # 0=Ok, 1=Cancel
-  echo Starting GDA RCP Client...
-  echo
-  $GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config/bin/gdaclient &
-  echo
-  echo Moving GDA Log Panel...
-  wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
-  echo
-  for i in {10..1}; do echo -n . ; sleep 1 ; done ; echo .
-fi
+gda servers $*

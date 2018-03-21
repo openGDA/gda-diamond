@@ -1,18 +1,3 @@
 #!/bin/bash
 
-export GDA_ROOT=$(readlink -f $(dirname $0)/../../../../..)
-. $GDA_ROOT/workspace_git/gda-mt.git/configurations/mt-config/bin/gda_setup_env gda_client_output
-
-VMARGS="-Dgda.mode=$GDA_MODE $VMARGS"
-VMARGS="-Djacorb.config.dir=$GDA_CONFIG/jacorb/$GDA_MODE $VMARGS"
-VMARGS="-Dgda.propertiesFile=$GDA_CONFIG/properties/$GDA_MODE/java.properties $VMARGS"
-VMARGS="-Dgov.aps.jca.JCALibrary.properties=$GDA_CONFIG/jca/$GDA_MODE/JCALibrary.properties $VMARGS"
-VMARGS="-Dgda.install.git.loc=$GDA_ROOT/workspace_git $VMARGS"
-VMARGS="-Dgda.config=$GDA_CONFIG $VMARGS"
-VMARGS="-Declipse.pluginCustomization=$GDA_CONFIG/clients/main/common/pluginCustomization.ini $VMARGS"
-
-export GDA_CLIENT_VMARGS=$VMARGS
-#echo  GDA_CLIENT_VMARGS=$VMARGS
-export GDA_CLIENT=$GDA_ROOT/client/gda-$BEAMLINE
-
-$GDA_CLIENT_SCRIPT --keep --nohup $GDA_CONSOLE_LOG $*
+gda --start client "$@"
