@@ -7,7 +7,7 @@
 
     <root>
         <level value="ALL"/>
-        <appender-ref ref="LogServer"/>
+        <appender-ref ref="logserver_async"/>
     </root>
 
 	<!-- Classes for which INFO messages are excessive
