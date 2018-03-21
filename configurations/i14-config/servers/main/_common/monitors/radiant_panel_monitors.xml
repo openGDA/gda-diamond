@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="radiant_panel_monitors" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="radpanl_eh1w1" />
+				<ref bean="radpanl_eh1w2" />
+				<ref bean="radpanl_eh1w3" />
+				<ref bean="radpanl_eh1w4" />
+				<ref bean="radpanl_eh1c1" />
+				<ref bean="radpanl_eh1c2" />
+
+				<ref bean="radpanl_eh2w1" />
+				<ref bean="radpanl_eh2w2" />
+				<ref bean="radpanl_eh2w3" />
+				<ref bean="radpanl_eh2w4" />
+				<ref bean="radpanl_eh2c1" />
+				<ref bean="radpanl_eh2c2" />
+
+				<ref bean="radpanl_oh3w1" />
+				<ref bean="radpanl_oh3w2" />
+				<ref bean="radpanl_oh3w3" />
+				<ref bean="radpanl_oh3c" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
