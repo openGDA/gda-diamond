@@ -172,6 +172,15 @@ try:
 
     print "Configured positioner runnable device"
 
+    blowerRunnableDeviceProxyFinder = finder.find("blowerRunnableDeviceProxyFinder")
+    blowerRunnableDeviceProxy = blowerRunnableDeviceProxyFinder.getRunnableDevice()
+
+    blowerJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(blowerRunnableDeviceProxy)
+    blowerRunnableDeviceProxy.setDelegate(blowerJythonRunnableDeviceDelegate)
+    blowerRunnableDeviceProxy.register()
+
+    print "Configured blower runnable device"
+
     if dummy_mode:
         print "*"*80
         print "Dummy mode specific setup - Start"
@@ -196,6 +205,15 @@ try:
 
     else:
         pass
+
+    def checkthreads():
+        """
+        Count the number of threads in use by gda2, including activemq
+        and GDA servers.
+        """
+        print subprocess.check_output(['bash','-c', 'ps huxH | wc -l'])
+
+    alias checkthreads
 except:
     localStation_exception(sys.exc_info(), "in localStation")
 

@@ -106,4 +106,29 @@
 		<property name="name"              value="positionerRunnableDeviceProxyFinder"/>
 		<property name="runnableDevice"    ref="positionerRunnableDeviceProxy"/>
 	</bean>
+
+	<bean id="blowerRunnableDeviceProxyModel"
+			class="org.eclipse.scanning.api.device.models.GenericModel">
+		<property name="name"              value="blower"/>
+	</bean>
+	<bean id="blowerRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="blower"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.blowerRunnableDeviceProxyInfo"/>
+		<property name="label"             value="Blower Proxy (blowerRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="Blower Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="blowerRunnableDeviceProxy"
+			class="org.eclipse.scanning.sequencer.RunnableDeviceProxy">
+		<property name="name"              value="blower"/>
+		<property name="model"             ref="blowerRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="blowerRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="blowerRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="blowerRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="blowerRunnableDeviceProxy"/>
+	</bean>
 </beans>

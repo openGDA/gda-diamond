@@ -15,9 +15,19 @@
         <Port>${gda.server.logging.port}</Port>
         <ReconnectionDelay>10000</ReconnectionDelay>
         <IncludeCallerData>true</IncludeCallerData>
-		<queueSize>4096</queueSize>
     </appender>
-    
+
+	<!-- Wrap the Logserver appender with a AsyncAppender to ensure logging never reduces client or server performance
+			http://logback.qos.ch/manual/appenders.html#AsyncAppender
+			http://blog.takipi.com/how-to-instantly-improve-your-java-logging-with-7-logback-tweaks/ -->
+	<appender name="logserver_async" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="LogServer" />
+		<queueSize>1000</queueSize>
+		<discardingThreshold>0</discardingThreshold> <!-- This wont drop any messages unless the queue becomes full -->
+		<neverBlock>true</neverBlock> <!-- If the message queue becomes full this will drop messages instead of blocking  -->
+	</appender>
+	<!-- Also AsyncAppender populates threadName in log message, so %thread in format works. -->
+
 	<!-- Classes for which INFO messages are excessive
 	 -->
 	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.PlotWindowManager">			<level value="ERROR"/></logger>
