@@ -12,21 +12,17 @@
                value="GDA for Diamond Light Source Beamline I07">
          </property>
          <property
-               name="preferenceCustomization"
-               value="plugin_customization.ini">
-         </property>
-         <property
                name="windowImages"
                value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
          </property>
          <property
                name="aboutImage"
-               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
          </property>
          <property
                name="aboutText"
-               value="GDA for DLS Beamone i07.&#x0A;&#x0A;Build id: &#x0A;&#x0A;Copyright © 2009 Diamond Light Source Ltd.&#x0A;&#x0A;http://www.opengda.org">
-         </property>    
+               value="GDA for DLS Beamline I07&#x0A;&#x0A;Build id: &#x0A;&#x0A;Copyright © 2009 Diamond Light Source Ltd.&#x0A;&#x0A;http://www.opengda.org">
+         </property>
       </product>
    </extension>
 
@@ -186,18 +182,4 @@
          </menu>
       </menuContribution>
    </extension>
-<!--   
-   <extension
-         point="org.eclipse.ui.splashHandlers">
-      <splashHandler
-            class="uk.ac.gda.beamline.i07.splashHandlers.BrowserSplashHandler"
-            id="uk.ac.gda.beamline.i07.splashHandlers.browser">
-      </splashHandler>
-      <splashHandlerProductBinding
-            productId="uk.ac.gda.beamline.i07.product"
-            splashId="uk.ac.gda.beamline.i07.splashHandlers.browser">
-      </splashHandlerProductBinding>
-   </extension>
--->
-
 </plugin>

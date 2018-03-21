@@ -6,7 +6,7 @@
    <aboutInfo>
       <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
       <text>
-         GDA for DLS Beamline I07.
+         GDA for DLS Beamline I07
 
 Build id: 
 
@@ -22,7 +22,7 @@ http://www.opengda.org
    <launcherArgs>
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
--Declipse.pluginCustomization=../../workspace_git/gda-mt.git/configurations/i07-config/client/pluginCustomization.ini
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=true
 -Dgda.install.git.loc=../../workspace_git
@@ -39,8 +39,6 @@ http://www.opengda.org
       <vmArgsLin>-client
 -Xms128m
 -Xmx1024m
--XX:PermSize=512m
--XX:MaxPermSize=786m
 -XX:MaxHeapFreeRatio=70
 -XX:+DisableExplicitGC
 -XX:+UseGCOverheadLimit
@@ -51,16 +49,13 @@ http://www.opengda.org
       </vmArgsMac>
       <vmArgsWin>-Xms512m
 -Xmx1024m
--XX:PermSize=182m 
--XX:MaxPermSize=786m
       </vmArgsWin>
    </launcherArgs>
 
    <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
 
    <splash
-      location="uk.ac.gda.beamline.i07"
-      handlerType="browser" />
+      location="uk.ac.gda.beamline.i07"/>
    <launcher name="gda-i07">
       <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
       <win useIco="false">
