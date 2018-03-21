@@ -6,7 +6,6 @@ from collections import defaultdict, namedtuple
 import logging
 import datetime
 
-logging.basicConfig(level=logging.DEBUG)
 LOG = logging.getLogger('exposure')
 beamline = Finder.getInstance().find('beamline')
 ZERO_TIME = datetime.timedelta(0)

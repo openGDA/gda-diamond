@@ -17,6 +17,7 @@ class Automation(ScannableMotionBase):
         self.lut=self.finder.find(lutObj)
         if self.lut==None:
             raise Exception, "Can not find the Lookup Table object"
+        self.lut.configure()
         self.rootNameSpace=rootNameSpace
         self.scannableNames=self.lut.getScannableNames()
         self._busy=0

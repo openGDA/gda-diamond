@@ -24,8 +24,8 @@
 	<bean id="lifetime" class="gda.spring.EpicsMonitorFactoryBean">
 		<property name="deviceName" value="MSTAT.LIFETIME"/>
 	</bean>
-	<bean id="countdown" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="deviceName" value="MSTAT.TOPUP"/>
+	<bean id="countdown" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"/>
 	</bean>
 
 </beans>
