@@ -10,8 +10,6 @@
 			<map>
 				<entry key="ACQUIRE" value="BL12I-EA-DET-03:Acquire" />
 				<entry key="ACQUIRING" value="BL12I-EA-DET-03:Acquiring" />
- 				<!-- <entry key="AUTOPIXELSPERBUFFER" value="BL12I-EA-DET-03:AutoPixelsPerBuffer" /> -->
-				<!-- <entry key="COLLECTMODE" value="BL12I-EA-DET-03:CollectMode" /> -->
 				<entry key="DATA1" value="BL12I-EA-DET-03:MCA1.VAL" />
 				<entry key="DATA2" value="BL12I-EA-DET-03:MCA2.VAL" />
 				<entry key="DATA3" value="BL12I-EA-DET-03:MCA3.VAL" />
@@ -84,8 +82,6 @@
 				<entry key="ENERGYBINS22" value="BL12I-EA-DET-03:MCA22:XAXIS" />
 				<entry key="ENERGYBINS23" value="BL12I-EA-DET-03:MCA23:XAXIS" />
 				<entry key="ENERGYBINS24" value="BL12I-EA-DET-03:MCA24:XAXIS" />
-				<!-- <entry key="ERASEALL" value="BL12I-EA-DET-03:EraseAll" /> -->
-				<!-- <entry key="ERASESTART" value="BL12I-EA-DET-03:EraseStart" /> -->
 				<entry key="EVENTS1" value="BL12I-EA-DET-03:DXP1:Events" />
 				<entry key="EVENTS2" value="BL12I-EA-DET-03:DXP2:Events" />
 				<entry key="EVENTS3" value="BL12I-EA-DET-03:DXP3:Events" />
@@ -935,8 +931,6 @@
 				<entry key="SETTRIGTHRESH22" value="BL12I-EA-DET-03:DXP22:TriggerThreshold" />
 				<entry key="SETTRIGTHRESH23" value="BL12I-EA-DET-03:DXP23:TriggerThreshold" />
 				<entry key="SETTRIGTHRESH24" value="BL12I-EA-DET-03:DXP24:TriggerThreshold" />
-				<!-- <entry key="STARTALL" value="BL12I-EA-DET-03:StartAll" /> -->
-				<!-- <entry key="STOPALL" value="BL12I-EA-DET-03:StopAll" /> -->
 				<entry key="TLIVETIME1" value="BL12I-EA-DET-03:DXP1:ElapsedTriggerLiveTime" />
 				<entry key="TLIVETIME2" value="BL12I-EA-DET-03:DXP2:ElapsedTriggerLiveTime" />
 				<entry key="TLIVETIME3" value="BL12I-EA-DET-03:DXP3:ElapsedTriggerLiveTime" />
