@@ -690,6 +690,34 @@ try:
 	except:
 		localStation_exception(sys.exc_info(), "creating metadata objects")
 
+	from localStationConfiguration import enableSolsticeExamples
+	if enableSolsticeExamples:
+		try:
+			from solsticeScanning.jythonAreaDetectorRunnableDeviceDelegate import JythonAreaDetectorRunnableDeviceDelegate
+
+			pe1AreaDetectorRunnableDeviceProxyFinder = finder.find("pe1AreaDetectorRunnableDeviceProxyFinder")
+			pe1AreaDetectorRunnableDeviceProxy = pe1AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+			pe1JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(pe1AreaDetectorRunnableDeviceProxy)
+			pe1AreaDetectorRunnableDeviceProxy.setDelegate(pe1JythonAreaDetectorRunnableDeviceDelegate)
+			pe1AreaDetectorRunnableDeviceProxy.register()
+
+			print "Configured pe1AD detector"
+
+		except:
+			localStation_exception(sys.exc_info(), "creating example solstice scanning devices")
+	else:
+		print "* Not installing example solstice scanning devices *"
+
+	from gda.util.converters import JEPConverterHolder
+	from gda.device.scannable import ConvertorScannable
+
+	try:
+		energy_calibration = JEPConverterHolder("energy_calibration", "calibrated_energy.xml")
+		calibrated_energy = ConvertorScannable("ConvertorScannable", dcmenergy, energy_calibration)
+	except:
+		localStation_exception(sys.exc_info(), "creating calibrated_energy scannable")
+
 	try:
 		if abs(zebraPositionScannable.getPosition()[2]) > 0.01:
 			zebraPositionScannable.moveTo(1)

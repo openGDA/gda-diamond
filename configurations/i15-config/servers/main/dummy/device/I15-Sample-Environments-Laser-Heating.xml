@@ -3,33 +3,86 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="laserboardx_motor" class="gda.device.motor.DummyMotor"/>
+	<!-- Fiber Laser -->
 
-	<bean id="laserboardy_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="laserboardz_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="xobjus_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="xobjds_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="yobjus_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="yobjds_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="armus_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="armds_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="focus_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="focds_motor" class="gda.device.motor.DummyMotor"/>
-
-	<bean id="laserpowerus" class="gda.device.scannable.DummyScannable">
+	<bean id="laserpowerus"
+			class="gda.device.scannable.DummyScannable">
 		<property name="name" value="laserpowerus" />
 	</bean>
 
-	<bean id="laserpowerds" class="gda.device.scannable.DummyScannable">
+	<bean id="laserpowerds"
+			class="gda.device.scannable.DummyScannable">
 		<property name="name" value="laserpowerds" />
 	</bean>
+
+	<!-- Huber motion -->
+
+	<bean id="laserboardx_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="laserboardy_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="laserboardz_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<!-- Smaract Motion -->
+
+	<bean id="laserxus_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="laserxds_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<!-- Note, this is also on the Newport motors EDM -->
+	<bean id="laseryus_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<!-- Note, this is also on the Newport motors EDM -->
+	<bean id="laseryds_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="armus_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="armds_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="focus_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="focds_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<!-- Horiba Spectrum Analyser -->
+
+	<!-- See I15-214 & http://confluence.diamond.ac.uk/x/rgGwAg
+	 -->
+	<bean id="laserstartacqproc"
+			class="gda.device.scannable.DummyScannable">
+		<property name="name" value="laserstartacqproc" />
+	</bean>
+
+	<!-- Newport Motors -->
+
+	<bean id="opticxus_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="opticyus_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="objus_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="opticxds_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="opticyds_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="objds_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+
+
 </beans>
