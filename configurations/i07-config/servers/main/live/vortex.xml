@@ -23,11 +23,15 @@
 			</bean>
 		</property>
 	</bean>
-	
-	
+
+	<bean id="xmap_dxp" class="gda.device.epicsdevice.FindableEpicsDevice">
+		<property name="name" value="xmap_dxp" />
+		<property name="deviceName" value="xmap_dxp" />
+	</bean>
+
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="local" value="true" />
-		<property name="epicsDeviceName" value="xmap_dxp" />
+		<property name="xmap" ref="xmap_dxp" />
 		<property name="elementOffset" value="1" />
 		<property name="hdf5" ref="edxdcontroller_hdf5" />
 		<property name="aquisitionTimeOn" value="true" />

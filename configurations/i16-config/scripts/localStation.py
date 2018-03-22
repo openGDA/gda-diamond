@@ -9,8 +9,8 @@ import installation
 
 USE_NEXUS = True
 if installation.isDummy():
-	USE_DIFFCALC = True
-	USE_CRYO_GEOMETRY = False
+	USE_DIFFCALC = False 
+	USE_CRYO_GEOMETRY = True
 
 else:
 	# see also notes below
@@ -21,8 +21,8 @@ else:
 	USE_CRYO_GEOMETRY = False # < -- chi will not move if True
 
 
-USE_DUMMY_IDGAP_MOTOR = False
-#USE_DUMMY_IDGAP_MOTOR = True
+#USE_DUMMY_IDGAP_MOTOR = False
+USE_DUMMY_IDGAP_MOTOR = True
 USE_XMAP= True
 
 # Java
