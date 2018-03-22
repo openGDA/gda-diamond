@@ -93,6 +93,7 @@ try_execfile("BeamlineI07/setFastScan.py", "Fast scan setup")
 
 try_execfile("BeamlineI07/setSrsDataFileHeader.py", "Metadata Header setup")
 
+# Changes everything to %8.3f without saying why
 try_execfile("BeamlineI07/setOutputFormat.py", "Change the defautl output format according to I07 requirements")
 
 try_execfile("BeamlineI07/createAlias.py")
@@ -105,7 +106,8 @@ try_execfile("BeamlineI07/useAreaDetectorPilatus1.py")
 #try_execfile("BeamlineI07/useEpicsPilatus2M.py")
 try_execfile("BeamlineI07/useAreaDetectorPilatus2.py")
 
-try_execfile("BeamlineI07/dcdRoi.py")
+#try_execfile("BeamlineI07/dcdRoi.py")
+try_execfile("BeamlineI07/movingRoi.py")
 
 try_execfile("BeamlineI07/useAreaDetectorPilatus3.py")
 
@@ -117,7 +119,8 @@ try_execfile("BeamlineI07/useDummyCam.py")
 
 try_execfile("BeamlineI07/useEuroThermo.py")
 
-try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialisation code (MainHutch.py)", absolute=True)
+#try_execfile(userScriptDir + "MainHutch.py", "Performing user specific initialisation code (MainHutch.py)", absolute=True)
+try_execfile("BeamlineI07/Users/MainHutch.py")
 
 try_execfile("BeamlineI07/htc_temp.py")
 htc = TemperatureSocketDevice('htc', 'localhost', 10002)
