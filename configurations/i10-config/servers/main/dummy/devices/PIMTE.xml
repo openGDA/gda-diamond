@@ -82,7 +82,7 @@
 	</bean>
 
 	<!-- HDF5 plugin - multiple images in one file per scan -->
-	<bean id="pimteHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter" abstract="true">
+	<bean id="pimteHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pimte_hdf5"/>
 		<property name="fileNameTemplate" value="pimte"/>
 		<property name="filePathTemplate" value="$datadir$" />
