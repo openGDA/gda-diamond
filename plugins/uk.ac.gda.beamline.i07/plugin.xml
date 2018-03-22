@@ -133,45 +133,6 @@
                label="Area Detectors">
             <command
                   commandId="org.eclipse.ui.views.showView"
-                  label="Pilatus1 Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//Pilatus 1//BL07I-EA-PILAT-01@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Pilatus2 Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//Pilatus 2//BL07I-EA-PILAT-02@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Pilatus3 Array"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//Pilatus 3//BL07I-EA-PILAT-03@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
                   label="Merlin Array"
                   style="push">
                <parameter
