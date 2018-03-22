@@ -48,6 +48,13 @@
 		<constructor-arg value=".003" />
 	</bean>
 
+	<bean id="pilatus1_softtrigger"
+			class="gda.device.detector.addetector.triggering.SoftTriggeredPilatus">
+		<constructor-arg ref="pilatus1_adbase" />
+		<constructor-arg value=".003" />
+		<property name="pilatusDriver" ref="pilatus1_driver" />
+	</bean>
+
 	<bean id="pilatus1_nxcollectionstrategy_for_hardware_triggering"
 		class="gda.device.detector.addetector.triggering.HardwareTriggeredPilatus">
 		<constructor-arg ref="pilatus1_adbase" />
@@ -77,6 +84,12 @@
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="blocking" value="false" />
 		<property name="returnPathRelativeToDatadir" value="true" />
+
+		<!-- for soft trigger mode only -->
+		<!--
+		<property name="fileTemplateForReadout" value="%s%s00000_%05d.tif" />
+		<property name="fileNumberAtScanStart" value="0" />
+		-->
 	</bean>
 
 	<bean id="pilatus1_hdf5filewriter_for_scans"
@@ -132,10 +145,12 @@
 	<bean id="pilatus1" class="gda.device.detector.NXDetector">
 		<property name="name" value="pilatus1" />
 		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy"/>
+		<!-- <property name="collectionStrategy" ref="pilatus1_softtrigger" /> -->
 		<property name="additionalPluginList">
 			<list>
+				<!--<ref bean="pilatus1_force_callbacks" />-->
 				<ref bean="pilatus1_nxfilewriter_for_scans" />
-				<!--<ref bean="pilatus1_hdf5filewriter_for_scans" />-->
+				<!-- <ref bean="pilatus1_hdf5filewriter_for_scans" /> -->
 			</list>
 		</property>
 	</bean>
@@ -206,6 +221,7 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="zebrapil1_camserver_nxfilewriter_for_hardware_triggering" />
+				<ref bean="pilatus1_force_callbacks" />
 			</list>
 		</property>
 	</bean>

@@ -884,6 +884,7 @@ class FlipperClass11Temp(PseudoDevice):
 		self.sum=roi_neg/mon_neg+roi_pos/mon_pos
 		self.diff=roi_neg/mon_neg-roi_pos/mon_pos
 		self.fracdiff=self.diff/self.sum	
+
 class FlipperClass12(PseudoDevice):
 	'''
 	dev=FlipperClass12(name, magnetdevice, pilatus, pilatus_roi,pilatus_roi field index (default = last)
@@ -1469,7 +1470,7 @@ class FlipperClass12APDspecial(PseudoDevice):
 #fl=flipper13_pil_t_mag=FlipperClass13('flipper13_pil_t_mag', magvolts, pil, pil, t, t, signal_read_field=-1,  mon_read_field=-1); #mag field and t for signal and mon (fields 2, 1) (make sure mon is last field of t)
 #fl1=flipper13_pil_t_mag=FlipperClass13('flipper13_pil_t_ppa220', ppa220, pil, pil, t, t, signal_read_field=-1,  mon_read_field=-1); #ppa220 and t for signal and mon (fields 2, 1) (make sure mon is last field of t)
 
-'''
+
 ########commented out - put back as needed ##################
 flipper13_pil_t_mag=FlipperClass13('flipper13_pil_t_mag', magvolts, t, t, t, t, signal_read_field=2,  mon_read_field=1); #mag field and t for signal and mon (fields 2, 1)
 flipper13_t_t_mag=FlipperClass13('flipper13_t_t_mag', magvolts, t, t, t, t, signal_read_field=2,  mon_read_field=1); #mag field and t for signal and mon (fields 2, 1)
@@ -1511,12 +1512,14 @@ flipper12xm=FlipperClass12('flipper12xm',x19_anout,xm,xm)
 #flipper11b=FlipperClass11Temp('flipper11',ppb111,pil,pil)
 #flipper9diode=FlipperClass9diode('flipper9diode')
 # ==== USE QPBM6, not QBPM8 =============
-'''
+
 #flipper4=FlipperClass4a('flipper4',ppa220)
 
 #ppa220centre=FlipperPPPQBPMClass('ppa220centre', ppa220, qbpm6, ic1)
 #flipper220=FlipperClass11('flipper220',ppa220,t,t)
 #example: pos xia1 1; scan ppa220centre [en() 0.022 -.002] [en() 0.022 .002] [0 0 0.0001]; pos xia1 0;
+
+'''
 
 
 

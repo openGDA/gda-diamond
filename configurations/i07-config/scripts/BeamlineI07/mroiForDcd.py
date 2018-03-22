@@ -33,7 +33,7 @@ def configureMroiForDcd(beamX=600, beamY=600, sizeX=20, sizeY=20, distance=3,
 	mroi.clearRois()
 	mroi.setAngleDevice(thetaDevice, gammaDevice)
 	mroi.setGammaZero(gammaDevice.func(0, gammaDevice.lamMotor.getPosition()))
-	mroi.setDistance(3)
+	mroi.setDistance(distance)
 	mroi.setBeamRoiByCentre(beamX, beamY, sizeX, sizeY)
 
 configureMroiForDcd()
@@ -45,5 +45,5 @@ dummyThetaDevice = mroiAngleDevice('dummyThetaDevice', dummy_dcd_omega, dummy_dc
 dummyGammaDevice = mroiAngleDevice('dummyGammaDevice', dummy_dcd_omega, dummy_dcd_lambda, gammaFunc)
 
 pos dummy_dcd_omega dcdomega()
-pos dummy_dcd_lambda = dcm1lambda()
+pos dummy_dcd_lambda dcm1lambda()
 

@@ -3,9 +3,9 @@ from pd_epics import *
 #===mirrors==========
 #(robw) m2bender=SingleEpicsPositionerClass('m2bender','BL16I-OP-HFM-01:BEND.VAL','BL16I-OP-HFM-01:BEND.RBV','BL16I-OP-HFM-01:BEND.DMOV','BL16I-OP-HFM-01:BEND.STOP','mm','%.2f')
 
-M1y=SingleEpicsPositionerClass('m1y','BL16I-OP-VFM-01:Y.VAL','BL16I-OP-VFM-01:Y.RBV','BL16I-OP-VFM-01:Y.DMOV','BL16I-OP-VFM-01:Y.STOP','mm','%.3f')
+#M1y=SingleEpicsPositionerClass('m1y','BL16I-OP-VFM-01:Y.VAL','BL16I-OP-VFM-01:Y.RBV','BL16I-OP-VFM-01:Y.DMOV','BL16I-OP-VFM-01:Y.STOP','mm','%.3f')#not used#
 
-M2y=SingleEpicsPositionerClass('m2y','BL16I-OP-HFM-01:Y.VAL','BL16I-OP-HFM-01:Y.RBV','BL16I-OP-HFM-01:Y.DMOV','BL16I-OP-HFM-01:Y.STOP','mm','%.3f')
+#M2y=SingleEpicsPositionerClass('m2y','BL16I-OP-HFM-01:Y.VAL','BL16I-OP-HFM-01:Y.RBV','BL16I-OP-HFM-01:Y.DMOV','BL16I-OP-HFM-01:Y.STOP','mm','%.3f')#mot used delete
 
 m3x=SingleEpicsPositionerClass('m3x','BL16I-OP-MFM-01:M3:X.VAL','BL16I-OP-MFM-01:M3:X.RBV','BL16I-OP-MFM-01:M3:X.DMOV','BL16I-OP-MFM-01:M3:X.STOP','mm','%.3f')
 m4x=SingleEpicsPositionerClass('m4x','BL16I-OP-MFM-01:M4:X.VAL','BL16I-OP-MFM-01:M4:X.RBV','BL16I-OP-MFM-01:M4:X.DMOV','BL16I-OP-MFM-01:M4:X.STOP','mm','%.3f')
@@ -65,7 +65,7 @@ frontendx=SingleEpicsPositionerClass('frontendx','FE16I-AL-APTR-02:X.VAL','FE16I
 frontendy=SingleEpicsPositionerClass('frontendy','FE16I-AL-APTR-02:Y.VAL','FE16I-AL-APTR-02:Y.RBV','FE16I-AL-APTR-02:Y.DMOV','FE16I-AL-APTR-02:Y.STOP','mm','%.3f')
 
 ## SLITS ####
-
+"""REMOVE
 S2xgap=SingleEpicsPositionerClass('S2xgap','BL16I-AL-SLITS-02:X:SIZE.VAL','BL16I-AL-SLITS-02:X:SIZE.RBV','BL16I-AL-SLITS-02:X:SIZE.DMOV','BL16I-AL-SLITS-02:X:SIZE.STOP','mm','%.4f')
 S2xgap.setLevel(6)
 
@@ -97,7 +97,7 @@ S4ygap=SingleEpicsPositionerClass('S4ygap','BL16I-AL-SLITS-04:Y:SIZE.VAL','BL16I
 S4ygap.setLevel(6)
 
 S4ycentre=SingleEpicsPositionerClass('S4ycentre','BL16I-AL-SLITS-04:Y:CENTER.VAL','BL16I-AL-SLITS-04:Y:CENTER.RBV','BL16I-AL-SLITS-04:Y:CENTER.DMOV','BL16I-AL-SLITS-04:Y:CENTER.STOP','mm','%.4f')
-
+"""
 #PA stages 
 comm1=['/home/i16user/bin/power_up_xtal_translation','/home/i16user/bin/power_down_xtal_translation']
 zp=SingleEpicsPositionerClass('zp','BL16I-EA-POLAN-01:X.VAL','BL16I-EA-POLAN-01:X.RBV','BL16I-EA-POLAN-01:X.DMOV','BL16I-EA-POLAN-01:X.STOP','mm','%.3f',comm1)
@@ -193,11 +193,12 @@ x1=x1_ttl=SingleEpicsPositionerSetAndGetOnlyClass('x1_ttl','BL16I-EA-USER-01:BO1
 x2=x2_ttl=SingleEpicsPositionerSetAndGetOnlyClass('x2_ttl','BL16I-EA-USER-01:BO2','BL16I-EA-USER-01:BO2','logical','%.0f',help='TTL out socket x2')
 x3=x3_ttl=SingleEpicsPositionerSetAndGetOnlyClass('x3_ttl','BL16I-EA-USER-01:BO3','BL16I-EA-USER-01:BO3','logical','%.0f',help='TTL out socket x3')
 x4=x4_ttl=SingleEpicsPositionerSetAndGetOnlyClass('x4_ttl','BL16I-EA-USER-01:BO4','BL16I-EA-USER-01:BO4','logical','%.0f',help='TTL out socket x4')
-x17_anout=SingleEpicsPositionerSetAndGetOnlyClass('x17_anout','BL16I-EA-USER-01:AO1','BL16I-EA-USER-01:AO1','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x17')
+x17=x17_ttl=SingleEpicsPositionerSetAndGetOnlyClass('x17_ttl','BL16I-EA-USER-01:BO6','BL16I-EA-USER-01:BO6','logical','%.0f',help='TTL out socket x17')
+x21=x21_ttl=SingleEpicsPositionerSetAndGetOnlyClass('x21_ttl','BL16I-EA-USER-01:BO7','BL16I-EA-USER-01:BO7','logical','%.0f',help='TTL out socket x21')
+
 x18_anout=SingleEpicsPositionerSetAndGetOnlyClass('x18_anout','BL16I-EA-USER-01:AO2','BL16I-EA-USER-01:AO2','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x18')
 x19_anout=SingleEpicsPositionerSetAndGetOnlyClass('x19_anout','BL16I-EA-USER-01:AO3','BL16I-EA-USER-01:AO3','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x19')
 x20_anout=SingleEpicsPositionerSetAndGetOnlyClass('x20_anout','BL16I-EA-USER-01:AO4','BL16I-EA-USER-01:AO4','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x20')
-x21_anout=SingleEpicsPositionerSetAndGetOnlyClass('x21_anout','BL16I-EA-USER-01:AO5','BL16I-EA-USER-01:AO5','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x21')
 x22_anout=SingleEpicsPositionerSetAndGetOnlyClass('x22_anout','BL16I-EA-USER-01:AO6','BL16I-EA-USER-01:AO6','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x22')
 x23_anout=SingleEpicsPositionerSetAndGetOnlyClass('x23_anout','BL16I-EA-USER-01:AO7','BL16I-EA-USER-01:AO7','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x23')
 x24_anout=SingleEpicsPositionerSetAndGetOnlyClass('x24_anout','BL16I-EA-USER-01:AO8','BL16I-EA-USER-01:AO8','V','%.3f',sleeptime=0,help='+/- 10V analogue out socket x24')

@@ -52,10 +52,21 @@
 		<property name="assertHomedBeforeMoving" value="false" />
 	</bean>
 
-
 	<bean id="xps2DeferFlag" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameSetPoint" value="BL16I-MO-STEP-13:CS2:DeferMoves"/>
 		<property name="pvNameGetPoint" value="BL16I-MO-STEP-13:CS2:DeferMoves" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="xps2numberAxesToMoveControlPoint" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL16I-MO-DIFF-01:MOTOR_DEFER_MOVES_COUNT" />
+		<property name="pvNameGetPoint" value="BL16I-MO-DIFF-01:MOTOR_DEFER_MOVES_COUNT" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="xps2didDeferedMoveStartControlPoint" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL16I-MO-DIFF-01:MOTOR_DEFERRED_MOVE_RESULT_RBV" />
+		<property name="pvNameGetPoint" value="BL16I-MO-DIFF-01:MOTOR_DEFERRED_MOVE_RESULT_RBV" />
 		<property name="local" value="true" />
 	</bean>
 	

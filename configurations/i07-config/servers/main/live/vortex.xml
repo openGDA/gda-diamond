@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- epics records -->
+		<bean id="edxdcontroller_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="ME13C-EA-DET-01:HDF:" />
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+				<property name="basePVName" value="ME13C-EA-DET-01:HDF:" />
+				<property name="initialAutoIncrement" value="0" />
+				<property name="initialAutoSave" value="0" />
+				<property name="initialWriteMode" value="0" />
+				<property name="initialNumCapture" value="1" />
+				<property name="initialFileName" value="helloworld" />
+				<property name="initialFileTemplate" value="%s%s-%d.h5" />
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+						<property name="basePVName" value="ME13C-EA-DET-01:HDF:" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
+		<property name="local" value="true" />
+		<property name="epicsDeviceName" value="xmap_dxp" />
+		<property name="elementOffset" value="1" />
+		<property name="hdf5" ref="edxdcontroller_hdf5" />
+		<property name="aquisitionTimeOn" value="true" />
+	</bean>
+	
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
+		<property name="edxdController" ref="edxdcontroller" />
+		<property name="numberOfElements" value="1" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="xmapControllerName" value="xmapcontroller" />
+		<property name="eventProcessingTimes">
+			<list>
+				<value>1.1029752060937018e-007</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%.2f</value>
+			</list>
+		</property>
+		<property name="extraNames">
+			<list>
+				<value>Element1</value>
+			</list>
+		</property>
+		<property name="alwaysRecordRawMCAs" value="true"/>
+		<property name="slave" value="false" />
+		<property name="configFileName" value="${gda.config}/xml/vortex_parameters.xml" />
+	</bean>
+</beans>

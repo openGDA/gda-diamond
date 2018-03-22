@@ -40,7 +40,6 @@ class ToggleBinaryPvAndWaitFancy(pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait)
 		self.cli.configure()
 		self.normalLevel = normalLevel
 		self.setNormal()
-		self.triggerLength=0
 		self.lastExposureTime=0
 		self.lastReadoutTime=0
 		self.debug = False
@@ -81,7 +80,6 @@ class ToggleBinaryPvAndWaitFancy(pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait)
 		self.waitfortime=self.currenttime+exposureTime+readoutTime
 		if self.debug:
 			print "**%9.2f: Starting exposure" % time.time()
-		self.trigger()
-		sleep(exposureTime)
+		self.trigger(exposure_time)
 		if self.debug:
 			print "**%9.2f: Exposure complete" % time.time()

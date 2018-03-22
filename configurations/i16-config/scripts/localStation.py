@@ -9,16 +9,16 @@ import installation
 
 USE_NEXUS = True
 if installation.isDummy():
-	USE_DIFFCALC = False 
-	USE_CRYO_GEOMETRY = True
+	USE_DIFFCALC = True
+	USE_CRYO_GEOMETRY = False
 
 else:
 	# see also notes below
 	# Changed for Allesandro's experiment on Jan 20 2015 -- RobW
+	#USE_DIFFCALC = False  # <-- change here for live gda!
+	#USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = False  # <-- change here for live gda!
-	USE_CRYO_GEOMETRY = False
-	#USE_DIFFCALC = True  # <-- change here for live gda!
-	#USE_CRYO_GEOMETRY = True
+	USE_CRYO_GEOMETRY = False # < -- chi will not move if True
 
 
 #USE_DUMMY_IDGAP_MOTOR = False
@@ -118,10 +118,11 @@ from scannable.MoveThroughOrigin import MoveThroughOriginScannable
 from gda.device.scannable.scannablegroup import DeferredScannableGroup
 
 # Configure here as nested beans are not configured
-eulerNames = ["phi", "chi", "eta", "mu", "delta", "gam"]
-for motor, name in zip(euler_cryo.getScannableMotors(), eulerNames):
-	motor.name = name
-	motor.configure()
+if USE_CRYO_GEOMETRY:
+	eulerNames = ["phi", "chi", "eta", "mu", "delta", "gam"]
+	for motor, name in zip(euler_cryo.getScannableMotors(), eulerNames):
+		motor.name = name
+		motor.configure()
 
 ##CHANGED TO USE LIMIT CRYOPHI
 if USE_CRYO_GEOMETRY:
@@ -257,7 +258,8 @@ offsetshelf=LocalJythonShelfManager.open('offsets')
 print "  use 'offsetshelf' to see summary of offsets"
 #delta_axis_offset.pil=9.5 
 #delta_axis_offset.pil=9.0 #new offset 31/01/12 (179)
-delta_axis_offset.pil=9.2#new offset 12/09/13
+#delta_axis_offset.pil=9.2#new offset 12/09/13
+delta_axis_offset.pil=8.6#new offset 19/02/17
 do=delta_axis_offset
 
 ###############################################################################
@@ -357,16 +359,15 @@ if USE_CRYO_GEOMETRY:
 	euler.setGroupMembers([cryophi, euler_cryo.chi, euler_cryo.eta, euler_cryo.mu, euler_cryo.delta, euler_cryo.gam])
 	euler.deferredControlPoint = sixckappa.getDeferredControlPoint()
 	euler.deferOnValue = sixckappa.deferOnValue
-	euler.numberAxesToMoveControlPoint = sixckappa.getNumberAxesToMoveControlPoint()
-	euler.didDeferedMoveStartControlPoint = sixckappa.getDidDeferedMoveStartControlPoint()
+	euler.numberToMoveControlPoint = sixckappa.getNumberToMoveControlPoint()
+	euler.checkStartControlPoint = sixckappa.getCheckStartControlPoint()
 	euler.configure()
 	phi = euler.phi
-	chi = euler.chi 
+	chi = euler.chi
 	eta = euler.eta
 	exec("mu=euler.mu")
 	exec("delta=euler.delta")
 	exec("gam=euler.gam")
-	
 else:
 	run("startup_diffractometer_euler")
 
@@ -382,7 +383,11 @@ if not USE_DIFFCALC:
 	psic.setInputNames(['psic'])
 else:
 	del sixc
-	run("startup_diffcalc")
+	import diffcalc
+	diffcalc_root = os.path.realpath(diffcalc.__file__).split('diffcalc/__init__.py')[0]
+	diffcalc_startup_script = os.path.join(diffcalc_root, 'startup', 'i16.py')
+	print "Starting Diffcalc by running: ", diffcalc_startup_script
+	run(diffcalc_startup_script)
 	exec("phi=euler.phi")
 	exec("chi=euler.chi")
 	exec("eta=euler.eta")
@@ -391,6 +396,7 @@ else:
 	exec("gam=euler.gam")
 
 hkl.setLevel(6)
+
 
 ###############################################################################
 ###							       kbm tripod                               ###
@@ -415,6 +421,14 @@ _kbm_common_geom = {'l':[142.0, 142.0, 142.0],
 
 import copy
 
+# offets for KB mirrors
+vmpitch_offset=pd_offset.Offset('vmpitch_offset', warningIfChangeGreaterThan=.5)
+hmpitch_offset=pd_offset.Offset('hmpitch_offset', warningIfChangeGreaterThan=.5)
+vmtrans_offset=pd_offset.Offset('vmtrans_offset', warningIfChangeGreaterThan=5)
+hmtrans_offset=pd_offset.Offset('hmtrans_offset', warningIfChangeGreaterThan=5)
+kbmx_offset=pd_offset.Offset('kbmx_offset', warningIfChangeGreaterThan=5)
+kbmroll_offset=pd_offset.Offset('kbmroll_offset', warningIfChangeGreaterThan=.5)
+
 try:
 	kbm1 = TripodToolBase("kbm1", kbmbase, c=[152, 42.5, 63], **copy.deepcopy(_kbm_common_geom))				
 
@@ -428,12 +442,6 @@ try:
 	#hmtrans=single_element_of_vector_pd_class('hfm_trans', kbm2, 'kbm2_z', help='KBM2 (HFM) translation perp to surface: +ve = towards ring (towards beam)')
 
     ##### new devices for KBM pitch and trans. Now with offsets.
-	vmpitch_offset=pd_offset.Offset('vmpitch_offset', warningIfChangeGreaterThan=.5); 
-	hmpitch_offset=pd_offset.Offset('hmpitch_offset', warningIfChangeGreaterThan=.5);
-	vmtrans_offset=pd_offset.Offset('vmtrans_offset', warningIfChangeGreaterThan=5);
-	hmtrans_offset=pd_offset.Offset('hmtrans_offset', warningIfChangeGreaterThan=5);
-	kbmx_offset=pd_offset.Offset('kbmx_offset', warningIfChangeGreaterThan=5);
-	kbmroll_offset=pd_offset.Offset('kbmroll_offset', warningIfChangeGreaterThan=.5);
 	vmpitch=single_element_of_vector_pd_with_offset_and_scalefactor_class('vfm_pitch', kbm1, 'kbm1_alpha3', vmpitch_offset, help='KBM1 (VFM) pitch: positive degrees ~ 0.2 deg')
 	hmpitch=single_element_of_vector_pd_with_offset_and_scalefactor_class('hfm_pitch', kbm2, 'kbm2_alpha2', hmpitch_offset, help='KBM2 (HFM) pitch: positive degrees ~ 0.2 deg')
 	vmtrans=single_element_of_vector_pd_with_offset_and_scalefactor_class('vfm_trans', kbm1, 'kbm1_y', vmtrans_offset, help='KBM1 (VFM) translation perp to surface: +ve = down (away from beam)')
@@ -779,20 +787,21 @@ from scannable.detector.DetectorWithShutter import DetectorWithShutter
 pil2mdet = pilatus2
 _pilatus2_counter_monitor = Finder.getInstance().find("pilatus2_plugins").get('pilatus2_counter_monitor')
 
-pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
-															pilatus2,
-															pilatus2_hardware_triggered,
-															pilatus2_for_snaps,
-															[],
-															panel_name='Pilatus2M',
-															panel_name_rcp='Plot 1',
-															toreplace=None,
-															replacement=None,
-															iFileLoader=PilatusTiffLoader,
-															fileLoadTimout=60,
-															returnPathAsImageNumberOnly=True,
-															array_monitor_for_hardware_triggering = _pilatus2_counter_monitor
-															)
+#pil2m = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil2m',
+pil2m = NxProcessingDetectorWrapper('pil2m',
+		pilatus2,
+		pilatus2_hardware_triggered,
+		pilatus2_for_snaps,
+		[],
+		panel_name='Pilatus2M',
+		panel_name_rcp='Plot 1',
+		toreplace=None,
+		replacement=None,
+		iFileLoader=PilatusTiffLoader,
+		fileLoadTimout=60,
+		returnPathAsImageNumberOnly=True,
+		array_monitor_for_hardware_triggering = _pilatus2_counter_monitor
+		)
 pil2m.processors=[DetectorDataProcessorWithRoi('max', pil2m, [SumMaxPositionAndValue()], False)]
 pil2m.printNfsTimes = True
 pil2m.display_image = True
@@ -1099,10 +1108,13 @@ thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_o
 if installation.isLive():
 	#tthp.apd = 1.75 #16/1/15 - changed from 1.75
 	#tthp.apd = 3.25 #30/9/15
-	tthp.apd = 0.5 #17/5/16
+	#tthp.apd = 0.5 #17/5/16
+	tthp.apd = 0.9 #13/2/17
 	#tthp.diode=56.4#2/10/11 - changed from 55.6
 	#tthp.diode=55#01/07/16 - changed from 56.4
-	tthp.diode=53.713#01/07/16 - changed from 56.4
+	#tthp.diode=53.713#01/07/16 - changed from 56.4
+	#tthp.diode=53.65#01/07/16 - changed from 53.713
+	tthp.diode=54.3	#13/02/17
 	tthp.camera=34.4 #14/10/12 -changed from 33.4
 	tthp.vortex=-14.75 #31/1/10
 	tthp.ccd=70
@@ -1150,7 +1162,10 @@ if installation.isLive():
 	except NameError:
 		lakeshore=ReadPDGroupClass('lakeshore',[]) # LS340 is often not present
 	#minimirrors=ReadPDGroupClass('minimirrors',[m3x, m4x, m3pitch, m4pitch]) #added to metadata as mirror3
+	"""
 	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset, kbm_offsets])
+	"""
+	offsets=ReadPDGroupClass('offsets',[m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset])
 	#mt6138=ReadPDGroupClass('6138', [xps3m1, xps3m2])
 	#adctab=ReadPDGroupClass('adctab',[adch,adcv])
 	#add_default(adctab)
@@ -1307,17 +1322,14 @@ def open_valves():
 #ci=239.;cj=112. #02/03/16 after pilatus exchange
 #ci=240.;cj=109. #04/03/16 after pilatus reexchange
 #ci=238.;cj=111. #06/04/16 after pilatus reexchange
-<<<<<<< HEAD
-ci=242.;cj=105. #13/07/16 loan detector
-=======
 #ci=204.; cj=107; #02/05/17ci=242.;cj=105. #13/07/16 loan detector
 #ci=244.; cj=103.; #10/08/16 loan detector
 #ci=205.; cj=105; #19/02/17
-#ci=205.; cj=104; #23/06/17
+ci=205.; cj=104; #23/06/17
+ci=242.;cj=105. #13/07/16 loan detector
 ci=206.; cj=107; #20/10/17
 
 
->>>>>>> ab13549... I16-144: Integrate Merlin and New Pilatus into GDA
 maxi=486; maxj=194 #08/10/15
 
 #small centred
@@ -1359,7 +1371,6 @@ iw=13; jw=15; roi1.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.
 roi2 = lcroi=HardwareTriggerableDetectorDataProcessor('roi2', pil, [SumMaxPositionAndValue()])
 #roi2.setRoi(263-40,95-30,250+40,110+30)
 iw=67; jw=75; roi2.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
-
 #horizonal line for delta scan (vertical on display)
 roi3 = delroi=HardwareTriggerableDetectorDataProcessor('roi3', pil, [SumMaxPositionAndValue()])
 #roi3.setRoi(256,0,257,194)
@@ -1391,7 +1402,7 @@ iw=7; jw=7; roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
 
 
 
-#roi6.setRoi(258-3,99+3,258+3,99-3)
+#roi6.setRoi(258-3,99+3,258+3,10.693599-3)
 
 #roi1 = DetectorDataProcessorWithRoi('roi1', pil, [SumMaxPositionAndValue()])
 #roi1.setRoi(219,75,275,115)
@@ -1484,6 +1495,9 @@ run('align1')
 run('select_and_move_detector')
 run('showdiff')
 run('showdiff_new')
+bpmroi1 = HardwareTriggerableDetectorDataProcessor('bpmroi1', bpm, [SumMaxPositionAndValue()])
+#bpmroi1.setRoi(int(972-30),int(426-5),int(972+30),int(426+5))
+bpmroi1.setRoi(int(1010-30),int(394-5),int(1010+30),int(394+5)) # set 04/10/2017 at 8 keV shtr3x 11.93 shtr3y 4.40
 #run('pd_searchref2') #put at the end as it gave some errors
 run('pd_read_list')	#to make PD's that can scan a list
 run('pd_function')	#to make PD's that return a variable
@@ -1522,6 +1536,51 @@ etarock.verbose = False
 run("sz_cryo")
 cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01],'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]}
 szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K','Ta') \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K','Tc') for the cryofurnace.")
+
+
+
+SMARGON = False
+
+if SMARGON: 
+	sgphi=SingleEpicsPositionerClass('phi','BL16I-MO-SGON-01:PHI.VAL','BL16I-MO-SGON-01:PHI.RBV','BL16I-MO-SGON-01:PHI.DMOV','BL16I-MO-SGON-01:PHI.STOP','deg','%.4f')
+	sgomega=SingleEpicsPositionerClass('omega','BL16I-MO-SGON-01:OMEGA.VAL','BL16I-MO-SGON-01:OMEGA.RBV','BL16I-MO-SGON-01:OMEGA.DMOV','BL16I-MO-SGON-01:OMEGA.STOP','deg','%.4f')
+	sgchi=SingleEpicsPositionerClass('chi','BL16I-MO-SGON-01:CHI.VAL','BL16I-MO-SGON-01:CHI.RBV','BL16I-MO-SGON-01:CHI.DMOV','BL16I-MO-SGON-01:CHI.STOP','deg','%.4f')
+	exec("del hkl")
+	exec("del euler")
+	run("SmargonTopClass")	
+	from diffractometer.scannable import HklSmargon,EulerSmargonPseudoDevice 
+	reload(HklSmargon) 
+	reload(EulerSmargonPseudoDevice)
+	exec('phi =sgphi')
+	exec('eta =sgomega')
+	exec('chi =sgchi')
+	BLobjects.my_smarchi =chi
+	BLobjects.my_smaromega = eta 
+	BLobjects.my_smarphi =phi
+	euler= EulerSmargonPseudoDevice.EulerianPseudoDevice("euler",san,kmu,kdelta,kgam)   
+	hkl = HklSmargon.HklSmargon("hkl",euler,rs,CA,EDi,az) 
+	
+ 	print """ Smargon script was successful"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 print "======================================================================"
 print "Local Station Script completed"
