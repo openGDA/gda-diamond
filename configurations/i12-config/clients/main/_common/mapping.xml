@@ -25,20 +25,6 @@
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
 		<property name="detectorParameters">
 			<list>
-				<!-- Uncomment this (and the appropriate server-side MandelbrotDetector to use Mandelbrot -->
-				<!-- You will probably also have to reset (not just restart) the client -->
-				<!--
-				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Mandelbrot Detector" />
-					<constructor-arg name="model">
-						<bean class="org.eclipse.scanning.example.detector.MandelbrotModel">
-							<property name="realAxisName" ref="x_axis_name" />
-							<property name="imaginaryAxisName" ref="y_axis_name" />
-						</bean>
-					</constructor-arg>
-					<constructor-arg name="includeInScan" value="false" />
-				</bean>
-				 -->
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Pixium" />
 					<constructor-arg name="model">
@@ -78,6 +64,35 @@
 			</bean>
 		</property>
 	</bean>
+
+	<!-- Populate drop-down box of motors that can be used as fast & slow axis respectively -->
+	<!-- The below is copied from I14 and should be adapted for I12 -->
+	<!--
+	<bean id="mapping_stage_options" class="uk.ac.diamond.daq.mapping.impl.MappingStageOptions" >
+		<property name="fastAxes">
+			<list>
+				<value>stage1_x</value>
+				<value>stage1_y</value>
+				<value>stage1_z</value>
+			</list>
+		</property>
+		<property name="slowAxes">
+			<list>
+				<value>stage1_x</value>
+				<value>stage1_y</value>
+				<value>stage1_z</value>
+				<value>dcm_enrg</value>
+				<value>kbv1_pitch</value>
+				<value>kbh1_pitch</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.util.osgi.OSGiServiceRegister">
+		<property name="class" value="uk.ac.diamond.daq.mapping.impl.MappingStageOptions" />
+		<property name="service" ref="mapping_stage_options" />
+	</bean>
+	-->
 
 	<!-- The mapping stage info object encapsulates the current choice of motors used for mapping experiments, and
 	     includes a beam size field which is used when showing the current beam position on the map plot -->
