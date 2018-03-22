@@ -23,6 +23,10 @@
                name="aboutText"
                value="GDA for DLS Beamline I07&#x0A;&#x0A;Build id: &#x0A;&#x0A;Copyright © 2009 Diamond Light Source Ltd.&#x0A;&#x0A;http://www.opengda.org">
          </property>
+         <property
+               name="preferenceCustomization"
+               value="platform:/plugin/uk.ac.gda.beamline.i07/plugin_customization.ini">
+         </property>
       </product>
    </extension>
 
