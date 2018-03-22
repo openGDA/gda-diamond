@@ -9,8 +9,8 @@ import installation
 
 USE_NEXUS = True
 if installation.isDummy():
-	USE_DIFFCALC = False 
-	USE_CRYO_GEOMETRY = True
+	USE_DIFFCALC = True
+	USE_CRYO_GEOMETRY = False
 
 else:
 	# see also notes below
