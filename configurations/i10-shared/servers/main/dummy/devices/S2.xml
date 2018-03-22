@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
            
 	<!-- Secondary Slits / S2 Optical Element -->
 	
@@ -70,7 +70,7 @@
 			<value type="double">-0.413589</value>
 		</property>
 		<property name="lowerLimit" value="-1.0" />
-		<property name="upperLimit" value=1.0" />
+		<property name="upperLimit" value="1.0" />
 		<property name="increment" value="0.01" />
 	</bean>
 	<bean id="s2xhall_current" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -79,7 +79,7 @@
 			<value type="double">2.5160</value>
 		</property>
 		<property name="lowerLimit" value="2.0" />
-		<property name="upperLimit" value=3.0" />
+		<property name="upperLimit" value="3.0" />
 		<property name="increment" value="0.01" />
 	</bean>
 	<bean id="s2yplus_current" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -88,7 +88,7 @@
 			<value type="double">2.5160</value>
 		</property>
 		<property name="lowerLimit" value="2.0" />
-		<property name="upperLimit" value=3.0" />
+		<property name="upperLimit" value="3.0" />
 		<property name="increment" value="0.01" />
 	</bean>	
 	<bean id="s2yminus_current" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -97,7 +97,7 @@
 			<value type="double">1.385</value>
 		</property>
 		<property name="lowerLimit" value="1.0" />
-		<property name="upperLimit" value=2.0" />
+		<property name="upperLimit" value="2.0" />
 		<property name="increment" value="0.01" />
 	</bean>
 </beans>
