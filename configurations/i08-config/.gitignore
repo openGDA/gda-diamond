@@ -1,8 +1,10 @@
+# standard .gitignore file for config projects (missing bin/ in particular)
+
 ### Temporary files ###
 *.bak
 *.swp
 *.tmp
-*.*~
+*~
 
 ### Java ###
 *.class
@@ -18,14 +20,6 @@ gdaserver.py
 
 ### Build output ###
 .springBeans
-/bin/
-/classes/
-/src/corba/
-
-### JUnit testing ###
-/activemq-data
-/test-reports
-/test-scratch
 
 ### Security files ###
 *.ppk
@@ -35,7 +29,6 @@ password
 passwords
 
 ### Various OS, etc. files ###
-.cmdHistory.txt
 *.lnk
 .DS_Store
 [Dd]esktop.ini
