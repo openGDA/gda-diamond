@@ -24,8 +24,8 @@ import java.beans.PropertyChangeListener;
 import com.google.gson.annotations.Expose;
 
 import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
+import gda.jython.JythonStatus;
 import gda.observable.IObserver;
 import uk.ac.gda.beans.ObservableModel;
 
@@ -44,7 +44,7 @@ public class SlitsScanModel extends ObservableModel implements IObserver {
 	public static final double MIN_INTEGRATION_TIME = 0.0001;
 
 	public static final String STATE_PROP_NAME = "state";
-	private int state;
+	private JythonStatus state;
 
 	public static final String GAP_PROP_NAME = "gap";
 	@Expose
@@ -97,11 +97,11 @@ public class SlitsScanModel extends ObservableModel implements IObserver {
 		return (MIN_GAP <= value & value <= MAX_GAP);
 	}
 
-	public int getState() {
+	public JythonStatus getState() {
 		return state;
 	}
 
-	protected void setState(int value) {
+	protected void setState(JythonStatus value) {
 		this.firePropertyChange(STATE_PROP_NAME, state, state = value);
 	}
 	public double getGap() {
@@ -182,7 +182,7 @@ public class SlitsScanModel extends ObservableModel implements IObserver {
 	}
 
 	public void stopScan() {
-		if (this.getState() != Jython.IDLE) {
+		if (this.getState() != JythonStatus.IDLE) {
 			InterfaceProvider.getCurrentScanController().requestFinishEarly();
 		}
 	}
