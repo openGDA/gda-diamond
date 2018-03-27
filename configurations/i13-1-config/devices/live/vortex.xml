@@ -51,6 +51,7 @@
 	
 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
 		<property name="controller" ref="xmapcontroller" />
+		<property name="local" value="true" />
 		<property name="slave" value="false" />
 		<property name="configFileName" value="${gda.var}/Vortex_Parameters.xml"/>
 		<!-- <property name="tfg" ref="tfg" /> -->
