@@ -129,9 +129,9 @@
 
 	<bean id="excalibur_config_hdf5_filewriter" class="uk.ac.gda.devices.excalibur.ExcaliburMultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="excalibur_config_hdf" />
-		<property name="fileNameTemplate" value="excalibur" />
+		<property name="fileNameTemplate" value="excalibur-vds" />
 		<property name="filePathTemplate" value="$datadir$" />
-		<property name="fileTemplate" value="%s%s-vds-%d.hdf" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
 		<property name="fileNumberAtScanStart" value="-1" />
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="blocking" value="false" />

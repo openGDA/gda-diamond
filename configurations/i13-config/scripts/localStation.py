@@ -161,20 +161,20 @@ try:
 			position7="2x Pink"
 
 			turret_prefix = "BL13I-MO-CAM-01:TURRET"
-			caput(turret_prefix + ":DEMAND.ZRST",position1)
-			caput(turret_prefix + ":CURRENTPOS.ZRST", position1)
-			caput(turret_prefix + ":DEMAND.ONST", position2)
-			caput(turret_prefix + ":CURRENTPOS.ONST", position2)
-			caput(turret_prefix + ":DEMAND.TWST", position3)
-			caput(turret_prefix + ":CURRENTPOS.TWST", position3)
-			caput(turret_prefix + ":DEMAND.THST", position4)
-			caput(turret_prefix + ":CURRENTPOS.THST", position4)
-			caput(turret_prefix + ":DEMAND.FRST", position5)
-			caput(turret_prefix + ":CURRENTPOS.FRST", position5)
-			caput(turret_prefix + ":DEMAND.FVST", position6)
-			caput(turret_prefix + ":CURRENTPOS.FVST", position6)
-			caput(turret_prefix + ":DEMAND.SXST", position7)
-			caput(turret_prefix + ":CURRENTPOS.SXST", position7)
+			caput(turret_prefix + ":DEMAND.0",position1)
+			caput(turret_prefix + ":CURPOS.0", position1)
+			caput(turret_prefix + ":DEMAND.1", position2)
+			caput(turret_prefix + ":CURPOS.1", position2)
+			caput(turret_prefix + ":DEMAND.2", position3)
+			caput(turret_prefix + ":CURPOS.2", position3)
+			caput(turret_prefix + ":DEMAND.3", position4)
+			caput(turret_prefix + ":CURPOS.3", position4)
+			caput(turret_prefix + ":DEMAND.4", position5)
+			caput(turret_prefix + ":CURPOS.4", position5)
+			caput(turret_prefix + ":DEMAND.5", position6)
+			caput(turret_prefix + ":CURPOS.5", position6)
+			caput(turret_prefix + ":DEMAND.6", position7)
+			caput(turret_prefix + ":CURPOS.6", position7)
 
 
 			#make the lens re-read its list of positions following setting them in EPICS above

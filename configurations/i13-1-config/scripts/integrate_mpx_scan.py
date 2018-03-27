@@ -3,7 +3,7 @@ import scisoftpy as dnp
 from  gda.analysis.io import SRSLoader
 from uk.ac.diamond.scisoft.analysis.io import DataHolder
 
-from uk.ac.diamond.scisoft.analysis.io import NexusLoader
+from gda.analysis.io import NexusLoader
 
 
 def integrate(filepath="/dls/i13-1/data/2011/mt5659-1/709.nxs", motor="energyThreshold"):
