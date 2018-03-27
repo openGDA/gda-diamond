@@ -55,7 +55,7 @@ public class SimpleEpicsTemperatureController extends TemperatureBase {
 	@Override
 	public void configure() throws FactoryException {
 		super.configure();
-		configured = true;
+		setConfigured(true);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class SimpleEpicsTemperatureController extends TemperatureBase {
 
 	@Override
 	public double getCurrentTemperature() throws DeviceException {
-		if (!configured) {
+		if (!isConfigured()) {
 			throw new IllegalStateException("Call configure() before use!");
 		}
 		try {
@@ -81,7 +81,7 @@ public class SimpleEpicsTemperatureController extends TemperatureBase {
 
 	@Override
 	protected void startTowardsTarget() throws DeviceException {
-		if (!configured) {
+		if (!isConfigured()) {
 			throw new IllegalStateException("Call configure() before use!");
 		}
 		setPoint = targetTemp; // this shouldn't really be necessary, but TemperatureBase checks current temp against
