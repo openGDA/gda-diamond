@@ -25,7 +25,7 @@ import org.jscience.physics.units.Unit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.factory.Configurable;
+import gda.factory.ConfigurableBase;
 import gda.factory.FactoryException;
 import gda.factory.Findable;
 import gda.util.QuantityFactory;
@@ -39,7 +39,7 @@ import gda.util.converters.LookupTableConverterHolder;
  * <p>
  * Does not operate any hardware.
  */
-public class LookupTablesBean implements Findable, Configurable {
+public class LookupTablesBean extends ConfigurableBase implements Findable {
 
 	static final Logger logger = LoggerFactory.getLogger(LookupTablesBean.class);
 
@@ -56,6 +56,7 @@ public class LookupTablesBean implements Findable, Configurable {
 		if (userUnit == null && initialUserUnitString != null) {
 			userUnit = QuantityFactory.createUnitFromString(initialUserUnitString);
 		}
+		setConfigured(true);
 	}
 
 	@Override
