@@ -24,6 +24,15 @@ FS_MODES = {'Main Beam': NORMAL, 'Microfocus': MF, 'GISAXS': NORMAL}
 
 timer = Finder.getInstance().find('Tfg')
 
+_bin_format = '{:08b}'.format
+
+def _normalise_pulse(pulse):
+    """Convert pulse given as '11101001' or 0b11101001 to int required by TFG"""
+    if isinstance(pulse, int):
+        pulse = _bin_format(pulse)
+    if len(pulse != 8):
+        raise ValueError('Need 8 bit value for run or wait pulse')
+    return pulse[::-1]
 
 def setupTfg(numberOfFrames, exposure, waitTime, waitPulse=DEFAULT_WAIT_PULSE, runPulse=DEFAULT_RUN_PULSE, waitPause=DEFAULT_WAIT_PAUSE, runPause=DEFAULT_RUN_PAUSE):
     """
@@ -37,6 +46,9 @@ def setupTfg(numberOfFrames, exposure, waitTime, waitPulse=DEFAULT_WAIT_PULSE, r
     (optional)waitPause: defaults to 0 (no pause)
     (optional)runPause: defaults to 0 (no pause)
     """
+
+    runPulse = _normalise_pulse(runPulse)
+    waitPulse = _normalise_pulse(waitPulse)
     timer.clearFrameSets()
     timer.addFrameSet(numberOfFrames, waitTime, exposure, waitPulse, runPulse, waitPause, runPause)
     timer.loadFrameSets()
