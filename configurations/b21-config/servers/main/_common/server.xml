@@ -12,8 +12,7 @@
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
-	<bean id="plot_server" class="uk.ac.diamond.scisoft.analysis.plotserver.PlotServerBase" />
-	<gda:rmi-export service="plot_server" serviceName="gda/plotserver" serviceInterface="uk.ac.diamond.scisoft.analysis.PlotServer"/>
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />

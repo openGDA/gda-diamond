@@ -17,21 +17,7 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<corba:import namespace="b21" names="command_server" />
-<!-- 	<corba:import namespace="b21" names="plot_server" /> -->
-	<bean id="plot_server" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}plotserver" />
-		<property name="serviceInterface" value="uk.ac.diamond.scisoft.analysis.PlotServer" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="uk.ac.diamond.scisoft.analysis.PlotServerProvider.setPlotServer" />
-		<property name="arguments">
-			<list>
-				<ref bean="plot_server" />
-			</list>
-		</property>
-	</bean>
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />

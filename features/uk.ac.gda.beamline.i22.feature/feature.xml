@@ -2,7 +2,7 @@
 <feature
       id="uk.ac.gda.beamline.i22.feature"
       label="i22 Feature"
-      version="9.7.0.qualifier"
+      version="9.8.0.qualifier"
       provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
@@ -59,13 +59,6 @@
 
    <plugin
          id="uk.ac.gda.bimorph.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.isencia.passerelle.workbench.starter"
          download-size="0"
          install-size="0"
          version="0.0.0"
