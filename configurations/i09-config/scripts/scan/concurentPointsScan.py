@@ -26,7 +26,7 @@ from gda.data import PathConstructor
 from org.opengda.detector.electronanalyser.utils import OsUtil, FilenameUtil
 from org.opengda.detector.electronanalyser.event import SequenceFileChangeEvent
 from time import sleep
-from gda.jython import InterfaceProvider, Jython
+from gda.jython import InterfaceProvider, JythonStatus
 from org.opengda.detector.electronanalyser.scan import RegionScannable,\
     RegionPositionProvider
 import os
@@ -156,7 +156,7 @@ def analyserpathscan_v1(scannables, path, *args):
                 filename=FilenameUtil.convertSeparator(filename)
             controller.update(controller,SequenceFileChangeEvent(filename))
             sleep(1.0)
-            while (InterfaceProvider.getScanStatusHolder().getScanStatus()==Jython.PAUSED):
+            while (InterfaceProvider.getScanStatusHolder().getScanStatus()==JythonStatus.PAUSED):
                 sleep(1.0)
             newargs.append( RegionPositionProvider(filename) )
             #newargs.append( arg ) # to read the actual position
