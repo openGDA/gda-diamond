@@ -37,7 +37,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.jython.Jython;
+import gda.jython.JythonStatus;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.observablemodels.ScannableWrapper;
@@ -137,7 +137,7 @@ public class SlitsScanSection extends ResourceComposite {
 					new UpdateValueStrategy() {
 						@Override
 						public Object convert(Object value) {
-							return ((int) value == Jython.IDLE);
+							return ((JythonStatus) value == JythonStatus.IDLE);
 						}
 					});
 
@@ -163,7 +163,7 @@ public class SlitsScanSection extends ResourceComposite {
 					new UpdateValueStrategy() {
 						@Override
 						public Object convert(Object value) {
-							return ((int) value != Jython.IDLE);
+							return ((JythonStatus) value != JythonStatus.IDLE);
 						}
 					});
 			stopButton.addListener(SWT.Selection, new Listener() {

@@ -29,8 +29,8 @@ import gda.epics.connection.EpicsChannelManager;
 import gda.epics.connection.EpicsController;
 import gda.epics.connection.InitializationListener;
 import gda.factory.FactoryException;
-import gda.jython.Jython;
 import gda.jython.JythonServerFacade;
+import gda.jython.JythonStatus;
 import gov.aps.jca.CAException;
 import gov.aps.jca.Channel;
 import gov.aps.jca.TimeoutException;
@@ -98,7 +98,7 @@ public class B18EnergyScannable extends ScannableMotor implements Initialization
 		}
 
 		// if we are in a scan and the last move watchdogged then throw an exception to stop the scan
-		if (JythonServerFacade.getInstance().getScanStatus() == Jython.RUNNING && watchDogDuringMove) {
+		if (JythonServerFacade.getInstance().getScanStatus() == JythonStatus.RUNNING && watchDogDuringMove) {
 			throw new DeviceException(
 					"Watchdog occurred - Mono Geobrick will need to be manually restarted. Energy scans should not proceed");
 		}

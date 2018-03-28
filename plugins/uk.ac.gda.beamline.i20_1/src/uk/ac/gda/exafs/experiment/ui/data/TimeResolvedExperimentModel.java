@@ -50,8 +50,8 @@ import gda.device.DeviceException;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
+import gda.jython.JythonStatus;
 import gda.jython.scriptcontroller.Scriptcontroller;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeExperiment;
@@ -693,7 +693,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		public void update(Object source, Object arg) {
 			if (arg instanceof JythonServerStatus) {
 				JythonServerStatus status = (JythonServerStatus) arg;
-				if (TimeResolvedExperimentModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
+				if (TimeResolvedExperimentModel.this.isScanning() && JythonStatus.IDLE == status.scanStatus) {
 					monitor.worked(1);
 				}
 			}

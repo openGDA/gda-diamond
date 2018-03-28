@@ -38,9 +38,9 @@ import gda.device.DeviceException;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
 import gda.jython.JythonServerFacade;
 import gda.jython.JythonServerStatus;
+import gda.jython.JythonStatus;
 import gda.observable.IObservable;
 import gda.observable.IObserver;
 import gda.scan.ede.EdeExperiment;
@@ -303,13 +303,13 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		public void update(Object source, Object arg) {
 			if (arg instanceof JythonServerStatus) {
 				JythonServerStatus status = (JythonServerStatus) arg;
-				if (SingleSpectrumCollectionModel.this.isScanning() && Jython.RUNNING == status.scanStatus) {
+				if (SingleSpectrumCollectionModel.this.isScanning() && JythonStatus.RUNNING == status.scanStatus) {
 					monitor.subTask(scanJobName.getText());
 					if (scanJobName.ordinal() <  ScanJobName.values().length - 1) {
 						scanJobName = ScanJobName.values()[scanJobName.ordinal() + 1];
 					}
 				}
-				if (SingleSpectrumCollectionModel.this.isScanning() && Jython.IDLE == status.scanStatus) {
+				if (SingleSpectrumCollectionModel.this.isScanning() && JythonStatus.IDLE == status.scanStatus) {
 					monitor.worked(1);
 				}
 			}

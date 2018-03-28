@@ -72,8 +72,8 @@ import gda.device.detector.EdeDetector;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.jython.InterfaceProvider;
-import gda.jython.Jython;
 import gda.jython.JythonServerStatus;
+import gda.jython.JythonStatus;
 import gda.observable.IObserver;
 import gda.scan.ede.datawriters.ScanDataHelper;
 import uk.ac.gda.beamline.i20_1.Activator;
@@ -807,7 +807,7 @@ public class XHControlComposite extends Composite implements IObserver {
 						allValues = new double[0];
 						regionValues = new double[numberSectors][0];
 						while (continueLiveLoop
-								&& InterfaceProvider.getScanStatusHolder().getScanStatus() == Jython.IDLE) {
+								&& InterfaceProvider.getScanStatusHolder().getScanStatus() == JythonStatus.IDLE) {
 							Date snapshotTime = new Date();
 
 							String collectionPeriod_ms = DataHelper.roundDoubletoString(detectorControlModel.getLiveIntegrationTime());
@@ -899,7 +899,7 @@ public class XHControlComposite extends Composite implements IObserver {
 			JythonServerStatus status = (JythonServerStatus) arg;
 
 			boolean canContinue = true;
-			if (status.scanStatus != Jython.IDLE || status.scriptStatus != Jython.IDLE) {
+			if (status.scanStatus != JythonStatus.IDLE || status.scriptStatus != JythonStatus.IDLE) {
 				canContinue = false;
 			}
 			startLiveModeButton.setEnabled(canContinue);
