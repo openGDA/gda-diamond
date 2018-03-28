@@ -20,9 +20,7 @@ http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Djacorb.config.dir=${project_loc:i12-config}/properties/dummy/jacorb
+      <vmArgs>-Djacorb.config.dir=${project_loc:i12-config}/properties/dummy/jacorb
 -Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
 -Dgda.config=${project_loc:i12-config}
@@ -32,7 +30,6 @@ http://www.opengda.org
 -Dgda.group.dir=${project_loc:core-config}/no-group
 -Dgda.logs.dir=${workspace_loc}/../gda_logs_non_live
 -Dgda.propertiesFile=${project_loc:i12-config}/properties/dummy/dummy_instance_java.properties
--Dgda.data=/dls/i12/data
 -Dgda.mode=dummy
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i12-config}/properties/dummy/JCALibrary.properties
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
@@ -40,7 +37,6 @@ http://www.opengda.org
 -Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Xms256m
 -Xmx2024m
--XX:MaxPermSize=256m
 -XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
@@ -52,7 +48,6 @@ http://www.opengda.org
    <splash
       location="uk.ac.gda.beamline.i12" />
    <launcher name="gda-i12">
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
