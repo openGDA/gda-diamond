@@ -15,7 +15,6 @@
 				</bean>
 			</list>
 		</property>
-		<property name="monitorRole"		value="PER_SCAN"/>
 		<property name="activated"			value="true"/> <?ignore Use as a monitor with scans, we always want this NeXus information ?>
 	</bean>
 
@@ -42,7 +41,6 @@
 				</bean>
 			</list>
 		</property>
-		<property name="monitorRole"		value="PER_SCAN"/>
 		<property name="activated"			value="false"/> <?ignore Use as a monitor with scans, we always want this NeXus information ?>
 	</bean>
 </beans>
