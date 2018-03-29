@@ -18,16 +18,15 @@
 
 package uk.ac.gda.client.microfocus.scan;
 
+import org.python.core.PyInteger;
+import org.python.core.PyObject;
+import org.python.core.PySequence;
+
 import gda.device.Scannable;
 import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.scannable.ContinuouslyScannable;
 import gda.device.scannable.RealPositionReader;
 import gda.jython.InterfaceProvider;
-
-import org.python.core.PyInteger;
-import org.python.core.PyObject;
-import org.python.core.PySequence;
-
 import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 import uk.ac.gda.client.microfocus.scan.datawriter.MicroFocusWriterExtender;
 import uk.ac.gda.server.exafs.scan.preparers.I18BeamlinePreparer;
@@ -89,11 +88,13 @@ public class MapSelector {
 				scanFileName);
 		currentMapIsRaster = scanBean.isRaster();
 		if (currentMapIsRaster) {
-			raster_mode.doCollection(sampleFileName, scanFileName, detectorFileName, outputFileName, folderName,
+			raster_mode.configureCollection(sampleFileName, scanFileName, detectorFileName, outputFileName, folderName,
 					numRepetitions);
+			raster_mode.doCollection();
 		} else {
-			non_raster.doCollection(sampleFileName, scanFileName, detectorFileName, outputFileName, folderName,
+			non_raster.configureCollection(sampleFileName, scanFileName, detectorFileName, outputFileName, folderName,
 					numRepetitions);
+			non_raster.doCollection();
 		}
 		return new PyInteger(0);
 	}
