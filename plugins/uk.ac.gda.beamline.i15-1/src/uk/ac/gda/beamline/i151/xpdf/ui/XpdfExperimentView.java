@@ -178,6 +178,11 @@ public class XpdfExperimentView {
 	@PreDestroy
 	public void dispose() {
 		viewer.dispose();
+		try {
+			taskSubmitter.disconnect();
+		} catch (EventException e) {
+			logger.warn("Could not disconnect task submitter", e);
+		}
 	}
 
 	private class ExperimentEntry {
