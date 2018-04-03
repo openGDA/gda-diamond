@@ -76,6 +76,7 @@
 
 	<!-- monitors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/monitors/beam_monitors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/monitors/radiant_panel_monitors.xml" />
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
@@ -139,6 +140,7 @@
 
 	<!-- monitors -->
 	<import resource="file:${gda.config}/servers/main/_common/monitors/beam_monitors.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/monitors/radiant_panel_monitors.xml" />
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
