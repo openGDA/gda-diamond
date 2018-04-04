@@ -9,4 +9,229 @@
 		<property name="pvName" value="ME01D-EA-SCLR-01:SCALER1" />
 		<property name="frequency" value="50000000"/>
 	</bean>
- </beans>
+	
+	<bean id="macr1" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="1"/>
+	</bean>
+
+	<bean id="macr2" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="2"/>
+	</bean>
+
+	<bean id="macr3" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="3"/>
+	</bean>
+
+	<bean id="macr4" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="4"/>
+	</bean>
+
+	<bean id="macr5" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="5"/>
+	</bean>
+
+	<bean id="macr6" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="6"/>
+	</bean>
+
+	<bean id="macr7" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="7"/>
+	</bean>
+
+	<bean id="macr8" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="8"/>
+	</bean>
+
+	<bean id="macr9" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="9"/>
+	</bean>
+
+	<bean id="macr10" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="10"/>
+	</bean>
+
+	<bean id="macr11" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="11"/>
+	</bean>
+
+	<bean id="macr12" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="12"/>
+	</bean>
+
+	<bean id="macr13" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="13"/>
+	</bean>
+
+	<bean id="macr14" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="14"/>
+	</bean>
+
+	<bean id="macr15" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="15"/>
+	</bean>
+
+	<bean id="macr16" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="16"/>
+	</bean>
+
+	<bean id="macr17" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="17"/>
+	</bean>
+
+	<bean id="macr18" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="18"/>
+	</bean>
+
+	<bean id="macr19" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="19"/>
+	</bean>
+
+	<bean id="macr20" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="20"/>
+	</bean>
+
+	<bean id="macr21" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="21"/>
+	</bean>
+
+	<bean id="macr22" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="22"/>
+	</bean>
+
+	<bean id="macr23" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="23"/>
+	</bean>
+
+	<bean id="macr24" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="24"/>
+	</bean>
+
+	<bean id="macr25" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="25"/>
+	</bean>
+
+	<bean id="macr26" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="26"/>
+	</bean>
+
+	<bean id="macr27" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="27"/>
+	</bean>
+
+	<bean id="macr28" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="28"/>
+	</bean>
+
+	<bean id="macr29" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="29"/>
+	</bean>
+
+	<bean id="macr30" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="30"/>
+	</bean>
+
+	<bean id="macr31" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="rasor_scaler1"/>
+		<!-- <property name="detector" ref="etl1"/> -->
+		<property name="scalerChannelIndex" value="31"/>
+	</bean>
+
+	<bean id="RASOR_SCALER" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="rasor_scaler1" />
+				<ref bean="macr1" />
+				<ref bean="macr2" />
+				<ref bean="macr3" />
+				<ref bean="macr4" />
+				<ref bean="macr5" />
+				<ref bean="macr6" />
+				<ref bean="macr7" />
+				<ref bean="macr8" />
+				<ref bean="macr9" />
+				<ref bean="macr10" />
+				<ref bean="macr11" />
+				<ref bean="macr12" />
+				<ref bean="macr13" />
+				<ref bean="macr14" />
+				<ref bean="macr15" />
+				<ref bean="macr16" />
+				<ref bean="macr17" />
+				<ref bean="macr18" />
+				<ref bean="macr19" />
+				<ref bean="macr20" />
+				<ref bean="macr21" />
+				<ref bean="macr22" />
+				<ref bean="macr23" />
+				<ref bean="macr24" />
+				<ref bean="macr25" />
+				<ref bean="macr26" />
+				<ref bean="macr27" />
+				<ref bean="macr28" />
+				<ref bean="macr29" />
+				<ref bean="macr30" />
+				<ref bean="macr31" />
+			</list>
+		</property>
+		<property name="local" value="true"/>
+	</bean> </beans>
