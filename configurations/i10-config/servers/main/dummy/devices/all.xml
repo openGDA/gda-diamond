@@ -50,6 +50,8 @@
 	<import resource="GVJ6.xml"/>
 	<import resource="MAGJ1.xml"/>
 
+	<import resource="LakeShore.xml"/>
+	
 	<!-- Temporary devices -->
-	<import resource="Zebra.xml"/>
+<!-- 	<import resource="Zebra.xml"/> -->
 </beans>

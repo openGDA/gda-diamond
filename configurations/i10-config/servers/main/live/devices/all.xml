@@ -31,6 +31,7 @@
 	<import resource="RASOR-Cam2.xml"/>
 	<import resource="RASOR-Cam3.xml"/>
 	<import resource="RASOR-SCALER1.xml"/>
+	<import resource="UI1_MAC.xml"/>
 	
 	<!-- J Absorption -->
 
@@ -51,6 +52,7 @@
 	<import resource="CAJ2.xml"/>
 	<import resource="GVJ6.xml"/>
 	<import resource="MAGJ1.xml"/>
+	<import resource="UJ1_MAC.xml"/>
 
 	<import resource="LakeShore.xml"/>
 	

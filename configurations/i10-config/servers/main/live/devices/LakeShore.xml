@@ -8,4 +8,5 @@
 		<property name="local" value="true"/>
 		<property name="configureAtStartup" value="true"/>
 	</bean>
+	
 </beans>

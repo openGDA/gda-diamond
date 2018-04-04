@@ -15,7 +15,6 @@
 	<import resource="S6.xml"/>
 	<import resource="D6.xml"/>
 	<import resource="UMI1.xml"/>
-	<import resource="UI1.xml"/>
 	<import resource="CA2.xml"/>
 	<import resource="CA3.xml"/>
 	<import resource="CA4.xml"/>
@@ -23,7 +22,6 @@
 	<import resource="PIXIS.xml"/>
 	<import resource="PIXIS_SUMMED.xml"/>
 	<import resource="RASOR.xml"/>
-	<import resource="RASOR-SCALER1.xml"/>
 
 	<!-- J Absorption -->
 
@@ -36,7 +34,6 @@
 	<import resource="DJ3.xml"/>
 	<import resource="S9.xml"/>
 	<import resource="UMJ1.xml"/>
-	<import resource="UJ1.xml"/>
 	<import resource="CAJ1.xml"/>
 	<import resource="CAJ2.xml"/>
 	<import resource="MAGJ1.xml"/>
