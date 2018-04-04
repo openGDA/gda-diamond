@@ -18,7 +18,6 @@
 	<bean id="D6" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="d6_bim" />
 				<ref bean="d6_scrn" />
 				<ref bean="d6_det" />
 				<ref bean="d6_pos" />
