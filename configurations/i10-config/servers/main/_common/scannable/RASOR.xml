@@ -209,7 +209,6 @@
 				<ref bean="tth" />
 				<ref bean="th" />
 				<ref bean="chi" />
-				<ref bean="phi" />
 				<ref bean="difx" />
 				<ref bean="alpha" />
 				<ref bean="pinhx" />
