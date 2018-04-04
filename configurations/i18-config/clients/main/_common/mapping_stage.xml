@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="mappingStageOptions" class="uk.ac.diamond.daq.mapping.impl.MappingStageOptions" >
+		<property name="name" value="mappingStageOptions" />
+		<property name="fastAxes">
+			<list>
+				<value>t1x</value>
+				<value>t3x</value>
+			</list>
+		</property>
+		
+		<property name="slowAxes">
+			<list>
+				<value>t1y</value>
+				<value>t3y</value>
+				<value>t1fineTheta</value>
+			</list>
+		</property>
+		
+		<property name="associatedAxes">
+			<list>
+				<value>t1z</value>
+				<value>t3z</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="gda.util.osgi.OSGiServiceRegister">
+		<property name="class" value="uk.ac.diamond.daq.mapping.impl.MappingStageOptions" />
+		<property name="service" ref="mappingStageOptions" />
+	</bean>
+	
+</beans>

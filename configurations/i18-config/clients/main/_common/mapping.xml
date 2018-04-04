@@ -15,9 +15,9 @@
 	</description>
 
 	<!-- Stage axis names defined as String beans for convenience and to avoid repetition of the same literal value -->
-	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="sc_MicroFocusSampleX"/></bean>
-	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="sc_MicroFocusSampleY"/></bean>
-	<bean id="z_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="sc_sample_z"/></bean>
+	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="t1x"/></bean>
+	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="t1y"/></bean>
+	<bean id="z_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="t1z"/></bean>
 
 	<!-- Import the MappingExperimentBean from a mode-specific config file. -->
 	<import resource="file:${gda.config}/clients/main/${gda.mode}/mapping.xml" />

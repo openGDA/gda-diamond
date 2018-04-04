@@ -20,5 +20,6 @@
 	<import resource="rmi_imports.xml" />
 	<import resource="mapping.xml"/>
 	<import resource="live_controls.xml"/>
+	<import resource="mapping_stage.xml" />
 
 </beans>

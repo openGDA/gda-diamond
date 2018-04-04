@@ -50,7 +50,9 @@
 	<import resource="beam_watchdogs.xml" />
 	<import resource="scannables.xml" />
 	<import resource="table1.xml" />
+	<import resource="table1_short_names.xml" />
 	<import resource="table3.xml" />
+	<import resource="table3_short_names.xml" />
 
 	<!-- Need to import core.xml last so all other objects are configured before the Jython server -->
 	<import resource="core.xml" />

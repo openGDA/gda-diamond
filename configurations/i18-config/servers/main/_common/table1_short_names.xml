@@ -1,0 +1,98 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="t1z" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_z_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="t1thetaCoarse" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="motor" ref="sample_theta_coarse_motor" />
+		<property name="hardwareUnitString" value="Deg" />
+	</bean>
+
+	<bean id="t1x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_x_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="t1y1" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_y1_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="t1y2" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_y2_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="t1y3" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="sample_y3_motor" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+	<bean id="t1thetaFine" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="motor" ref="sample_theta_fine_motor" />
+		<property name="hardwareUnitString" value="Deg" />
+	</bean>
+
+	<bean id="t1y" class="gda.device.scannable.CoupledScannable">
+		<property name="scannables">
+			<list>
+				<ref bean="t1y1" />
+				<ref bean="t1y2" />
+				<ref bean="t1y3" />
+			</list>
+		</property>
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="outputFormat">
+			<list>
+				<value>%.4f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="t1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1z" />
+				<ref bean="t1thetaCoarse" />
+				<ref bean="t1x" />
+				<ref bean="t1y1" />
+				<ref bean="t1y2" />
+				<ref bean="t1y3" />
+				<ref bean="t1thetaFine" />
+				<ref bean="t1y" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+</beans>
