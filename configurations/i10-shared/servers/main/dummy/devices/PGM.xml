@@ -41,7 +41,7 @@
 		<property name="minPosition" value="82.9866" />
 		<property name="maxPosition" value="92.0" />
 		<property name="speed" value="0.018" />
-		<property name="unitString" value="deg"/>
+		<property name="unitString" value="mm"/>
 		<property name="local" value="true" />
 	</bean>	
 
@@ -96,42 +96,42 @@
 		</property>
 		<property name="increment" value="10.0" />
 	</bean>	
-	<bean id="pgmmenc2" class="gda.device.monitor.DummyEpicsMonitor">
+	<bean id="pgmmenc2" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="" />
 		<property name="value">
 			<value type="double">2.25805e+07</value>
 		</property>
 		<property name="increment" value="10.0" />
 	</bean>	
-	<bean id="pgmmenc3" class="gda.device.monitor.DummyEpicsMonitor">
+	<bean id="pgmmenc3" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="" />
 		<property name="value">
 			<value type="double">2.25779e+07</value>
 		</property>
 		<property name="increment" value="10.0" />
 	</bean>	
-	<bean id="pgmmenc4" class="gda.device.monitor.DummyEpicsMonitor">
+	<bean id="pgmmenc4" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="" />
 		<property name="value">
 			<value type="double">2.26062e+07</value>
 		</property>
 		<property name="increment" value="10.0" />
 	</bean>	
-	<bean id="pgmgenc1" class="gda.device.monitor.DummyEpicsMonitor">
+	<bean id="pgmgenc1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="" />
 		<property name="value">
 			<value type="double">-1.03403e+07</value>
 		</property>
 		<property name="increment" value="10.0" />
 	</bean>	
-	<bean id="pgmgenc2" class="gda.device.monitor.DummyEpicsMonitor">
+	<bean id="pgmgenc2" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="" />
 		<property name="value">
 			<value type="double">-1.03381e+07</value>
 		</property>
 		<property name="increment" value="10.0" />
 	</bean>	
-	<bean id="pgmgenc3" class="gda.device.monitor.DummyEpicsMonitor">
+	<bean id="pgmgenc3" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="" />
 		<property name="value">
 			<value type="double">-1.03405e+07</value>

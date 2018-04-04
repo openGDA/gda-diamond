@@ -63,7 +63,7 @@
 	</bean>
 
 	<bean id="pixisCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
-		<property name="ndArray" ref="pixis_adarray"/>
+		<property name="ndArray" ref="pixis_ndarray"/>
 		<property name="arrayPortName" value="CAM.CAM"/>
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
