@@ -6,8 +6,6 @@
                            http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="zebra" class="uk.ac.gda.test.helpers.springmock.MockitoFactoryBean">
-        <constructor-arg name="classToBeMocked"
-                        value="gda.device.zebra.controller.Zebra" />
-    </bean>
+	<bean id="zebra" class="gda.device.zebra.controller.impl.ZebraDummy" />
+	
 </beans>
