@@ -1,4 +1,5 @@
 from os.path import os
+from utils.ExceptionLogs import localStation_exception, localStation_exceptions
 print "**************************************************"
 print "Running the I10 startup script localStation.py..."
 print ""
@@ -101,13 +102,6 @@ def getSubdirectory():
     return finder.find("GDAMetadata").getMetadataValue("subdirectory")
 
 print
-localStation_exceptions = []
-
-def localStation_exception(exc_info, msg):
-    typ, exception, traceback = exc_info
-    simpleLog("! Failure %s !" % msg)
-    localStation_exceptions.append("    %s" % msg)
-    handle_messages.log(None, "Error %s -  " % msg , typ, exception, traceback, False)
 
 ##setup metadata for the file
 run("rasor/pd_metadata.py")
@@ -129,8 +123,9 @@ alias('wa')
 run("rasor/saveAndReload.py")
 
 ###delay scannable
-import gdascripts.pd.time_pds
-wait = gdascripts.pd.time_pds.waittime
+from gdascripts.pd.time_pds import showtime,inctime,waittime,tictoc, showtimeClass, showincrementaltimeClass, waittimeClass2  # @UnusedImport
+wait = waittime
+showtime.setLevel(4) # so it is operated before anything else in a scan
 
 try:
     print "creating 'dummy' & `denergy` scannables"
@@ -140,17 +135,7 @@ try:
 except:
     localStation_exception(sys.exc_info(), "creating 'dummy' & 'denergy' scannables")
 
-try:    
-    # to delay scan points so they run afer a certain elapsed time
-    from gdascripts.pd.time_pds import showtimeClass
-    print ""
-    print "creating scannable 'showtime' which will delay scan points until a time has been reached during a scan."
-    print "usage of 'showtime' scan <motor> <start> <stop> <step> showtime 0 <delay between points in s>"
-    print ""
-    showtime = showtimeClass("showtime")
-    showtime.setLevel(4) # so it is operated before anything else in a scan
-except:
-    localStation_exception(sys.exc_info(), "creating 'showtime' scannable")
+
 
 try:
     ########diffcal####################
@@ -186,12 +171,10 @@ try:
     from high_field_magnet.scannable.intelligentPowerSupply import \
         IntelligentPowerSupplyFieldScannable, \
         IntelligentPowerSupplySweepRateScannable
-    from mtscripts.scannable.CryojetScannable import CryojetScannable
+    from dls_scripts.scannable.CryojetScannable import CryojetScannable
     
-    ips_field = IntelligentPowerSupplyFieldScannable('ips_field',
-        'BL10J-EA-SMC-01:', field_tolerance=0.01)
-    ips_sweeprate = IntelligentPowerSupplySweepRateScannable('ips_sweeprate',
-        'BL10J-EA-SMC-01:', sweeprate_tolerance=0.01)
+    ips_field = IntelligentPowerSupplyFieldScannable('ips_field', 'BL10J-EA-SMC-01:', field_tolerance=0.01)
+    ips_sweeprate = IntelligentPowerSupplySweepRateScannable('ips_sweeprate', 'BL10J-EA-SMC-01:', sweeprate_tolerance=0.01)
     itc2 = CryojetScannable('itc2',pvroot='BL10J-EA-TCTRL-02:', temp_tolerance=1, stable_time_sec=60)
     ips_field.setLevel(6)
     ips_sweeprate.setLevel(6)
@@ -374,155 +357,30 @@ from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak \
 pimte_installed = True
 
 if pimte_installed:
-    try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
-        global pimte1det, pimte1det_for_snaps
+    #PIMTE detectors customised to display image in 'Plot 1' view and return results of image process
+    from detectors.pimteWithDataProcessor import pimte_tiff, pimteSMPV, pimte2d  # @UnusedImport
 
-        # the pimte has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
-        pimte = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'pimte', pimte1det, None, pimte1det_for_snaps, [],
-            panel_name=None, panel_name_rcp='Plot 1',
-            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
-            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-
-        pimteSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'pimteSMPV', pimte1det, None, pimte1det_for_snaps,
-            panel_name=None, panel_name_rcp='Plot 1',
-            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
-            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-        pimteSMPV.display_image = True
-        #pimteSMPV.processors=[DetectorDataProcessorWithRoi('max', pimte1det, [SumMaxPositionAndValue()], False)]
-        pimteSMPV.processors=[DetectorDataProcessor        ('max', pimte1det, [SumMaxPositionAndValue()], False)]
-
-        pimte2d = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'pimte2d', pimte1det, None, pimte1det_for_snaps,
-            panel_name=None, panel_name_rcp='Plot 1',
-            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
-            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-        pimte2d.display_image = True
-        #pimteSMPV.processors=[DetectorDataProcessorWithRoi('max', pimte1det, [TwodGaussianPeak()], False)]
-        pimte2d.processors=[DetectorDataProcessor        ('max', pimte1det, [TwodGaussianPeak()], False)]
-
-    except:
-        localStation_exception(sys.exc_info(), "creating pimte objects")
-
-######## Setting up the I06 Pixis camera ###############
+######## Setting up the I10 Pixis camera ###############
 pixis_installed = True
 
 if pixis_installed:
-    try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
-        global pixis1det, pixis1det_for_snaps
-
-        # the pixis has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
-        pixis = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'pixis', pixis1det, None, pixis1det_for_snaps, [],
-            panel_name=None, panel_name_rcp='Plot 1',
-            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
-            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+    #PIXIS detectors customised to display image in 'Plot 1' view and return results of image process
+    from detectors.pixisWithDataProcessor import pixis_tiff, pixisSMPV, pixis2d  # @UnusedImport
     
-        pixisSMPV = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'pixisSMPV', pixis1det, None, pixis1det_for_snaps,
-            panel_name=None, panel_name_rcp='Plot 1',
-            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
-            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-        pixisSMPV.display_image = True
-        #pixisSMPV.processors=[DetectorDataProcessorWithRoi('max', pixis1det, [SumMaxPositionAndValue()], False)]
-        pixisSMPV.processors=[DetectorDataProcessor        ('max', pixis1det, [SumMaxPositionAndValue()], False)]
-
-        pixis2d = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'pixis2d', pixis1det, None, pixis1det_for_snaps,
-            panel_name=None, panel_name_rcp='Plot 1',
-            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
-            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-        pixis2d.display_image = True
-        #pixisSMPV.processors=[DetectorDataProcessorWithRoi('max', pixis1det, [TwodGaussianPeak()], False)]
-        pixis2d.processors=[DetectorDataProcessor        ('max', pixis1det, [TwodGaussianPeak()], False)]
-
-    except:
-        localStation_exception(sys.exc_info(), "creating pixis objects")
-
 ######## Setting up the semi-automatic Zebra triggered cameras ###############
 zebra_triggered_pimte_detector_installed = False
-
 if zebra_triggered_pimte_detector_installed:
-    from future.scannable.ZebraTriggeredDetector import ZebraTriggeredDetector
-    in4ttl=10
-    in3ttl=7
-    setCollectionTimeInstructions = """    In addition:
-        On the Main tab, as well as setting the exposure time, make sure that:
-            Number of images is set to 1
-            CCD Readout is set to Full
-            Accumulations is set to 1
-        On the Data File tab make sure that:
-            The Data file is set to a suitable name and that it
-            will be written to your visit directory
-        On the ADC tab make sure that:
-            Rate is set to 1MHz
-        On the Timing tab make sure that:
-            Mode is set to External Sync
-            The Continuous Cleans checkbox is checked
-            Shutter Control is Normal
-            Safe mode is selected
-            Delay time is 0.5seconds
-            Edge trigger is + edge
-    Also make sure that:
-        The Zebra TTL Out 4 is connected to the ST-133 Ext Sync input
-        The Zebra TTL In 4  is connected to the ST-133 NOT SCAN output
-        The Zebra TTL In 3  is connected to the ST-133 NOT READY output"""
-    prepareForCollectionInstructions="Please ensure that all acquisition parameters are correct before pressing the Acquire button."
-    pimte = ZebraTriggeredDetector('pimte', zebra=zebra, 
-        notScanInput=in4ttl, notReadyInput=in3ttl, triggerOutSoftInput=4,
-        setCollectionTimeInstructions=setCollectionTimeInstructions,
-        prepareForCollectionInstructions=prepareForCollectionInstructions)
+    from detectors.pimte_zebra_triggered import pimtez  # @UnusedImport
 
 zebra_triggered_pco_detector_installed = True
-
 if zebra_triggered_pco_detector_installed:
-    from future.scannable.ZebraTriggeredDetector import ZebraTriggeredDetector
-    zebra=finder.find('zebra')
-    in4ttl=10
-    setCollectionTimeInstructions = "Setting collection time in Zebra"
-    prepareForCollectionInstructions=None
-    scanStartInstructions="""
-    If you are having problems, or you are stuck only able to see this text:
-        On the CamWare screen, make sure that:
-            In Camera Control, teh Trigger mode is set to External Exp. Ctrl
-        Then File menu > Direct Record To File,
-            Set number of images to store as number of points in scan +1 or greater
-            Set the name of the file for this scan.
-    On the Zebra EDM screen (Launchers > Beamlines > BL10I BLADE > ZEB1) ensure that:
-        On the SYS tab:
-            OUT4 TTL is 55 (PULSE4)
-        On the PULSE tab, ensure that:
-            PULSE4 input is 63 (SOFT_IN4) and Trigger on Rising Edge
-    Also make sure that:
-        The Zebra TTL Out 4 is connected to the Camera exp. trig (control in)
-        The Zebra TTL In 4  is connected to the Camera busy (status out)
-        Ensure that the dip switches beneath the control in sockets are all set to ON"""
-    pco = ZebraTriggeredDetector('pco', zebra=zebra, 
-        notScanInput=in4ttl, notReadyInput=None, triggerOutSoftInput=4,
-        setCollectionTimeInstructions=setCollectionTimeInstructions,
-        prepareForCollectionInstructions=prepareForCollectionInstructions,
-        scanStartInstructions=scanStartInstructions, 
-        gateNotTrigger=True, notScanInverted=True, zebraPulse=4)
-
-######## Setting up the Zebra as a fast dicriosm counter ###############
+    from detectors.pco_zebra_triggered import pcoz  # @UnusedImport
+    
+######## Setting up the Zebra as a fast dichriosm counter ###############
 zebra_fastdicr_installed = True
 
 if zebra_fastdicr_installed:
-    from scannable.detectors.fastDicroismZebraDetector import FastDichroismZebraDetector
-    global zebraContinuousMoveController
-    #fastDichroism=FastDichroismZebraDetector('fastDichroism', 'BL10I-EA-ZEBRA-01:', zebraContinuousMoveController)
-    fastDichroism=FastDichroismZebraDetector('fastDichroism', 'BL10I-EA-ZEBRA-01:', None)
-
-polarimeter_installed = False
-if polarimeter_installed:
-    try:
-        run("polarimeter/hexapodAxises4.py")        # /dls_sw/i10/scripts/polarimeter
-        run("polarimeter/rotationTemperature.py")   # /dls_sw/i10/scripts/polarimeter
-        run("polarimeter/detector.py")              # /dls_sw/i10/scripts/polarimeter
-        run("polarimeter/feScannables.py")          # i10-config/scripts/polarimeter/feScannables.py
-    except:
-        localStation_exception(sys.exc_info(), "initialising polarimeter")
+    from detectors.fastDichroism import fastDichroism  # @UnusedImport
 
 try:
     from future.singleEpicsPositionerNoStatusClassDeadbandOrStop import SingleEpicsPositionerNoStatusClassDeadbandOrStop
@@ -581,9 +439,9 @@ try:
                                  idu_sepphase,
                                  pgm_energy)
         
-        if polarimeter_installed:
-            stdmetadatascannables += (RetTilt, RetRotation, AnaTilt ,AnaRotation, 
-                                 AnaDetector, AnaTranslation,hpx, hpy, hpc, hpb)
+#         if polarimeter_installed:
+#             stdmetadatascannables += (RetTilt, RetRotation, AnaTilt ,AnaRotation, 
+#                                  AnaDetector, AnaTranslation,hpx, hpy, hpc, hpb)
         setmeta_ret=setmeta(*stdmetadatascannables)
         print "Standard metadata scannables: " + setmeta_ret
 
