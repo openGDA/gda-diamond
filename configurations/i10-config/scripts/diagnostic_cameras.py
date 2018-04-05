@@ -5,6 +5,7 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
       SwitchableHardwareTriggerableProcessingDetectorWrapper
 from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
+from gdaserver import d1camtiff
 
 global cam1det, cam1det_for_snaps, cam2det, cam2det_for_snaps
 global cam3det, cam3det_for_snaps, cam4det, cam4det_for_snaps
@@ -38,7 +39,7 @@ def cameraFactory(cam_name, peak2d_name, max2d_name, camdet, camdet_for_snaps):
 print "Usage: use cam6det, cam6, peak2d6, max2d6 for the camera on D6 etc."
 
 cam1, peak2d1, max2d1 = cameraFactory(
-    'cam1', 'peak2d1', 'max2d1', cam1det, cam1det_for_snaps)
+    'cam1', 'peak2d1', 'max2d1', d1camtiff, None)
 
 cam2, peak2d2, max2d2 = cameraFactory(
     'cam2', 'peak2d2', 'max2d2', cam2det, cam2det_for_snaps)

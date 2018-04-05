@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- NXDetector -->
- 	<bean id="pimte" class="gda.device.detector.NXDetector">
+	<bean id="pimte" class="gda.device.detector.NXDetector">
 		<property name="name" value="pimte" />
 		<property name="collectionStrategy" ref="pimteCollectionStrategy" />
 		<property name="additionalPluginList">
