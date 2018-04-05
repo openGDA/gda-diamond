@@ -293,76 +293,19 @@ try:
 except:
     localStation_exception(sys.exc_info(), "initialising front end xbpm's")
 
-######## Import classes required for cameras ###############
-from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
-      SwitchableHardwareTriggerableProcessingDetectorWrapper
-from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
-
 ######## Setting up the Andor Rasor camera ###############
 andor_installed = False
-
 if andor_installed:
-    try: # Based in I16 configuration GDA-mt/configurations/i16-config/scripts/localStation.py at 3922edf
-        global andor1det, andor1det_for_snaps, andor1GV12det, andor1GV12det_for_snaps
-
-        # the andor has no hardware triggered mode configured. This class is used to hijack its DetectorSnapper implementation.
-        andor = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'andor', andor1det, None, andor1det_for_snaps, [],
-            panel_name=None, panel_name_rcp='Plot 1',
-            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
-            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-    
-        #from scannable.adbase import ADTemperature
-        #andortemp = ADTemperature('andortemp', andor1.getCollectionStrategy().getAdBase())
-        #from scannable.andor import andor_trigger_output_enable, andor_trigger_output_disable
-        #alias('andor_trigger_output_disable')
-        #alias('andor_trigger_output_enable')
-        #andor_trigger_output_enable()
-    
-        andorGV12 = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-            'andorGV12', andor1GV12det, None, andor1GV12det_for_snaps, [],
-            panel_name=None, panel_name_rcp='Plot 1',
-            toreplace=None, replacement=None, iFileLoader=TIFFImageLoader,
-            fileLoadTimout=15, returnPathAsImageNumberOnly=True)
-    
-        def andorGV12openDelay(t_seconds = None):
-            """Get or set the shutter close delay (in seconds) for the andor"""
-            if t_seconds == None:
-                return andor1GV12det.getCollectionStrategy().getShutterOpenDelay()
-            andor1GV12det.getCollectionStrategy().setShutterOpenDelay(t_seconds)
-        
-        def andorGV12closeDelay(t_seconds = None):
-            """Get or set the shutter close delay (in seconds) for the andor"""
-            if t_seconds == None:
-                return andor1GV12det.getCollectionStrategy().getShutterCloseDelay()
-            andor1GV12det.getCollectionStrategy().setShutterCloseDelay(t_seconds)
-        
-        alias('andorGV12openDelay')
-        alias('andorGV12closeDelay')
-        
-    except:
-        localStation_exception(sys.exc_info(), "creating andor & andorGV12 objects")
-
-######## Imports for the I10 Pimte and I06b Pixis cameras ###############
-from gdascripts.scannable.detector.DetectorDataProcessor \
-    import DetectorDataProcessor #, DetectorDataProcessorWithRoi
-
-from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue \
-    import SumMaxPositionAndValue
-
-from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak \
-    import TwodGaussianPeak
+    pass #there is no andor bean in I10 in GDA 8.50
 
 ######## Setting up the I10 Pimte camera ###############
 pimte_installed = True
-
 if pimte_installed:
     #PIMTE detectors customised to display image in 'Plot 1' view and return results of image process
     from detectors.pimteWithDataProcessor import pimte_tiff, pimteSMPV, pimte2d  # @UnusedImport
 
 ######## Setting up the I10 Pixis camera ###############
 pixis_installed = True
-
 if pixis_installed:
     #PIXIS detectors customised to display image in 'Plot 1' view and return results of image process
     from detectors.pixisWithDataProcessor import pixis_tiff, pixisSMPV, pixis2d  # @UnusedImport
@@ -378,7 +321,6 @@ if zebra_triggered_pco_detector_installed:
     
 ######## Setting up the Zebra as a fast dichriosm counter ###############
 zebra_fastdicr_installed = True
-
 if zebra_fastdicr_installed:
     from detectors.fastDichroism import fastDichroism  # @UnusedImport
 
