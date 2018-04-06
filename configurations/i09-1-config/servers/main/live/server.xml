@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder/>
+
+	<!-- Ring -->
+	<import resource="ring.xml"/>
+
+	<!-- Diagnostics -->
+	<import resource="HD2.xml" />
+	<import resource="HD3.xml" />
+
+	<!-- Slits -->
+	<import resource="HS1.xml"/>
+	<import resource="HS2.xml"/>
+
+	<!-- Mirrors -->
+	<import resource="HM1.xml"/>
+	<import resource="HM2.xml"/>
+
+	<!-- Monochromator -->
+	<import resource="DCM.xml" />
+	<import resource="ChannelCutCrystal.xml" />
+
+	<!-- Shutters -->
+	<import resource="shutters.xml"/>
+
+	<!-- Dummy Devices -->
+	<import resource="DummyMotors.xml"/>
+
+	<!-- do not remove anything below here -->
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+</beans>

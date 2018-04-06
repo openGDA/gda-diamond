@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dcmtemp1" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="dcmtemp2" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="dcmtemp3" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="dcmtemp4" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="dcmtemp5" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="dcmtemp6" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="dcmtemp7" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="dcmtemp8" class="gda.device.monitor.DummyMonitor">
+	</bean>
+	<bean id="dcmtemp9" class="gda.device.monitor.DummyMonitor">
+	</bean>
+
+	<!-- DCM Motors (individual Motions) -->
+	<bean id="dcm_bragg" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="dcm_pitch" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="dcm_roll" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="dcm_y" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="dcm_fpitch" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="dcm_froll" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+
+	<!-- DCM virtual Motors (Compound Motions) -->
+	<bean id="dcm_energy" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="dcm_lambda" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+	<bean id="dcm_offset" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+	</bean>
+
+	<bean id="dcmlockbeamheight" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dcmfrollfeedback" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Enabled</value>
+				<value>Disabled</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dcmfpitchfeedback" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Enabled</value>
+				<value>Disabled</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dcmorder" class="gda.device.scannable.DummyScannable" />
+
+</beans>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dcmbragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_bragg" />
+	</bean>
+	<bean id="dcmpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_pitch" />
+	</bean>
+	<bean id="dcmroll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_roll" />
+	</bean>
+	<bean id="dcmy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_y" />
+	</bean>
+	<bean id="dcmfpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_fpitch" />
+	</bean>
+	<bean id="dcmfroll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_froll" />
+	</bean>
+	<bean id="dcmenergy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_energy" />
+	</bean>
+	<bean id="dcmlambda" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_lambda" />
+	</bean>
+	<bean id="dcmoffset" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_offset" />
+	</bean>
+
+	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dcmbragg" />
+				<ref bean="dcmpitch" />
+				<ref bean="dcmroll" />
+				<ref bean="dcmy" />
+				<ref bean="dcmfroll" />
+				<ref bean="dcmfpitch" />
+				<ref bean="dcmenergy" />
+				<ref bean="dcmlambda" />
+				<ref bean="dcmoffset" />
+				<ref bean="dcmorder" />
+				<ref bean="dcmtemp1" />
+				<ref bean="dcmtemp2" />
+				<ref bean="dcmtemp3" />
+				<ref bean="dcmtemp4" />
+				<ref bean="dcmtemp5" />
+				<ref bean="dcmtemp6" />
+				<ref bean="dcmtemp7" />
+				<ref bean="dcmtemp8" />
+				<ref bean="dcmlockbeamheight" />
+				<ref bean="dcmfrollfeedback" />
+				<ref bean="dcmfpitchfeedback" />
+			</list>
+		</property>
+	</bean>
+</beans>

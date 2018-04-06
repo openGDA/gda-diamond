@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Ring -->
+	<import resource="ring.xml"/>
+
+	<!-- Slits -->
+	<import resource="HS1.xml"/>
+	<import resource="HS2.xml"/>
+
+	<!-- Mirrors -->
+	<import resource="HM1.xml"/>
+	<import resource="HM2.xml"/>
+
+
+	<!-- Diagnostics -->
+	<import resource="HD2.xml"/>
+	<import resource="HD3.xml"/>
+
+
+	<!-- Monochromator -->
+	<import resource="DCM.xml"/>
+	<import resource="ChannelCutCrystal.xml"/>
+
+	<!-- Dummy Devices -->
+	<import resource="DummyMotors.xml"/>
+	<import resource="DummyScannables.xml"/>
+</beans>

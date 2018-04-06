@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hd3iamp4" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="poll" value="true" />
+	<property name="pvName" value="BL09I-MO-HD-03:IAMP4" /></bean>
+	<bean id="hd3x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HD-03:X" /></bean>
+	<bean id="hd3aposn" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL09I-MO-HD-03:Y:MP" /></bean>
+</beans>

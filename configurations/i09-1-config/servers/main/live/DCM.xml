@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dcmtemp1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-DCM-01:TEMP1" /></bean>
+	<bean id="dcmtemp2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-DCM-01:TEMP2" /></bean>
+	<bean id="dcmtemp3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-DCM-01:TEMP3" /></bean>
+	<bean id="dcmtemp4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-DCM-01:TEMP4" /></bean>
+	<bean id="dcmtemp5" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-DCM-01:TEMP5" /></bean>
+	<bean id="dcmtemp6" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-DCM-01:TEMP6" /></bean>
+	<bean id="dcmtemp7" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-DCM-01:TEMP7" /></bean>
+	<bean id="dcmtemp8" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-DCM-01:TEMP8" /></bean>
+	<bean id="dcmtemp9" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-DCM-01:TEMP9" /></bean>
+
+	<!-- DCM Motors (individual Motions) -->
+	<bean id="dcm_bragg" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-DCM-01:BRAGG" /></bean>
+	<bean id="dcm_pitch" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-DCM-01:PITCH" /></bean>
+	<bean id="dcm_roll" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-DCM-01:ROLL" /></bean>
+	<bean id="dcm_y" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-DCM-01:Y" /></bean>
+	<bean id="dcm_fpitch" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-DCM-01:FPITCH" /></bean>
+	<bean id="dcm_froll" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-DCM-01:FROLL" /></bean>
+
+	<!-- DCM virtual Motors (Compound Motions) -->
+	<bean id="dcm_energy" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-DCM-01:ENERGY" /></bean>
+	<bean id="dcm_lambda" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-DCM-01:LAMBDA" /></bean>
+	<bean id="dcm_offset" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-DCM-01:OFFSET" /></bean>
+	
+	<!-- DCM Lock Beam Height -->
+	<bean id="dcmlockbeamheight" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL09I-MO-DCM-01:LOCKT2:CON" />
+		<property name="positions">
+			<list>
+				<value>On</value>
+				<value>Off</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Feedback	 -->
+	<bean id="dcmfrollfeedback" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL09I-EA-FDBK-01:ENABLE" />
+		<property name="positions">
+			<list>
+				<value>Enabled</value>
+				<value>Disabled</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dcmfpitchfeedback" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL09I-EA-FDBK-02:ENABLE" />
+		<property name="positions">
+			<list>
+				<value>Enabled</value>
+				<value>Disabled</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dcmorder" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL09I-MO-DCM-01:NORDER:DMD" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

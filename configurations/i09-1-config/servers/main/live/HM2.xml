@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hm2y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HM-02:Y" /></bean>
+	<bean id="hm2upstreamx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HM-02:UPSTREAMX" /></bean>
+	<bean id="hm2downstreamx_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HM-02:DOWNSTREAMX" /></bean>
+	<bean id="hm2pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HM-02:PITCH" /></bean>
+	<bean id="hm2x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HM-02:X" /></bean>
+</beans>
