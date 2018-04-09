@@ -36,4 +36,30 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="d4camtiff" class="gda.device.detector.NXDetector">
+		<property name="name" value="d4camtiff" />
+		<property name="collectionStrategy" ref="simCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="sim_RoiStats1" />
+				<ref bean="sim_RoiStats2" />
+				<ref bean="sim_RoiStats3" />
+				<ref bean="sim_RoiStats4" />
+				<ref bean="sim_RoiStats5" />
+				<ref bean="sim_RoiStats6" />
+				<ref bean="simTiffFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- ADDetector used in new scanning -->
+	<bean id="d4cam_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="simCollectionStrategy"/>
+		<property name="adBase" ref="simCamBase" />
+		<property name="ndFile" ref="simcam_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="simcam_ndarray" />
+		<property name="ndStats" ref="simcam_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="simHdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+	
 </beans>

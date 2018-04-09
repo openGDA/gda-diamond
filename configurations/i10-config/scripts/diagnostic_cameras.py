@@ -5,16 +5,16 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import \
       SwitchableHardwareTriggerableProcessingDetectorWrapper
 from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
-from gdaserver import d1camtiff
-
-global cam1det, cam1det_for_snaps, cam2det, cam2det_for_snaps
-global cam3det, cam3det_for_snaps, cam4det, cam4det_for_snaps
-global cam6det, cam6det_for_snaps
-global camj1det, camj1det_for_snaps, camj3det, camj3det_for_snaps
+from gdaserver import d1camtiff, d2camtiff,d3camtiff,d4camtiff,d6camtiff,\
+    dj1camtiff, dj3camtiff
 
 viewerName="Plot 1";
 
-print "-------------------------------------------------------------------"
+print "-"*100
+print "Creating Camera TIFF image processor objects for all diagnostic cameras:"
+print "    cam1 - customised 'd1camtiff' to display image in 'Plot 1' view"
+print "    peak2d1 - return 2D Gaussian Peak fitting data from d1 camera"
+print "    max2d   - return Position and value of the Maximum intensity and Total intenesity"
 
 def cameraFactory(cam_name, peak2d_name, max2d_name, camdet, camdet_for_snaps):
     # ----------------------------------------------------------------------
@@ -36,25 +36,24 @@ def cameraFactory(cam_name, peak2d_name, max2d_name, camdet, camdet_for_snaps):
         typ, exception, traceback = sys.exc_info()
         handle_messages.log(None, "%s error -  " % cam_name, typ, exception, traceback, False)
 
-print "Usage: use cam6det, cam6, peak2d6, max2d6 for the camera on D6 etc."
 
 cam1, peak2d1, max2d1 = cameraFactory(
     'cam1', 'peak2d1', 'max2d1', d1camtiff, None)
 
 cam2, peak2d2, max2d2 = cameraFactory(
-    'cam2', 'peak2d2', 'max2d2', cam2det, cam2det_for_snaps)
+    'cam2', 'peak2d2', 'max2d2', d2camtiff, None)
 
 cam3, peak2d3, max2d3 = cameraFactory(
-    'cam3', 'peak2d3', 'max2d3', cam3det, cam3det_for_snaps)
+    'cam3', 'peak2d3', 'max2d3', d3camtiff, None)
 
 cam4, peak2d4, max2d4 = cameraFactory(
-    'cam4', 'peak2d4', 'max2d4', cam4det, cam4det_for_snaps)
+    'cam4', 'peak2d4', 'max2d4', d4camtiff, None)
 
 cam6, peak2d6, max2d6 = cameraFactory(
-    'cam6', 'peak2d6', 'max2d6', cam6det, cam6det_for_snaps)
+    'cam6', 'peak2d6', 'max2d6', d6camtiff, None)
 
 camj1, peak2dj1, max2dj1 = cameraFactory(
-    'camj1', 'peak2dj1', 'max2dj1', camj1det, camj1det_for_snaps)
+    'camj1', 'peak2dj1', 'max2dj1',dj1camtiff, None)
 
 camj3, peak2dj3, max2dj3 = cameraFactory(
-    'camj3', 'peak2dj3', 'max2dj3', camj3det, camj3det_for_snaps)
+    'camj3', 'peak2dj3', 'max2dj3', dj3camtiff, None)

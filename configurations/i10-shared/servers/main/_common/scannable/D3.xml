@@ -25,4 +25,22 @@
 		</property>
 		<property name="local" value="true"/>
 	</bean>
+	<!-- Detector objects used in new scanning -->
+	<bean id="d3camModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="d3cam_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="d3camInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i10.d3cam.DeviceInformation" />
+		<property name="label" value="D3CAM" />
+		<property name="description" value="D3 CAM Detector" />
+	</bean>
+
+	<bean id="d3cam_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="d3cam_addetector" />
+		<property name="model" ref="d3camModel" />
+		<property name="deviceInformation" ref="d3camInfo" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
 </beans>

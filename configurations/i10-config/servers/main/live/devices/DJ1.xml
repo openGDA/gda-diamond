@@ -14,6 +14,61 @@
 	<bean id="dj1CamBase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL10J-DI-PHDGN-01:DCAM:CAM:" />
 	</bean>
+	<bean id="dj1cam_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL10J-DI-PHDGN-01:DCAM:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10J-DI-PHDGN-01:DCAM:STAT:" />
+				<property name="initialArrayPort" value="DJ1.DCAM.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="dj1cam_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL10J-DI-PHDGN-01:DCAM:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10J-DI-PHDGN-01:DCAM:ARR:" />
+				<property name="initialArrayPort" value="DJ1.DCAM.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="dj1cam_tifffile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL10J-DI-PHDGN-01:DCAM:TIFF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10J-DI-PHDGN-01:DCAM:TIFF:" />
+				<property name="initialArrayPort" value="DJ1.DCAM.CAM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="dj1cam" />
+		<property name="initialFileTemplate" value="%s%s-%d.tiff" />
+	</bean>
+	<bean id="dj1cam_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL10J-DI-PHDGN-01:DCAM:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10J-DI-PHDGN-01:DCAM:HDF5:" />
+				<property name="initialArrayPort" value="DJ1.DCAM.CAM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="dj1cam" />
+		<property name="initialFileTemplate" value="%s%s-%d.hdf5" />
+	</bean>
+	<bean id="dj1cam_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL10J-DI-PHDGN-01:DCAM:HDF5:" />
+		<property name="file" ref="pimte_ndfile" />
+	</bean>
+
 	<bean id="dj1CollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 		<property name="restoreAcquireTime" value="true" />
 		<property name="decoratee">
@@ -33,6 +88,8 @@
 		</property>
 	</bean>	
 	<bean id="dj1Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="dj1cam_hdf5"/>
+		<property name="fileNameTemplate" value="dj1"/>
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileTemplate" value="%s%s-%d.hdf" />
 		<property name="fileNumberAtScanStart" value="-1" />
@@ -44,19 +101,21 @@
 		<property name="lazyOpen" value="true" />
 		<property name="blocking" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
-		<property name="fileNameTemplate" value="dj1"/>
-		<property name="ndFileHDF5">
-			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
-				<property name="ndFileImpl">
-					<bean class="gda.spring.V17NDFileFactoryBean">
-						<property name="prefix" value="BL10J-DI-PHDGN-01:DCAM:HDF5:" />
-						<property name="resetToInitialValues" value="false" />
-					</bean>
-				</property>
-			</bean>
-		</property>
+		<property name="ndArrayPortVal" value="DJ1.DCAM.CAM"/>
 	</bean>
-
+	<!-- TIFF plugin - SingleImagePerFileWriter(String detectorName), one tiff file per scan data point	 -->
+	<bean id="dj1TiffFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<property name="ndFile" ref="dj1cam_tifffile"/>
+		<property name="fileNameTemplate" value="dj1"/>
+		<property name="filePathTemplate" value="$datadir$/$scan$-d1-files" />
+		<property name="fileTemplate" value="%s%s-%d.tiff" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="blocking" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pixis_path_template" />
+		<property name="ndArrayPortVal" value="DJ1.DCAM.CAM"/>
+	</bean>
 	<!-- The Object which gets the ROIs from the client over RMI -->
 	<bean id="dj1_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
 	<!-- Export it over RMI so the client can use it -->
@@ -165,6 +224,31 @@
 				<ref bean="dj1Hdf5Filewriter" />
 			</list>
 		</property>
+	</bean>
+	<bean id="djcamtiff" class="gda.device.detector.NXDetector">
+		<property name="name" value="dj1camtiff" />
+		<property name="collectionStrategy" ref="dj1CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="dj1_RoiStats1" />
+				<ref bean="dj1_RoiStats2" />
+				<ref bean="dj1_RoiStats3" />
+				<ref bean="dj1_RoiStats4" />
+				<ref bean="dj1_RoiStats5" />
+				<ref bean="dj1_RoiStats6" />
+				<ref bean="dj1TiffFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- ADDetector used in new scanning -->
+	<bean id="dj1cam_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="dj1CollectionStrategy"/>
+		<property name="adBase" ref="dj1CamBase" />
+		<property name="ndFile" ref="dj1cam_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="dj1cam_ndarray" />
+		<property name="ndStats" ref="dj1cam_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="dj1Hdf5Filewriter" /> <!-- not used in new scanning -->
 	</bean>
 	
 </beans>
