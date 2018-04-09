@@ -9,19 +9,11 @@
 
 	<import resource="file:${gda.config}/devices/live/pco1_ndplugins.xml"/>
 
-	<!-- This is no longer present - T2 now contains beamstop abut not the detector xyz motors
-	<import resource="${gda.config}/devices/live/detector_stage_t2_motors.xml"/>
-     -->
-	<!-- <import resource="file:${gda.config}/devices/live/mll.xml"/> -->
-	
 	<import resource="file:${gda.config}/devices/live/excalibur_shared.xml"/>
 	<import resource="file:${gda.config}/devices/live/excalibur.xml"/>
 
 	<import resource="file:${gda.config}/devices/live/vortex.xml"/>
 	<!-- <import resource="file:${gda.config}/devices/diamond_crl.xml"/> -->
-
-	<!-- Not present <import resource="file:${gda.config}/devices/live/s3_motors.xml"/> -->
-	<!-- Not present <import resource="file:${gda.config}/devices/live/z1_motors.xml"/> -->
 
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 

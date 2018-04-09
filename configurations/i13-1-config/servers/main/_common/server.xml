@@ -160,13 +160,6 @@
 
 	<import resource="file:${gda.config}/devices/_common/dummyAD.xml" />
 
-	<!-- Not present: -->
-	<!-- <import resource="file:${gda.config}/devices/_common/s3.xml" />
-	<import resource="file:${gda.config}/devices/_common/diff1.xml" />
-	<import resource="file:${gda.config}/devices/_common/t1.xml" />
-	<import resource="file:${gda.config}/devices/_common/z1.xml" /> 
- 	-->
-
 	<import resource="file:${gda.config}/devices/_common/t1_vac.xml" />
 	<import resource="file:${gda.config}/devices/_common/t2.xml" />
 	<import resource="file:${gda.config}/devices/_common/sample_lab.xml" />
@@ -184,15 +177,10 @@
 	<import resource="file:${gda.config}/devices/_common/example_detectors.xml"/>
 
 	<import resource="file:${gda.config}/devices/_common/beam_watchdogs.xml"/>
-
-	<!-- This is no longer present - T2 now contains beamstop but not the detector xyz motors -->
-	<!-- <import resource="file:${gda.config}/devices/_common/detector_stage_t2.xml" /> -->
 	
 	<import resource="file:${gda.config}/devices/_common/diffractometer.xml" />
 	<import resource="file:${gda.config}/devices/_common/afg.xml"/>
 	<import resource="file:${gda.config}/devices/_common/zebra.xml" />
-
-	<!-- <import resource="file:${gda.config}/devices/_common/mll.xml"/> -->
 
 	<!-- =========================================================== -->
 	<!-- end of device list -->
