@@ -257,9 +257,7 @@ public class Unix {
 	 */
 	public static void startGrip() throws Exception {
 		start(LocalProperties.get("gda.px.gripCommand"));
-		/*
-		 * runtime.addShutdownHook(uk.ac.gda.util.ThreadManager.getThread() { public void run() { stopGrip(); }
-		 */
+		// runtime.addShutdownHook(new Thread(Unix::stopGrip));
 	}
 
 	/**
@@ -281,12 +279,7 @@ public class Unix {
 	public static void start345Daemon() {
 		try {
 			start(LocalProperties.get("gda.px.scan345Command"));
-			runtime.addShutdownHook(uk.ac.gda.util.ThreadManager.getThread(new Runnable() {
-				@Override
-				public void run() {
-					stop345Daemon();
-				}
-			}));
+			runtime.addShutdownHook(new Thread(Unix::stop345Daemon));
 		} catch (Exception ex) {
 			logger.debug(ex.getMessage());
 		}
