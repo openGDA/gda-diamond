@@ -1,7 +1,8 @@
 from os.path import os
 from utils.ExceptionLogs import localStation_exception, localStation_exceptions
-from gdaserver import shtr1, gv12, rc, topup_time, frontend
+from gdaserver import shtr1, gv12
 import installation
+from gda.jython.commands import GeneralCommands
 print "**************************************************"
 print "Running the I10 startup script localStation.py..."
 print ""
@@ -20,7 +21,6 @@ global zebra
 import sys, gda, java
 #from rasor.init_scan_commands_and_processing import * 
 from gda.configuration.properties import LocalProperties
-from gdascripts.messages import handle_messages
 from gdascripts.messages.handle_messages import simpleLog
 from gdascripts.pd import epics_pds
 
@@ -36,74 +36,39 @@ print "   To set scan returns to its start positions on completion please do:"
 print "      >>>scansReturnToOriginalPositions=1"
 scansReturnToOriginalPositions=0;
 print
-#Please change the following lines to add default scannables to i11 GDA server engine
-#print "-----------------------------------------------------------------------------------------------------------------"
-#print "Adding default scannable objects to GDA system: Io, Te"
-#add_default Io #@UndefinedVariable
-#add_default Ie #@UndefinedVariable
-
-print "-----------------------------------------------------------------------------------------------------------------"
-print "commands for directory/file operations: "
-print "   >>>pwd - return the current data directory"
-print "   >>>lwf - return the full path of the last working data file"
-print "   >>>nwf - return the full path of the next working data file"
-print "   >>>nfn - return the next data file number to be collected"
-print "   >>>setSubdirectory('test') - change data directory to a sub-directory named 'test', created first if not exist"
-print "   >>>getSubdirectory() - return the current sub-directory setting if exist"
-print "Please note: users can only create sub-directory within their permitted visit data directory via GDA, not themselves."
-print "To create another sub-directory 'child-test' inside a sub-directory 'test', you must specify the full path as 'test/child-test' "
-from gda.data import PathConstructor, NumTracker
-
-# set up a nice method for getting the latest file path
-i10NumTracker = NumTracker("i10");
-
-# function to find the working directory
-def pwd():
-    '''return the working directory'''
-    cwd = PathConstructor.createFromDefaultProperty()
-    return cwd
-    
+###Import common commands, utilities, etc#####
+from i10commands.dirFileCommands import pwd, lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
 alias("pwd")
-
-# function to find the last working file path
-def lwf():
-    '''return the last working file path root'''
-    cwd = PathConstructor.createFromDefaultProperty()
-    filenumber = i10NumTracker.getCurrentFileNumber();
-    return os.path.join(cwd,str(filenumber))
-    
 alias("lwf")
-
-# function to find the next working file path
-def nwf():
-    '''query the next working file path root'''
-    cwd = PathConstructor.createFromDefaultProperty()
-    filenumber = i10NumTracker.getCurrentFileNumber();
-    return os.path.join(cwd,str(filenumber+1))
-    
 alias("nwf")
-
-# function to find the next scan number
-def nfn():
-    '''query the next file number or scan number'''
-    filenumber = i10NumTracker.getCurrentFileNumber();
-    return filenumber+1
-    
 alias("nfn")
-
-# the subdirectory parts
-def setSubdirectory(dirname):
-    '''create a new sub-directory for data collection that follows'''
-    finder.find("GDAMetadata").setMetadataValue("subdirectory",dirname)
-    try:
-        os.mkdir(pwd())
-    except :
-        pass
-    
-def getSubdirectory():
-    return finder.find("GDAMetadata").getMetadataValue("subdirectory")
-
 print
+from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis  # @UnusedImport
+alias("useSeparateYAxes")
+alias("useSingleYAxis")
+print
+def interruptable():
+    GeneralCommands.pause()
+alias("interruptable")
+print
+print "-"*100
+print "load EPICS Pseudo Device utilities for creating scannable object from a PV name."
+from gdascripts.pd.epics_pds import DisplayEpicsPVClass,EpicsReadWritePVClass,SingleEpicsPositionerClass,SingleEpicsPositionerNoStatusClass,SingleEpicsPositionerNoStatusClassDeadband,SingleChannelBimorphClass  # @UnusedImport
+print "-"*100
+print "load time utilities objects."
+from gdascripts.pd.time_pds import showtime,inctime,waittime,tictoc, showtimeClass, showincrementaltimeClass, waittimeClass2  # @UnusedImport
+wait = waittime
+showtime.setLevel(4) # so it is operated before anything else in a scan
+print "-"*100
+print "Load utilities: printJythonEnvironment(), caget(pv), caput(pv,value), attributes(object), "
+print "    iterableprint(iterable), listprint(list), frange(start,end,step)"
+from gdascripts.utils import * #@UnusedWildImport
+print "-"*100
+print "load common physical constants"
+from gdascripts.constants import * #@UnusedWildImport
+print "-"*100
+print "Adding timer devices t, dt, and w, clock"
+from gdascripts.scannable.timerelated import timerelated,t,dt,w,clock,epoch #@UnusedImport
 
 ##setup metadata for the file
 run("rasor/pd_metadata.py")
@@ -123,11 +88,6 @@ alias('wa')
 
 ###Save and reload positions
 run("rasor/saveAndReload.py")
-
-###delay scannable
-from gdascripts.pd.time_pds import showtime,inctime,waittime,tictoc, showtimeClass, showincrementaltimeClass, waittimeClass2  # @UnusedImport
-wait = waittime
-showtime.setLevel(4) # so it is operated before anything else in a scan
 
 try:
     print "creating 'dummy' & `denergy` scannables"
@@ -342,7 +302,6 @@ except:
 
 ########setting up the diagnostic cameras###############
 from detectors.diagnostic_cameras import *  # @UnusedWildImport
-#run("diagnostic_cameras.py")
 
 try:
     shtropen = shtr1.moveTo("Open")
