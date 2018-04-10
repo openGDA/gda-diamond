@@ -11,11 +11,12 @@ import sys
 from gdaserver import rc, topup_time, frontend
 print "-"*100
 try:
-    print "Creating checkbeam device composed of 3 conditions:"
-    print " 1. electron ring current (rc>190mA, 5s wait after beam back,)"
+    print "Creating checkbeam and checkbeamcv devices composed of 3 conditions:"
+    print " 1. 'checkrc', 'checkrc_cv' - checking electron ring current (rc>190mA, 5s wait after beam back,)"
     print "    (change threshold with checkrc.minumumThreshold=12345)"
-    print " 2. Topup avoidance - pause 5 seconds before topup starts, 5s wait after topup finished."
-    print " 3. Front end shutter - pause when shutter closed, resume 60s after shutter opened."
+    print " 2. 'checktopup_time', 'checktopup_time_cv' - avoid topup period, pause 5 seconds before topup starts, 5s wait after topup finished."
+    print " 3. 'checkfe', 'checkfe_cv' - check Front end shutter, pause when shutter closed, resume 60s after shutter opened."
+    print " 4. 'checkbeam', 'checkbeam_cv'- composite scannable of above 3 scannables"
     print " Checking is done every second!"
     
     from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
