@@ -5,7 +5,7 @@ For use with I10 insertion device scannables on GDA at Diamond Light Source
 from gda.device.scannable import ScannableMotionBase
 from idPosition import IdPosition
 from Poly import Poly
-from scisoftpy._external.ordereddict import OrderedDict
+from collections import OrderedDict
 from scisoftpy.external import create_function
 
 python_path="/dls_sw/i21/software/miniconda2/envs/gdaenv/lib/python2.7/"
