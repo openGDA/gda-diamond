@@ -1,8 +1,9 @@
-from os.path import os
 from utils.ExceptionLogs import localStation_exception, localStation_exceptions
 from gdaserver import shtr1, gv12
 import installation
 from gda.jython.commands import GeneralCommands
+from gda.jython.commands.GeneralCommands import alias
+
 print "**************************************************"
 print "Running the I10 startup script localStation.py..."
 print ""
@@ -22,15 +23,8 @@ import sys, gda, java
 #from rasor.init_scan_commands_and_processing import * 
 from gda.configuration.properties import LocalProperties
 from gdascripts.messages.handle_messages import simpleLog
-from gdascripts.pd import epics_pds
 
-# setup standard scans with processing
-from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
-scan_processor.rootNamespaceDict=globals()
-import gdascripts.utils #@UnusedImport
-gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals() 
-
-print "-----------------------------------------------------------------------------------------------------------------"
+print "-"*100
 print "Set scan returns to the original positions on completion to false (0); default is 0."
 print "   To set scan returns to its start positions on completion please do:"
 print "      >>>scansReturnToOriginalPositions=1"
@@ -141,90 +135,90 @@ try:
     ips_field.setLevel(6)
     ips_sweeprate.setLevel(6)
     itc2.setLevel(6)
-    magj1yrot_off = epics_pds.EpicsReadWritePVClass('magj1yrot_off', 'BL10J-EA-MAG-01:INSERT:ROTY.OFF', 'deg', '%.6f')
+    magj1yrot_off = EpicsReadWritePVClass('magj1yrot_off', 'BL10J-EA-MAG-01:INSERT:ROTY.OFF', 'deg', '%.6f')
 except:
     localStation_exception(sys.exc_info(), "initialising high field magnet")
 
 ## temporary fix for inability to perform caput with callback on SR10I-MO-SERVC-01:BLGAPMTR.VAL
-idd_gap_temp = epics_pds.SingleEpicsPositionerClass("idd_gap_temp",
+idd_gap_temp = SingleEpicsPositionerClass("idd_gap_temp",
                     "SR10I-MO-SERVC-01:BLGAPMTR.VAL", 
                     "SR10I-MO-SERVC-01:BLGAPMTR.RBV", 
                     "SR10I-MO-SERVC-01:BLGAPMTR.DMOV", 
                     "SR10I-MO-SERVC-01:BLGAPMTR.STOP", "mm", "%.4f")
 
-idu_gap_temp = epics_pds.SingleEpicsPositionerClass("idu_gap_temp",
+idu_gap_temp = SingleEpicsPositionerClass("idu_gap_temp",
                     "SR10I-MO-SERVC-21:BLGAPMTR.VAL", 
                     "SR10I-MO-SERVC-21:BLGAPMTR.RBV", 
                     "SR10I-MO-SERVC-21:BLGAPMTR.DMOV", 
                     "SR10I-MO-SERVC-21:BLGAPMTR.STOP", "mm", "%.4f")
 
-idd_rowphase1_temp = epics_pds.SingleEpicsPositionerClass("idd_rowphase1_temp",
+idd_rowphase1_temp = SingleEpicsPositionerClass("idd_rowphase1_temp",
                     "SR10I-MO-SERVC-01:BLRPQ1MTR.VAL", 
                     "SR10I-MO-SERVC-01:BLRPQ1MTR.RBV", 
                     "SR10I-MO-SERVC-01:BLRPQ1MTR.DMOV", 
                     "SR10I-MO-SERVC-01:BLRPQ1MTR.STOP", "mm", "%.4f")
 
-idu_rowphase1_temp = epics_pds.SingleEpicsPositionerClass("idu_rowphase1_temp",
+idu_rowphase1_temp = SingleEpicsPositionerClass("idu_rowphase1_temp",
                     "SR10I-MO-SERVC-21:BLRPQ1MTR.VAL", 
                     "SR10I-MO-SERVC-21:BLRPQ1MTR.RBV", 
                     "SR10I-MO-SERVC-21:BLRPQ1MTR.DMOV", 
                     "SR10I-MO-SERVC-21:BLRPQ1MTR.STOP", "mm", "%.4f")
 
-idd_rowphase2_temp = epics_pds.SingleEpicsPositionerClass("idd_rowphase2_temp",
+idd_rowphase2_temp = SingleEpicsPositionerClass("idd_rowphase2_temp",
                     "SR10I-MO-SERVC-01:BLRPQ2MTR.VAL", 
                     "SR10I-MO-SERVC-01:BLRPQ2MTR.RBV", 
                     "SR10I-MO-SERVC-01:BLRPQ2MTR.DMOV", 
                     "SR10I-MO-SERVC-01:BLRPQ2MTR.STOP", "mm", "%.4f")
 
-idu_rowphase2_temp = epics_pds.SingleEpicsPositionerClass("idu_rowphase2_temp",
+idu_rowphase2_temp = SingleEpicsPositionerClass("idu_rowphase2_temp",
                     "SR10I-MO-SERVC-21:BLRPQ2MTR.VAL", 
                     "SR10I-MO-SERVC-21:BLRPQ2MTR.RBV", 
                     "SR10I-MO-SERVC-21:BLRPQ2MTR.DMOV", 
                     "SR10I-MO-SERVC-21:BLRPQ2MTR.STOP", "mm", "%.4f")
 
-idd_rowphase3_temp = epics_pds.SingleEpicsPositionerClass("idd_rowphase3_temp",
+idd_rowphase3_temp = SingleEpicsPositionerClass("idd_rowphase3_temp",
                     "SR10I-MO-SERVC-01:BLRPQ3MTR.VAL", 
                     "SR10I-MO-SERVC-01:BLRPQ3MTR.RBV", 
                     "SR10I-MO-SERVC-01:BLRPQ3MTR.DMOV", 
                     "SR10I-MO-SERVC-01:BLRPQ3MTR.STOP", "mm", "%.4f")
 
-idu_rowphase3_temp = epics_pds.SingleEpicsPositionerClass("idu_rowphase3_temp",
+idu_rowphase3_temp = SingleEpicsPositionerClass("idu_rowphase3_temp",
                     "SR10I-MO-SERVC-21:BLRPQ3MTR.VAL", 
                     "SR10I-MO-SERVC-21:BLRPQ3MTR.RBV", 
                     "SR10I-MO-SERVC-21:BLRPQ3MTR.DMOV", 
                     "SR10I-MO-SERVC-21:BLRPQ3MTR.STOP", "mm", "%.4f")
 
-idd_rowphase4_temp = epics_pds.SingleEpicsPositionerClass("idd_rowphase4_temp",
+idd_rowphase4_temp = SingleEpicsPositionerClass("idd_rowphase4_temp",
                     "SR10I-MO-SERVC-01:BLRPQ4MTR.VAL", 
                     "SR10I-MO-SERVC-01:BLRPQ4MTR.RBV", 
                     "SR10I-MO-SERVC-01:BLRPQ4MTR.DMOV", 
                     "SR10I-MO-SERVC-01:BLRPQ4MTR.STOP", "mm", "%.4f")
 
-idu_rowphase4_temp = epics_pds.SingleEpicsPositionerClass("idu_rowphase4_temp",
+idu_rowphase4_temp = SingleEpicsPositionerClass("idu_rowphase4_temp",
                     "SR10I-MO-SERVC-21:BLRPQ4MTR.VAL", 
                     "SR10I-MO-SERVC-21:BLRPQ4MTR.RBV", 
                     "SR10I-MO-SERVC-21:BLRPQ4MTR.DMOV", 
                     "SR10I-MO-SERVC-21:BLRPQ4MTR.STOP", "mm", "%.4f")
 
-idd_jawphase_temp = epics_pds.SingleEpicsPositionerClass("idd_jawphase_temp",
+idd_jawphase_temp = SingleEpicsPositionerClass("idd_jawphase_temp",
                     "SR10I-MO-SERVC-01:BLJAWMTR.VAL", 
                     "SR10I-MO-SERVC-01:BLJAWMTR.RBV", 
                     "SR10I-MO-SERVC-01:BLJAWMTR.DMOV", 
                     "SR10I-MO-SERVC-01:BLJAWMTR.STOP", "mm", "%.4f")
 
-idu_jawphase_temp = epics_pds.SingleEpicsPositionerClass("idu_jawphase_temp",
+idu_jawphase_temp = SingleEpicsPositionerClass("idu_jawphase_temp",
                     "SR10I-MO-SERVC-21:BLJAWMTR.VAL", 
                     "SR10I-MO-SERVC-21:BLJAWMTR.RBV", 
                     "SR10I-MO-SERVC-21:BLJAWMTR.DMOV", 
                     "SR10I-MO-SERVC-21:BLJAWMTR.STOP", "mm", "%.4f")
 
-idd_sepphase_temp = epics_pds.SingleEpicsPositionerClass("idd_sepphase_temp",
+idd_sepphase_temp = SingleEpicsPositionerClass("idd_sepphase_temp",
                     "SR10I-MO-SERVC-01:BLSEPMTR.VAL", 
                     "SR10I-MO-SERVC-01:BLSEPMTR.RBV", 
                     "SR10I-MO-SERVC-01:BLSEPMTR.DMOV", 
                     "SR10I-MO-SERVC-01:BLSEPMTR.STOP", "mm", "%.4f")
 
-idu_sepphase_temp = epics_pds.SingleEpicsPositionerClass("idu_sepphase_temp",
+idu_sepphase_temp = SingleEpicsPositionerClass("idu_sepphase_temp",
                     "SR10I-MO-SERVC-21:BLSEPMTR.VAL", 
                     "SR10I-MO-SERVC-21:BLSEPMTR.RBV", 
                     "SR10I-MO-SERVC-21:BLSEPMTR.DMOV", 
@@ -233,22 +227,14 @@ idu_sepphase_temp = epics_pds.SingleEpicsPositionerClass("idu_sepphase_temp",
 print " To move gap use idd_gap_temp as idd_gap etc."
 
 try:
-    xbpm1_x = epics_pds.DisplayEpicsPVClass(
-        'xbpm1_x', 'FE10I-DI-PBPM-01:BEAMX', 'nm', '%f')
-    xbpm1_y = epics_pds.DisplayEpicsPVClass(
-        'xbpm1_y', 'FE10I-DI-PBPM-01:BEAMY', 'nm', '%f')
-    xbpm2_x = epics_pds.DisplayEpicsPVClass(
-        'xbpm2_x', 'FE10I-DI-PBPM-02:BEAMX', 'nm', '%f')
-    xbpm2_y = epics_pds.DisplayEpicsPVClass(
-        'xbpm2_y', 'FE10I-DI-PBPM-02:BEAMY', 'nm', '%f')
-    xbpm_anglex = epics_pds.DisplayEpicsPVClass(
-        'xbpm_anglex', 'FE10I-DI-BEAM-01:RM:ANGLEX', 'rad', '%f')
-    xbpm_angley = epics_pds.DisplayEpicsPVClass(
-        'xbpm_angley', 'FE10I-DI-BEAM-01:RM:ANGLEY', 'rad', '%f')
-    xbpm_anglex_urad = epics_pds.DisplayEpicsPVClass(
-        'xbpm_anglex_urad', 'FE10I-DI-BEAM-01:X:ANGLE', 'urad', '%f')
-    xbpm_angley_urad = epics_pds.DisplayEpicsPVClass(
-        'xbpm_angley_urad', 'FE10I-DI-BEAM-01:Y:ANGLE', 'urad', '%f')
+    xbpm1_x = DisplayEpicsPVClass('xbpm1_x', 'FE10I-DI-PBPM-01:BEAMX', 'nm', '%f')
+    xbpm1_y = DisplayEpicsPVClass('xbpm1_y', 'FE10I-DI-PBPM-01:BEAMY', 'nm', '%f')
+    xbpm2_x = DisplayEpicsPVClass('xbpm2_x', 'FE10I-DI-PBPM-02:BEAMX', 'nm', '%f')
+    xbpm2_y = DisplayEpicsPVClass('xbpm2_y', 'FE10I-DI-PBPM-02:BEAMY', 'nm', '%f')
+    xbpm_anglex = DisplayEpicsPVClass('xbpm_anglex', 'FE10I-DI-BEAM-01:RM:ANGLEX', 'rad', '%f')
+    xbpm_angley = DisplayEpicsPVClass('xbpm_angley', 'FE10I-DI-BEAM-01:RM:ANGLEY', 'rad', '%f')
+    xbpm_anglex_urad = DisplayEpicsPVClass('xbpm_anglex_urad', 'FE10I-DI-BEAM-01:X:ANGLE', 'urad', '%f')
+    xbpm_angley_urad = DisplayEpicsPVClass('xbpm_angley_urad', 'FE10I-DI-BEAM-01:Y:ANGLE', 'urad', '%f')
     xbpm=gda.device.scannable.scannablegroup.ScannableGroup('xbpm', [
         xbpm1_x, xbpm1_y, xbpm2_x, xbpm2_y,
         xbpm_anglex, xbpm_angley, xbpm_anglex_urad, xbpm_angley_urad])
@@ -312,8 +298,8 @@ except:
     localStation_exception(sys.exc_info(), "creating shutter & valve objects")
 
 try:
-    th_off = epics_pds.EpicsReadWritePVClass('th_off', 'ME01D-MO-DIFF-01:THETA.OFF', 'deg', '%.6f')
-    tth_off = epics_pds.EpicsReadWritePVClass('tth_off', 'ME01D-MO-DIFF-01:TWOTHETA.OFF', 'deg', '%.6f')
+    th_off = EpicsReadWritePVClass('th_off', 'ME01D-MO-DIFF-01:THETA.OFF', 'deg', '%.6f')
+    tth_off = EpicsReadWritePVClass('tth_off', 'ME01D-MO-DIFF-01:TWOTHETA.OFF', 'deg', '%.6f')
 except:
     localStation_exception(sys.exc_info(), "creating th & tth offset and encoder offset scannables")
 
@@ -380,6 +366,11 @@ print "    Syntax: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] pixis 0.
 from scan.miscan import miscan  # @UnusedImport
 print miscan.__doc__  # @UndefinedVariable
 alias("miscan")
+
+#Please leave this to be last but one items as it calls 'globals() for data process - enable standard scan data process
+from data_process.scanDataProcess import *  # @UnusedWildImport
+#Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
+STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable
 
 print "*"*100
 print "Attempting to run localStationUser.py from users script directory"
