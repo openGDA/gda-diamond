@@ -467,7 +467,6 @@
 				<entry key="GETTRIGTHRESH22" value="BL12I-EA-DET-03:DXP22:TriggerThreshold_RBV" />
 				<entry key="GETTRIGTHRESH23" value="BL12I-EA-DET-03:DXP23:TriggerThreshold_RBV" />
 				<entry key="GETTRIGTHRESH24" value="BL12I-EA-DET-03:DXP24:TriggerThreshold_RBV" />
-				<!-- <entry key="IGNOREGATE" value="BL12I-EA-DET-03:IgnoreGate" /> -->
 				<entry key="INPUTCOUNTRATE1" value="BL12I-EA-DET-03:DXP1:InputCountRate" />
 				<entry key="INPUTCOUNTRATE2" value="BL12I-EA-DET-03:DXP2:InputCountRate" />
 				<entry key="INPUTCOUNTRATE3" value="BL12I-EA-DET-03:DXP3:InputCountRate" />
@@ -540,9 +539,6 @@
 				<entry key="OUTPUTCOUNTRATE22" value="BL12I-EA-DET-03:DXP22:OutputCountRate" />
 				<entry key="OUTPUTCOUNTRATE23" value="BL12I-EA-DET-03:DXP23:OutputCountRate" />
 				<entry key="OUTPUTCOUNTRATE24" value="BL12I-EA-DET-03:DXP24:OutputCountRate" />
-				<!-- <entry key="PIXELADVANCEMODE" value="BL12I-EA-DET-03:PixelAdvanceMode" /> -->
-				<!-- <entry key="PIXELSPERBUFFER" value="BL12I-EA-DET-03:PixelsPerBuffer" /> -->
-				<!-- <entry key="PIXELSPERRUN" value="BL12I-EA-DET-03:PixelsPerRun" /> -->
 				<entry key="REALTIME1" value="BL12I-EA-DET-03:DXP1:ElapsedRealTime" />
 				<entry key="REALTIME2" value="BL12I-EA-DET-03:DXP2:ElapsedRealTime" />
 				<entry key="REALTIME3" value="BL12I-EA-DET-03:DXP3:ElapsedRealTime" />
