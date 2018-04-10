@@ -1,40 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="kb_hroll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="kb.hroll" />
+		<property name="pvName" value="BL13I-OP-MIRR-02:HORZ:ROLL" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="kb_hbend1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="kb.hbend1" />
+		<property name="pvName" value="BL13I-OP-MIRR-02:HORZ:BEND1" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="kb_hbend2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="kb.hbend2" />
+		<property name="pvName" value="BL13I-OP-MIRR-02:HORZ:BEND2" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="kb_htrans_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="kb.htrans" />
+		<property name="pvName" value="BL13I-OP-MIRR-02:HORZ:TRANS" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="kb_vtrans_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="kb.vtrans" />
+		<property name="pvName" value="BL13I-OP-MIRR-02:VERT:TRANS" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="kb_vroll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="kb.vroll" />
+		<property name="pvName" value="BL13I-OP-MIRR-02:VERT:ROLL" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="kb_vbend1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="kb.vbend1" />
+		<property name="pvName" value="BL13I-OP-MIRR-02:VERT:BEND1" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="kb_vbend2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="kb.vbend2" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL13I-OP-MIRR-02:VERT:BEND2" />
 	</bean>
-	
-	
-</beans>	
+
+</beans>

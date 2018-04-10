@@ -13,58 +13,33 @@
 	<bean id="ionc_i" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="IONC1" />
-				<property name="fieldName" value="RECORD" />
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-IONC-01:I" />
 	</bean>
 
 	<bean id="ionc_gain" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsInputName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="ionc1.femto" />
-				<property name="fieldName" value="SETGAIN" />
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-FEMTO-06:GAIN" />
 	</bean>
 
 	<bean id="ionc_coupling" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsInputName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="ionc1.femto" />
-				<property name="fieldName" value="SETACDC" />
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-FEMTO-06:ACDC" />
 	</bean>
 
 	<bean id="ionc_photonflux" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<!-- need an EGU value that EPICS ((DBR_CTRL_Double) dbr).getUnits(); will not pass '/' -->
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="ionc_photonflux" />
-				<property name="fieldName" value="RECORD" />
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-IONC-01:PHOTONRATE" />
 	</bean>
 
 	<bean id="ionc_acdc" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsInputName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="getAsString" value="true" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="ionc1.femto" />
-				<property name="fieldName" value="SETACDC" />
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-FEMTO-06:ACDC" />
 	</bean>
 
 </beans>

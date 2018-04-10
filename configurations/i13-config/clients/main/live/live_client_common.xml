@@ -7,10 +7,6 @@
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
-	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="${gda.epics.interface.xml}" />
-	</bean>
 	
 	<import resource="../_common/client.xml" />
 	

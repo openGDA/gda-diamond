@@ -1,22 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="t1_upstream_outboard_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="t1.j1" />
+		<property name="pvName" value="BL13I-MO-TABLE-01:J1" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="t1_upstream_inboard_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="t1.j2" />
+		<property name="pvName" value="BL13I-MO-TABLE-01:J2" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="t1_downstream_outboard_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="t1.j3" />
+		<property name="pvName" value="BL13I-MO-TABLE-01:J3" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="t1_downstream_inboard_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="t1.j4" />
+		<property name="pvName" value="BL13I-MO-TABLE-01:J4" />
 		<property name="local" value="true" />
 	</bean>
-</beans>	
+
+</beans>

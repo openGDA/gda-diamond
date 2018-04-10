@@ -1,53 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="d2_pos" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="d2.mp" />
+		<property name="recordName" value="BL13I-DI-PHDGN-02:X:MP" />
 	</bean>
 
 	<bean id="d2_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="d2.y" />
+		<property name="pvName" value="BL13I-DI-PHDGN-02:X" />
 		<property name="local" value="true" />
 	</bean>
 
- 	<bean id="d2_i" class="gda.device.scannable.EpicsScannable">
+	<bean id="d2_i" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="D2"/>
-			<property name="fieldName" value="RECORD"/>
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-PHDGN-02:DIODE" />
 	</bean>
 
 	<bean id="d2_gain" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsInputName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="d2.femto"/>
-			<property name="fieldName" value="SETGAIN"/>
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-FEMTO-02:GAIN" />
 	</bean>
 
 	<bean id="d2_coupling" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsInputName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="d2.femto"/>
-			<property name="fieldName" value="SETACDC"/>
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-FEMTO-02:ACDC" />
 	</bean>
 
 	<bean id="d2_window_temp" class="gda.device.scannable.EpicsScannable">
@@ -90,4 +71,4 @@
 		<property name="ndFileImpl" ref="d2_ndfilehdf5_base" />
 	</bean>
 
-</beans>	
+</beans>

@@ -1,18 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
- 
-	<bean id="oh4_shtr" class="gda.device.enumpositioner.EpicsPneumaticCallback"> 
-		<property name="deviceName" value="oh4_shtr" /> 
-	</bean> 
-	
+
+	<bean id="oh4_shtr" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL13I-PS-SHTR-01" />
+	</bean>
+
 	<bean id="oh4_shtr_cam_base" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL13I-DI-PHDGN-05:CAM:" />
 	</bean>
@@ -24,11 +20,10 @@
 	<bean id="oh4_shtr_stat" class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL13I-DI-PHDGN-05:STAT:" />
 	</bean>
-	
+
 	<bean id="oh4_shtr_proc" class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL13I-DI-PHDGN-05:PROC:" />
 	</bean>
-
 
 	<bean id="oh4_shtr_roi" class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL13I-DI-PHDGN-05:ROI:" />
@@ -46,6 +41,5 @@
 	<bean id="oh4_shtr_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl" ref="oh4_shtr_ndfilehdf5_base" />
 	</bean>
-	
-	
-</beans>	
+
+</beans>

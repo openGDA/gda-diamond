@@ -1,55 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="d1_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="d1.y" />
+		<property name="pvName" value="BL13I-DI-PHDGN-01:X" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="d1_pos" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="d1.mp" />
+		<property name="recordName" value="BL13I-DI-PHDGN-01:X:MP" />
 	</bean>
 
- 	<bean id="d1_i" class="gda.device.scannable.EpicsScannable">
+	<bean id="d1_i" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="D1"/>
-			<property name="fieldName" value="RECORD"/>
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-PHDGN-01:DIODE" />
 	</bean>
 
 	<bean id="d1_gain" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsInputName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="d1.femto"/>
-			<property name="fieldName" value="SETGAIN"/>
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-FEMTO-01:GAIN" />
 	</bean>
 
 	<bean id="d1_coupling" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsInputName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="d1.femto"/>
-			<property name="fieldName" value="SETACDC"/>
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-FEMTO-01:ACDC" />
 	</bean>
-
 
 	<bean id="d1_flow_temp" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL13I-DI-PHDGN-01:T1" />
@@ -57,6 +37,7 @@
 		<!-- unit C is not supported -->
 		<property name="hasUnits" value="false" />
 	</bean>
+
 	<bean id="d1_return_temp" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL13I-DI-PHDGN-01:T2" />
 		<property name="useNameAsExtraName" value="true" />
@@ -96,11 +77,11 @@
 		<property name="prefix" value="BL13I-DI-PHDGN-01:HDF5:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
-	
-    <bean id="d1_total" class="gda.device.scannable.EpicsScannable">
-    	<property name="name" value="d1_total" />
-    	<property name="pvName" value="BL13I-DI-PHDGN-01:STAT:Total_RBV" />
-    	<property name="useNameAsInputName" value="true" />
-    </bean>
-	
-</beans>	
+
+	<bean id="d1_total" class="gda.device.scannable.EpicsScannable">
+		<property name="name" value="d1_total" />
+		<property name="pvName" value="BL13I-DI-PHDGN-01:STAT:Total_RBV" />
+		<property name="useNameAsInputName" value="true" />
+	</bean>
+
+</beans>

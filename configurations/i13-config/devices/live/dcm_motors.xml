@@ -1,68 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="dcm1.bragg" />
+		<property name="pvName" value="BL13I-OP-DCM-01:BRAGG" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="dcm_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="dcm1.pitch" />
+		<property name="pvName" value="BL13I-OP-DCM-01:PITCH" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="dcm_roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="dcm1.roll" />
+		<property name="pvName" value="BL13I-OP-DCM-01:ROLL" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="dcm_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="dcm1.y" />
+		<property name="pvName" value="BL13I-OP-DCM-01:Y" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="dcm_z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="dcm1.z" />
+		<property name="pvName" value="BL13I-OP-DCM-01:Z" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="dcm_downstream_jack_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="dcm1.j1" />
+		<property name="pvName" value="BL13I-OP-DCM-01:J1" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="dcm_upstream_jack_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="dcm1.j2" />
+		<property name="pvName" value="BL13I-OP-DCM-01:J2" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="dcm_inboard_jack_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="dcm1.j3" />
+		<property name="pvName" value="BL13I-OP-DCM-01:J3" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="dcm_beamline_energy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-BEAM-01:ENERGY" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="dcm_id_detune_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-BEAM-01:IDDETUNE" />
 		<property name="local" value="true" />
 	</bean>
 
-    <bean id="dcm_fine_pitch_demand" class="gda.device.scannable.EpicsScannable">
-    	<property name="name" value="dcm_fine_pitch_demand" />
-    	<property name="pvName" value="BL13I-OP-DCM-01:BRAGG:FINE:DEMANDPOS" />
-    	<property name="useNameAsInputName" value="true" />
-    </bean>
-           
-    <bean id="dcm_fine_pitch" class="gda.device.scannable.EpicsScannable">
-    	<property name="name" value="dcm_fine_pitch" />
-    	<property name="pvName" value="BL13I-OP-DCM-01:BRAGG:FINE:CURPOS" />
-    	<property name="useNameAsInputName" value="true" />
-    </bean>
-    
-    <bean id="dcm_mode" class="gda.device.scannable.EpicsScannable">
-    	<!-- <property name="name" value="dcm_mode" /> -->
-    	<property name="useNameAsInputName" value="true" />	
-    	<property name="pvName" value="BL13I-OP-DCM-01:MODE:RBV" />
-    	<property name="hasUnits" value="false" />
-    	<property name="getAsString" value="true" />
-    	<property name="local" value="true" />
-    </bean>
+	<bean id="dcm_fine_pitch_demand" class="gda.device.scannable.EpicsScannable">
+		<property name="name" value="dcm_fine_pitch_demand" />
+		<property name="pvName" value="BL13I-OP-DCM-01:BRAGG:FINE:DEMANDPOS" />
+		<property name="useNameAsInputName" value="true" />
+	</bean>
 
-</beans>	
+	<bean id="dcm_fine_pitch" class="gda.device.scannable.EpicsScannable">
+		<property name="name" value="dcm_fine_pitch" />
+		<property name="pvName" value="BL13I-OP-DCM-01:BRAGG:FINE:CURPOS" />
+		<property name="useNameAsInputName" value="true" />
+	</bean>
+
+	<bean id="dcm_mode" class="gda.device.scannable.EpicsScannable">
+		<!-- <property name="name" value="dcm_mode" /> -->
+		<property name="useNameAsInputName" value="true" />
+		<property name="pvName" value="BL13I-OP-DCM-01:MODE:RBV" />
+		<property name="hasUnits" value="false" />
+		<property name="getAsString" value="true" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

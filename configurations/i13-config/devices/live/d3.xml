@@ -12,46 +12,6 @@
 		<property name="recordName" value="BL13I-DI-PHDGN-03:Y:MP" />
 	</bean>	
 
-<!-- 	<bean id="d3_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="d3.x" />
-		<property name="local" value="true" />
-	</bean> -->
-	
-<!-- waiting to be wired up
-	<bean id="d3_i" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="D3"/>
-			<property name="fieldName" value="RECORD"/>
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="d3_gain" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsInputName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="FEMTO3"/>
-			<property name="fieldName" value="SETGAIN"/>
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="d3_coupling" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsInputName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-			<property name="deviceName" value="FEMTO3"/>
-			<property name="fieldName" value="SETACDC"/>
-			</bean>
-		</property>
-	</bean> -->
-
-
 	<bean id="d3_window_temp" class="gda.device.scannable.EpicsScannable"> 
 		<property name="pvName" value="BL13J-DI-PHDGN-03:T1" /> 
 		<property name="useNameAsExtraName" value="true"/>

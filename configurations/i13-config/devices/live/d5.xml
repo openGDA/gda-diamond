@@ -1,56 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<description> Diode 5 In Experiment Hutch after experiment hutch
-		shutter</description>
+	<description> Diode 5 In Experiment Hutch after experiment hutch shutter</description>
+
 	<bean id="d5_pos" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="d5.mp" />
+		<property name="recordName" value="BL13I-DI-PHDGN-06:Y:MP" />
 	</bean>
 
 	<bean id="d5_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="d5.y" />
+		<property name="pvName" value="BL13I-DI-PHDGN-06:Y" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="d5_i" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="D5" />
-				<property name="fieldName" value="RECORD" />
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-PHDGN-06:DIODE" />
 	</bean>
 
 	<!-- the synoptic shows that ionc1.femto is used for both d5 and ion chamber -->
 	<bean id="d5_gain" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsInputName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="d5.femto" />
-				<property name="fieldName" value="SETGAIN" />
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-FEMTO-05:GAIN" />
 	</bean>
 
 	<bean id="d5_coupling" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsInputName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="d5.femto" />
-				<property name="fieldName" value="SETACDC" />
-			</bean>
-		</property>
+		<property name="pvName" value="BL13I-DI-FEMTO-05:ACDC" />
 	</bean>
 
 	<bean id="d5_window_temp" class="gda.device.scannable.EpicsScannable">
@@ -76,11 +57,10 @@
 	<bean id="d5_stat" class="gda.spring.V17NDStatsFactoryBean">
 		<property name="prefix" value="BL13I-DI-PHDGN-06:STAT:" />
 	</bean>
-	
+
 	<bean id="d5_proc" class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="BL13I-DI-PHDGN-06:PROC:" />
 	</bean>
-
 
 	<bean id="d5_roi" class="gda.spring.V17NDROIFactoryBean">
 		<property name="prefix" value="BL13I-DI-PHDGN-06:ROI:" />
@@ -98,5 +78,5 @@
 	<bean id="d5_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl" ref="d5_ndfilehdf5_base" />
 	</bean>
+
 </beans>
-	

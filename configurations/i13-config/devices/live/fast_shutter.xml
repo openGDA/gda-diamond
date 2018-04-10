@@ -1,17 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="fastshutter" class="gda.device.scannable.EpicsScannable"> 
-		<property name="pvName" value="BL13I-EA-FSHTR-01:CONTROL" /> 
-		<property name="useNameAsExtraName" value="false"/>
-		<property name="hasUnits" value="false"/>
+	<bean id="fastshutter" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-EA-FSHTR-01:CONTROL" />
+		<property name="useNameAsExtraName" value="false" />
+		<property name="hasUnits" value="false" />
 	</bean>
 
 	<bean id="fs" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="deviceName" value="fast_shutter" />
+		<property name="recordName" value="BL13I-EA-FSHTR-01:CONTROL" />
 	</bean>
 
 </beans>

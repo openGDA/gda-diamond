@@ -1,48 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="filter1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.filter1" />
+		<property name="pvName" value="BL13I-OP-ATTN-01:STICK1" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.filter2" />
+		<property name="pvName" value="BL13I-OP-ATTN-01:STICK2" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter3_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.filter3" />
+		<property name="pvName" value="BL13I-OP-ATTN-01:STICK3" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter4_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.filter4" />
+		<property name="pvName" value="BL13I-OP-ATTN-01:STICK4" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter5_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.filter5" />
+		<property name="pvName" value="BL13I-OP-ATTN-01:STICK5" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter_aperture_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.aper" />
+		<property name="pvName" value="BL13I-OP-ATTN-01:APER" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="f1_Aperture" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="f1.aperture.mp" />
-	</bean>	
+		<property name="recordName" value="BL13I-OP-ATTN-01:APER:MP" />
+	</bean>
+
 	<bean id="f1_Stick1" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="f1.filter1.mp" />
-	</bean>	
+		<property name="recordName" value="BL13I-OP-ATTN-01:STICK1:MP" />
+	</bean>
+
 	<bean id="f1_Stick2" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="f1.filter2.mp" />
-	</bean>	
+		<property name="recordName" value="BL13I-OP-ATTN-01:STICK2:MP" />
+	</bean>
+
 	<bean id="f1_Stick3" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="f1.filter3.mp" />
-	</bean>	
+		<property name="recordName" value="BL13I-OP-ATTN-01:STICK3:MP" />
+	</bean>
+
 	<bean id="f1_Stick4" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="f1.filter4.mp" />
-	</bean>	
+		<property name="recordName" value="BL13I-OP-ATTN-01:STICK4:MP" />
+	</bean>
+
 	<bean id="f1_Stick5" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="f1.filter5.mp" />
-	</bean>	
-</beans>	
+		<property name="recordName" value="BL13I-OP-ATTN-01:STICK5:MP" />
+	</bean>
+
+</beans>
