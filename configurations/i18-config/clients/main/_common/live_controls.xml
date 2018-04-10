@@ -5,33 +5,65 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="t1x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="sc_MicroFocusSampleX" />
-		<property name="scannableName" value="sc_MicroFocusSampleX" />
-		<property name="group" value="Stage Controls" />
+		<property name="displayName" value="t1x" />
+		<property name="scannableName" value="t1x" />
+		<property name="group" value="Table 1" />
 		<property name="increment" value="1.0" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
 
 	<bean id="t1y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="sc_MicroFocusSampleY" />
-		<property name="scannableName" value="sc_MicroFocusSampleY" />
-		<property name="group" value="Stage Controls" />
+		<property name="displayName" value="t1y" />
+		<property name="scannableName" value="t1y" />
+		<property name="group" value="Table 1" />
 		<property name="increment" value="1.0" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
 
 	<bean id="t1z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="sc_sample_z" />
-		<property name="scannableName" value="sc_sample_z" />
-		<property name="group" value="Stage Controls" />
+		<property name="displayName" value="t1z" />
+		<property name="scannableName" value="t1z" />
+		<property name="group" value="Table 1" />
 		<property name="increment" value="1.0" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
 
 	<bean id="t1tc_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="sc_sample_thetacoarse" />
-		<property name="scannableName" value="sc_sample_thetacoarse" />
-		<property name="group" value="Stage Controls" />
+		<property name="displayName" value="t1thetaCoarse" />
+		<property name="scannableName" value="t1thetaCoarse" />
+		<property name="group" value="Table 1" />
+		<property name="increment" value="10" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+	
+		<bean id="t3x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="t3x" />
+		<property name="scannableName" value="t3x" />
+		<property name="group" value="Table 3" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean id="t3y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="t3y" />
+		<property name="scannableName" value="t3y" />
+		<property name="group" value="Table 3" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean id="t3z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="t3z" />
+		<property name="scannableName" value="t3z" />
+		<property name="group" value="Table 3" />
+		<property name="increment" value="1.0" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<bean id="t3pitch_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="t3pitch" />
+		<property name="scannableName" value="t3pitch" />
+		<property name="group" value="Table 3" />
 		<property name="increment" value="10" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
@@ -53,6 +85,10 @@
 				<ref bean="t1y_control" />
 				<ref bean="t1z_control" />
 				<ref bean="t1tc_control" />
+				<ref bean="t3x_control" />
+				<ref bean="t3y_control" />
+				<ref bean="t3z_control" />
+				<ref bean="t3pitch_control" />
 			</list>
 		</property>
 	</bean>
