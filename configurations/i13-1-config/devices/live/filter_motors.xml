@@ -1,62 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="filter1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.filter1" />
+		<property name="pvName" value="BL13J-OP-ATTN-01:STICK1" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.filter2" />
+		<property name="pvName" value="BL13J-OP-ATTN-01:STICK2" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter3_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.filter3" />
+		<property name="pvName" value="BL13J-OP-ATTN-01:STICK3" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter4_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.filter4" />
+		<property name="pvName" value="BL13J-OP-ATTN-01:STICK4" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter_aperture_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.aper" />
+		<property name="pvName" value="BL13J-OP-ATTN-01:APER" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter_crlX_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.crlx" />
+		<property name="pvName" value="BL13J-OP-ATTN-01:CRL:X" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter_crlY_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.crly" />
+		<property name="pvName" value="BL13J-OP-ATTN-01:CRL:Y" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter_crlZ_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.crlz" />
+		<property name="pvName" value="BL13J-OP-ATTN-01:CRL:Z" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="filter_crlYaw_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="f1.crlyaw" />
+		<property name="pvName" value="BL13J-OP-ATTN-01:CRL:YAW" />
 		<property name="local" value="true" />
-		<property name="unitStringOverride" value="kcts"/>
+		<property name="unitStringOverride" value="kcts" />
 	</bean>
-	
+
 	<bean id="f1_aperture_mp" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="deviceName" value="f1.aperture.mp" />
-	</bean>	
+		<property name="recordName" value="BL13J-OP-ATTN-01:APER:MP" />
+	</bean>
+
 	<bean id="f1_filter1_mp" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="deviceName" value="f1.filter1.mp" />
-	</bean>	
+		<property name="recordName" value="BL13J-OP-ATTN-01:STICK1:MP" />
+	</bean>
+
 	<bean id="f1_filter2_mp" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="deviceName" value="f1.filter2.mp" />
-	</bean>	
+		<property name="recordName" value="BL13J-OP-ATTN-01:STICK2:MP" />
+	</bean>
+
 	<bean id="f1_filter3_mp" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="deviceName" value="f1.filter3.mp" />
-	</bean>	
+		<property name="recordName" value="BL13J-OP-ATTN-01:STICK3:MP" />
+	</bean>
+
 	<bean id="f1_filter4_mp" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="deviceName" value="f1.filter4.mp" />
-	</bean>	
+		<property name="recordName" value="BL13J-OP-ATTN-01:STICK4:MP" />
+	</bean>
+
 	<bean id="f1_crly_mp" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="deviceName" value="f1.crly.mp" />
+		<property name="recordName" value="BL13J-OP-ATTN-01:CRL:Y:MP" />
 	</bean>	
-</beans>	
+
+</beans>

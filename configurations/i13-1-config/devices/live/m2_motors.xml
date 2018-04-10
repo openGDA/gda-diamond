@@ -1,58 +1,67 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="m2_hsize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m2.hsize" />
+		<property name="pvName" value="BL13J-OP-MIRR-02:HORZ:CURV" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="m2_hcenter_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m2.hcenter" />
+		<property name="pvName" value="BL13J-OP-MIRR-02:HORZ:ELLIP" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="m2_vsize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m2.vsize" />
+		<property name="pvName" value="BL13J-OP-MIRR-02:VERT:CURV" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="m2_vcenter_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m2.vcenter" />
+		<property name="pvName" value="BL13J-OP-MIRR-02:VERT:ELLIP" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="m2v_benda_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m2v.benda" />
+		<property name="pvName" value="BL13J-OP-MIRR-02:VERT:BENDA" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="m2v_bendb_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m2v.bendb" />
+		<property name="pvName" value="BL13J-OP-MIRR-02:VERT:BENDB" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="m2v_tilt_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m2v.tilt" />
+		<property name="pvName" value="BL13J-OP-MIRR-02:VERT:TILT" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="m2v_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m2v.y" />
+		<property name="pvName" value="BL13J-OP-MIRR-02:VERT:Y" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2h_benda_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m2h.benda" />
+		<property name="pvName" value="BL13J-OP-MIRR-02:HORZ:BENDA" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="m2h_bendb_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m2h.bendb" />
+		<property name="pvName" value="BL13J-OP-MIRR-02:HORZ:BENDB" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="m2h_tilt_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m2h.tilt" />
+		<property name="pvName" value="BL13J-OP-MIRR-02:HORZ:TILT" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="m2h_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="m2h.y" />
+		<property name="pvName" value="BL13J-OP-MIRR-02:HORZ:Y" />
 		<property name="local" value="true" />
 	</bean>
-	
-	
-</beans>	
+
+</beans>

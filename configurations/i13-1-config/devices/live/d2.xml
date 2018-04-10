@@ -1,19 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="d2_pos" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="deviceName" value="d2.mp" />
+		<property name="recordName" value="BL13J-DI-PHDGN-02:X:MP" />
 	</bean>
 
 	<bean id="d2_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="d2.x" />
+		<property name="pvName" value="BL13J-DI-PHDGN-02:X" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -57,4 +53,4 @@
 		<property name="ndFileImpl" ref="d2_ndfilehdf5_base" />
 	</bean>
 
-</beans>	
+</beans>

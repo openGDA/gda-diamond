@@ -1,60 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
- 
-	<bean id="oh4_shtr" class="gda.device.enumpositioner.EpicsPneumaticCallback"> 
-		<property name="deviceName" value="oh4_shtr" /> 
-	</bean> 
-	
-	<bean id="oh4_shtr_cam_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-	<property name="prefix" value="BL13J-DI-PHDGN-04:CAM:"/>
+
+	<bean id="oh4_shtr" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL13J-PS-SHTR-01" />
 	</bean>
+
+	<bean id="oh4_shtr_cam_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL13J-DI-PHDGN-04:CAM:" />
+	</bean>
+
 	<bean id="oh4_shtr_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="pvProvider" ref="oh4_shtr_cam_pvProvider"/>
+		<property name="pvProvider" ref="oh4_shtr_cam_pvProvider" />
 	</bean>
 
 	<bean id="oh4_shtr_arr_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13J-DI-PHDGN-04:ARR:"/>
+		<property name="prefix" value="BL13J-DI-PHDGN-04:ARR:" />
 	</bean>
 
 	<bean id="oh4_shtr_arr_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="pvProvider" ref="oh4_shtr_arr_pvProvider"/>
-
+		<property name="pvProvider" ref="oh4_shtr_arr_pvProvider" />
 	</bean>
 
 	<bean id="oh4_shtr_arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="pvProvider" ref="oh4_shtr_arr_pvProvider"/>
-		<property name="pluginBase" ref="oh4_shtr_arr_ndpluginbase"/>	
+		<property name="pvProvider" ref="oh4_shtr_arr_pvProvider" />
+		<property name="pluginBase" ref="oh4_shtr_arr_ndpluginbase" />
 	</bean>
 
-
 	<bean id="oh4_shtr_stat_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13J-DI-PHDGN-04:STAT:"/>
+		<property name="prefix" value="BL13J-DI-PHDGN-04:STAT:" />
 	</bean>
 
 	<bean id="oh4_shtr_stat_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="pvProvider" ref="oh4_shtr_stat_pvProvider"/>
-
+		<property name="pvProvider" ref="oh4_shtr_stat_pvProvider" />
 	</bean>
 
 	<bean id="oh4_shtr_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-		<property name="pvProvider" ref="oh4_shtr_stat_pvProvider"/>
-		<property name="pluginBase" ref="oh4_shtr_stat_ndpluginbase"/>	
+		<property name="pvProvider" ref="oh4_shtr_stat_pvProvider" />
+		<property name="pluginBase" ref="oh4_shtr_stat_ndpluginbase" />
 	</bean>
 
 	<bean id="oh4_shtr_roi_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="BL13J-DI-PHDGN-04:ROI:"/>
+		<property name="prefix" value="BL13J-DI-PHDGN-04:ROI:" />
 	</bean>
 
 	<bean id="oh4_shtr_roi_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="pvProvider" ref="oh4_shtr_roi_pvProvider"/>
+		<property name="pvProvider" ref="oh4_shtr_roi_pvProvider" />
 	</bean>
 
 	<bean id="oh4_shtr_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
@@ -62,32 +56,28 @@
 		<property name="pluginBase" ref="oh4_shtr_roi_ndpluginbase" />
 	</bean>
 
-	<bean id="oh4_shtr_ffmpeg_pvProvider"
-		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+	<bean id="oh4_shtr_ffmpeg_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
 		<!-- <property name="prefix" value="BL13J-DI-PHDGN-01:FFMPEG:" /> -->
 		<property name="prefix" value="BL13J-DI-PHDGN-01:MJPG:" />
 	</bean>
 
-	<bean id="oh4_shtr_ffmpeg_ndpluginbase"
-		class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+	<bean id="oh4_shtr_ffmpeg_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 		<property name="pvProvider" ref="oh4_shtr_ffmpeg_pvProvider" />
 	</bean>
 
-	<bean id="oh4_shtr_ffmpeg"
-		class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
+	<bean id="oh4_shtr_ffmpeg" class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
 		<property name="pvProvider" ref="oh4_shtr_ffmpeg_pvProvider" />
 		<property name="pluginBase" ref="oh4_shtr_ffmpeg_ndpluginbase" />
 	</bean>
 
-
 	<bean id="oh4_shtr_cam_ad_plugins" class="gda.device.FindableObjectHolder">
 		<property name="map">
-			<util:map>
+			<map>
 				<entry key="oh4_shtr_cam_base" value-ref="oh4_shtr_cam_base" />
 				<entry key="oh4_shtr_arr" value-ref="oh4_shtr_arr" />
 				<entry key="oh4_shtr_ffmpeg" value-ref="oh4_shtr_ffmpeg" />
 				<entry key="oh4_shtr_roi" value-ref="oh4_shtr_roi" />
-			</util:map>
+			</map>
 		</property>
 	</bean>
 
@@ -101,12 +91,9 @@
 				<constructor-arg value=".0" />
 			</bean>
 		</property>
-		<property name="computeStats" value="false"/>
-		<property name="computeCentroid" value="false"/>
-		<property name="readArray" value="true"/>
+		<property name="computeStats" value="false" />
+		<property name="computeCentroid" value="false" />
+		<property name="readArray" value="true" />
 	</bean>
-
-
 	
-	
-</beans>	
+</beans>

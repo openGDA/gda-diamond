@@ -1,48 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="qcm_bragg1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.bragg1" />
+		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG1" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_bragg2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.bragg2" />
+		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG2" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_bragg1_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.bragg1.x" />
+		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG1:X" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="qcm_bragg2_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.bragg2.x" />
+		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG2:X" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="qcm_bragg1_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.bragg1.coarsepitch" />
+		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG1:PITCH" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="qcm_bragg1_roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.bragg1.coarseroll" />
+		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG1:ROLL" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_bragg2_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.bragg2.coarsepitch" />
+		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG2:PITCH" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="qcm_bragg2_roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.bragg2.coarseroll" />
+		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG2:ROLL" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="qcm.y" />
+		<property name="pvName" value="BL13J-OP-QCM-01:Y" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="qcm_bragg1_finepitch" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameSetPoint" value="BL13J-OP-QCM-01:BRAGG1:FINEPITCH:SVA:WR" />
 		<property name="pvNameGetPoint" value="BL13J-OP-QCM-01:BRAGG1:FINEPITCH:VOL:RD" />
@@ -72,13 +78,4 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<!-- <bean id="qcm_bragg1_finepitch_motor" class="gda.device.motor.EpicsMotor"> 
-		<property name="deviceName" value="qcm.bragg1.finepitch" /> <property name="local" 
-		value="true" /> </bean> <bean id="qcm_bragg1_fineroll_motor" class="gda.device.motor.EpicsMotor"> 
-		<property name="deviceName" value="qcm.bragg1.fineroll" /> <property name="local" 
-		value="true" /> </bean> <bean id="qcm_bragg2_finepitch_motor" class="gda.device.motor.EpicsMotor"> 
-		<property name="deviceName" value="qcm.bragg2.finepitch" /> <property name="local" 
-		value="true" /> </bean> <bean id="qcm_bragg2_fineroll_motor" class="gda.device.motor.EpicsMotor"> 
-		<property name="deviceName" value="qcm.bragg2.fineroll" /> <property name="local" 
-		value="true" /> </bean> -->
-</beans>	
+</beans>

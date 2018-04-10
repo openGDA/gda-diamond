@@ -1,40 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="s3_xsize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="s3.xsize" />
+		<property name="pvName" value="BL13J-AL-SLITS-03:X:SIZE" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="s3_xcenter_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="s3.xcenter" />
+		<property name="pvName" value="BL13J-AL-SLITS-03:X:CENTER" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="s3_ysize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="s3.ysize" />
+		<property name="pvName" value="BL13J-AL-SLITS-03:Y:SIZE" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="s3_ycenter_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="s3.ycenter" />
+		<property name="pvName" value="BL13J-AL-SLITS-03:Y:CENTER" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="s3_xplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="s3.xplus" />
+		<property name="pvName" value="BL13J-AL-SLITS-03:X:PLUS" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="s3_xminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="s3.xminus" />
+		<property name="pvName" value="BL13J-AL-SLITS-03:X:MINUS" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="s3_yplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="s3.yplus" />
+		<property name="pvName" value="BL13J-AL-SLITS-03:Y:PLUS" />
 		<property name="local" value="true" />
 	</bean>
+
 	<bean id="s3_yminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="s3.yminus" />
+		<property name="pvName" value="BL13J-AL-SLITS-03:Y:MINUS" />
 		<property name="local" value="true" />
 	</bean>
-		
-</beans>	
+
+</beans>

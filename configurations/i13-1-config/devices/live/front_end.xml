@@ -1,56 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="fes1_xsize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="fes1.xsize" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="fes1_xcenter_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="fes1.xcenter" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="fes1_ysize_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="fes1.ysize" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="fes1_ycenter_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="fes1.ycenter" />
+		<property name="pvName" value="FE13J-AL-SLITS-01:X:SIZE" />
 		<property name="local" value="true" />
 	</bean>
 
-<!-- Not present
- 	<bean id="fes1_xplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="fes1.xplus" />
+	<bean id="fes1_xcenter_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="FE13J-AL-SLITS-01:X:CENTER" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="fes1_xminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="fes1.xminus" />
+
+	<bean id="fes1_ysize_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="FE13J-AL-SLITS-01:Y:SIZE" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="fes1_yplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="fes1.yplus" />
+
+	<bean id="fes1_ycenter_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="FE13J-AL-SLITS-01:Y:CENTER" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="fes1_yminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="fes1.yminus" />
-		<property name="local" value="true" />
-	</bean>
- -->
 
 	<bean id="fshtr1" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="deviceName" value="FE.SHTR1" />
+		<property name="recordName" value="FE13I-PS-SHTR-01:STA" />
 	</bean>
+
 	<bean id="fshtr2" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="deviceName" value="FE.SHTR2" />
+		<property name="recordName" value="FE13I-PS-SHTR-02:STA" />
 	</bean>
 
 	<bean id="fastmask" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="deviceName" value="fastmask.shtr" />
+		<property name="recordName" value="BL13I-VA-FMASK-02:STA" />
 	</bean>
 
-	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
+	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we 
 		need events to be fired for the GDA9 ExpressionWatchdog -->
 	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE13I-PS-SHTR-02:STA" />
