@@ -48,15 +48,15 @@ def allElementsAreTuplesOfNumbers(arg):
     return True
 
 def miscan(*args):
-    ''' a more generalised scan that extends standard GDA scan syntax to support 
-    1. scannable tuple (e.g. (s1,s2,...) argument) as scannable group, 
-    2. its corresponding path tuple (e.g. list of position tuples), if exist, and
-    3. area detector that takes 2 input numbers - 1st one is detector exposure time which must be provided,
-        2nd one is number of image to be collected at each point which if omitted default to 1
-    4. syntax 'miscan pixis1summeddet 0.1 10 ...' is supported for collecting multiple images at a single point without scanning any scannable.
+    '''   a more generalised scan that extends standard GDA scan syntax to support 
+        1. scannable tuple (e.g. (s1,s2,...) argument) as scannable group, 
+        2. its corresponding path tuple (e.g. list of position tuples), if exist, and
+        3. area detector that takes 2 input numbers - 1st one is detector exposure time which must be provided,
+           2nd one is number of image to be collected at each point which if omitted default to 1
+        4. syntax 'miscan pixis_summed 0.1 10 ...' is supported for collecting multiple images at a single point without scanning any scannable.
     
-    It parses input parameters described above before delegating to the standard GDA scan to do the actual data collection.
-    Thus it can be used anywhere the standard GDA 'scan' is used.
+        It parses input parameters described above before delegating to the standard GDA scan to do the actual data collection.
+        Thus it can be used anywhere the standard GDA 'scan' is used.
     '''
     starttime=time.ctime()
     if PRINTTIME: print "=== Scan started: "+starttime
