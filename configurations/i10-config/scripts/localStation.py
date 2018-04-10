@@ -1,5 +1,7 @@
 from os.path import os
 from utils.ExceptionLogs import localStation_exception, localStation_exceptions
+from gdaserver import shtr1, gv12
+import installation
 print "**************************************************"
 print "Running the I10 startup script localStation.py..."
 print ""
@@ -342,20 +344,10 @@ except:
 run("diagnostic_cameras.py")
 
 try:
-    from future.EpicsPneumaticShutterFactory import EpicsPneumaticShutterFactory
-    beamline = finder.find("Beamline")
-    
-    shtropen = EpicsPneumaticShutterFactory(beamline,
-        "Branch Shutter", "-PS-SHTR-01", True)
-    
-    shtrclose = EpicsPneumaticShutterFactory(beamline,
-        "Branch Shutter", "-PS-SHTR-01", False)
-    
-    gv12open = EpicsPneumaticShutterFactory(beamline,
-        "GV 12", "I-VA-VALVE-12", True)
-    
-    gv12close = EpicsPneumaticShutterFactory(beamline,
-        "GV 12", "I-VA-VALVE-12", False)
+    shtropen = shtr1.moveTo("Open")
+    shtrclose = shtr1.moveTo("Close")
+    gv12open = gv12.moveTo("Open")
+    gv12close = gv12.moveTo("Close")
 except:
     localStation_exception(sys.exc_info(), "creating shutter & valve objects")
 
@@ -396,22 +388,23 @@ try:
 except:
     localStation_exception(sys.exc_info(), "creating metadata objects")
 
-try:
-    print "Fixing extra names on RASOR mac scannables"
-    for scn in RASOR_SCALER.getGroupMembers():
-        scn.setInputNames([scn.name])
-
-    print "Fixing extra names on UI1 mac scannables"
-    for scn in UI1.getGroupMembers():
-        scn.setInputNames([scn.name])
-
-    print "Fixing extra names on UJ1 mac scannables"
-    for scn in UJ1.getGroupMembers():
-        scn.setInputNames([scn.name])
+if installation.isLive():
+    try:
+        print "Fixing extra names on RASOR mac scannables"
+        for scn in RASOR_SCALER.getGroupMembers():
+            scn.setInputNames([scn.name])
     
-    print "Fixed extra names on all mac scannables"
-except:
-    localStation_exception(sys.exc_info(), "fixing extra names on mac scannables")
+        print "Fixing extra names on UI1 mac scannables"
+        for scn in UI1.getGroupMembers():
+            scn.setInputNames([scn.name])
+    
+        print "Fixing extra names on UJ1 mac scannables"
+        for scn in UJ1.getGroupMembers():
+            scn.setInputNames([scn.name])
+        
+        print "Fixed extra names on all mac scannables"
+    except:
+        localStation_exception(sys.exc_info(), "fixing extra names on mac scannables")
 
 ###############################################################################
 ###                           Wait for beam device                          ###
