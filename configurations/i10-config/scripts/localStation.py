@@ -1,6 +1,6 @@
 from os.path import os
 from utils.ExceptionLogs import localStation_exception, localStation_exceptions
-from gdaserver import shtr1, gv12
+from gdaserver import shtr1, gv12, rc, topup_time, frontend
 import installation
 print "**************************************************"
 print "Running the I10 startup script localStation.py..."
@@ -406,66 +406,15 @@ if installation.isLive():
     except:
         localStation_exception(sys.exc_info(), "fixing extra names on mac scannables")
 
-###############################################################################
-###                           Wait for beam device                          ###
-###############################################################################
-try:
-    print "Adding checkbeam device (rc>190mA, 60s wait after beam back)"
-    print "   (change threshold with checkrc.minumumThreshold=12345)"
-    
-    from gdascripts.scannable.beamokay import WaitWhileScannableBelowThreshold, WaitForScannableState
-    from gda.device.scannable.scannablegroup import ScannableGroup
-    
-    checkrc = WaitWhileScannableBelowThreshold('checkrc', rc, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
-    checktopup_time = WaitWhileScannableBelowThreshold('checktopup_time', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
-    checkfe = WaitForScannableState('checkfe', frontend, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
-    checkbeam = ScannableGroup('checkbeam', [checkrc, checkfe, checktopup_time])
-    checkbeam.configure()
-    
-    checkrc_cv = WaitWhileScannableBelowThreshold('checkrc_cv', rc, 190, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
-    checkrc_cv.setOperatingContinuously(True)
-    checktopup_time_cv = WaitWhileScannableBelowThreshold('checktopup_time_cv', topup_time, 5, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=5) #@UndefinedVariable
-    checktopup_time_cv.setOperatingContinuously(True)
-    checkfe_cv = WaitForScannableState('checkfe_cv', frontend, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=60) #@UndefinedVariable
-    checkfe_cv.setOperatingContinuously(True)
-    checkbeam_cv = ScannableGroup('checkbeam_cv', [checkrc_cv, checkfe_cv, checktopup_time_cv])
-    checkbeam_cv.configure()
-except:
-    localStation_exception(sys.exc_info(), "creating checkbeam objects")
+    try:
+        from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
+        gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
+    except:
+        localStation_exception(sys.exc_info(), "creating gflow2 scannable")
 
-try:    
-    print "Adding checkbeamcv device (add to cvscan to get checkbeam functionality)"
+from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeam_cv, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv  # @UnusedImport
 
-    from gda.device.scannable import PassthroughScannableDecorator
-    
-    class ZiePassthroughScannableDecorator(PassthroughScannableDecorator):
-
-        def __init__(self, delegate):
-            PassthroughScannableDecorator.__init__(self, delegate)  # @UndefinedVariable
-    
-        def getInputNames(self): 
-            return []
-    
-        def getExtraNames(self): 
-            return []
-    
-        def getOutputFormat(self):
-            return []
-    
-        def getPosition(self):
-            return None
-
-    checkbeamcv = ZiePassthroughScannableDecorator(checkbeam_cv)
-except:
-    localStation_exception(sys.exc_info(), "creating checkbeamcv object")
-
-try:
-    from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
-    gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
-except:
-    localStation_exception(sys.exc_info(), "creating gflow2 scannable")
-
-from scan.miscan import miscan
+from scan.miscan import miscan  # @UnusedImport
 alias("miscan")
 
 print "*"*80
