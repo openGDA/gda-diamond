@@ -340,8 +340,9 @@ try:
 except:
     localStation_exception(sys.exc_info(), "initialising fpitch scannables")
 
-########setting up the diagnostic flea camera###############
-run("diagnostic_cameras.py")
+########setting up the diagnostic cameras###############
+from detectors.diagnostic_cameras import *  # @UnusedWildImport
+#run("diagnostic_cameras.py")
 
 try:
     shtropen = shtr1.moveTo("Open")
@@ -414,10 +415,14 @@ if installation.isLive():
 
 from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeam_cv, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv  # @UnusedImport
 
+print "-"*100
+print "Creating 'miscan' - multiple image per scan data point"
+print "    Syntax: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] pixis 0.1 10"
 from scan.miscan import miscan  # @UnusedImport
+print miscan.__doc__  # @UndefinedVariable
 alias("miscan")
 
-print "*"*80
+print "*"*100
 print "Attempting to run localStationUser.py from users script directory"
 try:
     run("localStationUser")
