@@ -80,7 +80,35 @@ if installation.isLive():
     from high_field_magnet.scannable.intelligent_power_supply_instances import *  # @UnusedWildImport
     from scannable.temporaryIDControls import *  # @UnusedWildImport
     from scannable.frontEndBeamMonitors import *  # @UnusedWildImport
+    from scannable.mirrors_fine_pitch_motors import *  # @UnusedWildImport
+    try:
+        th_off = EpicsReadWritePVClass('th_off', 'ME01D-MO-DIFF-01:THETA.OFF', 'deg', '%.6f')
+        tth_off = EpicsReadWritePVClass('tth_off', 'ME01D-MO-DIFF-01:TWOTHETA.OFF', 'deg', '%.6f')
+    except:
+        localStation_exception(sys.exc_info(), "creating th & tth offset and encoder offset scannables")
+    try:
+        print "Fixing extra names on RASOR mac scannables"
+        for scn in RASOR_SCALER.getGroupMembers():
+            scn.setInputNames([scn.name])
+    
+        print "Fixing extra names on UI1 mac scannables"
+        for scn in UI1.getGroupMembers():
+            scn.setInputNames([scn.name])
+    
+        print "Fixing extra names on UJ1 mac scannables"
+        for scn in UJ1.getGroupMembers():
+            scn.setInputNames([scn.name])
+        
+        print "Fixed extra names on all mac scannables"
+    except:
+        localStation_exception(sys.exc_info(), "fixing extra names on mac scannables")
 
+    try:
+        from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
+        gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
+    except:
+        localStation_exception(sys.exc_info(), "creating gflow2 scannable")
+        
 ######## Setting up the Andor Rasor camera ###############
 andor_installed = False
 if andor_installed:
@@ -112,20 +140,6 @@ zebra_fastdicr_installed = True
 if zebra_fastdicr_installed:
     from detectors.fastDichroism import fastDichroism  # @UnusedImport
 
-try:
-    from future.singleEpicsPositionerNoStatusClassDeadbandOrStop import SingleEpicsPositionerNoStatusClassDeadbandOrStop
-
-    m1fpitch = SingleEpicsPositionerNoStatusClassDeadbandOrStop('m1fpitch',
-        'BL10I-OP-COL-01:FPITCH:DMD:AO', 'BL10I-OP-COL-01:FPITCH:RBV:AI', 'V', '%.3f', 0.001)
-    m3m5fpitch = SingleEpicsPositionerNoStatusClassDeadbandOrStop('m3m5fpitch',
-        'BL10I-OP-SWTCH-01:FPITCH:DMD:AO', 'BL10I-OP-SWTCH-01:FPITCH:RBV:AI', 'V', '%.3f', 0.001)
-    m4fpitch = SingleEpicsPositionerNoStatusClassDeadbandOrStop('m4fpitch',
-        'BL10I-OP-FOCS-01:FPITCH:DMD:AO', 'BL10I-OP-FOCS-01:FPITCH:RBV:AI', 'V', '%.3f', 0.001)
-    m6fpitch = SingleEpicsPositionerNoStatusClassDeadbandOrStop('m6fpitch',
-        'BL10J-OP-FOCA-01:FPITCH:DMD:AO', 'BL10J-OP-FOCA-01:FPITCH:RBV:AI', 'V', '%.3f', 0.001)
-except:
-    localStation_exception(sys.exc_info(), "initialising fpitch scannables")
-
 ########setting up the diagnostic cameras###############
 from detectors.diagnostic_cameras import *  # @UnusedWildImport
 
@@ -136,12 +150,6 @@ try:
     gv12close = gv12.moveTo("Close")
 except:
     localStation_exception(sys.exc_info(), "creating shutter & valve objects")
-
-try:
-    th_off = EpicsReadWritePVClass('th_off', 'ME01D-MO-DIFF-01:THETA.OFF', 'deg', '%.6f')
-    tth_off = EpicsReadWritePVClass('tth_off', 'ME01D-MO-DIFF-01:TWOTHETA.OFF', 'deg', '%.6f')
-except:
-    localStation_exception(sys.exc_info(), "creating th & tth offset and encoder offset scannables")
 
 ##setup metadata for the file
 from rasor.pd_metadata import MetaDataPD
@@ -188,30 +196,6 @@ try:
     
 except:
     localStation_exception(sys.exc_info(), "creating metadata objects")
-
-if installation.isLive():
-    try:
-        print "Fixing extra names on RASOR mac scannables"
-        for scn in RASOR_SCALER.getGroupMembers():
-            scn.setInputNames([scn.name])
-    
-        print "Fixing extra names on UI1 mac scannables"
-        for scn in UI1.getGroupMembers():
-            scn.setInputNames([scn.name])
-    
-        print "Fixing extra names on UJ1 mac scannables"
-        for scn in UJ1.getGroupMembers():
-            scn.setInputNames([scn.name])
-        
-        print "Fixed extra names on all mac scannables"
-    except:
-        localStation_exception(sys.exc_info(), "fixing extra names on mac scannables")
-
-    try:
-        from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
-        gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
-    except:
-        localStation_exception(sys.exc_info(), "creating gflow2 scannable")
 
 from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeam_cv, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv  # @UnusedImport
 
