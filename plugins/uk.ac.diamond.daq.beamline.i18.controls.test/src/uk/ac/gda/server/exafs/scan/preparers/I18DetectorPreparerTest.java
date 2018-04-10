@@ -49,6 +49,7 @@ import uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalc
 public class I18DetectorPreparerTest {
 
 	private Scannable[] sensitivities;
+	private Scannable[] sensitivityUnits;
 	private Xspress3WithFullCalculationsDetector xspress3;
 	private TfgScalerWithFrames ionchambers;
 	private I18DetectorPreparer thePreparer;
@@ -92,8 +93,9 @@ public class I18DetectorPreparerTest {
 		sensitivities = new Scannable[3];
 		sensitivities[0] = createMockScannable("i0_keithley_gain");
 		sensitivities[1] = createMockScannable("it_keithley_gain");
+		sensitivityUnits = new Scannable[] {createMockScannable("i0units"), createMockScannable("itunits")};
 
-		thePreparer = new I18DetectorPreparer(sensitivities, ionchambers,
+		thePreparer = new I18DetectorPreparer(sensitivities, sensitivityUnits, ionchambers,
 				xspress3, qexafs_counterTimer01, qexafs_xspress3, qexafs_FFI0_xspress3,
 				buffered_cid, cmos_for_maps);
 	}
@@ -246,7 +248,8 @@ public class I18DetectorPreparerTest {
 
 		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path");
 
-		Mockito.verify(sensitivities[0]).moveTo("1 nA/V");
+		Mockito.verify(sensitivities[0]).moveTo("1");
+		Mockito.verify(sensitivityUnits[0]).moveTo("nA/V");
 	}
 
 }
