@@ -2,7 +2,15 @@ from gda.device.scannable import ScannableBase
 from uk.ac.diamond.daq.persistence.jythonshelf import LocalParameters
 from org.apache.commons.configuration import XMLConfiguration
 from gda.jython.commands.ScannableCommands import pos
+
+print"-"*100
 class SaveAndReload(object):
+    '''utililty to save or load scannable positions in a scannable group and/or a list of scannables 
+        Usage: 
+        1. create a object of saved_name=SaveAndReload("scannable_group_name",listOfScannables=[])
+        2. then saved_name.save() to save position data
+        3. save_name.load() loads position from saved data
+    '''
     def __init__(self, name, listOfScannables=[]):
         if listOfScannables == []:
             scannable_group = finder.find(name)
@@ -14,6 +22,7 @@ class SaveAndReload(object):
             self.listOfScannables = listOfScannables
         self.rootElementName = name+"Positions"
         self.config=LocalParameters.getXMLConfiguration(name+ "Positions")
+    
     def save(self):
         for scannable in self.listOfScannables:
             self.config.setProperty(scannable.getName(), scannable.getPosition())

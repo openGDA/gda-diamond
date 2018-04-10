@@ -1,5 +1,5 @@
-from utils.ExceptionLogs import localStation_exception, localStation_exceptions
-from gdaserver import shtr1, gv12
+from utils.ExceptionLogs import localStation_exceptions
+from gdaserver import shtr1, gv12 
 import installation
 from gda.jython.commands import GeneralCommands
 from gda.jython.commands.GeneralCommands import alias
@@ -19,7 +19,7 @@ global mac116, mac117, mac118, mac119, mac120
 global RASOR_SCALER, UI1, UJ1
 global zebra
 
-import sys, gda, java
+import gda, java
 #from rasor.init_scan_commands_and_processing import * 
 from gda.configuration.properties import LocalProperties
 from gdascripts.messages.handle_messages import simpleLog
@@ -64,64 +64,16 @@ print "-"*100
 print "Adding timer devices t, dt, and w, clock"
 from gdascripts.scannable.timerelated import timerelated,t,dt,w,clock,epoch #@UnusedImport
 
-##setup metadata for the file
-run("rasor/pd_metadata.py")
-#MBB#rmotors=MetaDataPD("rmotors", [tth,th,chi,rasor_eta,rasor_ttp, rasor_thp, rasor_py,rasor_pz, rasor_dsu, rasor_dsd, rasor_difx, rasor_alpha, rasor_lgm, rasor_lgf, rasor_lgb])
-rmotors=MetaDataPD("rmotors", [tth, th, chi, eta, ttp, thp, py, pz, dsu, dsd, difx, alpha, lgm, lgf, lgb])
-#add_default rmotors
+###Save and reload positions of a given scannable group and/or a list of scannables
+from rasor.saveAndReload import SaveAndReload  # @UnusedImport
+print SaveAndReload.__doc__
 
-##Position Wrapper
-#wherescannables=[rasor_tth,rasor_th,rasor_chi,h,k,l,energy]
-#MBB#wascannables = [tth, th,chi,rasor_dsu,rasor_dsd,rasor_eta,rasor_ttp,rasor_thp,rasor_py,rasor_pz,rasor_alpha,rasor_difx,rasor_lgf,rasor_lgb,rasor_lgm,rasor_sx,rasor_sy,rasor_sz]
-wascannables = [tth, th, chi, dsu, dsd, eta, ttp, thp, py, pz, alpha, difx, lgf, lgb, lgm, sx, sy, sz]
-run("rasor/positionWrapper.py")
-#wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
-wa=PositionWrapper(wascannables)
-#alias('wh')
-alias('wa')
+print "-"*100
+print "creating 'dummy' & `denergy` scannables"
+dummy = DummyScannable("dummy")
+denergy = pgm_energy
 
-###Save and reload positions
-run("rasor/saveAndReload.py")
-
-try:
-    print "creating 'dummy' & `denergy` scannables"
-    print ""
-    dummy = DummyScannable("dummy")
-    denergy = pgm_energy
-except:
-    localStation_exception(sys.exc_info(), "creating 'dummy' & 'denergy' scannables")
-
-
-
-try:
-    ########diffcal####################
-    diffcalcDir = LocalProperties.get("gda.diffcalc.path") + "/"
-    sys.path = [diffcalcDir] + sys.path
-    run("i10fourcircle.py")
-    #execfile(diffcalcDir + "example/startup/i10fourcircle.py")
-    
-except:
-    localStation_exception(sys.exc_info(), "initialising diffcalc")
-
-try:
-    run("rasor/scannable/polarisationAnalyser.py")
-    # name, d_spacing (A), start_energy(eV), stop_energy(eV), thp_offset(deg), pos_z(mm), pos_y(mm)
-    #ml = [
-    #    Multilayer("mn", 13.7, 600, 700, 1.17, -14.5, 1.5),
-    #    Multilayer("o",  16.2, 510, 550, 0,      0,   1.5)]
-    # name, multilayer_list, pz_scannable, py_scannable
-    #mss = MultilayerSelectorScannable("mss", ml, pz, py)
-    # name, thp_scannable, ttp_scannable, multilayer_selector_scannable, energy_scannable
-    #pa = PolarisationAnalyser("pa", thp, ttp, mss, idupgm_energy)
-    #print "Usage: pos mss            to find out which MSS you are on"
-    #print "Usage: pos mss <num>      to select MSS by number"
-    #print "Usage: pos mss 'string'   to select MSS by name"
-    #print "Usage: pos pa             to find out which PA you are on"
-    #print "Usage: pos pa <num>       to set pa for a given energy in eV"
-    #print "Usage: pos pa 0           to set pa for a the energy in configured energy scannable"
-    #alias pa
-except:
-    localStation_exception(sys.exc_info(), "initialising polarisation analyser")
+from rasor.scannable.polarisation_analyser_example import *  # @UnusedWildImport
 
 try:
     from high_field_magnet.scannable.intelligentPowerSupply import \
@@ -303,6 +255,21 @@ try:
 except:
     localStation_exception(sys.exc_info(), "creating th & tth offset and encoder offset scannables")
 
+##setup metadata for the file
+from rasor.pd_metadata import MetaDataPD
+rmotors=MetaDataPD("rmotors", [tth, th, chi, eta, ttp, thp, py, pz, dsu, dsd, difx, alpha, lgm, lgf, lgb])
+#add_default rmotors
+
+##Position Wrapper
+wascannables = [tth, th, chi, dsu, dsd, eta, ttp, thp, py, pz, alpha, difx, lgf, lgb, lgm, sx, sy, sz]
+from rasor.positionWrapper import PositionWrapper
+wa=PositionWrapper(wascannables)
+alias('wa')
+
+#wherescannables=[rasor_tth,rasor_th,rasor_chi,h,k,l,energy]
+#wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
+#alias('wh')
+
 # meta should be created last to ensure we have all required scannables
 try:
     print '-'*80
@@ -367,6 +334,16 @@ from scan.miscan import miscan  # @UnusedImport
 print miscan.__doc__  # @UndefinedVariable
 alias("miscan")
 
+try:
+    ########diffcal####################
+    diffcalcDir = LocalProperties.get("gda.diffcalc.path") + "/"
+    sys.path = [diffcalcDir] + sys.path
+    run("i10fourcircle.py")
+    #execfile(diffcalcDir + "example/startup/i10fourcircle.py")
+    
+except:
+    localStation_exception(sys.exc_info(), "initialising diffcalc")
+    
 #Please leave this to be last but one items as it calls 'globals() for data process - enable standard scan data process
 from data_process.scanDataProcess import *  # @UnusedWildImport
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
