@@ -7,7 +7,7 @@ import traceback as traceback_mod;
 
 import gda;
 
-
+from gdascripts.message.handle_messages import getCauseList
 
 class SinglePrint(object):
 	msg = None;
@@ -78,14 +78,9 @@ class ScriptLoggerClass(object):
 		self.fullLog(None, msg);
 	
 	def getCauseList(self, exception):
-		if isinstance(exception, InterruptedException):
-			return str(exception);
-		elif isinstance(exception, Exception):
-			return gda.util.exceptionUtils.getFullStackMsg(exception);
-		else:
-			return str(exception);
-		
-	def createMessage(self, msg, exceptionType=None, exception=None, traceback=None ):
+		return getCauseList(exception)
+
+	def createMessage(self, msg, exceptionType=None, exception=None, traceback=None):
 		msg = self.spacer(msg);
 			
 		if exceptionType != None:
