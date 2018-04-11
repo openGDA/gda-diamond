@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
+
+	<!--   Rasor -->
+	<bean id="diff_sim_twotheta_motor" class="gda.device.motor.DummyMotor" >
+		<property name="minPosition" value="-50.0573" />
+		<property name="maxPosition" value="139.998" />
+		<property name="speed" value="1.388" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="diff_sim_theta_motor" class="gda.device.motor.DummyMotor" >
+		<property name="minPosition" value="-93.4566" />
+		<property name="maxPosition" value="191.543" />
+		<property name="speed" value="1.38889" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="diff_sim_chi_motor" class="gda.device.motor.DummyMotor" >
+		<property name="minPosition" value="85.5" />
+		<property name="maxPosition" value="94.5" />
+		<property name="speed" value="0.0208" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="diff_sim_alpha_motor" class="gda.device.motor.DummyMotor" >
+		<property name="minPosition" value="-5.17771" />
+		<property name="maxPosition" value="4.82229" />
+		<property name="speed" value="0.3689" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true" />
+	</bean>
+	
+</beans>

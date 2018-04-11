@@ -29,6 +29,7 @@
 	<import resource="RASOR-Cam2.xml"/>
 	<import resource="RASOR-Cam3.xml"/>
 	<import resource="RASOR.xml"/>
+	<import resource="RASOR_diff_sim_motors.xml"/>
 <!-- 	<import resource="RASOR-SCALER1.xml"/> --><!-- need develop a DummyScaler -->
 
 	<!-- J Absorption -->

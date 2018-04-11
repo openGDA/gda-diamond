@@ -206,20 +206,16 @@ from scan.miscan import miscan  # @UnusedImport
 print miscan.__doc__  # @UndefinedVariable
 alias("miscan")
 
-try:
-    ########diffcal####################
-    diffcalcDir = LocalProperties.get("gda.diffcalc.path") + "/"
-    sys.path = [diffcalcDir] + sys.path
-    run("i10fourcircle.py")
-    #execfile(diffcalcDir + "example/startup/i10fourcircle.py")
-    
-except:
-    localStation_exception(sys.exc_info(), "initialising diffcalc")
-    
+print
+print "*"*80
+#DiffCalc
+print "import DIFFCALC support for I10"
+from startup.i10 import *  # @UnusedWildImport
+
 #Please leave this to be last but one items as it calls 'globals() for data process - enable standard scan data process
 from data_process.scanDataProcess import *  # @UnusedWildImport
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
-STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable
+STOP_ALL_EXCLUSIONS=[]  # @UndefinedVariable
 
 print "*"*100
 print "Attempting to run localStationUser.py from users script directory"

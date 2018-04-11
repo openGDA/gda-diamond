@@ -22,6 +22,7 @@
 	<import resource="PIXIS.xml"/>
 	<import resource="PIXIS_SUMMED.xml"/>
 	<import resource="RASOR.xml"/>
+	<import resource="RASOR_diff_sim_motors.xml"/>
 
 	<!-- J Absorption -->
 
