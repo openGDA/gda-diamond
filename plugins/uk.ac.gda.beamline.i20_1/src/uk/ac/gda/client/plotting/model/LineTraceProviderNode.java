@@ -22,9 +22,9 @@ import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.january.dataset.DoubleDataset;
 
-import uk.ac.gda.beans.ObservableModel;
-
 import com.google.gson.annotations.Expose;
+
+import uk.ac.gda.beans.ObservableModel;
 
 public abstract class LineTraceProviderNode extends Node {
 	private TraceStyleDetails traceStyle;
@@ -32,9 +32,9 @@ public abstract class LineTraceProviderNode extends Node {
 	private final ScanNode scanNode;
 	private final boolean plotByDefault;
 
-	public LineTraceProviderNode(ScanNode scanNode, boolean plotByDefault, Node parent, TraceStyleDetails traceStyle) {
+	public LineTraceProviderNode(Node parent, boolean plotByDefault, TraceStyleDetails traceStyle) {
 		super(parent);
-		this.scanNode = scanNode;
+		this.scanNode = (ScanNode) parent.getParent();
 		this.plotByDefault = plotByDefault;
 		this.setTraceStyle(traceStyle);
 	}

@@ -31,7 +31,7 @@ public abstract class ScanNode extends Node {
 	private final String fileName;
 
 	@Expose
-	protected final Set<String> selectedLineTraceNames = new HashSet<String>();
+	protected final Set<String> selectedLineTraceNames = new HashSet<>();
 
 	public ScanNode(String identifier, String fileName, Node parent) {
 		super(parent);
@@ -48,11 +48,11 @@ public abstract class ScanNode extends Node {
 		return identifier;
 	}
 
-	public void addSelection(String name) {
+	public void addLineSelection(String name) {
 		selectedLineTraceNames.add(name);
 	}
 
-	public void removeSelection(String name) {
+	public void removeLineSelection(String name) {
 		selectedLineTraceNames.remove(name);
 	}
 

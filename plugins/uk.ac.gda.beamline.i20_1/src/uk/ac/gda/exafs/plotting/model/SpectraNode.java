@@ -31,21 +31,21 @@ import uk.ac.gda.client.liveplot.IPlotLineColorService;
 import uk.ac.gda.client.plotting.model.Node;
 import uk.ac.gda.client.plotting.model.ScanNode;
 
+/**
+ * Stores all spectra of particular type for a scan (e.g. lnI0It, It, ...).
+ * Contains a list of {@link ScanDataItemNode} with the x-y data for a each spectrum.
+ */
 public class SpectraNode extends Node {
 
 	private DoubleDataset xDoubleDataset;
 	private DoubleDataset uncalibratedXAxisData; // e.g. strip number (for XH, XStrip), or position (for TurboXas)
 
-	public static final String DATA_SET_Y_AXIS_PROP_NAME = "yDoubleDataset";
-	private final IObservableList yDoubleDataset = new WritableList(new ArrayList<ScanDataItemNode>(), ScanDataItemNode.class);
+	private final IObservableList dataItemNodeList = new WritableList(new ArrayList<ScanDataItemNode>(), ScanDataItemNode.class);
 	private final String label;
 	private final String identifier;
 	private final String colorHexValue;
 
-	public static final String DATA_Y_AXIS_PROP_NAME = "lastYaxisData";
-	private ScanDataItemNode lastYaxisData;
-
-	public SpectraNode(String identifier, String label, ScanNode parent) {
+	public SpectraNode(ScanNode parent, String identifier, String label) {
 		super(parent);
 		this.label = label;
 		this.identifier = identifier;
@@ -71,16 +71,12 @@ public class SpectraNode extends Node {
 		return xDoubleDataset;
 	}
 
-	public ScanDataItemNode getLastYaxisData() {
-		return lastYaxisData;
-	}
-
-	public IObservableList getYDoubleDataset() {
-		return yDoubleDataset;
+	public IObservableList getNodeList() {
+		return dataItemNodeList;
 	}
 
 	/**
-	 * Add new dataset to the node
+	 * Add new create new ScanDataItemNode object for the datasets and add to nodeList
 	 * @param xDoubleDataset
 	 * @param yDoubleDataset
 	 * @param identifier Unique identifier for the data
@@ -89,11 +85,11 @@ public class SpectraNode extends Node {
 	 */
 	public ScanDataItemNode updateData(DoubleDataset xDoubleDataset, DoubleDataset yDoubleDataset, String identifier, String label) {
 		this.xDoubleDataset = xDoubleDataset;
-		lastYaxisData = new ScanDataItemNode(identifier, label, yDoubleDataset, (ScanNode) this.getParent(), this);
-		lastYaxisData.setYaxisColorInHex(colorHexValue);
-		this.yDoubleDataset.add(lastYaxisData);
-		this.firePropertyChange(DATA_Y_AXIS_PROP_NAME, null, lastYaxisData);
-		return lastYaxisData;
+		this.xDoubleDataset = xDoubleDataset;
+		ScanDataItemNode newnode = new ScanDataItemNode(this, identifier, label, yDoubleDataset);
+		newnode.setYaxisColorInHex(colorHexValue);
+		dataItemNodeList.add(newnode);
+		return newnode;
 	}
 
 	public String getColorInHex() {
@@ -110,7 +106,7 @@ public class SpectraNode extends Node {
 
 	@Override
 	public IObservableList getChildren() {
-		return yDoubleDataset;
+		return dataItemNodeList;
 	}
 
 	@Override

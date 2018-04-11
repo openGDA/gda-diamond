@@ -565,10 +565,10 @@ public class ScanDataPlotterComposite extends ResourceComposite {
 			LineTraceProviderNode lineTraceProvider = (LineTraceProviderNode) dataItemNode;
 			if (isAdded) {
 				addTrace(lineTraceProvider);
-				lineTraceProvider.getScanNode().addSelection(lineTraceProvider.getLabel());
+				lineTraceProvider.getScanNode().addLineSelection(lineTraceProvider.getLabel());
 			} else {
 				removeTrace(lineTraceProvider.getIdentifier());
-				lineTraceProvider.getScanNode().removeSelection(lineTraceProvider.getLabel());
+				lineTraceProvider.getScanNode().removeLineSelection(lineTraceProvider.getLabel());
 			}
 		}
 	}

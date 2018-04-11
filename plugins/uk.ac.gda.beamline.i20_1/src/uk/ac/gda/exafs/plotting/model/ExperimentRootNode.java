@@ -38,21 +38,40 @@ import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeExperimentProgressBean;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.EdeScanProgressBean;
+import uk.ac.gda.client.plotting.ScanDataPlotterComposite;
 import uk.ac.gda.client.plotting.model.Node;
 import uk.ac.gda.exafs.data.DetectorModel;
 
+/**
+ * This is the top level node class that stores data from a series of Ede/TurboXas scans.
+ * This is used as the model for the TreeViewer for {@link ScanDataPlotterComposite}.
+ * The various classes are linked to one another in the following tree structure :
+ * <li> {@link ExperimentRootNode}
+ * 		<ul>
+ * 		<li>{@link EdeScanNode}
+ * 			<ul>
+ * 			<li>{@link SpectraNode}
+ * 				<ul>
+ * 				<li> {@link ScanDataItemNode}
+ * 				<li> {@link ScanDataItemNode}
+ * 				<li> ...</ul>
+ * 			<li>{@link SpectraNode}
+ * 			<li> ... </ul>
+ *   	<li>{@link EdeScanNode}
+ * 		<li>{@link EdeScanNode}
+ * 		<li> ... </ul>
+ *
+ * i.e. The ExperimentRootNode contains a list of EdeScanNodes; each EdeScanNode has a list of SpectraNodes and
+ *  each SpectraNode has a list of ScanDataItemNodes. ScanDataItemNodes contains datasets with the x-y values to be plotted
+ */
 public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 
 	private final DoubleDataset stripsData;
-	private final Map<Integer, EdeScanNode> scans = new HashMap<Integer, EdeScanNode>();
-	private final IObservableList dataset = new WritableList(new ArrayList<EdeScanNode>(), EdeScanNode.class);
-
-	private Node changedData;
+	private final Map<Integer, EdeScanNode> scanNodeMap = new HashMap<>();
+	private final IObservableList scanNodeList = new WritableList(new ArrayList<EdeScanNode>(), EdeScanNode.class);
 
 	public static final String USE_STRIPS_AS_X_AXIS_PROP_NAME = "useStripsAsXaxis";
 	private boolean useStripsAsXaxis;
-
-	private Node addedData;
 
 	private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
@@ -73,7 +92,7 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 	}
 
 	private void updateScansData() {
-		for (Object scanObj: dataset) {
+		for (Object scanObj: scanNodeList) {
 			for (Object spectraObj: ((EdeScanNode) scanObj).getChildren()) {
 				SpectraNode spectraNode = (SpectraNode) spectraObj;
 				for (Object scanDataObj: spectraNode.getChildren()) {
@@ -112,14 +131,6 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 		});
 	}
 
-	public Node getChangedData() {
-		return changedData;
-	}
-
-	public Node getAddedData() {
-		return addedData;
-	}
-
 	// FIXME Changed to linked list or change viewer to reverse the order!
 	@SuppressWarnings("unchecked")
 	protected void updateDataSetInUI(@SuppressWarnings("unused") Object source, Object arg) {
@@ -128,29 +139,26 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 			final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
 			final int scanIdentifier = edeScanProgress.getFilename().hashCode(); //should be unique (or at least, unique enough...)
 			EdeScanNode datasetNode;
-			if (!scans.containsKey(scanIdentifier)) {
+			// Make a new EdeScanNode to store the spectra from the scan
+			if (!scanNodeMap.containsKey(scanIdentifier)) {
 				boolean isMulti = (edeExperimentProgress.getExperimentCollectionType() == ExperimentCollectionType.MULTI);
-				final EdeScanNode newNode = new EdeScanNode(FilenameUtils.getBaseName(edeScanProgress.getFilename()), edeScanProgress.getFilename(), isMulti, this);
-				scans.put(scanIdentifier, newNode);
-				dataset.add(0, newNode);
+				final EdeScanNode newNode = new EdeScanNode(this, FilenameUtils.getBaseName(edeScanProgress.getFilename()), edeScanProgress.getFilename(), isMulti);
+				scanNodeMap.put(scanIdentifier, newNode);
+				scanNodeList.add(0, newNode);
 				datasetNode = newNode;
 				this.firePropertyChange(SCAN_ADDED_PROP_NAME, null, datasetNode);
 			} else {
-				datasetNode = scans.get(scanIdentifier);
+				datasetNode = scanNodeMap.get(scanIdentifier);
 			}
-			// Don't need to do this anymore - EdeExperimentProgressBean already has values for both axes.
-			//Force it to check if users want display data in Strips
-			//if (isUseStripsAsXaxis()) {
-			//	arg=new EdeExperimentProgressBean(edeExperimentProgress.getExperimentCollectionType(), edeScanProgress, edeExperimentProgress.getDataLabel(), edeExperimentProgress.getData(), stripsData);
-			//}
-			addedData = datasetNode.updateData((EdeExperimentProgressBean) arg);
+
+			Node addedData = datasetNode.updateData((EdeExperimentProgressBean) arg);
 			this.firePropertyChange(DATA_ADDED_PROP_NAME, null, addedData);
 		}
 	}
 
 	@Override
 	public IObservableList getChildren() {
-		return dataset;
+		return scanNodeList;
 	}
 
 	@Override

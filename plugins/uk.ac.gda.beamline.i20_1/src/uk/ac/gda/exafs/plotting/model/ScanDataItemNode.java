@@ -26,16 +26,18 @@ import org.eclipse.january.dataset.DoubleDataset;
 
 import uk.ac.gda.client.plotting.model.LineTraceProviderNode;
 import uk.ac.gda.client.plotting.model.Node;
-import uk.ac.gda.client.plotting.model.ScanNode;
 
+/**
+ * Stores data for single spectrum
+ */
 public class ScanDataItemNode extends LineTraceProviderNode {
 	private final String identifier;
 	private final DoubleDataset data;
 	private final String label;
 	private String yaxisColorInHex;
 
-	public ScanDataItemNode(String identifier, String label, DoubleDataset data, ScanNode scanNode, Node parent) {
-		super(scanNode, false, parent, null);
+	public ScanDataItemNode(Node parent, String identifier, String label, DoubleDataset data) {
+		super(parent, false, null);
 		this.identifier = identifier;
 		this.data = data;
 		this.label = label;
@@ -79,12 +81,6 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 		this.yaxisColorInHex = yaxisColorInHex;
 	}
 
-	//	@Override
-	//	public void setTraceStyle(TraceStyleDetails traceStyle) {
-	//		super.setTraceStyle(traceStyle);
-	//		this.setYaxisColorInHex(traceStyle.getColorHexValue());
-	//	}
-
 	@Override
 	public TraceStyleDetails getTraceStyle() {
 		if (super.getTraceStyle() != null) {
@@ -122,6 +118,6 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 
 	@Override
 	public void removeChild(Node dataNode) {
-		// NOt supported
+		// Not supported
 	}
 }
