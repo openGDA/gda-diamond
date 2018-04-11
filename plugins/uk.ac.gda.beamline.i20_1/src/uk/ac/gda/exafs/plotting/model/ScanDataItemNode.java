@@ -24,28 +24,22 @@ import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.january.dataset.DoubleDataset;
 
+import uk.ac.gda.client.plotting.model.ITreeNode;
 import uk.ac.gda.client.plotting.model.LineTraceProviderNode;
-import uk.ac.gda.client.plotting.model.Node;
 
 /**
  * Stores data for single spectrum
  */
 public class ScanDataItemNode extends LineTraceProviderNode {
-	private final String identifier;
 	private final DoubleDataset data;
 	private final String label;
 	private String yaxisColorInHex;
 
-	public ScanDataItemNode(Node parent, String identifier, String label, DoubleDataset data) {
+	public ScanDataItemNode(ITreeNode parent, String identifier, String label, DoubleDataset data) {
 		super(parent, false, null);
-		this.identifier = identifier;
+		setIdentifier(identifier);
 		this.data = data;
 		this.label = label;
-	}
-
-	@Override
-	public String getIdentifier() {
-		return identifier;
 	}
 
 	@Override
@@ -65,16 +59,16 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 
 	@Override
 	public DoubleDataset getXAxisDataset() {
-		ExperimentRootNode experimentDataNode = (ExperimentRootNode) parent.getParent().getParent();
-		if (experimentDataNode.isUseStripsAsXaxis()) {
-			DoubleDataset positionData = ((SpectraNode) parent).getUncalibratedXAxisData();
+		ExperimentRootNode experimentRootNode = (ExperimentRootNode) getParent().getParent().getParent();
+		if (experimentRootNode.isUseStripsAsXaxis()) {
+			DoubleDataset positionData = ((SpectraNode) getParent()).getUncalibratedXAxisData();
 			if (positionData!=null) {
 				return positionData;
 			} else {
-				return experimentDataNode.getStripsData();
+				return experimentRootNode.getStripsData();
 			}
 		}
-		return ((SpectraNode) parent).getXAxisData();
+		return ((SpectraNode) getParent()).getXAxisData();
 	}
 
 	public void setYaxisColorInHex(String yaxisColorInHex) {
@@ -87,7 +81,7 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 			return super.getTraceStyle();
 		}
 		TraceStyleDetails traceStyle = new TraceStyleDetails();
-		EdeScanNode scanDataNode = (EdeScanNode) this.getParent().getParent();
+		EdeScanNode scanDataNode = (EdeScanNode) getScanNode();
 		ExperimentRootNode experimentDataNode = (ExperimentRootNode) scanDataNode.getParent();
 		if (!scanDataNode.isMultiCollection()) {
 			if ((experimentDataNode.getChildren().size() - experimentDataNode.getChildren().indexOf(scanDataNode)) % 2 == 0) {
@@ -110,14 +104,9 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 
 	@Override
 	public boolean isPlotByDefault() {
-		if (((SpectraNode) parent).getLabel().equals(EdeDataConstants.LN_I0_IT_COLUMN_NAME)) {
+		if (((SpectraNode) getParent()).getLabel().equals(EdeDataConstants.LN_I0_IT_COLUMN_NAME)) {
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public void removeChild(Node dataNode) {
-		// Not supported
 	}
 }

@@ -86,6 +86,7 @@ import uk.ac.gda.client.plotting.model.LineTraceProviderNode;
 import uk.ac.gda.client.plotting.model.LineTraceProviderNode.TraceStyleDetails;
 import uk.ac.gda.client.plotting.model.Node;
 import uk.ac.gda.client.plotting.model.ScanNode;
+import uk.ac.gda.exafs.plotting.model.ExperimentRootNode;
 
 public class ScanDataPlotterComposite extends ResourceComposite {
 	private static final int HIGHLIGHTED_LINE_WIDTH = 2;
@@ -150,7 +151,7 @@ public class ScanDataPlotterComposite extends ResourceComposite {
 				});
 			}
 		});
-		rootDataNode.addPropertyChangeListener(Node.DATA_ADDED_PROP_NAME, new PropertyChangeListener() {
+		rootDataNode.addPropertyChangeListener(ExperimentRootNode.DATA_ADDED_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(final PropertyChangeEvent evt) {
 				Node node = (Node) evt.getNewValue();
@@ -165,7 +166,7 @@ public class ScanDataPlotterComposite extends ResourceComposite {
 			}
 		});
 
-		rootDataNode.addPropertyChangeListener(Node.SCAN_ADDED_PROP_NAME, new PropertyChangeListener() {
+		rootDataNode.addPropertyChangeListener(ExperimentRootNode.SCAN_ADDED_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(final PropertyChangeEvent evt) {
 				Node node = (Node) evt.getNewValue();
@@ -173,7 +174,7 @@ public class ScanDataPlotterComposite extends ResourceComposite {
 			}
 		});
 
-		rootDataNode.addPropertyChangeListener(Node.DATA_CHANGED_PROP_NAME, new PropertyChangeListener() {
+		rootDataNode.addPropertyChangeListener(ExperimentRootNode.DATA_CHANGED_PROP_NAME, new PropertyChangeListener() {
 			@Override
 			public void propertyChange(final PropertyChangeEvent evt) {
 				Node node = (Node) evt.getNewValue();
@@ -563,12 +564,13 @@ public class ScanDataPlotterComposite extends ResourceComposite {
 	private void updateDataItemNode(Node dataItemNode, boolean isAdded) {
 		if (dataItemNode instanceof LineTraceProviderNode) {
 			LineTraceProviderNode lineTraceProvider = (LineTraceProviderNode) dataItemNode;
+			ScanNode scanNode = (ScanNode)lineTraceProvider.getScanNode();
 			if (isAdded) {
 				addTrace(lineTraceProvider);
-				lineTraceProvider.getScanNode().addLineSelection(lineTraceProvider.getLabel());
+				scanNode.addLineSelection(lineTraceProvider.getLabel());
 			} else {
 				removeTrace(lineTraceProvider.getIdentifier());
-				lineTraceProvider.getScanNode().removeLineSelection(lineTraceProvider.getLabel());
+				scanNode.removeLineSelection(lineTraceProvider.getLabel());
 			}
 		}
 	}

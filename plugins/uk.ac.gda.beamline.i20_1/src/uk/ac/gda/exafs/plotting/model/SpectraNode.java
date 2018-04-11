@@ -18,18 +18,14 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
-import java.util.ArrayList;
-
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
 import gda.rcp.GDAClientActivator;
 import uk.ac.gda.client.liveplot.IPlotLineColorService;
+import uk.ac.gda.client.plotting.model.ITreeNode;
 import uk.ac.gda.client.plotting.model.Node;
-import uk.ac.gda.client.plotting.model.ScanNode;
 
 /**
  * Stores all spectra of particular type for a scan (e.g. lnI0It, It, ...).
@@ -40,26 +36,18 @@ public class SpectraNode extends Node {
 	private DoubleDataset xDoubleDataset;
 	private DoubleDataset uncalibratedXAxisData; // e.g. strip number (for XH, XStrip), or position (for TurboXas)
 
-	private final IObservableList dataItemNodeList = new WritableList(new ArrayList<ScanDataItemNode>(), ScanDataItemNode.class);
 	private final String label;
-	private final String identifier;
 	private final String colorHexValue;
 
-	public SpectraNode(ScanNode parent, String identifier, String label) {
-		super(parent);
+	public SpectraNode(ITreeNode parent, String identifier, String label) {
+		super(parent, identifier);
 		this.label = label;
-		this.identifier = identifier;
 		colorHexValue = getColorInHex();
 	}
 
 	@Override
 	public String toString() {
 		return label;
-	}
-
-	@Override
-	public String getIdentifier() {
-		return identifier;
 	}
 
 	public void setXAxisData(DoubleDataset xDoubleDataset) {
@@ -71,24 +59,17 @@ public class SpectraNode extends Node {
 		return xDoubleDataset;
 	}
 
-	public IObservableList getNodeList() {
-		return dataItemNodeList;
-	}
-
 	/**
 	 * Add new create new ScanDataItemNode object for the datasets and add to nodeList
-	 * @param xDoubleDataset
 	 * @param yDoubleDataset
 	 * @param identifier Unique identifier for the data
 	 * @param label Label used to identify the data in the tree view
 	 * @return new ScanDataItemNode object created using yDoubleDataset, identifer, label etc.
 	 */
-	public ScanDataItemNode updateData(DoubleDataset xDoubleDataset, DoubleDataset yDoubleDataset, String identifier, String label) {
-		this.xDoubleDataset = xDoubleDataset;
-		this.xDoubleDataset = xDoubleDataset;
+	public ScanDataItemNode updateData(DoubleDataset yDoubleDataset, String identifier, String label) {
 		ScanDataItemNode newnode = new ScanDataItemNode(this, identifier, label, yDoubleDataset);
 		newnode.setYaxisColorInHex(colorHexValue);
-		dataItemNodeList.add(newnode);
+		addChildNode(newnode);
 		return newnode;
 	}
 
@@ -102,16 +83,6 @@ public class SpectraNode extends Node {
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public IObservableList getChildren() {
-		return dataItemNodeList;
-	}
-
-	@Override
-	public void removeChild(Node dataNode) {
-		// NOt supported
 	}
 
 	public DoubleDataset getUncalibratedXAxisData() {

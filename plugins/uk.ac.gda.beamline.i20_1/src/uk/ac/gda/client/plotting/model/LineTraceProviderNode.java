@@ -29,12 +29,12 @@ import uk.ac.gda.beans.ObservableModel;
 public abstract class LineTraceProviderNode extends Node {
 	private TraceStyleDetails traceStyle;
 	private boolean isHighlighted;
-	private final ScanNode scanNode;
+	private final ITreeNode scanNode;
 	private final boolean plotByDefault;
 
-	public LineTraceProviderNode(Node parent, boolean plotByDefault, TraceStyleDetails traceStyle) {
+	public LineTraceProviderNode(ITreeNode parent, boolean plotByDefault, TraceStyleDetails traceStyle) {
 		super(parent);
-		this.scanNode = (ScanNode) parent.getParent();
+		this.scanNode = parent.getParent();
 		this.plotByDefault = plotByDefault;
 		this.setTraceStyle(traceStyle);
 	}
@@ -61,7 +61,7 @@ public abstract class LineTraceProviderNode extends Node {
 		this.isHighlighted = isHighlighted;
 	}
 
-	public ScanNode getScanNode() {
+	public ITreeNode getScanNode() {
 		return scanNode;
 	}
 

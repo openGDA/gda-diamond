@@ -18,15 +18,10 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.observable.list.WritableList;
 
 import gda.scan.ede.EdeExperimentProgressBean;
+import uk.ac.gda.client.plotting.model.ITreeNode;
 import uk.ac.gda.client.plotting.model.Node;
 import uk.ac.gda.client.plotting.model.ScanNode;
 
@@ -35,41 +30,35 @@ import uk.ac.gda.client.plotting.model.ScanNode;
  * Stores a list of {@link SpectraNode}s. i.e. all data for a single scan - a list of top level nodes (one list item for each type of data).
  */
 public class EdeScanNode extends ScanNode {
-	private final Map<String, SpectraNode> spectraNodeMap = new HashMap<>();
-	private final IObservableList spectraNodeList = new WritableList(new ArrayList<SpectraNode>(), SpectraNode.class);
-	private final String scanIdentifier;
 
 	private final boolean multiCollection;
+	private String label;
 
 	/**
-	 * @param scanIdentifier - label for scan in plot view
-	 * @param fileName
-	 * @param multiCollection
 	 * @param parent
+	 * @param scanIdentifier - unique identifier for the scan (e.g. full path to nexus file)
+	 * @param label - label for scan in plot view
+	 * @param multiCollection
 	 */
-	public EdeScanNode(Node parent, String scanIdentifier, String fileName, boolean multiCollection) {
-		super(scanIdentifier, fileName, parent);
-		this.scanIdentifier = scanIdentifier;
+	public EdeScanNode(ITreeNode parent, String scanIdentifier, String label, boolean multiCollection) {
+		super(parent, scanIdentifier, scanIdentifier);
+		this.label = label;
 		this.multiCollection = multiCollection;
 	}
 
-	public IObservableList getNodeList() {
-		return spectraNodeList;
-	}
-
 	public Node updateData(final EdeExperimentProgressBean arg) {
+		String dataLabel = arg.getDataLabel();
+		String nodeKey = this.toString() + "@" + dataLabel;
 		SpectraNode dataNode;
-		String label = arg.getDataLabel();
-		String nodeKey = this.toString() + "@" + label;
 		// Make new SpectraNode to store the data of this type
-		if (!spectraNodeMap.containsKey(nodeKey)) {
-			final SpectraNode newNode = new SpectraNode(this, nodeKey, label);
+		if (!hasChild(nodeKey)) {
+			final SpectraNode newNode = new SpectraNode(this, nodeKey, dataLabel);
 			newNode.setUncalibratedXAxisData(arg.getUncalibratedXAxisData());
-			spectraNodeMap.put(nodeKey, newNode);
-			spectraNodeList.add(newNode);
+			newNode.setXAxisData(arg.getEnergyData());
+			addChildNode(newNode);
 			dataNode = newNode;
 		} else {
-			dataNode = spectraNodeMap.get(nodeKey);
+			dataNode = (SpectraNode) getChild(nodeKey);
 		}
 		// plotIdentifier is the key for the spectrum (should be unique for each scan datapoint).
 		String plotIdentifier =  nodeKey + "@" + arg.getProgress().getGroupNumOfThisSDP() + "@" + arg.getProgress().getFrameNumOfThisSDP();
@@ -84,7 +73,7 @@ public class EdeScanNode extends ScanNode {
 			plotIdentifier = nodeKey + ":" + customLabel;
 		}
 
-		dataNode.updateData(arg.getEnergyData(), arg.getData(), plotIdentifier, plotLabel);
+		dataNode.updateData(arg.getData(), plotIdentifier, plotLabel);
 		return dataNode;
 	}
 
@@ -94,21 +83,6 @@ public class EdeScanNode extends ScanNode {
 
 	@Override
 	public String toString() {
-		return "Scan:" + scanIdentifier;
-	}
-
-	@Override
-	public IObservableList getChildren() {
-		return spectraNodeList;
-	}
-
-	@Override
-	public String getIdentifier() {
-		return scanIdentifier;
-	}
-
-	@Override
-	public void removeChild(Node dataNode) {
-		// NOt supported
+		return "Scan:" + label;
 	}
 }

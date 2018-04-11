@@ -18,15 +18,10 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.apache.commons.io.FilenameUtils;
-import org.eclipse.core.databinding.observable.list.IObservableList;
-import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.swt.widgets.Display;
 
@@ -67,9 +62,10 @@ import uk.ac.gda.exafs.data.DetectorModel;
 public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 
 	private final DoubleDataset stripsData;
-	private final Map<Integer, EdeScanNode> scanNodeMap = new HashMap<>();
-	private final IObservableList scanNodeList = new WritableList(new ArrayList<EdeScanNode>(), EdeScanNode.class);
 
+	public static final String DATA_CHANGED_PROP_NAME = "changedData";
+	public static final String DATA_ADDED_PROP_NAME = "addedData";
+	public static final String SCAN_ADDED_PROP_NAME = "addedScan";
 	public static final String USE_STRIPS_AS_X_AXIS_PROP_NAME = "useStripsAsXaxis";
 	private boolean useStripsAsXaxis;
 
@@ -92,7 +88,7 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 	}
 
 	private void updateScansData() {
-		for (Object scanObj: scanNodeList) {
+		for (Object scanObj: getChildren()) {
 			for (Object spectraObj: ((EdeScanNode) scanObj).getChildren()) {
 				SpectraNode spectraNode = (SpectraNode) spectraObj;
 				for (Object scanDataObj: spectraNode.getChildren()) {
@@ -109,12 +105,7 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 	 */
 	@Override
 	public void update(final Object source, final Object arg) {
-		executorService.submit(new Runnable() {
-			@Override
-			public void run() {
-				updateSyncInGuiThread(source, arg);
-			}
-		});
+		executorService.submit( () -> updateSyncInGuiThread(arg) );
 	}
 
 	/**
@@ -122,53 +113,35 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 	 * @param source
 	 * @param arg
 	 */
-	private void updateSyncInGuiThread(final Object source, final Object arg) {
-		Display.getDefault().syncExec(new Runnable() {
-			@Override
-			public void run() {
-				updateDataSetInUI(source, arg);
-			}
-		});
+	private void updateSyncInGuiThread(final Object arg) {
+		Display.getDefault().syncExec( () -> updateDataSetInUI(arg) );
 	}
 
-	// FIXME Changed to linked list or change viewer to reverse the order!
-	@SuppressWarnings("unchecked")
-	protected void updateDataSetInUI(@SuppressWarnings("unused") Object source, Object arg) {
+	protected void updateDataSetInUI(Object arg) {
 		if (arg instanceof EdeExperimentProgressBean) {
 			final EdeExperimentProgressBean edeExperimentProgress = (EdeExperimentProgressBean) arg;
 			final EdeScanProgressBean edeScanProgress = edeExperimentProgress.getProgress();
-			final int scanIdentifier = edeScanProgress.getFilename().hashCode(); //should be unique (or at least, unique enough...)
-			EdeScanNode datasetNode;
+			final String scanIdentifier = edeScanProgress.getFilename();
+			EdeScanNode scanNode;
 			// Make a new EdeScanNode to store the spectra from the scan
-			if (!scanNodeMap.containsKey(scanIdentifier)) {
+			if (!hasChild(scanIdentifier)) {
 				boolean isMulti = (edeExperimentProgress.getExperimentCollectionType() == ExperimentCollectionType.MULTI);
-				final EdeScanNode newNode = new EdeScanNode(this, FilenameUtils.getBaseName(edeScanProgress.getFilename()), edeScanProgress.getFilename(), isMulti);
-				scanNodeMap.put(scanIdentifier, newNode);
-				scanNodeList.add(0, newNode);
-				datasetNode = newNode;
-				this.firePropertyChange(SCAN_ADDED_PROP_NAME, null, datasetNode);
+				final EdeScanNode newNode = new EdeScanNode(this, edeScanProgress.getFilename(), FilenameUtils.getBaseName(edeScanProgress.getFilename()), isMulti);
+				addChildNode(0, newNode);
+				scanNode = newNode;
+				this.firePropertyChange(SCAN_ADDED_PROP_NAME, null, scanNode);
 			} else {
-				datasetNode = scanNodeMap.get(scanIdentifier);
+				scanNode = (EdeScanNode) getChild(scanIdentifier);
 			}
 
-			Node addedData = datasetNode.updateData((EdeExperimentProgressBean) arg);
+			Node addedData = scanNode.updateData((EdeExperimentProgressBean) arg);
 			this.firePropertyChange(DATA_ADDED_PROP_NAME, null, addedData);
 		}
 	}
 
 	@Override
-	public IObservableList getChildren() {
-		return scanNodeList;
-	}
-
-	@Override
 	public String getIdentifier() {
 		return null;
-	}
-
-	@Override
-	public void removeChild(Node dataNode) {
-		// NOt supported
 	}
 
 	public DoubleDataset getStripsData() {
