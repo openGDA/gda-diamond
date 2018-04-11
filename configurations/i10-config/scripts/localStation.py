@@ -1,26 +1,20 @@
 from utils.ExceptionLogs import localStation_exceptions
-from gdaserver import shtr1, gv12 
+from gdaserver import shtr1, gv12 , pgm_energy, alpha, chi, difx, dsd, dsu, eta,\
+    lgb, lgf, lgm, th, tth, sx, sy, sz, idd_gap, idd_rowphase1, idd_jawphase,\
+    idd_rowphase3, idd_rowphase4, idd_rowphase2, idd_sepphase, idu_gap,\
+    idu_rowphase1, idu_rowphase2, idu_jawphase, idu_rowphase3, idu_rowphase4,\
+    idu_sepphase
 import installation
 from gda.jython.commands import GeneralCommands
 from gda.jython.commands.GeneralCommands import alias
+from gda.device.scannable import DummyScannable
 
 print "**************************************************"
 print "Running the I10 startup script localStation.py..."
 print ""
 
-global ScriptBase, run, finder, MetaDataPD, PositionWrapper, DummyScannable, add_default
-global idd_gap, idd_rowphase1, idd_rowphase2, idd_rowphase3, idd_rowphase4, idd_jawphase, idd_sepphase, \
-       idu_gap, idu_rowphase1, idu_rowphase2, idu_rowphase3, idu_rowphase4, idu_jawphase, idu_sepphase, \
-       pgm_energy, s4xgap, s4ygap, th, tth, thp, ttp, eta, sx, sy, sz
-global tth, th, chi, dsu, dsd, eta, ttp, thp, py, pz, alpha, difx, lgf, lgb, lgm, sx, sy, sz
-global RetTilt, RetRotation, AnaTilt ,AnaRotation, \
-        AnaDetector, AnaTranslation,hpx, hpy, hpc, hpb
-global mac116, mac117, mac118, mac119, mac120
 global RASOR_SCALER, UI1, UJ1
-global zebra
-
 import java
-from gda.configuration.properties import LocalProperties
 from gdascripts.messages.handle_messages import simpleLog
 
 print "-"*100
@@ -70,7 +64,16 @@ print SaveAndReload.__doc__
 print "-"*100
 print "creating 'dummy' & `denergy` scannables"
 dummy = DummyScannable("dummy")
-denergy = pgm_energy
+denergy = pgm_energy #used in I10 diffcalc
+
+#Create snap command for capturing a snapshot of camera
+print "-"*100
+print "creating 'snap' command for capturing a snapshot off a detector:"
+print "    Usage example: >>>snap pimte 6.0"
+def snap(det, t):
+    scan(dummy, 1,1,1, det,t)
+alias("snap")
+
 
 #RASOR Multilayer support
 from rasor.scannable.polarisation_analyser_example import *  # @UnusedWildImport
@@ -78,7 +81,7 @@ from rasor.scannable.polarisation_analyser_example import *  # @UnusedWildImport
 if installation.isLive():
     #High Field Magnet support
     from high_field_magnet.scannable.intelligent_power_supply_instances import *  # @UnusedWildImport
-    from scannable.temporaryIDControls import *  # @UnusedWildImport
+#     from scannable.temporaryIDControls import *  # @UnusedWildImport
     from scannable.frontEndBeamMonitors import *  # @UnusedWildImport
     from scannable.mirrors_fine_pitch_motors import *  # @UnusedWildImport
     try:
@@ -108,6 +111,8 @@ if installation.isLive():
         gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
     except:
         localStation_exception(sys.exc_info(), "creating gflow2 scannable")
+else:
+    global m1fpitch
         
 ######## Setting up the Andor Rasor camera ###############
 andor_installed = False
@@ -191,6 +196,7 @@ try:
     stdmeta()
     print "Use 'stdmeta()' to reset to standard scannables"
     #alias('stdmeta')
+    from gda.jython.commands.ScannableCommands import add_default
     add_default(meta)
     meta.quiet = True
     
@@ -220,6 +226,7 @@ STOP_ALL_EXCLUSIONS=[]  # @UndefinedVariable
 print "*"*100
 print "Attempting to run localStationUser.py from users script directory"
 try:
+    from gda.jython.commands.GeneralCommands import run
     run("localStationUser")
     print "localStationUser.py completed."
 except java.io.FileNotFoundException, e:
