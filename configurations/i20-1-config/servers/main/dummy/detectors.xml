@@ -16,7 +16,7 @@
 		<property name="replyTimeOut" value="5000" />
 	</bean>
 
-	<import resource="file:${gda.config}/servers/main/detectors-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors.xml" />
 	
 <!-- Dummy Xspress3 detector - define this after detectors-common has been imported, so that tfg object is available -->
 	<bean id="xspress3Controller" class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">

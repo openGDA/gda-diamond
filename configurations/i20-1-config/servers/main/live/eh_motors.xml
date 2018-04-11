@@ -111,5 +111,5 @@
 		<property name="pvName" value="BL20J-MO-IONC-02:Y" />
 	</bean>
 
-	<import resource="file:${gda.config}/servers/main/eh_motors_common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/eh_motors.xml" />
 </beans>

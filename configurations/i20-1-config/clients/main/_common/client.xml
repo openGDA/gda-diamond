@@ -11,7 +11,7 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<import resource="file:${gda.config}/servers/i20-1-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/i20-1-common.xml" />
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="i20-1" />

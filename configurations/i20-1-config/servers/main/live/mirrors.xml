@@ -119,6 +119,6 @@
 		<property name="pvName" value="BL20J-OP-PCHRO-01:TWIST" />
 	</bean>
 
-	<import resource="file:${gda.config}/servers/main/mirrors-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/mirrors.xml" />
 
 </beans>

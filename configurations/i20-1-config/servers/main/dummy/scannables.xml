@@ -16,6 +16,6 @@
 		<property name="constantValue" value="600.0" />
 	</bean>
 
-	<import resource="file:${gda.config}/servers/main/scannables-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/scannables.xml" />
 
 </beans>

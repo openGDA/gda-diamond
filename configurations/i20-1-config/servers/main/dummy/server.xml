@@ -12,7 +12,7 @@
 	<bean id="wiggler_gap_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="frontend_aperture_motor" class="gda.device.motor.DummyMotor"/>
 
-	<import resource="file:${gda.config}/servers/main/server-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/frontend_and_shutters.xml" />
@@ -29,7 +29,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/zebra_turboslits.xml" />
 
 <!-- 	do this here as it may have object references to earlier XML files -->
-	<import resource="file:${gda.config}/servers/main/dataformat.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/dataformat.xml" />
 
 	<bean id="command_server" class="gda.jython.JythonServer">
 		<property name="jythonScriptPaths">
