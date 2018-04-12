@@ -353,35 +353,35 @@
     
     <!-- Patch Panel U1 Analog Output ControlPoint EpicsControlPoint -->
     <bean id="dac1" class="gda.device.controlpoint.EpicsControlPoint">
-        <property name="deviceName" value="U1.AO1" />
+        <property name="pvName" value="BL07I-EA-USER-01:AO1" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dac2" class="gda.device.controlpoint.EpicsControlPoint">
-        <property name="deviceName" value="U1.AO2" />
+        <property name="pvName" value="BL07I-EA-USER-01:AO2" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dac3" class="gda.device.controlpoint.EpicsControlPoint">
-        <property name="deviceName" value="U1.AO3" />
+        <property name="pvName" value="BL07I-EA-USER-01:AO3" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dac4" class="gda.device.controlpoint.EpicsControlPoint">
-        <property name="deviceName" value="U1.AO4" />
+        <property name="pvName" value="BL07I-EA-USER-01:AO4" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dac5" class="gda.device.controlpoint.EpicsControlPoint">
-        <property name="deviceName" value="U1.AO5" />
+        <property name="pvName" value="BL07I-EA-USER-01:AO5" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dac6" class="gda.device.controlpoint.EpicsControlPoint">
-        <property name="deviceName" value="U1.AO6" />
+        <property name="pvName" value="BL07I-EA-USER-01:AO6" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dac7" class="gda.device.controlpoint.EpicsControlPoint">
-        <property name="deviceName" value="U1.AO7" />
+        <property name="pvName" value="BL07I-EA-USER-01:AO7" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dac8" class="gda.device.controlpoint.EpicsControlPoint">
-        <property name="deviceName" value="U1.AO8" />
+        <property name="pvName" value="BL07I-EA-USER-01:AO8" />
         <property name="local" value="true"/>
     </bean>
     <bean id="DAC" class="gda.device.scannable.scannablegroup.ScannableGroup">
