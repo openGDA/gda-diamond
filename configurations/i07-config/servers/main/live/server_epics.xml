@@ -7,7 +7,7 @@
     <bean id="etcontroller11" class="gda.device.temperature.EpicsEurotherm2kController">
         <property name="local" value="true"/>
         <property name="configureAtStartup" value="true"/>
-        <property name="deviceName" value = "EURO1.LP1"/>
+        <property name="basePVName" value="BL07I-EA-TCTRL-01:LOOP1" />
         <property name="maxRampRate" value = "10"/>
         <property name="minRampRate" value = "0.01"/>
         <property name="maxOutput" value = "100"/>
@@ -28,7 +28,7 @@
     <bean id="etcontroller12" class="gda.device.temperature.EpicsEurotherm2kController">
         <property name="local" value="true"/>
         <property name="configureAtStartup" value="true"/>
-        <property name="deviceName" value = "EURO1.LP2"/>
+        <property name="basePVName" value="BL07I-EA-TCTRL-01:LOOP2" />
         <property name="maxRampRate" value = "10"/>
         <property name="minRampRate" value = "0.01"/>
         <property name="maxOutput" value = "100"/>
@@ -48,7 +48,7 @@
     <bean id="etcontroller13" class="gda.device.temperature.EpicsEurotherm2kController">
         <property name="local" value="true"/>
         <property name="configureAtStartup" value="true"/>
-        <property name="deviceName" value = "EURO1.LP3"/>
+        <property name="basePVName" value="BL07I-EA-TCTRL-01:LOOP3" />
         <property name="maxRampRate" value = "10"/>
         <property name="minRampRate" value = "0.01"/>
         <property name="maxOutput" value = "100"/>
@@ -71,7 +71,7 @@
     <bean id="etcontroller21" class="gda.device.temperature.EpicsEurotherm2kController">
         <property name="local" value="true"/>
         <property name="configureAtStartup" value="true"/>
-        <property name="deviceName" value = "EURO2.LP1"/>
+        <property name="basePVName" value="BL07I-EA-TCTRL-02:LOOP1" />
         <property name="maxRampRate" value = "10"/>
         <property name="minRampRate" value = "0.01"/>
         <property name="maxOutput" value = "100"/>
@@ -91,7 +91,7 @@
     <bean id="etcontroller22" class="gda.device.temperature.EpicsEurotherm2kController">
         <property name="local" value="true"/>
         <property name="configureAtStartup" value="true"/>
-        <property name="deviceName" value = "EURO2.LP2"/>
+        <property name="basePVName" value="BL07I-EA-TCTRL-02:LOOP2" />
         <property name="maxRampRate" value = "10"/>
         <property name="minRampRate" value = "0.01"/>
         <property name="maxOutput" value = "100"/>
@@ -111,7 +111,7 @@
     <bean id="etcontroller23" class="gda.device.temperature.EpicsEurotherm2kController">
         <property name="local" value="true"/>
         <property name="configureAtStartup" value="true"/>
-        <property name="deviceName" value = "EURO2.LP3"/>
+        <property name="basePVName" value="BL07I-EA-TCTRL-02:LOOP3" />
         <property name="maxRampRate" value = "10"/>
         <property name="minRampRate" value = "0.01"/>
         <property name="maxOutput" value = "100"/>
