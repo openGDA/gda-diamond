@@ -25,9 +25,7 @@ import org.eclipse.dawnsci.plotting.api.IPlottingSystem;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 
-import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.plotting.model.LineTraceProviderNode;
 import uk.ac.gda.client.plotting.model.LineTraceProviderNode.TraceStyleDetails;
 import uk.ac.gda.client.plotting.model.Node;
@@ -73,8 +71,8 @@ public class PlotHandler {
 		if (trace == null) {
 			trace = plottingSystem.createLineTrace(lineTraceProvider.getIdentifier());
 			TraceStyleDetails traceDetails = lineTraceProvider.getTraceStyle();
-			if (traceDetails.getColorHexValue() != null) {
-				trace.setTraceColor(getTraceColor(traceDetails.getColorHexValue()));
+			if (traceDetails.getColor() != null) {
+				trace.setTraceColor(traceDetails.getColor());
 			}
 			int lineWidth = traceDetails.getLineWidth();
 			if (lineTraceProvider.isHighlighted()) {
@@ -96,17 +94,6 @@ public class PlotHandler {
 		if (trace != null) {
 			plottingSystem.removeTrace(trace);
 		}
-	}
-
-	private Color getTraceColor(String colorValue) {
-		Color color = null;
-		if (!nodeColors.containsKey(colorValue)) {
-			color = UIHelper.convertHexadecimalToColor(colorValue, Display.getDefault());
-			nodeColors.put(colorValue, color);
-		} else {
-			color = nodeColors.get(colorValue);
-		}
-		return color;
 	}
 
 	public void dispose() {

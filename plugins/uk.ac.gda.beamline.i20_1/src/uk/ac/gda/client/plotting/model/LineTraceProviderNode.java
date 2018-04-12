@@ -21,6 +21,9 @@ package uk.ac.gda.client.plotting.model;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.nebula.visualization.xygraph.util.XYGraphMediaFactory;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 
 import com.google.gson.annotations.Expose;
 
@@ -66,9 +69,7 @@ public abstract class LineTraceProviderNode extends Node {
 	}
 
 	public static class TraceStyleDetails extends ObservableModel {
-		public static final String COLOR_HAX_VALUE_PROP_NAME = "colorHexValue";
 		@Expose
-		private String colorHexValue = null;
 		public static final String TRACE_TYPE_PROP_NAME = "traceType";
 		@Expose
 		private TraceType traceType;
@@ -82,13 +83,7 @@ public abstract class LineTraceProviderNode extends Node {
 		@Expose
 		private int lineWidth;
 
-		public String getColorHexValue() {
-			return colorHexValue;
-		}
-
-		public void setColorHexValue(String colorHexValue) {
-			this.firePropertyChange(COLOR_HAX_VALUE_PROP_NAME, this.colorHexValue, this.colorHexValue = colorHexValue);
-		}
+		private Color color = null;
 
 		public void setTraceType(TraceType traceType) {
 			this.firePropertyChange(TRACE_TYPE_PROP_NAME, this.traceType, this.traceType = traceType);
@@ -138,6 +133,35 @@ public abstract class LineTraceProviderNode extends Node {
 			traceStyle.setPointSize(3);
 			traceStyle.setLineWidth(1);
 			return traceStyle;
+		}
+
+		public Color getColor() {
+			return color;
+		}
+
+		/**
+		 * Return Color corresponding to RGB object
+		 * @param rgbColor RGB object
+		 * @return Color object
+		 */
+		private static Color getColor(RGB rgbColor) {
+			return XYGraphMediaFactory.getInstance().getColor(rgbColor);
+		}
+
+		/**
+		 * Set the colour of the line
+		 * @param color
+		 */
+		public void setColor(Color color) {
+			this.color = color;
+		}
+
+		/**
+		 * Set the colour of the line (from RGB colour value)
+		 * @param rgbColor
+		 */
+		public void setColor(RGB rgbColor) {
+			this.color = getColor(rgbColor);
 		}
 	}
 }

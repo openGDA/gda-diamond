@@ -81,9 +81,9 @@ public class ScanDataPlotterTree {
 				cell.setText(element.getLabel());
 				if (element instanceof LineTraceProviderNode) {
 					LineTraceProviderNode item = ((LineTraceProviderNode) element);
-					String color = item.getTraceStyle().getColorHexValue();
+					Color color = item.getTraceStyle().getColor();
 					if (color != null) {
-						cell.setForeground(getTraceColor(color));
+						cell.setForeground(color);
 					}
 					return;
 				}

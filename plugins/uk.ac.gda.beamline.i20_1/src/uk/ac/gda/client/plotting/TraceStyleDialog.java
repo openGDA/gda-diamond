@@ -22,11 +22,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
-import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -36,7 +34,6 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -46,7 +43,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.plotting.model.LineTraceProviderNode;
 import uk.ac.gda.client.plotting.model.LineTraceProviderNode.TraceStyleDetails;
 
@@ -74,7 +70,7 @@ public class TraceStyleDialog extends TitleAreaDialog {
 	}
 
 	private void fillDefault() {
-		traceStyle.setColorHexValue("#000000");
+		traceStyle.setColor(new RGB(0,0,0));
 		traceStyle.setLineWidth(1);
 		traceStyle.setTraceType(TraceType.SOLID_LINE);
 		traceStyle.setPointSize(3);
@@ -114,31 +110,18 @@ public class TraceStyleDialog extends TitleAreaDialog {
 		dataFirstName.horizontalAlignment = GridData.FILL;
 
 		final Label colorLabel = new Label(container, SWT.BORDER);
-		dataBindingCtx.bindValue(
-				WidgetProperties.background().observe(colorLabel),
-				BeanProperties.value(TraceStyleDetails.COLOR_HAX_VALUE_PROP_NAME).observe(traceStyle),
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object fromObject) {
-						return UIHelper.convertRGBToHexadecimal(((Color) fromObject).getRGB());
-					}
-				},
-				new UpdateValueStrategy() {
-					@Override
-					public Object convert(Object fromObject) {
-						return UIHelper.convertHexadecimalToColor(traceStyle.getColorHexValue(), TraceStyleDialog.this.getShell().getDisplay());
-					}
-				});
-
 		colorLabel.setLayoutData(dataFirstName);
+		colorLabel.setBackground(traceStyle.getColor());
 		colorLabel.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				ColorDialog colorDialog = new ColorDialog(TraceStyleDialog.this.getShell());
-				colorDialog.setText("Select your favorite color");
+				colorDialog.setText("Select your favourite colour");
 				RGB selectedColor = colorDialog.open();
+				// Update tracestyle and background colour of label
 				if (selectedColor != null) {
-					traceStyle.setColorHexValue(UIHelper.convertRGBToHexadecimal(selectedColor));
+					traceStyle.setColor(selectedColor);
+					colorLabel.setBackground(traceStyle.getColor());
 				}
 			}
 

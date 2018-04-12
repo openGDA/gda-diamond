@@ -23,6 +23,7 @@ import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
 import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.nebula.visualization.xygraph.figures.XYGraph;
 
 import uk.ac.gda.client.plotting.model.ITreeNode;
 import uk.ac.gda.client.plotting.model.LineTraceProviderNode;
@@ -33,13 +34,13 @@ import uk.ac.gda.client.plotting.model.LineTraceProviderNode;
 public class ScanDataItemNode extends LineTraceProviderNode {
 	private final DoubleDataset data;
 	private final String label;
-	private String yaxisColorInHex;
 
 	public ScanDataItemNode(ITreeNode parent, String identifier, String label, DoubleDataset data) {
 		super(parent, false, null);
 		setIdentifier(identifier);
 		this.data = data;
 		this.label = label;
+		setTraceStyle(getDefaultTraceStyle());
 	}
 
 	@Override
@@ -71,18 +72,16 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 		return ((SpectraNode) getParent()).getXAxisData();
 	}
 
-	public void setYaxisColorInHex(String yaxisColorInHex) {
-		this.yaxisColorInHex = yaxisColorInHex;
-	}
+	public TraceStyleDetails getDefaultTraceStyle() {
 
-	@Override
-	public TraceStyleDetails getTraceStyle() {
-		if (super.getTraceStyle() != null) {
-			return super.getTraceStyle();
-		}
-		TraceStyleDetails traceStyle = new TraceStyleDetails();
 		EdeScanNode scanDataNode = (EdeScanNode) getScanNode();
 		ExperimentRootNode experimentDataNode = (ExperimentRootNode) scanDataNode.getParent();
+		TraceStyleDetails traceStyle = new TraceStyleDetails();
+
+		// set the color from list of standard ones
+		int numPlots = scanDataNode.getTotalNumPlots();
+		traceStyle.setColor(XYGraph.DEFAULT_TRACES_COLOR[numPlots % XYGraph.DEFAULT_TRACES_COLOR.length]);
+
 		if (!scanDataNode.isMultiCollection()) {
 			if ((experimentDataNode.getChildren().size() - experimentDataNode.getChildren().indexOf(scanDataNode)) % 2 == 0) {
 				traceStyle.setTraceType(TraceType.DASH_LINE);
@@ -93,13 +92,19 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 				traceStyle.setPointStyle(PointStyle.NONE);
 				traceStyle.setPointSize(0);
 			}
-			traceStyle.setColorHexValue(yaxisColorInHex);
 		} else {
 			traceStyle.setTraceType(TraceType.SOLID_LINE);
-			traceStyle.setPointStyle(PointStyle.NONE);
-			traceStyle.setPointSize(0);
+			traceStyle.setLineWidth(1);
+			// Set point plotting style for datasets with only 1 value
+			if (data != null && data.getShape()[0]<=1) {
+				traceStyle.setPointStyle(PointStyle.CIRCLE);
+				traceStyle.setPointSize(5);
+			} else {
+				traceStyle.setPointStyle(PointStyle.NONE);
+				traceStyle.setPointSize(0);
+			}
 		}
-		return  traceStyle;
+		return traceStyle;
 	}
 
 	@Override

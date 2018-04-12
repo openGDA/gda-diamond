@@ -19,11 +19,7 @@
 package uk.ac.gda.exafs.plotting.model;
 
 import org.eclipse.january.dataset.DoubleDataset;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 
-import gda.rcp.GDAClientActivator;
-import uk.ac.gda.client.liveplot.IPlotLineColorService;
 import uk.ac.gda.client.plotting.model.ITreeNode;
 import uk.ac.gda.client.plotting.model.Node;
 
@@ -37,12 +33,10 @@ public class SpectraNode extends Node {
 	private DoubleDataset uncalibratedXAxisData; // e.g. strip number (for XH, XStrip), or position (for TurboXas)
 
 	private final String label;
-	private final String colorHexValue;
 
 	public SpectraNode(ITreeNode parent, String identifier, String label) {
 		super(parent, identifier);
 		this.label = label;
-		colorHexValue = getColorInHex();
 	}
 
 	@Override
@@ -68,21 +62,8 @@ public class SpectraNode extends Node {
 	 */
 	public ScanDataItemNode updateData(DoubleDataset yDoubleDataset, String identifier, String label) {
 		ScanDataItemNode newnode = new ScanDataItemNode(this, identifier, label, yDoubleDataset);
-		newnode.setYaxisColorInHex(colorHexValue);
 		addChildNode(newnode);
 		return newnode;
-	}
-
-	public String getColorInHex() {
-		BundleContext context = GDAClientActivator.getBundleContext();
-		ServiceReference<IPlotLineColorService> serviceRef = context.getServiceReference(IPlotLineColorService.class);
-		if (serviceRef != null) {
-			String colorValue = (String) serviceRef.getProperty(label);
-			if (colorValue != null) {
-				return colorValue;
-			}
-		}
-		return null;
 	}
 
 	public DoubleDataset getUncalibratedXAxisData() {

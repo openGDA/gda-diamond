@@ -33,6 +33,7 @@ public class EdeScanNode extends ScanNode {
 
 	private final boolean multiCollection;
 	private String label;
+	private int totalNumPlots;
 
 	/**
 	 * @param parent
@@ -44,6 +45,7 @@ public class EdeScanNode extends ScanNode {
 		super(parent, scanIdentifier, scanIdentifier);
 		this.label = label;
 		this.multiCollection = multiCollection;
+		totalNumPlots = 0;
 	}
 
 	public Node updateData(final EdeExperimentProgressBean arg) {
@@ -74,6 +76,7 @@ public class EdeScanNode extends ScanNode {
 		}
 
 		dataNode.updateData(arg.getData(), plotIdentifier, plotLabel);
+		totalNumPlots++;
 		return dataNode;
 	}
 
@@ -84,5 +87,9 @@ public class EdeScanNode extends ScanNode {
 	@Override
 	public String toString() {
 		return "Scan:" + label;
+	}
+
+	public int getTotalNumPlots() {
+		return totalNumPlots;
 	}
 }
