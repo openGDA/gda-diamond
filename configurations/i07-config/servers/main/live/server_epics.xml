@@ -136,7 +136,7 @@
     
     <!--  ============================== Epics Scaler ============== -->
     <bean id="struck1" class="gda.device.detector.EpicsScaler">
-        <property name="deviceName" value="SCALER1"/>
+        <property name="pvName" value="BL07I-EA-DET-01:SCALER" />
         <property name="local" value="true"/>
         <property name="frequency" value="50000000"/>
     </bean>
