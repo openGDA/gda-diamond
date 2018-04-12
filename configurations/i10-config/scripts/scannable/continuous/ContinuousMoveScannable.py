@@ -24,6 +24,7 @@ class ContinuousMoveScannable(ContinuouslyScannableViaController, ScannableMotio
         self._last_requested_position = None
         self.logger = LoggerFactory.getLogger("ContinuousMoveScannable:%s" % name)
         self.verbose = False
+        
     # Implement: public interface ContinuouslyScannableViaController extends Scannable
 
     def setOperatingContinuously(self, b):
