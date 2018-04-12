@@ -34,7 +34,7 @@ class McsWaveformChannelController(object):
         self.started = False
 
     def configure(self):
-        if self.verbose: self.logger.info('configure()...')
+        if self.verbose: self.logger.info("%s %s" % (self.name,'configure()...'))
         self.pv_stop.configure()
         self.pv_dwell.configure()
         self.pv_channeladvance.configure()
@@ -43,13 +43,13 @@ class McsWaveformChannelController(object):
         # Is there any reason why we can't EraseStart here?
 
     def erase(self):
-        if self.verbose: self.logger.info('erase()...')
+        if self.verbose: self.logger.info("%s %s" % (self.name,'erase()...'))
         #self.pv_erasestart.caput(1)
         self.started = False
-        if self.verbose: self.logger.info('...erase()')
+        if self.verbose: self.logger.info("%s %s" % (self.name,'...erase()'))
 
     def erase_and_start(self):
-        if self.verbose: self.logger.info('erase_and_start()...')
+        if self.verbose: self.logger.info("%s %s" % (self.name,'erase_and_start()...'))
         self.pv_stop.caput(1)  # scaler won't start if already running
         if self.channelAdvanceInternalNotExternal:
             self.pv_dwell.caput(TIMEOUT, self.exposure_time) # Set the exposure time per nominal position
@@ -62,18 +62,18 @@ class McsWaveformChannelController(object):
         # wait before setting started to True, so WaveformChannelPollingInputStream doesn't try to use stale data.
         startedTimer = Timer(1.5, self._delayed_start_complete) # Failed at 0.5s, Ok at 1.5s.
         startedTimer.start()
-        if self.verbose: self.logger.info('...erase_and_start()')
+        if self.verbose: self.logger.info("%s %s" % (self.name,'...erase_and_start()'))
 
     def _delayed_start_complete(self):
         self.started = True
-        if self.verbose: self.logger.info('..._delayed_start_complete()')
+        if self.verbose: self.logger.info("%s %s" % (self.name,'..._delayed_start_complete()'))
 
     def stop(self):
-        if self.verbose: self.logger.info('stop()...')
+        if self.verbose: self.logger.info("%s %s" % (self.name,'stop()...'))
         self.pv_stop.caput(1)
-        self.started = False
         self.stream.stop() # enable stop the element polling loop when stop is called.
-        if self.verbose: self.logger.info('...stop()')
+        self.started = False
+        if self.verbose: self.logger.info("%s %s" % (self.name,'...stop()'))
 
     # Provide functions to configure WaveformChannelScannable
 

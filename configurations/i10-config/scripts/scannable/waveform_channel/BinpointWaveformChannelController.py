@@ -29,33 +29,28 @@ class BinpointWaveformChannelController(object):
         self.exposure_time = 1
         self.number_of_positions = 0
         self.started = False
-#         self._collecting_data=False
-    
-#     def setCollectingData(self, b):
-#         self._collecting_data=b
-#     
-#     def isCollectingData(self):
-#         return self._collecting_data
         
     def configure(self):
+        if self.verbose: self.logger.info("%s %s" % (self.name,'configure()...'))
         self.pv_erasestart.configure()
 
     def erase(self):
-        if self.verbose: self.logger.info('erase()...')
+        if self.verbose: self.logger.info("%s %s" % (self.name,'erase()...'))
         #self.pv_erasestart.caput(1)
         self.started = False
-        if self.verbose: self.logger.info('...erase()')
+        if self.verbose: self.logger.info("%s %s" % (self.name,'...erase()'))
 
     def erase_and_start(self):
-        if self.verbose: self.logger.info('erase_and_start()...')
+        if self.verbose: self.logger.info("%s %s" % (self.name,'erase_and_start()...'))
         self.pv_erasestart.caput(1)
         self.started = True
-        if self.verbose: self.logger.info('...erase_and_start()')
+        if self.verbose: self.logger.info("%s %s" % (self.name,'...erase_and_start()'))
 
     def stop(self):
+        if self.verbose: self.logger.info("%s %s" % (self.name,'stop()...'))
         self.stream.stop()
         self.started = False # added after I10-145
-        if self.verbose: self.logger.info('...stop()')
+        if self.verbose: self.logger.info("%s %s" % (self.name,'...stop()'))
         # Binpoint has no stop, since it is slaved from the MCA.
 
     # Provide functions to configure WaveformChannelScannable
