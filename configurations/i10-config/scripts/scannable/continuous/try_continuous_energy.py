@@ -1,29 +1,16 @@
-# run 'scannable/continuous/try_continuous_energy.py'
-
-from mtscripts.scannable.waveform_channel.BinpointWaveformChannelController import \
-                                          BinpointWaveformChannelController
-from mtscripts.scannable.waveform_channel.McsWaveformChannelController import \
-                                          McsWaveformChannelController
-from mtscripts.scannable.waveform_channel.WaveformChannelScannable import \
-                                          WaveformChannelScannable
-from gda.device.detector.hardwaretriggerable import \
-                    DummyHardwareTriggerableDetector
+from scannable.waveform_channel.BinpointWaveformChannelController import BinpointWaveformChannelController
+from scannable.waveform_channel.McsWaveformChannelController import McsWaveformChannelController
+from scannable.waveform_channel.WaveformChannelScannable import WaveformChannelScannable
+from gda.device.detector.hardwaretriggerable import DummyHardwareTriggerableDetector
 from gdascripts.scan import trajscans
 from gdascripts.scan.scanListener import ScanListener
-from scannable.continuous.ContinuousPgmEnergyMoveController import \
-                          ContinuousPgmEnergyMoveController
-from scannable.continuous.ContinuousMoveScannable import \
-                          ContinuousMoveScannable
-from scannable.continuous.ContinuousPgmGratingEnergyMoveController import \
-                          ContinuousPgmGratingEnergyMoveController
-from scannable.continuous.ContinuousMovePgmEnergyBinpointScannable import \
-                          ContinuousMovePgmEnergyBinpointScannable
-#from scannable.continuous.ContinuousMovePgmEnergyIdJawPhaseBinpointScannable import \
-#                          ContinuousMovePgmEnergyIdJawPhaseBinpointScannable
+from scannable.continuous.ContinuousPgmEnergyMoveController import ContinuousPgmEnergyMoveController
+from scannable.continuous.ContinuousMoveScannable import ContinuousMoveScannable
+from scannable.continuous.ContinuousPgmGratingEnergyMoveController import ContinuousPgmGratingEnergyMoveController
+from scannable.continuous.ContinuousMovePgmEnergyBinpointScannable import ContinuousMovePgmEnergyBinpointScannable
+#from scannable.continuous.ContinuousMovePgmEnergyIdJawPhaseBinpointScannable import ContinuousMovePgmEnergyIdJawPhaseBinpointScannable
 from org.slf4j import LoggerFactory
-
-global pgm_energy
-global pgm_grat_pitch, pgm_m2_pitch
+from gdaserver import pgm_energy, pgm_grat_pitch, pgm_m2_pitch
 
 cemc = ContinuousPgmEnergyMoveController('cemc', pgm_energy); cemc.verbose=True
 egy =  ContinuousMoveScannable('egy',     cemc);               egy.verbose=True
