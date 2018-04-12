@@ -63,7 +63,7 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         self.waitWhileMoving()
         ### Calculate trigger delays
         if self.verbose:
-            self.logger.info('...prepareForMove')
+            self.logger.info('...End of prepareForMove')
 
     def startMove(self):
         if self.verbose: self.logger.info('startMove()...')
@@ -82,7 +82,7 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
                                             self._move_end - self._runupdown, self._energy_speed))
             self._energy.asynchronousMoveTo(self._move_end - self._runupdown)
         # How do we trigger the detectors, since they are 'HardwareTriggerable'?
-        if self.verbose: self.logger.info('...startMove')
+        if self.verbose: self.logger.info('...End of startMove')
 
     def isMoving(self):
         if self.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=1):
