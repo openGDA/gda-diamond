@@ -70,8 +70,11 @@ denergy = pgm_energy #used in I10 diffcalc
 print "-"*100
 print "creating 'snap' command for capturing a snapshot off a detector:"
 print "    Usage example: >>>snap pimte 6.0"
-def snap(det, t):
-    scan(dummy, 1,1,1, det,t)
+def snap(det, t, *args):
+    newargs=[dummy, 1,1,1, det,t]
+    for arg in args:
+        newargs.append(arg)
+    scan([e for e in newargs])
 alias("snap")
 
 
