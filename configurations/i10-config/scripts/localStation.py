@@ -215,6 +215,13 @@ from scan.miscan import miscan  # @UnusedImport
 print miscan.__doc__  # @UndefinedVariable
 alias("miscan")
 
+#Continuous Scan commands
+from scan.cvscan import cvscan  # @UnusedImport
+from scan.trajectory_scans import trajcscan, trajrscan  # @UnusedImport
+#Import continuous scannables
+if installation.isLive():
+    from scannable.continuous.continuous_energy_scannables import *  # @UnusedWildImport
+
 print
 print "*"*80
 #DiffCalc
