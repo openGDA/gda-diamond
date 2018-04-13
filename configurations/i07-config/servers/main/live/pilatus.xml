@@ -123,7 +123,7 @@
 
 	<bean id="pilatus1.HDF5_NDFileHDF5"
 		class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="deviceName" value="pilatus1.HDF5_NDFileHDF5" />
+		<property name="basePVName" value="BL07I-EA-PILAT-01:HDF5:" />
 		<property name="file">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 				<property name="deviceName" value="pilatus1.HDF5_NDFile" />
