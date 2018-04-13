@@ -10,7 +10,7 @@
     </bean>
     
     <bean id="fleacam3_ndarray"  class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-        <property name="deviceName" value="FWCAM3.ARR_NDStdArrays" />
+        <property name="basePVName" value="BL07I-DI-PHDGN-08:ARR:" />
         <property name="pluginBase">
             <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
                 <property name="deviceName" value="FWCAM3.ARR_NDPluginBase" />
