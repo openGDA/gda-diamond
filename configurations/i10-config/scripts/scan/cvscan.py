@@ -74,6 +74,8 @@ def cvscan2(c_energy, start, stop, step, *args):
 def checkContentEqual(lst):
     return lst[1:] == lst[:-1]
 
+alias("cvscan2")
+
 # E.g. cvscan egy 695 705 1 mcs1 2 mcs17 2 mcs16 2
 
 """ Tests Results:
