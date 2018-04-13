@@ -34,6 +34,6 @@
 	<bean id="ts_hoffset_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="ts_speed_motor" class="gda.device.motor.DummyMotor" />
 
-	<import resource="file:${gda.config}/servers/main/slits-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/slits.xml" />
 
 </beans>

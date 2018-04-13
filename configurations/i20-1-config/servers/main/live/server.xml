@@ -17,7 +17,7 @@
 		<property name="pvName" value="FE20I-AL-APTR-02:Y" />
 	</bean>
 
-	<import resource="file:${gda.config}/servers/main/server-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/frontend_and_shutters.xml" />
@@ -34,12 +34,12 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/zebra_turboslits.xml" />
 
 <!-- 	do this here as it may have object references to earlier XML files -->
-	<import resource="file:${gda.config}/servers/main/dataformat.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/dataformat.xml" />
 
 
 <!--  Frelon camera - comment out when not being used -->
-	<import resource="frelon_tango.xml" />
-	<import resource="../frelon.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/frelon_tango.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/frelon.xml" />
 
 <!-- for when this used live: -->
 
