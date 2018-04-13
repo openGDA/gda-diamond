@@ -68,6 +68,6 @@
 	<bean id="poly_ellip_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="poly_twist_motor" class="gda.device.motor.DummyMotor" />
 	
-	<import resource="file:${gda.config}/servers/main/mirrors-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/mirrors.xml" />
 
 </beans>

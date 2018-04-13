@@ -24,6 +24,6 @@
 
 	<bean id="um10_motor" class="gda.device.motor.DummyMotor"/>
 
-	<import resource="file:${gda.config}/servers/main/usermotors-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/usermotors.xml" />
 
 </beans>

@@ -122,6 +122,6 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<import resource="file:${gda.config}/servers/main/slits-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/slits.xml" />
 
 </beans>

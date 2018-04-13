@@ -78,6 +78,6 @@
 		</property>
 	</bean>
 
-	<import resource="file:${gda.config}/servers/main/attenuators-common.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/attenuators.xml" />
 
 </beans>
