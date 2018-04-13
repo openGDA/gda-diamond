@@ -83,7 +83,6 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
 
     def prepareForMove(self):
         if self.verbose: self.logger.info('prepareForMove()...')
-#         self._pgm_grat_pitch.getController().setCollectingData(False)
         self._pgm_grat_pitch_speed_orig = self._pgm_grat_pitch.speed
 
         # Calculate the energy midpoint
@@ -149,7 +148,6 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
 
     def startMove(self):
         if self.verbose: self.logger.info('startMove()...')
-#         self._pgm_grat_pitch.getController().setCollectingData(True)
         
         # Notify all position callables to start waiting for their time
         self._start_time = datetime.now()
@@ -187,7 +185,6 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
         if self.verbose: self.logger.info('stopAndReset()')
         self._pgm_grat_pitch.stop()
         self._restore_orig_speed()
-#         self._pgm_grat_pitch.getController().setCollectingData(False)
 
     # Implement: public interface HardwareTriggerProvider extends Device
 
