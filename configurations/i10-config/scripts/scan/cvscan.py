@@ -10,6 +10,11 @@ from gdascripts.scan import trajscans
 from gdascripts.scannable.installStandardScannableMetadataCollection import meta
 from gdascripts.scan.installStandardScansWithProcessing import scan_processor
 from gda.jython.commands.GeneralCommands import alias 
+from scannable.waveform_channel.WaveformChannelScannable import WaveformChannelScannable
+from numbers import Number
+from com.sun.org.apache.xpath.internal import Arg
+from scannable.continuous.continuous_energy_scannables import binpointGrtPitch_g,\
+    binpointMirPitch_g, binpointPgmEnergy_g
 
 class TrajectoryControllerHelper(ScanListener):
     def __init__(self): # motors, maybe also detector to set the delay time
@@ -30,6 +35,44 @@ print "-"*100
 print "Creating I10 GDA cvscan commands:"
 cvscan=trajscans.CvScan([scan_processor, trajectory_controller_helper]) 
 alias('cvscan')
+
+def cvscan2(c_energy, start, stop, step, *args):
+    ''' cvscan that applies dwell time to all instances of WaveformChannelScannable.
+        This will make sure all the waveform channel scannable data are polled at the same rate.
+    '''
+    wfs=[]
+    dwell=[]
+    others=[]
+    newargs=[c_energy, start, stop, step]
+    for arg in args:
+        if isinstance(arg, WaveformChannelScannable):
+            wfs.append(args)
+        elif isinstance(arg, Number):
+            dwell.append()
+        else:
+            others.append()
+    if not checkContentEqual(dwell):
+        raise Exception("dwell time specified must be equal for all detectors!")
+    for each in wfs:
+        newargs.append(each)
+        newargs.append(dwell)
+    if c_energy.getName() == "egy_g":
+        #set dwell time to embedded instances of WaveformChannelScannable
+        if binpointGrtPitch_g not in wfs:
+            newargs.append(binpointGrtPitch_g)
+            newargs.append(dwell)
+        if binpointMirPitch_g not in wfs:
+            newargs.append(binpointMirPitch_g)
+            newargs.append(dwell)
+        if binpointPgmEnergy_g not in wfs:
+            newargs.append(binpointPgmEnergy_g)
+            newargs.append(dwell)
+    for other in others:
+        newargs.append(other)
+    cvscan([e for e in newargs])
+    
+def checkContentEqual(lst):
+    return lst[1:] == lst[:-1]
 
 # E.g. cvscan egy 695 705 1 mcs1 2 mcs17 2 mcs16 2
 

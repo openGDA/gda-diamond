@@ -220,6 +220,7 @@ from scan.cvscan import cvscan  # @UnusedImport
 from scan.trajectory_scans import trajcscan, trajrscan  # @UnusedImport
 #Import continuous scannables
 if installation.isLive():
+    from scan.cvscan import cvscan2  # @UnusedImport
     from scannable.continuous.continuous_energy_scannables import *  # @UnusedWildImport
 
 print
