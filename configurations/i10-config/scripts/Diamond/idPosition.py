@@ -13,15 +13,15 @@ class IdPosition(list):
         self.jawphase = jawphase
 
     def __repr__(self):
-        format = "IdPosition(gap=%r, rowphase1=%r, rowphase2=%r, " + \
+        myformat = "IdPosition(gap=%r, rowphase1=%r, rowphase2=%r, " + \
             "rowphase3=%r, rowphase4=%r, jawphase=%r)"
-        return format % (self.gap, self.rowphase1, self.rowphase2,
+        return myformat % (self.gap, self.rowphase1, self.rowphase2,
             self.rowphase3, self.rowphase4, self.jawphase)
 
     def __str__(self):
-        format = "gap=%r, rowphase1=%r, rowphase2=%r, " + \
+        myformat = "gap=%r, rowphase1=%r, rowphase2=%r, " + \
             "rowphase3=%r, rowphase4=%r, jawphase=%r"
-        return format % (self.gap, self.rowphase1, self.rowphase2,
+        return myformat % (self.gap, self.rowphase1, self.rowphase2,
             self.rowphase3, self.rowphase4, self.jawphase)
 
     def merge(self, mergable):
