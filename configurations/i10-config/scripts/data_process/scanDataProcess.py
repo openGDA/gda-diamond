@@ -17,7 +17,7 @@ def scan_processing_on():
  
 def scan_processing_off():
     scan_processor.processors = scan_processor_empty_processes
- 
+print
 print "Switch off scan processor by default !!!"    
 print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
 print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
