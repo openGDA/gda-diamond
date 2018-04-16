@@ -151,6 +151,8 @@ if zebra_fastdicr_installed:
 ########setting up the diagnostic cameras###############
 from detectors.diagnostic_cameras import *  # @UnusedWildImport
 
+print "-"*100
+print "Creating short hand command for shutter 1 and gate vale 12 controls: 'shtropen', 'shtrclose', 'gv12open', and 'gv12close'" 
 try:
     shtropen = shtr1.moveTo("Open")
     shtrclose = shtr1.moveTo("Close")
@@ -164,16 +166,6 @@ from rasor.pd_metadata import MetaDataPD
 rmotors=MetaDataPD("rmotors", [tth, th, chi, eta, ttp, thp, py, pz, dsu, dsd, difx, alpha, lgm, lgf, lgb])
 #add_default rmotors
 
-##Position Wrapper
-wascannables = [tth, th, chi, dsu, dsd, eta, ttp, thp, py, pz, alpha, difx, lgf, lgb, lgm, sx, sy, sz]
-from rasor.positionWrapper import PositionWrapper
-wa=PositionWrapper(wascannables)
-alias('wa')
-
-#wherescannables=[rasor_tth,rasor_th,rasor_chi,h,k,l,energy]
-#wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
-#alias('wh')
-
 # meta should be created last to ensure we have all required scannables
 try:
     print '-'*80
@@ -185,20 +177,18 @@ try:
         iddmetadatascannables = (idd_gap, idd_rowphase1, idd_rowphase2,
                                  idd_rowphase3, idd_rowphase4, idd_jawphase, 
                                  idd_sepphase)
-        stdmetadatascannables = (idu_gap, idu_rowphase1, idu_rowphase2,
+        idumetadatascannables = (idu_gap, idu_rowphase1, idu_rowphase2,
                                  idu_rowphase3, idu_rowphase4, idu_jawphase,
-                                 idu_sepphase,
-                                 pgm_energy)
+                                 idu_sepphase)
+        pgmmetadatascannables = (pgm_energy, pgm_grat_pitch, pgm_m2_pitch)
+        stdmetadatascannables = iddmetadatascannables + idumetadatascannables + pgmmetadatascannables
         
-#         if polarimeter_installed:
-#             stdmetadatascannables += (RetTilt, RetRotation, AnaTilt ,AnaRotation, 
-#                                  AnaDetector, AnaTranslation,hpx, hpy, hpc, hpb)
         setmeta_ret=setmeta(*stdmetadatascannables)
         print "Standard metadata scannables: " + setmeta_ret
 
     stdmeta()
-    print "Use 'stdmeta()' to reset to standard scannables"
-    #alias('stdmeta')
+    print "Use 'stdmeta' to reset to standard scannables"
+    alias('stdmeta')
     from gda.jython.commands.ScannableCommands import add_default
     add_default(meta)
     meta.quiet = True
@@ -215,13 +205,13 @@ from scan.miscan import miscan  # @UnusedImport
 print miscan.__doc__  # @UndefinedVariable
 alias("miscan")
 
-#Continuous Scan commands
-from scan.cvscan import cvscan  # @UnusedImport
+#import post scan data process
+from data_process.scanDataProcess import *  # @UnusedWildImport
+
+#Continuous Scan scannables and commands
+from scannable.continuous.continuous_energy_scannables import *  # @UnusedWildImport
+from scan.cvscan import cvscan, cvscan2 # @UnusedImport
 from scan.trajectory_scans import trajcscan, trajrscan  # @UnusedImport
-#Import continuous scannables
-if installation.isLive():
-    from scan.cvscan import cvscan2  # @UnusedImport
-    from scannable.continuous.continuous_energy_scannables import *  # @UnusedWildImport
 
 print
 print "*"*80
@@ -229,8 +219,19 @@ print "*"*80
 print "import DIFFCALC support for I10"
 from startup.i10 import *  # @UnusedWildImport
 
-#Please leave this to be last but one items as it calls 'globals() for data process - enable standard scan data process
-from data_process.scanDataProcess import *  # @UnusedWildImport
+##Position Wrapper
+print "-"*100
+print "Creating 'wa' command for returning RASOR motor positions"
+wascannables = [tth, th, chi, dsu, dsd, eta, ttp, thp, py, pz, alpha, difx, lgf, lgb, lgm, sx, sy, sz]
+from rasor.positionWrapper import PositionWrapper
+wa=PositionWrapper(wascannables)
+alias('wa')
+
+print "Creating 'wh' command for return RASOR positions in DIFFCALC HKL"
+wherescannables=[delta,eta,chi,phi,gam,h,k,l,en]
+wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
+alias('wh')
+
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 STOP_ALL_EXCLUSIONS=[]  # @UndefinedVariable
 
