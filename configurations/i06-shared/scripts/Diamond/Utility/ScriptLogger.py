@@ -7,7 +7,7 @@ import traceback as traceback_mod;
 
 import gda;
 
-from gdascripts.message.handle_messages import getCauseList
+from gdascripts.messages.handle_messages import getCauseList
 
 class SinglePrint(object):
 	msg = None;
