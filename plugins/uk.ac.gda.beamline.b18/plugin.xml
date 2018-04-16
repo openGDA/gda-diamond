@@ -47,6 +47,18 @@
             name="&apos;Spreadsheet view&apos; scan generator"
             restorable="true">
       </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
+            id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xspress2system"
+            name="Xspress2 view"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
+            id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xspress3"
+            name="Xspress3 view"
+            restorable="true">
+      </view>
    </extension>
 
    <extension
@@ -241,11 +253,7 @@
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="xspress2system">
+                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xspress2system">
                </parameter>
             </command>
             <command
@@ -254,11 +262,7 @@
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="xspress3">
+                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xspress3">
                </parameter>
             </command>
          </menu>
