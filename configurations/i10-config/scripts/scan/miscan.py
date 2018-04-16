@@ -12,6 +12,10 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.device.detector.addetector.collectionstrategy import AutoSummingProcessDecorator
 from gda.jython.commands.ScannableCommands import scan
 
+print "-"*100
+print "Creating 'miscan' - multiple image per scan data point"
+print "    Syntax: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] pixis 0.1 10"
+
 PRINTTIME=False
 zeroScannable=DummyScannable("zeroScannable")
 
@@ -109,5 +113,5 @@ def miscan(*args):
 
     if PRINTTIME: print ("=== Scan ended: " + time.ctime() + ". Elapsed time: %.0f seconds" % (time.time()-starttime))
 
-# from gda.jython.commands.GeneralCommands import alias 
-# alias("miscan")
+from gda.jython.commands.GeneralCommands import alias 
+alias("miscan")

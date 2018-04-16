@@ -1,13 +1,9 @@
 from utils.ExceptionLogs import localStation_exceptions
-from gdaserver import shtr1, gv12 , pgm_energy, alpha, chi, difx, dsd, dsu, eta,\
-    lgb, lgf, lgm, th, tth, sx, sy, sz, idd_gap, idd_rowphase1, idd_jawphase,\
-    idd_rowphase3, idd_rowphase4, idd_rowphase2, idd_sepphase, idu_gap,\
-    idu_rowphase1, idu_rowphase2, idu_jawphase, idu_rowphase3, idu_rowphase4,\
-    idu_sepphase
+from gdaserver import alpha, chi, difx, dsd, dsu, eta,\
+    lgb, lgf, lgm, th, tth, sx, sy, sz
 import installation
 from gda.jython.commands import GeneralCommands
 from gda.jython.commands.GeneralCommands import alias
-from gda.device.scannable import DummyScannable
 
 print "**************************************************"
 print "Running the I10 startup script localStation.py..."
@@ -25,18 +21,17 @@ scansReturnToOriginalPositions=0;
 print
 ###Import common commands, utilities, etc#####
 from i10commands.dirFileCommands import pwd, lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
-alias("pwd")
-alias("lwf")
-alias("nwf")
-alias("nfn")
+
 print
 from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis  # @UnusedImport
 alias("useSeparateYAxes")
 alias("useSingleYAxis")
 print
+
 def interruptable():
     GeneralCommands.pause()
 alias("interruptable")
+
 print
 print "-"*100
 print "load EPICS Pseudo Device utilities for creating scannable object from a PV name."
@@ -61,22 +56,8 @@ from gdascripts.scannable.timerelated import timerelated,t,dt,w,clock,epoch #@Un
 from rasor.saveAndReload import SaveAndReload  # @UnusedImport
 print SaveAndReload.__doc__
 
-print "-"*100
-print "creating 'dummy' & `denergy` scannables"
-dummy = DummyScannable("dummy")
-denergy = pgm_energy #used in I10 diffcalc
-
 #Create snap command for capturing a snapshot of camera
-print "-"*100
-print "creating 'snap' command for capturing a snapshot off a detector:"
-print "    Usage example: >>>snap pimte 6.0"
-def snap(det, t, *args):
-    newargs=[dummy, 1,1,1, det,t]
-    for arg in args:
-        newargs.append(arg)
-    scan([e for e in newargs])
-alias("snap")
-
+from i10commands.snapshot import *  # @UnusedWildImport
 
 #RASOR Multilayer support
 from rasor.scannable.polarisation_analyser_example import *  # @UnusedWildImport
@@ -151,59 +132,22 @@ if zebra_fastdicr_installed:
 ########setting up the diagnostic cameras###############
 from detectors.diagnostic_cameras import *  # @UnusedWildImport
 
-print "-"*100
-print "Creating short hand command for shutter 1 and gate vale 12 controls: 'shtropen', 'shtrclose', 'gv12open', and 'gv12close'" 
-try:
-    shtropen = shtr1.moveTo("Open")
-    shtrclose = shtr1.moveTo("Close")
-    gv12open = gv12.moveTo("Open")
-    gv12close = gv12.moveTo("Close")
-except:
-    localStation_exception(sys.exc_info(), "creating shutter & valve objects")
+#short hand commands for shutter and valves
+from i10commands.shutterValveCommands import *  # @UnusedWildImport
 
 ##setup metadata for the file
 from rasor.pd_metadata import MetaDataPD
 rmotors=MetaDataPD("rmotors", [tth, th, chi, eta, ttp, thp, py, pz, dsu, dsd, difx, alpha, lgm, lgf, lgb])
 #add_default rmotors
 
-# meta should be created last to ensure we have all required scannables
-try:
-    print '-'*80
-    from gdascripts.scannable.installStandardScannableMetadataCollection import * #@UnusedWildImport
-    meta.rootNamespaceDict=globals()
-    note.rootNamespaceDict=globals()
+# meta data
+from metadata.metadataItems import *  # @UnusedWildImport
 
-    def stdmeta():
-        iddmetadatascannables = (idd_gap, idd_rowphase1, idd_rowphase2,
-                                 idd_rowphase3, idd_rowphase4, idd_jawphase, 
-                                 idd_sepphase)
-        idumetadatascannables = (idu_gap, idu_rowphase1, idu_rowphase2,
-                                 idu_rowphase3, idu_rowphase4, idu_jawphase,
-                                 idu_sepphase)
-        pgmmetadatascannables = (pgm_energy, pgm_grat_pitch, pgm_m2_pitch)
-        stdmetadatascannables = iddmetadatascannables + idumetadatascannables + pgmmetadatascannables
-        
-        setmeta_ret=setmeta(*stdmetadatascannables)
-        print "Standard metadata scannables: " + setmeta_ret
-
-    stdmeta()
-    print "Use 'stdmeta' to reset to standard scannables"
-    alias('stdmeta')
-    from gda.jython.commands.ScannableCommands import add_default
-    add_default(meta)
-    meta.quiet = True
-    
-except:
-    localStation_exception(sys.exc_info(), "creating metadata objects")
-
+# check beam scannables
 from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeam_cv, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv  # @UnusedImport
 
-print "-"*100
-print "Creating 'miscan' - multiple image per scan data point"
-print "    Syntax: miscan (scannable1, scannable2) [(1,2), (3,4),(5,6)] pixis 0.1 10"
-from scan.miscan import miscan  # @UnusedImport
-print miscan.__doc__  # @UndefinedVariable
-alias("miscan")
+# multi-image per scan data point scan
+from scan.miscan import miscan; print miscan.__doc__  # @UndefinedVariable
 
 #import post scan data process
 from data_process.scanDataProcess import *  # @UnusedWildImport
