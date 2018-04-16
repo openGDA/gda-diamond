@@ -6,7 +6,7 @@ from org.slf4j import LoggerFactory
 import traceback as traceback_mod;
 
 import gda;
-from gdascripts.message.handle_messages import getCauseList
+from gdascripts.messages.handle_messages import getCauseList
 from gda.jython import InterfaceProvider;
 
 
