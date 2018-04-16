@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="idGap" class="gda.device.scannable.DummyScannable">
+		<constructor-arg value="idGap" />
+		<constructor-arg value="10.5" />
+	</bean>
+
+	<bean id="timeToRefill" class="gda.device.scannable.DummyScannable">
+		<constructor-arg value="timeToRefill" />
+		<constructor-arg value="376" />
+	</bean>
+
+	<bean id="ringCurrent" class="gda.device.scannable.DummyScannable">
+		<constructor-arg value="ringCurrent" />
+		<constructor-arg value="301.209" />
+	</bean>
+
+</beans>

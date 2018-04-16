@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- Xspress3 -->
+	<bean id="malcolmInfoXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XSP3 coarse Malcolm" />
+		<property name="description" value="Xspress III coarse Malcolm scan" />
+		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
+	</bean>
+
+	<!-- Excalibur software -->
+	<bean id="malcolmInfoExcaliburMalcolmSoftware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Excalibur Malcolm software" />
+		<property name="description" value="Malcolm Excalibur for software scanning" />
+		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
+	</bean>
+
+	<!-- Excalibur hardware -->
+	<bean id="malcolmInfoExcaliburMalcolmHardware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Excalibur Malcolm hardware" />
+		<property name="description" value="Malcolm Excalibur for true hardware scanning" />
+		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
+	</bean>
+
+	<!-- Combined Excalibur/Xspress3 Malcolm hardware scanning -->
+	<bean id="malcolmInfoExcaliburXsp3MalcolmHardware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Excalibur/XSP3 Malcolm hardware" />
+		<property name="description" value="Malcolm combined Excalibur and Xspress3 hardware scanning" />
+	</bean>
+
+	<!-- XRF TetrAMM scan -->
+	<bean id="malcolmInfoXrfTetrAMM" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XRF TetrAMM Malcolm" />
+		<property name="description" value="Malcolm XRF TetrAMM scanning" />
+	</bean>
+
+</beans>

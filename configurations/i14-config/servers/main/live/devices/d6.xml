@@ -1,0 +1,71 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- D6 -->
+
+	<!-- Stick motor -->
+	<bean id="d6_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-DI-PHDGN-06:Y" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Stick positioner -->
+	<bean id="d6_y_position" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL14I-DI-PHDGN-06:MP" />
+		<property name="acceptNewMoveToPositionWhileMoving" value="true" />
+	</bean>
+
+	<!-- Scatter diode -->
+	<bean id="d6_diode1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-06:FEMTO1:I"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
+	<bean id="d6_adc_scatter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-06:FEMTO1:ADC1_VALUE"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
+	<!-- Stick diode -->
+	<bean id="d6_diode2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-06:FEMTO2:I"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
+	<bean id="d6_adc_stick" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-06:FEMTO2:ADC2_VALUE"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
+	<!-- HDF5 file -->
+	<bean id="d6_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="BL14I-OP-DCAM-06:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Area detector camera -->
+	<bean id="d6_camBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL14I-OP-DCAM-06:CAM:" />
+	</bean>
+
+ 	<bean id="d6_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="d6_cam" />
+		<property name="collectionStrategy" ref="d6_collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d6_hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

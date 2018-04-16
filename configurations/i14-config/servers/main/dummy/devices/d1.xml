@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- D1 -->
+
+	<!-- Stick motor -->
+	<bean id="d1_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000.0" />
+		<property name="maxPosition" value="1000.0" />
+		<property name="position" value="24.7" />
+		<property name="unitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Stick positioner -->
+	<bean id="d1_x_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Screen</value>
+				<value>Out</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<!-- Scatter diode -->
+	<bean id="d1_diode" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="uA" />
+		<property name="value">
+			<value type="double">0.235</value>
+		</property>
+	</bean>
+
+	<!-- HDF5 file -->
+	<bean id="d1_ndhdf5file" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Simulator">
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileSimulator">
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
+						<property name="dims" value="1000,1000" />
+						<property name="datatype" value="UINT32" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Area detector camera -->
+	<bean id="d1_camBase" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator" />
+
+	<bean id="d1_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="d1_cam" />
+		<property name="collectionStrategy" ref="d1_collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d1_hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+ </beans>

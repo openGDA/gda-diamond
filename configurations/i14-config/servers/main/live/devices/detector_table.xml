@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="detector_table_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-MO-TABLE-01:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="detector_table_femto" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-EA-DTAB-01:FEMTO1:I" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="detector_table_locum_c1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-IAMP-05:CH1:AI" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="detector_table_locum_c2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-IAMP-06:CH2:AI" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="detector_table_locum_c3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-IAMP-07:CH3:AI" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="detector_table_locum_c4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-IAMP-08:CH4:AI" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

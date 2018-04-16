@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- S4 coordinate system motors -->
+	<bean id="s4_x_size_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0.0" />
+		<property name="maxPosition" value="7.98" />
+		<property name="position" value="4.92" />
+		<property name="unitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s4_y_size_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0.0" />
+		<property name="maxPosition" value="7.58" />
+		<property name="position" value="7.5" />
+		<property name="unitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

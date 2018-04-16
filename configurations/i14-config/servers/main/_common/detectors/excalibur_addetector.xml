@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="excalibur_hdf5_writer" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="excalibur_ndfile_hdf5" />
+		<property name="fileTemplate" value="%s%s.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+
+ 	<bean id="excalibur_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+        <property name="restoreAcquireTime" value="true" />
+        <property name="decoratee">
+            <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+                <property name="restoreNumImagesAndImageMode" value="true"/>
+                <property name="decoratee">
+                    <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+                        <property name="decoratee">
+                            <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+                                <property name="adBase" ref="excalibur_adbase" />
+                                <property name="restoreAcquireState" value="true"/>
+                            </bean>
+                        </property>
+                        <property name="restoreTriggerMode" value="true" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+	<bean id="excalibur_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="excalibur_adbase" />
+		<property name="ndFile" ref="excalibur_ndfile" />
+		<property name="ndArray" ref="excalibur_ndarray" />
+		<property name="ndStats" ref="excalibur_stats" />
+		<property name="fileWriter" ref="excalibur_hdf5_writer" />
+		<property name="collectionStrategy" ref="excalibur_collection_strategy"/>
+	</bean>
+
+	<bean id="excalibur_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="excalibur_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="excalibur_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Excalibur GDA" />
+		<property name="description" value="Excalibur using GDA to write file" />
+	</bean>
+
+	<bean id="excalibur_adrunnable" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceWaitForArray" init-method="register">
+		<property name="name" value="excalibur_addetector" />
+		<property name="model" ref="excalibur_model" />
+		<property name="deviceInformation" ref="excalibur_info" />
+		<property name="activated" value="true" />
+		<property name="writeDelay" value="50" />
+		<property name="timeout" value="3" />
+	</bean>
+
+</beans>

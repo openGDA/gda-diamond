@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- Front End Beam Permit -->
+ 	<bean id="fe_shutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="FE14I-CS-BEAM-01" />
+		<property name="controlPv" value="FE14I-CS-BEAM-01:BLCON" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
+		need events to be fired for the GDA9 ExpressionWatchdog -->
+	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE14I-PS-SHTR-01:STA" />
+	</bean>
+
+</beans>

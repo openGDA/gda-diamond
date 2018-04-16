@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="sjj_x_centre" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="sjj_x_centre_motor" />
+	</bean>
+	<bean id="sjj_x_size" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="sjj_x_size_motor" />
+	</bean>
+	<bean id="sjj_y_centre" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="sjj_y_centre_motor" />
+	</bean>
+	<bean id="sjj_y_size" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="sjj_y_size_motor" />
+	</bean>
+	
+	<bean id="sjj" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sjj_x_centre" />
+				<ref bean="sjj_x_size" />
+				<ref bean="sjj_y_centre" />
+				<ref bean="sjj_y_size" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>

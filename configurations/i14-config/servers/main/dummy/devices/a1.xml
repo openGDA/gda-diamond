@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    	http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- A1 (attenuator, sometimes called F1): -->
+	<bean id="attn1_stick1_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000.0" />
+		<property name="maxPosition" value="-1000.0" />
+		<property name="position" value="1.6" />
+		<property name="unitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="attn1_stick2_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000.0" />
+		<property name="maxPosition" value="-1000.0" />
+		<property name="position" value="-0.85" />
+		<property name="unitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="attn1_stick1_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>200um black diamond</value>
+				<value>200um graphite</value>
+				<value>500um graphite</value>
+				<value>EMPTY</value>
+				<value>200um graphite</value>
+				<value>100um graphite</value>
+			</util:list>
+		</property>
+	</bean>
+	<bean id="attn1_stick2_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>50um black diamond</value>
+				<value>100um black diamond</value>
+				<value>100um graphite</value>
+				<value>EMPTY</value>
+				<value>200um graphite</value>
+				<value>750um graphite</value>
+			</util:list>
+		</property>
+	</bean>
+
+</beans>

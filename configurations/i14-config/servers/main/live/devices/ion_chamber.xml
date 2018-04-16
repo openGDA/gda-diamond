@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="ic_3602_c1" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL14I-EA-USER-01:3602:CH1:AI" />
+		<property name="useNameAsExtraName" value="true" />
+	</bean>
+
+	<bean id="ic_3602_c2" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL14I-EA-USER-01:3602:CH2:AI" />
+		<property name="useNameAsExtraName" value="true" />
+	</bean>
+
+	<bean id="ic_3602_c3" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL14I-EA-USER-01:3602:CH3:AI" />
+		<property name="useNameAsExtraName" value="true" />
+	</bean>
+
+	<bean id="ic_3602_c4" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL14I-EA-USER-01:3602:CH4:AI" />
+		<property name="useNameAsExtraName" value="true" />
+	</bean>
+
+</beans>

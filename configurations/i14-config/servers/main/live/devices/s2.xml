@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- S2 (white beam slits) coordinate system motors -->
+	<bean id="s2_x_centre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-AL-SLITS-02:CENTER" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s2_x_size_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-AL-SLITS-02:SIZE" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- S2 (white beam slits) real motors -->
+	<bean id="s2_outboard_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-AL-SLITS-02:OUT" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s2_inboard_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-AL-SLITS-02:IN" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

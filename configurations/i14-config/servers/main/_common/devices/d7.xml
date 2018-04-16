@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- D7 -->
+
+	<!-- Stick motor scannable -->
+	<bean id="d7_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="d7_y_motor" />
+	</bean>
+
+	<!-- Collection strategy -->
+	<bean id="d7_collectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="d7_camBase" />
+								<property name="restoreAcquireState" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- HDF5 file writer -->
+	<bean id="d7_hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+		<property name="ndFileHDF5" ref="d7_ndhdf5file" />
+		<property name="fileNameTemplate" value="d7" />
+	</bean>
+
+	<!-- Scannable group -->
+	<bean id="d7" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d7_y" />
+				<ref bean="d7_y_position" />
+				<ref bean="d7_diode1" />
+				<ref bean="d7_adc_scatter" />
+				<ref bean="d7_diode2" />
+				<ref bean="d7_adc_stick" />
+				<ref bean="d7_cam" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>

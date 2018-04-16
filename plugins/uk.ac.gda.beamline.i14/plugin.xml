@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="Diamond Beamline I14">
+         <property
+               name="appName"
+               value="Diamond Beamline I14">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutText"
+               value="Diamond Beamline I14&#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="uk.ac.gda.client.preferences">
+      <preference
+            name="gda.client.max.size.cached.points"
+            value="10000">
+      </preference>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="I14 Views"
+            id="uk.ac.gda.beamline.i14">
+      </category>
+      <view
+            allowMultiple="false"
+            category="uk.ac.gda.beamline.i14"
+            class="gda.rcp.views.ViewFactory:shuttersView"
+            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
+            id="uk.ac.diamond.daq.mapping.ui.ShuttersView"
+            name="Shutters">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="uk.ac.diamond.daq.mapping.ui.experiment.MappingPerspective">
+         <view
+               id="uk.ac.diamond.daq.mapping.ui.ShuttersView"
+               minimized="false"
+               relationship="stack"
+               relative="gda.rcp.jythonterminalview">
+         </view>
+      </perspectiveExtension>
+   </extension>
+  
+</plugin>

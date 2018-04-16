@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="xrf_x" class="gda.device.scannable.ScannableMotor" >
+		<property name="motor" ref="xrf_x_motor" />
+	</bean>
+	
+	<bean id="xrf_y" class="gda.device.scannable.ScannableMotor" >
+		<property name="motor" ref="xrf_y_motor" />
+	</bean>
+	
+	<bean id="xrf" class="gda.device.scannable.scannablegroup.ScannableGroup" >
+		<property name="groupMembers" >
+			<list>
+				<ref bean="xrf_x" />
+				<ref bean="xrf_y" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

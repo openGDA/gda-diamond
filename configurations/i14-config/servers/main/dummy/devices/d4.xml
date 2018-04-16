@@ -1,0 +1,99 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- D4 -->
+
+	<!-- Stick motors -->
+	<bean id="d4_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0.0" />
+		<property name="maxPosition" value="150.0" />
+		<property name="position" value="0.25" />
+		<property name="unitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="d4_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-97.500" />
+		<property name="maxPosition" value="-0.40000" />
+		<property name="position" value="-61.01" />
+		<property name="unitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Stick positioners -->
+	<bean id="d4_x_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Screen 2</value>
+				<value>Screen</value>
+				<value>Inline diode</value>
+				<value>Out</value>
+				<value>Scatter</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="d4_lateral_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Nano</value>
+				<value>Meso</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<!-- Scatter diode -->
+	<bean id="d4_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="uA" />
+		<property name="value">
+			<value type="double">0.0206739</value>
+		</property>
+	</bean>
+
+	<!-- Inline diode -->
+	<bean id="d4_diode2" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="uA" />
+		<property name="value">
+			<value type="double">0.0054300</value>
+		</property>
+	</bean>
+
+	<bean id="d4_adc_inline" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Integer">485</value>
+		</property>
+	</bean>
+
+	<!-- HDF5 file -->
+	<bean id="d4_ndhdf5file" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Simulator">
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileSimulator">
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
+						<property name="dims" value="1000,1000" />
+						<property name="datatype" value="UINT32" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Area detector camera -->
+	<bean id="d4_camBase" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator" />
+
+	<bean id="d4_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="d4_cam" />
+		<property name="collectionStrategy" ref="d4_collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d4_hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+ </beans>

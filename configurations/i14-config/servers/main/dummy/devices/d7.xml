@@ -1,0 +1,90 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- D7 -->
+
+	<!-- Stick motor -->
+	<bean id="d7_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-147.157" />
+		<property name="maxPosition" value="1.16982" />
+		<property name="position" value="-23.8" />
+		<property name="unitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Stick positioner -->
+	<bean id="d7_y_position" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Screen</value>
+				<value>Scatter Diode</value>
+				<value>Inline Diode</value>
+				<value>Out</value>
+				<value>5</value>
+				<value>6</value>
+				<value>7</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<!-- Scatter diode -->
+	<bean id="d7_diode1" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="uA" />
+		<property name="value">
+			<value type="double">-0.000758</value>
+		</property>
+	</bean>
+
+	<bean id="d7_adc_scatter" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Integer">-623</value>
+		</property>
+	</bean>
+
+	<!-- Inline diode -->
+	<bean id="d7_diode2" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="uA" />
+		<property name="value">
+			<value type="double">-0.000678</value>
+		</property>
+	</bean>
+
+	<bean id="d7_adc_stick" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Integer">-545</value>
+		</property>
+	</bean>
+
+	<!-- HDF5 file -->
+	<bean id="d7_ndhdf5file" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Simulator">
+		<property name="file">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDFileSimulator">
+				<property name="pluginBase">
+					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
+						<property name="dims" value="1000,1000" />
+						<property name="datatype" value="UINT32" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Area detector camera -->
+	<bean id="d7_camBase" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator" />
+
+	<bean id="d7_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="d7_cam" />
+		<property name="collectionStrategy" ref="d7_collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d7_hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+ </beans>

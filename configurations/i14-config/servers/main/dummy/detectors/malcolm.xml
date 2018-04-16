@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Dummy Malcolm devices -->
+
+	<!--  Xspress3 -->
+	<bean id="malcolmModelXsp3" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-01" />
+		<property name="exposureTime" value="0.01" />
+		<property name="axesToMove">
+			<list>
+				<value>stage1_x</value>
+				<value>stage1_y</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="malcolmDeviceXsp3" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name"              value="BL14I-ML-SCAN-01" />
+		<property name="model"             ref="malcolmModelXsp3" />
+		<property name="deviceInformation" ref="malcolmInfoXsp3" />
+		<property name="activated"         value="false" />
+	</bean>
+
+	<!-- Excalibur: using Malcolm to collect data; GDA moves all devices -->
+	<bean id="malcolmModelExcaliburMalcolmSoftware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL14I-ML-EXCBR-01" />
+		<property name="exposureTime" value="0.01" />
+		<property name="axesToMove"><list /></property>
+	</bean>
+
+	<bean id="malcolmDeviceExcaliburMalcolmSoftware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name"              value="BL14I-ML-EXCBR-01" />
+		<property name="model"             ref="malcolmModelExcaliburMalcolmSoftware" />
+		<property name="deviceInformation" ref="malcolmInfoExcaliburMalcolmSoftware" />
+		<property name="activated"         value="false" />
+	</bean>
+
+	<!-- Excalibur Malcolm hardware scanning -->
+	<bean id="malcolmModelExcaliburMalcolmHardware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-03" />
+		<property name="exposureTime" value="0.01" />
+		<property name="axesToMove">
+			<list>
+				<value>stage1_x</value>
+				<value>stage1_y</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="malcolmDeviceExcaliburMalcolmHardware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-03" />
+		<property name="model" ref="malcolmModelExcaliburMalcolmHardware" />
+		<property name="deviceInformation" ref="malcolmInfoExcaliburMalcolmHardware" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- Combined Excalibur/Xspress3 Malcolm hardware scanning -->
+	<bean id="malcolmModelExcaliburXsp3MalcolmHardware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-04" />
+		<property name="exposureTime" value="0.01" />
+		<property name="axesToMove">
+			<list>
+				<value>stage1_x</value>
+				<value>stage1_y</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="malcolmDeviceExcaliburXsp3MalcolmHardware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-04" />
+		<property name="model" ref="malcolmModelExcaliburXsp3MalcolmHardware" />
+		<property name="deviceInformation" ref="malcolmInfoExcaliburXsp3MalcolmHardware" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- XRF TetrAMM scan -->
+	<bean id="malcolmModelXrfTetrAMM" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-05" />
+		<property name="exposureTime" value="0.01" />
+		<property name="axesToMove">
+			<list>
+				<value>stage1_x</value>
+				<value>stage1_y</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="malcolmDeviceXrfTetrAMM" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-05" />
+		<property name="model" ref="malcolmModelXrfTetrAMM" />
+		<property name="deviceInformation" ref="malcolmInfoXrfTetrAMM" />
+		<property name="activated" value="false" />
+	</bean>
+
+</beans>

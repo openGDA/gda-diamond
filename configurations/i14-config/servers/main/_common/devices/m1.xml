@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- M1 (mirror): -->
+	<bean id="m1_x" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m1_x_motor" />
+	</bean>
+
+	<bean id="m1_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m1_y_motor" />
+	</bean>
+
+	<bean id="m1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m1_pitch_motor" />
+	</bean>
+
+	<bean id="m1_up_bender" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m1_up_bender_motor" />
+	</bean>
+
+	<bean id="m1_down_bender" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m1_down_bender_motor" />
+	</bean>
+
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1_x" />
+				<ref bean="m1_y" />
+				<ref bean="m1_pitch" />
+				<ref bean="m1_up_bender" />
+				<ref bean="m1_down_bender" />
+				<ref bean="m1_mirror_stripe" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>

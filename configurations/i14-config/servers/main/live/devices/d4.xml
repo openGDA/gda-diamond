@@ -1,0 +1,75 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- D4 -->
+
+	<!-- Stick motors -->
+	<bean id="d4_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-DI-PHDGN-04:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="d4_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-DI-PHDGN-04:Y" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Stick positioners -->
+	<bean id="d4_x_position" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL14I-DI-PHDGN-04:MPX" />
+		<property name="acceptNewMoveToPositionWhileMoving" value="true" />
+	</bean>
+
+	<bean id="d4_lateral_position" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL14I-DI-PHDGN-04:MPLATERAL" />
+		<property name="acceptNewMoveToPositionWhileMoving" value="true" />
+	</bean>
+
+	<!-- Scatter diode -->
+	<bean id="d4_diode1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-04:FEMTO1:I"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
+	<!-- Inline diode -->
+	<bean id="d4_diode2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-04:FEMTO2:I"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
+	<bean id="d4_adc_inline" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-04:FEMTO2:ADC2_VALUE"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
+	<!-- HDF5 file -->
+	<bean id="d4_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="BL14I-OP-DCAM-04:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Area detector camera -->
+	<bean id="d4_camBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL14I-OP-DCAM-04:CAM:" />
+	</bean>
+
+ 	<bean id="d4_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="d4_cam" />
+		<property name="collectionStrategy" ref="d4_collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d4_hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

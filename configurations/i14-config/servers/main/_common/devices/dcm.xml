@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- DCM (monochromator): -->
+	<bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_pitch_motor" />
+	</bean>
+	<bean id="dcm_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_roll_motor" />
+	</bean>
+	<bean id="dcm_perp" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_perp_motor" />
+	</bean>
+	<bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_bragg_motor" />
+	</bean>
+	<bean id="dcm_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_energy_motor" />
+	</bean>
+
+	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dcm_pitch" />
+				<ref bean="dcm_roll" />
+				<ref bean="dcm_perp" />
+				<ref bean="dcm_bragg" />
+				<ref bean="dcm_energy" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="zebra1Model" class="uk.ac.diamond.daq.detectors.addetector.api.ZebraModel">
+		<property name="name" value="zebra1" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="zebra1Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Zebra1" />
+		<property name="description" value="Zebra1 box" />
+	</bean>
+
+	<bean id="zebra1" class="uk.ac.diamond.daq.detectors.addetector.ZebraRunnableDevice" init-method="register">
+		<property name="name" value="zebra1" />
+		<property name="model" ref="zebra1Model" />
+		<property name="deviceInformation" ref="zebra1Info" />
+		<property name="activated" value="true" />
+		<property name="basePv" value="BL14I-EA-ZEBRA-01:" />
+	</bean>
+
+	<bean id="zebra2Model" class="uk.ac.diamond.daq.detectors.addetector.api.ZebraModel">
+		<property name="name" value="zebra2" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="zebra2Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Zebra2" />
+		<property name="description" value="Zebra2 box" />
+	</bean>
+
+	<bean id="zebra2" class="uk.ac.diamond.daq.detectors.addetector.ZebraRunnableDevice" init-method="register">
+		<property name="name" value="zebra2" />
+		<property name="model" ref="zebra2Model" />
+		<property name="deviceInformation" ref="zebra2Info" />
+		<property name="activated" value="true" />
+		<property name="basePv" value="BL14I-EA-ZEBRA-02:" />
+	</bean>
+
+</beans>

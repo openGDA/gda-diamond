@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- D3 -->
+
+	<!-- Stick motor -->
+	<bean id="d3_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-DI-PHDGN-03:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Stick positioner -->
+	<bean id="d3_x_position" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL14I-DI-PHDGN-03:MP" />
+		<property name="acceptNewMoveToPositionWhileMoving" value="true" />
+	</bean>
+
+	<!-- Scatter diode -->
+	<bean id="d3_diode1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-03:FEMTO1:I"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
+	<bean id="d3_adc_scatter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL14I-DI-PHDGN-03:FEMTO1:ADC1_VALUE"/>
+		<property name="local" value="true"/>
+		 <property name="poll" value="true" />
+	</bean>
+
+	<!-- HDF5 file -->
+	<bean id="d3_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="BL14I-OP-DCAM-03:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Area detector camera -->
+	<bean id="d3_camBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL14I-OP-DCAM-03:CAM:" />
+	</bean>
+
+ 	<bean id="d3_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="d3_cam" />
+		<property name="collectionStrategy" ref="d3_collectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d3_hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

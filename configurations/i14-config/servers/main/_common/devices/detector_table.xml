@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="detector_table_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="detector_table_x_motor" />
+	</bean>
+
+	<bean id="detector_table" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="detector_table_x" />
+				<ref bean="detector_table_femto" />
+				<ref bean="detector_table_locum_c1" />
+				<ref bean="detector_table_locum_c2" />
+				<ref bean="detector_table_locum_c3" />
+				<ref bean="detector_table_locum_c4" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

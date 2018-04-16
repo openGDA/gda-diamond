@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- KB mirrors -->
+	<bean id="kbv1_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-21.47" />
+		<property name="maxPosition" value="22.86" />
+		<property name="position" value="-17.4487" />
+		<property name="unitString" value="mrad" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="kbv1_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-46.77" />
+		<property name="maxPosition" value="6.46" />
+		<property name="position" value="-43.6337" />
+		<property name="unitString" value="mrad" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="kbh1_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.001" />
+		<property name="maxPosition" value="39.62" />
+		<property name="position" value="39.609" />
+		<property name="unitString" value="mrad" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

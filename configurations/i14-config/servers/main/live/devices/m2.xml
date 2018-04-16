@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- M2 (mirror): -->
+	<bean id="m2_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-MIRR-02:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-MIRR-02:Y" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-MIRR-02:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL14I-OP-MIRR-02:ROLL" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_mirror_stripe" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL14I-OP-MIRR-02:Y:MP" />
+		<property name="acceptNewMoveToPositionWhileMoving" value="true" />
+	</bean>
+
+	<bean id="m2_piezo" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL14I-OP-MIRR-02:PIEZO:MOV:WR" />
+		<property name="pvNameGetPoint" value="BL14I-OP-MIRR-02:PIEZO:POS:RD" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>
