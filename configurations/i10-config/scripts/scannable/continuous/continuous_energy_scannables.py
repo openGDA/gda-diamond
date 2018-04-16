@@ -16,6 +16,17 @@ from scannable.continuous.ContinuousMovePgmEnergyBinpointScannable import Contin
 
 from gdaserver import pgm_energy, pgm_grat_pitch, pgm_m2_pitch
 
+print "-"*100
+print "Creating scannables for constant velocity scan"
+print "    1. 'egy'   - energy scannable used to control pgm_energy"
+print "    2. 'mcsr16','mcsr17','mcsr18', and 'mcsr19' - RASOR scannables used with energy 'egy' scannable, mapped to MCS channel 17, 18, 19, 20 respectively"
+print "    3. 'binpointGrtPitch','binpointMirPitch','binpointPgmEnergy','binpointId1JawPhase','binpointId2JawPhase','binpointMcaTime'"
+print "        - position capturer waveform scannable used with energy 'egy' scannable in continuous scan"
+print "    4. 'egy_g' - energy scannable used to control beam energy via PGM Grating pitch, PGM mirror pitch and PGM energy"
+print "    5. 'mcsr16_g','mcsr17_g','mcsr18_g', and 'mcsr19_g' - RASOR scannables used with energy 'egy_g' scannable, mapped to MCS channel 17, 18, 19, 20 respectively"
+print "    6. 'binpointGrtPitch_g','binpointMirPitch_g','binpointPgmEnergy_g','binpointId1JawPhase_g','binpointId2JawPhase_g','binpointMcaTime_g'"
+print "        - position capturer waveform scannables used with energy 'egy_g' scannable in continuous scan"
+
 cemc = ContinuousPgmEnergyMoveController('cemc', pgm_energy); cemc.verbose=True
 egy =  ContinuousMoveScannable('egy',     cemc);               egy.verbose=True
 

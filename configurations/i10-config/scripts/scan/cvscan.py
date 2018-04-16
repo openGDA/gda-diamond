@@ -32,10 +32,11 @@ trajscans.DEFAULT_SCANNABLES_FOR_TRAJSCANS = [meta]
 trajectory_controller_helper = TrajectoryControllerHelper()
 
 print "-"*100
-print "Creating I10 GDA 'cvscan' commands:"
+print "Creating I10 GDA 'cvscan' commands: - dwell time must apply to all waveform scannables individually!"
 cvscan=trajscans.CvScan([scan_processor, trajectory_controller_helper]) 
 alias('cvscan')
 
+print "Creating I10 GDA 'cvscan2' commands: - ensure dwell time is applied all waveform scannables individually!"
 def cvscan2(c_energy, start, stop, step, *args):
     ''' cvscan that applies dwell time to all instances of WaveformChannelScannable.
         This will make sure all the waveform channel scannable data are polled at the same rate.
