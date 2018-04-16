@@ -32,7 +32,7 @@ trajscans.DEFAULT_SCANNABLES_FOR_TRAJSCANS = [meta]
 trajectory_controller_helper = TrajectoryControllerHelper()
 
 print "-"*100
-print "Creating I10 GDA cvscan commands:"
+print "Creating I10 GDA 'cvscan' commands:"
 cvscan=trajscans.CvScan([scan_processor, trajectory_controller_helper]) 
 alias('cvscan')
 
