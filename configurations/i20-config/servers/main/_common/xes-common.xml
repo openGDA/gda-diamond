@@ -121,7 +121,7 @@
 		</property>
 	</bean>
 
-	<bean id="XESBragg" class="gda.device.scannable.XesSpectrometerScannable">
+	<bean id="XESBragg" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerScannable">
 		<property name="xtal_x" ref="xtal_x" />
 		<property name="det_rot" ref="det_rot" />
 		<property name="det_x" ref="det_x" />
@@ -145,7 +145,7 @@
 		<property name="trajectoryStepSize" value="0.1" /> 
 	</bean>
 
-	<bean id="XESEnergy" class="gda.device.scannable.XESEnergyScannable">
+	<bean id="XESEnergy" class="uk.ac.gda.beamline.i20.scannable.XESEnergyScannable">
 		<property name="xes" ref="XESBragg" />
 		<property name="cut1" ref="cut1" />
 		<property name="cut2" ref="cut2" />
@@ -319,7 +319,7 @@
 		</property>
 	</bean>
 
-	<bean id="dummy_XESBragg" class="gda.device.scannable.XesSpectrometerScannable">
+	<bean id="dummy_XESBragg" class="uk.ac.gda.beamline.i20.scannable.XesSpectrometerScannable">
 		<property name="xtal_x" ref="dummy_xtal_x" />
 		<property name="det_rot" ref="dummy_det_rot" />
 		<property name="det_x" ref="dummy_det_x" />
@@ -344,7 +344,7 @@
 		<property name="trajectoryStepSize" value="100" /> 
 	</bean>
 
-	<bean id="dummy_XESEnergy" class="gda.device.scannable.XESEnergyScannable">
+	<bean id="dummy_XESEnergy" class="uk.ac.gda.beamline.i20.scannable.XESEnergyScannable">
 		<property name="xes" ref="dummy_XESBragg" />
 		<property name="cut1" ref="cut1" />
 		<property name="cut2" ref="cut2" />

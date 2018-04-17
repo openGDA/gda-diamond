@@ -37,7 +37,7 @@
 		</property>
 	</bean>
 
-	<bean id="bragg1WithOffset" class="gda.device.scannable.MonoMoveWithOffsetScannable">
+	<bean id="bragg1WithOffset" class="uk.ac.gda.beamline.i20.scannable.MonoMoveWithOffsetScannable">
 		<constructor-arg value="bragg1WithOffset" />
 		<constructor-arg ref="bragg1" />
 		<constructor-arg ref="braggoffset" />

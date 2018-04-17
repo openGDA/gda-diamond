@@ -16,13 +16,14 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.scannable;
+package uk.ac.gda.beamline.i20.scannable;
 
 import java.io.IOException;
 
 import org.apache.commons.lang.ArrayUtils;
 
 import gda.device.DeviceException;
+import gda.device.scannable.ScannableBase;
 import gda.factory.FactoryException;
 import uk.ac.gda.beans.exafs.i20.CryostatProperties;
 import uk.ac.gda.util.ThreadManager;

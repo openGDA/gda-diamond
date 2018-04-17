@@ -31,7 +31,7 @@ Import-Package: org.slf4j,
  org.apache.commons.io,
  org.springframework.util;version="4.0.6.RELEASE"
 Export-Package: gda.device.detector,
- gda.device.scannable,
+ uk.ac.gda.beamline.i20.scannable,
  uk.ac.gda.server.exafs.scan,
  uk.ac.gda.server.exafs.scan.iterators,
  uk.ac.gda.server.exafs.scan.preparers

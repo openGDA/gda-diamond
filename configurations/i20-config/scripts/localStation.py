@@ -68,12 +68,12 @@ else :
 #outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
 
 # Create mono optimiser object - this will also need sending into one of the preparers... imh 31/8/2016
-from gda.device.scannable import MonoOptimisation
+from uk.ac.gda.beamline.i20.scannable import MonoOptimisation
 if LocalProperties.get("gda.mode") == "live":
     monoOptimiser = MonoOptimisation( braggoffset, ionchambers )
 else :
     #Setup gaussian used to provide signal when optimising mono
-    from gda.device.scannable import ScannableGaussian
+    from uk.ac.gda.beamline.i20.scannable import ScannableGaussian
     scannableGaussian = ScannableGaussian("scannableGaussian", 0.1, 5, 1)
     scannableGaussian.setScannableToMonitorForPosition(braggoffset) # position of braggoffset determines value returned by scannable
     monoOptimiser = MonoOptimisation( braggoffset, scannableGaussian )

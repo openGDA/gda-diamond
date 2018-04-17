@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.scannable;
+package uk.ac.gda.beamline.i20.scannable;
 
 import java.util.Arrays;
 
@@ -26,6 +26,8 @@ import org.slf4j.LoggerFactory;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.scannable.ScannableMotionBase;
+import gda.device.scannable.ScannableUtils;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 
 /**

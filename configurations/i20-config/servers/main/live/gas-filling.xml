@@ -81,7 +81,7 @@
 	</bean>
 
 
-	<bean id="ionc1_gas_injector" class="gda.device.scannable.GasInjectionScannable">
+	<bean id="ionc1_gas_injector" class="uk.ac.gda.beamline.i20.scannable.GasInjectionScannable">
 		<property name="purge_pressure" ref="ionc_purge_pressure" />
 		<property name="purge_period" ref="ionc_purge_period" />
 		<property name="purge_timeout" ref="ionc_purge_timeout" />
@@ -102,7 +102,7 @@
 		<property name="abortPV" value="BL20I-EA-GIR-01:CON" />
 	</bean>
 
-	<bean id="ionc2_gas_injector" class="gda.device.scannable.GasInjectionScannable">
+	<bean id="ionc2_gas_injector" class="uk.ac.gda.beamline.i20.scannable.GasInjectionScannable">
 		<property name="purge_pressure" ref="ionc_purge_pressure" />
 		<property name="purge_period" ref="ionc_purge_period" />
 		<property name="purge_timeout" ref="ionc_purge_timeout" />
@@ -123,7 +123,7 @@
 		<property name="abortPV" value="BL20I-EA-GIR-01:CON" />
 	</bean>
 
-	<bean id="ionc3_gas_injector" class="gda.device.scannable.GasInjectionScannable">
+	<bean id="ionc3_gas_injector" class="uk.ac.gda.beamline.i20.scannable.GasInjectionScannable">
 		<property name="purge_pressure" ref="ionc_purge_pressure" />
 		<property name="purge_period" ref="ionc_purge_period" />
 		<property name="purge_timeout" ref="ionc_purge_timeout" />
