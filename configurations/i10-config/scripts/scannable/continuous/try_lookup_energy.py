@@ -1,3 +1,8 @@
+import warnings
+warnings.warn("the try_continuous_energy module is deprecated. All objects in this module are already imported into GDA.", 
+              DeprecationWarning,
+              stacklevel=2)
+
 # run 'scannable/continuous/try_lookup_energy.py'
 
 #run('scannable/continuous/try_continuous_energy.py')
