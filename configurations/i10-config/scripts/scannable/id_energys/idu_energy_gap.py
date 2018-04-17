@@ -6,9 +6,8 @@ from gdaserver import idu_gap, idu_rowphase1, idu_jawphase, idu_rowphase2,\
 from lookups.cvs2dictionary import loadCVSTable
 from utils.ExceptionLogs import localStation_exception
 import sys
-from gda.configuration.properties import LocalProperties
-    
-lookup_tables_dir =LocalProperties.get("gda.function.lookupTable.dir")
+from scannable.id_energys.lookupTableDirectory import lookup_tables_dir
+
 print "-"*100
 
 try:
@@ -17,7 +16,7 @@ try:
 
     print "Creating idu energy and energy follower scannables for different polarisation modes:"
     print "    'idu_circ_pos_energy', 'idu_circ_pos_energy_follower' - IDU positive circular polarisation energy and follower"
-    idu_circ_pos_table=loadCVSTable("%s%s" % (lookup_tables_dir, "/idu_circ_pos_energy2motorPosition.csv"))
+    idu_circ_pos_table=loadCVSTable("%s%s" % (lookup_tables_dir, "/idu_circ_pos_energy2gap.csv"))
     idu_circ_pos_energy = EnergyScannableLookup('idu_circ_pos_energy', idu_gap,
             idu_rowphase1, idu_rowphase2, idu_rowphase3, idu_rowphase4, idu_jawphase, pgm_energy,
             gap=dict(zip(idu_circ_pos_table['energy'], idu_circ_pos_table['idgap'])),
@@ -30,7 +29,7 @@ try:
     idu_circ_pos_energy.energyMode=True
     
     print "    'idu_circ_neg_energy', 'idu_circ_neg_energy_follower' - IDU negative circular polarisation energy and follower"
-    idu_circ_neg_table=loadCVSTable("%s%s" % (lookup_tables_dir, "/idu_circ_neg_energy2motorPosition.csv"))
+    idu_circ_neg_table=loadCVSTable("%s%s" % (lookup_tables_dir, "/idu_circ_neg_energy2gap.csv"))
     idu_circ_neg_energy = EnergyScannableLookup('idu_circ_neg_energy', idu_gap,
             idu_rowphase1, idu_rowphase2, idu_rowphase3, idu_rowphase4, idu_jawphase, pgm_energy,
             gap=dict(zip(idu_circ_neg_table['energy'], idu_circ_neg_table['idgap'])),
@@ -84,4 +83,4 @@ try:
 except:
     localStation_exception(sys.exc_info(), "initialising id energy followers")
 
-print "==== idu_energy using GAP done.==== "
+print "==== idu_energy scannables using GAP done.==== "
