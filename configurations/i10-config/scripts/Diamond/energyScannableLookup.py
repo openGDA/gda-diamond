@@ -20,10 +20,10 @@ class EnergyScannableLookup(EnergyScannableBase):
             gap, rowphase1, rowphase2, rowphase3, rowphase4, jawphase_lookup)
 
     def __repr__(self):
-        format = "EnergyScannableLookup(%r, %r, %r, %r, %r, %r, %r, %r, gap=%r, " + \
+        myformat = "EnergyScannableLookup(%r, %r, %r, %r, %r, %r, %r, %r, gap=%r, " + \
             "rowphase1=%r, rowphase2=%r, rowphase3=%r, rowphase4=%r, " + \
             "jawphase_lookup=%r)"
-        return format % (self.name, self.id_gap.name,
+        return myformat % (self.name, self.id_gap.name,
             self.id_rowphase1.name, self.id_rowphase2.name,
             self.id_rowphase3.name, self.id_rowphase4.name,
             self.id_jawphase.name, self.pgm_energy.name,
@@ -31,7 +31,6 @@ class EnergyScannableLookup(EnergyScannableBase):
             self.rowphase3_from_energy, self.rowphase4_from_energy, self.jawphase_from_energy)
 
     def getEnergy(self, idPosition):
-        # TODO: This is now wrong, given that any motor could be used
         if self.energyMode:
             id_energy = self.gap_from_energy.index(idPosition.gap)
         else:
