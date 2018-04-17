@@ -6,11 +6,7 @@ from gda.device.scannable import ScannableMotionBase
 from idPosition import IdPosition
 from Poly import Poly
 from collections import OrderedDict
-from scisoftpy.external import create_function
-
-python_path="/dls_sw/i21/software/miniconda2/envs/gdaenv/lib/python2.7/"
-python_exe="/dls_sw/i21/software/miniconda2/envs/gdaenv/bin/python"
-local_module_path="/dls_sw/i21/software/miniconda2/lib/python2.7/site-packages"
+from scisoftpy.jython.jymaths import interp
 
 class EnergyScannableBase(ScannableMotionBase):
     
@@ -24,21 +20,6 @@ class EnergyScannableBase(ScannableMotionBase):
                 value_from_index_sorted = OrderedDict(sorted(value_from_index.items()))
                 self.value_lookup_x = value_from_index_sorted.keys()
                 self.value_lookup_y = value_from_index_sorted.values()
-                # Note that this function has been added to scisoft as of master (destined for gda-8.45)
-                self.interp = create_function('interp', module='numpy', exe=python_exe, path=[python_path], extra_path=[local_module_path], dls_module=False, keep=False) # TODO: Replace with scisoft function in gda-8.46
-
-        """ Annoyingly, sometimes self.interp fails and returns the input value as it's output value!
-            See I10 logs where id_energy_follower moves to pgm_energy=831.408565 (jawphase from getIdPosition 831.2583050847456!):
-            2015-05-20 18:01:25,297 INFO  FollowerScannable:id_energy_follower - Moving idu_circ_pos_energy to 831.408565 (831.2583050847456)  
-    
-        def getIdPosition(self, energy_eV):
-            if energy_eV < self.jawphase_lookup_x[0]:
-                raise ValueError("energy_eV %r below minimum of %r" % (energy_eV, self.jawphase_lookup_x[0]))
-            if energy_eV > self.jawphase_lookup_x[-1]:
-                raise ValueError("energy_eV %r above maximum of %r" % (energy_eV, self.jawphase_lookup_x[-1]))
-            jawphase = self.interp(energy_eV, self.jawphase_lookup_x, self.jawphase_lookup_y)
-            return IdPosition(self.gap, self.rowphase1, self.rowphase2, self.rowphase3, self.rowphase4, jawphase)
-"""
 
         def __call__(self, index):
             if self.value_from_index == None:
@@ -48,27 +29,14 @@ class EnergyScannableBase(ScannableMotionBase):
                 return self.value_from_index(index)
     
             if type(self.value_from_index) == type({}):
-                below=above=None
-                for key in sorted(self.value_from_index.iterkeys()):
-                    #print "energy_eV = %r, key = %r" % (energy_eV, key)
-                    if key <= index:
-                        below = key
-                    if above == None and key >= index:
-                        above = key
-                #print "energy_ev = %r, above = %r, below=%r" % (energy_eV, above, below)
-                if below == None:
-                    raise ValueError("%s %r below minimum of %r" % (self.unit, index, sorted(self.value_from_index.iterkeys())[0]))
-                if above == None:
-                    raise ValueError("%s %r above maximum of %r" % (self.unit, index, sorted(self.value_from_index.iterkeys(), reverse=True)[0]))
-                if above == below:
-                    value = self.value_from_index[below]
-                    #print "jawphase = %r" % (jawphase)
-                else:
-                    a, b = self.value_from_index[above], self.value_from_index[below]
-                    slope = (a-b)/(above-below)
-                    value = b + slope*(index-below)
-                    #print "jawphase = %r (lookup above=%r, lookup below=%r, slope=%r)" % (jawphase, a, b, slope)
-                return value
+                sorted_keys = sorted(self.value_from_index.iterkeys())
+                if index < sorted_keys[0]:
+                    raise ValueError("%s %r below minimum of %r" % (self.unit, index, sorted_keys[0]))
+                if index > sorted_keys[-1]:
+                    raise ValueError("%s %r above maximum of %r" % (self.unit, index, sorted_keys[-1]))
+                interp_value= interp(index, self.value_lookup_x, self.value_lookup_y)
+                # print "### value returned from jymath.interp: %f" % (interp_value)
+                return interp_value
             return self.value_from_index
 
         def __repr__(self):
@@ -77,14 +45,13 @@ class EnergyScannableBase(ScannableMotionBase):
         def index(self, value):
             if type(self.value_from_index) != type({}):
                 return None
-                # Only lookup tables provide back reliable reverse transforms
+            # Only lookup tables provide back reliable reverse transforms
             if value < self.value_lookup_y[0]:
-                raise ValueError("jawphase %r below minimum of %r" % (value, self.value_lookup_y[0]))
+                raise ValueError("motor position %r below minimum of %r" % (value, self.value_lookup_y[0]))
             if value > self.value_lookup_y[-1]:
-                raise ValueError("jawphase %r above maximum of %r" % (value, self.jawphase_lookup_y[-1]))
-#             print "### call numpy.interp method ..."
-            interp_value= self.interp(value, self.value_lookup_y, self.value_lookup_x)
-#             print "### value returned from numpy.interp: %f" % (interp_value)
+                raise ValueError("motor position %r above maximum of %r" % (value, self.jawphase_lookup_y[-1]))
+            interp_value= interp(value, self.value_lookup_y, self.value_lookup_x)
+#             print "### value returned from jymath.interp: %f" % (interp_value)
             return interp_value
 
     def __init__(self, name, id_gap_scannable,
@@ -120,15 +87,15 @@ class EnergyScannableBase(ScannableMotionBase):
         self.energyMode=False #default to jawphase energy, if True gap controlled energy
 
     def __str__(self):
-        format=", ".join([ a + "=" + b for (a,b) in zip(
+        myformat=", ".join([ a + "=" + b for (a,b) in zip(
               self.inputNames+self.extraNames,self.outputFormat)])
-        return format % self.getPosition()
+        return myformat % self.getPosition()
 
     def __repr__(self):
-        format = "EnergyScannableBase(%r, %r, %r, %r, %r, %r, %r, %r, gap=%r, " + \
+        myformat = "EnergyScannableBase(%r, %r, %r, %r, %r, %r, %r, %r, gap=%r, " + \
             "rowphase1=%r, rowphase2=%r, rowphase3=%r, rowphase4=%r, " + \
             "jawphase=%r)"
-        return format % (self.name, self.id_gap.name,
+        return myformat % (self.name, self.id_gap.name,
             self.id_rowphase1.name, self.id_rowphase2.name,
             self.id_rowphase3.name, self.id_rowphase4.name,
             self.id_jawphase.name, self.pgm_energy.name,
