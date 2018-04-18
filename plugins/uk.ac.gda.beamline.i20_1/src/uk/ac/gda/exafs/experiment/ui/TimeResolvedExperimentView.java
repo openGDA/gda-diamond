@@ -79,6 +79,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 	private Button useFastShutterCheckbox;
 
+	private Button generateAsciiDataCheckbox;
+
 	private Button setupScannableButton;
 
 	private ScannableListEditor scannableListEditor;
@@ -169,6 +171,9 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
 				BeanProperties.value(TimeResolvedExperimentModel.USE_FAST_SHUTTER).observe(getModel()) );
+
+		dataBindingCtx.bindValue(WidgetProperties.selection().observe(generateAsciiDataCheckbox),
+				BeanProperties.value(TimeResolvedExperimentModel.GENERATE_ASCII_DATA).observe(getModel()) );
 	}
 
 	protected void createExperimentPropertiesComposite(Composite parent) {
@@ -285,7 +290,14 @@ public class TimeResolvedExperimentView extends ViewPart {
 		prefixText = sampleDetailComp.getPrefixTextbox();
 		sampleDescText = sampleDetailComp.getSampleDescriptionTextbox();
 
-		useFastShutterCheckbox = toolkit.createButton(sampleDetailComp.getMainComposite(), "Use fast shutter", SWT.CHECK);
+		Composite checkboxComposite = toolkit.createComposite(sampleDetailComp.getMainComposite(), SWT.NONE);
+		checkboxComposite.setLayout(new GridLayout(2, false));
+		checkboxComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		generateAsciiDataCheckbox = toolkit.createButton(checkboxComposite, "Generate Ascii files", SWT.CHECK);
+		generateAsciiDataCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+
+		useFastShutterCheckbox = toolkit.createButton(checkboxComposite, "Use fast shutter", SWT.CHECK);
 		useFastShutterCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 
 		setupScannableButton = toolkit.createButton(sampleDetailComp.getMainComposite(), "Setup scannables/PVs to monitor", SWT.PUSH);
