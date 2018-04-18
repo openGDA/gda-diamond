@@ -149,6 +149,10 @@ selectStage = StageSelector(samplePreparer,map)
 alias("selectStage")
 selectStage(1)
 
+# In order to perform AcquireRequests with Xspress3 we must initialise the plugin array:
+from prepare_for_snapshot import prep_xsp3
+prep_xsp3()
+
 from mapping_scan_commands import mscan, grid, detector
 
 print "Initialization Complete";
