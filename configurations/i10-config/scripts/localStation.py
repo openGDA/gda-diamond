@@ -157,6 +157,7 @@ from scannable.continuous.continuous_energy_scannables import *  # @UnusedWildIm
 from scan.cvscan import cvscan, cvscan2 # @UnusedImport
 from scannable.id_energys.idu_energy_gap import * # @UnusedWildImport
 from scannable.id_energys.idd_energy_gap import *  # @UnusedWildImport
+from scannable.id_energys.idu_energy_jawphase import *  # @UnusedWildImport
 from scan.trajectory_scans import trajcscan, trajrscan  # @UnusedImport
 
 print
