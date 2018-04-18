@@ -999,7 +999,7 @@ dummy_bimorph = Bimorph("dummy_bimorph", 0, 8)
 
 from pd_bimorph_caenels import BimorphCaenels
 bmcaenels_g1 = BimorphCaenels("bmcaenels_g1", range(1, 9), "BL16B-OP-PSU-01:METLAB:", "BL16B-OP-PSU-01:METLAB:GROUP0:")
-bmcaenels_g2 = BimorphCaenels("bmcaenels_g2", range(1, 9), "BL16B-OP-PSU-01:METLAB:", "BL16B-OP-PSU-01:METLAB:GROUP1:" )
+bmcaenels_g2 = BimorphCaenels("bmcaenels_g2", range(1, 9), "BL16B-OP-PSU-01:METLAB:", "BL16B-OP-PSU-01:METLAB:GROUP1:")
 
 from gdascripts.pd.dummy_pds import DummyPD
 dummy_x = DummyPD("x")
