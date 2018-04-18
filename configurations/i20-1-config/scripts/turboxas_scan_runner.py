@@ -1,27 +1,31 @@
 from gda.scan import TurboXasParameters, TurboXasMotorParameters, TurboXasScan
+import os.path
 
 class TurboXasScanRunner:
     def __init__(self):
         self.scanFileName=""
     
     def __call__(self, params):
-        print "FrelonScan::__call__ ",params, params.__class__
-        if len(params) > 0:
+        # print "FrelonScan::__call__ ",params, params.__class__
+        if len(params) == 1 :
             self.scanFileName = params[0]
         
-        print "Params : filename = ",self.scanFileName
+        if os.path.isfile(self.scanFileName) == False :
+            print "Unable to run scan - couldn't find file called '",self.scanFileName,"'"
+            return
 
+        print "Running TurboXAS scan using parameters from xml file : ",self.scanFileName
+        
         #Load params from xml file
         turboXasParams = TurboXasParameters.loadFromFile(str(self.scanFileName))
-        print "TurboXAS parameters from file : ",self.scanFileName
-        print turboXasParams.toXML();
+        # print turboXasParams.toXML();
         
-        # Get motor params
+        # Show the motor parameters
         turboXasMotorParams = turboXasParams.getMotorParameters();
         print "TurboXAS motor parameters"
         print turboXasMotorParams.toXML()
         
-        txasScan = TurboXasScan( turbo_xas_slit, turboXasMotorParams, [scaler_for_zebra] )
+        txasScan = turboXasParams.createScan()
        
         # Run the scan
         txasScan.runScan()

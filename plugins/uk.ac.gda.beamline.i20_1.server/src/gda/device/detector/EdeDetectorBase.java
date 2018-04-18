@@ -166,6 +166,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 
 		for (int i = offset; i < names.length; i++) {
 			thisFrame.setPlottableValue(names[i], extraValues[i - offset]);
+			thisFrame.addData(getName(), names[i], new NexusGroupData(extraValues[i]));
 		}
 		return thisFrame;
 	}
