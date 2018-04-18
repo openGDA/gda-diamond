@@ -28,13 +28,13 @@ class EnergyScannableSwitcher(ScannableMotionBase):
         self.verbose = False
 
     def __str__(self):
-        format=", ".join([ a + "=" + b for (a,b) in zip(
+        myformat=", ".join([ a + "=" + b for (a,b) in zip(
               self.inputNames+self.extraNames,self.outputFormat)])
-        return format % self.getPosition()
+        return myformat % self.getPosition()
 
     def __repr__(self):
-        format = "EnergyScannableSwitchable(%r, %r)"
-        return format % (self.name, self.energy_scannable_switchable.name)
+        myformat = "EnergyScannableSwitchable(%r, %r)"
+        return myformat % (self.name, self.energy_scannable_switchable.name)
 
     def atScanStart(self):
         self.energyScannableInsideSwitcher=None

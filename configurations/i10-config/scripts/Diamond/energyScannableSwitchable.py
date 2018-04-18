@@ -33,13 +33,13 @@ class EnergyScannableSwitchable(ScannableMotionBase):
             assert (len(scannable.getExtraNames()) == extraNameLen0)
 
     def __str__(self):
-        format=", ".join([ a + "=" + b for (a,b) in zip(
+        myformat=", ".join([ a + "=" + b for (a,b) in zip(
               self.inputNames+self.extraNames,self.outputFormat)])
-        return format % self.getPosition()
+        return myformat % self.getPosition()
 
     def __repr__(self):
-        format = "EnergyScannableSwitchable(%r, %r)"
-        return format % (self.name, [x.name for x in self.scannable_list])
+        myformat = "EnergyScannableSwitchable(%r, %r)"
+        return myformat % (self.name, [x.name for x in self.scannable_list])
 
     def atScanStart(self):
         self.energyScannableInsideSwitcher=None
