@@ -53,14 +53,14 @@ class EnergyScannableLinearArbitrary(EnergyScannableBase):
         self.jawphase_from_angle = EnergyScannableBase.ValueLookup(jawphase_from_angle, "deg")
 
     def __repr__(self):
-        format = "EnergyScannableLinearArbitrary(%r, %r, %r, %r, %r, %r, %r, %r, " + \
+        myformat = "EnergyScannableLinearArbitrary(%r, %r, %r, %r, %r, %r, %r, %r, " + \
             "angle_min_Deg=%r, angle_max_Deg=%r, angle_threshold_Deg=%r, " + \
             "energy_min_eV=%r, energy_max_eV=%r, " + \
             "gap_from_energy=%r, rowphase1_from_energy=%r, rowphase2_from_energy=%r, " + \
             "rowphase3_from_energy=%r, rowphase4_from_energy=%r, jawphase_from_energy=%r, " + \
             "gap_from_angle=%r, rowphase1_from_angle=%r, rowphase2_from_angle=%r, " + \
             "rowphase3_from_angle=%r, rowphase4_from_angle=%r, jawphase_from_angle=%r)"
-        return format % (self.name, self.id_gap.name,
+        return myformat % (self.name, self.id_gap.name,
             self.id_rowphase1.name, self.id_rowphase2.name,
             self.id_rowphase3.name, self.id_rowphase4.name,
             self.id_jawphase.name, self.pgm_energy.name,
