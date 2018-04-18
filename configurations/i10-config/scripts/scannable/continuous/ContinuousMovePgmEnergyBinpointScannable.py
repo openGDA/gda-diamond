@@ -17,7 +17,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
     """ Since the binpoints are slaved from a multi channel scaler card, motion will fail if the
         no scaler channels are specified in the scan.
         
-        Also, since this scannable takes over starting the binpoint mecahnism, it may not work if
+        Also, since this scannable takes over starting the binpoint mechanism, it may not work if
         individual binpoint scannables are added to the scan. """
 
     def __init__(self, name, move_controller, binpointGrtPitch, binpointMirPitch, binpointPgmEnergy):
