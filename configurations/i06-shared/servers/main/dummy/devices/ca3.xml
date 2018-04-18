@@ -3,12 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Current Amplifier CA3 Controller, BPM Controller and BPM -->
-<!-- 	<bean id="qca3" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier"> -->
-<!-- 		<property name="deviceName" value="CA3"/> -->
-<!-- 		<property name="local" value="true"/> -->
-<!-- 	</bean> -->
-
 	<!-- CA3 Epics Monitor -->
 	<bean id="ca31" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle" />
 	<bean id="ca32" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle" />
