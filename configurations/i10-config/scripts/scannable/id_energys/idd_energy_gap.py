@@ -68,6 +68,6 @@ try:
     idd_lin_ver_energy.energyMode=True
 
 except:
-    localStation_exception(sys.exc_info(), "initialising id_energy_follower")
+    localStation_exception(sys.exc_info(), "initialising idd gap energy followers")
 
-print "==== idd Energy scannables using GAP done.==== "
+print "==== idd GAP energy scannables done.==== "
