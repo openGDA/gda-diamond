@@ -105,13 +105,13 @@
 	<!-- The focus scan bean provides the defaults used for a focus scan (a.k.a. butterfly scan) -->
 	<bean id="focus_scan_bean" class="uk.ac.diamond.daq.mapping.api.FocusScanBean">
 		<property name="focusScannableName" value="ZonePlateZ"/>
-		<property name="focusRange" value="0.5"/>
+		<property name="focusRange" value="0.05"/>
 		<property name="numberOfFocusSteps" value="20"/>
 		<property name="numberOfLinePoints" value="40"/>
 		<!-- This field helps the UI choose the right malcolm device for focus scans -->
 		<property name="focusMalcolmDeviceName" value="I08-SCAN02"/>
 	</bean>
-	
+
 	<!-- Register the focus bean as an OSGi service -->
 	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="uk.ac.diamond.daq.mapping.api.FocusScanBean" />
