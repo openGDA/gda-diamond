@@ -36,3 +36,5 @@ try:
     idd_lin_arbitrary_angle = PolarisationAngleScannable('idd_lin_arbitrary_angle', idd_lin_arbitrary_energy)
 except:
     localStation_exception(sys.exc_info(), "initialising idd linear arbitrary energy followers")
+    
+print "==== idd Linear Arbitrary energy scannable done.==== "
