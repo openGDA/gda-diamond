@@ -52,8 +52,12 @@ class AlignmentSlitScannable(QexafsTestingScannable) :
     def atScanStart(self) :
         self.logger.info("atScanStart")
 
+    def stop(self):
+        self.atScanEnd()
+
     def atScanEnd(self):
         frelon.stop()
+        self.zebraDevice.pcDisarm()
 
         # Wait for zebra to finish, so all points have been captured and 
         # complete encoder positions and time arrays can be read out.
@@ -106,6 +110,7 @@ class AlignmentSlitScannable(QexafsTestingScannable) :
         self.zebraDevice.setPCTimeUnit(time_units)
         
          # Gate source
+        self.zebraDevice.setPCGateNumberOfGates(1)
         self.zebraDevice.setPCGateSource(gateTrigSource)
         self.zebraDevice.setPCGateStart(scanStartPos)
         self.zebraDevice.setPCGateWidth(gateWidth)
@@ -165,9 +170,9 @@ class AlignmentSlitScannable(QexafsTestingScannable) :
 
     def addAxisAttributes(self, nexusFile, dataNode, units) :
         from org.eclipse.dawnsci.analysis.tree import TreeFactory
-        from uk.ac.diamond.scisoft.analysis.io import NexusTreeUtils
-        nexusFile.addAttribute(dataNode, TreeFactory.createAttribute(NexusTreeUtils.NX_AXIS, 2) );
-        nexusFile.addAttribute(dataNode, TreeFactory.createAttribute(NexusTreeUtils.NX_UNITS, units) )
+        from org.eclipse.dawnsci.nexus import NexusConstants
+        nexusFile.addAttribute(dataNode, TreeFactory.createAttribute(NexusConstants.DATA_AXIS, 2) );
+        nexusFile.addAttribute(dataNode, TreeFactory.createAttribute(NexusConstants.UNITS, units) )
 
     def addDataToNexusFile(self, nexusFile, detectorGroupName, dataName, dataset, units=None):
         self.logger.info("Adding data to NexusFile : {}/{}", detectorGroupName, dataName)
@@ -240,6 +245,17 @@ def showFrelonState() :
     showInfo("Max exposure time per accumulation", limaCcd+"getAccumulationMaximumExposureTime()" )
     showInfo("Exposure time of image", limaCcd+"getExposureTime()" )
 
+def plot_last_data() :
+    fname = lastScanDataPoint().getCurrentFilename()
+    nexusData=dnp.io.load(fname)
+    frelonData = nexusData.entry1.frelon
+    position = frelonData.value[...]
+    posAtDetectorMeasurement = nexusData.entry1.bufferedFrelon.detector_position[...]
+    frelonRoiData=[ frelonData.ROI_1[...], frelonData.ROI_2[...], frelonData.ROI_3[...], frelonData.ROI_4[...] ]
+    xlabel = "Position from zebra [cm]"
+    dnp.plot.line( {xlabel:posAtDetectorMeasurement}, frelonRoiData, title="ROI counts vs position (from zebra encoder)")
+
+
 zebra_device = Finder.getInstance().find("zebra_device")
 daserverForTfg = Finder.getInstance().find("daserverForTfg")
 scalerForZebra = Finder.getInstance().find("scaler_for_zebra")
@@ -266,8 +282,8 @@ contScannable.setMaxMotorSpeed(10000.0) # motor speed used when moving to runup 
 contScannable.setRampDistance(0.2)
 
 # General parameters for the scan
-scan_start = -0.2
-scan_end = 0.5
+scan_start = 0.59
+scan_end = 0.65
 scan_num_readouts = 140
 
 ## Run the scan
@@ -284,7 +300,4 @@ scan_time = scan_num_readouts * timePerSpectrum
 bufferedDetector.prepareDetectorForCollection(scan_num_readouts, timePerSpectrum, accumulationTime, numAccumulations)
 
 cvscan contScannable scan_start scan_end scan_num_readouts scan_time bufferedDetector
-
-# delete_scannables()
-
 

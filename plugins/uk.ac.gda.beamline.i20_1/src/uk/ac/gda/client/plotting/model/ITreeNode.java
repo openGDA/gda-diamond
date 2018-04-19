@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2013 Diamond Light Source Ltd.
+ * Copyright © 2018 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -16,8 +16,13 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.scannable;
+package uk.ac.gda.client.plotting.model;
 
-public enum ADCMonitorModes {
-	Continuous, Trigger, Gate
+import java.util.List;
+
+public interface ITreeNode {
+	public ITreeNode getParent();
+	public List<ITreeNode> getChildren();
+	public String getLabel();
+	public String getIdentifier();
 }

@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.scannable;
+package uk.ac.gda.beamline.i20.scannable;
 
 import java.util.List;
 
@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.scannable.ScannableBase;
 import gda.epics.CAClient;
 import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;

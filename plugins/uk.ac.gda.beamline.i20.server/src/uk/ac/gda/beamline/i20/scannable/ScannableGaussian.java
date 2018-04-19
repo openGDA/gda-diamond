@@ -16,10 +16,11 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.scannable;
+package uk.ac.gda.beamline.i20.scannable;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.scannable.ScannableBase;
 import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian;
 
 /**
@@ -27,9 +28,9 @@ import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian;
  * This is currently used for testing {@link MonoOptimisation}.
  */
 public class ScannableGaussian extends ScannableBase {
-	Scannable scannableForPosition;
-	Gaussian gaussian;
-	double currentPos;
+	protected Scannable scannableForPosition;
+	protected Gaussian gaussian;
+	protected double currentPos;
 
 	public ScannableGaussian(String name, double centrePos, double fwhm, double area ) {
 		setName(name);

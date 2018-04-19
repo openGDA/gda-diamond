@@ -24,11 +24,11 @@
 		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
 	</bean>
 	
-	<bean id="cryostat_controller" class="gda.device.scannable.Lakeshore340Controller">
+	<bean id="cryostat_controller" class="uk.ac.gda.beamline.i20.scannable.Lakeshore340Controller">
 		<property name="pvName" value="BL20I-EA-TEMPC-01:" />
 	</bean>
 	
-	<bean id="cryostat" class="gda.device.scannable.Lakeshore340Scannable">
+	<bean id="cryostat" class="uk.ac.gda.beamline.i20.scannable.Lakeshore340Scannable">
 		<property name="controller" ref="cryostat_controller" />
 	</bean>
 	

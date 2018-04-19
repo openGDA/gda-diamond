@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package gda.device.scannable;
+package uk.ac.gda.beamline.i20.scannable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +39,7 @@ import gda.device.detector.DAServer;
 import gda.device.detector.DetectorBase;
 import gda.device.detector.countertimer.TFGCounterTimer;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.scannable.ScannableUtils;
 import gda.factory.Findable;
 import gda.jython.InterfaceProvider;
 import gda.scan.ConcurrentScan;
