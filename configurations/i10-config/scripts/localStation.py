@@ -10,7 +10,6 @@ print "Running the I10 startup script localStation.py..."
 print ""
 
 global RASOR_SCALER, UI1, UJ1
-import java
 from gdascripts.messages.handle_messages import simpleLog
 
 print "-"*100
@@ -58,6 +57,8 @@ print SaveAndReload.__doc__
 
 #Create snap command for capturing a snapshot of camera
 from i10commands.snapshot import *  # @UnusedWildImport
+#commands for data file format control
+from i10commands.switchDataWriter import asciiformat, nexusformat, whichformat  # @UnusedImport
 
 #RASOR Multilayer support
 from rasor.scannable.polarisation_analyser_example import *  # @UnusedWildImport
