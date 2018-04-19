@@ -9,8 +9,6 @@
 				on the local machine and start the IOC in localhost.
 	</description>
 
-	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
-	
 	<!-- Scattering -->
 	<bean id="pixis_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}pixisRoi" />
