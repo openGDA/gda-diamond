@@ -15,7 +15,6 @@
 
 
 	<corba:import namespace="${gda.factory.factoryName}" names="GDAMetadata" />
-	<import resource="../../../../i10-shared/clients/main/_common/client.xml"/>
 
 	<import resource="live_controls.xml" />
 	<import resource="statusView.xml"/>
