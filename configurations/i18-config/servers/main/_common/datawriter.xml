@@ -336,15 +336,15 @@
 				<value>d7amotor</value>
 				<value>d7bmotor</value>
 				<value>sid_x</value>
-				<value>sc_MicroFocusSampleX</value>
-				<value>sc_MicroFocusSampleY</value>
-				<value>sc_sample_z</value>
-				<value>sc_sample_thetacoarse</value>
-				<value>sc_sample_thetafine</value>
-				<value>table_x</value>
-				<value>table_y</value>
-				<value>table_z</value>
-				<value>table_pitch</value>
+				<value>t1x</value>
+				<value>t1y</value>
+				<value>t1z</value>
+				<value>t1thetaCoarse</value>
+				<value>t1thetaFine</value>
+				<value>t3x</value>
+				<value>t3y</value>
+				<value>t3z</value>
+				<value>t3pitch</value>
 				<value>s1ygap</value>
 				<value>s1xgap</value>
 				<value>s1ypos</value>

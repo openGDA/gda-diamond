@@ -38,8 +38,8 @@
 				<entry key="D7B" value="gap" />
 				<entry key="kb_vfm_x" value-type="java.lang.Double" value="7.0" />
 				<entry key="energy" value-type="java.lang.Double" value="10000.0" />
-				<entry key="sc_sample_z" value-type="java.lang.Double" value="0.0" />
-				<entry key="table_z" value-type="java.lang.Double" value="0.0" />
+				<entry key="t1z" value-type="java.lang.Double" value="0.0" />
+				<entry key="t3z" value-type="java.lang.Double" value="0.0" />
 			</map>
 		</property>
 		<property name="scanDefinition">
