@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hm4ay_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HMA-04:Y" />
+	</bean>
+
+	<bean id="hm4apitchjack_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HMA-04:JACK" />
+	</bean>
+
+	<bean id="hm4aheight_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HMA-04:HEIGHT" />
+	</bean>
+
+	<bean id="hm4apitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL09I-MO-HMA-04:PITCH" />
+	</bean>
+
+	<bean id="hm4aiamp13" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL09I-MO-HMA-04:IAMP13" />
+		<property name="poll" value="false"/>
+	</bean>
+
+</beans>

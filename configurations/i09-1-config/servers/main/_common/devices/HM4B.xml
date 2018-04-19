@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- HM4B -->
+	<bean id="hm4by" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm4by_motor" />
+	</bean>
+
+	<bean id="hm4bux" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm4bux_motor" />
+	</bean>
+
+	<bean id="hm4bdx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm4bdx_motor" />
+	</bean>
+
+	<bean id="hm4bx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm4bx_motor" />
+	</bean>
+
+	<bean id="hm4bpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm4bpitch_motor" />
+	</bean>
+
+	<bean id="hm4b" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hm4by" />
+				<ref bean="hm4bux" />
+				<ref bean="hm4bdx" />
+				<ref bean="hm4bx" />
+				<ref bean="hm4bpitch" />
+			</list>
+		</property>
+	</bean>
+</beans>

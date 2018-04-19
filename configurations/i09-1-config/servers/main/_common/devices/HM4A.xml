@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- HM4A -->
+	<bean id="hm4ay" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm4ay_motor" />
+	</bean>
+
+	<bean id="hm4apitchjack" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm4apitchjack_motor" />
+	</bean>
+
+	<bean id="hm4aheight" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm4aheight_motor" />
+	</bean>
+
+	<bean id="hm4apitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hm4apitch_motor" />
+	</bean>
+
+	<bean id="hm4a" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hm4ay" />
+				<ref bean="hm4apitchjack" />
+				<ref bean="hm4aheight" />
+				<ref bean="hm4apitch" />
+				<ref bean="hm4aiamp13" />
+			</list>
+		</property>
+	</bean>
+</beans>

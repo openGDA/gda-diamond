@@ -13,7 +13,9 @@
 	<!-- Mirrors -->
 	<import resource="HM1.xml"/>
 	<import resource="HM2.xml"/>
-	
+	<import resource="HM4A.xml"/>
+	<import resource="HM4B.xml"/>
+
 	<!-- Monochromator -->
 	<import resource="DCM.xml"/>
 	<import resource="ChannelCutCrystal.xml"/>
@@ -24,6 +26,9 @@
 
 	<!-- Simulated Area Detector -->
 	<import resource="adSimulator.xml"/>
+
+	<!-- End Station -->
+	<import resource="ES3.xml"/>
 
 	<!-- Shutters -->
 	<import resource="shutters.xml"/>
