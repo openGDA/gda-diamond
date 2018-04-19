@@ -47,4 +47,4 @@ $RECYCLE.BIN/
 *.pyc
 gdaserver.py
 
-/i10.dummy.server.product.launch
+*.launch
