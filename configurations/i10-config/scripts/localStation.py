@@ -184,17 +184,6 @@ alias('wh')
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 STOP_ALL_EXCLUSIONS=[]  # @UndefinedVariable
 
-print "*"*100
-print "Attempting to run localStationUser.py from users script directory"
-try:
-    from gda.jython.commands.GeneralCommands import run
-    run("localStationUser")
-    print "localStationUser.py completed."
-except java.io.FileNotFoundException, e:
-    print "No localStationUser.py found in user scripts directory"
-except:
-    localStation_exception(sys.exc_info(), "running localStationUser user script")
-
 if len(localStation_exceptions) > 0:
     simpleLog("=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions))
 
