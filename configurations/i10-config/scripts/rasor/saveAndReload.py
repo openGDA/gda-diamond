@@ -9,7 +9,7 @@ class SaveAndReload(object):
         Usage: 
         1. create a object of saved_name=SaveAndReload("scannable_group_name",listOfScannables=[])
         2. then saved_name.save() to save position data
-        3. save_name.load() loads position from saved data
+        3. saved_name.load() loads position from saved data
     '''
     def __init__(self, name, listOfScannables=[]):
         if listOfScannables == []:
