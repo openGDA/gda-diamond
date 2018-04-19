@@ -5,7 +5,7 @@ Created on 16 Apr 2018
 '''
 from gda.device.scannable import DummyScannable
 print "-"*100
-print "creating 'dummy' & `denergy` scannables"
+print "creating 'dummy' scannable"
 dummy = DummyScannable("dummy")
 
 from gda.jython.commands.ScannableCommands import scan
