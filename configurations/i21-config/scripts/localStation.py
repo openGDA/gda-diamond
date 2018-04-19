@@ -245,10 +245,7 @@ print " To manually switch on scan processor, run 'scan_processing_on()' functio
 print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
 scan_processing_off()
 
-#Please leave Panic stop customisation last
-#method to stop all Jython scannables in namespace except those listed in the exclusion list "STOP_ALL_EXCLUSIONS" below
-from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
-#scannables to be excluded from Panic stop
+#Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable
 
 simpleLog("===================== GDA ONLINE =====================")
