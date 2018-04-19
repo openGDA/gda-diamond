@@ -3,16 +3,17 @@ from gda.scan.ede import TimeResolvedExperimentParameters
 class FrelonScanRunner:
     def __init__(self):
         self.scanFileName=""
-        self.singleSpectrum = False
     
     def __call__(self, params):
-        print "FrelonScan::__call__ ",params, params.__class__
+        # print "FrelonScan::__call__ ",params, params.__class__
         if len(params) > 0:
-            self.scanFileName = params[0]
-        if len(params) > 1:
-            self.singleSpectrum = bool(params[1])
+            self.scanFileName = str(params[0])
+               
+        if os.path.isfile(self.scanFileName) == False :
+            print "Unable to run scan - couldn't find file called '",self.scanFileName,"'"
+            return
         
-        print "Params : filename = ",self.scanFileName," , singleSpectrum = ",self.singleSpectrum
+        print "Running Ede LinearExperiment using settings from xml file : ",self.scanFileName
 
         #Load params from xml file
         timeResolvedParams = TimeResolvedExperimentParameters.loadFromFile(str(self.scanFileName))

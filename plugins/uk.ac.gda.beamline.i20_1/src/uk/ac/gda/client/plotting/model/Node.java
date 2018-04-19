@@ -18,37 +18,78 @@
 
 package uk.ac.gda.client.plotting.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.list.WritableList;
 
 import uk.ac.gda.beans.ObservableModel;
 
-public abstract class Node extends ObservableModel {
+public class Node extends ObservableModel implements ITreeNode {
 
-	public static final String DATA_CHANGED_PROP_NAME = "changedData";
-	public static final String DATA_ADDED_PROP_NAME = "addedData";
-	public static final String SCAN_ADDED_PROP_NAME = "addedScan";
+	private final Map<String, ITreeNode> nodeMap = new HashMap<>();
+	private final IObservableList nodeList = new WritableList(new ArrayList<ITreeNode>(), ITreeNode.class);
+	private final ITreeNode parent;
+	private String identifier;
 
-	protected final Node parent;
-
-	public Node(Node parent) {
+	public Node(ITreeNode parent) {
 		this.parent = parent;
 	}
 
-	public abstract IObservableList getChildren();
+	public Node(ITreeNode parent, String identifier) {
+		this.parent = parent;
+		this.identifier = identifier;
+	}
 
-	public abstract String getIdentifier();
+	@Override
+	public IObservableList getChildren() {
+		return nodeList;
+	}
 
-	public Node getParent() {
+	@Override
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+	@Override
+	public ITreeNode getParent() {
 		return parent;
 	}
 
+	@Override
 	public String getLabel() {
 		return toString();
 	}
 
-	public abstract void removeChild(Node dataNode);
+	public void removeChild(Node dataNode) {
+		// No default implementation
+	}
 
 	public void disposeResources() {
 		// Nothing to dispose
+	}
+
+	public boolean hasChild(String identifier) {
+		return nodeMap.containsKey(identifier);
+	}
+
+	public ITreeNode getChild(String identifier) {
+		return nodeMap.get(identifier);
+	}
+
+	public void addChildNode(ITreeNode node) {
+		nodeList.add(node);
+		nodeMap.put(node.getIdentifier(), node);
+	}
+
+	public void addChildNode(int index, ITreeNode node) {
+		nodeList.add(index, node);
+		nodeMap.put(node.getIdentifier(), node);
 	}
 }

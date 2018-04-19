@@ -32,6 +32,9 @@ import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian;
+import uk.ac.gda.beamline.i20.scannable.MonoMoveWithOffsetScannable;
+import uk.ac.gda.beamline.i20.scannable.MonoOptimisation;
+import uk.ac.gda.beamline.i20.scannable.ScannableGaussian;
 
 /**
  * Unit tests for {@link MonoOptimisation} class.

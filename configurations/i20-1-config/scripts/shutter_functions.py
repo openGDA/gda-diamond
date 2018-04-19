@@ -26,7 +26,7 @@ def closeFastShutter():
 
 
 def setTurboSlitShutterPositions(openPos, closePos) :
-    turbo_slit_shutter.setPositions({})
+    # turbo_slit_shutter.setPositions({})
     turbo_slit_shutter.setValues( {"Open":str(openPos), "Close":str(closePos), "Reset":str(closePos) } )
     print turbo_slit_shutter.getName()," positions ",turbo_slit_shutter.getValues()
 
@@ -37,7 +37,7 @@ def configureFastShutter() :
     lowerDemandPv="BL20J-EA-FSHTR-01:P3202"
     upperPos = str(CAClient.get(upperDemandPv))
     lowerPos = str(CAClient.get(lowerDemandPv))
-    fast_shutter.setPositions({})
+    # fast_shutter.setPositions({})
     fast_shutter.setValues( { "Open":upperPos, "Close":lowerPos} )
     print fast_shutter.getName()," positions :",fast_shutter.getValues()
 

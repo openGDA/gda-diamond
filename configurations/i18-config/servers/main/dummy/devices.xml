@@ -160,5 +160,16 @@
 
 	<bean id="thor_x_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="thor_y_motor" class="gda.device.motor.DummyMotor" />
+	
+	<bean id="fe_absorber" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+				<value>Abort</value>
+				<value>Unknown</value>
+			</list>
+		</property>
+	</bean>
 
 </beans>

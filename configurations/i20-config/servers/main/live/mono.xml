@@ -58,7 +58,7 @@
 		<constructor-arg value="BL20I-OP-QCM-01:CALC:B2OFF.PROC"/>
 	</bean>
 
-	<bean id="crystal1_pitch" class="gda.device.scannable.Crystal1PitchScannable">
+	<bean id="crystal1_pitch" class="uk.ac.gda.beamline.i20.scannable.Crystal1PitchScannable">
 		<property name="protectionLevel" value="1" />
 		<property name="motor" ref="crystal1_pitch_motor" />
 	</bean>
