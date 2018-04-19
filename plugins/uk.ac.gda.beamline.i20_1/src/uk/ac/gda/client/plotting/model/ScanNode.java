@@ -26,16 +26,13 @@ import com.google.gson.annotations.Expose;
 public abstract class ScanNode extends Node {
 
 	@Expose
-	private final String identifier;
-	@Expose
 	private final String fileName;
 
 	@Expose
-	protected final Set<String> selectedLineTraceNames = new HashSet<String>();
+	protected final Set<String> selectedLineTraceNames = new HashSet<>();
 
-	public ScanNode(String identifier, String fileName, Node parent) {
-		super(parent);
-		this.identifier = identifier;
+	public ScanNode(ITreeNode parent, String scanIdentifier, String fileName) {
+		super(parent, scanIdentifier);
 		this.fileName = fileName;
 	}
 
@@ -43,19 +40,13 @@ public abstract class ScanNode extends Node {
 		return fileName;
 	}
 
-	@Override
-	public String getIdentifier() {
-		return identifier;
-	}
-
-	public void addSelection(String name) {
+	public void addLineSelection(String name) {
 		selectedLineTraceNames.add(name);
 	}
 
-	public void removeSelection(String name) {
+	public void removeLineSelection(String name) {
 		selectedLineTraceNames.remove(name);
 	}
-
 
 	public String[] getSelectedLineTraceNames() {
 		return selectedLineTraceNames.toArray(new String[]{});
