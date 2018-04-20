@@ -14,7 +14,7 @@ print "-"*100
 print "Creating Camera TIFF image processor objects for all diagnostic cameras:"
 print "    cam1 - customised 'd1camtiff' to display image in 'Plot 1' view"
 print "    peak2d1 - return 2D Gaussian Peak fitting data from d1 camera"
-print "    max2d   - return Position and value of the Maximum intensity and Total intenesity"
+print "    max2d1   - return Position and value of the Maximum intensity and Total intenesity"
 
 def cameraFactory(cam_name, peak2d_name, max2d_name, camdet, camdet_for_snaps):
     # ----------------------------------------------------------------------

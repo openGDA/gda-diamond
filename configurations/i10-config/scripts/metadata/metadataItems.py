@@ -10,6 +10,7 @@ from gdaserver import idd_gap, idd_rowphase1, idd_jawphase,\
     idu_sepphase, pgm_grat_pitch, pgm_m2_pitch,pgm_energy
 from utils.ExceptionLogs import localStation_exception
 import sys
+from gda.factory import Finder
 try:
     print '-'*80
     print "Define metadata list for data collection:"
@@ -43,7 +44,6 @@ try:
     print "    'meta_ls'  - list only the items to be put into the scan metadata"
     print "    'meta_rm'  - remove a scannable or scannables from the scan metadata"
     from metashop import *  # @UnusedWildImport
-    import metashop  # @UnusedImport
     for each in stdmetadatascannables:
         meta_add(each)
     

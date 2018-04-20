@@ -15,7 +15,7 @@ print "-"*100
 
 try:
     print "Creating idd energy and energy follower scannables for Linear Arbitrary polarisation mode:"
-    print "    'idd_lin_arbitrary_energy', 'idd_lin_arbitrary_energy_follower', 'idd_lin_arbitrary_angle' - IDD positive circular polarisation energy and follower"
+    print "    'idd_lin_arbitrary_energy', 'idd_lin_arbitrary_energy_follower', 'idd_lin_arbitrary_angle' - IDD Linear Arbitrary polarisation energy and follower, and angle"
     idd_lin_arbitrary_table=loadCVSTable("%s%s" % (lookup_tables_dir, "/idd_lin_arbitrary_energy.csv"))
     idd_lin_arbitrary_energy = EnergyScannableLinearArbitrary('idd_lin_arbitrary_energy',
         idd_gap, idd_rowphase1, idd_rowphase2, idd_rowphase3, idd_rowphase4, 

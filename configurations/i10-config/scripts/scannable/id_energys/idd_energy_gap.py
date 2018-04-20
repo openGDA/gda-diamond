@@ -15,7 +15,7 @@ try:
     from scannable.continuous.FollowerScannable import SilentFollowerScannable
 
     print "Creating idd energy and energy follower scannables for different polarisation modes:"
-    print "    'idd_circ_pos_energy', 'idd_circ_pos_energy_follower' - IDD positive circular polarisation energy and follower"
+    print "    'idd_circ_pos_energy', 'idd_circ_pos_energy_follower' - IDD positive circular polarisation gap energy and follower"
     idd_circ_pos_table=loadCVSTable("%s%s" % (lookup_tables_dir, "/idd_circ_pos_energy2gap.csv"))
     idd_circ_pos_energy = EnergyScannableLookup('idd_circ_pos_energy', idd_gap,
             idd_rowphase1, idd_rowphase2, idd_rowphase3, idd_rowphase4, idd_jawphase, pgm_energy,
@@ -28,7 +28,7 @@ try:
     idd_circ_pos_energy.concurrentRowphaseMoves=True
     idd_circ_pos_energy.energyMode=True
 
-    print "    'idd_circ_neg_energy', 'idd_circ_neg_energy_follower' - IDD negative circular polarisation energy and follower"
+    print "    'idd_circ_neg_energy', 'idd_circ_neg_energy_follower' - IDD negative circular polarisation gap energy and follower"
     idd_circ_neg_table=loadCVSTable("%s%s" % (lookup_tables_dir, "/idd_circ_neg_energy2gap.csv"))
     idd_circ_neg_energy = EnergyScannableLookup('idd_circ_neg_energy', idd_gap,
             idd_rowphase1, idd_rowphase2, idd_rowphase3, idd_rowphase4, idd_jawphase, pgm_energy,
@@ -41,7 +41,7 @@ try:
     idd_circ_neg_energy.concurrentRowphaseMoves=True
     idd_circ_neg_energy.energyMode=True
 
-    print "    'idd_lin_hor_energy','idd_lin_hor_energy_follower' - IDD Linear Horizontal polarisation energy and follower"
+    print "    'idd_lin_hor_energy','idd_lin_hor_energy_follower' - IDD Linear Horizontal polarisation gap energy and follower"
     idd_lin_hor_table =loadCVSTable("%s%s" % (lookup_tables_dir, "/idd_lin_hor_energy2gap.csv"))
     idd_lin_hor_energy = EnergyScannableLookup('idd_lin_hor_energy', idd_gap,
             idd_rowphase1, idd_rowphase2, idd_rowphase3, idd_rowphase4, idd_jawphase, pgm_energy,
@@ -54,7 +54,7 @@ try:
     idd_lin_hor_energy.concurrentRowphaseMoves=True
     idd_lin_hor_energy.energyMode=True
 
-    print "    'idd_lin_ver_energy', 'idd_lin_ver_energy_follower' - IDD Linear Vertical polarisation energy and follower"
+    print "    'idd_lin_ver_energy', 'idd_lin_ver_energy_follower' - IDD Linear Vertical polarisation gap energy and follower"
     idd_lin_ver_table =loadCVSTable("%s%s" % (lookup_tables_dir, "/idd_lin_ver_energy2gap.csv"))
     idd_lin_ver_energy = EnergyScannableLookup('idd_lin_ver_energy', idd_gap,
             idd_rowphase1, idd_rowphase2, idd_rowphase3, idd_rowphase4, idd_jawphase, pgm_energy,

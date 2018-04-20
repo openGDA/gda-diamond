@@ -9,7 +9,7 @@ from gda.jython.commands.GeneralCommands import alias
 import sys
 
 print "-"*100
-print "Creating Multilay Analyser example objects:"
+print "Creating Multilayer Analyser example objects:"
 print " 1. 'ml'  - define multilayer object using (name, d_spacing (A), start_energy(eV), stop_energy(eV), thp_offset(deg), pos_z(mm), pos_y(mm))"
 print " 2. 'mss' - define multilayer selector scannable using (name, multilayer_list, pz_scannable, py_scannable)"
 print " 3. 'pa'  - define polarisation analyser scannable using (name, thp_scannable, ttp_scannable, multilayer_selector_scannable, energy_scannable)"
