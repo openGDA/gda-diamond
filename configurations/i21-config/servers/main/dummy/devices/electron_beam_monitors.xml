@@ -22,7 +22,7 @@
 
 	<bean id="machineModeMonitor" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value">
-			<value type="string">Shutdown</value>
+			<value type="java.lang.String">Shutdown</value>
 		</property>
 	</bean>
 
