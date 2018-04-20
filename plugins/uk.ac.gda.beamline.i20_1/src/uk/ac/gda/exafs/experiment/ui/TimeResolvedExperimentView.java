@@ -95,6 +95,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 	private TimingGroupSectionComposite timingGroupSectionComposite;
 
+	private boolean hideTimeBar = true;
+
 	@Override
 	public void createPartControl(final Composite parent) {
 		toolkit = new FormToolkit(parent.getDisplay());
@@ -115,7 +117,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 		createExperimentPropertiesComposite(parentComposite);
 		createTimeBarComposite(parentComposite);
 		createStartStopScanSection(parentComposite);
-		parentComposite.setWeights(new int[] {10, 2, 2});
+		int[] weights = new int[] {10, hideTimeBar ? 0 : 2 , 2};
+		parentComposite.setWeights(weights);
 	}
 
 	protected TimeResolvedExperimentModel getModel() {
