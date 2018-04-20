@@ -54,7 +54,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 
 	private static final double MIN_DEAD_TIME = 0.000001;
 	private static final double MIN_LIVE_TIME = 0.000001;
-	private EdeDetector detector;
+	private transient EdeDetector detector;
 	private boolean usingExternalScripts4TFG=false;
 
 	@Expose

@@ -571,6 +571,15 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		// Add names of pvs/scannables to be monitored
 		addScannablesMethodCallToCommand(LINEAR_EXPERIMENT_OBJ, builder);
 
+		// Add xml bean
+		try {
+			TimeResolvedExperimentParameters params = getParametersBeanFromCurrentSettings();
+			String paramString = params.toXML().replace("\n", " "); // Serialized xml string of bean
+			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setParameterBean('%s'); \n", paramString));
+		} catch (DeviceException e) {
+			logger.warn("Problem adding TimeResolvedExperimentParameters to experiment object", e);
+		}
+
 		builder.append(LINEAR_EXPERIMENT_OBJ + ".runExperiment();");
 		return builder.toString();
 	}

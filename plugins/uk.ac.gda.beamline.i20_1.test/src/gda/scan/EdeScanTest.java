@@ -48,13 +48,16 @@ import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.IDataset;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
 import gda.configuration.properties.LocalProperties;
+import gda.data.metadata.NXMetaDataProvider;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.DeviceException;
 import gda.device.detector.DummyDAServer;
 import gda.device.detector.EdeDummyDetector;
@@ -811,5 +814,26 @@ public class EdeScanTest extends EdeTestBase {
 		// Create the ascii files
 		TimeResolvedDataFileHelper.createAsciiFiles(theExperiment.getNexusFilename());
 		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, allParams.getItTimingGroups().size(), false);
+	}
+
+	@Test
+	public void testMetaData() throws Exception {
+		setup(EdeScanTest.class, "testMetaData");
+
+		// Setup metashop, add to finder
+		NXMetaDataProvider metaShop = new NXMetaDataProvider();
+		metaShop.setName("metaShop");
+		LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, metaShop.getName());
+		ObjectFactory factory = new ObjectFactory();
+		factory.addFindable(metaShop);
+		Finder.getInstance().addFactory(factory);
+
+		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
+		TimeResolvedExperiment theExperiment = allParams.createTimeResolvedExperiment();
+		theExperiment.runExperiment();
+
+		// Check the data was written correctly and matches the original object
+		IDataset dat = getDataset(theExperiment.getNexusFilename(), "before_scan", TimeResolvedExperimentParameters.class.getSimpleName());
+		assertEquals("TimeResolvedExperimentParameters written to 'before_scan' is not correct", allParams.toXML(), dat.getString(0));
 	}
 }

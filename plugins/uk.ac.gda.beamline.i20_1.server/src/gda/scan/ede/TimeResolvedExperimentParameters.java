@@ -230,6 +230,16 @@ public class TimeResolvedExperimentParameters {
 		return this.hideLemoFields;
 	}
 
+	/**
+	 * Return {@link TimeResolvedExperimentParameters} object created from xml string.
+	 * @param xmlString
+	 * @return
+	 */
+	public static TimeResolvedExperimentParameters fromXML(String xmlString) {
+		XStream xstream = getXStream();
+		return (TimeResolvedExperimentParameters) xstream.fromXML(xmlString);
+	}
+
 	public String toXML() {
 		XStream xstream = getXStream();
 		// Remove lemo trigger fields if using frelon detector (only needed for Xh, Xstrip)
@@ -375,11 +385,16 @@ public class TimeResolvedExperimentParameters {
 		theExperiment.setFastShutterName(params.getFastShutterName());
 		theExperiment.setWriteAsciiData(params.getGenerateAsciiData());
 		theExperiment.setItTriggerOptions(params.getItTriggerOptions());
+		if (params.getI0NumAccumulations()>0) { //I0 num accumulations != It num accumulations
+			theExperiment.setNumberI0Accumulations(params.getI0NumAccumulations());
+		}
 		params.addScannablesToMonitor(theExperiment);
 
 		if (params.getNumberOfRepetition()>1) {
 			theExperiment.setRepetitions(params.getNumberOfRepetition());
 		}
+
+		theExperiment.setParameterBean(params);
 
 		return theExperiment;
 	}
