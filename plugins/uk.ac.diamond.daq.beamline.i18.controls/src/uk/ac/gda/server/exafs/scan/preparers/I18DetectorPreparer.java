@@ -28,7 +28,8 @@ import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
 public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
-	private final Scannable[] gains;
+	private final Scannable[] sensitivities;
+	private final Scannable[] sensitivityUnits;
 	private final TfgScalerWithFrames counterTimer01;
 
 	private IScanParameters scanBean;
@@ -41,12 +42,13 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 	private Xspress3FFoverI0BufferedDetector qexafs_FFI0_xspress3;
 	private boolean isBuffered_cid;
 
-	public I18DetectorPreparer(Scannable[] gains, TfgScalerWithFrames ionchambers,
+	public I18DetectorPreparer(Scannable[] sensitivities, Scannable[] sensitivityUnits, TfgScalerWithFrames ionchambers,
 			Xspress3 xspress3, BufferedDetector qexafs_counterTimer01,
 			Xspress3BufferedDetector qexafs_xspress3,
 			Xspress3FFoverI0BufferedDetector qexafs_FFI0_xspress3, BufferedDetector buffered_cid,
 			NXDetector hardwareTriggeredCmos) {
-		this.gains = gains;
+		this.sensitivities = sensitivities;
+		this.sensitivityUnits = sensitivityUnits;
 		this.counterTimer01 = ionchambers;
 		this.xspress3 = xspress3;
 		this.qexafs_xspress3 = qexafs_xspress3;
@@ -141,8 +143,9 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 			try {
 				InterfaceProvider.getTerminalPrinter().print(
 						"Changing sensitivity of " + ionChamberParams.getName() + " to " + ionChamberParams.getGain());
-
-				gains[index].moveTo(ionChamberParams.getGain());
+				String[] gain = ionChamberParams.getGain().split(" ");
+				sensitivities[index].moveTo(gain[0]);
+				sensitivityUnits[index].moveTo(gain[1]);
 			} catch (Exception e) {
 				InterfaceProvider.getTerminalPrinter().print(
 						"Exception while trying to change the sensitivity of ion chamber" + ionChamberParams.getName());

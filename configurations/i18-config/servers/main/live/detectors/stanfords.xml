@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<bean id="I0_stanford_coeff" class="gda.device.enumpositioner.EpicsSimplePositioner">
+	<bean id="I0_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL18I-EA-STANF-01:SENS:SEL1" />
 		<property name="values">
 			<map>
@@ -19,7 +19,7 @@
 		</property>
 	</bean>
 
-	<bean id="I0_stanford_unit" class="gda.device.enumpositioner.EpicsSimplePositioner">
+	<bean id="I0_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL18I-EA-STANF-01:SENS:SEL2" />
 		<property name="values">
 			<map>
@@ -31,7 +31,7 @@
 		</property>
 	</bean>
 
-	<bean id="It_stanford_coeff" class="gda.device.enumpositioner.EpicsSimplePositioner">
+	<bean id="It_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL18I-EA-STANF-02:SENS:SEL1" />
 		<property name="values">
 			<map>
@@ -48,7 +48,7 @@
 		</property>
 	</bean>
 
-	<bean id="It_stanford_unit" class="gda.device.enumpositioner.EpicsSimplePositioner">
+	<bean id="It_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL18I-EA-STANF-02:SENS:SEL2" />
 		<property name="values">
 			<map>

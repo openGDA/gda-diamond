@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="I0_stanford_coeff" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="I0_stanford_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>1</value>
@@ -19,7 +19,7 @@
 		</property>
 	</bean>
 
-	<bean id="I0_stanford_unit" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="I0_stanford_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>pA/V</value>
@@ -30,7 +30,7 @@
 		</property>
 	</bean>
 
-	<bean id="It_stanford_coeff" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="It_stanford_sensitivity" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>1</value>
@@ -46,7 +46,7 @@
 		</property>
 	</bean>
 
-	<bean id="It_stanford_unit" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="It_stanford_sensitivity_units" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>pA/V</value>
