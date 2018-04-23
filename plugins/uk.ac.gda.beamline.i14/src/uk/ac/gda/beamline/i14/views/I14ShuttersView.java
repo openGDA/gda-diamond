@@ -53,9 +53,12 @@ import uk.ac.gda.dls.client.views.RunCommandComposite;
  * This view should be created via I14StatusViewFactory, especially if you wish to set the alarm thresholds.
  */
 public class I14ShuttersView extends ViewPart {
-
 	private static final Logger logger = LoggerFactory.getLogger(I14ShuttersView.class);
-	private final Map<String, Integer> colourMap = new HashMap<String, Integer>();
+
+	private static final String TEXT_OPEN_CLOSE = "Open/Close";
+	private static final String TEXT_STATE = "State";
+
+	private final Map<String, Integer> colourMap = new HashMap<>();
 	private final Finder finder = Finder.getInstance();
 	private final ICommandRunner commandRunner = InterfaceProvider.getCommandRunner();
 
@@ -81,49 +84,49 @@ public class I14ShuttersView extends ViewPart {
 		grpMachine.setBackground(null);
 		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(1).applyTo(grpMachine);
 
-		createNumericCompositeWithAlarm(grpMachine, getScannable("ringCurrent"), "Ring current", "mA", 2, 1000, ringCurrentAlarmThreshold);
-		createNumericCompositeWithAlarm(grpMachine, getScannable("timeToRefill"), "Time to refill", "s", 0, 1000, timeToRefillAlarmThreshold);
+		createNumericCompositeWithAlarm(grpMachine, "ringCurrent", "Ring current", "mA", 2, 1000, ringCurrentAlarmThreshold);
+		createNumericCompositeWithAlarm(grpMachine, "timeToRefill", "Time to refill", "s", 0, 1000, timeToRefillAlarmThreshold);
 
 		// Beamline status
 		final Group grpBeamline = new Group(parent, SWT.NONE);
 		grpBeamline.setText("Beamline");
 		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(2).applyTo(grpBeamline);
 
-		createNumericComposite(grpBeamline, getScannable("idGap"), "ID Gap", "mm", 2, 1000);
-		createNumericComposite(grpBeamline, getScannable("dcm_bragg"), "Bragg", "degrees", 4, 1000);
-		createNumericComposite(grpBeamline, getScannable("dcm_enrg"), "Energy", "KeV", 4, 1000);
+		createNumericComposite(grpBeamline, "idGap", "ID Gap", "mm", 2, 1000);
+		createNumericComposite(grpBeamline, "dcm_bragg", "Bragg", "degrees", 4, 1000);
+		createNumericComposite(grpBeamline, "dcm_enrg", "Energy", "KeV", 4, 1000);
 
 		// OH1 shutter
 		final Group grpOH1 = new Group(parent, SWT.NONE);
 		grpOH1.setText("OH1 Shutter");
 		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(1).applyTo(grpOH1);
 
-		createShutterComposite(grpOH1, getScannable("oh1_shutter_status"), "State");
-		createCommandComposite(grpOH1, commandRunner, "Open/Close", "toggle_oh1_shtr()", "OH1 Open/Close", "Opens or closes OH1 shutter");
+		createShutterComposite(grpOH1, "oh1_shutter_status");
+		createCommandComposite(grpOH1, "OH1", "toggle_oh1_shtr()");
 
 		// OH2 shutter
 		final Group grpOH2 = new Group(parent, SWT.NONE);
 		grpOH2.setText("OH2 Shutter");
 		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(1).applyTo(grpOH2);
 
-		createShutterComposite(grpOH2, getScannable("oh2_shutter_status"), "State");
-		createCommandComposite(grpOH2, commandRunner, "Open/Close", "toggle_oh2_shtr()", "OH2 Open/Close", "Opens or closes OH2 shutter");
+		createShutterComposite(grpOH2, "oh2_shutter_status");
+		createCommandComposite(grpOH2, "OH2", "toggle_oh2_shtr()");
 
 		// OH3 shutter
 		final Group grpOH3 = new Group(parent, SWT.NONE);
 		grpOH3.setText("OH3 Shutter");
 		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(1).applyTo(grpOH3);
 
-		createShutterComposite(grpOH3, getScannable("oh3_shutter_status"), "State");
-		createCommandComposite(grpOH3, commandRunner, "Open/Close", "toggle_oh3_shtr()", "OH3 Open/Close", "Opens or closes OH3 shutter");
+		createShutterComposite(grpOH3, "oh3_shutter_status");
+		createCommandComposite(grpOH3, "OH3", "toggle_oh3_shtr()");
 
 		// EH2 Nano shutter
 		final Group grpEH2Nano = new Group(parent, SWT.NONE);
 		grpEH2Nano.setText("EH2 Nano Shutter");
 		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(1).applyTo(grpEH2Nano);
 
-		createShutterComposite(grpEH2Nano, getScannable("eh2_nano_shutter_status"), "State");
-		createCommandComposite(grpEH2Nano, commandRunner, "Open/Close", "toggle_eh2_nano_shtr()", "EH2 Nano Open/Close", "Opens or closes EH2 Nano shutter");
+		createShutterComposite(grpEH2Nano, "eh2_nano_shutter_status");
+		createCommandComposite(grpEH2Nano, "EH2 Nano", "toggle_eh2_nano_shtr()");
 	}
 
 	private void setIcon() {
@@ -140,73 +143,56 @@ public class I14ShuttersView extends ViewPart {
 
 	@Override
 	public void setFocus() {
+		// nothing to do
 	}
 
-	private Scannable getScannable(final String name) {
-		return (Scannable) finder.find(name);
-	}
-
-	private void createShutterComposite(final Composite parent, final Scannable scannable, final String label) {
-		final ReadonlyScannableComposite composite = new ReadonlyScannableComposite(parent, SWT.NONE, scannable, label, null, null);
+	private void createShutterComposite(final Composite parent, final String scannableName) {
+		final Scannable scannable = finder.find(scannableName);
+		final ReadonlyScannableComposite composite = new ReadonlyScannableComposite(parent, SWT.NONE, scannable, TEXT_STATE, null, null);
 		composite.setColourMap(colourMap);
 	}
 
-	private static void createNumericComposite(final Composite parent, final Scannable scannable, final String label, final String units, final Integer decimalPlaces, final Integer minPeriodMS) {
+	private void createNumericComposite(final Composite parent, final String scannableName, final String label, final String units, final Integer decimalPlaces, final Integer minPeriodMS) {
+		final Scannable scannable = finder.find(scannableName);
 		final ReadonlyScannableComposite composite = new ReadonlyScannableComposite(parent, SWT.NONE, scannable, label, units, decimalPlaces);
 		composite.setMinPeriodMS(minPeriodMS);
 	}
 
-	private void createNumericCompositeWithAlarm(final Composite parent, final Scannable scannable, final String label, final String units, final Integer decimalPlaces, final Integer minPeriodMS, Double alarmValue) {
+	private void createNumericCompositeWithAlarm(final Composite parent, final String scannableName, final String label, final String units, final Integer decimalPlaces, final Integer minPeriodMS, Double alarmValue) {
+		final Scannable scannable = finder.find(scannableName);
 		final ReadonlyScannableCompositeWithAlarm composite = new ReadonlyScannableCompositeWithAlarm(parent, SWT.NONE, scannable, label, units, decimalPlaces, alarmValue);
 		composite.setMinPeriodMS(minPeriodMS);
 	}
 
 	@SuppressWarnings("unused")
-	private void createCommandComposite(final Composite parent, final ICommandRunner commandRunner, final String label, final String command, final String jobTitle, final String tooltip) {
-		new RunCommandComposite(parent, SWT.NONE, commandRunner, label, command, jobTitle, tooltip);
+	private void createCommandComposite(final Composite parent, final String shutterName, final String command) {
+		final String jobTitle = String.format("%s %s", shutterName, TEXT_OPEN_CLOSE);
+		final String toolTip = String.format("Opens or closes the %s shutter", shutterName);
+		new RunCommandComposite(parent, SWT.NONE, commandRunner, TEXT_OPEN_CLOSE, command, jobTitle, toolTip);
 	}
 
 	private void initialiseColourMap() {
 		colourMap.put("Open", 6);
+		colourMap.put("Opening", 6);
 		colourMap.put("Closed", 3);
-		colourMap.put("Close", 3);
+		colourMap.put("Closing", 3);
 		colourMap.put("Reset", 8);
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getIconPlugin() {
-		return iconPlugin;
-	}
-
 	public void setIconPlugin(String iconPlugin) {
 		this.iconPlugin = iconPlugin;
-	}
-
-	public String getIconFilePath() {
-		return iconFilePath;
 	}
 
 	public void setIconFilePath(String iconFilePath) {
 		this.iconFilePath = iconFilePath;
 	}
 
-	public Double getRingCurrentAlarmThreshold() {
-		return ringCurrentAlarmThreshold;
-	}
-
 	public void setRingCurrentAlarmThreshold(Double ringCurrentAlarmThreshold) {
 		this.ringCurrentAlarmThreshold = ringCurrentAlarmThreshold;
-	}
-
-	public Double getTimeToRefillAlarmThreshold() {
-		return timeToRefillAlarmThreshold;
 	}
 
 	public void setTimeToRefillAlarmThreshold(Double timeToRefillAlarmThreshold) {

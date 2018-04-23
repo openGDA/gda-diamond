@@ -3,44 +3,20 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="oh1_shutter_status" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Open</value>
-				<value>Close</value>
-				<value>Reset</value>
-			</list>
-		</property>
+	<bean id="oh1_shutter_status" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Open" />
 	</bean>
 
-    <bean id="oh2_shutter_status" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Open</value>
-				<value>Close</value>
-				<value>Reset</value>
-			</list>
-		</property>
+    <bean id="oh2_shutter_status" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Open" />
 	</bean>
 
-    <bean id="oh3_shutter_status" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Open</value>
-				<value>Close</value>
-				<value>Reset</value>
-			</list>
-		</property>
+    <bean id="oh3_shutter_status" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Open" />
 	</bean>
 
-    <bean id="eh2_nano_shutter_status" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Open</value>
-				<value>Close</value>
-				<value>Reset</value>
-			</list>
-		</property>
+    <bean id="eh2_nano_shutter_status" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Open" />
 	</bean>
 
 </beans>

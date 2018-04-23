@@ -42,16 +42,17 @@ public class I14ShuttersViewFactory implements FindableExecutableExtension {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		// nothing to do
 	}
 
 	@Override
-	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
-			throws CoreException {
+	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
+		// nothing to do
 	}
 
 	@Override
 	public Object create() throws CoreException {
-		logger.info("Creating I14ShuttersView: " + toString());
+		logger.info("Creating I14ShuttersView: {}", this);
 		final I14ShuttersView view = new I14ShuttersView();
 		view.setName(viewName);
 		view.setIconPlugin(iconPlugin);
@@ -71,40 +72,20 @@ public class I14ShuttersViewFactory implements FindableExecutableExtension {
 		return name;
 	}
 
-	public String getViewName() {
-		return viewName;
-	}
-
 	public void setViewName(String viewName) {
 		this.viewName = viewName;
-	}
-
-	public String getIconPlugin() {
-		return iconPlugin;
 	}
 
 	public void setIconPlugin(String iconPlugin) {
 		this.iconPlugin = iconPlugin;
 	}
 
-	public String getIconFilePath() {
-		return iconFilePath;
-	}
-
 	public void setIconFilePath(String iconFilePath) {
 		this.iconFilePath = iconFilePath;
 	}
 
-	public Double getRingCurrentAlarmThreshold() {
-		return ringCurrentAlarmThreshold;
-	}
-
 	public void setRingCurrentAlarmThreshold(Double ringCurrentAlarmThreshold) {
 		this.ringCurrentAlarmThreshold = ringCurrentAlarmThreshold;
-	}
-
-	public Double getTimeToRefillAlarmThreshold() {
-		return timeToRefillAlarmThreshold;
 	}
 
 	public void setTimeToRefillAlarmThreshold(Double timeToRefillAlarmThreshold) {
