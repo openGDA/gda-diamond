@@ -1,4 +1,4 @@
-import java, sys, time
+import java, sys, time, subprocess
 
 from gdascripts.analysis.datasetprocessor.oned.GaussianEdge import GaussianEdge
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
