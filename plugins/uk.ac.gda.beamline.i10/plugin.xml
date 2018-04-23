@@ -126,4 +126,15 @@
          </property>
       </product>
    </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            class="gda.rcp.views.ViewFactory:statusView"
+            icon="icons/Status.png"
+            id="uk.ac.gda.beamline.i21.statusView"
+            name="Beamline Status"
+            restorable="true">
+      </view>
+   </extension>
 </plugin>
