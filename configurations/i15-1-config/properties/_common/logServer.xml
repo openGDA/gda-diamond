@@ -5,9 +5,8 @@
 
 	<define scope="context" name="JVMNAME" class="gda.util.logging.JvmNamePropertyDefiner" />
 
-    <!--  the include statement in the following java.properties file is not read so you need to reference both -->
-    <property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
-    <property file="${gda.config}/properties/_common/common_instance_java.properties" />
+	<!-- Include the standard set of properties files -->
+	<include file="${gda.core.dir}/properties/logging_properties_includes.xml" />
 
     <!-- The logServer.xml files define which messages are sent to the logging system appenders. -->
     <!-- Levels: ALL TRACE DEBUG INFO WARN ERROR FATAL OFF -->
