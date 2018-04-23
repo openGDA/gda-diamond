@@ -7,7 +7,6 @@
 
 	<import resource="required_at_start.xml"/>
 
-
 	<import resource="abstract_command_server.xml"/>
 
 	<bean id="script_paths" parent="common_script_paths"/>
