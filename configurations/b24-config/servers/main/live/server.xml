@@ -27,14 +27,14 @@
 
 	<import resource="metadata.xml"/>
 
+	<bean id="IcatXMLCreator" class="gda.data.fileregistrar.IcatXMLCreator">
+			<property name="directory" value="/dls/${gda.instrument}/var/dropZone" />
+			<property name="filePrefix" value="${gda.instrument}" />
+	</bean>
+	
 	<!-- Copy FileRegistrar xml files for debugging unknown instrument problems. -->
 	<bean id="file_registrar_debug" class="gda.data.fileregistrar.FileRegistrar">
-		<property name="icatXMLCreator">
-			<bean class="gda.data.fileregistrar.IcatXMLCreator">
-				<property name="directory" value="/dls/${gda.instrument}/var/dropZone" />
-				<property name="filePrefix" value="${gda.instrument}" />
-			</bean>
-		</property>
+		<constructor-arg ref="IcatXMLCreator" />
 	</bean>
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
