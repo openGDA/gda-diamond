@@ -18,8 +18,8 @@
 	<bean id="ringEnergy" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="3.00088" />
 	</bean>
-	<bean id="fillMode" class="gda.device.enumpositioner.DummyValve">
-		<property name="position" value="Remote Fill" />
+	<bean id="fillMode" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="Remote Fill" />
 	</bean>
 	<bean id="wigglerGap_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="wigglerGap" class="gda.device.scannable.ScannableMotor">
