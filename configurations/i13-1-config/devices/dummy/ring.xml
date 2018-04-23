@@ -40,8 +40,8 @@
 		</property>
 	</bean>
 
-	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyValve">
-		<property name="position" value="Shutdown" />
+	<bean id="machineModeMonitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="Shutdown" />
 	</bean>
 
 	<bean id="ringModeMonitor" class="gda.device.monitor.DummyEpicsMonitor">
