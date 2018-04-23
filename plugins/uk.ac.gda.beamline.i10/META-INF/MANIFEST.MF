@@ -13,19 +13,8 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.epics;bundle-version="1.0.0",
  uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
  uk.ac.gda.nexus;bundle-version="1.0.0",
- slf4j.api,
- org.dawnsci.plotting,
- uk.ac.gda.client.live.stream,
- uk.ac.diamond.daq.mapping.ui,
- org.eclipse.scanning.device.ui,
- org.eclipse.scanning.api
+ slf4j.api
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: uk.ac.gda.beamline.i10;uses:="org.eclipse.ui.plugin,org.osgi.framework"
-Import-Package: org.dawb.workbench.ui.perspective,
- org.dawnsci.mapping.ui,
- org.dawnsci.processing.ui,
- org.eclipse.search.ui,
- org.eclipse.ui.intro.config,
- org.python.pydev.ui.wizards.files,
- org.python.pydev.ui.wizards.project
+Import-Package: org.eclipse.ui.intro.config
