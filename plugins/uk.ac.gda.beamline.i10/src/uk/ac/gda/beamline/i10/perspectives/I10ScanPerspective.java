@@ -16,7 +16,7 @@
  * with GDA. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.gda.beamline.i10;
+package uk.ac.gda.beamline.i10.perspectives;
 
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
@@ -33,35 +33,30 @@ public class I10ScanPerspective implements IPerspectiveFactory {
 	private void defineLayout(IPageLayout layout) {
 		String editorArea = layout.getEditorArea();
 
-		IFolderLayout leftfolder = layout.createFolder("left",
-				IPageLayout.LEFT, 0.25f, editorArea);
+		IFolderLayout leftfolder = layout.createFolder("left",IPageLayout.LEFT, 0.25f, editorArea);
 		leftfolder.addView(gda.rcp.views.JythonTerminalView.ID);
-		leftfolder.addPlaceholder("org.eclipse.ui.navigator.ProjectExplorer");
+		leftfolder.addView("org.eclipse.ui.navigator.ProjectExplorer");
 		leftfolder.addPlaceholder("uk.ac.diamond.sda.navigator.views.FileView");
 
-		IFolderLayout bottomfolder = layout.createFolder(
-				"bottom", IPageLayout.BOTTOM, 0.8f, editorArea);
+		IFolderLayout bottomfolder = layout.createFolder("bottom", IPageLayout.BOTTOM, 0.8f, editorArea);
 		bottomfolder.addView(uk.ac.gda.views.baton.BatonView.ID);
 		bottomfolder.addView("org.dawb.workbench.plotting.views.toolPageView.1D");
 		bottomfolder.addPlaceholder("org.dawb.passerelle.views.ValueView");
 		bottomfolder.addPlaceholder("org.eclipse.ui.views.ProgressView");
 		bottomfolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
-		bottomfolder.addView(uk.ac.gda.views.baton.BatonView.ID);
 
-		IFolderLayout middlefolder = layout.createFolder("middle",
-				IPageLayout.RIGHT, 0.75f, editorArea);
+		IFolderLayout middlefolder = layout.createFolder("middle",IPageLayout.RIGHT, 0.75f, editorArea);
 		middlefolder.addView(uk.ac.gda.client.liveplot.LivePlotView.ID);
 		middlefolder.addView("uk.ac.diamond.scisoft.analysis.rcp.plotView1");
-		middlefolder.addView("org.dawb.workbench.views.dataSetView");
-		middlefolder.addView("org.dawb.workbench.plotting.views.toolPageView.2D");
+		middlefolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
+		middlefolder.addPlaceholder("org.dawb.workbench.plotting.views.toolPageView.2D");
 		middlefolder.addPlaceholder("uk.ac.gda.client.xyplotview");
 
-		IFolderLayout rightfolder = layout.createFolder("right",
-				IPageLayout.RIGHT, 0.75f, "middle");
+		IFolderLayout rightfolder = layout.createFolder("right",IPageLayout.RIGHT, 0.75f, "middle");
 		rightfolder.addView(gda.rcp.views.dashboard.DashboardView.ID);
 		rightfolder.addView("uk.ac.diamond.scisoft.analysis.rcp.views.SidePlotView:Plot 1");
 		rightfolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.views.HistogramView:Plot 1");
-		
+
 		layout.setEditorAreaVisible(false);
 	}
 }
