@@ -78,7 +78,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.commons.vfs"
+         id="org.apache.commons.vfs2"
          download-size="0"
          install-size="0"
          version="0.0.0"
