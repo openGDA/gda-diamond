@@ -17,6 +17,7 @@
 	<import resource="andor3_addetector.xml" />
 	<import resource="malcolm.xml"/>
 	<import resource="cluster_processing.xml"/>
+	<import resource="laser.xml"/>
 
 <!-- Do not remove anything below here -->
 	<import resource="../../main/_common/server.xml" />
