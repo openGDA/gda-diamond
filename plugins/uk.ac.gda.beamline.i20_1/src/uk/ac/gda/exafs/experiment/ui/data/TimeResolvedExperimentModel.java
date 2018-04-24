@@ -117,6 +117,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	public static final String USE_FAST_SHUTTER = "useFastShutter";
 	private boolean useFastShutter;
 
+	public static final String GENERATE_ASCII_DATA = "generateAsciiData";
+	private boolean generateAsciiData;
+
 	private Map<String, String> scannablesToMonitor = null;
 
 	public static class Topup extends TimeBarMarkerImpl {
@@ -194,6 +197,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		loadSavedGroups();
 		loadFastShutterData();
 		loadScannablesToMonitorData();
+		loadGenerateAsciiData();
 	}
 
 	public void addGroupListChangeListener(IListChangeListener listener) {
@@ -242,6 +246,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 		params.setFileNamePrefix(experimentDataModel.getFileNamePrefix());
 		params.setSampleDetails(experimentDataModel.getSampleDetails());
+		params.setGenerateAsciiData(getGenerateAsciiData());
 		params.setUseFastShutter(getUseFastShutter());
 		params.setFastShutterName(DetectorModel.FAST_SHUTTER_NAME);
 		params.setScannablesToMonitorDuringScan(getScannablesToMonitor());
@@ -256,6 +261,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	public void setupFromParametersBean(TimeResolvedExperimentParameters params) {
 		experimentDataModel.setFileNamePrefix(params.getFileNamePrefix());
 		experimentDataModel.setSampleDetails(params.getSampleDetails());
+		setGenerateAsciiData(params.getGenerateAsciiData());
 		setUseFastShutter(params.getUseFastShutter());
 
 		setupExternalTriggerSettings(params.getItTriggerOptions());
@@ -545,6 +551,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%f);\n", this.getNoOfSecPerSpectrumToPublish()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");\n", this.getExperimentDataModel().getFileNamePrefix()));
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setWriteAsciiData(%s);\n", getGenerateAsciiData() ? "True" : "False"));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");\n", this.getExperimentDataModel().getSampleDetails()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setUseFastShutter(%s);\n", getUseFastShutter() ? "True" : "False" ) );
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFastShutterName(\"%s\");\n", DetectorModel.FAST_SHUTTER_NAME ) );
@@ -563,6 +570,15 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 		// Add names of pvs/scannables to be monitored
 		addScannablesMethodCallToCommand(LINEAR_EXPERIMENT_OBJ, builder);
+
+		// Add xml bean
+		try {
+			TimeResolvedExperimentParameters params = getParametersBeanFromCurrentSettings();
+			String paramString = params.toXML().replace("\n", " "); // Serialized xml string of bean
+			builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setParameterBean('%s'); \n", paramString));
+		} catch (DeviceException e) {
+			logger.warn("Problem adding TimeResolvedExperimentParameters to experiment object", e);
+		}
 
 		builder.append(LINEAR_EXPERIMENT_OBJ + ".runExperiment();");
 		return builder.toString();
@@ -937,6 +953,10 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		return getDataStoreKey() + FAST_SHUTTER_KEY;
 	}
 
+	private String getGenerateAsciiDataKey() {
+		return getDataStoreKey() + GENERATE_ASCII_DATA;
+	}
+
 	private String getScannablesToMonitorDataKey() {
 		return getDataStoreKey() + SCANNABLE_DATA_KEY;
 	}
@@ -956,6 +976,15 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	public void setUseFastShutter(boolean useFastShutter) {
 		this.firePropertyChange(USE_FAST_SHUTTER, this.useFastShutter, this.useFastShutter = useFastShutter);
 		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getFastShutterDataKey(), useFastShutter );
+	}
+
+	public boolean getGenerateAsciiData() {
+		return generateAsciiData;
+	}
+
+	public void setGenerateAsciiData(boolean generateAsciiData) {
+		this.firePropertyChange(GENERATE_ASCII_DATA, this.generateAsciiData, this.generateAsciiData = generateAsciiData);
+		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getGenerateAsciiDataKey(), generateAsciiData );
 	}
 
 	private void savePreferenceData() {
@@ -998,4 +1027,17 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	private void saveScannablesToMonitorData() {
 		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getScannablesToMonitorDataKey(), scannablesToMonitor );
 	}
+
+
+	private void loadGenerateAsciiData() {
+		try {
+			generateAsciiData = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration( getGenerateAsciiDataKey(), boolean.class );
+		} catch(NullPointerException e) {
+			logger.info("Problem loading 'generate ascii data' option from preference store", e );
+		}
+	}
+
+//	private void saveGenerateAsciiData() {
+//		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getGenerateAsciiDataKey(), generateAsciiData );
+//	}
 }

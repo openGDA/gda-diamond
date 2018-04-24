@@ -41,6 +41,7 @@ public class TimeResolvedExperimentParameters {
 	private String sampleDetails = "";
 	private boolean useFastShutter;
 	private String fastShutterName;
+	private boolean generateAsciiData;
 
 	private double i0AccumulationTime;
 	private int i0NumAccumulations;
@@ -179,6 +180,12 @@ public class TimeResolvedExperimentParameters {
 	public void setFastShutterName(String fastShutterName) {
 		this.fastShutterName = fastShutterName;
 	}
+	public boolean getGenerateAsciiData() {
+		return generateAsciiData;
+	}
+	public void setGenerateAsciiData(boolean generateAsciiData) {
+		this.generateAsciiData = generateAsciiData;
+	}
 
 	// Iref parameters
 	public boolean getDoIref() {
@@ -221,6 +228,16 @@ public class TimeResolvedExperimentParameters {
 	}
 	public boolean getHideLemoFields(boolean hideLemoFields) {
 		return this.hideLemoFields;
+	}
+
+	/**
+	 * Return {@link TimeResolvedExperimentParameters} object created from xml string.
+	 * @param xmlString
+	 * @return
+	 */
+	public static TimeResolvedExperimentParameters fromXML(String xmlString) {
+		XStream xstream = getXStream();
+		return (TimeResolvedExperimentParameters) xstream.fromXML(xmlString);
 	}
 
 	public String toXML() {
@@ -366,12 +383,18 @@ public class TimeResolvedExperimentParameters {
 		theExperiment.setSampleDetails(params.getSampleDetails());
 		theExperiment.setUseFastShutter(params.getUseFastShutter());
 		theExperiment.setFastShutterName(params.getFastShutterName());
+		theExperiment.setWriteAsciiData(params.getGenerateAsciiData());
 		theExperiment.setItTriggerOptions(params.getItTriggerOptions());
+		if (params.getI0NumAccumulations()>0) { //I0 num accumulations != It num accumulations
+			theExperiment.setNumberI0Accumulations(params.getI0NumAccumulations());
+		}
 		params.addScannablesToMonitor(theExperiment);
 
 		if (params.getNumberOfRepetition()>1) {
 			theExperiment.setRepetitions(params.getNumberOfRepetition());
 		}
+
+		theExperiment.setParameterBean(params);
 
 		return theExperiment;
 	}

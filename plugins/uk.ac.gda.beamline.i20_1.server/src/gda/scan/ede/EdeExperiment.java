@@ -35,6 +35,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 
+import gda.configuration.properties.LocalProperties;
+import gda.data.metadata.NXMetaDataProvider;
+import gda.data.scan.datawriter.NexusDataWriter;
 import gda.data.scan.datawriter.NexusExtraMetadataDataWriter;
 import gda.data.scan.datawriter.NexusFileMetadata;
 import gda.data.scan.datawriter.NexusFileMetadata.EntryTypes;
@@ -142,6 +145,8 @@ public abstract class EdeExperiment implements IObserver {
 	protected double scanDeadTime = 2.0; // Approximate time overhead (secs) when running a scan.
 
 	private List<Scannable> scannablesToMonitorDuringScan;
+
+	private TimeResolvedExperimentParameters timeResolvedExperimentParameters = null;
 
 	public EdeExperiment(List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
@@ -382,6 +387,7 @@ public abstract class EdeExperiment implements IObserver {
 		try {
 			clearScans();
 			addScansForExperiment();
+			addMetaData();
 			nexusFilename = addToMultiScanAndRun();
 			if (beamLightShutter!= null) {
 				beamLightShutter.moveTo("Close");
@@ -399,6 +405,24 @@ public abstract class EdeExperiment implements IObserver {
 				//logger.warn("shutter closing being called in EdeExperiment.runExperiment()");
 				//InterfaceProvider.getTerminalPrinter().print("Close shutter at end of experiment run.");
 				beamLightShutter.moveTo("Close");
+			}
+		}
+	}
+
+	/**
+	 * Add string representation of current TimeResolvedExperimentParameters object to 'before_scan' metadata
+	 */
+	private void addMetaData() {
+		String metashopName = LocalProperties.get(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop");
+		NXMetaDataProvider metashop = Finder.getInstance().find(metashopName);
+		if (metashop != null) {
+			String key = TimeResolvedExperimentParameters.class.getSimpleName();
+			if (timeResolvedExperimentParameters != null) {
+				logger.info("Adding {} to 'before_scan' metadata", key);
+				metashop.add(key, timeResolvedExperimentParameters.toXML());
+			} else {
+				// remove previous entry if parameters object has not been set for this scan
+				metashop.remove(key);
 			}
 		}
 	}
@@ -844,5 +868,13 @@ public abstract class EdeExperiment implements IObserver {
 		monitorForPv.setCanMove(false);
 		monitorForPv.configure();
 		addScannableToMonitorDuringScan(monitorForPv);
+	}
+
+	public void setParameterBean(TimeResolvedExperimentParameters params) {
+		this.timeResolvedExperimentParameters = params;
+	}
+
+	public void setParameterBean(String parameterXmlString) {
+		this.timeResolvedExperimentParameters = TimeResolvedExperimentParameters.fromXML(parameterXmlString);
 	}
 }
