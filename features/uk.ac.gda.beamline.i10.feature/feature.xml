@@ -61,6 +61,14 @@
          id="uk.ac.diamond.daq.mapping.ui.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.scanning.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.scanning.ui.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.gda.beamline.i10"
          download-size="0"
