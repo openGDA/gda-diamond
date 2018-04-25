@@ -15,6 +15,10 @@
 				<value>s1c_xsize</value>
 				<value>s1c_xpos</value>
 				<value>s1c_xneg</value>
+				<value>s1c_ycentre</value>
+				<value>s1c_ysize</value>
+				<value>s1c_ypos</value>
+				<value>s1c_yneg</value>
 				<!-- m1c -->
 				<value>m1c_x</value>
 				<value>m1c_y</value>
