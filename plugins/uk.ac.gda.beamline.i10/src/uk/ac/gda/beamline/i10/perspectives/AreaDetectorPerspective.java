@@ -5,6 +5,8 @@ import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.python.pydev.ui.wizards.files.PythonModuleWizard;
 import org.python.pydev.ui.wizards.files.PythonPackageWizard;
@@ -55,6 +57,12 @@ public class AreaDetectorPerspective implements IPerspectiveFactory {
 		detectorPlotFolder.addView(LiveStreamView.ID+":pimte_cam#EPICS_ARRAY");
 		detectorPlotFolder.addView(LiveStreamView.ID+":pixis_cam#EPICS_ARRAY");
 		detectorPlotFolder.addPlaceholder("uk.ac.gda.client.live.stream.view.LiveStreamView:*");
+		try {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(LiveStreamView.ID+":pixis_cam#EPICS_ARRAY");
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(LiveStreamView.ID+":pimte_cam#EPICS_ARRAY");
+		} catch (PartInitException e) {
+			// No-op just to try fix the title of views
+		}
 
 		IFolderLayout toolpageFolder=layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, (float)0.5, PLOT_2D_FOLDER); //$NON-NLS-1$
 //		toolpageFolder.addView(ToolPageView.FIXED_VIEW_ID+":"+HistogramToolPage2.ID);

@@ -127,4 +127,10 @@
          </property>
       </product>
    </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i10.EarlyStartup">
+      </startup>
+   </extension>
 </plugin>
