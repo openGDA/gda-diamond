@@ -368,61 +368,51 @@
     <!--  ============================== Monitor definition section ============================== -->
     <!-- Beam Energy Epics Monitor -->
     <bean id="beamenergy" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
         <property name="local" value="true"/>
     </bean>
     
     <!-- Ring Currrent Epics Monitor -->
     <bean id="ringcurrent" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
         <property name="local" value="true"/>
     </bean>
 
     <!-- Fast shutter temp monitor -->
     <bean id="temp3" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="pvName" value="BL07I-EA-TCTRL-01:THERMO:RBV" />
         <property name="local" value="true"/>
     </bean>
     
     <!-- D4 inline diode" name="D4.INLINE" -->
     <bean id="d4i" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="D4.INLINE" />
         <property name="local" value="true"/>
     </bean>
     
     <!-- D4 scatter diode" name="D4.SCATTER" -->
     <bean id="d4s" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="D4.SCATTER" />
         <property name="local" value="true"/>
     </bean>
     
     
     <!-- "DCD Diode 1 and 2 current" name="DCD.DIODE1" -->
     <bean id="dcdc1" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCD.DIODE1" />
         <property name="local" value="true"/>
     </bean>
     
     <bean id="dcdc2" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCD.DIODE2" />
         <property name="local" value="true"/>
     </bean>
     
     <!--DCM1 Absolute roll1 value -->
     <bean id="dcm1xtal1roll_lvdt" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM.ROLL1LVDT" />
         <property name="local" value="true"/>
     </bean>
     
     <!--DCM1 Absolute pitch value -->
     <bean id="dcm1xtal2pitch_lvdt" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM.PITCH2LVDT" />
         <property name="local" value="true"/>
     </bean>
     
     <!--DCM1 Absolute roll2 value -->
     <bean id="dcm1xtal2roll_lvdt" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM.ROLL2LVDT" />
         <property name="local" value="true"/>
     </bean>
     
@@ -440,157 +430,121 @@
 -->    
     <!-- GB1 Temperature 1 -->
     <bean id="gb1t1" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="GB1.TEMP1" />
         <property name="local" value="true"/>
     </bean>
     
     <!-- S1 Temperature -->
     <bean id="s1t1" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="S1.TEMP1" />
         <property name="local" value="true"/>
     </bean>
     <bean id="s1t2" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="S1.TEMP2" />
         <property name="local" value="true"/>
     </bean>
     <bean id="s1t3" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="S1.TEMP3" />
         <property name="local" value="true"/>
     </bean>
     <bean id="s1t4" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="S1.TEMP4" />
         <property name="local" value="true"/>
     </bean>
     <bean id="s1t5" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="S1.TEMP5" />
         <property name="local" value="true"/>
     </bean>
     <bean id="s1t6" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="S1.TEMP6" />
         <property name="local" value="true"/>
     </bean>
     <bean id="s1t7" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="S1.TEMP7" />
         <property name="local" value="true"/>
     </bean>
     <bean id="s1t8" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="S1.TEMP8" />
         <property name="local" value="true"/>
     </bean>
     
     
     <!-- DCM1 Temperatures  -->
     <bean id="dcm1t1" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP1" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t2" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP2" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t3" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP3" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t4" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP4" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t5" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP5" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t6" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP6" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t7" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP7" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t8" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP8" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t9" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP9" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t10" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP10" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t11" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP11" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t12" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP12" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t13" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP13" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t14" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP14" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t15" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP15" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t16" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP16" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t17" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP17" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t18" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP18" />
         <property name="local" value="true"/>
     </bean>
     <bean id="dcm1t19" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="DCM1.TEMP19" />
         <property name="local" value="true"/>
     </bean>
 
 
     <!-- Patch Panel U1 Analog Input Monitor -->
     <bean id="adc11" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="U1.AI1" />
         <property name="local" value="true"/>
     </bean>
     <bean id="adc12" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="U1.AI2" />
         <property name="local" value="true"/>
     </bean>
     <bean id="adc13" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="U1.AI3" />
         <property name="local" value="true"/>
     </bean>
     <bean id="adc14" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="U1.AI4" />
         <property name="local" value="true"/>
     </bean>
     
     <!-- Patch Panel U2 Analog Input Monitor -->
     <bean id="adc21" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="U2.AI5" />
         <property name="local" value="true"/>
     </bean>
     <bean id="adc22" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="U2.AI6" />
         <property name="local" value="true"/>
     </bean>
     <bean id="adc23" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="U2.AI7" />
         <property name="local" value="true"/>
     </bean>
     <bean id="adc24" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="U2.AI8" />
         <property name="local" value="true"/>
     </bean>
     

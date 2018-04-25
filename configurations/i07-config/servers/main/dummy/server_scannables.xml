@@ -1418,14 +1418,12 @@
         <property name="motor" ref="MotorSyringe_right" />
     </bean>
 
-    <bean id="syringe_left_valve" class="gda.device.scannable.SimplePVScannable">
+    <bean id="syringe_left_valve" class="gda.device.scannable.DummyScannable">
         <property name="name" value="syringe_left_valve" />
-        <property name="pvName" value="BL07I-EA-SYRG-01:P1:LEFT:SETVPOS" />
     </bean>
 
-    <bean id="syringe_right_valve" class="gda.device.scannable.SimplePVScannable">
+    <bean id="syringe_right_valve" class="gda.device.scannable.DummyScannable">
         <property name="name" value="syringe_right_valve" />
-        <property name="pvName" value="BL07I-EA-SYRG-01:P1:RIGHT:SETVPOS" />
     </bean>
 
     <bean id="syringes" class="gda.device.scannable.scannablegroup.ScannableGroup">

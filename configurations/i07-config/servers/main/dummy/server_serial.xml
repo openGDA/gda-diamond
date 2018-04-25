@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     
 
-    <bean id="com1" class="gda.device.serial.SerialComm">
+    <bean id="com1" class="gda.device.serial.DummySerialDevice">
         <property name="portName" value="COM1" />
         <property name="baudRate" value="9600" />
         <property name="byteSize" value="8" />
