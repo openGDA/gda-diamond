@@ -49,6 +49,7 @@
 	<import resource="common_nxplugins.xml"/>
 	<import resource="nexus_datawriter.xml"/>
 
-	<corba:export namespace="${gda.beamline.name}" />
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 </beans>
