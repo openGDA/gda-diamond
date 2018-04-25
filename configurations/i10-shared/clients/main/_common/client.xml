@@ -10,9 +10,9 @@
 	<import resource="../../../../../../gda-core.git/core-config/clients/_common/plot_server.xml" />
 	<import resource="../../../../../../gda-diamond.git/dls-config/clients/_common/serverFileListener.xml"/>
 	<!-- new solstice scanning sourced from dls-config -->
-<!-- 	<import resource="../../../../../../gda-diamond.git/dls-config/clients/_common/stage_controls_tree.xml"/> -->
+	<import resource="../../../../../../gda-diamond.git/dls-config/clients/_common/stage_controls_tree.xml"/>
 	<!-- mapping perspective -->
-<!-- 	<import resource="mapping.xml"/> -->
+	<import resource="mapping.xml"/>
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="commandRunner.xml"/>

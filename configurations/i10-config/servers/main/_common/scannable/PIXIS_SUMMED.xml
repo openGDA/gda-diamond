@@ -56,7 +56,7 @@
 
 	<bean id="pixis_summed_Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 	 	<property name="id" value="org.eclipse.scanning.i10.pixis.DeviceInformation" />
-		<property name="label" value="PIXIS" />
+		<property name="label" value="PIXIS_SUMMED" />
 		<property name="description" value="PIXIS Detector" />
 	</bean>
 

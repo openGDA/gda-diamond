@@ -14,7 +14,7 @@
 		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
 
 	<import resource="machineStatus.xml" />
-<!-- 	<import resource="mapping.xml" /> -->
+	<import resource="mapping.xml" />
 	<import resource="stream_views.xml" />
 
 	<import resource="../_common/client.xml" />

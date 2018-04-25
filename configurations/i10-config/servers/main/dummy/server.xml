@@ -17,12 +17,12 @@
 	<import resource="devices/all.xml"/>
 	<!-- add dummy motors from dls-config  for solstice scanning testing-->
 	<!-- Dummy motor -->
-<!-- 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/mapping_motors.xml"/>  -->
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/mapping_motors.xml"/> 
 	<!-- EPICS SWMR IOC-->
-<!-- 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/mic.xml"/>  -->
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/mic.xml"/> 
 	<!-- Java Simulation -->
-<!-- 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/det.xml"/>  -->
-<!-- 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mic.xml"/> -->
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/det.xml"/> 
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mic.xml"/>
 
 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/icat_xml_creator.xml" />
 

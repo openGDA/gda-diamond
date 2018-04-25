@@ -17,8 +17,8 @@
 	<import resource="devices/all.xml"/>
 	
 	<!-- add dummy motors from dls-config for solstice scanning testing-->
-<!-- 	<import resource="../../../../../gda-diamond.git/dls-config/servers/dummy/mapping_motors.xml"/> -->
-<!-- 	<import resource="../../../../../gda-diamond.git/dls-config/servers/dummy/det.xml"/> -->
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/mapping_motors.xml"/>
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/det.xml"/>
 	
 	<import resource="../../../../../../gda-diamond.git/dls-config/servers/live/icat_xml_creator.xml" />
 

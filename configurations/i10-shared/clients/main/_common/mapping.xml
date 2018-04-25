@@ -19,8 +19,6 @@
 	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="y"/></bean>
 	<bean id="z_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="z"/></bean>
 
-	<!-- Import the MappingExperimentBean from a mode-specific config file. -->
-	<import resource="file:${gda.config}/clients/main/${gda.mode}/mapping.xml" />
 
 	<!-- Create a mapping experiment bean provider and register it as an OSGi service -->
 	<bean class="gda.util.osgi.OSGiServiceRegister">
