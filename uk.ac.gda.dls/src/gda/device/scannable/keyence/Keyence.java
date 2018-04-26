@@ -18,13 +18,6 @@
 
 package gda.device.scannable.keyence;
 
-import gda.data.PathConstructor;
-import gda.device.DeviceException;
-import gda.device.scannable.ScannableBase;
-import gda.factory.Configurable;
-import gda.factory.FactoryException;
-import gda.factory.Findable;
-
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -49,14 +42,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import gda.data.PathConstructor;
+import gda.device.DeviceException;
+import gda.device.scannable.ScannableBase;
+import gda.factory.FactoryException;
+
 /**
  * Provides Ethernet communications a Keyence Camera Controller
- * 
+ *
  * Tested with a CV-3001P but should work with others as well.
  * Triggering is done in software. If you require hardware (external) triggering,
  * that would not be very hard to implement.
  */
-public class Keyence extends ScannableBase implements Configurable, Findable, Runnable {
+public class Keyence extends ScannableBase implements Runnable {
 
 	private static final Logger logger = LoggerFactory.getLogger(Keyence.class);
 
@@ -66,26 +64,26 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 
 	private int socketTimeOut = 2000;
 
-	
+
 	private ArrayList<String> startupCommands = new ArrayList<String>();
 
-	
-    private static Charset charset = Charset.forName("US-ASCII");                                                   
-    private static CharsetEncoder encoder = charset.newEncoder();  
+
+    private static Charset charset = Charset.forName("US-ASCII");
+    private static CharsetEncoder encoder = charset.newEncoder();
     private static CharsetDecoder decoder = charset.newDecoder();
 
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HH:mm:ss");
 
 	private String imageFormat = "png";
-	
+
 	//Object used to grant a thread exclusive access to the socket, bb and connected
-	private final Object socketAccessLock= new Object();	
+	private final Object socketAccessLock= new Object();
 
 	private ByteBuffer bb = ByteBuffer.allocate(4096);
 	private SocketChannel socketChannel;
 	private boolean connected = false;
 	/**
-	 * 
+	 *
 	 */
 	public Keyence() {
 		inputNames = new String[] {};
@@ -107,7 +105,7 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 
 	/**
 	 * Set up initial connections to socket and wrap the stream in buffered reader and writer.
-	 * @throws DeviceException 
+	 * @throws DeviceException
 	 */
 	public void connect() throws DeviceException {
 		try {
@@ -116,11 +114,11 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 					InetSocketAddress inetAddr = new InetSocketAddress(host, commandPort);
 					socketChannel = SocketChannel.open();
 					socketChannel.connect(inetAddr);
-		
+
 					socketChannel.socket().setSoTimeout(socketTimeOut);
 					socketChannel.configureBlocking(true);
 					socketChannel.finishConnect();
-					
+
 					cleanPipe();
 					doStartupScript();
 
@@ -149,7 +147,7 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 	/**
 	 * Tidy existing socket streams and try to connect them again within the thread. This method is synchronized as both
 	 * the main thread and run thread use this method.
-	 * @throws DeviceException 
+	 * @throws DeviceException
 	 */
 	public synchronized void reconnect() throws DeviceException {
 		try {
@@ -177,7 +175,7 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 
 	/**
 	 * Returns the state of the socket connection
-	 * 
+	 *
 	 * @return true if connected
 	 */
 	public boolean isConnected() {
@@ -187,7 +185,7 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 
 	/**
 	 * Send command to the server.
-	 * 
+	 *
 	 * @param msg
 	 *            an unterminated command
 	 * @return the reply string.
@@ -218,7 +216,7 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 		}
 		return reply;
 	}
-	
+
 	private String writeImage(BufferedImage image) throws IOException {
 		String fileName = PathConstructor.createFromDefaultProperty()+"/"+getName()+"-"+dateFormat.format(new Date())+"."+imageFormat;
 		File imageFile = new File(fileName );
@@ -226,7 +224,7 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 		return fileName;
 	}
 	/**
-	 * 
+	 *
 	 * @return the filename
 	 * @throws IOException
 	 * @throws DeviceException
@@ -235,7 +233,7 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 		return writeImage(getLastMeasurementImage());
 	}
 	/**
-	 * 
+	 *
 	 * @return the camera shot of the last measurement
 	 * @throws DeviceException
 	 * @throws IOException
@@ -244,20 +242,20 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 		byte[] image = (byte[]) processImageRequest("BR,CM,1,0,NW", 5)[5];
 		return ImageIO.read(new ByteArrayInputStream(image));
 	}
-	
+
 
 	/**
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws DeviceException
 	 */
 	public void saveScreenShot(String fileName) throws IOException, DeviceException {
 		File imageFile = new File(fileName );
-		ImageIO.write(getScreenShot(), imageFormat, imageFile);		
+		ImageIO.write(getScreenShot(), imageFormat, imageFile);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the filename
 	 * @throws IOException
 	 * @throws DeviceException
@@ -267,7 +265,7 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 
 	}
 	/**
-	 * 
+	 *
 	 * @return a screenshot
 	 * @throws DeviceException
 	 * @throws IOException
@@ -278,10 +276,10 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 	}
 	/**
 	 * Send command to the server.
-	 * 
+	 *
 	 * @param msg
 	 *            an unterminated command
-	 * @param expectedReplyItems 
+	 * @param expectedReplyItems
 	 * @return the reply string.
 	 * @throws DeviceException
 	 */
@@ -297,16 +295,16 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 				}
 				cleanPipe();
 				socketChannel.write(encoder.encode(CharBuffer.wrap(command)));
-				
+
 				ByteBuffer singleByte = ByteBuffer.allocate(1);
-				
+
 				StringBuilder sb = new StringBuilder();
 				int argCounter = 0;
 				while(argCounter < expectedReplyItems) {
 					singleByte.clear();
 					socketChannel.socket().setSoTimeout(socketTimeOut);
 					socketChannel.configureBlocking(true);
-					while (singleByte.position() == 0) 
+					while (singleByte.position() == 0)
 						socketChannel.read(singleByte);
 					singleByte.flip();
 					String c = decoder.decode(singleByte).toString();
@@ -321,16 +319,16 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 						sb.append(c);
 					}
 				}
-	
+
 				int imageLength = Integer.parseInt(reply[expectedReplyItems-1].toString());
-				
+
 				byte[] imageData = new byte[imageLength];
 				ByteBuffer bybu = ByteBuffer.wrap(imageData);
-	
+
 				while(bybu.remaining() != 0) {
 						socketChannel.read(bybu);
 					}
-		
+
 				reply[expectedReplyItems] = imageData;
 			} catch (SocketTimeoutException ex) {
 				throw new DeviceException("sendCommand read timeout " + ex.getMessage(),ex);
@@ -354,7 +352,7 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 
 	/**
 	 * Set the keyence host
-	 * 
+	 *
 	 * @param host
 	 */
 	public void setHost(String host) {
@@ -370,7 +368,7 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 
 	/**
 	 * Set the command port
-	 * 
+	 *
 	 * @param port
 	 */
 	public void setPort(int port) {
@@ -406,10 +404,10 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 		if (!"T1".equals(posStrings[0])) {
 			throw new DeviceException("communication or measurement error (device not in run mode?): " + StringUtils.quote(reply));
 		}
-		
+
 		int positionsRead = posStrings.length-1;
 		if (extraNames.length>0 && extraNames.length != positionsRead) throw new DeviceException("unexpected number of measurements, are we running the right program? expected <"+extraNames.length+"> got <"+positionsRead+">. Reply was " + StringUtils.quote(reply.replace("\n", "\\n").replace("\r", "\\r")));
-		
+
 		double[] positions = new double[positionsRead];
 		for (int i = 1; i < posStrings.length; i++) {
 			positions[i - 1] = Double.parseDouble(posStrings[i]);
@@ -450,7 +448,7 @@ public class Keyence extends ScannableBase implements Configurable, Findable, Ru
 			}
 		}
 	}
-	
+
 	@Override
 	public void run() {
 		try {

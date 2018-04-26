@@ -18,12 +18,6 @@
 
 package gda.device.scannable;
 
-import gda.device.DeviceException;
-import gda.factory.Configurable;
-import gda.factory.FactoryException;
-import gda.factory.Findable;
-import gda.util.BusyFlag;
-
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
@@ -45,13 +39,17 @@ import org.python.core.PyNone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.factory.FactoryException;
+import gda.util.BusyFlag;
+
 /**
  * Provides Ethernet communications an AgilentWaveform Generator
- * 
+ *
  * Has been developed against a 33210A not using all of its capabilities,
  * so changes are it will work with related devices as well.
  */
-public class AgilentWaveform extends ScannableBase implements Configurable, Findable {
+public class AgilentWaveform extends ScannableBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(AgilentWaveform.class);
 
@@ -62,13 +60,13 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 	private int socketTimeOut = 100;
 
 	private boolean connected = false;
-	
+
 	private ArrayList<String> startupCommands = new ArrayList<String>();
 
 	private SocketChannel socketChannel;
-	
-    private static Charset charset = Charset.forName("US-ASCII");                                                   
-    private static CharsetEncoder encoder = charset.newEncoder();  
+
+    private static Charset charset = Charset.forName("US-ASCII");
+    private static CharsetEncoder encoder = charset.newEncoder();
     private static CharsetDecoder decoder = charset.newDecoder();
 
 	private ByteBuffer bb = ByteBuffer.allocate(4096);
@@ -76,7 +74,7 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 	private BusyFlag busyFlag = new BusyFlag();
 
 	private static final List<String> waveforms = new Vector<String>();
-	
+
 	static {
 	waveforms.add("SIN");
 	waveforms.add("SQU");
@@ -96,7 +94,7 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 
 	/**
 	 * Convenient constructor for scripts
-	 * 
+	 *
 	 * @param name device name
 	 * @param host device IP address or hostname
 	 */
@@ -105,7 +103,7 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 		setName(name);
 		setHost(host);
 	}
-	
+
 	@Override
 	public void configure() throws FactoryException {
 		if (isConfigured()) {
@@ -116,7 +114,7 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 	}
 
 	/**
-	 * Set up initial connections to socket 
+	 * Set up initial connections to socket
 	 */
 	public void connect() {
 		if (isConnected()) return;
@@ -129,11 +127,11 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 			socketChannel.socket().setSoTimeout(socketTimeOut);
 			socketChannel.configureBlocking(true);
 			socketChannel.finishConnect();
-			
+
 			connected = true;
 
 			cleanPipe();
-			
+
 			doStartupScript();
 		} catch (UnknownHostException ex) {
 			// this could be fatal as reconnect attempts are futile.
@@ -183,7 +181,7 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 
 	/**
 	 * Returns the state of the socket connection
-	 * 
+	 *
 	 * @return true if connected
 	 */
 	public boolean isConnected() {
@@ -193,7 +191,7 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 
 	/**
 	 * Send command to the server.
-	 * 
+	 *
 	 * @param msg
 	 *            an unterminated command
 	 * @return the reply string.
@@ -215,7 +213,7 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 			socketChannel.read(bb);
 			bb.flip();
 			reply = decoder.decode(bb).toString();
-			
+
 		} catch (SocketTimeoutException ex) {
 			// we do not get a reply for every action
 			logger.info(getName() + ": sendCommand: read timeout " + ex.getMessage());
@@ -234,7 +232,7 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 
 	/**
 	 * Send command to the server, not hoping for reply.
-	 * 
+	 *
 	 * @param msg
 	 *            an unterminated command
 	 * @throws DeviceException
@@ -288,7 +286,7 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 
 	/**
 	 * Set the device host
-	 * 
+	 *
 	 * @param host
 	 */
 	public void setHost(String host) {
@@ -304,7 +302,7 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 
 	/**
 	 * Set the command port
-	 * 
+	 *
 	 * @param port
 	 */
 	public void setPort(int port) {
@@ -343,7 +341,7 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 		String[] posStrings = funcAndNumbers[1].split(",");
 		int positionsRead = posStrings.length;
 		if (3 != positionsRead) throw new DeviceException("unexpected number of measurements");
-		
+
 		Object[] positions = new Object[inputNames.length];
 		positions[0] = form;
 		for (int i = 0; i < posStrings.length; i++) {
@@ -354,24 +352,24 @@ public class AgilentWaveform extends ScannableBase implements Configurable, Find
 
 	@Override
 	public void asynchronousMoveTo(Object position) throws DeviceException {
-		
-		
+
+
 		if (position == null || position instanceof PyNone) {
 			sendCommand("OUTPut OFF");
 			return;
 		}
-		
+
 		Object[] newposition;
 		if (position instanceof PyList) {
 			newposition = ((PyList) position).toArray();
 		} else {
 			newposition = (Object[]) position;
 		}
-		
+
 		if (newposition.length < 2) {
 			throw new DeviceException("Need at least function and frequency");
 		}
-		
+
 		StringBuilder command = new StringBuilder("APPly:");
 		short argno=0;
 		for (Object pos: newposition) {
