@@ -1,8 +1,7 @@
 # Based on gda-mt.git/configurations/i16-config/scripts/scannable/scaler.py
 
 from gda.epics import CAClient
-from mtscripts.scannable.waveform_channel.WaveformChannelPollingInputStream import \
-                                          WaveformChannelPollingInputStream
+from scannable.waveform_channel.WaveformChannelPollingInputStream import WaveformChannelPollingInputStream
 from org.slf4j import LoggerFactory
 from threading import Timer
 from java.lang import Thread

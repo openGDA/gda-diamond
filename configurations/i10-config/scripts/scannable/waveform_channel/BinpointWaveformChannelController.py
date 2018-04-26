@@ -1,8 +1,7 @@
 # Based on gda-mt.git/configurations/i10-config/scripts/future/scannable/scaler.py at c35fcbb
 
 from gda.epics import CAClient
-from mtscripts.scannable.waveform_channel.WaveformChannelPollingInputStream import \
-                                          WaveformChannelPollingInputStream
+from scannable.waveform_channel.WaveformChannelPollingInputStream import WaveformChannelPollingInputStream
 from org.slf4j import LoggerFactory
 
 TIMEOUT = 5
