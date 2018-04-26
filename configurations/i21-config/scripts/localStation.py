@@ -8,7 +8,6 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from gdascripts.degas.degas import Degas  # @UnusedImport
 
 from gda.jython.commands.GeneralCommands import alias
-from gda.jython.commands.ScannableCommands import scan
 from time import sleep  # @UnusedImport
 
 from calibration.Energy_class import BeamEnergy
@@ -246,6 +245,7 @@ print " To manually switch off scan processor, run 'scan_processing_off()' funct
 scan_processing_off()
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
+from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
 STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable
 
 simpleLog("===================== GDA ONLINE =====================")
