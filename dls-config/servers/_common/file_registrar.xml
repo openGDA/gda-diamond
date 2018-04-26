@@ -17,7 +17,7 @@
 	<bean id="client_file_announcer" class="gda.data.fileregistrar.ClientFileAnnouncer" />
 
 	<bean id="file_registrar" class="gda.data.fileregistrar.FileRegistrar" init-method="register">
-		<property name="icatXMLCreator" ref="icat_xml_creator" />
+		<constructor-arg ref="icat_xml_creator" />
 		<property name="clientFileAnnouncer" ref="client_file_announcer" />
 	</bean>
 
