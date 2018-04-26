@@ -183,6 +183,7 @@ wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
 alias('wh')
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
+from i10commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
 STOP_ALL_EXCLUSIONS=[]  # @UndefinedVariable
 
 if len(localStation_exceptions) > 0:

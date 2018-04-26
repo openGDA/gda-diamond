@@ -149,7 +149,6 @@
 <!-- 					<property name="actionId" value="uk.ac.gda.client.StopAllCommand" /> -->
 					<property name="actionId" value="uk.ac.gda.beamline.synoptics.StopAllCommand" />
 				</bean>
-				
 
 <!-- 				<bean class="uk.ac.gda.dls.client.feedback.FeedbackCompositeFactory"/> -->
 			</list>
