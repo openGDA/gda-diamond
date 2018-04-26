@@ -7,6 +7,7 @@
 	<bean id="client_file_announcer" class="gda.data.fileregistrar.ClientFileAnnouncer" />
 	<!-- Automatic archiving and indexing -->
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar" init-method="register">
+		<constructor-arg ref="icat_xml_creator" />
 		<property name="name" value="FileRegistrar" />
 		<property name="directory" value="/dls/bl-misc/dropfiles2/icat/dropZone/${gda.instrument}-" />
 		<property name="clientFileAnnouncer" ref="client_file_announcer"/>
