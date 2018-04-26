@@ -27,7 +27,6 @@
 	<import resource="dataWriter.xml"/>
 	
 	<import resource="../../../../i10-shared/servers/main/_common/scannable/all.xml"/>
-	<import resource="../../../../optics-config/servers/main/_common/beanAdder.xml"/>
 	<import resource="scannable/all.xml"/>
 	
 	<!-- dummy beans from dls-config, can be used for testing solstice scanning. -->
@@ -41,6 +40,8 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	<import resource="commandServer.xml"/>
+	<!-- beanAdder must be placed after commandServer.xml -->
+	<import resource="../../../../optics-config/servers/main/_common/beanAdder.xml"/>
 
 	<corba:export namespace="${gda.factory.factoryName}" />
 

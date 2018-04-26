@@ -15,6 +15,7 @@
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="commandServer.xml"/>
+	<import resource="beanAdder.xml"/>
 	<!-- Removed include of dataArchieval.xml -->
 	<!-- If you want to restore file registrar functionality, uncomment the following two lines -->
 	<!-- <import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" /> -->
