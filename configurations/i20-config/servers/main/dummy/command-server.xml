@@ -10,8 +10,8 @@
 	</bean>
 
 	<bean id="FileRegistrar" class="gda.data.fileregistrar.FileRegistrar">
+		<constructor-arg ref="icatXMLCreator" />
 		<property name="name" value="FileRegistrar" />
-		<property name="icatXMLCreator" ref="icatXMLCreator" />
 	</bean>
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
