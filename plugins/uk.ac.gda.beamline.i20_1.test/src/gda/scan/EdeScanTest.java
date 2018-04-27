@@ -19,6 +19,7 @@
 package gda.scan;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
@@ -47,13 +48,16 @@ import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.IDataset;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
 import gda.configuration.properties.LocalProperties;
+import gda.data.metadata.NXMetaDataProvider;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.DeviceException;
 import gda.device.detector.DummyDAServer;
 import gda.device.detector.EdeDummyDetector;
@@ -558,7 +562,6 @@ public class EdeScanTest extends EdeTestBase {
 		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME), 3, MCA_WIDTH*numberExpectedSpectra);
 		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.LN_I0_IT_FINAL_I0_COLUMN_NAME), 3, MCA_WIDTH*numberExpectedSpectra);
 		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.IT_RAW_COLUMN_NAME), 7, MCA_WIDTH*numberExpectedSpectra);
-		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.IT_RAW_COLUMN_NAME), 7, MCA_WIDTH*numberExpectedSpectra);
 		testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.I0_RAW_COLUMN_NAME), 6, MCA_WIDTH*numTimingGroups*2);
 		if (testIref) {
 			testEdeAsciiFile(getAsciiName(nexusFilename, EdeDataConstants.IREF_RAW_DATA_NAME), 7, MCA_WIDTH);
@@ -641,7 +644,7 @@ public class EdeScanTest extends EdeTestBase {
 		allParams.setTopupMonitorName("topup");
 		allParams.setBeamShutterScannableName(shutter.getName());
 		allParams.setHideLemoFields(true);
-
+		allParams.setGenerateAsciiData(true);
 		return allParams;
 	}
 
@@ -705,6 +708,31 @@ public class EdeScanTest extends EdeTestBase {
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, allParams.getItTimingGroups().size(), false);
+	}
+
+	@Test
+	public void testEdeScanRunsFromParametersNoAscii() throws Exception {
+		setup(EdeScanTest.class, "testEdeScanRunsFromParametersNoAscii");
+		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
+		allParams.setGenerateAsciiData(false); // don't generate ascii files after the scan
+		TimeResolvedExperiment theExperiment = allParams.createTimeResolvedExperiment();
+		theExperiment.runExperiment();
+
+		int numberExpectedSpectra = getNumSpectra(allParams.getItTimingGroups());
+		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
+		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
+
+		// Check that no post-scan Ascii files were written ...
+		String[] fileExt = {EdeDataConstants.IT_COLUMN_NAME,
+				EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME, EdeDataConstants.LN_I0_IT_FINAL_I0_COLUMN_NAME,
+				EdeDataConstants.IT_RAW_COLUMN_NAME, EdeDataConstants.I0_RAW_COLUMN_NAME};
+
+		for( String ext : fileExt) {
+			String fname = getAsciiName(theExperiment.getNexusFilename(), ext);
+			File f = new File(fname);
+			assertFalse("File "+fname+" should not have been written!", f.exists());
+		}
 	}
 
 	@Test
@@ -786,5 +814,26 @@ public class EdeScanTest extends EdeTestBase {
 		// Create the ascii files
 		TimeResolvedDataFileHelper.createAsciiFiles(theExperiment.getNexusFilename());
 		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, allParams.getItTimingGroups().size(), false);
+	}
+
+	@Test
+	public void testMetaData() throws Exception {
+		setup(EdeScanTest.class, "testMetaData");
+
+		// Setup metashop, add to finder
+		NXMetaDataProvider metaShop = new NXMetaDataProvider();
+		metaShop.setName("metaShop");
+		LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, metaShop.getName());
+		ObjectFactory factory = new ObjectFactory();
+		factory.addFindable(metaShop);
+		Finder.getInstance().addFactory(factory);
+
+		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
+		TimeResolvedExperiment theExperiment = allParams.createTimeResolvedExperiment();
+		theExperiment.runExperiment();
+
+		// Check the data was written correctly and matches the original object
+		IDataset dat = getDataset(theExperiment.getNexusFilename(), "before_scan", TimeResolvedExperimentParameters.class.getSimpleName());
+		assertEquals("TimeResolvedExperimentParameters written to 'before_scan' is not correct", allParams.toXML(), dat.getString(0));
 	}
 }

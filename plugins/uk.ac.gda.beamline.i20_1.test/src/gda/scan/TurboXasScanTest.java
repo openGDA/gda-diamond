@@ -254,6 +254,8 @@ public class TurboXasScanTest extends EdeTestBase {
 
 		String nexusFilename = scan.getDataWriter().getCurrentFileName();
 		checkScalerNexusData(nexusFilename, numSpectra, numPointsPerSpectrum);
+		checkNXDataGroups(nexusFilename, numSpectra, numPointsPerSpectrum);
+
 	}
 
 	@Test
@@ -498,10 +500,10 @@ public class TurboXasScanTest extends EdeTestBase {
 		TurboXasScan scan = parameters.createScan();
 		scan.runScan();
 		String nexusFilename = scan.getDataWriter().getCurrentFileName();
-		checkScalerNexusData(nexusFilename, 10, numPointsPerSpectrum);
 
 		checkScalerNexusData(nexusFilename, numSpectra, numPointsPerSpectrum);
 		checkDetectorNexusData(nexusFilename, xspress3bufferedDetector.getName(), numSpectra, numPointsPerSpectrum);
+		checkNXDataGroups(nexusFilename, numSpectra, numPointsPerSpectrum);
 
 		// Check data for the scannable being monitored is present and has correct dimensions (1 value per spectrum)
 		assertDimensions(nexusFilename, bufferedScaler.getName(), testMotor.getName(), new int[]{numSpectra});
@@ -554,4 +556,24 @@ public class TurboXasScanTest extends EdeTestBase {
 		assertDimensions(nexusFilename, bufferedScaler.getName(), TurboXasNexusTree.SPECTRUM_GROUP, new int[]{numSpectra});
 	}
 
+
+	/**
+	 * Check that NXData group has been created for each set of data produced by buffered scaler;
+	 * Checks dimensions of each dataset in the group (which are really just links back to original datasets in detector group).
+	 *
+	 * @param filename
+	 * @param numSpectra
+	 * @param numPointsPerSpectrum
+	 * @throws NexusException
+	 */
+	private void checkNXDataGroups(String filename, int numSpectra, int numPointsPerSpectrum) throws NexusException {
+		for(String name : bufferedScaler.getExtraNames()) {
+			String groupName = bufferedScaler.getName()+"_"+name;
+			assertDimensions(filename, groupName, name, new int[] {numSpectra, numPointsPerSpectrum});
+			assertDimensions(filename, groupName, TurboXasNexusTree.ENERGY_COLUMN_NAME, new int[] {numPointsPerSpectrum});
+			assertDimensions(filename, groupName, TurboXasNexusTree.POSITION_COLUMN_NAME, new int[] {numPointsPerSpectrum});
+			assertDimensions(filename, groupName, TurboXasNexusTree.SPECTRUM_INDEX, new int[] {numSpectra});
+			assertDimensions(filename, groupName, TurboXasNexusTree.TIME_COLUMN_NAME, new int[] {numSpectra});
+		}
+	}
 }

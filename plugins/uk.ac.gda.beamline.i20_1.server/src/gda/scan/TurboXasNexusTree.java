@@ -20,14 +20,23 @@ package gda.scan;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
+import org.eclipse.dawnsci.analysis.tree.TreeFactory;
 import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
+import org.eclipse.dawnsci.nexus.NXdata;
+import org.eclipse.dawnsci.nexus.NXentry;
+import org.eclipse.dawnsci.nexus.NXroot;
+import org.eclipse.dawnsci.nexus.NexusConstants;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
+import org.eclipse.dawnsci.nexus.NexusNodeFactory;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
@@ -44,6 +53,7 @@ import gda.data.nexus.tree.INexusTree;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.swmr.SwmrFileReader;
 import gda.device.DeviceException;
+import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.NXDetectorData;
 import gda.device.detector.countertimer.BufferedScaler;
@@ -86,6 +96,8 @@ public class TurboXasNexusTree {
 	private SwmrFileReader xspress3FileReader;
 	private int numReadoutsPerSpectrum;
 	private long startTimeUtcMillis = System.currentTimeMillis();
+	private List<String> extraScannables = new ArrayList<>();
+	private List<String> namesForDefaultNXData = Arrays.asList("FF", "It", "lnI0It");
 
 	/**
 	 * Add time axis dataset to Nexus file (after scan has finished).
@@ -146,14 +158,19 @@ public class TurboXasNexusTree {
 	 */
 	public void addTopupData(NexusFile file, String detectorName) throws NexusException, DatasetException {
 		String detectorEntry = "/entry1/"+detectorName+"/";
+		String topupEntry = detectorEntry+TOPUP_FIELD_NAME;
 		ILazyDataset topupScalerValues = null;
 		try {
-			topupScalerValues = file.getData(detectorEntry+TOPUP_FIELD_NAME).getDataset();
+			if (file.isPathValid(topupEntry)) {
+				topupScalerValues = file.getData(topupEntry).getDataset();
+			} else {
+				logger.info("Not processing topup scaler counts for spectra. Topup data {} not in Nexus file.", topupScalerValues);
+			}
 		}catch(NexusException ne) {
-			logger.info("Problem getting topup dataset {} from Nexus file", detectorEntry+TOPUP_FIELD_NAME, ne);
+			logger.info("Problem getting topup dataset {} from Nexus file", topupEntry, ne);
 		}
 		if (topupScalerValues!=null) {
-			DoubleDataset topupValues = (DoubleDataset) topupScalerValues.getSlice(null, null, null).squeeze();
+			DoubleDataset topupValues = (DoubleDataset) topupScalerValues.getSlice(null, null, null);
 			int numSpectra = topupValues.getShape()[0];
 			int numReadouts = topupValues.getShape()[1];
 
@@ -218,10 +235,12 @@ public class TurboXasNexusTree {
 
 	public void addDataAtEndOfScan(String filename, BufferedDetector[] bufferedDetectors) throws URISyntaxException, DeviceException, NexusException, DatasetException {
 		String bufferedScalerName = "";
+		BufferedScaler bufferedScaler = null;
 		Xspress3BufferedDetector xspress3Detector = null;
 		for(BufferedDetector det : bufferedDetectors) {
 			if (det instanceof BufferedScaler) {
 				bufferedScalerName = det.getName();
+				bufferedScaler = (BufferedScaler) det;
 			}
 			if (det instanceof Xspress3BufferedDetector) {
 				xspress3Detector = (Xspress3BufferedDetector) det;
@@ -229,12 +248,99 @@ public class TurboXasNexusTree {
 		}
 
 		try(NexusFile file = NexusFileHDF5.openNexusFile(filename)) {
-			addTimeAxis(file, bufferedScalerName);
-			addGroupData(file, bufferedScalerName);
-			addTopupData(file, bufferedScalerName);
+			if (!bufferedScalerName.isEmpty() && bufferedScaler != null) {
+				addTimeAxis(file, bufferedScalerName);
+				addGroupData(file, bufferedScalerName);
+				addTopupData(file, bufferedScalerName);
+				addNxDataEntry(file, bufferedScaler);
+			}
 			addDetectorDataLink(file, xspress3Detector);
 		}
 	}
+
+	/**
+	 * Create new NXdata entry in /entry1/ for each of the additional datasets produced by
+	 * BufferedScaler, using dataset names from 'extraNames'(i.e. It, It, FF etc).
+	 * See {@link #addNxDataEntry(NexusFile, String, String, boolean)}.
+	 * @param file
+	 * @param bufferedScaler
+	 * @throws NexusException
+	 */
+	private void addNxDataEntry(NexusFile file, BufferedScaler bufferedScaler) throws NexusException {
+		String[] datasetNames = bufferedScaler.getExtraNames();
+		boolean defaultHasBeenSet = false;
+		for(String datasetName : datasetNames) {
+			// See if this dataset is suitable for using as NXdata default
+			String defaultName = namesForDefaultNXData.stream().filter(datasetName::endsWith).findFirst().orElse("");
+
+			// Only set the NXdata default for first matching dataset name
+			if (!defaultHasBeenSet && !defaultName.isEmpty()) {
+				addNxDataEntry(file, bufferedScaler.getName(), datasetName, true);
+				defaultHasBeenSet = true;
+			} else {
+				addNxDataEntry(file, bufferedScaler.getName(), datasetName, false);
+			}
+		}
+	}
+
+	/**
+	 * Create new NXdata group in /entry1/ to store data and axis information a single plot.
+	 * The name of the new group is {@code <detGroupName>_<datasetName>}.
+	 * Links are made to the original datasets in the detector group and
+	 * Attributes for the group are set to record the signal name and axis information.
+	 * The 'default' attribute of the parent and root node is created to point to the newly created group
+	 * if {@code setDefaultAttributes} is set to true.
+	 *
+	 * @param file NexusFile handle
+	 * @param detGroupName name of detector group (in /entry1/) to read data from
+	 * @param datasetName name of dataset to read in detector group
+	 * @param setDefaultAttributes - if true, set the default attribute of the parent group and root node
+	 * @throws NexusException
+	 */
+	private void addNxDataEntry(NexusFile file, String detGroupName, String datasetName, boolean setDefaultAttributes) throws NexusException {
+		// Name of new NXdata entry to be created
+		String entryName = detGroupName+"_"+datasetName;
+		String sourceGroupName = "/entry1/"+detGroupName;
+		List<String> axesList = Arrays.asList(TIME_COLUMN_NAME, ENERGY_COLUMN_NAME);
+		Map<String, Integer> dataNames = new LinkedHashMap<>();
+		dataNames.put(TIME_COLUMN_NAME, 0);
+		dataNames.put(SPECTRUM_INDEX, 0);
+		dataNames.put(ENERGY_COLUMN_NAME, 1);
+		dataNames.put(POSITION_COLUMN_NAME, 1);
+
+		// Create new nxData node to contain the data links and set its attributes
+		NXdata nxDataNode = NexusNodeFactory.createNXdata();
+		nxDataNode.setAttributeSignal(datasetName);
+		nxDataNode.addAttribute(TreeFactory.createAttribute(NexusConstants.DATA_AXES, axesList.toArray(new String[] {})));
+		dataNames.forEach((dataName, axisIndex) ->
+			nxDataNode.addAttribute(TreeFactory.createAttribute(dataName + NexusConstants.DATA_INDICES_SUFFIX, axisIndex)));
+
+		// Create parent nodes ...
+		NXroot rootNode = NexusNodeFactory.createNXroot();
+		NXentry entryNode = NexusNodeFactory.createNXentry();
+		rootNode.setEntry("entry1", entryNode);
+		entryNode.addGroupNode(entryName, nxDataNode);
+
+		// Set default attribute of root node to point to the newly created NXdata node
+		if (setDefaultAttributes) {
+			rootNode.setAttributeDefault(entryName);
+			entryNode.setAttributeDefault(entryName);
+		}
+
+		// Add nxData node to the file
+		file.addNode("/", rootNode);
+
+		// Datasets to link to inside NXdata group
+		List<String> datasetNamesToLink = new ArrayList<>();
+		datasetNamesToLink.add(datasetName);
+		datasetNamesToLink.addAll(dataNames.keySet() );
+		datasetNamesToLink.addAll(extraScannables);
+		// Add links to original datasets
+		for(String name : datasetNamesToLink) {
+			file.link(sourceGroupName+"/"+name, "/entry1/"+entryName+"/"+name);
+		}
+	}
+
 	/**
 	 * Make energy and frame index axes. If scan axis is {@link TurboXasScannable} also add an axis for position.
 	 * @param detector
@@ -505,5 +611,20 @@ public class TurboXasNexusTree {
 
 	public long getStartTime() {
 		return startTimeUtcMillis;
+	}
+
+	public void setExtraScannables(List<Scannable> scannablesToMonitor) {
+		extraScannables.clear();
+		if (scannablesToMonitor != null) {
+			scannablesToMonitor.forEach( scannable -> extraScannables.add(scannable.getName()));
+		}
+	}
+
+	public List<String> getNamesForDefaultNXData() {
+		return namesForDefaultNXData;
+	}
+
+	public void setNamesForDefaultNXData(List<String> namesForDefaultNXData) {
+		this.namesForDefaultNXData = namesForDefaultNXData;
 	}
 }

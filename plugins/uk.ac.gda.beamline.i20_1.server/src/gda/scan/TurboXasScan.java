@@ -451,6 +451,7 @@ public class TurboXasScan extends ContinuousScan {
 		nexusTree.setScanAxis(getScanAxis());
 		nexusTree.setXspress3FileReader(xspress3FileReader);
 		nexusTree.setNumReadoutsPerSpectrum(numReadoutsPerSpectrum);
+		nexusTree.setExtraScannables(scannablesToMonitor);
 		nexusTree.setStartTime(System.currentTimeMillis());
 	}
 
