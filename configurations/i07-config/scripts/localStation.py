@@ -35,6 +35,7 @@ def try_execfile(filepath, description=None, full_log=False, absolute=False):
 		print "XXXXXXXXXX:  Exception caught while: '%s'" % description
 		if full_log:
 			logger.fullLog(None, "Error", exceptionType, exception, traceback, True);
+			#Note that the final argument 'True' causes a Java exception to be thrown which will terminate the script
 		else:
 			logger.dump("---> ", exceptionType, exception, traceback)
 		print "************************************************************"
