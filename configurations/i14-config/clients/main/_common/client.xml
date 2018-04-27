@@ -1,19 +1,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-        http://www.diamond.ac.uk/schema/gda/corba
-		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
 
 	<context:property-placeholder />
-
-	<corba:import namespace="${gda.factory.factoryName}"
-		names="dcm_energy, dcm_bragg, oh1_shutter_status, oh2_shutter_status, oh3_shutter_status, eh2_nano_shutter_status" />
 
 	<!-- =========================================================== -->
 	<!-- Files with separate live and dummy versions                 -->
@@ -35,15 +29,9 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<bean class="uk.ac.gda.client.ServerFileListener">
-		<property name="clientFileAnnouncerName" value="client_file_announcer" />
-	</bean>
+	<import resource="file://${gda.facility.dir}/clients/_common/serverFileListener.xml" />
 
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
 </beans>
