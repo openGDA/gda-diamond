@@ -2,7 +2,8 @@
 <feature
       id="uk.ac.diamond.daq.beamline.p99.feature"
       label="GDA - Test Rig Beamline P99"
-      version="9.8.0.qualifier">
+      version="9.8.0.qualifier"
+      provider-name="Diamond Light Source">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -28,6 +29,13 @@
 
    <plugin
          id="uk.ac.gda.epics"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.epics.jca"
          download-size="0"
          install-size="0"
          version="0.0.0"
