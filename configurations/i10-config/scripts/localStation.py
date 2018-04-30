@@ -108,13 +108,13 @@ if andor_installed:
 pimte_installed = True
 if pimte_installed:
     #PIMTE detectors customised to display image in 'Plot 1' view and return results of image process
-    from detectors.pimteWithDataProcessor import pimte_tiff, pimteSMPV, pimte2d  # @UnusedImport
+    from detectors.pimteWithDataProcessor import pimteSMPV, pimte2d  # @UnusedImport
 
 ######## Setting up the I10 Pixis camera ###############
 pixis_installed = True
 if pixis_installed:
     #PIXIS detectors customised to display image in 'Plot 1' view and return results of image process
-    from detectors.pixisWithDataProcessor import pixis_tiff, pixisSMPV, pixis2d  # @UnusedImport
+    from detectors.pixisWithDataProcessor import pixisSMPV, pixis2d  # @UnusedImport
     
 ######## Setting up the semi-automatic Zebra triggered cameras ###############
 zebra_triggered_pimte_detector_installed = False
