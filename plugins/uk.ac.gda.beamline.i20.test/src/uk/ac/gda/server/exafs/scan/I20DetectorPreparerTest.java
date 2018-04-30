@@ -42,9 +42,9 @@ import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.DummyScannable;
 import gda.device.scannable.DummyScannableMotor;
 import gda.device.scannable.TopupChecker;
+import gda.factory.Factory;
 import gda.factory.Findable;
 import gda.factory.Finder;
-import gda.factory.ObjectFactory;
 import gda.jython.InterfaceProvider;
 import uk.ac.gda.beamline.i20.scannable.MonoOptimisation;
 import uk.ac.gda.beans.exafs.DetectorParameters;
@@ -166,7 +166,7 @@ public class I20DetectorPreparerTest {
 		// Findables the server needs to know about
 		Findable[] findables = new Findable[] { xspressSystem, xmpaMca, medipix, ionchambers, I1, ffI0, xmapFluoDetector };
 
-		ObjectFactory factory = new ObjectFactory();
+		final Factory factory = TestHelpers.createTestFactory("test");
 		for(Findable f : findables) {
 			factory.addFindable(f);
 			InterfaceProvider.getJythonNamespace().placeInJythonNamespace(f.getName(), f);

@@ -37,8 +37,8 @@ import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.device.scannable.AlignmentStageScannable.AlignmentStageDevice;
 import gda.device.scannable.ScannableMotor;
+import gda.factory.Factory;
 import gda.factory.Finder;
-import gda.factory.ObjectFactory;
 import gda.scan.ede.drivers.LinearExperimentDriver;
 import gda.scan.ede.drivers.SingleSpectrumDriver;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
@@ -89,7 +89,7 @@ public class EdeScanDriversTest extends EdeTestBase {
 		topupMonitor.setName("topup");
 		topupMonitor.setValue(120.0);
 
-		ObjectFactory factory = new ObjectFactory();
+		final Factory factory = TestHelpers.createTestFactory("test");
 		factory.addFindable(xh);
 		factory.addFindable(alignment_stage);
 		factory.addFindable(sample_x);

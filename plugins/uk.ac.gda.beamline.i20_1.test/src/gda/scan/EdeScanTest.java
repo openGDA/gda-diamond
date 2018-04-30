@@ -54,6 +54,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
+import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.data.metadata.NXMetaDataProvider;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
@@ -70,9 +71,9 @@ import gda.device.memory.Scaler;
 import gda.device.monitor.DummyMonitor;
 import gda.device.scannable.ScannableMotor;
 import gda.device.scannable.ScannableUtils;
+import gda.factory.Factory;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
-import gda.factory.ObjectFactory;
 import gda.jython.InterfaceProvider;
 import gda.jython.scriptcontroller.ScriptControllerBase;
 import gda.scan.ede.CyclicExperiment;
@@ -139,7 +140,7 @@ public class EdeScanTest extends EdeTestBase {
 		edeProgressUpdater = new ScriptControllerBase();
 		edeProgressUpdater.setName(EdeExperiment.PROGRESS_UPDATER_NAME);
 
-		ObjectFactory factory = new ObjectFactory();
+		final Factory factory = TestHelpers.createTestFactory("test");
 		factory.addFindable(xh);
 		factory.addFindable(dummyEdeDetector);
 		factory.addFindable(topupMonitor);
@@ -824,7 +825,7 @@ public class EdeScanTest extends EdeTestBase {
 		NXMetaDataProvider metaShop = new NXMetaDataProvider();
 		metaShop.setName("metaShop");
 		LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, metaShop.getName());
-		ObjectFactory factory = new ObjectFactory();
+		final Factory factory = TestHelpers.createTestFactory("test");
 		factory.addFindable(metaShop);
 		Finder.getInstance().addFactory(factory);
 

@@ -34,6 +34,7 @@ import org.eclipse.january.dataset.IDataset;
 import org.junit.Before;
 import org.junit.Test;
 
+import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.device.detector.BufferedDetector;
@@ -46,9 +47,9 @@ import gda.device.scannable.TurboXasScannable;
 import gda.device.timer.Etfg;
 import gda.device.zebra.controller.Zebra;
 import gda.device.zebra.controller.impl.ZebraDummy;
+import gda.factory.Factory;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
-import gda.factory.ObjectFactory;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
 import uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller;
@@ -140,7 +141,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	}
 
 	private void setupFinder() {
-		ObjectFactory factory = new ObjectFactory();
+		final Factory factory = TestHelpers.createTestFactory("test");
 		factory.addFindable(turboXasScannable);
 		factory.addFindable(bufferedScaler);
 		factory.addFindable(xspress3bufferedDetector);
