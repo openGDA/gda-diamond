@@ -110,7 +110,7 @@ xanes = xas
 
 theFactory.setQexafsDetectorPreparer(detectorPreparer);
 theFactory.setQexafsEnergyScannableForConstantVelocityScan(zebraBraggEnergy); # @UndefinedVariable
-theFactory.setQexafsNXDetectorList([qexafsCounterTimer01,qexafsXspress3,qexafsXspress3FFI0]) # @UndefinedVariable
+theFactory.setQexafsNXDetectorList([qexafsXspress3FFI0]) # @UndefinedVariable
 qexafs = theFactory.createQexafsConstantVelocityScan()
 
 mapFactory = MapFactory();

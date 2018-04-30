@@ -50,10 +50,9 @@
 		<property name="collectionStrategy" ref="xspress3CollectionStrategy" />
 	</bean>
 
-	<bean id="qexafs_FFI0_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
+	<bean id="qexafs_FFI0_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3QexafsDetector">
 		<property name="qexafsXspress" ref="qexafs_xspress3" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-		<property name="i0_channel" value="0" />
 		<property name="local" value="true" />
 	</bean>
 
