@@ -25,7 +25,7 @@
 		</property>	
 		<property name="decoratee">		
 			<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
-				<property name="restoreAcquireTime" value="false" />
+				<property name="restoreAcquireTime" value="true" />
 				<property name="decoratee">
 					<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
 						<property name="restoreNumImagesAndImageMode" value="true"/>
