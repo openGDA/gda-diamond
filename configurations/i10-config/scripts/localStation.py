@@ -131,7 +131,7 @@ if zebra_fastdicr_installed:
     from detectors.fastDichroism import fastDichroism  # @UnusedImport
 
 ########setting up the diagnostic cameras###############
-from detectors.diagnostic_cameras import *  # @UnusedWildImport
+from detectors.diagnostic_cameras import peak2d1,max2d1,peak2d2,max2d2,peak2d3,max2d3,peak2d4,max2d4,peak2d6,max2d6,peak2dj1,max2dj1,peak2dj3,max2dj3  # @UnusedImport
 
 #short hand commands for shutter and valves
 from i10commands.shutterValveCommands import *  # @UnusedWildImport
