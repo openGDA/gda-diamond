@@ -1,46 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="es2x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ES2.X" />
+		<property name="pvName" value="BL09I-MO-ES2-01:X" />
 	</bean>
-<!-- 	<bean id="es2y1_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="ES2.Y1" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="es2y2_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="ES2.Y2" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="es2y3_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="ES2.Y3" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="es2y1enc_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="ES2.Y1ENC" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="es2y2enc_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="ES2.Y2ENC" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="es2y3enc_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="ES2.Y3ENC" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="es2vcam_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="ES2.VCAM" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="es2conecam_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="ES2.CONECAM" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="es2flatcam_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="ES2.FLATCAM" /> -->
-<!-- 	</bean>	 -->
 	<bean id="es2y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ES2.Y.Y" />
-	</bean>	
-<!-- 	<bean id="es2pitch_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="ES2.Y.PITCH" /> -->
-<!-- 	</bean>	 -->
-<!-- 	<bean id="es2roll_motor" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="deviceName" value="ES2.Y.ROLL" /> -->
-<!-- 	</bean>	 -->
+		<property name="pvName" value="BL09I-MO-ES2-01:Y" />
+	</bean>
 </beans>
-

@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="sm1wfs1" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="SM1.WFS1" />
+	<bean id="sm1wfs1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09J-MO-SM-01:WFS1:STATUS" />
 	</bean>
 
 	<bean id="sm1x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SM1.X" />
+		<property name="pvName" value="BL09J-MO-SM-01:X" />
 	</bean>
 	<bean id="sm1y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SM1.Y" />
+		<property name="pvName" value="BL09J-MO-SM-01:Y" />
 	</bean>
 	<bean id="sm1z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SM1.Z" />
+		<property name="pvName" value="BL09J-MO-SM-01:Z" />
 	</bean>
 	<bean id="sm1pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SM1.PITCH" />
+		<property name="pvName" value="BL09J-MO-SM-01:PITCH" />
 	</bean>
 	<bean id="sm1roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SM1.ROLL" />
+		<property name="pvName" value="BL09J-MO-SM-01:ROLL" />
 	</bean>
 	<bean id="sm1yaw_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SM1.YAW" />
+		<property name="pvName" value="BL09J-MO-SM-01:YAW" />
 	</bean>
 	<bean id="sm1fpitch_motor" class="gda.device.motor.PiezoEpicsMotor">
-		<property name="deviceName" value="SM1.FPITCH" />
+		<property name="pvName" value="BL09J-MO-SM-01:FPITCH" />
 	</bean>
-	
+
 	<bean id="sm1fpitchfeedback" class="gda.device.enumpositioner.EpicsSimpleBinary">
 		<property name="pvName" value="BL09J-EA-FDBK-01:ENABLE" />
 		<property name="positions">

@@ -12,9 +12,6 @@
 
 	<context:property-placeholder/>
 
-	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="${gda.epics.interface.xml}" />
-	</bean>
 	<import resource="GDAMetadata.xml"/>
 	<import resource="ID.xml" />
 	<import resource="DCM.xml" />

@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="sm3x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SM3.X" />
+		<property name="pvName" value="BL09J-MO-SM-03:X" />
 	</bean>
 	<bean id="sm3y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SM3.Y" />
+		<property name="pvName" value="BL09J-MO-SM-03:Y" />
 	</bean>
 	<bean id="sm3z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SM3.Z" />
+		<property name="pvName" value="BL09J-MO-SM-03:Z" />
 	</bean>
 	<bean id="sm3pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SM3.PITCH" />
+		<property name="pvName" value="BL09J-MO-SM-03:PITCH" />
 	</bean>
 	<bean id="sm3roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SM3.ROLL" />
+		<property name="pvName" value="BL09J-MO-SM-03:ROLL" />
 	</bean>
 	<bean id="sm3yaw_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SM3.YAW" />
+		<property name="pvName" value="BL09J-MO-SM-03:YAW" />
 	</bean>
 	<bean id="sm3fpitch_motor" class="gda.device.motor.PiezoEpicsMotor">
-		<property name="deviceName" value="SM3.FPITCH" />
+		<property name="pvName" value="BL09J-MO-SM-03:FPITCH" />
 	</bean>
 </beans>

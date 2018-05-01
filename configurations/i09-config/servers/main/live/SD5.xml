@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="sd5i" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="SD5.IAMP15" />
-		<property name="poll" value="true"/>
+		<property name="poll" value="true" />
+		<property name="pvName" value="BL09J-MO-SD-05:IAMP15" />
 	</bean>
 	<bean id="sd5y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SD5.Y" />
+		<property name="pvName" value="BL09J-MO-SD-05:Y" />
 	</bean>
 
-	<bean id="sd5aposn" class="gda.spring.EpicsPositionerFactoryBean">
-		<property name="deviceName" value="SD5.APOSN" />
+	<bean id="sd5aposn" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL09J-MO-SD-05:Y:MP" />
 	</bean>
 </beans>

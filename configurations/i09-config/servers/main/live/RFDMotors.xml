@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="rfdxt_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="RFD.X" />
+		<property name="pvName" value="BL09I-MO-RFD-01:X" />
 	</bean>
 	<bean id="rfdxr_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="RFD.TTHX" />
+		<property name="pvName" value="BL09I-MO-RFD-01:TTHX" />
 	</bean>
 	<bean id="rfdiamp10" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="RFD.IAMP10" />
-		<property name="poll" value="true"/>
+		<property name="poll" value="true" />
+		<property name="pvName" value="BL09I-MO-RFD-01:IAMP10" />
 	</bean>
 	<bean id="rfdiamp21" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="RFD.IAMP21" />
-		<property name="poll" value="true"/>
+		<property name="poll" value="true" />
+		<property name="pvName" value="BL09I-MO-RFD-01:IAMP21" />
 	</bean>
 </beans>

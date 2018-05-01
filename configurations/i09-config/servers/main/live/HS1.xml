@@ -1,48 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="hs1temp1" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="HS1.TEMP1" />
+	<bean id="hs1temp1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-HS-01:TEMP1" />
 	</bean>
-	<bean id="hs1temp2" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="HS1.TEMP2" />
+	<bean id="hs1temp2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-HS-01:TEMP2" />
 	</bean>
-	<bean id="hs1temp3" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="HS1.TEMP3" />
+	<bean id="hs1temp3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-HS-01:TEMP3" />
 	</bean>
-	<bean id="hs1temp4" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="HS1.TEMP4" />
+	<bean id="hs1temp4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-HS-01:TEMP4" />
 	</bean>
 
-	<bean id="hs11wfs1" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="HS1.WFS1" />
+	<bean id="hs11wfs1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-MO-HS-01:WFS1:STATUS" />
 	</bean>
 
 	<bean id="hs1inboard_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS1.INBOARD" />
+		<property name="pvName" value="BL09I-MO-HS-01:INBOARD" />
 	</bean>
 	<bean id="hs1outboard_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS1.OUTBOARD" />
+		<property name="pvName" value="BL09I-MO-HS-01:OUTBOARD" />
 	</bean>
 	<bean id="hs1top_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS1.TOP" />
+		<property name="pvName" value="BL09I-MO-HS-01:TOP" />
 	</bean>
 	<bean id="hs1bottom_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS1.BOTTOM" />
+		<property name="pvName" value="BL09I-MO-HS-01:BOTTOM" />
 	</bean>
 
 	<bean id="hs1xcentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS1.XCENTRE" />
+		<property name="pvName" value="BL09I-MO-HS-01:XCENTRE" />
 	</bean>
 	<bean id="hs1xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS1.XGAP" />
+		<property name="pvName" value="BL09I-MO-HS-01:XGAP" />
 	</bean>
 	<bean id="hs1ycentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS1.YCENTRE" />
+		<property name="pvName" value="BL09I-MO-HS-01:YCENTRE" />
 	</bean>
 	<bean id="hs1ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS1.YGAP" />
+		<property name="pvName" value="BL09I-MO-HS-01:YGAP" />
 	</bean>
 </beans>

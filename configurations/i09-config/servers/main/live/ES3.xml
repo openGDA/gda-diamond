@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="es3x_motor" class="gda.device.motor.EpicsMotor">
@@ -8,9 +7,9 @@
 	</bean>
 	<bean id="es3y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09K-MO-ES3-01:Y" />
-	</bean>	
+	</bean>
 	<bean id="es3z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09K-MO-ES3-01:Z" />
-	</bean>	
+	</bean>
 </beans>
 

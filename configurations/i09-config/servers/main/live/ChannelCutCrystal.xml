@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="cccy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="CCC.Y" />
+		<property name="pvName" value="BL09I-MO-CCC-01:Y" />
 	</bean>
 	<bean id="cccx_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="CCC.X" />
+		<property name="pvName" value="BL09I-MO-CCC-01:X" />
 	</bean>
 </beans>

@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="hs4inboard_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS4.INBOARD" />
+		<property name="pvName" value="BL09I-MO-HS-04:INBOARD" />
 	</bean>
 	<bean id="hs4outboard_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS4.OUTBOARD" />
+		<property name="pvName" value="BL09I-MO-HS-04:OUTBOARD" />
 	</bean>
 	<bean id="hs4top_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS4.TOP" />
+		<property name="pvName" value="BL09I-MO-HS-04:TOP" />
 	</bean>
 	<bean id="hs4bottom_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS4.BOTTOM" />
+		<property name="pvName" value="BL09I-MO-HS-04:BOTTOM" />
 	</bean>
 	<bean id="hs4xcentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS4.XCENTRE" />
+		<property name="pvName" value="BL09I-MO-HS-04:XCENTRE" />
 	</bean>
 	<bean id="hs4xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS4.XGAP" />
+		<property name="pvName" value="BL09I-MO-HS-04:XGAP" />
 	</bean>
 	<bean id="hs4ycentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS4.YCENTRE" />
+		<property name="pvName" value="BL09I-MO-HS-04:YCENTRE" />
 	</bean>
 	<bean id="hs4ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HS4.YGAP" />
+		<property name="pvName" value="BL09I-MO-HS-04:YGAP" />
 	</bean>
 </beans>

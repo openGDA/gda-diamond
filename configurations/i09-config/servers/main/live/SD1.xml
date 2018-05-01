@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- <bean id="sd1" class="gda.spring.EpicsPneumaticFactoryBean"> -->
 	<!-- <property name="deviceName" value="SD1.Y"/> -->
 	<!-- </bean> -->
-	<bean id="sd1temp1" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="SD1.TEMP1" />
+	<bean id="sd1temp1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09J-MO-SD-01:TEMP1" />
 	</bean>
 
 </beans>

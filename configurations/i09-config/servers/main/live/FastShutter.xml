@@ -1,19 +1,19 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="fsj1" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="deviceName" value="FSJ1" />
+		<property name="pvName" value="BL09J-EA-FSHTR-01:CTRL" />
 	</bean>
 	<bean id="fsi1" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="deviceName" value="FSI1" />
+		<property name="pvName" value="BL09I-EA-FSHTR-01:CTRL" />
 	</bean>
 	<bean id="fsj1inlim" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="deviceName" value="FSJ1.INLIM" />
-		<property name="readonly" value="true"/>
+		<property name="readonly" value="true" />
+		<property name="pvName" value="BL09J-EA-FSHTR-01:INLIM" />
 	</bean>
 	<bean id="fsi1inlim" class="gda.device.enumpositioner.EpicsSimpleBinary">
-		<property name="deviceName" value="FSI1.INLIM" />
-		<property name="readonly" value="true"/>
+		<property name="readonly" value="true" />
+		<property name="pvName" value="BL09I-EA-FSHTR-01:INLIM" />
 	</bean>
 </beans>

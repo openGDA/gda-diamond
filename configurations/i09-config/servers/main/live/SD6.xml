@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="sd6iamp31" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="SD6.IAMP31" />
-		<property name="poll" value="true"/>
+		<property name="poll" value="true" />
+		<property name="pvName" value="BL09J-MO-SD-06:IAMP31" />
 	</bean>
 	<bean id="sd6iamp32" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="SD6.IAMP32" />
-		<property name="poll" value="true"/>
+		<property name="poll" value="true" />
+		<property name="pvName" value="BL09J-MO-SD-06:IAMP32" />
 	</bean>
 	<bean id="sd6y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SD6.Y" />
+		<property name="pvName" value="BL09J-MO-SD-06:Y" />
 	</bean>
 
-	<bean id="sd6aposn" class="gda.spring.EpicsPositionerFactoryBean">
-		<property name="deviceName" value="SD6.APOSN" />
+	<bean id="sd6aposn" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL09J-MO-SD-06:Y:MP" />
 	</bean>
 
 </beans>

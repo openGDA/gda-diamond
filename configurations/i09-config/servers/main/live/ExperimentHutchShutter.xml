@@ -1,18 +1,18 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="psj1" class="gda.spring.EpicsPneumaticFactoryBean">
-		<property name="deviceName" value="PSJ1" />
+	<bean id="psj1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL09J-PS-SHTR-01" />
 	</bean>
-	<bean id="psj2" class="gda.spring.EpicsPneumaticFactoryBean">
-		<property name="deviceName" value="PSJ2" />
+	<bean id="psj2" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL09J-PS-SHTR-02" />
 	</bean>
-	<bean id="psi1" class="gda.spring.EpicsPneumaticFactoryBean">
-		<property name="deviceName" value="PSI1" />
+	<bean id="psi1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL09I-PS-SHTR-01" />
 	</bean>
-	<bean id="psi2" class="gda.spring.EpicsPneumaticFactoryBean">
-		<property name="deviceName" value="PSI2" />
+	<bean id="psi2" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL09I-PS-SHTR-02" />
 	</bean>
 	<bean id="psk1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL09K-PS-SHTR-01" />

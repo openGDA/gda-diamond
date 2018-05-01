@@ -12,10 +12,7 @@
 
 	<context:property-placeholder/>
 
-	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="${gda.epics.interface.xml}" />
-	</bean>
-		<bean id="idGap" class="gda.device.scannable.EpicsScannable">
+	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="SR09I-MO-SERVC-01:CURRGAPD" />
 		<property name="useNameAsExtraName" value="true" />
 	</bean>

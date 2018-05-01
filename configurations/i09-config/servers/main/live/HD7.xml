@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="hd7iamp28" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="HD7.IAMP28" />
-		<property name="poll" value="true"/>
+		<property name="poll" value="true" />
+		<property name="pvName" value="BL09I-MO-HD-07:IAMP28" />
 	</bean>
 	<bean id="hd7y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HD7.Y" />
+		<property name="pvName" value="BL09I-MO-HD-07:Y" />
 	</bean>
-	<bean id="hd7aposn" class="gda.spring.EpicsPositionerFactoryBean">
-		<property name="deviceName" value="HD7.APOSN" />
+	<bean id="hd7aposn" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL09I-MO-HD-07:Y:MP" />
 	</bean>
 	<!-- <bean id="hd4cam" class="gda.device.diagnosis.AravisCamera"> -->
 	<!-- <property name="deviceName" value="HD4.CAM_aravisCamera"/> -->

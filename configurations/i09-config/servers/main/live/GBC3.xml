@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="gbc3wfs1" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="GBC3.WFS1" />
+	<bean id="gbc3wfs1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-VA-GBC-03:WFS1:STATUS" />
 	</bean>
-	<bean id="gbc3temp1" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="GBC3.TEMP1" />
+	<bean id="gbc3temp1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-VA-GBC-03:TEMP1" />
 	</bean>
 
 </beans>
