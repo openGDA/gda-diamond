@@ -182,9 +182,9 @@
 		<property name="upperGdaLimits" value="5" />
 		 -->
 	</bean>
-	
-	<bean id="alpha" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="alpha" />
+	<!-- rename RASOR alpha to alpha_rasor to avoid name collision with DIFFCALC -->
+	<bean id="alpha_rasor" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="alpha_rasor" />
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_alpha_motor" />
 		<property name="hardwareUnitString" value="deg" />
@@ -210,7 +210,7 @@
 				<ref bean="th" />
 				<ref bean="chi" />
 				<ref bean="difx" />
-				<ref bean="alpha" />
+				<ref bean="alpha_rasor" />
 				<ref bean="pinhx" />
 				<ref bean="pinhy" />
 			</list>

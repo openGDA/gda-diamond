@@ -1,5 +1,5 @@
 from utils.ExceptionLogs import localStation_exceptions
-from gdaserver import alpha, chi, difx, dsd, dsu, eta,\
+from gdaserver import alpha_rasor, chi, difx, dsd, dsu, eta,\
     lgb, lgf, lgm, th, tth, sx, sy, sz
 import installation
 from gda.jython.commands import GeneralCommands
@@ -138,7 +138,7 @@ from i10commands.shutterValveCommands import *  # @UnusedWildImport
 
 ##setup metadata for the file
 from rasor.pd_metadata import MetaDataPD
-rmotors=MetaDataPD("rmotors", [tth, th, chi, eta, ttp, thp, py, pz, dsu, dsd, difx, alpha, lgm, lgf, lgb])
+rmotors=MetaDataPD("rmotors", [tth, th, chi, eta, ttp, thp, py, pz, dsu, dsd, difx, alpha_rasor, lgm, lgf, lgb])
 #add_default rmotors
 
 # meta data
@@ -172,13 +172,13 @@ from startup.i10 import *  # @UnusedWildImport
 ##Position Wrapper
 print "-"*100
 print "Creating 'wa' command for returning RASOR motor positions"
-wascannables = [tth, th, chi, dsu, dsd, eta, ttp, thp, py, pz, alpha, difx, lgf, lgb, lgm, sx, sy, sz]
+wascannables = [tth, th, chi, dsu, dsd, eta, ttp, thp, py, pz, alpha_rasor, difx, lgf, lgb, lgm, sx, sy, sz]
 from rasor.positionWrapper import PositionWrapper
 wa=PositionWrapper(wascannables)
 alias('wa')
 
 print "Creating 'wh' command for return RASOR positions in DIFFCALC HKL"
-wherescannables=[delta,eta,chi,phi,gam,h,k,l,en]
+wherescannables=[delta,eta,chi,phi,mu,h,k,l,en]
 wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
 alias('wh')
 
