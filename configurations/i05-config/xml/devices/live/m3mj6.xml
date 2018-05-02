@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
@@ -57,7 +56,7 @@
 		<property name="motor" ref="m3mj6_roll_motor" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="m3mj6_fpitch" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL05I-OP-SWTCH-01:FPITCH:DMD" />
 		<property name="useNameAsInputName" value="true" />
@@ -74,7 +73,7 @@
 				<ref bean="m3mj6_yaw" />
 				<ref bean="m3mj6_pitch" />
 				<ref bean="m3mj6_roll" />
-				<ref bean="m3mj6_fpitch"/>
+				<ref bean="m3mj6_fpitch" />
 			</list>
 		</property>
 		<property name="local" value="true" />

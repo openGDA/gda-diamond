@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="cryostat" class="gda.device.temperature.EpicsLakeshore336" >
+	<bean id="cryostat" class="gda.device.temperature.EpicsLakeshore336">
 		<property name="tolerance" value="0.1" />
 		<property name="basePVName" value="BL05I-EA-TCTRL-02:" />
 		<property name="local" value="true" />

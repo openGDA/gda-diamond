@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
@@ -11,12 +10,13 @@
 		e.g. <!-- property name="deviceName" value="pilad.cam_ADBase"/ -->
 		2. set pvProvider property which in turn uses XMLPVProvider bean to
 		specify 'deviceName' property;
-		e.g. <!-- property name="pvProvider"> <bean 
-			class="uk.ac.gda.devices.excalibur.impl.XMLPVProvider"> <property name="deviceName" 
-			value="pilad.cam_ADBase" /> </bean> </property -->
+		e.g. <!-- property name="pvProvider"> 
+			<bean class="uk.ac.gda.devices.excalibur.impl.XMLPVProvider"> <property name="deviceName" value="pilad.cam_ADBase" /> </bean> 
+			</property -->
 		3. set base PV name property with field or sub-element being coded in
 		Java classes.
-		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" / -->
+		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" 
+			/ -->
 	</description>
 
 	<bean id="esi1_ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
@@ -31,7 +31,7 @@
 				<property name="basePVName" value="BL05I-DI-PHDGN-10:DCAM:ARR:" />
 			</bean>
 		</property>
-	</bean>	
+	</bean>
 
 	<bean id="esi1" class="gda.device.detector.addetector.ADCameraDetector">
 		<property name="basePVName" value="BL05I-DI-PHDGN-10:DCAM:" />
@@ -52,7 +52,7 @@
 				<property name="basePVName" value="BL05I-DI-PHDGN-11:DCAM:ARR:" />
 			</bean>
 		</property>
-	</bean>	
+	</bean>
 
 	<bean id="esi2" class="gda.device.detector.addetector.ADCameraDetector">
 		<property name="basePVName" value="BL05I-DI-PHDGN-11:DCAM:" />

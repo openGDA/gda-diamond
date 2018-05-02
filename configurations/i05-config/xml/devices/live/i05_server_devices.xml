@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
@@ -23,7 +22,7 @@
 	<import resource="m4m5.xml" />
 
 	<!-- shutters -->
-	<import resource="shtr1.xml"/>
+	<import resource="shtr1.xml" />
 
 	<!-- plain grating monocromator -->
 	<import resource="pgm.xml" />
@@ -44,12 +43,12 @@
 	<import resource="scientaslit.xml" />
 	<import resource="cameras.xml" />
 	<import resource="analyser.xml" />
-	<import resource="analyser_over_exposure.xml"/>
+	<import resource="analyser_over_exposure.xml" />
 
 	<!-- vacuum gauges -->
-	<import resource="pressure_gauges.xml"/>
-	
+	<import resource="pressure_gauges.xml" />
+
 	<!-- dummy motor for testing -->
-	<import resource="dummyMotor.xml"/>
+	<import resource="dummyMotor.xml" />
 
 </beans>

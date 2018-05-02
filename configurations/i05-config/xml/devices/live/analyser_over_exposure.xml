@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean class="uk.ac.gda.devices.vgscienta.VGScientaOverExposureProtector">
@@ -10,7 +9,8 @@
 		<property name="delayTime" value="5000" />
 		<!-- Close the shutter and stop the scan, if over exposure is detected -->
 		<property name="alarmActionCommand" value="pos hr_shutter 'Close'; command_server.abortCommands('None')" />
-		<property name="userMessage" value="Analyser over-exposure detected! The HR shutter has been closed, and the scan has been aborted.\nTo reopen the shutter run: pos hr_shutter 'Open'" />
+		<property name="userMessage"
+			value="Analyser over-exposure detected! The HR shutter has been closed, and the scan has been aborted.\nTo reopen the shutter run: pos hr_shutter 'Open'" />
 	</bean>
 
 </beans>

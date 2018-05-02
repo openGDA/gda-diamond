@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="controller" class="uk.ac.gda.devices.vgscienta.VGScientaController">
@@ -18,12 +17,11 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="analyser_roi_provider"
-		class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+	<bean id="analyser_roi_provider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
 		<property name="viewName" value="Detector Plot" />
 		<property name="maximumActiveRois" value="1" />
 	</bean>
-	
+
 	<bean id="analyser_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
 		<property name="restoreNumImagesAndImageMode" value="false" />
 		<property name="decoratee">
@@ -124,8 +122,8 @@
 		<property name="pvName" value="BL05I-EA-DET-01:CAM:ELEMENT_SET" />
 		<property name="outputFormat" value="%s" />
 	</bean>
-	
+
 	<!-- Import the other required analyser files -->
-	<import resource="../analyser_energy_range.xml"/>
+	<import resource="../analyser_energy_range.xml" />
 
 </beans>
