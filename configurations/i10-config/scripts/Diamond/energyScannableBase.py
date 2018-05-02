@@ -117,8 +117,22 @@ class EnergyScannableBase(ScannableMotionBase):
                 self.id_rowphase4.isBusy() or
                 self.id_jawphase.isBusy() or 
                 self.pgm_energy.isBusy() )
+        
+    def isIDBusy(self):
+        if self.energyMode:
+            return (self.id_gap.isBusy() or 
+                    self.id_rowphase1.isBusy() or
+                    self.id_rowphase2.isBusy() or
+                    self.id_rowphase3.isBusy() or
+                    self.id_rowphase4.isBusy())
+        else:
+            return (self.id_rowphase1.isBusy() or
+                    self.id_rowphase2.isBusy() or
+                    self.id_rowphase3.isBusy() or
+                    self.id_rowphase4.isBusy() or
+                    self.id_jawphase.isBusy())
 
-    def moveToMayWait(self, scannable, position, wait):
+    def moveToMayWait(self, scannable, position, wait=False):
         from time import sleep
         
         if self.verbose:
@@ -130,7 +144,7 @@ class EnergyScannableBase(ScannableMotionBase):
             while scannable.isBusy():
                 sleep(0.1)
 
-    def moveTwoToSync(self, scannable1, position1, scannable2, position2):
+    def moveTwoToSync(self, scannable1, position1, scannable2, position2, wait=False):
         from time import sleep
         
         if self.verbose:
@@ -140,27 +154,47 @@ class EnergyScannableBase(ScannableMotionBase):
         scannable1.asynchronousMoveTo(position1)
         scannable2.asynchronousMoveTo(position2)
         
-        while scannable1.isBusy() or scannable2.isBusy():
-            sleep(0.1)
+        if wait:
+            while scannable1.isBusy() or scannable2.isBusy():
+                sleep(0.1)
 
     def idMotorsAsynchronousMoveTo(self, idPosition, energy_eV, set_pgm_energy=True):
         self.last_energy_eV = 0
 
-        self.moveToMayWait(self.id_gap, idPosition.gap, wait=True)
-        if self.concurrentRowphaseMoves:
-            self.moveTwoToSync(self.id_rowphase1, idPosition.rowphase1, 
-                               self.id_rowphase3, idPosition.rowphase3)
-            self.moveTwoToSync(self.id_rowphase2, idPosition.rowphase2,
-                               self.id_rowphase4, idPosition.rowphase4)
+        if self.energyMode:
+            #move ID gap for this energy
+            self.moveToMayWait(self.id_gap, idPosition.gap, wait=False)
+            #move PGM energy to this energy
+            if set_pgm_energy:
+                self.moveToMayWait(self.pgm_energy, energy_eV, wait=False)
+            #Move ID polarisation correction for this energy
+            if self.concurrentRowphaseMoves:
+                self.moveTwoToSync(self.id_rowphase1, idPosition.rowphase1, 
+                                   self.id_rowphase3, idPosition.rowphase3, wait=False)
+                self.moveTwoToSync(self.id_rowphase2, idPosition.rowphase2,
+                                   self.id_rowphase4, idPosition.rowphase4, wait=False)
+            else:
+                self.moveToMayWait(self.id_rowphase1, idPosition.rowphase1, wait=False)
+                self.moveToMayWait(self.id_rowphase2, idPosition.rowphase2, wait=False)
+                self.moveToMayWait(self.id_rowphase3, idPosition.rowphase3, wait=False)
+                self.moveToMayWait(self.id_rowphase4, idPosition.rowphase4, wait=False)
         else:
-            self.moveToMayWait(self.id_rowphase1, idPosition.rowphase1, wait=True)
-            self.moveToMayWait(self.id_rowphase2, idPosition.rowphase2, wait=True)
-            self.moveToMayWait(self.id_rowphase3, idPosition.rowphase3, wait=True)
-            self.moveToMayWait(self.id_rowphase4, idPosition.rowphase4, wait=True)
-        self.moveToMayWait(self.id_jawphase, idPosition.jawphase, wait=False)
-        
-        if set_pgm_energy:
-            self.moveToMayWait(self.pgm_energy, energy_eV, wait=False)
+            #Move ID polarisation correction for this energy must be move 1st
+            if self.concurrentRowphaseMoves:
+                self.moveTwoToSync(self.id_rowphase1, idPosition.rowphase1, 
+                                   self.id_rowphase3, idPosition.rowphase3, wait=True)
+                self.moveTwoToSync(self.id_rowphase2, idPosition.rowphase2,
+                                   self.id_rowphase4, idPosition.rowphase4, wait=True)
+            else:
+                self.moveToMayWait(self.id_rowphase1, idPosition.rowphase1, wait=True)
+                self.moveToMayWait(self.id_rowphase2, idPosition.rowphase2, wait=True)
+                self.moveToMayWait(self.id_rowphase3, idPosition.rowphase3, wait=True)
+                self.moveToMayWait(self.id_rowphase4, idPosition.rowphase4, wait=True)
+            #then move PGM energy to this energy
+            if set_pgm_energy:
+                self.moveToMayWait(self.pgm_energy, energy_eV, wait=False)
+            #jaw phase cannot be move when row phase is moving thus polarisation move need to wait above!
+            self.moveToMayWait(self.id_jawphase, idPosition.jawphase, wait=False)
         
         self.last_energy_eV = energy_eV
 
