@@ -24,13 +24,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -193,7 +189,7 @@ public class EdeScanTest extends EdeTestBase {
 		theExperiment.setSampleDetails(sampleDetails);
 
 		String filename = theExperiment.runExperiment();
-		testNumberColumnsInEDEFile(filename, 9);
+		testNumberColumnsInFile(filename, 9);
 		testNexusStructure(theExperiment.getNexusFilename(), 1, 0);
 
 		// Check the sample details are set correctly in Nexus file
@@ -247,18 +243,6 @@ public class EdeScanTest extends EdeTestBase {
 		} finally {
 			if (reader != null) {
 				reader.close();
-			}
-		}
-	}
-
-	private void testNumberColumnsInEDEFile(String filename, int numExpectedColumns) throws FileNotFoundException,
-			IOException {
-		List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
-		for (String line : lines) {
-			if (!line.startsWith("#")) {
-				String[] dataParts = line.split("\t");
-				assertEquals(numExpectedColumns, dataParts.length);
-				return;
 			}
 		}
 	}
@@ -571,20 +555,8 @@ public class EdeScanTest extends EdeTestBase {
 	}
 
 	private void testEdeAsciiFile(String path, int numColumns, int numRows) throws IOException {
-		testNumberColumnsInEDEFile(path, numColumns);
-		testNumberLinesInEDEFile(path, numRows);
-	}
-
-	private void testNumberLinesInEDEFile(String filename, int numExpectedLines) throws IOException {
-		List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
-
-		int numDataLines = 0;
-		for (String line : lines) {
-			if (!line.startsWith("#")) {
-				numDataLines++;
-			}
-		}
-		assertEquals(numExpectedLines, numDataLines);
+		testNumberColumnsInFile(path, numColumns);
+		testNumberLinesInFile(path, numRows);
 	}
 
 	private void testSampleDetails(String nexusFilename, String expectedSampleDetails) throws Exception {

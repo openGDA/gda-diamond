@@ -108,6 +108,7 @@ public class TurboXasExperimentView extends ViewPart {
 	private Text energyCalibrationPolyMaxPositionTextbox;
 	private Text energyCalibrationFileTextbox;
 	private String lastScanFilename = "";
+	private Button createAsciiFileButton;
 
 	private TurboXasTimingGroupTableView timingGroupTable;
 	private TurboXasParameters turboXasParameters; // parameters being viewed in gui
@@ -179,6 +180,7 @@ public class TurboXasExperimentView extends ViewPart {
 			}
 		}
 	});
+
 
 	/**
 	 * Update widgets when scan is running/stopped
@@ -420,7 +422,12 @@ public class TurboXasExperimentView extends ViewPart {
 		startEnergyTextbox = makeLabelAndTextBox(mainComposite, "Start energy [eV]");
 		endEnergyTextbox = makeLabelAndTextBox(mainComposite, "End energy [eV]");
 		energyStepsizeTextbox = makeLabelAndTextBox(mainComposite, "Energy step size [eV]");
-		addEmptyLabels(mainComposite, 2);
+
+		createAsciiFileButton = toolkit.createButton(mainComposite, "Write ascii file", SWT.CHECK);
+		createAsciiFileButton.setToolTipText("Create ascii file at end of scan. Relevant data from all detectors will be included");
+		createAsciiFileButton.setSelection(false);
+		createAsciiFileButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+
 	}
 
 	private void createExtraScannablesSection(Composite parent) {
@@ -738,6 +745,7 @@ public class TurboXasExperimentView extends ViewPart {
 		double maxEnergy = motorParams.getEnergyForPosition(turboXasParameters.getEnergyCalibrationMaxPosition());
 		energyCalibrationPolyTextbox.setToolTipText(String.format("Energy range : %.5g ... %.5g ev", minEnergy, maxEnergy));
 
+		createAsciiFileButton.setSelection(turboXasParameters.getWriteAsciiData());
 		updatingGuiFromParameters = false;
 	}
 
@@ -767,6 +775,8 @@ public class TurboXasExperimentView extends ViewPart {
 		turboXasParameters.setUseTrajectoryScan(useTrajectoryScanButton.getSelection());
 		turboXasParameters.setDetectors(getSelectedDetectors());
 		turboXasParameters.setMotorToMove(motorCombo.getText());
+
+		turboXasParameters.setWriteAsciiData(createAsciiFileButton.getSelection());
 	}
 
 
