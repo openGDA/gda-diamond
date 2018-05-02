@@ -167,7 +167,8 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="d21c_current" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<!-- femto_21 is the former d21c_current -->
+	<bean id="femto_21" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07C-DI-PHDGN-21:I1:"/>
 		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -176,7 +177,8 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="ap1c_current" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<!-- femto_22 is the former ap1c_current -->
+	<bean id="femto_22" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07C-EA-APTRS-01:I1:"/>
 		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>

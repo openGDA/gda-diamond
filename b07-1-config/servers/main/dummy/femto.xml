@@ -26,8 +26,10 @@
 	<bean id="d6c_mesh" class="gda.device.scannable.DummyScannable" />
 	<bean id="d7c_cell" class="gda.device.scannable.DummyScannable" />
 	<bean id="d7c_diode" class="gda.device.scannable.DummyScannable" />
-	<bean id="d21c_current" class="gda.device.scannable.DummyScannable" />
-	<bean id="ap1c_current" class="gda.device.scannable.DummyScannable" />
+	<!-- femto_21 is the former d21c_current -->
+	<bean id="femto_21" class="gda.device.scannable.DummyScannable" />
+	<!-- femto_22 is the former ap1c_current -->
+	<bean id="femto_22" class="gda.device.scannable.DummyScannable" />
 	<bean id="sample_current" class="gda.device.scannable.DummyScannable" />
 
 	<util:map id="gainMap">
