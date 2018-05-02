@@ -28,7 +28,8 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="m4c_current1" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<!-- femto_18 used to be called m4c_current1 -->
+	<bean id="femto_18" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07C-OP-VRFM-01:I1:"/>
 		<property name="adcChannel" value="3" />
 		<property name="lowerVoltageBound" value="0.5"/>

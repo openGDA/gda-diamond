@@ -17,7 +17,8 @@
 		</property>
 	</bean>
 	
-	<bean id="d9c_foil" class="gda.device.scannable.DummyScannable" />
+	<!-- femto_19 used to be called d9c_foil -->
+	<bean id="femto_19" class="gda.device.scannable.DummyScannable" />
 
 	<bean id="d9c_y_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
