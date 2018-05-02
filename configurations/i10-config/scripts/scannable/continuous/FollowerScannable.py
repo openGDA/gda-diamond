@@ -15,21 +15,18 @@ class FollowerThread(threading.Thread):
 
     def moveTo(self, energy_eV):
         idPosition = self.parent.follower_scannable.getIdPosition(energy_eV)
-        if self.parent.verbose:
-            if self.parent.follower_scannable.energyMode:
+        # follower_energy should not change followed_energy
+        #in cvscan with egy_g pgm_energy is controlled by pgm_grat_pitch and pgm_mirr_picth
+        self.parent.follower_scannable.idMotorsAsynchronousMoveTo(idPosition,energy_eV,set_pgm_energy=False)
+        if self.parent.follower_scannable.energyMode:
+            if self.parent.verbose:
                 msg = "Moving %s to %f (%r)" % (self.parent.follower_scannable.name, energy_eV, idPosition.gap)
                 self.parent.logger.info(msg)
-            else:
+        else:
+            if self.parent.verbose:
                 msg = "Moving %s to %f (%r)" % (self.parent.follower_scannable.name, energy_eV, idPosition.jawphase)
                 self.parent.logger.info(msg)
-        if self.parent.follower_scannable.energyMode:
-            self.parent.follower_scannable.id_gap.moveTo(idPosition.gap)
-            #self.parent.follower_scannable.id_rowphase1.moveTo(idPosition.rowphase1)
-            #self.parent.follower_scannable.id_rowphase2.moveTo(idPosition.rowphase2)
-            #self.parent.follower_scannable.id_rowphase3.moveTo(idPosition.rowphase3)
-            #self.parent.follower_scannable.id_rowphase4.moveTo(idPosition.rowphase4)
-        else:
-            self.parent.follower_scannable.id_jawphase.moveTo(idPosition.jawphase)
+
         self.parent.follower_scannable.last_energy_eV = energy_eV
 
     def run(self):
@@ -41,6 +38,8 @@ class FollowerThread(threading.Thread):
             diff = abs(followed-follower) 
             if (diff > abs(self.parent.follower_tolerance)):
                 self.moveTo(followed)
+                while self.parent.followed_scannable.isIDBusy():
+                    sleep(0.1)
             if self.parent.verbose and (datetime.now() - self._movelog_time) > timedelta(seconds=5):
                 self.parent.logger.info("%s following %s with a tolerance of %r (diff=%r)" % (self.parent.follower_scannable.name, self.parent.followed_scannable.name, self.parent.follower_tolerance, diff))
                 self.parent.logger.info("Use 'pos %s 0' to stop it following" % (self.parent.name))
