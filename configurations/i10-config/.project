@@ -6,6 +6,7 @@
 		<project>diffcalc</project>
 		<project>dls-config</project>
 		<project>optics-config</project>
+		<project>uk.ac.diamond.daq.dls.controls</project>
 		<project>uk.ac.gda.api</project>
 		<project>uk.ac.gda.beamline.i10</project>
 		<project>uk.ac.gda.beamline.synoptics</project>
