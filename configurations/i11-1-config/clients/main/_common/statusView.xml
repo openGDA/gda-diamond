@@ -178,27 +178,10 @@
 				</bean>
 				<bean class="gda.rcp.views.GroupCompositeFactory">
 					<property name="label" value="Data" />
-					<property name="columns" value="2" />
+					<property name="columns" value="1" />
 					<property name="compositeFactories">
 						<list>
-							<bean
-								class="uk.ac.gda.beamline.synoptics.composites.PropertyValueSelectionCompositeFactory">
-								<property name="eventAdminName" value="eventadmin" />
-								<property name="label" value="Directory" />
-								<property name="listIsSetExplicitlyInProperty" value="false" />
-								<property name="propertyName">
-									<util:constant static-field="gda.configuration.properties.LocalProperties.GDA_DATAWRITER_DIR"/>
-								</property>
-							</bean>
-							<bean
-								class="uk.ac.gda.beamline.synoptics.composites.PropertyValueSelectionCompositeFactory">
-								<property name="eventAdminName" value="eventadmin" />
-								<property name="label" value="Data Format" />
-								<property name="listIsSetExplicitlyInProperty" value="true" />
-								<property name="propertyName">
-									<util:constant static-field="gda.configuration.properties.LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT"/>
-								</property>
-							</bean>
+							<bean class="uk.ac.gda.beamline.synoptics.composites.VisitSelectionCompositeFactory" />
 						</list>
 					</property>
 				</bean>

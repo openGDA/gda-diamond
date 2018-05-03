@@ -9,7 +9,7 @@
                http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-	<corba:import namespace="i11-1" names="command_server, ScanDataStore, SimpleServlet"/>
+	<corba:import namespace="i11-1" names="command_server, ScanDataStore, SimpleServlet, GDAMetadata"/>
 
 	<context:property-placeholder/>
 
