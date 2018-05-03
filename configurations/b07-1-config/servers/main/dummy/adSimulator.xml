@@ -9,31 +9,52 @@
 
 	<!-- Objects that are not true dummies but access a simulated area detector -->
 	<!-- You will have to change the PVs to those corresponding to your simulator -->
+	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
+	
 
 	<bean id="simCamBase" class="gda.spring.V17ADBaseFactoryBean">
-		<property name="prefix" value="ws141-AD-SIM-01:CAM:" />
+		<property name="prefix" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:" />
 	</bean>
 
-	<bean id="d1c_cam0_PlotServerRoiProvider"
-		class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
-		<constructor-arg value="D1C Cam0" /> <!-- This must match the string used in the view secondary ID -->
-		<constructor-arg value="1" />
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="sim_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/simRoi" />
+	    <property name="service" ref="sim_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 	</bean>
 
-	<bean id="simRoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+	<bean id="simRoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats" />
 		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source
 			for the array view -->
-		<property name="baseRoiPVName" value="ws141-AD-SIM-01:ROI1:" />
-		<property name="baseStatsPVName" value="ws141-AD-SIM-01:STAT1:" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
 		<property name="roiInputNdArrayPort" value="CAM.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
 		<property name="roiProvider">
-			<bean
-				class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="d1c_cam0_PlotServerRoiProvider" />
-				<constructor-arg value="0" />
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="sim_roi" />
+				<property name="index" value="0" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="simRoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats2" />
+		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source
+			for the array view -->
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT2:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="sim_roi" />
+				<property name="index" value="1" />
 			</bean>
 		</property>
 	</bean>
@@ -44,7 +65,7 @@
 			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
 				<property name="ndFileImpl">
 					<bean class="gda.spring.V17NDFileFactoryBean">
-						<property name="prefix" value="ws141-AD-SIM-01:HDF5:" />
+						<property name="prefix" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
 						<property name="resetToInitialValues" value="false" />
 					</bean>
 				</property>
@@ -64,12 +85,23 @@
 							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 								<property name="restoreAcquireState" value="true" />
 								<property name="adBase" ref="simCamBase" />
-								<property name="readoutTime" value="-1" />
 							</bean>
 						</property>
 					</bean>
 				</property>
 			</bean>
+		</property>
+	</bean>
+
+	<bean id="sim_cam1" class="gda.device.detector.NXDetector">
+		<property name="name" value="dgncam" />
+		<property name="collectionStrategy" ref="simCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="simRoiStats1" />
+				<ref bean="simRoiStats2" />
+				<ref bean="simHdf5Filewriter" />
+			</list>
 		</property>
 	</bean>
 
