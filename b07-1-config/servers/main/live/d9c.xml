@@ -12,7 +12,8 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="d9c_foil" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<!-- femto_19 used to be called d9c_foil -->
+	<bean id="femto_19" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL07C-DI-PHDGN-09:I1:"/>
 		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>

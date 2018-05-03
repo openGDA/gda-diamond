@@ -32,7 +32,7 @@
 				<ref bean="m5c_pitch" />
 				<ref bean="m5c_roll" />
 				<ref bean="m5c_yaw" />
-				<ref bean="m5c_current1" />
+				<ref bean="femto_20" />
 				<ref bean="m5c_current2" />
 			</list>
 		</property>

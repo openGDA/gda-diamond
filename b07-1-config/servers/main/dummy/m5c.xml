@@ -23,7 +23,8 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="m5c_current1" class="gda.device.scannable.DummyScannable" />
+	<!-- femto_20 used to be called m5c_current1 -->
+	<bean id="femto_20" class="gda.device.scannable.DummyScannable" />
 	<bean id="m5c_current2" class="gda.device.scannable.DummyScannable" />
 
 </beans>
