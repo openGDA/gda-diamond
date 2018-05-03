@@ -1,19 +1,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-        http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
-		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
 
 
 	<context:property-placeholder />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
-	<corba:import namespace="${gda.factory.factoryName}" names="helpScriptController" />
 
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/rmi_imports.xml" />
@@ -45,20 +41,19 @@
 	
 	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
 
+	<bean id="helpScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://${gda.server.host}:1099/gda-auto-export/helpScriptController" />
+		<property name="serviceInterface" value="gda.jython.scriptcontroller.Scriptcontroller" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
 	<bean class="uk.ac.gda.beamline.i12.HelpListener">
 		<property name="helpObservable" ref="helpScriptController" />
 	</bean>
 
-	<!--  create connection to remote objects via netService -->
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
     <import resource="classpath:gda/spring/propertyeditors/registration.xml" />
-
-	<gda:rbac />
 
 </beans>

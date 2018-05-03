@@ -1,18 +1,29 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
 	<description>The tomography alignment view is configured using the PCO
 		objects, since tomography mainly uses the PCO camera
 	</description>
-	<corba:import namespace="i12"
-		names="cameraMotionLUT, tiltBallRoiLut,moduleMotorPositionLUT,energyModuleLUT, scanResolutionLut, tomoAlignmentConfigurationScriptController" />
+
+	<bean id="scanResolutionLut" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://${gda.server.host}:1099/gda-auto-export/scanResolutionLut" />
+		<property name="serviceInterface" value="gda.function.Lookup" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
 
 	<bean id="scanResolutionLookupProvider"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.ScanResolutionLookupProvider">
 		<property name="scanLookupTable" ref="scanResolutionLut" />
 	</bean>
+
+	<bean id="moduleMotorPositionLUT" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://${gda.server.host}:1099/gda-auto-export/moduleMotorPositionLUT" />
+		<property name="serviceInterface" value="gda.function.Lookup" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
 	<bean id="cameraModuleLookupTableHandler"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.ModuleLookupTableHandler">
 		<property name="moduleTable" ref="moduleMotorPositionLUT" />
@@ -40,6 +51,12 @@
 		<property name="defaultSampleInPosition" value="0" />
 		<property name="thethaOffset" value="0" />
 		<property name="verticalMotorMotionHandler" ref="verticalMotorMotionHandler" />
+	</bean>
+
+	<bean id="tomoAlignmentConfigurationScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://${gda.server.host}:1099/gda-auto-export/tomoAlignmentConfigurationScriptController" />
+		<property name="serviceInterface" value="gda.jython.scriptcontroller.Scriptcontroller" />
+		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
 	<bean id="verticalMotorMotionHandler"
@@ -114,6 +131,12 @@
 		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
 	</bean>
 
+	<bean id="tiltBallRoiLut" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://${gda.server.host}:1099/gda-auto-export/tiltBallRoiLut" />
+		<property name="serviceInterface" value="gda.function.Lookup" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
 	<bean id="tiltBallLookupTableHandler"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TiltBallLookupTableHandler">
 		<property name="moduleTable" ref="tiltBallRoiLut" />
@@ -161,6 +184,12 @@
 	<bean id="tiltPythonController"
 		class="uk.ac.gda.client.tomo.alignment.view.handlers.impl.TiltPythonController">
 		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
+	</bean>
+
+	<bean id="cameraMotionLUT" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://${gda.server.host}:1099/gda-auto-export/cameraMotionLUT" />
+		<property name="serviceInterface" value="gda.function.Lookup" />
+		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
 	<bean id="cameraMotionLookupTableHandler"
