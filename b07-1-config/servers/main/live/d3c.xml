@@ -4,15 +4,22 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="d3c_y" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL07C-DI-PHDGN-03:Y:MP" />
+	</bean>
+
 	<!-- D3C cam 1 -->
 	<bean id="d3c_cam1_CamBase" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL07C-DI-PHDGN-03:DCAM1:CAM:" />
 	</bean>
 
-	<bean id="d3c_cam1_PlotServerRoiProvider"
-		class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
-		<constructor-arg value="D3C Cam1" /> <!-- This must match the string used in the view secondary ID -->
-		<constructor-arg value="2" /> <!-- Maximum number of ROIs -->
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="d3c_cam1_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/d3c1Roi" />
+	    <property name="service" ref="d3c_cam1_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 	</bean>
 
 	<bean id="d3c_cam_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
@@ -23,10 +30,10 @@
 		<property name="roiInputNdArrayPort" value="D3C.DCAM1.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="d3c_cam1_PlotServerRoiProvider" />
-				<constructor-arg value="0" />
+				<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="d3c_cam1_roi" />
+				<property name="index" value="0" />
 			</bean>
 		</property>
 	</bean>
@@ -39,10 +46,10 @@
 		<property name="roiInputNdArrayPort" value="D3C.DCAM1.CAM" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
-		<property name="roiProvider">
-			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
-				<constructor-arg ref="d3c_cam1_PlotServerRoiProvider" />
-				<constructor-arg value="1" />
+				<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="d3c_cam1_roi" />
+				<property name="index" value="1" />
 			</bean>
 		</property>
 	</bean>
@@ -73,7 +80,6 @@
 							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 								<property name="restoreAcquireState" value="true" />
 								<property name="adBase" ref="d3c_cam1_CamBase" />
-								<property name="readoutTime" value="-1" />
 							</bean>
 						</property>
 					</bean>
@@ -92,10 +98,6 @@
 				<ref bean="d3c_cam_Hdf5Filewriter" />
 			</list>
 		</property>
-	</bean>
-
-	<bean id="d3c_y" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL07C-DI-PHDGN-03:Y:MP" />
 	</bean>
 
 </beans>
