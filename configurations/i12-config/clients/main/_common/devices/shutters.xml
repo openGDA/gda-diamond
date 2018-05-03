@@ -5,16 +5,8 @@
 
 	<description>Client reference to Shutters</description>
 
-	<bean id="eh1shtr" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}eh1shtr" />
-		<property name="serviceInterface" value="gda.device.Scannable" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	<bean id="eh1shtr" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
-	<bean id="extshtr" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}extshtr" />
-		<property name="serviceInterface" value="gda.device.Scannable" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	<bean id="extshtr" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 </beans>

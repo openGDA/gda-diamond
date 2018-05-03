@@ -1,10 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.diamond.ac.uk/schema/gda/gda
-		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- Define the scannable group -->
 	<bean id="ss1_x" class="gda.device.scannable.ScannableMotor">
@@ -132,50 +129,5 @@
 			</list>
 		</property>
 	</bean>
-
-	<gda:rmi-export
-		serviceName="gda/ss1_theta"
-		service="ss1_theta"
-		serviceInterface="gda.device.IScannableMotor" />
-
-	<gda:rmi-export
-		serviceName="gda/ss1_tx"
-		service="ss1_tx"
-		serviceInterface="gda.device.IScannableMotor" />
-
-	<gda:rmi-export
-		serviceName="gda/ss1_tz"
-		service="ss1_tz"
-		serviceInterface="gda.device.IScannableMotor" />
-
-	<gda:rmi-export
-		serviceName="gda/ss1_y2"
-		service="ss1_y2"
-		serviceInterface="gda.device.IScannableMotor" />
-
-	<gda:rmi-export
-		serviceName="gda/ss1_y3"
-		service="ss1_y3"
-		serviceInterface="gda.device.IScannableMotor" />
-
-	<gda:rmi-export
-		serviceName="gda/ss1_y1"
-		service="ss1_y1"
-		serviceInterface="gda.device.IScannableMotor" />
-
-	<gda:rmi-export
-		serviceName="gda/ss1_x"
-		service="ss1_x"
-		serviceInterface="gda.device.IScannableMotor" />
-
-	<gda:rmi-export
-		serviceName="gda/ss1_rx"
-		service="ss1_rx"
-		serviceInterface="gda.device.IScannableMotor" />
-
-	<gda:rmi-export
-		serviceName="gda/ss1_rz"
-		service="ss1_rz"
-		serviceInterface="gda.device.IScannableMotor" />
 
 </beans>

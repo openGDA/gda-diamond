@@ -19,9 +19,6 @@
 	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 	
-	<!-- Command Server -->
-	<import resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
-
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
@@ -113,7 +110,6 @@
 	<import resource="file:${gda.config}/devices/_common/mono.xml"/>
 	<import resource="file:${gda.config}/devices/_common/p2r.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco1.xml"/>
-	<import resource="file:${gda.config}/devices/_common/pco2.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco3.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco4.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pipediode.xml"/>
@@ -123,7 +119,6 @@
 	<import resource="file:${gda.config}/devices/_common/s2_new.xml"/>
 	<import resource="file:${gda.config}/devices/_common/s3.xml"/>
 	<import resource="file:${gda.config}/devices/_common/s4.xml"/>
-	<import resource="file:${gda.config}/devices/_common/shutters.xml"/>
 	<import resource="file:${gda.config}/devices/_common/simpleScannables.xml"/>
 	<import resource="file:${gda.config}/devices/_common/ss1.xml"/>
 	<import resource="file:${gda.config}/devices/_common/ss2.xml"/>

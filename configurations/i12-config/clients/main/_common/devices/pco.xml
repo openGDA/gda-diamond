@@ -44,10 +44,6 @@
 		<property name="cameraViewController" ref="pcoCameraViewController" />
 	</bean>
 
-	<bean id="pcoTomography" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}pcoTomography" />
-		<property name="serviceInterface" value="uk.ac.gda.tomography.devices.ITomographyDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	<bean id="pcoTomography" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 </beans>

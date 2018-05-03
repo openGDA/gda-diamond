@@ -1,10 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.diamond.ac.uk/schema/gda/gda
-		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- Define the scannable group -->
 	<bean id="t3" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -168,20 +165,5 @@
 			</list>
 		</property>
 	</bean>
-
-	<gda:rmi-export
-		serviceName="gda/t3_x"
-		service="t3_x"
-		serviceInterface="gda.device.IScannableMotor" />
-
-	<gda:rmi-export
-		serviceName="gda/t3_m1y"
-		service="t3_m1y"
-		serviceInterface="gda.device.IScannableMotor" />
-
-	<gda:rmi-export
-		serviceName="gda/t3_m1z"
-		service="t3_m1z"
-		serviceInterface="gda.device.IScannableMotor" />
 
 </beans>

@@ -62,12 +62,6 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<property name="serviceName" value="gda/edxdAlignment" />
-		<property name="service" ref="edxdAlignment" />
-		<property name="serviceInterface" value="uk.ac.gda.edxd.common.IEdxdAlignment" />
-	</bean>
-
 	<!-- EDXD controllers scannable group -->
 	<bean id="edxd_controllers" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
