@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.io.FilenameUtils;
 import org.dawnsci.ede.DataFileHelper;
@@ -102,6 +103,10 @@ public class EdeScanTest extends EdeTestBase {
 	private DummyDAServer daserverForTfg;
 	private Scaler memory;
 	private TfgScaler injectionCounter;
+	private DetectorArrayReadout detArrayReadout;
+
+	private static final String[] ALL_PROCESSED_DATA_GROUPS = {EdeDataConstants.LN_I0_IT_COLUMN_NAME, EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME,
+			EdeDataConstants.LN_I0_IT_FINAL_I0_COLUMN_NAME, EdeDataConstants.LN_I0_IT_INTERP_I0S_COLUMN_NAME };
 
 	@Before
 	public void setupEnvironment() throws Exception {
@@ -135,6 +140,9 @@ public class EdeScanTest extends EdeTestBase {
 		edeProgressUpdater = new ScriptControllerBase();
 		edeProgressUpdater.setName(EdeExperiment.PROGRESS_UPDATER_NAME);
 
+		Dataset dataset = DatasetFactory.createRange(DoubleDataset.class, 0.0, 100.0, 1.0);
+		detArrayReadout = new DetectorArrayReadout("detArrayReadout", dataset);
+
 		ObjectFactory factory = new ObjectFactory();
 		factory.addFindable(xh);
 		factory.addFindable(dummyEdeDetector);
@@ -143,6 +151,7 @@ public class EdeScanTest extends EdeTestBase {
 		factory.addFindable(xScannable);
 		factory.addFindable(yScannable);
 		factory.addFindable(edeProgressUpdater);
+//		factory.addFindable(detArrayReadout);
 
 		createObjectsForEdeScanWithTfg();
 		factory.addFindable(daserverForTfg);
@@ -429,23 +438,43 @@ public class EdeScanTest extends EdeTestBase {
 		group1.setNumberOfScansPerFrame(5);
 		groups.add(group1);
 
+		Map<String, Double> positionMap = new HashMap<>();
 		double xposition = ScannableUtils.getCurrentPositionArray(xScannable)[0];
 		double yposition = ScannableUtils.getCurrentPositionArray(yScannable)[0];
+		positionMap.put(xScannable.getName(), xposition);
+		positionMap.put(yScannable.getName(), yposition);
 
 		TimeResolvedExperiment theExperiment = new TimeResolvedExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
 				xh.getName(), topupMonitor.getName(), shutter.getName());
 		theExperiment.addScannableToMonitorDuringScan(xScannable);
 		theExperiment.addScannableToMonitorDuringScan(yScannable.getName()); // use finder to locate scannable
+		theExperiment.addScannableToMonitorDuringScan(detArrayReadout);
+
 		theExperiment.runExperiment();
 		String nexusFilename = theExperiment.getNexusFilename();
-		int numberExpectedSpectra = getNumSpectra(groups) + 4;
+		int numLightItSpectra = getNumSpectra(groups);
+		int numberExpectedSpectra = numLightItSpectra + 4;
 
-		// Check dataset for scannable positions have correct dimensions and content
-		assertDimensions(nexusFilename, xh.getName(), xScannable.getName(), new int[]{numberExpectedSpectra});
-		checkDataValidRange(nexusFilename, xh.getName(), xScannable.getName(), new RangeValidator(xposition, xposition, true, true));
+		// Check datasets for 'scannables to monitor' have correct dimensions and content
+		for(Entry<String, Double> entry : positionMap.entrySet()) {
+			String scnName = entry.getKey();
+			double position = entry.getValue();
+			assertDimensions(nexusFilename, xh.getName(), scnName, new int[]{numberExpectedSpectra});
+			checkDataValidRange(nexusFilename, xh.getName(), scnName, new RangeValidator(position, position, true, true));
 
-		assertDimensions(nexusFilename, xh.getName(), yScannable.getName(), new int[]{numberExpectedSpectra});
-		checkDataValidRange(nexusFilename, xh.getName(), yScannable.getName(), new RangeValidator(yposition, yposition, true, true));
+			// check each NXdata group has the scannable positions dataset with correct size and content
+			for(String group : ALL_PROCESSED_DATA_GROUPS) {
+				assertDimensions(nexusFilename, group, scnName, new int[] {numLightItSpectra});
+				checkDataValidRange(nexusFilename, group, scnName, new RangeValidator(position, position, true, true));
+			}
+		}
+
+		// Check values for detArrayReadout in the NXdata groups correspond to lightIt spectra
+		IDataset expectedValues = detArrayReadout.getValues().getSlice(new int[] {3}, new int[] {3+numLightItSpectra}, null).squeeze();
+		for(String group : ALL_PROCESSED_DATA_GROUPS) {
+			IDataset data = getDataset(nexusFilename, group, detArrayReadout.getName());
+			assertDatasetsMatch(expectedValues,  data, 1e-5);
+		}
 	}
 
 	private void testNexusStructure(String nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws Exception {
@@ -453,9 +482,9 @@ public class EdeScanTest extends EdeTestBase {
 		if (numberRepetitions > 0){
 			// Scans with I0 measured before and after It
 			numberExpectedSpectra *= numberRepetitions;
-			assertLinearData(nexusFilename, EdeDataConstants.LN_I0_IT_COLUMN_NAME,numberExpectedSpectra, checkForCycles);
-			assertLinearData(nexusFilename, EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME,numberExpectedSpectra, checkForCycles);
-			assertLinearData(nexusFilename, EdeDataConstants.LN_I0_IT_FINAL_I0_COLUMN_NAME,numberExpectedSpectra, checkForCycles);
+			for(String group : ALL_PROCESSED_DATA_GROUPS) {
+				assertLinearData(nexusFilename, group, numberExpectedSpectra, checkForCycles);
+			}
 		} else {
 			// numberRepetitions = 0 -> single spectrum scan (no final I0 measurement)
 			assertLinearData(nexusFilename, EdeDataConstants.LN_I0_IT_COLUMN_NAME,numberExpectedSpectra, checkForCycles);

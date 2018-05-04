@@ -37,6 +37,8 @@ import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IndexIterator;
 import org.mockito.Mockito;
@@ -44,6 +46,8 @@ import org.powermock.api.mockito.PowerMockito;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
+import gda.device.DeviceException;
+import gda.device.detector.DetectorBase;
 import gda.device.enumpositioner.DummyEnumPositioner;
 import gda.device.scannable.ScannableMotor;
 
@@ -63,6 +67,70 @@ public class EdeTestBase {
 		Mockito.when(energy_scannable.getPosition()).thenReturn(position);
 
 		return energy_scannable;
+	}
+
+	/**
+	 * Detector that returns values from supplied array/dataset when it is read out.
+	 */
+	protected class DetectorArrayReadout extends DetectorBase {
+
+		private int positionIndex = 0;
+		private IDataset values = null;
+
+		public DetectorArrayReadout(String name, double[] values) {
+			setName(name);
+			setInputNames(new String[] {name});
+			this.values = DatasetFactory.createFromObject(values);
+		}
+
+		public DetectorArrayReadout(String name, IDataset values) {
+			setName(name);
+			setInputNames(new String[] {name});
+			this.values = values.clone();
+		}
+
+		public IDataset getValues() {
+			return values;
+		}
+
+		@Override
+		public Object readout() throws DeviceException {
+			Object val = null;
+			int[] dataShape = values.getShape();
+			if (dataShape.length==1) {
+				val = values.getDouble(positionIndex);
+			} else {
+				Dataset row = (Dataset) values.getSlice(new int[] {positionIndex, 0}, new int[] {positionIndex+1, dataShape[1]}, null).squeeze();
+				val = DatasetUtils.createJavaArray(row);
+			}
+			positionIndex++;
+			return val;
+		}
+
+		@Override
+		public boolean isBusy() throws DeviceException {
+			return false;
+		}
+
+		@Override
+		public void rawAsynchronousMoveTo(Object position) {
+			// Do nothing
+		}
+
+		@Override
+		public void collectData() throws DeviceException {
+			// Do nothing
+		}
+
+		@Override
+		public int getStatus() throws DeviceException {
+			return IDLE;
+		}
+
+		@Override
+		public boolean createsOwnFiles() throws DeviceException {
+			return false;
+		}
 	}
 
 	protected DummyEnumPositioner createShutter2(){
