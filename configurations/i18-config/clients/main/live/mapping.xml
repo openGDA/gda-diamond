@@ -51,6 +51,11 @@
 							<constructor-arg name="model"><null /></constructor-arg>
 							<constructor-arg name="includeInScan" value="false"/>
 						</bean>
+						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
+							<constructor-arg name="name" value="t1thetaFine" />
+							<constructor-arg name="model"><null /></constructor-arg>
+							<constructor-arg name="includeInScan" value="false"/>
+						</bean>
 					</list>
 				</property>
 			</bean>
