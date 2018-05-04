@@ -4,14 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="d1b_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
-
 	<!-- Area detector camera -->
 	<!-- To use this, you will have to start an area detector simulator -->
 	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
-	<bean id="d1b_cam2" class="gda.device.detector.NXDetector">
+	<bean id="d5b_cam1" class="gda.device.detector.NXDetector">
 		<property name="name" value="dgncam" />
 		<property name="collectionStrategy" ref="simCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -23,7 +19,7 @@
 		</property>
 	</bean>
 
-	<bean id="d1b_cam1" class="gda.device.detector.NXDetector">
+	<bean id="d5b_cam2" class="gda.device.detector.NXDetector">
 		<property name="name" value="dgncam" />
 		<property name="collectionStrategy" ref="simCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -33,16 +29,6 @@
 				<ref bean="simHdf5Filewriter" />
 			</list>
 		</property>
-	</bean>
-
-	<bean id="d1b_temp" class="gda.device.monitor.DummyEpicsMonitorDouble">
-		<property name="unit" value="C"/>
-		<property name="value">
-			<value type="double">21.3</value>
-		</property>
-		<property name="lowerLimit" value="18" />
-		<property name="upperLimit" value="56" />
-		<property name="increment" value="0.35" />
 	</bean>
 
 </beans>

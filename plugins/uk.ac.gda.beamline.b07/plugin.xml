@@ -22,32 +22,4 @@
          </property>
       </product>
    </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:window?after=showView">
-         <menu
-               label="Area Detectors">
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="D1B Cam0"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D1B Cam0//BL07B-DI-PHDGN-01:DCAM0@">
-               </parameter>
-            </command>
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="D1B Cam1"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//D1B Cam1//BL07B-DI-PHDGN-01:DCAM1@">
-               </parameter>
-            </command>
-         </menu>
-      </menuContribution>
-   </extension>
 </plugin>

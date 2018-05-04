@@ -12,8 +12,8 @@
 		<property name="groupMembers">
 			<list>
 				<ref bean="d1b_y" />
-				<ref bean="d1b_cam0"/>
 				<ref bean="d1b_cam1"/>
+				<ref bean="d1b_cam2"/>
 				<ref bean="d1b_temp"/>
 			</list>
 		</property>

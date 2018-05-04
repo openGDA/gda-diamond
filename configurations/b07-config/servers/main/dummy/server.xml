@@ -14,6 +14,13 @@
 
 	<!-- Diagnostics -->
 	<import resource="d1b.xml"/>
+	<import resource="d2b.xml"/>
+	<import resource="d3b.xml"/>
+	<import resource="d4b.xml"/>
+	<import resource="d5b.xml"/>
+	<import resource="d6b.xml"/>
+	<import resource="d8b.xml"/>
+	<import resource="d9b.xml"/>
 
 	<!-- Simulated Area Detector -->
 	<import resource="adSimulator.xml"/>
