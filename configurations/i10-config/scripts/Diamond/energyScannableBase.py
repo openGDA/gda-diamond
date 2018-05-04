@@ -118,20 +118,6 @@ class EnergyScannableBase(ScannableMotionBase):
                 self.id_jawphase.isBusy() or 
                 self.pgm_energy.isBusy() )
         
-    def isIDBusy(self):
-        if self.energyMode:
-            return (self.id_gap.isBusy() or 
-                    self.id_rowphase1.isBusy() or
-                    self.id_rowphase2.isBusy() or
-                    self.id_rowphase3.isBusy() or
-                    self.id_rowphase4.isBusy())
-        else:
-            return (self.id_rowphase1.isBusy() or
-                    self.id_rowphase2.isBusy() or
-                    self.id_rowphase3.isBusy() or
-                    self.id_rowphase4.isBusy() or
-                    self.id_jawphase.isBusy())
-
     def moveToMayWait(self, scannable, position, wait=False):
         from time import sleep
         
