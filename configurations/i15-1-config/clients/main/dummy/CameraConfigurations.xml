@@ -3,6 +3,15 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<description>
+		To use the Simulated Area detector in dummy mode:
+			1)  Launch the Utilities > GDA SWMR AreaDetector Simulation
+				on the local machine and start the IOC.
+			2) If you want to use an Area detector on another machine, export
+				the WORKSTATION environment variable with the short name for
+				the machine the Simulation IOC is running on.
+	</description>
+
 	<!-- ADSIM detectors need to be configured with a short form hostname, since HOSTNAME is an FQDN we
 		 need to strip off the domain, if we haven't been configured with an explicit WORKSTATION variable.
 	 -->

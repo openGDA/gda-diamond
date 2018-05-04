@@ -9,7 +9,6 @@
 		<property name="name"				value="s4NeXusSlit"/>
 		<property name="x_gap"				ref="s4gapX"/>
 		<property name="y_gap"				ref="s4gapY"/>
-		<property name="monitorRole"		value="PER_SCAN"/>
 		<property name="activated"			value="false"/> <!-- Use as a monitor with scans, we always want this NeXus information -->
 	</bean>
 
@@ -51,7 +50,6 @@
 				</bean>
 			</list>
 		</property>
-		<property name="monitorRole"		value="PER_SCAN"/>
 		<property name="activated"			value="true"/> <?ignore Use as a monitor with scans, we always want this NeXus information ?>
 	</bean>
 
@@ -83,7 +81,6 @@
 				</bean>
 			</list>
 		</property>
-		<property name="monitorRole"		value="PER_SCAN"/>
 		<property name="activated"			value="false"/> <?ignore Use as a monitor with scans, we always want this NeXus information ?>
 	</bean>
 </beans>

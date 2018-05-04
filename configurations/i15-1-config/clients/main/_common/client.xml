@@ -22,29 +22,23 @@
 		 filter service is made into a remote service. -->
 	<import resource="../../../servers/main/_common/scannable/filters.xml"/>
 
-<!-- 
+	<import resource="command_queue_processor.xml"/>
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
- -->
-
-<!-- Old i15 beans
-	<import resource="../../../servers/main/_common/device/marAreaDetector.xml"/>
-	<import resource="marAreaDetector.xml" />
-
-	<import resource="mpxAreaDetector.xml" />
-
-	<import resource="../../../servers/main/_common/device/peAreaDetector.xml"/>
-	<import resource="peAreaDetector.xml" />
-
-	<import resource="pil3AreaDetector.xml" />
-
-	<import resource="pslAreaDetector.xml" />
-	 -->
+	<import resource="stage_controls.xml"/>  <!--  TODO Remove the current stage controls and replace with tree edit as in scanning perspective -->
+	<import resource="stage_controls_tree.xml"/>
+	<import resource="mapping.xml"/>
 
 	<bean class="gda.factory.corba.util.AdapterFactory">
 		<constructor-arg index="0" value="${gda.factory.factoryName}" />
 		<constructor-arg index="1">
 			<bean class="gda.spring.NetServiceFactoryBean" />
 		</constructor-arg>
+	</bean>
+
+	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
+		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
+		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
