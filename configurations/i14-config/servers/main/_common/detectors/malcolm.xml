@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<!-- Xspress3 -->
+	<!-- Xspress3 coarse scan -->
 	<bean id="malcolmInfoXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="XSP3 coarse Malcolm" />
 		<property name="description" value="Xspress III coarse Malcolm scan" />
@@ -35,6 +35,12 @@
 	<bean id="malcolmInfoXrfTetrAMM" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="XRF TetrAMM Malcolm" />
 		<property name="description" value="Malcolm XRF TetrAMM scanning" />
+	</bean>
+
+	<!-- Xspress3 fine scan -->
+	<bean id="malcolmInfoXsp3Fine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XSP3 fine Malcolm" />
+		<property name="description" value="Xspress III fine motors Malcolm scan" />
 	</bean>
 
 </beans>

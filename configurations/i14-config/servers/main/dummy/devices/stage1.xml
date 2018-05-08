@@ -28,7 +28,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="stage1_x_fine_motor" class="gda.device.motor.DummyMotor">
+	<bean id="stage1_xf_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-10.0" />
 		<property name="maxPosition" value="10.0" />
 		<property name="position" value="1.73" />
@@ -36,14 +36,14 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="stage1_y_fine_motor" class="gda.device.motor.DummyMotor">
+	<bean id="stage1_yf_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-10.0" />
 		<property name="maxPosition" value="10.0" />
 		<property name="position" value="-0.98" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="stage1_rotation_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-180.0" />
 		<property name="maxPosition" value="270.0" />

@@ -16,14 +16,14 @@
 		<property name="motor" ref="stage1_z_motor" />
 	</bean>
 
-	<bean id="stage1_x_fine" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="stage1_x_fine_motor" />
+	<bean id="stage1_xf" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage1_xf_motor" />
 	</bean>
 
-	<bean id="stage1_y_fine" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="stage1_y_fine_motor" />
+	<bean id="stage1_yf" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="stage1_yf_motor" />
 	</bean>
-	
+
 	<bean id="stage1_rotation" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="stage1_rotation_motor" />
 	</bean>
@@ -34,8 +34,8 @@
 				<ref bean="stage1_x" />
 				<ref bean="stage1_y" />
 				<ref bean="stage1_z" />
-				<ref bean="stage1_x_fine" />
-				<ref bean="stage1_y_fine" />
+				<ref bean="stage1_xf" />
+				<ref bean="stage1_yf" />
 				<ref bean="stage1_rotation" />
 			</list>
 		</property>

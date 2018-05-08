@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<!-- Xspress3 -->
+	<!-- Xspress3 coarse scan -->
 	<bean id="malcolmModelXsp3" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-01" />
 		<property name="exposureTime" value="0.01" />
@@ -70,6 +70,20 @@
 		<property name="name" value="BL14I-ML-SCAN-05" />
 		<property name="model" ref="malcolmModelXrfTetrAMM" />
 		<property name="deviceInformation" ref="malcolmInfoXrfTetrAMM" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- Xspress3 fine scan -->
+	<bean id="malcolmModelXsp3Fine" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-06" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolmDeviceXsp3Fine" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-06" />
+		<property name="model" ref="malcolmModelXsp3Fine" />
+		<property name="deviceInformation" ref="malcolmInfoXsp3Fine" />
+		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 

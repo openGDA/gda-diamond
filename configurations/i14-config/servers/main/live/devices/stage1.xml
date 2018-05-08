@@ -20,21 +20,20 @@
 	</bean>
 
 	<!-- Fine motors -->
-	<bean id="stage1_x_fine_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="stage1_xf_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-MO-STAGE-01:XF" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="stage1_y_fine_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="stage1_yf_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-MO-STAGE-01:YF" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<!-- Rotation -->
 	<bean id="stage1_rotation_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-MO-STAGE-01:ROT" />
 		<property name="local" value="true" />
 	</bean>
-	
 
 </beans>
