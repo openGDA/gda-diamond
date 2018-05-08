@@ -178,7 +178,7 @@ wa=PositionWrapper(wascannables)
 alias('wa')
 
 print "Creating 'wh' command for return RASOR positions in DIFFCALC HKL"
-wherescannables=[delta,eta,chi,phi,mu,h,k,l,en]
+wherescannables=[delta,eta,chi,phi,h,k,l,en]
 wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
 alias('wh')
 
