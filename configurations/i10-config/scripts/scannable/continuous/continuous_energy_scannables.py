@@ -15,6 +15,13 @@ from scannable.continuous.ContinuousMovePgmEnergyBinpointScannable import Contin
 #from scannable.continuous.ContinuousMovePgmEnergyIdJawPhaseBinpointScannable import ContinuousMovePgmEnergyIdJawPhaseBinpointScannable
 
 from gdaserver import pgm_energy, pgm_grat_pitch, pgm_m2_pitch
+from scannable.id_energys.idu_energy_gap import idu_circ_neg_energy,\
+    idu_circ_pos_energy, idu_lin_hor_energy, idu_lin_ver_energy,\
+    idu_lin_hor3_energy
+from scannable.continuous import ContinuousPgmGratingIDGapEnergyMoveController
+from scannable.id_energys.idd_energy_gap import idd_circ_neg_energy,\
+    idd_circ_pos_energy, idd_lin_hor_energy, idd_lin_ver_energy
+from scannable.id_energys.idd_lin_energy import idd_lin_arbitrary_energy
 
 print "-"*100
 print "Creating scannables for constant velocity scan"
@@ -94,3 +101,35 @@ egy_g =  ContinuousMovePgmEnergyBinpointScannable('egy_g',            cemc_g,   
 
 # cvscan egy   695 705 1 mcsr17 2 binpointGrtPitch   binpointMirPitch   binpointPgmEnergy   binpointId1JawPhase   binpointId2JawPhase   binpointMcaTime 
 # cvscan egy_g 695 705 1 mcsr17 2 binpointGrtPitch_g binpointMirPitch_g binpointPgmEnergy_g binpointId1JawPhase_g binpointId2JawPhase_g binpointMcaTime_g 
+
+#IDU Gap
+cemc_g_idu_circ_neg_energy = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idu_circ_neg_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idu_circ_neg_energy, 'SR10I-MO-SERVC-21:'); cemc_g_idu_circ_neg_energy.verbose=True
+egy_g_idu_circ_neg_energy  = ContinuousMovePgmEnergyBinpointScannable('egy_g_idu_circ_neg_energy', cemc_g_idu_circ_neg_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);            egy_g_idu_circ_neg_energy.verbose=True
+
+cemc_g_idu_circ_pos_energy = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idu_circ_pos_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idu_circ_pos_energy, 'SR10I-MO-SERVC-21:'); cemc_g_idu_circ_pos_energy.verbose=True
+egy_g_idu_circ_pos_energy  = ContinuousMovePgmEnergyBinpointScannable('egy_g_idu_circ_pos_energy', cemc_g_idu_circ_pos_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);            egy_g_idu_circ_pos_energy.verbose=True
+
+cemc_g_idu_lin_hor_energy  = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idu_lin_hor_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idu_lin_hor_energy, 'SR10I-MO-SERVC-21:');    cemc_g_idu_lin_hor_energy.verbose=True
+egy_g_idu_lin_hor_energy   = ContinuousMovePgmEnergyBinpointScannable('egy_g_idu_lin_hor_energy', cemc_g_idu_lin_hor_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);               egy_g_idu_lin_hor_energy.verbose=True
+
+cemc_g_idu_lin_ver_energy  = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idu_lin_ver_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idu_lin_ver_energy, 'SR10I-MO-SERVC-21:');    cemc_g_idu_lin_ver_energy.verbose=True
+egy_g_idu_lin_ver_energy   = ContinuousMovePgmEnergyBinpointScannable('egy_g_idu_lin_ver_energy', cemc_g_idu_lin_ver_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);               egy_g_idu_lin_ver_energy.verbose=True
+
+cemc_g_idu_lin_hor3_energy  = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idu_lin_hor3_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idu_lin_hor3_energy, 'SR10I-MO-SERVC-21:');cemc_g_idu_lin_hor3_energy.verbose=True
+egy_g_idu_lin_hor3_energy   = ContinuousMovePgmEnergyBinpointScannable('egy_g_idu_lin_hor3_energy', cemc_g_idu_lin_hor3_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);           egy_g_idu_lin_hor3_energy.verbose=True
+
+#IDD Gap
+cemc_g_idd_circ_neg_energy = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idd_circ_neg_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idd_circ_neg_energy, 'SR10I-MO-SERVC-01:'); cemc_g_idd_circ_neg_energy.verbose=True
+egy_g_idd_circ_neg_energy  = ContinuousMovePgmEnergyBinpointScannable('egy_g_idd_circ_neg_energy', cemc_g_idd_circ_neg_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);            egy_g_idd_circ_neg_energy.verbose=True
+
+cemc_g_idd_circ_pos_energy = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idd_circ_pos_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idd_circ_pos_energy, 'SR10I-MO-SERVC-01:'); cemc_g_idd_circ_pos_energy.verbose=True
+egy_g_idd_circ_pos_energy  = ContinuousMovePgmEnergyBinpointScannable('egy_g_idd_circ_pos_energy', cemc_g_idd_circ_pos_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);            egy_g_idd_circ_pos_energy.verbose=True
+
+cemc_g_idd_lin_hor_energy  = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idd_lin_hor_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idd_lin_hor_energy, 'SR10I-MO-SERVC-01:');    cemc_g_idd_lin_hor_energy.verbose=True
+egy_g_idd_lin_hor_energy   = ContinuousMovePgmEnergyBinpointScannable('egy_g_idd_lin_hor_energy', cemc_g_idd_lin_hor_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);               egy_g_idd_lin_hor_energy.verbose=True
+
+cemc_g_idd_lin_ver_energy  = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idd_lin_ver_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idd_lin_ver_energy, 'SR10I-MO-SERVC-01:');    cemc_g_idd_lin_ver_energy.verbose=True
+egy_g_idd_lin_ver_energy   = ContinuousMovePgmEnergyBinpointScannable('egy_g_idd_lin_ver_energy', cemc_g_idd_lin_ver_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);               egy_g_idd_lin_ver_energy.verbose=True
+
+cemc_g_idd_lin_arbitrary_energy  = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idd_lin_arbitrary_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idd_lin_arbitrary_energy, 'SR10I-MO-SERVC-01:');cemc_g_idd_lin_arbitrary_energy.verbose=True
+egy_g_idd_lin_arbitrary_energy   = ContinuousMovePgmEnergyBinpointScannable('egy_g_idd_lin_arbitrary_energy', cemc_g_idd_lin_arbitrary_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);           egy_g_idd_lin_arbitrary_energy.verbose=True
