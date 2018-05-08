@@ -21,7 +21,7 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         self._start_event = threading.Event()
         self._energy_speed_orig = None
         self._movelog_time = datetime.now()
-        self._runupdown_time = None
+        self._pgm_runupdown_time = None
 
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
 
@@ -48,18 +48,18 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         # Set the speed before we read out ramp times in case it is dependent
         self._energy.speed = self._energy_speed 
         # Should really be / | | | | | \ not /| | | | |\
-        self._runupdown_time = self._energy.timeToVelocity
-        self._runupdown = self._energy_speed/2 * self._runupdown_time
+        self._pgm_runupdown_time = self._energy.timeToVelocity
+        self._pgm_runupdown = self._energy_speed/2 * self._pgm_runupdown_time
         ### Move motor at full speed to start position
         self._energy.speed = self._energy_speed_orig
         if self.getMoveDirectionPositive():
             if self.verbose: self.logger.info('prepareForMove:asynchronousMoveTo(%r) @ %r (+ve)' % (
-                                            self._move_start - self._runupdown, self._energy_speed_orig))
-            self._energy.asynchronousMoveTo(self._move_start - self._runupdown)
+                                            self._move_start - self._pgm_runupdown, self._energy_speed_orig))
+            self._energy.asynchronousMoveTo(self._move_start - self._pgm_runupdown)
         else:
             if self.verbose: self.logger.info('prepareForMove:asynchronousMoveTo(%r) @ %r (-ve)' % (
-                                            self._move_start + self._runupdown, self._energy_speed_orig))
-            self._energy.asynchronousMoveTo(self._move_start + self._runupdown)
+                                            self._move_start + self._pgm_runupdown, self._energy_speed_orig))
+            self._energy.asynchronousMoveTo(self._move_start + self._pgm_runupdown)
         self.waitWhileMoving()
         ### Calculate trigger delays
         if self.verbose:
@@ -75,12 +75,12 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         self._energy.speed = self._energy_speed
         if self.getMoveDirectionPositive():
             if self.verbose: self.logger.info('startMove:asynchronousMoveTo(%r) @ %r (+ve)' % (
-                                            self._move_end + self._runupdown, self._energy_speed))
-            self._energy.asynchronousMoveTo(self._move_end + self._runupdown)
+                                            self._move_end + self._pgm_runupdown, self._energy_speed))
+            self._energy.asynchronousMoveTo(self._move_end + self._pgm_runupdown)
         else:
             if self.verbose: self.logger.info('startMove:asynchronousMoveTo(%r) @ %r (-ve)' % (
-                                            self._move_end - self._runupdown, self._energy_speed))
-            self._energy.asynchronousMoveTo(self._move_end - self._runupdown)
+                                            self._move_end - self._pgm_runupdown, self._energy_speed))
+            self._energy.asynchronousMoveTo(self._move_end - self._pgm_runupdown)
         # How do we trigger the detectors, since they are 'HardwareTriggerable'?
         if self.verbose: self.logger.info('...End of startMove')
 
@@ -120,7 +120,7 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
         return totalTime
 
     def getTimeToVelocity(self):
-        return self._runupdown_time
+        return self._pgm_runupdown_time
 
     # Override: public abstract class DeviceBase implements Device, ConditionallyConfigurable, Localizable
 
@@ -162,7 +162,7 @@ class ContinuousPgmEnergyMoveController(ConstantVelocityMoveController, DeviceBa
             # how far through the scan this point is
             complete = abs( (self._demand_position - self._controller._move_start) /
                             (self._controller._move_end - self._controller._move_start) )
-            sleeptime_s = (self._controller._runupdown_time
+            sleeptime_s = (self._controller._pgm_runupdown_time
                 + (complete * self._controller.getTotalTime()))
             
             delta = datetime.now() - self._controller._start_time
