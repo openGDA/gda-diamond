@@ -79,7 +79,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         if self._operating_continuously:
             self._last_requested_position = position
         else:
-            raise Exception("asynchronousMoveTo only supports Continuous operation")
+            self._move_controller._id_energy.asynchronousMoveTo(position)
         self.mybusy=False
 
     def atScanLineStart(self):
@@ -110,7 +110,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             # Should be using getPositionCallable
             #return self._last_requested_position
         else:
-            raise Exception("getPosition only supports continuous operation")
+            return self._move_controller._id_energy.getPosition()
 
     def waitWhileBusy(self):
         if self.verbose: self.logger.info('waitWhileBusy()...')
@@ -119,13 +119,15 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
                 sleep(0.1)
             return # self._move_controller.waitWhileMoving()
         else:
-            raise Exception("waitWhileBusy only supports continuous operation")
+            while self.isBusy():
+                sleep(0.1)
+            return 
 
     def isBusy(self):
         if self._operating_continuously:
             return self.mybusy #self._move_controller.isBusy()
         else:
-            raise Exception("isBusy only supports continuous operation")
+            return self._move_controller._id_energy.isBusy()
 
     # public interface ScannableMotion extends Scannable
 
@@ -143,6 +145,21 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         else:
             #raise Exception()
             self._move_controller.atScanEnd()
+    
+    # we have to implement following scannable interface for it to work outside continuous scanning
+    def getExtraNames(self):
+        if self._operating_continuously:
+            raise Exception("getExtraNames() is not supported in Continuous operation")
+        else:
+            return self._move_controller._id_energy.getExtraNames()
+    
+    def getOutputFormat(self):
+        if self._operating_continuously:
+            raise Exception("getOutputFormat() is not supported in Continuous operation")
+        else:
+            return self._move_controller._id_energy.getOutputFormat()
+        
+        
         """ Note, self._operating_continuously is being set back to false before atScanEnd is being called. See:
 2015-02-04 21:43:26,833 INFO  ContinuousPgmEnergyScannable:egy - setOperatingContinuously(1) was 0
 ...
