@@ -9,6 +9,16 @@
 		<property name="url" value="http://I14-X-RAYEYE:8080/XREYE.mjpg.mjpg" />
 		<property name="arrayPv" value="BL14I-EA-XREYE-01:DET:ARR" />
 		<property name="sleepTime" value="5" />
+		<property name="cameraCalibration">
+            <bean class="uk.ac.gda.client.live.stream.view.CameraCalibration">
+                <property name="xAxisScannableName" value="stage1_x"/>
+                <property name="yAxisScannableName" value="stage1_y"/>
+                <property name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis  -->
+                <property name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
+                <property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
+                <property name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="xsp3_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
