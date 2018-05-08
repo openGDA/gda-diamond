@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=gda-client
 Type=Application
-Exec=GDA_StartRCP
+Exec=gda --start client
 Icon=/dls_sw/i11/software/gda/config/bin/icons/gda.png
 Icon[en_GB]=/dls_sw/i11/software/gda/config/bin/icons/gda.png
 Terminal=false

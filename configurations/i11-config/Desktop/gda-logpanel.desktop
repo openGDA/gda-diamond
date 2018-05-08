@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=gda-logpanel
 Type=Application
-Exec=gdalog
+Exec=gda --start logpanel
 Icon=/usr/share/pixmaps/gnome-log.png
 Icon[en_GB]=/usr/share/pixmaps/gnome-log.png
 Terminal=false
