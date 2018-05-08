@@ -16,7 +16,6 @@
 
 	<!-- Command Server -->
 	<import resource="file:${gda.config}/servers/main/_common/jythonServerFacade.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
