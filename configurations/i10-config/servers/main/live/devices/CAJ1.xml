@@ -25,7 +25,4 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<!-- <bean id="caj1_ctrl" class="gda.device.enumpositioner.EpicsQuadraCurrentAmplifier">
-		<property name="deviceName" value="CAJ1.CTRL"/>
-	</bean> -->
 </beans>
