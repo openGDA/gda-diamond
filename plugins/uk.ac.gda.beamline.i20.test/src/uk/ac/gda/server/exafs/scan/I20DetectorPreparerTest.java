@@ -24,6 +24,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -149,6 +150,12 @@ public class I20DetectorPreparerTest {
 
 		monoOptimiser = new MonoOptimisation(dummyMotor, ionchambers);
 		monoOptimiser.setAllowOptimisation(false);
+	}
+
+	@After
+	public void tearDown() {
+		// Remove factories from Finder so they do not affect other tests
+		Finder.getInstance().removeAllFactories();
 	}
 
 	private I20DetectorPreparer makePreparer(FluorescenceDetectorParameters params) {
