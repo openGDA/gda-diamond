@@ -163,6 +163,11 @@ from scannable.id_energys.idd_lin_energy import * # @UnusedWildImport
 from scannable.id_energys.idu_switchable import *  # @UnusedWildImport
 from scan.trajectory_scans import trajcscan, trajrscan  # @UnusedImport
 
+#create 'smode', 'pol', and 'enenry'
+from scannable.idcontrols.mode_polarisation_energy_instances import *  # @UnusedWildImport
+idd,idu = SourceMode.SOURCE_MODES
+pc,nc,lh,lv,la,lh3 = Polarisation.POLARISATIONS
+
 print
 print "*"*80
 #DiffCalc
