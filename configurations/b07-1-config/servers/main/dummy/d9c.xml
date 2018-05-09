@@ -11,7 +11,8 @@
 		<property name="collectionStrategy" ref="simCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
-				<ref bean="simRoiStats" />
+				<ref bean="simRoiStats1" />
+				<ref bean="simRoiStats2" />
 				<ref bean="simHdf5Filewriter" />
 			</list>
 		</property>
