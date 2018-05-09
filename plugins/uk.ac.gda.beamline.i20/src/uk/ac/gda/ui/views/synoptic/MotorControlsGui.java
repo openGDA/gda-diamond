@@ -50,6 +50,7 @@ import gda.device.ScannableMotionUnits;
 import gda.factory.Finder;
 import gda.observable.IObserver;
 import gda.rcp.GDAClientActivator;
+import uk.ac.diamond.daq.concurrent.Async;
 
 /**
  * Class to provide GUI elements for moving a motor and includes :
@@ -407,16 +408,9 @@ public class MotorControlsGui implements IObserver {
 			return;
 
 		currentWidgetStatus = Status.MOTOR_IS_MOVING;
-		Thread updateFromScannablePosThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				waitWhileScannableBusyAndUpdateGui();
-			}
-		});
+		Async.execute(this::waitWhileScannableBusyAndUpdateGui);
 
-		updateFromScannablePosThread.start();
 		logger.debug("Update motor position during motor move thread started");
-
 	}
 
 	public void waitWhileScannableBusyAndUpdateGui() {
