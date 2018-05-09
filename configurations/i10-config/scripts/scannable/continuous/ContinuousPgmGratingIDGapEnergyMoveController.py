@@ -11,7 +11,6 @@ from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
 from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating #, enecff2grating
 import threading, time
-from time import sleep
 
 class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveController, DeviceBase):
 
