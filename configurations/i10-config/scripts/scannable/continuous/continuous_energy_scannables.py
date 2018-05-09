@@ -13,12 +13,12 @@ from scannable.continuous.ContinuousMoveScannable import ContinuousMoveScannable
 from scannable.continuous.ContinuousPgmGratingEnergyMoveController import ContinuousPgmGratingEnergyMoveController
 from scannable.continuous.ContinuousMovePgmEnergyBinpointScannable import ContinuousMovePgmEnergyBinpointScannable
 #from scannable.continuous.ContinuousMovePgmEnergyIdJawPhaseBinpointScannable import ContinuousMovePgmEnergyIdJawPhaseBinpointScannable
+from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import ContinuousPgmGratingIDGapEnergyMoveController
 
 from gdaserver import pgm_energy, pgm_grat_pitch, pgm_m2_pitch
 from scannable.id_energys.idu_energy_gap import idu_circ_neg_energy,\
     idu_circ_pos_energy, idu_lin_hor_energy, idu_lin_ver_energy,\
     idu_lin_hor3_energy
-from scannable.continuous import ContinuousPgmGratingIDGapEnergyMoveController
 from scannable.id_energys.idd_energy_gap import idd_circ_neg_energy,\
     idd_circ_pos_energy, idd_lin_hor_energy, idd_lin_ver_energy
 from scannable.id_energys.idd_lin_energy import idd_lin_arbitrary_energy
