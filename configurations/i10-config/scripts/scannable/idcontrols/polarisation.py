@@ -17,6 +17,7 @@ from scannable.continuous.continuous_energy_scannables import egy_g_idd_circ_pos
     egy_g_idu_lin_hor3_energy
 from scannable.id_energys.idd_lin_energy import idd_lin_arbitrary_angle
 import __main__  # @UnresolvedImport
+from org.slf4j import LoggerFactory
 
 class Polarisation(ScannableBase):
     '''
@@ -29,6 +30,7 @@ class Polarisation(ScannableBase):
         '''
         Constructor - default polarisation mode is None
         '''
+        self.logger = LoggerFactory.getLogger("Polarisation:%s" % name)
         self.setName(name)
         self.mode=smode
         self.polarisation=defaultPolarisation
@@ -58,33 +60,74 @@ class Polarisation(ScannableBase):
         if mode == SourceMode.SOURCE_MODES[0]:
             if newpos == Polarisation.POLARISATIONS[0]:
                 __main__.energy = egy_g_idd_circ_pos_energy
+                if self.verbose: 
+                    message = "'energy' is switched to %s " % (egy_g_idd_circ_pos_energy.getName())
+                    print message
+                    self.logger.info(message)
+                
             elif newpos == Polarisation.POLARISATIONS[1]:
                 __main__.energy = egy_g_idd_circ_neg_energy
+                if self.verbose: 
+                    message = "'energy' is switched to %s " % (egy_g_idd_circ_neg_energy.getName())
+                    print message
+                    self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[2]:
                 __main__.energy = egy_g_idd_lin_hor_energy
+                if self.verbose: 
+                    message = "'energy' is switched to %s " % (egy_g_idd_lin_hor_energy.getName())
+                    print message
+                    self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[3]:
                 __main__.energy = egy_g_idd_lin_ver_energy
+                if self.verbose: 
+                    message = "'energy' is switched to %s " % (egy_g_idd_lin_ver_energy.getName())
+                    print message
+                    self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[4]:
                 __main__.energy = egy_g_idd_lin_arbitrary_energy
                 __main__.laa = idd_lin_arbitrary_angle
+                if self.verbose: 
+                    message = "'energy' is switched to %s " % (egy_g_idd_lin_arbitrary_energy.getName())
+                    print message
+                    self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[5]:
                 __main__.energy = None
                 raise Exception('Polarisation %s for source mode % is not supported: Energy Calibration is not available!' % (newpos, mode))
         elif mode == SourceMode.SOURCE_MODES[1]:
             if newpos == Polarisation.POLARISATIONS[0]:
                 __main__.energy = egy_g_idu_circ_pos_energy
+                if self.verbose: 
+                    message = "'energy' is switched to %s " % (egy_g_idu_circ_pos_energy.getName())
+                    print message
+                    self.logger.info(message)            
             elif newpos == Polarisation.POLARISATIONS[1]:
                 __main__.energy = egy_g_idu_circ_neg_energy
+                if self.verbose: 
+                    message = "'energy' is switched to %s " % (egy_g_idu_circ_neg_energy.getName())
+                    print message
+                    self.logger.info(message)            
             elif newpos == Polarisation.POLARISATIONS[2]:
                 __main__.energy = egy_g_idu_lin_hor_energy
+                if self.verbose: 
+                    message = "'energy' is switched to %s " % (egy_g_idu_lin_hor_energy.getName())
+                    print message
+                    self.logger.info(message)            
             elif newpos == Polarisation.POLARISATIONS[3]:
                 __main__.energy = egy_g_idu_lin_ver_energy
+                if self.verbose: 
+                    message = "'energy' is switched to %s " % (egy_g_idu_lin_ver_energy.getName())
+                    print message
+                    self.logger.info(message)            
             elif newpos == Polarisation.POLARISATIONS[4]:
                 __main__.energy = None
                 __main__.laa = None
                 raise Exception('Polarisation %s for source mode % is not supported: Energy Calibration is not available!' % (newpos, mode))
             elif newpos == Polarisation.POLARISATIONS[5]:
                 __main__.energy = egy_g_idu_lin_hor3_energy
+                if self.verbose: 
+                    message = "'energy' is switched to %s " % (egy_g_idu_lin_hor3_energy.getName())
+                    print message
+                    self.logger.info(message)            
             
         self.polarisation=newpos
         self.amIBusy=False
