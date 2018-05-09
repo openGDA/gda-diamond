@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="filter1_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-55.980" />
+		<property name="maxPosition" value="44.020" />
+		<property name="position" value="-3.1400e-06" />
+	</bean>
+
+	<bean id="filter2_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-64.720" />
+		<property name="maxPosition" value="35.280" />
+		<property name="position" value="-3.9800e-06" />
+	</bean>
+
+	<bean id="filter3_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-56.350" />
+		<property name="maxPosition" value="143.65" />
+		<property name="position" value="8.6000e-07" />
+	</bean>
+
+	<bean id="filter4_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-62.980" />
+		<property name="maxPosition" value="37.020" />
+		<property name="position" value="6.0000e-07" />
+	</bean>
+
+	<bean id="filter_aperture_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-60.100" />
+		<property name="maxPosition" value="39.900" />
+		<property name="position" value="0.007" />
+	</bean>
+
+	<bean id="filter_crlX_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-102.92" />
+		<property name="maxPosition" value="102.72" />
+		<property name="position" value="2.4614" />
+	</bean>
+
+	<bean id="filter_crlY_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-49.410" />
+		<property name="maxPosition" value="49.377" />
+		<property name="position" value="-15.39" />
+	</bean>
+
+	<bean id="filter_crlZ_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.90500" />
+		<property name="maxPosition" value="0.050000" />
+		<property name="position" value="-0.27" />
+	</bean>
+
+	<bean id="filter_crlYaw_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-14.047" />
+		<property name="maxPosition" value="912.95" />
+		<property name="position" value="10.498" />
+	</bean>
+
+</beans>

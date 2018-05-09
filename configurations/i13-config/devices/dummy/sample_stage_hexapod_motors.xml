@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="hex_rx_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50.000" />
+		<property name="maxPosition" value="50.000" />
+		<property name="position" value="-0.13300" />
+		<property name="unitString" value="deg" />
+	</bean>
+
+	<bean id="hex_ry_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50.000" />
+		<property name="maxPosition" value="50.000" />
+		<property name="position" value="0.0000" />
+		<property name="unitString" value="deg" />
+	</bean>
+
+	<bean id="hex_rz_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50.000" />
+		<property name="maxPosition" value="50.000" />
+		<property name="position" value="0.021000" />
+		<property name="unitString" value="deg" />
+	</bean>
+
+	<bean id="hex_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50.000" />
+		<property name="maxPosition" value="50.000" />
+		<property name="position" value="4.1500" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+	<bean id="hex_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="230.000" />
+		<property name="maxPosition" value="271.000" />
+		<property name="position" value="265.20" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+	<bean id="hex_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50.000" />
+		<property name="maxPosition" value="50.000" />
+		<property name="position" value="-1.0000" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+	<bean id="hex_rot_motor" class="gda.device.motor.DummyMotor">	
+		<property name="minPosition" value="-3000.0" />
+		<property name="maxPosition" value="1.0000e+09" />
+		<property name="position" value="0.98" />
+		<property name="unitString" value="deg" />
+	</bean>
+
+	<bean id="hex_samplex" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="11.750mm" />
+	</bean>
+
+	<bean id="hex_samplez" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="16.700mm" />
+	</bean>
+
+</beans>	

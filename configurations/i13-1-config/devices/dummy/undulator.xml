@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="id_gap_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="19.6" />
+		<property name="maxPosition" value="360.1" />
+		<property name="position" value="24.7" />
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+		<property name="local" value="true" />
+	</bean>
+	
+</beans>

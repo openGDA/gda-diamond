@@ -1,0 +1,62 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="simAD_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL99I-EA-DET-01:CAM:" />
+	</bean>
+
+	<bean id="simAD_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL99I-EA-DET-01:ARR:" />
+	</bean>
+
+	<bean id="simAD_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL99I-EA-DET-01:STAT:" />
+	</bean>
+
+	<bean id="simAD_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL99I-EA-DET-01:PROC:" />
+	</bean>
+
+	<bean id="simAD_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL99I-EA-DET-01:ROI:" />
+	</bean>
+
+	<bean id="simAD_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL99I-EA-DET-01:FFMPEG:" />
+	</bean>
+
+	<bean id="simAD_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="simAD_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="simAD_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL99I-EA-DET-01:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="simAD_hdf5_filewriter_nochunking" parent="abstract_hdf5_filewriter_nochunking">
+		<property name="ndFileHDF5" ref="simAD_ndhdf5file" />
+		<property name="fileNameTemplate" value="simAD"/>
+		<property name="filePathTemplate" value="$datadir$/hdf"/>
+	</bean>
+
+
+	<bean id="simAD_cam_collection_strategy" class="gda.device.detector.addetector.triggering.SimpleAcquire">
+		<constructor-arg ref="simAD_cam_base" />
+		<constructor-arg value="0." />
+	</bean>
+
+	<bean id="simAD_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="simAD_cam" />
+		<property name="collectionStrategy" ref="simAD_cam_collection_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="simAD_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>
+
+
+</beans>	

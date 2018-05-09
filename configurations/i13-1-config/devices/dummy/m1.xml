@@ -1,0 +1,62 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="m1_coarsepitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1520.0" />
+		<property name="maxPosition" value="6520.0" />
+		<property name="position" value="1625.1" />
+	</bean>
+
+	<bean id="m1_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-3271.0" />
+		<property name="maxPosition" value="1749.0" />
+		<property name="position" value="0.0005" />
+	</bean>
+
+	<bean id="m1_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-93.020" />
+		<property name="maxPosition" value="92.000" />
+		<property name="position" value="-2.6996" />
+	</bean>
+
+	<bean id="m1_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-908.8" />
+		<property name="maxPosition" value="15.2" />
+		<property name="position" value="0.0001" />
+	</bean>
+
+	<bean id="m1_coarse_pitch_motor_temp" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="21.2" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="m1_cooling_blade1_temp" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="16.0" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="m1_cooling_blade2_temp" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="21.4" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="m1_mask_temp" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="22.3" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="kb_hroll_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="kb_hbend1_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="kb_hbend2_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="kb_htrans_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="kb_vtrans_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="kb_vroll_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="kb_vbend1_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="kb_vbend2_motor" class="gda.device.motor.DummyMotor"/>
+	
+</beans>	

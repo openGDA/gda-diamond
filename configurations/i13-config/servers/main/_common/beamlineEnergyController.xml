@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="id_gap_eV_mode1_convertor" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="id_gap_eV_mode1_convertor" />
+		<constructor-arg value="id_gap_eV_mode_convertor.txt" />
+		<constructor-arg value="1" />
+		<constructor-arg value="0" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="id_gap_eV_mode3_convertor" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="id_gap_eV_mode3_convertor" />
+		<constructor-arg value="id_gap_eV_mode_convertor.txt" />
+		<constructor-arg value="2" />
+		<constructor-arg value="0" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="id_gap_eV_mode5_convertor" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="id_gap_eV_mode5_convertor" />
+		<constructor-arg value="id_gap_eV_mode_convertor.txt" />
+		<constructor-arg value="3" />
+		<constructor-arg value="0" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="id_gap_eV_mode7_convertor" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="id_gap_eV_mode7_convertor" />
+		<constructor-arg value="id_gap_eV_mode_convertor.txt" />
+		<constructor-arg value="4" />
+		<constructor-arg value="0" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="id_gap_eV_mode9_convertor" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="id_gap_eV_mode9_convertor" />
+		<constructor-arg value="id_gap_eV_mode_convertor.txt" />
+		<constructor-arg value="5" />
+		<constructor-arg value="0" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="id_gap_eV_mode11_convertor" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="id_gap_eV_mode11_convertor" />
+		<constructor-arg value="id_gap_eV_mode_convertor.txt" />
+		<constructor-arg value="6" />
+		<constructor-arg value="0" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="id_gap_eV_mode13_convertor" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="id_gap_eV_mode13_convertor" />
+		<constructor-arg value="id_gap_eV_mode_convertor.txt" />
+		<constructor-arg value="7" />
+		<constructor-arg value="0" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="id_gap_eV_mode15_convertor" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="id_gap_eV_mode15_convertor" />
+		<constructor-arg value="id_gap_eV_mode_convertor.txt" />
+		<constructor-arg value="8" />
+		<constructor-arg value="0" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="id_gap_eV_mode17_convertor" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="id_gap_eV_mode17_convertor" />
+		<constructor-arg value="id_gap_eV_mode_convertor.txt" />
+		<constructor-arg value="9" />
+		<constructor-arg value="0" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="id_gap_eV_mode19_convertor" class="gda.util.converters.LookupTableConverterHolder">
+		<constructor-arg value="id_gap_eV_mode19_convertor" />
+		<constructor-arg value="id_gap_eV_mode_convertor.txt" />
+		<constructor-arg value="10" />
+		<constructor-arg value="0" />
+		<constructor-arg value="Both" />
+	</bean>
+	<bean id="id_mode1" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="id_gap"/>
+		<property name="convertor" ref="id_gap_eV_mode1_convertor"/>	
+		<property name="lowerGdaLimits" value="1401.87"/>
+		<property name="upperGdaLimits" value="3792.26"/>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	<bean id="id_mode3" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="id_gap"/>
+		<property name="convertor" ref="id_gap_eV_mode3_convertor"/>	
+		<property name="lowerGdaLimits" value="4205.62"/>
+		<property name="upperGdaLimits" value="11376.8"/>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	<bean id="id_mode5" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="id_gap"/>
+		<property name="convertor" ref="id_gap_eV_mode5_convertor"/>	
+		<property name="lowerGdaLimits" value="7009.36"/>
+		<property name="upperGdaLimits" value="18772.2"/>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	<bean id="id_mode7" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="id_gap"/>
+		<property name="convertor" ref="id_gap_eV_mode7_convertor"/>	
+		<property name="lowerGdaLimits" value="9813.11"/>
+		<property name="upperGdaLimits" value="25259.5"/>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	<bean id="id_mode9" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="id_gap"/>
+		<property name="convertor" ref="id_gap_eV_mode9_convertor"/>	
+		<property name="lowerGdaLimits" value="12616.9"/>
+		<property name="upperGdaLimits" value="30811.7"/>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	<bean id="id_mode11" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="id_gap"/>
+		<property name="convertor" ref="id_gap_eV_mode11_convertor"/>	
+		<property name="lowerGdaLimits" value="15420.6"/>
+		<property name="upperGdaLimits" value="35338.6"/>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	<bean id="id_mode13" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="id_gap"/>
+		<property name="convertor" ref="id_gap_eV_mode13_convertor"/>	
+		<property name="lowerGdaLimits" value="18224.3"/>
+		<property name="upperGdaLimits" value="39829.2"/>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	<bean id="id_mode15" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="id_gap"/>
+		<property name="convertor" ref="id_gap_eV_mode15_convertor"/>	
+		<property name="lowerGdaLimits" value="21028.1"/>
+		<property name="upperGdaLimits" value="43683.2"/>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	<bean id="id_mode17" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="id_gap"/>
+		<property name="convertor" ref="id_gap_eV_mode17_convertor"/>	
+		<property name="lowerGdaLimits" value="23831.8"/>
+		<property name="upperGdaLimits" value="46930.6"/>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+	<bean id="id_mode19" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="id_gap"/>
+		<property name="convertor" ref="id_gap_eV_mode19_convertor"/>	
+		<property name="lowerGdaLimits" value="26635.6"/>
+		<property name="upperGdaLimits" value="49613.5"/>
+		<property name="initialUserUnits" value="eV" />
+	</bean>
+
+
+ 	<bean id="BeamLineEnergy_Angstrom_To_eV_converter" class="gda.util.converters.JEPConverterHolder">
+		<constructor-arg value="BeamLineEnergy_Angstrom_To_eV_converter" />
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/BeamLineEnergy_Angstrom_To_eV_converter.xml" />
+	</bean>
+	
+	<bean id="BeamLineEnergy_eV_To_Angstrom_converter" class="gda.util.converters.JEPConverterHolder">
+		<constructor-arg value="BeamLineEnergy_eV_To_Angstrom_converter" />
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/BeamLineEnergy_eV_To_Angstrom_converter.xml" />
+	</bean>
+
+	<bean id="BeamLineEnergy_DCM_Angstrom_To_Deg_converter" class="gda.util.converters.JEPConverterHolder">
+		<constructor-arg value="BeamLineEnergy_DCM_Angstrom_To_Deg_converter" />
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/BeamLineEnergy_DCM_Angstrom_To_Deg_converter.xml" />
+	</bean>
+	<bean id="BeamLineEnergy_DCM_eV_To_Deg_converter" class="gda.util.converters.CoupledConverterHolder">
+		<constructor-arg value="BeamLineEnergy_DCM_eV_To_Deg_converter" />
+		<constructor-arg ref="BeamLineEnergy_eV_To_Angstrom_converter" />
+		<constructor-arg ref="BeamLineEnergy_DCM_Angstrom_To_Deg_converter" />
+	</bean>
+	
+	<bean id="dcm_energy" class="gda.device.scannable.ConvertorScannable">
+		<property name="scannable" ref="dcm_bragg"/>
+		<property name="convertor" ref="BeamLineEnergy_DCM_eV_To_Deg_converter"/>	
+		<property name="lowerGdaLimits" value="1000"/>
+		<property name="upperGdaLimits" value="50000"/>
+		<property name="initialUserUnits" value="keV" />
+	</bean>
+	
+</beans>

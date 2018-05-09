@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="m1_coarsepitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-OP-MIRR-01:PITCH:COARSE" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1_bender_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-OP-MIRR-01:CURVATURE" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-OP-MIRR-01:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-OP-MIRR-01:Y" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1_finepitch" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-OP-MIRR-01:PIEZOCTL:SVA:WR" />
+		<property name="useNameAsInputName" value="true" />
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+
+	<bean id="m1_mask_temp" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-OP-MIRR-01:T1" />
+		<property name="useNameAsInputName" value="true" />
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+
+	<bean id="m1_cooling_blade1_temp" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-OP-MIRR-01:T2" />
+		<property name="useNameAsInputName" value="true" />
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+
+	<bean id="m1_cooling_blade2_temp" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-OP-MIRR-01:T3" />
+		<property name="useNameAsInputName" value="true" />
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+
+	<bean id="m1_upstr_bend_plate_temp" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-OP-MIRR-01:T4" />
+		<property name="useNameAsInputName" value="true" />
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+
+	<bean id="m1_downstr_bend_plate_temp" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-OP-MIRR-01:T5" />
+		<property name="useNameAsInputName" value="true" />
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+
+</beans>

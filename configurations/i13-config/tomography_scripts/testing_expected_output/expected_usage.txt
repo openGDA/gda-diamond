@@ -1,0 +1,22 @@
+Version $Id: sino_listener.py 232 2012-04-11 13:21:04Z kny48981 $
+Usage:program
+-i input dir (currently: projections)
+-o output dir (currently: sinograms)
+-p number of projections (currently 6000 )
+    NOT automatically determined!
+-w width (currently 4008 )
+-l length (height) of the image(currently 2672)
+-F number of first chunk (currently 1)
+-L number of last chunk (currently same as number of chunks)
+-n total number chunks (currently 16)
+-J job hame
+-j suffix of job name
+-b bytes per pixel (currently 2)
+-s number of segments (currently 1)
+-Z timeout (currently 10)
+-z check interval (currently 1)
+-Q queue (currently medium.q)
+-U Unique ID (currently use PID)
+-I input filename format (C out.writef style) (currently p_%05d.tif)
+-1 start numbering of input files from 1 instead of 0
+-t do nothing. Just create the bash script file

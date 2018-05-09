@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s4_xsize_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-200.0" />
+		<property name="maxPosition" value="100.0" />
+		<property name="position" value="2.0" />
+	</bean>
+
+	<bean id="s4_xcenter_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50.0" />
+		<property name="maxPosition" value="50.0" />
+		<property name="position" value="0.18" />
+	</bean>
+
+	<bean id="s4_ysize_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50.0" />
+		<property name="maxPosition" value="50.0" />
+		<property name="position" value="2.0" />
+	</bean>
+
+	<bean id="s4_ycenter_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50.0" />
+		<property name="maxPosition" value="50.0" />
+		<property name="position" value="-0.115" />
+	</bean>
+	
+	<bean id="s4_xplus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-202.67" />
+		<property name="maxPosition" value="37.793" />
+		<property name="position" value="1.18" />
+	</bean>
+
+	<bean id="s4_xminus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-32.135" />
+		<property name="maxPosition" value="25.475" />
+		<property name="position" value="-0.82" />
+	</bean>
+
+	<bean id="s4_yplus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-19.885" />
+		<property name="maxPosition" value="34.99" />
+		<property name="position" value="0.885" />
+	</bean>
+
+	<bean id="s4_yminus_motor" class="gda.device.motor.DummyMotor">	
+		<property name="minPosition" value="-34.919" />
+		<property name="maxPosition" value="19.2" />
+		<property name="position" value="-1.115" />
+	</bean>
+
+</beans>

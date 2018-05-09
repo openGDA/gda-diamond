@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Help handler -->
+	<bean id="helpHandler" class="uk.ac.gda.client.HelpHandlerImpl">
+		<property name="filePath" value="${gda.var}/helpHandler.txt" />
+	</bean>
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.client.HelpHandler" />
+		<property name="service" ref="helpHandler" />
+	</bean>
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
+		<property name="service" ref="dataCollectionADController" />
+		<property name="properties">
+			<bean class="java.util.Hashtable">
+				<constructor-arg>
+					<map>
+						<entry key="SERVICE_NAME" value="dataCollectionADService" />
+					</map>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Command runner -->
+	<bean id="commandRunner" class="gda.jython.CommandRunnerBean" />
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="gda.jython.ICommandRunner" />
+		<property name="service" ref="commandRunner" />
+	</bean>
+
+</beans>

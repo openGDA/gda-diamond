@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<bean id="pco1_singleExposureStandard" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="pco1_cam_base" />
+		<constructor-arg value=".03" />
+	</bean>
+	
+	<bean id="pco1_sw" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_sw"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_singleExposureStandard" />
+		<property name="additionalPluginList">
+			<list>
+			<bean class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
+				<constructor-arg ref="pco1_arr"/>
+			</bean>
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="pco1_hw_tif" class="gda.device.detector.DummyNXDetector">
+		<constructor-arg value="pco1_hw_tif" />
+		<constructor-arg value="1" />
+	</bean>
+
+</beans>

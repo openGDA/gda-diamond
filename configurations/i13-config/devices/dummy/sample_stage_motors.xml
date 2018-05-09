@@ -1,0 +1,79 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="ss1_rot_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10000" />
+		<property name="maxPosition" value="10000" />
+		<property name="position" value="175.99" />
+		<property name="unitString" value="deg" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-90.000" />
+		<property name="maxPosition" value="90.000" />
+		<property name="position" value="-0.056993" />
+		<property name="unitString" value="deg" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-90.000" />
+		<property name="maxPosition" value="90.000" />
+		<property name="position" value="-0.40900" />
+		<property name="unitString" value="deg" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_X_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-25.100" />
+		<property name="maxPosition" value="25.100" />
+		<property name="position" value="1.9035" />
+		<property name="unitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_Y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.13100" />
+		<property name="maxPosition" value="12.100" />
+		<property name="position" value="8.2018" />
+		<property name="unitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_Z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-25.600" />
+		<property name="maxPosition" value="25.300" />
+		<property name="position" value="-0.95708" />
+		<property name="unitString" value="mm" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_samplex_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-80000" />
+		<property name="maxPosition" value="8.0000e+05" />
+		<property name="position" value="330.00" />
+		<property name="unitString" value="um" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_sampley_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-80000" />
+		<property name="maxPosition" value="80000" />
+		<property name="position" value="1510.0" />
+		<property name="unitString" value="um" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss1_samplez_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.1180e+06" />
+		<property name="maxPosition" value="1.1180e+06" />
+		<property name="position" value="-1555.0" />
+		<property name="unitString" value="um" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

@@ -1,0 +1,155 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
+	<bean id="ss1_rot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_rot_motor" />
+	</bean>
+	<bean id="ss1_X" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_X_motor" />
+	</bean>
+	<bean id="ss1_Y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_Y_motor" />
+	</bean>
+	<bean id="ss1_Z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_Z_motor" />
+	</bean>
+	<bean id="ss1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_pitch_motor" />
+	</bean>
+	<bean id="ss1_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_roll_motor" />
+	</bean>
+	
+
+	<bean id="ss1_samplex" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_samplex_motor" />
+	</bean>
+	<bean id="ss1_sampley" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_sampley_motor" />
+	</bean>
+	<bean id="ss1_samplez" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_samplez_motor" />
+	</bean>
+
+
+
+<!-- At rot=0 ss1_samplex points along the DLS x direction and ss1_samplez points in the direction to DLS z
+
+The rotation is anticlockwise .
+
+At ss1_samplex = 5 rot=0 then ss1_x should be 5 and ss1_z 0.
+At ss1_samplex = 5 rot=90 then ss1_x should be 0 and ss1_z 5.
+    
+ -->
+	<bean id="ss1_x" class="gda.device.scannable.ScannableRotatingGonio">
+		<property name="xScannableMotor" ref="ss1_samplex"/>
+		<property name="yScannableMotor" ref="ss1_samplez"/>
+<!-- IF USING SMARTACT THEN SCALE IS 1.0 		<property name="xScannableScale" value="-1.0"/>	
+ -->		<property name="xScannableScale" value="1.0"/>	
+<!-- IF USING SMARTACT THEN SCALE IS -1.0		<property name="yScannableScale" value="1.0"/>
+ -->		<property name="yScannableScale" value="-1.0"/>
+		<property name="rotScannableMotor" ref="ss1_rot"/>
+		<property name="rotScannableOffset" value="0"/>
+		<property name="inputNames" value="ss1_x"/>
+	</bean>
+ 	<bean id="ss1_z" class="gda.device.scannable.ScannableRotatingGonio">
+		<property name="xScannableMotor" ref="ss1_samplex"/>
+		<property name="yScannableMotor" ref="ss1_samplez"/>
+		<property name="rotScannableMotor" ref="ss1_rot"/>
+<!-- IF USING SMARTACT THEN SCALE IS 1.0 		<property name="xScannableScale" value="-1.0"/>
+ -->		<property name="xScannableScale" value="1.0"/>
+<!-- IF USING SMARTACT THEN SCALE IS -1.0		<property name="yScannableScale" value="1.0"/>
+ -->		<property name="yScannableScale" value="-1.0"/>
+		<property name="rotScannableOffset" value="0"/>
+		<property name="reportX" value="false"/>
+		<property name="inputNames" value="ss1_z"/>
+	</bean>
+
+	<bean id="sample_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ss1_X" />
+				<ref bean="ss1_Y" />
+				<ref bean="ss1_Z" />
+				<ref bean="ss1_samplex" />
+				<ref bean="ss1_sampley" />
+				<ref bean="ss1_samplez" />
+				<ref bean="ss1_rot" />
+				<ref bean="ss1_pitch" />
+				<ref bean="ss1_roll" />
+				<ref bean="ss1_x" />
+				<ref bean="ss1_z" />
+				<ref bean="ss1_X_dummy" />
+				<ref bean="ss1_rot_dummy" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_X" />
+		<property name="service" ref="ss1_X" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_Y" />
+		<property name="service" ref="ss1_Y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_Z" />
+		<property name="service" ref="ss1_Z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_samplex" />
+		<property name="service" ref="ss1_samplex" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_sampley" />
+		<property name="service" ref="ss1_sampley" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_samplez" />
+		<property name="service" ref="ss1_samplez" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_rot" />
+		<property name="service" ref="ss1_rot" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_x" />
+		<property name="service" ref="ss1_x" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/ss1_z" />
+		<property name="service" ref="ss1_z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+
+<!-- 	<bean id="sampleXYZ" class="gda.device.scannable.SampleXYZScannable">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ss1_samplex" />
+				<ref bean="ss1_sampley" />
+				<ref bean="ss1_samplez" />
+			</list>
+		</property>
+		<property name="omegaScannable" ref="ss1_rot" />
+		<property name="omegaDirection" value="ANTICLOCKWISE" />
+		<property name="axisOrientationMatrix" value="{{-1,0,0},{0,-1,0},{0,0,1}}" />
+	</bean> -->
+</beans>
+

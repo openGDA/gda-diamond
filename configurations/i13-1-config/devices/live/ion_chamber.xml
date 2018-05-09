@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<description> Ion chamber in Experiment Hutch</description>
+
+	<bean id="ionc_i" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL13J-DI-IONC-01:I"/>
+	</bean>
+
+	<bean id="ionc_gain" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL13J-DI-FEMTO-06:GAIN"/>
+	</bean>
+
+	<bean id="ionc_coupling" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL13J-DI-FEMTO-06:ACDC"/>
+	</bean>
+
+	<bean id="ionc_photonflux" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<!-- need an EGU value that EPICS ((DBR_CTRL_Double) dbr).getUnits(); will not pass '/' -->
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL13J-DI-IONC-01:HRPHOTONRATE"/>
+	</bean>
+
+	<bean id="ic2" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="pvName" value="BL13J-DI-IONC-02:I"/>
+	</bean>
+
+	<bean id="ic2_rate" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="pvName" value="BL13J-DI-IONC-02:HRPHOTONRATE"/>
+	</bean>
+
+</beans>
+	

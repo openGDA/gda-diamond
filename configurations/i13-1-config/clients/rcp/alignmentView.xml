@@ -1,0 +1,121 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean id="sampleCentring" class="gda.rcp.views.StageCompositeFactory">
+		<property name="stageCompositeDefinitions">
+			<util:list value-type="gda.rcp.views.StageCompositeDefinition">
+				<bean class="gda.rcp.views.StageCompositeDefinition">
+					<property name="scannable" ref="t1_sx" />
+					<property name="stepSize" value="10" />
+					<property name="decimalPlaces" value="0" />
+				</bean>
+				<bean class="gda.rcp.views.StageCompositeDefinition">
+					<property name="scannable" ref="t1_sy" />
+					<property name="stepSize" value="10" />
+					<property name="decimalPlaces" value="0" />
+				</bean>
+ 				<bean class="gda.rcp.views.StageCompositeDefinition">
+					<property name="scannable" ref="t1_sz" />
+					<property name="stepSize" value="10" />
+					<property name="decimalPlaces" value="0" />
+				</bean>
+ 				<bean class="gda.rcp.views.StageCompositeDefinition">
+					<property name="scannable" ref="t1_theta" />
+					<property name="stepSize" value="45" />
+					<property name="decimalPlaces" value="1" />
+				</bean>
+			</util:list>
+		</property>
+		<property name="labelWidth" value="100" />
+	</bean>
+
+	<bean id="base" class="gda.rcp.views.StageCompositeFactory">
+		<property name="stageCompositeDefinitions">
+			<util:list value-type="gda.rcp.views.StageCompositeDefinition">
+				<bean class="gda.rcp.views.StageCompositeDefinition">
+					<property name="scannable" ref="t1_x" />
+					<property name="stepSize" value=".1" />
+					<property name="decimalPlaces" value="2" />
+				</bean>
+				<bean class="gda.rcp.views.StageCompositeDefinition">
+					<property name="scannable" ref="t1_y" />
+					<property name="stepSize" value=".1" />
+					<property name="decimalPlaces" value="2" />
+				</bean>
+				<bean class="gda.rcp.views.StageCompositeDefinition">
+					<property name="scannable" ref="t1_z" />
+					<property name="stepSize" value=".1" />
+					<property name="decimalPlaces" value="2" />
+				</bean>
+			</util:list>
+		</property>
+		<property name="labelWidth" value="100" />
+	</bean>
+
+	<bean id="slit6" class="gda.rcp.views.StageCompositeFactory">
+		<property name="stageCompositeDefinitions">
+			<util:list value-type="gda.rcp.views.StageCompositeDefinition">
+				<bean class="gda.rcp.views.StageCompositeDefinition">
+					<property name="scannable" ref="s6_xplus" />
+					<property name="stepSize" value=".1" />
+				</bean>
+				<bean class="gda.rcp.views.StageCompositeDefinition">
+					<property name="scannable" ref="s6_xminus" />
+					<property name="stepSize" value=".1" />
+				</bean>
+				<bean class="gda.rcp.views.StageCompositeDefinition">
+					<property name="scannable" ref="s6_yplus" />
+					<property name="stepSize" value=".1" />
+				</bean>
+				<bean class="gda.rcp.views.StageCompositeDefinition">
+					<property name="scannable" ref="s6_yminus" />
+					<property name="stepSize" value=".1" />
+				</bean>
+			</util:list>
+		</property>
+		<property name="labelWidth" value="100" />
+	</bean>
+
+	<bean id="stages" class="gda.rcp.views.TabFolderCompositeFactory">
+		<property name="factories">
+			<util:list>
+				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
+					<property name="compositeFactory" ref="sampleCentring" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13-1" />
+					<property name="imageFilePath" value="icons/samplestage.gif" />
+					<property name="label" value="Sample Centring" />
+					<property name="enabled" value="true" />
+				</bean>
+ 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
+					<property name="compositeFactory" ref="base" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13-1" />
+					<property name="imageFilePath" value="icons/samplebasestage.gif" />
+					<property name="label" value="Base" />
+					<property name="enabled" value="true" />
+				</bean>
+ 				<bean class="gda.rcp.views.TabCompositeFactoryImpl">
+					<property name="compositeFactory" ref="slit6" />
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i13-1" />
+					<property name="imageFilePath" value="icons/camerastage.gif" />
+					<property name="label" value="Slit 6" />
+					<property name="enabled" value="true" />
+				</bean>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="alignmentView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
+		<property name="viewTitle" value="Alignment" />
+		<property name="compositeFactories">
+			<list>
+				<ref bean="stages" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

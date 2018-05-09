@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="phase_ring_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-8.0000e+05" />
+		<property name="maxPosition" value="8.0000e+05" />
+		<property name="position" value="2179.7" />
+		<property name="unitString" value="um" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="phase_ring_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-8.0000e+05" />
+		<property name="maxPosition" value="8.0000e+05" />
+		<property name="position" value="-6000.0" />
+		<property name="unitString" value="um" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="phase_ring_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-8.0000e+05" />
+		<property name="maxPosition" value="8.0000e+05" />
+		<property name="position" value="-550.00" />
+		<property name="unitString" value="um" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>	

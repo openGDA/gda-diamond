@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s5_xsize_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5000.0" />
+		<property name="maxPosition" value="5000.0" />
+		<property name="position" value="29.161" />
+	</bean>
+
+	<bean id="s5_xcenter_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-500.0" />
+		<property name="maxPosition" value="500.0" />
+		<property name="position" value="-2.0077" />
+	</bean>
+
+	<bean id="s5_ysize_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5000.0" />
+		<property name="maxPosition" value="5000.0" />
+		<property name="position" value="29.242" />
+	</bean>
+
+	<bean id="s5_ycenter_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-500.0" />
+		<property name="maxPosition" value="500.0" />
+		<property name="position" value="-1.8131" />
+	</bean>
+	
+	<bean id="s5_xplus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-7.4274" />
+		<property name="maxPosition" value="32.573" />
+		<property name="position" value="12.573" />
+	</bean>
+
+	<bean id="s5_xminus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-36.588" />
+		<property name="maxPosition" value="3.4121" />
+		<property name="position" value="-16.588" />
+	</bean>
+
+	<bean id="s5_yplus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-17.192" />
+		<property name="maxPosition" value="32.808" />
+		<property name="position" value="12.808" />
+	</bean>
+
+	<bean id="s5_yminus_motor" class="gda.device.motor.DummyMotor">	
+		<property name="minPosition" value="-36.434" />
+		<property name="maxPosition" value="3.5658" />
+		<property name="position" value="-16.434" />
+	</bean>
+	
+</beans>

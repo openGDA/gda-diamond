@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="afg_chan1_ampl" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL13J-EA-FNGEN-01:CHAN1:AMPLITUDE"/>
+	</bean>
+
+	<bean id="afg_chan1_state" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="getAsString" value="true" />
+		<property name="pvName" value="BL13J-EA-FNGEN-01:CHAN1:OUTPUT:STATE"/>
+	</bean>
+
+</beans>

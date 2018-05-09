@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- See http://confluence.diamond.ac.uk/pages/viewpage.action?pageId=34408861 -->
+
+	<bean id="rcellKthetaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-RCELL-01:KTHETA" />
+		<property name="local" value="true" />
+		<property name="assertHomedBeforeMoving" value="false" />
+	</bean>
+
+	<bean id="rcellKphiMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-RCELL-01:KPHI" />
+		<property name="local" value="true" />
+		<property name="assertHomedBeforeMoving" value="false" />
+	</bean>
+
+	<bean id="diffSthetaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-DIFF-01:STHETA" />
+		<property name="local" value="true" />
+		<property name="assertHomedBeforeMoving" value="false" />
+	</bean>
+
+	<bean id="diffSkappaMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-DIFF-01:SKAPPA" />
+		<property name="local" value="true" />
+		<property name="assertHomedBeforeMoving" value="false" />
+	</bean>
+
+	<bean id="diffSphiMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-MO-DIFF-01:SPHI" />
+		<property name="local" value="true" />
+		<property name="assertHomedBeforeMoving" value="false" />
+	</bean>
+
+	<bean id="rcellDeferFlag" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL13J-MO-RCELL-01:DEFERRED" />
+		<property name="pvNameGetPoint" value="BL13J-MO-RCELL-01:DEFERRED" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>	

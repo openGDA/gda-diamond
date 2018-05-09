@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="p2r_telnet" class="gda.io.socket.SocketBidiAsciiCommunicator">
+		<!-- <property name="address" value="172.23.113.129"/> -->
+		<!-- <property name="address" value="172.23.113.113"/> -->
+		<property name="address" value="172.23.113.16"/>
+		<property name="port" value="23"/>
+	</bean>
+
+	<bean id="p2rSM1" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="p2r_rot_motor" />
+		<property name="zebraConstantVelocityMoveController" ref="p2rcvmc" />
+		<property name="scurveTimeToVelocity" value="3.0" />
+		<property name="local" value="true" />
+	</bean>	
+	
+</beans>	

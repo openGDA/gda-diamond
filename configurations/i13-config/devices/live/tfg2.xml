@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="daserver" class="gda.device.detector.DAServer">
+		<property name="local" value="true" />
+		<property name="host" value="bl13i-ea-tfg2-01" />
+		<property name="port" value="1972" />
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+	</bean>
+
+	<!--  Time Frame Generator -->
+	<bean id="tfg" class="gda.device.timer.Etfg">
+		<property name="daServer" ref="daserver" />
+	</bean>
+
+</beans>

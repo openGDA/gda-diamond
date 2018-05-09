@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.dls.client"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.epics"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.video.views"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/uk.ac.gda.epics.adviewer"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

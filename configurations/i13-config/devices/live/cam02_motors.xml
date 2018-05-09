@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="cam02_focus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-MO-CAM-02:FOCUS"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="cam02_focus_pos" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL13I-MO-CAM-02:FOCUS:MP" />
+	</bean>
+
+	<bean id="cam02_rotation_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-MO-CAM-02:ROT"/>
+		<property name="local" value="true" />
+	</bean>
+
+ 	<bean id="cam02_objective" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL13I-MO-CAM-02:TURRET:MP" />
+	</bean>
+
+</beans>

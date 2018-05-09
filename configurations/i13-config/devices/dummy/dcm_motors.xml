@@ -1,0 +1,93 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="dcm_bragg_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm_bragg_motor" />
+		<property name="minPosition" value="-106.88" />
+		<property name="maxPosition" value="93.123" />
+		<property name="position" value="23" />
+	</bean>
+
+	<bean id="dcm_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm_pitch_motor" />
+		<property name="minPosition" value="-78200" />
+		<property name="maxPosition" value="78200" />
+		<property name="position" value="29999.9" />
+		<property name="unitString" value="urad" />
+	</bean>
+
+	<bean id="dcm_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm_roll_motor" />
+		<property name="minPosition" value="-100.00" />
+		<property name="maxPosition" value="100.00" />
+		<property name="position" value="24.53" />
+		<property name="unitString" value="kcts" />
+	</bean>
+
+	<bean id="dcm_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm_y_motor" />
+		<property name="minPosition" value="10.374" />
+		<property name="maxPosition" value="20.800" />
+		<property name="position" value="20" />
+	</bean>
+
+	<bean id="dcm_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm_z_motor" />
+		<property name="minPosition" value="20.734" />
+		<property name="maxPosition" value="114.63" />
+		<property name="position" value="25" />
+	</bean>
+
+	<bean id="dcm_downstream_jack_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm_downstream_jack_motor" />
+		<property name="minPosition" value="-7.6900" />
+		<property name="maxPosition" value="8.1900" />
+		<property name="position" value="-7.43398" />
+	</bean>
+
+	<bean id="dcm_upstream_jack_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm_upstream_jack_motor" />
+		<property name="minPosition" value="-7.8200" />
+		<property name="maxPosition" value="8.1900" />
+		<property name="position" value="-7.56601" />
+	</bean>
+
+	<bean id="dcm_inboard_jack_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm_inboard_jack_motor" />
+		<property name="minPosition" value="-7.7600" />
+		<property name="maxPosition" value="8.1900" />
+		<property name="position" value="-7.43399" />
+	</bean>
+
+	<bean id="dcm_beamline_energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm_beamline_energy_motor" />
+		<property name="position" value="8.3" />
+	</bean>
+
+	<bean id="dcm_id_detune_motor" class="gda.device.motor.DummyMotor">
+		<property name="name" value="dcm_id_detune_motor" />
+		<property name="position" value="0" />
+	</bean>
+
+	<bean id="dcm_fine_pitch_demand" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="dcm_fine_pitch_demand" />
+		<property name="currentPosition" value="79.000urad" />
+	</bean>
+
+	<bean id="dcm_fine_pitch" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="dcm_fine_pitch" />
+		<property name="currentPosition" value="1.2228urad" />
+	</bean>
+	
+	<bean id="dcm_mode" class="gda.device.enumpositioner.DummyEnumPositioner" >
+		<property name="positions">
+			<list>
+				<value>Pink</value>
+				<value>Mono</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

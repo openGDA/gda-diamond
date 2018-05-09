@@ -1,0 +1,220 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
+		<property name="viewTitle" value="Status" />
+		<property name="compositeFactories">
+			<list>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Machine" />
+					<property name="columns" value="1" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="ringCurrent" />
+								<property name="label" value="Ring Current" />
+								<property name="units" value="mA" />
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="2" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="timeToRefill" />
+								<property name="label" value="Time to refill" />
+								<property name="units" value="s" />
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="0" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Beamline" />
+					<property name="columns" value="2" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="idGap" />
+								<property name="label" value="ID Gap" />
+								<property name="units" value="mm" />
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="2" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="dcm_bragg" />
+								<property name="label" value="Bragg" />
+								<property name="units" value="degrees" />
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="4" />
+							</bean>
+							<bean class="gda.rcp.views.MotorPositionViewerCompositeFactory">
+								<property name="scannable" ref="dcm_energy" />
+								<property name="label" value="Energy" />
+								<property name="restoreValueWhenFocusLost" value="true" />
+								<property name="commandFormat" value="bl.setFromScript(%5.5g)" />
+								<property name="hideLabel" value="false" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Hutch Shutter" />
+					<property name="columns" value="1" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="expt_sht_stat" />
+								<property name="label" value="State" />
+								<property name="colourMap" ref="shutterStatusColourMap" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
+								<property name="command" value="eh_shtr_control()" />
+								<property name="commandRunner" ref="commandRunner" />
+								<property name="label" value="Open/Close" />
+								<property name="tooltip" value="Opens or closes the experiment hutch shutter" />
+								<property name="jobTitle" value="Experiment Hutch Open/Close" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Ion Chamber." />
+					<property name="columns" value="1" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="ionc_i" />
+								<property name="label" value="i" />
+								<property name="units" value="V" />
+								<property name="minPeriodMS" value="1000" />
+								<property name="decimalPlaces" value="3" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Fast Shutter" />
+					<property name="columns" value="1" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="fast_shtr_stat" />
+								<property name="label" value="State" />
+								<property name="colourMap" ref="shutterStatusColourMap" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
+								<property name="commandRunner" ref="commandRunner" />
+								<property name="command" value="fs_control()" />
+								<property name="label" value="Open/Close" />
+								<property name="tooltip"
+									value="Opens or closes the experiment fast shutter" />
+								<property name="jobTitle" value="Fast Shutter Open/Close" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.LatestFileNameCompositeFactory">
+					<property name="label" value="Latest Detector File" />
+					<property name="fileProcessor" ref="imageFileDisplayer" />
+					<property name="highestExistingFileMonitorDataProvider" ref="highestExistingFileMonitor" />
+					<property name="showButtonSeparator" value="true" />
+					<property name="separatePlayPauseButtons" value="true" />
+				</bean>
+				<bean class="gda.rcp.views.OpenViewListBoxCompositeFactory">
+					<property name="label" value="Cameras" />
+					<property name="tooltipText" value="Open the live view for the selected camera" />
+					<property name="options">
+						<list>
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
+								<constructor-arg value="Select a camera" />
+								<constructor-arg value="" />
+								<constructor-arg value="" />
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="PCO" />
+								<constructor-arg value="PCO" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13I-EA-DET-01:"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="PCO AUX" />
+								<constructor-arg value="PCO AUX" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13I-EA-DET-17:"/>
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="d1" />
+								<constructor-arg value="d1" />
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-DI-PHDGN-01:" />
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="d2" />
+								<constructor-arg value="d2" />
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-DI-PHDGN-02:" />
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="d3" />
+								<constructor-arg value="d3" />
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-DI-PHDGN-03:" />
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="d4" />
+								<constructor-arg value="d4" />
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-DI-PHDGN-04:" />
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="oh4_shtr" />
+								<constructor-arg value="oh4_shtr" />
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-DI-PHDGN-05:" />
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="d5" />
+								<constructor-arg value="d5" />
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-DI-PHDGN-06:" />
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Float 1" />
+								<constructor-arg value="Float 1" />
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-OP-FLOAT-01:" />
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Float 2" />
+								<constructor-arg value="Float 2" />
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-OP-FLOAT-02:" />
+							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Float 3" />
+								<constructor-arg value="Float 3" />
+								<constructor-arg value="MPEG" />
+								<constructor-arg value="BL13I-OP-FLOAT-03:" />
+							</bean>
+							<bean class="gda.rcp.views.OpenViewOptionImpl">
+								<constructor-arg value="WebCams" />
+								<constructor-arg value="uk.ac.gda.video.views.cameraview" />
+								<constructor-arg value="" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<util:map id="shutterStatusColourMap">
+		<entry key="Open" value="6" />
+		<entry key="Closed" value="3" />
+	</util:map>
+
+</beans>

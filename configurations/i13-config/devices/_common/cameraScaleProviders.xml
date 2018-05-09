@@ -1,0 +1,76 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="displayScaleProvider" class="gda.device.displayscaleprovider.SelectableDisplayScaleProvider">
+		<property name="keyScannable" ref="cam01_objective" />
+		<property name="binXScannable" ref="pco_binx_rbv"/>
+		<property name="binYScannable" ref="pco_biny_rbv"/>
+		<property name="providers">
+			<map>
+				<entry key="1X25 Pink">
+				<bean class="gda.device.displayscaleprovider.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="350" />
+					<property name="pixelsPerMMInY" value="350" />
+				</bean>
+				</entry>
+				<entry key="2X Mono">
+				<bean class="gda.device.displayscaleprovider.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="625" />
+					<property name="pixelsPerMMInY" value="625" />
+				</bean>
+				</entry>
+				<entry key="2X Pink">
+				<bean class="gda.device.displayscaleprovider.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="625" />
+					<property name="pixelsPerMMInY" value="625" />
+				</bean>
+				</entry>
+				<entry key="4X Pink">
+				<bean class="gda.device.displayscaleprovider.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="1234" />
+					<property name="pixelsPerMMInY" value="1234" />
+				</bean>
+				</entry>
+				<entry key="X4 Mono">
+				<bean class="gda.device.displayscaleprovider.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="1234" />
+					<property name="pixelsPerMMInY" value="1234" />
+				</bean>
+				</entry>
+				<entry key="10X Pink">
+				<bean class="gda.device.displayscaleprovider.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="3030" />
+					<property name="pixelsPerMMInY" value="3030" />
+				</bean>
+				</entry>
+				<entry key="X10 Mono">
+				<bean class="gda.device.displayscaleprovider.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="3030" />
+					<property name="pixelsPerMMInY" value="3030" />
+				</bean>
+				</entry>
+				<entry key="6"> <!-- unknown -->
+				<bean class="gda.device.displayscaleprovider.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="2740" />
+					<property name="pixelsPerMMInY" value="2740" />
+				</bean>
+				</entry>				
+				<entry key="7"> <!-- unknown -->
+				<bean class="gda.device.displayscaleprovider.DisplayScaleProviderImpl">
+					<property name="pixelsPerMMInX" value="2740" />
+					<property name="pixelsPerMMInY" value="2740" />
+				</bean>
+				</entry>				
+			</map>
+		</property>
+	</bean>
+
+</beans>

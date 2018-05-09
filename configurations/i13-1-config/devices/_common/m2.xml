@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+
+
+	<bean id="m2_hsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2_hsize_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="m2_hcenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2_hcenter_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="m2_vsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2_vsize_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="m2_vcenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2_vcenter_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	
+	<bean id="m2v_benda" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2v_benda_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="m2v_bendb" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2v_bendb_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="m2v_tilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2v_tilt_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="m2v_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2v_y_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	
+	<bean id="m2h_benda" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2h_benda_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="m2h_bendb" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2h_bendb_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="m2h_tilt" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2h_tilt_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="m2h_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2h_y_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="m2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m2_hcenter" />
+				<ref bean="m2_hsize" />
+				<ref bean="m2_vcenter" />
+				<ref bean="m2_vsize" />
+				<ref bean="m2h_benda" />
+				<ref bean="m2h_bendb" />
+				<ref bean="m2h_tilt" />
+				<ref bean="m2h_y" />
+				<ref bean="m2v_benda" />
+				<ref bean="m2v_bendb" />
+				<ref bean="m2v_tilt" />
+				<ref bean="m2v_y" />
+			</list>
+		</property>
+	</bean>	
+	
+</beans>
+

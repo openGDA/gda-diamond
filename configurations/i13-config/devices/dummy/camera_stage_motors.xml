@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="cs1_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-55.561" />
+		<property name="maxPosition" value="428.44" />
+		<property name="position" value="105.00" />
+		<property name="unitString" value="mm"/>
+	</bean>
+	
+	<bean id="cs1_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-11.000" />
+		<property name="maxPosition" value="9.6000" />
+		<property name="position" value="-1.0500" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="cs1_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-989.10" />
+		<property name="maxPosition" value="1015.1" />
+		<property name="position" value="-970.00" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+</beans>	

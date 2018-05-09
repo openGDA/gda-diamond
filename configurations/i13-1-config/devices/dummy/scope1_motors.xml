@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="scope1_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-200.0" />
+		<property name="maxPosition" value="136.344" />
+		<property name="position" value="78.774" />
+	</bean>
+
+	<bean id="scope1_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-19.4" />
+		<property name="maxPosition" value="9.2" />
+		<property name="position" value="-7.4856" />
+	</bean>
+
+	<bean id="scope1_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="9480.0" />
+		<property name="maxPosition" value="9490.0" />
+		<property name="position" value="9486.18" />
+	</bean>
+
+	<bean id="scope1_focus_rot_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-360000.0" />
+		<property name="maxPosition" value="360000.0" />
+		<property name="position" value="352567.9" />
+	</bean>
+
+	<bean id="scope1_focus_translation_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="100.0" />
+		<property name="position" value="0.00133437" />
+	</bean>
+
+	<bean id="scope1_turret" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Position 1</value>
+				<value>Position 2</value>
+				<value>Position 3</value>
+				<value>Position 4</value>
+				<value>Position 5</value>
+				<value>Position 6</value>
+				<value>Position 7</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="gb2_t1" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13J-RS-GBC-02:T1" />
+		<property name="useNameAsInputName" value="true"/>
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+	<bean id="gb2_t2" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13J-RS-GBC-02:T2" />
+		<property name="useNameAsInputName" value="true"/>
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+	<bean id="gb2_t3" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13J-RS-GBC-02:T3" />
+		<property name="useNameAsInputName" value="true"/>
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+	<bean id="gb2_t4" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13J-RS-GBC-02:T4" />
+		<property name="useNameAsInputName" value="true"/>
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+</beans>	

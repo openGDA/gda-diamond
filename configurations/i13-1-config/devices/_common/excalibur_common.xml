@@ -1,0 +1,201 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="excalibur_softwaretrigger"
+		class="uk.ac.gda.devices.ExcaliburCollectionStrategy">
+		<constructor-arg ref="excalibur_config_base" />
+		<property name="operationModePVName" value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:OperationMode"/>
+		<property name="burst" value="False"/>
+		<property name="softwareTrigger" value="True"/>
+	</bean>
+
+	<util:list id="readoutNodesWrapperList">
+		<bean class="uk.ac.gda.devices.excalibur.impl.ReadoutNodeWrapperImpl">
+			<property name="adBase" ref="excalibur_readoutNode1_fem" />
+			<property name="gap" ref="excalibur_readoutNode1_gap" />
+			<property name="fix" ref="excalibur_readoutNode1_fix" />
+			<property name="mst" ref="excalibur_readoutNode1_mst" />
+		</bean>
+		<bean class="uk.ac.gda.devices.excalibur.impl.ReadoutNodeWrapperImpl">
+			<property name="adBase" ref="excalibur_readoutNode2_fem" />
+			<property name="gap" ref="excalibur_readoutNode2_gap" />
+			<property name="fix" ref="excalibur_readoutNode2_fix" />
+			<property name="mst" ref="excalibur_readoutNode2_mst" />
+		</bean>
+		<bean class="uk.ac.gda.devices.excalibur.impl.ReadoutNodeWrapperImpl">
+			<property name="adBase" ref="excalibur_readoutNode3_fem" />
+			<property name="gap" ref="excalibur_readoutNode3_gap" />
+			<property name="fix" ref="excalibur_readoutNode3_fix" />
+			<property name="mst" ref="excalibur_readoutNode3_mst" />
+		</bean>
+		<bean class="uk.ac.gda.devices.excalibur.impl.ReadoutNodeWrapperImpl">
+			<property name="adBase" ref="excalibur_readoutNode4_fem" />
+			<property name="gap" ref="excalibur_readoutNode4_gap" />
+			<property name="fix" ref="excalibur_readoutNode4_fix" />
+			<property name="mst" ref="excalibur_readoutNode4_mst" />
+		</bean>
+		<bean class="uk.ac.gda.devices.excalibur.impl.ReadoutNodeWrapperImpl">
+			<property name="adBase" ref="excalibur_readoutNode5_fem" />
+			<property name="gap" ref="excalibur_readoutNode5_gap" />
+			<property name="fix" ref="excalibur_readoutNode5_fix" />
+			<property name="mst" ref="excalibur_readoutNode5_mst" />
+		</bean>
+		<bean class="uk.ac.gda.devices.excalibur.impl.ReadoutNodeWrapperImpl">
+			<property name="adBase" ref="excalibur_readoutNode6_fem" />
+			<property name="gap" ref="excalibur_readoutNode6_gap" />
+			<property name="fix" ref="excalibur_readoutNode6_fix" />
+			<property name="mst" ref="excalibur_readoutNode6_mst" />
+		</bean>
+	</util:list>
+	<bean id="configAdBase" class="uk.ac.gda.devices.excalibur.impl.ExcaliburConfigAdbaseImpl">
+		<property name="basePVName"
+			value="${gda.epics.excalibur.pvprefix}:CONFIG:ACQUIRE:" />
+	</bean>
+	<bean id="excalibur_config" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<util:map>
+				<entry key="sync" value-ref="excalibur_sync" />
+				<entry key="fem" value-ref="excalibur_config_base"/>
+				<entry key="proc" value-ref="excalibur_config_proc" />
+				<entry key="roi" value-ref="excalibur_config_roi" />
+				<entry key="gap" value-ref="excalibur_config_gap" />
+				<entry key="fix" value-ref="excalibur_config_fix" />
+				<entry key="mst" value-ref="excalibur_config_mst" />
+				<entry key="hdf" value-ref="excalibur_config_hdf" />
+				<entry key="phdf" value-ref="excalibur_config_phdf" />
+				<entry key="nodes" value-ref="readoutNodesWrapperList" />
+				<entry key="readoutFems" value-ref="readoutFems" />
+				<entry key="arr" value-ref="excalibur_config_arr"/>
+				<entry key="excaliburDev" value-ref="excaliburDev"/>
+				<entry key="configAdBase" value-ref="configAdBase"/>
+			</util:map>
+		</property>
+	</bean>	
+
+	<util:list id="readoutFems">
+		<ref bean="excalibur_readoutNode1_fem" />
+ 		<ref bean="excalibur_readoutNode2_fem" />
+		<ref bean="excalibur_readoutNode3_fem" />
+		<ref bean="excalibur_readoutNode4_fem" />
+		<ref bean="excalibur_readoutNode5_fem" />
+		<ref bean="excalibur_readoutNode6_fem" />
+	</util:list>
+ 
+ 	<bean id="threshold0" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="threshold0" />
+		<constructor-arg index="2" value="0" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="threshold1" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="threshold1" />
+		<constructor-arg index="2" value="1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="preamp" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="preamp" />
+		<constructor-arg index="2" value="7" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="ikrum" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="ikrum" />
+		<constructor-arg index="2" value="8" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="shaper" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="shaper" />
+		<constructor-arg index="2" value="9" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="delay" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="delay" />
+		<constructor-arg index="2" value="15" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="rpz" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="rpz" />
+		<constructor-arg index="2" value="18" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="gnd" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="gnd" />
+		<constructor-arg index="2" value="19" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="tpRef" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="tpRef" />
+		<constructor-arg index="2" value="20" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="fbk" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="fbk" />
+		<constructor-arg index="2" value="21" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="tpRefA" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="tpRefA" />
+		<constructor-arg index="2" value="23" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="tpRefB" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="tpRefB" />
+		<constructor-arg index="2" value="24" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dacPixel" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="dacPixel" />
+		<constructor-arg index="2" value="14" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="thresholdN" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<constructor-arg index="1" value="thresholdn" />
+		<constructor-arg index="2" value="13" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="thresholdA"
+		class="uk.ac.gda.devices.excalibur.scannable.ThresholdAScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="thresholdB"
+		class="uk.ac.gda.devices.excalibur.scannable.ThresholdBScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="gainMode" class="uk.ac.gda.devices.excalibur.scannable.GainModeScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="mask"
+		class="uk.ac.gda.devices.excalibur.scannable.MaskScannable">
+		<constructor-arg index="0" ref="readoutFems" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="test"
+		class="uk.ac.gda.devices.excalibur.scannable.TestScannable">
+		<property name="local" value="true" />
+		<constructor-arg index="0" ref="readoutFems" />
+	</bean>
+ 
+ 
+</beans>

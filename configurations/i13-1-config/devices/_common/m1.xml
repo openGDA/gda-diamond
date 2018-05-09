@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+
+
+	<bean id="m1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1_coarsepitch_motor" />
+		<property name="userUnits" value="urad"/>
+	</bean>
+	<bean id="m1_combpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1_pitch_motor" />
+		<property name="userUnits" value="urad"/>
+	</bean>
+	<bean id="m1_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1_x_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="m1_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1_y_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1_combpitch" />
+				<ref bean="m1_pitch" />
+				<ref bean="m1_x" />
+				<ref bean="m1_y" />
+				<ref bean="m1_coarse_pitch_motor_temp" />
+				<ref bean="m1_cooling_blade1_temp" />
+				<ref bean="m1_cooling_blade2_temp" />
+				<ref bean="m1_mask_temp" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>

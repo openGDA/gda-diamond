@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+
+
+	<bean id="s7_xsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s7_xsize_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+	</bean>
+	<bean id="s7_xcenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s7_xcenter_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+	</bean>
+	<bean id="s7_ysize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s7_ysize_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+	</bean>
+	<bean id="s7_ycenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s7_ycenter_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+	</bean>
+	
+	<bean id="s7_xplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s7_xplus_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+	</bean>
+	<bean id="s7_xminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s7_xminus_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+	</bean>
+	<bean id="s7_yplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s7_yplus_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+	</bean>
+	<bean id="s7_yminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s7_yminus_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+	</bean>
+
+	<bean id="s7" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s7_xsize" />
+				<ref bean="s7_xcenter" />
+				<ref bean="s7_xplus" />
+				<ref bean="s7_xminus" />
+				<ref bean="s7_ysize" />
+				<ref bean="s7_ycenter" />
+				<ref bean="s7_yplus" />
+				<ref bean="s7_yminus" />
+			</list>
+		</property>
+	</bean>	
+	
+</beans>
+

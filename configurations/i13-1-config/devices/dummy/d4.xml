@@ -1,0 +1,92 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="d4_pluginBase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
+		<property name="dims" value="1000,1000" />
+		<property name="datatype" value="UINT32" />
+	</bean>
+
+	<bean id="d4_pos" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Out</value>
+				<value>CdW04</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="d4_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-97.500" />
+		<property name="maxPosition" value="1.0" />
+		<property name="position" value="-55.0" />
+	</bean>
+
+	<bean id="d4_i" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="d1_i"/>
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="-0.00054465" />
+			</bean>
+		</property>
+	</bean>
+
+ 	<bean id="d4_gain" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="d4_gain"/>
+		<property name="currentPosition">
+			<bean class="java.lang.Integer">
+				<constructor-arg value="0" />
+			</bean>
+		</property>
+	</bean>
+
+ 	<bean id="d4_coupling" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="d4_coupling"/>
+		<property name="currentPosition">
+			<bean class="java.lang.Integer">
+				<constructor-arg value="1" />
+			</bean>
+		</property>
+	</bean>
+
+ 	<bean id="d4_window_temp" class="gda.device.scannable.SimpleScannable">
+		<property name="name" value="d4_window_temp"/>
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="26.2" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d4_cam_base" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator" />
+
+	<bean id="d4_arr" class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">
+		<property name="pluginBase" ref="d4_pluginBase" />
+	</bean>
+
+	<bean id="d4_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
+		<property name="pluginBase" ref="d4_pluginBase" />
+	</bean>
+
+	<bean id="d4_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessSimulator">
+		<property name="pluginBase" ref="d4_pluginBase" />
+	</bean>
+
+	<bean id="d4_roi" class="gda.device.detector.areadetector.v17.impl.NDROISimulator">
+		<property name="pluginBase" ref="d4_pluginBase" />
+	</bean>
+
+	<bean id="d4_ffmpeg" class="gda.device.detector.areadetector.v17.impl.FfmpegStreamSimulator">
+		<property name="pluginBase" ref="d4_pluginBase" />
+	</bean>
+
+	<bean id="d4_ndhdf5file" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Simulator">
+		<property name="file" ref="d4_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="d4_ndfilehdf5_base" class="gda.device.detector.areadetector.v17.impl.NDFileSimulator">
+		<property name="pluginBase" ref="d4_pluginBase" />
+	</bean>
+
+</beans>

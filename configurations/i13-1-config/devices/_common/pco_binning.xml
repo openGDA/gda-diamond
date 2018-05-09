@@ -1,0 +1,64 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="binning_mapper_x" class="gda.device.enumpositioner.SelectorControlledEnumValueMapper">
+		<property name="selector" ref="pco_model_rbv" />
+		<property name="mappers">
+			<map>
+				<entry key="PCO.Camera Edge">
+					<map key-type="java.lang.String" value-type="java.lang.Integer">
+						<entry key="x1" value="1" />
+						<entry key="x2" value="2" />
+						<entry key="x4" value="4" />
+					</map>
+				</entry>
+				<entry key="PCO.Camera 4000">
+					<map key-type="java.lang.String" value-type="java.lang.Integer">
+						<entry key="x1" value="1" />
+						<entry key="x2" value="2" />
+					</map>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="binning_x" class="gda.device.enumpositioner.IntegerMapperBasedEnumPositioner">
+		<property name="mapper" ref="binning_mapper_x" />
+		<property name="monitor" ref="pco_binx_rbv" />
+		<property name="setCmdTemplate" value="tomodet.setBinningX('%s',%s)" />
+	</bean>
+
+	<bean id="binning_mapper_y"
+		class="gda.device.enumpositioner.SelectorControlledEnumValueMapper">
+		<property name="selector" ref="pco_model_rbv" />
+		<property name="mappers">
+			<map>
+				<entry key="PCO.Camera Edge">
+					<map key-type="java.lang.String" value-type="java.lang.Integer">
+						<entry key="x1" value="1" />
+						<entry key="x2" value="2" />
+						<entry key="x4" value="4" />
+					</map>
+				</entry>
+				<entry key="PCO.Camera 4000">
+					<map key-type="java.lang.String" value-type="java.lang.Integer">
+						<entry key="x1" value="1" />
+						<entry key="x2" value="2" />
+						<entry key="x4" value="4" />
+						<entry key="x8" value="8" />
+					</map>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="binning_y" class="gda.device.enumpositioner.IntegerMapperBasedEnumPositioner">
+		<property name="mapper" ref="binning_mapper_y" />
+		<property name="monitor" ref="pco_biny_rbv" />
+		<property name="setCmdTemplate" value="tomodet.setBinningY('%s',%s)" />
+	</bean>
+
+</beans>

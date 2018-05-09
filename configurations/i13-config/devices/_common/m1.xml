@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+
+	<bean id="m1_coarsepitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1_coarsepitch_motor" />
+		<property name="userUnits" value="urad"/>
+	</bean>
+	<bean id="m1_bender" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1_bender_motor" />
+		<property name="userUnits" value="kcts"/>
+	</bean>
+	<bean id="m1_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1_x_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="m1_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1_y_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1_bender" />
+				<ref bean="m1_coarsepitch" />
+				<ref bean="m1_x" />
+				<ref bean="m1_y" />
+				<ref bean="m1_finepitch" />
+				<ref bean="m1_mask_temp" />
+				<ref bean="m1_cooling_blade1_temp" />
+				<ref bean="m1_cooling_blade2_temp" />
+				<ref bean="m1_upstr_bend_plate_temp" />
+				<ref bean="m1_downstr_bend_plate_temp" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
+

@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+
+	<bean id="dcm_bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_bragg_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="dcm_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_pitch_motor" />
+<!-- 		<property name="userUnits" value="deg"/>
+ -->	</bean>
+	<bean id="dcm_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_roll_motor" />
+<!-- 		<property name="userUnits" value="deg"/>
+ -->	</bean>
+	<bean id="dcm_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_z_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="dcm_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_y_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="dcm_downstream_jack" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_downstream_jack_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="dcm_upstream_jack" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_upstream_jack_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="dcm_inboard_jack" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_inboard_jack_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="dcm_beamline_energy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_beamline_energy_motor" />
+		<property name="userUnits" value="keV"/>
+	</bean>
+	<bean id="dcm_id_detune" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_id_detune_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dcm_bragg" />
+				<ref bean="dcm_pitch" />
+				<ref bean="dcm_roll" />
+				<ref bean="dcm_z" />
+				<ref bean="dcm_y" />
+				<ref bean="dcm_downstream_jack" />
+				<ref bean="dcm_upstream_jack" />
+				<ref bean="dcm_inboard_jack" />
+				<ref bean="dcm_id_detune" />
+				<ref bean="dcm_energy" />
+				<ref bean="dcm_fine_pitch" />
+				<ref bean="dcm_fine_pitch_demand" />
+				<ref bean="dcm_beamline_energy" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
+

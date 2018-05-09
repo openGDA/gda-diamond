@@ -1,0 +1,9 @@
+<extensions>
+<tocOrder>
+<toc id="/uk.ac.gda.beamline.i13-1/toc.xml"/>
+</tocOrder>
+<hidden>
+<toc id="/org.csstudio.sds.ui/toc.xml"/>
+<toc id="/org.csstudio.sds.components/toc.xml"/>
+</hidden>
+</extensions>

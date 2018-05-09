@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="ring_monitor" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+
+				<bean id="ring_energy" class="gda.device.monitor.DummyMonitor">
+					<property name="name" value="ring_energy" />
+					<property name="constantValue" value="3.271" />
+				</bean>
+
+				<bean id="ring_current" class="gda.device.monitor.DummyMonitor">
+					<property name="name" value="ring_current" />
+					<property name="constantValue" value="298.24" />
+				</bean>
+
+				<bean id="ring_topup_countdown" class="gda.device.monitor.DummyMonitor">
+					<property name="name" value="ring_topup_countdown" />
+					<property name="constantValue" value="332.424" />
+				</bean>
+
+				<bean id="ring_beam_lifetime" class="gda.device.monitor.DummyMonitor">
+					<property name="name" value="ring_beam_lifetime" />
+					<property name="constantValue" value="117.104" />
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+</beans>

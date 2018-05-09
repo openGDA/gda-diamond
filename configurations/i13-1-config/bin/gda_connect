@@ -1,0 +1,14 @@
+#!/bin/bash
+PS3="?Select the PC to which you wish to connect: "
+select event in PCO4000_ToStartIOC PCO4000_AsYourself
+do
+    case "$event" in
+      PCO4000_ToStartIOC  ) IPADDR=i13-1-pco4000-1.diamond.ac.uk;RES=1280x1024;USER=i13-1detector;DOMAIN=Diamond;PWD=!i13-1d3t3ct0r#;;
+      PCO4000_AsYourself  ) IPADDR=i13-1-pco4000-1.diamond.ac.uk;RES=1280x1024;USER=user;DOMAIN=CLRC;PWD=pwd;;
+      *                   )  echo "Invalid selection";exit 1;;
+    esac
+    PS1="Connecting to $IPADDR  "
+    export XLIB_SKIP_ARGB_VISUALS=1
+	rdesktop -f -5 -a 24 -d $DOMAIN -u $USER -p $PWD -k en-gb -g $RES -T "CTRL-ALT-ENTER to exit full screen mode" $IPADDR
+    exit 0
+done

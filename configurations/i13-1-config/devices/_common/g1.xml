@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
+	<bean id="g1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="g1_pitch_motor" />
+	</bean>
+	<bean id="g1_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="g1_roll_motor" />
+	</bean>
+	<bean id="g1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="g1_pitch" />
+				<ref bean="g1_roll" />
+			</list>
+		</property>
+	</bean>	
+	
+</beans>
+

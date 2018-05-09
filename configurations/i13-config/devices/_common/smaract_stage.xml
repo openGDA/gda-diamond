@@ -1,0 +1,85 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
+	<bean id="smar_rx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smar_rx_motor" />
+		<property name="configureAtStartup" value="${use.smaract}"/>
+	</bean>
+	<!-- <bean id="smar_ry" class="gda.device.scannable.ScannableMotor"> -->
+	<bean id="smar_rot" class="gda.device.scannable.ScannableMotor">
+		<!-- <property name="motor" ref="smar_ry_motor" /> -->
+		<property name="motor" ref="smar_rot_motor" />
+		<property name="configureAtStartup" value="${use.smaract}"/>
+	</bean>
+	<bean id="smar_rz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smar_rz_motor" />
+		<property name="configureAtStartup" value="${use.smaract}"/>
+	</bean>
+	<bean id="smar_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smar_x_motor" />
+		<property name="configureAtStartup" value="${use.smaract}"/>
+	</bean>
+	<bean id="smar_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smar_y_motor" />
+		<property name="configureAtStartup" value="${use.smaract}"/>
+	</bean>
+	<bean id="smar_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smar_z_motor" />
+		<property name="configureAtStartup" value="${use.smaract}"/>
+	</bean>
+	<bean id="smar" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="smar_rx" />
+				<!-- <ref bean="smar_ry" /> -->
+				<ref bean="smar_rot" />
+				<ref bean="smar_rz" />
+				<ref bean="smar_x" />
+				<ref bean="smar_y" />
+				<ref bean="smar_z" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/smar_rx" />
+		<property name="service" ref="smar_rx" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<!-- <property name="serviceName" value="gda/smar_ry" /> -->
+		<property name="serviceName" value="gda/smar_rot" />
+<!-- 		<property name="service" ref="smar_ry" /> -->
+			<property name="service" ref="smar_rot" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/smar_rz" />
+		<property name="service" ref="smar_rz" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/smar_x" />
+		<property name="service" ref="smar_x" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/smar_y" />
+		<property name="service" ref="smar_y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/smar_z" />
+		<property name="service" ref="smar_z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	
+</beans>

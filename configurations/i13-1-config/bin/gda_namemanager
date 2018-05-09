@@ -1,0 +1,13 @@
+# start logpanel if not already running
+
+#identify install folder and JAVA_HOME
+source /dls_sw/i13-1/etc/i13-1_profile.sh
+
+
+# Start log panel if not already started
+LOGPANEL=$(ps -ef | grep NameManager | grep -v grep)
+if [ "X$LOGPANEL" == "X" ] ; then
+python $GDA_FOLDER/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda --config=$GDA_FOLDER/config --restart  --mode=$GDA_MODE namemanager
+else
+wmctrl -R "JacORB NameManager"
+fi

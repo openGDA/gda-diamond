@@ -1,0 +1,84 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="m1_coarsepitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-3271.0" />
+		<property name="maxPosition" value="1749.0" />
+		<property name="position" value="1200.8" />
+	</bean>
+
+	<bean id="m1_bender_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-320.00" />
+		<property name="maxPosition" value="7550.0" />
+		<property name="position" value="1200.0" />
+	</bean>
+
+	<bean id="m1_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.7100" />
+		<property name="maxPosition" value="1.4100" />
+		<property name="position" value="-0.44790" />
+	</bean>
+
+	<bean id="m1_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-220.10" />
+		<property name="maxPosition" value="8.1000" />
+		<property name="position" value="-8.0008" />
+	</bean>
+
+	<bean id="m1_finepitch" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.008"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="m1_finepitch"/>
+	</bean>
+
+	<bean id="m1_mask_temp" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="22.9"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="m1_mask_temp"/>
+	</bean>
+
+	<bean id="m1_cooling_blade1_temp" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="20.5"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="m1_cooling_blade1_temp"/>
+	</bean>
+
+	<bean id="m1_cooling_blade2_temp" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="22.3"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="m1_cooling_blade2_temp"/>
+	</bean>
+
+	<bean id="m1_upstr_bend_plate_temp" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="22.3"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="m1_upstr_bend_plate_temp"/>
+	</bean>
+
+	<bean id="m1_downstr_bend_plate_temp" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="22.5"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="m1_downstr_bend_plate_temp"/>
+	</bean>
+
+</beans>

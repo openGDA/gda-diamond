@@ -1,0 +1,151 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+ 		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+
+	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
+	<bean id="t1_sx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_sx_motor" />
+	</bean>
+
+	<bean id="t1_sy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_sy_motor" />
+	</bean>
+
+	<bean id="t1_sz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_sz_motor" />
+	</bean>
+
+	<bean id="t1_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_x_motor" />
+	</bean>
+
+	<bean id="t1_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_y_motor" />
+	</bean>
+
+	<bean id="t1_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_z_motor" />
+	</bean>
+
+	<bean id="t1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_pitch_motor" />
+	</bean>
+
+	<bean id="t1_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_roll_motor" />
+	</bean>
+
+	<bean id="t1_theta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_theta_motor" />
+	</bean>
+	
+	<bean id="t1_ixy" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="t1_ixy"/>
+	</bean>
+	
+	<bean id="t1_xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_x" />
+				<ref bean="t1_y" />
+				<ref bean="t1_ixy" />
+			</list>
+		</property>
+	</bean>		
+
+	<bean id="t1_isxy" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="t1_isxy"/>
+	</bean>
+	
+	<bean id="t1_sxy_plotter" class="gda.device.scannable.TwoDScanPlotter">
+		<property name="name" value="t1_sxy_plotter" />
+		<property name="z_colName" value="total" />
+	</bean>
+	
+	<!-- we should have the ability to not count hot pixels however they are specified. -->
+	<bean id="t1_sxyz_plotter" class="gda.device.scannable.TwoDScanPlotter">
+		<property name="name" value="t1_sxyz_plotter" />
+		<property name="z_colName" value="total" />
+	</bean>
+	
+	<bean id="t1_sxy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_sx" />
+				<ref bean="t1_sy" />
+				<ref bean="t1_isxy" />
+				<ref bean="t1_sxy_plotter" />
+				<ref bean="t1_sxyz_plotter" />
+			</list>
+		</property>
+	</bean>		
+	
+	<bean id="t1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_sx" />
+				<ref bean="t1_sy" />
+				<ref bean="t1_sz" />
+				<ref bean="t1_x" />
+				<ref bean="t1_y" />
+				<ref bean="t1_z" />
+				<ref bean="t1_pitch" />
+				<ref bean="t1_roll" />
+				<ref bean="t1_theta" />
+				<ref bean="t1_xy" />
+				<ref bean="t1_sxy" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- RMI exports -->
+	<gda:rmi-export
+		service="t1_sx"
+		serviceName="gda/t1_sx"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+
+	<gda:rmi-export
+		service="t1_sy"
+		serviceName="gda/t1_sy"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+
+	<gda:rmi-export
+		service="t1_sz"
+		serviceName="gda/t1_sz"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+
+	<gda:rmi-export
+		service="t1_theta"
+		serviceName="gda/t1_theta"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+	
+	<gda:rmi-export
+		service="t1_x"
+		serviceName="gda/t1_x"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+
+	<gda:rmi-export
+		service="t1_y"
+		serviceName="gda/t1_y"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+
+	<gda:rmi-export
+		service="t1_z"
+		serviceName="gda/t1_z"
+		serviceInterface="gda.device.ScannableMotionUnits" />	
+
+</beans>

@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="d5_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-06:CAM:" />
+	</bean>
+
+	<bean id="d5_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-06:ARR:" />
+	</bean>
+
+	<bean id="d5_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-06:STAT:" />
+	</bean>
+
+	<bean id="d5_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-06:PROC:" />
+	</bean>
+
+	<bean id="d5_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-06:ROI:" />
+	</bean>
+
+	<bean id="d5_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-06:MJPEG:" />
+	</bean>
+
+	<bean id="d5_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-06:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="d5_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="d5_ndfilehdf5_base" />
+	</bean>
+</beans>	

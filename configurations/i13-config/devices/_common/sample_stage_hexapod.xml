@@ -1,0 +1,91 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
+	<bean id="hex_rx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hex_rx_motor" />
+		<property name="configureAtStartup" value="${use.hexapod}"/>
+	</bean>
+	<bean id="hex_ry" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hex_ry_motor" />
+		<property name="configureAtStartup" value="${use.hexapod}"/>
+	</bean>
+	<bean id="hex_rz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hex_rz_motor" />
+		<property name="configureAtStartup" value="${use.hexapod}"/>
+	</bean>
+	<bean id="hex_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hex_x_motor" />
+		<property name="configureAtStartup" value="${use.hexapod}"/>
+	</bean>
+	<bean id="hex_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hex_y_motor" />
+		<property name="configureAtStartup" value="${use.hexapod}"/>
+	</bean>
+	<bean id="hex_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hex_z_motor" />
+		<property name="configureAtStartup" value="${use.hexapod}"/>
+	</bean>
+	<bean id="hex_rot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hex_rot_motor" />
+		<property name="configureAtStartup" value="${use.hexapod}"/>
+	</bean>
+	<bean id="hex" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hex_rx" />
+				<ref bean="hex_ry" />
+				<ref bean="hex_rz" />
+				<ref bean="hex_x" />
+				<ref bean="hex_y" />
+				<ref bean="hex_z" />
+				<ref bean="hex_rot" />
+				<ref bean="hex_samplex" />
+				<ref bean="hex_samplez" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/hex_rx" />
+		<property name="service" ref="hex_rx" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/hex_ry" />
+		<property name="service" ref="hex_ry" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/hex_rz" />
+		<property name="service" ref="hex_rz" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/hex_x" />
+		<property name="service" ref="hex_x" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/hex_y" />
+		<property name="service" ref="hex_y" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/hex_z" />
+		<property name="service" ref="hex_z" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/hex_rot" />
+		<property name="service" ref="hex_rot" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+</beans>

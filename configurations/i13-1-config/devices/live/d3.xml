@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="d3_pos" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL13J-DI-PHDGN-03:X:MP" />
+	</bean>
+
+	<bean id="d3_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13J-DI-PHDGN-03:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="d3_window_temp" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13J-DI-PHDGN-03:T1" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+	</bean>
+
+	<bean id="d3_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-03:CAM:" />
+	</bean>
+
+	<bean id="d3_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-03:ARR:" />
+	</bean>
+
+	<bean id="d3_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-03:STAT:" />
+	</bean>
+
+	<bean id="d3_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-03:PROC:" />
+	</bean>
+
+	<bean id="d3_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-03:ROI:" />
+	</bean>
+
+	<bean id="d3_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-03:FFMPEG:" />
+	</bean>
+
+	<bean id="d3_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL13J-DI-PHDGN-03:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="d3_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="d3_ndfilehdf5_base" />
+	</bean>
+
+</beans>

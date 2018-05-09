@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="float4_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-04:CAM:" />
+	</bean>
+
+	<bean id="float4_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-04:ARR:" />
+	</bean>
+
+	<bean id="float4_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-04:STAT:" />
+	</bean>
+
+	<bean id="float4_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-04:PROC:" />
+	</bean>
+
+	<bean id="float4_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-04:ROI:" />
+	</bean>
+
+	<bean id="float4_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-04:MJPG:" />
+	</bean>
+
+	<bean id="float4_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="float4_ndfilehdf5_base" />
+	</bean>
+
+	<bean id="float4_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL13J-OP-FLOAT-04:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+</beans>
+	

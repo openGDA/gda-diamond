@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<description> Ion chamber in Experiment Hutch</description>
+
+	<bean id="ionc_i" class="gda.device.scannable.SimpleScannable">
+		<property name="inputNames" value="ionc_i" />
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="-0.00047761" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ionc_gain" class="gda.device.scannable.SimpleScannable">
+		<property name="inputNames" value="ionc_gain" />
+		<property name="currentPosition">
+			<bean class="java.lang.Integer">
+				<constructor-arg value="3" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ionc_coupling" class="gda.device.scannable.SimpleScannable">
+		<property name="inputNames" value="ionc_coupling" />
+		<property name="currentPosition">
+			<bean class="java.lang.Integer">
+				<constructor-arg value="1" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ionc_photonflux" class="gda.device.scannable.SimpleScannable">
+		<property name="inputNames" value="ionc_photonflux" />
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="617.815" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ic2" class="gda.device.scannable.SimpleScannable">
+		<property name="inputNames" value="ic2" />
+		<property name="currentPosition" value="-0.0048545V" />
+	</bean>
+
+	<bean id="ic2_rate" class="gda.device.scannable.SimpleScannable">
+		<property name="inputNames" value="ic2_rate" />
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="0.01" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>

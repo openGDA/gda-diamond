@@ -1,0 +1,117 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="filter1_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100.0" />
+		<property name="maxPosition" value="0.0" />
+		<property name="position" value="-10.500" />
+	</bean>
+
+	<bean id="filter2_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0.0" />
+		<property name="maxPosition" value="100.0" />
+		<property name="position" value="47.500" />
+	</bean>
+
+	<bean id="filter3_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100.0" />
+		<property name="maxPosition" value="0.0" />
+		<property name="position" value="-10.500" />
+	</bean>
+
+	<bean id="filter4_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-153.90" />
+		<property name="maxPosition" value="36.100" />
+		<property name="position" value="4.6000e-07" />
+	</bean>
+
+	<bean id="filter5_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100.0" />
+		<property name="maxPosition" value="0.0" />
+		<property name="position" value="-46.500" />
+	</bean>
+
+	<bean id="filter_aperture_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100.0" />
+		<property name="maxPosition" value="0.0" />
+		<property name="position" value="-1.1" />
+	</bean>
+
+	<bean id="f1_Aperture" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Out</value>
+				<value>In</value>
+			</list>
+		</property>
+	</bean> 
+
+	<bean id="f1_Stick1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1: Pyr Graphite 0.2mm</value>
+				<value>2: Pyr Graphite 0.1mm BRO</value>
+				<value>3: Empty PROB NOT EMPTY?</value>
+				<value>4: Pyr Graphite 0.2mm</value>
+				<value>5: Pyr Graphite 0.1mm</value>
+				<value>6: Empty</value>
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="f1_Stick2" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>6: T6 Al 0.2mm BROKEN?</value>
+				<value>5: Pyr Graphite 0.5mm</value>
+				<value>4: Pyr Graphite 0.75mm</value>
+				<value>3: Empty</value>
+				<value>2: Pyr Graphite 0.1mm</value>
+				<value>1: Pyr Graphite 0.2mmy</value>
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="f1_Stick3" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1: T6 Al 2mm</value>
+				<value>2: T6 Al 0.5mm</value>
+				<value>3: Empty</value>
+				<value>4: Cr 0.01mm</value>
+				<value>5: Mn 0.01mm</value>
+				<value>6: Fe 0.02mm BROKEN</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="f1_Stick4" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>6: Ag 0.025mm</value>
+				<value>5: Mo 0.03mm</value>
+				<value>4: Nb 0.03mm</value>
+				<value>3: Empty</value>
+				<value>2: Cu 0.01mm BURNED?</value>
+				<value>1: Ni 0.02mm</value>
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="f1_Stick5" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>1: Nb 0.03mm</value>
+				<value>2: Mo 0.03mm</value>
+				<value>3: Empty</value>
+				<value>4: Pd 0.03mm</value>
+				<value>5: Ag 0.05mm</value>
+				<value>6: Cd 0.025mm</value>
+			</list>
+		</property>
+	</bean>	
+
+</beans>	
+

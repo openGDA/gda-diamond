@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="tomographyOptions" class="uk.ac.gda.tomography.scan.presentation.TomographyOptions">
+		<property name="rotationStages">
+			<list>
+				<value>t1_theta</value>
+				<value>ss1_rot_dummy</value>
+			</list>
+		</property>
+		<property name="linearStages">
+			<list>
+				<value>ss1_X</value>
+				<value>t1_x</value>
+				<value>ss1_X_dummy</value>
+			</list>
+		</property>
+		<property name="detectorToSampleDistanceUnits">
+			<list>
+				<value>m</value>
+				<value>cm</value>
+				<value>mm</value>
+				<value>um</value>
+			</list>
+		</property>
+		<property name="xPixelSizeUnits">
+			<list>
+				<value>um</value>
+				<value>pm</value>
+			</list>
+		</property>
+		<property name="yPixelSizeUnits">
+			<list>
+				<value>um</value>
+				<value>pm</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

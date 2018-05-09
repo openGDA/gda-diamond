@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+		
+
+	<bean id="_pco1_tif" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="pco1_cam_base" />
+		<property name="ndStats" ref="pco1_stat" />
+		<property name="ndArray" ref="pco1_arr" />
+	</bean>
+
+ 	<bean id="pco1_hw_tif" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="pco1_cam_base" />
+		<property name="ndStats" ref="pco1_stat" />
+		<property name="ndArray" ref="pco1_arr" />
+	</bean>
+
+</beans>

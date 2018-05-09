@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+
+
+	<bean id="s4_xsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_xsize_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+ 	</bean>
+	<bean id="s4_xcenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_xcenter_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+ 	</bean>
+	<bean id="s4_ysize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_ysize_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+ 	</bean>
+	<bean id="s4_ycenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_ycenter_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+ 	</bean>
+	
+	<bean id="s4_xplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_xplus_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+ 	</bean>
+	<bean id="s4_xminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_xminus_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+ 	</bean>
+	<bean id="s4_yplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_yplus_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+ 	</bean>
+	<bean id="s4_yminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_yminus_motor" />
+ 		<!-- <property name="userUnits" value="mm"/> -->
+ 	</bean>
+
+	<bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s4_xsize" />
+				<ref bean="s4_xcenter" />
+				<ref bean="s4_xplus" />
+				<ref bean="s4_xminus" />
+				<ref bean="s4_ysize" />
+				<ref bean="s4_ycenter" />
+				<ref bean="s4_yplus" />
+				<ref bean="s4_yminus" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>
+

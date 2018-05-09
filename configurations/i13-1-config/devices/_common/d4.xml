@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+
+
+	<bean id="d4_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d4_x_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="d4_cam_collection_strategy" class="gda.device.detector.addetector.triggering.SimpleAcquire">
+		<constructor-arg ref="d4_cam_base" />
+		<constructor-arg value="0." />
+	</bean>
+
+	
+	<bean id="d4_hdf5_filewriter_nochunking" parent="abstract_hdf5_filewriter_nochunking">
+		<property name="ndFileHDF5" ref="d4_ndhdf5file" />
+		<property name="fileNameTemplate" value="d4"/>
+	</bean>
+
+	<bean id="d4_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="_d1_cam_nx" />
+		<property name="collectionStrategy" ref="d4_cam_collection_strategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d4_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="d4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d4_cam" />
+				<ref bean="d4_coupling" />
+				<ref bean="d4_gain" />
+				<ref bean="d4_i" />
+				<ref bean="d4_pos" />
+				<ref bean="d4_window_temp" />
+				<ref bean="d4_x" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>
+

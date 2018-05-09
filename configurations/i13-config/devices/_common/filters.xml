@@ -1,0 +1,71 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+
+	<bean id="filter1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="filter1_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="filter2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="filter2_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="filter3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="filter3_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="filter4" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="filter4_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="filter5" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="filter5_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="filter_aperture" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="filter_aperture_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+<!--
+	<bean id="filter_crlX" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="filter_crlX_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="filter_crlY" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="filter_crlY_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="filter_crlZ" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="filter_crlZ_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="filter_crlYaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="filter_crlYaw_motor" />
+	</bean>
+-->
+	<bean id="filters" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="filter1" />
+				<ref bean="filter2" />
+				<ref bean="filter3" />
+				<ref bean="filter4" />
+				<ref bean="filter5" />
+				<ref bean="filter_aperture" />
+				<ref bean="f1_Aperture" />
+				<ref bean="f1_Stick1" />
+				<ref bean="f1_Stick2" />
+				<ref bean="f1_Stick3" />
+				<ref bean="f1_Stick4" />
+				<ref bean="f1_Stick5" />
+			</list>
+		</property>
+	</bean>
+</beans>
+

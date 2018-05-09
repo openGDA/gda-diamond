@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="Diamond Beamline I13">
+         <property
+               name="appName"
+               value="Diamond Beamline I13">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutText"
+               value="Diamond Beamline I13 &#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
+         </property>    
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="I13 Manuals"
+            visible="true"
+            id="gda.rcp.help.i13.manuals">
+         <action
+               id="gda.rcp.help.beamlinemanual"
+               label="Beamline Manual"
+               menubarPath="help/helpStart"               
+               style="push">
+               <class class="org.eclipse.help.ui.browser.LaunchURL">
+                    <parameter name="url" value="http://confluence.diamond.ac.uk/display/I13Tech/The+I13+Beamlines" />
+               </class>               
+        	</action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category name="I13 Views" id="uk.ac.gda.beamline.i13"/>
+      <view
+            allowMultiple="true"
+            category="uk.ac.gda.beamline.i13"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            icon="icons/AreaDetectorLiveView.gif"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//d1//BL13I-DI-PHDGN-01@"
+            name="D1 MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            category="uk.ac.gda.beamline.i13"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            icon="icons/AreaDetectorLiveView.gif"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//d2//BL13I-DI-PHDGN-02@"
+            name="D2 MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            category="uk.ac.gda.beamline.i13"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            icon="icons/AreaDetectorLiveView.gif"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//d3//BL13I-DI-PHDGN-03@"
+            name="D3 MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            category="uk.ac.gda.beamline.i13"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            icon="icons/AreaDetectorLiveView.gif"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//d4//BL13I-DI-PHDGN-04@"
+            name="D4 MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            category="uk.ac.gda.beamline.i13"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            icon="icons/AreaDetectorLiveView.gif"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//d5//BL13I-DI-PHDGN-05@"
+            name="D5 MJPeg View"
+            restorable="true">
+      </view>
+
+      <view
+            allowMultiple="true"
+            category="uk.ac.gda.beamline.i13"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            icon="icons/AreaDetectorLiveView.gif"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//Float 1//BL13I-OP-FLOAT-01@"
+            name="Float 1 MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            category="uk.ac.gda.beamline.i13"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            icon="icons/AreaDetectorLiveView.gif"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//Float 2//BL13I-OP-FLOAT-02@"
+            name="Float 2 MJPeg View"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            category="uk.ac.gda.beamline.i13"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            icon="icons/AreaDetectorLiveView.gif"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//Float 3//BL13I-OP-FLOAT-03@"
+            name="Float 3 MJPeg View"
+            restorable="true">
+      </view>
+
+   </extension>
+   
+<extension
+      point="org.eclipse.help.toc">
+   <toc
+         file="userGuideTableOfContents.xml"
+         primary="true">
+   </toc>
+   <toc
+         file="toc.xml">
+   </toc>
+</extension>
+<extension
+      name="tst"
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="menu:org.eclipse.ui.main.menu?after=window">
+      <menu
+            label="GDA"
+            mnemonic="G">
+         <command
+               commandId="uk.ac.gda.client.datadispenser.controller.command"
+               label="Data Dispenser"
+               mnemonic="D"
+               style="push">
+         </command>
+      </menu>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="menu:window?after=showView">
+      <menu
+            label="Area Detectors">
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="d1"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//d1//BL13I-DI-PHDGN-01@">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="d2"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//d2//BL13I-DI-PHDGN-02@">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="d3"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//d3//BL13I-DI-PHDGN-03@">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="d4"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//d4//BL13I-DI-PHDGN-04@">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="d5"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//d5//BL13I-DI-PHDGN-05@">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="float 1"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//Float 1//BL13I-OP-FLOAT-01@">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="float 2"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//Float 2//BL13I-OP-FLOAT-02@">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="float 3"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.epics.adviewer.mpegview:pv//Float 3//BL13I-OP-FLOAT-03@">
+            </parameter>
+         </command>
+      </menu>
+   </menuContribution>
+</extension>   
+</plugin>

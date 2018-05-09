@@ -1,0 +1,89 @@
+Using first chunk 1 and last chunk 16
+Settings folder will be : sino_output/sino_testing_files
+using input file format p_%05d.tif
+Checking for input directory . 
+Timeout: 10 seconds
+Input directory . found
+creating sino_output/sino_testing_files
+Length(height) of image 2672 chunk_ht: 167
+Creating the queue script: sino_output/sino_testing_files/sinochunk.qsh
+Using : test_chunkprogram.py
+Creating the finishing script: sino_output/sino_testing_files/finishchunk.qsh
+Spawning the sinogram job ...
+'qsub'
+'-P'
+'i13'
+'-e'
+'sino_output/sino_testing_files'
+'-o'
+'sino_output/sino_testing_files'
+'-q'
+'low.q'
+'-N'
+'chunk_sn__testing_pid'
+'-cwd'
+'-pe'
+'smp'
+'4'
+'-t'
+'1-16'
+'sino_output/sino_testing_files/sinochunk.qsh'
+'PATH'
+'SGE_CELL'
+'SGE_EXECD_PORT'
+'SGE_ROOT'
+'SGE_QMASTER_PORT'
+return value was 0
+'test_program.py'
+'i13'
+'-e'
+'sino_output/sino_testing_files'
+'-o'
+'sino_output/sino_testing_files'
+'-q'
+'low.q'
+'-N'
+'chunk_sn__testing_pid'
+'-cwd'
+'-pe'
+'smp'
+'4'
+'-t'
+'1-16'
+'sino_output/sino_testing_files/sinochunk.qsh'
+
+Spawning the sinogram finishing job ... JOB NAME IS f_chunk_sn__testing_pid
+'qsub'
+'-P'
+'i13'
+'-e'
+'sino_output/sino_testing_files'
+'-o'
+'sino_output/sino_testing_files'
+'-q'
+'high.q'
+'-hold_jid'
+'chunk_sn__testing_pid'
+'-N'
+'f_chunk_sn__testing_pid'
+'sino_output/sino_testing_files/finishchunk.qsh'
+'PATH'
+'SGE_CELL'
+'SGE_EXECD_PORT'
+'SGE_ROOT'
+'SGE_QMASTER_PORT'
+return value was 0
+'test_program.py'
+'i13'
+'-e'
+'sino_output/sino_testing_files'
+'-o'
+'sino_output/sino_testing_files'
+'-q'
+'high.q'
+'-hold_jid'
+'chunk_sn__testing_pid'
+'-N'
+'f_chunk_sn__testing_pid'
+'sino_output/sino_testing_files/finishchunk.qsh'
+

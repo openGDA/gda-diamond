@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="afg_chan1_ampl" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="2.63" />
+		<property name="inputNames" value="afg_chan1_ampl" />
+	</bean>
+
+	<bean id="afg_chan1_state" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="On" />
+		<property name="inputNames" value="afg_chan1_state" />
+	</bean>
+
+</beans>

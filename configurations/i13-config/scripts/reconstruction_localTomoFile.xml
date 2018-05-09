@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<LocalTomo>
+
+	<beamline>
+		<ixx info="ixx-identifier, eg i12 or i13">i13</ixx>
+	</beamline>
+	<tomodo>
+		<shutter>
+			<shutterOpenPhys info="Shutter's physical position (encoding) when OPEN" >1.0</shutterOpenPhys>
+			<shutterClosedPhys info="Shutter's physical position (encoding) when CLOSED">0.0</shutterClosedPhys>
+		</shutter>
+		<tifimage>
+			<filenameFmt info="Filename format of scan's TIF images, %05d.tif or p_%05d.tif">%05d.tif</filenameFmt>
+		</tifimage>
+    		
+		<nexusfile>
+			<shutterNXSPath info="Path to data array in scan's NeXus file containing shutter's physical positions">/entry1/instrument/tomoScanDevice/tomography_shutter</shutterNXSPath>
+
+			<stagePosNXSPath info="Path to data array in scan's NeXus file containing sample stage's physical positions">/entry1/instrument/tomoScanDevice/ss1_X</stagePosNXSPath>
+			<stageRotNXSPath info="Path to data array in scan's NeXus file containing sample stage's physical rotations">/entry1/instrument/tomoScanDevice/ss1_rot</stageRotNXSPath>
+
+			<tifNXSPath info="Path to data array in scan's NeXus file containing filesystem paths to scan's TIF images">/entry1/instrument/pco1_hw_tif/image_data</tifNXSPath>
+
+			<imgkeyNXSPath info="Path to data array in scan's NeXus file containing TIF image keys">/entry1/instrument/tomoScanDevice/image_key</imgkeyNXSPath>
+		</nexusfile>
+		
+		<settingsfile>
+			<blueprint>This is not yet used. It will point to a settings file for the Manchester reconstruction</blueprint>
+			<settingsDirPostfix/>
+		</settingsfile>
+
+		<imagekeyencoding>
+			<darkfield>2</darkfield>
+			<flatfield>1</flatfield>
+			<projection>0</projection>
+		</imagekeyencoding>
+
+		<cluster>
+			<qsub>
+				<projectname>i12</projectname>
+				<args>-pe, smp, 4</args>
+				<sinoqueue>medium.q</sinoqueue>
+				<reconqueue>medium.q</reconqueue>
+			</qsub>
+		</cluster>
+		<segmentsToRemoveRelativeToNexusForOutdir>1</segmentsToRemoveRelativeToNexusForOutdir>
+	</tomodo>
+
+</LocalTomo>

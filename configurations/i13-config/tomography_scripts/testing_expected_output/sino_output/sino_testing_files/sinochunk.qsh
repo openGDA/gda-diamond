@@ -1,0 +1,29 @@
+#!/bin/bash 
+set -x
+
+#add the modules required 
+source /dls_sw/i12/modulefiles/modules.sh
+module add /dls_sw/i12/modulefiles/local-64
+myjob=$JOB_ID
+mytask=$SGE_TASK_ID
+mypid=testing_pid
+odir=sinograms
+if [[ ! -e $odir ]]
+then
+mkdir -p $odir
+fi
+mynum=`printf "%%03d" $mytask`
+
+echo PATH is $PATH
+
+#ulimit -c unlimited
+# UNCOMMENT  some of these lines to get more diagnostic information
+# env > task${mytask}.env
+#tracename=trace${myjob}_t${mytask}.trace
+#trace execution all
+test_chunkprogram.py -i . -o sinograms -w 4008 -l 167 -z 1 -Z 10  -s 1 -p 6000 -b 2   -S sino_output/sino_testing_files -I p_%05d.tif -T 0 -R 0    -m $mytask  -v -J chunk_sn__testing_pid${myjob}_t${mytask}
+retval=$?
+if [[ retval -ne 0 ]]
+then
+  echo -e "job $myjob task $mytask return-value $retval\n" >> sino_output/sino_testing_files/error_$mypid.txt  
+fi

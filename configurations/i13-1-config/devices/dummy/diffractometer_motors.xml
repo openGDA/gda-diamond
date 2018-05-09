@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	
+	<bean id="rcellKthetaMotor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="5" />
+		<property name="minPosition" value="-1" />
+		<property name="maxPosition" value="24" />
+		<property name="position" value="0" />
+	</bean>
+
+	<bean id="rcellKphiMotor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="5" />
+		<property name="minPosition" value="0" />
+		<property name="maxPosition" value="15" />
+		<property name="position" value="0" />
+	</bean>
+
+	<bean id="diffSthetaMotor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="5" />
+		<property name="minPosition" value="-10" />
+		<property name="maxPosition" value="10" />
+		<property name="position" value="0" />
+	</bean>
+
+	<bean id="diffSkappaMotor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="5" />
+		<property name="minPosition" value="75" />
+		<property name="maxPosition" value="105" />
+		<property name="position" value="75" />
+	</bean>
+
+	<bean id="diffSphiMotor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="5" />
+		<property name="minPosition" value="-88" />
+		<property name="maxPosition" value="88" />
+		<property name="position" value="0" />
+	</bean>
+
+	<bean id="rcellDeferFlag" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

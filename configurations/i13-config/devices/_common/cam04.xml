@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="cam04_focus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="cam04_focus_motor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+ 	<bean id="cam04" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="cam04_focus" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

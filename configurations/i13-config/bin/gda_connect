@@ -1,0 +1,16 @@
+#!/bin/bash
+PS3="Select the PC to which you wish to connect: "
+select event in PCODiMax_ToStartIOC PCODiMax_AsYourself  i13-ws003_AsI13Detector
+do
+    case "$event" in
+      PCODiMax_ToStartIOC  ) IPADDR=i13-pcodimax01.diamond.ac.uk;RES=1280x1024;USER=i13detector;DOMAIN=Diamond;PWD=!i13d3t3ct0r#;;
+      PCODiMax_AsYourself  ) IPADDR=i13-pcodimax01.diamond.ac.uk;RES=1280x1024;USER=user;DOMAIN=CLRC;PWD=pwd;;
+      i13-ws003_AsI13Detector  ) IPADDR=i13-ws003.diamond.ac.uk;RES=1280x1024;USER=i13detector;DOMAIN=Diamond;PWD=!i13d3t3ct0r#;;
+      *                   )  echo "Invalid selection";exit 1;;
+    esac
+    PS1="Connecting to $IPADDR  "
+    export XLIB_SKIP_ARGB_VISUALS=1
+	rdesktop -f -5 -a 24 -d $DOMAIN -u $USER -p $PWD -k en-gb -g $RES -T "CTRL-ALT-ENTER to exit full screen mode" $IPADDR
+    exit 0
+done
+

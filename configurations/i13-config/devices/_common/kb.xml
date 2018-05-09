@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+
+	<bean id="kb_hroll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kb_hroll_motor" />
+		<property name="userUnits" value="mm"/>
+		<property name="configureAtStartup" value="${gda.devices.kb.available}"></property>
+	</bean>
+	<bean id="kb_hbend1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kb_hbend1_motor" />
+		<property name="userUnits" value="mm"/>
+		<property name="configureAtStartup" value="${gda.devices.kb.available}"></property>
+	</bean>
+	<bean id="kb_hbend2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kb_hbend2_motor" />
+		<property name="userUnits" value="mm"/>
+		<property name="configureAtStartup" value="${gda.devices.kb.available}"></property>
+	</bean>
+	<bean id="kb_htrans" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kb_htrans_motor" />
+		<property name="userUnits" value="mm"/>
+		<property name="configureAtStartup" value="${gda.devices.kb.available}"></property>
+	</bean>
+	<bean id="kb_vtrans" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kb_vtrans_motor" />
+		<property name="userUnits" value="mm"/>
+		<property name="configureAtStartup" value="${gda.devices.kb.available}"></property>
+	</bean>
+	<bean id="kb_vroll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kb_vroll_motor" />
+		<property name="userUnits" value="mm"/>
+		<property name="configureAtStartup" value="${gda.devices.kb.available}"></property>
+	</bean>
+	<bean id="kb_vbend1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kb_vbend1_motor" />
+		<property name="userUnits" value="mm"/>
+		<property name="configureAtStartup" value="${gda.devices.kb.available}"></property>
+	</bean>
+	<bean id="kb_vbend2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="kb_vbend2_motor" />
+		<property name="userUnits" value="mm"/>
+		<property name="configureAtStartup" value="${gda.devices.kb.available}"></property>
+	</bean>
+	
+</beans>
+

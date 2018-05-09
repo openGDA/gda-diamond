@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<description>Ion chamber in Experiment Hutch</description>
+
+	<bean id="ionc_i" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="0.219" />
+		<property name="inputNames" value="ionc_i" />
+	</bean>
+
+	<bean id="ionc_gain" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="5" />
+		<property name="inputNames" value="ionc_gain" />
+	</bean>
+
+	<bean id="ionc_acdc" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>AC</value>
+				<value>DC</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ionc_photonflux" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition" value="0.009" />
+		<property name="inputNames" value="ionc_photonflux" />
+	</bean>
+
+</beans>

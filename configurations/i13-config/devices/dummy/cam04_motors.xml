@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<bean id="cam04_focus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-16.9" />
+		<property name="maxPosition" value="0.0" />
+		<property name="position" value="-3.7" />
+	</bean>
+
+</beans>

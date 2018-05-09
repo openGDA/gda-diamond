@@ -1,0 +1,122 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="qcm_bragg1_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-999.87" />
+		<property name="maxPosition" value="1000.1" />
+		<property name="position" value="-15.266" />
+	</bean>
+
+	<bean id="qcm_bragg2_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-999.28" />
+		<property name="maxPosition" value="1000.7" />
+		<property name="position" value="0.72831" />
+	</bean>
+
+	<bean id="qcm_bragg1_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-11.100" />
+		<property name="maxPosition" value="2220.1" />
+		<property name="position" value="19.7" />
+	</bean>
+
+	<bean id="qcm_bragg2_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-11.100" />
+		<property name="maxPosition" value="2220.1" />
+		<property name="position" value="5.416" />
+	</bean>
+
+	<bean id="qcm_bragg1_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.3480e+05" />
+		<property name="maxPosition" value="15100.0" />
+		<property name="position" value="-1608.0" />
+	</bean>
+
+	<bean id="qcm_bragg2_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-71716" />
+		<property name="maxPosition" value="9.9948e+07" />
+		<property name="position" value="1.2599e+05" />
+	</bean>
+
+	<bean id="qcm_bragg1_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-61793" />
+		<property name="maxPosition" value="58207" />
+		<property name="position" value="-45832" />
+	</bean>
+
+	<bean id="qcm_bragg2_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-9.9960e+07" />
+		<property name="maxPosition" value="9.9960e+07" />
+		<property name="position" value="-1.2398e+05" />
+	</bean>
+
+	<bean id="qcm_bragg1_finepitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-17.71" />
+		<property name="maxPosition" value="200.0" />
+		<property name="position" value="14.258" />
+	</bean>
+
+	<bean id="qcm_bragg2_finepitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-17.71" />
+		<property name="maxPosition" value="200.0" />
+		<property name="position" value="14.258" />
+	</bean>
+
+	<bean id="qcm_bragg1_fineroll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-17.71" />
+		<property name="maxPosition" value="200.0" />
+		<property name="position" value="14.258" />
+	</bean>
+
+	<bean id="qcm_bragg2_fineroll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-17.71" />
+		<property name="maxPosition" value="200.0" />
+		<property name="position" value="14.258" />
+	</bean>
+
+	<bean id="qcm_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000.0" />
+		<property name="maxPosition" value="1000.0" />
+		<property name="position" value="0.5" />
+	</bean>
+
+	<bean id="qcm_energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="6.4787" />
+		<property name="maxPosition" value="16.704" />
+		<property name="position" value="7.5" />
+	</bean>
+
+	<bean id="qcm_bragg1_finepitch" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="42.775"/>
+		</bean>
+		</property>
+	</bean>
+
+	<bean id="qcm_bragg1_fineroll" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="41.669"/>
+		</bean>
+		</property>
+	</bean>
+
+	<bean id="qcm_bragg2_finepitch" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="-9.8143"/>
+		</bean>
+		</property>
+	</bean>
+
+	<bean id="qcm_bragg2_fineroll" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="99.998"/>
+		</bean>
+		</property>
+	</bean>
+
+</beans>

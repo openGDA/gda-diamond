@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<alias name="sim_adDriverPco1" alias="adDriverPco1" />
+	<alias name="sim_adbase" alias="pco1_cam_base" />
+	<alias name="sim_ndarray" alias="pco1_arr" />
+	<alias name="sim_stats" alias="pco1_stat" />
+	<alias name="sim_roi" alias="pco1_roi1" />
+	<alias name="sim_ffmpeg" alias="pco1_ffmpeg1" />
+	<alias name="sim_ndhdf5file" alias="pco1_ndhdf5file" />
+	<alias name="sim_ndfile" alias="pco1_ndfile" />
+	<alias name="sim_hdf5" alias="pco1_hdf5" />
+	<alias name="sim_ndfiletif" alias="pco1_ndfiletif" />
+	<alias name="sim_proc" alias="pco1_proc1" />
+
+</beans>

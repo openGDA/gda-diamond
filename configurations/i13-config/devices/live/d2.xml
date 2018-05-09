@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="d2_pos" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL13I-DI-PHDGN-02:X:MP" />
+	</bean>
+
+	<bean id="d2_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL13I-DI-PHDGN-02:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="d2_i" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL13I-DI-PHDGN-02:DIODE" />
+	</bean>
+
+	<bean id="d2_gain" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL13I-DI-FEMTO-02:GAIN" />
+	</bean>
+
+	<bean id="d2_coupling" class="gda.device.scannable.EpicsScannable">
+		<property name="useNameAsInputName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL13I-DI-FEMTO-02:ACDC" />
+	</bean>
+
+	<bean id="d2_window_temp" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-DI-PHDGN-02:T1" />
+		<property name="useNameAsExtraName" value="true" />
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+
+	<bean id="d2_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL13I-DI-PHDGN-02:CAM:" />
+	</bean>
+
+	<bean id="d2_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL13I-DI-PHDGN-02:ARR:" />
+	</bean>
+
+	<bean id="d2_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL13I-DI-PHDGN-02:STAT:" />
+	</bean>
+
+	<bean id="d2_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13I-DI-PHDGN-02:PROC:" />
+	</bean>
+
+	<bean id="d2_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13I-DI-PHDGN-02:ROI:" />
+	</bean>
+
+	<bean id="d2_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL13I-DI-PHDGN-02:MJPG:" />
+	</bean>
+
+	<bean id="d2_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL13I-DI-PHDGN-02:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="d2_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="d2_ndfilehdf5_base" />
+	</bean>
+
+</beans>

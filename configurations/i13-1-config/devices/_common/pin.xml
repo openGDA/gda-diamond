@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+
+	<bean id="pin_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pin_x_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+	<bean id="pin_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pin_y_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+	<bean id="pin_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pin_z_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+	
+	<bean id="pin" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pin_x" />
+				<ref bean="pin_y" />
+				<ref bean="pin_z" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>
+

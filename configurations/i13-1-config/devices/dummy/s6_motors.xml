@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s6_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-190.76" />
+		<property name="maxPosition" value="100.24" />
+		<property name="position" value="6.9389e-18" />
+	</bean>
+
+	<bean id="s6_xgap_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-8.8289" />
+		<property name="maxPosition" value="100.0" />
+		<property name="position" value="5.0" />
+	</bean>
+
+	<bean id="s6_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-160.02" />
+		<property name="maxPosition" value="150.25" />
+		<property name="position" value="0.0" />
+	</bean>
+
+	<bean id="s6_ygap_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-9999.2" />
+		<property name="maxPosition" value="109.00" />
+		<property name="position" value="5.0" />
+	</bean>
+
+	<bean id="s6_xplus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-91.716" />
+		<property name="maxPosition" value="46.284" />
+		<property name="position" value="2.5" />
+	</bean>
+
+	<bean id="s6_xminus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-67.848" />
+		<property name="maxPosition" value="22.152" />
+		<property name="position" value="-2.5" />
+	</bean>
+
+	<bean id="s6_yplus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-197.74" />
+		<property name="maxPosition" value="939.84" />
+		<property name="position" value="2.5" />
+	</bean>
+
+	<bean id="s6_yminus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-64.408" />
+		<property name="maxPosition" value="105.59" />
+		<property name="position" value="-2.5" />
+	</bean>
+
+</beans>

@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s2_xsize_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-990.02" />
+		<property name="maxPosition" value="9950.0" />
+		<property name="position" value="25.837" />
+	</bean>
+
+	<bean id="s2_xcenter_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-9925.3" />
+		<property name="maxPosition" value="9924.7" />
+		<property name="position" value="8.5815" />
+	</bean>
+
+	<bean id="s2_ysize_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-990.23" />
+		<property name="maxPosition" value="9924.8" />
+		<property name="position" value="30.003" />
+	</bean>
+
+	<bean id="s2_ycenter_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-9950.1" />
+		<property name="maxPosition" value="9949.9" />
+		<property name="position" value="13.446" />
+	</bean>
+	
+	<bean id="s2_xplus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5.0000" />
+		<property name="maxPosition" value="90.510" />
+		<property name="position" value="21.5" />
+	</bean>
+
+	<bean id="s2_xminus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-91.000" />
+		<property name="maxPosition" value="110.00" />
+		<property name="position" value="-4.337" />
+	</bean>
+
+	<bean id="s2_yplus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100.00" />
+		<property name="maxPosition" value="100.50" />
+		<property name="position" value="28.547" />
+	</bean>
+
+	<bean id="s2_yminus_motor" class="gda.device.motor.DummyMotor">	
+		<property name="minPosition" value="-110.50" />
+		<property name="maxPosition" value="100.20" />
+		<property name="position" value="-1.456" />
+	</bean>
+
+</beans>

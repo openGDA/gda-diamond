@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- Note that PVs here are prefixed BL13I, as the device is in a shared part of the beamline -->
+
+	<bean id="gb1_t1" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-RS-GBC-01:T1" />
+		<property name="useNameAsInputName" value="true"/>
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+	<bean id="gb1_t2" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-RS-GBC-01:T2" />
+		<property name="useNameAsInputName" value="true"/>
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+	<bean id="gb1_t3" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-RS-GBC-01:T3" />
+		<property name="useNameAsInputName" value="true"/>
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+	<bean id="gb1_t4" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-RS-GBC-01:T4" />
+		<property name="useNameAsInputName" value="true"/>
+		<!-- unit C is not supported -->
+		<property name="hasUnits" value="false" />
+	</bean>
+</beans>	

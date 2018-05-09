@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+
+
+	<bean id="scope1_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="scope1_x_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="scope1_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="scope1_y_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="scope1_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="scope1_z_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="scope1_focus_rot" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="scope1_focus_rot_motor" />
+		<property name="userUnits" value="mdeg"/>
+	</bean>
+
+	<bean id="scope1_focus_translation" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="scope1_focus_translation_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	
+	<bean id="scope1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="scope1_x" />
+				<ref bean="scope1_y" />
+				<ref bean="scope1_z" />
+				<ref bean="scope1_focus_rot" />
+				<ref bean="scope1_focus_translation" />
+				<ref bean="scope1_turret" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>

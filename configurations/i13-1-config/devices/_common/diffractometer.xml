@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="diffScannableBase" abstract="true">
+		<property name="userUnits" value="deg" />
+		<property name="returnDemandPosition" value="true" />
+		<property name="demandPositionTolerance" value=".01" />
+		<property name="outputFormat" value="%5.5g" />
+		<property name="logMoveRequestsWithInfo" value="true" />
+	</bean>
+
+	<bean id="delta" class="gda.device.scannable.ScannableMotor" parent="diffScannableBase">
+		<property name="motor" ref="rcellKthetaMotor" />
+	</bean>
+
+	<bean id="gam" class="gda.device.scannable.ScannableMotor" parent="diffScannableBase">
+		<property name="motor" ref="rcellKphiMotor" />
+	</bean>
+
+	<bean id="eta" class="gda.device.scannable.ScannableMotor" parent="diffScannableBase">
+		<property name="motor" ref="diffSthetaMotor" />
+	</bean>
+
+	<bean id="chi" class="gda.device.scannable.ScannableMotor" parent="diffScannableBase">
+		<property name="motor" ref="diffSkappaMotor" />
+	</bean>
+
+	<bean id="phi" class="gda.device.scannable.ScannableMotor" parent="diffScannableBase">
+		<property name="motor" ref="diffSphiMotor" />
+	</bean>
+
+	<bean id="_fivec" class="gda.device.scannable.scannablegroup.MotomanRobotScannableGroup">
+		<property name="name" value="_fivec" />
+        <property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="delta" />
+				<ref bean="gam" />
+				<ref bean="eta" />
+				<ref bean="chi" />
+				<ref bean="phi" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

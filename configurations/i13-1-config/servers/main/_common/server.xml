@@ -1,0 +1,218 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder/>
+
+	<import resource="ringAndBeamline.xml" />
+	<import resource="commandQueueProcessor.xml" />
+	<import resource="beamlineEnergyController.xml" />
+	<import resource="GDAMetadata.xml" />
+	<import resource="imageProcessors.xml" />
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+
+	<!-- Replaces ScanDataStore -->
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="serviceName" value="gda/ScanDataPointServer" />
+		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
+		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
+	</bean>
+
+	<import resource="file:${gda.config}/devices/_common/simpleScannables.xml" />
+
+	<!-- =========================================================== --> 
+	<!-- Device files with separate live and dummy versions          -->
+	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/devices/${gda.mode}/maxipix_tango.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/tfg2.xml" />
+	
+	<import resource="file:${gda.config}/devices/${gda.mode}/undulator.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/front_end.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/ring.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/ring_monitor.xml" />
+	
+	<!-- start of internal building -->
+	<import resource="file:${gda.config}/devices/${gda.mode}/fast_shutter.xml"/>
+
+	<import resource="file:${gda.config}/devices/${gda.mode}/s1_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/filter_motors.xml"/>
+	
+	<import resource="file:${gda.config}/devices/${gda.mode}/gas_bremsstrahlung1.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/m1.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/d1.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/absorbers1.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/d2.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/absorbers2.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/s2_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/s3_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/d3.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/absorbers3.xml"/>
+	
+	<!-- end of internal building / start of external building -->
+	<import resource="file:${gda.config}/devices/${gda.mode}/optics_hutch4_shutter.xml"/>
+	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/absorbers4.xml"/> -->
+    <import resource="file:${gda.config}/devices/${gda.mode}/qcm_motors.xml"/> 
+	<import resource="file:${gda.config}/devices/${gda.mode}/experiment_hutch_shutter.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/d4.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/d5.xml"/>
+
+	<import resource="file:${gda.config}/devices/${gda.mode}/dcm_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/s4_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/s5_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/m2_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/pin_motors.xml"/>
+ 	<import resource="file:${gda.config}/devices/${gda.mode}/diff_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/diffractometer_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/s6_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/sample_stage_t1_motors.xml"/>
+	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/g1_motors.xml"/> -->
+	<import resource="file:${gda.config}/devices/${gda.mode}/ion_chamber.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/sample_stage_camera.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/float1.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/float2.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/float3.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/float4.xml"/>
+	
+	<import resource="file:${gda.config}/devices/${gda.mode}/s7_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/scope1_motors.xml"/>
+
+	<import resource="file:${gda.config}/devices/${gda.mode}/pco1.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/pco_binning.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/merlin.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/merlin_addetector.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml" />
+	<import resource="file:${gda.config}/devices/${gda.mode}/xspress3_addetector.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/excalibur_addetector.xml"/>
+	
+	<import resource="file:${gda.config}/devices/${gda.mode}/afg.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/t1_vac_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/t2_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/sample_lab_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/qcm_bragg_comb_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/newp_motors.xml"/>
+
+	<!-- piezo raster scan device  - must be included for maxipix -->
+	<import resource="file:${gda.config}/devices/${gda.mode}/pie725_raster.xml"/>
+
+	<!-- file registration -->
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+
+	<!-- =========================================================== -->
+	<!-- Shared device files                                         -->
+	<!-- =========================================================== -->
+
+	<import resource="file:${gda.config}/devices/_common/fast_shutter.xml"/>
+	<import resource="file:${gda.config}/devices/_common/undulator.xml" />
+	<import resource="file:${gda.config}/devices/_common/front_end.xml" />
+
+	<import resource="file:${gda.config}/devices/_common/s1.xml" />
+	<import resource="file:${gda.config}/devices/_common/filters.xml" />
+	<import resource="file:${gda.config}/devices/_common/gas_bremsstrahlung1.xml"/>
+	<import resource="file:${gda.config}/devices/_common/m1.xml" />
+	<import resource="file:${gda.config}/devices/_common/s2.xml" />
+	<import resource="file:${gda.config}/devices/_common/s3.xml" />
+
+	<import resource="file:${gda.config}/devices/_common/d1.xml" />
+	<import resource="file:${gda.config}/devices/_common/d2.xml" />
+	<import resource="file:${gda.config}/devices/_common/d3.xml" />
+	<import resource="file:${gda.config}/devices/_common/d4.xml" />
+	<import resource="file:${gda.config}/devices/_common/d5.xml" />
+
+	<import resource="file:${gda.config}/devices/_common/float1.xml" />
+	<import resource="file:${gda.config}/devices/_common/float2.xml" />
+	<import resource="file:${gda.config}/devices/_common/float3.xml" />
+	<import resource="file:${gda.config}/devices/_common/float4.xml" />
+
+	<import resource="file:${gda.config}/devices/_common/optics_hutch4_shutter.xml" />
+
+	<!-- end of internal building/ start of external building -->
+	<import resource="file:${gda.config}/devices/_common/qcm.xml" />
+	<import resource="file:${gda.config}/devices/_common/s4.xml" />
+	<import resource="file:${gda.config}/devices/_common/s5.xml" />
+	<import resource="file:${gda.config}/devices/_common/m2.xml"/>
+	<!-- <import resource="file:${gda.config}/devices/_common/pin.xml"/> -->
+ 	<import resource="file:${gda.config}/devices/_common/diff.xml"/>
+	<import resource="file:${gda.config}/devices/_common/s6.xml" />
+	<import resource="file:${gda.config}/devices/_common/dcm.xml" />
+
+	<import resource="file:${gda.config}/devices/_common/sample_stage_t1.xml" />
+	<import resource="file:${gda.config}/devices/_common/ion_chamber.xml" />
+	<!-- <import resource="file:${gda.config}/devices/_common/g1.xml" /> -->
+	<import resource="file:${gda.config}/devices/_common/sample_stage_camera.xml" />
+	<import resource="file:${gda.config}/devices/_common/s7.xml" />
+	<import resource="file:${gda.config}/devices/_common/scope1.xml" />
+
+	<!--  dummy motors for testing tomoscan  -->
+	<import resource="file:${gda.config}/devices/_common/tomoscan_dummies.xml" />
+
+	<import resource="file:${gda.config}/devices/_common/dummyAD.xml" />
+
+	<import resource="file:${gda.config}/devices/_common/t1_vac.xml" />
+	<import resource="file:${gda.config}/devices/_common/t2.xml" />
+	<import resource="file:${gda.config}/devices/_common/sample_lab.xml" />
+	<import resource="file:${gda.config}/devices/_common/qcm_bragg_comb.xml" />
+	<import resource="file:${gda.config}/devices/_common/newp.xml" />
+
+	<import resource="file:${gda.config}/devices/_common/pco1.xml" />
+	<import resource="file:${gda.config}/devices/_common/pco_binning.xml"/>
+	<import resource="file:${gda.config}/devices/_common/merlin.xml" />
+	<import resource="file:${gda.config}/devices/_common/merlin_addetector.xml" />
+	<import resource="file:${gda.config}/devices/_common/maxipix.xml" />
+	<import resource="file:${gda.config}/devices/_common/xspress3_addetector.xml"/>
+	<import resource="file:${gda.config}/devices/_common/excalibur_addetector.xml"/>
+	<import resource="file:${gda.config}/devices/_common/pco1_addetector.xml"/>
+	<import resource="file:${gda.config}/devices/_common/example_detectors.xml"/>
+
+	<import resource="file:${gda.config}/devices/_common/beam_watchdogs.xml"/>
+	
+	<import resource="file:${gda.config}/devices/_common/diffractometer.xml" />
+	<import resource="file:${gda.config}/devices/_common/afg.xml"/>
+	<import resource="file:${gda.config}/devices/_common/zebra.xml" />
+
+	<!-- =========================================================== -->
+	<!-- end of device list -->
+	<!-- =========================================================== -->
+
+ 	<import resource="file:${gda.config}/devices/_common/cameraScaleProviders.xml"/>
+ 	<import resource="cameraStageScannables.xml" />
+ 	<import resource="dataFileMonitor.xml" />
+ 	<import resource="rcpController.xml" />
+
+	<!-- file registration -->
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/dataFileWriter.xml" />
+	
+	<!-- See uk.ac.gda.exafs.ui.detector.DetectorEditor.EXAFS_SCRIPT_OBSERVER-->
+	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+	<!-- See gda.rcp.views.dashboard.SimpleScannableObject.DASHBOARD_OBSERVER -->
+	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+
+	<!-- Initialise Jython late on in case scripts use Spring beans -->
+	<import resource="jythonServerFacade.xml" />
+
+	<!--
+		Mapping scans
+		IMPORTANT: this will start processing the scanning queue.
+		Detectors must be created before doing this.
+		ADVISED: do it last or towards the end, scan will now start to run!
+	 -->
+	<import resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml"/>
+
+	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
+	<corba:export namespace="${gda.factory.factoryName}" />
+
+</beans>

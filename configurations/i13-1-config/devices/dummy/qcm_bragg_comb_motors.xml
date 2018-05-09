@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+           
+	<bean id="qcm_bragg1_comb_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0.000" />
+		<property name="maxPosition" value="0.000" />
+		<property name="position" value="-7062.9996" />
+	</bean>
+           
+	<bean id="qcm_bragg1_comb_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0.000" />
+		<property name="maxPosition" value="0.000" />
+		<property name="position" value="2702.4848" />
+	</bean>
+           
+	<bean id="qcm_bragg2_comb_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0.000" />
+		<property name="maxPosition" value="0.000" />
+		<property name="position" value="-11689.0950" />
+	</bean>
+           
+	<bean id="qcm_bragg2_comb_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0.000" />
+		<property name="maxPosition" value="0.000" />
+		<property name="position" value="412.6469" />
+	</bean>
+
+</beans>

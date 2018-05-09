@@ -1,0 +1,2 @@
+#! /bin/sh
+exec gnome-terminal --title="I13J TFG2" -x sh -c "telnet bl13j-ea-tfg2-01 1972 || sleep 5"

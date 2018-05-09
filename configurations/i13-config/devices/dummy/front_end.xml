@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="fes1_xcenter_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-24.090" />
+		<property name="maxPosition" value="25.180" />
+		<property name="position" value="0.30915" />
+	</bean>
+	
+	<bean id="fes1_xsize_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-44.918" />
+		<property name="maxPosition" value="54.138" />
+		<property name="position" value="5.3395" />
+	</bean>
+	
+	<bean id="fes1_ysize_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-14.827" />
+		<property name="maxPosition" value="83.937" />
+		<property name="position" value="5.0240" />
+	</bean>
+	
+	<bean id="fes1_ycenter_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.535" />
+		<property name="maxPosition" value="9.9341" />
+		<property name="position" value="-0.60960" />
+	</bean>
+
+	<bean id="fshtr1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Closed</value>
+			</list>
+		</property>
+	</bean> 
+
+	<bean id="fshtr2" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Closed</value>
+			</list>
+		</property>
+	</bean> 
+
+	<bean id="fastmask" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Closed</value>
+			</list>
+		</property>
+	</bean> 
+
+</beans>

@@ -1,0 +1,61 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+
+	<bean id="fes1_xsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fes1_xsize_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="fes1_xcenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fes1_xcenter_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="fes1_ysize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fes1_ysize_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="fes1_ycenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fes1_ycenter_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="front_end" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="fes1_xsize" />
+				<ref bean="fes1_xcenter" />
+				<ref bean="fes1_ysize" />
+				<ref bean="fes1_ycenter" />
+				<ref bean="fshtr1" />
+				<ref bean="fshtr2" />
+				<ref bean="fastmask" />
+			</list>
+		</property>
+	</bean>
+	
+<!--Not present on beamline
+ 	<bean id="fes1_xplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fes1_xplus_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="fes1_xminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fes1_xminus_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="fes1_yplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fes1_yplus_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="fes1_yminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="fes1_yminus_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+ -->	
+</beans>
+

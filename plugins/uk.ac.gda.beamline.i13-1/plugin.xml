@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="Diamond Beamline I13-1">
+         <property
+               name="appName"
+               value="Diamond Beamline I13-1">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutText"
+               value="Diamond Beamline I13-1&#x0A;&#x0A;Based on GDA See &lt;http://www.opengda.org/&gt;">
+         </property>    
+      </product>
+   </extension>
+  
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml">
+      </toc>
+      <toc
+            file="primaryToc.xml"
+            primary="true">
+      </toc>
+   </extension> 
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="I13 Manuals"
+            visible="true"
+            id="gda.rcp.help.i13.manuals">
+         <action
+               id="gda.rcp.help.beamlinemanual"
+               label="Beamline Manual"
+               menubarPath="help/helpStart"               
+               style="push">
+               <class class="org.eclipse.help.ui.browser.LaunchURL">
+                    <parameter name="url" value="http://confluence.diamond.ac.uk/display/I13Tech/I13-1+Data+Acquisition+User+Guide" />
+               </class>               
+        	</action>
+         <action
+               id="gda.rcp.help.elog"
+               label="ELog - Send Feedback"
+               menubarPath="help/helpStart"               
+               style="push">
+                <class class="org.eclipse.help.ui.browser.LaunchURL">
+                    <parameter name="url" value="https://elog.pri.diamond.ac.uk/" />
+               </class>               
+        	</action>          
+         <action
+               id="gda.rcp.help.reportabug"
+               label="Report A Problem"
+               menubarPath="help/helpStart"               
+               style="push">
+                <class class="org.eclipse.help.ui.browser.LaunchURL">
+                    <parameter name="url" value="http://jira.diamond.ac.uk/secure/CreateIssue.jspa?pid=10120"/>
+               </class>               
+        	</action>        	
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category name="I13-1 Views" id="uk.ac.gda.beamline.i13-1"/>
+      <view
+         allowMultiple="false"
+         category="uk.ac.gda.beamline.i13-1"
+         class="gda.rcp.views.ViewFactory:statusView"
+         icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png"
+         id="uk.ac.gda.beamline.i13-1.views.StatusView"
+         name="Status">
+      </view>
+      <view
+         allowMultiple="false"
+         category="uk.ac.diamond.scisoft.analysis.rcp"
+         class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+         icon="icons/chart_curve.png"
+         id="uk.ac.gda.beamline.i13-1.DetectorPlot"
+         name="Detector Image"
+         restorable="true">
+       </view>
+   </extension>  
+
+   <extension point="org.eclipse.ui.menus">   
+	 <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="uk.ac.gda.client.mx.mainControls">
+            <command
+                  commandId="uk.ac.gda.client.datadispenser.controller.command"
+                  label="Data Dispenser"
+                  mode="FORCE_TEXT"
+                  style="push">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+
+</plugin>

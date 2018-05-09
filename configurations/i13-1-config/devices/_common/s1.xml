@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+
+
+	<bean id="s1_xsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1_xsize_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="s1_xcenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1_xcenter_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="s1_ysize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1_ysize_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="s1_ycenter" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1_ycenter_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	
+	<bean id="s1_xplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1_xplus_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="s1_xminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1_xminus_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="s1_yplus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1_yplus_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="s1_yminus" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s1_yminus_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s1_xsize" />
+				<ref bean="s1_xcenter" />
+				<ref bean="s1_xplus" />
+				<ref bean="s1_xminus" />
+				<ref bean="s1_ysize" />
+				<ref bean="s1_ycenter" />
+				<ref bean="s1_yplus" />
+				<ref bean="s1_yminus" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>

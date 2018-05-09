@@ -1,0 +1,70 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+
+	<bean id="qcm_bragg1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg1_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="qcm_bragg1_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg1_x_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="qcm_bragg1_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg1_pitch_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="qcm_bragg1_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg1_roll_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+
+<!-- 	<bean id="qcm_bragg1_finepitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg1_finepitch_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="qcm_bragg1_fineroll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg1_fineroll_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean> -->
+
+	<bean id="qcm_bragg2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg2_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="qcm_bragg2_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg2_x_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="qcm_bragg2_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg2_pitch_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="qcm_bragg2_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg2_roll_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+
+<!-- 	<bean id="qcm_bragg2_finepitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg2_finepitch_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="qcm_bragg2_fineroll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_bragg2_fineroll_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean> -->
+
+
+	<bean id="qcm_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="qcm_y_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	
+</beans>
+

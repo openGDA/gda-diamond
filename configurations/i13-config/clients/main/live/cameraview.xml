@@ -1,0 +1,123 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="d1_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="D1 - Post Mirror  1"/>
+		<property name="urlPV" value="BL13I-DI-PHDGN-01:FFMPEG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL13I-DI-PHDGN-01:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL13I-DI-PHDGN-01:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL13I-DI-PHDGN-01:CAM:Gain" />
+		<property name="acquirePV" value="BL13I-DI-PHDGN-01:CAM:Acquire" />
+	</bean>
+	
+	<bean id="d2_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="D2 - Pre Absorber 1"/>
+		<property name="urlPV" value="BL13I-DI-PHDGN-02:FFMPEG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL13I-DI-PHDGN-02:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL13I-DI-PHDGN-02:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL13I-DI-PHDGN-02:CAM:Gain" />
+		<property name="acquirePV" value="BL13I-DI-PHDGN-02:CAM:Acquire" />
+	</bean>
+
+	<bean id="d3_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="D3 - Pre Absorber 2"/>
+		<property name="urlPV" value="BL13I-DI-PHDGN-03:FFMPEG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL13I-DI-PHDGN-03:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL13I-DI-PHDGN-03:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL13I-DI-PHDGN-03:CAM:Gain" />
+		<property name="acquirePV" value="BL13I-DI-PHDGN-03:CAM:Acquire" />
+	</bean>
+
+	<bean id="d4_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="D4 - After Slits 2"/>
+		<property name="urlPV" value="BL13I-DI-PHDGN-04:FFMPEG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL13I-DI-PHDGN-04:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL13I-DI-PHDGN-04:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL13I-DI-PHDGN-04:CAM:Gain" />
+		<property name="acquirePV" value="BL13I-DI-PHDGN-04:CAM:Acquire" />
+	</bean>
+
+
+	<bean id="shtr1_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="SHTR1 - Entry to QCM Hutch"/>
+		<property name="urlPV" value="BL13I-DI-PHDGN-05:FFMPEG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL13I-DI-PHDGN-05:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL13I-DI-PHDGN-05:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL13I-DI-PHDGN-05:CAM:Gain" />
+		<property name="acquirePV" value="BL13I-DI-PHDGN-05:CAM:Acquire" />
+	</bean>
+
+	<bean id="d5_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="D5 - Entry to Experiment Hutch"/>
+		<property name="urlPV" value="BL13I-DI-PHDGN-06:FFMPEG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL13I-DI-PHDGN-06:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL13I-DI-PHDGN-06:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL13I-DI-PHDGN-06:CAM:Gain" />
+		<property name="acquirePV" value="BL13I-DI-PHDGN-06:CAM:Acquire" />
+	</bean>
+	
+	<bean id="pco_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="PCO"/>
+		<property name="urlPV" value="BL13I-EA-DET-01:MJPG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL13I-EA-DET-01:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL13I-EA-DET-01:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL13I-EA-DET-01:CAM:Gain" />
+		<property name="acquirePV" value="BL13I-EA-DET-01:CAM:Acquire" />
+<!-- 		<property name="scalePV" value="BL13I-EA-DET-01:PRO1:Scale" />
+		<property name="cmdFormatter" value="tomodet.setupStreamForCameraView(%f,%f,%f,%f)"/>
+ -->	</bean>
+ 
+	<bean id="pco_aux_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+		<property name="name" value="PCO AUX"/>
+		<property name="urlPV" value="BL13I-EA-DET-17:MJPG:MJPG_URL_RBV" />
+		<property name="exposurePV" value="BL13I-EA-DET-17:CAM:AcquireTime" />
+		<property name="acqPeriodPV" value="BL13I-EA-DET-17:CAM:AcquirePeriod" />
+		<property name="gainPV" value="BL13I-EA-DET-17:CAM:Gain" />
+		<property name="acquirePV" value="BL13I-EA-DET-17:CAM:Acquire" />
+	</bean>
+	<!-- requires anonymous viewer access to be enabled-->
+ 	<bean id="WebCam_UpStream" class="uk.ac.gda.video.views.CameraParameters">
+		<property name="name" value="WebCam UpStream"/>
+		<property name="mjpegURL" value="http://172.23.113.209/mjpg/video.mjpg" />
+	</bean>
+ 	<bean id="WebCam_Middle" class="uk.ac.gda.video.views.CameraParameters">
+		<property name="name" value="WebCam Middle"/>
+		<property name="mjpegURL" value="http://172.23.113.210/mjpg/video.mjpg" />
+	</bean>
+	<!-- requires anonymous viewer login -->
+ 	<bean id="WebCam_DownStream" class="uk.ac.gda.video.views.CameraParameters">
+		<property name="name" value="WebCam DownStream"/>
+		<property name="mjpegURL" value="http://172.23.113.211/mjpg/video.mjpg" />
+	</bean>
+
+	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+		<property name="cameras">
+			<list>
+				<!--ref bean= "pco_cam_config"/-->
+				<ref bean= "WebCam_UpStream"/>
+				<ref bean= "WebCam_Middle"/>
+				<ref bean= "WebCam_DownStream"/>
+				<ref bean= "d1_cam_config"/>
+				<ref bean= "d2_cam_config"/>
+				<ref bean= "d3_cam_config"/>
+				<ref bean= "d4_cam_config"/>
+				<ref bean= "shtr1_cam_config"/>
+				<ref bean= "d5_cam_config"/>
+			</list>
+		</property>
+		<property name="plotViewID" value="uk.ac.gda.beamline.i13i.DetectorPlot"/>
+	</bean>
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+		<property name="service" ref="camera_config" />
+	</bean>
+	
+</beans>

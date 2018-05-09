@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="merlin_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:CAM:" />
+	</bean>
+	<bean id="merlin_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:ARR:" />
+	</bean>
+
+	<bean id="merlin_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:STAT:" />
+	</bean>
+	
+	<bean id="merlin_stat1" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:STAT1:" />
+	</bean>
+	
+		<bean id="merlin_stat2" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:STAT2:" />
+	</bean>
+	
+	<bean id="merlin_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:ROI:" />
+	</bean>
+
+	<bean id="merlin_roi1" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:ROI1:" />
+	</bean>
+	
+	<bean id="merlin_roi2" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:ROI2:" />
+	</bean>
+	
+	<bean id="merlin_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:MJPG:" />
+	</bean>
+
+
+	<bean id="merlin_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="merlin_ndfilehdf5_base" />
+	</bean>
+
+
+	<bean id="merlin_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="merlin_ndfiletif" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="merlin_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL13J-EA-DET-04:PROC:" />
+	</bean>
+
+</beans>	
