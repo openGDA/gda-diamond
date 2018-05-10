@@ -47,67 +47,8 @@
 					<property name="allowedValuesFromBoolean" value="true" />
 				</bean>
 
-				<!-- XY theta stage -->
-				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="Sam2 X" />
-					<property name="fullPathToGetter" value="getXYThetaStageParameters.getX" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
-				</bean>
-				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="Sam2 Y" />
-					<property name="fullPathToGetter" value="getXYThetaStageParameters.getY" />
-					<property name="beanType"
-						value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
-				</bean>
-				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="Sam2 theta" />
-					<property name="fullPathToGetter" value="getXYThetaStageParameters.getTheta" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
-				</bean>
-
-				<!-- SX cryo stage -->
-				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="Sam1sx cryo height" />
-					<property name="fullPathToGetter" value="getSXCryoStageParameters.getHeight" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
-				</bean>
-				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="Sam1sx cryo rotation" />
-					<property name="fullPathToGetter" value="getSXCryoStageParameters.getRot" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
-				</bean>
-
-				<!-- User stage axes 2,4,6,7,8 -->
-				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="User stage axis 2" />
-					<property name="fullPathToGetter" value="getUserStageParameters.getAxis2" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
-				</bean>
-				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="User stage axis 4" />
-					<property name="fullPathToGetter" value="getUserStageParameters.getAxis4" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
-				</bean>
-				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="User stage axis 5" />
-					<property name="fullPathToGetter" value="getUserStageParameters.getAxis5" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
-				</bean>
-				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="User stage axis 6" />
-					<property name="fullPathToGetter" value="getUserStageParameters.getAxis6" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
-				</bean>
-				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="User stage axis 7" />
-					<property name="fullPathToGetter" value="getUserStageParameters.getAxis7" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
-				</bean>
-				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="User stage axis 8" />
-					<property name="fullPathToGetter" value="getUserStageParameters.getAxis8" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
-				</bean>
+				<!-- Don't include user sample stages here (e.g. sam2x, sam2y, user2, user3...); 
+				     spreadsheet view will pick up 'generic sample parameter motors' at runtime from sample parameters.xml file -->
 
 				<!-- 'Before first repetition' script -->
 				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">

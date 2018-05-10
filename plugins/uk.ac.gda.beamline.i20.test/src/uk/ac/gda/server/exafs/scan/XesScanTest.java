@@ -354,7 +354,8 @@ public class XesScanTest {
 		xesParams.setScanType(XesScanParameters.FIXED_XES_SCAN_XANES);
 		xesParams.setXesEnergy(6300.0);
 		xesParams.setScanFileName(""); // response from BeansFactory mocked above
-		xesScan.doCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
+		xesScan.configureCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
+		xesScan.doCollection();
 
 		// what has been operated on?
 		InOrder inorder = Mockito.inOrder(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, it,
@@ -408,7 +409,8 @@ public class XesScanTest {
 		xesParams.setScanType(XesScanParameters.FIXED_XES_SCAN_XANES);
 		xesParams.setXesEnergy(6300.0);
 		xesParams.setScanFileName(""); // response from BeansFactory mocked above
-		xesScan.doCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
+		xesScan.configureCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
+		xesScan.doCollection();
 
 		// what has been operated on?
 		InOrder inorder = Mockito.inOrder(beamlinePreparer, detectorPreparer, samplePreparer, outputPreparer, it,
@@ -462,7 +464,8 @@ public class XesScanTest {
 		xesParams.setXesStepSize(200.0);
 		xesParams.setMonoEnergy(10000.0);
 
-		xesScan.doCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
+		xesScan.configureCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
+		xesScan.doCollection();
 
 		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
 
@@ -501,7 +504,8 @@ public class XesScanTest {
 		xesParams.setMonoStepSize(100.0);
 		xesParams.setLoopChoice(XesScanParameters.LOOPOPTIONS[0]);
 
-		xesScan.doCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
+		xesScan.configureCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
+		xesScan.doCollection();
 
 		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
 
@@ -543,7 +547,8 @@ public class XesScanTest {
 		xesParams.setMonoStepSize(100.0);
 		xesParams.setLoopChoice(XesScanParameters.LOOPOPTIONS[1]);
 
-		xesScan.doCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
+		xesScan.configureCollection(sampleParams, xesParams, detParams, outputParams, null, experimentalFullPath, 1);
+		xesScan.doCollection();
 
 		Object[] scanArgs = xesScan.createScanArguments("sample 1", new ArrayList<String>());
 
