@@ -1,6 +1,7 @@
 """
-Continuous Energy Scannable and Controller for using Constant Velocity on I10
-for use with GDA at Diamond Light Source
+A Controller for Continuous Energy moving of both PGM and ID at Constant Velocity
+
+@author: Fajin Yuan 8 may 2018
 """
 
 from datetime import datetime, timedelta
@@ -11,9 +12,12 @@ from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
 from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating #, enecff2grating
 import threading, time
+import installation
 
 class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveController, DeviceBase):
-
+    '''Controller for constant velocity scan moving both PGM Grating Pitch and ID Gap at same time at constant speed respectively.
+        It works for both Live and Dummy mode.
+    '''
     def __init__(self, name, pgm_grat_pitch, pgm_mirr_pitch, pgmpvroot, id_energy, idpvroot): # motors, maybe also detector to set the delay time
         self.logger = LoggerFactory.getLogger("ContinuousPgmGratingIDGapEnergyMoveController:%s" % name)
         self.verbose = False
@@ -35,14 +39,16 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
                               'mirror_pitch':                   'MIR:PITCH',
                               'energy_calibration_gradient':    'MX',
                               'energy_calibration_reference':   'REFERENCE'}, pgmpvroot)
-        self.pvs.configure()
+        if installation.isLive():
+            self.pvs.configure()
         #ID
         self._id_energy=id_energy
         self._id_gap_speed_orig=None
         self._id_runupdown_time = None
         self.idpvs = PvManager({'vel':'BLGSETVEL',
                                 'acc':'IDGSETACC'}, idpvroot)
-        self.idpvs.configure()
+        if installation.isLive():
+            self.idpvs.configure()
         
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
 
@@ -96,7 +102,12 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         energy_midpoint = (self._move_end + self._move_start) / 2.
         if self.verbose:
             self.logger.info('preparePGMForMove:energy_midpoint=%r ' % (energy_midpoint))
-        self.grating_density, self.cff, self.grating_offset, self.plane_mirror_offset, self.energy_calibration_gradient, self.energy_calibration_reference = self.getPgmEnergyParameters()
+
+        if installation.isLive():
+            self.grating_density, self.cff, self.grating_offset, self.plane_mirror_offset, self.energy_calibration_gradient, self.energy_calibration_reference = self.getPgmEnergyParameters()
+        else:
+            self.grating_density, self.cff, self.grating_offset, self.plane_mirror_offset, self.energy_calibration_gradient, self.energy_calibration_reference = self.getPgmEnergyParametersFixed()
+            
         # Calculate plane mirror angle for given grating density, energy, cff and offsets
         self.mirr_pitch_midpoint = enecff2mirror(gd=self.grating_density, energy=energy_midpoint, 
             cff=self.cff, 
@@ -122,7 +133,8 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self._pgm_grat_pitch_speed = abs(self._grat_pitch_end - self._grat_pitch_start) / self.getTotalTime()
         ### Calculate ramp distance from required speed and ramp times
         # Set the speed before we read out ramp times in case it is dependent
-        self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed # Should really be / | | | | | \ not /| | | | |\
+        self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed 
+        # Should really be / | | | | | \ not /| | | | |\
         self._pgm_runupdown_time = self._pgm_grat_pitch.timeToVelocity
         self._pgm_runupdown = self._pgm_grat_pitch_speed / 2 * self._pgm_runupdown_time
         ### Move motor at full speed to start position
@@ -140,7 +152,11 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
             self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_start + self._pgm_runupdown) * 1000.)
 
     def PrepareIDForMove(self):
-        self._id_gap_speed_orig = float(self.idpvs['vel'].caget())
+        if installation.isLive():
+            self._id_gap_speed_orig = float(self.idpvs['vel'].caget())
+        else:
+            self._id_gap_speed_orig = self._id_gap.speed
+            
         # Calculate the energy midpoint
         energy_midpoint = (self._move_end + self._move_start) / 2.
         if self.verbose:
@@ -163,8 +179,12 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         #check speed within limits
         if self._id_gap_speed<0.004 or self._id_gap_speed>1.0:
             raise Exception("Calculated ID gap speed %f is outside limits [%f, %f]!" % (self._id_gap_speed, 0.004, 1.0))
-        #self._id_gap.speed = self._id_gap_speed #Cannot set id_gap.speed through soft motor which in EPICS is read-only 
-        self.idpvs['vel'].caput(self._id_gap_speed)
+        if installation.isLive():
+            #self._id_gap.speed = self._id_gap_speed #Cannot set id_gap.speed through soft motor which in EPICS is read-only 
+            self.idpvs['vel'].caput(self._id_gap_speed)
+        else:
+            self._id_gap.speed = self._id_gap_speed 
+            
         #acceleration time per axis
         self._id_axis_speed=self._id_gap_speed/2
         self._id_runupdown_time_per_axis=self._id_axis_speed*4
@@ -182,7 +202,11 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self._id_energy.id_rowphase3.asynchronousMoveTo(self.id_rowphase3_midpoint)
         self._id_energy.id_rowphase4.asynchronousMoveTo(self.id_rowphase4_midpoint)
         
-        self.idpvs['vel'].caput(self._id_gap_speed_orig)
+        if installation.isLive():
+            self.idpvs['vel'].caput(self._id_gap_speed_orig)
+        else:
+            self._id_gap.speed = self._id_gap_speed_orig 
+            
         if self.getIDGapMoveDirectionPositive():
             if self.verbose:
                 self.logger.info('prepareIDForMove:asynchronousMoveTo(%r) @ %r (+ve)' % ((self._id_gap_start - self._id_gap_runupdown), self._id_gap_speed_orig))
@@ -209,7 +233,11 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self._start_event.set()
         # Start threads to start ID & PGM and at the correct times
         self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed
-        self.idpvs['vel'].caput(self._id_gap_speed)
+        if installation.isLive():
+            self.idpvs['vel'].caput(self._id_gap_speed)
+        else:
+            self._id_gap.speed = self._id_gap_speed 
+            
         if self.getGratingMoveDirectionPositive():
             if self.verbose: self.logger.info('startMove PGM Grating Pitch: asynchronousMoveTo(%r) @ %r (+ve)' % (
                                                     (self._grat_pitch_end + self._pgm_runupdown)*1000., self._pgm_grat_pitch_speed))
@@ -365,8 +393,12 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
             self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed_orig
             self._pgm_grat_pitch_speed_orig = None
         if self._id_gap_speed_orig:
-            if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idpvs['vel'].caget()))
-            self.idpvs['vel'].caput(self._id_gap_speed_orig)
+            if installation.isLive():
+                if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idpvs['vel'].caget()))
+                self.idpvs['vel'].caput(self._id_gap_speed_orig)
+            else:
+                if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self._id_gap.speed))
+                self._id_gap.speed = self._id_gap_speed_orig 
             self._id_gap_speed_orig = None
 
     def atScanEnd(self):
