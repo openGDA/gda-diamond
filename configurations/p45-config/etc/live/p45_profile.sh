@@ -8,7 +8,7 @@ if [ ! -n "$BEAMLINE" ]; then
 fi
 
 # Set up path and mode
-export PATH=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-core.git/p45-config/bin:${PATH}
+export PATH=/dls_sw/$BEAMLINE/software/gda/workspace_git/gda-diamond.git/configurations/p45-config/bin:${PATH}
 export GDA_MODE=live
 
 # Set up command completion for the gda command
