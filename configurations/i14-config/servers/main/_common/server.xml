@@ -147,8 +147,6 @@
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
-	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
-
 	<!--
 		Mapping scans
 		IMPORTANT: this will start processing the scanning queue.
