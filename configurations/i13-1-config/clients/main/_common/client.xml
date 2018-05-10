@@ -1,11 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-   	<corba:import namespace="${gda.factory.factoryName}"
-   		names="dcm_energy, dcm_bragg, eh_shtr, fs, rotationAxisXScannable, cameraXYScannable, scope1_turret, binning_x, binning_y" />
 
 	<import resource="commandQueueProcessor.xml" />
 	<import resource="rmi_imports.xml" />
@@ -13,25 +10,21 @@
 	<import resource="osgi_services.xml" />
 	<import resource="mapping.xml" />
 	<import resource="adController.xml" />
-	
+
 	<import resource="../../rcp/statusView.xml" />
 	<import resource="../../rcp/alignmentView.xml" />
 	<import resource="../../rcp/detectorImage.xml" />
 	<import resource="../../rcp/tomographyOptions.xml" />
 
-	<!-- =========================================================== --> 
+	<!-- =========================================================== -->
 	<!-- Device files with separate live and dummy versions          -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco_binning.xml" />
 
 	<import resource="../../../devices/_common/cameraScaleProviders.xml" />
 
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 

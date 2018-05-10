@@ -1,16 +1,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
-
-
-<!-- 
-
+<!--
 m_RX= detector robot X
 m_RY= detector robot Y
 m_RZ= detector robot Z
@@ -21,10 +14,9 @@ m_R50_X= pipe robot X
 m_R50_Y= pipe robot Y
 m_R50_Z= pipe robot Z
 m_Rot50_Y_azim= pipe robot R_Y
-m_Rot50_Z_pol=v robot R_Z 
-
-
+m_Rot50_Z_pol=v robot R_Z
 -->
+
 	<bean id="det_robot_X" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="det_robot_X_motor" />
 		<property name="userUnits" value="mm" />
@@ -184,6 +176,4 @@ m_SB50_Z - distance between pipe robot base and sample in robot Z ( Diamond Y). 
 		</property>
 	</bean>
 
-
 </beans>
-

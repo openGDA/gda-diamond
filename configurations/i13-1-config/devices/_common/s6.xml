@@ -1,10 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
- 		http://www.diamond.ac.uk/schema/gda/gda
-		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="s6_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s6_x_motor" />
@@ -48,26 +45,6 @@
 				<ref bean="s6_yminus" />
 			</list>
 		</property>
-	</bean>	
-
-	<gda:rmi-export
-		service="s6_xplus"
-		serviceName="gda/s6_xplus"
-		serviceInterface="gda.device.ScannableMotionUnits" />	
-
-	<gda:rmi-export
-		service="s6_xminus"
-		serviceName="gda/s6_xminus"
-		serviceInterface="gda.device.ScannableMotionUnits" />	
-
-	<gda:rmi-export
-		service="s6_yplus"
-		serviceName="gda/s6_yplus"
-		serviceInterface="gda.device.ScannableMotionUnits" />	
-
-	<gda:rmi-export
-		service="s6_yminus"
-		serviceName="gda/s6_yminus"
-		serviceInterface="gda.device.ScannableMotionUnits" />	
+	</bean>
 
 </beans>
