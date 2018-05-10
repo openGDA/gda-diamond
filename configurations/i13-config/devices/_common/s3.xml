@@ -1,11 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
 	<bean id="s3_xsize" class="gda.device.scannable.ScannableMotor">
@@ -24,7 +20,7 @@
 		<property name="motor" ref="s3_ycenter_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
-	
+
 	<bean id="s3_xplus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_xplus_motor" />
 		<property name="userUnits" value="mm"/>
@@ -41,7 +37,7 @@
 		<property name="motor" ref="s3_yminus_motor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
-	
+
 	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -56,6 +52,5 @@
 			</list>
 		</property>
 	</bean>
-		
-</beans>
 
+</beans>

@@ -1,11 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
 	<bean id="s4_xsize" class="gda.device.scannable.ScannableMotor">
@@ -40,29 +36,8 @@
 	<bean id="s4_yminus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s4_yminus_motor" />
 <!-- 		<property name="userUnits" value="mm"/>
- -->	</bean>	
+ -->	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/s4_xplus" />
-		<property name="service" ref="s4_xplus" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/s4_yplus" />
-		<property name="service" ref="s4_yplus" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/s4_xminus" />
-		<property name="service" ref="s4_xminus" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/s4_yminus" />
-		<property name="service" ref="s4_yminus" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
-	
 	<bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -77,6 +52,5 @@
 			</list>
 		</property>
 	</bean>
-	
-</beans>
 
+</beans>

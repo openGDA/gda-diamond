@@ -1,12 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="d1_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="D1 - Post Mirror  1"/>
@@ -16,7 +10,7 @@
 		<property name="gainPV" value="BL13I-DI-PHDGN-01:CAM:Gain" />
 		<property name="acquirePV" value="BL13I-DI-PHDGN-01:CAM:Acquire" />
 	</bean>
-	
+
 	<bean id="d2_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="D2 - Pre Absorber 1"/>
 		<property name="urlPV" value="BL13I-DI-PHDGN-02:FFMPEG:MJPG_URL_RBV" />
@@ -62,7 +56,7 @@
 		<property name="gainPV" value="BL13I-DI-PHDGN-06:CAM:Gain" />
 		<property name="acquirePV" value="BL13I-DI-PHDGN-06:CAM:Acquire" />
 	</bean>
-	
+
 	<bean id="pco_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="PCO"/>
 		<property name="urlPV" value="BL13I-EA-DET-01:MJPG:MJPG_URL_RBV" />
@@ -73,7 +67,7 @@
 <!-- 		<property name="scalePV" value="BL13I-EA-DET-01:PRO1:Scale" />
 		<property name="cmdFormatter" value="tomodet.setupStreamForCameraView(%f,%f,%f,%f)"/>
  -->	</bean>
- 
+
 	<bean id="pco_aux_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
 		<property name="name" value="PCO AUX"/>
 		<property name="urlPV" value="BL13I-EA-DET-17:MJPG:MJPG_URL_RBV" />
@@ -119,5 +113,5 @@
 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
 		<property name="service" ref="camera_config" />
 	</bean>
-	
+
 </beans>

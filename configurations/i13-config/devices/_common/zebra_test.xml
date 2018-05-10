@@ -1,11 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="zebraTest" class="gda.device.zebra.controller.impl.ZebraImpl">
 	<property name="zebraPrefix" value="TESTZEBRA:ZEBRA:"/>
@@ -14,7 +10,7 @@
 		<property name="pvName" value="TESTZEBRA:M1"/>
 		<property name="local" value="true" />
 	</bean>
-	
+
 <!-- 	<bean id="zebraTestScannableMotor" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="zebraTestMotor" />
 	</bean>
@@ -30,17 +26,16 @@
 		<property name="zebraConstantVelocityMoveController" ref="zebraTestContinuousMoveController"/>
 		<property name="scurveTimeToVelocity" value=".5"/>
 	</bean>	
-	
-	
+
 	<bean id="zebra_cam_base" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="TESTZEBRA:CAM:" />
 	</bean>
-		
+
 	<bean id="zebraTestCollectionStrategy" class="gda.device.detector.addetector.triggering.HardwareTriggeredStandard">
 		<constructor-arg ref="zebra_cam_base" />
 		<constructor-arg value=".0" />
 	</bean>	
-	
+
 	<bean id="zebra_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl" ref="zebra_ndfilehdf5_base" />
 	</bean>
@@ -56,7 +51,7 @@
 			</bean>
 		</property> -->
 	</bean>	
-	
+
 	<bean id="zebra_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="zebra_ndhdf5file" />
 		<property name="fileNameTemplate" value="zebraTest"/>
@@ -67,7 +62,7 @@
 		<property name="setChunking" value="false"/>
 		<property name="blocking" value="true"/>
 	</bean>	
-	
+
 	<bean id="zebraTestDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
 		<property name="name" value="zebraTestDetector"/>
 		<property name="readOutTime" value=".03"/>
@@ -78,5 +73,5 @@
 				<ref bean="zebra_hdf5_filewriter" />
 			</list>
 		</property>
-	</bean>	
-</beans>	
+	</bean>
+</beans>

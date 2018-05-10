@@ -1,11 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
 	<bean id="smar_rx" class="gda.device.scannable.ScannableMotor">
@@ -46,40 +42,6 @@
 				<ref bean="smar_z" />
 			</list>
 		</property>
-	</bean>	
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/smar_rx" />
-		<property name="service" ref="smar_rx" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<!-- <property name="serviceName" value="gda/smar_ry" /> -->
-		<property name="serviceName" value="gda/smar_rot" />
-<!-- 		<property name="service" ref="smar_ry" /> -->
-			<property name="service" ref="smar_rot" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/smar_rz" />
-		<property name="service" ref="smar_rz" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/smar_x" />
-		<property name="service" ref="smar_x" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/smar_y" />
-		<property name="service" ref="smar_y" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/smar_z" />
-		<property name="service" ref="smar_z" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
 	</bean>
 	
 </beans>

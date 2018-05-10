@@ -1,22 +1,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="dummy_ad_pluginBase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseSimulator">
-	<property name="dims" value="1000,1000"/>
-	<property name="datatype" value="UINT32"/>
+		<property name="dims" value="1000,1000"/>
+		<property name="datatype" value="UINT32"/>
 	</bean>
+
 	<bean id="dummy_ad_base" class="gda.device.detector.areadetector.v17.impl.ADBaseSimulator"/>
 
 	<bean id="dummy_ad_arr" class="gda.device.detector.areadetector.v17.impl.NDArraySimulator">
-	<property name="pluginBase" ref="dummy_ad_pluginBase"/>
+		<property name="pluginBase" ref="dummy_ad_pluginBase"/>
 	</bean>
-
 
 	<bean id="dummy_ad_stat" class="gda.device.detector.areadetector.v17.impl.NDStatsSimulator">
 	<property name="pluginBase" ref="dummy_ad_pluginBase"/>
@@ -26,23 +22,21 @@
 		<constructor-arg ref="dummy_ad_pluginBase" />
 	</bean>
 
-
 	<bean id="dummy_cam_ad" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="dummy_ad_base" />
 		<property name="ndStats" ref="dummy_ad_stat" />
 		<property name="ndArray" ref="dummy_ad_arr" />
-      <property name="ndFile" ref="dummy_ad_ndfile" />
-		<property name="computeStats" value="false"/>
-		<property name="computeCentroid" value="false"/>
-		<property name="readArray" value="true"/>
+		<property name="ndFile" ref="dummy_ad_ndfile" />
+		<property name="computeStats" value="false" />
+		<property name="computeCentroid" value="false" />
+		<property name="readArray" value="true" />
 		<property name="fileWriter">
 			<bean class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
-				<constructor-arg value="dummy_cam"/>
+				<constructor-arg value="dummy_cam" />
 				<property name="ndFile" ref="dummy_ad_ndfile" />
-			</bean>				
+			</bean>
 		</property>
-		<property name="readFilepath" value="true"/>
-				
+		<property name="readFilepath" value="true" />
 	</bean>
 
 	<bean id="dummy_cam" class="gda.device.detector.nexusprocessor.NexusDetectorProcessor">
@@ -51,4 +45,3 @@
 	</bean>
 
 </beans>
-
