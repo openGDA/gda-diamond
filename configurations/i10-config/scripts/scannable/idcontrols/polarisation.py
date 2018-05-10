@@ -35,7 +35,8 @@ class Polarisation(ScannableBase):
         self.mode=smode
         self.polarisation=defaultPolarisation
         self.amIBusy=False
-    
+        self.verbose=False
+        
     def getPosition(self):
         ''' get current polarisation that has been set last time 
         '''
@@ -47,7 +48,7 @@ class Polarisation(ScannableBase):
         if newpos not in Polarisation.POLARISATIONS:
             message="polarisation string is wrong: legal values are %s" % (Polarisation.POLARISATIONS)
             raise Exception(message)
-        mode=self.smode.getPosition()
+        mode=self.mode.getPosition()
         if mode == None:
             message="X-ray source mode is not set"
             raise Exception(message)
