@@ -21,10 +21,9 @@ package gda.device.scannable;
 import java.util.List;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 import gda.epics.CAClient;
 
-public class LakeshoreScannable extends ScannableBase implements Scannable {
+public class LakeshoreScannable extends ScannableBase {
 
 	private CAClient ca_client = new CAClient();
 

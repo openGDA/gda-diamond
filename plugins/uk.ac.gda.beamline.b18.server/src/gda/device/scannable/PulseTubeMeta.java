@@ -19,10 +19,9 @@
 package gda.device.scannable;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 import gda.epics.CAClient;
 
-public class PulseTubeMeta extends ScannableBase implements Scannable {
+public class PulseTubeMeta extends ScannableBase {
 
 	private CAClient ca_client = new CAClient();
 

@@ -30,9 +30,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 
-public class XspressFillMonitor extends ScannableBase implements Scannable {
+public class XspressFillMonitor extends ScannableBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(XspressFillMonitor.class);
 

@@ -19,10 +19,9 @@
 package gda.device.scannable;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 import gda.device.scannable.scannablegroup.ScannableGroup;
 import gda.jython.JythonServerFacade;
-public class Ln2Scannable extends ScannableBase implements Scannable {
+public class Ln2Scannable extends ScannableBase {
 
 	private ScannableGroup cryo;
 	private String cylinderType;

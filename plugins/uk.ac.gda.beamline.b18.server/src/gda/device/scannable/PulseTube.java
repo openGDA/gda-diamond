@@ -19,14 +19,13 @@
 package gda.device.scannable;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 import gda.device.detector.DetectorBase;
 import gda.epics.CAClient;
 import gda.factory.FactoryException;
 import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
 
-public class PulseTube extends DetectorBase implements Scannable {
+public class PulseTube extends DetectorBase {
 
 	private CAClient ca_client = new CAClient();
 

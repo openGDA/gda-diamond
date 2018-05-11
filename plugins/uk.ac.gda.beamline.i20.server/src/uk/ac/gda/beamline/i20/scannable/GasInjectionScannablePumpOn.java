@@ -24,13 +24,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 import gda.device.scannable.ScannableBase;
 import gda.epics.CAClient;
 import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
 
-public class GasInjectionScannablePumpOn extends ScannableBase implements Scannable {
+public class GasInjectionScannablePumpOn extends ScannableBase {
 	private static final Logger logger = LoggerFactory.getLogger(GasInjectionScannablePumpOn.class);
 	private CAClient ca_client = new CAClient();
 

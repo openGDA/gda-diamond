@@ -28,7 +28,7 @@ import gda.device.Scannable;
 import gda.factory.FactoryException;
 import gda.jython.JythonServerFacade;
 
-public class GasInjectionScannable extends ScannableBase implements Scannable {
+public class GasInjectionScannable extends ScannableBase {
 
 	private Scannable purge_pressure;
 	private Scannable purge_period;

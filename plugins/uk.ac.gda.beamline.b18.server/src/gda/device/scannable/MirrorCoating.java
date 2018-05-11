@@ -20,9 +20,8 @@ package gda.device.scannable;
 
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
-import gda.device.Scannable;
 
-public class MirrorCoating extends ScannableBase implements Scannable {
+public class MirrorCoating extends ScannableBase {
 
 	private EnumPositioner mirror;
 	private String mirrorType;

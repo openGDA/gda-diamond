@@ -30,7 +30,7 @@ import gda.epics.CAClient;
 import gda.factory.FactoryException;
 import gov.aps.jca.CAException;
 
-public class GasInjectionScannable extends ScannableBase implements Scannable {
+public class GasInjectionScannable extends ScannableBase {
 	private Scannable purge_pressure;
 	private Scannable purge_period;
 	private Scannable purge_timeout;

@@ -20,9 +20,8 @@ package gda.device.scannable;
 
 import gda.device.DeviceException;
 import gda.device.Motor;
-import gda.device.Scannable;
 
-public class MirrorInOut extends ScannableBase implements Scannable {
+public class MirrorInOut extends ScannableBase {
 
 	private Motor mirror;
 	private double pos;

@@ -21,11 +21,10 @@ package uk.ac.gda.beamline.i20.scannable;
 import java.util.List;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 import gda.device.scannable.ScannableBase;
 import gda.epics.CAClient;
 
-public class LakeshoreScannable extends ScannableBase implements Scannable {
+public class LakeshoreScannable extends ScannableBase {
 	private CAClient ca_client = new CAClient();
 	private String temp0Pv;
 	private String temp1Pv;

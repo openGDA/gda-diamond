@@ -19,12 +19,11 @@
 package gda.device.scannable;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 
 
 
 
-public class DummyLakeshoreScannable extends ScannableBase implements Scannable {
+public class DummyLakeshoreScannable extends ScannableBase {
 
 	double Temp;
 	private int tempSelect = -1;

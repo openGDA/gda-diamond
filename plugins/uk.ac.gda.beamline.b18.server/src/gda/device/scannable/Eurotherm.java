@@ -19,12 +19,11 @@
 package gda.device.scannable;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 import gda.epics.CAClient;
 import gov.aps.jca.CAException;
 import gov.aps.jca.TimeoutException;
 
-public class Eurotherm extends ScannableBase implements Scannable {
+public class Eurotherm extends ScannableBase {
 
 	private CAClient ca_client = new CAClient();
 

@@ -21,13 +21,12 @@ package gda.device.scannable;
 import java.io.IOException;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 import gda.epics.LazyPVFactory;
 import gda.epics.PV;
 import gda.epics.ReadOnlyPV;
 import gda.factory.FactoryException;
 
-public class SampleWheel extends ScannableBase implements Scannable {
+public class SampleWheel extends ScannableBase {
 
 	private String demandPVString; // BL18B-EA-SAMPL-03:ROT.VAL
 	private String readbackPVString; // BL18B-EA-SAMPL-03:ROT.RBV

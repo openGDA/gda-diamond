@@ -19,9 +19,8 @@
 package gda.device.scannable;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 
-public class TestingEurotherm extends ScannableBase implements Scannable {
+public class TestingEurotherm extends ScannableBase {
 
 	double temp;
 

@@ -19,9 +19,8 @@
 package gda.device.scannable;
 
 import gda.device.DeviceException;
-import gda.device.Scannable;
 
-public class DummySampleWheel extends ScannableBase implements Scannable {
+public class DummySampleWheel extends ScannableBase {
 
 	double demand = 0;
 

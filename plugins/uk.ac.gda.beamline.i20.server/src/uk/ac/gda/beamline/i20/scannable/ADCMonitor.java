@@ -27,7 +27,7 @@ import gda.epics.LazyPVFactory;
 import gda.epics.PV;
 import gda.factory.FactoryException;
 
-public class ADCMonitor extends DetectorBase implements Detector {
+public class ADCMonitor extends DetectorBase {
 	private final String pvPrefix;
 	private final String readoutPVName;
 	private final String columnName;
