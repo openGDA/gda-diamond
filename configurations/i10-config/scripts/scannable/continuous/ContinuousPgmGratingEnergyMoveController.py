@@ -11,6 +11,7 @@ from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
 from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating #, enecff2grating
 import threading, time
+import installation
 
 class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, DeviceBase):
 
@@ -35,7 +36,9 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
                               'mirror_pitch':                   'MIR:PITCH',
                               'energy_calibration_gradient':    'MX',
                               'energy_calibration_reference':   'REFERENCE'}, pgmpvroot)
-        self.pvs.configure()
+        if installation.isLive():
+            self.pvs.configure()
+            
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
 
     def setStart(self, start): # double
@@ -89,9 +92,11 @@ class ContinuousPgmGratingEnergyMoveController(ConstantVelocityMoveController, D
         energy_midpoint = (self._move_end + self._move_start) / 2.
         if self.verbose: self.logger.info('prepareForMove:energy_midpoint=%r ' % (energy_midpoint))
 
-        (self.grating_density, self.cff, self.grating_offset, self.plane_mirror_offset, self.energy_calibration_gradient,
-         self.energy_calibration_reference) = self.getPgmEnergyParameters()
-
+        if installation.isLive():
+            (self.grating_density, self.cff, self.grating_offset, self.plane_mirror_offset, self.energy_calibration_gradient,self.energy_calibration_reference) = self.getPgmEnergyParameters()
+        else:
+            (self.grating_density, self.cff, self.grating_offset, self.plane_mirror_offset, self.energy_calibration_gradient,self.energy_calibration_reference) = self.getPgmEnergyParametersFixed()
+            
         # Calculate plane mirror angle for given grating density, energy, cff and offsets
         self.mirr_pitch_midpoint =   enecff2mirror(gd     = self.grating_density,
                                                    energy = energy_midpoint,
