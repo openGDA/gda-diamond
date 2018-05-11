@@ -26,12 +26,11 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
 import gda.device.Monitor;
-import gda.device.Scannable;
 
 /**
  * Provides a simulation for the time until topup PV from the machine.
  */
-public class DummyTopupScannable extends ScannableBase implements Scannable, Monitor {
+public class DummyTopupScannable extends ScannableBase implements Monitor {
 	private static final Logger logger = LoggerFactory.getLogger(DummyTopupScannable.class);
 	private double topupInterval = 600.0; // overall topup cycle including fill time
 	private double fillTime = 15.0; // the time of the topup fill itself

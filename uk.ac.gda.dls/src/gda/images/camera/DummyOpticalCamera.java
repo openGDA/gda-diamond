@@ -26,7 +26,7 @@ import gda.device.DeviceException;
  * Simulated object fulfilling the gda.images.camera.Camera interface To have a proper simulation create a test image at
  * /tmp/test.jpg.
  */
-public class DummyOpticalCamera extends CameraBase implements Camera {
+public class DummyOpticalCamera extends CameraBase {
 	private double[] zoomPositions = { 1.0, 1.25, 1.5, 1.75 };
 
 	private double[] focusPositions = { 1.0, 1.25, 1.5, 1.75 };
@@ -36,24 +36,24 @@ public class DummyOpticalCamera extends CameraBase implements Camera {
 	private double zoom = 1.0;
 
 	protected double micronsPerXPixel = 1.0;
-	
+
 	protected double micronsPerYPixel = 1.0;
-	
+
 	/**
 	 * Constructor.
 	 */
 	public DummyOpticalCamera() {
 		this.imageFile = "/tmp/test.jpg";
 	}
-	
+
 	public void setMicronsPerXPixel(double micronsPerXPixel) {
 		this.micronsPerXPixel = micronsPerXPixel;
 	}
-	
+
 	public void setMicronsPerYPixel(double micronsPerYPixel) {
 		this.micronsPerYPixel = micronsPerYPixel;
 	}
-	
+
 	/**
 	 * {@inheritDoc} This method does not using base class configure which reads configuration files.
 	 */
@@ -65,7 +65,7 @@ public class DummyOpticalCamera extends CameraBase implements Camera {
 	public void captureImage(String imageName) throws DeviceException {
 		notifyIObservers(this, IMAGE_UPDATED + cameraName);
 	}
-	
+
 	@Override
 	public BufferedImage getImage() throws DeviceException {
 		// do nothing
@@ -115,15 +115,15 @@ public class DummyOpticalCamera extends CameraBase implements Camera {
 			}
 		}
 	}
-	
+
 	@Override
 	public double getMicronsPerXPixel() {
 		return micronsPerXPixel;
 	}
-	
+
 	@Override
 	public double getMicronsPerYPixel() {
 		return micronsPerYPixel;
 	}
-	
+
 }

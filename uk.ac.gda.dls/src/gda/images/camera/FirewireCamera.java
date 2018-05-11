@@ -18,13 +18,6 @@
 
 package gda.images.camera;
 
-import gda.device.DeviceException;
-import gda.device.Motor;
-import gda.device.MotorException;
-import gda.device.MotorStatus;
-import gda.factory.Finder;
-import gda.util.Unix;
-
 import java.awt.image.BufferedImage;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -37,13 +30,20 @@ import java.util.StringTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.Motor;
+import gda.device.MotorException;
+import gda.device.MotorStatus;
+import gda.factory.Finder;
+import gda.util.Unix;
+
 /**
  * Operate a Firewire camera using system calls via gda.utils.Unix.
  */
-public class FirewireCamera extends CameraBase implements Camera {
-	
+public class FirewireCamera extends CameraBase {
+
 	private static final Logger logger = LoggerFactory.getLogger(FirewireCamera.class);
-	
+
 	private double focus = 1.0;
 
 	private double zoom = 1.0;
@@ -91,25 +91,25 @@ public class FirewireCamera extends CameraBase implements Camera {
 	private String s1 = null;
 
 	private String s2 = null;
-	
+
 	protected double micronsPerXPixel = 1.0;
-	
+
 	protected double micronsPerYPixel = 1.0;
-	
+
 	/**
 	 * Constructor.
 	 */
 	public FirewireCamera() {
 	}
-	
+
 	public void setMicronsPerXPixel(double micronsPerXPixel) {
 		this.micronsPerXPixel = micronsPerXPixel;
 	}
-	
+
 	public void setMicronsPerYPixel(double micronsPerYPixel) {
 		this.micronsPerYPixel = micronsPerYPixel;
 	}
-	
+
 	@Override
 	public void configure() {
 		extractPositions(zoomPositionList, ZOOM);
@@ -268,7 +268,7 @@ public class FirewireCamera extends CameraBase implements Camera {
 
 		notifyIObservers(this, IMAGE_UPDATED + cameraName);
 	}
-	
+
 	@Override
 	public BufferedImage getImage() {
 		throw new UnsupportedOperationException();
@@ -362,15 +362,15 @@ public class FirewireCamera extends CameraBase implements Camera {
 	public double[] getFocusLevels() throws DeviceException {
 		return focusPositions;
 	}
-	
+
 	@Override
 	public double getMicronsPerXPixel() {
 		return micronsPerXPixel;
 	}
-	
+
 	@Override
 	public double getMicronsPerYPixel() {
 		return micronsPerYPixel;
 	}
-	
+
 }
