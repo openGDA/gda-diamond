@@ -4,7 +4,8 @@ from gda.epics import CAClient
 from scannable.waveform_channel.WaveformChannelPollingInputStream import WaveformChannelPollingInputStream
 from org.slf4j import LoggerFactory
 from threading import Timer
-from java.lang import Thread
+import installation
+from detectors.CounterTimer import countTimer
 
 TIMEOUT = 5
 
@@ -34,13 +35,17 @@ class McsWaveformChannelController(object):
 
     def configure(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'configure()...'))
-        self.pv_stop.configure()
-        self.pv_dwell.configure()
-        self.pv_channeladvance.configure()
-        self.pv_presetReal.configure()
-        self.pv_erasestart.configure()
-        # Is there any reason why we can't EraseStart here?
-
+        if installation.isLive():
+            self.pv_stop.configure()
+            self.pv_dwell.configure()
+            self.pv_channeladvance.configure()
+            self.pv_presetReal.configure()
+            self.pv_erasestart.configure()
+            # Is there any reason why we can't EraseStart here?
+        else:
+            if self.verbose: self.logger.info("configure '%s' for dummy operation...')" % (countTimer.getName()))
+            countTimer.configure()
+            
     def erase(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'erase()...'))
         #self.pv_erasestart.caput(1)
@@ -49,14 +54,19 @@ class McsWaveformChannelController(object):
 
     def erase_and_start(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'erase_and_start()...'))
-        self.pv_stop.caput(1)  # scaler won't start if already running
-        if self.channelAdvanceInternalNotExternal:
-            self.pv_dwell.caput(TIMEOUT, self.exposure_time) # Set the exposure time per nominal position
-            self.pv_channeladvance.caput(TIMEOUT, self.channelAdvanceInternal)
-            self.pv_presetReal.caput((self.number_of_positions * self.exposure_time)+self.exposure_time_offset) # Set the total capture time
+        if installation.isLive():
+            self.pv_stop.caput(1)  # scaler won't start if already running
+            if self.channelAdvanceInternalNotExternal:
+                self.pv_dwell.caput(TIMEOUT, self.exposure_time) # Set the exposure time per nominal position
+                self.pv_channeladvance.caput(TIMEOUT, self.channelAdvanceInternal)
+                self.pv_presetReal.caput((self.number_of_positions * self.exposure_time)+self.exposure_time_offset) # Set the total capture time
+            else:
+                self.pv_channeladvance.caput(TIMEOUT, self.channelAdvanceExternal)
+            self.pv_erasestart.caput(TIMEOUT, 1)
         else:
-            self.pv_channeladvance.caput(TIMEOUT, self.channelAdvanceExternal)
-        self.pv_erasestart.caput(TIMEOUT, 1)
+            countTimer.stop()
+            countTimer.setCollectionTime(self.exposure_time)
+            countTimer.start()
         # Since the mca NORD value could take some time to be updated and will continue returning the NORD of the last acquire,
         # wait before setting started to True, so WaveformChannelPollingInputStream doesn't try to use stale data.
         startedTimer = Timer(1.5, self._delayed_start_complete) # Failed at 0.5s, Ok at 1.5s.
@@ -69,7 +79,10 @@ class McsWaveformChannelController(object):
 
     def stop(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'stop()...'))
-        self.pv_stop.caput(1)
+        if installation.isLive():
+            self.pv_stop.caput(1)
+        else:
+            countTimer.stop
         self.stream.stop() # enable stop the element polling loop when stop is called.
         self.started = False
         if self.verbose: self.logger.info("%s %s" % (self.name,'...stop()'))
