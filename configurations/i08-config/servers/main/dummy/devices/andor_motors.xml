@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="andor_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-7.0" />
+		<property name="maxPosition" value="0.0" />
+		<property name="position" value="-2.001" />
+		<property name="speed" value="100" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="andor_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5.0" />
+		<property name="maxPosition" value="0.0" />
+		<property name="position" value="-2.7" />
+		<property name="speed" value="100" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="andor_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000.0" />
+		<property name="maxPosition" value="10000.0" />
+		<property name="position" value="-36.1" />
+		<property name="speed" value="100" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+</beans>

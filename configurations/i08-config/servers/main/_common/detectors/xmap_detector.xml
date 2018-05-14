@@ -1,0 +1,94 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- NexusDetector interface to XMAP controller -->
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="controller" ref="xmap_controller" />
+		<!-- Value determined by procedure in DTC_for_vortex.doc and is a list,	one value for each element -->
+		 <property name="eventProcessingTimes">
+			<list>
+				<value>1.7867731067630825e-08</value>
+			</list>
+		</property>
+		<property name="saveRawSpectrum" value="true" />
+		<property name="slave" value="false" />
+		<property name="configFileName"	value="${gda.config}/templates/Xia_parameters.xml" />
+		<property name="sumAllElementData" value="true" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Configuration for using the (partial) Area Detector plugin to write files  -->
+	<!-- This corresponds to pos and hdf5 tabs in the EDM screens -->
+	<!-- For detector control, use xmapMca and associated objects -->
+
+	<bean id="xmap_hdf5_writer" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="xmap_hdf5" />
+		<property name="fileTemplate" value="%s%s-%d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$/" />
+		<property name="fileNameTemplate" value="xmap-ad" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+	</bean>
+
+ 	<bean id="xmap_collection_strategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+        <property name="restoreAcquireTime" value="true" />
+        <property name="decoratee">
+            <bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+                <property name="restoreNumImagesAndImageMode" value="true"/>
+                <property name="decoratee">
+                    <bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+                        <property name="decoratee">
+                            <bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+                                <property name="adBase" ref="xmap_adbase" />
+                                <property name="restoreAcquireState" value="true"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+	<bean id="xmap_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="xmap_adbase" />
+		<property name="collectionStrategy" ref="xmap_collection_strategy"/>
+		<property name="readArray" value="false" />
+		<property name="readFilepath" value="false" />
+		<property name="ndFile" ref="xmap_ndfile" />
+		<property name="fileWriter" ref="xmap_hdf5_writer"/>
+	</bean>
+
+	<!-- Runnable device - for mapping scans -->
+	<bean id="xmap_model" class="gda.device.detector.xmap.api.XmapWritingFilesRunnableDeviceModel">
+		<property name="name" value="xmap_runnable" />
+		<property name="areaDetectorName" value="xmap_addetector" />
+		<property name="xmapDetectorName" value="xmapMca" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="xmap_info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Xmap" />
+		<property name="description" value="Xmap detector using area detector" />
+	</bean>
+
+	<bean id="xmap_runnable_device" class="gda.device.detector.xmap.XmapWritingFilesRunnableDevice" init-method="register">
+		<property name="name" value="xmap_runnable" />
+		<property name="model" ref="xmap_model" />
+		<property name="deviceInformation" ref="xmap_info" />
+		<property name="activated" value="true" />
+	</bean>
+
+	<!-- Scannable group -->
+	<bean id="xmap" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="xmapMca" />
+				<ref bean="xmap_addetector" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

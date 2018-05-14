@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- Photodiode Detector -->
+
+	<bean id="photoDiode1" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<bean class="java.lang.Double">
+				<constructor-arg value="-2.09336" />
+			</bean>
+		</property>
+		<property name="outputFormat" value="%.6f" />
+		<property name="unit" value="V" />
+	</bean>
+</beans>

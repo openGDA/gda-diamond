@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+
+<!--machine and front end -->
+
+	<bean id="absorber" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE08I-RS-ABSB-01:STA" />
+		<property name="local" value="true" />
+		<property name="poll" value="true" />
+		<property name="outputFormat" value="%s" />
+	</bean>
+
+	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+		<property name="local" value="true" />
+		<property name="poll" value="true" />
+	</bean>
+
+</beans>

@@ -1,0 +1,484 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+		<property name="metadataEntries">
+			<list>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+				</bean>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="instrument" />
+					<property name="propertyName" value="gda.instrument" />
+				</bean>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facility" />
+					<property name="propertyName" value="gda.facility" />
+				</bean>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facilityType" />
+					<property name="propertyName" value="gda.facilityType" />
+				</bean>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="userid" />
+					<property name="propertyName" value="user.name" />
+				</bean>
+
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="federalid" />
+				</bean>
+				<bean id="subdirectory" class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="subdirectory" />
+					<property name="value" value="nexus" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
+		<property name="arguments">
+			<map>
+				<entry key="bda_x">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/FrontEndAperture:NXaperture/bda_x" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="bda_y">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/FrontEndAperture:NXaperture/bda_y" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				
+				<entry key="m1_x">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror1:NXmirror/m1_x" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="m1_pitch">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror1:NXmirror/m1_pitch" />
+						<property name="units" value="mrad" />
+					</bean>
+				</entry>
+				<entry key="m1_roll">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror1:NXmirror/m1_roll" />
+						<property name="units" value="mrad" />
+					</bean>
+				</entry>
+				<entry key="m1_yaw">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror1:NXmirror/m1_yaw" />
+						<property name="units" value="mrad" />
+					</bean>
+				</entry>
+				
+				<entry key="s1_xsize">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/BeamWhiteFilter:NXaperture/s1_xsize" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s1_xcentre">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/BeamWhiteFilter:NXaperture/s1_xcentre" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s1_xminus">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/BeamWhiteFilter:NXaperture/s1_xminus" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s1_xplus">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/BeamWhiteFilter:NXaperture/s1_xplus" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s1_ysize">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/BeamWhiteFilter:NXaperture/s1_ysize" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s1_ycentre">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/BeamWhiteFilter:NXaperture/s1_ycentre" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s1_yminus">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/BeamWhiteFilter:NXaperture/s1_yminus" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s1_yplus">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/BeamWhiteFilter:NXaperture/s1_yplus" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				
+				<entry key="pgm_cff">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/PlaneGratingMonochromator:NXmonochromator/pgm_cff" />
+					</bean>
+				</entry>
+				<entry key="grating_pitch">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/PlaneGratingMonochromator:NXmonochromator/grating_pitch" />
+						<property name="units" value="deg" />
+					</bean>
+				</entry>
+				<entry key="grating_x">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/PlaneGratingMonochromator:NXmonochromator/grating_x" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="pgm_energy">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/PlaneGratingMonochromator:NXmonochromator/pgm_energy" />
+					</bean>
+				</entry>
+				
+				<entry key="m2_x">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror2:NXmirror/m2_x" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="m2_pitch">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror2:NXmirror/m2_pitch" />
+						<property name="units" value="deg" />
+					</bean>
+				</entry>
+				
+				<entry key="m3_x">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror3:NXmirror/m3_x" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="m3_pitch">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror3:NXmirror/m3_pitch" />
+						<property name="units" value="mrad" />
+					</bean>
+				</entry>
+				<entry key="m3_yaw">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror3:NXmirror/m3_yaw" />
+						<property name="units" value="mrad" />
+					</bean>
+				</entry>
+				<entry key="m3_roll">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror3:NXmirror/m3_roll" />
+						<property name="units" value="mrad" />
+					</bean>
+				</entry>
+				<entry key="m3_y">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror3:NXmirror/m3_y" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				
+				<entry key="m4_x">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror4:NXmirror/m4_x" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="m4_pitch">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror4:NXmirror/m4_pitch" />
+						<property name="units" value="mrad" />
+					</bean>
+				</entry>
+				<entry key="m4_yaw">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror4:NXmirror/m4_yaw" />
+						<property name="units" value="mrad" />
+					</bean>
+				</entry>				
+				<entry key="m4_roll">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror4:NXmirror/m4_roll" />
+						<property name="units" value="mrad" />
+					</bean>
+				</entry>
+				<entry key="m4_ellipticity">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror4:NXmirror/m4_ellipticity" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="m4_curvature">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/Mirror4:NXmirror/m4_curvature" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_ap_x">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_ap_x" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_ap_y">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_ap_y" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_ss_x">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_ss_x" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_ss_y">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_ss_y" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="s2_ztranslation">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/ExitSlit:NXaperture/s2_ztranslation" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="andorAccumulatePeriod">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/AccumulatePeriod" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="andorShutterMode">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/ShutterMode" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="andorExtShutterTrigger">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/ExtShutterMode" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="andorPreampGain">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/PreampGain" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="andorADCSpeed">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/ADCSpeed" />
+						<property name="units" value="MHz" />
+					</bean>
+				</entry>
+				<entry key="andorVerticalShiftSpeed">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/VerticalShiftSpeed" />
+						<property name="units" value="us" />
+					</bean>
+				</entry>
+				<entry key="andorVerticalShiftAmplitude">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/VerticalShiftAmplitude" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="andorEMCCDGain">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/EMCCDGain" />
+						<property name="units" value="" />
+					</bean>
+				</entry> 
+				<entry key="andorCoolerTemperature">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/CoolerTemperature" />
+						<property name="units" value="C" />
+					</bean>
+				</entry>
+				<entry key="andorCoolerControl">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/CoolerControl" />
+						<property name="units" value="" />
+					</bean>
+				</entry> 
+				<entry key="andorBinningSizeX">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/BinningSizeX" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="andorBinningSizeY">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/AndorDriver:NXdetector/BinningSizeY" />
+						<property name="units" value="" />
+					</bean>
+				</entry>
+				<entry key="SampleX_coarse">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXInstrument/sample:NXsample/SampleX_coarse" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="SampleY_coarse">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXInstrument/sample:NXsample/SampleY_coarse" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="SampleZ_coarse">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXInstrument/sample:NXsample/SampleZ_coarse" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="SampleX_fine">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXInstrument/sample:NXsample/SampleX_fine" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<entry key="SampleY_fine">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXInstrument/sample:NXsample/SampleY_fine" />
+						<property name="units" value="mm" />
+					</bean>
+				</entry>
+				<!-- <entry key="ringCurrent">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/source:NXsource/current" />
+						<property name="units" value="mA" />
+					</bean>
+				</entry>
+				<entry key="ringEnergy">
+					<bean
+						class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths"
+							value="instrument:NXinstrument/source:NXsource/energy" />
+						<property name="units" value="GeV" />
+					</bean>
+				</entry> -->
+			</map>
+		</property>
+	</bean>
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
+		<property name="arguments">
+			<set>
+				<value>bda_x</value>
+				<value>bda_y</value>
+				<value>m1_x</value>
+				<value>m1_pitch</value>
+				<value>m1_roll</value>
+				<value>m1_yaw</value>
+				<value>s1_xsize</value>
+				<value>s1_xcentre</value>
+				<value>s1_xminus</value>
+				<value>s1_xplus</value>
+				<value>s1_ysize</value>
+				<value>s1_ycentre</value>
+				<value>s1_yminus</value>
+				<value>s1_yplus</value>
+				<value>pgm_cff</value>
+				<value>grating_pitch</value>
+				<value>grating_x</value>
+				<value>pgm_energy</value>
+				<value>m2_x</value>
+				<value>m2_pitch</value>
+				<value>m3_x</value>
+				<value>m3_pitch</value>
+				<value>m3_yaw</value>
+				<value>m3_roll</value>
+				<value>m3_y</value>
+				<value>m4_x</value>
+				<value>m4_pitch</value>
+				<value>m4_yaw</value>
+				<value>m4_roll</value>
+				<value>m4_ellipticity</value>
+				<value>m4_curvature</value>
+				<value>s2_ap_x</value>
+				<value>s2_ap_y</value>
+				<value>s2_ss_x</value>
+				<value>s2_ss_y</value>
+				<value>s2_ztranslation</value>
+				<value>SampleX_coarse</value>
+				<value>SampleY_coarse</value>
+				<value>SampleZ_coarse</value>
+				<value>SampleX_fine</value>
+				<value>SampleY_fine</value>
+			</set>
+		</property>
+	</bean>
+
+	<!--Metas to be recorded for specific detector  -->
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadataScannablesPerDetector" />
+		<property name="arguments">
+			<map>
+				<entry key="andor">
+					<set>
+						<value>andorAccumulatePeriod</value>
+						<value>andorShutterMode</value>
+						<value>andorExtShutterTrigger</value>
+						<value>andorPreampGain</value>
+						<value>andorADCSpeed</value>
+						<value>andorVerticalShiftSpeed</value>
+						<value>andorVerticalShiftAmplitude</value>
+						<value>andorEMCCDGain</value>
+						<value>andorCoolerTemperature</value>
+						<value>andorCoolerControl</value>
+						<value>andorBinningSizeX</value>
+						<value>andorBinningSizeY</value>
+                    </set>
+				</entry>
+				<entry key="_andorrastor">
+					<set>
+						<value>andorAccumulatePeriod</value>
+						<value>andorShutterMode</value>
+						<value>andorExtShutterTrigger</value>
+						<value>andorPreampGain</value>
+						<value>andorADCSpeed</value>
+						<value>andorVerticalShiftSpeed</value>
+						<value>andorVerticalShiftAmplitude</value>
+						<value>andorEMCCDGain</value>
+						<value>andorCoolerTemperature</value>
+						<value>andorCoolerControl</value>
+						<value>andorBinningSizeX</value>
+						<value>andorBinningSizeY</value>
+					</set>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
+		<property name="name" value="metashop" />
+	</bean>
+
+</beans>

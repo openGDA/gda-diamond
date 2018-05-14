@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VortexParameters>
+    <detectorName>xmapMca</detectorName>
+    <tfgName></tfgName>
+    <countType>Static</countType>
+    <collectionTime>1000.0</collectionTime>
+    <DetectorElement>
+        <name>Element0</name>
+        <number>0</number>
+        <ROI>
+            <name>ROI 1</name>
+            <windowStart>0</windowStart>
+            <windowEnd>100</windowEnd>
+        </ROI>
+        <gain></gain>
+        <peakingTime></peakingTime>
+        <offset></offset>
+        <excluded></excluded>
+    </DetectorElement>
+    <saveRawSpectrum>true</saveRawSpectrum>
+    <selectedRegionNumber>0</selectedRegionNumber>
+</VortexParameters>
