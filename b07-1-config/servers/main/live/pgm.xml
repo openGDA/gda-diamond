@@ -40,7 +40,17 @@
 	<bean id="pgm_mirror" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL07C-OP-PGM-01:MIRRORSELECT" />
 	</bean>
-	
+
+	<bean id="pgm_override" class="gda.device.enumpositioner.EpicsSimpleBinary">
+		<property name="pvName" value="BL07C-OP-PGM-01:MVTYPEOVRD:RAPIDALL:CMD" />
+		<property name="positions">
+			<list>
+				<value>No Override</value>
+				<value>Override</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="pgm_pressure" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07C-VA-GAUGE-04:P"/>
 		<property name="unit" value="mbar"/>

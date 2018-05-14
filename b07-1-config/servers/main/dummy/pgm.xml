@@ -62,6 +62,15 @@
 		<property name="increment" value="0.2e-8" />
 	</bean>
 
+	<bean id="pgm_override" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>No Override</value>
+				<value>Override</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="pgm_t1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="C" />
 		<property name="value">
