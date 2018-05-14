@@ -9,6 +9,7 @@ from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
 from pgm.pgm import angles2energy
 from time import sleep
+import installation
 
 """ This scannable uses the motor controller to just control the motor and calculates the
     actual position from the position callables provided by the specified pitch motors.
@@ -90,10 +91,13 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         self._binpointGrtPitch.collectData()
         self._binpointMirPitch.collectData()
         self._binpointPgmEnergy.collectData()
-        
-        (self.grating_density , _, self.grating_offset, self.plane_mirror_offset,  self.energy_calibration_gradient, 
-         self.energy_calibration_reference) = self._move_controller.getPgmEnergyParameters()
-
+        if installation.isLive():
+            (self.grating_density , _, self.grating_offset, self.plane_mirror_offset,  self.energy_calibration_gradient, 
+             self.energy_calibration_reference) = self._move_controller.getPgmEnergyParameters()
+        else:
+            (self.grating_density , _, self.grating_offset, self.plane_mirror_offset,  self.energy_calibration_gradient, 
+             self.energy_calibration_reference) = self._move_controller.getPgmEnergyParametersFixed()
+             
     def atScanLineEnd(self):
         if self.verbose: self.logger.info('atScanLineEnd()...')
         self._binpointGrtPitch.atScanLineEnd()
