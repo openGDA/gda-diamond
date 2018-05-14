@@ -3,6 +3,7 @@
 from gda.epics import CAClient
 from scannable.waveform_channel.WaveformChannelPollingInputStream import WaveformChannelPollingInputStream
 from org.slf4j import LoggerFactory
+import installation
 
 TIMEOUT = 5
 
@@ -31,7 +32,8 @@ class BinpointWaveformChannelController(object):
         
     def configure(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'configure()...'))
-        self.pv_erasestart.configure()
+        if installation.isLive():
+            self.pv_erasestart.configure()
 
     def erase(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'erase()...'))
@@ -41,7 +43,8 @@ class BinpointWaveformChannelController(object):
 
     def erase_and_start(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'erase_and_start()...'))
-        self.pv_erasestart.caput(1)
+        if installation.isLive():
+            self.pv_erasestart.caput(1)
         self.started = True
         if self.verbose: self.logger.info("%s %s" % (self.name,'...erase_and_start()'))
 

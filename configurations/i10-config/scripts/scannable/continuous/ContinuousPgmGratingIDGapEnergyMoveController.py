@@ -14,6 +14,10 @@ from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating #, enecff2gr
 import threading, time
 import installation
 
+grating_pitch_positions=None
+mirror_pitch_positions=None
+pgm_energy_positions=None
+
 class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveController, DeviceBase):
     '''Controller for constant velocity scan moving both PGM Grating Pitch and ID Gap at same time at constant speed respectively.
         It works for both Live and Dummy mode.
@@ -109,28 +113,44 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
             self.grating_density, self.cff, self.grating_offset, self.plane_mirror_offset, self.energy_calibration_gradient, self.energy_calibration_reference = self.getPgmEnergyParametersFixed()
             
         # Calculate plane mirror angle for given grating density, energy, cff and offsets
-        self.mirr_pitch_midpoint = enecff2mirror(gd=self.grating_density, energy=energy_midpoint, 
-            cff=self.cff, 
-            groff=self.grating_offset, 
-            pmoff=self.plane_mirror_offset, 
-            ecg=self.energy_calibration_gradient, 
-            ecr=self.energy_calibration_reference)
+        self.mirr_pitch_midpoint = enecff2mirror(gd=self.grating_density, 
+                                                 energy=energy_midpoint, 
+                                                 cff=self.cff, 
+                                                 groff=self.grating_offset, 
+                                                 pmoff=self.plane_mirror_offset, 
+                                                 ecg=self.energy_calibration_gradient, 
+                                                 ecr=self.energy_calibration_reference)
         # Calculate grating angles for given grating density, energy, mirror angle and offsets
-        self._grat_pitch_start = enemirror2grating(gd=self.grating_density, energy=self._move_start, 
-            pmang=self.mirr_pitch_midpoint, 
-            groff=self.grating_offset, 
-            pmoff=self.plane_mirror_offset, 
-            ecg=self.energy_calibration_gradient, 
-            ecr=self.energy_calibration_reference)
+        self._grat_pitch_start = enemirror2grating(gd=self.grating_density, 
+                                                   energy=self._move_start, 
+                                                   pmang=self.mirr_pitch_midpoint, 
+                                                   groff=self.grating_offset, 
+                                                   pmoff=self.plane_mirror_offset, 
+                                                   ecg=self.energy_calibration_gradient, 
+                                                   ecr=self.energy_calibration_reference)
         self._grat_pitch_end = enemirror2grating(gd=self.grating_density, 
-            energy=self._move_end, 
-            pmang=self.mirr_pitch_midpoint, 
-            groff=self.grating_offset, 
-            pmoff=self.plane_mirror_offset, 
-            ecg=self.energy_calibration_gradient, 
-            ecr=self.energy_calibration_reference)
+                                                 energy=self._move_end, 
+                                                 pmang=self.mirr_pitch_midpoint, 
+                                                 groff=self.grating_offset, 
+                                                 pmoff=self.plane_mirror_offset, 
+                                                 ecg=self.energy_calibration_gradient, 
+                                                 ecr=self.energy_calibration_reference)
         ### Calculate main cruise moves & speeds from start/end/step
         self._pgm_grat_pitch_speed = abs(self._grat_pitch_end - self._grat_pitch_start) / self.getTotalTime()
+        
+        if installation.isDummy():
+            #setup motor positions to be used to return as waveform channel readings during continuous scanning
+            grating_pitch_positions=[self._grat_pitch_start+self._pgm_grat_pitch_speed*self.triggerPeriod*n for n in range(self.getNumberTriggers())]
+            mirror_pitch_positions =[self.mirr_pitch_midpoint for n in range(self.getNumberTriggers())]
+            pgm_energy_positions   =[angles2energy(gd = self._parent.grating_density,
+                                                   grang    = grtPitch,
+                                                   pmang    = mirPitch,
+                                                   groff    = self._parent.grating_offset,
+                                                   pmoff    = self._parent.plane_mirror_offset,
+                                                   ecg      = self._parent.energy_calibration_gradient,
+                                                   ecr      = self._parent.energy_calibration_reference) 
+                                                   for grtPitch, mirPitch in zip(grating_pitch_positions, mirror_pitch_positions)]
+             
         ### Calculate ramp distance from required speed and ramp times
         # Set the speed before we read out ramp times in case it is dependent
         self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed 
