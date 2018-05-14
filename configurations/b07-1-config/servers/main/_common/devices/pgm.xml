@@ -46,6 +46,7 @@
 				<ref bean="pgm_grating" />
 				<ref bean="pgm_mirror" />
 				<ref bean="pgm_pressure" />
+				<ref bean="pgm_override" />
 				<ref bean="pgm_t1" />
 				<ref bean="pgm_t2" />
 				<ref bean="pgm_t3" />
