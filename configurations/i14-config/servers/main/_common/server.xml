@@ -147,6 +147,12 @@
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
+	<!-- Beam dimensions -->
+	<bean id="beamDimensions" class="gda.device.scannable.BeamDimensions">
+		<property name="x" value="0.1" />
+		<property name="y" value="0.2" />
+	</bean>
+
 	<!--
 		Mapping scans
 		IMPORTANT: this will start processing the scanning queue.
