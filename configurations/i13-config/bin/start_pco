@@ -1,2 +1,0 @@
-echo "Starting PCO GUI"
-/dls_sw/prod/R3.14.12.1/ioc/BL13I/BL13I-DI-IOC-10/1-0/bin/linux-x86/stBL13I-DI-IOC-10-gui 
