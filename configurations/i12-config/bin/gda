@@ -9,12 +9,12 @@ export GDA_DEBUG=TRUE #uncomment this line to turn on extra logging for the star
 
 EXPECTED_BEAMLINE_VALUE=i12
 
-# Initialise the workspace and config locations for a standard Diamond Light Source GDA 9 installation, if the 
-# config tree contains the dls-config/bin folder. This will define the required config environment variables which 
+# Initialise the workspace and config locations for a standard Diamond Light Source GDA 9 installation, if the
+# config tree contains the dls-config/bin folder. This will define the required config environment variables which
 # must all be set for the server and client to start successfully.
 
 here_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
-DLS_CONFIG_BIN_RELATIVE_PATH=${here_absolute_path}/../../../gda-diamond.git/dls-config/bin    # adjust this path to suit your location
+DLS_CONFIG_BIN_RELATIVE_PATH=${here_absolute_path}/../../../../gda-diamond.git/dls-config/bin    # adjust this path to suit your location
 
 if [[ -d ${DLS_CONFIG_BIN_RELATIVE_PATH} ]]; then
 
