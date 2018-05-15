@@ -108,6 +108,8 @@
 	<bean id="mapping_stage_options" class="uk.ac.diamond.daq.mapping.impl.MappingStageOptions" >
 		<property name="fastAxes">
 			<list>
+				<value>stage1_xf</value>
+				<value>stage1_yf</value>
 				<value>stage1_x</value>
 				<value>stage1_y</value>
 				<value>stage1_z</value>
@@ -115,6 +117,8 @@
 		</property>
 		<property name="slowAxes">
 			<list>
+				<value>stage1_xf</value>
+				<value>stage1_yf</value>
 				<value>stage1_x</value>
 				<value>stage1_y</value>
 				<value>stage1_z</value>
@@ -130,7 +134,7 @@
 		<property name="service" ref="mapping_stage_options" />
 	</bean>
 
-	<!-- The mapping stage info object encapsulates the current choice of motors used for mapping experiments, and
+	<!-- Th mapping stage info object encapsulates the current choice of motors used for mapping experiments, and
 	     includes a beam size field which is used when showing the current beam position on the map plot -->
 	<bean id="mapping_stage_info" class="uk.ac.diamond.daq.mapping.impl.MappingStageInfo">
 		<property name="activeFastScanAxis" ref="x_axis_name" />
@@ -173,7 +177,6 @@
 				<bean class="org.eclipse.scanning.api.points.models.SpiralModel" />
 				<bean class="org.eclipse.scanning.api.points.models.LissajousModel" />
 				<bean class="org.eclipse.scanning.api.points.models.RandomOffsetGridModel" />
-				<bean class="org.eclipse.scanning.api.points.models.OverlapGridModel" />
 			</list>
 		</property>
 		<property name="oneDPaths">
