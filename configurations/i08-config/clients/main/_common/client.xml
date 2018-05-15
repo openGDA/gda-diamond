@@ -14,12 +14,8 @@
 		<property name="clientFileAnnouncerName" value="client_file_announcer" />
 	</bean>
 
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
 	<!-- =========================================================== -->
 	<!-- 	mode specific files -->
