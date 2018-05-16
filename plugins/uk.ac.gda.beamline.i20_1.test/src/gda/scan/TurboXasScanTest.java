@@ -31,7 +31,9 @@ import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.january.dataset.IDataset;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import gda.TestHelpers;
@@ -66,6 +68,11 @@ public class TurboXasScanTest extends EdeTestBase {
 	private Xspress3BufferedDetector xspress3bufferedDetector;
 	private ScannableMotor testMotor;
 
+	@AfterClass
+	public static void tearDownClass() {
+		// Remove factories from Finder so they do not affect other tests
+		Finder.getInstance().removeAllFactories();
+	}
 
 	@Before
 	public void setupEnvironment() throws Exception {
@@ -119,7 +126,6 @@ public class TurboXasScanTest extends EdeTestBase {
 		setupFinder();
 	}
 
-
 	public void setupXSpress3() throws FactoryException {
 		controllerForDetector = new DummyXspress3Controller(tfg, daserver);
 		controllerForDetector.setName("controllerForDetector");
@@ -148,6 +154,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		factory.addFindable(testMotor);
 		factory.addFindable(xspress3detector);
 		Finder.getInstance().addFactory(factory);
+		addMetashopToFinder();
 	}
 
 	/**

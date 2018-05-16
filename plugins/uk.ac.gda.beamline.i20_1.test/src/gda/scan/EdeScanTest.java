@@ -49,6 +49,7 @@ import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.january.dataset.IDataset;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -56,9 +57,7 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
-import gda.data.metadata.NXMetaDataProvider;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
-import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.DeviceException;
 import gda.device.detector.DummyDAServer;
 import gda.device.detector.EdeDummyDetector;
@@ -154,6 +153,7 @@ public class EdeScanTest extends EdeTestBase {
 		factory.addFindable(injectionCounter);
 
 		config = new AsciiDataWriterConfiguration();
+		config.setName("config");
 		factory.addFindable(config);
 
 		Finder.getInstance().addFactory(factory);
@@ -161,6 +161,12 @@ public class EdeScanTest extends EdeTestBase {
 		inOutBeamMotors = new HashMap<String, Double>();
 		inOutBeamMotors.put(xScannable.getName(), 0.3);
 		inOutBeamMotors.put(yScannable.getName(), 0.3);
+	}
+
+	@AfterClass
+	public static void tearDownClass() {
+		// Remove factories from Finder so they do not affect other tests
+		Finder.getInstance().removeAllFactories();
 	}
 
 	public void createObjectsForEdeScanWithTfg() throws FactoryException, DeviceException {
@@ -822,12 +828,7 @@ public class EdeScanTest extends EdeTestBase {
 		setup(EdeScanTest.class, "testMetaData");
 
 		// Setup metashop, add to finder
-		NXMetaDataProvider metaShop = new NXMetaDataProvider();
-		metaShop.setName("metaShop");
-		LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, metaShop.getName());
-		final Factory factory = TestHelpers.createTestFactory("test");
-		factory.addFindable(metaShop);
-		Finder.getInstance().addFactory(factory);
+		addMetashopToFinder();
 
 		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
 		TimeResolvedExperiment theExperiment = allParams.createTimeResolvedExperiment();

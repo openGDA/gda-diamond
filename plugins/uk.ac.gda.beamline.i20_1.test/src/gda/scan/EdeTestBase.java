@@ -35,8 +35,12 @@ import org.powermock.api.mockito.PowerMockito;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
+import gda.data.metadata.NXMetaDataProvider;
+import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.enumpositioner.DummyEnumPositioner;
 import gda.device.scannable.ScannableMotor;
+import gda.factory.Factory;
+import gda.factory.Finder;
 
 public class EdeTestBase {
 
@@ -123,6 +127,19 @@ public class EdeTestBase {
 		LocalProperties.set("gda.scanbase.firstScanNumber", "-1");
 		LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "NexusDataWriter");
 		LocalProperties.set("gda.nexus.createSRS", "false");
+		LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "");
 		testDir = LocalProperties.getBaseDataDir();
+	}
+
+	/**
+	 * Setup metaShop and add it to the Finder.
+	 */
+	protected static void addMetashopToFinder() {
+		NXMetaDataProvider metaShop = new NXMetaDataProvider();
+		metaShop.setName("metaShop");
+		LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, metaShop.getName());
+		final Factory factory = TestHelpers.createTestFactory("test");
+		factory.addFindable(metaShop);
+		Finder.getInstance().addFactory(factory);
 	}
 }

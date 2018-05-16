@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -98,6 +99,12 @@ public class EdeScanDriversTest extends EdeTestBase {
 		factory.addFindable(fastShutter_yMotor);
 		factory.addFindable(topupMonitor);
 		Finder.getInstance().addFactory(factory);
+	}
+
+	@AfterClass
+	public static void tearDownClass() {
+		// Remove factories from Finder so they do not affect other tests
+		Finder.getInstance().removeAllFactories();
 	}
 
 	public void setup(String testName) throws Exception {
