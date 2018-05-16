@@ -1,0 +1,20 @@
+ScannableNames	Indicator	SmallStepVelo	SmallStepAccl	BigStepVelo	BigStepAccl	SmallStepServoset	BigStepServoset
+ScannableUnits	No.	sec	sec	sec	sec	No.	No.
+#First Column
+# 1 -> 0 to 1 Kg
+# 2 -> 1 to 10 Kg
+# 3 -> 10 to 20 Kg
+# 4 -> 20 to 50 Kg
+#5th and 6th Column
+# 1 -> MASS_1_STEP_S
+# 2 -> MASS_10_STEP_S
+# 3 -> MASS_20_STEP_S
+# 4 -> MASS_50_STEP_S
+# 5 -> MASS_1_STEP_L
+# 6 -> MASS_10_STEP_L
+# 7 -> MASS_20_STEP_L
+# 8 -> MASS_50_STEP_L	
+1	100	0.1	100	0.5	1	5
+2	100	0.25	30	0.5	2	6
+3	50	0.5	10	1	3	7
+4	10	1	5	2	4	8

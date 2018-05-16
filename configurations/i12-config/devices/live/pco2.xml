@@ -1,0 +1,178 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="pcocontroller" class="gda.device.detector.pco.PCOControllerV17">
+		<property name="basePVName" value="BL12I-EA-DET-02:CAM:" />
+		<property name="areaDetector" ref="pco.cam" />
+		<property name="proc1" ref="pco.prc1" />
+		<property name="proc2" ref="pco.prc2" />
+		<property name="roi1" ref="pco.roi1" />
+		<property name="roi2" ref="pco.roi2" />
+		<property name="stat" ref="pco.stat" />
+		<property name="draw" ref="pco.draw" />
+		<property name="array" ref="pco.arr" />
+		<property name="tiff" ref="pco.tif" />
+		<property name="hdf" ref="pco.hdf" />
+		<property name="mjpeg1" ref="pco.mpeg1" />
+		<property name="mjpeg2" ref="pco.mpeg2" />
+
+		<property name="readout1ADC8Mhz" value="1500" />
+		<property name="readout1ADC32Mhz" value="500" />
+		<property name="readout2ADC8Mhz" value="750" />
+		<property name="readout2ADC32Mhz" value="400" />
+		<property name="triggerPV" value="BL12I-EA-DET-02:DIO:TRIGGER" />
+		<!-- <property name="triggerPV" value="BL12I-EA-DIO-01:OUT:00" /> -->
+		<!-- <property name="triggerPV" value="BL12I-EA-DIO-01:OUT:02" /> -->
+		<!--<property name="triggerPV" value="BL12I-MO-TAB-02:ST1:THETA:POSCOMP:CTRL" />-->
+		<property name="initialTimestampMode" value="1" />
+	</bean>
+
+	<bean id="pco" class="gda.device.detector.pco.PCODetector">
+		<property name="controller" ref="pcocontroller" />
+		<property name="level" value="9" />
+		<property name="detectorID" value="PCO400" />
+		<property name="description" value="PCO400 CCD Camera" />
+		<property name="detectorType" value="CCD" />
+		<property name="projectionFolderName" value="projections" />
+		<property name="localFilePath" value="d:/tmp/" />
+		<property name="darkFileNameRoot" value="d" />
+		<property name="numberOfDarkImages" value="10" />
+		<property name="flatFileNameRoot" value="f" />
+		<property name="numberOfFlatImages" value="10" />
+		<property name="localDataStoreWindows2LinuxFileName">
+			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
+				<property name="windowsPath" value="d:/test/direct" />
+				<property name="linuxPath" value="/dls/i12" />
+			</bean>
+		</property>
+		<property name="nonLocalDataStoreWindows2LinuxFileName">
+			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
+				<!-- <property name="windowsPath" value="Z:" /> -->
+				<property name="windowsPath" value="t:\\i12" />
+				<!-- <property name="windowsPath" value="d:\\i12" /> -->
+				<property name="linuxPath" value="/dls/i12" />
+			</bean>
+		</property>
+		<property name="demandRawDataStoreWindows2LinuxFileName">
+			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
+				<!-- <property name="windowsPath" value="Z:" /> -->
+				<property name="windowsPath" value="t:\\i12" />
+				<!-- <property name="windowsPath" value="d:\\i12" /> -->
+				<property name="linuxPath" value="/dls/i12" />
+			</bean>
+		</property>
+		<property name="plotName" value="PCOPlot" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="pcoTomography" class="gda.device.detector.pco.PCOTomography">
+		<property name="pcoDetector" ref="pco" />
+	</bean>
+
+	<!-- Kaz and Ravi testing for PCO HDF5 writer ability -->
+	<bean id="pco_hdf_singleExposurePco"
+		class="gda.device.detector.addetector.triggering.PCODIOTrigger">
+		<constructor-arg ref="pco.cam" />
+		<constructor-arg ref="pco_hdf_adDriverPco" />
+		<property name="timeStamp" value="2"/>
+	</bean>
+
+	<bean id="pco_hdf_adDriverPco"
+		class="gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
+		<property name="basePvName" value="BL12I-EA-DET-02:CAM" />
+	</bean>
+
+	<bean id="pco_hdf_fileWriter"
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pco.hdf"/>
+		<property name="fileNameTemplate" value="projections"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s/%s_%05d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="rowChunks" value="360"/>
+		<property name="colChunks" value="0"/>
+		<property name="framesChunks" value="2"/>
+		<property name="framesFlush" value="0"/>
+		<property name="blocking" value="False"/>
+		<property name="storeAttr" value="False"/>
+		<property name="storePerform" value="False"/>
+		<property name="boundaryAlign" value="0"/>
+		<property name="setChunking" value="True"/>
+	</bean>
+
+<!-- 	<bean id="pco4000_dio_hdf" class="gda.device.detector.addetector.ADPco">
+		<property name="adBase" ref="pco.cam" />
+		<property name="ndStats" ref="pco.stat" />
+		<property name="computeCentroid" value="false" />
+		<property name="computeStats" value="false" />
+		<property name="ndArray" ref="pco.arr" />
+		<property name="ndFile" ref="pco_hdf_file" />
+		<property name="collectionStrategy" ref="pco_hdf_singleExposurePco" />
+		<property name="fileWriter" ref="pco_hdf_fileWriter" />
+		<property name="readAcquisitionTime" value="true"/>
+		<property name="readFilepath" value="true"/>
+		<property name="readAcquisitionPeriod" value="false"/>
+		<property name="readArray" value="false" />
+	</bean> -->
+
+	<bean id="pco_tif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<!-- <property name="deviceName" value="pco.tif_NDFile" /> -->
+		<property name="basePVName" value="BL12I-EA-DET-02:TIF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL12I-EA-DET-02:TIF:" />
+				<!-- <property name="deviceName" value="pco.tif_NDPluginBase" /> -->
+				<property name="initialArrayPort" value="pco1.cam" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="initialAutoIncrement" value="Yes" />
+		<property name="initialAutoSave" value="Yes" />
+		<property name="initialWriteMode" value="2" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="p" />
+		<property name="initialFileTemplate" value="%s/%s_%05d.tif" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/i12/data" />
+				<!-- <property name="windowsSubString" value="z:\data" /> -->
+				<property name="windowsSubString" value="d:\\i12\data" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco4000_dio_tif" class="gda.device.detector.addetector.ADPco">
+		<property name="adBase" ref="pco.cam" />
+		<property name="ndStats" ref="pco.stat" />
+		<property name="ndArray" ref="pco.arr" />
+		<property name="ndFile" ref="pco.tif" />
+		<property name="collectionStrategy" ref="pco_hdf_singleExposurePco"/>
+		<property name="fileWriter" ref="pco1_tif_writer"/>
+
+		<property name="readAcquisitionTime" value="true" />
+		<property name="readFilepath" value="true" />
+		<property name="readAcquisitionPeriod" value="false" />
+		<property name="computeStats" value="false" />
+		<property name="computeCentroid" value="false" />
+		<property name="readArray" value="false" />
+		<property name="checkFileExists" value="true"/>
+		<property name="usePipeline" value="true"/>
+	</bean>
+
+	<bean id="pco4000_dio_hdf" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco4000_dio_hdf"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco_hdf_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco_hdf_fileWriter" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>

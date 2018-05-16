@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Pixium EDM Screens
+Type=Application
+Exec=/dls/i12/software/medm/pixiumGUI.sh
+TryExec=
+Icon=/dls_sw/i12/software/gda/config/desktop/gda.png
+X-GNOME-DocPath=
+Terminal=false
+Name[en_GB]=Pixium EDM Screens
+GenericName[en_GB]=
+Comment[en_GB]=

@@ -1,0 +1,179 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="pco1_hdf5_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pco.hdf" />
+		<property name="fileNameTemplate" value="pco1"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="rowChunks" value="64"/>
+		<property name="colChunks" value="0"/>
+		<property name="framesChunks" value="64"/>
+		<property name="framesFlush" value="64"/>
+		<property name="lazyOpen" value="true"/>
+		<property name="boundaryAlign" value="1048576"/>
+		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+	</bean>
+
+	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
+		<property name="zebra" ref="zebra" />
+		<property name="mode" value="1" />
+		<property name="scannableMotor" ref="ss1_theta" />
+		<property name="zebraMotorInfoProvider" ref="zebraSM1" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="zebraSM1" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="ss1_theta_motor" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="scurveTimeToVelocity" value="5"/> <!--  read from weight system -->
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="zebra_group" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="zebraContinuousMoveController" />
+				<ref bean="zebraSM1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="flyScanCollectionStrategy" class="gda.device.detector.addetector.triggering.PCOHWTriggerBase">
+		<constructor-arg ref="pco.cam" />
+		<constructor-arg ref="pco_hdf_adDriverPco" />
+		<property name="timeStamp" value="2"/>
+	</bean>
+		
+	<bean id="flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="flyScanDetector"/>
+		<property name="readOutTime" value=".05"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="flyScanFlatDarkCollectionStrategy" class="gda.device.detector.addetector.triggering.SingleExposurePco">
+		<constructor-arg ref="pco.cam" />
+		<constructor-arg ref="pco_hdf_adDriverPco" />
+		<constructor-arg value=".03" />
+	</bean>
+	
+	<bean id="flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="flyScanDetectorTIF"/>
+		<property name="readOutTime" value=".05"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="flyScanFlatDarkDetector" class="gda.device.detector.NXDetector">
+		<property name="name" value="flyScanFlatDarkDetector"/>
+		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="flyScanFlatDarkDetectorTIF" class="gda.device.detector.NXDetector">
+		<property name="name" value="flyScanFlatDarkDetectorTIF"/>
+		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="flyScan" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="flyScanDetector" />
+				<ref bean="flyScanDetectorTIF" />
+				<ref bean="flyScanFlatDarkDetector" />
+				<ref bean="flyScanFlatDarkDetectorTIF" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pixium_flyScanCollectionStrategy"	class="gda.device.detector.addetector.triggering.HardwareTriggeredPixium">
+		<constructor-arg ref="pixium10_cam_base" />
+		<constructor-arg value="0.2" />
+	</bean>
+		
+	<bean id="pixium_flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="pixium_flyScanDetector"/>
+		<property name="readOutTime" value=".2"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="pixium_flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixium10_hdf_fileWriter" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="pixium_flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="pixium_flyScanDetectorTIF"/>
+		<property name="readOutTime" value=".2"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="pixium_flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixium10_hdf_fileWriter" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="pixium_flyScanFlatDarkCollectionStrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
+		<constructor-arg ref="pixium10_cam_base" />
+		<constructor-arg value="0." />
+	</bean>
+	
+	<bean id="pixium_flyScanFlatDarkDetector" class="gda.device.detector.NXDetector">
+		<property name="name" value="pixium_flyScanFlatDarkDetector"/>
+		<property name="collectionStrategy" ref="pixium_flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixium10_hdf_fileWriter" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="pixium_flyScanFlatDarkDetectorTIF" class="gda.device.detector.NXDetector">
+		<property name="name" value="pixium_flyScanFlatDarkDetectorTIF"/>
+		<property name="collectionStrategy" ref="pixium_flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pixium10_hdf_fileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pixium" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pixium_flyScanDetector" />
+				<ref bean="pixium_flyScanDetectorTIF" />
+				<ref bean="pixium_flyScanFlatDarkDetector" />
+				<ref bean="pixium_flyScanFlatDarkDetectorTIF" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

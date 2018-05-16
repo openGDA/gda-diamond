@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="pixiumAdBaseModel" class="uk.ac.gda.epics.client.views.model.impl.ADBaseModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-10:CAM:" />
+	</bean>
+
+	<bean id="pixiumFileSaverModel" class="uk.ac.gda.epics.client.views.model.impl.FileSaverModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-10:HDF5:" />
+	</bean>
+
+	<bean id="pixiumFfmjpeg" class="uk.ac.gda.epics.client.views.model.impl.FFMjpegModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-10:MJPG:" />
+	</bean>
+
+	<bean id="pixiumNdProc" class="uk.ac.gda.epics.client.views.model.impl.NDProcModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-10:PROC:" />
+	</bean>
+
+	<bean id="pixiumNdROI" class="uk.ac.gda.epics.client.views.model.impl.NDROIModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-10:ROI:" />
+	</bean>
+
+	<bean id="pixiumNdArray" class="uk.ac.gda.epics.client.views.model.impl.NDArrayModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-10:ARR:" />
+	</bean>
+
+</beans>

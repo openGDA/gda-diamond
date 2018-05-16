@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Scannables -->
+	<bean id="ring_energy" class="gda.device.monitor.EpicsMonitor">
+		<property name="name" value="ring_energy" />
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+	</bean>
+
+	<bean id="ring_current" class="gda.device.monitor.EpicsMonitor">
+		<property name="name" value="ring_current" />
+		<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
+	</bean>
+
+	<bean id="ring_topup_countdown" class="gda.device.monitor.EpicsMonitor">
+		<property name="name" value="ring_topup_countdown" />
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+	</bean>
+
+	<bean id="ring_beam_lifetime" class="gda.device.monitor.EpicsMonitor">
+		<property name="name" value="ring_beam_lifetime" />
+		<property name="pvName" value="SR21C-DI-DCCT-01:LIFETIME" />
+	</bean>
+
+	<!--  Metadata entries -->
+	<bean id="metadata_ring_energy" class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="instrument.source.energy" />
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
+	</bean>
+
+	<bean id="metadata_ring_current" class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="instrument.source.current" />
+		<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
+	</bean>
+
+	<bean id="metadata_ring_facility_mode" class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="facilityMode" />
+		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
+	</bean>
+
+	<bean id="metadata_ring_fill_mode" class="gda.data.metadata.EpicsMetadataEntry">
+		<property name="name" value="fillMode" />
+		<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
+	</bean>
+
+</beans>

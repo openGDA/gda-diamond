@@ -1,0 +1,18 @@
+#This file is used by beamline_parameters.jythonNamespaceMapping
+#tomography_theta=ss1_rot_dummy
+#tomography_detector=dummy_cam_ad
+#tomography_shutter=eh_shtr_dummy
+#tomography_translation=ss1_X_dummy
+#tomography_optimizer=beam_optimizer_dummy
+tomography_optimizer=iz
+#tomography_detector=dummy_cam
+#tomography_detector=pco
+tomography_detector=pco_hdf
+#tomography_theta=ss1_theta
+tomography_theta=idummyscannablemotor_x
+#tomography_shutter=eh1shtr
+tomography_shutter=ix
+#tomography_translation=ss1_x
+tomography_translation=iy
+tomography_time=actualTime
+tomography_beammonitor=actualTime

@@ -1,0 +1,189 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="m_x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="m_x" />
+		<property name="motor" ref="m_x_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="m_y1" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="m_y1" />
+		<property name="motor" ref="m_y1_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="m_y2" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="m_y2" />
+		<property name="motor" ref="m_y2_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="m_y3" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="m_y3" />
+		<property name="motor" ref="m_y3_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<!--  Define the scannable groups -->
+	<bean id="mono" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<!--  Scannables in the group -->
+				<ref bean="m_x"/>
+				<ref bean="m_y1"/>
+				<ref bean="m_y2"/>
+				<ref bean="m_y3"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mc1_bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="mc1_bragg" />
+		<property name="motor" ref="mc1_bragg_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="mc1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<!--  Scannables in the group -->
+				<ref bean="mc1_bragg"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mc2_bragg" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="mc2_bragg" />
+		<property name="motor" ref="mc2_bragg_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean><!--
+	<bean id="mc2_tilt" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="mc2_tilt" />
+		<property name="motor" ref="mc2_tilt_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	--><bean id="mc2_z" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="mc2_z" />
+		<property name="motor" ref="mc2_z_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<!-- <bean id="mc2_x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="mc2_x" />
+		<property name="motor" ref="mc2_x_motor" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean> -->
+	
+	<bean id="mc2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<!--  Scannables in the group -->
+				<ref bean="mc2_bragg"/>
+<!-- 				<ref bean="mc2_tilt"/> -->
+				<ref bean="mc2_z"/>
+				<!-- <ref bean="mc2_x"/> -->
+			</list>
+		</property>
+	</bean>
+	<bean id="dcm1_bender_inboard" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dcm1_bender_inboard" />
+		<property name="motor" ref="dcm1_bender_inboard_motor" />
+		<property name="tolerance" value="0.1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dcm1_bender_outboard" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dcm1_bender_outboard" />
+		<property name="motor" ref="dcm1_bender_outboard_motor" />
+		<property name="tolerance" value="0.1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dcm2_bender_inboard" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dcm2_bender_inboard" />
+		<property name="motor" ref="dcm2_bender_inboard_motor" />
+		<property name="tolerance" value="0.1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dcm2_bender_outboard" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dcm2_bender_outboard" />
+		<property name="motor" ref="dcm2_bender_outboard_motor" />
+		<property name="tolerance" value="0.1" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="dcm1_bender" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<!--  Scannables in the group -->
+				<ref bean="dcm1_bender_inboard" />
+				<ref bean="dcm1_bender_outboard" />
+			</list>
+		</property>
+	</bean>
+	<bean id="dcm2_bender" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<!--  Scannables in the group -->
+				<ref bean="dcm2_bender_inboard" />
+				<ref bean="dcm2_bender_outboard" />
+			</list>
+		</property>
+	</bean>
+</beans>
+

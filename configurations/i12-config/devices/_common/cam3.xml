@@ -1,0 +1,33 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<!--  Define all the motors -->
+	<bean id="cam3_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="cam3_roll" />
+		<property name="motor" ref="cam3_roll_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="cam3_x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="cam3_x" />
+		<property name="motor" ref="cam3_x_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="cam3_z" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="cam3_z" />
+		<property name="motor" ref="cam3_z_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+	
+	<bean id="cam3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="cam3_roll"/>
+				<ref bean="cam3_x"/>
+				<ref bean="cam3_z"/>
+			</list>
+		</property>
+	</bean>
+</beans>

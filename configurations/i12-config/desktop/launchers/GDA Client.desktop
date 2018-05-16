@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=GDA Client
+Type=Application
+Exec=gdaclient
+TryExec=
+Icon=/dls_sw/i12/software/gda/i12-config/desktop/gda.png
+X-GNOME-DocPath=
+Terminal=false
+Name[en_GB]=gda.client
+GenericName[en_GB]=Start GDA Client
+Comment[en_GB]=Start GDA Client

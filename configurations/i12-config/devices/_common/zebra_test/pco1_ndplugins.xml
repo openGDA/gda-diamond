@@ -1,0 +1,72 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="pco1_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="TESTZEBRA:CAM:" />
+	</bean>
+
+	<bean id="pco1_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="TESTZEBRA:ARR:" />
+	</bean>
+
+	<bean id="pco1_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="TESTZEBRA:STAT:" />
+	</bean>
+
+	<bean id="pco1_roi1" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="TESTZEBRA:ROI:" />
+	</bean>
+
+	<bean id="pco1_roi2" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="TESTZEBRA:ROI2:" />
+	</bean>
+
+	<bean id="pco1_ffmpeg1" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="TESTZEBRA:MJPG:" />
+	</bean>
+
+	<bean id="pco1_ffmpeg2" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="TESTZEBRA:MJPG2:" />
+	</bean>
+
+
+	<bean id="pco1_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="pco1_ndfilehdf5_base" />
+	</bean>
+
+
+	<bean id="pco1_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="TESTZEBRA:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+<!--		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/i13/data" />
+				<property name="windowsSubString" value="z:\data" />
+			</bean>
+		</property> -->
+	</bean>
+
+	<bean id="pco1_ndfiletif" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="TESTZEBRA:FIMG:" />
+		<property name="resetToInitialValues" value="false" />
+<!--		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/i13/data" />
+				<property name="windowsSubString" value="z:\data" />
+			</bean>
+		</property> -->
+	</bean>
+
+	<bean id="pco1_proc1" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="TESTZEBRA:PROC:" />
+	</bean>
+
+	<bean id="pco1_proc2" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="TESTZEBRA:PROC2:" />
+	</bean>
+
+
+</beans>	

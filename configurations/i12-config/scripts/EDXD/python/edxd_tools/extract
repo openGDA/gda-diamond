@@ -1,0 +1,14 @@
+#! /bin/sh
+
+INSTALLDIR=/dls_sw/i12/software/gda/config/scripts/EDXD/python/edxd_tools
+
+module load python/ana
+
+#PYTHONPATH=$INSTALLDIR:$PYTHONPATH
+#export PYTHONPATH
+
+#LD_LIBRARY_PATH=/dls_sw/apps/nexus/4.2.0/lib/:/dls_sw/apps/nexus/4.2.0/hdf4/lib/:/dls_sw/apps/nexus/4.2.0/hdf5/lib/:/dls_sw/apps/nexus/4.2.0/mxml/lib/:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH
+
+#/dls_sw/apps/python/2.6.2/bin/python $INSTALLDIR/edxd/extract.py $@
+python $INSTALLDIR/edxd/extract2.py $@

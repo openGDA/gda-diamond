@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="GDA I12 Beamline" uid="uk.ac.gda.beamline.i12.product" id="uk.ac.gda.beamline.i12.product" version="9.8.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
+      <text>
+         GDA for DLS JEEP I12.
+
+Build id: 
+
+Copyright © 2009 Diamond Light Source Ltd.
+
+http://www.opengda.org
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Djacorb.config.dir=${project_loc:i12-config}/properties/dummy/jacorb
+-Dgda.install.workspace.loc=${workspace_loc}
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.config=${project_loc:i12-config}
+-Dgda.facility.dir=${project_loc:dls-config}
+-Dgda.core.dir=${project_loc:core-config}
+-Dgda.instance.dir=${project_loc:i12-config}
+-Dgda.group.dir=${project_loc:core-config}/no-group
+-Dgda.logs.dir=${workspace_loc}/../gda_logs_non_live
+-Dgda.propertiesFile=${project_loc:i12-config}/properties/dummy/dummy_instance_java.properties
+-Dgda.mode=dummy
+-Dgov.aps.jca.JCALibrary.properties=${project_loc:i12-config}/properties/dummy/JCALibrary.properties
+-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Duk.ac.diamond.scisoft.analysis.io.nocaching=true
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Xms256m
+-Xmx2024m
+-XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.gda.beamline.i12" />
+   <launcher name="gda-i12">
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/licenses/</url>
+        <text>
+   Copyright © 2009 Diamond Light Source Ltd.
+
+GDA is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License version 3 as published by the Free
+Software Foundation.
+
+GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along
+with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
+         </text>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.i12.feature"/>
+   </features>
+
+
+</product>

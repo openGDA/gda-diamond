@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="scaler1" class="gda.device.detector.EpicsScaler">
+<!--		<property name="name" value="scaler1" />-->
+<!--		<property name="local" value="true" />-->
+		<property name="pvName" value="BL12I-EA-DET-01:SCALER" />
+	</bean>
+
+</beans>

@@ -1,0 +1,97 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Define the scannable group -->
+	<bean id="t7_x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="t7_x" />
+		<property name="motor" ref="t7_x_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="t7_y" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="t7_y" />
+		<property name="motor" ref="t7_y_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="t7_m1z" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="t7_m1z" />
+		<property name="motor" ref="t7_m1z_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="t7_m2x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="t7_m2x" />
+		<property name="motor" ref="t7_m2x_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="t7_m2y" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="t7_m2y" />
+		<property name="motor" ref="t7_m2y_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="t7_m2ry" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="t7_m2ry" />
+		<property name="motor" ref="t7_m2ry_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+	<bean id="t7_m2rx" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="t7_m2rx" />
+		<property name="motor" ref="t7_m2rx_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="t7_m2z" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="t7_m2z" />
+		<property name="motor" ref="t7_m2z_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="t7_m3z" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="t7_m3z" />
+		<property name="motor" ref="t7_m3z_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+	<bean id="t7_m3rz" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="t7_m3rz" />
+		<property name="motor" ref="t7_m3rz_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="t7_m3rx" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="t7_m3rx" />
+		<property name="motor" ref="t7_m3rx_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="t7_m3ry" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="t7_m3ry" />
+		<property name="motor" ref="t7_m3ry_motor" />
+		<property name="tolerance" value="0.01" />
+	</bean>
+
+	<bean id="t7" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<!-- Scannables in the group -->
+				<ref bean="t7_x"/>
+				<ref bean="t7_y"/>
+				<ref bean="t7_m1z"/>
+				<ref bean="t7_m2x"/>
+				<ref bean="t7_m2y"/>
+				<ref bean="t7_m2ry"/>
+				<ref bean="t7_m2rx"/>
+				<ref bean="t7_m2z"/>
+				<ref bean="t7_m3z"/>
+				<ref bean="t7_m3rz"/>
+				<ref bean="t7_m3rx"/>
+				<ref bean="t7_m3ry"/>
+			</list>
+		</property>
+	</bean>
+
+</beans>

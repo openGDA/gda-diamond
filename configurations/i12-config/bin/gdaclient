@@ -1,0 +1,3 @@
+#!/bin/bash
+
+gda --start client "$@"

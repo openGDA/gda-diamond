@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Starting ImageJ
+Type=Application
+Exec=bash -c "module add imagej && fiji"
+TryExec=
+Icon=/dls_sw/i12/software/gda/config/desktop/ImageJ/ImageJ.png
+X-GNOME-DocPath=
+Terminal=false
+Name[en_GB]=Start fiji
+GenericName[en_GB]=Launch ImageJ
+Comment[en_GB]=ImageJ

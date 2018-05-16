@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="t4_xcoarse_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-2175.1" />
+		<property name="maxPosition" value="2.52" />
+		<property name="position" value="-500.002" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="t4_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-53.6" />
+		<property name="maxPosition" value="52.6" />
+		<property name="position" value="-53.497" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="t4_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-48.2" />
+		<property name="maxPosition" value="50.6" />
+		<property name="position" value="-48.011" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+</beans>

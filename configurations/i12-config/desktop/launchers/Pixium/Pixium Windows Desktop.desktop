@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Open Pixium Windows Desktop
+Type=Application
+Exec=rdesktop i12pixium-01 -u i12detector -p '!i12d3t3ct0r#' -d DIAMOND -g 1600x1100 -a 16
+TryExec=
+Icon=/dls_sw/i12/software/gda/config/desktop/gda.png
+X-GNOME-DocPath=
+Terminal=false
+Name[en_GB]=Open Pixium Windows Desktop
+GenericName[en_GB]=
+Comment[en_GB]=

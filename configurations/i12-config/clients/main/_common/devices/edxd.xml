@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="edxdDxpModel" class="uk.ac.gda.epics.dxp.client.views.model.DXPModel">
+		<property name="statusViewController" ref="edxdStatusViewController" />
+		<property name="basePVName" value="BL12I-EA-DET-03:" />
+	</bean>
+
+	<bean id="edxdStatusViewController" class="uk.ac.gda.epics.dxp.client.views.StatusViewController">
+		<property name="dxpModel" ref="edxdDxpModel" />
+	</bean>
+
+	<bean id="edxdStatusViewHolder"
+		class="uk.ac.gda.epics.dxp.client.extensionfactories.EDXDStatusViewExecutableExtensionFactory">
+		<property name="viewPartName" value="Status" />
+		<property name="statusViewController" ref="edxdStatusViewController" />
+	</bean>
+
+	<!-- For EDXD Alignment -->
+	<bean id="edxdAlignment" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="checklistViewHolder"
+		class="uk.ac.gda.epics.dxp.client.extensionfactories.EdxdAlignmentViewExtensionFactory">
+		<property name="name" value="edxdChecklist" />
+		<property name="viewPart" ref="checklistView" />
+	</bean>
+	
+	<bean id="frontEndCameraSetupHolder"
+		class="uk.ac.gda.epics.dxp.client.extensionfactories.EdxdAlignmentViewExtensionFactory">
+		<property name="name" value="frontEndCamera" />
+		<property name="viewPart" ref="frontendCameraView" />
+	</bean>
+	
+	<bean id="checklistView" class="uk.ac.gda.epics.dxp.client.views.EDXDChecklistView">
+		<property name="edxdAlignment" ref="edxdAlignment" />
+	</bean>
+
+	<bean id="frontendCameraView" class="uk.ac.gda.epics.dxp.client.views.FrontEndCameraView">
+		<property name="edxdAlignment" ref="edxdAlignment" />
+	</bean>
+
+	<bean id="detectorSetupHolder"
+		class="uk.ac.gda.epics.dxp.client.extensionfactories.EdxdAlignmentViewExtensionFactory">
+		<property name="name" value="detectorSetup" />
+		<property name="viewPart" ref="detectorSetupView" />
+	</bean>
+
+	<bean id="detectorSetupView" class="uk.ac.gda.epics.dxp.client.views.EDXDDetectorSetupView">
+		<property name="edxdAlignment" ref="edxdAlignment" />
+	</bean>
+
+	<!-- -->
+</beans>

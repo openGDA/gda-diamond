@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="pco1_tif_writer" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<!--<constructor-arg value="pco1"/>-->
+		<property name="fileTemplate" value="%s%s%05d.tif" />
+		<property name="filePathTemplate" value="$datadir$/$scan$/projections/" />
+		<property name="fileNameTemplate" value="p_" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="ndFile" ref="pco.tif" />
+		<property name="blocking" value="false"/>
+	</bean>
+
+</beans>

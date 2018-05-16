@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<description>Tomography configuration view configuration data
+	</description>
+
+	<bean id="tomoConfigurationViewHolder"
+		class="uk.ac.gda.client.tomo.configuration.view.factory.TomoConfigurationViewFactoryFactory">
+		<property name="viewPartName" value="Configuration" />
+		<property name="tomoConfigResourceHandler" ref="tomoConfigResourceHandler" /> <!-- The tomoConfigResourceHandler is declared in the tomoAlignment.xml -->
+		<property name="tomoConfigViewController" ref="tomoConfigViewController" />
+		<property name="scanResolutionLookupProvider" ref="scanResolutionLookupProvider" />
+		<property name="cameraDistanceMotorName" value="t3_m1z" />
+	</bean>
+
+	<bean id="tomoConfigViewController"
+		class="uk.ac.gda.client.tomo.configuration.view.TomoConfigurationViewController">
+		<property name="scanController" ref="tomoScanController" />
+		<property name="adBaseModel" ref="pcoAdBaseModel" />
+		<property name="cameraHandler" ref="detectorHandler"/>
+	</bean>
+
+	<bean id="tomoScanController"
+		class="uk.ac.gda.client.tomo.configuration.view.handlers.impl.TomoScanController">
+		<property name="tomoScriptController" ref="tomoAlignmentConfigurationScriptController" />
+	</bean>
+</beans>

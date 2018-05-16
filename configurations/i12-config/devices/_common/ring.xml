@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="ring" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ring_energy" />
+				<ref bean="ring_current" />
+				<ref bean="ring_topup_countdown" />
+				<ref bean="ring_beam_lifetime" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

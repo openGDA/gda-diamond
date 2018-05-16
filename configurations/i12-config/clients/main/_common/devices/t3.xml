@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<description>
+		Handles to the ss1 motors that needs to be used in the rcp client
+	</description>
+
+	<bean id="t3_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="t3_m1y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="t3_m1z" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+</beans>

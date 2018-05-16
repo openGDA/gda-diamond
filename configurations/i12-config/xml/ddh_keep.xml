@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectFactory>
+   <name>TheLocalDDHObjectFactory</name>
+   <DdhMonitorConfig>
+      <dataDirectory>file:/scratch/ddh/</dataDirectory>
+      <destinationDirectory>file:/scratch/drop/</destinationDirectory>
+      <!--destinationDirectory>file:/tmp/</destinationDirectory-->
+      <fileType>STORAGED</fileType>
+      <pollingTime>
+         <seconds>5</seconds>
+      </pollingTime>
+      <deletionDelay>
+         <seconds>0</seconds>
+         <hours>1</hours>
+     </deletionDelay>
+     <rcommandsUrl>https://kisumu.esc.rl.ac.uk:8444/axis/services/rcommands</rcommandsUrl>
+     <rcommandsUsername>GDA_DEV</rcommandsUsername>
+     <rcommandsPassword>0cb274d4c7ea7ee0c36c53cf58ed81f8a68ce44a</rcommandsPassword>
+     <rcommandsVersion>0.0.3</rcommandsVersion>
+     <!-- 30/10/07 There is only one setup SRB at DLS currently, this is on i18. -->
+     <srbHost>srb-mcat-i18.esc.rl.ac.uk</srbHost>
+     <srbPortNumber>5518</srbPortNumber>
+     <icatEntry>probe:datafile:string</icatEntry>
+     <icatEntry>source_name:datafile:string</icatEntry>
+   </DdhMonitorConfig>
+
+   <NexusMetadataReader>
+      <name>NexusMetadataReader</name>
+      <NexusMetadataEntry>
+         <name>proposal</name>
+         <accessName>entry1%NXentry:proposal</accessName>
+      </NexusMetadataEntry>
+      <NexusMetadataEntry>
+         <name>visit</name>
+         <accessName>entry1%NXentry:visit</accessName>
+      </NexusMetadataEntry>
+      <NexusMetadataEntry>
+         <name>federalid</name>
+         <accessName>entry1%NXentry:user01%NXUser:username</accessName>
+      </NexusMetadataEntry>
+      <NexusMetadataEntry>
+         <name>instrument</name>
+         <accessName>entry1%NXentry:instrument%NXinstrument:name</accessName>
+      </NexusMetadataEntry>
+      <NexusMetadataEntry>
+         <name>source_name</name>
+         <accessName>entry1%NXentry:instrument%NXinstrument:source%NXsource:name</accessName>
+      </NexusMetadataEntry>
+      <NexusMetadataEntry>
+         <name>type</name>
+         <accessName>entry1%NXentry:instrument%NXinstrument:source%NXsource:type</accessName>
+      </NexusMetadataEntry>
+      <NexusMetadataEntry>
+         <name>probe</name>
+         <accessName>entry1%NXentry:instrument%NXinstrument:source%NXsource:probe</accessName>
+      </NexusMetadataEntry>
+      <NexusMetadataEntry>
+         <name>investigation</name>
+         <accessName>entry1%NXentry:investigation</accessName>
+      </NexusMetadataEntry>
+   </NexusMetadataReader>
+</ObjectFactory>

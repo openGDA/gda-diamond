@@ -1,0 +1,21 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="f1" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="name" value="f1" />
+		<property name="recordName" value="BL12I-AL-ATTN-02:MP2" />
+	</bean>
+
+	<bean id="f2" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="name" value="f2" />
+		<property name="recordName" value="BL12I-AL-ATTN-02:MP3" />
+	</bean>
+
+	<!-- <bean id="f4" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="name" value="f4" />
+		<property name="recordName" value="BL12I-AL-ATTN-02:MP4" />
+	</bean> -->
+
+</beans>

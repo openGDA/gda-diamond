@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="ss2_rx_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-2.0" />
+		<property name="maxPosition" value="1.0" />
+		<property name="position" value="-0.006" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="deg"/>
+	</bean>
+	
+	<bean id="ss2_ry_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-181.0" />
+		<property name="maxPosition" value="181.0" />
+		<property name="position" value="0.003" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="deg"/>
+	</bean>
+
+	<bean id="ss2_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-499.5" />
+		<property name="maxPosition" value="50.0" />
+		<property name="position" value="-0.001" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="ss2_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-500.0" />
+		<property name="maxPosition" value="0.0" />
+		<property name="position" value="-6.001" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="ss2_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50.0" />
+		<property name="maxPosition" value="50.0" />
+		<property name="position" value="-0.012" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+</beans>

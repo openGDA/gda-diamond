@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="adc" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="adc10" />
+				<ref bean="adc11" />
+				<ref bean="adc12" />
+				<ref bean="adc13" />
+				<ref bean="adc14" />
+				<ref bean="adc15" />
+				<ref bean="adc16" />
+				<ref bean="adc17" />
+				<ref bean="adc30" />
+				<ref bean="adc31" />
+				<ref bean="adc32" />
+				<ref bean="adc33" />
+				<ref bean="adc34" />
+				<ref bean="adc35" />
+				<ref bean="adc36" />
+				<ref bean="adc37" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

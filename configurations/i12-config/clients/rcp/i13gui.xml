@@ -1,0 +1,70 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<import resource="../../servers/main/pco2_ndplugins.xml"/>
+	<!-- register OSGI service for class ADController and class ViewCreator -->
+
+	<bean id="stages" class="gda.rcp.views.TabFolderCompositeFactory">
+		<property name="factories">
+			<util:list>
+				<!-- <bean class="gda.rcp.views.TabCompositeFactoryImpl">
+					<property name="compositeFactory">
+						<bean class="gda.rcp.views.StageCompositeFactory">
+							<property name="stageCompositeDefinitions">
+								<util:list value-type="gda.rcp.views.StageCompositeDefinition">
+									<bean class="gda.rcp.views.StageCompositeDefinition">
+										<property name="scannable" ref="ss1_thetaSM" />
+										<property name="smallStep" value="30" />
+										<property name="bigStep" value="90" />
+										<property name="useSteps" value="true" />
+										<property name="label" value="ss1_theta"/>
+									</bean>
+								</util:list>
+							</property>
+							<property name="labelWidth" value="80" />
+						</bean>
+					</property>
+					<property name="imagePluginId" value="uk.ac.gda.beamline.i12" />
+					<property name="imageFilePath" value="icons/samplestage.gif" />
+					<property name="label" value="Huber Stage" />
+				</bean> -->
+			</util:list>
+		</property>
+	</bean>	
+
+	<bean id="i12ADController"
+		class="uk.ac.gda.epics.adviewer.ADControllerImpl">
+		<property name="serviceName" value="i12PCO"/>
+		<property name="imageNDStats" ref="pco.stat" />
+		<property name="liveViewNDProc" ref="pco.prc1" />
+		<property name="imageNDArray" ref="pco.arr" />
+		<property name="imageHistSize" value="500" />
+		<property name="imageMin" value="0" />
+		<property name="imageMax" value="65535" />
+		<property name="detectorName" value="PCO" />
+		<property name="adBase" ref="pco.cam" />
+		<property name="setExposureTimeCmd" value="tomodet.setupForAlignment( exposureTime=%f)" />
+		<property name="ffmpegStream" ref="pco.mpeg1" />
+		<property name="ffmpegImageOutHeightMax" value="1336" />
+		<property name="ffmpegImageOutWidthMax" value="2004" />
+		<property name="imageNDROI" ref="pco.roi1" />
+	</bean>
+
+	<bean id="dictionary" class="java.util.Hashtable">
+		<constructor-arg>
+			<map>
+				<entry key="SERVICE_NAME" value="i12PCO" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
+		<property name="service" ref="i12ADController" />
+		<property name="properties" ref="dictionary" />
+	</bean>
+
+</beans>

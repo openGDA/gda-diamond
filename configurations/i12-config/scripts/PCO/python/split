@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo 
+
+. /dls_sw/apps/Modules/3.2.3/etc/profile.modules
+module load python
+cd $3
+#python /dls_sw/i12/software/gda/config/scripts/PCO/python/split.py $1 $2 
+python -V &> tmp.txt
+python /dls_sw/i12/software/gda/config/scripts/PCO/python/split.py $1 $2 >> tmp.txt

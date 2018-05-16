@@ -1,0 +1,57 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--  Scannables -->
+	<bean id="ring_energy" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">3.271</value>
+		</property>
+	</bean>
+
+	<bean id="ring_current" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">298.24</value>
+		</property>
+	</bean>
+
+	<bean id="ring_topup_countdown" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">33.7</value>
+		</property>
+	</bean>
+
+	<bean id="ring_beam_lifetime" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.Double">42.8</value>
+		</property>
+	</bean>
+
+	<!-- Metadata entries -->
+
+	<bean id="metadata_ring_energy" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="instrument.source.energy" />
+		<property name="value">
+			<value type="java.lang.Double">3.271</value>
+		</property>
+	</bean>
+
+	<bean id="metadata_ring_current" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="instrument.source.current" />
+		<property name="value">
+			<value type="java.lang.Double">298.24</value>
+		</property>
+	</bean>
+
+	<bean id="metadata_ring_facility_mode" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="facilityMode" />
+		<property name="value" value="User" />
+	</bean>
+
+	<bean id="metadata_ring_fill_mode" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="fillMode" />
+		<property name="value" value="Standby" />
+	</bean>
+
+</beans>

@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="pixiumStatusViewController" class="uk.ac.gda.epics.client.views.StatusViewController">
+		<property name="adBaseModel" ref="pixiumAdBaseModel" />
+		<property name="fileSaverModel" ref="pixiumFileSaverModel" />
+		<property name="ffmjpegModel" ref="pixiumFfmjpeg" />
+	</bean>
+
+	<bean id="pixiumStatusViewHolder"
+		class="uk.ac.gda.epics.client.pixium.views.PixiumStatusViewExecutableExtensionFactory">
+		<property name="viewPartName" value="Status" />
+		<property name="statusViewController" ref="pixiumStatusViewController" />
+	</bean>
+
+	<bean id="pixiumCameraViewController" class="uk.ac.gda.epics.client.views.CameraViewController">
+		<property name="ffmjpegModel1" ref="pixiumFfmjpeg" />
+		<property name="procModel1" ref="pixiumNdProc" />
+		<property name="roiModel1" ref="pixiumNdROI" />
+		<property name="ndArray" ref="pixiumNdArray" />
+		<property name="arrayPorts">
+			<list>
+				<value>pix.roi1</value>
+				<value>pix.proc</value>
+				<value>pix.sim</value>
+				<value>pix.stat</value>
+				<value>pix.tiff</value>
+				<value>pix.hdf</value>
+				<value>pix.draw</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pixiumCameraViewHolder" class="uk.ac.gda.epics.client.pixium.views.PixiumCameraViewExecutableExtensionFactory">
+		<property name="viewPartName" value="Preview" />
+		<property name="cameraViewController" ref="pixiumCameraViewController" />
+	</bean>
+
+</beans>

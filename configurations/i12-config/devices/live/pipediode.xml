@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="adc10" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL12I-EA-ADC-01:01"/>
+	</bean>
+
+	<bean id="adc11" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL12I-EA-ADC-01:02"/>
+	</bean>
+
+	<bean id="adc12" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL12I-EA-ADC-01:03"/>
+	</bean>
+
+	<bean id="adc13" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL12I-EA-ADC-01:04"/>
+	</bean>
+
+	<bean id="adc14" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL12I-EA-ADC-01:05"/>
+	</bean>
+
+	<bean id="adc15" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL12I-EA-ADC-01:06"/>
+	</bean>
+
+	<bean id="adc16" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL12I-EA-ADC-01:07"/>
+	</bean>
+
+	<bean id="adc17" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL12I-EA-ADC-01:08"/>
+	</bean>
+
+</beans>

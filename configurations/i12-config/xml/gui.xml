@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectFactory>
+<!--
+Note If editing this XML file using a validating XML editor, place the following inside the "ObjectFactory" tag above,
+after the word "ObjectFactory". Alter the pathname to point to an actual GDA schema file:-
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="D:\GDA\gda-trunk\src\gda\configuration\object\schema\GDASchema.xsd"
+-->
+<name>stnBase</name>
+
+	<LogPanel>
+		<name>Message</name>
+	</LogPanel>
+	<DebugPanel>
+		<name>Debug</name>
+	</DebugPanel>
+
+    
+	
+    
+
+	
+
+	
+
+    
+   
+   
+   
+
+    
+
+
+
+
+
+	
+
+    
+
+	
+
+   
+	
+
+	
+
+	
+
+	
+  
+
+
+
+    
+	
+	
+
+	
+
+	<JythonEditor>
+		<name>Scripting Editor</name>
+	</JythonEditor>
+
+	<JythonTerminal>
+		<name>Scripting Terminal</name>
+		<numberInitialGraphs>1</numberInitialGraphs>
+		<extraGraphs>true</extraGraphs>
+		
+	</JythonTerminal>
+
+	
+
+	
+	
+   <DataVectorPlot>
+      <name>Data Vector</name>
+   </DataVectorPlot>
+   
+    
+
+   
+
+</ObjectFactory>

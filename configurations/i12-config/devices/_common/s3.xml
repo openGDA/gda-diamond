@@ -1,0 +1,105 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<!--  Define the scannable group -->
+	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<!--  Scannables in the group 
+  -->
+				<bean id="s3_top" class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="s3_top" />
+					<property name="motor" ref="s3_top_motor" />
+					<property name="tolerance" value="0.01" />
+					<property name="outputFormat">
+						<list>
+							<value>%.3f</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="s3_bottom" class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="s3_bottom" />
+					<property name="motor" ref="s3_bottom_motor" />
+					<property name="tolerance" value="0.01" />
+					<property name="outputFormat">
+						<list>
+							<value>%.3f</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="s3_in" class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="s3_in" />
+					<property name="motor" ref="s3_in_motor" />
+					<property name="tolerance" value="0.01" />
+					<property name="outputFormat">
+						<list>
+							<value>%.3f</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="s3_out" class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="s3_out" />
+					<property name="motor" ref="s3_out_motor" />
+					<property name="tolerance" value="0.01" />
+					<property name="outputFormat">
+						<list>
+							<value>%.3f</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="s3_xs" class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="s3_xs" />
+					<property name="motor" ref="s3_xs_motor" />
+					<property name="tolerance" value="0.01" />
+					<property name="outputFormat">
+						<list>
+							<value>%.3f</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="s3_xc" class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="s3_xc" />
+					<property name="motor" ref="s3_xc_motor" />
+					<property name="tolerance" value="0.01" />
+					<property name="outputFormat">
+						<list>
+							<value>%.3f</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="s3_ys" class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="s3_ys" />
+					<property name="motor" ref="s3_ys_motor" />
+					<property name="tolerance" value="0.01" />
+					<property name="outputFormat">
+						<list>
+							<value>%.3f</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="s3_yc" class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="s3_yc" />
+					<property name="motor" ref="s3_yc_motor" />
+					<property name="tolerance" value="0.01" />
+					<property name="outputFormat">
+						<list>
+							<value>%.3f</value>
+						</list>
+					</property>
+				</bean>
+				<bean id="s3_y" class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="s3_y" />
+					<property name="motor" ref="s3_y_motor" />
+					<property name="tolerance" value="0.01" />
+					<property name="outputFormat">
+						<list>
+							<value>%.3f</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

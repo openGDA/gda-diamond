@@ -1,0 +1,12 @@
+#This file is used by beamline_parameters.jythonNamespaceMapping
+tomography_theta=dum.a
+tomography_detector=pco
+tomography_shutter=dum_a
+tomography_translation=dum_a
+tomography_optimizer=dum_a
+#tomography_detector=pco1_tif
+#tomography_theta=ss1_rot
+#tomography_shutter=expt_fastshutter
+#tomography_translation=ss1_X
+tomography_time=actualTime
+tomography_beammonitor=actualTime

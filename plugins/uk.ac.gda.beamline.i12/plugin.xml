@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="GDA I12 Beamline">
+         <property
+               name="appName"
+               value="GDA I12 Beamline">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="7,180,586,20">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="7,200,586,15">
+         </property>         
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            id="uk.ac.gda.beamline.i12.plotView"
+            name="I12 Plot View"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <cheatsheet
+            composite="false"
+            contentFile="cheatsheets/edxd.xml"
+            id="uk.ac.gda.beamline.i12.cheatsheet1"
+            name="uk.ac.gda.beamline.i12.cheatsheet1">
+      </cheatsheet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="uk.ac.gda.epics.client.pixium.perspective">
+         <perspectiveShortcut
+               id="uk.ac.gda.epics.client.pco.perspective">
+         </perspectiveShortcut>
+         <perspectiveShortcut
+               id="uk.ac.gda.client.tomo.perspective">
+         </perspectiveShortcut>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="uk.ac.gda.epics.client.pco.perspective">
+         <perspectiveShortcut
+               id="uk.ac.gda.epics.client.pixium.perspective">
+         </perspectiveShortcut>
+         <perspectiveShortcut
+               id="uk.ac.gda.client.tomo.perspective">
+         </perspectiveShortcut>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="uk.ac.gda.client.tomo.perspective">
+         <perspectiveShortcut
+               id="uk.ac.gda.epics.client.pixium.perspective">
+         </perspectiveShortcut>
+         <perspectiveShortcut
+               id="uk.ac.gda.epics.client.pco.perspective">
+         </perspectiveShortcut>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="uk.ac.gda.beamline.i12.helptoolbar">
+            <command
+                  commandId="uk.ac.gda.beamline.i12.openi12Help"
+                  icon="icons/linkto_help.gif"
+                  label="I12 Help"
+                  mode="FORCE_TEXT"
+                  style="push">
+               <visibleWhen
+                     checkEnabled="true">
+               </visibleWhen>
+               <parameter
+                     name="uk.ac.gda.beamline.i12.openhelpurl"
+                     value="help i12">
+               </parameter>
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="uk.ac.gda.beamline.i12.I12HelpCommandHandler"
+            id="uk.ac.gda.beamline.i12.openi12Help"
+            name="I12 Help">
+         <commandParameter
+               id="uk.ac.gda.beamline.i12.openhelpurl"
+               name="Help Confluence URL"
+               optional="true">
+         </commandParameter>
+      </command>
+   </extension>
+   
+   
+<extension
+      name="tst"
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         allPopups="false"
+         locationURI="menu:org.eclipse.ui.main.menu?after=window">
+      <menu
+            label="GDA"
+            mnemonic="G">
+         <command
+               commandId="uk.ac.gda.client.datadispenser.controller.command"
+               label="Data Dispenser"
+               mnemonic="D"
+               style="push">
+         </command>
+      </menu>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="menu:window?after=showView">
+      <menu
+            label="Area Detectors">
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="PCO MPeg"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.epics.adviewer.mpegview">
+            </parameter>
+            <parameter
+                  name="org.eclipse.ui.views.showView.secondaryId"
+                  value="i12PCO">
+            </parameter>
+         </command>
+      </menu>
+   </menuContribution>
+</extension>       
+   
+   
+</plugin>

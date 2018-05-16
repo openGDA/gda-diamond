@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="optimisepitch" class="gda.jython.scriptcontroller.ScriptControllerBase">
+		<!-- RS-04042011-Cant access this optimise_pitch.py -->
+		<property name="command" value="" />
+		<property name="parametersName" value="" />
+		<property name="importCommand" value="" />
+	</bean>
+
+	<bean id="tomoAlignmentConfigurationScriptController" class="gda.jython.scriptcontroller.ScriptControllerBase">
+		<!-- RS-04042011-Cant access this optimise_pitch.py -->
+		<property name="command" value="" />
+		<property name="parametersName" value="" />
+		<property name="importCommand" value="" />
+	</bean>
+	
+	<bean id="helpScriptController" class="gda.jython.scriptcontroller.ScriptControllerBase">
+		<!-- RS-04042011-Cant access this optimise_pitch.py -->
+		<property name="command" value="" />
+		<property name="parametersName" value="" />
+		<property name="importCommand" value="" />
+	</bean>
+
+</beans>

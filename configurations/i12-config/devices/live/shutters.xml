@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="feshtr1" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="FE12I-PS-SHTR-01:STA" />
+	</bean>
+
+	<bean id="feshtr2" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="FE12I-PS-SHTR-02:STA" />
+	</bean>
+
+	<bean id="oh2shtr" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL12I-PS-SHTR-01" />
+		<property name="controlPv" value="BL12I-PS-SHTR-01:CON" />
+	</bean>
+
+	<bean id="eh1shtr" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL12I-PS-SHTR-02" />
+		<property name="controlPv" value="BL12I-PS-SHTR-02:CON" />
+	</bean>
+
+	<bean id="extshtr" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL12I-PS-SHTR-03" />
+		<property name="controlPv" value="BL12I-PS-SHTR-03:CON" />
+	</bean>
+
+</beans>

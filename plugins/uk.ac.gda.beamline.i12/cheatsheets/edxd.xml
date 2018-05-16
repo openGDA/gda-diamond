@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet title="EDXD Detector use">
+   <intro>
+      <description>
+         This tutorial will help you with using the EDXD detector to scan various samples
+      </description>
+   </intro>
+   <item
+         title="Item (1)">
+      <description>
+         <b>Body</b>
+      </description>
+   </item>
+   <item
+         title="Item">
+      <description>
+         <b>Body</b>
+      </description>
+   </item>
+   <item title="Examine Scannable Objects" dialog="true" skip="false">
+      <description>
+         Scroll the list of object categories until you find the <b> Scannable</b> objects. 
+<br/>
+<br/>
+Expand the list of scannable objects.
+      </description>
+   </item>
+   <item title="View Scannable Properties" dialog="true" skip="false">
+      <description>
+         Select an item under the list of scannable objects.
+<br/>
+<br/>
+Note the properties for this item will be displayed in the <b> Properties view </b>
+      </description>
+   </item>
+   <item title="Success" dialog="true" skip="false">
+      <description>
+         <br/>
+			Congratulations!
+			<br/>
+			<br/>
+			<b> You have completed the GDA Quickstart tutorial </b>.
+      </description>
+   </item>
+</cheatsheet>

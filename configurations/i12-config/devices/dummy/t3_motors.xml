@@ -1,0 +1,132 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="t3_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="10.0" />
+		<property name="maxPosition" value="2000.0" />
+		<property name="position" value="1351.307" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="t3m1_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-49.2" />
+		<property name="maxPosition" value="51.0" />
+		<property name="position" value="40.497" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="t3m1_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="350.0" />
+		<property name="maxPosition" value="2319.0" />
+		<property name="position" value="999.999" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="t3m2_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="10.0" />
+		<property name="position" value="-0.001" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="t3m2_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="600.0" />
+		<property name="maxPosition" value="2450.0" />
+		<property name="position" value="2000.0" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="t3m3_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-50.0" />
+		<property name="maxPosition" value="50.6" />
+		<property name="position" value="-0.211" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="t3m3_z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="1100.0" />
+		<property name="maxPosition" value="2400.0" />
+		<property name="position" value="1999.999" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="t3m3_rx_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-3.1" />
+		<property name="maxPosition" value="5.0" />
+		<property name="position" value="0.002" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="deg"/>
+	</bean>
+
+	<bean id="t3m3_ry_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.0" />
+		<property name="maxPosition" value="50.0" />
+		<property name="position" value="45.0" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="deg"/>
+	</bean>
+
+	<bean id="t3m3_rz_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5.2" />
+		<property name="maxPosition" value="4.8" />
+		<property name="position" value="1.43" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="deg"/>
+	</bean>
+
+	<bean id="t3m4_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-110.0" />
+		<property name="maxPosition" value="151.0" />
+		<property name="position" value="97.603" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="t3m4_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-38.8" />
+		<property name="maxPosition" value="35.0" />
+		<property name="position" value="10.178" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="t3m4_rx_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-20.0" />
+		<property name="maxPosition" value="20.0" />
+		<property name="position" value="1.45" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="deg"/>
+	</bean>
+
+	<bean id="t3m4_ry_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5.0" />
+		<property name="maxPosition" value="5.0" />
+		<property name="position" value="0.5" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	 	<property name="unitString" value="deg"/>
+	</bean>
+
+</beans>

@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="pcoAdBaseModel" class="uk.ac.gda.epics.client.views.model.impl.ADBaseModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:CAM:" />
+	</bean>
+
+	<bean id="pcoFileSaverModel" class="uk.ac.gda.epics.client.views.model.impl.FileSaverModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:TIF:" />
+	</bean>
+
+	<bean id="pcoFfmjpeg1" class="uk.ac.gda.epics.client.views.model.impl.FFMjpegModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:MPG1:" />
+	</bean>
+
+	<bean id="pcoFfmjpeg2" class="uk.ac.gda.epics.client.views.model.impl.FFMjpegModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:MPG2:" />
+	</bean>
+
+	<bean id="pcoNdProc1" class="uk.ac.gda.epics.client.views.model.impl.NDProcModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:PRO1:" />
+	</bean>
+
+	<bean id="pcoNdProc2" class="uk.ac.gda.epics.client.views.model.impl.NDProcModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:PRO1:" />
+	</bean>
+
+	<bean id="pcoNdROI1" class="uk.ac.gda.epics.client.views.model.impl.NDROIModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:ROI1:" />
+	</bean>
+
+	<bean id="pcoNdROI2" class="uk.ac.gda.epics.client.views.model.impl.NDROIModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:ROI1:" />
+	</bean>
+
+	<bean id="pcoNdArray" class="uk.ac.gda.epics.client.views.model.impl.NDArrayModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:ARR:" />
+	</bean>
+
+	<bean id="pcoNdStat" class="uk.ac.gda.epics.client.views.model.impl.NDStatModelImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:STAT:" />
+	</bean>
+
+</beans>

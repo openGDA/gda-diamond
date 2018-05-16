@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="pcoStatusViewController" class="uk.ac.gda.epics.client.views.StatusViewController">
+		<property name="adBaseModel" ref="pcoAdBaseModel" />
+		<property name="fileSaverModel" ref="pcoFileSaverModel" />
+		<property name="ffmjpegModel" ref="pcoFfmjpeg1" />
+		<!-- TODO add status view for pcoFfmpeg2 -->
+	</bean>
+
+	<bean id="pcoStatusViewHolder"
+		class="uk.ac.gda.epics.client.pco.views.PCOStatusViewExecutableExtensionFactory">
+		<property name="viewPartName" value="Status" />
+		<property name="statusViewController" ref="pcoStatusViewController" />
+	</bean>
+
+	<bean id="pcoCameraViewController" class="uk.ac.gda.epics.client.views.CameraViewController">
+		<property name="ffmjpegModel1" ref="pcoFfmjpeg1" />
+		<property name="procModel1" ref="pcoNdProc1" />
+		<property name="roiModel1" ref="pcoNdROI1" />
+		<property name="ffmjpegModel2" ref="pcoFfmjpeg2" />
+		<property name="procModel2" ref="pcoNdProc2" />
+		<property name="roiModel2" ref="pcoNdROI2" />
+		<property name="ndArray" ref="pcoNdArray" />
+		<property name="arrayPorts">
+			<list>
+				<value>det.roi1</value>
+				<value>det.proc</value>
+				<value>det.sim</value>
+				<value>det.stat</value>
+				<value>det.tiff</value>
+				<value>det.hdf</value>
+				<value>det.draw</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pcoCameraViewHolder"
+		class="uk.ac.gda.epics.client.pco.views.PCOCameraViewExecutableExtensionFactory">
+		<property name="viewPartName" value="Preview" />
+		<property name="cameraViewController" ref="pcoCameraViewController" />
+	</bean>
+
+	<bean id="pcoTomography" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+</beans>

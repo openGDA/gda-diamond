@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="ix" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="0.0" />
+			</bean>
+		</property>
+		<property name="inputNames" value="ix" />
+	</bean>
+	<bean id="iy" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="0.0" />
+			</bean>
+		</property>
+		<property name="inputNames" value="iy" />
+	</bean>
+	<bean id="iz" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="0.0" />
+			</bean>
+		</property>
+		<property name="inputNames" value="iz" />
+	</bean>
+
+	<bean id="idummymotor_x" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.7977e+308" />
+		<property name="maxPosition" value="1.7977e+308" />
+		<property name="position" value="0.0" />
+		<property name="speed" value="10" />
+		<property name="timeToVelocity" value="0.01" />
+	</bean>
+	
+	<bean id="idummyscannablemotor_x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="idummymotor_x" />
+		<property name="motor" ref="idummymotor_x" />
+		<property name="tolerance" value="0.01" />
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

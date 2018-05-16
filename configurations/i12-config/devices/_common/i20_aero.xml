@@ -1,0 +1,61 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="analyser_x" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="analyser_x" />
+		<property name="motor" ref="analyser_x_motor" />
+		<!-- <property name="tolerance" value="0.01" /> -->
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="analyser_y" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="analyser_y" />
+		<property name="motor" ref="analyser_y_motor" />
+		<!-- <property name="tolerance" value="0.01" /> -->
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="aero_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="aero_pitch" />
+		<property name="motor" ref="aero_pitch_motor" />
+		<!-- <property name="tolerance" value="0.01" /> -->
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="aero_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="aero_roll" />
+		<property name="motor" ref="aero_roll_motor" />
+		<!-- <property name="tolerance" value="0.01" /> -->
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="i20_aero" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="analyser_x" />
+				<ref bean="analyser_y" />
+				<ref bean="aero_roll" />
+				<ref bean="aero_pitch" />
+			</list>
+		</property>
+	</bean>
+</beans>

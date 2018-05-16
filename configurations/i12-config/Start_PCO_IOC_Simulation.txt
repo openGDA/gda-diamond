@@ -1,0 +1,17 @@
+Starting the PCO IOCs in simulation
+
+1. Open a terminal window and set the environment variables as follows 
+    export EPICS_CA_SERVER_PORT=6064
+    export EPICS_CA_REPEATER_PORT=6065
+    export EPICS_CA_ADDR_LIST=172.23.63.17
+    export EPICS_CA_MAX_ARRAY_BYTES=20000000
+    
+2. Go to the location  /dls_sw/work/R3.14.11/ioc/BL12I/BL12I-EA-IOC-07_sim/
+
+3.	execute ./bin/linux-x86/stBL12I-EA-IOC-07.sh
+
+
+For the EDM screens(EPICS GUI)
+4. Repeat Step 1 & 2
+
+5. execute ./bin/linux-x86/stBL12I-EA-IOC-07-gui
