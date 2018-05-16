@@ -47,6 +47,7 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
             self.pvs.configure()
         #ID
         self._id_energy=id_energy
+        self._id_gap = self._id_energy.id_gap
         self._id_gap_speed_orig=None
         self._id_runupdown_time = None
         self.idpvs = PvManager({'vel':'BLGSETVEL',
@@ -140,15 +141,15 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         
         if installation.isDummy():
             #setup motor positions to be used to return as waveform channel readings during continuous scanning
-            grating_pitch_positions=[self._grat_pitch_start+self._pgm_grat_pitch_speed*self.triggerPeriod*n for n in range(self.getNumberTriggers())]
+            grating_pitch_positions=[self._grat_pitch_start+self._pgm_grat_pitch_speed*self._triggerPeriod*n for n in range(self.getNumberTriggers())]
             mirror_pitch_positions =[self.mirr_pitch_midpoint for n in range(self.getNumberTriggers())]
-            pgm_energy_positions   =[angles2energy(gd = self._parent.grating_density,
+            pgm_energy_positions   =[angles2energy(gd       = self.grating_density,
                                                    grang    = grtPitch,
                                                    pmang    = mirPitch,
-                                                   groff    = self._parent.grating_offset,
-                                                   pmoff    = self._parent.plane_mirror_offset,
-                                                   ecg      = self._parent.energy_calibration_gradient,
-                                                   ecr      = self._parent.energy_calibration_reference) 
+                                                   groff    = self.grating_offset,
+                                                   pmoff    = self.plane_mirror_offset,
+                                                   ecg      = self.energy_calibration_gradient,
+                                                   ecr      = self.energy_calibration_reference) 
                                                    for grtPitch, mirPitch in zip(grating_pitch_positions, mirror_pitch_positions)]
              
         ### Calculate ramp distance from required speed and ramp times
