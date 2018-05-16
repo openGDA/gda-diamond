@@ -138,6 +138,9 @@
 	<import resource="file:${gda.config}/servers/main/_common/monitors/beam_monitors.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/monitors/radiant_panel_monitors.xml" />
 
+	<!-- Beam dimensions -->
+	<import resource="file:${gda.config}/servers/main/_common/beamDimensions.xml" />
+
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/data_writer.xml" />
@@ -146,12 +149,6 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-
-	<!-- Beam dimensions -->
-	<bean id="beamDimensions" class="gda.device.scannable.BeamDimensions">
-		<property name="x" value="0.1" />
-		<property name="y" value="0.2" />
-	</bean>
 
 	<!--
 		Mapping scans
