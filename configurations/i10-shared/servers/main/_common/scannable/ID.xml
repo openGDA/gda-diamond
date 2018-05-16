@@ -7,6 +7,7 @@
 	<!--  IDD or ID1 -->
 	<bean id="idd_gap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="idd_gap_motor" />
+		<property name="position" value="28.881859"/><!-- default position in dummy mode for lh polarisation at energy 800eV -->
 	</bean>
 
 	<bean id="idd_rowphase1" class="gda.device.scannable.ScannableMotor">
@@ -36,6 +37,7 @@
 	<!-- IDU or ID2 -->
 	<bean id="idu_gap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="idu_gap_motor" />
+		<property name="position" value="28.881859"/><!-- default position in dummy mode for lh polarisation at energy 800eV -->
 	</bean>
 
 	<bean id="idu_rowphase1" class="gda.device.scannable.ScannableMotor">
