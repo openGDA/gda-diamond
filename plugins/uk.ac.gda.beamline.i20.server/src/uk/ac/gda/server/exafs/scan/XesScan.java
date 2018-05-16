@@ -60,7 +60,7 @@ public class XesScan extends XasScanBase implements XasScan {
 	}
 
 	@Override
-	public void doCollection(ISampleParameters sampleBean, IScanParameters scanBean, IDetectorParameters detectorBean,
+	public void configureCollection(ISampleParameters sampleBean, IScanParameters scanBean, IDetectorParameters detectorBean,
 			IOutputParameters outputBean, IDetectorConfigurationParameters detectorConfigurationBean,
 			String experimentFullPath, int numRepetitions) throws Exception {
 
@@ -74,14 +74,13 @@ public class XesScan extends XasScanBase implements XasScan {
 		this.sampleBean = sampleBean;
 		this.scanBean = scanBean;
 
-		setXmlFileNames("", "", "", "");
+		setXmlFileNames("", "", "", "", "");
 		determineExperimentPath(experimentFullPath);
 		scan_unique_id = LoggingScriptController.createUniqueID(getScanType());
-		doCollection();
 	}
 
 	@Override
-	protected void doCollection() throws Exception {
+	public void doCollection() throws Exception {
 		xesScanParameters = (XesScanParameters) scanBean;
 		i20OutputParameters = (I20OutputParameters) outputBean;
 		String offsetStoreName = xesScanParameters.getOffsetsStoreName();
@@ -178,8 +177,17 @@ public class XesScan extends XasScanBase implements XasScan {
 		try {
 			IScanParameters xasScanParams = (IScanParameters) XMLHelpers.getBeanObject(experimentFullPath + "/",
 					xesScanParameters.getScanFileName());
-			xas.doCollection(sampleBean, xasScanParams, detectorBean, outputBean, detectorConfigurationBean,
+			xas.configureCollection(sampleBean, xasScanParams, detectorBean, outputBean, detectorConfigurationBean,
 					experimentFullPath, numRepetitions);
+
+			// Set the names of the XML bean files so they get written to the 'before_scan' meta data.
+			if (xas instanceof XasScanBase) {
+				String[] filenames = getXmlFileNames();
+				((XasScanBase)xas).setXmlFileNames(filenames[0], xesScanParameters.getScanFileName(), filenames[2], filenames[3], filenames[4]);
+			}
+
+			xas.doCollection();
+
 		} finally {
 			xes_energy.moveTo(initialXESEnergy);
 		}

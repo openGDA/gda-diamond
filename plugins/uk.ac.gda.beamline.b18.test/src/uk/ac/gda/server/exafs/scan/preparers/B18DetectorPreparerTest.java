@@ -49,7 +49,8 @@ import uk.ac.gda.beans.exafs.OutputParameters;
 import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
-import uk.ac.gda.devices.detector.xspress3.Xspress3;
+import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
+import uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller;
 import uk.ac.gda.server.exafs.b18.scan.preparers.B18DetectorPreparer;
 
 public class B18DetectorPreparerTest {
@@ -63,7 +64,8 @@ public class B18DetectorPreparerTest {
 	private MythenDetectorImpl mythen_scannable;
 	private Xspress2Detector xspressSystem;
 	private Xmap vortexConfig;
-	private Xspress3 xspress3Config;
+	private Xspress3Detector xspress3Detector;
+	private DummyXspress3Controller xspress3Controller;
 	private TfgScalerWithFrames ionchambers;
 	private B18DetectorPreparer thePreparer;
 
@@ -85,7 +87,10 @@ public class B18DetectorPreparerTest {
 
 		xspressSystem = (Xspress2Detector) createMock(Xspress2Detector.class, "xspressSystem");
 		vortexConfig = (Xmap) createMock(Xmap.class, "vortexConfig");
-		xspress3Config = (Xspress3) createMock(Xspress3.class, "xspress3Config");
+		xspress3Detector = (Xspress3Detector) createMock(Xspress3Detector.class, "xspress3Config");
+		xspress3Controller = Mockito.mock(DummyXspress3Controller.class);
+		Mockito.when(xspress3Detector.getController()).thenReturn(xspress3Controller);
+
 		ionchambers = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
 
 		energy_scannable = createMockScannable("energy_scannable");
@@ -118,7 +123,7 @@ public class B18DetectorPreparerTest {
 
 		thePreparer = new B18DetectorPreparer(energy_scannable, mythen_scannable, sensitivities, sensitivity_units,
 				offsets, offsets_units, ionc_gas_injector_scannables, ionchambers, xspressSystem, vortexConfig,
-				xspress3Config);
+				xspress3Detector);
 	}
 
 	private Scannable createMockScannable(String string) {
@@ -192,12 +197,12 @@ public class B18DetectorPreparerTest {
 			Mockito.verify(xspressSystem).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
 			Mockito.verify(xspressSystem).configure();
 			Mockito.verifyZeroInteractions(vortexConfig);
-			Mockito.verifyZeroInteractions(xspress3Config);
+			Mockito.verifyZeroInteractions(xspress3Detector);
 
 			fluoParams.setDetectorType("Xspress3");
 			thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
-			Mockito.verify(xspress3Config).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
-			Mockito.verify(xspress3Config).loadConfigurationFromFile();
+			Mockito.verify(xspress3Detector).setConfigFileName("/scratch/test/xml/path/Fluo_config.xml");
+			Mockito.verify(xspress3Detector).loadConfigurationFromFile();
 			Mockito.verifyZeroInteractions(vortexConfig);
 
 			fluoParams.setDetectorType("Silicon");
