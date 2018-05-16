@@ -153,13 +153,13 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
     # we have to implement following scannable interface for it to work outside continuous scanning
     def getExtraNames(self):
         if self._operating_continuously:
-            raise Exception("getExtraNames() is not supported in Continuous operation")
+            return self.super__getExtraNames()
         else:
             return self._move_controller._id_energy.getExtraNames()
     
     def getOutputFormat(self):
         if self._operating_continuously:
-            raise Exception("getOutputFormat() is not supported in Continuous operation")
+            return self.super__getOutputFormat()
         else:
             return self._move_controller._id_energy.getOutputFormat()
         
