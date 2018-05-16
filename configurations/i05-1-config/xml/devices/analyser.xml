@@ -53,24 +53,26 @@
 		<property name="adBase" ref="area" />
 		<property name="local" value="true" />
 		<property name="readArray" value="false" />
-		<property name="fixedModeRegion">
-			<list>
-				<value>1</value>
-				<value>1</value>
-				<value>1064</value>
-				<value>1000</value>
-			</list>
-		</property>
-		<property name="sweptModeRegion">
-			<list>
-				<value>55</value>
-				<value>166</value>
-				<value>905</value>
-				<value>690</value>
-			</list>
-		</property>
+		<property name="fixedModeConfiguration" ref="fixedConfiguration" />
+		<property name="sweptModeConfiguration" ref="sweptConfiguration" />
 		<property name="energyStepPerPixel" value="0.0861" />
 		<property name="entranceSlitInformationProvider" ref="scientaslit" />
+	</bean>
+
+	<bean id="fixedConfiguration" class="uk.ac.gda.devices.vgscienta.DetectorConfiguration">
+		<property name="startX" value="1" />
+		<property name="sizeX" value="1064" />
+		<property name="startY" value="1" />
+		<property name="sizeY" value="1000" />
+		<property name="slices" value="1000" />
+	</bean>
+
+	<bean id="sweptConfiguration" class="uk.ac.gda.devices.vgscienta.DetectorConfiguration">
+		<property name="startX" value="55" />
+		<property name="sizeX" value="905" />
+		<property name="startY" value="166" />
+		<property name="sizeY" value="690" />
+		<property name="slices" value="690" />
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">

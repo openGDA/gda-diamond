@@ -58,6 +58,11 @@ def isgold():
    return saz.getPosition() < -18
 sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename",isgoldpost=isgold)
 
+# Setting Analyser slices to 1000
+try:
+    analyser.setSlices(1000)
+except:
+    print "There was a problem setting the analyser slices to 1000, please check detector parameters." 
 centre_energy=analyser.getCentreEnergyScannable()
 centre_energy.setName("centre_energy")
 centre_energy.setInputNames(["centre_energy"])
