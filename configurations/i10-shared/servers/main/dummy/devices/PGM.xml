@@ -13,6 +13,7 @@
 		<property name="speed" value="20" />
 		<property name="unitString" value="eV"/>
 		<property name="local" value="true" />
+		<property name="position" value="800"/>
 	</bean>
 
 	<bean id="pgm_grat_pitch_motor" class="gda.device.motor.DummyMotor" >
