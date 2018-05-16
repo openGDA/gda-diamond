@@ -38,14 +38,18 @@
 		<property name="positionTriggerTimeUnits" value="1" />  <!--  times in seconds -->
 	</bean>
 
+	<bean id="trajscan_controller" class="gda.device.trajectoryscancontroller.EpicsTrajectoryScanController">
+		<property name="name" value="trajscan_controller" />
+		<property name="pvBase" value="BL20J-MO-STEP-06:TC:" />
+		<property name="maxPointsPerProfileBuild" value="1500" />
+	</bean>
+
 <!--  Trajectory scan preparer bean. 12/1/2017  -->
 	<bean id="trajscan_preparer" class="gda.scan.TrajectoryScanPreparer">
 		<property name="name" value="trajscan_preparer" />
-		<property name="pvBase" value="BL20J-MO-STEP-06:TC:" />
-		<property name="maxPointsPerProfileBuild" value="1500" />
+		<property name="trajectoryScanController" ref="trajscan_controller" />
 		<property name="useMaxTimePerStep" value="true" />
 		<property name="maxTimePerStep" value="2" />
-		
 	</bean>
 
 <!-- TurboxXasScannable for driving turbo slits in a continuous scan. imh 23/5/2016 -->
