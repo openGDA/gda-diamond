@@ -107,6 +107,8 @@ public class TurboXasParameters {
 	/** Scannables to be monitored during scan : key = name of scannable, value = PV with value to record (optional) */
 	private LinkedHashMap<String, String> scannablesToMonitorDuringScan;
 
+	private boolean writeAsciiData;
+
 	public TurboXasParameters() {
 		setDefaults();
 	}
@@ -140,6 +142,7 @@ public class TurboXasParameters {
 		motorToMove = "turbo_xas_slit";
 		useTrajectoryScan = false;
 		detectors = new String[]{"scaler_for_zebra"};
+		writeAsciiData = false;
 	}
 
 	// Getters, setters...
@@ -279,6 +282,14 @@ public class TurboXasParameters {
 	public void setScannablesToMonitorDuringScan(Map<String, String> scannablesToMonitorDuringScan) {
 		this.scannablesToMonitorDuringScan = new LinkedHashMap<>();
 		this.scannablesToMonitorDuringScan.putAll(scannablesToMonitorDuringScan);
+	}
+
+	public boolean getWriteAsciiData() {
+		return writeAsciiData;
+	}
+
+	public void setWriteAsciiData(boolean writeAsciiData) {
+		this.writeAsciiData = writeAsciiData;
 	}
 
 	/**
@@ -515,6 +526,7 @@ public class TurboXasParameters {
 
 		TurboXasScan scan = new TurboXasScan(motor, motorParams, bufDetectors);
 		scan.setScannablesToMonitor(getScannablesToMonitor());
+		scan.setWriteAsciiDataAfterScan(writeAsciiData);
 		return scan;
 	}
 }

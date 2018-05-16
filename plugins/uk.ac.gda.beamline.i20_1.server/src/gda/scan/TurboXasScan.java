@@ -18,11 +18,14 @@
 
 package gda.scan;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.slf4j.Logger;
@@ -48,6 +51,7 @@ import gda.device.zebra.controller.Zebra;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
+import gda.scan.ede.datawriters.AsciiWriter;
 import gov.aps.jca.CAException;
 import uk.ac.gda.devices.detector.xspress3.TRIGGER_MODE;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
@@ -84,6 +88,9 @@ public class TurboXasScan extends ContinuousScan {
 	private TurboXasNexusTree nexusTree = new TurboXasNexusTree();
 	private PlotUpdater plotUpdater = new PlotUpdater();
 	private List<Scannable> scannablesToMonitor;
+
+	private AsciiWriter asciiWriter;
+	private boolean writeAsciiDataAfterScan = false;
 
 	private int numReadoutsPerSpectrum;
 	private int numSpectraPerCycle;
@@ -281,8 +288,33 @@ public class TurboXasScan extends ContinuousScan {
 		} catch (Exception e) {
 			logger.warn("Problem adding time axis data at end of scan", e);
 		}
+
+		try {
+			writeAsciiData();
+		} catch (Exception e) {
+			logger.error("Problem writing ascii file at end of scan : {}", e.getMessage(), e);
+		}
 	}
 
+	private void writeAsciiData() throws Exception {
+		if (writeAsciiDataAfterScan) {
+			if (asciiWriter == null) {
+				asciiWriter = new AsciiWriter();
+			}
+			String nexusPath = Paths.get(getDataWriter().getCurrentFileName()).toAbsolutePath().toString();
+			asciiWriter.setNexusFilename(nexusPath);
+
+			String asciiName = FilenameUtils.getBaseName(nexusPath)+"_ascii.dat";
+			Path asciiDir = Paths.get(FilenameUtils.getFullPath(nexusPath)).getParent().resolve("ascii");
+			if (!asciiDir.toFile().exists()) {
+				asciiDir = Paths.get(FilenameUtils.getFullPath(nexusPath));
+			}
+			asciiWriter.setAsciiFilename(asciiDir.resolve(asciiName).toAbsolutePath().toString());
+
+			logger.info("Writing ascii data to {} at end of scan", asciiWriter.getAsciiFilename());
+			asciiWriter.writeAsciiFile();
+		}
+	}
 	/**
 	 * Collect multiple spectra by performing motor moves for several timing groups.
 	 * @throws Exception
@@ -806,4 +838,19 @@ public class TurboXasScan extends ContinuousScan {
 		scannablesToMonitor.add(scannable);
 	}
 
+	public boolean getWriteAsciiDataAfterScan() {
+		return writeAsciiDataAfterScan;
+	}
+
+	public void setWriteAsciiDataAfterScan(boolean writeAsciiDataAfterScan) {
+		this.writeAsciiDataAfterScan = writeAsciiDataAfterScan;
+	}
+
+	public AsciiWriter getAsciiDataWriter() {
+		return asciiWriter;
+	}
+
+	public void setDataWriter(AsciiWriter asciiWriter) {
+		this.asciiWriter = asciiWriter;
+	}
 }

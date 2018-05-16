@@ -33,7 +33,6 @@ import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.january.dataset.IDataset;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import gda.TestHelpers;
@@ -52,6 +51,7 @@ import gda.device.zebra.controller.impl.ZebraDummy;
 import gda.factory.Factory;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
+import gda.scan.ede.datawriters.AsciiWriterTest;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
 import uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller;
@@ -67,6 +67,11 @@ public class TurboXasScanTest extends EdeTestBase {
 	private Xspress3Detector xspress3detector;
 	private Xspress3BufferedDetector xspress3bufferedDetector;
 	private ScannableMotor testMotor;
+	public static final String BUFFERED_SCALER_NAME = "bufferedScaler";
+	public static final String[] BUFFERED_SCALER_FIELDS = { "frame_time", "I0", "It", "Iref" };
+
+	public static final String BUFFERED_XSPRESS3_NAME = "xspress3bufferedDetector";
+	public static final String[] BUFFERED_XSPRESS3_FIELDS = new String[] {"FF", TurboXasNexusTree.FF_SUM_IO_NAME };
 
 	@AfterClass
 	public static void tearDownClass() {
@@ -93,14 +98,14 @@ public class TurboXasScanTest extends EdeTestBase {
 		memory.configure();
 
 		bufferedScaler = new BufferedScaler();
-		bufferedScaler.setName("bufferedScaler");
+		bufferedScaler.setName(BUFFERED_SCALER_NAME);
 		bufferedScaler.setScaler(memory);
 		bufferedScaler.setTimer(tfg);
 		bufferedScaler.setDaserver(daserver);
 		bufferedScaler.setTFGv2(true);
 		bufferedScaler.setOutputLogValues(false);
 		bufferedScaler.setTimeChannelRequired(true);
-		bufferedScaler.setExtraNames(new String[] { "frame_time", "I0", "It", "Iref" });
+		bufferedScaler.setExtraNames(BUFFERED_SCALER_FIELDS);
 		bufferedScaler.setFirstDataChannel(0);
 		bufferedScaler.setNumChannelsToRead(3);
 		bufferedScaler.setOutputFormat(new String[] { "%.5g", "%.5g", "%.5g", "%.5g", "%.5g" });
@@ -141,7 +146,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		xspress3detector.configure();
 
 		xspress3bufferedDetector = new Xspress3BufferedDetector();
-		xspress3bufferedDetector.setName("xspress3bufferedDetector");
+		xspress3bufferedDetector.setName(BUFFERED_XSPRESS3_NAME);
 		xspress3bufferedDetector.setXspress3Detector(xspress3detector);
 		xspress3bufferedDetector.configure();
 	}
@@ -515,6 +520,33 @@ public class TurboXasScanTest extends EdeTestBase {
 
 		// Check data for the scannable being monitored is present and has correct dimensions (1 value per spectrum)
 		assertDimensions(nexusFilename, bufferedScaler.getName(), testMotor.getName(), new int[]{numSpectra});
+	}
+
+	/**
+	 * Do basic check that TurboXasScan runs and produces Ascii file at end with correct number of rows and columns
+	 * of data. More extensive checks of content are done in {@link AsciiWriterTest}.
+	 * @throws InterruptedException
+	 * @throws Exception
+	 */
+	@Test
+	public void testAsciiWriterProcessesNexusFile() throws InterruptedException, Exception {
+		setup(TurboXasScan.class, "testAsciiWriterProcessesNexusFile");
+		TurboXasParameters parameters = getTurboXasParameters();
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 10));
+		TurboXasScan scan = parameters.createScan();
+		scan.setWriteAsciiDataAfterScan(true);
+		scan.runScan();
+
+		int numEnergies = getNumPointsPerSpectrum(parameters);
+		int numSpectra = parameters.getTotalNumSpectra();
+		int numFields = bufferedScaler.getExtraNames().length + 2; // 2 fields for Xspress3 - FF and FF_sum/I0
+		int numAxisColumns = 3; // index, position, energy
+
+		String asciiFileName = scan.getAsciiDataWriter().getAsciiFilename();
+
+		// Check ascii file has correct number of line and columns of data
+		testNumberLinesInFile(asciiFileName, numEnergies);
+		testNumberColumnsInFile(asciiFileName, numAxisColumns + numFields * numSpectra);
 	}
 
 	/**

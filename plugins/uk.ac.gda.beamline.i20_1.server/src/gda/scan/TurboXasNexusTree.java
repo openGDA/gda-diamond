@@ -85,6 +85,10 @@ public class TurboXasNexusTree {
 	public static final String POSITION_UNITS = "cm";
 	public static final String I0_LABEL = "I0";
 
+	// For 'FF_sum/I0' label, use u2215 (division slash, ∕) rather than solidus (/), so ratio is displayed nicely
+	// and Nexus writer doesn't get confused
+	public static final String FF_SUM_IO_NAME = "FF_sum\u2215I0";
+
 	// Dataset names for spectrum and timing group index (to match Ede scan data names...)
 	public static final String SPECTRUM_INDEX = EdeDataConstants.FRAME_COLUMN_NAME;
 	public static final String SPECTRUM_GROUP = EdeDataConstants.TIMINGGROUP_COLUMN_NAME;
@@ -466,8 +470,7 @@ public class TurboXasNexusTree {
 			int numI0Values = i0Data.getShape()[0];
 			Dataset ffSumSlice = ffSum.getSlice(null, new int[]{numI0Values}, null).squeeze();
 			Dataset ffi0 = ffSumSlice.idivide(i0Data);
-			// Use u2215 (division slash, ∕) rather than solidus (/), so ratio is displayed nicely and Nexus writer doesn't get confused
-			ffi0.setName("FF_sum\u2215I0");
+			ffi0.setName(FF_SUM_IO_NAME);
 			NXDetectorData.addData(detTree, ffi0.getName(), NexusGroupData.createFromDataset(ffi0), "counts", 1);
 		}
 		return frame;

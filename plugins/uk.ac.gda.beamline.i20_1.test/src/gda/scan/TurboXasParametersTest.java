@@ -68,6 +68,7 @@ public class TurboXasParametersTest {
 	private static final boolean defaultUseTrajectoryScan = false;
 
 	private Map<String,String> scannablesToMonitor = null;
+	private boolean writeAsciiData = false;
 
 	@Before
 	public void setUp() {
@@ -313,6 +314,8 @@ public class TurboXasParametersTest {
 		if (scannablesToMonitor != null) {
 			serializedXmlString += getExpectedMapXmlString(scannablesToMonitor, "  ")+"\n";
 		}
+
+		serializedXmlString += "  <writeAsciiData>"+writeAsciiData+"</writeAsciiData>\n";
 
 		serializedXmlString += "</TurboXasParameters>";
 		return serializedXmlString;

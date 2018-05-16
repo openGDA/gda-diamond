@@ -19,7 +19,16 @@
 package gda.scan;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
@@ -28,6 +37,8 @@ import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DatasetUtils;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IndexIterator;
 import org.mockito.Mockito;
@@ -37,6 +48,8 @@ import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.data.metadata.NXMetaDataProvider;
 import gda.data.scan.datawriter.NexusDataWriter;
+import gda.device.DeviceException;
+import gda.device.detector.DetectorBase;
 import gda.device.enumpositioner.DummyEnumPositioner;
 import gda.device.scannable.ScannableMotor;
 import gda.factory.Factory;
@@ -58,6 +71,70 @@ public class EdeTestBase {
 		Mockito.when(energy_scannable.getPosition()).thenReturn(position);
 
 		return energy_scannable;
+	}
+
+	/**
+	 * Detector that returns values from supplied array/dataset when it is read out.
+	 */
+	protected class DetectorArrayReadout extends DetectorBase {
+
+		private int positionIndex = 0;
+		private IDataset values = null;
+
+		public DetectorArrayReadout(String name, double[] values) {
+			setName(name);
+			setInputNames(new String[] {name});
+			this.values = DatasetFactory.createFromObject(values);
+		}
+
+		public DetectorArrayReadout(String name, IDataset values) {
+			setName(name);
+			setInputNames(new String[] {name});
+			this.values = values.clone();
+		}
+
+		public IDataset getValues() {
+			return values;
+		}
+
+		@Override
+		public Object readout() throws DeviceException {
+			Object val = null;
+			int[] dataShape = values.getShape();
+			if (dataShape.length==1) {
+				val = values.getDouble(positionIndex);
+			} else {
+				Dataset row = (Dataset) values.getSlice(new int[] {positionIndex, 0}, new int[] {positionIndex+1, dataShape[1]}, null).squeeze();
+				val = DatasetUtils.createJavaArray(row);
+			}
+			positionIndex++;
+			return val;
+		}
+
+		@Override
+		public boolean isBusy() throws DeviceException {
+			return false;
+		}
+
+		@Override
+		public void rawAsynchronousMoveTo(Object position) {
+			// Do nothing
+		}
+
+		@Override
+		public void collectData() throws DeviceException {
+			// Do nothing
+		}
+
+		@Override
+		public int getStatus() throws DeviceException {
+			return IDLE;
+		}
+
+		@Override
+		public boolean createsOwnFiles() throws DeviceException {
+			return false;
+		}
 	}
 
 	protected DummyEnumPositioner createShutter2(){
@@ -118,6 +195,72 @@ public class EdeTestBase {
 			assertTrue(message, rangeValidator.valueOk(val));
 		}
 	}
+
+	/**
+	 * Check that two datasets match - i.e. have same shape and matching content. Relative error in all
+	 * numbers in 'actual' data is < 'toleranceFrac'
+	 * @param expected
+	 * @param actual
+	 * @param toleranceFrac
+	 */
+	public static void assertDatasetsMatch(IDataset expected, IDataset actual, double toleranceFrac) {
+		assertArrayEquals(expected.getShape(), actual.getShape());
+		int numElements = expected.getShape()[0];
+		for(int i=0; i<numElements; i++) {
+			double diff = Math.abs(expected.getDouble(i) - actual.getDouble(i));
+			if (diff>0 && Math.abs(expected.getDouble(i))>0) {
+				diff /= expected.getDouble(i);
+			}
+			assertTrue(Math.abs(diff)<toleranceFrac);
+		}
+	}
+
+	public static List<String> getLinesInFile(String filename) throws IOException {
+		return Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
+	}
+
+	/**
+	 * Convert ascii file into list of string arrays. Lines beginning with '#' are ignored.
+	 * Each string array is one line of data from the file; each element is content of one column in the row.
+	 * @param filename
+	 * @return List of String[].
+	 * @throws IOException
+	 */
+	public static List<String[]> getDataFromAsciiFile(String filename) throws IOException {
+		List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
+		List<String[]> dataLines = new ArrayList<>();
+
+		for(String line : lines) {
+			if (!line.trim().startsWith("#")) {
+				dataLines.add(line.trim().split("\\s+"));
+			}
+		}
+		return dataLines;
+	}
+
+	public static void testNumberLinesInFile(String filename, int numExpectedLines) throws IOException {
+		List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
+		int numDataLines = 0;
+		for (String line : lines) {
+			if (!line.trim().startsWith("#")) {
+				numDataLines++;
+			}
+		}
+		assertEquals(numExpectedLines, numDataLines);
+	}
+
+	public static void testNumberColumnsInFile(String filename, int numExpectedColumns) throws FileNotFoundException, IOException {
+		List<String> lines = Files.readAllLines(Paths.get(filename), Charset.defaultCharset());
+		for (String line : lines) {
+			String trimmedLine = line.trim();
+			if (!trimmedLine.startsWith("#")) {
+				String[] dataParts = trimmedLine.split("\\s+");
+				assertEquals(numExpectedColumns, dataParts.length);
+			}
+		}
+	}
+
+
 	protected String testDir;
 
 	protected void setup(Class<?> classType, String testName) throws Exception {
