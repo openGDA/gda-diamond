@@ -33,7 +33,7 @@ public abstract class LineTraceProviderNode extends Node {
 	private TraceStyleDetails traceStyle;
 	private boolean isHighlighted;
 	private final ITreeNode scanNode;
-	private final boolean plotByDefault;
+	private boolean plotByDefault;
 
 	public LineTraceProviderNode(ITreeNode parent, boolean plotByDefault, TraceStyleDetails traceStyle) {
 		super(parent);
@@ -52,6 +52,11 @@ public abstract class LineTraceProviderNode extends Node {
 
 	public abstract DoubleDataset getYAxisDataset();
 	public abstract DoubleDataset getXAxisDataset();
+
+	public void setPlotByDefault(boolean plotByDefault) {
+		this.plotByDefault = plotByDefault;
+	}
+
 	public boolean isPlotByDefault() {
 		return plotByDefault;
 	}

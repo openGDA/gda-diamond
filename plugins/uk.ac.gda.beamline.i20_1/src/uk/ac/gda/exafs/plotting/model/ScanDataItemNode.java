@@ -41,6 +41,7 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 		this.data = data;
 		this.label = label;
 		setTraceStyle(getDefaultTraceStyle());
+		setPlotByDefault(getParent().getLabel().equals(EdeDataConstants.LN_I0_IT_COLUMN_NAME));
 	}
 
 	@Override
@@ -60,21 +61,25 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 
 	@Override
 	public DoubleDataset getXAxisDataset() {
-		ExperimentRootNode experimentRootNode = (ExperimentRootNode) getParent().getParent().getParent();
-		if (experimentRootNode.isUseStripsAsXaxis()) {
-			DoubleDataset positionData = ((SpectraNode) getParent()).getUncalibratedXAxisData();
-			if (positionData!=null) {
-				return positionData;
-			} else {
-				return experimentRootNode.getStripsData();
+		ITreeNode rootNode = getRootNode();
+
+		if (rootNode instanceof ExperimentRootNode) {
+			ExperimentRootNode experimentRootNode = (ExperimentRootNode) rootNode;
+			if (experimentRootNode.isUseStripsAsXaxis()) {
+				DoubleDataset positionData = ((SpectraNode) getParent()).getUncalibratedXAxisData();
+				if (positionData != null) {
+					return positionData;
+				} else {
+					return experimentRootNode.getStripsData();
+				}
 			}
+			return ((SpectraNode) getParent()).getXAxisData();
 		}
 		return ((SpectraNode) getParent()).getXAxisData();
+
 	}
 
-	public TraceStyleDetails getDefaultTraceStyle() {
-
-		EdeScanNode scanDataNode = (EdeScanNode) getScanNode();
+	public TraceStyleDetails getTraceStyleForEdeScanNode(EdeScanNode scanDataNode) {
 		ExperimentRootNode experimentDataNode = (ExperimentRootNode) scanDataNode.getParent();
 		TraceStyleDetails traceStyle = new TraceStyleDetails();
 
@@ -83,7 +88,8 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 		traceStyle.setColor(XYGraph.DEFAULT_TRACES_COLOR[numPlots % XYGraph.DEFAULT_TRACES_COLOR.length]);
 
 		if (!scanDataNode.isMultiCollection()) {
-			if ((experimentDataNode.getChildren().size() - experimentDataNode.getChildren().indexOf(scanDataNode)) % 2 == 0) {
+			if ((experimentDataNode.getChildren().size() - experimentDataNode.getChildren().indexOf(scanDataNode))
+					% 2 == 0) {
 				traceStyle.setTraceType(TraceType.DASH_LINE);
 				traceStyle.setPointStyle(PointStyle.DIAMOND);
 				traceStyle.setPointSize(5);
@@ -96,7 +102,7 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 			traceStyle.setTraceType(TraceType.SOLID_LINE);
 			traceStyle.setLineWidth(1);
 			// Set point plotting style for datasets with only 1 value
-			if (data != null && data.getShape()[0]<=1) {
+			if (data != null && data.getShape()[0] <= 1) {
 				traceStyle.setPointStyle(PointStyle.CIRCLE);
 				traceStyle.setPointSize(5);
 			} else {
@@ -107,11 +113,17 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 		return traceStyle;
 	}
 
-	@Override
-	public boolean isPlotByDefault() {
-		if (((SpectraNode) getParent()).getLabel().equals(EdeDataConstants.LN_I0_IT_COLUMN_NAME)) {
-			return true;
+
+	public TraceStyleDetails getDefaultTraceStyle() {
+
+		ITreeNode possibleScanNode = getScanNode();
+		if (possibleScanNode instanceof EdeScanNode) {
+			return getTraceStyleForEdeScanNode((EdeScanNode) possibleScanNode);
 		}
-		return false;
+
+		int numChildren = getParent().getChildren().size();
+		TraceStyleDetails traceStyle = TraceStyleDetails.createDefaultSolidTrace();
+		traceStyle.setColor(XYGraph.DEFAULT_TRACES_COLOR[numChildren % XYGraph.DEFAULT_TRACES_COLOR.length]);
+		return traceStyle;
 	}
 }

@@ -56,6 +56,8 @@ import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.client.plotting.model.LineTraceProviderNode;
 import uk.ac.gda.client.plotting.model.Node;
 import uk.ac.gda.exafs.plotting.model.ExperimentRootNode;
+import uk.ac.gda.exafs.plotting.model.ScanDataItemNode;
+import uk.ac.gda.exafs.plotting.model.SpectraNode;
 
 public class ScanDataPlotterComposite extends ResourceComposite {
 
@@ -122,8 +124,16 @@ public class ScanDataPlotterComposite extends ResourceComposite {
 		rootDataNode.addPropertyChangeListener(ExperimentRootNode.DATA_ADDED_PROP_NAME, event -> {
 			Node node = (Node) event.getNewValue();
 			// Only expand if there have been no lnI0It spectra added
-			if (recentlyAddedSpectraList.isEmpty()) {
-				dataTreeViewer.expandToLevel(node.getParent(), AbstractTreeViewer.ALL_LEVELS);
+			if (node instanceof SpectraNode && recentlyAddedSpectraList.isEmpty()) {
+				dataTreeViewer.expandToLevel(node.getParent(), 1);
+
+				boolean plotByDefault = false;
+				if (!node.getChildren().isEmpty()) {
+					plotByDefault = ((ScanDataItemNode)node.getChildren().get(0)).isPlotByDefault();
+				}
+				if (plotByDefault) {
+					dataTreeViewer.expandToLevel(node, AbstractTreeViewer.ALL_LEVELS);
+				}
 			}
 			if (node instanceof LineTraceProviderNode && dataTreeViewer.getChecked(node)) {
 				plotHandler.addTrace((LineTraceProviderNode) node);
