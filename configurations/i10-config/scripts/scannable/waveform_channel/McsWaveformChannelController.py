@@ -6,9 +6,12 @@ from org.slf4j import LoggerFactory
 from threading import Timer
 import installation
 from detectors.CounterTimer import countTimer
+from dataGenerator.waveformDataGenerator import WaveformDataGenerator
+
 
 TIMEOUT = 5
 
+    
 class McsWaveformChannelController(object):
     # e.g. mca_root_pv = BL16I-EA-DET-01:MCA-01
 
@@ -44,7 +47,8 @@ class McsWaveformChannelController(object):
             # Is there any reason why we can't EraseStart here?
         else:
             if self.verbose: self.logger.info("configure '%s' for dummy operation...')" % (countTimer.getName()))
-            countTimer.configure()
+            self.waveform=WaveformDataGenerator()
+            self.waveform.useGaussian=True
             
     def erase(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'erase()...'))
@@ -64,9 +68,10 @@ class McsWaveformChannelController(object):
                 self.pv_channeladvance.caput(TIMEOUT, self.channelAdvanceExternal)
             self.pv_erasestart.caput(TIMEOUT, 1)
         else:
-            countTimer.stop()
-            countTimer.setCollectionTime(self.exposure_time)
-            countTimer.start()
+            if self.waveform.useGaussian and self.waveform.gaussian is None:
+                self.waveform.initializeGaussian()
+            self.waveform.data=[]
+            
         # Since the mca NORD value could take some time to be updated and will continue returning the NORD of the last acquire,
         # wait before setting started to True, so WaveformChannelPollingInputStream doesn't try to use stale data.
         startedTimer = Timer(1.5, self._delayed_start_complete) # Failed at 0.5s, Ok at 1.5s.
@@ -82,7 +87,7 @@ class McsWaveformChannelController(object):
         if installation.isLive():
             self.pv_stop.caput(1)
         else:
-            countTimer.stop
+            pass
         self.stream.stop() # enable stop the element polling loop when stop is called.
         self.started = False
         if self.verbose: self.logger.info("%s %s" % (self.name,'...stop()'))
@@ -105,8 +110,13 @@ class McsWaveformChannelController(object):
         return int
 
     def getChannelInputStreamCAClients(self, channel):
-        pv_waveform = CAClient(self.mca_root_pv + 'mca' + `channel`)
-        pv_count =    CAClient(self.mca_root_pv + 'mca' + `channel` + '.NORD') 
+        if installation.isLive():
+            pv_waveform = CAClient(self.mca_root_pv + 'mca' + `channel`)
+            pv_count =    CAClient(self.mca_root_pv + 'mca' + `channel` + '.NORD')
+        else:
+            self.waveform.channel=channel
+            pv_waveform = self.waveform
+            pv_count=self.number_of_positions
         return pv_waveform, pv_count
 
     def getExposureTime(self):
