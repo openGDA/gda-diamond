@@ -6,8 +6,6 @@
 
 	<bean id="hdf5" class="uk.ac.gda.server.ncd.epics.NDFileHDF5Impl">
 		<property name="basePVName" value="BL22I-EA-PILAT-01:HDF5:"/>
-		<property name="compression" value="zlib"/>
-		<property name="zCompressLevel" value="1"/>
 		<property name="numRowChunks" value="1679"/>
 		<property name="framesPerChunk" value="1"/>
 		<property name="columnsPerChunk" value="1475"/>
