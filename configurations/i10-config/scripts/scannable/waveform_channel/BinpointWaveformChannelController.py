@@ -73,8 +73,22 @@ class BinpointWaveformChannelController(object):
         return float
 
     def getChannelInputStreamCAClients(self, channel_pv_suffix):
-        pv_waveform = CAClient(self.binpoint_root_pv + channel_pv_suffix + 'BINPOINT')
-        pv_count =    CAClient(self.binpoint_root_pv + channel_pv_suffix + 'BINPOINT:NLAST.B')
+        if installation.isLive():
+            pv_waveform = CAClient(self.binpoint_root_pv + channel_pv_suffix + 'BINPOINT')
+            pv_count =    CAClient(self.binpoint_root_pv + channel_pv_suffix + 'BINPOINT:NLAST.B')
+        else:
+            if channel_pv_suffix == 'GRT:PITCH:':
+                from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import grating_pitch_positions
+                pv_waveform=grating_pitch_positions
+            elif channel_pv_suffix == 'MIR:PITCH:':
+                from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import mirror_pitch_positions
+                pv_waveform = mirror_pitch_positions
+            elif channel_pv_suffix == 'PGM:ENERGY:':
+                from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import pgm_energy_positions
+                pv_waveform = pgm_energy_positions
+            else:
+                pv_waveform = []
+            pv_count = self.number_of_positions
         return pv_waveform, pv_count
 
     def getExposureTime(self):
