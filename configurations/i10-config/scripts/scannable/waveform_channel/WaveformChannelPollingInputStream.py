@@ -6,6 +6,7 @@ import java.util.Vector
 from java.util import NoSuchElementException
 from org.slf4j import LoggerFactory
 import time
+import installation
 
 class WaveformChannelPollingInputStream(PositionInputStream):
 
@@ -14,6 +15,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         self.verbose = False
         
         self._controller = controller
+        self.channel=channel
         self.pv_waveform, self.pv_count = controller.getChannelInputStreamCAClients(channel)
         self.elements_read = 0 # none available
         self.type = controller.getChannelInputStreamType()
@@ -22,8 +24,12 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         self.stoppedExplicitly=False
 
     def configure(self):
-        self.pv_waveform.configure()
-        self.pv_count.configure()
+        if installation.isLive():
+            self.pv_waveform.configure()
+            self.pv_count.configure()
+        else:
+            self.logger.info("DUMMY mode: pv_count at configure() is %r" % self.pv_count)
+
 
     def reset(self):
         if self.verbose: self.logger.info('reset()...')
@@ -41,7 +47,17 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         #    self.elements_read = 0
         #    ##return java.util.Vector([0])
         new_available = self._waitForNewElements()
-        all_data = self.pv_waveform.cagetArrayDouble(self.elements_read + new_available)
+        if installation.isLive():
+            all_data = self.pv_waveform.cagetArrayDouble(self.elements_read + new_available)
+        else:
+            if self.channel in ['GRT:PITCH:','MIR:PITCH:','PGM:ENERGY:']:
+                all_data=self.pv_waveform[:self.elements_read + new_available]
+            else:
+                self.pv_waveform.pointCounter+=1
+                if self.pv_waveform.useGaussian:
+                    self.pv_waveform.resetGaussian()
+                all_data = self.pv_waveform.generateData(new_available)
+                self.logger.debug("DUMMY mode: generate %r elements" % (new_available))
         new_data = all_data[self.elements_read:self.elements_read + new_available]
         self.elements_read += new_available
         if self.verbose: self.logger.info('...read() all_data[0:6] = %r' % (all_data[0:6]))
@@ -60,7 +76,12 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         new_element_timeout = exposure_time + 200 # it takes about 200 second to complete a full range move of pgm_grit_pitch.
 
         while True and not self.stoppedExplicitly:
-            elements_available = int(float(self.pv_count.caget()))
+            if installation.isLive():
+                elements_available = int(float(self.pv_count.caget()))
+            else:
+                self.logger.info("DUMMY mode: number of positions set in WaveformChannelScannable to its controller is %r" % self._controller.number_of_positions)
+                elements_available = int(self._controller.number_of_positions)
+
             #print "self.elements_read = %d" % self.elements_read
             #print "element_available = %d" % elements_available
             # Some waveform PVs keep returning old data for a short time even after a new acq is started and even retain the old count
