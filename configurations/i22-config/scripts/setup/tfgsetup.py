@@ -17,8 +17,8 @@ class State:
     LOW = 0
     HIGH = 1
 
-MF = {'Open': State.HIGH, 'Close': State.LOW}
-NORMAL = {'Open': State.LOW, 'Close': State.HIGH}
+MF = {'Open': State.LOW, 'Close': State.HIGH}
+NORMAL = {'Open': State.HIGH, 'Close': State.LOW}
 
 FS_MODES = {'Main Beam': NORMAL, 'Microfocus': MF, 'GISAXS': NORMAL}
 
@@ -30,9 +30,9 @@ def _normalise_pulse(pulse):
     """Convert pulse given as '11101001' or 0b11101001 to int required by TFG"""
     if isinstance(pulse, int):
         pulse = _bin_format(pulse)
-    if len(pulse != 8):
+    if len(pulse) != 8:
         raise ValueError('Need 8 bit value for run or wait pulse')
-    return pulse[::-1]
+    return int(pulse[::-1], 2)
 
 def setupTfg(numberOfFrames, exposure, waitTime, waitPulse=DEFAULT_WAIT_PULSE, runPulse=DEFAULT_RUN_PULSE, waitPause=DEFAULT_WAIT_PAUSE, runPause=DEFAULT_RUN_PAUSE):
     """
