@@ -17,8 +17,8 @@ class State:
     LOW = 0
     HIGH = 1
 
-MF = {'Open': State.HIGH, 'Close': State.LOW}
-NORMAL = {'Open': State.LOW, 'Close': State.HIGH}
+MF = {'Open': State.LOW, 'Close': State.HIGH}
+NORMAL = {'Open': State.HIGH, 'Close': State.LOW}
 
 FS_MODES = {'Main Beam': NORMAL, 'Microfocus': MF, 'GISAXS': NORMAL}
 
