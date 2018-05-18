@@ -799,7 +799,7 @@ public class XHControlComposite extends Composite implements IObserver {
 					txtSnapTime.setEditable(false);
 				}
 			});
-			liveLoop = uk.ac.gda.util.ThreadManager.getThread(new Runnable() {
+			liveLoop = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					try {
@@ -854,9 +854,7 @@ public class XHControlComposite extends Composite implements IObserver {
 	public void stopCollectingRates() {
 		// Wait for collection thread to finish and update start/stop button status.
 		// This is done in a separate thread so GUI doesn't lock up while waiting for collection to finish.
-		Thread stopActionsThread = uk.ac.gda.util.ThreadManager.getThread(new Runnable() {
-			@Override
-			public void run() {
+		Thread stopActionsThread = new Thread(() -> {
 				try {
 					continueLiveLoop = false;
 
@@ -866,21 +864,18 @@ public class XHControlComposite extends Composite implements IObserver {
 					liveModeIsRunning = false;
 
 					// Get GUI thread and update button status
-					PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-						@Override
-						public void run() {
+					PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
 							startLiveModeButton.setEnabled(true);
 							stopLiveModeButton.setEnabled(false);
 							takeSnapShotButton.setEnabled(true);
 							takeSnapShotAndSaveButton.setEnabled(true);
-						}
 					});
 				}
 				catch( InterruptedException e) {
 					logger.error( "Exception in stopCollectingRates : ",e );
 				}
-			}
 		});
+		stopActionsThread.setDaemon(true);
 		stopActionsThread.start();
 
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {

@@ -361,7 +361,7 @@ public class DummyXStripDAServer extends DummyDAServer {
 		long integrationTime;
 	}
 
-	private class TimeFrameGenerator implements Runnable {
+	private class TimeFrameGenerator {
 		Thread runner;
 		private volatile int currentState;
 		private volatile boolean stopRun = false;
@@ -371,7 +371,8 @@ public class DummyXStripDAServer extends DummyDAServer {
 		private volatile int currentScan;
 
 		public synchronized void start() {
-			runner = uk.ac.gda.util.ThreadManager.getThread(this, getClass().getName());
+			runner = new Thread(this::runTfg, getClass().getName());
+			runner.setDaemon(true);
 			currentState = Detector.BUSY;
 			runner.start();
 		}
@@ -401,8 +402,7 @@ public class DummyXStripDAServer extends DummyDAServer {
 			continueFlag = true;
 		}
 
-		@Override
-		public synchronized void run() {
+		private synchronized void runTfg() {
 			try {
 				stopRun = false;
 				currentState = Detector.BUSY;

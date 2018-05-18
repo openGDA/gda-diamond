@@ -53,6 +53,7 @@ import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.datawriters.AsciiWriter;
 import gov.aps.jca.CAException;
+import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.gda.devices.detector.xspress3.TRIGGER_MODE;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.Xspress3Controller;
@@ -234,8 +235,7 @@ public class TurboXasScan extends ContinuousScan {
 
 		// Start detector readout thread
 		DetectorReadoutRunnable detectorReadoutRunnable = getDetectorReadoutRunnable();
-		Thread detectorReadoutThread = new Thread(detectorReadoutRunnable);
-		detectorReadoutThread.start();
+		Async.execute(detectorReadoutRunnable);
 
 		// Wait while trajectory scan runs...
 		while(trajScanPreparer.getExecuteProfileState().equals("Executing")) {
@@ -335,10 +335,8 @@ public class TurboXasScan extends ContinuousScan {
 		prepareDetectors();
 
 		// Make new instance of detector readout runnable to collect detector data.
+		// start it after first spectrum is available
 		DetectorReadoutRunnable detectorReadoutRunnable = getDetectorReadoutRunnable();
-
-		// Make detector readout thread (start it after first spectrum is available)
-		Thread detectorReadoutThread = new Thread(detectorReadoutRunnable);
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan...");
 
@@ -361,7 +359,7 @@ public class TurboXasScan extends ContinuousScan {
 
 				// Start collection thread after first spectrum
 				if (i==0 && j==0) {
-					detectorReadoutThread.start();
+					Async.execute(detectorReadoutRunnable);
 				}
 
 				// Set flags so we don't reconfigure and rearm zebra for next timing group or scan

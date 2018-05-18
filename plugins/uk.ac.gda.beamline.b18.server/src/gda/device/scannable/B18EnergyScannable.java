@@ -34,7 +34,6 @@ import gda.jython.JythonStatus;
 import gov.aps.jca.CAException;
 import gov.aps.jca.Channel;
 import gov.aps.jca.TimeoutException;
-import uk.ac.gda.util.ThreadManager;
 
 /**
  * Stop/starts the feedback control at the start of every scan on the B18 energy controller in Epics.
@@ -155,10 +154,7 @@ public class B18EnergyScannable extends ScannableMotor implements Initialization
 		pointStart = new Date();
 
 		// start a thread to look at the isBusy status
-		ThreadManager.getThread(new Runnable() {
-
-			@Override
-			public void run() {
+		Thread thread = new Thread(() -> {
 				try {
 					// give the move a chance to start
 					Thread.sleep(500);
@@ -196,8 +192,9 @@ public class B18EnergyScannable extends ScannableMotor implements Initialization
 				} catch (InterruptedException e) {
 					logger.error("InterruptedException in timeout loop of " + getName() + ". Leaving loop.", e);
 				}
-			}
-		}, getName() + "_timeout_thread").start();
+		}, getName() + "_timeout_thread");
+		thread.setDaemon(true);
+		thread.start();
 	}
 
 	private String[] getBraggPVs() throws TimeoutException, CAException, InterruptedException {

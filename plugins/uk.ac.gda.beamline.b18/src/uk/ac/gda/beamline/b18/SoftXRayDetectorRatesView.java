@@ -42,7 +42,7 @@ import gda.factory.Finder;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.DataSetPlotter;
 import uk.ac.diamond.scisoft.analysis.rcp.plotting.PlottingMode;
 
-public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPartListener2{
+public class SoftXRayDetectorRatesView extends ViewPart implements IPartListener2{
 	private Table table;
 	private static final String[] titles = { "I0Drain","SampleDrain","SampleDrain/I0Drain","Element0","Element1","Element2","Element3" };
 	private static final String[] formats = { "%.3f","%.3f", "%.3f", "%.3f", "%.3f", "%.3f", "%.3f" };
@@ -94,7 +94,8 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 		myPlotter.refresh(false);
 
 		keepOnTrucking = true;
-		updateThread = uk.ac.gda.util.ThreadManager.getThread(this);
+		updateThread = new Thread(this::runUpdates, getClass().getSimpleName() + "_update Thread");
+		updateThread.setDaemon(true);
 		updateThread.start();
 	}
 
@@ -138,8 +139,7 @@ public class SoftXRayDetectorRatesView extends ViewPart implements Runnable, IPa
 		table.getItem(0).setText(6, txt);
 	}
 
-	@Override
-	public void run() {
+	private void runUpdates() {
 		while (keepOnTrucking) {
 			if (!runMonitoring || !amVisible) {
 				try {

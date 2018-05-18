@@ -47,7 +47,6 @@ import org.slf4j.LoggerFactory;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.detectortemperature.XCHIPTemperatureLogParser;
 import uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView;
-import uk.ac.gda.util.ThreadManager;
 
 public class XCHIPTemperatureLogServiceImpl implements PropertyChangeListener, XCHIPTemperatureLogService {
 
@@ -119,12 +118,9 @@ public class XCHIPTemperatureLogServiceImpl implements PropertyChangeListener, X
 				plottingStartTime = (new Date()).getTime();
 				Path logDir = getLogDirectory().toPath();
 				final WatchKey key = logDir.register(watcher, java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY);
-				ThreadManager.getThread(new Runnable() {
-					@Override
-					public void run() {
-						processEvents(key);
-					}
-				}, XCHIPTemperatureLogServiceImpl.class.getName()).start();
+				Thread thread = new Thread(() -> processEvents(key), XCHIPTemperatureLogServiceImpl.class.getName());
+				thread.setDaemon(true);
+				thread.start();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				logger.error("TODO put description of error here", e);

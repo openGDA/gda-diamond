@@ -34,6 +34,7 @@ import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.observable.IObserver;
+import uk.ac.diamond.daq.concurrent.Async;
 
 class HighlightImageLabel implements IObserver {
 
@@ -164,13 +165,7 @@ class HighlightImageLabel implements IObserver {
 		if (updateInProgress)
 			return;
 
-		Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				updateLabelWaitForScannable();
-			}
-		});
-		thread.start();
+		Async.execute(this::updateLabelWaitForScannable);
 	}
 
 	public void setLabelText(String text) {

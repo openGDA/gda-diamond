@@ -26,7 +26,6 @@ import gda.device.DeviceException;
 import gda.device.scannable.ScannableBase;
 import gda.factory.FactoryException;
 import uk.ac.gda.beans.exafs.i20.CryostatProperties;
-import uk.ac.gda.util.ThreadManager;
 
 public class Lakeshore340Scannable extends ScannableBase{
 	private String pvName;
@@ -51,7 +50,8 @@ public class Lakeshore340Scannable extends ScannableBase{
 	@Override
 	public void configure() throws FactoryException {
 		statusRunner = new Lakeshore340StatusRunner(this);
-		statusThread = ThreadManager.getThread(statusRunner);
+		statusThread = new Thread(statusRunner);
+		statusThread.setDaemon(true);
 		statusThread.start();
 	}
 
