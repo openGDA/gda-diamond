@@ -1,6 +1,8 @@
 import sys
 import csv
 from time import sleep
+import logging
+logger = logging.getLogger('__main__')
 
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import ScannableMotionBase
@@ -16,7 +18,7 @@ def getFittingCoefficents(polarisation_mode, Ep, lut={}):
     maxEnergy=max(highEnergies)
     limits=zip(lowEnergies, highEnergies)
     if (Ep<minEnergy or Ep > maxEnergy):
-        raise ValueError("Demanding energy must lie between %s and %s eV!"%(minEnergy, maxEnergy))
+        raise ValueError("Demanding energy %s must lie between %s and %s eV!"%(Ep, minEnergy, maxEnergy))
     else:
         for low, high in limits:
             if (Ep>=low and Ep<high):
@@ -55,8 +57,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.setInputNames([name])
         self.setExtraNames([])
         self.order=1
-        self.energy=500.0
-        self.polaristion=0.0
+        self.polarisation=0.0
         self.gap=50
         self.polarisationMode='UNKNOWN'
         self.phase=0
@@ -67,6 +68,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             raise Exception("Cannot create an instance with both energy and polarisation being constant.")
         self.isConfigured=False
         self.inputSignSwitched=False
+        self.beamlinename=LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
+        self.logger = logger.getChild(self.__class__.__name__)
 
     def configure(self):
         if self.idscannable is not None:
@@ -80,10 +83,10 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         This method sync current object states with ID state in EPICS IOC.
         '''
         result=list(self.idscannable.getPosition())
-        self.gap=float(result[0])
-        self.polarisationMode=str(result[1])
-        self.phase=float(result[2])
-        return (self.gap, self.polarisationMode, self.phase)
+        gap=float(result[0])
+        polarisationMode=str(result[1])
+        phase=float(result[2])
+        return (gap, polarisationMode, phase)
 
     def showFittingCoefficentsLookupTable(self):
         formatstring="%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s\t%12s"
@@ -97,7 +100,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
     def getHarmonic(self):
         return self.order
 
-    def idgapphase(self, Ep=None, polar=None, mode='LH',n=1):
+    def idgapphase(self, Ep=None, mode='LH',n=1):
         '''coverts energy and polarisation to  gap and phase. It supports polarisation modes: LH, LV, CR, CL, LAP, LAN.
         Harmonic order is not yet implemented.
         '''
@@ -117,52 +120,37 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 phase=self.maxPhase
 
             if mode in ["CR", "CL"]:
-                beamlinename=LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
-                if (beamlinename=="i09" or beamlinename=="i09-2"):
+                if (self.beamlinename=="i09" or self.beamlinename=="i09-2"):
                     phase=15.0
                 else:
                     phase = 12.92907548 +  0.37353288*gap + -0.00614332*gap**2 + 5.3209E-06*gap**3 + 2.00631E-06*gap**4 + -3.9185E-08*gap**5 + 3.17986E-10*gap**6 + -9.93646E-13*gap**7
 
         else:
-            raise ValueError("Unsupported polarisationMode mode")
+            raise ValueError("Unsupported polarisationMode mode, only LH, LV, CR and CL are supported.")
         if phase<0 or phase>self.maxPhase: #Physical limits of ID Row Phase
             raise ValueError("Required Soft X-Ray ID phase is %s out side allowable bound (%s, %s)!" % (phase, 0, self.maxPhase))
         return (gap, phase)
 
     def rawGetPosition(self):
         '''returns the current beam energy, or polarisation, or both.'''
-        if self.getName() == "dummyenergy":
-            return self.energy
-        elif self.getName() == "dummypolarisation":
-            return self.polarisation
-        else:
-            self.gap, self.polarisationMode, self.phase = self.getIDPositions()
-            beamlinename=LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
-            if (beamlinename=="i09" or beamlinename=="i09-2"):
-                self.energy=self.pgmenergy.getPosition()/1000.0
-            else:
-                self.energy=self.pgmenergy.getPosition()
-            self.polarisation=self.polarisationMode
-            if self.polarisationMode in ["LH","LV","CR","CL"]:
-                if self.polarisationConstant:
-                    return self.energy
-                elif self.energyConstant:
-                    self.setOutputFormat(["%s"])
-                    return self.polarisation
-                else:
-                    self.setOutputFormat(["%10.6f","%s"])
-                    return self.energy, self.polarisation
 
-    def validatePolarisation(self, polarisation):
-        newPolarisationMode="UNKNOWN"
-        if polarisation < -90 or polarisation > 90:
-            raise ValueError("polarisation input is outside supported range (-90, 90)!")
-        elif polarisation < 0:
-            newPolarisationMode = "LAN"
+        gap, polarisationMode, phase = self.getIDPositions()
+        if (self.beamlinename=="i09" or self.beamlinename=="i09-2"):
+            energy=self.pgmenergy.getPosition()/1000.0
         else:
-            newPolarisationMode = "LAP"
-        self.polarisationMode=newPolarisationMode
-        return newPolarisationMode
+            energy=self.pgmenergy.getPosition()
+        polarisation=polarisationMode
+        if polarisationMode in ["LH","LV","CR","CL"]:
+            if self.polarisationConstant:
+                return energy
+            elif self.energyConstant:
+                self.setOutputFormat(["%s"])
+                self.polarisation = polarisation
+                return polarisation
+            else:
+                self.setOutputFormat(["%10.6f","%s"])
+                self.polarisation = polarisation
+                return energy, polarisation
 
     def rawAsynchronousMoveTo(self, new_position):
         '''move beam energy, polarisation, or both to specified value.
@@ -172,54 +160,54 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         newPolarisationMode=None
         phase=0
         try:
-            if self.getName() == "dummyenergy":
-                self.energy = float(new_position)
-            elif self.getName == "dummypolarisation":
-                self.polaristion=float(new_position)
-            else:
-                if not self.SCANNING:  #ensure ID hardware in sync in 'pos' command
-                    self.rawGetPosition()
-                    
-                #parse arguments as it could be 1 or 2 inputs, string or number type, depending on polarisation mode and instance attribute value
-                if not isinstance(new_position, list): # single argument
-                    if isinstance(new_position, basestring):
-                        if self.polarisationConstant: #input must be for energy
-                            raise ValueError("Input value must be a number.")
-                        newPolarisationMode=str(new_position)
-                        if not newPolarisationMode in ["LH", "LV","CR", "CL"]:
-                            raise ValueError('Input value must be one of valid polarisation mode: "LH", "LV","CR", "CL"')
-                    elif isinstance(new_position, numbers.Number):
-                        if self.polarisationConstant: #input must be for energy
-                            self.energy=float(new_position) #energy validation is done in getFittingCoefficent() method
-                            newPolarisationMode=self.polarisationMode  #using existing polarisation mode
-                        if self.energyConstant:       #input must be for polarisation
-                            self.polarisation=float(new_position)
-                            newPolarisationMode = self.validatePolarisation(self.polarisation)                            
+            if not self.SCANNING:  #ensure ID hardware in sync in 'pos' command
+                self.rawGetPosition()
+            #parse arguments as it could be 1 or 2 inputs, string or number type, depending on polarisation mode and instance attribute value
+            if not isinstance(new_position, list): # single argument
+                self.logger.debug("Single argument: {} given".format(type(new_position)))
+                if isinstance(new_position, basestring):
+                    energy=float(self.pgmenergy.getPosition())
+                    if (self.beamlinename=="i09" or self.beamlinename=="i09-2"):
+                        energy = energy/1000
+                    if self.polarisationConstant: #input must be for energy
+                        raise ValueError("Input value must be a number.")
+                    newPolarisationMode=str(new_position)
+                    if not newPolarisationMode in ["LH", "LV","CR", "CL"]:
+                        raise ValueError('Input value must be one of valid polarisation mode: "LH", "LV","CR", "CL"')
+                elif isinstance(new_position, numbers.Number):
+                    if self.polarisationConstant: #input must be for energy
+                        energy=float(new_position) #energy validation is done in getFittingCoefficent() method
+                        gap, polarisationMode, phase = self.getIDPositions()
+                        newPolarisationMode=polarisationMode  #using existing polarisation mode
                     else:
-                        raise ValueError("Input value must be a string or number.")
-                else: #2 arguments
-                    args = list(new_position)
-                    if len(args) != 2:
-                        raise ValueError("Expect 2 arguments but got %s" % len(args))
-                    if isinstance(args[0], numbers.Number):
-                        self.energy=float(args[0]) #range validation is done later
-                    else:
-                        raise ValueError("1st input for energy must be a number")
-                    if isinstance(args[1], numbers.Number):
-                        self.polarisation=float(args[1])
-                        newPolarisationMode = self.validatePolarisation(self.polarisation)
-                    elif isinstance(args[1], basestring):
-                        newPolarisationMode=args[1]
-                    else:
-                        raise ValueError("2nd input for polarisation must be a number")
-                    
-                if self.polarisationConstant:
-                    gap, phase = self.idgapphase(Ep=self.energy, mode=newPolarisationMode, n=self.order)
-                elif self.energyConstant:
-                    gap, phase = self.idgapphase(Ep=self.energy, polar=self.polarisation, mode=newPolarisationMode, n=self.order) 
+                        self.logger.error("Polarisation is not constant, but a number: {} was given".format(new_position))
+                        raise ValueError("If using energypolarisation, input value must be a list in the form [energy, polarisation].")
                 else:
-                    #print self.energy,self.polarisation,newPolarisationMode
-                    gap, phase=self.idgapphase(Ep=self.energy, polar=self.polarisation, mode=newPolarisationMode, n=self.order)
+                    raise ValueError("Input value must be a string or number.")
+            else: #2 arguments
+                args = list(new_position)
+                if len(args) != 2:
+                    raise ValueError("Expect 2 arguments but got %s" % len(args))
+                if isinstance(args[0], numbers.Number):
+                    self.logger.debug("Two arguments given and first argument {} is a number".format(args[0]))
+                    energy=float(args[0]) #range validation is done later
+                else:
+                    self.logger.error("Two arguments given and first argument {} is not a number".format(args[0]))
+                    raise ValueError("1st input for energy must be a number")
+                if isinstance(args[1], basestring):
+                    newPolarisationMode=args[1]
+                else:
+                    self.logger.error("Two arguments given and second argument {} is not a string".format(args[1]))
+                    raise ValueError("2nd input  for polarisation must be a string")
+                
+            if self.polarisationConstant:
+                self.logger.debug("Polarisation is constant, getting gap and phase with energy {} and mode {}".format(energy, newPolarisationMode))
+                gap, phase = self.idgapphase(Ep=energy, mode=newPolarisationMode, n=self.order)
+            elif self.energyConstant:
+                self.logger.debug("Energy is constant, getting gap and phase with energy {} and mode {}".format(energy, newPolarisationMode))
+                gap, phase = self.idgapphase(Ep=energy, mode=newPolarisationMode, n=self.order) 
+            else:
+                gap, phase=self.idgapphase(Ep=energy, mode=newPolarisationMode, n=self.order)
         except:
             raise #re-raise any exception from above try block
 
@@ -237,13 +225,12 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                     continue #do not need to move PGM energy
                 else:
                     try:
-                        beamlinename=LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
-                        if (beamlinename=="i09" or beamlinename=="i09-2"):
-                            s.asynchronousMoveTo(self.energy*1000)
+                        if (self.beamlinename=="i09" or self.beamlinename=="i09-2"):
+                            s.asynchronousMoveTo(energy*1000)
                         else:
-                            s.asynchronousMoveTo(self.energy)
+                            s.asynchronousMoveTo(energy)
                     except:
-                        print "cannot set %s to %f." % (s.getName(), self.energy)
+                        print "cannot set %s to %f." % (s.getName(), energy)
                         raise
 
     def rawIsBusy(self):
@@ -267,11 +254,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
                 return 1
 
     def atScanStart(self):
-        if self.getName() == "dummyenergy" or self.getName()=="dummypolarisation":
-            return;
-        else: # real hardware
-            self.rawGetPosition() #ensure ID hardware in sync at start of scan
-            self.SCANNING=True
+        self.rawGetPosition() #ensure ID hardware in sync at start of scan
+        self.SCANNING=True
 
     def atScanEnd(self):
         self.SCANNING=False

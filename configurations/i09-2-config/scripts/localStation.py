@@ -158,10 +158,10 @@ findcentroid=FindScanCentroid
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 
-print
-print "-----------------------------------------------------------------------------------------------------------------"
-print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'x' and 'y'"
-dummyenergy=BeamEnergy("dummyenergy", gap='x', dcm='y')
+# print
+# print "-----------------------------------------------------------------------------------------------------------------"
+# print "Create an 'dummyenergy' scannable which can be used for test energy scan in GDA. It moves dummy motor 'x' and 'y'"
+# dummyenergy=BeamEnergy("dummyenergy", gap='x', dcm='y')
 #print "Create an 'jenergy' scannable which can be used for energy scan in GDA. It moves both soft X-ray ID gap and PGM energy"
 
 # 2017-10-13 James re-enable jenergy_old as the new way doesn't work. 
