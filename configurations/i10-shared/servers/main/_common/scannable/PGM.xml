@@ -7,48 +7,32 @@
 	
 	<bean id="pgm_energy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgmenergy_motor" />
-		<!-- <property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" /> -->
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
 	</bean>
 
 	<bean id="pgm_grat_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mDeg" />
 		<property name="motor" ref="pgm_grat_pitch_motor" />
-		<property name="hardwareUnitString" value="mDeg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-6000" />
-		<property name="upperGdaLimits" value="80000" />
-		 -->
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	
 	<bean id="pgm_grat_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_grat_x_motor" />
-		<!-- <property name="initialUserUnits" value="mDeg" />
-		<property name="hardwareUnitString" value="mDeg" />
-		<property name="lowerGdaLimits" value="-17.453" />
-		<property name="upperGdaLimits" value="17.453" /> -->
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	
 	<bean id="pgm_m2_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mDeg" />
 		<property name="motor" ref="pgm_m2_pitch_motor" />
-		<property name="hardwareUnitString" value="mDeg" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-0.9" />
-		<property name="upperGdaLimits" value="8.9" />
-		 -->
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	
 	<bean id="pgm_m2_plane" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="pgm_m2_plane_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-40.0" />
-		<property name="upperGdaLimits" value="40.0" />
-		 -->
 	</bean>
 	
 	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
