@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<import resource= "../${gda.mode}/machine_status.xml"/>
+
+	<bean id="machine_status" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ring_current" />
+				<ref bean="ring_energy" />
+				<ref bean="ring_mode" />
+				<ref bean="beam_lifetime" />
+				<ref bean="topup_start_countdown" />
+				<ref bean="topup_start_countdown_complete" />
+				<ref bean="topup_end_countdown" />
+				<ref bean="beam_state" />
+				<ref bean="topup_period" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

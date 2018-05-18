@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- Ring Current Measurement -->
+	<bean id="ring_current" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mA" />
+		<property name="value">
+			<value type="double">250</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="300" />
+		<property name="increment" value="0" />
+	</bean>
+
+	<!-- Ring Energy -->
+	<bean id="ring_energy" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="GeV" />
+		<property name="value">
+			<value type="double">3.009</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="5" />
+		<property name="increment" value="0" />
+	</bean>
+
+	<!-- Ring Mode (e.g. VMX, DIAD) -->
+	<bean id="ring_mode" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="DIAD" />
+	</bean>
+
+	<!-- Beam Lifetime -->
+	<bean id="beam_lifetime" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="h" />
+		<property name="value">
+			<value type="double">10.515</value>
+		</property>
+		<property name="lowerLimit" value="9" />
+		<property name="upperLimit" value="11" />
+		<property name="increment" value="0" />
+	</bean>
+
+	<!-- Countdown to START of next TopUp (integer) -on TopUp start resets immediately to time until next TopUp -->
+	<bean id="topup_start_countdown" class="gda.device.scannable.DummyTopupScannable" />
+
+	<!-- Countdown to START of next TopUp (float) -on TopUp start remains at zero until fill is complete -->
+	<bean id="topup_start_countdown_complete" class="gda.device.scannable.DummyTopupScannable" />
+
+	<!-- Countdown to END of next TopUp (integer estimate) -on TopUp start resets immediately to estimated time until next TopUp end -->
+	<bean id="topup_end_countdown" class="gda.device.scannable.DummyTopupScannable">
+		<property name="topupInterval">
+			<value type="double">700</value>
+		</property>
+	</bean>
+
+	<!-- Current state of the beam. i.e. Shutdown, No Beam, User, Injection, Special -->
+	<bean id="beam_state" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="User" />
+	</bean>
+
+	<!-- Time between TopUps (minutes) -->
+	<bean id="topup_period" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="min" />
+		<property name="value">
+			<value type="double">10</value>
+		</property>
+		<property name="lowerLimit" value="1" />
+		<property name="upperLimit" value="20" />
+		<property name="increment" value="0" />
+	</bean>
+
+</beans>
