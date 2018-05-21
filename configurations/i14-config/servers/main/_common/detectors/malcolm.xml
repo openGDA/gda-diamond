@@ -4,29 +4,36 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<!-- Xspress3 coarse scan -->
+	<!-- Xspress3 coarse -->
 	<bean id="malcolmInfoXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="XSP3 coarse Malcolm" />
 		<property name="description" value="Xspress III coarse Malcolm scan" />
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
-	<!-- Excalibur software -->
-	<bean id="malcolmInfoExcaliburMalcolmSoftware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	<!-- Excalibur software: using Malcolm to collect data; GDA moves all devices -->
+	<bean id="malcolmInfoExcaliburSoftware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Excalibur Malcolm software" />
 		<property name="description" value="Malcolm Excalibur for software scanning" />
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
-	<!-- Excalibur hardware -->
-	<bean id="malcolmInfoExcaliburMalcolmHardware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Excalibur Malcolm hardware" />
-		<property name="description" value="Malcolm Excalibur for true hardware scanning" />
+	<!-- Excalibur hardware (coarse motors) -->
+	<bean id="malcolmInfoExcaliburHardwareCoarse" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Excalibur Malcolm hardware coarse" />
+		<property name="description" value="Malcolm Excalibur for true hardware scanning (coarse motors)" />
+		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
+	</bean>
+
+	<!-- Excalibur hardware (fine motors) -->
+	<bean id="malcolmInfoExcaliburHardwareFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Excalibur Malcolm hardware fine" />
+		<property name="description" value="Malcolm Excalibur for true hardware scanning (fine motors)" />
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
 	<!-- Combined Excalibur/Xspress3 Malcolm hardware scanning -->
-	<bean id="malcolmInfoExcaliburXsp3MalcolmHardware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	<bean id="malcolmInfoExcaliburXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Excalibur/XSP3 Malcolm hardware" />
 		<property name="description" value="Malcolm combined Excalibur and Xspress3 hardware scanning" />
 	</bean>

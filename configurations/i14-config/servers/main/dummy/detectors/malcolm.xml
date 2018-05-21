@@ -24,22 +24,22 @@
 		<property name="activated"         value="false" />
 	</bean>
 
-	<!-- Excalibur: using Malcolm to collect data; GDA moves all devices -->
-	<bean id="malcolmModelExcaliburMalcolmSoftware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+	<!-- Excalibur software: using Malcolm to collect data; GDA moves all devices -->
+	<bean id="malcolmModelExcaliburSoftware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
 		<property name="name" value="BL14I-ML-EXCBR-01" />
 		<property name="exposureTime" value="0.01" />
 		<property name="axesToMove"><list /></property>
 	</bean>
 
-	<bean id="malcolmDeviceExcaliburMalcolmSoftware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+	<bean id="malcolmDeviceExcaliburSoftware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
 		<property name="name"              value="BL14I-ML-EXCBR-01" />
-		<property name="model"             ref="malcolmModelExcaliburMalcolmSoftware" />
-		<property name="deviceInformation" ref="malcolmInfoExcaliburMalcolmSoftware" />
+		<property name="model"             ref="malcolmModelExcaliburSoftware" />
+		<property name="deviceInformation" ref="malcolmInfoExcaliburSoftware" />
 		<property name="activated"         value="false" />
 	</bean>
 
-	<!-- Excalibur Malcolm hardware scanning -->
-	<bean id="malcolmModelExcaliburMalcolmHardware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+	<!-- Excalibur hardware (coarse motors) -->
+	<bean id="malcolmModelExcaliburHardwareCoarse" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-03" />
 		<property name="exposureTime" value="0.01" />
 		<property name="axesToMove">
@@ -50,15 +50,34 @@
 		</property>
 	</bean>
 
-	<bean id="malcolmDeviceExcaliburMalcolmHardware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+	<bean id="malcolmDeviceExcaliburHardwareCoarse" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
 		<property name="name" value="BL14I-ML-SCAN-03" />
-		<property name="model" ref="malcolmModelExcaliburMalcolmHardware" />
-		<property name="deviceInformation" ref="malcolmInfoExcaliburMalcolmHardware" />
+		<property name="model" ref="malcolmModelExcaliburHardwareCoarse" />
+		<property name="deviceInformation" ref="malcolmInfoExcaliburHardwareCoarse" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- Excalibur hardware (fine motors) -->
+	<bean id="malcolmModelExcaliburHardwareFine" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-07" />
+		<property name="exposureTime" value="0.01" />
+		<property name="axesToMove">
+			<list>
+				<value>stage1_xf</value>
+				<value>stage1_yf</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="malcolmDeviceExcaliburHardwareFine" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-07" />
+		<property name="model" ref="malcolmModelExcaliburHardwareFine" />
+		<property name="deviceInformation" ref="malcolmInfoExcaliburHardwareFine" />
 		<property name="activated" value="false" />
 	</bean>
 
 	<!-- Combined Excalibur/Xspress3 Malcolm hardware scanning -->
-	<bean id="malcolmModelExcaliburXsp3MalcolmHardware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+	<bean id="malcolmModelExcaliburXsp3" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-04" />
 		<property name="exposureTime" value="0.01" />
 		<property name="axesToMove">
@@ -69,10 +88,10 @@
 		</property>
 	</bean>
 
-	<bean id="malcolmDeviceExcaliburXsp3MalcolmHardware" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+	<bean id="malcolmDeviceExcaliburXsp3" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
 		<property name="name" value="BL14I-ML-SCAN-04" />
-		<property name="model" ref="malcolmModelExcaliburXsp3MalcolmHardware" />
-		<property name="deviceInformation" ref="malcolmInfoExcaliburXsp3MalcolmHardware" />
+		<property name="model" ref="malcolmModelExcaliburXsp3" />
+		<property name="deviceInformation" ref="malcolmInfoExcaliburXsp3" />
 		<property name="activated" value="false" />
 	</bean>
 
