@@ -16,7 +16,7 @@
 				<property name="basePVName" value="BL05J-DI-PHDGN-11:DCAM:ARR:" />
 			</bean>
 		</property>
-	</bean>	
+	</bean>
 
 	<bean id="mic" class="gda.device.detector.addetector.ADCameraDetector">
 		<property name="basePVName" value="BL05I-DI-PHDGN-11:DCAM:" />

@@ -57,7 +57,7 @@
 		<property name="motor" ref="m3mj6_roll_motor" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="m3mj6_fpitch" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL05I-OP-SWTCH-01:FPITCH:DMD" />
 		<property name="useNameAsInputName" value="true" />

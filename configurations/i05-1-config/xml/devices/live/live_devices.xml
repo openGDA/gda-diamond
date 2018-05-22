@@ -34,22 +34,22 @@
 	<import resource="ring.xml" />
 
 	<!-- shutters -->
-	<import resource="shtrj.xml"/>
+	<import resource="shtrj.xml" />
 
 	<!-- analyser -->
 	<import resource="scientaslit.xml" />
 
 	<!-- endstation -->
-	<import resource="sample_stage.xml"/>
-	<import resource="zone_plate.xml"/>
-	<import resource="osa.xml"/>
-	<import resource="analyser_rotation.xml"/>
-	<import resource="nano_es_femto.xml"/>
-	<import resource="mcp.xml"/>
-	<import resource="microscope.xml"/>
-	<import resource="cryostat.xml"/>
-	<import resource="raw_sample_stage.xml"/>
-	<import resource="user_patch_panel.xml"/>
-	<import resource="malcolm.xml"/>
+	<import resource="sample_stage.xml" />
+	<import resource="zone_plate.xml" />
+	<import resource="osa.xml" />
+	<import resource="analyser_rotation.xml" />
+	<import resource="nano_es_femto.xml" />
+	<import resource="mcp.xml" />
+	<import resource="microscope.xml" />
+	<import resource="cryostat.xml" />
+	<import resource="raw_sample_stage.xml" />
+	<import resource="user_patch_panel.xml" />
+	<import resource="malcolm.xml" />
 
 </beans>

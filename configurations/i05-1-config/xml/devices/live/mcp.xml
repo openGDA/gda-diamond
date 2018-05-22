@@ -5,7 +5,9 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<description>
-	The MCP and camera placed behind the sample position for looking at the diffraction pattern produced by the zone plate
+		The MCP and camera placed behind the sample position for
+		looking at the
+		diffraction pattern produced by the zone plate
 	</description>
 
 	<bean id="mcp_gain" class="gda.device.scannable.EpicsScannable">
@@ -18,7 +20,8 @@
 		<property name="prefix" value="BL05J-DI-PHDGN-10:DCAM:CAM:" />
 	</bean>
 
-	<bean id="mcpRoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+	<bean id="mcpRoiStats"
+		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats" />
 		<property name="baseRoiPVName" value="BL05J-DI-PHDGN-10:DCAM:ROI:" />
 		<property name="baseStatsPVName" value="BL05J-DI-PHDGN-10:DCAM:STAT:" />
@@ -28,7 +31,8 @@
 		<property name="roiProvider" ref="mcp_roi" />
 	</bean>
 
-	<bean id="mcp_roi" class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
+	<bean id="mcp_roi"
+		class="gda.device.detector.nxdetector.roi.MutableRectangularIntegerROI">
 		<property name="xstart" value="0" />
 		<property name="ystart" value="0" />
 		<property name="xsize" value="1292" />
@@ -48,16 +52,20 @@
 		</property>
 	</bean>
 
-	<bean id="mcpCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+	<bean id="mcpCollectionStrategy"
+		class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
 		<property name="restoreNumImagesAndImageMode" value="true" />
 		<property name="decoratee">
-			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+			<bean
+				class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 				<property name="restoreTriggerMode" value="true" />
 				<property name="decoratee">
-					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+					<bean
+						class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
 						<property name="restoreAcquireTime" value="false" />
 						<property name="decoratee">
-							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+							<bean
+								class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
 								<property name="restoreAcquireState" value="true" />
 								<property name="adBase" ref="mcpCamBase" />
 								<property name="readoutTime" value="-1" />
@@ -69,7 +77,9 @@
 		</property>
 	</bean>
 
-	<bean id="abstractHdf5FilewriternNochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter" abstract="true">
+	<bean id="abstractHdf5FilewriternNochunking"
+		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter"
+		abstract="true">
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileNameTemplate" value="i05-1-$scan$-mcp" />
 		<property name="fileTemplate" value="%s%s.hdf5" />

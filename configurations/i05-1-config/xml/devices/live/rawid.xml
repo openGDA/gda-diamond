@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="rawid_gap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ID1.GAP" />
 		<property name="local" value="true" />
+		<property name="pvName" value="SR05I-MO-SERVC-01:BLGAPMTR" />
 	</bean>
 	<bean id="rawid_gap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="rawid_gap_motor" />
@@ -19,8 +18,8 @@
 	</bean>
 
 	<bean id="rawid_lowerphase_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ID1.LOWERPHASE" />
 		<property name="local" value="true" />
+		<property name="pvName" value="SR05I-MO-SERVC-01:BLPLMTR" />
 	</bean>
 	<bean id="rawid_lowerphase" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="rawid_lowerphase_motor" />
@@ -33,8 +32,8 @@
 	</bean>
 
 	<bean id="rawid_upperphase_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ID1.UPPERPHASE" />
 		<property name="local" value="true" />
+		<property name="pvName" value="SR05I-MO-SERVC-01:BLPUMTR" />
 	</bean>
 	<bean id="rawid_upperphase" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="rawid_upperphase_motor" />

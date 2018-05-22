@@ -33,7 +33,7 @@
 		<property name="pvName" value="BL05J-OP-RFM-01:ROLL" />
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="mj7j8_fpitch" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL05J-OP-RFM-01:FPITCH:DMD" />
 		<property name="useNameAsInputName" value="true" />
