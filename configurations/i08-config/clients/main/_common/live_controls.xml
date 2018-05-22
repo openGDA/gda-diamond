@@ -5,23 +5,33 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="andorStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+	<!-- Andor detector -->
+	<bean id="andor_start" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="andor_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); andor_addetector.collectData()" />
 		<property name="buttonText" value="Start" />
 		<property name="group" value="Andor" />
 	</bean>
 
-	<bean id="andorStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+	<bean id="andor_stop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="andor_addetector.stop()" />
 		<property name="buttonText" value="Stop" />
 		<property name="group" value="Andor" />
 	</bean>
 
-	<bean name="andorControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+	<!-- Sample stage homing -->
+	<bean id="sample_stage_home" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="sample_stage_home()" />
+		<property name="buttonText" value="Home" />
+		<property name="group" value="Sample stage" />
+	</bean>
+
+	<!-- Control set: there can be only one -->
+	<bean name="live_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
-				<ref bean="andorStart" />
-				<ref bean="andorStop" />
+				<ref bean="andor_start" />
+				<ref bean="andor_stop" />
+				<ref bean="sample_stage_home" />
 			</list>
 		</property>
 	</bean>

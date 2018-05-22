@@ -1,19 +1,23 @@
 from gda.configuration.properties import LocalProperties
 
-# Add config/scripts to import search path (why is this not already set in gda9?).
-# Also, this seems to be different to run search path... imh 11/11/2016
 import sys
 import os
 
+# Add config/scripts to import search path (why is this not already set in gda9?).
+# Also, this seems to be different to run search path... imh 11/11/2016
 scriptDir=LocalProperties.get("gda.config")+"/scripts/"
 sys.path.append(os.path.abspath(scriptDir))
 
-print "Initialisation Started";
+print("Initialisation Started");
 from gda.device import Scannable
 from gda.jython.commands.GeneralCommands import ls_names, run, alias
 
 def ls_scannables():
     ls_names(Scannable)
+
+def is_live():
+    mode = LocalProperties.get("gda.mode")
+    return mode == 'live'
 
 from gda.factory import Finder
 finder = Finder.getInstance()
@@ -46,6 +50,9 @@ run('mapping_scan_commands.py')
 # Energy to zone plate position
 run('energyFocus.py')
 
+# Define function to home sample stage
+run('sample_stage_control.py')
+
 # Watchdogs
 print("Adding watchdog commands: enable_watchdogs, disable_watchdogs, list_watchdogs")
 from watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs
@@ -53,4 +60,4 @@ alias("enable_watchdogs")
 alias("disable_watchdogs")
 alias("list_watchdogs")
 
-print "Initialisation Complete";
+print("Initialisation Complete");

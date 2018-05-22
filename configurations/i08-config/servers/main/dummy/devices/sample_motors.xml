@@ -13,61 +13,61 @@
 		<property name="minPosition" value="-1.0000e+05" />
 		<property name="maxPosition" value="1.0000e+05" />
 		<property name="position" value="0.047190" />
-		<property name="speed" value="100" />
 		<property name="timeToVelocity" value="0.01" />
 	 	<property name="unitString" value="mm"/>
+	 	<property name="homeable" value="true"/>
 	</bean>
 
 	<bean id="SampleY_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1.0000e+05" />
 		<property name="maxPosition" value="1.0000e+05" />
 		<property name="position" value="-2.9" />
-		<property name="speed" value="100" />
 		<property name="timeToVelocity" value="0.01" />
 	 	<property name="unitString" value="mm"/>
+	 	<property name="homeable" value="true"/>
 	</bean>
 
 	<bean id="SampleX_coarse_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-5.0" />
 		<property name="maxPosition" value="5.0" />
 		<property name="position" value="-2.6737" />
-		<property name="speed" value="100" />
 		<property name="timeToVelocity" value="0.01" />
 	 	<property name="unitString" value="mm"/>
+	 	<property name="homeable" value="true"/>
 	</bean>
 
 	<bean id="SampleY_coarse_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-5.0" />
 		<property name="maxPosition" value="5.0" />
 		<property name="position" value="-2.2" />
-		<property name="speed" value="100" />
 		<property name="timeToVelocity" value="0.01" />
 	 	<property name="unitString" value="mm"/>
+	 	<property name="homeable" value="true"/>
 	</bean>
 
 	<bean id="SampleZ_coarse_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="0.8" />
 		<property name="maxPosition" value="30.0" />
 		<property name="position" value="1.799" />
-		<property name="speed" value="100" />
 		<property name="timeToVelocity" value="0.01" />
 	 	<property name="unitString" value="mm"/>
+	 	<property name="homeable" value="true"/>
 	</bean>
 
 	<bean id="SampleX_fine_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="position" value="0.24242" />
-		<property name="speed" value="100" />
 	 	<property name="unitString" value="mm"/>
+	 	<property name="homeable" value="true"/>
 	</bean>
 
 	<bean id="SampleY_fine_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="position" value="-2.85531" />
-		<property name="speed" value="100" />
 	 	<property name="unitString" value="mm"/>
+	 	<property name="homeable" value="true"/>
 	</bean>
 
 </beans>
