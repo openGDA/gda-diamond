@@ -6,7 +6,6 @@
 	<bean id="bm" class="gda.device.monitor.IonChamberBeamMonitor">
 		<property name="monitor" ref="sm6iamp27" />
 		<property name="threshold" value="0.02" />
-		<property name="monitorOn" value="false"/>
 	</bean>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/bm" />
