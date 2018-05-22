@@ -4,27 +4,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="ss3inboard_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS3.INBOARD" />
+		<property name="pvName" value="BL09J-MO-SS-03:INBOARD" />
 	</bean>
 	<bean id="ss3outboard_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS3.OUTBOARD" />
+		<property name="pvName" value="BL09J-MO-SS-03:OUTBOARD" />
 	</bean>
 	<bean id="ss3top_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS3.TOP" />
+		<property name="pvName" value="BL09J-MO-SS-03:TOP" />
 	</bean>
 	<bean id="ss3bottom_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS3.BOTTOM" />
+		<property name="pvName" value="BL09J-MO-SS-03:BOTTOM" />
 	</bean>
 	<bean id="ss3xcentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS3.XCENTRE" />
+		<property name="pvName" value="BL09J-MO-SS-03:XCENTRE" />
 	</bean>
 	<bean id="ss3xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS3.XGAP" />
+		<property name="pvName" value="BL09J-MO-SS-03:XGAP" />
 	</bean>
 	<bean id="ss3ycentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS3.YCENTRE" />
+		<property name="pvName" value="BL09J-MO-SS-03:YCENTRE" />
 	</bean>
 	<bean id="ss3ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS3.YGAP" />
+		<property name="pvName" value="BL09J-MO-SS-03:YGAP" />
 	</bean>
 </beans>

@@ -6,7 +6,7 @@
 	<bean id="fsk1" class="gda.device.enumpositioner.EpicsSimpleBinary">
 		<property name="pvName" value="BL09K-EA-FSHTR-01:CTRL" />
 	</bean>
-	
+
 	<bean id="psk1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL09K-PS-SHTR-01" />
 	</bean>

@@ -3,41 +3,41 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="ss2temp1" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="SS2.TEMP2" />
+	<bean id="ss2temp1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09J-MO-SS-02:TEMP2" />
 	</bean>
-	<bean id="ss2temp2" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="SS2.TEMP2" />
+	<bean id="ss2temp2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09J-MO-SS-02:TEMP2" />
 	</bean>
-	<bean id="ss2temp3" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="SS2.TEMP3" />
+	<bean id="ss2temp3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09J-MO-SS-02:TEMP3" />
 	</bean>
-	<bean id="ss2temp4" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="SS2.TEMP4" />
+	<bean id="ss2temp4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09J-MO-SS-02:TEMP4" />
 	</bean>
 
 	<bean id="ss2inboard_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS2.INBOARD" />
+		<property name="pvName" value="BL09J-MO-SS-02:INBOARD" />
 	</bean>
 	<bean id="ss2outboard_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS2.OUTBOARD" />
+		<property name="pvName" value="BL09J-MO-SS-02:OUTBOARD" />
 	</bean>
 	<bean id="ss2top_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS2.TOP" />
+		<property name="pvName" value="BL09J-MO-SS-02:TOP" />
 	</bean>
 	<bean id="ss2bottom_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS2.BOTTOM" />
+		<property name="pvName" value="BL09J-MO-SS-02:BOTTOM" />
 	</bean>
 	<bean id="ss2xcentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS2.XCENTRE" />
+		<property name="pvName" value="BL09J-MO-SS-02:XCENTRE" />
 	</bean>
 	<bean id="ss2xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS2.XGAP" />
+		<property name="pvName" value="BL09J-MO-SS-02:XGAP" />
 	</bean>
 	<bean id="ss2ycentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS2.YCENTRE" />
+		<property name="pvName" value="BL09J-MO-SS-02:YCENTRE" />
 	</bean>
 	<bean id="ss2ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SS2.YGAP" />
+		<property name="pvName" value="BL09J-MO-SS-02:YGAP" />
 	</bean>
 </beans>

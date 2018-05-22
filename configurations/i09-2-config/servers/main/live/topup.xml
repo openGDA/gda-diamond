@@ -3,9 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="epicsTopupMonitor" class="gda.device.monitor.EpicsMonitor" >
+	<bean id="epicsTopupMonitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"></property>
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 </beans>

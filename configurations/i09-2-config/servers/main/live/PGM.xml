@@ -4,41 +4,41 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="pgmmirrorpitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PGM.MIRRORPITCH" />
+		<property name="pvName" value="BL09J-MO-PGM-01:MIRRORPITCH" />
 	</bean>
 	<bean id="pgmgratingspitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PGM.GRATINGSPITCH" />
+		<property name="pvName" value="BL09J-MO-PGM-01:GRATINGPITCH" />
 	</bean>
 	<bean id="pgmmirrortrans_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PGM.MIRRORTRANS" />
+		<property name="pvName" value="BL09J-MO-PGM-01:MIRRORTRANS" />
 	</bean>
 	<bean id="pgmgratingstrans_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PGM.GRATINGSTRANS" />
+		<property name="pvName" value="BL09J-MO-PGM-01:GRATINGTRANS" />
 	</bean>
 	<bean id="pgmenergy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PGM.ENERGY" /> 
+		<property name="pvName" value="BL09J-MO-PGM-01:ENERGY" />
 	</bean>
 	<bean id="pgm_cff_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL09J-MO-PGM-01:CFF" /> 
+		<property name="pvName" value="BL09J-MO-PGM-01:CFF" />
 	</bean>
-	<bean id="pgmgratingselect" class="gda.spring.EpicsPositionerFactoryBean">
-		<property name="deviceName" value="PGM.GRATINGSELECT" />
+	<bean id="pgmgratingselect" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL09J-MO-PGM-01:GRATINGSELECT" />
 	</bean>
-	<bean id="pgmmirrorselect" class="gda.spring.EpicsPositionerFactoryBean">
-		<property name="deviceName" value="PGM.MIRRORSELECT" />
+	<bean id="pgmmirrorselect" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL09J-MO-PGM-01:MIRRORSELECT" />
 	</bean>
 
-	<bean id="pgmtemp1" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="PGM.TEMP1" />
+	<bean id="pgmtemp1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09J-MO-PGM-01:TEMP1" />
 	</bean>
-	<bean id="pgmtemp2" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="PGM.TEMP2" />
+	<bean id="pgmtemp2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09J-MO-PGM-01:TEMP2" />
 	</bean>
-<!-- 	<bean id="pgmtemp3" class="gda.spring.EpicsMonitorFactoryBean"> -->
-<!-- 		<property name="deviceName" value="PGM.TEMP3" /> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="pgmtemp4" class="gda.spring.EpicsMonitorFactoryBean"> -->
-<!-- 		<property name="deviceName" value="PGM.TEMP4" /> -->
-<!-- 	</bean> -->
+	<!-- <bean id="pgmtemp3" class="gda.spring.EpicsMonitorFactoryBean"> -->
+	<!-- <property name="deviceName" value="PGM.TEMP3" /> -->
+	<!-- </bean> -->
+	<!-- <bean id="pgmtemp4" class="gda.spring.EpicsMonitorFactoryBean"> -->
+	<!-- <property name="deviceName" value="PGM.TEMP4" /> -->
+	<!-- </bean> -->
 
 </beans>

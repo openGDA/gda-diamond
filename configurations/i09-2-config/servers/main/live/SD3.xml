@@ -4,14 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="sd3iamp12" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="SD3.IAMP12" />
-		<property name="poll" value="true"/>
+		<property name="poll" value="true" />
+		<property name="pvName" value="BL09J-MO-SD-03:IAMP12" />
 	</bean>
 	<bean id="sd3y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SD3.Y" />
+		<property name="pvName" value="BL09J-MO-SD-03:Y" />
 	</bean>
 
 	<bean id="sd3aposn" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="SD3.APOSN" />
+		<property name="recordName" value="BL09J-MO-SD-03:Y:MP" />
 	</bean>
 </beans>
