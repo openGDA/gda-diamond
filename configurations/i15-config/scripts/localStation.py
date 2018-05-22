@@ -266,7 +266,7 @@ try:
 
 	try:
 		simpleLog("Create diodes")
-		
+
 		def diodeFactory(channel_name, finder_name):
 			simplePv = finder.find(finder_name)
 			simplePv.configure()
@@ -274,31 +274,35 @@ try:
 			diode.setLevel(6)
 			diode.setValue(".SCAN", 9)
 			return diode
-		
+
+		simpleLog("Create diodes 1-5")
 		d1=diodeFactory("d1", "PHDGN1")
 		d2=diodeFactory("d2", "PHDGN2")
 		d3=diodeFactory("d3", "PHDGN3")
 		d4=diodeFactory("d4", "PHDGN4")
 		d5=diodeFactory("d5", "PHDGN5")
-		d6=diodeFactory("d6", "PHDGN6")
-		d7=diodeFactory("d7", "PHDGN7")
-		d8=diodeFactory("d8", "PHDGN8")
-		d9=diodeFactory("d9", "PHDGN9")
-		d10=diodeFactory("d10", "PHDGN10")
-		d11=diodeFactory("d11", "PHDGN11")
 
 		simpleLog("Create diode ratios")
 		d2_d1 = Simple_PD_Ratio('d2_d1', d2, d1)
 		d3_d2 = Simple_PD_Ratio('d3_d2', d3, d2)
 		d4_d2 = Simple_PD_Ratio('d4_d2', d4, d2)
 		d5_d1 = Simple_PD_Ratio('d5_d1', d5, d1)
-		
+
+		simpleLog("Create diode sums")
 		d1sum = DisplayEpicsPVClass("d1sum", "BL15I-DI-PHDGN-01:DIODESUM", "", "%f")
 		d2sum = DisplayEpicsPVClass("d2sum", "BL15I-DI-PHDGN-02:DIODESUM", "", "%f")
 		d3sum = DisplayEpicsPVClass("d3sum", "BL15I-DI-PHDGN-03:DIODESUM", "", "%f")
 		d4sum = DisplayEpicsPVClass("d4sum", "BL15I-DI-PHDGN-04:DIODESUM", "", "%f")
 		d5sum = DisplayEpicsPVClass("d5sum", "BL15I-DI-PHDGN-05:DIODESUM", "", "%f")
 		#add_default(d1sum) - Moved to /dls/i15/scripts/localStationUser.py
+
+		simpleLog("Create diodes 6-11")
+		d6=diodeFactory("d6", "PHDGN6")
+		d7=diodeFactory("d7", "PHDGN7")
+		d8=diodeFactory("d8", "PHDGN8")
+		d9=diodeFactory("d9", "PHDGN9")
+		d10=diodeFactory("d10", "PHDGN10")
+		d11=diodeFactory("d11", "PHDGN11")
 	except:
 		localStation_exception(sys.exc_info(), "creating diodes")
 
