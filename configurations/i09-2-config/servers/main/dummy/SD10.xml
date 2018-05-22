@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="sd10y_motor" class="gda.device.motor.DummyMotor">
+	<bean id="sd10_y_motor" class="gda.device.motor.DummyMotor">
 		<property name="fastSpeed" value="400" />
 		<property name="mediumSpeed" value="200" />
 		<property name="slowSpeed" value="100" />
