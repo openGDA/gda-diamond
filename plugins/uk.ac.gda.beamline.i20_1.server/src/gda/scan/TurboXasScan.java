@@ -743,6 +743,10 @@ public class TurboXasScan extends ContinuousScan {
 		setScanIdentifierInScanDataPoint(thisPoint);
 
 		try {
+			if (getStatus().isAborting()) {
+				logger.warn("Scan status = {}. Not adding data for spectrum {} to Nexus file.", getStatus(), currentPointCount+1);
+				return;
+			}
 			getDataWriter().addData(thisPoint);
 		}catch(Exception ie) {
 			logger.warn("Problem adding datapoint to ascii file", ie);
