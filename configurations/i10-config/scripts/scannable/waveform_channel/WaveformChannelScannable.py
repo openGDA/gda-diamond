@@ -5,6 +5,7 @@ from gda.device.scannable import PositionCallableProvider, PositionStreamIndexer
 from gda.device import Detector
 from org.slf4j import LoggerFactory
 from threading import Timer
+import installation
 
 class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvider):
 
@@ -18,6 +19,7 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
         self.outputFormat = [waveform_channel_controller.getChannelInputStreamFormat()]
         
         self.waveform_channel_controller = waveform_channel_controller
+
         self.channel_input_stream = waveform_channel_controller.getChannelInputStream(channel)
         self.stream_indexer = None
         self.number_of_positions = 0
@@ -26,6 +28,9 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
     def integratesBetweenPoints(self):
         return True
     
+    def stop(self):
+        self.waveform_channel_controller.stop()
+        
 #     def getController(self):
 #         return  self.waveform_channel_controller
     
@@ -68,6 +73,8 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
 
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')
+        if installation.isDummy():
+            self.waveform_channel_controller.setHardwareTriggerProvider(self.getHardwareTriggerProvider())
         self.waveform_channel_controller.erase() # Prevent a race condition which results in stale data being returned
         self.channel_input_stream.reset()
         self.stream_indexer = PositionStreamIndexer(self.channel_input_stream);
