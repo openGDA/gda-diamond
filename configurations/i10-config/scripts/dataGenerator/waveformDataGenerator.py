@@ -25,26 +25,28 @@ class WaveformDataGenerator(object):
         self.noiseLevel=0.1
         self.data=[]
         
-    def generateData(self, numofpoints):
+    def generateData(self, channel, numofpoints):
         if self.useGaussian:
-            baseValue=self.gaussian.yAtX(self.pointCounter)
             for i in range(numofpoints):
-                self.data.append(self.round((baseValue + self.channel) * (1.0 + self.noiseLevel * (2.0 * Math.random() - 1.0))))
+                self.resetGaussian(i)
+                baseValue=self.gaussian.yAtX(i+1)
+#                 print channel, baseValue, i
+                self.data.append(self.round((baseValue + channel) * (1.0 + self.noiseLevel * (2.0 * Math.random() - 1.0))))
         else:
             for i in range(numofpoints):
-                self.data.append(self.round(int(Math.random() * 10.0) * (self.pointCounter + 1)))
+                self.data.append(self.round(int(Math.random() * 10.0) * (i+1)))
+#         print channel, self.data
         return self.data
     
     def round(self, value):
         return Math.rint(value * self.roundingFactor) / self.roundingFactor
     
-    def resetGaussian(self):
+    def resetGaussian(self, pointCounter):
         '''In useGaussian mode what is actually produced is a set of Gaussians, the first
             centered on gaussianPosition, the next on gaussianPosition plus two times gaussianWidth
             and so on. Each gaussian is also higher than the previous.
         '''
-        self.logger.debug("%%%%%%% pointCounter now " + self.pointCounter);
-        if self.pointCounter == int(self.gaussianPosition) + 2 * int(self.gaussianWidth):
+        if pointCounter == int(self.gaussianPosition) + 2 * int(self.gaussianWidth):
             self.gaussianPosition += 4.0 * self.gaussianWidth
             self.incrementCounter +=1
             self.gaussian = Gaussian(self.gaussianPosition, self.gaussianWidth, self.incrementCounter * self.gaussianHeight)
@@ -54,5 +56,5 @@ class WaveformDataGenerator(object):
             self.pointCounter=0
             self.incrementCounter=1
             self.gaussianPosition = 10.0
-            self.gaussian=Gaussian(self.gaussianPosition, self.gaussianWidth, self.incrementCounter * self.gaussianHeight)
+            self.gaussian = Gaussian(self.gaussianPosition, self.gaussianWidth, self.incrementCounter * self.gaussianHeight)
         

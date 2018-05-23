@@ -22,6 +22,8 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         self.configure()
         self.reset()
         self.stoppedExplicitly=False
+        self.hardwareTriggerProvider=None
+        self.startTimeSet = False
 
     def configure(self):
         if installation.isLive():
@@ -35,6 +37,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         if self.verbose: self.logger.info('reset()...')
         self.verbose = self._controller.verbose
         self.elements_read = 0
+        self.startTimeSet = False
         
     def stop(self):
         self.stoppedExplicitly=True
@@ -46,17 +49,28 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         #if self.elements_read == -1:
         #    self.elements_read = 0
         #    ##return java.util.Vector([0])
-        new_available = self._waitForNewElements()
         if installation.isLive():
+            new_available = self._waitForNewElements()
             all_data = self.pv_waveform.cagetArrayDouble(self.elements_read + new_available)
         else:
+            if self.hardwareTriggerProvider is None:
+                self.hardwareTriggerProvider=self._controller.getHardwareTriggerProvider()
+            if self.hardwareTriggerProvider._start_time is not None and not self.startTimeSet:
+                self.start_time = time.time()
+                self.startTimeSet=True
+            new_available = self._waitForNewElements()
             if self.channel in ['GRT:PITCH:','MIR:PITCH:','PGM:ENERGY:']:
-                all_data=self.pv_waveform[:self.elements_read + new_available]
+                if self.channel == 'GRT:PITCH:':
+#                     print "%s waveform is %r" % (self.channel, self.hardwareTriggerProvider.grating_pitch_positions)
+                    all_data=self.hardwareTriggerProvider.grating_pitch_positions[:self.elements_read + new_available]
+                elif self.channel == 'MIR:PITCH:':
+#                     print "%s waveform is %r" % (self.channel, self.hardwareTriggerProvider.mirror_pitch_positions)
+                    all_data=self.hardwareTriggerProvider.mirror_pitch_positions[:self.elements_read + new_available]
+                elif self.channel == 'PGM:ENERGY:':
+#                     print "%s waveform is %r" % (self.channel, self.hardwareTriggerProvider.pgm_energy_positions)
+                    all_data=self.hardwareTriggerProvider.pgm_energy_positions[:self.elements_read + new_available]
             else:
-                self.pv_waveform.pointCounter+=1
-                if self.pv_waveform.useGaussian:
-                    self.pv_waveform.resetGaussian()
-                all_data = self.pv_waveform.generateData(new_available)
+                all_data = self.pv_waveform.generateData(self.channel,new_available)
                 self.logger.debug("DUMMY mode: generate %r elements" % (new_available))
         new_data = all_data[self.elements_read:self.elements_read + new_available]
         self.elements_read += new_available
@@ -74,13 +88,20 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         log_timeout = exposure_time + 5
         log_time = last_element_time = datetime.now()
         new_element_timeout = exposure_time + 200 # it takes about 200 second to complete a full range move of pgm_grit_pitch.
-
+        
         while True and not self.stoppedExplicitly:
             if installation.isLive():
                 elements_available = int(float(self.pv_count.caget()))
             else:
                 self.logger.info("DUMMY mode: number of positions set in WaveformChannelScannable to its controller is %r" % self._controller.number_of_positions)
-                elements_available = int(self._controller.number_of_positions)
+                if not self.startTimeSet:
+                    elements_available = int(self._controller.number_of_positions)
+                else:
+                    elapsedTime = time.time() - self.start_time
+                    if elapsedTime < self._controller.getHardwareTriggerProvider().getTotalTime():
+                        elements_available = int(self._controller.number_of_positions * elapsedTime/self._controller.getHardwareTriggerProvider().getTotalTime())
+                    else:
+                        elements_available = int(self._controller.number_of_positions)
 
             #print "self.elements_read = %d" % self.elements_read
             #print "element_available = %d" % elements_available
@@ -106,4 +127,4 @@ class WaveformChannelPollingInputStream(PositionInputStream):
                 self.logger.info('_waitForNewElements() elements_available=%r, elements_read=%r, acquiring %r, no new elements for %r seconds!' % (
                                 elements_available,  self.elements_read, acquiring, log_timeout))
                 log_time = datetime.now()
-            time.sleep(exposure_time)
+            time.sleep(sleep_time)
