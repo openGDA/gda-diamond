@@ -7,7 +7,7 @@ from gda.device.scannable import ContinuouslyScannableViaController, \
     ScannableMotionBase, PositionCallableProvider
 from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
-from pgm.pgm import angles2energy
+from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating
 from time import sleep
 import installation
 
@@ -50,6 +50,10 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
 
     def setOperatingContinuously(self, b):
         if self.verbose: self.logger.info('setOperatingContinuously(%r) was %r' % (b, self._operating_continuously))
+        if installation.isDummy():
+            if self._operating_continuously:
+                print "Data Capture completed. Please wait for data writer to complete ..."
+                sleep(60) #Time delay required for data writer to completed writing scan data point to file
         self._operating_continuously = b
 
     def isOperatingContinously(self):
@@ -78,7 +82,30 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         if self.verbose: self.logger.info('asynchronousMoveTo(%r)...' % position)
         position = float(position)
         if self._operating_continuously:
-            self._last_requested_position = position
+            if installation.isLive():
+                self._last_requested_position = position
+            else:
+                self._last_requested_position = position
+                # Calculate plane mirror angle for given grating density, energy, cff and offsets
+                mirr_pitch = enecff2mirror(gd=self.grating_density, 
+                                           energy=float(position), 
+                                           cff=self.cff, 
+                                           groff=self.grating_offset, 
+                                           pmoff=self.plane_mirror_offset, 
+                                           ecg=self.energy_calibration_gradient, 
+                                           ecr=self.energy_calibration_reference)
+                # Calculate grating angles for given grating density, energy, mirror angle and offsets
+                grat_pitch = enemirror2grating(gd=self.grating_density, 
+                                               energy=float(position), 
+                                               pmang=mirr_pitch, 
+                                               groff=self.grating_offset, 
+                                               pmoff=self.plane_mirror_offset, 
+                                               ecg=self.energy_calibration_gradient, 
+                                               ecr=self.energy_calibration_reference)
+                
+                self._move_controller.grating_pitch_positions.append(grat_pitch)
+                self._move_controller.mirror_pitch_positions.append(mirr_pitch)
+                self._move_controller.pgm_energy_positions.append(float(position))
         else:
             self._move_controller._id_energy.asynchronousMoveTo(position)
         self.mybusy=False
@@ -92,12 +119,15 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         self._binpointMirPitch.collectData()
         self._binpointPgmEnergy.collectData()
         if installation.isLive():
-            (self.grating_density , _, self.grating_offset, self.plane_mirror_offset,  self.energy_calibration_gradient, 
+            (self.grating_density , self.cff, self.grating_offset, self.plane_mirror_offset,  self.energy_calibration_gradient, 
              self.energy_calibration_reference) = self._move_controller.getPgmEnergyParameters()
         else:
-            (self.grating_density , _, self.grating_offset, self.plane_mirror_offset,  self.energy_calibration_gradient, 
+            self._move_controller.grating_pitch_positions=[]
+            self._move_controller.mirror_pitch_positions=[]
+            self._move_controller.pgm_energy_positions=[]
+            (self.grating_density , self.cff, self.grating_offset, self.plane_mirror_offset,  self.energy_calibration_gradient, 
              self.energy_calibration_reference) = self._move_controller.getPgmEnergyParametersFixed()
-             
+            
     def atScanLineEnd(self):
         if self.verbose: self.logger.info('atScanLineEnd()...')
         self._binpointGrtPitch.atScanLineEnd()
