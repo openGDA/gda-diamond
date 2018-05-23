@@ -31,6 +31,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
             self.pv_count.configure()
         else:
             self.logger.info("DUMMY mode: pv_count at configure() is %r" % self.pv_count)
+            self.logger.info("DUMMY mode: set hardware trigger provider")
 
 
     def reset(self):
