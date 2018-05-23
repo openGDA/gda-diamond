@@ -27,4 +27,59 @@
 			</list>
 		</property>
 	</bean>
+
+	<bean id="xps5stage1" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value=""/>
+		<property name="motor" ref="xps5stage1_motor" />
+	</bean>
+
+	<bean id="xps5stage2" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value=""/>
+		<property name="motor" ref="xps5stage2_motor" />
+	</bean>
+
+	<bean id="xps5stage3" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value=""/>
+		<property name="motor" ref="xps5stage3_motor" />
+	</bean>
+
+	<bean id="xps5stage4" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value=""/>
+		<property name="motor" ref="xps5stage4_motor" />
+	</bean>
+
+	<bean id="xps5stage5" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value=""/>
+		<property name="motor" ref="xps5stage5_motor" />
+	</bean>
+
+	<bean id="xps5stage6" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value=""/>
+		<property name="motor" ref="xps5stage6_motor" />
+	</bean>
+
+	<bean id="xps5stage7" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value=""/>
+		<property name="motor" ref="xps5stage7_motor" />
+	</bean>
+
+	<bean id="xps5stage8" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value=""/>
+		<property name="motor" ref="xps5stage8_motor" />
+	</bean>
+
+	<bean id="xps5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="xps5stage1" />
+				<ref bean="xps5stage2" />
+				<ref bean="xps5stage3" />
+				<ref bean="xps5stage4" />
+				<ref bean="xps5stage5" />
+				<ref bean="xps5stage6" />
+				<ref bean="xps5stage7" />
+				<ref bean="xps5stage8" />
+			</list>
+		</property>
+	</bean>
 </beans>

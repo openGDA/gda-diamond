@@ -11,4 +11,28 @@
 
 	<bean id="blowerZ_motor"
 			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="xps5stage1_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="xps5stage2_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="xps5stage3_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="xps5stage4_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="xps5stage5_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="xps5stage6_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="xps5stage7_motor"
+			class="gda.device.motor.DummyMotor"/>
+
+	<bean id="xps5stage8_motor"
+			class="gda.device.motor.DummyMotor"/>
 </beans>
