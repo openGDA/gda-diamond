@@ -29,7 +29,14 @@ class BinpointWaveformChannelController(object):
         self.exposure_time = 1
         self.number_of_positions = 0
         self.started = False
+        self.hardware_trigger_provider=None
         
+    def setHardwareTriggerProvider(self, hardwareTriggerProvider):
+        self.hardware_trigger_provider=hardwareTriggerProvider
+    
+    def getHardwareTriggerProvider(self):
+        return self.hardware_trigger_provider
+    
     def configure(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'configure()...'))
         if installation.isLive():
@@ -77,17 +84,7 @@ class BinpointWaveformChannelController(object):
             pv_waveform = CAClient(self.binpoint_root_pv + channel_pv_suffix + 'BINPOINT')
             pv_count =    CAClient(self.binpoint_root_pv + channel_pv_suffix + 'BINPOINT:NLAST.B')
         else:
-            if channel_pv_suffix == 'GRT:PITCH:':
-                from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import grating_pitch_positions
-                pv_waveform=grating_pitch_positions
-            elif channel_pv_suffix == 'MIR:PITCH:':
-                from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import mirror_pitch_positions
-                pv_waveform = mirror_pitch_positions
-            elif channel_pv_suffix == 'PGM:ENERGY:':
-                from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import pgm_energy_positions
-                pv_waveform = pgm_energy_positions
-            else:
-                pv_waveform = []
+            pv_waveform = []
             pv_count = self.number_of_positions
         return pv_waveform, pv_count
 
