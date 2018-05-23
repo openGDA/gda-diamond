@@ -1,11 +1,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util-2.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.diamond.ac.uk/schema/gda/corba
 		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
@@ -14,21 +17,44 @@
 			<list value-type="java.lang.String">
 				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
 				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+				<value>file:${gda.core.dir}/properties/core_java.properties</value>
 			</list>
 		</property>
 	</bean>
 
 	<!-- This gda.data.ObservablePathConstructor should only be in live -->
-	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
+	<bean id="terminallog_path_provider"
+			class="gda.data.ObservablePathConstructor">
 		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
 		<property name="local" value="true" />
 	</bean>
 
+	<import resource="../_common/server.xml"/>
 	<import resource="device/all.xml"/>
 	<import resource="scannable/all.xml"/>
 	<import resource="transient/all.xml"/>
-	<import resource="../_common/server.xml"/>
+
+	<!-- Missing compared to i15-1
+	<import resource="../../p45/dummy/det.xml" />
+	<import resource="../../p45/dummy/mapping_motors.xml"/>
+	 -->
+
+	<!-- From p45/_common/server.xml  -->
+	<context:property-placeholder/>
+	<!-- ? -->
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<!-- Missing compared to i15-1
+	<import resource="../../p45/_common/example_detectors.xml"/>
+	<import resource="../../p45/_common/command_queue_processor.xml"/>
+	<import resource="../../p45/_common/jython_server_facade.xml" />
+	<import resource="../../p45/_common/mapping_stage.xml"/>
+	<import resource="../../p45/_common/mandelbrot_detectors.xml"/>
+	 -->
 
 	<import resource="metadata.xml"/>
 
@@ -44,146 +70,14 @@
 		</property>
 	</bean>
 
-	<bean id="Ring"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="recordPvs">
-			<map>
-				<entry key="Top" value="" />
-				<entry key="Current" value="SR-DI-DCCT-01:SIGNAL" />
-				<entry key="FastCurrent" value="SR21C-DI-DCCT-01:SIGNAL" />
-				<entry key="TimeUntilRefill" value="SR-CS-FILL-01:COUNTDOWN" />
-				<entry key="BeamMode" value="CS-CS-MSTAT-01:MODE" />
-			</map>
-		</property>
-		<property name="dummyMode" value="false"/>
-	</bean>
+	<import resource="factoryBeans.xml"/>
 
-	<bean id="Beamline"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="recordPvs">
-			<map>
-				<entry key="Top" value="BL15I" />
-			</map>
-		</property>
-		<property name="dummyMode" value="false"></property>
-	</bean>
-
-	<!--
-		 The PHDGN devices are the next items in localstation that rely on finder. e.g.
-			d1 = finder.find("PHDGN1").createEpicsChannel("d1", ReturnType.DBR_NATIVE, "", "")
+	<!--  
+	      IMPORTANT: this will start processing the scanning queue. 
+	      detectors must be created before doing this.
+	      ADVISED: do it last or towards the end, scan will now start to run!
 	 -->
-	<bean id="PHDGN1"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN1" />
-		<property name="dummyMode" value="false"/>
-	</bean>
-	<bean id="PHDGN2"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN2" />
-		<property name="dummyMode" value="false"/>
-	</bean>
-	<bean id="PHDGN3"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN3" />
-		<property name="dummyMode" value="false"/>
-	</bean>
-	<bean id="PHDGN4"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN4" />
-		<property name="dummyMode" value="false"/>
-	</bean>
-	<bean id="PHDGN5"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN5" />
-		<property name="dummyMode" value="false"/>
-	</bean>
-	<bean id="PHDGN6"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN6" />
-		<property name="dummyMode" value="false"/>
-	</bean>
-	<bean id="PHDGN7"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN7" />
-		<property name="dummyMode" value="false"/>
-	</bean>
-	<bean id="PHDGN8"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN8" />
-		<property name="dummyMode" value="false"/>
-	</bean>
-	<bean id="PHDGN9"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN9" />
-		<property name="dummyMode" value="false"/>
-	</bean>
-
-	<bean id="PHDGN10"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="recordPvs">
-			<map>
-				<entry key="RECORD" value="BL15I-DI-PHDGN-10:I" />
-			</map>
-		</property>
-		<property name="dummyMode" value="false"/>
-	</bean>
-
-	<bean id="PHDGN11"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="recordPvs">
-			<map>
-				<entry key="RECORD" value="BL15I-DI-PHDGN-11:I" />
-			</map>
-		</property>
-		<property name="dummyMode" value="false"/>
-	</bean>
-
-	<!-- Proportional Counter -->	
-	<bean id="prop"
-			class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="PRCNT1.I" />
-	</bean>
-
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
-		<property name="arguments">
-			<map>
-				<!-- 
-				<entry key="exposure">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths">
-							<list>
-								<value>instrument:NXinstrument/expose:NXcollection/exposure</value>
-							</list>
-						</property>
-					</bean>
-				</entry>
-				 -->
-				<entry key="exposure">
-					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
-						<property name="paths">
-							<list>
-								<value>instrument:NXinstrument/expose:NXcollection/dkphi</value>
-								<value>instrument:NXinstrument/expose:NXcollection/exposure</value>
-								<value>instrument:NXinstrument/expose:NXcollection/dx</value>
-								<value>instrument:NXinstrument/expose:NXcollection/dy</value>
-								<value>instrument:NXinstrument/expose:NXcollection/dz</value>
-							</list>
-						</property>
-					</bean>
-				</entry>
-			</map>
-		</property>
-	</bean>
-
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setMetadatascannables" />
-		<property name="arguments">
-			<set>
-				<value>exposure</value>
-			</set>
-		</property>
-	</bean>
+	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
 
 	<corba:export namespace="${gda.factory.factoryName}" />
 
