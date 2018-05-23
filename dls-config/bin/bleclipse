@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DLS_CONFIG_BIN=$(readlink -f $(dirname $0))
+DLS_CONFIG_BIN=$(dirname $(readlink -f $0))
 
 # Unload existing modules which might conflict with the modules to be loaded
 
@@ -32,14 +32,12 @@ fi
 # script changes.
 ########################################################################
 
-SELF=$(readlink -f $0)
-
 # How many directories we have to go up depends on the location of the
 # bin directory. For dls-config ROOT is 4 directories up from bin:
 # i.e. workspace_git/gda-diamond.git/dls-config/bin/bleclipse
-GDA_WORKSPACE_PARENT=$(dirname $0)/../../../..
+GDA_WORKSPACE_PARENT=$(readlink -f $DLS_CONFIG_BIN/../../../..)
 
-WORKSPACE=$(readlink -f $GDA_WORKSPACE_PARENT/workspace)
+WORKSPACE=$GDA_WORKSPACE_PARENT/workspace
 
 if [ -d $WORKSPACE/.metadata ] ; then
   echo "Starting Eclipse (`which eclipse`)..."
