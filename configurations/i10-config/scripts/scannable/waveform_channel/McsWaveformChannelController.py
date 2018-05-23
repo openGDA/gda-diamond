@@ -7,6 +7,7 @@ from threading import Timer
 import installation
 from detectors.CounterTimer import countTimer
 from dataGenerator.waveformDataGenerator import WaveformDataGenerator
+from datetime import datetime
 
 
 TIMEOUT = 5
@@ -35,7 +36,14 @@ class McsWaveformChannelController(object):
         self.exposure_time_offset=.0
         self.number_of_positions = 0
         self.started = False
-
+        self.hardware_trigger_provider=None
+        
+    def setHardwareTriggerProvider(self, hardwareTriggerProvider):
+        self.hardware_trigger_provider=hardwareTriggerProvider
+    
+    def getHardwareTriggerProvider(self):
+        return self.hardware_trigger_provider
+    
     def configure(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'configure()...'))
         if installation.isLive():
@@ -47,8 +55,6 @@ class McsWaveformChannelController(object):
             # Is there any reason why we can't EraseStart here?
         else:
             if self.verbose: self.logger.info("configure '%s' for dummy operation...')" % (countTimer.getName()))
-            self.waveform=WaveformDataGenerator()
-            self.waveform.useGaussian=True
             
     def erase(self):
         if self.verbose: self.logger.info("%s %s" % (self.name,'erase()...'))
@@ -68,10 +74,7 @@ class McsWaveformChannelController(object):
                 self.pv_channeladvance.caput(TIMEOUT, self.channelAdvanceExternal)
             self.pv_erasestart.caput(TIMEOUT, 1)
         else:
-            if self.waveform.useGaussian and self.waveform.gaussian is None:
-                self.waveform.initializeGaussian()
-            self.waveform.data=[]
-            
+            pass
         # Since the mca NORD value could take some time to be updated and will continue returning the NORD of the last acquire,
         # wait before setting started to True, so WaveformChannelPollingInputStream doesn't try to use stale data.
         startedTimer = Timer(1.5, self._delayed_start_complete) # Failed at 0.5s, Ok at 1.5s.
@@ -114,8 +117,13 @@ class McsWaveformChannelController(object):
             pv_waveform = CAClient(self.mca_root_pv + 'mca' + `channel`)
             pv_count =    CAClient(self.mca_root_pv + 'mca' + `channel` + '.NORD')
         else:
-            self.waveform.channel=channel
-            pv_waveform = self.waveform
+            waveform=WaveformDataGenerator()
+            waveform.useGaussian=True
+            if waveform.useGaussian and waveform.gaussian is None:
+                waveform.initializeGaussian()
+            waveform.data=[]
+            waveform.channel=channel
+            pv_waveform = waveform
             pv_count=self.number_of_positions
         return pv_waveform, pv_count
 
