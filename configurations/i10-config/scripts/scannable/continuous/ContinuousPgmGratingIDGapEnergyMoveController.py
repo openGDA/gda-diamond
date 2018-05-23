@@ -14,10 +14,6 @@ from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating #, enecff2gr
 import threading, time
 import installation
 
-grating_pitch_positions=None
-mirror_pitch_positions=None
-pgm_energy_positions=None
-
 class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveController, DeviceBase):
     '''Controller for constant velocity scan moving both PGM Grating Pitch and ID Gap at same time at constant speed respectively.
         It works for both Live and Dummy mode.
@@ -54,17 +50,22 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
                                 'acc':'IDGSETACC'}, idpvroot)
         if installation.isLive():
             self.idpvs.configure()
-        
+            
+        self.grating_pitch_positions=[]
+        self.mirror_pitch_positions=[]
+        self.pgm_energy_positions=[]
+        self._start_time = None
+
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
 
     def setStart(self, start): # double
         self._move_start = start
         if self.verbose: self.logger.info('setStart(%r)' % start)
-
+    
     def setEnd(self, end): # double
         self._move_end = end
         if self.verbose: self.logger.info('setEnd(%r)' % end)
-
+    
     def setStep(self, step): # double
         self._move_step = step
         if self.verbose: self.logger.info('setStep(%r)' % step)
@@ -139,19 +140,6 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         ### Calculate main cruise moves & speeds from start/end/step
         self._pgm_grat_pitch_speed = abs(self._grat_pitch_end - self._grat_pitch_start) / self.getTotalTime()
         
-        if installation.isDummy():
-            #setup motor positions to be used to return as waveform channel readings during continuous scanning
-            grating_pitch_positions=[self._grat_pitch_start+self._pgm_grat_pitch_speed*self._triggerPeriod*n for n in range(self.getNumberTriggers())]
-            mirror_pitch_positions =[self.mirr_pitch_midpoint for n in range(self.getNumberTriggers())]
-            pgm_energy_positions   =[angles2energy(gd       = self.grating_density,
-                                                   grang    = grtPitch,
-                                                   pmang    = mirPitch,
-                                                   groff    = self.grating_offset,
-                                                   pmoff    = self.plane_mirror_offset,
-                                                   ecg      = self.energy_calibration_gradient,
-                                                   ecr      = self.energy_calibration_reference) 
-                                                   for grtPitch, mirPitch in zip(grating_pitch_positions, mirror_pitch_positions)]
-             
         ### Calculate ramp distance from required speed and ramp times
         # Set the speed before we read out ramp times in case it is dependent
         self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed 
