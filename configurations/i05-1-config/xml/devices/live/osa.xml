@@ -15,7 +15,7 @@
 	</bean>
 
 	<bean id="osaz_motor" class="gda.device.motor.EpicsMotor">
-	<property name="pvName" value="BL05J-EA-OSA-01:Z" />
+		<property name="pvName" value="BL05J-EA-OSA-01:Z" />
 		<property name="local" value="true" />
 	</bean>
 

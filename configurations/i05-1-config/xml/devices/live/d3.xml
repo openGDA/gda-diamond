@@ -29,7 +29,8 @@
 	<bean id="d3gain" class="gda.device.currentamplifier.GainWithScalingAndOffset">
 		<property name="pvName" value="BL05I-DI-PHDGN-03:DET:GAIN" />
 		<property name="gaintosando">
-			<map> <!-- scaling: multiply by negated gain exponent to display pre-gain value (amps) given the post-gain value (volts) -->
+			<map> <!-- scaling: multiply by negated gain exponent to display pre-gain value 
+					(amps) given the post-gain value (volts) -->
 				<entry key="0">
 					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
 						<property name="scaling" value="10e-5" />
