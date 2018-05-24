@@ -3,20 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!-- 	<bean id="dirWatcher" class="uk.ac.gda.beamline.i11.utils.WatchDirectory"> -->
-		<!-- the following property only works for String[], not List<String> --> 
-<!-- 		<property name="filenameExtensions" value="dat,tif,nxs,h5"/> -->
-<!-- 		<property name="directory" value=""/> -->
-<!-- 		<property name="recursive" value="true"/> -->
-<!-- 		<property name="excludedDirectory" value="processing,spool,tmp,xml"/> -->
-<!-- 		<property name="server" value="false"/> -->
-<!-- 	</bean> -->
-	<bean id="dirListener" class="uk.ac.gda.beamline.synoptics.utils.DataFileListener">
-		<property name="directory" value=""/>
-		<property name="recursive" value="true"/>
-		<!-- the following property only works for String[], not List<String> -->
-		<property name="filenameExtensions" value="dat,tif,nxs,h5"/>
-		<property name="excludedDirectory" value="processing,spool,tmp,xml"/>
-		<property name="server" value="false"/>
+	<bean id="dirListener" class="uk.ac.gda.beamline.synoptics.utils.NewFileListener">
+		<property name="fileProviderName" value="client_file_announcer" />
+		<property name="ignoredFiles" value="#{'.*\.log'}" />
 	</bean>
 </beans>

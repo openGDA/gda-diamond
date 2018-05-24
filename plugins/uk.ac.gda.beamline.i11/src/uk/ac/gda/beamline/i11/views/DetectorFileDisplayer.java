@@ -20,9 +20,11 @@ package uk.ac.gda.beamline.i11.views;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.january.dataset.IDataset;
@@ -66,11 +68,7 @@ public class DetectorFileDisplayer extends ConfigurableBase implements FileProce
 	private String name;
 	private DetectorFilePlotView plotView;
 	private static final Logger logger = LoggerFactory.getLogger(DetectorFileDisplayer.class);
-	private ArrayList<String> dataFilesPlotted;
-
-	public DetectorFileDisplayer() {
-		dataFilesPlotted = new ArrayList<String>();
-	}
+	private Set<String> dataFilesPlotted = new HashSet<>();
 
 	@Override
 	public void configure() throws FactoryException {
@@ -81,7 +79,8 @@ public class DetectorFileDisplayer extends ConfigurableBase implements FileProce
 	}
 
 	void openView() {
-		if (plotView == null) {
+		if (plotView == null || plotView.isDisposed()) {
+			plotView = null;
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			IViewPart showView = null;
 			try {
@@ -91,20 +90,13 @@ public class DetectorFileDisplayer extends ConfigurableBase implements FileProce
 			}
 			if (showView != null && showView instanceof DetectorFilePlotView) {
 				plotView = (DetectorFilePlotView) showView;
+				page.activate(plotView);
 			}
-			page.activate(plotView);
 		}
 	}
 
 	private boolean isAlreadyPlotted(String filename) {
-		boolean plotted = false;
-		if (!dataFilesPlotted.isEmpty()) {
-			for (String name : dataFilesPlotted) {
-				plotted = plotted || name.contentEquals(filename);
-				if (plotted) break;
-			}
-		}
-		return plotted;
+		return dataFilesPlotted.contains(filename);
 	}
 
 	@Override
@@ -113,7 +105,9 @@ public class DetectorFileDisplayer extends ConfigurableBase implements FileProce
 			dataFilesPlotted.clear();
 		}
 		if (filename != null && !filename.isEmpty() && !isAlreadyPlotted(filename)) {
-			IDataset xds = null, yds = null;
+			IDataset xds = null;
+			IDataset yds = null;
+			List<IDataset> others = new ArrayList<>();
 			String name = FilenameUtils.getName(filename);
 			if (name.contains("mythen")) {
 				if (FilenameUtils.getName(filename).contains("summed")) {
@@ -173,17 +167,34 @@ public class DetectorFileDisplayer extends ConfigurableBase implements FileProce
 				}
 			} else {
 				// TODO add support for native mythen data file collected using EPICS or QT-GUI
+				if (FilenameUtils.isExtension(filename, "dat")) {
+					// Plot 'normal' scan data from SRS files
+					try {
+						DataHolder loadFile = new SRSLoader(filename).loadFile();
+						String[] names = loadFile.getNames();
+						xds = loadFile.getDataset(0);
+						yds = loadFile.getDataset(1);
+						for (int i = 2; i < names.length; i++) {
+							others.add(loadFile.getDataset(i));
+						}
+					} catch (ScanFileHolderException e) {
+						logger.error("Error loading .dat file '{}'", filename, e);
+					}
+				}
 			}
 
 			if (xds != null && yds != null) {
 				dataFilesPlotted.add(filename);
 				openView();
-				plotView.updatePlot(new NullProgressMonitor(), xds, yds, "Plots of selected detector data files",
-						"angle (degree)", "counts", isNewPlot(), getPlotType());
+				plotView.updatePlot(xds, yds, "Plots of selected detector data files",
+						xds.getName(), yds.getName(), isNewPlot(), getPlotType());
+				for (IDataset data: others) {
+					plotView.updatePlot(xds, data, null, xds.getName(), data.getName(), false, getPlotType());
+				}
 			}
 		} else {
 			openView();
-			plotView.updatePlot(new NullProgressMonitor(), null, null, "Plots of selected detector data files",
+			plotView.updatePlot(null, null, "Plots of selected detector data files",
 					"angle (degree)", "counts", isNewPlot(), getPlotType());
 		}
 	}

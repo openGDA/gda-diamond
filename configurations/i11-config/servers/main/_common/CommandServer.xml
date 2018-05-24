@@ -36,7 +36,6 @@
 
 	<bean id="command_server" class="gda.jython.JythonServer">
 		<property name="jythonScriptPaths" ref="script_paths" />
-		<property name="remotePort" value="9999" />
 	</bean>
 
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
