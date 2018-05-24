@@ -57,7 +57,6 @@
 			</bean>
 		</property>
 		<property name="stopJythonScannablesOnStopAll" value="false"/>
-		<property name="remotePort" value="9999" />
 	</bean>
 
 </beans>
