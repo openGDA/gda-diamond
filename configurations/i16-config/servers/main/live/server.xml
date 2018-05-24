@@ -34,6 +34,7 @@
 	<import resource="epics/motor/s4.xml" />
 	<import resource="epics/motor/s5.xml" />
 	<import resource="epics/motor/s6.xml" />
+	<import resource="epics/motor/s7.xml" />
 	<import resource="epics/motor/sixc.xml" />
 	<import resource="epics/motor/sixcbase.xml" />
 	<!--<import resource="transient/kbmbase.xml" /-->
