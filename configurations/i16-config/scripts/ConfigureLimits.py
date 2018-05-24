@@ -9,7 +9,7 @@ NOMINAL_LIMITS = {phi : (-999, 999),
 				eta : (-22, 115),
 				
 				mu : (-1, 80),
-				delta : (-1, 130),
+				delta : (-1, 110),
 				gam : (-1, 120),
 				kphi : (-91, 271),
 				kth : (-90, 212),
@@ -18,7 +18,7 @@ NOMINAL_LIMITS = {phi : (-999, 999),
 
 kgam_minus_kmu_min = -1
 #kth_minus_kdelta_max_MODE1 = 80
-kth_minus_kdelta_max_MODE1 = 95
+kth_minus_kdelta_max_MODE1 = 77.5
 #kth_minus_kdelta_max_MODE2 = 136
 
 # Record same defaults from kappa axes to make non-nominal limits report complete
@@ -71,12 +71,15 @@ else:
 ################################################################################
 
 
+
+
 # DO NOT REMOVE THESE TWO LINES!
 
 set_kth_minus_kdelta_max(kth_minus_kdelta_max)
 set_kgam_minus_kmu_min(kgam_minus_kmu_min)
 
 
+# 17/04//2018 delta limit with new s6 on long nose cone is  ~ 127 
 
 
 

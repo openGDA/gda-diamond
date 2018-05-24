@@ -27,6 +27,7 @@
 	<import resource="motor/s4.xml" />
 	<import resource="motor/s5.xml" />
 	<import resource="motor/s6.xml" />
+	<import resource="motor/s7.xml" />
 	<import resource="motor/sixc.xml" />
 	<import resource="motor/sixcbase.xml" />
 	<import resource="motor/sixcsample.xml" />

@@ -25,9 +25,9 @@
 	<import resource="epics/motor/s4.xml" />
 	<import resource="epics/motor/s5.xml" />
 	<import resource="epics/motor/s6.xml" />
+	<import resource="epics/motor/s7.xml" />
 	<import resource="epics/motor/sixc.xml" />
 	<import resource="epics/motor/sixcbase.xml" />
-
 	<!--<import resource="transient/kbmbase.xml" /-->
 	<!--<import resource="transient/smargon.xml" />-->
 	
@@ -53,7 +53,7 @@
 	</bean>
 
 	<import resource="epics/detector/struck.xml" />
-	<import resource="epics/detector/vortex.xml" /> 
+	<!--<import resource="epics/detector/vortex.xml" />-->
 	<import resource="epics/detector/pilatus100k.xml" />
 	<import resource="epics/detector/pilatus3_100k.xml" />
 <!-- 	<import resource="epics/detector/fastpil1.xml" /> -->

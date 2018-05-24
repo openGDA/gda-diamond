@@ -1,3 +1,5 @@
+scripts/gdaserver.py
+
 ### Temporary files ###
 *.bak
 *.swp
