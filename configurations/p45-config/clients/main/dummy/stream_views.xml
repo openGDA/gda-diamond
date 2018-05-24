@@ -19,10 +19,6 @@
 		<property name="roiProvider" ref="mic_roi" />
 	</bean>
 		 
-	<bean id="mic_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}micRoi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	<bean id="mic_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 		 
 </beans>
