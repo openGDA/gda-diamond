@@ -21,8 +21,8 @@ else:
 	USE_CRYO_GEOMETRY = False # < -- chi will not move if True
 
 
-#USE_DUMMY_IDGAP_MOTOR = False
-USE_DUMMY_IDGAP_MOTOR = True
+USE_DUMMY_IDGAP_MOTOR = False
+#USE_DUMMY_IDGAP_MOTOR = True
 USE_XMAP= True
 
 # Java
@@ -91,7 +91,7 @@ from pd_time import tictoc, showtimeClass, mrwolfClass, showincrementaltimeClass
 from pd_dummy import dummyClass
 from pd_foilinserter import Foilinserter
 from pd_attenuator import Atten
-from pd_polarizationAnalyser import PolarizationAnalyser
+from pd_polarizationAnalyser_new_alpha import PolarizationAnalyser
 from pd_epics import DisplayEpicsPVClass, SingleEpicsPositionerClass, SingleEpicsPositionerNoStatusClass, SingleEpicsPositionerSetAndGetOnlyClass, SingleEpicsPositionerNoStatusClass2, Epics_Shutter
 from pd_ionpump import AllPumpsOnPD, EpicsIonpClass
 from pd_struck import Struck
@@ -374,6 +374,7 @@ else:
 if installation.isLive():
 	thp=SingleEpicsPositionerClass('thp','BL16I-EA-POLAN-01:THETAp.VAL','BL16I-EA-POLAN-01:THETAp.RBV','BL16I-EA-POLAN-01:THETAp.DMOV','BL16I-EA-POLAN-01:THETAp.STOP','deg','%.4f')
 	tthp=SingleEpicsPositionerClass('tthp','BL16I-EA-POLAN-01:DET1:2THETAp.VAL','BL16I-EA-POLAN-01:DET1:2THETAp.RBV','BL16I-EA-POLAN-01:DET1:2THETAp.DMOV','BL16I-EA-POLAN-01:DET1:2THETAp.STOP','deg','%.3f')
+	dettrans=SingleEpicsPositionerClass('dettrans','BL16I-EA-POLAN-01:DET2:2THETAp.VAL','BL16I-EA-POLAN-01:DET2:2THETAp.RBV','BL16I-EA-POLAN-01:DET2:2THETAp.DMOV','BL16I-EA-POLAN-01:DET2:2THETAp.STOP','mm','%.3f')
 
 if not USE_DIFFCALC:
 	run("startup_diffractometer_hkl")
@@ -578,7 +579,8 @@ if installation.isLive():
 	
 	### Polarization analyser ###
 	print "   creating polarisation analyser scannable: pol"
-	pol=PolarizationAnalyser("Polarization Analyser",stoke,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset,tthp_detoffset,cry_offset,ref_offset)
+#	pol=PolarizationAnalyser("Polarization Analyser",stoke,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset,tthp_detoffset,cry_offset,ref_offset)
+	pol=PolarizationAnalyser("Polarization Analyser",stoke,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,dettrans,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety)
 
 	
 	### TCA  ###
@@ -1109,15 +1111,18 @@ if installation.isLive():
 	#tthp.apd = 1.75 #16/1/15 - changed from 1.75
 	#tthp.apd = 3.25 #30/9/15
 	#tthp.apd = 0.5 #17/5/16
-	tthp.apd = 0.9 #13/2/17
+	#tthp.apd = 0.9 #13/2/17
+	tthp.apd = -0.35 #24/04/18
 	#tthp.diode=56.4#2/10/11 - changed from 55.6
 	#tthp.diode=55#01/07/16 - changed from 56.4
 	#tthp.diode=53.713#01/07/16 - changed from 56.4
 	#tthp.diode=53.65#01/07/16 - changed from 53.713
-	tthp.diode=54.3	#13/02/17
+	#tthp.diode=54.3	#13/02/17
+	tthp.diode=0	#24/04/18
 	tthp.camera=34.4 #14/10/12 -changed from 33.4
 	tthp.vortex=-14.75 #31/1/10
-	tthp.ccd=70
+	#tthp.ccd=70
+	tthp.ccd=40 #24/04/18
 
 
 ###############################################################################
@@ -1325,13 +1330,12 @@ def open_valves():
 #ci=204.; cj=107; #02/05/17ci=242.;cj=105. #13/07/16 loan detector
 #ci=244.; cj=103.; #10/08/16 loan detector
 #ci=205.; cj=105; #19/02/17
-ci=205.; cj=104; #23/06/17
-ci=242.;cj=105. #13/07/16 loan detector
+#ci=205.; cj=104; #23/06/17
 ci=206.; cj=107; #20/10/17
 
 
 maxi=486; maxj=194 #08/10/15
-
+'''
 #small centred
 roi1 = scroi=HardwareTriggerableDetectorDataProcessor('roi1', pil, [SumMaxPositionAndValue()])
 iw=13; jw=15; roi1.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
@@ -1398,6 +1402,21 @@ iw=7; jw=7; roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
 #for searching for reflections at known delta
 #wideroi = HardwareTriggerableDetectorDataProcessor('roi3', pil, [SumMaxPositionAndValue()])
 #wid=20; wideroi.setRoi(int(ci-wid/2.),0,int(ci+wid/2.),maxj)
+'''
+
+## pilatus3 rois changed 14 April 2018
+ci, cj = 243, 96
+roi1 = scroi=HardwareTriggerableDetectorDataProcessor('roi1', pil3, [SumMaxPositionAndValue()])
+iw=13; jw=15; roi1.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
+
+roi2 = lcroi=HardwareTriggerableDetectorDataProcessor('roi2', pil3, [SumMaxPositionAndValue()])
+iw=50; jw=50; roi2.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
+
+roi3 = delroi=HardwareTriggerableDetectorDataProcessor('roi3', pil3, [SumMaxPositionAndValue()])
+roi3.setRoi(int(ci-1/2.),0,int(ci+1/2.),maxj)
+
+roi4 = chiroi=HardwareTriggerableDetectorDataProcessor('roi4', pil3, [SumMaxPositionAndValue()])
+roi4.setRoi(0,int(cj-1/2.),maxi,int(cj+1/2.))
 
 
 
@@ -1565,16 +1584,30 @@ if SMARGON:
 
 
 
+######### temp 24/04/2018 ############# 
 
+do.pil = 8.8
 
+def diodein():
+    pos tthp 0
+    pos dettrans 0
+def apdin():
+    pos tthp -0.35
+    pos dettrans -27.71
+def vortexin():
+    pos tthp 85.4-96.5
+    pos dettrans 25
 
-
-
-
-
-
-
-
+def pilin():
+    pos do do.pil
+    pos s6ygap 2
+    pos s6ytrans 10.433
+    pos s6ygap 9
+def pilout():
+    pos do 0
+    pos s6ygap 2.8
+    pos s6ytrans 0
+meta.add(dettrans) # should go in a better place
 
 
 
