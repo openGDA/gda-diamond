@@ -133,3 +133,6 @@ xstrip.setSynchroniseToBeamOrbit(True)
 
 from gda.jython.commands.ScannableCommands import cv as cvscan
 vararg_alias("cvscan")
+
+print "Adding continuous scan commands for alignment slit : \n\trun_slit_scan(start, stop, step, accumulation_time, num_accumulations)\n\tplot_last_data()"
+run('alignment_stage_scan5.py')
