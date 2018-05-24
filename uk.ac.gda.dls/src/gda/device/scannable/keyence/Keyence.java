@@ -54,7 +54,7 @@ import gda.factory.FactoryException;
  * Triggering is done in software. If you require hardware (external) triggering,
  * that would not be very hard to implement.
  */
-public class Keyence extends ScannableBase implements Runnable {
+public class Keyence extends ScannableBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(Keyence.class);
 
@@ -99,7 +99,7 @@ public class Keyence extends ScannableBase implements Runnable {
 		} catch (DeviceException e) {
 			throw new FactoryException("Error connecting to Keyence device",e);
 		}
-		uk.ac.gda.util.ThreadManager.getThread(this, getName() + " buffer emptier").start();
+		new Thread(this::runKeyence, getName() + " buffer emptier").start();
 		setConfigured(true);
 	}
 
@@ -449,17 +449,16 @@ public class Keyence extends ScannableBase implements Runnable {
 		}
 	}
 
-	@Override
-	public void run() {
+	private void runKeyence() {
 		try {
-			runKeyence();
+			runKeyenceLoop();
 		} catch (InterruptedException e) {
 			logger.error("Thread interrupted while running Keyence {}", getName(), e);
 			Thread.currentThread().interrupt();
 		}
 	}
 
-	private void runKeyence() throws InterruptedException {
+	private void runKeyenceLoop() throws InterruptedException {
 		while (true) {
 			Thread.sleep(21987);
 			try {
