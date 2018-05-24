@@ -81,7 +81,6 @@
 				<property name="startupScript" value="${gda.config}/scripts/localStation.py"/>
 			</bean>
 		</property>
-		<property name="remotePort" value="9999" />
 		<property name="stopJythonScannablesOnStopAll" value="false" />
 		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
 	</bean>
