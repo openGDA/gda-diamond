@@ -9,8 +9,12 @@ thp_offset=pd_offset.Offset('thp_offset')
 thp_offset_sigma=pd_offset.Offset('thp_offset_sigma') 
 thp_offset_pi=pd_offset.Offset('thp_offset_pi') 
 tthp_offset=pd_offset.Offset('tthp_offset')
+tthp_offset_sigma=pd_offset.Offset('tthp_offset_sigma')
 cry_offset=pd_offset.Offset('cry_offset')
 ref_offset=pd_offset.Offset('ref_offset')
+tthp_offset_pi=pd_offset.Offset('tthp_offset_pi')
+detector_lateral_offset_zero=pd_offset.Offset('detector_lateral_offset_zero')
+detector_lateral_offset_ninety=pd_offset.Offset('detector_lateral_offset_ninety')
 
 #
 phi_offset=pd_offset.Offset('phi_offset') 
