@@ -5,19 +5,16 @@
 
 	<bean id="samX_motor"
 			class="gda.device.motor.EpicsMotor">
-		<!-- <property name="deviceName" value="" /> -->
 		<property name="pvName" value="BL15J-MO-TABLE-01:SAMPLE:X" />
 	</bean>
 
 	<bean id="samY_motor"
 			class="gda.device.motor.EpicsMotor">
-		<!-- <property name="deviceName" value="" /> -->
 		<property name="pvName" value="BL15J-MO-TABLE-01:SAMPLE:Y" />
 	</bean>
 
 	<bean id="blowerZ_motor"
 			class="gda.device.motor.EpicsMotor">
-		<!-- <property name="deviceName" value="" /> -->
 		<property name="pvName" value="BL15J-EA-BLOWR-01:TLATE" />
 	</bean>
 
@@ -41,6 +38,46 @@
 		<property name="upperTemp" value = "1000"/>
 		<property name="lowerTemp" value = "0"/>
 		<property name="controller" ref= "blower_controller"/>
+	</bean>
+
+	<bean id="xps5stage1_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-XPS5-01:P1" />
+	</bean>
+
+	<bean id="xps5stage2_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-XPS5-01:P2" />
+	</bean>
+
+	<bean id="xps5stage3_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-XPS5-01:P3" />
+	</bean>
+
+	<bean id="xps5stage4_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-XPS5-01:P4" />
+	</bean>
+
+	<bean id="xps5stage5_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-XPS5-01:P5" />
+	</bean>
+
+	<bean id="xps5stage6_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-XPS5-01:P6" />
+	</bean>
+
+	<bean id="xps5stage7_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-XPS5-01:P7" />
+	</bean>
+
+	<bean id="xps5stage8_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-XPS5-01:P8" />
 	</bean>
 
 	<!-- 
