@@ -245,6 +245,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 			writer.configureScanNumber(scanNumber);
 			writer.setNexusFileNameTemplate("nexus/%s.nxs");
 			writer.addData(sdp);
+			writer.completeCollection();
 
 			writeAsciiFile(sdp, writer.getCurrentFileName());
 		} catch (Exception e) {
