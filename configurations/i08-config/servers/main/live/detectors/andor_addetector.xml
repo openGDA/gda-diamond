@@ -5,7 +5,7 @@
 
 
  	<bean id="andor_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL08I-EA-DET-01:" />
+		<property name="basePVName" value="BL08I-EA-DET-01:CAM:" />
 		<property name="BinX" value="4" />
 		<property name="BinY" value="4" />
 	</bean>
