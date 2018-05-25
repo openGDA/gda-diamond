@@ -9,14 +9,14 @@
 		<property name="slowSpeed" value="100"/>
 	</bean>
 
-	<bean id="t" class="gda.device.scannable.ScannableMotor">
+	<bean id="tm" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dm_t"/>
 	</bean>
 
 	<bean id="TestMotors" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="t"/>
+				<ref bean="tm"/>
 			</list>
 		</property>
 	</bean>

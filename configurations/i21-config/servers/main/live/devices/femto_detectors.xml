@@ -138,13 +138,14 @@
 	<!--  M4 Femtos -->
 	<bean id="m4c1" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-MO-POD-01:FEMTO1:"/>
-		<property name="adcChannel" value="1" />
+		<property name="adcChannel" value="101" />
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
 		<property name="local" value="true"/>
+		<property name="startProc" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="m4c2" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
