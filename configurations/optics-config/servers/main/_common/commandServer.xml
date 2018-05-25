@@ -37,7 +37,6 @@
 				<property name="startupScript" value="${gda.config}/scripts/localStation.py"/>
 			</bean>
 		</property>
-		<property name="remotePort" value="7777" />
 	</bean>
 
 </beans>
