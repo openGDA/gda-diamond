@@ -23,5 +23,6 @@
 	</bean>
 
 	<import resource="../_common/rcp-common.xml" />
+	<import resource="stream_views.xml" />
 
 </beans>

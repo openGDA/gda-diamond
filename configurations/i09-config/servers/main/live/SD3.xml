@@ -13,4 +13,74 @@
 	<bean id="sd3aposn" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL09J-MO-SD-03:Y:MP" />
 	</bean>
+
+	<!-- SD3 cam -->
+	<bean id="sd3_CamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL09J-MO-SD-03:CAM:" />
+	</bean>
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="sd3_cam_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/sd3Roi" />
+	    <property name="service" ref="sd3_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<bean id="sd3_cam_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source for the array view -->
+		<property name="baseRoiPVName" value="BL09J-MO-SD-03:ROI:" />
+		<property name="baseStatsPVName" value="BL09J-MO-SD-03:STAT:" />
+		<property name="roiInputNdArrayPort" value="SD3.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="sd3_cam_roi" />
+				<property name="index" value="0" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="sd3_cam_Hdf5Filewriter" parent="abstractHdf5FilewriterNochunking">
+		<property name="fileNameTemplate" value="sd3_cam"/>
+		<property name="ndFileHDF5">
+			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
+				<property name="ndFileImpl">
+					<bean class="gda.spring.V17NDFileFactoryBean">
+						<property name="prefix" value="BL09J-MO-SD-03:HDF5:" />
+						<property name="resetToInitialValues" value="false" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="sd3_cam_CollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="restoreTriggerMode" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+						<property name="restoreAcquireTime" value="true" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="restoreAcquireState" value="true" />
+								<property name="adBase" ref="sd3_CamBase" />
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="sd3_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="dgncam" />
+		<property name="collectionStrategy" ref="sd3_cam_CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="sd3_cam_RoiStats" />
+				<ref bean="sd3_cam_Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
 </beans>

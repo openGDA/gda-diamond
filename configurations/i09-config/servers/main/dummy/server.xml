@@ -62,6 +62,7 @@
 	<import resource="ChannelCutCrystal.xml" />
 	<import resource="SMPM.xml" />
 	<import resource="shutters.xml"/>
+	<import resource="adSimulator.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>

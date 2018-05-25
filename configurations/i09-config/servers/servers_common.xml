@@ -93,6 +93,8 @@
 	<!-- ScriptControllers must be after command_server -->
 	<import resource="scriptControllers.xml" />
 
+	<import resource="common_nxplugins.xml" />
+
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	<!--enable types supported by the PropertyEditors listed in the GdaPropertyEditorRegistrar 

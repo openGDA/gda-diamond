@@ -175,6 +175,18 @@ findcentroid=FindScanCentroid
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
 
+
+###############################################################################
+###                   Configure camera bases                                    ###
+###############################################################################
+
+from pseudodevices.CameraExposureChanger import CameraExposureChanger
+
+print "\nCreating camera exposure object ('sd1_camera_exposure')for SD1 camera"
+sd1_camera_exposure = CameraExposureChanger(sd1_cam)
+
+print "\nCreating camera exposure object ('sd3_camera_exposure')for SD3 camera"
+sd3_camera_exposure = CameraExposureChanger(sd3_cam)
 ###############################################################################
 ###                   Configure scannable output formats                        ###
 ###############################################################################
