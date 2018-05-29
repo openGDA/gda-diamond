@@ -66,7 +66,7 @@ def idgap_calc(Ep, polarisation):
             else:
                 raise ValueError("Unknown Grating select in LH polarisationMode")    
         else:
-            raise ValueError("Energy demand %feV is outside calibrated ranges") % (Ep)
+            raise ValueError("Energy demand %f eV is outside calibrated ranges" % (Ep))
     # Linear Vertical
     elif polarisation=="LV":
         if (Ep>915 and Ep < 970):
@@ -121,7 +121,7 @@ def idgap_calc(Ep, polarisation):
             else:
                 raise ValueError("Unknown Grating select in LV polarisationMode")
         else:
-            raise ValueError("Energy demand %feV is outside calibrated ranges") % (Ep)
+            raise ValueError("Energy demand %feV is outside calibrated ranges" % (Ep))
     # Circular left
     elif polarisation=="CL":
         raise ValueError("CL polarisationMode is not yet implemented")
