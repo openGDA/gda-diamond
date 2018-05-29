@@ -76,4 +76,8 @@ dcm_enrg_exporter.service = dcm_enrg
 dcm_enrg_exporter.serviceInterface = Scannable
 dcm_enrg_exporter.afterPropertiesSet()
 
+# Initialise the array plugin for all detectors
+from prepare_for_snapshot import prepare_detectors
+prepare_detectors()
+
 print "Initialisation Complete";
