@@ -123,16 +123,12 @@ class UtilFunctions(object):
         
     def backupDefaults(self):
         defaultList=[];
-        defaultList.extend( self.getDefaultScannableNames() );
+        # James Mudd 18-12-2017 Fix as getDefaultScannableNames was removed from JythonServer
+        scannables = self.cs.getDefaultScannables()
+        defaultList += (s.getName() for s in scannables);
         self.pickleIt(self.pickleFileName, defaultList);
             
-    def getDefaultScannableNames(self):
-        scannables=self.cs.getDefaultScannables()
-        defaultScannableNames=[]
-        for each in scannables:
-            defaultScannableNames.append(each.getName())
-        return defaultScannableNames
-        
+    
     def restoreDefaults(self):
         '''Restore the pickled device list'''
     
