@@ -17,6 +17,7 @@ from i06shared.localStation import *  # @UnusedWildImport
 
 from Beamline.beamline import getTitle,gettitle,getvisit,getVisit,lastscan,setDir,setdir,setTitle,settitle,setVisit,setvisit  # @UnusedImport
 from Beamline.createAlias import closebeam, openbeam  # @UnusedImport
+
 #To eLog the scan
 from Beamline.beamline import branchline
 fileHeader.setScanLogger(branchline);
@@ -26,6 +27,7 @@ import sys
 
 if installation.isLive():
     from Beamline.U2Scaler8513 import ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr,scaler2  # @UnusedImport
+    from laserCabin.TOPASScaler8512 import ca81sr,ca82sr,ca83sr,ca84sr,ca85sr,ca86sr,ca87sr,ca88sr,topas_scaler  # @UnusedImport
     from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2locking  # @UnusedImport
     ##Magnet
     #from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw,cwAsymptote # @UnusedImport
@@ -45,9 +47,9 @@ from slits.useS6 import news6xgap, news6ygap  # @UnusedImport
 #Group the hexapod legs into list
 m7legs = [m7leg1, m7leg2, m7leg3, m7leg4, m7leg5, m7leg6];  # @UndefinedVariable
 #To add branchline device position to the SRS file header
-branchMirrorList = [m7x, m7pitch, m7qg]; fileHeader.add(branchMirrorList);  # @UndefinedVariable
-branchDiodeList = [d9y, d10y, d11y]; fileHeader.add(branchDiodeList);  # @UndefinedVariable
-branchExitSlitList = [s6x, s6xgap, s6y, s6ygap]; fileHeader.add(branchExitSlitList);  # @UndefinedVariable
+fileHeader.add([m7x, m7pitch, m7qg]);  # @UndefinedVariable
+fileHeader.add([d9y, d10y, d11y]);  # @UndefinedVariable
+fileHeader.add([s6x, s6xgap, s6y, s6ygap]);  # @UndefinedVariable
 
 print "-"*100
 print "Set up d12 position objects"
@@ -69,7 +71,7 @@ def d12Ni():
 def d12Gd():
     print "Move completed"
     d12posn.moveTo("Gd")  # @UndefinedVariable
-from gda.jython.commands.GeneralCommands import alias    
+
 alias("d12Out")
 alias("d12Ti")
 alias("d12Co")
