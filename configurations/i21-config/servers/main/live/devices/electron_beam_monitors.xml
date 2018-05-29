@@ -5,7 +5,7 @@
 
 
 	<!-- Countdown in seconds until the start of the next topup -->
-	<bean id="topupMonitor" class="gda.device.monitor.EpicsMonitor">
+	<bean id="machineTopupMonitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"/>
 		<property name="local" value="true" />
 	</bean>
