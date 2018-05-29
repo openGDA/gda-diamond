@@ -4,9 +4,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Branchline Fluorescent Screen and Diode D10 Motors -->
-	<bean id="MotorD_D10" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D10.Y" />
+	<bean id="D10_X_Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06J-DI-PHDGN-02:X" />
 		<property name="local" value="true"/>
+	</bean>
+	<bean id="D10_Y_Motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06J-DI-PHDGN-02:Y" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d10posn" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL06J-DI-PHDGN-02:MP" />
 	</bean>
 
 </beans>

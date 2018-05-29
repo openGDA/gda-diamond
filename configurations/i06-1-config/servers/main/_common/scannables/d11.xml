@@ -6,7 +6,13 @@
 	
 	<!-- Branchline Fluorescent Screen and Diode D11  -->
 	<bean id="d11y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorD_D11" />
+		<property name="motor" ref="MotorD_D11_Y" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="d11x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorD_D11_X" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />
@@ -14,6 +20,7 @@
 	<bean id="D11" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
+				<ref bean="d11x" />
 				<ref bean="d11y" />
 			</list>
 		</property>

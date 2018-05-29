@@ -148,4 +148,19 @@
 		<property name="local" value="true"/>
 	</bean>
 
+	<!-- delay stage and interferrometer motors in Table 2-->
+	<bean id="mi1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mi1_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	
+	<bean id="llds2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="llds2_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
 </beans>

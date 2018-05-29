@@ -181,5 +181,16 @@
 		<property name="pvNameSetPoint" value="BL06I-OP-FSM-23:Y:FFB:SETPOINT" />
 		<property name="pvNameGetPoint" value="BL06I-OP-FSM-23:Y:FFB:SETPOINT" />
 	</bean>
+	
+	<!-- delay stage and interferrometer motors in Table 2-->
+	<bean id="mi1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-OP-INTF-01:MTR" />
+		<property name="local" value="true"/>
+	</bean>
 
+	<bean id="llds2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-OP-DELAY-02:MTR" />
+		<property name="local" value="true"/>
+	</bean>
+	
 </beans>

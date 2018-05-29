@@ -5,27 +5,27 @@
 
 	<!-- Dichorism and Diffraction Motors -->
 	<bean id="MotorTheta_DD" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DDIFF.THETA" />
+		<property name="pvName" value="BL06J-EA-USER-01:MTR4" />
 		<property name="local" value="true"/>
 	</bean>
 	<bean id="Motor2Theta_DD" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DDIFF.2THETA" />
+		<property name="pvName" value="BL06J-EA-DDIFF-01:DET:2THETA" />
 		<property name="local" value="true"/>
 	</bean>
 	<bean id="MotorXSample_DD" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-EA-DDIFF-01:SMPL:X"/>
+		<property name="pvName" value="BL06J-EA-USER-01:MTR1"/>
 		<property name="local" value="true"/>
 	</bean>
 	<bean id="MotorYSample_DD" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DDIFF.Y" />
+		<property name="pvName" value="BL06J-EA-USER-01:MTR2" />
 		<property name="local" value="true"/>
 	</bean>
 	<bean id="MotorZSample_DD" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-EA-DDIFF-01:SMPL:Z"/>
+		<property name="pvName" value="BL06J-EA-USER-01:MTR3"/>
 		<property name="local" value="true"/>
 	</bean>
 	<bean id="MotorYDetector_DD" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DDIFF.DET.Y" />
+		<property name="pvName" value="BL06J-EA-DDIFF-01:DET:Y" />
 		<property name="local" value="true"/>
 	</bean>
 	<bean id="MotorXTable_DD" class="gda.device.motor.EpicsMotor">
