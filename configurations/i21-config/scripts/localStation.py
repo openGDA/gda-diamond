@@ -201,6 +201,7 @@ print "*"*80
 print "import DIFFCALC support for I21"
 from startup.i21 import *  # @UnusedWildImport
 toolpoint_off()  # @UndefinedVariable
+demo=I21Demo(globals())
 
 #Mapping scan
 from mapping_scan_commands import *
