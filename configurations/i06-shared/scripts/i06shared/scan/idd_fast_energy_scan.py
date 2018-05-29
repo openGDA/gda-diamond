@@ -22,7 +22,6 @@ from Diamond.Utility.UtilFun import UtilFunctions
 from Diamond.Utility.BeamlineFunctions import BeamlineFunctionClass, logger
 
 from gda.configuration.properties import LocalProperties
-from time import sleep
 
 uuu=UtilFunctions();
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
