@@ -1,11 +1,11 @@
 '''
-This module provides a class definition for creating a scannable that returns the division of scannable1 over scannable2
-while scanning scannable1 and scannable2.
+This module provides a class definition for creating a detector that returns the division of detector1 over detector2
+while continuously scanning energy.
 Usage:
 	>>>c17dbc16= DeviceDivisionClass("c17dbc16", mcsr17_g, mcsr16_g);;
 	>>> cvscan egy_g 695 705 1 mcsr17_g 0.4 mcsr16_g c17dbc16
 
-Created on 24 Jun 2010
+Created on 24 May 2018
 
 @author: fy65
 '''
