@@ -51,6 +51,13 @@ add_default(topupMonitor)
 add_default(beamMonitor)
 # don't add detectorFillingMonitor as a default
 
+# Watchdogs
+print "Adding watchdog commands: enableWatchdogs, disableWatchdogs, listWatchdogs"
+from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs
+alias("enableWatchdogs")
+alias("disableWatchdogs")
+alias("listWatchdogs")
+
 rcpController =                finder.find("RCPController")
 XASLoggingScriptController =   finder.find("XASLoggingScriptController")
 ExafsScriptObserver =          finder.find("ExafsScriptObserver")
