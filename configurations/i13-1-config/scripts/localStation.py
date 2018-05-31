@@ -92,7 +92,7 @@ alias("meta_rm")
 from gda.data.scan.datawriter import NexusDataWriter
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop")
 
-from watchdogs import enableWatchdogs, disableWatchdogs
+from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs
 alias("enableWatchdogs")
 alias("disableWatchdogs")
 

@@ -49,7 +49,7 @@ showtime=showtimeClass('showtime')
 inctime=showincrementaltimeClass('inctime')
 actualTime=actualTimeClass("actualTime")
 
-from watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs
+from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs
 alias("enableWatchdogs")
 alias("disableWatchdogs")
 alias("listWatchdogs")
