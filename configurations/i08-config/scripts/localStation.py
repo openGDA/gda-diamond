@@ -55,7 +55,7 @@ run('sample_stage_control.py')
 
 # Watchdogs
 print("Adding watchdog commands: enable_watchdogs, disable_watchdogs, list_watchdogs")
-from watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs
+from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs
 alias("enable_watchdogs")
 alias("disable_watchdogs")
 alias("list_watchdogs")
