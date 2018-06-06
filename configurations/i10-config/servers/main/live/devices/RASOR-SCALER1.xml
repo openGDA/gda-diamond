@@ -199,7 +199,6 @@
 	<bean id="RASOR_SCALER" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="rasor_scaler1" />
 				<ref bean="macr1" />
 				<ref bean="macr2" />
 				<ref bean="macr3" />
