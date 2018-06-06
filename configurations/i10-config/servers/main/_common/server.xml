@@ -13,7 +13,9 @@
            http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
 	<!-- 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" /> -->
+	<import resource="../../../../../../gda-core.git/core-config/servers/_common/plot_server.xml" />
 	<import resource="scanDataPointServer.xml"/>
+	<import resource="commandQueueProcessor.xml"/>
 	<import resource="commandServer.xml"/>
 	<!-- watch dogs for solstice scanning. -->
 <!-- 	<import resource="topupWatchdog.xml"/> -->
@@ -38,8 +40,6 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-	<import resource="../../../../../../gda-core.git/core-config/servers/_common/plot_server.xml" />
-	<import resource="commandQueueProcessor.xml"/>
 	<!-- beanAdder must be placed after commandServer.xml -->
 	<import resource="../../../../optics-config/servers/main/_common/beanAdder.xml"/>
 
