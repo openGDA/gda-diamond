@@ -53,10 +53,15 @@ add_default(beamMonitor)
 
 # Watchdogs
 print "Adding watchdog commands: enableWatchdogs, disableWatchdogs, listWatchdogs"
-from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs
+from gdascripts.watchdogs.watchdogs import enableWatchdogs, disableWatchdogs, listWatchdogs, topupWatchdog, expressionWatchdog
 alias("enableWatchdogs")
 alias("disableWatchdogs")
 alias("listWatchdogs")
+alias("topupWatchdog")
+alias("expressionWatchdog")
+
+topupWatchdog.setEnabled(False)
+expressionWatchdog.setEnabled(True)
 
 rcpController =                finder.find("RCPController")
 XASLoggingScriptController =   finder.find("XASLoggingScriptController")
