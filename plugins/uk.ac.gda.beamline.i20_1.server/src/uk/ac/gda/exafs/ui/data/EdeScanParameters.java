@@ -54,7 +54,7 @@ public class EdeScanParameters implements Serializable {
 	static public final URL schemaURL = EdeScanParameters.class.getResource("EdeParametersMapping.xsd");
 
 	public static EdeScanParameters createFromXML(String filename) throws Exception {
-		return (EdeScanParameters) XMLHelpers.createFromXML(mappingURL, EdeScanParameters.class, schemaURL, filename);
+		return XMLHelpers.createFromXML(mappingURL, EdeScanParameters.class, schemaURL, filename);
 	}
 
 	public static void writeToXML(EdeScanParameters scanParameters, String filename) throws Exception {

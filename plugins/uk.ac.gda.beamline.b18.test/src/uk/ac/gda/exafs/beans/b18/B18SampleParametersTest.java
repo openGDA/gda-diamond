@@ -39,8 +39,7 @@ public class B18SampleParametersTest {
 
 
 	public static B18SampleParameters createFromXML(String filename) throws Exception {
-		return (B18SampleParameters) XMLHelpers.createFromXML(B18SampleParameters.mappingURL, B18SampleParameters.class, B18SampleParameters.schemaURL,
-				filename);
+		return XMLHelpers.createFromXML(B18SampleParameters.mappingURL, B18SampleParameters.class, B18SampleParameters.schemaURL, filename);
 	}
 
 	public static void writeToXML(B18SampleParameters sampleParameters, String filename) throws Exception {

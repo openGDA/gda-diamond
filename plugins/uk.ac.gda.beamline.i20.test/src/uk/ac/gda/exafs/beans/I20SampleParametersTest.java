@@ -63,7 +63,7 @@ public class I20SampleParametersTest {
 	}
 
 	public static I20SampleParameters createFromXML(String filename) throws Exception {
-		return (I20SampleParameters) XMLHelpers.createFromXML(I20SampleParameters.mappingURL, I20SampleParameters.class, I20SampleParameters.schemaURL,
+		return XMLHelpers.createFromXML(I20SampleParameters.mappingURL, I20SampleParameters.class, I20SampleParameters.schemaURL,
 				filename);
 	}
 
