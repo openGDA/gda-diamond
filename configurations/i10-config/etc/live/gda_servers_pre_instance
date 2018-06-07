@@ -1,0 +1,2 @@
+#export CONTROL_MACHINE_PUBKEY="AAAAB3NzaC1yc2EAAAABIwAAAQEAnUb/TPXoErqFoh+5e+o7lmcN6buT3sVfXq2vlyPVXxWc02uk17uS3QJo5tNKMybXTyl22UF1sdfWCGoIhiHJyLQw1kqz8nyH4buL0Xm5qxrfXM7gyFzBdcLKKzpTQp5eYvf1lghDsenodF8k3oTX/NFxeVjXlwMUpG8+uBOslhrc9GhjR5FpqiowZenwK3o7a/kt1dS2hUqgYGoo0cNjLVcWZHZ4u4byBeIprLkdi/d2so2qsQ4q63AW1kHyPSkQGLtOTIAE3CAP5BJ/l/U3Al6ZaGLx+SJzQ+T79ugOnuAdvujhg7Ej+KxK1wQC5PABVT2mH08wwlFyGSbAycHnkw=="
+#bashlog debug "gda_servers_pre_instance(live)" "exported CONTROL_MACHINE_PUBKEY=${CONTROL_MACHINE_PUBKEY:0:12}..."

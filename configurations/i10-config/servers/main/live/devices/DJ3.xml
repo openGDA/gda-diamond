@@ -11,11 +11,6 @@
 		<property name="local" value="true"/>
 	</bean>
 	
-	<bean id="dj3d11_bim_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL10J-DI-PHDGN-02:XBIM:Y" />
-		<property name="local" value="true"/>
-	</bean>
-	
 	<bean id="dj3d11_det_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-DI-PHDGN-02:DET:X" />
 		<property name="local" value="true"/>

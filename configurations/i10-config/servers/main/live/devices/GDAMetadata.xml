@@ -48,11 +48,11 @@
 				
 				<bean class="gda.data.metadata.EpicsMetadataEntry">
 					<property name="name" value="facilityMode" />
-					<property name="propertyName" value="CS-CS-MSTAT-01:MODE" />
+					<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
 				</bean>
 				<bean class="gda.data.metadata.EpicsMetadataEntry">
 					<property name="name" value="fillMode" />
-					<property name="propertyName" value="LI-TI-MTGEN-01:MODE" />
+					<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
 				</bean>
 				<!-- items for NexusDataWriter -->
 				<bean class="gda.data.metadata.EpicsMetadataEntry">

@@ -225,7 +225,7 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="djcamtiff" class="gda.device.detector.NXDetector">
+	<bean id="dj1camtiff" class="gda.device.detector.NXDetector">
 		<property name="name" value="dj1camtiff" />
 		<property name="collectionStrategy" ref="dj1CollectionStrategy" />
 		<property name="additionalPluginList">
