@@ -11,5 +11,6 @@
 		<property name="upperTemp" value="490"/>
 		<property name="lowerTemp" value="4"/>
 		<property name="controller" ref="lakeshore_controller"/>
+		<property name="readbackChannel" value="0"/>
 	</bean>
 </beans>
