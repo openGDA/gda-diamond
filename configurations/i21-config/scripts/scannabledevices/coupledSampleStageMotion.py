@@ -17,6 +17,7 @@ class CoupledSampleStageMotion(ScannableMotionBase):
         Constructor
         '''
         self.setName(name)
+        self.setInputNames([name])
         self.sax=sax
         self.say=say
         self.sapolar=sapolar
