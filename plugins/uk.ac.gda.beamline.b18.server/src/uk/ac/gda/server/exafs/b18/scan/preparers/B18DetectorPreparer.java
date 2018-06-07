@@ -1,15 +1,19 @@
 package uk.ac.gda.server.exafs.b18.scan.preparers;
 
+import java.nio.file.Paths;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import gda.configuration.properties.LocalProperties;
 import gda.data.scan.datawriter.DataWriter;
 import gda.data.scan.datawriter.DataWriterFactory;
 import gda.data.scan.datawriter.DefaultDataWriterFactory;
 import gda.data.scan.datawriter.XasAsciiNexusDataWriter;
 import gda.device.Detector;
+import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
@@ -29,10 +33,12 @@ import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
-import uk.ac.gda.devices.detector.xspress3.Xspress3;
+import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
 import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
 public class B18DetectorPreparer implements QexafsDetectorPreparer {
+
+	private static final Logger logger = LoggerFactory.getLogger(B18DetectorPreparer.class);
 
 	private Scannable energy_scannable;
 	private MythenDetectorImpl mythen_scannable;
@@ -43,7 +49,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	private List<Scannable> ionc_gas_injector_scannables;
 	private Xspress2Detector xspressSystem;
 	private Xmap vortexConfig;
-	private Xspress3 xspress3Config;
+	private Xspress3Detector xspress3Detector;
 	private IScanParameters scanBean;
 	private TfgScalerWithFrames ionchambers;
 	private IDetectorParameters detectorBean;
@@ -58,7 +64,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 	public B18DetectorPreparer(Scannable energy_scannable, MythenDetectorImpl mythen_scannable,
 			Scannable[] sensitivities, Scannable[] sensitivity_units, Scannable[] offsets, Scannable[] offset_units,
 			List<Scannable> ionc_gas_injector_scannables, TfgScalerWithFrames ionchambers,
-			Xspress2Detector xspressSystem, Xmap vortexConfig, Xspress3 xspress3Config) {
+			Xspress2Detector xspressSystem, Xmap vortexConfig, Xspress3Detector xspress3Config) {
 		this.energy_scannable = energy_scannable;
 		this.mythen_scannable = mythen_scannable;
 		this.sensitivities = sensitivities;
@@ -69,12 +75,14 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		this.ionchambers = ionchambers;
 		this.xspressSystem = xspressSystem;
 		this.vortexConfig = vortexConfig;
-		this.xspress3Config = xspress3Config;
+		this.xspress3Detector = xspress3Config;
 	}
 
 	@Override
 	public void configure(IScanParameters scanBean, IDetectorParameters detectorBean, IOutputParameters outputBean,
 			String experimentFullPath) throws Exception {
+
+		this.experimentXmlFullPath = experimentFullPath;
 
 		this.scanBean = scanBean;
 		this.detectorBean = detectorBean;
@@ -83,7 +91,7 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 		if (detectorBean.getExperimentType().equalsIgnoreCase("Fluorescence")) {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
-		//  Mythen data is now collected just before first repetition, i.e. after sample environment has been set up. 
+		//  Mythen data is now collected just before first repetition, i.e. after sample environment has been set up.
 //			if (fluoresenceParameters.isCollectDiffractionImages()) {
 //				control_mythen(fluoresenceParameters, outputBean, experimentFullPath);
 //			}
@@ -96,8 +104,15 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 				vortexConfig.setConfigFileName(xmlFileName);
 				vortexConfig.configure();
 			} else if (detType.equals("Xspress3")) {
-				xspress3Config.setConfigFileName(xmlFileName);
-				xspress3Config.loadConfigurationFromFile();
+				xspress3Detector.setConfigFileName(xmlFileName);
+				xspress3Detector.loadConfigurationFromFile();
+				// save current file path (so can set it back at end of scan)
+				xspress3HdfPath = xspress3Detector.getController().getFilePath();
+
+				// set the file path to the new location
+				String dirForXspress3 = Paths.get(getDataFolderFullPath(), "xspress3").toString();
+				xspress3Detector.setFilePath(dirForXspress3);
+				xspress3Detector.getController().setFilePath(dirForXspress3);
 			}
 			control_all_ionc(fluoresenceParameters.getIonChamberParameters());
 		} else if (detectorBean.getExperimentType().equalsIgnoreCase("Transmission")) {
@@ -107,6 +122,14 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 //			}
 			control_all_ionc(transmissionParameters.getIonChamberParameters());
 		}
+	}
+
+	private String experimentXmlFullPath;
+	private String xspress3HdfPath;
+
+	private String getDataFolderFullPath() {
+		String folder = experimentXmlFullPath.replace("/xml/", "/");
+		return FilenameUtils.getFullPath(folder);
 	}
 
 	/**
@@ -167,7 +190,13 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 
 	@Override
 	public void completeCollection() {
-		// nothing here
+		try {
+			// Set filepath for hdf file writer back to the original value
+			xspress3Detector.setFilePath(xspress3HdfPath);
+			xspress3Detector.getController().setFilePath(xspress3HdfPath);
+		} catch (DeviceException e) {
+			logger.error("Problem setting xspress3 path to {} at end of scan", xspress3HdfPath);
+		}
 	}
 
 	protected void control_all_ionc(List<IonChamberParameters> ion_chambers_bean) throws Exception {

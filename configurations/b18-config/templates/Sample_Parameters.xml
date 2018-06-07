@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <B18SampleParameters>
     <shouldValidate>true</shouldValidate>
-    <name>test</name>
-    <description1></description1>
+    <name>default</name>
+    <description1>default sample description</description1>
     <description2>default additional comments</description2>
     <stage>none</stage>
     <temperaturecontrol>none</temperaturecontrol>
@@ -90,10 +90,22 @@
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
+        <scannableName>user1</scannableName>
+        <description>User stage 1</description>
+        <doMove>false</doMove>
+        <demandPosition>62.9955</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
         <scannableName>user2</scannableName>
         <description>User stage 2</description>
         <doMove>false</doMove>
         <demandPosition>-6777.26</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>user3</scannableName>
+        <description>User stage 3</description>
+        <doMove>false</doMove>
+        <demandPosition>673.515</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>user4</scannableName>
@@ -127,13 +139,13 @@
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>sam1y</scannableName>
-        <description>Cryo stage y</description>
+        <description>Sam1 y</description>
         <doMove>false</doMove>
         <demandPosition>92.2673</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
         <scannableName>sam1rot</scannableName>
-        <description>Cryo stage rotation</description>
+        <description>Sam1 rotation</description>
         <doMove>false</doMove>
         <demandPosition>1.30763</demandPosition>
     </sampleParameterMotorPosition>

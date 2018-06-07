@@ -150,8 +150,11 @@ generic_cryostat.configure()
 #mythen.addScannableForHeader(qexafs_energy)
 #mythen.addScannableForHeader(user1)
 
-#mythenEpics.addScannableForHeader(qexafs_energy, "Energy")
-#mythenEpics.addScannableForHeader(user1, "Motor angle")
+try :
+    mythenEpics.addScannableForHeader(qexafs_energy, "Energy")
+    mythenEpics.addScannableForHeader(user1, "Motor angle")
+except NameError:
+    pass
 
 # Reset XSPress3 settings : enable ROI and deadtime corrections, set to 'TTL Veto only' trigger mode
 from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
@@ -161,6 +164,9 @@ if (LocalProperties.get("gda.mode") == 'live'):
     controller.setPerformROICalculations(True)
     controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
     CAClient.put(controller.getEpicsTemplate()+":CTRL_DTC", 1)
+
+#Set the path to empty so default visit directory (and subdirectory) is used for hdf files
+xspress3.setFilePath("")
 
 print "Reconnect daserver command : reconnect_daserver() "
 def reconnect_daserver() :
