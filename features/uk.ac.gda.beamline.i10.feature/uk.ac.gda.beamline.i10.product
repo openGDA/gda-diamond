@@ -33,7 +33,7 @@
 -Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
 -Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
--Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=True
+-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=False
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
 -Xms512m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m -XX:+DisableExplicitGC
       </vmArgs>
