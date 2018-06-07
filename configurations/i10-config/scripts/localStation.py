@@ -171,8 +171,8 @@ pc,nc,lh,lv,la,lh3 = Polarisation.POLARISATIONS
 print
 print "*"*80
 #DiffCalc
-# print "import DIFFCALC support for I10"
-# from startup.i10 import *  # @UnusedWildImport
+print "import DIFFCALC support for I10"
+from startup.i10 import *  # @UnusedWildImport
 
 ##Position Wrapper
 print "-"*100
@@ -182,10 +182,10 @@ from rasor.positionWrapper import PositionWrapper
 wa=PositionWrapper(wascannables)
 alias('wa')
 
-# print "Creating 'wh' command for return RASOR positions in DIFFCALC HKL"
-# wherescannables=[delta,eta,chi,phi,h,k,l,en]
-# wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
-# alias('wh')
+print "Creating 'wh' command for return RASOR positions in DIFFCALC HKL"
+wherescannables=[delta,eta,chi,phi,h,k,l,en]
+wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
+alias('wh')
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i10commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
