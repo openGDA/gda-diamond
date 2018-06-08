@@ -12,9 +12,9 @@
 		<property name="displayName" value="SD1 Cam" />
 		<property name="url" value="http://bl09j-di-serv-01.diamond.ac.uk:8081/SD1.MJPG.mjpg" />
 		<property name="arrayPv" value="BL09J-MO-SD-01:ARR" />
-		<property name="roiProvider" ref="sd1_roi" />
+		<property name="roiProvider" ref="sd1_cam_roi" />
 	</bean>
-	<bean id="sd1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+	<bean id="sd1_cam_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}sd1Roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
@@ -25,9 +25,9 @@
 		<property name="displayName" value="SD3 Cam" />
 		<property name="url" value="http://bl09j-di-serv-01.diamond.ac.uk:8081/SD1.MJPG.mjpg" />
 		<property name="arrayPv" value="BL09J-MO-SD-03:ARR" />
-		<property name="roiProvider" ref="sd3_roi" />
+		<property name="roiProvider" ref="sd3_cam_roi" />
 	</bean>
-	<bean id="sd3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+	<bean id="sd3_cam_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}sd3Roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />

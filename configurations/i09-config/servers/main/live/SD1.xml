@@ -18,7 +18,7 @@
 	<!-- Export it over RMI so the client can use it -->
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 	    <property name="serviceName" value="gda/sd1Roi" />
-	    <property name="service" ref="sd1_roi" />
+	    <property name="service" ref="sd1_cam_roi" />
 	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 	</bean>
 	<bean id="sd1_cam_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
