@@ -3,6 +3,29 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="command_server" class="gda.jython.JythonServer">
+		<property name="jythonScriptPaths">
+			<bean class="gda.jython.ScriptPaths">
+				<property name="projects">
+					<list>
+						<ref bean="user_script_project" />
+						<ref bean="beamline_config_script_project" />
+						<ref bean="beamline_shared_config_script_project" />
+						<ref bean="optics_config_script_project" />
+						<ref bean="dls_config_script_project" />
+						<ref bean="gda_core_script_project" />
+						<ref bean="gda_epics_script_project" />
+						<ref bean="gda_scisoftpy_script_project" />
+						<ref bean="diffcalc_script_project" />
+					</list>
+				</property>
+				<property name="startupScript" value="${gda.config}/scripts/localStation.py"/>
+			</bean>
+		</property>
+		<property name="stopJythonScannablesOnStopAll" value="false" />
+		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
+	</bean>
+	
 	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
 		<constructor-arg ref="command_server" />
 	</bean>
@@ -62,27 +85,6 @@
 		<property name="type" value="CORE" />
 	</bean>
 
-	<bean id="command_server" class="gda.jython.JythonServer">
-		<property name="jythonScriptPaths">
-			<bean class="gda.jython.ScriptPaths">
-				<property name="projects">
-					<list>
-						<ref bean="user_script_project" />
-						<ref bean="beamline_config_script_project" />
-						<ref bean="beamline_shared_config_script_project" />
-						<ref bean="optics_config_script_project" />
-						<ref bean="dls_config_script_project" />
-						<ref bean="gda_core_script_project" />
-						<ref bean="gda_epics_script_project" />
-						<ref bean="gda_scisoftpy_script_project" />
-						<ref bean="diffcalc_script_project" />
-					</list>
-				</property>
-				<property name="startupScript" value="${gda.config}/scripts/localStation.py"/>
-			</bean>
-		</property>
-		<property name="stopJythonScannablesOnStopAll" value="false" />
-		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
-	</bean>
+
 
 </beans>

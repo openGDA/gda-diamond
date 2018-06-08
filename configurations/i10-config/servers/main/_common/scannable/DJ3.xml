@@ -5,16 +5,6 @@
 
 	<!-- DJ3 (D11) -->
 
-	<bean id="dj3_bim" class="gda.device.scannable.ScannableMotor">
-		<property name="initialUserUnits" value="mm" />
-		<property name="motor" ref="dj3d11_bim_motor" />
-		<property name="hardwareUnitString" value="mm" />
-		<!-- 
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		 -->
-	</bean>
-
 	<bean id="dj3_det" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="dj3d11_det_motor" />
@@ -28,7 +18,6 @@
 	<bean id="DJ3" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="dj3_bim" />
 				<ref bean="dj3_scrn" />
 				<ref bean="dj3_det" />
 				<ref bean="dj3_pos" />
