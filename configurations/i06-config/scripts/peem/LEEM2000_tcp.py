@@ -78,7 +78,10 @@ class leem_scannable(ScannableBase):
 
     def getPosition(self):
         try:
-            return float(self.leem2000.send("get " + self.moduleName + "\0")) - self.getOffset()
+            if self.readOnly:
+                return float(self.leem2000.send(self.moduleName)) - self.getOffset()
+            else:
+                return float(self.leem2000.send("get " + self.moduleName + "\0"))
         except:
             return self.lastValue
 
