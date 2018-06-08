@@ -61,18 +61,30 @@ class leem_scannable(ScannableBase):
         self.setInputNames([name]);
         self.leem2000=leem2000
         self.lastValue = 0;
+        self.readOnly=False
+        self._offset=0.0
+        
+    def setOffset(self, value):
+        self._offset=value
+    
+    def getOffset(self):
+        return self._offset
 
     def isBusy(self):
+        if self.readOnly:
+            return False
         reply = self.leem2000.send("get " + self.moduleName + "\0")
         return reply == "ErrorCode -102"
 
     def getPosition(self):
         try:
-            return float(self.leem2000.send("get " + self.moduleName + "\0"))
+            return float(self.leem2000.send("get " + self.moduleName + "\0")) - self.getOffset()
         except:
             return self.lastValue
 
     def asynchronousMoveTo(self,new_position):
+        if self.readOnly:
+            raise Exception("This is a read-only scannable.")
         cmd="set " + self.moduleName +"="+`new_position`
         reply=self.leem2000.send(cmd)
         if reply != "0":
