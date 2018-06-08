@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetectorv2">
+	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector">
 		<property name="controller" ref="xspress3Controller" />
 		<property name="readDataFromFile" value="false" />
 		<property name="local" value="true" />
@@ -23,7 +23,7 @@
 	</bean>
 
 	<!-- BufferedDetector classes for use in ContinuousScans (Qexafs and raster maps) -->
-	<bean id="raster_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetectorv2">
+	<bean id="raster_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3FullCalculationsBufferedDetector">
 		<property name="xspress3Detector" ref="xspress3" />
 		<property name="local" value="true" />
 	</bean>
@@ -35,7 +35,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="qexafs_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetectorv2">
+	<bean id="qexafs_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3FullCalculationsBufferedDetector">
 		<property name="xspress3Detector" ref="xspress3" />
 		<property name="local" value="true" />
 	</bean>
