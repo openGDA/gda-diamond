@@ -362,9 +362,7 @@
 	</bean>
 
 	<bean id="hrmcoating" class="gda.device.enumpositioner.EpicsPositionerCallback">
-<!-- 		<property name="pvName" value="BL20I-OP-HRM-05:MP:SELECT" /> -->
-		<property name="deviceName" value="HRMP" />
-		
+		<property name="recordName" value="BL20I-OP-HRM-05:MP" />
 	</bean>
 	<bean id="incidenceAngle" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameGetPoint" value="BL20I-OP-HRM-05:PITCH.RBV" />
