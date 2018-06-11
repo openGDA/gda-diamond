@@ -935,7 +935,7 @@ cor2Auto.display_image = True
 cor2Autopeak2d = DetectorDataProcessorWithRoi('cor2Autopeak2d', corAuto, [TwodGaussianPeak()])
 cor2Automax2d = DetectorDataProcessorWithRoi('cor2Automax2d', corAuto, [SumMaxPositionAndValue()])
 
-createPVScannable( "cor2ExpTime", "BL16I-DI-COR-01:CAM:AcquireTime_RBV", hasUnits=False)
+createPVScannable( "cor2ExpTime", "BL16I-DI-DCAM-10:CAM:AcquireTime_RBV", hasUnits=False)
 cor2ExpTime.level=10
 
 xeye = SwitchableHardwareTriggerableProcessingDetectorWrapper('xeye',
