@@ -80,6 +80,34 @@
 		</property>
 	</bean>
 	
+	<bean id="sixckappa" class="gda.device.scannable.scannablegroup.DeferredAndTrajectoryScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="kphi" />
+				<ref bean="kap" />
+				<ref bean="kth" />
+				<ref bean="kmu" />
+				<ref bean="kdelta" />
+				<ref bean="kgam" />
+			</list>
+		</property>
+
+		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
+
+		<property name="deferredControlPoint" ref="xps2DeferFlag" />
+
+		<property name="numberToMoveControlPoint" ref="xps2numberAxesToMoveControlPoint" />
+
+		<property name="checkStartControlPoint" ref="xps2didDeferedMoveStartControlPoint" />
+
+		<property name="continuousMoveController" ref="xpsTrajController" />
+
+		<property name="logDefFlagChangesAsInfo" value="true" />
+
+		<property name="deferOnValue" value="2" />
+
+	</bean>
+
 	<bean id="dummy_chi" class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
 	</bean>
@@ -88,6 +116,65 @@
 		<property name="speed" value="360000000" />
 	</bean>
 
+	<bean id="euler_cryo" class="gda.device.scannable.scannablegroup.DeferredAndTrajectoryScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="phi" />
+					<property name="motor" ref="sixcCryoPhiMotor" />
+					<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
+					<property name="returnDemandPosition" value="true" />
+					<property name="demandPositionTolerance" value=".01" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="chi" />
+					<property name="motor" ref="dummy_chi" />
+				</bean>
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="eta" />
+					<property name="motor" ref="dummy_eta" />
+				</bean>
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="mu" />
+					<property name="motor" ref="sixcMuMotor" />
+					<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
+					<property name="returnDemandPosition" value="true" />
+					<property name="demandPositionTolerance" value=".01" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="delta" />
+					<property name="motor" ref="sixcDeltaMotor" />
+					<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
+					<property name="returnDemandPosition" value="true" />
+					<property name="demandPositionTolerance" value=".01" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+				<bean class="gda.device.scannable.ScannableMotor">
+					<property name="name" value="gam" />
+					<property name="motor" ref="sixcGammaMotor" />
+					<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="true"/>
+					<property name="returnDemandPosition" value="true" />
+					<property name="demandPositionTolerance" value=".01" />
+					<property name="logMoveRequestsWithInfo" value="true" />
+				</bean>
+			</list>
+		</property>
+
+		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
+
+		<property name="deferredControlPoint" ref="xps2DeferFlag" />
+
+		<property name="continuousMoveController" ref="xpsTrajController" />
+
+		<property name="logDefFlagChangesAsInfo" value="true" />
+
+		<property name="deferOnValue" value="2" />
+
+	</bean>
+	
+	
 	<bean id="_sixckappa_deffered_only" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
 		<property name="groupMembers">
 			<list>
