@@ -96,15 +96,17 @@
 
 		<property name="deferredControlPoint" ref="xps2DeferFlag" />
 
+		<!-- 
 		<property name="numberToMoveControlPoint" ref="xps2numberAxesToMoveControlPoint" />
 
 		<property name="checkStartControlPoint" ref="xps2didDeferedMoveStartControlPoint" />
+		 -->
 
 		<property name="continuousMoveController" ref="xpsTrajController" />
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
 
-		<property name="deferOnValue" value="2" />
+		<property name="deferOnValue" value="1" />
 
 	</bean>
 
@@ -170,7 +172,7 @@
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
 
-		<property name="deferOnValue" value="2" />
+		<property name="deferOnValue" value="1" />
 
 	</bean>
 	
@@ -193,7 +195,7 @@
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
 
-		<property name="deferOnValue" value="2" />
+		<property name="deferOnValue" value="1" />
 
 	</bean>
 
