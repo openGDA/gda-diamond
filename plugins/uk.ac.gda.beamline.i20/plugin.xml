@@ -318,8 +318,7 @@
          </separator>
       </menuContribution>
       <menuContribution
-            allPopups="false"
-            locationURI="menu:file?before=Close">
+            locationURI="menu:file?after=additions">
          <command
                commandId="uk.ac.gda.beamline.i20.switchExptModeCommand"
                icon="icons/switch_experiment.png"
@@ -332,10 +331,6 @@
                   </test>
             </visibleWhen>
          </command>
-         <separator
-               name="uk.ac.gda.client.exafs.separator1"
-               visible="true">
-         </separator>
       </menuContribution>
    </extension>
    <extension
@@ -529,12 +524,8 @@
 	               style="push">
 	            <parameter
 	                  name="org.eclipse.ui.views.showView.viewId"
-	                  value="uk.ac.gda.epics.adviewer.mpegview">
+	                  value="uk.ac.gda.epics.adviewer.twodArrayView:medipix">
 	            </parameter>
- <parameter
-               name="org.eclipse.ui.views.showView.secondaryId"
-               value="medipix">
-         </parameter>
 	         </command>
           <command
                 commandId="org.eclipse.ui.views.showView"
@@ -542,11 +533,7 @@
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
-             </parameter>
-             <parameter
-                   name="org.eclipse.ui.views.showView.secondaryId"
-                   value="vortexDetector">
+                   value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:vortexDetector">
              </parameter>
           </command>
           <command
@@ -555,11 +542,7 @@
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
-             </parameter>
-             <parameter
-                   name="org.eclipse.ui.views.showView.secondaryId"
-                   value="xspress4">
+                   value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xspress4">
              </parameter>
           </command>
 	      </menu>
@@ -680,6 +663,24 @@
             icon="icons/cog_go.png"
             id="uk.ac.gda.exafs.ui.views.medipixmonitor"
             name="Detector Rates (Medipix)"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
+            id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:vortexDetector"
+            name="XMap view"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
+            id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xspress4"
+            name="Xspress4 view"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:medipix"
+            name="Medipix view"
             restorable="true">
       </view>
  </extension>

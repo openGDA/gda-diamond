@@ -61,7 +61,7 @@ public class OverviewButtonsView extends HardwareDisplayComposite {
 		label.setText(labelText);
 
 		Button button = new Button(group, SWT.PUSH);
-		button.setImage(getImageFromDalPlugin(pathToImage));
+		button.setImage(getImageFromPlugin(pathToImage));
 		button.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		// Add listener to open view when button is clicked

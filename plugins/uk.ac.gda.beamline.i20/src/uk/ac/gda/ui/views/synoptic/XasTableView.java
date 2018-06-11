@@ -40,7 +40,7 @@ public class XasTableView extends HardwareDisplayComposite {
 	@Override
 	protected void createControls(Composite parent) throws Exception {
 		setViewName("Xas table view (T1)");
-		setBackgroundImage(getImageFromDalPlugin("oe images/table_right_scaled.jpg"), new Point(150, 200));
+		setBackgroundImage(getImageFromPlugin("oe images/table_right_scaled.jpg"), new Point(150, 200));
 		parent.getShell().setBackgroundMode(SWT.INHERIT_FORCE);
 		createStanfordControls(parent);
 		createMotorControls(parent);
@@ -96,17 +96,17 @@ public class XasTableView extends HardwareDisplayComposite {
 
 	private void createArrows(Composite parent) throws IOException {
 		HighlightImageLabel lineLabel = new HighlightImageLabel(parent, "table1_x");
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/x.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/x_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/x.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/x_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 15, 90);
 
 		lineLabel = new HighlightImageLabel(parent, "table1_y");
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/y2.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/y2_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/y2.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/y2_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 45, 80);
 
 		lineLabel = new HighlightImageLabel(parent);
-		lineLabel.setImage(getImageFromDalPlugin("oe images/beam_head.png"));
+		lineLabel.setImage(getImageFromPlugin("oe images/beam_head.png"));
 		setWidgetPosition(lineLabel.getControl(), -18, 20);
 	}
 

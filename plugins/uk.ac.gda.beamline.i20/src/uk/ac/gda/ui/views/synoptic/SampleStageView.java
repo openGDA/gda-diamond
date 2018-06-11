@@ -39,7 +39,7 @@ public class SampleStageView extends HardwareDisplayComposite {
 	@Override
 	protected void createControls(final Composite parent) throws Exception {
 		setViewName("Sample stage");
-		setBackgroundImage(getImageFromDalPlugin("oe images/stage_01.jpg"), new Point(200, 150));
+		setBackgroundImage(getImageFromPlugin("oe images/stage_01.jpg"), new Point(200, 150));
 		parent.getShell().setBackgroundMode(SWT.INHERIT_FORCE);
 		// sampleStageForXes=true;
 		createMotorControls(parent);
@@ -91,8 +91,8 @@ public class SampleStageView extends HardwareDisplayComposite {
 		// Add 'fine motor' control rotation arrow
 		if (sampleStageForXes) {
 			HighlightImageLabel lineLabel = new HighlightImageLabel(parent, "sample_fine_rot");
-			lineLabel.setImage(getImageFromDalPlugin("arrow images/yaw.png"));
-			lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/yaw_red.png"));
+			lineLabel.setImage(getImageFromPlugin("arrow images/yaw.png"));
+			lineLabel.setHighlightImage(getImageFromPlugin("arrow images/yaw_red.png"));
 			setWidgetPosition(lineLabel.getControl(), 40, -5);
 		}
 
@@ -102,38 +102,38 @@ public class SampleStageView extends HardwareDisplayComposite {
 		// NB sample stage for XAS : pitch and roll arrows are reversed.
 		HighlightImageLabel lineLabel = new HighlightImageLabel(parent);
 		lineLabel.setScannable(sampleStageForXes ? samplePitchScannable : sampleRollScannable);
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/pitch.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/pitch_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/pitch.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/pitch_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 60, 15);
 
 		lineLabel = new HighlightImageLabel(parent);
 		lineLabel.setScannable(sampleStageForXes ? sampleRollScannable : samplePitchScannable);
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/roll.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/roll_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/roll.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/roll_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 15, 3);
 
 		lineLabel = new HighlightImageLabel(parent, "sample_x");
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/x.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/x_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/x.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/x_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 88, 65);
 
 		lineLabel = new HighlightImageLabel(parent, "sample_y");
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/y2.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/y2_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/y2.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/y2_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 7,25);
 
 		lineLabel = new HighlightImageLabel(parent, "sample_z");
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/z.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/z_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/z.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/z_red.png"));
 		setWidgetPosition(lineLabel.getControl(), -5, 60);
 
 		lineLabel = new HighlightImageLabel(parent, "sample_rot");
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/yaw.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/yaw_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/yaw.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/yaw_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 45, 80);
 
 		lineLabel = new HighlightImageLabel(parent);
-		lineLabel.setImage(getImageFromDalPlugin("oe images/beam_head.png"));
+		lineLabel.setImage(getImageFromPlugin("oe images/beam_head.png"));
 		setWidgetPosition(lineLabel.getControl(), 35, -10);
 
 		lineLabel = new HighlightImageLabel(parent);

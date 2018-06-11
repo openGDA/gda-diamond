@@ -40,7 +40,7 @@ public class XesStageView extends HardwareDisplayComposite {
 	protected void createControls(Composite parent) throws Exception {
 		setViewName("XES stage");
 
-		setBackgroundImage(getImageFromDalPlugin("oe images/xes_main.bmp"), new Point(150,150));
+		setBackgroundImage(getImageFromPlugin("oe images/xes_main.bmp"), new Point(150,150));
 		parent.getShell().setBackgroundMode(SWT.INHERIT_FORCE);
 
 		createMotorControls(parent);
@@ -51,33 +51,33 @@ public class XesStageView extends HardwareDisplayComposite {
 
 	private void createArrows(Composite parent) throws IOException {
 		HighlightImageLabel lineLabel = new HighlightImageLabel(parent, "det_x");
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/z.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/z_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/z.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/z_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 26, 3);
 
 		lineLabel = new HighlightImageLabel(parent, "det_rot");
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/pitch.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/pitch_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/pitch.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/pitch_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 40, 5);
 
 		lineLabel = new HighlightImageLabel(parent, "det_y");
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/y.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/y_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/y.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/y_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 29, 25);
 
 		lineLabel = new HighlightImageLabel(parent, "table2_y");
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/y.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/y_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/y.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/y_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 3, 58);
 
 		lineLabel = new HighlightImageLabel(parent, "table2_x");
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/z.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/z_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/z.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/z_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 47, 70);
 
 		lineLabel = new HighlightImageLabel(parent, "spec_rot");
-		lineLabel.setImage(getImageFromDalPlugin("arrow images/yaw2.png"));
-		lineLabel.setHighlightImage(getImageFromDalPlugin("arrow images/yaw2_red.png"));
+		lineLabel.setImage(getImageFromPlugin("arrow images/yaw2.png"));
+		lineLabel.setHighlightImage(getImageFromPlugin("arrow images/yaw2_red.png"));
 		setWidgetPosition(lineLabel.getControl(), 78, 62);
 	}
 

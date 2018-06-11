@@ -158,6 +158,17 @@
 		</property>
 	</bean>
 
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/XESEnergy" />
+		<property name="service" ref="XESEnergy" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/XESBragg" />
+		<property name="service" ref="XESBragg" />
+		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
+	</bean>
 
 <!-- 	the following is for a simulation of values for use before moving -->
 
