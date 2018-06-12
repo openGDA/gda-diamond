@@ -17,7 +17,6 @@
 	</bean>
 	<bean id="perp" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcmPerpMotor" />
-		<property name="isBusyThrowsExceptionWhenMotorGoesIntoFault" value="false"/>
 	</bean>
 	<bean id="dcmfinepitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcmFinepitchMotor" />
