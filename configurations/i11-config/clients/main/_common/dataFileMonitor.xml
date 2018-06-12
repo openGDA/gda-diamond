@@ -5,6 +5,6 @@
 
 	<bean id="dirListener" class="uk.ac.gda.beamline.synoptics.utils.NewFileListener">
 		<property name="fileProviderName" value="client_file_announcer" />
-		<property name="ignoredFiles" value="#{'.*\.log'}" />
+		<property name="ignoredFiles" value=".*\.log, .*\.reprocessing, .*\.xye, .*\.txt, .*\.archived" />
 	</bean>
 </beans>
