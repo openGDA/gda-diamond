@@ -9,7 +9,7 @@ from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildIm
 scan_processor.rootNamespaceDict=globals()
 from gdascripts.utils import caget, caput # @UnusedImport
 
-global run
+global run, finder
 
 localStation_exceptions = []
 
