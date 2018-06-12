@@ -80,4 +80,7 @@ dcm_enrg_exporter.afterPropertiesSet()
 from prepare_for_snapshot import prepare_detectors
 prepare_detectors()
 
+# Define functions to change interferometer/stage offsets
+run('ifs_functions.py')
+
 print "Initialisation Complete";
