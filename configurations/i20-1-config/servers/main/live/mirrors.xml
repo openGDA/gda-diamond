@@ -6,7 +6,7 @@
 	<!-- me1 -->
 
 	<bean id="me1_stripe" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="deviceName" value="M1EP" />
+		<property name="recordName" value="BL20J-OP-VFM-01:MP" />
 		<property name="inputNames">
 			<list>
 				<value>me1_stripe</value>
@@ -58,7 +58,7 @@
 	<!-- me2 -->
 
 	<bean id="me2_stripe_positioner" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="deviceName" value="M2EP" />
+		<property name="recordName" value="BL20J-OP-PM-02:MP" />
 		<property name="inputNames">
 			<list>
 				<value>me2_stripe</value>
@@ -66,15 +66,15 @@
 		</property>
 	</bean>
 	<bean id="me2_y_positioner" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="recordName" value="BL20J-OP-PM-02:MP2"/>
-	</bean>	
+		<property name="recordName" value="BL20J-OP-PM-02:MP2" />
+	</bean>
 	<bean id="me2pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PM-02:PITCH" />
 	</bean>
 	<bean id="me2roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PM-02:ROLL" />
 	</bean>
-	
+
 	<!-- polychromator -->
 	<bean id="poly_xbase_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:X" />
