@@ -3,10 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="xmap_dxp" class="gda.device.epicsdevice.FindableEpicsDevice">
-		<property name="name" value="xmap_dxp" />
-		<property name="deviceName" value="xmap_dxp" />
-	</bean>
+	<import resource="file:${gda.config}/servers/main/live/xmap_dxp.xml" />
 
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="local" value="true" />

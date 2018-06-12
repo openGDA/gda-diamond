@@ -6,37 +6,37 @@
 
 	<!--attenuators -->
 	<bean id="atn1" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="ATN1P" />
+		<property name="recordName" value="BL20I-OP-ATTN-01:MP" />
 		<property name="local" value="false" />
 	</bean>
 	<bean id="atn1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ATN1P.MOTOR" />
+		<property name="pvName" value="BL20I-OP-ATTN-01:POSN" />
 		<property name="local" value="false" />
 	</bean>
 
 	<bean id="atn2" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="ATN2P" />
+		<property name="recordName" value="BL20I-OP-ATTN-02:MP" />
 		<property name="local" value="false" />
 	</bean>
 	<bean id="atn2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ATN2P.MOTOR" />
+		<property name="pvName" value="BL20I-OP-ATTN-02:POSN" />
 		<property name="local" value="false" />
 	</bean>
 
 	<bean id="atn3" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="ATN3P" />
+		<property name="recordName" value="BL20I-OP-ATTN-03:MP" />
 		<property name="local" value="false" />
 	</bean>
 	<bean id="atn3_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ATN3P.MOTOR" />
+		<property name="pvName" value="BL20I-OP-ATTN-03:POSN" />
 		<property name="local" value="false" />
 	</bean>
 	<bean id="atn4" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="ATN4P" />
+		<property name="recordName" value="BL20I-OP-ATTN-04:MP" />
 		<property name="local" value="false" />
 	</bean>
 	<bean id="atn4_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ATN4P.MOTOR" />
+		<property name="pvName" value="BL20I-OP-ATTN-04:POSN" />
 		<property name="local" value="false" />
 	</bean>
 
@@ -74,56 +74,56 @@
 		<property name="pvName" value="BL20I-OP-ATTN-05:F1:NAME" />
 	</bean>
 	<bean id="atn5_filter1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="F1" />
+		<property name="pvBase" value="BL20I-OP-ATTN-05:F1" />
 	</bean>
 	<bean id="atn5_filter2_name" class="gda.device.scannable.PVStringScannable">
 		<property name="name" value="atn5_filter2_name" />
 		<property name="pvName" value="BL20I-OP-ATTN-05:F2:NAME" />
 	</bean>
 	<bean id="atn5_filter2" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="F2" />
+		<property name="pvBase" value="BL20I-OP-ATTN-05:F2" />
 	</bean>
 	<bean id="atn5_filter3_name" class="gda.device.scannable.PVStringScannable">
 		<property name="name" value="atn5_filter3_name" />
 		<property name="pvName" value="BL20I-OP-ATTN-05:F3:NAME" />
 	</bean>
 	<bean id="atn5_filter3" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="F3" />
+		<property name="pvBase" value="BL20I-OP-ATTN-05:F3" />
 	</bean>
 	<bean id="atn5_filter4_name" class="gda.device.scannable.PVStringScannable">
 		<property name="name" value="atn5_filter4_name" />
 		<property name="pvName" value="BL20I-OP-ATTN-05:F4:NAME" />
 	</bean>
 	<bean id="atn5_filter4" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="F4" />
+		<property name="pvBase" value="BL20I-OP-ATTN-05:F4" />
 	</bean>
 	<bean id="atn5_filter5_name" class="gda.device.scannable.PVStringScannable">
 		<property name="name" value="atn5_filter5_name" />
 		<property name="pvName" value="BL20I-OP-ATTN-05:F5:NAME" />
 	</bean>
 	<bean id="atn5_filter5" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="F5" />
+		<property name="pvBase" value="BL20I-OP-ATTN-05:F5" />
 	</bean>
 	<bean id="atn5_filter6_name" class="gda.device.scannable.PVStringScannable">
 		<property name="name" value="atn5_filter6_name" />
 		<property name="pvName" value="BL20I-OP-ATTN-05:F6:NAME" />
 	</bean>
 	<bean id="atn5_filter6" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="F6" />
+		<property name="pvBase" value="BL20I-OP-ATTN-05:F6" />
 	</bean>
 	<bean id="atn5_filter7_name" class="gda.device.scannable.PVStringScannable">
 		<property name="name" value="atn5_filter7_name" />
 		<property name="pvName" value="BL20I-OP-ATTN-05:F7:NAME" />
 	</bean>
 	<bean id="atn5_filter7" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="F7" />
+		<property name="pvBase" value="BL20I-OP-ATTN-05:F7" />
 	</bean>
 	<bean id="atn5_filter8_name" class="gda.device.scannable.PVStringScannable">
 		<property name="name" value="atn5_filter8_name" />
 		<property name="pvName" value="BL20I-OP-ATTN-05:F8:NAME" />
 	</bean>
 	<bean id="atn5_filter8" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="F8" />
+		<property name="pvBase" value="BL20I-OP-ATTN-05:F8" />
 	</bean>
 	<bean id="atn5group" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
