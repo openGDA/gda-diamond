@@ -28,7 +28,7 @@
 		<property name="increment" value="0.1" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
-	
+
 	<bean id="stage1_rotation_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Rotation" />
 		<property name="scannableName" value="stage1_rotation" />
@@ -41,11 +41,29 @@
  	<bean id="dcm_enrg_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="DCM energy" />
 		<property name="scannableName" value="dcm_enrg" />
-		<property name="group" value="DCM" />
+		<property name="group" value="Coupled motors" />
 		<property name="increment" value="0.1" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
-	
+
+	<!-- Combined sample/interferometer motors -->
+ 	<bean id="ifsy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="IF/stage y" />
+		<property name="scannableName" value="ifsy" />
+		<property name="group" value="Coupled motors" />
+		<property name="increment" value="0.1" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+ 	<bean id="ifsz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="IF/stage z" />
+		<property name="scannableName" value="ifsz" />
+		<property name="group" value="Coupled motors" />
+		<property name="increment" value="0.1" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<!-- Endstation configuration -->
 	<bean id="endstation_configurations" class="uk.ac.gda.client.livecontrol.JythonScriptListControl">
 		<property name="jobTitle" value="Configuring endstation" />
 		<property name="group" value="Endstation configuration"/>
@@ -69,6 +87,8 @@
 		<property name="controls">
 			<list>
 				<ref bean="dcm_enrg_control" />
+				<ref bean="ifsy_control" />
+				<ref bean="ifsz_control" />
 				<ref bean="endstation_configurations" />
 				<ref bean="stage1_x_control" />
 				<ref bean="stage1_y_control" />
