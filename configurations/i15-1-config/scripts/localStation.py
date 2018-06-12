@@ -143,6 +143,15 @@ try:
     metadataRunnableDeviceProxy.setDelegate(metadataJythonRunnableDeviceDelegate)
     metadataRunnableDeviceProxy.register()
 
+    print "Configured xbpm3 detector"
+
+    xbpm3AreaDetectorRunnableDeviceProxyFinder = finder.find("xbpm3AreaDetectorRunnableDeviceProxyFinder")
+    xbpm3AreaDetectorRunnableDeviceProxy = xbpm3AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    xbpm3JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(xbpm3AreaDetectorRunnableDeviceProxy)
+    xbpm3AreaDetectorRunnableDeviceProxy.setDelegate(xbpm3JythonAreaDetectorRunnableDeviceDelegate)
+    xbpm3AreaDetectorRunnableDeviceProxy.register()
+
     print "Configured metadata runnable device"
 
     cryojetRunnableDeviceProxyFinder = finder.find("cryojetRunnableDeviceProxyFinder")

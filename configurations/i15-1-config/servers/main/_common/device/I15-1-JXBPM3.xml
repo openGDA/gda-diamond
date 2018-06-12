@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- ADDetectors -->
+
+	<bean id="xbpm3AD" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="xbpm3AD_drv"/>
+		<property name="readArray" value="false"/>
+	</bean>
+
+	<!-- Scanning API -->
+
+	<bean id="xbpm3AreaDetectorRunnableDeviceProxyModel"
+			class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorWritingFilesRunnableDeviceModel">
+		<property name="name"              value="xbpm3AD"/>
+		<property name="exposureTime"      value="0.1"/>
+	</bean>
+	<bean id="xbpm3AreaDetectorRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="xbpm3AD"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.xbpm3AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="label"             value="XBPM 3 Proxy (xbpm3AreaDetectorRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="XBPM 3 Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="xbpm3AreaDetectorRunnableDeviceProxy"
+			class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDeviceProxy">
+		<property name="name"              value="xbpm3AD"/>
+		<property name="model"             ref="xbpm3AreaDetectorRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="xbpm3AreaDetectorRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="xbpm3AreaDetectorRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="xbpm3AreaDetectorRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="xbpm3AreaDetectorRunnableDeviceProxy"/>
+	</bean>
+</beans>
