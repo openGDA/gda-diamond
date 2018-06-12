@@ -18,18 +18,20 @@
 
 package uk.ac.gda.server.exafs.scan.preparers;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
-import gda.device.detector.NXDetector;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.scannable.DummyScannable;
 import gda.jython.InterfaceProvider;
@@ -41,7 +43,6 @@ import uk.ac.gda.beans.exafs.IonChamberParameters;
 import uk.ac.gda.beans.exafs.Region;
 import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
-import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector;
@@ -54,41 +55,27 @@ public class I18DetectorPreparerTest {
 	private TfgScalerWithFrames ionchambers;
 	private I18DetectorPreparer thePreparer;
 	private BufferedDetector qexafs_counterTimer01;
-	private NXDetector cmos_for_maps;
-	private BufferedDetector buffered_cid;
 	private Xspress3BufferedDetector qexafs_xspress3;
 	private Xspress3FFoverI0BufferedDetector qexafs_FFI0_xspress3;
 
 	@Before
 	public void setup() {
 
-		JythonServerFacade jythonserverfacade = Mockito
-				.mock(JythonServerFacade.class);
+		JythonServerFacade jythonserverfacade = mock(JythonServerFacade.class);
 		InterfaceProvider.setTerminalPrinterForTesting(jythonserverfacade);
 		InterfaceProvider.setAuthorisationHolderForTesting(jythonserverfacade);
 
-		JythonServer jythonserver = Mockito.mock(JythonServer.class);
+		JythonServer jythonserver = mock(JythonServer.class);
 		InterfaceProvider.setDefaultScannableProviderForTesting(jythonserver);
-		InterfaceProvider
-				.setCurrentScanInformationHolderForTesting(jythonserver);
+		InterfaceProvider.setCurrentScanInformationHolderForTesting(jythonserver);
 		InterfaceProvider.setJythonServerNotiferForTesting(jythonserver);
-		Mockito.when(jythonserver.getDefaultScannables()).thenReturn(
-				new Vector<Scannable>());
+		when(jythonserver.getDefaultScannables()).thenReturn(new Vector<Scannable>());
 
-		xspress3 = (Xspress3WithFullCalculationsDetector) createMock(
-				Xspress3WithFullCalculationsDetector.class, "xspress3");
-		ionchambers = (TfgScalerWithFrames) createMock(
-				TfgScalerWithFrames.class, "ionchambers");
-		qexafs_counterTimer01 = (BufferedDetector) createMock(
-				BufferedDetector.class, "qexafs_counterTimer01");
-		qexafs_xspress3 = (Xspress3BufferedDetector) createMock(
-				Xspress3BufferedDetector.class, "qexafs_xspress3");
-		qexafs_FFI0_xspress3 = (Xspress3FFoverI0BufferedDetector) createMock(
-				Xspress3FFoverI0BufferedDetector.class, "qexafs_FFI0_xspress3");
-		buffered_cid = (BufferedDetector) createMock(BufferedDetector.class,
-				"buffered_cid");
-		cmos_for_maps = (NXDetector) createMock(NXDetector.class,
-				"cmos_for_maps");
+		xspress3 = createMock(Xspress3WithFullCalculationsDetector.class, "xspress3");
+		ionchambers = createMock(TfgScalerWithFrames.class, "ionchambers");
+		qexafs_counterTimer01 = createMock(BufferedDetector.class, "qexafs_counterTimer01");
+		qexafs_xspress3 = createMock(Xspress3BufferedDetector.class, "qexafs_xspress3");
+		qexafs_FFI0_xspress3 = createMock(Xspress3FFoverI0BufferedDetector.class, "qexafs_FFI0_xspress3");
 
 		sensitivities = new Scannable[3];
 		sensitivities[0] = createMockScannable("i0_keithley_gain");
@@ -96,52 +83,17 @@ public class I18DetectorPreparerTest {
 		sensitivityUnits = new Scannable[] {createMockScannable("i0units"), createMockScannable("itunits")};
 
 		thePreparer = new I18DetectorPreparer(sensitivities, sensitivityUnits, ionchambers,
-				xspress3, qexafs_counterTimer01, qexafs_xspress3, qexafs_FFI0_xspress3,
-				buffered_cid, cmos_for_maps);
+				xspress3, qexafs_counterTimer01, qexafs_xspress3, qexafs_FFI0_xspress3);
 	}
 
 	private Scannable createMockScannable(String string) {
-		// Scannable newMock = PowerMockito.mock(DummyScannable.class);
-		// Mockito.when(newMock.getName()).thenReturn(string);
-		// return newMock;
 		return createMock(DummyScannable.class, string);
 	}
 
-	private Scannable createMock(Class<? extends Scannable> clazz, String name) {
-		Scannable newMock = PowerMockito.mock(clazz);
-		Mockito.when(newMock.getName()).thenReturn(name);
+	private <T extends Scannable> T createMock(Class<T> clazz, String name) {
+		T newMock = mock(clazz);
+		when(newMock.getName()).thenReturn(name);
 		return newMock;
-	}
-
-	@Test
-	public void testDiffractionDetectors() throws Exception {
-		Set<IonChamberParameters> ionParamsSet = makeIonChamberParameters();
-
-		FluorescenceParameters fluoParams = new FluorescenceParameters();
-		for (IonChamberParameters params : ionParamsSet) {
-			fluoParams.addIonChamberParameter(params);
-		}
-
-		fluoParams.setConfigFileName("Fluo_config.xml");
-		fluoParams.setDetectorType("Germanium");
-
-		DetectorParameters detParams = new DetectorParameters();
-		detParams.setFluorescenceParameters(fluoParams);
-		detParams.setExperimentType(DetectorParameters.FLUORESCENCE_TYPE);
-
-		MicroFocusScanParameters mfParameters = new MicroFocusScanParameters();
-
-		thePreparer.configure(mfParameters, detParams, null,
-				"/scratch/test/xml/path/");
-
-		// only return an object for step maps with diffraction flag set to true
-
-		fluoParams.setCollectDiffractionImages(true);
-		org.junit.Assert.assertEquals(cmos_for_maps,
-				thePreparer.getExtraDetectors()[0]);
-
-		fluoParams.setCollectDiffractionImages(false);
-		org.junit.Assert.assertNull(thePreparer.getExtraDetectors());
 	}
 
 	@Test
@@ -163,13 +115,13 @@ public class I18DetectorPreparerTest {
 
 		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
 
-		Mockito.verifyZeroInteractions(xspress3);
+		verifyZeroInteractions(xspress3);
 
 		fluoParams.setDetectorType(FluorescenceParameters.XSPRESS3_DET_TYPE);
 		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path/");
-		Mockito.verify(xspress3).setConfigFileName(
+		verify(xspress3).setConfigFileName(
 				"/scratch/test/xml/path/Fluo_config.xml");
-		Mockito.verify(xspress3).loadConfigurationFromFile();
+		verify(xspress3).loadConfigurationFromFile();
 	}
 
 	@Test
@@ -201,8 +153,7 @@ public class I18DetectorPreparerTest {
 				"/scratch/test/xml/path");
 		thePreparer.beforeEachRepetition();
 
-		Mockito.verify(ionchambers).setTimes(
-				new Double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 });
+		verify(ionchambers).setTimes(new Double[] { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 });
 	}
 
 	private Set<IonChamberParameters> makeIonChamberParameters() {
@@ -248,8 +199,8 @@ public class I18DetectorPreparerTest {
 
 		thePreparer.configure(null, detParams, null, "/scratch/test/xml/path");
 
-		Mockito.verify(sensitivities[0]).moveTo("1");
-		Mockito.verify(sensitivityUnits[0]).moveTo("nA/V");
+		verify(sensitivities[0]).moveTo("1");
+		verify(sensitivityUnits[0]).moveTo("nA/V");
 	}
 
 }

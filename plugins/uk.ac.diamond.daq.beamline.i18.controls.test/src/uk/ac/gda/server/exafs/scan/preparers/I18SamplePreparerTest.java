@@ -20,17 +20,19 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import gda.device.EnumPositioner;
 import gda.device.scannable.ScannableMotor;
 import gda.gui.RCPController;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-
 import uk.ac.gda.beans.exafs.i18.AttenuatorParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.beans.exafs.i18.SampleStageParameters;
@@ -53,11 +55,11 @@ public class I18SamplePreparerTest {
 	@Before
 	public void setupObjects() {
 
-		JythonServerFacade jythonserverfacade = Mockito.mock(JythonServerFacade.class);
+		JythonServerFacade jythonserverfacade = mock(JythonServerFacade.class);
 		InterfaceProvider.setTerminalPrinterForTesting(jythonserverfacade);
 
-		rcpController = PowerMockito.mock(RCPController.class);
-		Mockito.when(rcpController.getName()).thenReturn("rcpController");
+		rcpController = mock(RCPController.class);
+		when(rcpController.getName()).thenReturn("rcpController");
 
 		mocked_sc_MicroFocusSampleX = createMockScannableMotor("mocked_sc_MicroFocusSampleX");
 		mocked_sc_MicroFocusSampleY = createMockScannableMotor("mocked_sc_MicroFocusSampleY");
@@ -67,10 +69,10 @@ public class I18SamplePreparerTest {
 		mocked_table_y = createMockScannableMotor("mocked_sc_MicroFocusSampleY");
 		mocked_table_z = createMockScannableMotor("mocked_sc_sample_z");
 
-		d7a = PowerMockito.mock(EnumPositioner.class);
-		Mockito.when(d7a.getName()).thenReturn("d7a");
-		d7b = PowerMockito.mock(EnumPositioner.class);
-		Mockito.when(d7b.getName()).thenReturn("d7b");
+		d7a = mock(EnumPositioner.class);
+		when(d7a.getName()).thenReturn("d7a");
+		d7b = mock(EnumPositioner.class);
+		when(d7b.getName()).thenReturn("d7b");
 
 		mocked_kb_vfm_x = createMockScannableMotor("mocked_kb_vfm_x");
 
@@ -80,8 +82,8 @@ public class I18SamplePreparerTest {
 	}
 
 	private ScannableMotor createMockScannableMotor(String string) {
-		ScannableMotor newMock = PowerMockito.mock(ScannableMotor.class);
-		Mockito.when(newMock.getName()).thenReturn(string);
+		ScannableMotor newMock = mock(ScannableMotor.class);
+		when(newMock.getName()).thenReturn(string);
 		return newMock;
 	}
 
@@ -122,12 +124,12 @@ public class I18SamplePreparerTest {
 			assertEquals("mocked_sc_MicroFocusSampleX", mocked_sc_MicroFocusSampleX.getName());
 
 			iterator.next();
-			Mockito.verify(mocked_sc_MicroFocusSampleX).moveTo(1.);
-			Mockito.verify(mocked_sc_MicroFocusSampleY).moveTo(2.);
-			Mockito.verify(mocked_sc_sample_z).moveTo(3.);
-			Mockito.verify(d7a).moveTo("first");
-			Mockito.verify(d7b).moveTo("second");
-			Mockito.verifyZeroInteractions(mocked_kb_vfm_x);
+			verify(mocked_sc_MicroFocusSampleX).moveTo(1.);
+			verify(mocked_sc_MicroFocusSampleY).moveTo(2.);
+			verify(mocked_sc_sample_z).moveTo(3.);
+			verify(d7a).moveTo("first");
+			verify(d7b).moveTo("second");
+			verifyZeroInteractions(mocked_kb_vfm_x);
 
 		} catch (Exception e) {
 			fail(e.getMessage());

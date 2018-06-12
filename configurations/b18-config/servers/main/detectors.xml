@@ -169,11 +169,6 @@
 		<property name="writeHDF5Files" value="true" />
 		<property name="defaultSubdirectory" value="xspress3" />
 	</bean>
-<!-- 	from I18 -->
-<!-- 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector"> -->
-<!-- 		<property name="controller" ref="xspress3Controller" /> -->
-<!-- 		<property name="readDataFromFile" value="false" /> -->
-<!-- 	</bean> -->
 
 	<bean id="qexafs_xspress3"
 		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">

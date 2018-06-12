@@ -2,25 +2,26 @@ package uk.ac.gda.server.exafs.scan.preparers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
-import gda.device.detector.NXDetector;
 import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.exafs.scan.ExafsScanPointCreator;
 import gda.exafs.scan.XanesScanPointCreator;
 import gda.jython.InterfaceProvider;
+import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
 import uk.ac.gda.beans.exafs.IOutputParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.IonChamberParameters;
-import uk.ac.gda.beans.exafs.TransmissionParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
-import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
 import uk.ac.gda.devices.detector.xspress3.Xspress3;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector;
@@ -28,36 +29,30 @@ import uk.ac.gda.server.exafs.scan.QexafsDetectorPreparer;
 
 public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
+	private static final Logger logger = LoggerFactory.getLogger(I18DetectorPreparer.class);
+
 	private final Scannable[] sensitivities;
 	private final Scannable[] sensitivityUnits;
 	private final TfgScalerWithFrames counterTimer01;
 
 	private IScanParameters scanBean;
 	private IDetectorParameters detectorBean;
-	private BufferedDetector qexafs_counterTimer01;
-	private Xspress3BufferedDetector qexafs_xspress3;
-	private BufferedDetector buffered_cid;
-	private NXDetector hardwareTriggeredCmos;
+	private BufferedDetector qexafsCounterTimer01;
+	private Xspress3BufferedDetector qexafsXspress3;
 	private Xspress3 xspress3;
-	private Xspress3FFoverI0BufferedDetector qexafs_FFI0_xspress3;
-	private boolean isBuffered_cid;
+	private Xspress3FFoverI0BufferedDetector qexafsFFI0Xspress3;
 
 	public I18DetectorPreparer(Scannable[] sensitivities, Scannable[] sensitivityUnits, TfgScalerWithFrames ionchambers,
-			Xspress3 xspress3, BufferedDetector qexafs_counterTimer01,
-			Xspress3BufferedDetector qexafs_xspress3,
-			Xspress3FFoverI0BufferedDetector qexafs_FFI0_xspress3, BufferedDetector buffered_cid,
-			NXDetector hardwareTriggeredCmos) {
+			Xspress3 xspress3, BufferedDetector qexafsCounterTimer01,
+			Xspress3BufferedDetector qexafsXspress3,
+			Xspress3FFoverI0BufferedDetector qexafsFFI0Xspress3) {
 		this.sensitivities = sensitivities;
 		this.sensitivityUnits = sensitivityUnits;
 		this.counterTimer01 = ionchambers;
 		this.xspress3 = xspress3;
-		this.qexafs_xspress3 = qexafs_xspress3;
-		this.qexafs_counterTimer01 = qexafs_counterTimer01;
-		this.qexafs_FFI0_xspress3 = qexafs_FFI0_xspress3;
-		this.buffered_cid = buffered_cid;
-		this.hardwareTriggeredCmos = hardwareTriggeredCmos;
-		// by default should be false as not used with users, only beamline staff
-		this.isBuffered_cid = false;
+		this.qexafsXspress3 = qexafsXspress3;
+		this.qexafsCounterTimer01 = qexafsCounterTimer01;
+		this.qexafsFFI0Xspress3 = qexafsFFI0Xspress3;
 	}
 
 	@Override
@@ -67,7 +62,7 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 		this.scanBean = scanBean;
 		this.detectorBean = detectorBean;
 
-		if (detectorBean.getExperimentType().equalsIgnoreCase("Fluorescence")) {
+		if (detectorBean.getExperimentType().equals(DetectorParameters.FLUORESCENCE_TYPE)) {
 			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
 			String detType = fluoresenceParameters.getDetectorType();
 			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
@@ -75,32 +70,17 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 				xspress3.setConfigFileName(xmlFileName);
 				xspress3.loadConfigurationFromFile();
 			}
-			control_all_ionc(fluoresenceParameters.getIonChamberParameters());
-			if (fluoresenceParameters.isCollectDiffractionImages() && scanBean instanceof MicroFocusScanParameters) {
-				control_cmos((MicroFocusScanParameters) scanBean);
-			}
-		} else if (detectorBean.getExperimentType().equalsIgnoreCase("Transmission")) {
-			TransmissionParameters transmissionParameters = detectorBean.getTransmissionParameters();
-			control_all_ionc(transmissionParameters.getIonChamberParameters());
 		}
-	}
 
-	private void control_cmos(MicroFocusScanParameters microFocusParameters) throws DeviceException {
-		hardwareTriggeredCmos.setCollectionTime(microFocusParameters.getCollectionTime());
+		controlAllIonC(detectorBean.getIonChambers());
 	}
 
 	@Override
 	public void beforeEachRepetition() throws Exception {
-		Double[] times = new Double[] {};
-		if (scanBean instanceof XasScanParameters) {
-			times = ExafsScanPointCreator.getScanTimeArray((XasScanParameters) scanBean);
-		} else if (scanBean instanceof XanesScanParameters) {
-			times = XanesScanPointCreator.getScanTimeArray((XanesScanParameters) scanBean);
-		}
+		Double[] times = getScanTimeArray();
 		if (times.length > 0) {
 			counterTimer01.setTimes(times);
 		}
-		return;
 	}
 
 	@Override
@@ -110,31 +90,45 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 
 	@Override
 	public BufferedDetector[] getQEXAFSDetectors() throws Exception {
-		((BufferedScaler) qexafs_counterTimer01).setTtlSocket(0);
-		String expt_type = detectorBean.getExperimentType();
-		if (expt_type.equals("Transmission")) {
-			return new BufferedDetector[] { qexafs_counterTimer01 };
+		((BufferedScaler) qexafsCounterTimer01).setTtlSocket(0);
+		String exptType = detectorBean.getExperimentType();
+		if (exptType.equals(DetectorParameters.TRANSMISSION_TYPE)) {
+			return new BufferedDetector[] { qexafsCounterTimer01 };
 		}
 		// else Fluo
-		String det_type = detectorBean.getFluorescenceParameters().getDetectorType();
-		if (det_type.compareTo(FluorescenceParameters.XSPRESS3_DET_TYPE) == 0) {
-			return new BufferedDetector[] { qexafs_counterTimer01, qexafs_xspress3, qexafs_FFI0_xspress3 };
+		String detType = detectorBean.getFluorescenceParameters().getDetectorType();
+		if (detType.compareTo(FluorescenceParameters.XSPRESS3_DET_TYPE) == 0) {
+			return new BufferedDetector[] { qexafsCounterTimer01, qexafsXspress3, qexafsFFI0Xspress3 };
 		}
 		throw new UnsupportedOperationException("Detector type not supported");
 	}
+	
+	@Override
+	public Detector[] getExtraDetectors() {
+		return new Detector[0];
+	}
 
-	protected void control_all_ionc(List<IonChamberParameters> ion_chambers_bean) throws Exception {
-		for (int index = 0; index < ion_chambers_bean.size(); index++) {
-			control_ionc(ion_chambers_bean, index);
+	private Double[] getScanTimeArray() throws Exception {
+		if (scanBean instanceof XasScanParameters) {
+			return ExafsScanPointCreator.getScanTimeArray((XasScanParameters) scanBean);
+		} else if (scanBean instanceof XanesScanParameters) {
+			return XanesScanPointCreator.getScanTimeArray((XanesScanParameters) scanBean);
+		}
+		return new Double[0];
+	}
+
+	private void controlAllIonC(List<IonChamberParameters> ionChambersBean) throws DeviceException {
+		for (int index = 0; index < ionChambersBean.size(); index++) {
+			controlIonc(ionChambersBean, index);
 		}
 	}
 
-	protected void control_ionc(List<IonChamberParameters> ion_chambers_bean, int ion_chamber_num) throws Exception {
-		IonChamberParameters ion_chamber = ion_chambers_bean.get(ion_chamber_num);
-		setup_amp_sensitivity(ion_chamber, ion_chamber_num);
+	private void controlIonc(List<IonChamberParameters> ionChambersBean, int ionChamberNum) throws DeviceException {
+		IonChamberParameters ionChamber = ionChambersBean.get(ionChamberNum);
+		setupAmpSensitivity(ionChamber, ionChamberNum);
 	}
 
-	protected void setup_amp_sensitivity(IonChamberParameters ionChamberParams, int index) throws Exception {
+	private void setupAmpSensitivity(IonChamberParameters ionChamberParams, int index) throws DeviceException {
 		if (ionChamberParams.getChangeSensitivity()) {
 			if (ionChamberParams.getGain() == null || ionChamberParams.getGain().equals("")) {
 				return;
@@ -146,9 +140,8 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 				String[] gain = ionChamberParams.getGain().split(" ");
 				sensitivities[index].moveTo(gain[0]);
 				sensitivityUnits[index].moveTo(gain[1]);
-			} catch (Exception e) {
-				InterfaceProvider.getTerminalPrinter().print(
-						"Exception while trying to change the sensitivity of ion chamber" + ionChamberParams.getName());
+			} catch (DeviceException e) {
+				logger.error("Exception while trying to change the sensitivity of ion chamber {}", ionChamberParams.getName(), e);
 				InterfaceProvider
 						.getTerminalPrinter()
 						.print("Set the ion chamber sensitivity manually, uncheck the box in the Detector Parameters editor and restart the scan");
@@ -156,28 +149,6 @@ public class I18DetectorPreparer implements QexafsDetectorPreparer {
 				throw e;
 			}
 		}
-	}
-
-	@Override
-	public Detector[] getExtraDetectors() {
-
-		// add the cmos when asked for diffraction during step fluo maps. This is for XRD maps.
-		if (detectorBean.getExperimentType().equalsIgnoreCase("Fluorescence")) {
-			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
-			if (fluoresenceParameters.isCollectDiffractionImages() && scanBean instanceof MicroFocusScanParameters) {
-				return new Detector[] { hardwareTriggeredCmos };
-			}
-		}
-
-		return null;
-	}
-
-	public boolean isBuffered_cid() {
-		return isBuffered_cid;
-	}
-
-	public void setBuffered_cid(boolean isBuffered_cid) {
-		this.isBuffered_cid = isBuffered_cid;
 	}
 
 }
