@@ -21,7 +21,6 @@ package uk.ac.gda.beamline.i11.lde.views;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.january.dataset.IDataset;
@@ -151,12 +150,12 @@ public class DetectorFileDisplayer extends ConfigurableBase implements FileProce
 			if (xds != null && yds != null) {
 				dataFilesPlotted.add(filename);
 				openView();
-				plotView.updatePlot(new NullProgressMonitor(), xds, yds, "Plots of selected detector data files",
+				plotView.updatePlot(xds, yds, "Plots of selected detector data files",
 						"angle (degree)", "counts", isNewPlot(), getPlotType());
 			}
 		} else {
 			openView();
-			plotView.updatePlot(new NullProgressMonitor(), null, null, "Plots of selected detector data files",
+			plotView.updatePlot(null, null, "Plots of selected detector data files",
 					"angle (degree)", "counts", isNewPlot(), getPlotType());
 		}
 	}
