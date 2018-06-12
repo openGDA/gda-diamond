@@ -296,13 +296,10 @@ try:
 		d5sum = DisplayEpicsPVClass("d5sum", "BL15I-DI-PHDGN-05:DIODESUM", "", "%f")
 		#add_default(d1sum) - Moved to /dls/i15/scripts/localStationUser.py
 
-		simpleLog("Create diodes 6-11")
+		simpleLog("Create diodes 6+")
 		d6=diodeFactory("d6", "PHDGN6")
-		d7=diodeFactory("d7", "PHDGN7")
 		d8=diodeFactory("d8", "PHDGN8")
 		d9=diodeFactory("d9", "PHDGN9")
-		d10=diodeFactory("d10", "PHDGN10")
-		d11=diodeFactory("d11", "PHDGN11")
 	except:
 		localStation_exception(sys.exc_info(), "creating diodes")
 
