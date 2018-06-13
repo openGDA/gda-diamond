@@ -465,7 +465,6 @@ except NameError:
 #                             END OF DUMMYSTARTUP
 #
 if installation.isDummy():
-	datadir(LocalProperties.get("gda.config") + "/users_dummy/data")  # TOD: Should not be required!
 	print "Running localStation.test_only.py ..."
 	run("localStation.test_only")
 	print "... completed localStation.test_only.py"

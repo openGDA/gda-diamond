@@ -1,0 +1,13 @@
+--------------------------------------------------------------------------------
+Running GDA in dummy mode on i16
+--------------------------------------------------------------------------------
+
+In order to get localStation.py to run in dummy mode, we have to copy several
+databases of values to the gda_var_non_live directory in the root of the
+deployment:
+
+--------------------------------------------------------------------------------
+cd /dls_sw/i16/software/gda
+cp -R /dls_sw/i16/software/gda_versions/var/oldStyleShelveIO gda_var_non_live
+cp -R /dls_sw/i16/software/gda_versions/var/nff gda_var_non_live
+--------------------------------------------------------------------------------
