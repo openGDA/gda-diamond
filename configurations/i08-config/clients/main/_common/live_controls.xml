@@ -25,6 +25,26 @@
 		<property name="group" value="Sample stage" />
 	</bean>
 
+	<!-- Restart IOC -->
+	<bean id="restart_ioc" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="restart_ioc()" />
+		<property name="buttonText" value="Restart" />
+		<property name="group" value="IOC" />
+	</bean>
+
+	<!-- S2 shutter open/close -->
+	<bean id="open_s2_shutter" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="pos(s2_shutter, 'Open')" />
+		<property name="buttonText" value="Open" />
+		<property name="group" value="S2 shutter" />
+	</bean>
+
+	<bean id="close_s2_shutter" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="pos(s2_shutter, 'Closed')" />
+		<property name="buttonText" value="Close" />
+		<property name="group" value="S2 shutter" />
+	</bean>
+
 	<!-- Control set: there can be only one -->
 	<bean name="live_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
@@ -32,6 +52,9 @@
 				<ref bean="andor_start" />
 				<ref bean="andor_stop" />
 				<ref bean="sample_stage_home" />
+				<ref bean="restart_ioc" />
+				<ref bean="open_s2_shutter" />
+				<ref bean="close_s2_shutter" />
 			</list>
 		</property>
 	</bean>

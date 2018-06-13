@@ -50,8 +50,9 @@ run('mapping_scan_commands.py')
 # Energy to zone plate position
 run('energyFocus.py')
 
-# Define function to home sample stage
+# Define function for Live Controls
 run('sample_stage_control.py')
+run('ioc_control.py')
 
 # Watchdogs
 print("Adding watchdog commands: enable_watchdogs, disable_watchdogs, list_watchdogs")
