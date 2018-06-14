@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<description>
+		To use the Simulated Area detector in dummy mode:
+			1) Launch the Utilities > GDA SWMR AreaDetector Simulation
+				on the local machine and start the IOC.
+			2) If you want to use an Area detector on another machine, or
+				you are also launching the GDA servers, export the
+				WORKSTATION environment variable with the short name for
+				the machine the Simulation IOC is running on.
+	</description>
+
+	<!-- AD hardware -->
+
+	<bean id="xbpm3AD_drv" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="#{ADSIM_HOST}-AD-SIM-01:CAM:" />
+	</bean>
+</beans>

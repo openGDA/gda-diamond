@@ -9,7 +9,7 @@ from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildIm
 scan_processor.rootNamespaceDict=globals()
 from gdascripts.utils import caget, caput # @UnusedImport
 
-global run
+global run, finder
 
 localStation_exceptions = []
 
@@ -142,6 +142,15 @@ try:
     metadataJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(metadataRunnableDeviceProxy)
     metadataRunnableDeviceProxy.setDelegate(metadataJythonRunnableDeviceDelegate)
     metadataRunnableDeviceProxy.register()
+
+    print "Configured xbpm3 detector"
+
+    xbpm3AreaDetectorRunnableDeviceProxyFinder = finder.find("xbpm3AreaDetectorRunnableDeviceProxyFinder")
+    xbpm3AreaDetectorRunnableDeviceProxy = xbpm3AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
+
+    xbpm3JythonAreaDetectorRunnableDeviceDelegate = JythonAreaDetectorRunnableDeviceDelegate(xbpm3AreaDetectorRunnableDeviceProxy)
+    xbpm3AreaDetectorRunnableDeviceProxy.setDelegate(xbpm3JythonAreaDetectorRunnableDeviceDelegate)
+    xbpm3AreaDetectorRunnableDeviceProxy.register()
 
     print "Configured metadata runnable device"
 
