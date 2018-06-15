@@ -1,4 +1,0 @@
-#!/bin/bash
-#unset BEAMLINE
-#unset JAVA_HOME
-`dirname $0`/gda logpanel --mode=dummy $@

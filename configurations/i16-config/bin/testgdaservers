@@ -1,8 +1,0 @@
-#!/bin/bash
-
-export GDA_MODE=dummy
-
-config_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd -P )"
-echo -e "\nGDA_CONFIG = ${config_absolute_path} , BEAMLINE = $BEAMLINE\n"
-
-$config_absolute_path/bin/gda --start servers -d $@

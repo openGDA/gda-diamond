@@ -1,9 +1,0 @@
-#!/bin/bash
-#unset JAVA_HOME
-#unset BEAMLINE
-
-`dirname $0`/gda logserver --mode=dummy $@
-`dirname $0`/gda nameserver --mode=dummy $@
-`dirname $0`/gda eventserver --mode=dummy $@
-JAVA_OPTS="-XX:MaxPermSize=128m -Xms512m -Xmx4096m" `dirname $0`/gda objectserver --mode=dummy --debug $@
-
