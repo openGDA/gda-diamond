@@ -486,8 +486,14 @@ def _d1out():
 def _d2out():
 	return _defaultParameter("expose_d2out", True, " to change the default.")
 
+def _d3out():
+	return _defaultParameter("expose_d3out", True, " to change the default.")
+
 def _exposeSuppressCloseEHShutterAtScanEnd():
 	return _defaultParameter("exposeSuppressCloseEHShutterAtScanEnd", False, " to change the default.")
+
+def _exposeSuppressOpenDetectorShieldAtScanStart():
+	return _defaultParameter("exposeSuppressOpenDetectorShieldAtScanStart", False, " to change the default.")
 
 def _exposeSuppressCloseDetectorShieldAtScanEnd():
 	return _defaultParameter("exposeSuppressCloseDetectorShieldAtScanEnd", False, " to change the default.")
@@ -820,6 +826,7 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 	fileName = _sanitise(fileName, detector)
 
 	detectorShield = jythonNameMap.ds
+	detectorShield.suppressOpenDetectorShieldAtScanStart = _exposeSuppressOpenDetectorShieldAtScanStart()
 	detectorShield.suppressCloseDetectorShieldAtScanEnd = _exposeSuppressCloseDetectorShieldAtScanEnd()
 
 	exposure = jythonNameMap.exposure # DummyPD("exposure")
@@ -829,7 +836,7 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 	scan_params.extend(_horizScanParams(horizMotor, AbsoluteHorizStart, AbsoluteHorizEnd, horizStep, horizStepNumber))
 	# Note that the first element in a scan must be a start/stop/step so always add exposure if neither horiz nor vert are present
 	scan_params.extend([exposure, 1, exposeNumber, 1] if len(scan_params)==0 or exposeNumber > 1 else [])
-	scan_params.extend([detectorShield, DiodeController(_d1out(), _d2out(),
+	scan_params.extend([detectorShield, DiodeController(_d1out(), _d2out(), _d3out(),
 					suppressCloseEHShutterAtScanEnd=_exposeSuppressCloseEHShutterAtScanEnd() )])
 
 	totalExposures = (exposeNumber * (1 if horizStepNumber == None else horizStepNumber + 1) * 
