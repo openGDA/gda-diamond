@@ -1248,8 +1248,10 @@ run('pd_adc_table')
 
 run('enable_xps_gda.py')
 
+""" vvv Errors with GDA9
 from edgeDetectRobust import edgeDetectRobust as edge
 from edgeDetectEnergy import eEdge as eedge
+"""
 #run('edgeDetectRobust')
 
 run('rePlot')
