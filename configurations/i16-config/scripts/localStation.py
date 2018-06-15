@@ -54,6 +54,9 @@ import installation
 
 USE_NEXUS = True
 if installation.isDummy():
+	print "*"*80
+	print "DUMY Mode!"
+	print "*"*80
 	USE_DIFFCALC = True
 	USE_CRYO_GEOMETRY = False
 
