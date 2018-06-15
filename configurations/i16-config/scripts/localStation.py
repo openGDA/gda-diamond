@@ -1529,7 +1529,9 @@ run("setup_cvscan")
 print "Continuous scans setup"
 print "==========================="
 
+"""
 run("startup_pie725")
+"""
 
 if USE_NEXUS:
 	run("datawriting/i16_nexus")
