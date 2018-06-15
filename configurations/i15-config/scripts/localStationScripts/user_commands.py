@@ -774,11 +774,10 @@ def _sweepScan(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd,
 	logger.info("Sweep scan on %s using %s: start=%f, stop=%f, angle=%f" % (sweepMotor.name, detector.name, sweepStart, sweepEnd, sweepAngle))
 	logger.info("detector.getCollectionStrategy()=%r" % detector.getCollectionStrategy())
 
-	if not isinstance(detector.getCollectionStrategy(), ODCCDSingleExposure):
-		raise Exception("Sweep scans can only be performed using the Atlas detector!")
-
 	rockStartPositions = arange(sweepStart, sweepEnd, sweepAngle)
 	totalExposures *= len(rockStartPositions) # *2 # TODO: Is this needed?
+
+	logger.info("rockStartPositions=%r" % rockStartPositions)
 
 	if isinstance(detector.getCollectionStrategy(), ODCCDOverflow): # Collecting Overflow images
 		if totalExposures != len(rockStartPositions):
@@ -851,8 +850,6 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 		_sweepScan(detector, exposeTime, fileName, sweepMotor, sweepStart, sweepEnd, sweepAngle,
 				totalExposures, scan_params)
 		scan_params=[] # Delete original scan_params so the ConcurrentScan isn't performed too.
-		print "Moving %s back to %r after sweep scan" % (sweepMotor.name, sweepMotorPosition)
-		sweepMotor.moveTo(sweepMotorPosition)
 	else:
 		scan_params.extend(_staticExposeScanParams(detector, exposeTime, fileName, totalExposures, dark=False))
 
@@ -865,6 +862,9 @@ def _exposeN(exposeTime, exposeNumber, fileName,
 	if rockMotor:
 		print "Moving %s back to %r after rock scan" % (rockMotor.name, rockMotorPosition)
 		rockMotor.moveTo(rockMotorPosition)
+	elif sweepMotor:
+		print "Moving %s back to %r after sweep scan" % (sweepMotor.name, sweepMotorPosition)
+		sweepMotor.moveTo(sweepMotorPosition)
 
 def exposeAliases(alias):
 	for command in aliasList:
