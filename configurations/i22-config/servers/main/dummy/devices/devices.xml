@@ -25,6 +25,7 @@
     <import resource='d7.xml'/>
     <import resource='dcm.xml'/>
     <import resource='diodes.xml'/>
+    <import resource="qbpm1.xml" />
     <import resource='feaptr.xml'/>
     <import resource='gonio.xml'/>
     <import resource='hfm.xml'/>
