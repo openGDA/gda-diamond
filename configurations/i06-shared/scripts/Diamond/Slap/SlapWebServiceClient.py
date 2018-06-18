@@ -22,6 +22,7 @@ from javax.xml.transform.stream import StreamResult
 
 
 from gda.device.scannable import ScannableBase
+from gdascripts.utils import frange
 
 class SlapClass(object):
 	def __init__(self, wsURL=None):
@@ -264,13 +265,13 @@ class SlapClass(object):
 	def jogFps(self, newFPS):
 		'''To move fps in small steps'''
 		[fpsEnable, lg, hps, fps, de] = self.callReadOnlyService()
-		
+
 		if 0 <= newFPS <= 65535:
 			if newFPS > fps:#move upward
-				newPositions=[p for p in range(fps+self.maxStep, newFPS, self.maxStep)]
+				newPositions=[p for p in frange(fps+self.maxStep, newFPS, self.maxStep)]
 				newPositions.append(newFPS);
 			else:#move downward
-				newPositions=[p for p in range(fps-self.maxStep, newFPS, -self.maxStep)]
+				newPositions=[p for p in frange(fps-self.maxStep, newFPS, -self.maxStep)]
 				newPositions.append(newFPS);
 
 			#jogging step by step
@@ -361,20 +362,48 @@ class JavaSlapClass(SlapClass):
 	
 	'''To get a xml doc from url using pure Java approach'''
 	def getDoc(self, url):
+# 		print "call doc on %s" % url
+# 		doc=None;
+# 		try:
+# 			newurl = URL( url );
+# 			dbf = DocumentBuilderFactory.newInstance();
+# 			dbf.setNamespaceAware(True)
+# 			db = dbf.newDocumentBuilder();
+# 			doc = db.parse( newurl.openStream() );
+# 			print doc
+# 		except Exception, e:
+# 			print 'Failed to reach a server.'
+# 			print 'Details', str(e);
+# 			
+# 		return doc;
+# 		print "getDoc called with %s" % url
+    
+    # Java method above no longer works.
 		doc=None;
 		try:
+			responseBuilder = StringBuilder();
+			
 			newurl = URL( url );
-			dbf = DocumentBuilderFactory.newInstance();
-			db = dbf.newDocumentBuilder();
-			doc = db.parse( newurl.openStream() );
+			conn = newurl.openConnection();
+			rd = BufferedReader( InputStreamReader(conn.getInputStream()) );
+			
+			line = rd.readLine();
+			while line != None:
+				responseBuilder.append(line + '\n');
+				line = rd.readLine();
+			rd.close();
 		except Exception, e:
 			print 'Failed to reach a server.'
 			print 'Details', str(e);
+			return doc;
 			
+		txt=responseBuilder.toString();
+		doc = minidom.parseString( txt )
 		return doc;
 
 	def getValueFromDoc(self, doc, index):
-		value = doc.getElementsByTagName('Terminal').item(index).item(1).getFirstChild().getNodeValue()
+		value=doc.getElementsByTagName('Terminal').item(index)._get_lastChild()._get_firstChild().nodeValue
+# 		value = doc.getElementsByTagName('Terminal').item(index).item(1).getFirstChild().getNodeValue()
 		return value;
 		
 	def toFile(self, doc, filename):
