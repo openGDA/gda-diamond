@@ -1,47 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.springframework.org/schema/util
-		http://www.springframework.org/schema/util/spring-util-2.5.xsd
-		http://www.springframework.org/schema/tx
-		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-		http://www.springframework.org/schema/aop
-		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-		http://www.diamond.ac.uk/schema/gda/corba
-		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="s4_xcentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4_xcentre_motor"/>
+	<bean id="s4_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_x_motor"/>
 		<property name="local" value="true"/>
 		<property name="protectionLevel" value="3"/>
 	</bean>
 
-	<bean id="s4_ycentre" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4_ycentre_motor"/>
+	<bean id="s4_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_y_motor"/>
 		<property name="local" value="true"/>
 		<property name="protectionLevel" value="3"/>
 	</bean>
 
-	<bean id="s4_xgap" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4_xgap_motor"/>
+	<bean id="s4_x_gap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_x_gap_motor"/>
 		<property name="local" value="true"/>
 		<property name="protectionLevel" value="3"/>
 	</bean>
 
-	<bean id="s4_xplus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4_xplus_motor"/>
-		<property name="local" value="true"/>
-		<property name="protectionLevel" value="3"/>
-	</bean>
-
-	<bean id="s4_xminus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4_xminus_motor"/>
+	<bean id="s4_y_gap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4_y_gap_motor"/>
 		<property name="local" value="true"/>
 		<property name="protectionLevel" value="3"/>
 	</bean>
@@ -49,35 +31,14 @@
 	<bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="s4_xcentre"/>
-				<ref bean="s4_xgap"/>
-				<ref bean="s4_ycentre"/>
-				<ref bean="s4_ygap"/>
-				<ref bean="s4_xplus"/>
-				<ref bean="s4_xminus"/>
-				<ref bean="s4_yplus"/>
-				<ref bean="s4_yminus"/>
+				<ref bean="s4_x"/>
+				<ref bean="s4_y"/>
+				<ref bean="s4_x_gap"/>
+				<ref bean="s4_y_gap"/>
 			</list>
 		</property>
 		<property name="local" value="true"/>
 		<property name="protectionLevel" value="3"/>
 	</bean>
-
-	<bean id="s4_yplus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4_yplus_motor"/>
-		<property name="local" value="true"/>
-		<property name="protectionLevel" value="3"/>
-	</bean>
-
-	<bean id="s4_yminus" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4_yminus_motor"/>
-		<property name="local" value="true"/>
-		<property name="protectionLevel" value="3"/>
-	</bean>
-
-	<bean id="s4_ygap" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="s4_ygap_motor"/>
-		<property name="local" value="true"/>
-		<property name="protectionLevel" value="3"/>
-	</bean>
 </beans>
+

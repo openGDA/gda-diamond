@@ -1,58 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.springframework.org/schema/util
-		http://www.springframework.org/schema/util/spring-util-2.5.xsd
-		http://www.springframework.org/schema/tx
-		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-		http://www.springframework.org/schema/aop
-		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-		http://www.diamond.ac.uk/schema/gda/corba
-		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="s4_xminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-AL-SLITS-04:X:MINUS"/>
+	<bean id="s4_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-04:X"/>
 		<property name="local" value="true"/>
 	</bean>
-
-	<bean id="s4_ycentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-AL-SLITS-04:Y:CENTRE"/>
+	<bean id="s4_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-04:Y"/>
 		<property name="local" value="true"/>
 	</bean>
-
-	<bean id="s4_yplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-AL-SLITS-04:Y:PLUS"/>
+	<bean id="s4_x_gap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-04:HDSO"/>
 		<property name="local" value="true"/>
 	</bean>
-
-	<bean id="s4_yminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-AL-SLITS-04:Y:MINUS"/>
-		<property name="local" value="true"/>
-	</bean>
-
-	<bean id="s4_xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-AL-SLITS-04:X:SIZE"/>
-		<property name="local" value="true"/>
-	</bean>
-
-	<bean id="s4_xcentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-AL-SLITS-04:X:CENTRE"/>
-		<property name="local" value="true"/>
-	</bean>
-
-	<bean id="s4_xplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-AL-SLITS-04:X:PLUS"/>
-		<property name="local" value="true"/>
-	</bean>
-
-	<bean id="s4_ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-AL-SLITS-04:Y:SIZE"/>
+	<bean id="s4_y_gap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-04:VDSO"/>
 		<property name="local" value="true"/>
 	</bean>
 </beans>
