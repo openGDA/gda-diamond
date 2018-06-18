@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s6_xminus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-06:X:MINUS"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="s6_xplus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-06:X:PLUS"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="s6_xgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-06:X:SIZE"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="s6_xcentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-06:X:CENTRE"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="s6_yminus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-06:Y:MINUS"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="s6_yplus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-06:Y:PLUS"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="s6_ygap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-06:Y:SIZE"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="s6_ycentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-AL-SLITS-06:Y:CENTRE"/>
+		<property name="local" value="true"/>
+	</bean>
+</beans>
