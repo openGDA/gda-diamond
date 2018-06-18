@@ -927,6 +927,7 @@
 				<entry key="SETTRIGTHRESH22" value="BL12I-EA-DET-03:DXP22:TriggerThreshold" />
 				<entry key="SETTRIGTHRESH23" value="BL12I-EA-DET-03:DXP23:TriggerThreshold" />
 				<entry key="SETTRIGTHRESH24" value="BL12I-EA-DET-03:DXP24:TriggerThreshold" />
+				<entry key="STOPALL" value="BL12I-EA-DET-03:StopAll" />
 				<entry key="TLIVETIME1" value="BL12I-EA-DET-03:DXP1:ElapsedTriggerLiveTime" />
 				<entry key="TLIVETIME2" value="BL12I-EA-DET-03:DXP2:ElapsedTriggerLiveTime" />
 				<entry key="TLIVETIME3" value="BL12I-EA-DET-03:DXP3:ElapsedTriggerLiveTime" />
