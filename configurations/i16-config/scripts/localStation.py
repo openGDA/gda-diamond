@@ -1392,11 +1392,11 @@ xpsgather = ScannableXPSDataGatherer('xpsgather', pvroot='BL16I-CS-IOC-15:XPSG:'
 ###                           Defaults - keep at end                        ###
 ###############################################################################
 if installation.isLive():
-	add_default meta
-	add_default atime
-	add_default ic1monitor 
-	add_default rc
-	add_default waitforinjection
+	add_default(meta)
+	add_default(atime)
+	add_default(ic1monitor)
+	add_default(rc)
+	add_default(waitforinjection)
 	waitforinjection.due=5	#wait for injection if due in this period of time (sec)
 
 ###############################################################################
@@ -1492,24 +1492,28 @@ if SMARGON:
 do.pil = 8.8
 
 def diodein():
-    pos tthp 0
-    pos dettrans 0
+    pos(tthp, 0)
+    pos(dettrans, 0)
+
 def apdin():
-    pos tthp -0.35
-    pos dettrans -27.71
+    pos(tthp, -0.35)
+    pos(dettrans -27.71)
+
 def vortexin():
-    pos tthp 85.4-96.5
-    pos dettrans 25
+    pos(tthp, 85.4-96.5)
+    pos(dettrans, 25)
 
 def pilin():
-    pos do do.pil
-    pos s6ygap 2
-    pos s6ytrans 10.433
-    pos s6ygap 9
+    pos(do, do.pil)
+    pos(s6ygap, 2)
+    pos(s6ytrans, 10.433)
+    pos(s6ygap, 9)
+
 def pilout():
-    pos do 0
-    pos s6ygap 2.8
-    pos s6ytrans 0
+    pos(do, 0)
+    pos(s6ygap, 2.8)
+    pos(s6ytrans, 0)
+
 meta.add(dettrans) # should go in a better place
 
 print "*"*80
