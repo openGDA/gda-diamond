@@ -30,50 +30,45 @@ except Exception as e:
 from gda.configuration.properties import LocalProperties
 LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
+try:
+	from gdaserver import *
+except Exception as e:
+	localStation_exception("importing * from gdaserver.py" , e)
+
 global Finder, pos, finder, add_default, meta
 
-global euler_cryo
-global sixckappa_cryo, cryophi, kap, kth, kmu, kdelta, kgam
-global sixckappa, _sixckappa_deffered_only, delta_axis_offset
-global basez1, basez2, basez3
+global sixckappa_cryo, cryophi
+global _sixckappa_deffered_only, delta_axis_offset
 global azir, psi, psic, hkl
 global kbmbase, setDatadirPropertyFromPersistanceDatabase, pitchupClass
-global stoke,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,dettrans,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
-global rc, ic1monitor, ppth, ppp_xtal1_111_offset, ppp_xtal1_m220_offset, ppp_xtal1_220_offset, ppp_xtal1_440_offset, ppp_xtal2_111_offset
-global d3a, d3d, d4a, d4d, d5a, d5d
+global stoke,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
+global ic1monitor, ppth, ppp_xtal1_111_offset, ppp_xtal1_m220_offset, ppp_xtal1_220_offset, ppp_xtal1_440_offset, ppp_xtal2_111_offset
 global x2000, x2003
 global delta
 global energy, simple_energy, gam
-global pilatus1, pilatus1_hardware_triggered, pilatus1_for_snaps
-global pilatus2, pilatus2_hardware_triggered, pilatus2_for_snaps
-global pilatus3, pilatus3_hardware_triggered, pilatus3_for_snaps
-global x1, zebrapil1
-global andor1, andor1_for_snaps
+global x1
 global _cam1, _cam1_for_snaps
-global cam2, cam2_for_snaps, corExpTime
-global c10, c10_for_snaps, cor2ExpTime
+global corExpTime, cor2ExpTime
 global _xeye, _xeye_for_snaps
 global _zylar, _zylar_for_snaps
 global _merlin, _merlin_for_snaps
 global xtalinfo
-global delta, eta, chi, phi, gam, mu, hkl, en, kphi, delta_axis_offset
-global rc, idgap, uharmonic
-global s1xcentre,s1xgap,s1ycentre, s1ygap,s2xcentre,s2xgap,s2ycentre, s2ygap,s3xcentre,s3xgap,s3ycentre, s3ygap,s4xcentre,s4xgap,s4ycentre, s4ygap, shtr3x,shtr3y
-global s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans
-global s7xgap, s7ygap, s7xtrans, s7ytrans
-global m1pitch, m1x, m1y, m1roll, m1yaw, m1piezo
-global m2pitch, m2x, m2y, m2roll, m2yaw,m2bender
+global mu, en
+global uharmonic
+global shtr3x,shtr3y
+global m1piezo
 global m3x, m4x, m3pitch, m4pitch
 global eta_offset, mu_offset
 global beta
-global dcmpitch, dcmfinepitch, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm
+global T1dcm, T2dcm
 global ppx, ppy, ppchi
-global sx,sy,sz,sperp, spara, base_y, ytable, ztable
+global sperp, spara, ytable, ztable
 global xps3m1, xps3m2, xps3m3, xps3m4, xps3m5, xps3m6
 global frontendx, frontendy
 global diode, ic2
 global m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset
-global p2
+global san
+global rs,CA,EDi,az
 
 import installation
 
@@ -130,6 +125,7 @@ from epics.detector.NxProcessingDetectorWrapper import NxProcessingDetectorWrapp
 # I16
 import installation
 import ShelveIO
+import beamline_objects as BLobjects
 
 ### Configure shelveIO path
 print "Configuring ShelveIO system"
