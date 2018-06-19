@@ -19,12 +19,13 @@
 package gda.images.camera;
 
 import gda.device.DeviceException;
+import gda.factory.Findable;
 
 /**
  * Interface to be implemented by services that allow a sample to be moved in microns.
  */
-public interface SampleMovementService {
-	
+public interface SampleMovementService extends Findable {
+
 	/**
 	 * Moves the sample in 'real-world' microns. When standing behind the goniometer, with the beam travelling right,
 	 * H +ve is away from you, V +ve is vertically up, and B +ve is along the beam:
