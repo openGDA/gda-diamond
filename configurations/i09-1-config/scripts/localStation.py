@@ -3,6 +3,7 @@
 #
 import java
 from gda.configuration.properties import LocalProperties
+from calibration.hard_energy_class import HardEnergy
 
 print "=================================================================================================================";
 print "Performing beamline specific initialisation code (I09-1).";
@@ -31,3 +32,5 @@ scan_processor.rootNamespaceDict=globals()
 extraDetectors = ""
 
 print "-----------------------------------------------------------------------------------------------------------------"
+print "Creating an ienergy scannable which moves both the hard energy ID gap and DCM energy"
+ienergy = HardEnergy("ienergy", "IIDCalibrationTable.txt")

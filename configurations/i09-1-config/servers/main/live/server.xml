@@ -19,6 +19,9 @@
 	<import resource="HS1.xml"/>
 	<import resource="HS2.xml"/>
 
+	<!-- Insertion Device -->
+	<import resource="ID.xml"/>
+
 	<!-- Mirrors -->
 	<import resource="HM1.xml"/>
 	<import resource="HM2.xml"/>
