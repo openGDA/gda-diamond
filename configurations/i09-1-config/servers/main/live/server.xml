@@ -14,6 +14,7 @@
 	<!-- Diagnostics -->
 	<import resource="HD2.xml" />
 	<import resource="HD3.xml" />
+	<import resource="HD4.xml" />
 
 	<!-- Slits -->
 	<import resource="HS1.xml"/>
