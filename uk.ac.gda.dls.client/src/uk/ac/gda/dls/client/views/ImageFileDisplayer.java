@@ -18,9 +18,6 @@
 
 package uk.ac.gda.dls.client.views;
 
-import gda.device.detectorfilemonitor.FileProcessor;
-import gda.factory.Findable;
-
 import java.io.File;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -38,6 +35,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
+import gda.device.detectorfilemonitor.FileProcessor;
+import gda.factory.FindableBase;
 import uk.ac.diamond.scisoft.analysis.PlotServer;
 import uk.ac.diamond.scisoft.analysis.PlotServerProvider;
 import uk.ac.diamond.scisoft.analysis.plotserver.DataBean;
@@ -50,7 +49,7 @@ import uk.ac.diamond.scisoft.analysis.rcp.views.PlotView;
 /**
  * Sends contents of an image file to a view via PlotServer
  */
-public class ImageFileDisplayer implements FileProcessor, InitializingBean, Findable {
+public class ImageFileDisplayer extends FindableBase implements FileProcessor, InitializingBean {
 	private final class PlotUpdateRunnable implements Runnable {
 		private DataBean loadImage;
 
@@ -72,9 +71,9 @@ public class ImageFileDisplayer implements FileProcessor, InitializingBean, Find
 				plotView.processPlotUpdate(getLoadImage());
 			} catch (PartInitException e) {
 				logger.error("Error showing view or updating it", e);
-			} 							
+			}
 		}
-		
+
 		void process(DataBean loadImage){
 			this.loadImage = loadImage;
 			if (scheduled.compareAndSet(false, true)) {
@@ -119,8 +118,6 @@ public class ImageFileDisplayer implements FileProcessor, InitializingBean, Find
 
 	private IViewPart showView;
 
-	private String name;
-
 	public String getViewID() {
 		return viewID;
 	}
@@ -138,11 +135,11 @@ public class ImageFileDisplayer implements FileProcessor, InitializingBean, Find
 	}
 
 	private boolean openViewAutomatically = true;
-	
+
 	public void setOpenViewAutomatically(boolean openViewAutomatically) {
 		this.openViewAutomatically = openViewAutomatically;
 	}
-	
+
 	void sendIfVisible(String filename) throws Exception {
 		if (showView!=null) {
 
@@ -175,7 +172,7 @@ public class ImageFileDisplayer implements FileProcessor, InitializingBean, Find
 						}
 						plotUpdateRunnable.process(loadImage);
 						break;
-						
+
 					} catch( Exception e){
 						logger.warn("Error loading image from file:"+filename);
 						Thread.sleep(1000);
@@ -209,24 +206,24 @@ public class ImageFileDisplayer implements FileProcessor, InitializingBean, Find
 					public void run() {
 						try {
 							final IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-							
+
 							if (openViewAutomatically) {
 								showView = window.getActivePage().showView(viewID);
 							} else {
 								showView = window.getActivePage().findView(viewID);
 							}
-							
+
 							if (isPlotView()) {
-								
+
 								if (showView == null) {
 									plotView = null;
 								}
-								
+
 								else if (!(showView instanceof PlotView))
 									throw new IllegalArgumentException(viewID + " is not a PlotView");
 								plotView = (PlotView) showView;
 							}
-							
+
 							partVisible = (showView != null);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -254,7 +251,7 @@ public class ImageFileDisplayer implements FileProcessor, InitializingBean, Find
 						e.printStackTrace();
 					}
 				}
-				
+
 			});
 	}
 
@@ -373,17 +370,6 @@ public class ImageFileDisplayer implements FileProcessor, InitializingBean, Find
 		if(StringUtils.hasLength(filename)){
 			queueProcess(filename);
 		}
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-		
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 }
