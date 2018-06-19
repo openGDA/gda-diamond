@@ -1159,7 +1159,7 @@ if USE_XMAP:
 ###############################################################################
 
 print "Creating scannarcbles with offsets(th is eta with offset eta_offset"
-run("pd_offsetAxis") #--> OffsetAxisClass
+from pd_offsetAxis import OffsetAxisClass
 # e.g. th is eta with eta_off as offset
 th=OffsetAxisClass('th',eta,eta_offset,help='eta device with offset given by eta_offset. Use pos eta_offset to change offset')
 thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_offset. Use pos mu_offset to change offset')
