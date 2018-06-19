@@ -36,6 +36,7 @@ global delta, eta, chi, phi, gam, mu, hkl, en, kphi, delta_axis_offset
 global rc, idgap, uharmonic
 global s1xcentre,s1xgap,s1ycentre, s1ygap,s2xcentre,s2xgap,s2ycentre, s2ygap,s3xcentre,s3xgap,s3ycentre, s3ygap,s4xcentre,s4xgap,s4ycentre, s4ygap, shtr3x,shtr3y
 global s5xgap, s5xtrans, s5ygap, s5ytrans, s6xgap, s6xtrans, s6ygap, s6ytrans
+global s7xgap, s7ygap, s7xtrans, s7ytrans
 global m1pitch, m1x, m1y, m1roll, m1yaw, m1piezo
 global m2pitch, m2x, m2y, m2roll, m2yaw,m2bender
 global m3x, m4x, m3pitch, m4pitch
@@ -578,8 +579,8 @@ if installation.isLive():
 
 	print "   running pd_xyslit.py"
 	from pd_xyslit import pd_xyslit
-	ds=pd_xyslit('Detector slits (s6)','%.3f',s6xgap,s6ygap,s6xtrans,s6ytrans,help='Detector slit gaps\npos ds [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ds.x .5 to translate x centre to 0.5 mm')
-	ss=pd_xyslit('Sample slits (s5)','%.3f',s5xgap,s5ygap,s5xtrans,s5ytrans,help='Sample slit gaps\npos ss [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ss.x .5 to translate x centre to 0.5 mm')
+	ds=pd_xyslit('Detector slits (s7)','%.3f',s7xgap,s7ygap,s7xtrans,s7ytrans,help='Detector slit gaps\npos ds [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ds.x .5 to translate x centre to 0.5 mm')
+	ss=pd_xyslit('Sample slits (s5)',  '%.3f',s5xgap,s5ygap,s5xtrans,s5ytrans,help=  'Sample slit gaps\npos ss [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ss.x .5 to translate x centre to 0.5 mm')
 
 	print "   creating ion pump scannables"
 	run("startup_ionpumps")
