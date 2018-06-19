@@ -7,10 +7,7 @@ from math import exp
 from gda.data import NumTracker
 from gda.data import PathConstructor
 from math import exp
-from gda.analysis import ScanFileHolder, Plotter
-#from uk.ac.gda.diamond.analysis import ScanFileHolder, Plotter
-
-#TODO: Replace legacy stuff with dnp
+from gda.analysis import ScanFileHolder
 
 numTracker = NumTracker("scanbase_numtracker")
 def edgeDetectRobust(relativefilenumber,axis1,axis2):
@@ -26,13 +23,13 @@ def edgeDetectRobust(relativefilenumber,axis1,axis2):
 	data.loadSRS(file)
 	xdata=data.getAxis(axis1)
 	ydata=data.getAxis(axis2)
-	ydiffdata = dnp.diff(ydata)
+	ydiffdata = dnp.gradient(ydata)
 	maxyindex=ydiffdata.argmax()
 	minyindex=ydiffdata.argmin()
 	maxpos=xdata.getData()[maxyindex]
 	minpos=xdata.getData()[minyindex]
-	Plotter.plot('Data Vector',xdata,ydata)
-	Plotter.plotOver('Data Vector',xdata,ydiffdata._jdataset())
+	dnp.plot.plot(dnp.array(xdata),dnp.array(ydata),name='Plot 1')
+	dnp.plot.addline(dnp.array(xdata),dnp.array(ydiffdata._jdataset()),name='Plot 1')
 	peakproximitytolerance=0.01
 	intercepts=data.getInterpolatedX(xdata,ydata,(ydata.max()+ydata.min())/2.,peakproximitytolerance)
 	if minpos > maxpos:

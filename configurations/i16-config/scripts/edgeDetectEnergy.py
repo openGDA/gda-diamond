@@ -4,7 +4,7 @@ from gda.analysis.io import *
 from gda.data import NumTracker
 from gda.data import PathConstructor
 from gda.analysis import ScanFileHolder
-from org.eclipse.dawnsci.analysis.dataset.impl import DatasetUtils
+from org.eclipse.january.dataset import DatasetUtils
 from uk.ac.diamond.scisoft.analysis.fitting.functions import CubicSpline
 import traceback
 
