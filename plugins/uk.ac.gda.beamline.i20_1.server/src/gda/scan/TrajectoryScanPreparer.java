@@ -30,7 +30,7 @@ import org.springframework.beans.factory.InitializingBean;
 import gda.epics.CachedLazyPVFactory;
 import gda.epics.LazyPVFactory;
 import gda.epics.PV;
-import gda.factory.Findable;
+import gda.factory.FindableBase;
 
 /**
  * Epics controller for Trajectory scan.
@@ -40,12 +40,11 @@ import gda.factory.Findable;
  * {@link #addSpectrumToTrajectory}, {@link #addPointsForTimingGroups} before sending to Epics using {@link #sendProfileValues}.
  * @since 12/1/2017
  */
-public class TrajectoryScanPreparer implements Findable, InitializingBean {
+public class TrajectoryScanPreparer extends FindableBase implements InitializingBean {
 	private static final Logger logger = LoggerFactory.getLogger(TrajectoryScanPreparer.class);
 
 	private CachedLazyPVFactory pvFactory;
 
-	private String name;
 	private String pvBase;
 
 	private static final String X_POSITION_ARRAY = "X:Positions";
@@ -101,16 +100,6 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 	/** Number of points to build/append when sending profile values to Epics (used by {@link#sendAppendProfileValues()}. */
 	private int maxPointsPerProfileBuild = 1500;
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
 	public void setPvBase(String prefix) {
 		this.pvBase = prefix;
 	}
@@ -121,7 +110,7 @@ public class TrajectoryScanPreparer implements Findable, InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if( name == null || name.isEmpty())
+		if( getName() == null || getName().isEmpty())
 			throw new Exception("name is not set");
 		if (pvBase == null || pvBase.isEmpty())
 			throw new Exception("pvBase is not set");

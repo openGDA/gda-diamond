@@ -24,14 +24,13 @@ import org.slf4j.LoggerFactory;
 import gda.device.ContinuousParameters;
 import gda.device.DeviceException;
 import gda.device.zebra.controller.Zebra;
-import gda.factory.Findable;
+import gda.factory.FindableBase;
 import gda.scan.TurboXasMotorParameters;
 
 
 
-public class ZebraGatePulsePreparer implements Findable {
+public class ZebraGatePulsePreparer extends FindableBase {
 	private static final Logger logger = LoggerFactory.getLogger(ZebraGatePulsePreparer.class);
-	private String name;
 	private Zebra zebraDevice;
 
 	private double scanStartMotorPosition;
@@ -182,16 +181,6 @@ public class ZebraGatePulsePreparer implements Findable {
 
 	public void setNumReadoutsForScan(int numReadoutsForScan) {
 		this.numReadoutsForScan = numReadoutsForScan;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	public void setZebraDevice(Zebra zebraDevice) {

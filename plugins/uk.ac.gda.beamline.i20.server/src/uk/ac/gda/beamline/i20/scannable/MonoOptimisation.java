@@ -40,7 +40,7 @@ import gda.device.detector.DetectorBase;
 import gda.device.detector.countertimer.TFGCounterTimer;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.scannable.ScannableUtils;
-import gda.factory.Findable;
+import gda.factory.FindableBase;
 import gda.jython.InterfaceProvider;
 import gda.scan.ConcurrentScan;
 import gda.scan.ScanPlotSettings;
@@ -53,7 +53,7 @@ import uk.ac.diamond.scisoft.analysis.fitting.functions.Gaussian;
  *
  * @since 26/8/2016
  */
-public class MonoOptimisation implements Findable {
+public class MonoOptimisation extends FindableBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(MonoOptimisation.class);
 	private static int maxGoldenSectionIterations = 30;
@@ -82,7 +82,6 @@ public class MonoOptimisation implements Findable {
 
 	/** If true, then new scans from optimisation will be selected automatically when they are added to the plot view*/
 	private boolean selectNewScansInPlotView;
-	private String name;
 
 	private boolean allowOptimisation;
 	private Detector medipix = null;
@@ -564,16 +563,6 @@ public class MonoOptimisation implements Findable {
 
 	public void setPeakPointRange(int peakPointRange) {
 		this.peakPointRange = peakPointRange;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	/**
