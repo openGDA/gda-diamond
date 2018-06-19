@@ -28,6 +28,9 @@
 	<import resource="ca2.xml"/>
 	<import resource="ca3.xml"/>
 	<import resource="ca4.xml"/>
+	<import resource="laser1.xml"/>
+	<import resource="laser2.xml"/>
+	<import resource="ld1.xml"/>
 
 	
 </beans>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="BPM1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="bpm1x" />
+				<ref bean="bpm1y" />
+				<ref bean="bpm1pow" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- Scannable motors that control the Laser Stabilisation System -->
+	<bean id="fsm1x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorX_LFSM1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+	
+	<bean id="fsm1y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorY_LFSM1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+	
+	<bean id="FSM1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="fsm1x" />
+				<ref bean="fsm1y" />
+				<ref bean="fsm1xfsp" />
+				<ref bean="fsm1yfsp" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- delay stage -->
+	<bean id="llds1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="llds1_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+
+</beans>

@@ -66,6 +66,8 @@
 		<config>clients/main/_common/serverFileListener.xml</config>
 		<config>servers/main/live/devices/pgmController.xml</config>
 		<config>servers/main/live/devices/epicsConfiguration.xml</config>
+		<config>servers/main/_common/scannables/laserline.xml</config>
+		<config>servers/main/live/devices/ld1.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
