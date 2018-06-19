@@ -14,7 +14,8 @@ def localStation_exception(msg, exception):
 
 try:
 	print "Import configuration booleans from user scripts localStationConfiguration.py"
-	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR, USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP
+	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
+	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
 except Exception as e:
 	USE_CRYO_GEOMETRY = False
 	USE_DIFFCALC = False
@@ -31,7 +32,7 @@ from gda.configuration.properties import LocalProperties
 LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
 try:
-	from gdaserver import *
+	from gdaserver import * # @UnusedWildImport
 except Exception as e:
 	localStation_exception("importing * from gdaserver.py" , e)
 
