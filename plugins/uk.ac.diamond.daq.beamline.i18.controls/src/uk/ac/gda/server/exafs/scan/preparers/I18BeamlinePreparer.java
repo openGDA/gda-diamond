@@ -30,9 +30,7 @@ import gda.device.Scannable;
 import gda.device.scannable.BeamMonitor;
 import gda.device.scannable.DetectorFillingMonitorScannable;
 import gda.device.scannable.TopupChecker;
-import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
-import gda.jython.JythonServer;
 import gda.jython.commands.ScannableCommands;
 import gda.util.converters.AutoRenameableConverter;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
@@ -197,7 +195,7 @@ public class I18BeamlinePreparer implements BeamlinePreparer {
 			auto_mDeg_idGap_mm_converter.enableAutoConversion();
 		}
 
-		((JythonServer) Finder.getInstance().find("command_server")).removeDefault(detectorFillingMonitor);
+		ScannableCommands.remove_default(detectorFillingMonitor);
 	}
 
 	public void setUseWithGapEnergy() {

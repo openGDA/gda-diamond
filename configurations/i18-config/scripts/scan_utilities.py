@@ -1,10 +1,11 @@
 from gda.configuration.properties import LocalProperties
+from gda.jython import Jython
 
 class Scan_Utilities:
     
     def __init__(self):
         print "constructor"
-        self.JythonNS = finder.find("command_server")
+        self.JythonNS = finder.findSingleton(Jython)
         self.metaData = []
         self.filePrefix=""
         self.expt=""
