@@ -42,7 +42,7 @@ global sixckappa_cryo, cryophi
 global _sixckappa_deffered_only, delta_axis_offset
 global azir, psi, psic, hkl
 global kbmbase, setDatadirPropertyFromPersistanceDatabase, pitchupClass
-global stoke,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
+global stokes,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
 global ic1monitor, ppth, ppp_xtal1_111_offset, ppp_xtal1_m220_offset, ppp_xtal1_220_offset, ppp_xtal1_440_offset, ppp_xtal2_111_offset
 global x2000, x2003
 global delta
@@ -640,8 +640,8 @@ if installation.isLive():
 	
 	### Polarization analyser ###
 	print "   creating polarisation analyser scannable: pol"
-#	pol=PolarizationAnalyser("Polarization Analyser",stoke,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset,tthp_detoffset,cry_offset,ref_offset)
-	pol=PolarizationAnalyser("Polarization Analyser",stoke,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,dettrans,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety)
+#	pol=PolarizationAnalyser("Polarization Analyser",stokes,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset,      tthp_detoffset,cry_offset,ref_offset)
+	pol=PolarizationAnalyser("Polarization Analyser",stokes,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,dettrans,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety)
 
 	
 	### TCA  ###
@@ -1207,7 +1207,7 @@ if installation.isLive():
 	#mono=ReadPDGroupClass('Mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm,cryolevel])
 	mono=ReadPDGroupClass('mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm])
 	###
-	pa=ReadPDGroupClass('pa',[stoke, tthp, thp, zp])
+	pa=ReadPDGroupClass('pa',[stokes, tthp, thp, zp])
 	pp=ReadPDGroupClass('pp',[ppth, ppx, ppy, ppchi])
 	#positions=ReadPDGroupClass('positions',[sx,sy,sz,base_y,base_z,ytable, ztable])
 	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12

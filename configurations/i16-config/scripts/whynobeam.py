@@ -326,7 +326,7 @@ class whynobeam:
             detector=self.detectorpos(offset)
         else:
             print "\nAnalyzer ("+ pol.crystal + ") is in: zp= " + str(zetapi) + " and thp= " + str(round(tihpi,3))
-            print 'stoke= ' + str(stoke()) + ', psic= ' + str(psic()) + ', azimuthal reference= ' + '[' + str(azir()[0]) + ',' + str(azir()[1]) + ',' + str(azir()[2]) + ']'
+            print 'stokes= ' + str(stokes()) + ', psic= ' + str(psic()) + ', azimuthal reference= ' + '[' + str(azir()[0]) + ',' + str(azir()[1]) + ',' + str(azir()[2]) + ']'
             offset=tthp_detoffset()
             detector=self.detectorpos(offset)
         return offset
