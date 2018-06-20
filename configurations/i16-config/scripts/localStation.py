@@ -345,7 +345,7 @@ def pos(*args):
 	if not args:
 		print "pos command listing is disabled on I16"
 	else:
-		print pos_orig(*args)
+		pos_orig(*args)
 
 ### Create datadir functions
 print "Running startup_dataDirFunctions.py"
