@@ -28,6 +28,7 @@
 	<import resource="P2.xml"/>
 	<import resource="lsm1.xml"/>
 	<import resource="ld2.xml"/>
+	<import resource="lsm2.xml"/>
 	<import resource="dashboard.xml"/>
 	<import resource="energy.xml"/>
 
