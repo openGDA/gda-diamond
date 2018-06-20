@@ -22,6 +22,7 @@ class DetectorShield(ScannableBase):
         
         self.verbose = False
         self.ignoreFault = False
+        self.suppressOpenDetectorShieldAtScanStart = False
         self.suppressCloseDetectorShieldAtScanEnd = False
         
         self.TIMEOUT=10
@@ -48,7 +49,12 @@ class DetectorShield(ScannableBase):
         return None
 
     def atScanStart(self):
-        self.openDetectorShield(suppressWaitForOpen=True)
+        if self.suppressOpenDetectorShieldAtScanStart:
+            simpleLog("""%s
+              Detector Shield open is suppressed.""" % "DetectorShield: ".ljust(80, "*"))
+            simpleLog("*"*80)
+        else:
+            self.closeDetectorShield(suppressWaitForClose=True)
 
     def openDetectorShield(self, suppressWaitForOpen=False):
         if self.verbose:
@@ -140,6 +146,10 @@ class DetectorShield(ScannableBase):
               You MUST ensure the shield is closed manually after your scan:
               >>> %s.closeDetectorShield()""" % ("DetectorShield: ".ljust(80, "*"), self.name))
             simpleLog("*"*80)
+        elif self.suppressOpenDetectorShieldAtScanStart:
+            simpleLog("""%s
+              Detector Shield open was suppressed.""" % "DetectorShield: ".ljust(80, "*"))
+            simpleLog("*"*80)
         else:
             self.closeDetectorShield(suppressWaitForClose=True)
 
@@ -154,18 +164,18 @@ class DetectorShield(ScannableBase):
             simpleLog("Detector Shield %s" % self.getDetectorShieldStatus())
 
     def atCommandFailure(self):
-        self.pvManager['CON'].caput(self.TIMEOUT, 1)
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
         else:
             simpleLog("Detector Shield Closing after failure...")
+        self.pvManager['CON'].caput(self.TIMEOUT, 1)
 
     def stop(self): # This is required because Interrupt Scan Gracefully calls stop, but not atCommandFailure
-        self.pvManager['CON'].caput(self.TIMEOUT, 1)
         if self.verbose:
             simpleLog("%s:%s() called" % (self.name, self.pfuncname()))
         else:
             simpleLog("Detector Shield Closing after stop...")
+        self.pvManager['CON'].caput(self.TIMEOUT, 1)
 
     def isBusy(self):
         # Note that if the detector shield fails to fully open or close, this
