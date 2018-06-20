@@ -21,6 +21,7 @@
 	<import resource="userMotors.xml"/>
 	<import resource="fastScan.xml"/>
 	<import resource="live_controls.xml"/>
+	<import resource="laser_ec3.xml"/>
 	
 <!-- 	<import resource="peemCamera1.xml"/> -->
 	<import resource="peemStage.xml"/>
