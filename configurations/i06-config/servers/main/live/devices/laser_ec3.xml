@@ -17,7 +17,7 @@
 		<property name="pvName" value="BL06I-DI-BPM-23:POWER" />
 		<property name="local" value="true"/>
 	</bean>
-	<!-- Fast Steering Mirror 1 (LT1) -->
+	<!-- Fast Steering Mirror 23 -->
 	<bean id="MotorX_LFSM23" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-FSM-23:X" />
 		<property name="local" value="true"/>
