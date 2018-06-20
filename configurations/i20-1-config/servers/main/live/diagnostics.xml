@@ -55,6 +55,9 @@
 	<bean id="d5_current" class="gda.device.monitor.EpicsMonitor">
 		<property name="deviceName" value="D5.D1I" />
 	</bean>
+	<bean id="d5_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
+		<property name="pvName" value="BL20J-DI-IAMP-02:GAIN" />
+	</bean>
 
 <!-- Added 5/10/2016 -->
 	<bean id="d10_current" class="gda.device.monitor.EpicsMonitor">

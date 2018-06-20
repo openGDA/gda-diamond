@@ -10,10 +10,6 @@
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />
 
-	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="${gda.config}/xml/BL20I-gda-interface.xml" />
-	</bean>
-
 	<import resource="file:${gda.config}/servers/main/_common/server-common.xml" />
 
 	<!-- GDA configuration split up by part type -->

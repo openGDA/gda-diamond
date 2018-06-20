@@ -6,7 +6,7 @@
            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 	<bean id="ohcoating" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="deviceName" value="M1P" />
+		<property name="recordName" value="BL20I-OP-VCM-01:MP" />
 	</bean>
 	<bean id="crystalcut" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-OP-QCM-01:XTAL" />

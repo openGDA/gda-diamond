@@ -40,6 +40,9 @@ class AlignmentSlitScannable(QexafsTestingScannable) :
         self.triggerOutputForDetector =1 
         self.logger = LoggerFactory.getLogger(AlignmentSlitScannable);
 
+    def getMotorToMove(self):
+        return self.motorToMove
+
     def setMainDetector(self, mainDetector) :
         self.mainDetector = mainDetector
 
@@ -260,7 +263,6 @@ zebra_device = Finder.getInstance().find("zebra_device")
 daserverForTfg = Finder.getInstance().find("daserverForTfg")
 scalerForZebra = Finder.getInstance().find("scaler_for_zebra")
 motor_to_move = Finder.getInstance().find("as_hoffset")
-# bufferedDetector = Finder.getInstance().find("scaler_for_zebra")
 
 ## Buffered detector to use for continuous scan
 bufferedDetector = BufferedEdeDetector()
@@ -281,23 +283,28 @@ contScannable.setTriggerOutputForDetector( 1 )
 contScannable.setMaxMotorSpeed(10000.0) # motor speed used when moving to runup position for scan
 contScannable.setRampDistance(0.2)
 
-# General parameters for the scan
-scan_start = 0.59
-scan_end = 0.65
-scan_num_readouts = 140
+#cvscan contScannable scan_start scan_end scan_num_readouts scan_time bufferedDetector
+import math
 
-## Run the scan
+accumulation_reaout_time=0.8e-3
 
-# Set the Frelon up - set time per spectrum, in gui copy the values here :
+# start, stop, step, frelon accumulation time [secs], frelon num accumulations,
+def run_slit_scan(scan_start, scan_end, scan_step, accumulation_time, num_accumulations) :
+    scan_num_readouts = math.ceil( float((scan_end - scan_start)/scan_step) )
+    scan_time_per_spectrum = (accumulation_time+accumulation_reaout_time)*num_accumulations
+    scan_total_time = scan_num_readouts * scan_time_per_spectrum
+    units = contScannable.getMotorToMove().getUserUnits()
+    
+    print "Scan range   :", scan_start," ... ", scan_end, units,"(stepsize = ", scan_step, units,")"
+    print "Num readouts :", int(scan_num_readouts)
+    print "Motor speed :", float((scan_end - scan_start)/scan_total_time)," ",scan_step, units," per sec"
 
-#timePerSpectrum = 523.184e-3; accumulationTime = 27e-3; numAccumulations = 19
-timePerSpectrum = 7.546e-3; accumulationTime = 0.15e-3; numAccumulations = 11
-#timePerSpectrum = 70.658e-3; accumulationTime = 0.15e-3; numAccumulations = 103
+    print "Time per point  :", scan_time_per_spectrum,"sec (accumulation time =", accumulation_time," sec, num accumulations =", num_accumulations,")"
+    print "Total scan time :", scan_total_time,"sec"
+    
+    # bufferedDetector.prepareDetectorForCollection(scan_num_readouts, timePerSpectrum, accumulationTime, numAccumulations)
+    bufferedDetector.prepareDetectorForCollection( int(scan_num_readouts), scan_time_per_spectrum, accumulation_time, int(num_accumulations))
 
-
-scan_time = scan_num_readouts * timePerSpectrum
-
-bufferedDetector.prepareDetectorForCollection(scan_num_readouts, timePerSpectrum, accumulationTime, numAccumulations)
-
-cvscan contScannable scan_start scan_end scan_num_readouts scan_time bufferedDetector
+    cvscan contScannable scan_start scan_end scan_num_readouts scan_total_time bufferedDetector
+    
 

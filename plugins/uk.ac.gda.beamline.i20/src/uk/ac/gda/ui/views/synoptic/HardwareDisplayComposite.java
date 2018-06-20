@@ -18,8 +18,8 @@
 
 package uk.ac.gda.ui.views.synoptic;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -36,11 +36,8 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Layout;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import gda.configuration.properties.LocalProperties;
 
 public abstract class HardwareDisplayComposite {
 
@@ -174,24 +171,9 @@ public abstract class HardwareDisplayComposite {
 		});
 	}
 
-	/**
-	 * Return string with full path to image in the dal plugin. Have to do it like this
-	 * since we don't have a dependency on this plugin and therfore can't use
-	 * {@link AbstractUIPlugin#imageDescriptorFromPlugin(String, String)} or or similar to get at the image.
-	 * I don't like the idea of introducing unnecessary dependencies just to get at images...
-	 * @return
-	 * @throws IOException
-	 */
-	private String getFullPathToDalPlugin() throws IOException {
-		String dalPluginName = "gda-dal.git/uk.ac.gda.dal/";
-		String workSpaceDir = LocalProperties.get(LocalProperties.GDA_GIT_LOC);
-		return workSpaceDir+"/"+dalPluginName;
-	}
-
-	protected Image getImageFromDalPlugin(String pathToImage) throws IOException {
-		String dalPluginPath = getFullPathToDalPlugin();
-		File imageFile = new File(dalPluginPath + pathToImage);
-		return ImageDescriptor.createFromURL(imageFile.toURI().toURL()).createImage();
+	protected Image getImageFromPlugin(String pathToImage) throws IOException {
+		URL imageURL = this.getClass().getResource("/"+pathToImage);
+		return ImageDescriptor.createFromURL(imageURL).createImage();
 	}
 
 	/**

@@ -47,6 +47,9 @@ import gda.device.detector.countertimer.TfgScalerWithLogValues;
 import gda.device.scannable.ContinuouslyScannable;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TurboXasScannable;
+import gda.device.trajectoryscancontroller.TrajectoryScanController;
+import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteState;
+import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteStatus;
 import gda.device.zebra.controller.Zebra;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
@@ -208,11 +211,12 @@ public class TurboXasScan extends ContinuousScan {
 		// Create the trajectory scan profile
 		TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
 		trajScanPreparer.setDefaults();
-		trajScanPreparer.clearTrajectoryLists();
 		trajScanPreparer.addPointsForTimingGroups(turboXasMotorParams);
 
 		// send profile points to Epics trajectory scan, building and appending as necessary
-		trajScanPreparer.sendAppendProfileValues();
+		TrajectoryScanController controller = trajScanPreparer.getTrajectoryScanController();
+
+		controller.sendAppendProfileValues();
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
 
@@ -223,7 +227,8 @@ public class TurboXasScan extends ContinuousScan {
 		nexusTree.setStartTime(System.currentTimeMillis() + delay);
 
 		trajScanPreparer.setExecuteProfile();
-		if (trajScanPreparer.getExecuteProfileStatus().equals("Failure")){
+
+		if (controller.getExecuteStatus() == ExecuteStatus.FAILURE){
 			throw new Exception("Failure when executing trajectory scan - check Epics EDM screen.");
 		}
 
@@ -238,12 +243,13 @@ public class TurboXasScan extends ContinuousScan {
 		Async.execute(detectorReadoutRunnable);
 
 		// Wait while trajectory scan runs...
-		while(trajScanPreparer.getExecuteProfileState().equals("Executing")) {
+		while(controller.getExecuteState() == ExecuteState.EXECUTING) {
 			Thread.sleep(500);
 		}
 
 		// Output some info on trajectory scan final execution state
-		logger.info("Trajectory scan finished. Execute state = {}, percent complete = {}", trajScanPreparer.getExecuteProfileState(), trajScanPreparer.getTscanPercent());
+		logger.info("Trajectory scan finished. Execute state = {}, percent complete = {}",
+				controller.getExecuteState(), controller.getScanPercentComplete());
 
 		// Wait at end for data collection thread to finish
 		waitForReadoutToFinish(detectorReadoutRunnable, 600.0);
@@ -267,7 +273,7 @@ public class TurboXasScan extends ContinuousScan {
 			TurboXasScannable turboXasScannable = (TurboXasScannable) getScanAxis();
 			TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
 			try {
-				if (!trajScanPreparer.getExecuteProfileState().equals("Done")) {
+				if (trajScanPreparer.getTrajectoryScanController().getExecuteState() != ExecuteState.DONE) {
 					trajScanPreparer.setAbortProfile();
 				}
 			} catch (Exception e) {

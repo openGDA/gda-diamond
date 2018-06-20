@@ -72,7 +72,7 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 	@Override
 	protected void createControls(Composite parent) throws Exception {
 		setViewName("Xes Crystal Analyser View");
-		setBackgroundImage(getImageFromDalPlugin("oe images/xes_analysers2.bmp"), new Point(200, 350));
+		setBackgroundImage(getImageFromPlugin("oe images/xes_analysers2.bmp"), new Point(200, 350));
 		parent.getShell().setBackgroundMode(SWT.INHERIT_FORCE);
 
 		setupScannables();
@@ -177,8 +177,8 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 	private void createArrows(Composite parent) throws IOException {
 		// Crystal rotation
 		HighlightImageLabel rotationArrow = new HighlightImageLabel(parent, scannableForType.get(SS.CRYST_MINUS1_ROT));
-		rotationArrow.setImage(getImageFromDalPlugin("arrow images/yaw.png"));
-		rotationArrow.setHighlightImage(getImageFromDalPlugin("arrow images/yaw_red.png"));
+		rotationArrow.setImage(getImageFromPlugin("arrow images/yaw.png"));
+		rotationArrow.setHighlightImage(getImageFromPlugin("arrow images/yaw_red.png"));
 		setWidgetPosition(rotationArrow.getControl(), 64, 48);
 		// attach all motors that do rotations to this label
 		for(SS scn : rotationScannables) {
@@ -187,8 +187,8 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 
 		// Crystal pitch
 		HighlightImageLabel pitchArrow = new HighlightImageLabel(parent, scannableForType.get(SS.CRYST_PLUS1_PITCH));
-		pitchArrow.setImage(getImageFromDalPlugin("arrow images/pitch.png"));
-		pitchArrow.setHighlightImage(getImageFromDalPlugin("arrow images/pitch_red.png"));
+		pitchArrow.setImage(getImageFromPlugin("arrow images/pitch.png"));
+		pitchArrow.setHighlightImage(getImageFromPlugin("arrow images/pitch_red.png"));
 		setWidgetPosition(pitchArrow.getControl(), 82, 21);
 		// attach all motors that do rotations to this label
 		for(SS scn : pitchScannables) {
@@ -197,8 +197,8 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 
 		// X translation
 		HighlightImageLabel xTranslationArrow = new HighlightImageLabel(parent, scannableForType.get(SS.XTAL_X));
-		xTranslationArrow.setImage(getImageFromDalPlugin("arrow images/z.png"));
-		xTranslationArrow.setHighlightImage(getImageFromDalPlugin("arrow images/z_red.png"));
+		xTranslationArrow.setImage(getImageFromPlugin("arrow images/z.png"));
+		xTranslationArrow.setHighlightImage(getImageFromPlugin("arrow images/z_red.png"));
 		setWidgetPosition(xTranslationArrow.getControl(), 65, 80);
 	}
 

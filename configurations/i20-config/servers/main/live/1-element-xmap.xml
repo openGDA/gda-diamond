@@ -3,15 +3,15 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="xmap_dxp" class="gda.device.epicsdevice.FindableEpicsDevice">
-		<property name="name" value="xmap_dxp" />
-		<property name="deviceName" value="xmap_dxp" />
-	</bean>
+	<import resource="file:${gda.config}/servers/main/live/xmap_dxp.xml" />
 
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="local" value="true" />
 		<property name="xmap" ref="xmap_dxp" />
 		<property name="elementOffset" value="1" />
+		<property name="waitAfterCaput" value="true" />
+		<property name="caputSleepTime" value="100" />
+		<property name="stopUpdatesMcaPvRecord" value="true" />
 	</bean>
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">

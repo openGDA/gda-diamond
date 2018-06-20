@@ -62,23 +62,18 @@
                     <property name="name" value="investigation" />
                     <property name="query" value="id:investigation:id" />
                 </bean>
-					-->
                 <bean class="gda.data.metadata.StoredMetadataEntry">
                     <property name="name" value="visit" />
                     <property name="defEntryName" value="defVisit" />
                 </bean>
-                <!--
                 <bean class="gda.data.metadata.IcatMetadataEntry">
                     <property name="name" value="proposal" />
                     <property name="query" value="INV_NUMBER:investigation:id" />
                 </bean>
-                 -->
                 <bean class="gda.data.metadata.IcatMetadataEntry">
                     <property name="name" value="title" />
                     <property name="query" value="TITLE" />
                 </bean>
-                 
-                <!-- 
                 <bean class="gda.data.metadata.IcatMetadataEntry">
                     <property name="name" value="user" />
                     <property name="query" value="first_name, middle_name, last_name:facility_user where facility_user_id in (select facility_user_id from investigator:investigation_id" />

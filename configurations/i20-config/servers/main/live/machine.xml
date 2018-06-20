@@ -48,7 +48,7 @@
 		<property name="local" value="false" />
 	</bean>
 	<bean id="wigglerGap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="WIGGLER.GAP" />
+		<property name="pvName" value="SR20I-MO-SERVC-01:BLGAPMTR" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="wigglerGap" class="gda.device.scannable.ScannableMotor">
