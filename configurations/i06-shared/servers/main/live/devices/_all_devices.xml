@@ -33,6 +33,7 @@
 	<import resource="laser2.xml"/>
 	<import resource="ld1.xml"/>
 	<import resource="P2.xml"/>
+	<import resource="lsm1.xml"/>
 <!-- 	<import resource="agilentADC.xml"/> -->
 	
 </beans>
