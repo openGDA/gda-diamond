@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- LD1 motor-->
-	<bean id="sm1_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="lsm1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-SM-01:MTR" />
 		<property name="local" value="true"/>
 	</bean>
