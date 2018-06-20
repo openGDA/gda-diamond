@@ -16,7 +16,7 @@ from epics_scripts.pv_scannable_utils import caputStringAsWaveform
 from gdascripts.metadata.metadata_commands import meta_add, meta_ll, meta_ls, meta_rm
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
 from gda.jython.commands import ScannableCommands
-from gda.jython import JythonServer
+from gda.jython import Jython
 from gdascripts.utils import caput, caget
 
 # set up a nice method for getting the latest file path
@@ -269,7 +269,7 @@ def isLive():
 
 def clear_defaults():
     """To clear all current default scannables."""
-    srv = finder.find(JythonServer.SERVERNAME)
+    srv = finder.findSingleton(Jython)
     all_vec = srv.getDefaultScannables()
     all_arr = all_vec.toArray()
     for s in all_arr:

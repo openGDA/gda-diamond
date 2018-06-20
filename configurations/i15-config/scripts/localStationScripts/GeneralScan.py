@@ -8,10 +8,11 @@ from gda.data.scan.datawriter import *
 class GeneralScan(ScanBase):
 
 	def __init__(self,arguments):
+		from gda.jython import Jython
 		self.arguments = arguments
 		self.dataHandler = None
 		self.myfinder = Finder.getInstance()
-		self.myserver= finder.find("command_server")
+		self.myserver= self.myfinder.findSingleton(Jython)
 	    
 	def moveTo(self,name,position):
 		try:

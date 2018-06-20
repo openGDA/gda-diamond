@@ -6,6 +6,7 @@ import gda.factory.FactoryException
 import time
 
 from gda.device import Scannable
+from gda.jython import Jython
 from gda.jython.commands.GeneralCommands import ls_names, alias, vararg_alias
 from gda.jython.commands.ScannableCommands import add_default
 from gda.device.scannable import ScannableBase
@@ -390,7 +391,7 @@ except:
 	handle_messages.log(None, msg, exceptionType, exception, traceback, False)
 
 print "\n Finished adding beamline default scannables."
-srv = finder.find(JythonServer.SERVERNAME)
+srv = finder.findSingleton(Jython)
 _default_scannables_in_gda = srv.getDefaultScannables().toArray()
 print "\n The following default scannables will be recorded at each scan point under /entry1/default or /entry1/instrument in every Nexus scan file:"
 for s in _default_scannables_in_gda:
