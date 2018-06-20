@@ -19,7 +19,7 @@ try:
     #rasterpil1.filewriter.filePathTemplate='$datadir$/tmp/$scan$-rasterpil1-files'  # @UndefinedVariable
     #rasterpil1.tifwriter.filePathTemplate='/ramdisk'  # @UndefinedVariable
 except:
-    print "* Could not setup_overlay_plugin on pie724 with det='BL16I-EA-PILAT-01:'"
+    print "* Could not setup_overlay_plugin on pie725 with det='BL16I-EA-PILAT-01:'"
 
 # Medipix
 try:

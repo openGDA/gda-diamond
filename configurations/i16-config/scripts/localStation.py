@@ -1426,9 +1426,11 @@ run("setup_cvscan")
 print "Continuous scans setup"
 print "==========================="
 
-"""
-run("startup_pie725")
-"""
+if installation.isLive():
+	try:
+		run("startup_pie725")
+	except Exception as e:
+		localStation_exception("running startup_pie725 script", e)
 
 if USE_NEXUS:
 	run("datawriting/i16_nexus")

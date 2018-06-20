@@ -1,5 +1,5 @@
 from gda.device.detector import DetectorBase
-from gda.device.scannable import TwoDScanSwingPlotter
+from gda.device.scannable import TwoDScanPlotter
 from gda.scan import ConstantVelocityRasterScan
 from gdascripts.scan.concurrentScanWrapper import ConcurrentScanWrapper
 from gdascripts.scan.trajscans import setDefaultScannables
@@ -23,10 +23,8 @@ class DetectorDummy(DetectorBase):
 
 
 def pieplotter(ystart, ystop, ystep, xstart, xstep, xstop, zname):
-    
-    _plotter = TwoDScanSwingPlotter()
+    _plotter = TwoDScanPlotter()
     _plotter.setPlotViewname('Plot 2')
-    _plotter.setSwingPlotViewName('Data Vector')
     #_plotter.setX_colName('pieX')
     #_plotter.setY_colName('pieY')
     _plotter.setZ_colName(zname)
@@ -37,11 +35,8 @@ def pieplotter(ystart, ystop, ystep, xstart, xstep, xstop, zname):
 
 
 def xyplotter(ystart, ystop, ystep, xstart, xstep, xstop, zname):
-    
-    _plotter = TwoDScanSwingPlotter()
-    #_plotter = TwoDScanPlotter()
+    _plotter = TwoDScanPlotter()
     _plotter.setPlotViewname('Plot 2')
-    _plotter.setSwingPlotViewName('Data Vector')
     #_plotter.setX_colName('x')
     #_plotter.setY_colName('y')
     _plotter.setZ_colName(zname)
