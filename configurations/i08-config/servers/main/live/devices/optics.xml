@@ -214,6 +214,10 @@
 		<property name="pvBase" value="BL08I-AL-SLITS-02:SS:MP:SELECT" />
 	</bean>
 
+	<bean id="s2_shutter" class="gda.device.enumpositioner.EpicsEnumPositioner">
+		<property name="pvBase" value="BL08I-AL-SLITS-02:CHOP:MP:SELECT" />
+	</bean>
+
 	<bean id="s2_ztranslation_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-02:Z" />
 		<property name="local" value="true" />

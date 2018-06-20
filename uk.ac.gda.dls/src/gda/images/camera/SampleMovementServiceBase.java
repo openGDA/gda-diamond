@@ -29,13 +29,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import gda.device.DeviceException;
+import gda.factory.FindableBase;
 import gda.images.camera.Utilities.OmegaDirection;
 
 /**
  * Base class for classes that implement {@link SampleMovementService}.
  */
-public abstract class SampleMovementServiceBase implements SampleMovementService, InitializingBean {
-	
+public abstract class SampleMovementServiceBase extends FindableBase implements SampleMovementService, InitializingBean {
+
 	private static final Logger logger = LoggerFactory.getLogger(SampleMovementServiceBase.class);
 	
 	private OmegaDirection omegaDirection;

@@ -243,29 +243,29 @@
 	</bean>
 
 	<bean id="s2_ap_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-8.485" />
-		<property name="maxPosition" value="8.485" />
+		<property name="minPosition" value="3.455" />
+		<property name="maxPosition" value="8.405" />
 		<property name="position" value="1.45" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
 	<bean id="s2_ap_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-8.21" />
-		<property name="maxPosition" value="8.215" />
+		<property name="minPosition" value="-0.81" />
+		<property name="maxPosition" value="8.14" />
 		<property name="position" value="-2.3" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
 	<bean id="s2_ss_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-8.172" />
-		<property name="maxPosition" value="8.175" />
+		<property name="minPosition" value="-1.857" />
+		<property name="maxPosition" value="8.093" />
 		<property name="position" value="4.32" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
 	<bean id="s2_ss_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-7.17" />
-		<property name="maxPosition" value="7.18" />
+		<property name="minPosition" value="-2.832" />
+		<property name="maxPosition" value="7.118" />
 		<property name="position" value="2.74" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
@@ -285,9 +285,15 @@
 				<value>50 um</value>
 				<value>60 um</value>
 				<value>70 um</value>
-				<value>100 um</value>
-				<value>200 um</value>
-				<value>Out</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="s2_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Closed</value>
 			</list>
 		</property>
 	</bean>

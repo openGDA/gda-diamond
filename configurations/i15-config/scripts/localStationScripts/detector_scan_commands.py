@@ -8,11 +8,12 @@ from gdascripts.parameters import beamline_parameters
 from gdascripts.utils import caget, caput
 from time import sleep
 from org.slf4j import LoggerFactory
+#from localStationScripts.operationalControl import d3out
 
 # If the functions or defaults values below change, please update the user wiki
 # page: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Exposures%20and%20scans%20using%20mar%2C%20ccd%2C%20Pilatus%2C%20etc.
 class DiodeController(ScannableBase):
-	def __init__(self, d1out, d2out, exposeDarkFlag=False, suppressCloseEHShutterAtScanEnd=False):
+	def __init__(self, d1out, d2out, d3out, exposeDarkFlag=False, suppressCloseEHShutterAtScanEnd=False):
 		self.setName("diodes")
 		self.setInputNames([])
 		self.setExtraNames([]);
@@ -20,7 +21,7 @@ class DiodeController(ScannableBase):
 		jythonNameMap = beamline_parameters.JythonNameSpaceMapping()
 		self.d1out = jythonNameMap.d1out if d1out else None
 		self.d2out = jythonNameMap.d2out if d2out else None
-		self.d3out = jythonNameMap.d3out
+		self.d3out = jythonNameMap.d3out if d3out else None
 		self.zebraFastShutter = jythonNameMap.zebraFastShutter
 		self.openEHShutter = jythonNameMap.openEHShutter
 		self.exposeDarkFlag = exposeDarkFlag
@@ -37,7 +38,10 @@ class DiodeController(ScannableBase):
 		else:
 			simpleLog("DiodeController: d2out disabled.")
 		
-		self.d3out()
+		if self.d3out:
+			self.d3out()
+		else:
+			simpleLog("DiodeController: d3out disabled.")
 		
 		self.zebraFastShutter.forceOpenRelease()
 		
@@ -179,7 +183,7 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 	return hardwareTriggeredNXDetector
 
 def _darkExpose(detector, exposureTime=1, 
-		sampleSuffix="expose_test", d1out=True, d2out=True):
+		sampleSuffix="expose_test", d1out=True, d2out=True, d3out=True):
 	
 	_configureDetector(detector, exposureTime, 1, "%s(%rs_dark)" % (sampleSuffix, exposureTime), dark=True)
 
@@ -200,7 +204,7 @@ def _darkExpose(detector, exposureTime=1,
 
 	scan = ConcurrentScan([numExposuresPD, 1, 1, 1,
 						   detectorShield,
-						   DiodeController(d1out, d2out, exposeDarkFlag=True),
+						   DiodeController(d1out, d2out, d3out, exposeDarkFlag=True),
 						   detector, exposureTime ])
 	scan.runScan()
 

@@ -67,11 +67,7 @@
 		<property name="deviceName" value="PHDGN6" />
 		<property name="dummyMode" value="false"/>
 	</bean>
-	<bean id="PHDGN7"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN7" />
-		<property name="dummyMode" value="false"/>
-	</bean>
+
 	<bean id="PHDGN8"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="deviceName" value="PHDGN8" />
@@ -80,26 +76,6 @@
 	<bean id="PHDGN9"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
 		<property name="deviceName" value="PHDGN9" />
-		<property name="dummyMode" value="false"/>
-	</bean>
-
-	<bean id="PHDGN10"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="recordPvs">
-			<map>
-				<entry key="RECORD" value="BL15I-DI-PHDGN-10:I" />
-			</map>
-		</property>
-		<property name="dummyMode" value="false"/>
-	</bean>
-
-	<bean id="PHDGN11"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="recordPvs">
-			<map>
-				<entry key="RECORD" value="BL15I-DI-PHDGN-11:I" />
-			</map>
-		</property>
 		<property name="dummyMode" value="false"/>
 	</bean>
 

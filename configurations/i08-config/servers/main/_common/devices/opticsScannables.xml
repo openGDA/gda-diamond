@@ -350,6 +350,7 @@
 				<ref bean="s2_ss_x" />
 				<ref bean="s2_ss_y" />
 				<ref bean="s2_ss_presets" />
+				<ref bean="s2_shutter" />
 				<ref bean="s2_ztranslation" />
 			</list>
 		</property>
