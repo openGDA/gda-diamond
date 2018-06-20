@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Movable Table -->
+	<bean id="BPM22" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="bpm22x" />
+				<ref bean="bpm22y" />
+				<ref bean="bpm22pow" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- Scannable motors that control the Laser Stabilisation System -->
+	<bean id="fsm22x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorX_LFSM22" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+	
+	<bean id="fsm22y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorY_LFSM22" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+
+	<bean id="FSM22" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="fsm22x" />
+				<ref bean="fsm22y" />
+				<ref bean="fsm22xfsp" />
+				<ref bean="fsm22yfsp" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- Waveplate 32 -->
+	<bean id="wp32" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="wp32_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+
+	<!-- TOPAS Table -->
+	<bean id="BPM4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="bpm4x" />
+				<ref bean="bpm4y" />
+				<ref bean="bpm4pow" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+	<!-- Fast Steering Mirror 4 -->
+	<bean id="fsm4x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorX_LFSM4" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+	
+	<bean id="fsm4y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorY_LFSM4" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+	<bean id="FSM4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="fsm4x" />
+				<ref bean="fsm4y" />
+				<ref bean="fsm4xfsp" />
+				<ref bean="fsm4yfsp" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

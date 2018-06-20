@@ -19,6 +19,7 @@
 	<import resource="u2.xml"/>
 	<import resource="userMotors.xml"/>
 	<import resource="fastScan.xml"/>
+	<import resource="laser_ec2.xml"/>
 
 	<!-- mobile end station devices below -->
 	<import resource="endStationDD.xml"/>
