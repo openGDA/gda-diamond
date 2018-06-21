@@ -54,7 +54,7 @@ class DetectorShield(ScannableBase):
               Detector Shield open is suppressed.""" % "DetectorShield: ".ljust(80, "*"))
             simpleLog("*"*80)
         else:
-            self.closeDetectorShield(suppressWaitForClose=True)
+            self.openDetectorShield(suppressWaitForOpen=True)
 
     def openDetectorShield(self, suppressWaitForOpen=False):
         if self.verbose:
