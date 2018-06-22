@@ -108,7 +108,7 @@ class ExcludeEarlyFramesDefaultHandler(PseudoDevice):
         
         if new_position is not None:
             self.current_pos=int(new_position)
-            self.cli.caput(self.cli.current_pos)
+            self.cli.caput(self.current_pos)
         return
 
     # Returns the status of this Scannable
@@ -195,7 +195,7 @@ class ExcludeEarlyFramesHandler(PseudoDevice):
         
         if new_position is not None:
             self.current_pos=int(new_position)
-            self.cli.caput(self.cli.current_pos)
+            self.cli.caput(self.current_pos)
         return
 
     # Returns the status of this Scannable
