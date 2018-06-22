@@ -95,11 +95,15 @@ if installation.isLive():
     def erio():
         caput("BL21I-OP-SHTR-01:SRC", 0)
     
-    def camera():
+    def primary():
         caput("BL21I-OP-SHTR-01:SRC", 1)
     
+    def polarimeter():
+        caput("BL21I-OP-SHTR-01:SRC", 2)
+        
     alias("erio")
-    alias("camera")
+    alias("primary")
+    alias("polarimeter")
 else:
     print "Running in dummy mode"
 
@@ -213,7 +217,7 @@ from scannabledevices.samplePoistioner_instance import smp_positioner  # @Unused
 
 # repeat acquire at a fixed point
 def acquireRIXS(n, det, exposure_time, *args):
-    newargs=[x,1,n,1,det,exposure_time] # @UndefinedVariable
+    newargs=[tm,1,n,1,det,exposure_time] # @UndefinedVariable
     for arg in args:
         newargs.append(arg)
     scan([e for e in newargs])  
