@@ -9,6 +9,7 @@
 				<ref bean="stage_x_control" />
 				<ref bean="stage_y_control" />
 				<ref bean="stage_z_control" />
+				<ref bean="focus_z_control" />
 				<ref bean="centreStage"/>
 				<ref bean="gain_control"/>
 				<ref bean="exposure_control"/>
@@ -33,6 +34,13 @@
 	<bean id="stage_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Stage Z" />
 		<property name="scannableName" value="stage_z" />
+		<property name="group" value="Translations" />
+		<property name="increment" value="0.1" />
+	</bean>
+
+	<bean id="focus_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Focus Z" />
+		<property name="scannableName" value="focus_z" />
 		<property name="group" value="Translations" />
 		<property name="increment" value="0.1" />
 	</bean>

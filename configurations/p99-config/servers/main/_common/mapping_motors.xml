@@ -20,6 +20,10 @@
 		<property name="motor" ref="stage_z_motor" />
 	</bean>
 
+	<bean id="focus_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="focus_z_motor" />
+	</bean>
+
 	<bean id="mapping_stage_xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

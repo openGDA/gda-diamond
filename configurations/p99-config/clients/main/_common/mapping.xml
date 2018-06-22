@@ -67,15 +67,17 @@
 		</property>
 		<property name="scanDefinition">
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
+				
 				<property name="outerScannables">
 					<list>
 						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-							<constructor-arg name="name" value="stage_z" />
+							<constructor-arg name="name" value="focus_z" />
 							<constructor-arg name="model"><null /></constructor-arg>
 							<constructor-arg name="includeInScan" value="false" />
 						</bean>
 					</list>
 				</property>
+
 			</bean>
 		</property>
 	</bean>
@@ -154,7 +156,7 @@
 
 	<!-- The focus scan bean provides the defaults used for a focus scan (a.k.a. butterfly scan) -->
 	<bean id="focus_scan_bean" class="uk.ac.diamond.daq.mapping.api.FocusScanBean">
-		<property name="focusScannableName" value="stage_z"/>
+		<property name="focusScannableName" value="focus_z"/>
 		<property name="focusRange" value="0.05"/>
 		<property name="numberOfFocusSteps" value="20"/>
 		<property name="numberOfLinePoints" value="40"/>
