@@ -42,7 +42,7 @@ http://confluence.diamond.ac.uk/display/I12Tech/I12+GDA+Help
     reloadTiltBallPositionLookup
     reloadScanResolutionLookup
     
-    For completeness, the path to the lookup-table files: /dls_sw/i12/software/gda/config/lookupTables/tomo
+    For completeness, the path to the lookup-table files: /dls_sw/i12/software/gda/config/lookupTables/tomo_lookup
 
 8. To identify the current mapping of objects which are used by tomoScan, please use the following Jython command:
     reportTomo 

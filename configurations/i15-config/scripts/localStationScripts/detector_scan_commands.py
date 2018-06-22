@@ -1,4 +1,3 @@
-#from scannables.detectors.detectorAxisWrapper import _getWrappedDetector
 from gdascripts.messages.handle_messages import simpleLog
 from gda.scan import ConcurrentScan, ConstantVelocityScanLine
 from gdascripts.pd.dummy_pds import DummyPD
@@ -8,7 +7,6 @@ from gdascripts.parameters import beamline_parameters
 from gdascripts.utils import caget, caput
 from time import sleep
 from org.slf4j import LoggerFactory
-#from localStationScripts.operationalControl import d3out
 
 # If the functions or defaults values below change, please update the user wiki
 # page: http://wiki.diamond.ac.uk/Wiki/Wiki.jsp?page=Exposures%20and%20scans%20using%20mar%2C%20ccd%2C%20Pilatus%2C%20etc.
