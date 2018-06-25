@@ -157,17 +157,17 @@ class Polarisation(ScannableBase):
         elif mode == SourceMode.SOURCE_MODES[1]:
             if newpos == Polarisation.POLARISATIONS[0]:
                 __main__.energy = egy_g_idu_circ_pos_energy
-                __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
-                __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
-                __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
-                __main__.mcsr19_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
-                __main__.binpointGrtPitch_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
-                __main__.binpointMirPitch_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
-                __main__.binpointPgmEnergy_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
-                __main__.binpointId1JawPhase_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
-                __main__.binpointId2JawPhase_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
-                __main__.binpointMcaTime_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
-                __main__.binpointCustom1_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
+                __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
+                __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
+                __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
+                __main__.mcsr19_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
+                __main__.binpointGrtPitch_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
+                __main__.binpointMirPitch_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
+                __main__.binpointPgmEnergy_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
+                __main__.binpointId1JawPhase_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
+                __main__.binpointId2JawPhase_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
+                __main__.binpointMcaTime_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
+                __main__.binpointCustom1_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
                 if self.verbose: 
                     message = "'energy' is switched to %s " % (egy_g_idu_circ_pos_energy.getName())
                     print message
