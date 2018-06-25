@@ -27,6 +27,7 @@
 				<ref bean="stage_x" />
 				<ref bean="stage_y" />
 				<ref bean="stage_z" />
+				<ref bean="focus_z" />
 			</list>
 		</property>
 	</bean>
@@ -55,6 +56,11 @@
 	<bean id="stage_z" class="org.eclipse.scanning.api.scan.ui.ControlNode" init-method="add">
 		<property name="displayName" value="Stage Z" />
 		<property name="scannableName" value="stage_z" />
+		<property name="increment" value="0.1" />
+	</bean>
+	<bean id="focus_z" class="org.eclipse.scanning.api.scan.ui.ControlNode" init-method="add">
+		<property name="displayName" value="Focus Z" />
+		<property name="scannableName" value="focus_z" />
 		<property name="increment" value="0.1" />
 	</bean>
 
