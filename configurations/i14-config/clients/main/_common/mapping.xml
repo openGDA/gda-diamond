@@ -177,7 +177,7 @@
 				<bean class="org.eclipse.scanning.api.points.models.SpiralModel" />
 				<bean class="org.eclipse.scanning.api.points.models.LissajousModel" />
 				<bean class="org.eclipse.scanning.api.points.models.RandomOffsetGridModel" />
-				<bean class="org.eclipse.scanning.api.points.models.OverlapGridModel" />
+				<bean class="org.eclipse.scanning.api.points.models.PtychographyGridModel" />
 			</list>
 		</property>
 		<property name="oneDPaths">
