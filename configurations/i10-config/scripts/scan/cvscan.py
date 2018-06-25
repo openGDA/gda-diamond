@@ -47,17 +47,17 @@ def cvscan2(c_energy, start, stop, step, *args):
     newargs=[c_energy, start, stop, step]
     for arg in args:
         if isinstance(arg, WaveformChannelScannable):
-            wfs.append(args)
+            wfs.append(arg)
         elif isinstance(arg, Number):
-            dwell.append()
+            dwell.append(arg)
         else:
-            others.append()
+            others.append(arg)
     if not checkContentEqual(dwell):
         raise Exception("dwell time specified must be equal for all detectors!")
     for each in wfs:
         newargs.append(each)
         newargs.append(dwell)
-    if c_energy.getName() == "egy_g":
+    if c_energy.getName() == "egy_g" or c_energy.getName() == "egy":
         #set dwell time to embedded instances of WaveformChannelScannable
         if binpointGrtPitch_g not in wfs:
             newargs.append(binpointGrtPitch_g)
