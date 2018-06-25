@@ -107,7 +107,10 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
                 self._move_controller.mirror_pitch_positions.append(mirr_pitch)
                 self._move_controller.pgm_energy_positions.append(float(position))
         else:
-            self._move_controller._id_energy.asynchronousMoveTo(position)
+            try:
+                self._move_controller._id_energy.asynchronousMoveTo(position)
+            except:
+                raise Exception("asynchronousMoveTo only supports Continuous operation")
         self.mybusy=False
 
     def atScanLineStart(self):
@@ -144,7 +147,10 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             # Should be using getPositionCallable
             #return self._last_requested_position
         else:
-            return self._move_controller._id_energy.getPosition()
+            try:
+                return self._move_controller._id_energy.getPosition()
+            except:
+                raise Exception("getPosition only supports continuous operation")
 
     def waitWhileBusy(self):
         if self.verbose: self.logger.info('waitWhileBusy()...')
@@ -161,8 +167,11 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         if self._operating_continuously:
             return self.mybusy #self._move_controller.isBusy()
         else:
-            return self._move_controller._id_energy.isBusy()
-
+            try:
+                return self._move_controller._id_energy.isBusy()
+            except:
+                raise Exception("isBusy only supports continuous operation")
+            
     # public interface ScannableMotion extends Scannable
 
     # Override: public interface Scannable extends Device
@@ -185,13 +194,19 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         if self._operating_continuously:
             return self.super__getExtraNames()
         else:
-            return self._move_controller._id_energy.getExtraNames()
+            try: 
+                return self._move_controller._id_energy.getExtraNames()
+            except:
+                return self.super__getExtraNames()
     
     def getOutputFormat(self):
         if self._operating_continuously:
             return self.super__getOutputFormat()
         else:
-            return self._move_controller._id_energy.getOutputFormat()
+            try:
+                return self._move_controller._id_energy.getOutputFormat()
+            except: #
+                return self.super__getOutputFormat()
         
         
         """ Note, self._operating_continuously is being set back to false before atScanEnd is being called. See:
