@@ -1,6 +1,0 @@
-#!/bin/bash
-
-config_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd -P )"
-echo GDA_CONFIG = "${config_absolute_path}" , BEAMLINE = $BEAMLINE
-
-$config_absolute_path/bin/gda logpanel --mode=dummy $@

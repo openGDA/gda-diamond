@@ -9,6 +9,7 @@ from org.eclipse.dawnsci.hdf5.nexus import NexusFileHDF5
 import org.eclipse.january.dataset.DatasetFactory as DF
 import org.eclipse.january.dataset.LinearAlgebra as LA
 from org.eclipse.january.dataset import Dataset
+from org.slf4j import LoggerFactory
 import traceback
 import math
 import re
@@ -203,6 +204,7 @@ class I16NexusExtender(DataWriterExtenderBase):
 
     def __init__(self, geometry_file):
         DataWriterExtenderBase.__init__(self)
+        self.logger = LoggerFactory.getLogger("I16NexusExtender")
         self.complete = True
         self.updateFromGeometry(geometry_file)
 
@@ -380,15 +382,31 @@ class I16NexusExtender(DataWriterExtenderBase):
                 self.writeTifPaths(nFile, detGroup, detName, pathTemplate)
 
     def parseCrystalInfo(self, nFile, metadataGroup):
+        self.logger.trace("parseCrystalInfo(nFile={}, metadataGroup={})", nFile, metadataGroup)
         xtalinfo = nFile.getGroup(metadataGroup, "xtalinfo", "NXcollection", False)
+        self.logger.trace("parseCrystalInfo() xtalinfo={}", xtalinfo)
         orientationMatrix = [0] * 9
         latticeVals = [0] * 6
         for i in xrange(0, 3):
             for j in xrange(0, 3):
                 ubval = "UB" + str(i + 1) + str(j + 1)
-                orientationMatrix[ 3 * i + j ] = nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0)
+                try:
+                    self.logger.trace("parseCrystalInfo() nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0)={}", nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0))
+                    orientationMatrix[ 3 * i + j ] = nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0)
+                except:
+                    orientationMatrix[ 3 * i + j ] = nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble()
+                    self.logger.error("parseCrystalInfo() coudn't get nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0) use getDouble() instead")
+                    self.logger.trace("parseCrystalInfo() nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble()={}", nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble())
         for i, val in zip(xrange(0, 6), ["a", "b", "c", "alpha1", "alpha2", "alpha3"]):
-            latticeVals[i] = nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0)
+            self.logger.trace("parseCrystalInfo() val={}", val)
+            try:
+                self.logger.trace("parseCrystalInfo() nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0)={}", nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0))
+                latticeVals[i] = nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0)
+            except:
+                latticeVals[i] = nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble()
+                self.logger.error("parseCrystalInfo() coudn't get nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0) use getDouble() instead")
+                self.logger.trace("parseCrystalInfo() nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble()={}", nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble())
+        self.logger.info("parseCrystalInfo() returning latticeVals={}, orientationMatrix={}", latticeVals, orientationMatrix)
         return (latticeVals, orientationMatrix)
 
     def extractTransmission(self, nFile, metadataGroup):
@@ -422,7 +440,14 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.createData(group, orientationMatrix)
 
     def writeIncidentWavelength(self, nFile, group):
-        energy = nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble(0)
+        self.logger.info("writeIncidentWavelength(nFile={}, group={})", nFile, group)
+        try:
+            self.logger.trace("parseCrystalInfo() nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble(0)={}", nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble(0))
+            energy = nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble(0)
+        except:
+            energy = nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble()
+            self.logger.error("parseCrystalInfo() coudn't get nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble(0) use getDouble() instead")
+            self.logger.trace("parseCrystalInfo() nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble()={}", nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble())
         wavelength = 1e9 * PLANCK * LIGHTSPEED / (energy * 1000 * EVOLT_TO_JOULE)
         dataset = DF.createFromObject(wavelength)
         dataset.name = "incident_wavelength"
@@ -448,8 +473,13 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.createData(group, data)
 
     def writeDeltaOffset(self, nFile, transformations, metadata):
+        self.logger.info("writeDeltaOffset(nFile={}, transformations={}, metadata={})", nFile, transformations, metadata)
         diffGroup = nFile.getGroup(metadata, "diffractometer_sample", "NXcollection", False)
-        offsetValue = nFile.getData(diffGroup, "delta_axis_offset").getDataset().getSlice().getDouble(0)
+        try:
+            offsetValue = nFile.getData(diffGroup, "delta_axis_offset").getDataset().getSlice().getDouble(0)
+        except:
+            offsetValue = nFile.getData(diffGroup, "delta_axis_offset").getDataset().getSlice().getDouble()
+            self.logger.error("parseCrystalInfo() coudn't get nFile.getData(diffGroup, delta_axis_offset').getDataset().getSlice().getDouble() use getDouble() instead")
         offsetData = DF.createFromObject([offsetValue])
         offsetData.name = "offsetdelta"
         data = nFile.createData(transformations, offsetData)

@@ -1,29 +1,89 @@
+import gda
 print "============================================================="
 print "Running I16 specific initialisation code from localStation.py"
 print "============================================================="
 
+localStation_exceptions = []
+
+def localStation_exception(msg, exception):
+	from org.slf4j import LoggerFactory
+	logger = LoggerFactory.getLogger("localStation.py")
+	localStation_exceptions.append("    %s" % msg)
+	print "! Failure %s !" % msg
+	logger.error(msg, exception)
+
+try:
+	print "Import configuration booleans from user scripts localStationConfiguration.py"
+	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
+	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
+except Exception as e:
+	USE_CRYO_GEOMETRY = False
+	USE_DIFFCALC = False
+	USE_DUMMY_IDGAP_MOTOR = False
+	USE_NEXUS = True
+	USE_NEXUS_METADATA_COMMANDS = True
+	USE_XMAP= True
+	localStation_exception("importing configuration booleans from user scripts localStationConfiguration.py, using default values:\n"+
+		"        USE_CRYO_GEOMETRY=%r, USE_DIFFCALC=%r, USE_DUMMY_IDGAP_MOTOR=%r,"+
+		"        USE_NEXUS=%r, USE_NEXUS_METADATA_COMMANDS=%r, USE_XMAP=%r" % 
+		(USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR, USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP) , e)
+
 from gda.configuration.properties import LocalProperties
 LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
+try:
+	from gdaserver import * # @UnusedWildImport
+except Exception as e:
+	localStation_exception("importing * from gdaserver.py" , e)
+
+global Finder, pos, finder, add_default, meta
+
+global sixckappa_cryo, cryophi
+global _sixckappa_deffered_only, delta_axis_offset
+global azir, psi, psic, hkl
+global kbmbase, setDatadirPropertyFromPersistanceDatabase, pitchupClass
+global stoke,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
+global ic1monitor, ppth, ppp_xtal1_111_offset, ppp_xtal1_m220_offset, ppp_xtal1_220_offset, ppp_xtal1_440_offset, ppp_xtal2_111_offset
+global x2000, x2003
+global delta
+global energy, simple_energy, gam
+global x1
+global _cam1, _cam1_for_snaps
+global corExpTime, cor2ExpTime
+global _xeye, _xeye_for_snaps
+global _zylar, _zylar_for_snaps
+global _merlin, _merlin_for_snaps
+global xtalinfo
+global mu, en
+global uharmonic
+global shtr3x,shtr3y
+global m1piezo
+global m3x, m4x, m3pitch, m4pitch
+global eta_offset, mu_offset
+global beta
+global T1dcm, T2dcm
+global ppx, ppy, ppchi
+global sperp, spara, ytable, ztable
+global xps3m1, xps3m2, xps3m3, xps3m4, xps3m5, xps3m6
+global frontendx, frontendy
+global diode, ic2
+global m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, idgap_offset
+global san
+global rs,CA,EDi,az
+
 import installation
 
-USE_NEXUS = True
+# USE_NEXUS, is now defined in the localStationConfiguration.py user script
+
 if installation.isDummy():
+	print "*"*80
+	print "DUMY Mode!"
+	print "*"*80
 	USE_DIFFCALC = True
 	USE_CRYO_GEOMETRY = False
 
-else:
-	# see also notes below
-	# Changed for Allesandro's experiment on Jan 20 2015 -- RobW
-	#USE_DIFFCALC = False  # <-- change here for live gda!
-	#USE_CRYO_GEOMETRY = False
-	USE_DIFFCALC = False  # <-- change here for live gda!
-	USE_CRYO_GEOMETRY = False # < -- chi will not move if True
-
-
-USE_DUMMY_IDGAP_MOTOR = False
-#USE_DUMMY_IDGAP_MOTOR = True
-USE_XMAP= True
+# USE_DIFFCALC, USE_CRYO_GEOMETRY, USE_DUMMY_IDGAP_MOTOR & USE_XMAP are now
+# defined in the localStationConfiguration.py user script
 
 # Java
 import java
@@ -66,6 +126,7 @@ from epics.detector.NxProcessingDetectorWrapper import NxProcessingDetectorWrapp
 # I16
 import installation
 import ShelveIO
+import beamline_objects as BLobjects
 
 ### Configure shelveIO path
 print "Configuring ShelveIO system"
@@ -146,10 +207,10 @@ if USE_NEXUS:
 else:
 	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
 
+# USE_NEXUS & USE_NEXUS_METADATA_COMMANDS are now defined in the
+# localStationConfiguration.py user script
 
-USE_NEXUS_METADATA_COMMANDS = True and USE_NEXUS
-
-if USE_NEXUS_METADATA_COMMANDS:
+if USE_NEXUS and USE_NEXUS_METADATA_COMMANDS:
 	
 	from gdascripts.metadata.metadata_commands import setTitle, getTitle, meta_add, meta_ll, meta_ls, meta_rm, meta_clear_alldynamical
 	alias("setTitle")
@@ -465,7 +526,6 @@ except NameError:
 #                             END OF DUMMYSTARTUP
 #
 if installation.isDummy():
-	datadir(LocalProperties.get("gda.config") + "/users_dummy/data")  # TOD: Should not be required!
 	print "Running localStation.test_only.py ..."
 	run("localStation.test_only")
 	print "... completed localStation.test_only.py"
@@ -528,11 +588,12 @@ if installation.isLive():
 	except java.lang.IllegalStateException, e:
 		print " Could not run pd_femto_adc_current2.py "
 		print e
-	
-	print "   running pd_xyslit.py"
-	run("pd_xyslit.py")
 
-	
+	print "   running pd_xyslit.py"
+	from pd_xyslit import pd_xyslit
+	ds=pd_xyslit('Detector slits (s7)','%.3f',s7xgap,s7ygap,s7xtrans,s7ytrans,help='Detector slit gaps\npos ds [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ds.x .5 to translate x centre to 0.5 mm')
+	ss=pd_xyslit('Sample slits (s5)',  '%.3f',s5xgap,s5ygap,s5xtrans,s5ytrans,help=  'Sample slit gaps\npos ss [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ss.x .5 to translate x centre to 0.5 mm')
+
 	print "   creating ion pump scannables"
 	run("startup_ionpumps")
 	
@@ -795,8 +856,7 @@ pil2m = NxProcessingDetectorWrapper('pil2m',
 		pilatus2_hardware_triggered,
 		pilatus2_for_snaps,
 		[],
-		panel_name='Pilatus2M',
-		panel_name_rcp='Plot 1',
+		panel_name_rcp='Pilatus',
 		toreplace=None,
 		replacement=None,
 		iFileLoader=PilatusTiffLoader,
@@ -819,8 +879,7 @@ pil100k = NxProcessingDetectorWrapper('pil100k',
 		zebrapil1,
 		pilatus1_for_snaps,
 		[],
-		panel_name='Pilatus100k',
-		panel_name_rcp='Plot 1',
+		panel_name_rcp='Pilatus',
 		toreplace=None,
 		replacement=None,
 		iFileLoader=PilatusTiffLoader,
@@ -848,8 +907,7 @@ pil3_100k = NxProcessingDetectorWrapper('pil3_100k',
 		pilatus3_hardware_triggered,
 		pilatus3_for_snaps,
 		[],
-		panel_name='Pilatus3_100k',
-		panel_name_rcp='Plot 1',
+		panel_name_rcp='Pilatus',
 		toreplace=None,
 		replacement=None,
 		iFileLoader=PilatusTiffLoader,
@@ -871,7 +929,7 @@ cor = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor',
 							None,
 							cam2_for_snaps,
 							[],
-							panel_name='Firecam',
+							#panel_name='Firecam',
 							panel_name_rcp='Plot 1', 
 							fileLoadTimout=60,
 							printNfsTimes=False,
@@ -911,7 +969,7 @@ cor2 = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor2',
 							None,
 							c10_for_snaps,
 							[],
-							panel_name='Firecam',
+							#panel_name='Firecam',
 							panel_name_rcp='Plot 2', 
 							fileLoadTimout=60,
 							printNfsTimes=False,
@@ -926,7 +984,7 @@ cor2Auto = AutoRangeDetector('cor2Auto',
 							c10_for_snaps,
 							"BL16I-DI-DCAM-10:",
 							[],
-							panel_name='Firecam',
+							#panel_name='Firecam',
 							panel_name_rcp='Plot 2', 
 							fileLoadTimout=60,
 							printNfsTimes=False,
@@ -935,7 +993,7 @@ cor2Auto.display_image = True
 cor2Autopeak2d = DetectorDataProcessorWithRoi('cor2Autopeak2d', corAuto, [TwodGaussianPeak()])
 cor2Automax2d = DetectorDataProcessorWithRoi('cor2Automax2d', corAuto, [SumMaxPositionAndValue()])
 
-createPVScannable( "cor2ExpTime", "BL16I-DI-COR-01:CAM:AcquireTime_RBV", hasUnits=False)
+createPVScannable( "cor2ExpTime", "BL16I-DI-DCAM-10:CAM:AcquireTime_RBV", hasUnits=False)
 cor2ExpTime.level=10
 
 xeye = SwitchableHardwareTriggerableProcessingDetectorWrapper('xeye',
@@ -943,7 +1001,7 @@ xeye = SwitchableHardwareTriggerableProcessingDetectorWrapper('xeye',
                                                               None,
                                                               _xeye_for_snaps,
                                                               [],
-                                                              panel_name='Firecam',
+                                                              #panel_name='Firecam',
                                                               panel_name_rcp='Plot 2',
                                                               fileLoadTimout=60,
                                                               printNfsTimes=False,
@@ -964,7 +1022,7 @@ zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper('zylar',
                                                                None,
                                                                _zylar_for_snaps,
                                                                [],
-                                                               panel_name='Firecam', #no idea?
+                                                               #panel_name='Firecam', #no idea?
                                                                panel_name_rcp='Plot 2',
                                                                fileLoadTimout=60,
                                                                printNfsTimes=False,
@@ -984,7 +1042,7 @@ bpm = SwitchableHardwareTriggerableProcessingDetectorWrapper('bpm',
 							None,
 							_cam1_for_snaps,
 							[],
-							panel_name='Firecam',
+							#panel_name='Firecam',
 							panel_name_rcp='Plot 1', 
 							fileLoadTimout=60,
 							printNfsTimes=False,
@@ -1007,7 +1065,7 @@ andor = SwitchableHardwareTriggerableProcessingDetectorWrapper('andor',
 								None,
 								andor1_for_snaps,
 								[],
-								panel_name='Andor CCD',
+								#panel_name='Andor CCD',
 								panel_name_rcp='Plot 1', 
 								toreplace=None,
 								replacement=None,
@@ -1069,7 +1127,7 @@ try:
 																	None,
 																	_merlin_for_snaps,
 																	[],
-																	panel_name='Merlin',
+																	#panel_name='Merlin',
 																	panel_name_rcp='Plot 1',
 																	iFileLoader=PilatusTiffLoader,
 																	fileLoadTimout=60,
@@ -1098,7 +1156,7 @@ if USE_XMAP:
 ###############################################################################
 
 print "Creating scannarcbles with offsets(th is eta with offset eta_offset"
-run("pd_offsetAxis") #--> OffsetAxisClass
+from pd_offsetAxis import OffsetAxisClass
 # e.g. th is eta with eta_off as offset
 th=OffsetAxisClass('th',eta,eta_offset,help='eta device with offset given by eta_offset. Use pos eta_offset to change offset')
 thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_offset. Use pos mu_offset to change offset')
@@ -1251,7 +1309,6 @@ run('enable_xps_gda.py')
 
 from edgeDetectRobust import edgeDetectRobust as edge
 from edgeDetectEnergy import eEdge as eedge
-#run('edgeDetectRobust')
 
 run('rePlot')
 
@@ -1284,166 +1341,9 @@ def open_valves():
 #checkbeam.command_string='open_valves()'	#uncomment to attempt to open valves if closed
 #### end of temp fix for valves closing due to img03###################
 
-
 ###############################################################################
-###                          Detector Region-Of-Interest                    ###
+# The Detector regions of interest are now defined in the localStationStaff.py user script
 ###############################################################################
-
-	
-#(top right, bottom left)
-#pixel values for centred spot and max/min pixel indices for detector (min is zero)
-#(imin, jmin, imax, jmax)
-#rois are at least two pixels wide;centre is half-integar value of pixels adjacent to peak
-#ci=257.5; cj=99.5
-#ci=256.5; cj=100.5	#27/1/11
-#ci=250.5; cj=104.5	#23/4/11
-#ci=246.5; cj=106.5	#02/10/11
-#ci=256.0; cj=105.0	#29/11/11
-#ci=226.0; cj=104.0	#31/01/12
-#ci=226.0; cj=104.0	#17/04/12
-#ci=228.0; cj=101.0	#31/10/12
-#ci=234.0; cj=107.0	#/01/13
-#ci=242.0; cj=104.0	#/03/13
-#ci=237.0; cj=121.0	#17/03/13
-#ci=236.0; cj=106.0	#16/04/13
-#ci=240.0; cj=106.0	#26/04/13
-#ci=240.0; cj=105.0	#18/06/13
-#ci=237.0; cj=105.0	#24/06/13 gb (crash mt8772)
-#ci=234.0; cj=106.0	#24/06/13 gb (pilatus returned after repair)
-#ci=248.0; cj=106.0	#12/9/13 new value as previous is now bad pixel
-#ci=247.0; cj=109.0	#12/9/13 new value as previous is now bad pixel
-#ci=249.0; cj=108.0	#26/11/13
-#ci=241.0; cj=107.0	#14/01/14
-#ci=236.0; cj=107.0	#11/03/14
-#ci=240.0; cj=108.0	#11/03/14
-#ci=243.0; cj=106.0	#09/04/14
-#ci=257.0; cj=109.0	#24/06/14
-#ci=247.0; cj=106.0	#01/12/14
-#ci=245.0; cj=107.0	#10/12/14
-#ci=244.0; cj=110.0	#13/01/15
-#ci=242.0; cj=108.0	#23/06/15
-#ci=240.0; cj=118.0	#23/06/15 #wrong gam offset
-#ci=242.0; cj=110.0	#23/06/15
-#ci=239.;cj=112. #02/03/16 after pilatus exchange
-#ci=240.;cj=109. #04/03/16 after pilatus reexchange
-#ci=238.;cj=111. #06/04/16 after pilatus reexchange
-#ci=204.; cj=107; #02/05/17ci=242.;cj=105. #13/07/16 loan detector
-#ci=244.; cj=103.; #10/08/16 loan detector
-#ci=205.; cj=105; #19/02/17
-#ci=205.; cj=104; #23/06/17
-ci=206.; cj=107; #20/10/17
-
-
-maxi=486; maxj=194 #08/10/15
-'''
-#small centred
-roi1 = scroi=HardwareTriggerableDetectorDataProcessor('roi1', pil, [SumMaxPositionAndValue()])
-iw=13; jw=15; roi1.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
-
-########
-# PLEASE PUT EXPERIMENT-SPECIFIC ROI'S IN USER SCRIPTS
-########
-
-#roib1=HardwareTriggerableDetectorDataProcessor('roib1', pil, [SumMaxPositionAndValue()]);
-#iwm=39; iwM=13;  jw=15; roib1.setRoi(int(ci-iwm/2.),int(cj-jw/2.),int(ci-iwM/2.),int(cj+jw/2.))
-
-#roib2=HardwareTriggerableDetectorDataProcessor('roib2', pil, [SumMaxPositionAndValue()]);
-#iwm=39; iwM=13;  jw=15; roib2.setRoi(int(ci+iwM/2.),int(cj-jw/2.),int(ci+iwm/2.),int(cj+jw/2.))
-
-#roib3=HardwareTriggerableDetectorDataProcessor('roib3', pil, [SumMaxPositionAndValue()])
-#iw=13;  jwm=15; jwM=45;roib3.setRoi(int(ci-iw/2.),int(cj+jwM/2.),int(ci+iw/2.),int(cj+jwm/2.))
-
-#roib4=HardwareTriggerableDetectorDataProcessor('roib4', pil, [SumMaxPositionAndValue()])
-#iw=13;  jwm=15; jwM=45;roib4.setRoi(int(ci-iw/2.),int(cj-jw/2.-15),int(ci+iw/2.),int(cj+jw/2.-15)) 
-
-#roib5=HardwareTriggerableDetectorDataProcessor('roib5', pil, [SumMaxPositionAndValue()])
-#iw=13;  jwm=15; jwM=45;roib5.setRoi(int(ci-iwm/2.),int(cj+jwM/2.),int(ci+iwM/2.),int(cj+jwm/2.))
-
-#roib6=HardwareTriggerableDetectorDataProcessor('roib6', pil, [SumMaxPositionAndValue()]);
-#iw=13;  jwm=15; jwM=45;roib6.setRoi(int(ci-iwM/2.),int(cj+jwM/2.),int(ci+iwm/2.),int(cj+jwm/2.))
-
-#roib7=HardwareTriggerableDetectorDataProcessor('roib7', pil, [SumMaxPositionAndValue()]);
-#iw=13;  jw=15; jwm=15; jwM=45;roib7.setRoi(int(ci-iw/2.-13),int(cj-jw/2.-15),int(ci+iw/2.-13),int(cj+jw/2.-15)) 
-
-#roib8=HardwareTriggerableDetectorDataProcessor('roib8', pil, [SumMaxPositionAndValue()]);
-#iw=13;  jw=15; jwm=15; jwM=45;roib8.setRoi(int(ci-iw/2.+13),int(cj-jw/2.-15),int(ci+iw/2.+13),int(cj+jw/2.-15)) 
-
-#chishort=HardwareTriggerableDetectorDataProcessor('chishort', pil, [SumMaxPositionAndValue()]);
-#iw=20; jw=1; chishort.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
-
-#large centred
-roi2 = lcroi=HardwareTriggerableDetectorDataProcessor('roi2', pil, [SumMaxPositionAndValue()])
-#roi2.setRoi(263-40,95-30,250+40,110+30)
-iw=67; jw=75; roi2.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
-#horizonal line for delta scan (vertical on display)
-roi3 = delroi=HardwareTriggerableDetectorDataProcessor('roi3', pil, [SumMaxPositionAndValue()])
-#roi3.setRoi(256,0,257,194)
-roi3.setRoi(int(ci-1/2.),0,int(ci+1/2.),maxj)
-
-#thick horizonal line for searching with known two-theta (vertical on display)
-roi7 = HardwareTriggerableDetectorDataProcessor('roi7', pil, [SumMaxPositionAndValue()])
-#roi7.setRoi(256-25,0,257+25,194)
-iw=67; jw=75; roi7.setRoi(int(ci-iw/2.),0,int(ci+iw/2.),maxj)
-
-#vertical line for chi scan (horizontal on display)
-roi4 = chiroi=HardwareTriggerableDetectorDataProcessor('roi4', pil, [SumMaxPositionAndValue()])
-#roi4.setRoi(0,102,486,103)
-roi4.setRoi(0,int(cj-1/2.),maxi,int(cj+1/2.))
-
-
-#vertical line for background subtraction (horizontal on display) (15px wide, 13 * roi5 covers full detector)
-roi5 = HardwareTriggerableDetectorDataProcessor('roi5', pil, [SumMaxPositionAndValue()])
-roi5.setRoi(0,0,486,14)
-
-#very small centred
-roi6 = HardwareTriggerableDetectorDataProcessor('roi6', pil, [SumMaxPositionAndValue()])
-iw=7; jw=7; roi6.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
-
-#for searching for reflections at known delta
-#wideroi = HardwareTriggerableDetectorDataProcessor('roi3', pil, [SumMaxPositionAndValue()])
-#wid=20; wideroi.setRoi(int(ci-wid/2.),0,int(ci+wid/2.),maxj)
-'''
-
-## pilatus3 rois changed 14 April 2018
-ci, cj = 243, 96
-roi1 = scroi=HardwareTriggerableDetectorDataProcessor('roi1', pil3, [SumMaxPositionAndValue()])
-iw=13; jw=15; roi1.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
-
-roi2 = lcroi=HardwareTriggerableDetectorDataProcessor('roi2', pil3, [SumMaxPositionAndValue()])
-iw=50; jw=50; roi2.setRoi(int(ci-iw/2.),int(cj-jw/2.),int(ci+iw/2.),int(cj+jw/2.))
-
-roi3 = delroi=HardwareTriggerableDetectorDataProcessor('roi3', pil3, [SumMaxPositionAndValue()])
-roi3.setRoi(int(ci-1/2.),0,int(ci+1/2.),maxj)
-
-roi4 = chiroi=HardwareTriggerableDetectorDataProcessor('roi4', pil3, [SumMaxPositionAndValue()])
-roi4.setRoi(0,int(cj-1/2.),maxi,int(cj+1/2.))
-
-
-
-
-#roi6.setRoi(258-3,99+3,258+3,10.693599-3)
-
-#roi1 = DetectorDataProcessorWithRoi('roi1', pil, [SumMaxPositionAndValue()])
-#roi1.setRoi(219,75,275,115)
-
-#roi2 = DetectorDataProcessorWithRoi('roi2', pil, [SumMaxPositionAndValue()])
-#roi2.setRoi(262,100,253,110)
-#roi2.setRoi(263,95,250,110)
-
-# Refl beam ROI
-#roiR = DetectorDataProcessorWithRoi('roiR', pil, [SumMaxPositionAndValue()])
-#roiR.setRoi(1342, 1425, 1354, 1434)
-
-# Dir beam ROI
-#roiD = DetectorDataProcessorWithRoi('roiD', pil, [SumMaxPositionAndValue()])
-#roiD.setRoi(1342, 1430, 1354, 1438)
-
-
-#roi2m1= DetectorDataProcessorWithRoi('roi2m1', pil2m, [SumMaxPositionAndValue()])
-#roi2m1.setRoi(1300,1438,1318,1444)
-
-#roi3 = DetectorDataProcessorWithRoi('roi3', pil, [SumMaxPositionAndValue()])
-#roi3.setRoi(229,60,300,140)
 
 # This depends on lcroi
 run('FlipperClass')
@@ -1489,11 +1389,11 @@ xpsgather = ScannableXPSDataGatherer('xpsgather', pvroot='BL16I-CS-IOC-15:XPSG:'
 ###                           Defaults - keep at end                        ###
 ###############################################################################
 if installation.isLive():
-	add_default meta
-	add_default atime
-	add_default ic1monitor 
-	add_default rc
-	add_default waitforinjection
+	add_default(meta)
+	add_default(atime)
+	add_default(ic1monitor)
+	add_default(rc)
+	add_default(waitforinjection)
 	waitforinjection.due=5	#wait for injection if due in this period of time (sec)
 
 ###############################################################################
@@ -1514,9 +1414,7 @@ run('align1')
 run('select_and_move_detector')
 run('showdiff')
 run('showdiff_new')
-bpmroi1 = HardwareTriggerableDetectorDataProcessor('bpmroi1', bpm, [SumMaxPositionAndValue()])
-#bpmroi1.setRoi(int(972-30),int(426-5),int(972+30),int(426+5))
-bpmroi1.setRoi(int(1010-30),int(394-5),int(1010+30),int(394+5)) # set 04/10/2017 at 8 keV shtr3x 11.93 shtr3y 4.40
+# bpmroi1 is now defined in the localStationStaff.py user script
 #run('pd_searchref2') #put at the end as it gave some errors
 run('pd_read_list')	#to make PD's that can scan a list
 run('pd_function')	#to make PD's that return a variable
@@ -1528,7 +1426,9 @@ run("setup_cvscan")
 print "Continuous scans setup"
 print "==========================="
 
+"""
 run("startup_pie725")
+"""
 
 if USE_NEXUS:
 	run("datawriting/i16_nexus")
@@ -1552,7 +1452,7 @@ etarock = ContinuouslyRockingScannable('etarock', scannable = eta)
 etarock.verbose = False
 '''
 
-run("sz_cryo")
+from sz_cryo import szCryoCompensation
 cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01],'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]}
 szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K','Ta') \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K','Tc') for the cryofurnace.")
 
@@ -1589,31 +1489,55 @@ if SMARGON:
 do.pil = 8.8
 
 def diodein():
-    pos tthp 0
-    pos dettrans 0
+    pos(tthp, 0)
+    pos(dettrans, 0)
+
 def apdin():
-    pos tthp -0.35
-    pos dettrans -27.71
+    pos(tthp, -0.35)
+    pos(dettrans -27.71)
+
 def vortexin():
-    pos tthp 85.4-96.5
-    pos dettrans 25
+    pos(tthp, 85.4-96.5)
+    pos(dettrans, 25)
 
 def pilin():
-    pos do do.pil
-    pos s6ygap 2
-    pos s6ytrans 10.433
-    pos s6ygap 9
+    pos(do, do.pil)
+    pos(s6ygap, 2)
+    pos(s6ytrans, 10.433)
+    pos(s6ygap, 9)
+
 def pilout():
-    pos do 0
-    pos s6ygap 2.8
-    pos s6ytrans 0
+    pos(do, 0)
+    pos(s6ygap, 2.8)
+    pos(s6ytrans, 0)
+
 meta.add(dettrans) # should go in a better place
 
+print "*"*80
+print "Attempting to run localStationStaff.py from user scripts directory"
+try:
+	run("localStationStaff")
+	print "localStationStaff.py completed."
+except java.io.FileNotFoundException, e:
+	print "No localStationStaff.py found in user scripts directory"
+except Exception as e:
+	localStation_exception("running localStationStaff user script", e)
 
+print "*"*80
+print "Attempting to run localStationUser.py from user scripts directory"
+try:
+	run("localStationUser")
+	print "localStationUser.py completed."
+except java.io.FileNotFoundException, e:
+	print "No localStationUser.py found in user scripts directory"
+except Exception as e:
+	localStation_exception("running localStationUser user script", e)
 
+if len(localStation_exceptions) > 0:
+	print "=============== %r ERRORS DURING STARTUP ================" % len(localStation_exceptions)
 
-
-
+for localStationException in localStation_exceptions:
+	print localStationException
 
 print "======================================================================"
 print "Local Station Script completed"

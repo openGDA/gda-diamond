@@ -1,3 +1,5 @@
+from gda.device.scannable import PseudoDevice
+
 class szCryoCompensation(PseudoDevice):
     '''sz device with temperature compensation.\nUsage: pos szc 0 to maintain calibrated sz for current temperature. The device uses a 5th order polynomial  '''
     def __init__(self,name,_sz,devices,help=None):

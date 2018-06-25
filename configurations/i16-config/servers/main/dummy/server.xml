@@ -68,14 +68,6 @@
 		</property>
 		<property name="startupScript" value="${gda.config}/scripts/localStation.py" />
 	</bean>
-	</bean>
-	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
-		<property name="local" value="true" />
-	</bean>
-
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
-
-	<bean id="script_paths" parent="common_script_paths_with_diffcalc"/>
 
 	<bean id="command_server" parent="abstract_command_server">
 		<property name="jythonScriptPaths" ref="script_paths"/>
@@ -83,12 +75,21 @@
 		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
 	</bean>
 
+	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
+		<property name="local" value="true" />
+	</bean>
+
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
 
+
+	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
+
 	<!-- dummy only -->
-<!-- 	<import resource="../live/epics/detector/pilatus100k.xml" /> -->
 
 	<import resource="../_common/nxmetadata.xml" />
+
+<!-- 	<import resource="../live/epics/detector/pilatus100k.xml" /> -->
+
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="name" value="DefaultDataWriterFactory" />
