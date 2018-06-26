@@ -134,6 +134,9 @@
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/dataFileWriter.xml" />
 
+	<!-- Command queue processor -->
+	<import resource="file:${gda.config}/servers/main/_common/commandQueueProcessor.xml" />
+
 	<!-- end of device list -->
 
  	<!-- Initialise Jython late on, as localStation refers to beans -->
