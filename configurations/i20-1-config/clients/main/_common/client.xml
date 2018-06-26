@@ -67,6 +67,7 @@
 		<property name="detectorNameMap">
 			<map>
 				<entry key="Ionchambers" value="scaler_for_zebra" />
+				<entry key="Ionchambers + Diode" value="ionchambers_diode" />
 				<entry key="Xspress3" value="buffered_xspress3" />
 			</map>
 		</property>

@@ -1,0 +1,212 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- Scalers for use with TurboXas scans  -->
+
+	<bean id="scaler_memory_zebra" class="gda.device.memory.Scaler">
+		<property name="daServer" ref="daserverForTfg" />
+		<property name="width" value="5" />
+		<property name="height" value="1" />
+		<property name="openCommand" value="tfg open-cc" />
+	</bean>
+
+	<bean id="scaler_for_zebra" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>frame_time</value>
+				<value>I0</value>
+				<value>It</value>
+				<value>FF</value>
+				<value>topup</value>
+				<value>lnI0It</value>
+				<value>lnItIref</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler_memory_zebra" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="daserverForTfg" />
+		<property name="ttlSocket" value="2" />
+
+		<property name="timeChannelRequired" value="true" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="true" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+		<property name="outputFormat">
+			<list>
+				<value>%.8g</value>
+				<value>%8.8g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%.6g</value>
+				<value>%.6g</value>
+			</list>
+		</property>
+		<!-- topup signal is in channel 0 -->
+		<property name="i0ScalerChannel" value="1" />
+		<property name="itScalerChannel" value="2" />
+		<property name="iRefScalerChannel" value="3" />
+
+		<property name="scalerOutputConfig">
+			<list>
+				<!-- topup -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="topup" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="0" />
+				</bean>
+
+				<!-- I0 -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="I0" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="1" />
+				</bean>
+
+				<!-- I0/Time -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="I0Time" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="1" />
+					<property name="channel2" value="-1" />
+					<property name="operationType" value="1" />
+				</bean>
+
+				<!-- It -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="It" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="2" />
+				</bean>
+
+				<!-- It / time -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="ItTime" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="2" />
+					<property name="channel2" value="-1" />
+					<property name="operationType" value="1" />
+				</bean>
+
+				<!-- lnI0It -->
+				<bean
+					class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="lnI0It" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="1" />
+					<property name="channel2" value="2" />
+					<property name="operationType" value="1" />
+				</bean>
+			</list>
+		</property>
+		<property name="timeChannelName" value="frame_time" />
+		<property name="useCustomisedOutput" value="true" />
+	</bean>
+
+	<bean id="ionchambers_diode" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="scaler" ref="scaler_memory_zebra" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="daserverForTfg" />
+		<property name="ttlSocket" value="2" />
+
+		<property name="timeChannelRequired" value="true" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+
+		<!-- Channel-1 = time, Channel0 = topup, Channel1 = I0, Channel2 = FF, 
+			Operation types : READOUT=0, DIVIDE=1, DIVIDE_LOG=2 -->
+		<property name="scalerOutputConfig">
+			<list>
+				<!-- FF -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="FF" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="2" />
+				</bean>
+
+				<!-- FF/time -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="FFTime" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="2" />
+					<property name="channel2" value="-1" />
+					<property name="operationType" value="1" />
+				</bean>
+
+				<!-- FF/I0 -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="FFI0" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="2" />
+					<property name="channel2" value="1" />
+					<property name="operationType" value="1" />
+				</bean>
+
+				<!-- I0 -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="I0" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="1" />
+				</bean>
+
+				<!-- I0 / time -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="I0Time" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="1" />
+					<property name="channel2" value="-1" />
+					<property name="operationType" value="1" />
+				</bean>
+
+				<!-- topup -->
+				<bean class="gda.device.detector.countertimer.ScalerOutputProcessor.OutputConfig">
+					<property name="label" value="topup" />
+					<property name="format" value="%.4f" />
+					<property name="channel1" value="0" />
+				</bean>
+			</list>
+		</property>
+		<property name="timeChannelName" value="frame_time" />
+		<property name="useCustomisedOutput" value="true" />
+	</bean>
+
+
+	<!-- Readout of all 4 scaler channels and time. -->
+	<bean id="ionchambers_test" class="gda.device.detector.countertimer.BufferedScaler">
+		<property name="extraNames">
+			<list>
+				<value>time</value>
+				<value>c1</value>
+				<value>c2</value>
+				<value>c3</value>
+				<value>c4</value>
+			</list>
+		</property>
+		<property name="scaler" ref="scaler_memory_zebra" />
+		<property name="timer" ref="tfg" />
+		<property name="daserver" ref="daserverForTfg" />
+		<property name="ttlSocket" value="2" />
+
+		<property name="timeChannelRequired" value="true" />
+		<property name="darkCurrentRequired" value="false" />
+		<property name="outputLogValues" value="false" />
+		<property name="TFGv2" value="true" />
+		<property name="numChannelsToRead" value="4" />
+		<property name="outputFormat">
+			<list>
+				<value>%.8g</value>
+				<value>%8.8g</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+				<value>%9d</value>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
