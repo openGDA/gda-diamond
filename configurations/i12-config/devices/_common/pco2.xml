@@ -1,0 +1,62 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="pcocontroller_base" abstract="true">
+		<property name="areaDetector" ref="pco.cam" />
+		<property name="proc1" ref="pco.prc1" />
+		<property name="proc2" ref="pco.prc2" />
+		<property name="roi1" ref="pco.roi1" />
+		<property name="roi2" ref="pco.roi2" />
+		<property name="stat" ref="pco.stat" />
+		<property name="draw" ref="pco.draw" />
+		<property name="array" ref="pco.arr" />
+		<property name="tiff" ref="pco.tif" />
+		<property name="hdf" ref="pco.hdf" />
+		<property name="mjpeg1" ref="pco.mpeg1" />
+		<property name="mjpeg2" ref="pco.mpeg2" />
+
+		<property name="readout1ADC8Mhz" value="1500" />
+		<property name="readout1ADC32Mhz" value="500" />
+		<property name="readout2ADC8Mhz" value="750" />
+		<property name="readout2ADC32Mhz" value="400" />
+		<property name="initialTimestampMode" value="1" />
+	</bean>
+
+	<bean id="pco" class="gda.device.detector.pco.PCODetector">
+		<property name="controller" ref="pcocontroller" />
+		<property name="level" value="9" />
+		<property name="detectorID" value="PCO400" />
+		<property name="description" value="PCO400 CCD Camera" />
+		<property name="detectorType" value="CCD" />
+		<property name="projectionFolderName" value="projections" />
+		<property name="localFilePath" value="d:/tmp/" />
+		<property name="darkFileNameRoot" value="d" />
+		<property name="numberOfDarkImages" value="10" />
+		<property name="flatFileNameRoot" value="f" />
+		<property name="numberOfFlatImages" value="10" />
+		<property name="localDataStoreWindows2LinuxFileName">
+			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
+				<property name="windowsPath" value="d:/test/direct" />
+				<property name="linuxPath" ref="pco_file_path" />
+			</bean>
+		</property>
+		<property name="nonLocalDataStoreWindows2LinuxFileName">
+			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
+				<property name="windowsPath" value="t:\\i12" />
+				<property name="linuxPath" ref="pco_file_path" />
+			</bean>
+		</property>
+		<property name="demandRawDataStoreWindows2LinuxFileName">
+			<bean class="gda.device.detector.pco.PCODetector.Windows2LinuxFilePath">
+				<property name="windowsPath" value="t:\\i12" />
+				<property name="linuxPath" ref="pco_file_path" />
+			</bean>
+		</property>
+		<property name="plotName" value="PCOPlot" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

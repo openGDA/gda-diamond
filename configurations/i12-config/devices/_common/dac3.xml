@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="dac3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dac30" />
+				<ref bean="dac31" />
+				<ref bean="dac32" />
+				<ref bean="dac33" />
+				<ref bean="dac34" />
+				<ref bean="dac35" />
+				<ref bean="dac36" />
+				<ref bean="dac37" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

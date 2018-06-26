@@ -4,17 +4,6 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<import resource="file:${gda.config}/devices/live/dac3.xml"/>
-	<import resource="file:${gda.config}/devices/live/I0eh1.xml"/>
-	<import resource="file:${gda.config}/devices/live/I0eh2.xml"/>
-	<import resource="file:${gda.config}/devices/live/I0oh2.xml"/>
-	<import resource="file:${gda.config}/devices/live/Ioeh1.xml"/>
-	<import resource="file:${gda.config}/devices/live/Ioeh2.xml"/>
-	<import resource="file:${gda.config}/devices/live/Iooh2.xml"/>
-
-	<import resource="file:${gda.config}/devices/live/lin_stage_eh2.xml" />
-	<import resource="file:${gda.config}/devices/live/b16_xps.xml" />
-
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 

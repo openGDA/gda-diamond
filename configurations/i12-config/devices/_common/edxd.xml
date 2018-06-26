@@ -68,6 +68,7 @@
 			<list>
 				<ref bean="edxd" />
 				<ref bean="edxd1" />
+				<ref bean="edxd2" />
 				<ref bean="edxdMappingController" />
 			</list>
 		</property>

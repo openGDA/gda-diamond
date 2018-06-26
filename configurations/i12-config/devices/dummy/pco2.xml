@@ -6,4 +6,12 @@
 
 	<bean id="pcoTomography" class="uk.ac.gda.tomography.devices.TomographyDetectorSimulator" />
 
+	<bean id="pcocontroller" class="gda.device.detector.pco.PCOControllerV17" parent="pcocontroller_base">
+		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:CAM:" />
+		<!-- This is a fake PV: there is no trigger in the simulator, but it is probably not used anyway -->
+		<property name="triggerPV" value="${WORKSTATION}-AD-SIM-01:DIO:TRIGGER" />
+	</bean>
+
+	<bean id="pco_file_path" class="java.lang.String" factory-method="valueOf"><constructor-arg value="/scratch/dls_sw/i12"/></bean>
+
 </beans>

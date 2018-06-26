@@ -5,8 +5,8 @@
 
 
 	<!-- Simulated area detector: can be aliased to stand in for any required area detector -->
-	
-	<bean id="sim_adDriverPco1"	class="gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
+
+	<bean id="sim_addriver_pco" class="gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
 		<property name="basePvName" value="${WORKSTATION}-AD-SIM-01:CAM" />
 	</bean>
 
@@ -16,6 +16,25 @@
 
 	<bean id="sim_adbase_pvProvider" class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
 		<property name="prefix" value="${WORKSTATION}-AD-SIM-01:CAM:" />
+	</bean>
+
+	<bean id="sim_process" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:PROC:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:PROC:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="initialEnableBackground" value="0" />
+		<property name="initialEnableFlatField" value="0" />
+		<property name="initialEnableOffsetScale" value="0" />
+		<property name="initialEnableHighClip" value="0" />
+		<property name="initialEnableLowClip" value="0" />
+		<property name="initialEnableFilter" value="0" />
 	</bean>
 
 	<bean id="sim_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
@@ -84,6 +103,19 @@
 
 	<bean id="sim_proc" class="gda.spring.V17NDProcessFactoryBean">
 		<property name="prefix" value="${WORKSTATION}-AD-SIM-01:PROC:" />
+	</bean>
+
+	<bean id="sim_overlay" class="gda.device.detector.areadetector.v17.impl.NDOverlayImpl">
+		<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:OVER:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="${WORKSTATION}-AD-SIM-01:OVER:" />
+				<property name="initialArrayPort" value="CAM.proc" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="0" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
 	</bean>
 
 	<!-- Define ROIs -->

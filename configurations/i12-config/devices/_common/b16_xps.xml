@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="b16_xps" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="b16_xps" />
+		<property name="motor" ref="b16_xps_stage_motor" />
+		<!-- <property name="tolerance" value="0.01" /> -->
+		<property name="outputFormat">
+			<list>
+				<value>%.3f</value>
+			</list>
+		</property>
+	</bean>
+</beans>

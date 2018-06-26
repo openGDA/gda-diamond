@@ -12,13 +12,13 @@
 	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
 		<property name="name" value="metashop" />
 	</bean>
-	
+
 	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 
 	<bean id="SimpleServlet" class="gda.util.simpleServlet.FindableSimpleServlet" />
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
-	
+
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
@@ -27,10 +27,11 @@
 	<!--enable types supported by the PropertyEditors listed in the GdaPropertyEditorRegistrar class -->
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
-	<!-- =========================================================== --> 
+	<!-- =========================================================== -->
 	<!-- Device files with separate live and dummy versions          -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/adc3.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/b16_xps.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/camEH1.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/camEH1end.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/camEH2.xml"/>
@@ -41,12 +42,20 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/camOH1.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam1_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/cam3_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/dac3.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/edxd.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/eulerian_cradle_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/eurotherm.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/filters.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/gbc1.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/I0eh1.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/I0eh2.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/I0oh2.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/i20_aero_motors.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/Ioeh1.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/Ioeh2.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/Iooh2.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/lin_stage_eh2.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/monitors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/mono_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/p2r.xml"/>
@@ -77,11 +86,12 @@
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<!-- =========================================================== -->
-	<!-- Shared files                                         -->
+	<!-- Shared files                                         		 -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/_common/GDAMetadata.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml" />
-	
+
+	<import resource="file:${gda.config}/devices/_common/b16_xps.xml"/>
 	<import resource="file:${gda.config}/devices/_common/cam1.xml"/>
 	<import resource="file:${gda.config}/devices/_common/cam3.xml"/>
 	<import resource="file:${gda.config}/devices/_common/camEH1.xml"/>
@@ -92,6 +102,7 @@
 	<import resource="file:${gda.config}/devices/_common/camMono1.xml"/>
 	<import resource="file:${gda.config}/devices/_common/camMono2.xml"/>
 	<import resource="file:${gda.config}/devices/_common/camOH1.xml"/>
+	<import resource="file:${gda.config}/devices/_common/dac3.xml"/>
 	<import resource="file:${gda.config}/devices/_common/datawriter.xml"/>
 	<import resource="file:${gda.config}/devices/_common/dummies.xml"/>
 	<import resource="file:${gda.config}/devices/_common/dummy_motors.xml"/>
@@ -100,6 +111,7 @@
 	<import resource="file:${gda.config}/devices/_common/eulerian_cradle.xml"/>
 	<import resource="file:${gda.config}/devices/_common/gbc1.xml"/>
 	<import resource="file:${gda.config}/devices/_common/i20_aero.xml"/>
+	<import resource="file:${gda.config}/devices/_common/lin_stage_eh2.xml"/>
 	<import resource="file:${gda.config}/devices/_common/lut_ball_position.xml"/>
 	<import resource="file:${gda.config}/devices/_common/lut_camera_motion.xml"/>
 	<import resource="file:${gda.config}/devices/_common/lut_energymodule.xml"/>
@@ -110,6 +122,7 @@
 	<import resource="file:${gda.config}/devices/_common/mono.xml"/>
 	<import resource="file:${gda.config}/devices/_common/p2r.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco1.xml"/>
+	<import resource="file:${gda.config}/devices/_common/pco2.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco3.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco4.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pipediode.xml"/>

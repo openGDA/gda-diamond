@@ -4,9 +4,9 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<import resource="file:${gda.config}/devices/dummy/adSimulator.xml" />
+	<import resource="file:${gda.config}/devices/dummy/sim_addetector.xml" />
 
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
-		
+
 </beans>
