@@ -1238,9 +1238,13 @@ if installation.isLive():
 	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
 try:
 	if not USE_DIFFCALC:
-		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2]
+		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo, source, jjslits, pa, pp,
+				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets, p2,
+				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
 	else:
-		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2]
+		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa,           source, jjslits, pa, pp,
+				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets, p2,
+				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
 
 	addedInSpring = [sixckappa] + [delta_axis_offset]
 	toadd = [ _x for _x in toadd if _x != None and not _x in addedInSpring ]
