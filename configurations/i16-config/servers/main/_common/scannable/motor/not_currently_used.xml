@@ -57,18 +57,6 @@
 	<bean id="p2mz1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="P2TABZ1Motor" />
 	</bean>
-	<bean id="paEta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="PAEtaMotor" />
-	</bean>
-	<bean id="paTheta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="PAThetaMotor" />
-	</bean>
-	<bean id="paDet12theta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="PADet12thetaMotor" />
-	</bean>
-	<bean id="paDet22theta" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="PADet22thetaMotor" />
-	</bean>
 	<bean id="ppth" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="PPRTMotor" />
 	</bean>

@@ -432,10 +432,12 @@ if USE_CRYO_GEOMETRY:
 else:
 	run("startup_diffractometer_euler")
 
+""" PA motors now defined in spring
 if installation.isLive():
 	thp=SingleEpicsPositionerClass('thp','BL16I-EA-POLAN-01:THETAp.VAL','BL16I-EA-POLAN-01:THETAp.RBV','BL16I-EA-POLAN-01:THETAp.DMOV','BL16I-EA-POLAN-01:THETAp.STOP','deg','%.4f')
 	tthp=SingleEpicsPositionerClass('tthp','BL16I-EA-POLAN-01:DET1:2THETAp.VAL','BL16I-EA-POLAN-01:DET1:2THETAp.RBV','BL16I-EA-POLAN-01:DET1:2THETAp.DMOV','BL16I-EA-POLAN-01:DET1:2THETAp.STOP','deg','%.3f')
 	dettrans=SingleEpicsPositionerClass('dettrans','BL16I-EA-POLAN-01:DET2:2THETAp.VAL','BL16I-EA-POLAN-01:DET2:2THETAp.RBV','BL16I-EA-POLAN-01:DET2:2THETAp.DMOV','BL16I-EA-POLAN-01:DET2:2THETAp.STOP','mm','%.3f')
+"""
 
 if not USE_DIFFCALC:
 	run("startup_diffractometer_hkl")
@@ -1165,6 +1167,7 @@ thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_o
 #############################################################################
 ###                           P/A detector angles                           ###
 ###############################################################################
+""" PA motors are now defined in spring, so we cannot store ad-hoc values in tthp
 if installation.isLive():
 	#tthp.apd = 1.75 #16/1/15 - changed from 1.75
 	#tthp.apd = 3.25 #30/9/15
@@ -1181,7 +1184,7 @@ if installation.isLive():
 	tthp.vortex=-14.75 #31/1/10
 	#tthp.ccd=70
 	tthp.ccd=40 #24/04/18
-
+"""
 
 ###############################################################################
 ###                                Metadata                                 ###

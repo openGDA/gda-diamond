@@ -34,10 +34,6 @@
 	<bean id="P2TABX1Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="P2TABX2Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="P2TABZ1Motor" class="gda.device.motor.DummyMotor" />
-	<bean id="PAEtaMotor" class="gda.device.motor.DummyMotor" />
-	<bean id="PAThetaMotor" class="gda.device.motor.DummyMotor" />
-	<bean id="PADet12thetaMotor" class="gda.device.motor.DummyMotor" />
-	<bean id="PADet22thetaMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="PPRTMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="PPRYMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="PPRXMotor" class="gda.device.motor.DummyMotor" />

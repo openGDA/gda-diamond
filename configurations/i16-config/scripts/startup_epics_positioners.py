@@ -120,8 +120,9 @@ class DeprecatedSingleEpicsPositionerClass(SingleEpicsPositionerClass):
 		SingleEpicsPositionerClass.asynchronousMoveTo(self, new_position)
 
 stoke=DeprecatedSingleEpicsPositionerClass( 'stoke','stokes','BL16I-EA-POLAN-01:ETA.VAL','BL16I-EA-POLAN-01:ETA.RBV','BL16I-EA-POLAN-01:ETA.DMOV','BL16I-EA-POLAN-01:ETA.STOP','deg','%.3f')
+""" stokes now defined in Spring
 stokes=         SingleEpicsPositionerClass('stokes',         'BL16I-EA-POLAN-01:ETA.VAL','BL16I-EA-POLAN-01:ETA.RBV','BL16I-EA-POLAN-01:ETA.DMOV','BL16I-EA-POLAN-01:ETA.STOP','deg','%.3f')
-
+"""
 
 ##############################################################
 
