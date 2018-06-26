@@ -1,13 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.diamond.ac.uk/schema/gda/corba
-		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
+		http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:property-placeholder/>
 
@@ -45,7 +42,6 @@
 	<import resource="datawriter.xml" />
 	<import resource="logging_script_controller.xml" />
 	<import resource="metadata.xml" />
-	<import resource="motor_rmi_exports.xml" />
 	<import resource="new_scanning.xml" />
 	<import resource="beam_watchdogs.xml" />
 	<import resource="scannables.xml" />
@@ -56,7 +52,8 @@
 
 	<!-- Need to import core.xml last so all other objects are configured before the Jython server -->
 	<import resource="core.xml" />
-
-	<corba:export namespace="${gda.factory.factoryName}" />
+	
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 </beans>
