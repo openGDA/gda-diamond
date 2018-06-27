@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+	
 	<!-- The mapping experiment bean provides the options and defaults used for setting up new mapping experiments -->
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
 		<property name="detectorParameters">
@@ -31,16 +31,6 @@
 		</property>
 		<property name="scriptFiles">
 			<bean class="uk.ac.diamond.daq.mapping.impl.ScriptFiles"/>
-		</property>
-		<property name="beamlineConfiguration">
-			<map>
-				<entry key="D7A" value="Gap" />
-				<entry key="D7B" value="gap" />
-				<entry key="kb_vfm_x" value-type="java.lang.Double" value="7.0" />
-				<entry key="energy" value-type="java.lang.Double" value="10000.0" />
-				<entry key="t1z" value-type="java.lang.Double" value="0.0" />
-				<entry key="t3z" value-type="java.lang.Double" value="0.0" />
-			</map>
 		</property>
 		<property name="scanDefinition">
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
