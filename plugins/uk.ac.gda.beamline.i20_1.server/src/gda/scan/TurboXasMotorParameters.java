@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math3.analysis.solvers.PolynomialSolver;
+import org.apache.commons.math3.exception.NoBracketingException;
 import org.dawnsci.ede.PolynomialParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +57,8 @@ public class TurboXasMotorParameters {
 	private int    numReadoutsForScan;
 	private double positionStepsize;
 	private PolynomialFunction positionToEnergyPolynomial;
+	private static final double energyPolynomialMaxXValue = 1.1;
+	private static final double energyPolynomialMinXValue = -0.1;
 
 	// These are parameters of the motor to be used for scan
 	private double motorMaxSpeed;
@@ -356,7 +359,9 @@ public class TurboXasMotorParameters {
 
 	/**
 	 *  Convert from energy to motor position by solving energy calibration
-	 *  polynomial for given value of energy.
+	 *  polynomial for given value of energy. <p>
+	 *  An IllegalArgumentException will be thrown if the energy cannot be converted to position
+	 *  (i.e. polynomial cannot be solved by a value of x within valid range, normally [-0.1, 1.1] )
 	 * @param energy
 	 * @return motor position
 	 */
@@ -366,15 +371,24 @@ public class TurboXasMotorParameters {
 
 		// Solve energy calibration polynomial for position.
 		if ( positionToEnergyPolynomial != null ) {
-			// Construct new polynomial function to be used in solver, using coeffs
-			// of energy calibration polynomial with energy subtracted :
-			double[] coeffs = positionToEnergyPolynomial.getCoefficients();
-			coeffs[0] -= energy;
-			PolynomialFunction tmpPoly = new PolynomialFunction(coeffs);
+			double result = 0;
+			try {
+				// Construct new polynomial function to be used in solver, using coeffs
+				// of energy calibration polynomial with energy subtracted :
+				double[] coeffs = positionToEnergyPolynomial.getCoefficients();
+				coeffs[0] -= energy;
+				PolynomialFunction polynomial = new PolynomialFunction(coeffs);
 
-			// Run the solver
-			PolynomialSolver solver =  new LaguerreSolver();
-			double result = solver.solve(10, tmpPoly, -0.1, 1.1);
+				// Run the solver
+				PolynomialSolver solver = new LaguerreSolver();
+				int maxEvaluations = 10;
+				result = solver.solve(maxEvaluations, polynomial, energyPolynomialMinXValue, energyPolynomialMaxXValue);
+			}catch(NoBracketingException nbe) {
+				String message = String.format("Cannot convert energy %5g eV to position. Requires x value outside of range of energy calibration polynomial. %.2f ... %.2f",
+						energy, energyPolynomialMinXValue, energyPolynomialMaxXValue);
+				logger.debug(message, nbe);
+				throw new IllegalArgumentException(message);
+			}
 
 			// convert x from normalised to real position
 			double lowLimit = scanParameters.getEnergyCalibrationMinPosition(), highLimit = scanParameters.getEnergyCalibrationMaxPosition();
@@ -397,7 +411,7 @@ public class TurboXasMotorParameters {
 			double lowLimit = scanParameters.getEnergyCalibrationMinPosition(), highLimit = scanParameters.getEnergyCalibrationMaxPosition();
 			double normalisedPosition = (position - lowLimit) / (highLimit - lowLimit);
 			// show warning if position is out of range, but still calculate value.
-			if ( normalisedPosition < 0 || normalisedPosition > 1 ) {
+			if ( normalisedPosition < energyPolynomialMinXValue || normalisedPosition > energyPolynomialMaxXValue ) {
 				logger.warn(String.format("Possible problem converting from position to energy : value %.5g is out of range of calibration polynomial (%.5g, %.5g)", position, lowLimit, highLimit));
 			}
 			return positionToEnergyPolynomial.value(normalisedPosition);

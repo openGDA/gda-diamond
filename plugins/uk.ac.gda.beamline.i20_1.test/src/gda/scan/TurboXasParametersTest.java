@@ -47,7 +47,7 @@ public class TurboXasParametersTest {
 	static final double endEnergy = 1800.0;
 	static final double energyStep = 2.5;
 	static double calibrationPolyMinEnergy = 1000, calibrationPolyEnergyRange = 1000;
-	static final String calibrationPoly = "1000 + 1000*x + 20x^2";
+	static final String calibrationPoly = calibrationPolyMinEnergy+" + 1000*x + 20x^2";
 
 	static final double calibrationMinPos = -5, calibrationMaxPos = 5;
 	static final String calibrationRefFilename = "reference_file.txt";
@@ -86,7 +86,7 @@ public class TurboXasParametersTest {
 		parameters.addTimingGroup( new TurboSlitTimingGroup(group1Name, group1TimePerSpectrum, group1TimeBetweenSpectra, group1NumSpectra) );
 		parameters.addTimingGroup( new TurboSlitTimingGroup(group2Name, group2TimePerSpectrum, group2TimeBetweenSpectra, group2NumSpectra) );
 
-		motorParameters = new TurboXasMotorParameters( parameters );
+		motorParameters = parameters.getMotorParameters();
 		motorParameters.setMotorMaxSpeed(10000);
 	}
 
@@ -275,6 +275,12 @@ public class TurboXasParametersTest {
 		String xmlStringFromParams = parameters.toXML();
 		String expectedXmlString = getCorrectXmlString();
 		assertThat(xmlStringFromParams , is( equalTo(expectedXmlString) ) );
+	}
+
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetPositionThrowsExceptionForTooLowEnergy() {
+		motorParameters.getPositionForEnergy(calibrationPolyMinEnergy*0.5);
 	}
 
 	/**

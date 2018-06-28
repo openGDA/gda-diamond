@@ -151,8 +151,8 @@ public class TurboXasExperimentView extends ViewPart {
 			turboXasParameters = new TurboXasParameters();
 			createSections(parentComposite);
 		} catch (Exception e) {
-			UIHelper.showError("Unable to create controls", e.getMessage());
-			logger.error("Unable to create controls", e);
+			UIHelper.showWarning("Problem creating controls for TurboXas Experiment view", e.getMessage());
+			logger.warn("Problem creating controls", e);
 		}
 		InterfaceProvider.getScanDataPointProvider().addScanEventObserver(serverObserver);
 
@@ -276,7 +276,6 @@ public class TurboXasExperimentView extends ViewPart {
 		if (motor!=null) {
 			motorParams.setMotorLimits(motor);
 		}
-		motorParams.setMotorParametersForTimingGroup(0);
 		return motorParams;
 	}
 
@@ -603,7 +602,8 @@ public class TurboXasExperimentView extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateParametersFromGui();
-				if (getMotorParameters().validateParameters()) {
+				TurboXasMotorParameters motorParams = getMotorParameters();
+				if (tryToCalculatePositions(motorParams, false)) {
 					runScan();
 				} else {
 					showMotorParameterDialog();
@@ -624,10 +624,34 @@ public class TurboXasExperimentView extends ViewPart {
 	}
 
 	private void showMotorParameterDialog() {
-		TurboXasMotorParameterInfoDialog dialog = new TurboXasMotorParameterInfoDialog(shell);
-		dialog.setTurboXasMotorParameters(getMotorParameters());
-		dialog.create();
-		dialog.open();
+		TurboXasMotorParameters motorParams = getMotorParameters();
+		if (tryToCalculatePositions(motorParams, true)) {
+			TurboXasMotorParameterInfoDialog dialog = new TurboXasMotorParameterInfoDialog(shell);
+			dialog.setTurboXasMotorParameters(motorParams);
+			dialog.create();
+			dialog.open();
+		}
+	}
+
+	/**
+	 * Try to calculate set motor positions and speeds on motorParams object from user specified energies for first timing group.
+	 * Catches any IllegalArgumentExceptions thrown by {@link TurboXasMotorParameters#getPositionForEnergy(double)} due to
+	 * out of range energies and optionally displays warning dialog.
+	 *
+	 * @param motorParams
+	 * @param showDialog set to true to show warning dialog with error message if energy to position conversion failed.
+	 * @return true if parameters could be calculated and positions set correctly, false otherwise
+	 */
+	private boolean tryToCalculatePositions(TurboXasMotorParameters motorParams, boolean showDialog) {
+		try {
+			motorParams.setMotorParametersForTimingGroup(0);
+			return true;
+		}catch(IllegalArgumentException e) {
+			if (showDialog) {
+				UIHelper.showWarning("Invalid motor parameters", e.getMessage());
+			}
+			return false;
+		}
 	}
 
 	/**
