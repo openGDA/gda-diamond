@@ -43,7 +43,7 @@
             allowMultiple="false"
             category="uk.ac.gda.beamline.i14"
             class="gda.rcp.views.ViewFactory:statusView"
-            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
+            icon="platform:/plugin/uk.ac.gda.beamline.i14/icons/status.png"
             id="uk.ac.diamond.daq.mapping.ui.StatusView"
             name="Status">
       </view>

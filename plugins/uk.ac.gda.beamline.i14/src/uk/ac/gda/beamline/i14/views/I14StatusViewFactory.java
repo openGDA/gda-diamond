@@ -35,8 +35,8 @@ public class I14StatusViewFactory implements FindableExecutableExtension {
 	private String name;
 
 	private String viewName = "Status";
-	private String iconPlugin = "uk.ac.gda.core";
-	private String iconFilePath = "icons/GDAlogos/GDALogo16.png";
+	private String iconPlugin = "uk.ac.gda.beamline.i14";
+	private String iconFilePath = "icons/status.png";
 	private Double ringCurrentAlarmThreshold;
 	private Double timeToRefillAlarmThreshold;
 
