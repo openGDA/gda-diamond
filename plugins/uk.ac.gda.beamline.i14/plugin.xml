@@ -42,10 +42,10 @@
       <view
             allowMultiple="false"
             category="uk.ac.gda.beamline.i14"
-            class="gda.rcp.views.ViewFactory:shuttersView"
+            class="gda.rcp.views.ViewFactory:statusView"
             icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
-            id="uk.ac.diamond.daq.mapping.ui.ShuttersView"
-            name="Shutters">
+            id="uk.ac.diamond.daq.mapping.ui.StatusView"
+            name="Status">
       </view>
    </extension>
    <extension
@@ -53,7 +53,7 @@
       <perspectiveExtension
             targetID="uk.ac.diamond.daq.mapping.ui.experiment.MappingPerspective">
          <view
-               id="uk.ac.diamond.daq.mapping.ui.ShuttersView"
+               id="uk.ac.diamond.daq.mapping.ui.StatusView"
                minimized="false"
                relationship="stack"
                relative="gda.rcp.jythonterminalview">

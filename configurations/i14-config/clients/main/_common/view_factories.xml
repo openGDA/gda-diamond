@@ -5,7 +5,7 @@
 
 
 	<!-- Beans to initialise view factories -->
-	<bean id="shuttersView" class="uk.ac.gda.beamline.i14.views.I14ShuttersViewFactory">
+	<bean id="statusView" class="uk.ac.gda.beamline.i14.views.I14StatusViewFactory">
 		<property name="ringCurrentAlarmThreshold" value="50.0" />
 		<property name="timeToRefillAlarmThreshold" value="30.0" />
 	</bean>

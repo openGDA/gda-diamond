@@ -28,13 +28,13 @@ import gda.rcp.views.FindableExecutableExtension;
 /**
  * Factory class to create I14StatusView (q.v.)
  */
-public class I14ShuttersViewFactory implements FindableExecutableExtension {
+public class I14StatusViewFactory implements FindableExecutableExtension {
 
-	private static final Logger logger = LoggerFactory.getLogger(I14ShuttersViewFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(I14StatusViewFactory.class);
 
 	private String name;
 
-	private String viewName = "Shutters";
+	private String viewName = "Status";
 	private String iconPlugin = "uk.ac.gda.core";
 	private String iconFilePath = "icons/GDAlogos/GDALogo16.png";
 	private Double ringCurrentAlarmThreshold;
@@ -52,8 +52,8 @@ public class I14ShuttersViewFactory implements FindableExecutableExtension {
 
 	@Override
 	public Object create() throws CoreException {
-		logger.info("Creating I14ShuttersView: {}", this);
-		final I14ShuttersView view = new I14ShuttersView();
+		logger.info("Creating I14 status view: {}", this);
+		final I14StatusView view = new I14StatusView();
 		view.setName(viewName);
 		view.setIconPlugin(iconPlugin);
 		view.setIconFilePath(iconFilePath);
@@ -94,7 +94,7 @@ public class I14ShuttersViewFactory implements FindableExecutableExtension {
 
 	@Override
 	public String toString() {
-		return "I14ShuttersViewFactory [viewName=" + viewName + ", iconPlugin=" + iconPlugin + ", iconFilePath="
+		return "I14StatusViewFactory [viewName=" + viewName + ", iconPlugin=" + iconPlugin + ", iconFilePath="
 				+ iconFilePath + ", ringCurrentAlarmThreshold=" + ringCurrentAlarmThreshold
 				+ ", timeToRefillAlarmThreshold=" + timeToRefillAlarmThreshold + "]";
 	}

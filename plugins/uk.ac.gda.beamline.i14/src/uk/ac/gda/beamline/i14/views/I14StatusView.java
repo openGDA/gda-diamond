@@ -52,8 +52,8 @@ import uk.ac.gda.dls.client.views.RunCommandComposite;
  * <p>
  * This view should be created via I14StatusViewFactory, especially if you wish to set the alarm thresholds.
  */
-public class I14ShuttersView extends ViewPart {
-	private static final Logger logger = LoggerFactory.getLogger(I14ShuttersView.class);
+public class I14StatusView extends ViewPart {
+	private static final Logger logger = LoggerFactory.getLogger(I14StatusView.class);
 
 	private static final String TEXT_OPEN_CLOSE = "Open/Close";
 	private static final String TEXT_STATE = "State";
