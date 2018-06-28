@@ -104,6 +104,9 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
 
     def PreparePGMForMove(self):
         self._pgm_grat_pitch_speed_orig = self._pgm_grat_pitch.speed
+        if self._pgm_grat_pitch_speed_orig != 0.018:
+            raise Exception("PGM Grit Pitch motor speed %f is not at maximum 0.018!" % (self._pgm_grat_pitch_speed_orig))
+        
         # Calculate the energy midpoint
         energy_midpoint = (self._move_end + self._move_start) / 2.
         if self.verbose:
@@ -141,6 +144,10 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self._pgm_grat_pitch_speed = abs(self._grat_pitch_end - self._grat_pitch_start) / self.getTotalTime()
         
         ### Calculate ramp distance from required speed and ramp times
+        #check speed within limits
+        if self._id_gap_speed<=0.000 or self._id_gap_speed>0.018:
+            raise Exception("Calculated PGM Grit Pitch motor speed %f is outside limits [%f, %f]!" % (self._id_gap_speed, 0.000, 1.0))
+        
         # Set the speed before we read out ramp times in case it is dependent
         self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed 
         # Should really be / | | | | | \ not /| | | | |\
@@ -297,7 +304,7 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         if self.verbose: self.logger.info('setTriggerPeriod(%r)' % seconds)
 
     def getNumberTriggers(self):
-        triggers = self.getTotalMove() / self._move_step
+        triggers = self.getTotalMove() / abs(self._move_step)
         if self.verbose: self.logger.info('getNumberTriggers()=%r (%r)' % (int(triggers), triggers))
         return int(triggers)
 
