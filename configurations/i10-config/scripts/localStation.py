@@ -134,7 +134,7 @@ if zebra_fastdicr_installed:
 from detectors.diagnostic_cameras import peak2d1,max2d1,peak2d2,max2d2,peak2d3,max2d3,peak2d4,max2d4,peak2d6,max2d6,peak2dj1,max2dj1,peak2dj3,max2dj3  # @UnusedImport
 
 #short hand commands for shutter and valves
-from i10commands.shutterValveCommands import *  # @UnusedWildImport
+#from i10commands.shutterValveCommands import *  # @UnusedWildImport
 
 ##setup metadata for the file
 from rasor.pd_metadata import MetaDataPD
@@ -144,7 +144,7 @@ rmotors=MetaDataPD("rmotors", [tth, th, chi, eta, ttp, thp, py, pz, dsu, dsd, di
 # meta data
 from metadata.metadataItems import *  # @UnusedWildImport
 try:
-    #SRS file metadata only works when run in localStation.py
+    #SRS file metadata only works when run in localStation.py - see globals()
     print "-"*50
     print "SRS or ASCII file metadata command:"
     from gdascripts.scannable.installStandardScannableMetadataCollection import *  # @UnusedWildImport
@@ -163,12 +163,17 @@ except:
     localStation_exception(sys.exc_info(), "creating SRS file metadata objects")
 
 # check beam scannables
-from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeam_cv, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv  # @UnusedImport
+from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeam_cv, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv, checkbeam4scan, checkbeam4cvscan # @UnusedImport
+
 
 # multi-image per scan data point scan
 from scan.miscan import miscan; print miscan.__doc__  # @UndefinedVariable
 
-#import post scan data process
+#import post scan data process The following 5 lines must be in localStation.py 
+from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
+import gdascripts
+scan_processor.rootNamespaceDict=globals()
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()
 from data_process.scanDataProcess import *  # @UnusedWildImport
 
 #Continuous Scan scannables and commands
