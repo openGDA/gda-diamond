@@ -11,7 +11,7 @@
 	</bean>
 	
 	<bean id="m3m5y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL10I-OP-SWTCH-01:YAW" />
+		<property name="pvName" value="BL10I-OP-SWTCH-01:Y" />
 		<property name="local" value="true"/>
 	</bean>
 	

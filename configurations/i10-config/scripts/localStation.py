@@ -143,6 +143,24 @@ rmotors=MetaDataPD("rmotors", [tth, th, chi, eta, ttp, thp, py, pz, dsu, dsd, di
 
 # meta data
 from metadata.metadataItems import *  # @UnusedWildImport
+try:
+    #SRS file metadata only works when run in localStation.py
+    print "-"*50
+    print "SRS or ASCII file metadata command:"
+    from gdascripts.scannable.installStandardScannableMetadataCollection import *  # @UnusedWildImport
+    meta.rootNamespaceDict=globals()
+    note.rootNamespaceDict=globals()
+    def stdmeta():
+        setmeta_ret=setmeta(*stdmetadatascannables)
+        print "Standard metadata scannables: " + setmeta_ret
+    stdmeta()
+    print "    Use 'stdmeta' to reset to standard scannables"
+    alias('stdmeta')
+    from gda.jython.commands.ScannableCommands import add_default
+    add_default(meta)
+    meta.quiet = True
+except:
+    localStation_exception(sys.exc_info(), "creating SRS file metadata objects")
 
 # check beam scannables
 from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeam_cv, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv  # @UnusedImport
@@ -171,8 +189,8 @@ pc,nc,lh,lv,la,lh3 = Polarisation.POLARISATIONS
 print
 print "*"*80
 #DiffCalc
-print "import DIFFCALC support for I10"
-from startup.i10 import *  # @UnusedWildImport
+# print "import DIFFCALC support for I10"
+# from startup.i10 import *  # @UnusedWildImport
 
 ##Position Wrapper
 print "-"*100
@@ -182,10 +200,10 @@ from rasor.positionWrapper import PositionWrapper
 wa=PositionWrapper(wascannables)
 alias('wa')
 
-print "Creating 'wh' command for return RASOR positions in DIFFCALC HKL"
-wherescannables=[delta,eta,chi,phi,h,k,l,en]
-wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
-alias('wh')
+# print "Creating 'wh' command for return RASOR positions in DIFFCALC HKL"
+# wherescannables=[delta,eta,chi,phi,h,k,l,en]
+# wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
+# alias('wh')
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i10commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport

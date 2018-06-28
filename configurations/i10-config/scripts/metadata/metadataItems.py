@@ -20,22 +20,7 @@ try:
 
     stdmetadatascannables = iddmetadatascannables + idumetadatascannables + pgmmetadatascannables
     
-    #SRS file
-    print "-"*50
-    print "SRS or ASCII file metadata command:"
-    from gdascripts.scannable.installStandardScannableMetadataCollection import *  # @UnusedWildImport
-    meta.rootNamespaceDict=globals()
-    note.rootNamespaceDict=globals()
-    def stdmeta():
-        setmeta_ret=setmeta(*stdmetadatascannables)
-        print "Standard metadata scannables: " + setmeta_ret
-    stdmeta()
-    print "    Use 'stdmeta' to reset to standard scannables"
-    alias('stdmeta')
-    from gda.jython.commands.ScannableCommands import add_default
-    add_default(meta)
-    meta.quiet = True
-    
+   
     #Nexus file
     print "-"*50
     print "Nexus file metadata commands:"
