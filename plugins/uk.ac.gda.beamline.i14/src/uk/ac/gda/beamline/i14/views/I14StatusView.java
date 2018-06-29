@@ -84,15 +84,15 @@ public class I14StatusView extends ViewPart {
 		grpMachine.setBackground(null);
 		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(1).applyTo(grpMachine);
 
-		createNumericCompositeWithAlarm(grpMachine, "ringCurrent", "Ring current", "mA", 2, 1000, ringCurrentAlarmThreshold);
-		createNumericCompositeWithAlarm(grpMachine, "timeToRefill", "Time to refill", "s", 0, 1000, timeToRefillAlarmThreshold);
+		createNumericCompositeWithAlarm(grpMachine, "ring_current", "Ring current", "mA", 2, 1000, ringCurrentAlarmThreshold);
+		createNumericCompositeWithAlarm(grpMachine, "topup_start_countdown_complete", "Time to refill", "s", 0, 1000, timeToRefillAlarmThreshold);
 
 		// Beamline status
 		final Group grpBeamline = new Group(parent, SWT.NONE);
 		grpBeamline.setText("Beamline");
 		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(2).applyTo(grpBeamline);
 
-		createNumericComposite(grpBeamline, "idGap", "ID Gap", "mm", 2, 1000);
+		createNumericComposite(grpBeamline, "id_gap_monitor", "ID Gap", "mm", 2, 1000);
 		createNumericComposite(grpBeamline, "dcm_bragg", "Bragg", "degrees", 4, 1000);
 		createNumericComposite(grpBeamline, "dcm_enrg", "Energy", "KeV", 4, 1000);
 

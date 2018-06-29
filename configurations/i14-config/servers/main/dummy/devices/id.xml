@@ -4,6 +4,13 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- ID gap -->
+	<bean id="id_gap_monitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="double">10.5</value>
+		</property>
+		<property name="outputFormat" value="%.2f" />
+	</bean>
+
 	<bean id="id_gap_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="4.9000" />
 		<property name="maxPosition" value="30.100" />
