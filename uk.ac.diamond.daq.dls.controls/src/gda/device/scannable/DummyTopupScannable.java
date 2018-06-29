@@ -23,13 +23,14 @@ import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import uk.ac.gda.api.remoting.ServiceInterface;
 import gda.device.DeviceException;
 import gda.device.Monitor;
 
 /**
  * Provides a simulation for the time until topup PV from the machine.
  */
+@ServiceInterface(Monitor.class)
 public class DummyTopupScannable extends ScannableBase implements Monitor {
 	private static final Logger logger = LoggerFactory.getLogger(DummyTopupScannable.class);
 	private double topupInterval = 600.0; // overall topup cycle including fill time
