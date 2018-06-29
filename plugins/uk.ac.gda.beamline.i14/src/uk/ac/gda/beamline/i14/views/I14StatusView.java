@@ -36,6 +36,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.swtdesigner.SWTResourceManager;
+
 import gda.device.Scannable;
 import gda.factory.Finder;
 import gda.jython.ICommandRunner;
@@ -72,59 +74,40 @@ public class I14StatusView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		GridDataFactory.fillDefaults().applyTo(parent);
 		RowLayoutFactory.fillDefaults().applyTo(parent);
-		parent.setBackground(new Color(Display.getDefault(), 237, 237, 237));
+		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 
 		setPartName(name);
 		setIcon();
 		initialiseColourMap();
 
 		// Machine status
-		final Group grpMachine = new Group(parent, SWT.NONE);
-		grpMachine.setText("Machine");
-		grpMachine.setBackground(null);
-		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(1).applyTo(grpMachine);
-
+		final Group grpMachine = createGroup(parent, "Machine", 1);
 		createNumericCompositeWithAlarm(grpMachine, "ring_current", "Ring current", "mA", 2, 1000, ringCurrentAlarmThreshold);
 		createNumericCompositeWithAlarm(grpMachine, "topup_start_countdown_complete", "Time to refill", "s", 0, 1000, timeToRefillAlarmThreshold);
 
 		// Beamline status
-		final Group grpBeamline = new Group(parent, SWT.NONE);
-		grpBeamline.setText("Beamline");
-		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(2).applyTo(grpBeamline);
-
+		final Group grpBeamline = createGroup(parent, "Beamline", 2);
 		createNumericComposite(grpBeamline, "id_gap_monitor", "ID Gap", "mm", 2, 1000);
 		createNumericComposite(grpBeamline, "dcm_bragg", "Bragg", "degrees", 4, 1000);
 		createNumericComposite(grpBeamline, "dcm_enrg", "Energy", "KeV", 4, 1000);
 
 		// OH1 shutter
-		final Group grpOH1 = new Group(parent, SWT.NONE);
-		grpOH1.setText("OH1 Shutter");
-		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(1).applyTo(grpOH1);
-
+		final Group grpOH1 = createGroup(parent, "OH1 Shutter", 1);
 		createShutterComposite(grpOH1, "oh1_shutter_status");
 		createCommandComposite(grpOH1, "OH1", "toggle_oh1_shtr()");
 
 		// OH2 shutter
-		final Group grpOH2 = new Group(parent, SWT.NONE);
-		grpOH2.setText("OH2 Shutter");
-		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(1).applyTo(grpOH2);
-
+		final Group grpOH2 = createGroup(parent, "OH2 Shutter", 1);
 		createShutterComposite(grpOH2, "oh2_shutter_status");
 		createCommandComposite(grpOH2, "OH2", "toggle_oh2_shtr()");
 
 		// OH3 shutter
-		final Group grpOH3 = new Group(parent, SWT.NONE);
-		grpOH3.setText("OH3 Shutter");
-		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(1).applyTo(grpOH3);
-
+		final Group grpOH3 = createGroup(parent, "OH3 Shutter", 1);
 		createShutterComposite(grpOH3, "oh3_shutter_status");
 		createCommandComposite(grpOH3, "OH3", "toggle_oh3_shtr()");
 
 		// EH2 Nano shutter
-		final Group grpEH2Nano = new Group(parent, SWT.NONE);
-		grpEH2Nano.setText("EH2 Nano Shutter");
-		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(1).applyTo(grpEH2Nano);
-
+		final Group grpEH2Nano = createGroup(parent, "EH2 Nano Shutter", 1);
 		createShutterComposite(grpEH2Nano, "eh2_nano_shutter_status");
 		createCommandComposite(grpEH2Nano, "EH2 Nano", "toggle_eh2_nano_shtr()");
 	}
@@ -144,6 +127,14 @@ public class I14StatusView extends ViewPart {
 	@Override
 	public void setFocus() {
 		// nothing to do
+	}
+
+	private static Group createGroup(Composite parent, String name, int columns) {
+		final Group group = new Group(parent, SWT.NONE);
+		group.setText(name);
+		group.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(columns).applyTo(group);
+		return group;
 	}
 
 	private void createShutterComposite(final Composite parent, final String scannableName) {
@@ -203,7 +194,7 @@ public class I14StatusView extends ViewPart {
 	 * Extend ReadonlyScannableComposite to show value with red background when value drops below a certain number.
 	 * Used to indicate falling ring current or imminent refill.
 	 */
-	private class ReadonlyScannableCompositeWithAlarm extends ReadonlyScannableComposite {
+	private static class ReadonlyScannableCompositeWithAlarm extends ReadonlyScannableComposite {
 		private Double alarmValue;
 		private Color alarmBackgroundColour = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
 		private Color normalBackgroundColour = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
