@@ -33,7 +33,7 @@
 
 	<!-- Countdown to START of next TopUp (float) -on TopUp start remains at zero until fill is complete -->
 	<bean id="topup_start_countdown_complete" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="SR-CS-FILL-01:COUNTDN" />
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
 	</bean>
 
 	<!-- Countdown to END of next TopUp (integer estimate) -on TopUp start resets immediately to estimated time until next TopUp end -->
