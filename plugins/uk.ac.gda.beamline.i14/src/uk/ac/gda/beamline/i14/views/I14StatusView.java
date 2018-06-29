@@ -110,6 +110,10 @@ public class I14StatusView extends ViewPart {
 		final Group grpEH2Nano = createGroup(parent, "EH2 Nano Shutter", 1);
 		createShutterComposite(grpEH2Nano, "eh2_nano_shutter_status");
 		createCommandComposite(grpEH2Nano, "EH2 Nano", "toggle_eh2_nano_shtr()");
+
+		// State of processing
+		final Group grpProcessing = createGroup(parent, "Processing", 1);
+		createNumericCompositeForProcessing(grpProcessing, "processing_monitor", "Processing");
 	}
 
 	private void setIcon() {
@@ -153,6 +157,12 @@ public class I14StatusView extends ViewPart {
 		final Scannable scannable = finder.find(scannableName);
 		final ReadonlyScannableCompositeWithAlarm composite = new ReadonlyScannableCompositeWithAlarm(parent, SWT.NONE, scannable, label, units, decimalPlaces, alarmValue);
 		composite.setMinPeriodMS(minPeriodMS);
+	}
+
+	private void createNumericCompositeForProcessing(final Composite parent, final String scannableName, final String label) {
+		final Scannable scannable = finder.find(scannableName);
+		final ReadonlyScannableCompositeProcessingMonitor composite  = new ReadonlyScannableCompositeProcessingMonitor(parent, SWT.NONE, scannable, label);
+		composite.setMinPeriodMS(1000);
 	}
 
 	@SuppressWarnings("unused")
@@ -220,6 +230,33 @@ public class I14StatusView extends ViewPart {
 					logger.warn("Non-numeric value in status view", ex);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Extend ReadonlyScannableComposite to show status of processing with appropriate text colour
+	 */
+	private static class ReadonlyScannableCompositeProcessingMonitor extends ReadonlyScannableComposite {
+
+		private static final String RUNNING = "Running";
+		private static final String STOPPED = "Stopped";
+
+		private static final Color RUNNING_TEXT_COLOUR = Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GREEN);
+		private static final Color STOPPED_TEXT_COLOUR = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
+
+		public ReadonlyScannableCompositeProcessingMonitor(Composite parent, int style, Scannable scannable, String label) {
+			super(parent, style, scannable, label, "", 0);
+		}
+
+		@Override
+		protected void setVal(String newVal) {
+			// Display Running or Stopped
+			super.setVal(newVal.equals(RUNNING) ? RUNNING : STOPPED);
+		}
+
+		@Override
+		protected void afterUpdateText(Text text, String value) {
+			text.setForeground(value.equals(RUNNING) ? RUNNING_TEXT_COLOUR : STOPPED_TEXT_COLOUR);
 		}
 	}
 }

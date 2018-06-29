@@ -72,6 +72,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/ion_chamber.xml" />
 
 	<!-- monitors -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/monitors/processing_monitor.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/monitors/radiant_panel_monitors.xml" />
 
 	<!-- file registration -->
