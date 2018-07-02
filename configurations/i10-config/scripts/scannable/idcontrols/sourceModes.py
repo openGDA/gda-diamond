@@ -23,7 +23,7 @@ class SourceMode(ScannableBase):
     '''
     SOURCE_MODES=['idd','idu']
     
-    def __init__(self, name, idu_gap, idd_gap, opengap=100, defaultmode=None):
+    def __init__(self, name, idu_gap, idd_gap, opengap=200, defaultmode=None):
         '''
         Constructor - default source mode is None
         '''

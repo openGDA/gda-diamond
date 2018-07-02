@@ -6,6 +6,7 @@ from gda.device import Detector
 from org.slf4j import LoggerFactory
 from threading import Timer
 import installation
+from time import sleep
 
 class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallableProvider):
 
@@ -82,6 +83,7 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
         if self.verbose: self.logger.info('...atScanLineStart()')
 
     def atScanLineEnd(self):
+        sleep(2) #https://jira.diamond.ac.uk/browse/I10-297?focusedCommentId=151337&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-151337
         if self.verbose: self.logger.info('...atScanLineEnd()')
         # TODO: Must wait for all callables to have been called before doing this
         #self.waveform_channel_controller.stop()

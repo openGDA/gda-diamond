@@ -10,6 +10,8 @@ from org.slf4j import LoggerFactory
 from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating
 from time import sleep
 import installation
+from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import ContinuousPgmGratingIDGapEnergyMoveController
+from scannable.continuous.ContinuousPgmGratingEnergyMoveController import ContinuousPgmGratingEnergyMoveController
 
 """ This scannable uses the motor controller to just control the motor and calculates the
     actual position from the position callables provided by the specified pitch motors.
@@ -54,6 +56,9 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             if self._operating_continuously:
                 print "Data Capture completed. Please wait for data writer to complete ..."
                 sleep(60) #Time delay required for data writer to completed writing scan data point to file
+        else:
+            if self._operating_continuously:
+                sleep(2) #https://jira.diamond.ac.uk/browse/I10-300?focusedCommentId=151522&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-151522
         self._operating_continuously = b
 
     def isOperatingContinously(self):
@@ -107,9 +112,9 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
                 self._move_controller.mirror_pitch_positions.append(mirr_pitch)
                 self._move_controller.pgm_energy_positions.append(float(position))
         else:
-            try:
+            if isinstance(self._move_controller, ContinuousPgmGratingIDGapEnergyMoveController):
                 self._move_controller._id_energy.asynchronousMoveTo(position)
-            except:
+            else:
                 raise Exception("asynchronousMoveTo only supports Continuous operation")
         self.mybusy=False
 
@@ -147,10 +152,11 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             # Should be using getPositionCallable
             #return self._last_requested_position
         else:
-            try:
+            if isinstance(self._move_controller, ContinuousPgmGratingIDGapEnergyMoveController):
                 return self._move_controller._id_energy.getPosition()
-            except:
-                raise Exception("getPosition only supports continuous operation")
+            else:
+                return self.super__getPosition()
+
 
     def waitWhileBusy(self):
         if self.verbose: self.logger.info('waitWhileBusy()...')
@@ -167,10 +173,10 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         if self._operating_continuously:
             return self.mybusy #self._move_controller.isBusy()
         else:
-            try:
+            if isinstance(self._move_controller, ContinuousPgmGratingIDGapEnergyMoveController):
                 return self._move_controller._id_energy.isBusy()
-            except:
-                raise Exception("isBusy only supports continuous operation")
+            else:
+                return self._move_controller.isMoving()
             
     # public interface ScannableMotion extends Scannable
 
