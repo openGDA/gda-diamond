@@ -145,8 +145,8 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         
         ### Calculate ramp distance from required speed and ramp times
         #check speed within limits
-        if self._id_gap_speed<=0.000 or self._id_gap_speed>0.018:
-            raise Exception("Calculated PGM Grit Pitch motor speed %f is outside limits [%f, %f]!" % (self._id_gap_speed, 0.000, 1.0))
+        if self._pgm_grat_pitch_speed<=0.000 or self._pgm_grat_pitch_speed>0.018:
+            raise Exception("Calculated PGM Grit Pitch motor speed %f is outside limits [%f, %f]!" % (self._pgm_grat_pitch_speed, 0.000, 0.018))
         
         # Set the speed before we read out ramp times in case it is dependent
         self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed 
