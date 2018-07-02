@@ -1,16 +1,12 @@
 #A GDA Pseudo Device that invokes the moke3d Java magnet power software controller over TCP/IP
 
-# Taken from /dls/i06-1/scripts/POMS/PomsSocketDevice.py on 5-Jul-2012 (not
-# under version control).
 
 import time
-#from gda.device.scannable import PseudoDevice
 from gda.device.scannable import ScannableBase
 import socket
 
 
 #The Class for creating a socket-based Psuedo Device to control the magnet
-#class vmagScannable(PseudoDevice):
 class vmagScannable(ScannableBase):
     def __init__(self, name, hostName, hostPort):
         self.setName(name);
@@ -36,8 +32,7 @@ class vmagScannable(ScannableBase):
         
         self.iambusy = 0 
         
-        #self.setField(0)
-        #self.setAngle(0,0)
+
 
    
     def sendAndReply(self, strSend):
@@ -67,12 +62,7 @@ class vmagScannable(ScannableBase):
     
     def setRawAngle(self, theta, phi):
         self.iambusy = 1
-        #self.theta = theta
-        #self.phi = phi
-        #if (self.anglesFlipped == 0):
         cmd='setFieldDirection %(v1)10.2f %(v2)10.2f\n\r' %{'v1': theta, 'v2': phi};
-        #else :
-        #    cmd='setFieldDirection %(v1)10.2f %(v2)10.2f\n\r' %{'v1': (self.theta+180)%360, 'v2': (self.phi+180)%360};    
         reply = self.sendAndReply(cmd);
         time.sleep(0.5);   
         self.iambusy = 0 
@@ -83,12 +73,7 @@ class vmagScannable(ScannableBase):
         
         if field < 0:
             if (self.anglesFlipped == 0):
-            #print (self.theta - self.thetaActual)
-            #if (abs(self.theta - self.thetaActual) != 180) and (abs(self.phi - self.phiActual) != 180):
-                #need to flip the angles by 180
-                #self.thetaActual = (self.theta+180)%360
-                #self.phiActual = (self.phi+180)%360
-                self.setRawAngle(self.theta, (self.phi+180)%360)
+                self.setRawAngle(-self.theta, (self.phi+180)%360)
                 self.anglesFlipped = 1
                 print "flipping angles"
         else:
@@ -96,12 +81,7 @@ class vmagScannable(ScannableBase):
                 self.setRawAngle(self.theta, self.phi)
                 self.anglesFlipped = 0
                 print "unflipping angles"
-                     
-            #if (abs(self.theta - self.thetaActual) != 0) and (abs(self.phi - self.phiActual) != 0):
-            #    #need to flip the angles by 180
-            #    self.thetaActual = (self.theta+180)%360
-            #    self.phiActual = (self.phi+180)%360
-            #    self.setAngle(self.thetaActual, self.phiActual)
+
         
         #Always call setField <field> <timeout> as may have been zerod for safety reason
         cmd='setField %(v1)10.4f 600000000\n\r' %{'v1': abs(field)};
@@ -113,13 +93,11 @@ class vmagScannable(ScannableBase):
         
     def asynchronousMoveTo(self,newPos):
         if isinstance(newPos,(int, float)):
-            print "going to single"
             self.setInputNames([self.input_Names[0]])
             self.setOutputFormat([self.output_Formats[0]])
             self.setField(newPos)
             self.SINGLEINPUT=True
         elif isinstance(newPos, (list, tuple)):
-            print "going to list"
             self.setInputNames(self.input_Names)
             self.setOutputFormat(self.output_Formats)
             self.setAngle(newPos[1], newPos[2])
@@ -129,13 +107,6 @@ class vmagScannable(ScannableBase):
             raise ValueError("Argument must be single float or a list of 3 float value")
         
         
-            
-        #if (type(newPos) == list):
-        #    # process as array of field, theta phi
-        #    self.setAngle(newPos[1], newPos[2])
-        #    self.setField(newPos[0])
-        #else:
-        #    self.setField(newPos)
         
     def getPosition(self):
         if (self.SINGLEINPUT):
@@ -164,3 +135,46 @@ class vmagScannable(ScannableBase):
             self.setField(-h/1000.0)
             time.sleep(0.5)   
             self.setField(0)        
+
+"""####################################+#######################################"""
+
+class vmagThetaScannable(ScannableBase):
+    def __init__(self, vmag):
+            self.name = "vmagTheta"
+            self.setInputNames(["vmagTheta"])
+            self.setOutputFormat(["%03d"])
+            self.iambusy = 0 
+            self.vmag = vmag
+
+    def getPosition(self):
+        return self.vmag.theta
+
+    def asynchronousMoveTo(self, value):
+        self.iambusy = 1
+        self.vmag.setAngle(value, self.vmag.phi)
+        self.iambusy = 0
+
+    def isBusy(self):
+        return self.iambusy
+
+"""####################################+#######################################"""
+
+
+class vmagPhiScannable(ScannableBase):
+    def __init__(self, vmag):
+            self.name = "vmagPhi"
+            self.setInputNames(["vmagPhi"])
+            self.setOutputFormat(["%03d"])
+            self.iambusy = 0 
+            self.vmag = vmag
+
+    def getPosition(self):
+        return self.vmag.phi
+
+    def asynchronousMoveTo(self, value):
+        self.iambusy = 1
+        self.vmag.setAngle(self.vmag.theta, value)
+        self.iambusy = 0
+
+    def isBusy(self):
+        return self.iambusy

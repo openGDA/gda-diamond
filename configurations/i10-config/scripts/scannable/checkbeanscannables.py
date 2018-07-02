@@ -39,7 +39,7 @@ try:
     checkbeam_cv.configure()
 except:
     localStation_exception(sys.exc_info(), "creating checkbeam objects")
-
+    
 try:    
     print "Adding checkbeamcv device (add to cvscan to get checkbeam functionality)"
 
@@ -65,3 +65,24 @@ try:
     checkbeamcv = ZiePassthroughScannableDecorator(checkbeam_cv)
 except:
     localStation_exception(sys.exc_info(), "creating checkbeamcv object")
+    
+def checkbeam4scan():
+    from gda.jython.commands.ScannableCommands import add_default, remove_default
+    try:
+        remove_default(checkbeamcv)
+    except:
+        pass
+    add_default(checkbeam)
+
+def checkbeam4cvscan():
+    from gda.jython.commands.ScannableCommands import add_default, remove_default
+    try:
+        remove_default(checkbeam)
+    except:
+        pass
+    add_default(checkbeamcv)
+    
+from gda.jython.commands.GeneralCommands import alias
+alias("checkbeam4scan")
+alias("checkbeam4cvscan")
+    

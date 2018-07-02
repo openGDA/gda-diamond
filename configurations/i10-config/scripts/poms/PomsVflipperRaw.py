@@ -3,6 +3,39 @@
 # Taken from /dls/i06-1/scripts/POMS/PomsSocketDevice.py on 5-Jul-2012 (not
 # under version control).
 
+
+
+
+### Configure vflipperRaw using defaults
+
+#print     repr(poms_default_vflipper_raw('vflipperRaw'))
+#vflipperRaw = poms_default_vflipper_raw('vflipperRaw')
+#print repr(vflipperRaw)
+
+### Configure vflipperRaw manually
+# from poms.PomsVflipperRaw import FlipperRawDeviceClass
+# 
+# vflipperRaw = FlipperRawDeviceClass('vflipperRaw', nameMagnet='vmag',
+#     nameCounterTimerA='macr16', nameCounterTimerB='macr18',
+#     nameCounterTimerC='macr19');
+
+#vflipperRaw = FlipperRawDeviceClass('vflipperRaw', nameMagnet='vmag',
+#    nameCounterTimerA='macr16',  nameCounterTimerB='macr10',
+#    nameCounterTimerC='macr11', nameCounterTimerD='macr31',
+#    nameCounterTimerE='macr23'); # 20130618
+
+
+
+
+
+
+
+
+
+
+
+
+
 from time import sleep
 from gda.device.scannable import PseudoDevice
 

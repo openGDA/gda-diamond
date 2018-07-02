@@ -3,6 +3,38 @@
 # Taken from /dls/i06-1/scripts/POMS/PomsSocketDevice.py on 5-Jul-2012 (not
 # under version control).
 
+
+
+
+
+
+"""############################################################################
+example to select the flipper to use
+###############################################################################"""
+
+#print repr(poms_default_vflipper('vflipper'))
+#vflipper = poms_default_vflipper('vflipper')
+#print repr(vflipper)
+
+### Configure vflipper manually
+#from poms.PomsVflipper import FlipperDeviceClass
+#from David.scannables.PomsVflipper import FlipperDeviceClass
+
+#vflipper = FlipperDeviceClass('vflipper', nameMagnet='vmag',
+#    nameCounterTimerA='macr16',
+#    nameCounterTimerB='macr18', nameCounterTimerC='macr19');
+
+
+
+
+
+
+
+
+
+
+
+
 from time import sleep
 from gda.device.scannable import PseudoDevice
 
