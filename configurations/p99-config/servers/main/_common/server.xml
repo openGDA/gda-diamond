@@ -42,6 +42,8 @@
 
 	<import resource="aop.xml"/>
 	<import resource="logging_script_controller.xml"/>
+	
+	<import resource="beamSize.xml" />
 
 
 	<!-- To enable use of a simulated AD uncomment this import -->

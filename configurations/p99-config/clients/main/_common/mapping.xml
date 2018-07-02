@@ -96,7 +96,7 @@
 	<bean id="mapping_stage_info" class="uk.ac.diamond.daq.mapping.impl.MappingStageInfo">
 		<property name="activeFastScanAxis" ref="x_axis_name" />
 		<property name="activeSlowScanAxis" ref="y_axis_name" />
-		<property name="beamSize" value="0.1" />
+		<property name="beamSize" value="0.0005" />
 	</bean>
 	<!-- Register the mapping stage info bean as an OSGi service. Do this Twice 
 		under different interfaces to allow Jake's interface to be supported with 
@@ -134,6 +134,7 @@
 				<bean class="org.eclipse.scanning.api.points.models.SpiralModel" />
 				<bean class="org.eclipse.scanning.api.points.models.LissajousModel" />
 				<bean class="org.eclipse.scanning.api.points.models.RandomOffsetGridModel" />
+				<bean class="org.eclipse.scanning.api.points.models.PtychographyGridModel" />
 			</list>
 		</property>
 		<property name="oneDPaths">
