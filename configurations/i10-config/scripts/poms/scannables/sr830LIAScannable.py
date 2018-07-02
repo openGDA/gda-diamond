@@ -25,10 +25,61 @@ Need to make sure RS232 is selected under the setup menu onj the instrument
 
 
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableBase
 from other_devices.rs232Device import rs232Device
 
-class sr830LIAScannable(PseudoDevice):
+
+
+class sr830LIASensitivityScannable(ScannableBase):
+	def __init__(self, rs232):
+		self.name = "liaSens"
+		self.setInputNames(["liaSens"])
+		self.setOutputFormat(["%02d"])
+		self.iambusy = 0 
+		self.rs232 = rs232
+		self.lookup = [2e-15, 5e-15, 10e-15, 20e-15, 50e-15,100e-15, 200e-15, 500e-15, 1e-12, 2e-12, 5e-12,
+					10e-12, 20e-12, 50e-12, 100e-12, 200e-12, 500e-12, 1e-9, 2e-9, 5e-9, 10e-9, 20e-9, 50e-9,
+					100e-9, 200e-9, 500e-9, 1e-6] # Lookup for current
+		#self.lookup = [2e-9, 5e-9, 10e-9, 20e-9, 50e-9, 100e-9, 200e-9, 500e-9, 1e-6, 2e-6, 5e-6, 10e-6,
+		#			20e-6, 50e-6, 100e-6, 200e-6, 500e-6, 1e-3, 2e-3, 5e-3, 10e-3, 20e-3, 50e-3, 100e-3, 
+		#			200e-3, 500e-3, 1] # Lookup for voltage
+
+	def getPosition(self):
+		return self.lookup[int(self.rs232.query("SENS?"))]
+
+	def asynchronousMoveTo(self, value):
+		self.iambusy = 1
+		self.rs232.write("SENS %2d" % self.lookup.index(value))
+		self.iambusy = 0
+
+	def isBusy(self):
+		return self.iambusy
+	
+	
+
+class sr830LIAInputScannable(ScannableBase):
+	def __init__(self, rs232):
+		self.rs232 = rs232
+		self.name = "liaInput"
+		self.setInputNames(["liaInput"])
+		self.setOutputFormat(["%1d"])
+		self.iambusy = 0 
+	
+	def getPosition(self):
+		return self.rs232.query("ISRC?")
+	
+	def asynchronousMoveTo(self, newPos):
+		self.iambusy = 1
+		self.rs232.write("ISRC %1d" % newPos)
+		self.iambusy = 0
+
+	def isBusy(self):
+		return self.iambusy
+
+
+
+
+class sr830LIAScannable(ScannableBase):
 	def __init__(self, name, branch, port):
 		self.name = name
 		self.setInputNames(["lia_sensitivity", "lia_time_constant", "lia_offset_x", "lia_offset_y"])

@@ -3,6 +3,55 @@
 # Taken from /dls/i06-1/scripts/POMS/PomsSocketDevice.py on 5-Jul-2012 (not
 # under version control).
 
+
+
+
+### Configure vflipperCalc using defaults
+
+#print     repr(poms_default_vflipper_calc('vflipperCalc'))
+#vflipperCalc = poms_default_vflipper_calc('vflipperCalc')
+#print repr(vflipperCalc)
+
+### Configure vflipperCalc manually
+# from poms.PomsVflipperCalc import FlipperCalcDeviceClass
+# #
+# vflipperCalc = FlipperCalcDeviceClass('vflipperCalc', nameMagnet='vmag',
+#         nameCounterTimerA='macr16',
+#         nameCounterTimerB='macj18', 
+#         nameCounterTimerC='macj19',
+#         nameCounterTimerD='macj118', 
+#         nameCounterTimerE='mac119',
+#         nameCalc1='XMCD', calc1='B2/A2-B1/A1',
+#         nameCalc2='X2',   calc2='B2/A2+B1/A1',
+#         nameCalc3='XAS', calc3='X2/2.0',
+#         nameCalc4='TDIF', calc4='C1/A1-C2/A2',
+#         nameCalc5='X5',   calc5='C1/A1+C2/A2',
+#         nameCalc6='TXAS', calc6='X5/2.0')
+#        
+#Note: For some reason the expression evaluation doesn't work with parentheses
+#      at the moment, so you will have to rely on operator precedence and use
+#      of output values as intermediate values as in the example above
+
+#vflipperCalc = FlipperCalcDeviceClass('vflipperCalc', nameMagnet='vmag',
+#        nameCounterTimerA='macr19',
+#        nameCounterTimerB='macr16', nameCounterTimerC='mac117',
+#        nameCounterTimerD='macj118', nameCounterTimerE='mac11',
+#        nameCalc1='EDIF', calc1='B2/A2-B1/A1',
+#        nameCalc2='X2',   calc2='B2/A2+B1/A1',
+#        nameCalc3='EXAS', calc3='X2/2.0',
+#        nameCalc4='TDIF', calc4='C1/A1-C2/A2',
+#        nameCalc5='X5',   calc5='C1/A1+C2/A2',
+#        nameCalc6='TXAS', calc6='X5/2.0')
+
+
+
+
+
+
+
+
+
+
 from time import sleep
 from gda.device.detector.etldetector import ETLDetector
 from gda.device.scannable import PseudoDevice

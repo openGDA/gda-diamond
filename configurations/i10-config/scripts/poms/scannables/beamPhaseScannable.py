@@ -17,7 +17,6 @@ class beamPhaseScannable(PseudoDevice):
 		self.setOutputFormat(["%.6g","%.6g","%.6g"])
 		self.iambusy = 0 
 		
-		#self.ca = device()
 		self.ca = CAClient();
 		
 		self.offsetC = 0

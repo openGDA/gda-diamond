@@ -32,7 +32,7 @@ class colbyDelayLineScannable(PseudoDevice):
 			self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			self.sock.connect((self.host, 1234))
 			self.sock.send(str.encode("*IDN?\n"))
-			print self.sock.recv(2056)
+			self.sock.recv(2056)
 		except:
 			print "No connection to Colby Delay Line"
 
@@ -52,7 +52,7 @@ class colbyDelayLineScannable(PseudoDevice):
 				if tries == 3: raise Exception('Colby Delay Line error', 'Failed connection to colby delay line after 3 attempts')
 				self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 				self.sock.connect((self.host, 1234))
-		return float(response) / 1e-12
+		return int(float(response) / 1e-12)
 
 
 	def asynchronousMoveTo(self, delay):
