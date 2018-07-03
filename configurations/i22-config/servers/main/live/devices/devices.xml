@@ -27,7 +27,6 @@
 	<import resource="idgap.xml" />
 	<import resource="shutter.xml" />
 	<import resource="slits/slits.xml" />
-	<import resource="microfocus/microfocus.xml" />
 
 	<!-- <import resource="bsaxs-axes.xml"/> -->
 

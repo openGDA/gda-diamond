@@ -40,8 +40,6 @@
     <import resource='vfm.xml'/>
     <import resource='wd.xml'/>
     
-    <import resource="microfocus/microfocus.xml"/>
-
     <import resource="fswitch.xml" />
 
     <import resource="gisaxs/gisaxs.xml"/>
