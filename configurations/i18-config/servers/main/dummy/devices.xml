@@ -148,7 +148,8 @@
 	<bean id="D7B" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
-				<value>Fluorescence sc</value>
+				<value>diamond thin</value>
+				<value>diamond thick</value>
 				<value>ni drain</value>
 				<value>au drain</value>
 				<value>al drain</value>
