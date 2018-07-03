@@ -5,45 +5,45 @@
 
 	<!-- Translations -->
 	<bean id="sax_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="sax" />
+		<property name="displayName" value="x" />
 		<property name="group" value="Sample Translations" />
-		<property name="scannableName" value="sax" />
+		<property name="scannableName" value="x" />
 		<property name="increment" value="1" />
 	</bean>
 
 	<bean id="say_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="say" />
+		<property name="displayName" value="y" />
 		<property name="group" value="Sample Translations" />
-		<property name="scannableName" value="say" />
+		<property name="scannableName" value="y" />
 		<property name="increment" value="1" />
 	</bean>
 
 	<bean id="saz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="saz" />
+		<property name="displayName" value="z" />
 		<property name="group" value="Sample Translations" />
-		<property name="scannableName" value="saz" />
+		<property name="scannableName" value="z" />
 		<property name="increment" value="1" />
 	</bean>
 
 	<!-- Stage Rotations -->
 	<bean id="sapolar_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="sapolar" />
+		<property name="displayName" value="th" />
 		<property name="group" value="Sample Rotations" />
-		<property name="scannableName" value="sapolar" />
+		<property name="scannableName" value="th" />
 		<property name="increment" value="1" />
 	</bean>
 	
 	<bean id="satilt_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="satilt" />
+		<property name="displayName" value="chi" />
 		<property name="group" value="Sample Rotations" />
-		<property name="scannableName" value="satilt" />
+		<property name="scannableName" value="chi" />
 		<property name="increment" value="1" />
 	</bean>
 
 	<bean id="saazimuth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
-		<property name="displayName" value="saazimuth" />
+		<property name="displayName" value="phi" />
 		<property name="group" value="Sample Rotations" />
-		<property name="scannableName" value="saazimuth" />
+		<property name="scannableName" value="phi" />
 		<property name="increment" value="1" />
 	</bean>
 	

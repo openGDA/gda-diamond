@@ -1,0 +1,8 @@
+bashlog debug "gda_client_pre_instance" "Entered"
+
+bashlog debug "gda_client_pre_instance" "Ensure the Log panel is running..."
+bash ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core logpanel
+# Note that we don't want to source here, since this is already being run from gda_core
+# and using source will switch COMPONENT from servers to logpanel!
+
+bashlog debug "gda_client_pre_instance" "Exited"

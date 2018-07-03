@@ -57,6 +57,8 @@
 <!-- objects that access an area detector simulator ADSIM Top-->
 	<import resource="adSimulator.xml"/> <!-- diagnostic cameras -->
 	<import resource="andor.xml"/> <!-- CAM Top -->
+	<import resource="andor2.xml"/> <!-- CAM Top -->
+	<import resource="polariser.xml"/>
 	
 	<!-- Array View section -->
 <!-- 	<import resource="adsim_roi_arrayview.xml"/> -->
@@ -72,5 +74,6 @@
 <!-- 	<import resource="smpcam3_nx.xml"/> -->
 <!-- 	<import resource="smpcam4_nx.xml"/> -->
 	<import resource="dummysmp_m5tth.xml" />
+	<import resource="topup.xml" />
 
 </beans>

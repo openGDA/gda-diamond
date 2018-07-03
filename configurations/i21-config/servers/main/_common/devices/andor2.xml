@@ -1,0 +1,111 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="andor2CollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="andor2_adbase" />
+								<property name="restoreAcquireState" value="true"/>
+								<property name="readAcquisitionTime" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- use EPICS HDF5 plugin to write data to file -->
+	<bean id="andor2Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="andor2_hdf5"/>
+		<property name="fileNameTemplate" value="andor2"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="storeAttr" value="true" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="true" />
+		<property name="attrByDim" value="true" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+	<!-- used with live stream view -->
+ 	<bean id="andor2" class="gda.device.detector.NXDetector">
+		<property name="name" value="andor2" />
+		<property name="collectionStrategy" ref="andor2CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="andor2_RoiStats1" />
+				<ref bean="andor2_RoiStats2" />
+				<ref bean="andor2_RoiStats3" />
+				<ref bean="andor2_RoiStats4" />
+				<ref bean="andor2_RoiStats5" />
+				<ref bean="andor2_RoiStats6" />
+				<ref bean="andor2Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+<!-- ADDetector used in new scanning -->
+	<bean id="andor2_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="andor2CollectionStrategy"/>
+		<property name="adBase" ref="andor2_adbase" />
+		<property name="ndFile" ref="andor2_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="andor2_ndarray" />
+		<property name="ndStats" ref="andor2_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="andor2Hdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+
+	<bean id="andor2Model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="andor2_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="andor2Info" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i21.andor2.DeviceInformation" />
+		<property name="label" value="Andor" />
+		<property name="description" value="Andor" />
+	</bean>
+
+	<bean id="andor2_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="andor2_addetector" />
+		<property name="model" ref="andor2Model" />
+		<property name="deviceInformation" ref="andor2Info" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
+
+	<!-- Scannable group -->
+<!-- 	<bean id="andor2_scannables" class="gda.device.scannable.scannablegroup.ScannableGroup"> -->
+<!-- 		<property name="groupMembers"> -->
+<!-- 			<list> -->
+<!-- 				<ref bean="andor2" /> -->
+<!-- 				<ref bean="andor2_addetector" /> -->
+<!-- 				<ref bean="andor2ADCSpeed" /> -->
+<!-- 				<ref bean="andor2AccumulatePeriod" /> -->
+<!-- 				<ref bean="andor2BinningSizeX" /> -->
+<!-- 				<ref bean="andor2BinningSizeY" /> -->
+<!-- 				<ref bean="andor2CoolerControl" /> -->
+<!-- 				<ref bean="andor2CoolerTemperature" /> -->
+<!-- 				<ref bean="andor2EMCCDGain" /> -->
+<!-- 				<ref bean="andor2ExtShutterTrigger" /> -->
+<!-- 				<ref bean="andor2PreampGain" /> -->
+<!-- 				<ref bean="andor2ShutterMode" /> -->
+<!-- 				<ref bean="andor2VerticalShiftAmplitude" /> -->
+<!-- 				<ref bean="andor2VerticalShiftSpeed" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+</beans>

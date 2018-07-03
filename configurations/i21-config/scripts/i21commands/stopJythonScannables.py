@@ -9,7 +9,7 @@ def stopJythonScannablesExceptExcluded():
     from gda.device.scannable import PseudoDevice, ScannableBase
     commandServer = Finder.getInstance().find("command_server")
     scannables = commandServer.getAllFromJythonNamespace()
-#     print scannables
+    #     print scannables
     excluded_scannables = scannables["STOP_ALL_EXCLUSIONS"]
     dontuse = None
     for dontuse in scannables.values():
@@ -25,4 +25,4 @@ def stopJythonScannablesExceptExcluded():
     
     del dontuse
     print
-
+    

@@ -7,7 +7,7 @@
 	<bean id="expressionModel" class="org.eclipse.scanning.api.device.models.DeviceWatchdogModel">
 	    <!-- In the expression:   & is &amp;   and   " is &quot; -->
 	    <!-- So the expression is really:   beamcurrent >= 1.0 && !portshutter.equalsIgnoreCase("Closed")  -->
-		<property name="expression"   value="ringCurrentMonitor >= 1.0 &amp;&amp; !portshutter.equalsIgnoreCase(&quot;Closed&quot;)"/>
+		<property name="expression"   value="ringCurrentMonitor >= 1.0 &amp;&amp; !portshutterMonitor.equalsIgnoreCase(&quot;Closed&quot;)"/>
 		<property name="message"      value="Electron beam has been lost"/>
 	</bean>
 	<bean id="electronWatchdog" class="org.eclipse.scanning.sequencer.watchdog.ExpressionWatchdog" init-method="activate">

@@ -7,7 +7,8 @@
 
 	<import resource="devices/_all.xml"/>
 	<import resource="clusterProcessingDevice.xml"/>
-	<!-- add dummy motors from p45-config  for solstice scanning testing-->
+
+	<!-- add dummy motors from dls-config  for solstice scanning testing-->
 	<import resource="../../../../../gda-diamond.git/dls-config/servers/dummy/mapping_motors.xml"/> <!-- Dummy motor -->
 	<import resource="../../../../../gda-diamond.git/dls-config/servers/dummy/mic.xml"/> <!-- EPICS SWMR IOC-->
 	<import resource="../../../../../gda-diamond.git/dls-config/servers/dummy/det.xml"/> <!-- Java Simulation -->

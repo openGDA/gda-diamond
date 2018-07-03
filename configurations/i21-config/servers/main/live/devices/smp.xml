@@ -35,32 +35,32 @@
 	</bean>
 
 	<!-- Femto -->
-	<bean id="draincurrent" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO1:I" />
+	<bean id="draincurrent" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO1" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="fy1" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO2:I" />
+	<bean id="fy1" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO2" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="straightdiode" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO3:I" />
+	<bean id="straightdiode" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO3" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="rotatingdiode" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO4:I" />
+	<bean id="rotatingdiode" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO4" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="fixdiode1" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO5:I" />
+	<bean id="fixdiode1" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO5" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="extradiode" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO7:I" />
+	<bean id="extradiode" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO7" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="tthdiode" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO6:I" />
+	<bean id="tthdiode" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO6" />
 		<property name="local" value="true" />
 	</bean>
 	

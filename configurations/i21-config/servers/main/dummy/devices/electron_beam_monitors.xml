@@ -4,7 +4,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="topupMonitor" class="gda.device.scannable.DummyTopupScannable" />
+	<bean id="machineTopupMonitor" class="gda.device.scannable.DummyTopupScannable" />
 	<bean id="ringModeMonitor" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value" value="VMX" />
 	</bean>
@@ -20,8 +20,10 @@
 		</property>
 	</bean>
 
-	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyValve">
-		<property name="position" value="Shutdown" />
+	<bean id="machineModeMonitor" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value">
+			<value type="java.lang.String">Shutdown</value>
+		</property>
 	</bean>
 
 

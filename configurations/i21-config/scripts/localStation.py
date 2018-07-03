@@ -8,7 +8,6 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from gdascripts.degas.degas import Degas  # @UnusedImport
 
 from gda.jython.commands.GeneralCommands import alias
-from gda.jython.commands.ScannableCommands import scan
 from time import sleep  # @UnusedImport
 
 from calibration.Energy_class import BeamEnergy
@@ -16,8 +15,6 @@ from gda.jython.commands import GeneralCommands
 from gdaserver import lakeshore, b2, x
 import gdascripts
 
-#global run
- 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
 print "   To set scan returns to its start positions on completion please do:"
@@ -28,7 +25,6 @@ print sys.path
 print
 # set up a nice method for getting the latest file path
 from i21commands.dirFileCommands import pwd, lwf, nwf, nfn, setSubdirectory, getSubdirectory  # @UnusedImport
-
 alias("pwd")
 alias("lwf")
 alias("nwf")
@@ -37,9 +33,7 @@ print
 from plottings.configScanPlot import setYFieldVisibleInScanPlot,getYFieldVisibleInScanPlot,setXFieldInScanPlot,useSeparateYAxes,useSingleYAxis  # @UnusedImport
 alias("useSeparateYAxes")
 alias("useSingleYAxis")
-
 print
-
 def interruptable():
     GeneralCommands.pause()
 alias("interruptable")
@@ -60,14 +54,16 @@ print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "load common physical constants"
 from gdascripts.constants import * #@UnusedWildImport
-
+print
+print "-----------------------------------------------------------------------------------------------------------------"
+print "Adding timer devices t, dt, and w, clock"
+from gdascripts.scannable.timerelated import timerelated #@UnusedImport
+print "-----------------------------------------------------------------------------------------------------------------"
+print "Adding timer devices t, dt, and w, clock"
 print "Adding dummy devices dummies.x, dummies.y and dummies.z"
 dummies = ScannableGroup()
 dummies.setName("dummies")
 dummies.setGroupMembers([SingleInputDummy("x"), SingleInputDummy("y"), SingleInputDummy("z")])
-
-print "Adding timer devices t, dt, and w, clock"
-from gdascripts.scannable.timerelated import timerelated #@UnusedImport
 
 print
 simpleLog("================ INITIALISING I21 GDA ================")
@@ -99,11 +95,15 @@ if installation.isLive():
     def erio():
         caput("BL21I-OP-SHTR-01:SRC", 0)
     
-    def camera():
+    def primary():
         caput("BL21I-OP-SHTR-01:SRC", 1)
     
+    def polarimeter():
+        caput("BL21I-OP-SHTR-01:SRC", 2)
+        
     alias("erio")
-    alias("camera")
+    alias("primary")
+    alias("polarimeter")
 else:
     print "Running in dummy mode"
 
@@ -117,6 +117,7 @@ cleverd7femto1=CleverAmplifier("cleverd7femto1", d7femto1_neg, 0.5, 9.0, "%.4f",
 cleverd7femto2=CleverAmplifier("cleverd7femto2", d7femto2_pos, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 cleverm4femto1=CleverAmplifier("cleverm4femto1", m4femto1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 cleverm4femto2=CleverAmplifier("cleverm4femto2", m4femto2, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
+clevertthdiode=CleverAmplifier("clevertthdiode", tthdiode, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -143,6 +144,25 @@ energy=BeamEnergy("energy",idscannable, idgap, pgmEnergy, pgmGratingSelect)  # @
 from scannabledevices.coupledSampleStageMotion import CoupledSampleStageMotion
 sapara=CoupledSampleStageMotion("sapara", x, y, th) # @UndefinedVariable
 saperp=CoupledSampleStageMotion("saperp", x, y, th) # @UndefinedVariable
+
+print "-"*80
+print "Creating sample temperature aliases: tsample, tshield, tcryostat"
+tsample=lakeshore.getTemperature(0)  # @UndefinedVariable
+tshield=lakeshore.getTemperature(1)
+tcryostat=lakeshore.getTemperature(2)
+
+def input_tsample():
+    lakeshore.setInput(1)
+    
+def input_tshield():
+    lakeshore.setInput(2)
+    
+def input_tcryostat():
+    lakeshore.setInput(3)
+    
+alias("input_tsample")
+alias("input_tshield")
+alias("input_tcryostat")
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "setup meta-data provider commands: meta_add, meta_ll, meta_ls, meta_rm "
@@ -166,10 +186,10 @@ s6list=[s6hgap,s6hcentre,s6vgap,s6vcentre]  # @UndefinedVariable
 samplelist=[th,x,y,z,phi,chi,delta,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
 sgmlist=[sgmx,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside,sgmGratingSelect] # @UndefinedVariable
 spectrometerlist=[specgamma,spech,specl] # @UndefinedVariable
-#andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
+andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
 
-meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist#+andorlist
-# metadatalist=[s1, m1, s2, m2, s3, pgm, s5, m4, idgap, smp]  # @UndefinedVariable
+meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist+andorlist
+
 for each in meta_data_list:
     meta_add(each)
 alias("meta_add")
@@ -186,6 +206,7 @@ print "*"*80
 print "import DIFFCALC support for I21"
 from startup.i21 import *  # @UnusedWildImport
 toolpoint_off()  # @UndefinedVariable
+demo=I21Demo(globals())
 
 #Mapping scan
 from mapping_scan_commands import *
@@ -195,28 +216,14 @@ xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 
 from scannabledevices.samplePoistioner_instance import smp_positioner  # @UnusedImport
 
-tsample=lakeshore.getTemperature(0)
-tshield=lakeshore.getTemperature(1)
-tcryostat=lakeshore.getTemperature(2)
-
-def input_tsample():
-    lakeshore.setInput(1)
+# repeat acquire at a fixed point
+def acquireRIXS(n, det, exposure_time, *args):
+    newargs=[tm,1,n,1,det,exposure_time] # @UndefinedVariable
+    for arg in args:
+        newargs.append(arg)
+    scan([e for e in newargs])  
     
-def input_tshield():
-    lakeshore.setInput(2)
-    
-def input_tcryostat():
-    lakeshore.setInput(3)
-    
-alias("input_tsample")
-alias("input_tshield")
-alias("input_tcryostat")
-
-def acquireRIXS(n, det, exposure_time):
-    scan(x,1,n,1,det,exposure_time)  # @UndefinedVariable
-
-alias("loopscan")
-
+alias("acquireRIXS")
 
 if not installation.isLive():
     print "Testing scan in hkl using DiffCalc ...."
@@ -225,7 +232,7 @@ if not installation.isLive():
     setub([[0.00000, 0.00000, 0.31260], [1.17537, -1.17537, 0.00000], [1.17537, 1.17537, 0.00000]])  # @UndefinedVariable
     con(a_eq_b)  # @UndefinedVariable
     setnhkl([0, 0, 1])  # @UndefinedVariable
-    scan(h, .1, .2, .1, k, .1, .2, .1, l, .1, .2, .1, fourc, ct, 1)  # @UndefinedVariable
+#     scan(h, .1, .2, .1, k, .1, .2, .1, l, .1, .2, .1, fourc, ct, 1)  # @UndefinedVariable
     print "scan in hkl test completed."
     
     
@@ -246,10 +253,8 @@ print " To manually switch on scan processor, run 'scan_processing_on()' functio
 print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
 scan_processing_off()
 
-#Please leave Panic stop customisation last
-#method to stop all Jython scannables in namespace except those listed in the exclusion list "STOP_ALL_EXCLUSIONS" below
+#Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
-#scannables to be excluded from Panic stop
 STOP_ALL_EXCLUSIONS=[s5cam]  # @UndefinedVariable
 
 simpleLog("===================== GDA ONLINE =====================")

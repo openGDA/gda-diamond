@@ -5,7 +5,6 @@ from time import sleep
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable.scannablegroup import ScannableGroup
-from lookup.IDLookup import lookup_file, IDLookup4LinearAngleMode
 from lookup.threeKeysLookupTable import loadLookupTable
 import numbers
 
@@ -59,7 +58,7 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
         self.setExtraNames([])
         self.order=1
         self.energy=500.0
-        self.polaristion=0.0
+        self.polarisation=0.0
         self.gap=50
         self.polarisationMode='UNKNOWN'
         self.phase=0
@@ -120,6 +119,8 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             gap = coef[0] + coef[1]*Ep + coef[2]*Ep**2 +coef[3]*Ep**3 + coef[4]*Ep**4 + coef[5]*Ep**5 + coef[6]*Ep**6 + coef[7]*Ep**7
             if (gap<self.minGap or gap>self.maxGap): #IDGroup Excel table only cover this range
                 raise ValueError("Required Soft X-Ray ID gap is %s out side allowable bound (%s, %s)!" % (gap, self.minGap, self.maxGap))
+            if mode == "LH":
+                phase = 0.0
             if mode == "LV":
                 phase=self.maxPhase
             if mode in ["CR", "CL"]:

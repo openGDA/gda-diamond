@@ -53,8 +53,10 @@
 	<import resource="sgm.xml" />
 	<import resource="spectrometer.xml"/>
 	<import resource="fastshutter.xml" />
-	<import resource="AndorShutter.xml" />
+	<import resource="AndorShutters.xml" />
 	<import resource="andor.xml" />
+	<import resource="andor2.xml" />
+	<import resource="polariser.xml"/>
 	<import resource="femto_detectors.xml" />
 	
 	<!-- Array Views - To be discontinued in the following release-->
@@ -71,4 +73,5 @@
 <!-- 	<import resource="smpcam3_nx.xml" /> -->
 <!-- 	<import resource="smpcam4_nx.xml" /> -->
 	<import resource="dummysmp_m5tth.xml" />
+	<import resource="topup.xml" />
 </beans>

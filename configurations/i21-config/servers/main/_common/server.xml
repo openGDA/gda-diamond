@@ -19,7 +19,6 @@
 	<import resource="expressionWatchdog.xml"/>
 	<import resource="xRayWatchdog.xml"/>
 
-<!-- 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" /> -->
 	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/file_registrar.xml" />
 
 	<import resource="terminal_logger.xml"/>
@@ -27,7 +26,7 @@
 
 	<import resource="devices/_all.xml"/>
 
-	<!-- dummy beans from p45-config, can be used for testing solstice scanning. -->
+	<!-- dummy beans from dls-config, can be used for testing solstice scanning. -->
 	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/det.xml"/>
 	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/mapping_motors.xml"/>
 	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/mandelbrotDetector.xml"/>
