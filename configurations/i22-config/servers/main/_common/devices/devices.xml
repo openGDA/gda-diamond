@@ -23,6 +23,7 @@
     <import resource="d6.xml" />
     <import resource="d7.xml" />
     <import resource="qbpm1.xml" />
+    <import resource="d8.xml" />
     <import resource="dcm.xml" />
     <import resource="feaptr.xml" />
 <!--     <import resource="gonio.xml" /> -->

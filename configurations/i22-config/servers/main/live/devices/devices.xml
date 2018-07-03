@@ -38,6 +38,7 @@
 	<import resource="d5.xml" />
 	<import resource="d6.xml" />
 	<import resource="d7.xml" />
+	<import resource="d8.xml" />
 	<import resource="diodes.xml" />
 	<import resource="qbpm1.xml" />
 
