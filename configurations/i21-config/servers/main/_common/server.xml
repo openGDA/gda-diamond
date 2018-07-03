@@ -28,12 +28,12 @@
 	<import resource="devices/_all.xml"/>
 
 	<!-- dummy beans from p45-config, can be used for testing solstice scanning. -->
-	<import resource="../../../../p45-config/servers/main/_common/det.xml"/>
-	<import resource="../../../../p45-config/servers/main/_common/mapping_motors.xml"/>
-	<import resource="../../../../p45-config/servers/main/_common/mandelbrotDetector.xml"/>
-	<import resource="../../../../p45-config/servers/main/_common/darkImageDetector.xml"/>
-	<import resource="../../../../p45-config/servers/main/_common/constantVelocityDevice.xml"/>
-	<import resource="../../../../p45-config/servers/main/_common/mandelbrot_detectors.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/det.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/mapping_motors.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/mandelbrotDetector.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/darkImageDetector.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/constantVelocityDevice.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/mandelbrot_detectors.xml"/>
 	
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="commandServer.xml" />
@@ -44,5 +44,5 @@
 	      detectors must be created before doing this.
 	      ADVISED: do it last or towards the end, scan will now start to run!
 	 --> 
-	<import resource="../../../../p45-config/servers/main/_common/solstice_scanning.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/_common/solstice_scanning.xml"/>
 </beans>

@@ -8,7 +8,7 @@
 
 	<import resource="../../../properties/_common/gdaProperties.xml"/>
 <!-- 	<corba:import namespace="${gda.factory.factoryName}" names="GDAMetadata" /> -->
-<!-- 	<import resource="../../../../p45-config/clients/main/dummy/stream_views.xml"/> -->
+<!-- 	<import resource="../../../..../gda-diamond.git/dls-config/clients/dummy/stream_views.xml"/> -->
 	<import resource="machineStatus.xml"/>
 	<import resource="stream_views.xml"/>
 	

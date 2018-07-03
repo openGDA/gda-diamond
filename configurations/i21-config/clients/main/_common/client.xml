@@ -18,7 +18,7 @@
 	<import resource="statusView.xml"/>
 	
 	<!-- new solstice scanning sourced from p45-config project -->
-	<import resource="../../../../p45-config/clients/main/_common/stage_controls_tree.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/clients/_common/stage_controls_tree.xml"/>
 	<!-- mapping perspective -->
 	<import resource="mapping.xml"/>
 
