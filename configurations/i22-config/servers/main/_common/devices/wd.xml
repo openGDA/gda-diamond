@@ -15,31 +15,8 @@
         <property name="protectionLevel" value="3"/>
     </bean>
 
-    <bean id="wdl_x" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="wdl_x_motor"/>
-        <property name="local" value="true"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
     <bean id="wd_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="wd_x_motor"/>
-        <property name="local" value="true"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="wdl_y" class="gda.device.scannable.ScannableMotor">
-        <property name="motor" ref="wdl_y_motor"/>
-        <property name="local" value="true"/>
-        <property name="protectionLevel" value="3"/>
-    </bean>
-
-    <bean id="wdl" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="groupMembers">
-            <list>
-                <ref bean="wdl_x"/>
-                <ref bean="wdl_y"/>
-            </list>
-        </property>
         <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
