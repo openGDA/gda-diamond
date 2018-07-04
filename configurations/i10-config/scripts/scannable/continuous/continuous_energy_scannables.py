@@ -22,6 +22,7 @@ from scannable.id_energys.idu_energy_gap import idu_circ_neg_energy,\
 from scannable.id_energys.idd_energy_gap import idd_circ_neg_energy,\
     idd_circ_pos_energy, idd_lin_hor_energy, idd_lin_ver_energy
 from scannable.id_energys.idd_lin_energy import idd_lin_arbitrary_energy
+from scannable.id_energys.idu_lin_energy import idu_lin_arbitrary_energy
 
 print "-"*100
 print "Creating scannables for constant velocity scan"
@@ -130,6 +131,9 @@ egy_g_idu_lin_ver_energy   = ContinuousMovePgmEnergyBinpointScannable('egy_g_idu
 
 cemc_g_idu_lin_hor3_energy  = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idu_lin_hor3_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idu_lin_hor3_energy, 'SR10I-MO-SERVC-21:');cemc_g_idu_lin_hor3_energy.verbose=True
 egy_g_idu_lin_hor3_energy   = ContinuousMovePgmEnergyBinpointScannable('egy_g_idu_lin_hor3_energy', cemc_g_idu_lin_hor3_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);           egy_g_idu_lin_hor3_energy.verbose=True
+
+cemc_g_idu_lin_arbitrary_energy  = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idu_lin_arbitrary_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idu_lin_arbitrary_energy, 'SR10I-MO-SERVC-21:');cemc_g_idu_lin_arbitrary_energy.verbose=True
+egy_g_idu_lin_arbitrary_energy   = ContinuousMovePgmEnergyBinpointScannable('egy_g_idu_lin_arbitrary_energy', cemc_g_idu_lin_arbitrary_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);           egy_g_idu_lin_arbitrary_energy.verbose=True
 
 #IDD Gap
 cemc_g_idd_circ_neg_energy = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idd_circ_neg_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idd_circ_neg_energy, 'SR10I-MO-SERVC-01:'); cemc_g_idd_circ_neg_energy.verbose=True
