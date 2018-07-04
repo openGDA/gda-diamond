@@ -41,12 +41,13 @@ print "        3.1 'egy_g_idu_circ_neg_energy'       - used in place of 'egy_g' 
 print "        3.2 'egy_g_idu_circ_pos_energy'       - used in place of 'egy_g' above but for IDU positive circular polarisation"
 print "        3.3 'egy_g_idu_lin_hor_energy'        - used in place of 'egy_g' above but for IDU linear horizontal polarisation"
 print "        3.4 'egy_g_idu_lin_ver_energy'        - used in place of 'egy_g' above but for IDU linear vertical polarisation"
-print "        3.5 'egy_g_idu_lin_hor3_energy'       - used in place of 'egy_g' above but for IDU linear horizontal polarisation at 3rd harmonic"
-print "        3.6 'egy_g_idd_circ_neg_energy'       - used in place of 'egy_g' above but for IDD negative circular polarisation"
-print "        3.7 'egy_g_idd_circ_pos_energy'       - used in place of 'egy_g' above but for IDD positive circular polarisation"
-print "        3.8 'egy_g_idd_lin_hor_energy'        - used in place of 'egy_g' above but for IDD linear horizontal polarisation"
-print "        3.9 'egy_g_idd_lin_ver_energy'        - used in place of 'egy_g' above but for IDD linear vertical polarisation"
-print "        3.10'egy_g_idd_lin_arbitrary_energy'  - used in place of 'egy_g' above but for IDD linear arbitrary polarisation"
+print "        3.5 'egy_g_idu_lin_arbitrary_energy'  - used in place of 'egy_g' above but for IDU linear arbitrary polarisation"
+print "        3.6 'egy_g_idu_lin_hor3_energy'       - used in place of 'egy_g' above but for IDU linear horizontal polarisation at 3rd harmonic"
+print "        3.7 'egy_g_idd_circ_neg_energy'       - used in place of 'egy_g' above but for IDD negative circular polarisation"
+print "        3.8 'egy_g_idd_circ_pos_energy'       - used in place of 'egy_g' above but for IDD positive circular polarisation"
+print "        3.9 'egy_g_idd_lin_hor_energy'        - used in place of 'egy_g' above but for IDD linear horizontal polarisation"
+print "        3.10 'egy_g_idd_lin_ver_energy'        - used in place of 'egy_g' above but for IDD linear vertical polarisation"
+print "        3.11 'egy_g_idd_lin_arbitrary_energy'  - used in place of 'egy_g' above but for IDD linear arbitrary polarisation"
 
 cemc = ContinuousPgmEnergyMoveController('cemc', pgm_energy); cemc.verbose=True
 egy =  ContinuousMoveScannable('egy',     cemc);               egy.verbose=True
