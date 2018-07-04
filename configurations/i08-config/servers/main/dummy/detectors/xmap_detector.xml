@@ -16,23 +16,8 @@
 
 	<!-- Simulate the (partial) area detector part of the XMAP -->
 	<alias name="sim_adbase" alias="xmap_adbase" />
-	<alias name="sim_ndfile" alias="xmap_ndfile" />
+	<alias name="sim_file_hdf5" alias="xmap_ndfile" />
 	<alias name="sim_hdf5" alias="xmap_hdf5" />
-
-	<!-- Single ROI to simulate spectrum detector -->
-	<bean id="xmap_roi_pvProvider"	class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
-		<property name="prefix" value="${WORKSTATION}-AD-SIM-01:ROI:" />
-	</bean>
-
-	<bean id="xmap_roi_ndpluginbase" class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-		<property name="pvProvider" ref="xmap_roi_pvProvider" />
-		<property name="initialArrayPort" value="CAM.CAM" />
-		<property name="initialArrayAddress" value="0" />
-	</bean>
-
-	<bean id="xmap_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
-		<property name="pvProvider" ref="xmap_roi_pvProvider" />
-		<property name="pluginBase" ref="xmap_roi_ndpluginbase" />
-	</bean>
+	<alias name="sim_roi" alias="xmap_roi" />
 
 </beans>
