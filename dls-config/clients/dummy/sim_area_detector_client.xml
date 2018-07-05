@@ -1,0 +1,45 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+
+	<!-- Extract workstation name from localhost and use to construct base PV name -->
+	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost" />
+	<bean id="workstation" class="java.lang.String">
+		<constructor-arg value="#{ localhostname.hostName.split('\.')[0] }" />
+	</bean>
+ 	<bean id="sim_pvbase" class="java.lang.String">
+		<constructor-arg value="#{workstation}-AD-SIM-01" />
+	</bean>
+
+	<!-- Client-side objects using the area detector simulator -->
+	<bean id="sim_ad_base_model" class="uk.ac.gda.epics.client.views.model.impl.ADBaseModelImpl">
+		<property name="basePVName" value="#{sim_pvbase}:CAM:" />
+	</bean>
+
+	<bean id="sim_file_saver_model" class="uk.ac.gda.epics.client.views.model.impl.FileSaverModelImpl">
+		<property name="basePVName" value="#{sim_pvbase}:HDF5:" />
+	</bean>
+
+	<bean id="sim_ff_mjpeg" class="uk.ac.gda.epics.client.views.model.impl.FFMjpegModelImpl">
+		<property name="basePVName" value="#{sim_pvbase}:MJPG:" />
+	</bean>
+
+	<bean id="sim_nd_proc" class="uk.ac.gda.epics.client.views.model.impl.NDProcModelImpl">
+		<property name="basePVName" value="#{sim_pvbase}:PROC:" />
+	</bean>
+
+	<bean id="sim_nd_roi" class="uk.ac.gda.epics.client.views.model.impl.NDROIModelImpl">
+		<property name="basePVName" value="#{sim_pvbase}:ROI:" />
+	</bean>
+
+	<bean id="sim_nd_array" class="uk.ac.gda.epics.client.views.model.impl.NDArrayModelImpl">
+		<property name="basePVName" value="#{sim_pvbase}:ARR:" />
+	</bean>
+
+	<bean id="sim_nd_stat" class="uk.ac.gda.epics.client.views.model.impl.NDStatModelImpl">
+		<property name="basePVName" value="#{sim_pvbase}:STAT:" />
+	</bean>
+
+</beans>

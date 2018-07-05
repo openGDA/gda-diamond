@@ -4,11 +4,11 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<alias name="simAdBaseModel" alias="pixiumAdBaseModel"/>
-	<alias name="simFileSaverModel" alias="pixiumFileSaverModel"/>
-	<alias name="simFfmjpeg" alias="pixiumFfmjpeg"/>
-	<alias name="simNdProc" alias="pixiumNdProc"/>
-	<alias name="simNdROI" alias="pixiumNdROI"/>
-	<alias name="simNdArray" alias="pixiumNdArray"/>
+	<alias name="sim_ad_base_model" alias="pixiumAdBaseModel"/>
+	<alias name="sim_file_saver_model" alias="pixiumFileSaverModel"/>
+	<alias name="sim_ff_mjpeg" alias="pixiumFfmjpeg"/>
+	<alias name="sim_nd_proc" alias="pixiumNdProc"/>
+	<alias name="sim_nd_roi" alias="pixiumNdROI"/>
+	<alias name="sim_nd_array" alias="pixiumNdArray"/>
 
 </beans>

@@ -5,16 +5,15 @@
 
 	<alias name="sim_addriver_pco" alias="pco_hdf_adDriverPco" />
 	<alias name="sim_adbase" alias="pco.cam" />
-	<alias name="sim_ndarray" alias="pco.arr" />
+	<alias name="sim_array" alias="pco.arr" />
 	<alias name="sim_stats" alias="pco.stat" />
 	<alias name="sim_overlay" alias="pco.draw" />
 	<alias name="sim_roi" alias="pco.roi1" />
 	<alias name="sim_roi" alias="pco.roi2" />
 	<alias name="sim_ffmpeg" alias="pco.mpeg1" />
 	<alias name="sim_ffmpeg" alias="pco.mpeg2" />
-	<alias name="sim_ndhdf5file" alias="pco_hdf_file" />
+	<alias name="sim_file_tif" alias="pco.tif" />
 	<alias name="sim_hdf5" alias="pco.hdf" />
-	<alias name="sim_ndfiletif" alias="pco.tif" />
 	<alias name="sim_proc" alias="pco.prc1" />
 	<alias name="sim_proc" alias="pco.prc2" />
 

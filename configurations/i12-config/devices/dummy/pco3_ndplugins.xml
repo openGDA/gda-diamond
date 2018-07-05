@@ -5,8 +5,8 @@
 
 
 	<alias name="sim_adbase" alias="pco2_adbase" />
-	<alias name="sim_ndfiletif" alias="pco2_ndfile_tif" />
+	<alias name="sim_file_tif" alias="pco2_ndfile_tif" />
 	<alias name="sim_addriver_pco" alias="pco2_addriverpco" />
-	<alias name="sim_ndhdf5file" alias="pco2_ndhdf5file" />
+	<alias name="sim_hdf5" alias="pco2_ndhdf5file" />
 
 </beans>

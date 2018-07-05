@@ -4,15 +4,15 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<alias name="simAdBaseModel" alias="pcoAdBaseModel"/>
-	<alias name="simFileSaverModel" alias="pcoFileSaverModel"/>
-	<alias name="simFfmjpeg" alias="pcoFfmjpeg1"/>
-	<alias name="simFfmjpeg" alias="pcoFfmjpeg2"/>
-	<alias name="simNdProc" alias="pcoNdProc1"/>
-	<alias name="simNdProc" alias="pcoNdProc2"/>
-	<alias name="simNdROI" alias="pcoNdROI1"/>
-	<alias name="simNdROI" alias="pcoNdROI2"/>
-	<alias name="simNdArray" alias="pcoNdArray"/>
-	<alias name="simNdStat" alias="pcoNdStat"/>
+	<alias name="sim_ad_base_model" alias="pcoAdBaseModel"/>
+	<alias name="sim_file_saver_model" alias="pcoFileSaverModel"/>
+	<alias name="sim_ff_mjpeg" alias="pcoFfmjpeg1"/>
+	<alias name="sim_ff_mjpeg" alias="pcoFfmjpeg2"/>
+	<alias name="sim_nd_proc" alias="pcoNdProc1"/>
+	<alias name="sim_nd_proc" alias="pcoNdProc2"/>
+	<alias name="sim_nd_roi" alias="pcoNdROI1"/>
+	<alias name="sim_nd_roi" alias="pcoNdROI2"/>
+	<alias name="sim_nd_array" alias="pcoNdArray"/>
+	<alias name="sim_nd_stat" alias="pcoNdStat"/>
 
 </beans>
