@@ -3,19 +3,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<!-- Include the following lines to run with simulated area detector -->
-	<!-- NB. Corresponding changes must be made in the dummy server.xml -->
-<!--     <import resource="../../../devices/dummy/adSimulator.xml"/>
-    <import resource="../../../devices/dummy/pco1_ndplugins_sim.xml"/> -->
-
-	<!-- Include the following line to run in dummy mode -->
-    <import resource="../../../devices/dummy/pco1_ndplugins.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/dummy/sim_area_detector.xml" />
+    <import resource="../../../devices/dummy/pco1_ndplugins_sim.xml"/>
 
 	<bean id="ringCurrent" class="gda.device.scannable.DummyScannable">
 		<constructor-arg value="ringCurrent" />
 		<constructor-arg value="298.246" />
 	</bean>
-	
+
 	<bean id="idGap" class="gda.device.scannable.DummyScannable">
 		<constructor-arg value="idGap" />
 		<constructor-arg value="24.7" />
@@ -25,7 +20,7 @@
 		<constructor-arg value="timeToRefill" />
 		<constructor-arg value="580.348" />
 	</bean>
-	
+
 	<bean id="expt_sht_stat" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
@@ -43,8 +38,9 @@
 			</list>
 		</property>
 	</bean>
-	
-	<import resource="../../../devices/dummy/ion_chamber.xml" />		
+
+	<import resource="../../../devices/dummy/ion_chamber.xml" />
 
 	<import resource="../_common/client.xml" />
+
 </beans>
