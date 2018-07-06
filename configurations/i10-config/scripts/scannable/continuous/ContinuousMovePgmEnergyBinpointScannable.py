@@ -58,7 +58,8 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
                 sleep(60) #Time delay required for data writer to completed writing scan data point to file
         else:
             if self._operating_continuously:
-                sleep(2) #https://jira.diamond.ac.uk/browse/I10-300?focusedCommentId=151522&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-151522
+#                 sleep(2) #https://jira.diamond.ac.uk/browse/I10-300?focusedCommentId=151522&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-151522
+                pass
         self._operating_continuously = b
 
     def isOperatingContinously(self):

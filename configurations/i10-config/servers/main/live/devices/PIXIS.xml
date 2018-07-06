@@ -8,28 +8,28 @@
 		<property name="prefix" value="BL10I-EA-PIXIS-01:CAM:" />
 	</bean>
 	<bean id="pixis_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-		<property name="basePVName" value="BL10I-EA-PIMTE-01:STAT:" />
+		<property name="basePVName" value="BL10I-EA-PIXIS-01:STAT:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL10I-EA-PIMTE-01:STAT:" />
+				<property name="basePVName" value="BL10I-EA-PIXIS-01:STAT:" />
 				<property name="initialArrayPort" value="PIXIS1.CAM" />
 			</bean>
 		</property>
 	</bean>
 	<bean id="pixis_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="BL10I-EA-PIMTE-01:ARR:" />
+		<property name="basePVName" value="BL10I-EA-PIXIS-01:ARR:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL10I-EA-PIMTE-01:ARR:" />
+				<property name="basePVName" value="BL10I-EA-PIXIS-01:ARR:" />
 				<property name="initialArrayPort" value="PIXIS1.CAM" />
 			</bean>
 		</property>
 	</bean>
 	<bean id="pixis_tifffile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL10I-EA-PIMTE-01:TIFF:" />
+		<property name="basePVName" value="BL10I-EA-PIXIS-01:TIFF:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL10I-EA-PIMTE-01:TIFF:" />
+				<property name="basePVName" value="BL10I-EA-PIXIS-01:TIFF:" />
 				<property name="initialArrayPort" value="PIXIS1.CAM" />
 			</bean>
 		</property>
@@ -48,10 +48,10 @@
 		<property name="initialFileTemplate" value="%s%s-%d.tiff" />
 	</bean>
 	<bean id="pixis_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL10I-EA-PIMTE-01:HDF5:" />
+		<property name="basePVName" value="BL10I-EA-PIXIS-01:HDF5:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL10I-EA-PIMTE-01:HDF5:" />
+				<property name="basePVName" value="BL10I-EA-PIXIS-01:HDF5:" />
 				<property name="initialArrayPort" value="PIXIS1.CAM" />
 			</bean>
 		</property>
@@ -70,7 +70,7 @@
 		<property name="initialFileTemplate" value="%s%s-%d.hdf5" />
 	</bean>
 	<bean id="pixis_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="basePVName" value="BL10I-EA-PIMTE-01:HDF5:" />
+		<property name="basePVName" value="BL10I-EA-PIXIS-01:HDF5:" />
 		<property name="file" ref="pixis_ndfile" />
 	</bean>
 

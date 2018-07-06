@@ -23,6 +23,7 @@
 	<import resource="CA4.xml"/>
 	<import resource="GV12.xml"/>
 	<import resource="PIMTE.xml"/>
+	<import resource="PIMTE_SUMMED.xml"/>
 	<import resource="PIXIS.xml"/>
 	<import resource="PIXIS_SUMMED.xml"/>
 	<import resource="RASOR-Cam1.xml"/>

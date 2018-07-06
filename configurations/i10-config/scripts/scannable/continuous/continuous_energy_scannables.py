@@ -22,6 +22,7 @@ from scannable.id_energys.idu_energy_gap import idu_circ_neg_energy,\
 from scannable.id_energys.idd_energy_gap import idd_circ_neg_energy,\
     idd_circ_pos_energy, idd_lin_hor_energy, idd_lin_ver_energy
 from scannable.id_energys.idd_lin_energy import idd_lin_arbitrary_energy
+from scannable.id_energys.idu_lin_energy import idu_lin_arbitrary_energy
 
 print "-"*100
 print "Creating scannables for constant velocity scan"
@@ -40,12 +41,13 @@ print "        3.1 'egy_g_idu_circ_neg_energy'       - used in place of 'egy_g' 
 print "        3.2 'egy_g_idu_circ_pos_energy'       - used in place of 'egy_g' above but for IDU positive circular polarisation"
 print "        3.3 'egy_g_idu_lin_hor_energy'        - used in place of 'egy_g' above but for IDU linear horizontal polarisation"
 print "        3.4 'egy_g_idu_lin_ver_energy'        - used in place of 'egy_g' above but for IDU linear vertical polarisation"
-print "        3.5 'egy_g_idu_lin_hor3_energy'       - used in place of 'egy_g' above but for IDU linear horizontal polarisation at 3rd harmonic"
-print "        3.6 'egy_g_idd_circ_neg_energy'       - used in place of 'egy_g' above but for IDD negative circular polarisation"
-print "        3.7 'egy_g_idd_circ_pos_energy'       - used in place of 'egy_g' above but for IDD positive circular polarisation"
-print "        3.8 'egy_g_idd_lin_hor_energy'        - used in place of 'egy_g' above but for IDD linear horizontal polarisation"
-print "        3.9 'egy_g_idd_lin_ver_energy'        - used in place of 'egy_g' above but for IDD linear vertical polarisation"
-print "        3.10'egy_g_idd_lin_arbitrary_energy'  - used in place of 'egy_g' above but for IDD linear arbitrary polarisation"
+print "        3.5 'egy_g_idu_lin_arbitrary_energy'  - used in place of 'egy_g' above but for IDU linear arbitrary polarisation"
+print "        3.6 'egy_g_idu_lin_hor3_energy'       - used in place of 'egy_g' above but for IDU linear horizontal polarisation at 3rd harmonic"
+print "        3.7 'egy_g_idd_circ_neg_energy'       - used in place of 'egy_g' above but for IDD negative circular polarisation"
+print "        3.8 'egy_g_idd_circ_pos_energy'       - used in place of 'egy_g' above but for IDD positive circular polarisation"
+print "        3.9 'egy_g_idd_lin_hor_energy'        - used in place of 'egy_g' above but for IDD linear horizontal polarisation"
+print "        3.10 'egy_g_idd_lin_ver_energy'        - used in place of 'egy_g' above but for IDD linear vertical polarisation"
+print "        3.11 'egy_g_idd_lin_arbitrary_energy'  - used in place of 'egy_g' above but for IDD linear arbitrary polarisation"
 
 cemc = ContinuousPgmEnergyMoveController('cemc', pgm_energy); cemc.verbose=True
 egy =  ContinuousMoveScannable('egy',     cemc);               egy.verbose=True
@@ -130,6 +132,9 @@ egy_g_idu_lin_ver_energy   = ContinuousMovePgmEnergyBinpointScannable('egy_g_idu
 
 cemc_g_idu_lin_hor3_energy  = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idu_lin_hor3_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idu_lin_hor3_energy, 'SR10I-MO-SERVC-21:');cemc_g_idu_lin_hor3_energy.verbose=True
 egy_g_idu_lin_hor3_energy   = ContinuousMovePgmEnergyBinpointScannable('egy_g_idu_lin_hor3_energy', cemc_g_idu_lin_hor3_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);           egy_g_idu_lin_hor3_energy.verbose=True
+
+cemc_g_idu_lin_arbitrary_energy  = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idu_lin_arbitrary_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idu_lin_arbitrary_energy, 'SR10I-MO-SERVC-21:');cemc_g_idu_lin_arbitrary_energy.verbose=True
+egy_g_idu_lin_arbitrary_energy   = ContinuousMovePgmEnergyBinpointScannable('egy_g_idu_lin_arbitrary_energy', cemc_g_idu_lin_arbitrary_energy, binpointGrtPitch_g, binpointMirPitch_g, binpointPgmEnergy_g);           egy_g_idu_lin_arbitrary_energy.verbose=True
 
 #IDD Gap
 cemc_g_idd_circ_neg_energy = ContinuousPgmGratingIDGapEnergyMoveController('cemc_g_idd_circ_neg_energy', pgm_grat_pitch, pgm_m2_pitch, 'BL10I-OP-PGM-01:', idd_circ_neg_energy, 'SR10I-MO-SERVC-01:'); cemc_g_idd_circ_neg_energy.verbose=True
