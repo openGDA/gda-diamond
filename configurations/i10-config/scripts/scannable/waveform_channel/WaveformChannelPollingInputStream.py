@@ -128,4 +128,8 @@ class WaveformChannelPollingInputStream(PositionInputStream):
                 self.logger.info('_waitForNewElements() elements_available=%r, elements_read=%r, acquiring %r, no new elements for %r seconds!' % (
                                 elements_available,  self.elements_read, acquiring, log_timeout))
                 log_time = datetime.now()
+                if elements_available == self.elements_read and self.elements_read == self._controller.number_of_positions:
+                    self.logger.info('_waitForNewElements() elements_available=%r, elements_read=%r, number_of_positions_expected=%r, Data collection should finish now!' % (
+                                    elements_available,  self.elements_read, self._controller.number_of_positions))
+                    self.stop() #all elements are already read, so this thread can stop
             time.sleep(sleep_time)
