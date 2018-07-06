@@ -13,4 +13,9 @@
 			value="Analyser over-exposure detected! The HR shutter has been closed, and the scan has been aborted.\nTo reopen the shutter run: pos hr_shutter 'Open'" />
 	</bean>
 
+	<bean id="analyser_max" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL05I-EA-DET-01:VIEW:STAT:MaxValue_RBV" />
+		<property name="unit" value="Peak Intensity" />
+	</bean>
+
 </beans>
