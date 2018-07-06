@@ -11,6 +11,7 @@ from gda.device import Scannable
 from gda.device.scannable.scannablegroup import ScannableGroup
 from gda.device.detector.addetector.collectionstrategy import AutoSummingProcessDecorator
 from gda.jython.commands.ScannableCommands import scan
+import installation
 
 print "-"*100
 print "Creating 'miscan' - multiple image per scan data point"
@@ -97,8 +98,13 @@ def miscan(*args):
             newargs.append(arg)
         i=i+1
         if isinstance( arg,  NXDetector ):
-            if isinstance(arg.getCollectionStrategy().getDecoratee(), AutoSummingProcessDecorator):
-                arg.getCollectionStrategy().getDecoratee().setAcquireTime(args[i])
+            decoratee = arg.getCollectionStrategy().getDecoratee()
+            if isinstance(decoratee, AutoSummingProcessDecorator):
+                #in dummy mode, AutoSummingProcessDecorator is 1st child
+                decoratee.setAcquireTime(args[i])
+            elif isinstance(decoratee.getDecoratee(), AutoSummingProcessDecorator):
+                #in live mode AutoSummingProcessDecorator is child's child
+                decoratee.getDecoratee().setAcquireTime(args[i])
             else: #exposure time is the last one in the scan command
                 newargs.append(args[i]) #single image per data point
             if i<len(args)-1:
