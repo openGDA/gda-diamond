@@ -46,17 +46,29 @@ public class AreaDetectorPerspective implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
 
-		IFolderLayout left = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.15, editorArea); //$NON-NLS-1$
-		left.addView(IPageLayout.ID_PROJECT_EXPLORER);
-		left.addView(GDA_NAVIGATOR_VIEW_ID);
+		IFolderLayout topLeft = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.63, editorArea); //$NON-NLS-1$
+		topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
+		topLeft.addPlaceholder(GDA_NAVIGATOR_VIEW_ID);
+		topLeft.addPlaceholder("uk.ac.diamond.sda.navigator.views.FileView");
 
-		IFolderLayout statusFolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.LEFT, (float)0.5, editorArea);
-		statusFolder.addView(STATUS_VIEW_ID);
+		IFolderLayout bottomLeftfolder =  layout.createFolder(STATUS_FOLDER, IPageLayout.BOTTOM, (float)0.86, PROJ_FOLDER);
+		bottomLeftfolder.addView(STATUS_VIEW_ID);
+		bottomLeftfolder.addPlaceholder(uk.ac.gda.views.baton.BatonView.ID);
+		bottomLeftfolder.addPlaceholder(IProgressConstants.PROGRESS_VIEW_ID);
+		bottomLeftfolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
 
-		IFolderLayout detectorPlotFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.6, STATUS_FOLDER); //$NON-NLS-1$
-		detectorPlotFolder.addView(LiveStreamView.ID+":pimte_cam#EPICS_ARRAY");
-		detectorPlotFolder.addView(LiveStreamView.ID+":pixis_cam#EPICS_ARRAY");
-		detectorPlotFolder.addPlaceholder("uk.ac.gda.client.live.stream.view.LiveStreamView:*");
+		IFolderLayout topMiddlefolder=layout.createFolder(PLOT_1D_FOLDER, IPageLayout.RIGHT, (float)0.20, PROJ_FOLDER); //$NON-NLS-1$
+		topMiddlefolder.addView(LivePlotView.ID);
+		topMiddlefolder.addPlaceholder("org.dawnsci.mapping.ui.spectrumview");
+		topMiddlefolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.plotView1");
+
+        IFolderLayout middlefolder = layout.createFolder(TERMINAL_FOLDER,IPageLayout.BOTTOM, 0.58f, PLOT_1D_FOLDER);
+        middlefolder.addView(gda.rcp.views.JythonTerminalView.ID);
+
+        IFolderLayout topRightFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.LEFT, (float)0.5, editorArea); //$NON-NLS-1$
+		topRightFolder.addView(LiveStreamView.ID+":pimte_cam#EPICS_ARRAY");
+		topRightFolder.addView(LiveStreamView.ID+":pixis_cam#EPICS_ARRAY");
+		topRightFolder.addPlaceholder("uk.ac.gda.client.live.stream.view.LiveStreamView:*");
 		try {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(LiveStreamView.ID+":pixis_cam#EPICS_ARRAY");
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(LiveStreamView.ID+":pimte_cam#EPICS_ARRAY");
@@ -64,26 +76,20 @@ public class AreaDetectorPerspective implements IPerspectiveFactory {
 			// No-op just to try fix the title of views
 		}
 
-		IFolderLayout toolpageFolder=layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, (float)0.5, PLOT_2D_FOLDER); //$NON-NLS-1$
-//		toolpageFolder.addView(ToolPageView.FIXED_VIEW_ID+":"+HistogramToolPage2.ID);
-		toolpageFolder.addView(ToolPageView.TOOLPAGE_2D_VIEW_ID);
-		toolpageFolder.addPlaceholder(SnapshotView.ID);
+		IFolderLayout bottomRightFolder=layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, (float)0.5, PLOT_2D_FOLDER); //$NON-NLS-1$
+		bottomRightFolder.addView("uk.ac.gda.client.livecontrol.LiveControlsView");
+		bottomRightFolder.addPlaceholder(ToolPageView.TOOLPAGE_1D_VIEW_ID);
+		bottomRightFolder.addPlaceholder(ToolPageView.TOOLPAGE_2D_VIEW_ID);
+		bottomRightFolder.addPlaceholder(SnapshotView.ID);
 
-		IFolderLayout scanPlotFolder=layout.createFolder(PLOT_1D_FOLDER, IPageLayout.BOTTOM, (float)0.15, STATUS_FOLDER); //$NON-NLS-1$
-        scanPlotFolder.addView(LivePlotView.ID);
-        scanPlotFolder.addPlaceholder("org.dawnsci.mapping.ui.spectrumview");
-
-        IFolderLayout terminalfolder= layout.createFolder(TERMINAL_FOLDER, IPageLayout.BOTTOM, (float)0.5, PLOT_1D_FOLDER); //$NON-NLS-1$
-        terminalfolder.addView(JythonTerminalView.ID);
-        terminalfolder.addView("uk.ac.gda.client.livecontrol.LiveControlsView");
-        terminalfolder.addView(IPageLayout.ID_PROBLEM_VIEW);
-        terminalfolder.addPlaceholder(IProgressConstants.PROGRESS_VIEW_ID);
-        terminalfolder.addPlaceholder(NewSearchUI.SEARCH_VIEW_ID);
-        terminalfolder.addPlaceholder(IPageLayout.ID_BOOKMARKS);
+		IFolderLayout belowEditorFolder=layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, (float)0.5, editorArea); //$NON-NLS-1$
+		belowEditorFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
+		belowEditorFolder.addPlaceholder(IPageLayout.ID_OUTLINE);
 	}
 
 	private void defineActions(IPageLayout layout) {
         layout.addPerspectiveShortcut(AreaDetectorPerspective.ID);
+        layout.addPerspectiveShortcut(I10ScanPerspective.ID);
         layout.addPerspectiveShortcut(JythonPerspective.ID);
         layout.addPerspectiveShortcut(MappingPerspective.ID);
         layout.addPerspectiveShortcut(ScanPerspective.ID);
