@@ -39,7 +39,7 @@
       <perspective
             class="uk.ac.gda.beamline.i10.perspectives.I10ScanPerspective"
             id="uk.ac.gda.beamline.i10.perspectives.I10ScanPerspective"
-            name="I10 Scan Perspective">
+            name="Scan">
       </perspective>
       <perspective
             class="uk.ac.gda.beamline.i10.perspectives.AreaDetectorPerspective"
