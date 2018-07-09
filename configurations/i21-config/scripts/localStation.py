@@ -95,11 +95,15 @@ if installation.isLive():
     def erio():
         caput("BL21I-OP-SHTR-01:SRC", 0)
     
-    def camera():
+    def primary():
         caput("BL21I-OP-SHTR-01:SRC", 1)
     
+    def polarimeter():
+        caput("BL21I-OP-SHTR-01:SRC", 2)
+        
     alias("erio")
-    alias("camera")
+    alias("primary")
+    alias("polarimeter")
 else:
     print "Running in dummy mode"
 
@@ -185,6 +189,7 @@ spectrometerlist=[specgamma,spech,specl] # @UndefinedVariable
 andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
 
 meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist+andorlist
+
 for each in meta_data_list:
     meta_add(each)
 alias("meta_add")
@@ -213,7 +218,7 @@ from scannabledevices.samplePoistioner_instance import smp_positioner  # @Unused
 
 # repeat acquire at a fixed point
 def acquireRIXS(n, det, exposure_time, *args):
-    newargs=[x,1,n,1,det,exposure_time] # @UndefinedVariable
+    newargs=[tm,1,n,1,det,exposure_time] # @UndefinedVariable
     for arg in args:
         newargs.append(arg)
     scan([e for e in newargs])  
