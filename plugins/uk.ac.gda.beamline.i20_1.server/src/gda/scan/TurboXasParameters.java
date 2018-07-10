@@ -74,6 +74,14 @@ public class TurboXasParameters {
 	@XStreamAlias("energyStep")
 	private double energyStepSize;
 
+	private double startPosition;
+
+	private double endPosition;
+
+	private double positionStepSize;
+
+	private boolean usePositionsForScan;
+
 	/**
 	 * Polynomial to convert from motor position to energy.
 	 * This is typically the Polynomial returned from calibration tool (using x coordinates normalised between 0 and 1).
@@ -137,8 +145,17 @@ public class TurboXasParameters {
 		energyCalibrationReferenceFile = "";
 		energyCalibrationFile = "";
 		sampleName = "Default sample name";
-		startEnergy=1000; endEnergy=2000; energyStepSize=10;
-		timingGroups = new ArrayList<TurboSlitTimingGroup>();
+
+		startEnergy=1000;
+		endEnergy=2000;
+		energyStepSize=10;
+
+		startPosition=0;
+		endPosition=10;
+		positionStepSize=0.1;
+		usePositionsForScan = true;
+
+		timingGroups = new ArrayList<>();
 		motorToMove = "turbo_xas_slit";
 		useTrajectoryScan = false;
 		detectors = new String[]{"scaler_for_zebra"};
@@ -174,11 +191,39 @@ public class TurboXasParameters {
 		this.energyStepSize = energyStepSize;
 	}
 
+	public double getStartPosition() {
+		return startPosition;
+	}
+	public void setStartPosition(double startPosition) {
+		this.startPosition = startPosition;
+	}
+
+	public void setEndPosition(double endPosition) {
+		this.endPosition = endPosition;
+	}
+	public double getEndPosition() {
+		return endPosition;
+	}
+
+	public double getPositionStepSize() {
+		return positionStepSize;
+	}
+	public void setPositionStepSize(double positionStepSize) {
+		this.positionStepSize = positionStepSize;
+	}
+
+	public boolean isUsePositionsForScan() {
+		return usePositionsForScan;
+	}
+	public void setUsePositionsForScan(boolean usePositionsForScan) {
+		this.usePositionsForScan = usePositionsForScan;
+	}
+
 	public void addTimingGroup( TurboSlitTimingGroup group ) {
 		timingGroups.add( group );
 	}
 	public void setTimingGroups( List<TurboSlitTimingGroup> groupList ) {
-		timingGroups = new ArrayList<TurboSlitTimingGroup>( groupList );
+		timingGroups = new ArrayList<>( groupList );
 	}
 	public List<TurboSlitTimingGroup> getTimingGroups() {
 		return timingGroups;

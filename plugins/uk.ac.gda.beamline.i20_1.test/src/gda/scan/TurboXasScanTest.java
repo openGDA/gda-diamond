@@ -209,9 +209,9 @@ public class TurboXasScanTest extends EdeTestBase {
 	private TurboXasParameters getTurboXasParameters() {
 		TurboXasParameters parameters = new TurboXasParameters();
 		parameters.setSampleName( "sample name" );
-		parameters.setStartEnergy(0);
-		parameters.setEndEnergy(10);
-		parameters.setEnergyStep(0.01);
+		parameters.setStartPosition(0);
+		parameters.setEndPosition(10);
+		parameters.setPositionStepSize(0.01);
 
 		// Set names of motors to be moved, detectors used etc.
 		// These are used in {@link TurboXasParameters#createScan} method to create and
@@ -234,7 +234,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	}
 
 	public int getNumPointsPerSpectrum(TurboXasParameters params) {
-		return (int) ((params.getEndEnergy()-params.getStartEnergy())/params.getEnergyStep()) - 1;
+		return (int) ((params.getEndPosition()-params.getStartPosition())/params.getPositionStepSize()) - 1;
 	}
 
 

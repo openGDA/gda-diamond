@@ -103,6 +103,12 @@ public class TurboXasExperimentView extends ViewPart {
 	private Text startEnergyTextbox;
 	private Text endEnergyTextbox;
 	private Text energyStepsizeTextbox;
+
+	private Text startPositionTextbox;
+	private Text endPositionTextbox;
+	private Text positionStepsizeTextbox;
+	private Button usePositionsForScanButton;
+
 	private Text energyCalibrationPolyTextbox;
 	private Text energyCalibrationPolyMinPositionTextbox;
 	private Text energyCalibrationPolyMaxPositionTextbox;
@@ -110,10 +116,13 @@ public class TurboXasExperimentView extends ViewPart {
 	private String lastScanFilename = "";
 	private Button createAsciiFileButton;
 
+	private Section energySection;
+	private Section positionSection;
+
 	private TurboXasTimingGroupTableView timingGroupTable;
 	private TurboXasParameters turboXasParameters; // parameters being viewed in gui
 
-	private boolean updatingGuiFromParameters = false;
+	private String unitStringForPosition = "[mm]";
 
 	private String[] motorNames = new String[]{"turbo_xas_slit"};
 
@@ -289,6 +298,10 @@ public class TurboXasExperimentView extends ViewPart {
 		return makeLabelAndTextBox(parent, labelText, SWT.BORDER);
 	}
 
+	private Text makeLabelAndTextBox(Composite parent, String labelText, String unitString) {
+		return makeLabelAndTextBox(parent, labelText+" "+unitString, SWT.BORDER);
+	}
+
 	private Text makeLabelAndTextBox(Composite parent, String labelText, int style) {
 		makeLabel(parent, labelText);
 
@@ -305,20 +318,20 @@ public class TurboXasExperimentView extends ViewPart {
 	}
 
 	private Composite makeSectionAndComposite(Composite parent, String sectionName, int numColumns) {
-		final Section experimentDetailsSection;
+		final Section section;
 		if (StringUtils.isNotEmpty(sectionName)) {
-			experimentDetailsSection = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE);
-			experimentDetailsSection.setText(sectionName);
-			experimentDetailsSection.setExpanded(true);
+			section = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE);
+			section.setText(sectionName);
+			section.setExpanded(true);
 		} else {
-			experimentDetailsSection = toolkit.createSection(parent, ExpandableComposite.NO_TITLE);
+			section = toolkit.createSection(parent, ExpandableComposite.NO_TITLE);
 		}
 
-		experimentDetailsSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		section.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		Composite mainComposite = toolkit.createComposite(experimentDetailsSection, SWT.NONE);
+		Composite mainComposite = toolkit.createComposite(section, SWT.NONE);
 		mainComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(numColumns, false));
-		experimentDetailsSection.setClient(mainComposite);
+		section.setClient(mainComposite);
 
 		return mainComposite;
 	}
@@ -413,20 +426,46 @@ public class TurboXasExperimentView extends ViewPart {
 	}
 
 	private void createSampleNameEnergySections(Composite parent) {
-		Composite mainComposite = makeSectionAndComposite(parent, "", 4);
+		Composite mainComposite = makeSectionAndComposite(parent, "", 1);
 
-		sampleNameTextbox = makeLabelAndTextBox(mainComposite, "Sample name");
+		Composite nameComp = makeSectionAndComposite(mainComposite, "", 4);
+		sampleNameTextbox = makeLabelAndTextBox(nameComp, "Sample name");
 		setRowSpan(sampleNameTextbox, 3);
 
-		startEnergyTextbox = makeLabelAndTextBox(mainComposite, "Start energy [eV]");
-		endEnergyTextbox = makeLabelAndTextBox(mainComposite, "End energy [eV]");
-		energyStepsizeTextbox = makeLabelAndTextBox(mainComposite, "Energy step size [eV]");
+		Composite energyComp = makeSectionAndComposite(mainComposite, "Energy", 4);
+		startEnergyTextbox = makeLabelAndTextBox(energyComp, "Start energy [eV]");
+		endEnergyTextbox = makeLabelAndTextBox(energyComp, "End energy [eV]");
+		energyStepsizeTextbox = makeLabelAndTextBox(energyComp, "Energy step size [eV]");
 
-		createAsciiFileButton = toolkit.createButton(mainComposite, "Write ascii file", SWT.CHECK);
+		Composite positionComp = makeSectionAndComposite(mainComposite, "Position", 4);
+		startPositionTextbox = makeLabelAndTextBox(positionComp, "Start position", unitStringForPosition);
+		endPositionTextbox = makeLabelAndTextBox(positionComp, "End position", unitStringForPosition);
+		positionStepsizeTextbox = makeLabelAndTextBox(positionComp, "Position step size", unitStringForPosition);
+
+		positionSection = (Section) positionComp.getParent();
+		positionSection.setExpanded(false);
+
+		energySection = (Section) energyComp.getParent();
+		energySection.setExpanded(false);
+
+		Composite buttonsComp = makeSectionAndComposite(mainComposite, "", 2);
+		createAsciiFileButton = toolkit.createButton(buttonsComp, "Write ascii file", SWT.CHECK);
 		createAsciiFileButton.setToolTipText("Create ascii file at end of scan. Relevant data from all detectors will be included");
 		createAsciiFileButton.setSelection(false);
-		createAsciiFileButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+		createAsciiFileButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
+		usePositionsForScanButton = toolkit.createButton(buttonsComp, "Use positions for scan", SWT.CHECK);
+		usePositionsForScanButton.setToolTipText("Create ascii file at end of scan. Relevant data from all detectors will be included");
+		usePositionsForScanButton.setSelection(false);
+		usePositionsForScanButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+
+		usePositionsForScanButton.addListener(SWT.Selection, event -> expandPositionEnergySections() );
+	}
+
+	private void expandPositionEnergySections() {
+		boolean showPositions = usePositionsForScanButton.getSelection();
+		positionSection.setExpanded(showPositions);
+		energySection.setExpanded(!showPositions);
 	}
 
 	private void createExtraScannablesSection(Composite parent) {
@@ -457,8 +496,8 @@ public class TurboXasExperimentView extends ViewPart {
 		Composite energyCalPolyComposite = makeSectionAndComposite(parent, "Energy calibration polynomial", 4);
 		energyCalibrationPolyTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Energy calibration polynomial");
 		setRowSpan(energyCalibrationPolyTextbox, 3);
-		energyCalibrationPolyMinPositionTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Min Position [mm]");
-		energyCalibrationPolyMaxPositionTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Max Position [mm]");
+		energyCalibrationPolyMinPositionTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Min Position", unitStringForPosition);
+		energyCalibrationPolyMaxPositionTextbox = makeLabelAndTextBox(energyCalPolyComposite, "Max Position", unitStringForPosition);
 
 		// Non user editable - set from EnergyCalibrationWizard
 		energyCalibrationPolyTextbox.setEditable(false);
@@ -736,12 +775,17 @@ public class TurboXasExperimentView extends ViewPart {
 	 * Update the gui to show the current TurboXasParameters settings.
 	 */
 	public void updateGuiFromParameters() {
-		updatingGuiFromParameters = true;
 		sampleNameTextbox.setText(turboXasParameters.getSampleName());
 
 		startEnergyTextbox.setText(String.valueOf(turboXasParameters.getStartEnergy()));
 		endEnergyTextbox.setText(String.valueOf(turboXasParameters.getEndEnergy()));
 		energyStepsizeTextbox.setText(String.valueOf(turboXasParameters.getEnergyStep()));
+
+		startPositionTextbox.setText(String.valueOf(turboXasParameters.getStartPosition()));
+		endPositionTextbox.setText(String.valueOf(turboXasParameters.getEndPosition()));
+		positionStepsizeTextbox.setText(String.valueOf(turboXasParameters.getPositionStepSize()));
+		usePositionsForScanButton.setSelection(turboXasParameters.isUsePositionsForScan());
+		expandPositionEnergySections();
 
 		energyCalibrationPolyTextbox.setText(turboXasParameters.getEnergyCalibrationPolynomial());
 		energyCalibrationPolyMinPositionTextbox.setText(String.valueOf(turboXasParameters.getEnergyCalibrationMinPosition()));
@@ -764,13 +808,14 @@ public class TurboXasExperimentView extends ViewPart {
 		}
 
 		// Set tooltip on energy calibration polynomial to shows calibration energy range
-		TurboXasMotorParameters motorParams = getMotorParameters();
-		double minEnergy = motorParams.getEnergyForPosition(turboXasParameters.getEnergyCalibrationMinPosition());
-		double maxEnergy = motorParams.getEnergyForPosition(turboXasParameters.getEnergyCalibrationMaxPosition());
-		energyCalibrationPolyTextbox.setToolTipText(String.format("Energy range : %.5g ... %.5g ev", minEnergy, maxEnergy));
+		PolynomialFunction polynomial = getMotorParameters().getPositionToEnergyPolynomial();
+		if (polynomial != null) {
+			double minEnergy = polynomial.value(0);
+			double maxEnergy = polynomial.value(1);
+			energyCalibrationPolyTextbox.setToolTipText(String.format("Energy range : %.3f ... %.3f eV", minEnergy, maxEnergy));
+		}
 
 		createAsciiFileButton.setSelection(turboXasParameters.getWriteAsciiData());
-		updatingGuiFromParameters = false;
 	}
 
 	private double getDoubleFromTextbox(Text textbox) {
@@ -790,6 +835,10 @@ public class TurboXasExperimentView extends ViewPart {
 		turboXasParameters.setStartEnergy(getDoubleFromTextbox(startEnergyTextbox));
 		turboXasParameters.setEndEnergy(getDoubleFromTextbox(endEnergyTextbox));
 		turboXasParameters.setEnergyStep(getDoubleFromTextbox(energyStepsizeTextbox));
+		turboXasParameters.setStartPosition(getDoubleFromTextbox(startPositionTextbox));
+		turboXasParameters.setEndPosition(getDoubleFromTextbox(endPositionTextbox));
+		turboXasParameters.setPositionStepSize(getDoubleFromTextbox(positionStepsizeTextbox));
+		turboXasParameters.setUsePositionsForScan(usePositionsForScanButton.getSelection());
 
 		turboXasParameters.setEnergyCalibrationPolynomial(energyCalibrationPolyTextbox.getText());
 		turboXasParameters.setEnergyCalibrationMinPosition(getDoubleFromTextbox(energyCalibrationPolyMinPositionTextbox));

@@ -224,9 +224,15 @@ public class TurboXasMotorParameters {
 	 * @param timeForSpectrum
 	 */
 	public void setMotorParametersForTime(double timeForSpectrum) {
-		// Convert from energy to real-space motor positions
-		scanStartPosition = getPositionForEnergy(scanParameters.getStartEnergy());
-		scanEndPosition = getPositionForEnergy(scanParameters.getEndEnergy());
+		if (scanParameters.isUsePositionsForScan()) {
+			// User specified positions for start, end points
+			scanStartPosition = scanParameters.getStartPosition();
+			scanEndPosition = scanParameters.getEndPosition();
+		} else {
+			// Convert from energy to real-space motor positions
+			scanStartPosition = getPositionForEnergy(scanParameters.getStartEnergy());
+			scanEndPosition = getPositionForEnergy(scanParameters.getEndEnergy());
+		}
 
 		scanMotorSpeed =  getScanSpeed(timeForSpectrum);
 		// determine direction of motor move
@@ -250,7 +256,11 @@ public class TurboXasMotorParameters {
 	 */
 	public void calculateSetPositionStepSize() {
 		// Make sure calculateMotorParameters has been called first, so that scanStartMotorPosition, and scanEndMotorPosition are up-to-date
-		positionStepsize = getResolutionLimitedStepSize();
+		if (scanParameters.isUsePositionsForScan()) {
+			positionStepsize = scanParameters.getPositionStepSize();
+		} else {
+			positionStepsize = getResolutionLimitedStepSize();
+		}
 		numReadoutsForScan = (int) Math.floor(getScanPositionRange()/positionStepsize);
 	}
 
@@ -406,7 +416,7 @@ public class TurboXasMotorParameters {
 	 * @return energy
 	 */
 	public double getEnergyForPosition(double position) {
-		if ( positionToEnergyPolynomial != null ) {
+		if ( positionToEnergyPolynomial != null && !scanParameters.isUsePositionsForScan()) {
 			// energy calibration polynomial works off normalised position (0 < x < 1)
 			double lowLimit = scanParameters.getEnergyCalibrationMinPosition(), highLimit = scanParameters.getEnergyCalibrationMaxPosition();
 			double normalisedPosition = (position - lowLimit) / (highLimit - lowLimit);

@@ -126,7 +126,12 @@ public class TurboXasScan extends ContinuousScan {
 
 		plotUpdater.setCurrentSpectrumNumber(1);
 		plotUpdater.setCurrentGroupNumber(1);
-		plotUpdater.setEnergyAxisName(TurboXasNexusTree.ENERGY_COLUMN_NAME);
+
+		String energyAxisName =  TurboXasNexusTree.POSITION_COLUMN_NAME;
+		if (turboXasMotorParams != null && turboXasMotorParams.getScanParameters().isUsePositionsForScan()) {
+			energyAxisName = TurboXasNexusTree.ENERGY_COLUMN_NAME;
+		}
+		plotUpdater.setEnergyAxisName(energyAxisName);
 		plotUpdater.setPositionAxisName(TurboXasNexusTree.POSITION_COLUMN_NAME);
 
 		plotUpdater.clearDatanamesToIgnore();
