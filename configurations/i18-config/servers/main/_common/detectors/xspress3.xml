@@ -6,13 +6,6 @@
 	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.fullCalculations.Xspress3WithFullCalculationsDetector">
 		<property name="controller" ref="xspress3Controller" />
 		<property name="readDataFromFile" value="false" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/xspress3" />
-		<property name="service" ref="xspress3" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
 	</bean>
 
 	<bean id="FFI0_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0Detector">
