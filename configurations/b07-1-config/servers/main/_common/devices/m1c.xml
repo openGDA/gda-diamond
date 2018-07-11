@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="m1c_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1c_x_motor" />
+	</bean>
+
+	<bean id="m1c_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1c_y_motor" />
+	</bean>
+
+	<bean id="m1c_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1c_pitch_motor" />
+	</bean>
+
+	<bean id="m1c_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1c_roll_motor" />
+	</bean>
+
+	<bean id="m1c_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1c_yaw_motor" />
+	</bean>
+
+	<bean id="m1c" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1c_x" />
+				<ref bean="m1c_y" />
+				<ref bean="m1c_pitch" />
+				<ref bean="m1c_roll" />
+				<ref bean="m1c_yaw" />
+				<ref bean="m1c_pressure" />
+				<ref bean="m1c_mask_temp" />
+				<ref bean="m1c_mirror_temp" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

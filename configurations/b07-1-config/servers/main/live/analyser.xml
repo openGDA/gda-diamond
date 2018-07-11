@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="analyser_controller" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosController" >
+		<property name="basePVName" value="BL07C-EA-DET-01:CAM:" />
+	</bean>
+
+	<bean id="analyser_prelens_valve" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL07C-VA-VALVE-25" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="analyser_sledge_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07C-EA-ANAL-01:TRANS" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

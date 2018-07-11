@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="m1c_x_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1c_y_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1c_pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1c_roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1c_yaw_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m1c_pressure" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mbar"/>
+		<property name="value">
+			<value type="double">1.2e-7</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="3.0e-7" />
+		<property name="increment" value="1.0e-8" />
+	</bean>
+
+	<bean id="m1c_mask_temp" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C"/>
+		<property name="value">
+			<value type="double">25.3</value>
+		</property>
+		<property name="lowerLimit" value="18" />
+		<property name="upperLimit" value="56" />
+		<property name="increment" value="0.35" />
+	</bean>
+
+	<bean id="m1c_mirror_temp" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="C"/>
+		<property name="value">
+			<value type="double">25.3</value>
+		</property>
+		<property name="lowerLimit" value="18" />
+		<property name="upperLimit" value="56" />
+		<property name="increment" value="0.35" />
+	</bean>
+
+</beans>
