@@ -15,6 +15,5 @@ writerMap = Finder.getInstance().getFindablesOfType(gda.data.scan.datawriter.Def
 ddwf = writerMap.get("DefaultDataWriterFactory")
 for dwe in ddwf.getDataWriterExtenders():
     ddwf.removeDataWriterExtender(dwe)
-nexusExtender = I16NexusExtender("/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/pythonscripts/gda_external/geometry.xml")
+nexusExtender = I16NexusExtender("/dls_sw/i16/scripts/pilatus_calibration/geometry.xml")
 ddwf.addDataWriterExtender(nexusExtender)
-

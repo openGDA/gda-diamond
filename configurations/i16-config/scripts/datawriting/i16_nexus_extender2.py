@@ -117,6 +117,17 @@ DETECTOR_TRANSFORMATIONS = {
                 TRANSFORMATION_UNITS : 'mm',
                 TRANSFORMATION_OFFSET_UNITS : 'mm',
             },
+        ],
+        "pilatus3" : [
+            {
+                TRANSFORMATION_NAME : 'origin_offset',
+                TRANSFORMATION_TYPE : TRANSFORMATION_TRANSLATION,
+                TRANSFORMATION_VECTOR : [0., 0., 0.],
+                TRANSFORMATION_OFFSET : [0., 0., 0.],
+                TRANSFORMATION_SIZE : [1.],
+                TRANSFORMATION_UNITS : 'mm',
+                TRANSFORMATION_OFFSET_UNITS : 'mm',
+            },
         ]
     }
 
@@ -153,7 +164,23 @@ DETECTOR_MODULES = {
             OFFSET_VECTOR : [0., 0., 0.],
             OFFSET_OFFSET : [0., 0., 0.],
             OFFSET_UNITS : 'mm'
-        }
+        },
+        "pilatus3" : {
+            DATA_ORIGIN : [0, 0],
+            DATA_SIZE : [487, 195],
+            FAST_PIXEL_DIRECTION : [0., 0., 0.],
+            FAST_PIXEL_SIZE : [0.000172],
+            FAST_PIXEL_OFFSET : [0., 0., 0.],
+            FAST_PIXEL_UNITS : 'm',
+            SLOW_PIXEL_DIRECTION : [0., 0., 0.],
+            SLOW_PIXEL_SIZE : [0.000172],
+            SLOW_PIXEL_UNITS : 'm',
+            SLOW_PIXEL_OFFSET : [0., 0., 0.],
+            OFFSET : [0.],
+            OFFSET_VECTOR : [0., 0., 0.],
+            OFFSET_OFFSET : [0., 0., 0.],
+            OFFSET_UNITS : 'mm'
+        },
     }
 
 DETECTOR_PROPERTIES = {
@@ -176,7 +203,17 @@ DETECTOR_PROPERTIES = {
             SENSOR_DESCRIPTION : "Pilatus 100k",
             CALIBRATION_TIME : CALIBRATION_TIME_DEF,
             CALIBRATION_SCAN : CALIBRATION_SCAN_DEF
-        }
+        },
+        "pilatus3" : {
+            SENSOR_SATURATION_VALUE : [1000000],
+            SENSOR_MATERIAL : "Silicon",
+            SENSOR_THICKNESS : [0.32],
+            SENSOR_THICKNESS_UNITS : "mm",
+            SENSOR_TYPE : "Pixel",
+            SENSOR_DESCRIPTION : "Pilatus 100k",
+            CALIBRATION_TIME : CALIBRATION_TIME_DEF,
+            CALIBRATION_SCAN : CALIBRATION_SCAN_DEF
+        },
     }
 
 import copy
@@ -191,6 +228,13 @@ DETECTOR_TRANSFORMATIONS["pil100k"] = DETECTOR_TRANSFORMATIONS['pilatus1']
 DETECTOR_MODULES["pil100ks"] = DETECTOR_MODULES["pilatus1"]
 DETECTOR_PROPERTIES["pil100ks"] = DETECTOR_PROPERTIES["pilatus1"]
 DETECTOR_TRANSFORMATIONS["pil100ks"] = DETECTOR_TRANSFORMATIONS['pilatus1']
+
+DETECTOR_MODULES["pil3_100k"] = DETECTOR_MODULES["pilatus3"]
+DETECTOR_PROPERTIES["pil3_100k"] = DETECTOR_PROPERTIES["pilatus3"]
+DETECTOR_TRANSFORMATIONS["pil3_100k"] = DETECTOR_TRANSFORMATIONS['pilatus3']
+DETECTOR_MODULES["pil3_100ks"] = DETECTOR_MODULES["pilatus3"]
+DETECTOR_PROPERTIES["pil3_100ks"] = DETECTOR_PROPERTIES["pilatus3"]
+DETECTOR_TRANSFORMATIONS["pil3_100ks"] = DETECTOR_TRANSFORMATIONS['pilatus3']
 
 DETECTOR_PROPERTIES["swmr"] = copy.deepcopy(DETECTOR_PROPERTIES["simad"])
 DETECTOR_MODULES["swmr"] = copy.deepcopy(DETECTOR_MODULES["simad"])
@@ -254,7 +298,9 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.createData(group, data)
 
     def writeDetectorModule(self, nFile, group, detName, dependsOn):
+        self.logger.trace("writeDetectorModule({}, {}, {}, {})", nFile, group, detName, dependsOn)
         if not DETECTOR_MODULES.has_key(detName):
+            self.logger.warn("DETECTOR_MODULES does not have key {} - NeXuS file may not be valid", detName)
             return
         detModule = DETECTOR_MODULES[detName]
         moduleDependsOn = "/entry1/instrument/%s/module/module_offset" % detName #would like to avoid this path here
@@ -296,7 +342,9 @@ class I16NexusExtender(DataWriterExtenderBase):
         NexusUtils.writeAttribute(nFile, node, "vector", detModule[OFFSET_VECTOR])
 
     def writeDetectorProperties(self, nFile, group, detName):
+        self.logger.trace("writeDetectorProperties({}, {}, {})", nFile, group, detName)
         if not DETECTOR_PROPERTIES.has_key(detName):
+            self.logger.warn("DETECTOR_PROPERTIES does not have key {} - NeXuS file may not be valid", detName)
             return
         properties = DETECTOR_PROPERTIES[detName]
 
@@ -332,7 +380,9 @@ class I16NexusExtender(DataWriterExtenderBase):
             nFile.createData(group, data)
 
     def writeDetector(self, nFile, group, name, dependsOn):
+        self.logger.trace("writeDetector({}, {}, {}, {})", nFile, group, name, dependsOn)
         if not DETECTOR_TRANSFORMATIONS.has_key(name):
+            self.logger.warn("DETECTOR_TRANSFORMATIONS does not have key {} - NeXuS file may not be valid", name)
             return
         transGroup = nFile.getGroup(group, "transformations", "NXtransformations", True)
         for properties in DETECTOR_TRANSFORMATIONS[name]:
