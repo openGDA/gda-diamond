@@ -74,6 +74,7 @@
 				<entry key="XrayEye in" value="Beamline/EndstationConfigurations/in_xreye.py"/>
 				<entry key="Diode in" value="Beamline/EndstationConfigurations/in_diode.py"/>
 				<entry key="Detector table sample camera in" value="Beamline/EndstationConfigurations/table_camera.py"/>
+				<entry key="Merlin in" value="Beamline/EndstationConfigurations/in_merlin.py"/>
 				<entry key="On-axis sample camera in" value="Beamline/EndstationConfigurations/in_camera2.py"/>
 				<entry key="On-axis sample camera out" value="Beamline/EndstationConfigurations/out_camera2.py"/>
 				<entry key="Diffraction position 1" value="Beamline/EndstationConfigurations/in_xrd1.py"/>

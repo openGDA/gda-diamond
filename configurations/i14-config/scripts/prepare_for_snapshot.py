@@ -61,10 +61,11 @@ def prepare_detector(detector_name, ad_base_pv, ndarray_base_pv, trigger_mode, i
 		print('Error preparing detector {}'.format(detector_name))
 
 def prepare_detectors():
-	from gdaserver import xsp3_addetector, xreye_addetector
+	from gdaserver import xsp3_addetector, xreye_addetector, merlin_addetector
 	print('Initialising detectors...')
 	if isLive():
 		prepare_detector("Excalibur", "BL14I-EA-EXCBR-01:CONFIG:ACQUIRE", "BL14I-EA-EXCBR-01:MASTER:ARR", "Internal", "Single")
+		prepare_detector("Merlin", merlin_addetector.getAdBase().getBasePVName(), merlin_addetector.getNdArray().getBasePVName(), "Software", "Single")
 		prepare_detector("Xspress3", xsp3_addetector.getAdBase().getBasePVName(), xsp3_addetector.getNdArray().getBasePVName(), "Software", "Single")
 		prepare_detector("Xray Eye", xreye_addetector.getAdBase().getBasePVName(), xreye_addetector.getNdArray().getBasePVName(), "Internal", "Fixed")
 	else:
