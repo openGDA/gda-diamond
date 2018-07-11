@@ -923,7 +923,7 @@ pil3 = pil3_100k
 pil3s = pil3_100ks
 
 pil3_100kthresh = PilatusThreshold('pil3_100kthresh', pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
-
+pil3_100kgain =        PilatusGain('pil3_100kgain',   pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 
 ### cam2 ###
 cor = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor',
