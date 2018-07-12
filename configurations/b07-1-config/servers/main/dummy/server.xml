@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+
+	<!-- Ring -->
+	<import resource="ring.xml"/>
+
+	<!-- Slits -->
+	<import resource="s1c.xml"/>
+	<import resource="s2c.xml"/>
+	<import resource="s3c.xml"/>
+	<import resource="s4c.xml"/>
+
+	<!-- Mirrors -->
+	<import resource="m1b.xml"/>
+	<import resource="m1c.xml"/>
+	<import resource="m3c.xml"/>
+	<import resource="m4c.xml"/>
+	<import resource="m5c.xml"/>
+
+	<!-- Diagnostics -->
+	<import resource="d1c.xml"/>
+	<import resource="d2c.xml"/>
+	<import resource="d3c.xml"/>
+	<import resource="d4c.xml"/>
+	<import resource="d5c.xml"/>
+	<import resource="d6c.xml"/>
+	<import resource="d7c.xml"/>
+	<import resource="d9c.xml"/>
+	<import resource="d21c.xml"/>
+	<import resource="d22c.xml"/>
+	<import resource="femto.xml"/>
+
+	<!-- Shutters -->
+	<import resource="shutter.xml"/>
+
+	<!-- Simulated Area Detector -->
+	<import resource="adSimulator.xml"/>
+
+	<!-- Monocromators -->
+	<import resource="pgm.xml"/>
+
+	<!-- Endstation -->
+	<import resource="sample_manipulator.xml"/>
+	<import resource="sample_heater.xml"/>
+	<import resource="analyser.xml"/>
+
+	<!-- NAPES vacuum gauges -->
+	<import resource="napes_vacuum.xml"/>
+	
+	<!-- Vacuum Spaces -->
+	<import resource="vacuum_spaces.xml"/>
+
+	<!-- Do not remove anything below here -->
+	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
+
+</beans>
