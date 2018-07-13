@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="uk.ac.gda.beamline.i06.dummy.product" uid="uk.ac.gda.beamline.i06.dummy" id="uk.ac.gda.beamline.i06.dummy_product" application="uk.ac.gda.client.application" version="9.9.0" useFeatures="true" includeLaunchers="true">
+<product name="uk.ac.gda.beamline.i06.dummy.product" uid="uk.ac.gda.beamline.i06.dummy" id="uk.ac.gda.beamline.i06.dummy_product" application="uk.ac.gda.client.application" version="9.9.0" useFeatures="true" includeLaunchers="false">
 
    <aboutInfo>
       <image path="/uk.ac.gda.beamline.i06/icons/schematic_I06_sm.png"/>
@@ -19,7 +19,6 @@
       <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
 -Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Dosgi.framework.extensions=org.eclipse.fx.osgi
--Drun.in.eclipse=false 
 -Dgda.instance.dir=/scratch/gda/i06-config
 -Dgda.facility.dir=/scratch/gda/workspace_git/gda-diamond.git/dls-config
 -Dgda.core.dir=/scratch/gda/workspace_git/gda-core.git/core-config
@@ -37,6 +36,13 @@
 -Dpython.cachedir=/scratch/gda_versions/var/python.cachedir
 -Dgda.gui.beans.xml=/scratch/gda/i06-config/clients/main/dummy/client.xml
 -Dgda.mode=dummy
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Dpydev.funding.hide=true
+-client
+-Xms256m
+-Xmx2048m
+-XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
