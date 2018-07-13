@@ -68,6 +68,7 @@ class Polarisation(ScannableBase):
         if mode == SourceMode.SOURCE_MODES[0]:
             if newpos == Polarisation.POLARISATIONS[0]:
                 __main__.energy = egy_g_idd_circ_pos_energy
+                __main__.energycontroller=cemc_g_idd_circ_pos_energy
                 __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idd_circ_pos_energy)
                 __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idd_circ_pos_energy)
                 __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idd_circ_pos_energy)
@@ -86,6 +87,7 @@ class Polarisation(ScannableBase):
                 
             elif newpos == Polarisation.POLARISATIONS[1]:
                 __main__.energy = egy_g_idd_circ_neg_energy
+                __main__.energycontroller=cemc_g_idd_circ_neg_energy
                 __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idd_circ_neg_energy)
                 __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idd_circ_neg_energy)
                 __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idd_circ_neg_energy)
@@ -103,6 +105,7 @@ class Polarisation(ScannableBase):
                     self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[2]:
                 __main__.energy = egy_g_idd_lin_hor_energy
+                __main__.energycontroller=cemc_g_idd_lin_hor_energy
                 __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idd_lin_hor_energy)
                 __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idd_lin_hor_energy)
                 __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idd_lin_hor_energy)
@@ -120,6 +123,7 @@ class Polarisation(ScannableBase):
                     self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[3]:
                 __main__.energy = egy_g_idd_lin_ver_energy
+                __main__.energycontroller=cemc_g_idd_lin_ver_energy
                 __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idd_lin_ver_energy)
                 __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idd_lin_ver_energy)
                 __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idd_lin_ver_energy)
@@ -137,6 +141,7 @@ class Polarisation(ScannableBase):
                     self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[4]:
                 __main__.energy = egy_g_idd_lin_arbitrary_energy
+                __main__.energycontroller=cemc_g_idd_lin_arbitrary_energy
                 __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idd_lin_arbitrary_energy)
                 __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idd_lin_arbitrary_energy)
                 __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idd_lin_arbitrary_energy)
@@ -159,6 +164,7 @@ class Polarisation(ScannableBase):
         elif mode == SourceMode.SOURCE_MODES[1]:
             if newpos == Polarisation.POLARISATIONS[0]:
                 __main__.energy = egy_g_idu_circ_pos_energy
+                __main__.energycontroller=cemc_g_idu_circ_pos_energy
                 __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
                 __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
                 __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idu_circ_pos_energy)
@@ -176,6 +182,7 @@ class Polarisation(ScannableBase):
                     self.logger.info(message)            
             elif newpos == Polarisation.POLARISATIONS[1]:
                 __main__.energy = egy_g_idu_circ_neg_energy
+                __main__.energycontroller=cemc_g_idu_circ_neg_energy
                 __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
                 __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
                 __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idu_circ_neg_energy)
@@ -193,6 +200,7 @@ class Polarisation(ScannableBase):
                     self.logger.info(message)            
             elif newpos == Polarisation.POLARISATIONS[2]:
                 __main__.energy = egy_g_idu_lin_hor_energy
+                __main__.energycontroller=cemc_g_idu_lin_hor_energy
                 __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idu_lin_hor_energy)
                 __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idu_lin_hor_energy)
                 __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idu_lin_hor_energy)
@@ -210,6 +218,7 @@ class Polarisation(ScannableBase):
                     self.logger.info(message)            
             elif newpos == Polarisation.POLARISATIONS[3]:
                 __main__.energy = egy_g_idu_lin_ver_energy
+                __main__.energycontroller=cemc_g_idu_lin_ver_energy
                 __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idu_lin_ver_energy)
                 __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idu_lin_ver_energy)
                 __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idu_lin_ver_energy)
@@ -227,6 +236,7 @@ class Polarisation(ScannableBase):
                     self.logger.info(message)            
             elif newpos == Polarisation.POLARISATIONS[4]:
                 __main__.energy = egy_g_idu_lin_arbitrary_energy
+                __main__.energycontroller=cemc_g_idu_lin_arbitrary_energy
                 __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idu_lin_arbitrary_energy)
                 __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idu_lin_arbitrary_energy)
                 __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idu_lin_arbitrary_energy)
@@ -245,6 +255,7 @@ class Polarisation(ScannableBase):
                     self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[5]:
                 __main__.energy = egy_g_idu_lin_hor3_energy
+                __main__.energycontroller=cemc_g_idu_lin_hor3_energy
                 __main__.mcsr16_g.setHardwareTriggerProvider(cemc_g_idu_lin_hor3_energy)
                 __main__.mcsr17_g.setHardwareTriggerProvider(cemc_g_idu_lin_hor3_energy)
                 __main__.mcsr18_g.setHardwareTriggerProvider(cemc_g_idu_lin_hor3_energy)
