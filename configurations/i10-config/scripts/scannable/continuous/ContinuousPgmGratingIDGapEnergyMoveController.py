@@ -18,7 +18,7 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
     '''Controller for constant velocity scan moving both PGM Grating Pitch and ID Gap at same time at constant speed respectively.
         It works for both Live and Dummy mode.
     '''
-    def __init__(self, name, pgm_grat_pitch, pgm_mirr_pitch, pgmpvroot, id_energy, idpvroot): # motors, maybe also detector to set the delay time
+    def __init__(self, name, pgm_grat_pitch, pgm_mirr_pitch, pgmpvroot, id_energy, idpvroot, move_pgm=True, move_id=True): # motors, maybe also detector to set the delay time
         self.logger = LoggerFactory.getLogger("ContinuousPgmGratingIDGapEnergyMoveController:%s" % name)
         self.verbose = False
         self.name = name
@@ -29,6 +29,8 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self._pgm_mirr_pitch = pgm_mirr_pitch
         self._pgm_grat_pitch_speed_orig = None
         self._pgm_runupdown_time = None
+        self._move_pgm = move_pgm
+        self._move_id  = move_id
 
         self.pvs = PvManager({'grating_density':                'NLINES',
                               'cff':                            'CFF',
@@ -55,6 +57,25 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self.mirror_pitch_positions=[]
         self.pgm_energy_positions=[]
         self._start_time = None
+        
+    #https://jira.diamond.ac.uk/browse/I10-301
+    def enableIDMove(self):
+        self._move_id=True
+    
+    def disableIDMove(self):
+        self._move_id=False
+        
+    def isIDMoveEnabled(self):
+        return self._move_id
+
+    def enablePGMMove(self):
+        self._move_pgm=True
+    
+    def disablePGMMove(self):
+        self._move_pgm=False
+        
+    def isPGMMoveEnabled(self):
+        return self._move_pgm
 
     # Implement: public interface ConstantVelocityMoveController extends ContinuousMoveController
 
@@ -234,8 +255,21 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
 
     def prepareForMove(self):
         if self.verbose: self.logger.info('prepareForMove()...')
-        self.PreparePGMForMove()
-        self.PrepareIDForMove()
+        if self.isPGMMoveEnabled():
+            self.PreparePGMForMove()
+        else:
+            if self.verbose:
+                self.logger.info('PGM move is disabled in %r' % (self.getName()))
+
+        if self.isIDMoveEnabled():
+            self.PrepareIDForMove()
+        else:
+            if self.verbose:
+                self.logger.info('ID move is disabled in %r' % (self.getName()))
+            
+        if not self.isPGMMoveEnabled() and not self.isIDMoveEnabled():
+            raise Exception("Both PGM and ID moves are disabled so no scan will occur!")
+        
         self.waitWhileMoving()
         ### Calculate trigger delays
         if self.verbose:
@@ -248,29 +282,33 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self._start_time = datetime.now()
         self._start_event.set()
         # Start threads to start ID & PGM and at the correct times
-        self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed
-        if installation.isLive():
-            self.idpvs['vel'].caput(self._id_gap_speed)
-        else:
-            self._id_gap.speed = self._id_gap_speed 
-            
-        if self.getGratingMoveDirectionPositive():
-            if self.verbose: self.logger.info('startMove PGM Grating Pitch: asynchronousMoveTo(%r) @ %r (+ve)' % (
-                                                    (self._grat_pitch_end + self._pgm_runupdown)*1000., self._pgm_grat_pitch_speed))
-            self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end + self._pgm_runupdown)*1000.)
-        else:
-            if self.verbose: self.logger.info('startMove PGM Grating Pitch: asynchronousMoveTo(%r) @ %r (-ve)' % (
-                                                    (self._grat_pitch_end - self._pgm_runupdown)*1000., self._pgm_grat_pitch_speed))
-            self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end - self._pgm_runupdown)*1000.)
-
-        if self.getIDGapMoveDirectionPositive():
-            if self.verbose: self.logger.info('startMove ID Gap: asynchronousMoveTo(%r) @ %r (+ve)' % (
-                                                    (self._id_gap_end + self._id_gap_runupdown), self._id_gap_speed))
-            self._id_energy.id_gap.asynchronousMoveTo((self._id_gap_end + self._id_gap_runupdown))
-        else:
-            if self.verbose: self.logger.info('startMove ID Gap: asynchronousMoveTo(%r) @ %r (-ve)' % (
-                                                    (self._id_gap_end - self._id_gap_runupdown), self._id_gap_speed))
-            self._id_energy.id_gap.asynchronousMoveTo((self._id_gap_end - self._id_gap_runupdown))
+        if self.isPGMMoveEnabled():
+            self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed
+        
+        if self.isIDMoveEnabled():
+            if installation.isLive():
+                self.idpvs['vel'].caput(self._id_gap_speed)
+            else:
+                self._id_gap.speed = self._id_gap_speed 
+        
+        if self.isPGMMoveEnabled():
+            if self.getGratingMoveDirectionPositive():
+                if self.verbose: self.logger.info('startMove PGM Grating Pitch: asynchronousMoveTo(%r) @ %r (+ve)' % (
+                                                        (self._grat_pitch_end + self._pgm_runupdown)*1000., self._pgm_grat_pitch_speed))
+                self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end + self._pgm_runupdown)*1000.)
+            else:
+                if self.verbose: self.logger.info('startMove PGM Grating Pitch: asynchronousMoveTo(%r) @ %r (-ve)' % (
+                                                        (self._grat_pitch_end - self._pgm_runupdown)*1000., self._pgm_grat_pitch_speed))
+                self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end - self._pgm_runupdown)*1000.)
+        if self.isIDMoveEnabled():
+            if self.getIDGapMoveDirectionPositive():
+                if self.verbose: self.logger.info('startMove ID Gap: asynchronousMoveTo(%r) @ %r (+ve)' % (
+                                                        (self._id_gap_end + self._id_gap_runupdown), self._id_gap_speed))
+                self._id_energy.id_gap.asynchronousMoveTo((self._id_gap_end + self._id_gap_runupdown))
+            else:
+                if self.verbose: self.logger.info('startMove ID Gap: asynchronousMoveTo(%r) @ %r (-ve)' % (
+                                                        (self._id_gap_end - self._id_gap_runupdown), self._id_gap_speed))
+                self._id_energy.id_gap.asynchronousMoveTo((self._id_gap_end - self._id_gap_runupdown))
         # How do we trigger the detectors, since they are 'HardwareTriggerable'?
         if self.verbose: self.logger.info('...startMove')
 
@@ -293,8 +331,10 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self._start_time = None
         self._start_event.clear()
         if self.verbose: self.logger.info('stopAndReset()')
-        self._pgm_grat_pitch.stop()
-        self._id_energy.id_gap.stop()
+        if self.isPGMMoveEnabled():
+            self._pgm_grat_pitch.stop()
+        if self.isIDMoveEnabled():
+            self._id_energy.id_gap.stop()
         self._restore_orig_speed()
 
     # Implement: public interface HardwareTriggerProvider extends Device
@@ -404,18 +444,20 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         return self.DelayableCallable(self, position)
 
     def _restore_orig_speed(self):
-        if self._pgm_grat_pitch_speed_orig:
-            if self.verbose: self.logger.info('Restoring original PGM Grating Pitch speed %r, was %r' % (self._pgm_grat_pitch_speed_orig, self._pgm_grat_pitch.speed))
-            self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed_orig
-            self._pgm_grat_pitch_speed_orig = None
-        if self._id_gap_speed_orig:
-            if installation.isLive():
-                if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idpvs['vel'].caget()))
-                self.idpvs['vel'].caput(self._id_gap_speed_orig)
-            else:
-                if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self._id_gap.speed))
-                self._id_gap.speed = self._id_gap_speed_orig 
-            self._id_gap_speed_orig = None
+        if self.isPGMMoveEnabled():
+            if self._pgm_grat_pitch_speed_orig:
+                if self.verbose: self.logger.info('Restoring original PGM Grating Pitch speed %r, was %r' % (self._pgm_grat_pitch_speed_orig, self._pgm_grat_pitch.speed))
+                self._pgm_grat_pitch.speed = self._pgm_grat_pitch_speed_orig
+                self._pgm_grat_pitch_speed_orig = None
+        if self.isIDMoveEnabled():
+            if self._id_gap_speed_orig:
+                if installation.isLive():
+                    if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self.idpvs['vel'].caget()))
+                    self.idpvs['vel'].caput(self._id_gap_speed_orig)
+                else:
+                    if self.verbose: self.logger.info('Restoring original ID gap speed %r, was %r' % (self._id_gap_speed_orig, self._id_gap.speed))
+                    self._id_gap.speed = self._id_gap_speed_orig 
+                self._id_gap_speed_orig = None
 
     def atScanEnd(self):
         if self.verbose: self.logger.info('atScanEnd()...')
