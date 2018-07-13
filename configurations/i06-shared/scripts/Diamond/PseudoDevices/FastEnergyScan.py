@@ -4,8 +4,8 @@ import sys;
 import jarray;
 
 #from gov.aps.jca.event import PutEvent;
-from gov.aps.jca.event import PutListener;
-from gov.aps.jca import CAStatus;
+from gov.aps.jca.event import PutListener;  # @UnresolvedImport
+from gov.aps.jca import CAStatus;  # @UnresolvedImport
 
 from gda.device.scannable import PseudoDevice;
 #from gda.device.MotorStatus import READY, BUSY, FAULT;
@@ -13,11 +13,19 @@ from gda.device.scannable import PseudoDevice;
 #from gda.analysis import DataSet;
 from gda.epics import CAClient;
 
-from gda.scan import PointsScan;
+from gda.scan import PointsScan, ScanInformation
 from gda.factory import Finder;
 
 from Diamond.PseudoDevices.FileFilter import SrsFileFilterClass;
 from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
+from i06shared.commands.dirFileCommands import finder
+from gda.device.detector.nxdetector.roi import ImutableRectangularIntegerROI
+from gda.device.detector import NXDetector
+from gda.device.detector.nxdetector.plugin.areadetector import ADRoiStatsPair
+from types import ListType
+from gda.device.detector.addetector.filewriter import MultipleImagesPerHDF5FileWriter,\
+	SingleImagePerFileWriter
+from i06shared.scan.idd_fast_energy_scan import beamline_name
 logger=ScriptLoggerClass();
 
 from gda.jython import ScriptBase
@@ -79,6 +87,7 @@ class FastEnergyScanControlClass(object):
 		
 		self.putListener = FastEnergyScanControlClass.CaputCallbackListenerClass(self);
 		self.isCalled = True;
+		self.areaDetector=None
 
 	def __del__(self):
 		self.cleanChannel(self.chScanReady01);
@@ -92,8 +101,17 @@ class FastEnergyScanControlClass(object):
 		self.cleanChannel(self.chEndEnergy);
 		self.cleanChannel(self.chScanTime);
 		self.cleanChannel(self.chNumberOfPoints);
-
 		self.cleanChannel(self.chIdMove);
+		self.cleanChannel(self.chAreaDetector);
+		self.cleanChannel(self.chADCIntegration);
+
+		self.cleanChannel(self.chDet1)
+		self.cleanChannel(self.chDet2)
+		self.cleanChannel(self.chDet3)
+		self.cleanChannel(self.chDet4)
+		self.cleanChannel(self.chDet7)
+		self.cleanChannel(self.chDet8)
+		
 		self.cleanChannel(self.chBuild);
 		self.cleanChannel(self.chBuildStatus);
 		self.cleanChannel(self.chExecute);
@@ -116,18 +134,26 @@ class FastEnergyScanControlClass(object):
 #		New Epics PV for checking fast scan readiness, this should be used to replace the above four pvs:
 		self.chScanReady=CAClient(rootPV + ":STATUS");  self.configChannel(self.chScanReady);
 		
-#		Epics PVs for fast scan setup:
+#		Epics PVs for fast scan parameters setup:
 		self.chStartEnergy=CAClient(rootPV + ":EV:START"); self.configChannel(self.chStartEnergy);
 		self.chEndEnergy=CAClient(rootPV + ":EV:FINISH"); self.configChannel(self.chEndEnergy);
 		self.chScanTime=CAClient(rootPV + ":TIME"); self.configChannel(self.chScanTime);
 		self.chNumberOfPoints=CAClient(rootPV + ":NPULSES"); self.configChannel(self.chNumberOfPoints);
-		
-#		Epics PVs for fast scan control and status:
 		self.chIdMode=CAClient(rootPV + ":IDMODE"); self.configChannel(self.chIdMode);
+		self.chAreaDetector=CAClient(rootPV + ":AD:TRIGGER"); self.configChannel(self.chAreaDetector);
+		self.chADCIntegration=CAClient(rootPV + ":ADCSC:TRIGGER"); self.configChannel(self.chADCIntegration);
+		
+#		Epics PVs for fast scan detector variables setup:
+		self.chDet1=CAClient(rootPV + ":DET1:PV"); self.configChannel(self.chDet1);
+		self.chDet2=CAClient(rootPV + ":DET2:PV"); self.configChannel(self.chDet2);
+		self.chDet3=CAClient(rootPV + ":DET3:PV"); self.configChannel(self.chDet3);
+		self.chDet4=CAClient(rootPV + ":DET4:PV"); self.configChannel(self.chDet4);
+		self.chDet7=CAClient(rootPV + ":DET7:PV"); self.configChannel(self.chDet7);
+		self.chDet8=CAClient(rootPV + ":DET8:PV"); self.configChannel(self.chDet8);
+
+#		Epics PVs for fast scan control and status:
 		self.chBuild=CAClient(rootPV + ":BUILD"); self.configChannel(self.chBuild);
-
 		self.chBuildStatus=CAClient(rootPV + ":BUILDSTATUS"); self.configChannel(self.chBuildStatus);
-
 		self.chExecute=CAClient(rootPV + ":START"); self.configChannel(self.chExecute);
 		self.chStop=CAClient(rootPV + ":STOP");self.configChannel(self.chStop);
 		self.chStatus=CAClient(rootPV + ":RUN:STATE"); self.configChannel(self.chStatus);
@@ -172,6 +198,122 @@ class FastEnergyScanControlClass(object):
 		
 		c= int(float(self.chScanReady.caget()));
 		return (c == 0);
+	
+	def setAreaDetector(self, areadet):
+		self.areaDetector=areadet
+		
+	def getAreaDetector(self):
+		return self.areaDetector
+	
+	def prepareAreaDetectorForCollection(self, areadet, expotime, numImages):
+		#get camera control object
+		cs=areadet.getCollectionStrategy()
+		adcmode=cs.getDecoratee()
+		self.pcocontroller=adcmode.getPcoController()
+		self.adbase=self.pcocontroller.getAreaDetector()
+		#capture existing settings that will be changed for fast scan
+		self.aquire_state=self.adbase.getAcquireState()
+		self.exposure_period=self.adbase.getAcquirePeriod()
+		self.exposure_time=self.adbase.getAcquireTime()
+		self.image_mode=self.adbase.getImageMode()
+		self.num_images=self.adbase.getNumImages()
+		self.trigger_mode=self.adbase.getTriggerMode()
+		self.adc_mode=self.pcocontroller.getAdcMode()
+		self.pixel_rate=self.pcocontroller.getPixRate()
+		self.arm_mode=self.pcocontroller.getArmMode()
+		#stop camera before change settings
+		self.adbase.stopAcquiring()
+		#set camera parameters for fast scan
+		self.adbase.setAcquireTime(expotime)
+		self.adbase.setAcquirePeriod(expotime)
+		self.adbase.setImageMode(1) # Multiple
+		self.adbase.setNumImages(numImages)
+		self.adbase.setTriggerMode(0) # Auto
+		self.pcocontroller.setADCMode(0) # OneADC
+		self.pcocontroller.setPixRate(0) # 10MHz
+		self.pcocontroller.setArmMode(1) # arm detector
+
+	def restoreAreaDetectorParametersAfterCollection(self):
+		#stop camera before change settings
+		self.adbase.stopAcquiring()
+		#set camera parameters for fast scan
+		self.adbase.setAcquireTime(self.exposure_time)
+		self.adbase.setAcquirePeriod(self.exposure_period)
+		self.adbase.setImageMode(self.image_mode) # Multiple
+		self.adbase.setNumImages(self.num_images)
+		self.adbase.setTriggerMode(self.trigger_mode) # Auto
+		self.pcocontroller.setADCMode(self.adc_mode) # OneADC
+		self.pcocontroller.setPixRate(self.pixel_rate) # 10MHz
+		self.pcocontroller.setArmMode(self.arm_mode) # arm detector
+		if self.aquire_state == 1:
+			self.adbase.startAcquiring()
+		
+	def configureFileWriterPlugin(self, areadet,numImages):
+		if not isinstance(areadet, NXDetector):
+			raise Exception("'%s' detector is not a NXDetector! " % (areadet.getName()))
+		additional_plugin_list = areadet.getAdditionalPluginList()
+		for each in additional_plugin_list:
+			if isinstance(each, MultipleImagesPerHDF5FileWriter):
+				datawriter=each
+			elif isinstance(each,SingleImagePerFileWriter):
+				datawriter=each
+			else:
+				raise("Cannot find EPICS File Writer Plugin for detector %s" % (areadet.getName()))	
+		datawriter.prepareForCollection(numImages, ScanInformation.EMPTY)
+		
+	def setupAreaDetectorROIs(self, rois, roi_provider_name='pco_roi'):
+		'''update ROIs list in GDA but not yet set to EPICS
+		This must be called when ROI is changed, and before self.prepareAreaDetectorForCollection(areadet)
+		@param rois: list of rois i.e. [[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size]]
+		'''
+		if rois is not ListType:
+			raise Exception("Input must be a list of ROIs, each provides a list specifies [x_start,y_start,x_size,y_size]")
+		i=1
+		newRois=[]
+		for roi in rois:
+			newRoi=ImutableRectangularIntegerROI(roi[0],roi[1],roi[2],roi[3],'Region'+str(i))
+			i +=1
+			newRois.append(newRoi)
+		roi_provider=finder.find(roi_provider_name)
+		roi_provider.updateRois(newRois)
+	
+	def prepareAreaDetectorROIsForCollection(self, areadet, numImages):
+		'''configure ROIs and STATs plugins in EPISC for data collection with region of interest
+		@param areadet: must be a NXDetector 
+		'''
+		if not isinstance(areadet, NXDetector):
+			raise Exception("'%s' detector is not a NXDetector! " % (areadet.getName()))
+		additional_plugin_list = areadet.getAdditionalPluginList()
+		roi_stat_pairs=[]
+		for each in additional_plugin_list:
+			if isinstance(each, ADRoiStatsPair):
+				roi_stat_pairs.append(each)
+		for each in roi_stat_pairs:
+			#ScanInformation is not used in zacscan so just create a dummy to make Java method works
+			#update ROIs and enable EPICS rois and stats plugins
+			each.getRoiPlugin().prepareForCollection(numImages, ScanInformation())
+			each.getStatsPlugin().prepareForCollection(numImages, ScanInformation())
+
+	def enableAreaDetector(self):
+		self.chAreaDetector.caput(1) # 0-Disabled, 1-Enabled
+		
+	def disableAreaDetector(self):
+		self.chAreaDetector.caput(0) # 0-Disabled, 1-Enabled
+
+	def setupScanDetectorPVs(self, detector_root_pv, adc_root_pv):
+		'''set fast scan detector variables from which the "Mean" values of Region of Interest ROIs are collected by EPICS FSCAN. 
+		'''
+		if int(self.chAreaDetector.caget()) == 1: #Area Detector Enabled
+			self.chDet1.caput(detector_root_pv+':STAT1:MeanValue_RBV')
+			self.chDet2.caput(adc_root_pv + ':SC2-RAW') #I0
+			self.chDet3.caput(detector_root_pv+':STAT2:MeanValue_RBV')
+			self.chDet4.caput(detector_root_pv+':STAT3:MeanValue_RBV')
+			self.chDet7.caput(detector_root_pv+':STAT4:MeanValue_RBV')
+		else:
+			self.chDet1.caput(adc_root_pv + ':SC1-RAW')
+			self.chDet2.caput(adc_root_pv + ':SC2-RAW') #I0
+			self.chDet3.caput(adc_root_pv + ':SC3-RAW')
+			self.chDet4.caput(adc_root_pv + ':SC4-RAW')
 
 
 	def setEnergyRange(self, startEnergy, endEnergy):
@@ -180,7 +322,7 @@ class FastEnergyScanControlClass(object):
 		self.chStartEnergy.caput(startEnergy);
 		self.chEndEnergy.caput(endEnergy);
 
-	def getEnergyRange(self, startEnergy, endEnergy):
+	def getEnergyRange(self):
 		return [self.startEnergy, self.endEnergy];
 
 	def setTime(self, scanTime, pointTime):
@@ -496,7 +638,7 @@ class FastEnergyDeviceClass(PseudoDevice):
 		self.fesController.setEnergyRange(startEnergy, endEnergy);
 		self.fesController.setTime(scanTime, pointTime);
 #		self.fesController.setIDMode(1);
-	
+
 		if pointTime > 2.0:
 			self.setDelay(pointTime/2.0);
 		elif pointTime>0.5:
@@ -512,6 +654,13 @@ class FastEnergyDeviceClass(PseudoDevice):
 			print "Number of scan points is set to ZERO. Please check your command carefully!"
 			return;
 		
+		if beamline_name == "i06":
+			self.fesController.enableAreaDetector() #using PCO area detector
+			self.fesController.setupScanDetectorPVs('BL06I-EA-DET-01','BL06I-EA-USER-01')
+			if self.fesController.getAreaDetector() == None:
+				raise Exception()
+			self.fesController.prepareAreaDetectorForCollection(pco, pointTime, numPoint)
+
 		step=1.0*(endEnergy - startEnergy)/numPoint;
 		
 		#pscan fastEnergy 0 1 numPoint fesData 0 1;
