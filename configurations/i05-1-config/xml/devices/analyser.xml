@@ -116,9 +116,10 @@
 	</bean>
 
 	<bean id="sweepupdater" class="uk.ac.gda.devices.vgscienta.SweepUpdater">
-		<property name="currentSweepPV" value="BL05J-EA-DET-01:CAM:CURRENT_POINT_RBV" />
+		<property name="currentPointPV" value="BL05J-EA-DET-01:CAM:CURRENT_POINT_RBV" />
 		<property name="maxSweepPV" value="BL05J-EA-DET-01:CAM:TOTAL_POINTS_ITERATION_RBV" />
 		<property name="percentagePV" value="BL05J-EA-DET-01:CAM:PROGRESS_RBV" />
+		<property name="currentIterationPV" value="BL05J-EA-DET-01:CAM:NumExposuresCounter_RBV"/>
 		<property name="local" value="false" />
 	</bean>
 
