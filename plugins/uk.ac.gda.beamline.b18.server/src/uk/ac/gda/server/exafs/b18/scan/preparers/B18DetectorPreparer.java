@@ -275,12 +275,17 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 				experimentFullPath.length());
 		String nexusSubFolder = experimentFolderName + "/" + outputBean.getNexusDirectory();
 		String asciiSubFolder = experimentFolderName + "/" + outputBean.getAsciiDirectory();
+		String mythenSubFolder = Paths.get(experimentFolderName, "mythen").toString();
 
 		InterfaceProvider.getTerminalPrinter().print("Moving DCM for Mythen image...");
+
+		// Save currently set mythen subdirectory - so it can be set back to original value after the scan
+		String mythenSubdirectoryBeforeScan = mythen_scannable.getSubDirectory();
+
 		energy_scannable.moveTo(fluoresenceParameters.getMythenEnergy());
 
 		mythen_scannable.setCollectionTime(fluoresenceParameters.getMythenTime());
-		mythen_scannable.setSubDirectory(experimentFolderName);
+		mythen_scannable.setSubDirectory(mythenSubFolder);
 
 		StaticScan staticscan = new StaticScan(new Scannable[] { mythen_scannable, energy_scannable});
 
@@ -297,9 +302,14 @@ public class B18DetectorPreparer implements QexafsDetectorPreparer {
 		//LocalProperties.setScanSetsScanNumber(true);
 		//staticscan.setScanNumber(1); // need to do this here to prevent the scan trying to use a numtracker to derive
 										// the scan number
-		InterfaceProvider.getTerminalPrinter().print("Collecting a diffraction image...");
-		staticscan.run();
-		InterfaceProvider.getTerminalPrinter().print("Diffraction scan complete.");
+		try {
+			InterfaceProvider.getTerminalPrinter().print("Collecting a diffraction image...");
+			staticscan.run();
+			InterfaceProvider.getTerminalPrinter().print("Diffraction scan complete.");
+		} finally{
+			//set mythen subdirectory back to its original value
+			mythen_scannable.setSubDirectory(mythenSubdirectoryBeforeScan);
+		}
 	}
 
 	@Override

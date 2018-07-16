@@ -55,6 +55,7 @@ import gda.factory.Finder;
 import gda.util.Element;
 import uk.ac.gda.beamline.i20.scannable.MonoMoveWithOffsetScannable;
 import uk.ac.gda.beamline.i20.scannable.MonoOptimisation;
+import uk.ac.gda.beans.exafs.DetectorGroup;
 import uk.ac.gda.beans.exafs.DetectorParameters;
 import uk.ac.gda.beans.exafs.FluorescenceParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;
@@ -101,9 +102,15 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	private String statPvName = "STAT1:";
 	private boolean configureMedipixRois = true;
 
+	// Full path to xml folder containing experiment xml files
+	private String experimentXmlFullPath;
+	private String hdfFilePathBeforeScan;
+
 	private boolean xesMode = false;
 
 	private MonoOptimisation monoOptimiser;
+
+	private IOutputParameters outputBean;
 
 	public I20DetectorPreparer(Scannable[] sensitivities, Scannable[] sensitivity_units,
 			Scannable[] offsets, Scannable[] offset_units, TfgScalerWithFrames ionchambers, TfgScalerWithFrames I1,
@@ -200,10 +207,6 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		}
 	}
 
-	// Full path to xml folder containing experiment xml files
-	private String experimentXmlFullPath;
-	private String hdfFilePathBeforeScan;
-
 	private String getNexusDataFullPath() {
 		String folder = experimentXmlFullPath.replace("/xml/", "/");
 		return FilenameUtils.getFullPathNoEndSeparator(folder)+"/nexus/";
@@ -229,57 +232,69 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		}
 	}
 
+	private void configureFluoDetector(FluorescenceParameters fluoresenceParameters) throws Exception {
+		String xmlFileName = experimentXmlFullPath + fluoresenceParameters.getConfigFileName();
+		FluorescenceDetectorParameters params = getDetectorParametersBean(xmlFileName);
+		setXspressOutputOptions(params, outputBean);
+		Detector configuredDetector = configureFluorescenceDetector(params);
+		setConfigFilename(configuredDetector, xmlFileName);
+		if (configuredDetector instanceof Xmap) {
+			vortex = (Xmap) configuredDetector;
+		} else {
+			setXspressCorrectionParameters();
+			selectedXspressDetector = configuredDetector;
+			setHdfPathBeforeScan(selectedXspressDetector);
+		}
+	}
+
 	@Override
 	public void configure(IScanParameters scanBean, IDetectorParameters detectorBean, IOutputParameters outputBean,
 			String experimentFullPath) throws Exception {
 
 		this.scanBean = scanBean;
 		this.experimentXmlFullPath = experimentFullPath;
+		this.outputBean = outputBean;
 
 		String experimentType = detectorBean.getExperimentType();
-		xesMode = experimentType.equals(DetectorParameters.XES_TYPE);
+		xesMode = experimentType.startsWith(DetectorParameters.XES_TYPE);
 
 		_setUpIonChambers();
 
+		// Get the detector parameters
+		FluorescenceParameters fluoresenceParameters = null;
 		if (experimentType.equals(DetectorParameters.FLUORESCENCE_TYPE)) {
-			FluorescenceParameters fluoresenceParameters = detectorBean.getFluorescenceParameters();
-			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
-			String detType = fluoresenceParameters.getDetectorType();
-			FluorescenceDetectorParameters params = getDetectorParametersBean(xmlFileName);
-			setXspressOutputOptions(params, outputBean);
-			Detector configuredDetector = configureFluorescenceDetector(params);
-			setConfigFilename(configuredDetector, xmlFileName);
-			if (configuredDetector instanceof Xmap) {
-				vortex = (Xmap) configuredDetector;
-			} else {
-				setXspressCorrectionParameters();
-				selectedXspressDetector = configuredDetector;
-				setHdfPathBeforeScan(selectedXspressDetector);
-			}
-
+			fluoresenceParameters = detectorBean.getFluorescenceParameters();
 		} else if (experimentType.equals(DetectorParameters.XES_TYPE)) {
-			FluorescenceParameters fluoresenceParameters = detectorBean.getXesParameters();
-			String detType = fluoresenceParameters.getDetectorType();
-			String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
-			if (detType.equals(FluorescenceParameters.SILICON_DET_TYPE)) {
-				vortex.setConfigFileName(xmlFileName);
-				vortex.configure();
-			}
-			else if ( detType.toLowerCase().contains(FluorescenceParameters.MEDIPIX_DET_TYPE.toLowerCase())) {
-				if	(configureMedipixRois) {
-					configureMedipix( xmlFileName);
+			fluoresenceParameters = detectorBean.getXesParameters();
+		}
+
+		// No fluorescence parameters for Transmission experiments
+		if (fluoresenceParameters != null) {
+			// See if detector group to be used contains medipix - this is configured differently to FluorescenceDetector
+
+			// name of detector group to use - this is the detectorType field in the xes/transmission/fluorescence bean
+			String detGroupToUse = fluoresenceParameters.getDetectorType();
+			boolean useMedpixDetector = false;
+			// see if detectors listed in detector group contains medipix
+			for(DetectorGroup detGroup : detectorBean.getDetectorGroups()) {
+				if (detGroup.getName().equalsIgnoreCase(detGroupToUse) ) {
+					for(String detName : detGroup.getDetector()) {
+						if (detName.toUpperCase().contains(FluorescenceParameters.MEDIPIX_DET_TYPE.toUpperCase())) {
+							useMedpixDetector = true;
+						}
+					}
 				}
 			}
-		}
 
-		List<IonChamberParameters> ionChamberParamsArray = null;
-		if (experimentType.equals(DetectorParameters.FLUORESCENCE_TYPE)) {
-			ionChamberParamsArray = detectorBean.getFluorescenceParameters().getIonChamberParameters();
-		} else if (experimentType.equals(DetectorParameters.TRANSMISSION_TYPE)) {
-			ionChamberParamsArray = detectorBean.getTransmissionParameters().getIonChamberParameters();
-		} else if (experimentType.equals(DetectorParameters.XES_TYPE)) {
-			ionChamberParamsArray = detectorBean.getXesParameters().getIonChamberParameters();
+			// Configure the detector
+			if (useMedpixDetector && configureMedipixRois) {
+				String xmlFileName = experimentFullPath + fluoresenceParameters.getConfigFileName();
+				configureMedipix(xmlFileName);
+			} else {
+				configureFluoDetector(fluoresenceParameters);
+			}
 		}
+		List<IonChamberParameters> ionChamberParamsArray = detectorBean.getIonChambers();
 		if (ionChamberParamsArray != null) {
 			for (IonChamberParameters ionChamberParams : ionChamberParamsArray) {
 				_setup_amp_sensitivity(ionChamberParams);
@@ -422,7 +437,6 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	@Override
 	public void completeCollection() {
 		topupChecker.setCollectionTime(0.0);
-		ionchambers.setOutputLogValues(false);
 		setI1TimeFormatRequired(true);
 
 		// Set the hdf directory back to the 'before scan' value

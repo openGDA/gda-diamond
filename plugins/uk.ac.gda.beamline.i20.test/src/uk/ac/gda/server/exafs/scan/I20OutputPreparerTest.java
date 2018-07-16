@@ -111,7 +111,7 @@ public class I20OutputPreparerTest {
 
 		thePreparer.configure(outputBean, scanBean, detBean, null);
 
-		Mockito.verify(ionchambers).setOutputLogValues(true);
+//		Mockito.verify(ionchambers).setOutputLogValues(true);
 //		Mockito.verify(xspressSystem).setOnlyDisplayFF(true);
 //		Mockito.verify(xspressSystem).setAddDTScalerValuesToAscii(true);
 //		Mockito.verify(xspressSystem).setSaveRawSpectrum(true);
@@ -136,7 +136,7 @@ public class I20OutputPreparerTest {
 
 		thePreparer.configure(outputBean, scanBean, detBean, null);
 
-		Mockito.verify(ionchambers).setOutputLogValues(true);
+//		Mockito.verify(ionchambers).setOutputLogValues(true);
 //		Mockito.verify(xspressSystem).setOnlyDisplayFF(false);
 //		Mockito.verify(xspressSystem).setAddDTScalerValuesToAscii(false);
 //		Mockito.verify(xspressSystem).setSaveRawSpectrum(false);
