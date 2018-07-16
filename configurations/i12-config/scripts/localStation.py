@@ -4,6 +4,7 @@
 import sys
 import csv
 from gdascripts.messages import handle_messages
+from gda.jython import Jython
 from gda.jython.commands import GeneralCommands
 from gdascripts.utils import caput, caget
 from gda.device.scannable import ScannableMotionBase
@@ -596,7 +597,7 @@ if isLive():
         handle_messages.log(None, msg, exceptionType, exception, traceback, False)
     
     print "\n Completed adding default scannables."
-    srv = finder.find(JythonServer.SERVERNAME)
+    srv = finder.findSingleton(Jython)
     infoAllDefaultScannables_i12 = srv.getDefaultScannables().toArray()
     print "\n ***List of all default scannables in the scan system:"
     for s in infoAllDefaultScannables_i12:
@@ -643,7 +644,7 @@ if isLive():
 
 def _clear_defaults():
     """To clear all current default scannables."""
-    srv = finder.find(JythonServer.SERVERNAME)
+    srv = finder.findSingleton(Jython)
     all_vec = srv.getDefaultScannables()
     all_arr = all_vec.toArray()
     for s in all_arr:

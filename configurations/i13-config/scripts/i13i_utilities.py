@@ -18,7 +18,7 @@ from gda.device.scannable.scannablegroup import ScannableGroup
 from epics_scripts.pv_scannable_utils import createPVScannable, caput, caget, caputStringAsWaveform
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable import EpicsScannable
-from gda.jython import InterfaceProvider
+from gda.jython import InterfaceProvider, Jython
 from gda.jython.commands import GeneralCommands
 from tomographyScan import tomoFlyScan
 
@@ -166,7 +166,7 @@ def send_email(whoto, subject, body):
 
 def clear_defaults():
     """To clear all current default scannables."""
-    srv = finder.find(JythonServer.SERVERNAME)
+    srv = finder.findSingleton(Jython)
     all_vec = srv.getDefaultScannables()
     all_arr = all_vec.toArray()
     for s in all_arr:

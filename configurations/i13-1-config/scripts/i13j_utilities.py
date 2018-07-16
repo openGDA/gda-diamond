@@ -3,7 +3,7 @@ import os
 from time import sleep, strftime
 from gda.data import PathConstructor
 from gda.factory import Finder
-from gda.jython import InterfaceProvider
+from gda.jython import InterfaceProvider, Jython
 from gda.device.scannable import EpicsScannable
 from gda.jython.commands.GeneralCommands import alias, vararg_alias
 from gda.configuration.properties import LocalProperties
@@ -129,7 +129,7 @@ def createScannableFromPV( name, pv, addToNameSpace=True, getAsString=True, hasU
 
 def clear_defaults():
     """To clear all current default scannables."""
-    srv = finder.find(JythonServer.SERVERNAME)
+    srv = finder.findSingleton(Jython)
     all_vec = srv.getDefaultScannables()
     all_arr = all_vec.toArray()
     for s in all_arr:
