@@ -44,45 +44,29 @@ public class I18ExperimentEditorManager extends ExperimentEditorManager implemen
 	@Override
 	protected Map<String, IFile> orderMapOfTypes(IExperimentObject ob, Map<String, IFile> mapOfTypesToFiles,
 			Collection<IExperimentBeanDescription> allBeanDescriptions) {
-/*
-		try {
-			IScanParameters theScan = ((ScanObject) ob).getScanParameters();
-			if ((theScan instanceof MicroFocusScanParameters)){
-				((I18SampleParameters)((ScanObject) ob).getSampleParameters()).getSampleStageParameters().setDisable(true);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			logger.error("TODO put description of error here", e);
-		}*/
-		//return super.orderMapOfTypes(ob,mapOfTypesToFiles,allBeanDescriptions);
 
 		String[] typesInOrder = ExperimentFactory.getManager(ob).getOrderedColumnBeanTypes();
 
-		HashMap<String, IFile> orderedMap = new HashMap<String, IFile>();
+		HashMap<String, IFile> orderedMap = new HashMap<>();
 
 		for (String type : typesInOrder) {
 
-			// Vector<String> typesDone = new Vector<String>();
 			for (IExperimentBeanDescription desc : allBeanDescriptions) {
-				// if (!typesDone.contains(desc.getBeanType())) {
-				// for (String type : mapOfTypesToFiles.keySet()) {
 				if (type.equalsIgnoreCase(desc.getBeanType()) && type.equals("Sample")) {
 					try {
 						IScanParameters theScan = ((ScanObject) ob).getScanParameters();
-							IFile file = mapOfTypesToFiles.get(type);
-							I18SampleParameters samParameters = ((I18SampleParameters)((ScanObject) ob).getSampleParameters());
-							if ((theScan instanceof MicroFocusScanParameters))
-								samParameters.getSampleStageParameters().setDisable(true);
-							else
-								samParameters.getSampleStageParameters().setDisable(false);
-							XMLHelpers.saveBean(file.getLocation().toFile(), samParameters);
-						}
-					catch (Exception e) {
+						IFile file = mapOfTypesToFiles.get(type);
+						I18SampleParameters samParameters = ((I18SampleParameters)((ScanObject) ob).getSampleParameters());
+						if ((theScan instanceof MicroFocusScanParameters))
+							samParameters.getSampleStageParameters().setDisable(true);
+						else
+							samParameters.getSampleStageParameters().setDisable(false);
+						XMLHelpers.saveBean(file.getLocation().toFile(), samParameters);
+					} catch (Exception e) {
 						logger.error("Error saving bean "+desc.getName()+ "to file", e);
 					}
 				}
 				orderedMap.put(type, mapOfTypesToFiles.get(type));
-				// }
 			}
 		}
 		return orderedMap;
