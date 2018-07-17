@@ -1,5 +1,10 @@
+from gdascripts.utils import caget
 from org.slf4j import LoggerFactory
+from org.eclipse.dawnsci.analysis.api.tree import TreeUtils
+from org.eclipse.dawnsci.nexus import NexusNodeFactory
 from org.eclipse.scanning.sequencer import AbstractRunnableDeviceDelegate
+
+import scisoftpy as dnp
 
 class JythonRunnableDeviceDelegate (AbstractRunnableDeviceDelegate):
     logger = LoggerFactory.getLogger("JythonRunnableDeviceDelegate");
@@ -25,8 +30,44 @@ class JythonRunnableDeviceDelegate (AbstractRunnableDeviceDelegate):
     # Delegated interface INexusDevice<NXdetector> methods
 
     def getNexusProvider(self, info):
-        self.logger.info("getNexusProvider({}) returning None", info);
+        self.logger.info("getNexusProvider({})", info);
         return AbstractRunnableDeviceDelegate.getNexusProvider(self, info)
+
+    # Delegated interface IMultipleNexusDevice methods
+
+    def getNexusProviders(self, info):
+        self.logger.info("getNexusProviders({})", info);
+        #return AbstractRunnableDeviceDelegate.getNexusProviders(self, info)
+        nexusObjectWrapperList = AbstractRunnableDeviceDelegate.getNexusProviders(self, info)  # Do this first
+
+        nxSource = self.getNxSource()
+        self.logger.info("getNexusProviders() nxSource={}", nxSource)
+
+        nexusObjectWrapper = self.getNexusObjectWrapper('source', nxSource)
+        self.logger.info("getNexusProviders() nexusObjectWrapper={}", nexusObjectWrapper)
+
+        nexusObjectWrapper.setPrimaryDataFieldName(nxSource.NX_ENERGY)
+        self.logger.info("getNexusProviders() nexusObjectWrapper={}", nexusObjectWrapper)
+
+        nexusObjectWrapperList.add(nexusObjectWrapper)
+
+        self.logger.info("getNexusProviders() returning {}", nexusObjectWrapperList)
+        return nexusObjectWrapperList
+
+    def getNxSource(self):
+        nxSource = NexusNodeFactory.createNXsource()
+        nxSource.setName(dnp.array(['Diamond Light Source'])._jdataset())
+        nxSource.setType(dnp.array(['Synchrotron X-ray Source'])._jdataset())
+        nxSource.setProbe(dnp.array(['x-ray'])._jdataset())
+        nxSource.setEnergy(dnp.array([0.])._jdataset())
+        nxSource.setAttribute(nxSource.NX_ENERGY, 'units', 'GeV')
+        nxSource.setCurrent(dnp.array([0.])._jdataset())
+        nxSource.setAttribute(nxSource.NX_CURRENT, 'units', 'mA')
+        nxSource.setTop_up(dnp.array([0.])._jdataset())
+        nxSource.setDistance(dnp.array([-35.6])._jdataset())
+        nxSource.setAttribute(nxSource.NX_DISTANCE, 'units', 'm')
+        TreeUtils.recursivelyLoadDataNodes(nxSource)
+        return nxSource
 
     # Delegated annotated methods
 

@@ -32,6 +32,31 @@
 		<property name="runnableDevice"    ref="metadataRunnableDeviceProxy"/>
 	</bean>
 
+	<bean id="multimetaRunnableDeviceProxyModel"
+			class="org.eclipse.scanning.api.device.models.GenericModel">
+		<property name="name"              value="multimeta"/>
+	</bean>
+	<bean id="multimetaRunnableDeviceProxyInfo"
+			class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="name"              value="multimeta"/>
+		<property name="id"                value="org.eclipse.scanning.api.event.scan.DeviceInformation.multimetaRunnableDeviceProxyInfo"/>
+		<property name="label"             value="multimeta Proxy (multimetaRunnableDeviceProxyInfo)"/>
+		<property name="description"       value="multimeta Proxy collection running from a Jython class"/>
+		<property name="icon"              value="org.eclipse.scanning.example/icons/alarm-clock-select.png"/> 
+	</bean>
+	<bean id="multimetaRunnableDeviceProxy"
+			class="org.eclipse.scanning.sequencer.RunnableDeviceProxy">
+		<property name="name"              value="multimeta"/>
+		<property name="model"             ref="multimetaRunnableDeviceProxyModel"/>
+		<property name="deviceInformation" ref="multimetaRunnableDeviceProxyInfo"/>
+		<property name="activated"         value="false"/>
+	</bean>
+	<bean id="multimetaRunnableDeviceProxyFinder"
+			class="uk.ac.diamond.daq.detectors.addetector.RunnableDeviceFinder">
+		<property name="name"              value="multimetaRunnableDeviceProxyFinder"/>
+		<property name="runnableDevice"    ref="multimetaRunnableDeviceProxy"/>
+	</bean>
+
 	<bean id="cryojetRunnableDeviceProxyModel"
 			class="org.eclipse.scanning.api.device.models.GenericModel">
 		<property name="name"              value="cryojet"/>
