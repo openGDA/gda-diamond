@@ -39,26 +39,13 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 	private static final Logger logger = LoggerFactory.getLogger(I18SampleEnvironmentIterator.class);
 
 	private final RCPController rcpController;
-	private final Scannable stage_x;
-	private final Scannable stage_y;
-	private final Scannable stage_z;
-	private final Scannable kb_vfm_x;
 	private final I18SampleParameters parameters;
+	private final IScanParameters scanParameters;
 
-	private IScanParameters scanParameters;
-
-	// TODO all these scannables should be removed from the constructor
-	// and retrieved through the Finder using the names in I18SampleParameters
-	public I18SampleEnvironmentIterator(IScanParameters scanParameters, I18SampleParameters parameters,
- RCPController rcpController, Scannable stage_x,
-			Scannable stage_y, Scannable stage_z, Scannable kb_vfm_x) {
+	public I18SampleEnvironmentIterator(IScanParameters scanParameters, I18SampleParameters parameters, RCPController rcpController) {
 		this.scanParameters = scanParameters;
 		this.parameters = parameters;
 		this.rcpController = rcpController;
-		this.stage_x = stage_x;
-		this.stage_y = stage_y;
-		this.stage_z = stage_z;
-		this.kb_vfm_x = kb_vfm_x;
 	}
 
 	@Override
@@ -69,24 +56,35 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 	@Override
 	public void next() throws DeviceException, InterruptedException {
 
+		Finder finder = Finder.getInstance();
+
 		if (scanParameters instanceof MicroFocusScanParameters) {
 			rcpController.openPerspective("uk.ac.gda.microfocus.ui.MicroFocusPerspective");
 		} else {
 			rcpController.openPerspective("org.diamond.exafs.ui.PlottingPerspective");
 
 			SampleStageParameters stage = parameters.getSampleStageParameters();
-			log("Moving stage x to:" + stage.getX());
-			stage_x.moveTo(stage.getX());
-			log("Moving stage y to:" + stage.getY());
-			stage_y.moveTo(stage.getY());
-			log("Moving stage z to:" + stage.getZ());
-			stage_z.moveTo(stage.getZ());
+
+			Scannable x = finder.find(stage.getXName());
+			Scannable y = finder.find(stage.getYName());
+			Scannable z = finder.find(stage.getZName());
+
+			try {
+				logMove(stage.getXName(), stage.getX());
+				x.moveTo(stage.getX());
+
+				logMove(stage.getYName(), stage.getY());
+				y.moveTo(stage.getY());
+
+				logMove(stage.getZName(), stage.getZ());
+				z.moveTo(stage.getZ());
+			} catch (DeviceException e) {
+				logger.error("Error moving stage", e);
+			}
 		}
 
-		Finder finder = Finder.getInstance();
-
 		parameters.getAttenuators().forEach(bean -> {
-			log("Moving " + bean.getName() + " to:" + bean.getSelectedPosition());
+			logMove(bean.getName(), bean.getSelectedPosition());
 			Scannable attenuator = finder.find(bean.getName());
 			try {
 				if (attenuator != null) attenuator.moveTo(bean.getSelectedPosition());
@@ -97,7 +95,8 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 		if (parameters.isVfmxActive()) {
 			log("Moving kb_vfm_x to:" + parameters.getVfmx());
-			kb_vfm_x.moveTo(parameters.getVfmx());
+			Scannable kbX = finder.find("kb_vfm_x");
+			kbX.moveTo(parameters.getVfmx());
 		}
 	}
 
@@ -114,6 +113,10 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 	@Override
 	public List<String> getNextSampleDescriptions() {
 		return parameters.getDescriptions();
+	}
+
+	private void logMove(String scannableName, Object position) {
+		log("Moving " + scannableName + " to " + position);
 	}
 
 	private void log(String msg) {

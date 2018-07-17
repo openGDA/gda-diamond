@@ -5,6 +5,9 @@
    		<x>2.5</x>
     	<y>3.8</y>
     	<z>4.5</z>
+    	<xName>t1x</xName>
+    	<yName>t1y</yName>
+    	<zName>t1z</zName>
     </SampleStage>
     
 	<attenuator>

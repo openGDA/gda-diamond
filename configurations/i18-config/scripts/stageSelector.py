@@ -1,8 +1,7 @@
 
 class StageSelector():
 
-    def __init__(self,samplePreparer,map):
-        self.samplePreparer = samplePreparer
+    def __init__(self,map):
         self.map = map
 
     def __call__(self, *args):
@@ -12,6 +11,5 @@ class StageSelector():
             print "One argument should be provided (1 for stage 1 and 3 for stage 3."
             return
         self.map.setStage(self.stageUsed)
-        self.samplePreparer.setStage(self.stageUsed)
 
-        print "Map and energy scans (Xas, Xanes and Qexafs) are using stage ",self.stageUsed
+        print "Maps are now using stage ",self.stageUsed
