@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 /**
  * A scan class which scan in energy with constant K increments.
  */
-public class EnergyKScan extends ScanBase implements Scan {
+public class EnergyKScan extends ScanBase {
 	
 	private static final Logger logger = LoggerFactory.getLogger(EnergyKScan.class);
 

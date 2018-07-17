@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 /**
  * A grid scan class which uses k values.
  */
-public class KScan extends ScanBase implements Scan {
+public class KScan extends ScanBase {
 	
 	private static final Logger logger = LoggerFactory.getLogger(KScan.class);
 
