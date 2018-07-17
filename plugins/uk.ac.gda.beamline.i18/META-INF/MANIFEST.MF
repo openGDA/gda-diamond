@@ -43,8 +43,7 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.diamond.daq.mapping.ui;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: gda.exfas.ui;uses:="uk.ac.gda.client.experimentdefinition",
- gda.exfas.ui.validation;
+Export-Package: gda.exfas.ui.validation;
   uses:="uk.ac.gda.beans.exafs.i18,
    uk.ac.gda.beans.exafs,
    uk.ac.gda.beans.microfocus,
