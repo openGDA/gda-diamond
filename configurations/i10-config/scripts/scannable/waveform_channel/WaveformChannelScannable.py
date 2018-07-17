@@ -70,7 +70,7 @@ class WaveformChannelScannable(HardwareTriggerableDetectorBase, PositionCallable
 
     def readout(self):
         # read the last element collected
-        raise Exception(self.name + "for use only in Continuous scans")
+        raise Exception(self.name + " for use only in Continuous scans")
 
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')

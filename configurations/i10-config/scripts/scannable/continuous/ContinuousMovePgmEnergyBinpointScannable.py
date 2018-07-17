@@ -4,7 +4,8 @@ for use with GDA at Diamond Light Source
 """
 
 from gda.device.scannable import ContinuouslyScannableViaController, \
-    ScannableMotionBase, PositionCallableProvider
+    ScannableMotionBase, PositionCallableProvider, PositionStreamIndexer,\
+    PositionInputStream
 from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
 from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating
@@ -12,6 +13,7 @@ from time import sleep
 import installation
 from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import ContinuousPgmGratingIDGapEnergyMoveController
 from scannable.continuous.ContinuousPgmGratingEnergyMoveController import ContinuousPgmGratingEnergyMoveController
+import java
 
 """ This scannable uses the motor controller to just control the motor and calculates the
     actual position from the position callables provided by the specified pitch motors.
@@ -47,6 +49,8 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
         self._operating_continuously = False
         self._last_requested_position = None
         self.mybusy=False
+        
+        self.stream_indexer=None
 
     # Implement: public interface ContinuouslyScannableViaController extends Scannable
 
@@ -74,12 +78,15 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
     def getPositionCallable(self):
         if self.verbose: self.logger.info('getPositionCallable()... last_requested_position=%r' % (
                                                self._last_requested_position))
-        return EnergyCalculatingCallable(self, self._last_requested_position,
-                                         self._binpointGrtPitch.getPositionCallable(),
-                                         self._binpointMirPitch.getPositionCallable(),
-                                         self._binpointPgmEnergy.getPositionCallable())
-        # Note that we use the binpoint mechanism to get the actual positions of the grating
-        # and mirror pitch and calculate the energy from those positions at each point.
+        if self._operating_continuously:
+            # Note that we use the binpoint mechanism to get the actual positions of the grating
+            # and mirror pitch and calculate the energy from those positions at each point.
+            return EnergyCalculatingCallable(self, self._last_requested_position,
+                                             self._binpointGrtPitch.getPositionCallable(),
+                                             self._binpointMirPitch.getPositionCallable(),
+                                             self._binpointPgmEnergy.getPositionCallable())
+        else:
+            return self.stream_indexer.getPositionCallable()
 
     # Override: public class ScannableMotionBase extends ScannableBase implements ScannableMotion, INeXusInfoWriteable
 
@@ -113,6 +120,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
                 self._move_controller.mirror_pitch_positions.append(mirr_pitch)
                 self._move_controller.pgm_energy_positions.append(float(position))
         else:
+            self._last_requested_position = position
             if isinstance(self._move_controller, ContinuousPgmGratingIDGapEnergyMoveController):
                 self._move_controller._id_energy.asynchronousMoveTo(position)
             else:
@@ -121,30 +129,37 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
 
     def atScanLineStart(self):
         if self.verbose: self.logger.info('atScanLineStart()...')
-        self._binpointGrtPitch.atScanLineStart()
-        self._binpointMirPitch.atScanLineStart()
-        self._binpointPgmEnergy.atScanLineStart()
-        self._binpointGrtPitch.collectData()
-        self._binpointMirPitch.collectData()
-        self._binpointPgmEnergy.collectData()
-        if installation.isLive():
-            (self.grating_density , self.cff, self.grating_offset, self.plane_mirror_offset,  self.energy_calibration_gradient, 
-             self.energy_calibration_reference) = self._move_controller.getPgmEnergyParameters()
+        if self._operating_continuously:
+            self._binpointGrtPitch.atScanLineStart()
+            self._binpointMirPitch.atScanLineStart()
+            self._binpointPgmEnergy.atScanLineStart()
+            self._binpointGrtPitch.collectData()
+            self._binpointMirPitch.collectData()
+            self._binpointPgmEnergy.collectData()
+            if installation.isLive():
+                (self.grating_density , self.cff, self.grating_offset, self.plane_mirror_offset,  self.energy_calibration_gradient, 
+                 self.energy_calibration_reference) = self._move_controller.getPgmEnergyParameters()
+            else:
+                self._move_controller.grating_pitch_positions=[]
+                self._move_controller.mirror_pitch_positions=[]
+                self._move_controller.pgm_energy_positions=[]
+                (self.grating_density , self.cff, self.grating_offset, self.plane_mirror_offset,  self.energy_calibration_gradient, 
+                 self.energy_calibration_reference) = self._move_controller.getPgmEnergyParametersFixed()
         else:
-            self._move_controller.grating_pitch_positions=[]
-            self._move_controller.mirror_pitch_positions=[]
-            self._move_controller.pgm_energy_positions=[]
-            (self.grating_density , self.cff, self.grating_offset, self.plane_mirror_offset,  self.energy_calibration_gradient, 
-             self.energy_calibration_reference) = self._move_controller.getPgmEnergyParametersFixed()
+            stream=PositionInputStreamImplementer(self._move_controller._id_energy.pgm_energy)
+            self.stream_indexer=PositionStreamIndexer(stream)
             
     def atScanLineEnd(self):
         if self.verbose: self.logger.info('atScanLineEnd()...')
-        self._binpointGrtPitch.atScanLineEnd()
-        self._binpointMirPitch.atScanLineEnd()
-        self._binpointPgmEnergy.atScanLineEnd()
-        # TODO: This race condition should be fixed in gda-8.44
-        # There is a race condition here, where if the motion completes before all position callables
-        # have been returned, the detector will be told to shut down.
+        if self._operating_continuously:
+            self._binpointGrtPitch.atScanLineEnd()
+            self._binpointMirPitch.atScanLineEnd()
+            self._binpointPgmEnergy.atScanLineEnd()
+            # TODO: This race condition should be fixed in gda-8.44
+            # There is a race condition here, where if the motion completes before all position callables
+            # have been returned, the detector will be told to shut down.
+        else:
+            self.stream_indexer=None
 
     def getPosition(self):
         if self.verbose: self.logger.info('getPosition()...')
@@ -154,7 +169,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             #return self._last_requested_position
         else:
             if isinstance(self._move_controller, ContinuousPgmGratingIDGapEnergyMoveController):
-                return self._move_controller._id_energy.getPosition()
+                return self._move_controller._id_energy.pgm_energy.getPosition()
             else:
                 return self.super__getPosition()
 
@@ -202,7 +217,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             return self.super__getExtraNames()
         else:
             try: 
-                return self._move_controller._id_energy.getExtraNames()
+                return self._move_controller._id_energy.pgm_energy.getExtraNames()
             except:
                 return self.super__getExtraNames()
     
@@ -211,7 +226,7 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             return self.super__getOutputFormat()
         else:
             try:
-                return self._move_controller._id_energy.getOutputFormat()
+                return self._move_controller._id_energy.pgm_energy.getOutputFormat()
             except: #
                 return self.super__getOutputFormat()
         
@@ -262,3 +277,14 @@ class EnergyCalculatingCallable(Callable):
     @staticmethod
     def getPositionCallableFormat():
         return ['%f', '%f', '%f', '%f', '%f']
+    
+class PositionInputStreamImplementer(PositionInputStream):
+    
+    def __init__(self, scannableToRead):
+        self.logger = LoggerFactory.getLogger("PositionInputStreamImplementer")
+        self.scannable=scannableToRead
+        self.verbose=True
+        
+    def read(self, max_to_read_in_one_go):
+        if self.verbose: self.logger.info("read(%r)... from scannable '%r'" % (max_to_read_in_one_go, self.scannable.getName()))
+        return java.util.Vector([float(self.scannable.getPosition())])

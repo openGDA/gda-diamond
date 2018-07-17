@@ -19,7 +19,7 @@
 	<bean id="pgm_grat_pitch_motor" class="gda.device.motor.DummyMotor" >
 		<property name="minPosition" value="84.0000" />
 		<property name="maxPosition" value="90.501" />
-		<property name="speed" value="2.0" />
+		<property name="speed" value="0.018" />
 		<property name="unitString" value="deg"/>
 		<property name="local" value="true" />
 	</bean>
