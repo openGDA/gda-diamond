@@ -30,6 +30,9 @@ import org.junit.Test;
 
 import gda.device.EnumPositioner;
 import gda.device.scannable.ScannableMotor;
+import gda.factory.Factory;
+import gda.factory.FactoryException;
+import gda.factory.Finder;
 import gda.gui.RCPController;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
@@ -53,7 +56,7 @@ public class I18SamplePreparerTest {
 	private I18SamplePreparer preparer;
 
 	@Before
-	public void setupObjects() {
+	public void setupObjects() throws FactoryException {
 
 		JythonServerFacade jythonserverfacade = mock(JythonServerFacade.class);
 		InterfaceProvider.setTerminalPrinterForTesting(jythonserverfacade);
@@ -76,7 +79,14 @@ public class I18SamplePreparerTest {
 
 		mocked_kb_vfm_x = createMockScannableMotor("mocked_kb_vfm_x");
 
-		preparer = new I18SamplePreparer(rcpController, d7a, d7b, mocked_kb_vfm_x);
+		// put mocks in finder
+		Factory mocksFactory = mock(Factory.class);
+		when(mocksFactory.getFindable("d7a")).thenReturn(d7a);
+		when(mocksFactory.getFindable("d7b")).thenReturn(d7b);
+
+		Finder.getInstance().addFactory(mocksFactory);
+
+		preparer = new I18SamplePreparer(rcpController, mocked_kb_vfm_x);
 		preparer.setStage1(mocked_sc_MicroFocusSampleX, mocked_sc_MicroFocusSampleY, mocked_sc_sample_z);
 		preparer.setStage3(mocked_table_x, mocked_table_y, mocked_table_z);
 	}
@@ -99,17 +109,19 @@ public class I18SamplePreparerTest {
 			sampleStageParameters.setZ(3.);
 
 			AttenuatorParameters atn1Parameters = new AttenuatorParameters();
+			atn1Parameters.setName("d7a");
 			atn1Parameters.setSelectedPosition("first");
 
 			AttenuatorParameters atn2Parameters = new AttenuatorParameters();
+			atn2Parameters.setName("d7b");
 			atn2Parameters.setSelectedPosition("second");
 
 			I18SampleParameters parameters = new I18SampleParameters();
 			parameters.setName(sampleName);
 			parameters.setDescription(description1);
 			parameters.setSampleStageParameters(sampleStageParameters);
-			parameters.setAttenuatorParameter1(atn1Parameters);
-			parameters.setAttenuatorParameter2(atn2Parameters);
+			parameters.addAttenuator(atn1Parameters);
+			parameters.addAttenuator(atn2Parameters);
 			parameters.setVfmxActive(false);
 
 			preparer.configure(null, parameters);

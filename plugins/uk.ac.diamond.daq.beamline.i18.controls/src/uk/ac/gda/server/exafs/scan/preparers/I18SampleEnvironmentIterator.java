@@ -18,19 +18,17 @@
 
 package uk.ac.gda.server.exafs.scan.preparers;
 
-import gda.device.DeviceException;
-import gda.device.EnumPositioner;
-import gda.device.Scannable;
-import gda.gui.RCPController;
-import gda.jython.InterfaceProvider;
-
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
+import gda.factory.Finder;
+import gda.gui.RCPController;
+import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.IScanParameters;
-import uk.ac.gda.beans.exafs.i18.AttenuatorParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
 import uk.ac.gda.beans.exafs.i18.SampleStageParameters;
 import uk.ac.gda.beans.microfocus.MicroFocusScanParameters;
@@ -44,24 +42,22 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 	private final Scannable stage_x;
 	private final Scannable stage_y;
 	private final Scannable stage_z;
-	private final EnumPositioner d7a;
-	private final EnumPositioner d7b;
 	private final Scannable kb_vfm_x;
 	private final I18SampleParameters parameters;
 
 	private IScanParameters scanParameters;
 
+	// TODO all these scannables should be removed from the constructor
+	// and retrieved through the Finder using the names in I18SampleParameters
 	public I18SampleEnvironmentIterator(IScanParameters scanParameters, I18SampleParameters parameters,
  RCPController rcpController, Scannable stage_x,
-			Scannable stage_y, Scannable stage_z, EnumPositioner D7A, EnumPositioner D7B, Scannable kb_vfm_x) {
+			Scannable stage_y, Scannable stage_z, Scannable kb_vfm_x) {
 		this.scanParameters = scanParameters;
 		this.parameters = parameters;
 		this.rcpController = rcpController;
 		this.stage_x = stage_x;
 		this.stage_y = stage_y;
 		this.stage_z = stage_z;
-		d7a = D7A;
-		d7b = D7B;
 		this.kb_vfm_x = kb_vfm_x;
 	}
 
@@ -87,12 +83,17 @@ public class I18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 			stage_z.moveTo(stage.getZ());
 		}
 
-		AttenuatorParameters att1 = parameters.getAttenuatorParameter1();
-		AttenuatorParameters att2 = parameters.getAttenuatorParameter2();
-		log("Moving D7A to:" + att1.getSelectedPosition());
-		d7a.moveTo(att1.getSelectedPosition());
-		log("Moving D7B to:" + att2.getSelectedPosition());
-		d7b.moveTo(att2.getSelectedPosition());
+		Finder finder = Finder.getInstance();
+
+		parameters.getAttenuators().forEach(bean -> {
+			log("Moving " + bean.getName() + " to:" + bean.getSelectedPosition());
+			Scannable attenuator = finder.find(bean.getName());
+			try {
+				if (attenuator != null) attenuator.moveTo(bean.getSelectedPosition());
+			} catch (DeviceException e) {
+				logger.error("Error moving attenuator {}", bean.getName(), e);
+			}
+		});
 
 		if (parameters.isVfmxActive()) {
 			log("Moving kb_vfm_x to:" + parameters.getVfmx());

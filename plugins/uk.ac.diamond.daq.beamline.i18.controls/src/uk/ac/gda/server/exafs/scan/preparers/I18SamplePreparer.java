@@ -1,12 +1,10 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
-import gda.device.EnumPositioner;
+import java.util.HashMap;
+
 import gda.device.Scannable;
 import gda.gui.RCPController;
 import gda.jython.InterfaceProvider;
-
-import java.util.HashMap;
-
 import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.i18.I18SampleParameters;
@@ -25,19 +23,14 @@ public class I18SamplePreparer implements SampleEnvironmentPreparer {
 	private Scannable stageSelected_z;
 	private int stageSelected;
 	private final HashMap<String, Scannable> stageScannableMap;
-	private final EnumPositioner d7a;
-	private final EnumPositioner d7b;
 	private final Scannable kb_vfm_x;
 
 	private I18SampleParameters parameters;
 	private IScanParameters scanParameters;
 
-	public I18SamplePreparer(RCPController rcpController, EnumPositioner D7A, EnumPositioner D7B,
-			Scannable kb_vfm_x) {
+	public I18SamplePreparer(RCPController rcpController, Scannable kb_vfm_x) {
 		this.rcpController = rcpController;
 		this.stageScannableMap = new HashMap<String, Scannable>();
-		d7a = D7A;
-		d7b = D7B;
 		this.kb_vfm_x = kb_vfm_x;
 	}
 
@@ -85,7 +78,7 @@ public class I18SamplePreparer implements SampleEnvironmentPreparer {
 	public SampleEnvironmentIterator createIterator(String experimentType) {
 		if (stageSelected_x == null || stageSelected_y == null || stageSelected_z == null)
 			throw new NullPointerException();
-		return new I18SampleEnvironmentIterator(scanParameters, parameters, rcpController, stageSelected_x, stageSelected_y, stageSelected_z, d7a, d7b,
+		return new I18SampleEnvironmentIterator(scanParameters, parameters, rcpController, stageSelected_x, stageSelected_y, stageSelected_z,
 				kb_vfm_x);
 	}
 }
