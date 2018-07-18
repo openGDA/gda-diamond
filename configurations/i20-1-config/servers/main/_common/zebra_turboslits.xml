@@ -99,7 +99,7 @@
 					<property name="format" value="%.4f" />
 					<property name="channel1" value="1" />
 					<property name="channel2" value="2" />
-					<property name="operationType" value="1" />
+					<property name="operationType" value="2" />
 				</bean>
 			</list>
 		</property>

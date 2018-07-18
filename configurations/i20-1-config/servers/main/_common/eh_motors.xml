@@ -15,20 +15,24 @@
 	<bean id="fast_shutter_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="fast_shutter_y_motor" />
 	</bean>
-	
+
 <!-- 	T3 Third stage -->
 	<bean id="stage3_z" class="gda.device.scannable.AirBearingScannableMotor">
 		<property name="motor" ref="stage3_z_motor" />
 		<property name="airBearingScannable" ref="stage3_z_air"/>
+		<property name="onPositionValue" value="On" />
+		<property name="offPositionValue" value="Off" />
 	</bean>
-	
+
 <!-- 	T2 Sample stage -->	
 	<bean id="sample_z" class="gda.device.scannable.AirBearingScannableMotor">
 		<property name="motor" ref="sample_z_motor" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="airBearingScannable" ref="sample_z_air"/>
+		<property name="onPositionValue" value="On" />
+		<property name="offPositionValue" value="Off" />
 	</bean>
-	
+
 <!-- 	T4 sample environment table -->
 	<bean id="sample_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="samenv_x_motor" />
@@ -88,8 +92,10 @@
 		<property name="motor" ref="detector_z_motor" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="airBearingScannable" ref="det_z_air"/>
+		<property name="onPositionValue" value="On" />
+		<property name="offPositionValue" value="Off" />
 	</bean>
-	
+
 	<bean id="det_distance" class="gda.device.scannable.DetectorDistance">
 		<property name="detectorZ" ref="det_z" />
 		<property name="sampleZ" ref="sample_z" />
@@ -100,6 +106,8 @@
 		<property name="motor" ref="twotheta_motor" />
 		<property name="initialUserUnits" value="deg" />
 		<property name="airBearingScannable" ref="twotheta_air"/>
+		<property name="onPositionValue" value="On" />
+		<property name="offPositionValue" value="Off" />
 	</bean>
 <!--	<bean id="twotheta_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="twotheta_mm_motor" />

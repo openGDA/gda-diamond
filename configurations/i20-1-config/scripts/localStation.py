@@ -3,13 +3,16 @@ from gda.factory import Finder
 from gda.configuration.properties import LocalProperties
 from gdascripts.utils import caget, caput
 
+from gda.jython.commands.ScannableCommands import cv as cvscan
+vararg_alias("cvscan")
+
 run("roi_control.py")
 run("gdascripts/javajythonutil.py")
 run("shutter_functions.py")
 
 run("frelon_scan_runner.py")
 run("turboxas_scan_runner.py")
-
+run("d10CentroidScannables.py")
 
 finder = Finder.getInstance()
 das = finder.find("DAServer")
@@ -42,7 +45,7 @@ if LocalProperties.get("gda.mode") == "live":
         remove_default([topupChecker])
     else:
         add_default([absorberChecker])
-        add_default([shutterChecker])
+        remove_default([shutterChecker])
 
 
 else:
@@ -104,18 +107,10 @@ if xspress3Controller != None and LocalProperties.isDummyModeEnabled() == False:
     caput(basePvName+":HDF5:NumFramesFlush", swmrFrameFlush)
     caput(basePvName+":HDF5:NDAttributeChunk", swmrFrameFlush)
     
-        # Set hdf filewriter path to nexus folder in visit directory
-    from gda.data import PathConstructor
-    # outputDir = PathConstructor.getVisitDirectory()+"/nexus/"
-    outputDir = PathConstructor.createFromDefaultProperty()+"/nexus/"
-    print "Visit directory ", PathConstructor.getVisitDirectory()
-    print "Default data directory ", PathConstructor.createFromDefaultProperty()
-    #if "0-0" in  outputDir :
-    #    reset_namespace
+    xspress3.setFilePath("")
     
-    print "  HDF file writer output directory : ", outputDir
-    xspress3.setFilePath(outputDir)
-    xspress3Controller.setFilePath(outputDir)
+    print "Adding continuous scan commands for alignment slit : \n\trun_slit_scan(start, stop, step, accumulation_time, num_accumulations)\n\tplot_last_data()"
+    run('alignment_stage_scan5.py')
 
 
 def setSwmrMode(onoff):
@@ -131,8 +126,16 @@ LocalProperties.set("gda.exafs.darkcurrent.shutter", turbo_slit_shutter.getName(
 
 xstrip.setSynchroniseToBeamOrbit(True)
 
-from gda.jython.commands.ScannableCommands import cv as cvscan
-vararg_alias("cvscan")
 
-print "Adding continuous scan commands for alignment slit : \n\trun_slit_scan(start, stop, step, accumulation_time, num_accumulations)\n\tplot_last_data()"
-run('alignment_stage_scan5.py')
+
+# Make version of scalers with 'user friendly' name
+ionchambers = scaler_for_zebra
+
+# Add functions to control metadata added to Nexus files. 10/7/2018
+run 'gdascripts/metadata/metadata_commands.py'
+
+# Remove 'air bearing' from some scannables, so air is not automatically switched on/off for motor moves. 10/7/2018
+sample_z.setAirBearingScannable(None)
+stage3_z.setAirBearingScannable(None)
+det_z.setAirBearingScannable(None)
+twotheta.setAirBearingScannable(None)

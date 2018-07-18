@@ -51,6 +51,7 @@
 		<property name="controller" ref="xspress3Controller" />
 		<property name="numberOfChannelsToRead" value="4" />
 		<property name="writeHDF5Files" value="true" />
+		<property name="defaultSubdirectory" value="nexus" />
 	</bean>
 
 	<bean id="buffered_xspress3"
