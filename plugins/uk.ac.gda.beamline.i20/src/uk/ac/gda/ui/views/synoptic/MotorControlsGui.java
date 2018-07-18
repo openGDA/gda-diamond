@@ -264,11 +264,11 @@ public class MotorControlsGui implements IObserver {
 				// gdaLimits returns Double[] as an Object
 				Double[] val = (Double[])scannableMotor.getAttribute("lowerGdaLimits");
 				if (val!=null) {
-					lowerMotorLimit = (double) val[0];
+					lowerMotorLimit = val[0];
 				}
 				val = (Double[])scannableMotor.getAttribute("upperGdaLimits");
 				if (val!=null) {
-					upperMotorLimit = (double) val[0];
+					upperMotorLimit = val[0];
 				}
 			}
 			minPos = lowerMotorLimit;

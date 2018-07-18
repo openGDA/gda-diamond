@@ -88,7 +88,7 @@ public class TurboXasTimingGroupTableView {
 		@Override
 		public String getText(Object element) {
 			TurboSlitTimingGroup param = (TurboSlitTimingGroup) element;
-			return (String) getDataForColumn(param, paramType).toString();
+			return getDataForColumn(param, paramType).toString();
 		}
 	};
 

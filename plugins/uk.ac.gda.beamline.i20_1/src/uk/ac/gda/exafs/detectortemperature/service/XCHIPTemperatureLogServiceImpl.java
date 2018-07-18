@@ -182,7 +182,7 @@ public class XCHIPTemperatureLogServiceImpl implements PropertyChangeListener, X
 				IViewPart view = page.findView(DetectorTemperatureLogView.ID);
 
 				// get the adapter
-				IPlottingSystem plottingSystem = (IPlottingSystem) view.getAdapter(IPlottingSystem.class);
+				IPlottingSystem plottingSystem = view.getAdapter(IPlottingSystem.class);
 
 				// plot
 				List<IDataset> temperatures = new Vector<IDataset>();

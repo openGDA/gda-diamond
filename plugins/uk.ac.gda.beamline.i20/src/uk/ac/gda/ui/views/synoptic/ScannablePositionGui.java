@@ -59,8 +59,8 @@ public class ScannablePositionGui implements IObserver {
 	private void setPosition(String newPosition) {
 		try {
 			if (!scannable.isBusy() && !StringUtils.isEmpty(newPosition)) {
-				double doublePosition = Double.parseDouble((String)newPosition);
-				scannable.asynchronousMoveTo((Object)doublePosition);
+				double doublePosition = Double.parseDouble(newPosition);
+				scannable.asynchronousMoveTo(doublePosition);
 			}
 		} catch (DeviceException e) {
 			logger.error("Problem moving scannable to new  scannable position", e);
