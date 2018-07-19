@@ -79,6 +79,9 @@ alias("d12Fe")
 alias("d12Ni")
 alias("d12Gd")
 
+from gda.jython.commands.ScannableCommands import add_default
+add_default([fileHeader]);
+
 print "===================================================================";
 print " End of i06-1 localStation.py"
 
