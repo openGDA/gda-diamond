@@ -1,6 +1,7 @@
 #localStation.py
 #For beamline specific initialisation code.
 from i06shared import installation
+from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 print
 print "*"*80
 print "Performing Beamline I06-shared initialisation code (localStation.py).";
@@ -56,6 +57,8 @@ if installation.isLive():
 from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
 from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
 from i06shared.setSrsDataFileHeader import fileHeader  # @UnusedImport
+from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1locking  # @UnusedImport
+from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2locking  # @UnusedImport
 #Group the hexapod legs into list
 m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
 m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
@@ -63,23 +66,6 @@ from i06shared.scannables.mode_polarisation_energy_instances import *  # @Unused
 idd,idu,dpu,dmu=SourceMode.SOURCE_MODES
 pc,nc,lh,lv,la=Polarisation.POLARISATIONS
 
-from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
-scan_processor.rootNamespaceDict=globals()  
-gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
-
-scan_processor_normal_processes = scan_processor.processors
-scan_processor_empty_processes  = []
- 
-def scan_processing_on():
-    scan_processor.processors = scan_processor_normal_processes
- 
-def scan_processing_off():
-    scan_processor.processors = scan_processor_empty_processes
- 
-print "Switch off scan processor by default at Sarnjeet's request on 11 May 2016 in I06-1."    
-print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
-print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
-scan_processing_off()
 
 print "*"*80; 
 print "I06 shared localStation.py completed successfully!"
