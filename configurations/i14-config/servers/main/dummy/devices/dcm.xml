@@ -19,16 +19,16 @@
 		<property name="local" value="true" />
 	</bean>
 	<bean id="dcm_perp_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-980.46" />
-		<property name="maxPosition" value="1019.5" />
-		<property name="position" value="17.938" />
+		<property name="minPosition" value="-980.08" />
+		<property name="maxPosition" value="1019.9" />
+		<property name="position" value="17.742" />
 		<property name="unitString" value="mm" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="dcm_bragg_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-999.85" />
+		<property name="minPosition" value="-999.80" />
 		<property name="maxPosition" value="1000.2" />
-		<property name="position" value="12.693" />
+		<property name="position" value="9.4848" />
 		<property name="unitString" value="deg" />
 		<property name="local" value="true" />
 	</bean>
