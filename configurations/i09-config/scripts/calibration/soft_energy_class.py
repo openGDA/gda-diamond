@@ -49,6 +49,9 @@ class SoftEnergy(ScannableMotionBase):
         if value == "LH":
             self.jidphase.hortizontal()
             self.polarisation = value
+        elif value == "LH3":
+            self.jidphase.hortizontal() 
+            self.polarisation=value
         elif value == "LV":
             self.jidphase.vertical()
             self.polarisation = value
@@ -106,9 +109,18 @@ class SoftEnergy(ScannableMotionBase):
         # Linear Horizontal
         if self.getPolarisation() == "LH":
             if (Ep < 0.104 or Ep > 1.2):
-                raise ValueError("Demanding energy must lie between 0.105 and 1.2 keV!")
-            gap = (3.06965 + 177.99974 * Ep - 596.79184 * Ep ** 2 + 1406.28911 * Ep ** 3
-                   - 2046.90669 * Ep ** 4 + 1780.26621 * Ep ** 5 - 844.81785 * Ep ** 6 + 168.99039 * Ep ** 7)
+                raise ValueError("Polarisation = LH  but the demanding energy is outside the valid range between 0.104 and 1.2 keV!")
+#            gap=3.06965 +177.99974*Ep -596.79184*Ep**2 +1406.28911*Ep**3 -2046.90669*Ep**4 +1780.26621*Ep**5 -844.81785*Ep**6 +168.99039*Ep**7
+            gap=2.75529 + 184.24255*Ep - 639.07279*Ep**2 +1556.23192*Ep**3 -2340.01233*Ep**4 +2100.81252*Ep**5 -1027.88771*Ep**6 +211.47063*Ep**7
+            if (gap < 16 or gap > 60):
+                raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 60)!")
+
+
+        # Linear Horizontal 3rd Harmonic for 400 line/mm grating
+        elif (self.getPolarisation()=="LH3"):
+            if (Ep<0.7 or Ep > 1.9):
+                raise ValueError("Polarisation = LH3  but the demanding energy is outside the valid range between 0.7 and 1.9 keV!")
+            gap=10.98969 + 25.8301*Ep - 9.36535*Ep**2 + 1.74461*Ep**3
             if (gap < 16 or gap > 60):
                 raise ValueError("Required Soft X-Ray ID gap is out side allowable bound (16, 60)!")
 
@@ -152,7 +164,10 @@ class SoftEnergy(ScannableMotionBase):
 
     def rawGetPosition(self):
         """returns the current position of the beam energy."""
-        return self.scannables.getGroupMember(self.scannableNames[0]).getPosition() / 1000.0
+        return self.scannables.getGroupMember(self.scannableNames[0]).getPosition()
+
+    def calc(self, energy, order):
+        return self.idgap(energy, order)
 
     def rawAsynchronousMoveTo(self, new_position):
         """
@@ -204,4 +219,3 @@ class SoftEnergy(ScannableMotionBase):
     def toString(self):
         """formats what to print to the terminal console."""
         return self.name + " : " + str(self.rawGetPosition())
-
