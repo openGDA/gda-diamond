@@ -57,6 +57,13 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self.mirror_pitch_positions=[]
         self.pgm_energy_positions=[]
         self._start_time = None
+        self.idspeedfactor=1.0
+        
+    def setIDSpeedFactor(self, val):
+        self.idspeedfactor=val
+    
+    def getIDSpeedFactor(self):
+        return self.idspeedfactor
         
     #https://jira.diamond.ac.uk/browse/I10-301
     def enableIDMove(self):
@@ -210,7 +217,7 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self._id_gap_end = self._id_energy.gap_from_energy(self._move_end)
         
             ### Calculate main cruise moves & speeds from start/end/step
-        self._id_gap_speed = abs(self._id_gap_end - self._id_gap_start) / self.getTotalTime()
+        self._id_gap_speed = abs(self._id_gap_end - self._id_gap_start) / self.getTotalTime()*self.idspeedfactor
         
         ### Calculate ramp distance from required speed and ramp times
         #check speed within limits

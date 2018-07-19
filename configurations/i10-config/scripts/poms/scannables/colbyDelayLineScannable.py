@@ -7,7 +7,7 @@ gateway ip:   172.23.110.254
 network mask: 255.255.255.0
 dhcp:         on
 
-delay line has picked up ip address on I10:	172.23.110.131 and uses port: 1234
+delay line has picked up ip address on I10:	172.23.110.130 and uses port: 1234
 
 David Burn - 8/8/17
 
@@ -20,12 +20,13 @@ import socket
 
 
 class colbyDelayLineScannable(PseudoDevice):
-	def __init__(self,name,host="172.23.110.131"):
+	def __init__(self,name,host):
 		self.name = name
 		self.setInputNames(['delay'])
 		self.setExtraNames([])
 		self.setOutputFormat(["%3d"])
-
+		self.Units = ['ps']
+		
 		self.host = host
 		
 		try:
