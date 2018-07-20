@@ -84,7 +84,10 @@ class Polarisation(ScannableBase):
                     message = "'energy' is switched to %s " % (egy_g_idd_circ_pos_energy.getName())
                     print message
                     self.logger.info(message)
-                
+                    message = "'energycontroller' is switched to %s " % (cemc_g_idd_circ_pos_energy.getName())
+                    print message
+                    self.logger.info(message)
+                                    
             elif newpos == Polarisation.POLARISATIONS[1]:
                 __main__.energy = egy_g_idd_circ_neg_energy
                 __main__.energycontroller=cemc_g_idd_circ_neg_energy
@@ -101,6 +104,9 @@ class Polarisation(ScannableBase):
                 __main__.binpointCustom1_g.setHardwareTriggerProvider(cemc_g_idd_circ_neg_energy)
                 if self.verbose: 
                     message = "'energy' is switched to %s " % (egy_g_idd_circ_neg_energy.getName())
+                    print message
+                    self.logger.info(message)
+                    message = "'energycontroller' is switched to %s " % (cemc_g_idd_circ_neg_energy.getName())
                     print message
                     self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[2]:
@@ -121,6 +127,9 @@ class Polarisation(ScannableBase):
                     message = "'energy' is switched to %s " % (egy_g_idd_lin_hor_energy.getName())
                     print message
                     self.logger.info(message)
+                    message = "'energycontroller' is switched to %s " % (cemc_g_idd_lin_hor_energy.getName())
+                    print message
+                    self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[3]:
                 __main__.energy = egy_g_idd_lin_ver_energy
                 __main__.energycontroller=cemc_g_idd_lin_ver_energy
@@ -137,6 +146,9 @@ class Polarisation(ScannableBase):
                 __main__.binpointCustom1_g.setHardwareTriggerProvider(cemc_g_idd_lin_ver_energy)
                 if self.verbose: 
                     message = "'energy' is switched to %s " % (egy_g_idd_lin_ver_energy.getName())
+                    print message
+                    self.logger.info(message)
+                    message = "'energycontroller' is switched to %s " % (cemc_g_idd_lin_ver_energy.getName())
                     print message
                     self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[4]:
@@ -156,6 +168,9 @@ class Polarisation(ScannableBase):
                 __main__.laa = idd_lin_arbitrary_angle
                 if self.verbose: 
                     message = "'energy' is switched to %s " % (egy_g_idd_lin_arbitrary_energy.getName())
+                    print message
+                    self.logger.info(message)
+                    message = "'energycontroller' is switched to %s " % (cemc_g_idd_lin_arbitrary_energy.getName())
                     print message
                     self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[5]:
@@ -180,6 +195,9 @@ class Polarisation(ScannableBase):
                     message = "'energy' is switched to %s " % (egy_g_idu_circ_pos_energy.getName())
                     print message
                     self.logger.info(message)            
+                    message = "'energycontroller' is switched to %s " % (cemc_g_idu_circ_pos_energy.getName())
+                    print message
+                    self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[1]:
                 __main__.energy = egy_g_idu_circ_neg_energy
                 __main__.energycontroller=cemc_g_idu_circ_neg_energy
@@ -198,6 +216,9 @@ class Polarisation(ScannableBase):
                     message = "'energy' is switched to %s " % (egy_g_idu_circ_neg_energy.getName())
                     print message
                     self.logger.info(message)            
+                    message = "'energycontroller' is switched to %s " % (cemc_g_idu_circ_neg_energy.getName())
+                    print message
+                    self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[2]:
                 __main__.energy = egy_g_idu_lin_hor_energy
                 __main__.energycontroller=cemc_g_idu_lin_hor_energy
@@ -216,6 +237,9 @@ class Polarisation(ScannableBase):
                     message = "'energy' is switched to %s " % (egy_g_idu_lin_hor_energy.getName())
                     print message
                     self.logger.info(message)            
+                    message = "'energycontroller' is switched to %s " % (cemc_g_idu_lin_hor_energy.getName())
+                    print message
+                    self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[3]:
                 __main__.energy = egy_g_idu_lin_ver_energy
                 __main__.energycontroller=cemc_g_idu_lin_ver_energy
@@ -234,6 +258,9 @@ class Polarisation(ScannableBase):
                     message = "'energy' is switched to %s " % (egy_g_idu_lin_ver_energy.getName())
                     print message
                     self.logger.info(message)            
+                    message = "'energycontroller' is switched to %s " % (cemc_g_idu_lin_ver_energy.getName())
+                    print message
+                    self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[4]:
                 __main__.energy = egy_g_idu_lin_arbitrary_energy
                 __main__.energycontroller=cemc_g_idu_lin_arbitrary_energy
@@ -251,6 +278,9 @@ class Polarisation(ScannableBase):
                 __main__.laa = idu_lin_arbitrary_angle
                 if self.verbose: 
                     message = "'energy' is switched to %s " % (egy_g_idu_lin_arbitrary_energy.getName())
+                    print message
+                    self.logger.info(message)
+                    message = "'energycontroller' is switched to %s " % (cemc_g_idu_lin_arbitrary_energy.getName())
                     print message
                     self.logger.info(message)
             elif newpos == Polarisation.POLARISATIONS[5]:
@@ -271,6 +301,9 @@ class Polarisation(ScannableBase):
                     message = "'energy' is switched to %s " % (egy_g_idu_lin_hor3_energy.getName())
                     print message
                     self.logger.info(message)            
+                    message = "'energycontroller' is switched to %s " % (cemc_g_idu_lin_hor3_energy.getName())
+                    print message
+                    self.logger.info(message)
             
         self.polarisation=newpos
         self.amIBusy=False
