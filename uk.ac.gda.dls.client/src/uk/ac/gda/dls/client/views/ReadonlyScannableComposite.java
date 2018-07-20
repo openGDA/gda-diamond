@@ -51,22 +51,20 @@ public class ReadonlyScannableComposite extends Composite {
 	private String val = "...";
 	private Display display;
 	private Runnable setTextRunnable;
-	private String [] formats;
-	private String suffix="";
+	private String[] formats;
+	private String suffix = "";
 	private Integer decimalPlaces;
-	private Integer minPeriodMS=null;
-	private Boolean textUpdateScheduled=false;
+	private Integer minPeriodMS = null;
+	private Boolean textUpdateScheduled = false;
 	private Map<String, Integer> colourMap;
-
 
 	public Map<String, Integer> getColourMap() {
 		return colourMap;
 	}
 
 	/**
-	 *
-	 * @param colourMap map of ids to pass to Display.getSystemColor to allow setting of foreground based on value
-	 * Useful for enums
+	 * @param colourMap
+	 *            map of ids to pass to Display.getSystemColor to allow setting of foreground based on value Useful for enums
 	 */
 	public void setColourMap(Map<String, Integer> colourMap) {
 		this.colourMap = colourMap;
@@ -80,19 +78,17 @@ public class ReadonlyScannableComposite extends Composite {
 		this.minPeriodMS = minPeriodMS;
 	}
 
-	public ReadonlyScannableComposite(Composite parent, int style, final Scannable scannable, String label, final String units,
-			Integer decimalPlaces) {
+	public ReadonlyScannableComposite(Composite parent, int style, final Scannable scannable, String label, final String units, Integer decimalPlaces) {
 		this(parent, style, scannable, label, units, decimalPlaces, true);
 	}
 
-	public ReadonlyScannableComposite(Composite parent, int style, final Scannable scannable, String label, final String units,
-			Integer decimalPlaces, final boolean resize) {
+	public ReadonlyScannableComposite(Composite parent, int style, final Scannable scannable, String label, final String units, Integer decimalPlaces, final boolean resize) {
 		super(parent, style);
 		this.display = parent.getDisplay();
 		this.scannable = scannable;
 		this.decimalPlaces = decimalPlaces;
 
-		if( StringUtils.hasLength(units)){
+		if (StringUtils.hasLength(units)) {
 			suffix = " " + units;
 		}
 
@@ -105,7 +101,7 @@ public class ReadonlyScannableComposite extends Composite {
 		lbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 
 		int textStyle = SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY | SWT.CENTER;
-		text = new Text(this,textStyle);
+		text = new Text(this, textStyle);
 		text.setEditable(false);
 		text.setText("000000");
 		text.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
@@ -116,18 +112,19 @@ public class ReadonlyScannableComposite extends Composite {
 			public void run() {
 				beforeUpdateText(text, val);
 				int currentLength = text.getText().length();
-				String valPlusUnits = val+suffix;
+				String valPlusUnits = val + suffix;
 				text.setText(valPlusUnits);
-				int diff = valPlusUnits.length()-currentLength;
-				if (( diff > 0 || diff < -3) && resize)
+				int diff = valPlusUnits.length() - currentLength;
+				if ((diff > 0 || diff < -3) && resize) {
 					EclipseWidgetUtils.forceLayoutOfTopParent(ReadonlyScannableComposite.this);
-				if( colourMap != null){
+				}
+				if (colourMap != null) {
 					Integer colorId = colourMap.get(val);
-					if( colorId != null){
+					if (colorId != null) {
 						text.setForeground(Display.getCurrent().getSystemColor(colorId));
 					}
 				}
-				textUpdateScheduled=false;
+				textUpdateScheduled = false;
 				afterUpdateText(text, val);
 			}
 		};
@@ -136,33 +133,33 @@ public class ReadonlyScannableComposite extends Composite {
 
 			@Override
 			public void update(Object source, Object arg) {
-				if( arg instanceof ScannablePositionChangeEvent){
-					final ScannablePositionChangeEvent event = (ScannablePositionChangeEvent)arg;
+				if (arg instanceof ScannablePositionChangeEvent) {
+					final ScannablePositionChangeEvent event = (ScannablePositionChangeEvent) arg;
 					setVal(new ScannableGetPositionWrapper(event.newPosition, formats).getStringFormattedValues()[0]);
-				} else if( arg instanceof ScannableStatus && ((ScannableStatus)arg) == ScannableStatus.IDLE){
+				} else if (arg instanceof ScannableStatus && ((ScannableStatus) arg) == ScannableStatus.IDLE) {
 					try {
-						ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(),formats );
+						ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(), formats);
 						val = wrapper.getStringFormattedValues()[0];
 					} catch (DeviceException e1) {
 						val = "Error";
-						logger.error("Error getting position for " + scannable.getName(),e1);
+						logger.error("Error getting position for " + scannable.getName(), e1);
 					}
 					setVal(val);
-				} else if( arg instanceof String){
-					setVal((String)arg);
+				} else if (arg instanceof String) {
+					setVal((String) arg);
 				} else {
-					ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(arg,formats );
+					ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(arg, formats);
 					setVal(wrapper.getStringFormattedValues()[0]);
 				}
 			}
 		};
 
 		try {
-			ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(),formats );
+			ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(), formats);
 			val = wrapper.getStringFormattedValues()[0];
 		} catch (DeviceException e1) {
 			val = "Error";
-			logger.error("Error getting position for " + scannable.getName(),e1);
+			logger.error("Error getting position for " + scannable.getName(), e1);
 		}
 		setVal(val);
 
@@ -180,16 +177,17 @@ public class ReadonlyScannableComposite extends Composite {
 			sc.close();
 		}
 		val = newVal;
-		if(!isDisposed()){
-			if( minPeriodMS != null){
-				if( !textUpdateScheduled){
-					textUpdateScheduled=true;
-					display.asyncExec(new Runnable(){
+		if (!isDisposed()) {
+			if (minPeriodMS != null) {
+				if (!textUpdateScheduled) {
+					textUpdateScheduled = true;
+					display.asyncExec(new Runnable() {
 
 						@Override
 						public void run() {
 							display.timerExec(minPeriodMS, setTextRunnable);
-						}});
+						}
+					});
 				}
 			} else {
 				display.asyncExec(setTextRunnable);
