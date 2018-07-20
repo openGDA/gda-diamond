@@ -15,6 +15,8 @@ from numbers import Number
 from com.sun.org.apache.xpath.internal import Arg
 from scannable.continuous.continuous_energy_scannables import binpointGrtPitch_g,\
     binpointMirPitch_g, binpointPgmEnergy_g
+from scannable.checkbeanscannables import checkbeamcv,\
+    ZiePassthroughScannableDecorator
 
 class TrajectoryControllerHelper(ScanListener):
     def __init__(self): # motors, maybe also detector to set the delay time
@@ -33,9 +35,43 @@ trajectory_controller_helper = TrajectoryControllerHelper()
 
 print "-"*100
 print "Creating I10 GDA 'cvscan' commands: - dwell time must apply to all waveform scannables individually!"
-cvscan=trajscans.CvScan([scan_processor, trajectory_controller_helper]) 
-alias('cvscan')
+cvscan_traj=trajscans.CvScan([scan_processor, trajectory_controller_helper]) 
 
+def cvscan(c_energy, start, stop, step, *args):
+    ''' cvscan that checks if there is enough time to collect data before topup when 'checkbeamcv' is used.
+    '''
+    wfs=[]
+    dwell=[]
+    others=[]
+    beam_checker=None
+    newargs=[c_energy, start, stop, step]
+    for arg in args:
+        if isinstance(arg, WaveformChannelScannable):
+            wfs.append(arg)
+        elif isinstance(arg, Number):
+            dwell.append(arg)
+        elif isinstance(arg, ZiePassthroughScannableDecorator):
+            beam_checker=arg
+        else:
+            others.append(arg)
+    if not checkContentEqual(dwell):
+        raise Exception("dwell time specified must be equal for all detectors!")
+    for each in wfs:
+        newargs.append(each)
+        newargs.append(dwell[0])
+    for other in others:
+        newargs.append(other)
+    if beam_checker is not None:
+        #check if there is enough time for the cvscan before topup
+        scanTime=abs((stop-start)/step*dwell[0])
+        topup_checker=beam_checker.getDelegate().getGroupMember("checktopup_time_cv")
+        topup_checker.minimumThreshold=scanTime
+#         print "topup_checker.minimumThreshold = %r" % (topup_checker.minimumThreshold)
+        newargs.append(beam_checker)
+    cvscan_traj([e for e in newargs])
+
+alias('cvscan')
+   
 print "Creating I10 GDA 'cvscan2' commands: - ensure dwell time is applied all waveform scannables individually!"
 def cvscan2(c_energy, start, stop, step, *args):
     ''' cvscan that applies dwell time to all instances of WaveformChannelScannable.
@@ -50,6 +86,8 @@ def cvscan2(c_energy, start, stop, step, *args):
             wfs.append(arg)
         elif isinstance(arg, Number):
             dwell.append(arg)
+        elif isinstance(arg, ZiePassthroughScannableDecorator):
+            beam_checker=arg
         else:
             others.append(arg)
     if not checkContentEqual(dwell):
@@ -70,7 +108,13 @@ def cvscan2(c_energy, start, stop, step, *args):
             newargs.append(dwell)
     for other in others:
         newargs.append(other)
-    cvscan([e for e in newargs])
+    if beam_checker is not None:
+        #check if there is enough time for the cvscan before topup
+        scanTime=abs((stop-start)/step*dwell[0])
+        topup_checker=beam_checker.getDelegate().getGroupMember("checktopup_time_cv")
+        topup_checker.minimumThreshold=scanTime
+        newargs.append(beam_checker)
+    cvscan_traj([e for e in newargs])
     
 def checkContentEqual(lst):
     return lst[1:] == lst[:-1]
