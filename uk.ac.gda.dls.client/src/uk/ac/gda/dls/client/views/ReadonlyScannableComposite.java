@@ -45,11 +45,12 @@ import uk.ac.gda.common.rcp.util.EclipseWidgetUtils;
 
 public class ReadonlyScannableComposite extends Composite {
 	private static final Logger logger = LoggerFactory.getLogger(ReadonlyScannableComposite.class);
+
 	private Text text;
 	private Scannable scannable;
 	private IObserver observer;
 	private String val = "...";
-	private Display display;
+	private Display parentDisplay;
 	private Runnable setTextRunnable;
 	private String[] formats;
 	private String suffix = "";
@@ -64,7 +65,7 @@ public class ReadonlyScannableComposite extends Composite {
 
 	public ReadonlyScannableComposite(Composite parent, int style, final Scannable scannable, String label, final String units, Integer decimalPlaces, final boolean resize) {
 		super(parent, style);
-		this.display = parent.getDisplay();
+		this.parentDisplay = parent.getDisplay();
 		this.scannable = scannable;
 		this.decimalPlaces = decimalPlaces;
 
@@ -76,101 +77,91 @@ public class ReadonlyScannableComposite extends Composite {
 		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(this);
 		GridDataFactory.fillDefaults().applyTo(this);
 
-		Label lbl = new Label(this, SWT.NONE | SWT.CENTER);
+		final Label lbl = new Label(this, SWT.NONE | SWT.CENTER);
 		lbl.setText(StringUtils.hasLength(label) ? label : scannable.getName());
 		lbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 
-		int textStyle = SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY | SWT.CENTER;
+		final int textStyle = SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY | SWT.CENTER;
 		text = new Text(this, textStyle);
 		text.setEditable(false);
 		text.setText("000000");
 		text.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		EclipseWidgetUtils.forceLayoutOfTopParent(ReadonlyScannableComposite.this);
-		setTextRunnable = new Runnable() {
 
-			@Override
-			public void run() {
-				beforeUpdateText(text, val);
-				int currentLength = text.getText().length();
-				String valPlusUnits = val + suffix;
-				text.setText(valPlusUnits);
-				int diff = valPlusUnits.length() - currentLength;
-				if ((diff > 0 || diff < -3) && resize) {
-					EclipseWidgetUtils.forceLayoutOfTopParent(ReadonlyScannableComposite.this);
-				}
-				if (colourMap != null) {
-					Integer colorId = colourMap.get(val);
-					if (colorId != null) {
-						text.setForeground(Display.getCurrent().getSystemColor(colorId));
-					}
-				}
-				textUpdateScheduled = false;
-				afterUpdateText(text, val);
+		setTextRunnable = () -> {
+			beforeUpdateText(text, val);
+			final int currentLength = text.getText().length();
+			final String valPlusUnits = val + suffix;
+			text.setText(valPlusUnits);
+			final int diff = valPlusUnits.length() - currentLength;
+			if ((diff > 0 || diff < -3) && resize) {
+				EclipseWidgetUtils.forceLayoutOfTopParent(ReadonlyScannableComposite.this);
 			}
+			if (colourMap != null) {
+				final Integer colorId = colourMap.get(val);
+				if (colorId != null) {
+					text.setForeground(Display.getCurrent().getSystemColor(colorId));
+				}
+			}
+			textUpdateScheduled = false;
+			afterUpdateText(text, val);
 		};
 
-		observer = new IObserver() {
-
-			@Override
-			public void update(Object source, Object arg) {
-				if (arg instanceof ScannablePositionChangeEvent) {
-					final ScannablePositionChangeEvent event = (ScannablePositionChangeEvent) arg;
-					setVal(new ScannableGetPositionWrapper(event.newPosition, formats).getStringFormattedValues()[0]);
-				} else if (arg instanceof ScannableStatus && ((ScannableStatus) arg) == ScannableStatus.IDLE) {
-					try {
-						ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(), formats);
-						val = wrapper.getStringFormattedValues()[0];
-					} catch (DeviceException e1) {
-						val = "Error";
-						logger.error("Error getting position for " + scannable.getName(), e1);
-					}
-					setVal(val);
-				} else if (arg instanceof String) {
-					setVal((String) arg);
-				} else {
-					ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(arg, formats);
+		observer = (source, arg) -> {
+			if (arg instanceof ScannablePositionChangeEvent) {
+				// ScannablePositionChangeEvent - can get current position directly from the event
+				final ScannablePositionChangeEvent event = (ScannablePositionChangeEvent) arg;
+				setVal(new ScannableGetPositionWrapper(event.newPosition, formats).getStringFormattedValues()[0]);
+			} else if (arg instanceof ScannableStatus && ((ScannableStatus) arg) == ScannableStatus.IDLE) {
+				// Scannable is idle - get current position from the scannable
+				try {
+					final ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(), formats);
 					setVal(wrapper.getStringFormattedValues()[0]);
+				} catch (DeviceException e1) {
+					setVal("Error");
+					logger.error("Error getting position for " + scannable.getName(), e1);
 				}
+			} else if (arg instanceof String) {
+				// String - assume this is the position
+				setVal((String) arg);
+			} else {
+				// Anything else - assume the argument is the position
+				final ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(arg, formats);
+				setVal(wrapper.getStringFormattedValues()[0]);
 			}
 		};
 
 		try {
-			ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(), formats);
-			val = wrapper.getStringFormattedValues()[0];
+			final ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(), formats);
+			setVal(wrapper.getStringFormattedValues()[0]);
 		} catch (DeviceException e1) {
-			val = "Error";
+			setVal("Error");
 			logger.error("Error getting position for " + scannable.getName(), e1);
 		}
-		setVal(val);
 
 		scannable.addIObserver(observer);
 	}
 
 	private void setVal(String newVal) {
+		val = newVal;
 		if (decimalPlaces != null) {
-			Scanner sc = new Scanner(newVal.trim());
+			final Scanner sc = new Scanner(newVal.trim());
 			if (sc.hasNextDouble()) {
-				NumberFormat format = NumberFormat.getInstance();
+				final NumberFormat format = NumberFormat.getInstance();
 				format.setMaximumFractionDigits(decimalPlaces.intValue());
-				newVal = format.format(sc.nextDouble());
+				val = format.format(sc.nextDouble());
 			}
 			sc.close();
 		}
-		val = newVal;
+
 		if (!isDisposed()) {
 			if (minPeriodMS != null) {
 				if (!textUpdateScheduled) {
 					textUpdateScheduled = true;
-					display.asyncExec(new Runnable() {
-
-						@Override
-						public void run() {
-							display.timerExec(minPeriodMS, setTextRunnable);
-						}
-					});
+					parentDisplay.asyncExec(() -> parentDisplay.timerExec(minPeriodMS, setTextRunnable));
 				}
 			} else {
-				display.asyncExec(setTextRunnable);
+				parentDisplay.asyncExec(setTextRunnable);
 			}
 		}
 	}
@@ -183,10 +174,12 @@ public class ReadonlyScannableComposite extends Composite {
 
 	@SuppressWarnings("unused")
 	protected void beforeUpdateText(Text text, String value) {
+		// by default, do nothing
 	}
 
 	@SuppressWarnings("unused")
 	protected void afterUpdateText(Text text, String value) {
+		// by default, do nothing
 	}
 
 	public Map<String, Integer> getColourMap() {
