@@ -58,26 +58,6 @@ public class ReadonlyScannableComposite extends Composite {
 	private Boolean textUpdateScheduled = false;
 	private Map<String, Integer> colourMap;
 
-	public Map<String, Integer> getColourMap() {
-		return colourMap;
-	}
-
-	/**
-	 * @param colourMap
-	 *            map of ids to pass to Display.getSystemColor to allow setting of foreground based on value Useful for enums
-	 */
-	public void setColourMap(Map<String, Integer> colourMap) {
-		this.colourMap = colourMap;
-	}
-
-	public Integer getMinPeriodMS() {
-		return minPeriodMS;
-	}
-
-	public void setMinPeriodMS(Integer minPeriodMS) {
-		this.minPeriodMS = minPeriodMS;
-	}
-
 	public ReadonlyScannableComposite(Composite parent, int style, final Scannable scannable, String label, final String units, Integer decimalPlaces) {
 		this(parent, style, scannable, label, units, decimalPlaces, true);
 	}
@@ -207,6 +187,26 @@ public class ReadonlyScannableComposite extends Composite {
 
 	@SuppressWarnings("unused")
 	protected void afterUpdateText(Text text, String value) {
+	}
+
+	public Map<String, Integer> getColourMap() {
+		return colourMap;
+	}
+
+	/**
+	 * @param colourMap
+	 *            map of ids to pass to Display.getSystemColor to allow setting of foreground based on value Useful for enums
+	 */
+	public void setColourMap(Map<String, Integer> colourMap) {
+		this.colourMap = colourMap;
+	}
+
+	public Integer getMinPeriodMS() {
+		return minPeriodMS;
+	}
+
+	public void setMinPeriodMS(Integer minPeriodMS) {
+		this.minPeriodMS = minPeriodMS;
 	}
 
 }
