@@ -69,6 +69,9 @@ public class ReadonlyScannableComposite extends Composite {
 		this.scannable = scannable;
 		this.decimalPlaces = decimalPlaces;
 
+		// Cache name here to avoid excessive RMI calls (especially in logging)
+		final String scannableName = scannable.getName();
+
 		if (StringUtils.hasLength(units)) {
 			suffix = " " + units;
 		}
@@ -78,7 +81,7 @@ public class ReadonlyScannableComposite extends Composite {
 		GridDataFactory.fillDefaults().applyTo(this);
 
 		final Label lbl = new Label(this, SWT.NONE | SWT.CENTER);
-		lbl.setText(StringUtils.hasLength(label) ? label : scannable.getName());
+		lbl.setText(StringUtils.hasLength(label) ? label : scannableName);
 		lbl.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 
 		final int textStyle = SWT.SINGLE | SWT.BORDER | SWT.READ_ONLY | SWT.CENTER;
@@ -108,6 +111,7 @@ public class ReadonlyScannableComposite extends Composite {
 		};
 
 		observer = (source, arg) -> {
+			logger.trace("Update to {}: source = {}, arg = {}", scannableName, source, arg);
 			if (arg instanceof ScannablePositionChangeEvent) {
 				// ScannablePositionChangeEvent - can get current position directly from the event
 				final ScannablePositionChangeEvent event = (ScannablePositionChangeEvent) arg;
@@ -119,7 +123,7 @@ public class ReadonlyScannableComposite extends Composite {
 					setVal(wrapper.getStringFormattedValues()[0]);
 				} catch (DeviceException e1) {
 					setVal("Error");
-					logger.error("Error getting position for " + scannable.getName(), e1);
+					logger.error("Error getting position for {}", scannableName, e1);
 				}
 			} else if (arg instanceof String) {
 				// String - assume this is the position
@@ -136,7 +140,7 @@ public class ReadonlyScannableComposite extends Composite {
 			setVal(wrapper.getStringFormattedValues()[0]);
 		} catch (DeviceException e1) {
 			setVal("Error");
-			logger.error("Error getting position for " + scannable.getName(), e1);
+			logger.error("Error getting position for {}", scannableName, e1);
 		}
 
 		scannable.addIObserver(observer);
