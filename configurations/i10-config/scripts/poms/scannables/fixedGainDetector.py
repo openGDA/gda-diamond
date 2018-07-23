@@ -24,7 +24,7 @@ class fixedGainDetector(DetectorBase):
 		self.setInputNames(['collectionTime'])
 		self.setExtraNames([name])
 		self.setOutputFormat(["%5.5g","%5.5g"])
-		self.Units("amps")
+		#self.Units(["amps"])
 		self.isCollecting = 0 
 		self.gain = gain
 		self.collectionTime = 1
@@ -40,10 +40,13 @@ class fixedGainDetector(DetectorBase):
 		return self.isCollecting
 
 	def readout(self):	
-		return self.det.readout() / 100000.0 * self.collectionTime * self.gain
+		return self.det.readout() / 100000.0 / self.collectionTime / self.gain
 	
 	def getDataDimensions(self):
 		return 1
+	
+	def createsOwnFiles(self):
+		return False
 	
 	def stop(self):
 		self.det.stop()
