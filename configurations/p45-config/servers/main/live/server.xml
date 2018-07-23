@@ -7,7 +7,7 @@
 	<import resource="det.xml" />
 	<import resource="mic.xml" />
 	<import resource="mapping_motors.xml"/>
-	<import resource="malcolm.xml"/>
+	<import resource="malcolm_sim.xml"/>
 	<import resource="malcolm_real.xml"/>
 
 <!-- Do not remove anything below here -->
