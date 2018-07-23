@@ -35,6 +35,7 @@
 	<import resource="aop.xml"/>
 	<import resource="logging_script_controller.xml"/>
 	<import resource="toplink_persistence.xml"/>
+	<import resource="beam_watchdogs.xml"/>
 
 	<!-- To enable use of a simulated AD uncomment this import -->
 	<!-- <import resource="simulated_area_detector.xml"/> -->
