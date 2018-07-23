@@ -99,18 +99,4 @@ class vmagScannable(ScannableBase):
     def isBusy(self):
         return self.iambusy  
 
-"""####################################+#######################################"""
-
-    def degauss(self):
-        for h in range(600, 0, -50):
-            print h
-            self.setField(h/1000.0)
-            time.sleep(0.5)
-            self.setField(0)
-            self.setField(-h/1000.0)
-            time.sleep(0.5)   
-            self.setField(0)        
-
-
-
 

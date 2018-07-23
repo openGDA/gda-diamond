@@ -131,10 +131,9 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
 
 
     def PreparePGMForMove(self):
-        self._pgm_grat_pitch_speed_orig = self._pgm_grat_pitch.speed
-        if self._pgm_grat_pitch_speed_orig != 0.018:
-            raise Exception("PGM Grit Pitch motor speed %f is not at maximum 0.018!" % (self._pgm_grat_pitch_speed_orig))
-        
+        self._pgm_grat_pitch_speed_orig = 0.018 #required this because EPICS energy change this speed depending on the size of change set
+        self._pgm_grat_pitch.speed=self._pgm_grat_pitch_speed_orig
+   
         # Calculate the energy midpoint
         energy_midpoint = (self._move_end + self._move_start) / 2.
         if self.verbose:
