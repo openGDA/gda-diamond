@@ -4,6 +4,10 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- ID gap -->
+	<bean id="id_gap_monitor" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR14I-MO-SERVC-01:CURRGAPD" />
+	</bean>
+
 	<bean id="id_gap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="SR14I-MO-SERVC-01:BLGAPMTR" />
 		<property name="local" value="true" />

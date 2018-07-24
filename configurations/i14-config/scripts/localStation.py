@@ -54,6 +54,9 @@ alias("enableWatchdogs")
 alias("disableWatchdogs")
 alias("listWatchdogs")
 
+# For compatibility with previous versions
+ringCurrentMonitor = ring_current
+
 if isLive():
     print "Running in live mode: attempting to run localStationUser.py in users script directory"
     try:

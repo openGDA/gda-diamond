@@ -72,7 +72,6 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/ion_chamber.xml" />
 
 	<!-- monitors -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/monitors/beam_monitors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/monitors/radiant_panel_monitors.xml" />
 
 	<!-- file registration -->
@@ -86,6 +85,7 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/beam_watchdogs.xml"/>
 
 	<!-- ID & front end-->
+	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/id.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/frontEnd.xml" />
 
@@ -137,7 +137,6 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/ion_chamber.xml" />
 
 	<!-- monitors -->
-	<import resource="file:${gda.config}/servers/main/_common/monitors/beam_monitors.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/monitors/radiant_panel_monitors.xml" />
 
 	<!-- Beam dimensions -->
