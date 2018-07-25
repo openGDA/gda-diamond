@@ -109,6 +109,13 @@
             name="Camera View"
             restorable="true">
       </view>
+      <view
+            allowMultiple="true"
+            class="org.eclipse.scanning.event.ui.view.StatusQueueView"
+            id="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=uk.ac.diamond.scisoft.analysis.processing.bean.OperationBean;queueName=scisoft.operation.STATUS_QUEUE;topicName=scisoft.operation.STATUS_TOPIC;submissionQueueName=scisoft.operation.SUBMISSION_QUEUE;partName=Processing Queue"
+            name="Processing Queue View"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="uk.ac.gda.microfocus.display.detectorfile">
@@ -160,6 +167,22 @@
                name="uk.ac.gda.beamline.i20.separator1"
                visible="true">
          </separator>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?after=showView">
+         <menu
+               label="Queue Views">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Processing Queue"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=uk.ac.diamond.scisoft.analysis.processing.bean.OperationBean;queueName=scisoft.operation.STATUS_QUEUE;topicName=scisoft.operation.STATUS_TOPIC;submissionQueueName=scisoft.operation.SUBMISSION_QUEUE;partName=Processing Queue">
+               </parameter>
+            </command>
+         </menu>
       </menuContribution>
       <menuContribution
             locationURI="popup:gda.gui.eclipse.editors.scan.experimentdefinition.ExperimentRunEditor">

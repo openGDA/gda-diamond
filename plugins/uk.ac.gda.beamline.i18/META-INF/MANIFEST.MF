@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: uk.ac.gda.beamline.i18.I18BeamlineActivator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
+ org.eclipse.scanning.event.ui;bundle-version="1.0.0",
  uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.diamond.scisoft.analysis.rcp;bundle-version="1.0.0",
  uk.ac.gda.libs;bundle-version="1.0.0",
