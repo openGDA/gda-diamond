@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="hd4x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="hd4x_motor" />
+	</bean>
+	<bean id="hd4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="hd4x" />
+				<ref bean="hd4aposn" />
+				<ref bean="hd4iamp6" />
+			</list>
+		</property>
+	</bean>
+</beans>
