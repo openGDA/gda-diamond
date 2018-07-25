@@ -142,7 +142,7 @@ public class ReadonlyScannableComposite extends Composite {
 		scannable.addIObserver(observer);
 	}
 
-	private void setVal(String newVal) {
+	protected void setVal(String newVal) {
 		val = newVal;
 		if (decimalPlaces != null) {
 			final Scanner sc = new Scanner(newVal.trim());
