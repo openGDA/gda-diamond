@@ -193,11 +193,18 @@
 				<property name="stopAquiringInPreparation" value="false"/>
 			</bean>
 		</property>
-	</bean>
+	</bean>	
+   	<bean id="kbRasteringFreq" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+   		<property name="pvName" value="BL06I-OP-KBM-01:VFM:FPITCH:FREQ"/>
+   		<property name="expression" value="#freq lt 10.0 ? #freq : 10.0"/>
+   		<property name="enabled" value="true"/>
+   		<property name="restorePvValue" value="true"/>
+		<property name="decoratee" ref="pcoArm"/>
+   	</bean>
 	<bean id="pcotriggermode" class="gda.device.detector.pco.collectionstrategy.PCOTriggerModeDecorator">
 		<property name="restoreTriggerMode" value="true"/>
 		<property name="triggerMode" value="AUTO"/> <!-- possible values: AUTO, SOFT, EXTSOFT, EXTPULSE, EXTONLY -->
-		<property name="decoratee" ref="pcoArm"/>
+		<property name="decoratee" ref="kbRasteringFreq"/>
 	</bean>
 	<bean id="pcoacquireperiod" class="gda.device.detector.pco.collectionstrategy.PCOConfigureAcquireTimeAcquirePeriodDecorator">
 		<property name="restoreAcquireTime" value="true" />
@@ -251,7 +258,7 @@
 	<bean id="pcotriggermode_soft" class="gda.device.detector.pco.collectionstrategy.PCOTriggerModeDecorator">
 		<property name="restoreTriggerMode" value="true"/>
 		<property name="triggerMode" value="SOFT"/> <!-- possible values: AUTO, SOFT, EXTSOFT, EXTPULSE, EXTONLY -->
-		<property name="decoratee" ref="pcoArm"/>
+		<property name="decoratee" ref="kbRasteringFreq"/>
 	</bean>
 	<bean id="pcoacquireperiod_soft" class="gda.device.detector.pco.collectionstrategy.PCOConfigureAcquireTimeAcquirePeriodDecorator">
 		<property name="restoreAcquireTime" value="true" />
