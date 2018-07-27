@@ -20,7 +20,7 @@
 	</bean>
 
 	<!-- KB Mirrors M5 (VFM) Positioner and DOFs -->
-	<bean id="MotorVFMPitch_M4" class="gda.device.motor.DummyMotor">
+	<bean id="MotorVFMPitch_M5" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-2.8200000" />
 		<property name="maxPosition" value="3.0000000" />
 		<property name="speed" value="1" />
@@ -28,7 +28,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="MotorVFMBender1_M4" class="gda.device.motor.DummyMotor">
+	<bean id="MotorVFMBender1_M5" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="100.00000" />
 		<property name="maxPosition" value="10318.15400" />
 		<property name="speed" value="1" />
@@ -36,7 +36,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="MotorVFMBender2_M4" class="gda.device.motor.DummyMotor">
+	<bean id="MotorVFMBender2_M5" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="139.68950" />
 		<property name="maxPosition" value="1422.68950" />
 		<property name="speed" value="1" />
@@ -44,7 +44,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="MotorVFMFinePitch_M4" class="gda.device.motor.DummyMotor">
+	<bean id="MotorVFMFinePitch_M5" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="0" />
 		<property name="maxPosition" value="10" />
 		<property name="speed" value="1" />

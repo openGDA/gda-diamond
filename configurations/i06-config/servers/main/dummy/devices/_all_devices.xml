@@ -3,7 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="adSimulator.xml"/> <!-- diagnostic cameras -->
 	<import resource="accessControl.xml"/>
 	<import resource="m3.xml"/>
 	<import resource="d5.xml"/>
