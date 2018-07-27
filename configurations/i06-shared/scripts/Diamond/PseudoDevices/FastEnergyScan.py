@@ -104,13 +104,6 @@ class FastEnergyScanControlClass(object):
 		self.cleanChannel(self.chIdMove);
 		self.cleanChannel(self.chAreaDetector);
 		self.cleanChannel(self.chADCIntegration);
-
-		self.cleanChannel(self.chDet1)
-		self.cleanChannel(self.chDet2)
-		self.cleanChannel(self.chDet3)
-		self.cleanChannel(self.chDet4)
-		self.cleanChannel(self.chDet7)
-		self.cleanChannel(self.chDet8)
 		
 		self.cleanChannel(self.chBuild);
 		self.cleanChannel(self.chBuildStatus);
@@ -143,14 +136,6 @@ class FastEnergyScanControlClass(object):
 		self.chAreaDetector=CAClient(rootPV + ":AD:TRIGGER"); self.configChannel(self.chAreaDetector);
 		self.chADCIntegration=CAClient(rootPV + ":ADCSC:TRIGGER"); self.configChannel(self.chADCIntegration);
 		
-#		Epics PVs for fast scan detector variables setup:
-		self.chDet1=CAClient(rootPV + ":DET1:PV"); self.configChannel(self.chDet1);
-		self.chDet2=CAClient(rootPV + ":DET2:PV"); self.configChannel(self.chDet2);
-		self.chDet3=CAClient(rootPV + ":DET3:PV"); self.configChannel(self.chDet3);
-		self.chDet4=CAClient(rootPV + ":DET4:PV"); self.configChannel(self.chDet4);
-		self.chDet7=CAClient(rootPV + ":DET7:PV"); self.configChannel(self.chDet7);
-		self.chDet8=CAClient(rootPV + ":DET8:PV"); self.configChannel(self.chDet8);
-
 #		Epics PVs for fast scan control and status:
 		self.chBuild=CAClient(rootPV + ":BUILD"); self.configChannel(self.chBuild);
 		self.chBuildStatus=CAClient(rootPV + ":BUILDSTATUS"); self.configChannel(self.chBuildStatus);
@@ -276,9 +261,13 @@ class FastEnergyScanControlClass(object):
 			newRois.append(newRoi)
 		roi_provider=finder.find(roi_provider_name)
 		roi_provider.updateRois(newRois)
+		
+	def clearAreaDetectorROIs(self, roi_provider_name='pco_roi'):
+		roi_provider=finder.find(roi_provider_name)
+		roi_provider.updateRois([])
 	
 	def prepareAreaDetectorROIsForCollection(self, areadet, numImages):
-		'''configure ROIs and STATs plugins in EPISC for data collection with region of interest
+		'''configure ROIs and STATs plugins in EPICS for data collection with regions of interests
 		@param areadet: must be a NXDetector 
 		'''
 		if not isinstance(areadet, NXDetector):
@@ -291,30 +280,14 @@ class FastEnergyScanControlClass(object):
 		for each in roi_stat_pairs:
 			#ScanInformation is not used in zacscan so just create a dummy to make Java method works
 			#update ROIs and enable EPICS rois and stats plugins
-			each.getRoiPlugin().prepareForCollection(numImages, ScanInformation())
-			each.getStatsPlugin().prepareForCollection(numImages, ScanInformation())
+			each.getRoiPlugin().prepareForCollection(numImages, ScanInformation.EMPTY)
+			each.getStatsPlugin().prepareForCollection(numImages, ScanInformation.EMPTY)
 
 	def enableAreaDetector(self):
 		self.chAreaDetector.caput(1) # 0-Disabled, 1-Enabled
 		
 	def disableAreaDetector(self):
 		self.chAreaDetector.caput(0) # 0-Disabled, 1-Enabled
-
-	def setupScanDetectorPVs(self, detector_root_pv, adc_root_pv):
-		'''set fast scan detector variables from which the "Mean" values of Region of Interest ROIs are collected by EPICS FSCAN. 
-		'''
-		if int(self.chAreaDetector.caget()) == 1: #Area Detector Enabled
-			self.chDet1.caput(detector_root_pv+':STAT1:MeanValue_RBV')
-			self.chDet2.caput(adc_root_pv + ':SC2-RAW') #I0
-			self.chDet3.caput(detector_root_pv+':STAT2:MeanValue_RBV')
-			self.chDet4.caput(detector_root_pv+':STAT3:MeanValue_RBV')
-			self.chDet7.caput(detector_root_pv+':STAT4:MeanValue_RBV')
-		else:
-			self.chDet1.caput(adc_root_pv + ':SC1-RAW')
-			self.chDet2.caput(adc_root_pv + ':SC2-RAW') #I0
-			self.chDet3.caput(adc_root_pv + ':SC3-RAW')
-			self.chDet4.caput(adc_root_pv + ':SC4-RAW')
-
 
 	def setEnergyRange(self, startEnergy, endEnergy):
 		self.startEnergy=startEnergy;
@@ -656,13 +629,16 @@ class FastEnergyDeviceClass(PseudoDevice):
 		
 		if beamline_name == "i06":
 			self.fesController.enableAreaDetector() #using PCO area detector
-			self.fesController.setupScanDetectorPVs('BL06I-EA-DET-01','BL06I-EA-USER-01')
 			if self.fesController.getAreaDetector() == None:
-				raise Exception()
-			self.fesController.prepareAreaDetectorForCollection(pco, pointTime, numPoint)
-
-		step=1.0*(endEnergy - startEnergy)/numPoint;
-		
+				#default area detector is 'pcotif'
+				self.fesController.prepareAreaDetectorForCollection(pcotif, pointTime, numPoint)  # @UndefinedVariable 
+				self.fesController.configureFileWriterPlugin(pcotif, numPoint) # @UndefinedVariable 
+				self.fesController.prepareAreaDetectorROIsForCollection(pcotif, numPoint) # @UndefinedVariable 
+			else:
+				self.fesController.prepareAreaDetectorForCollection(self.fesController.getAreaDetector(), pointTime, numPoint)
+				self.fesController.configureFileWriterPlugin(self.fesController.getAreaDetector(), numPoint)
+				self.fesController.prepareAreaDetectorROIsForCollection(self.fesController.getAreaDetector(), numPoint)
+				
 		#pscan fastEnergy 0 1 numPoint fesData 0 1;
 		fesData = self.fesDetector;
 		
@@ -685,7 +661,10 @@ class FastEnergyDeviceClass(PseudoDevice):
 				print "Filtering " + self.getName() + " between %r and %r" % (startEnergy, endEnergy)
 				self.applyFileFilter(str(self.getName()), startEnergy, endEnergy);
 			print "The Fast Energy Scan for complete.";
-
+		
+		if beamline_name == "i06":
+			#restore area detector settings	
+			self.fesController.restoreAreaDetectorParametersAfterCollection()
 
 #######################################################
 class EpicsScandataDeviceClass(PseudoDevice):
@@ -798,66 +777,66 @@ class EpicsScandataDeviceClass(PseudoDevice):
 		#To check the head
 		head=self.getHead();
 		if offset > head:
-#			print " No new data available. Offset exceeds Head(" + str(head) + ").";
+# 			print " No new data available. Offset exceeds Head(" + str(head) + ").";
 			return False;
 		
-#		print "New data available, Offset "+ str(offset) + " does not exceed Head(" + str(head) + ").";
+# 		print "New data available, Offset "+ str(offset) + " does not exceed Head(" + str(head) + ").";
 		size = min(size, head-offset+1);
 		
-#		print "New offset %d" %offset + ", new size %d" %size;
+# 		print "New offset %d" %offset + ", new size %d" %size;
 		self.setDataOffset(offset);
 		self.setSize(size);
 		
-		#Ask EPICS to update the subarrays
-#		print "---> Debug: updating subarrays: start at: " + ctime();
+# 		Ask EPICS to update the subarrays
+# 		print "---> Debug: updating subarrays: start at: " + ctime();
 		self.chUpdate.caput(self.timeout, 1);
-#		self.chUpdate.caput(1);
-#		sleep(1)
-#		print "###> Debug: the current ElementCounter is : " + str(self.getHead());
-#		print "###> Debug: the subarray size is: " + str(size);
-#		print "---> Debug: updating subarrays: end at: " + ctime();
+# 		self.chUpdate.caput(1);
+# 		sleep(1)
+# 		print "###> Debug: the current ElementCounter is : " + str(self.getHead());
+# 		print "###> Debug: the subarray size is: " + str(size);
+# 		print "---> Debug: updating subarrays: end at: " + ctime();
 
 		la=[];
-		#To get the subarray data from EPICS
-#		print "---> Debug: get subarrays: start at: " + ctime();
+# 		To get the subarray data from EPICS
+# 		print "---> Debug: get subarrays: start at: " + ctime();
 		for i in range(self.numberOfDetectors):
-#			self.data[i]=self.chData[i].cagetArrayDouble();
-#TODO: make sure that the self.data[i] is a list
-#			self.data[i]=self.chData[i].cagetArrayDouble();
+# 			self.data[i]=self.chData[i].cagetArrayDouble();
+# 			TODO: make sure that the self.data[i] is a list
+# 			self.data[i]=self.chData[i].cagetArrayDouble();
 
-#			self.data[i]=self.chData[i].getController().cagetDoubleArray(self.chData[i].getChannel(), self.getSize());
+# 			self.data[i]=self.chData[i].getController().cagetDoubleArray(self.chData[i].getChannel(), self.getSize());
 			ok = False
 			while( not ok):
 				try:
-#				    logger.fullLog(None,"EpicsWaveformDeviceClass.getNewEpicsData: reading data for channel %d" %i)
-				    self.data[i]=self.chData[i].getController().cagetDoubleArray(self.chData[i].getChannel(), size);
-#				    logger.fullLog(None,"EpicsWaveformDeviceClass.getNewEpicsData: data read")
-				    ok=True
+# 					logger.fullLog(None,"EpicsWaveformDeviceClass.getNewEpicsData: reading data for channel %d" %i)
+					self.data[i]=self.chData[i].getController().cagetDoubleArray(self.chData[i].getChannel(), size);
+# 					logger.fullLog(None,"EpicsWaveformDeviceClass.getNewEpicsData: data read")
+					ok=True
 				except:
-					type, exception, traceback = sys.exc_info()
-					logger.fullLog(None,"Error in EpicsWaveformDeviceClass.getNewEpicsData reading channel %d" %i, type, exception , traceback, False)
+					type1, exception, traceback = sys.exc_info()
+					logger.fullLog(None,"Error in EpicsWaveformDeviceClass.getNewEpicsData reading channel %d" %i, type1, exception , traceback, False)
 					ScriptBase.checkForPauses()
 
-#			print "The type of subarray data from caget is: ", type(self.data[i]);
-#			print "The subarray data from caget is: ", self.data[i];
+# 			print "The type of subarray data from caget is: ", type(self.data[i]);
+# 			print "The subarray data from caget is: ", self.data[i];
 			la.append(self.data[i]);
-#		print "---> Debug: get subarrays: end at: " + ctime();
+# 		print "---> Debug: get subarrays: end at: " + ctime();
 		
-#		ds=DataSet(la);#ds is a new DataSet with dimension [numberOfDetectors, size];
-#TODO: For the new dataset, the above line should be changed to the following
+# 		ds=DataSet(la);#ds is a new DataSet with dimension [numberOfDetectors, size];
+# 		TODO: For the new dataset, the above line should be changed to the following
 		ds=dnp.array(la) #ds is a new DataSet with dimension [numberOfDetectors, size];
 		if self.dataset is None:
 			self.dataset = ds;
 		else:
 			self.dataset=self.dataset.append(ds, 1) # extend the dataset along the "size" axis
-#TODO: make sure that the self.dataset is a two dimensional dataset
-#		print "###> Debug: the internal dataset is: ", self.dataset.getDimensions();
+# 		TODO: make sure that the self.dataset is a two dimensional dataset
+# 		print "###> Debug: the internal dataset is: ", self.dataset.getDimensions();
 		return True;
 
-# PseudoDetector Implementation
+# 	PseudoDetector Implementation
 	def getPosition(self):
 
-#		resultList = list(self.readout());
+# 		resultList = list(self.readout());
 
 		resultList = [self.readPointer];
 		resultList.extend(list(self.readout()));
@@ -870,31 +849,31 @@ class EpicsScandataDeviceClass(PseudoDevice):
 
 	def isDataAvailableNew(self):
 		self.getNewEpicsData(self.getDataLength(), self.defaultSize);
-		len = self.getDataLength();
+		len1 = self.getDataLength();
 		
-		if len == 0 or self.readPointer > len-1:#either buffer is empty or no new data
-			print "Checking Data Queue: no new data, buffer length: " + str(len);
+		if len1 == 0 or self.readPointer > len1-1:#either buffer is empty or no new data
+			print "Checking Data Queue: no new data, buffer length: " + str(len1);
 			return False;#Epics data exhausted. 
-		else: #self.readPointer <= len-1, which means there are new data in the buffer to offer
+		else: #self.readPointer <= len1-1, which means there are new data in the buffer to offer
 			print "Checking Data Queue: Data available."
 			return True;
 
 	def isDataAvailable(self):
 #		print "---> Debug: Checking data availability"
 		
-		len = self.getDataLength();
-		if len == 0 or self.readPointer > len-1:#either buffer is empty or no new data
-#			if len == 0:
+		len1 = self.getDataLength();
+		if len1 == 0 or self.readPointer > len1-1:#either buffer is empty or no new data
+#			if len1 == 0:
 #				print "---> Debug: Empty buffer. No new data"
 #			else:
 #				print "---> Debug: No newly Buffered data. Try to fetch new data from EPICS"
-			while self.getNewEpicsData(len, self.defaultSize):
-				len = self.getDataLength();
-				if self.readPointer <= len-1:#After updating buffer, new data available
+			while self.getNewEpicsData(len1, self.defaultSize):
+				len1 = self.getDataLength();
+				if self.readPointer <= len1-1:#After updating buffer, new data available
 					return True;
 #			print "---> Debug: No more data from EPICS"
 			return False;#Epics data exhausted. 
-		else: #self.readPointer <= len-1, which means there are new data in the buffer to offer
+		else: #self.readPointer <= len1-1, which means there are new data in the buffer to offer
 #			print "---> Debug: New Buffered data available."
 			return True;
 
@@ -1052,7 +1031,7 @@ class EpicsWaveformDeviceClass(PseudoDevice):
 #TODO: make sure that the self.data[i] is a list
 #			self.data[i]=self.chData[i].cagetArrayDouble();
 #			self.data[i]=self.chData[i].getController().cagetDoubleArray(self.chData[i].getChannel(), head+1);
-#			print "The type of subarray data from caget is: ", type(self.data[i]);
+#			print "The type1 of subarray data from caget is: ", type1(self.data[i]);
 #			print "The subarray data from caget is: ", self.data[i];
 #		print "---> Debug: get waveform: end at: " + ctime();
 
@@ -1060,13 +1039,13 @@ class EpicsWaveformDeviceClass(PseudoDevice):
 			while( not ok):
 				try:
 #				    logger.fullLog(None,"EpicsWaveformDeviceClass.getNewEpicsData: reading data for channel %d" %i)
-				    self.data[i]=self.chData[i].getController().cagetDoubleArray(self.chData[i].getChannel(), head+1);
+					self.data[i]=self.chData[i].getController().cagetDoubleArray(self.chData[i].getChannel(), head+1);
 #				    logger.fullLog(None,"EpicsWaveformDeviceClass.getNewEpicsData: data read")
-				    ok=True
+					ok=True
 				except:
-				    type, exception, traceback = sys.exc_info()
-				    logger.fullLog(None,"Error in EpicsWaveformDeviceClass.getNewEpicsData reading channel %d" %i, type, exception , traceback, False)
-				    ScriptBase.checkForPauses();
+					type1, exception, traceback = sys.exc_info()
+					logger.fullLog(None,"Error in EpicsWaveformDeviceClass.getNewEpicsData reading channel %d" %i, type1, exception , traceback, False)
+					ScriptBase.checkForPauses();
 
 			la.append(self.data[i]);
 		
@@ -1122,28 +1101,28 @@ class EpicsWaveformDeviceClass(PseudoDevice):
 
 	def isDataAvailableNew(self):
 		self.getNewEpicsData(self.getDataLength(), self.defaultSize);
-		len = self.getDataLength();
+		len1 = self.getDataLength();
 		
-		if len == 0 or self.readPointer > len-1:#either buffer is empty or no new data
-			print "Checking Data Queue: no new data, buffer length: " + str(len);
+		if len1 == 0 or self.readPointer > len1-1:#either buffer is empty or no new data
+			print "Checking Data Queue: no new data, buffer length: " + str(len1);
 			return False;#Epics data exhausted. 
-		else: #self.readPointer <= len-1, which means there are new data in the buffer to offer
+		else: #self.readPointer <= len1-1, which means there are new data in the buffer to offer
 			print "Checking Data Queue: Data available."
 			return True;
 
 	def isDataAvailable(self):
 #		print "---> Debug: Checking data availability"
-		len = self.getDataLength();
-		if len == 0 or self.readPointer > len-1:#either buffer is empty or no new data
-			while self.getNewEpicsData(len, self.defaultSize):
-				len = self.getDataLength();
-				if self.readPointer <= len-1:#After updating buffer, new data available
-#					logger.simpleLog("EpicsWaveformDeviceClass.isDataAvailable: True, len=%d, readPointer= %d" % (len, self.readPointer));
+		len1 = self.getDataLength();
+		if len1 == 0 or self.readPointer > len1-1:#either buffer is empty or no new data
+			while self.getNewEpicsData(len1, self.defaultSize):
+				len1 = self.getDataLength();
+				if self.readPointer <= len1-1:#After updating buffer, new data available
+#					logger.simpleLog("EpicsWaveformDeviceClass.isDataAvailable: True, len1=%d, readPointer= %d" % (len1, self.readPointer));
 					return True;
 #			print "---> Debug: No more data from EPICS"
 #			logger.simpleLog("EpicsWaveformDeviceClass.isDataAvailable: False");
 			return False;#Epics data exhausted. 
-		else: #self.readPointer <= len-1, which means there are new data in the buffer to offer
+		else: #self.readPointer <= len1-1, which means there are new data in the buffer to offer
 #			print "---> Debug: New Buffered data available."
 #			logger.simpleLog("EpicsWaveformDeviceClass.isDataAvailable: True");
 			return True;
