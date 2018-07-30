@@ -16,9 +16,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
+      <vmArgs>-Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
 -Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
 -Drebel.log=true
 -Dgda.mode=dummy
@@ -37,7 +35,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=false
 -Xms256m
 -Xmx2048m
--XX:MaxPermSize=256m
 -XX:+DisableExplicitGC
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts

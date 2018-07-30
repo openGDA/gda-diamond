@@ -1,7 +1,0 @@
-<JEPQuantityConverter>
-<ExpressionStoT>3.6887 + 0.10002*X - 0.00019451*X^2 + X^3*0.00000025652-X^4*1.8887e-10 + X^5*7.0713e-14 - X^6*9.5723e-18</ExpressionStoT>
-<ExpressionTtoS>1</ExpressionTtoS>
-<AcceptableSourceUnits>eV</AcceptableSourceUnits>
-<AcceptableTargetUnits>mm</AcceptableTargetUnits>
-<SourceMinIsTargetMax>false</SourceMinIsTargetMax>
-</JEPQuantityConverter>
