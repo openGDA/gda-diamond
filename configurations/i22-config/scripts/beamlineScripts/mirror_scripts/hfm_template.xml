@@ -7,23 +7,23 @@
     <voltageIncrement>0.0</voltageIncrement>
     <slitSizeScannable>s2_xgap</slitSizeScannable>
     <slitPosScannable>s2_xcentre</slitPosScannable>
-    <slitSize>0.02</slitSize>
-    <slitStart>-1.06</slitStart>
-    <slitEnd>0.98</slitEnd>
+    <slitSize>0.03</slitSize>
+    <slitStart>-1.14</slitStart>
+    <slitEnd>1.14</slitEnd>
     <slitStep>0.01</slitStep>
     <otherSlitSizeScannable>s2_ygap</otherSlitSizeScannable>
     <otherSlitPosScannable>s2_ycentre</otherSlitPosScannable>
     <otherSlitPosValue>0.0</otherSlitPosValue>
     <otherSlitSize>1.28</otherSlitSize>
     <detectorName>cam1</detectorName>
-    <exposureTime>0.03</exposureTime>
+    <exposureTime>0.05</exposureTime>
     <settleTime>0.0</settleTime>
     <scanDirectory>/dls/ixx/users/</scanDirectory>
-    <scanNumberInputs>0,1,2,3,4,5,6,7,8</scanNumberInputs>
-    <errorFile>0</errorFile>
+    <scanNumberInputs>446717,446718,446719,446720,446721,446722,446723,446724,446725</scanNumberInputs>
+    <errorFile>446717</errorFile>
     <beamOffset>0.0</beamOffset>
     <bimorphScannableName>hfm_v</bimorphScannableName>
-    <bimorphVoltages>-259.8, -260.9, -266.4, -197.1, -223.0, -143.8, -262.7, -165.0</bimorphVoltages>
+    <bimorphVoltages>-347.0, -332.0, -399.0, -283.0, -272.0, -270.0, -328.0, -306</bimorphVoltages>
     <pixelSize>1.93</pixelSize>
     <detectorDistance>20.57</detectorDistance>
     <iSign>downstream</iSign>
@@ -45,5 +45,5 @@
     <bimorphGroups></bimorphGroups>
     <btnGroupElectrodesTogether>false</btnGroupElectrodesTogether>
     <minSlitPos>-0.99</minSlitPos>
-    <maxSlitPos>0.85</maxSlitPos>
+    <maxSlitPos>0.89</maxSlitPos>
 </BimorphParameters>
