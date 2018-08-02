@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
-
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -459,7 +457,7 @@ public class TurboXasExperimentView extends ViewPart {
 		usePositionsForScanButton.setSelection(false);
 		usePositionsForScanButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
-		usePositionsForScanButton.addListener(SWT.Selection, event -> expandPositionEnergySections() );
+		usePositionsForScanButton.addListener(SWT.Selection, (event) -> expandPositionEnergySections() );
 	}
 
 	private void expandPositionEnergySections() {
@@ -523,6 +521,33 @@ public class TurboXasExperimentView extends ViewPart {
 		});
 	}
 
+	/**
+	 * Try to load reference/sample data into EnergyCalibration model.
+	 * @param model
+	 * @param filename
+	 * @param isReferenceData set to true to load file as reference data, otherwise file is loaded as sample data
+	 * @return Error message if file was not found or could not be loaded; empty string if all was well.
+	 * @throws Exception
+	 */
+	private String tryToSetCalibrationData(EnergyCalibration model, String filename, boolean isReferenceData) {
+		String message = "";
+		String dataType = isReferenceData ? "Reference data" : "Sample data";
+		if (StringUtils.isEmpty(filename) || !new File(filename).isFile() ) {
+			message += dataType + " " +filename + " was not found.\n";
+		} else {
+			try {
+				if (isReferenceData) {
+					model.setRefData(filename);
+				} else {
+					model.setSampleData(filename);
+				}
+			} catch(Exception e) {
+				message += e.getMessage();
+			}
+		}
+		return message;
+	}
+
 	private void openEnergyCalibrationDialog(final Composite parent) {
 
 		// Get name of reference file from Alignment parameters.
@@ -540,17 +565,8 @@ public class TurboXasExperimentView extends ViewPart {
 		EnergyCalibration calibrationModel = new EnergyCalibration();
 		try {
 			String message = "";
-			if (StringUtils.isEmpty(referenceDataFileName) || !new File(referenceDataFileName).isFile() ) {
-				message += "Reference data " + referenceDataFileName + " was not found.\n";
-			} else {
-				calibrationModel.setRefData(referenceDataFileName);
-			}
-
-			if (StringUtils.isEmpty(sampleFileName) || !new File(sampleFileName).isFile() ) {
-				message += "Sample data " + sampleFileName + " was not found.\n";
-			} else {
-				calibrationModel.setSampleData(sampleFileName);
-			}
+			message += tryToSetCalibrationData(calibrationModel, referenceDataFileName, true);
+			message += tryToSetCalibrationData(calibrationModel, sampleFileName, false);
 
 			// Show warning message, but still display calibration tool if data cannot be set automatically
 			if (message.length() > 0) {
