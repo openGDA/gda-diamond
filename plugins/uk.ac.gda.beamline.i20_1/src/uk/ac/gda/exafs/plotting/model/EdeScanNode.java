@@ -18,7 +18,11 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
+import java.util.Random;
+
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.nebula.visualization.xygraph.figures.XYGraph;
+import org.eclipse.swt.graphics.RGB;
 
 import gda.scan.ede.EdeExperimentProgressBean;
 import uk.ac.gda.client.plotting.model.ITreeNode;
@@ -34,6 +38,7 @@ public class EdeScanNode extends ScanNode {
 	private final boolean multiCollection;
 	private String label;
 	private int totalNumPlots;
+	private int colourIndex;
 
 	/**
 	 * @param parent
@@ -46,6 +51,7 @@ public class EdeScanNode extends ScanNode {
 		this.label = label;
 		this.multiCollection = multiCollection;
 		totalNumPlots = 0;
+		colourIndex = new Random().nextInt(XYGraph.DEFAULT_TRACES_COLOR.length);
 	}
 
 	public Node updateData(final EdeExperimentProgressBean arg) {
@@ -91,5 +97,9 @@ public class EdeScanNode extends ScanNode {
 
 	public int getTotalNumPlots() {
 		return totalNumPlots;
+	}
+
+	public RGB getNextColour() {
+		return XYGraph.DEFAULT_TRACES_COLOR[ (colourIndex++) % XYGraph.DEFAULT_TRACES_COLOR.length];
 	}
 }

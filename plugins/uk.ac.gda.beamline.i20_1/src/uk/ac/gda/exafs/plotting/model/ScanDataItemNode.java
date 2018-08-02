@@ -84,8 +84,8 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 		TraceStyleDetails traceStyle = new TraceStyleDetails();
 
 		// set the color from list of standard ones
-		int numPlots = scanDataNode.getTotalNumPlots();
-		traceStyle.setColor(XYGraph.DEFAULT_TRACES_COLOR[numPlots % XYGraph.DEFAULT_TRACES_COLOR.length]);
+//		int numPlots = scanDataNode.getTotalNumPlots();
+		traceStyle.setColor(scanDataNode.getNextColour());
 
 		if (!scanDataNode.isMultiCollection()) {
 			if ((experimentDataNode.getChildren().size() - experimentDataNode.getChildren().indexOf(scanDataNode))

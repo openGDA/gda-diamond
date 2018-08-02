@@ -41,7 +41,6 @@ import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.SliceND;
-import org.eclipse.nebula.visualization.xygraph.figures.XYGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -205,14 +204,12 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 	}
 
 	private void setTraceStyle(ScanDataItemNode dataItemNode, EdeScanNode scanNode) {
-			int totalDataItemsForScan = scanNode.getTotalNumChildren();
-
 			TraceStyleDetails traceStyle = TraceStyleDetails.createDefaultSolidTrace();
 			if (dataItemNode.getYAxisDataset().getShape()[0] == 1) {
 				traceStyle.setPointStyle(PointStyle.CIRCLE);
 				traceStyle.setPointSize(5);
 			}
-			traceStyle.setColor(XYGraph.DEFAULT_TRACES_COLOR[totalDataItemsForScan % XYGraph.DEFAULT_TRACES_COLOR.length]);
+			traceStyle.setColor(scanNode.getNextColour());
 			dataItemNode.setTraceStyle(traceStyle);
 	}
 
