@@ -82,10 +82,14 @@ print "Loading Secondary Scannable Group Creator Script... "
 print "Usage: scan_creator = ScanCreator(start, stop, step, input_list)"
 print "scan_creator.create_group_and_tuples()"
 execfile(gdaScriptDir + "scan_creator.py")
+print "-" *20
+print "Adding PGM backlash scannables pgm_gtrans_bl and pgm_mtrans_bl"
+execfile(gdaScriptDir + "/beamline/pgm_with_backlash.py")
 
 import arpes
 execfile(gdascripts + "scan/pathscanCommand.py");
 from pathscanTable import pathscanTable
+
 
 print "==================================================================="
 if LocalProperties.get("gda.mode")=="live":  # don't execute in squish tests
