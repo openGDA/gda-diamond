@@ -1,0 +1,79 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ring -->
+	<import resource="ring.xml" />
+	<import resource="electron_beam_monitors.xml" />
+
+	<!-- front end -->
+	<import resource="frontEnd.xml" />
+
+	<!-- slits -->
+	<import resource="s1_motors.xml" />
+	<import resource="s2_femtos.xml" />
+	<import resource="s2_motors.xml" />
+	<import resource="s3_femtos.xml" />
+	<import resource="s3_motors.xml" />
+	<import resource="s4_femtos.xml" />
+	<import resource="s4_motors.xml" />
+	<import resource="s5_motors.xml" />
+	<import resource="s6_motors.xml" />
+	<import resource="s5_camera.xml" />
+	
+	<!-- diagnostics -->
+	<import resource="dgn.xml" />
+	<import resource="d1.xml" />
+	<import resource="d2.xml" />
+	<import resource="d3a.xml" />
+	<import resource="d3b.xml" />
+	<import resource="d4.xml" />
+	<import resource="d7.xml" />
+	<import resource="d8.xml" />
+
+	<!-- pressure gauges -->
+	<import resource="pressureGauges.xml"/>
+	
+
+	<!-- mirrors -->
+	<import resource="m1.xml" />
+	<import resource="m2.xml" />
+	<import resource="m4.xml" />
+	<import resource="m5.xml" />
+
+	<!-- PGM -->
+	<import resource="pgm.xml" />
+	
+	<!-- ID -->
+	<import resource="id.xml" />
+	<import resource="smp.xml" />
+	<import resource="lakeshore.xml" />
+	<import resource="sgm.xml" />
+	<import resource="fastshutter.xml" />
+	<import resource="spectrometer.xml"/>
+
+<!-- objects that access an area detector simulator ADSIM Top-->
+	<import resource="adSimulator.xml"/> <!-- diagnostic cameras -->
+	<import resource="andor.xml"/> <!-- CAM Top -->
+	<import resource="andor2.xml"/> <!-- CAM Top -->
+	<import resource="polariser.xml"/>
+	
+	<!-- Array View section -->
+<!-- 	<import resource="adsim_roi_arrayview.xml"/> -->
+<!-- 	<import resource="andor_roi_arrayview.xml"/> -->
+<!-- 	<import resource="d1cam_nx.xml"/> -->
+<!-- 	<import resource="d2cam_nx.xml"/> -->
+<!-- 	<import resource="d3acam_nx.xml"/> -->
+<!-- 	<import resource="d4cam_nx.xml"/> -->
+<!-- 	<import resource="d8cam_nx.xml"/> -->
+<!-- 	<import resource="dgncam_nx.xml"/> -->
+<!-- 	<import resource="smpcam1_nx.xml"/> -->
+<!-- 	<import resource="smpcam2_nx.xml"/> -->
+<!-- 	<import resource="smpcam3_nx.xml"/> -->
+<!-- 	<import resource="smpcam4_nx.xml"/> -->
+	<import resource="dummysmp_m5tth.xml" />
+	<import resource="topup.xml" />
+
+</beans>

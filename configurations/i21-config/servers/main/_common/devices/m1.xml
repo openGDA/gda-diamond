@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="m1yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1yawMotor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+
+	<bean id="m1roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1rollMotor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+
+	<bean id="m1pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1pitchMotor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+
+	<bean id="m1finepitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1finepitchMotor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="m1height" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1heightMotor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+
+	<bean id="m1x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1xMotor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="m1x1Cone" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1x1ConeMotor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="m1x2flatVee" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1x2flatVeeMotor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+
+	<bean id="m1y1Cone" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1y1ConeMotor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="m1y2Vee" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1y2VeeMotor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="m1y3flat" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1y3flatMotor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	
+
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1yaw" />
+				<ref bean="m1roll" />
+				<ref bean="m1pitch" />
+				<ref bean="m1finepitch" />
+				<ref bean="m1height" />
+				<ref bean="m1x" />
+				<ref bean="m1x1Cone" />
+				<ref bean="m1x2flatVee" />
+				<ref bean="m1y1Cone" />
+				<ref bean="m1y2Vee" />
+				<ref bean="m1y3flat" />
+				<ref bean="m1temp1" />
+				<ref bean="m1feedback" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+	
+
+</beans>

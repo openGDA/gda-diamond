@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+ 	<bean id="gauges" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="gauge01" />
+				<ref bean="gauge02" />
+				<ref bean="gauge03" />
+				<ref bean="gauge04" />
+				<ref bean="gauge05" />
+				<ref bean="gauge06" />
+				<ref bean="gauge07" />
+				<ref bean="gauge08" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+ </beans>
+ 

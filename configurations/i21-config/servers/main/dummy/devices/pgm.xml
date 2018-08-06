@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<!-- PGM control -->
+	<bean id="pgmEnergyMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5000.0000" />
+		<property name="maxPosition" value="5000.0000" />
+		<property name="position" value="886.4000" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="200.0000" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="pgmB2ShadowMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5000.0000" />
+		<property name="maxPosition" value="5000.0000" />
+		<property name="position" value="8.4172" /> 
+		<property name="speed" value="200.000" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="pgmMirrorSelect" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Gold</value>
+				<value>Silicon</value>
+				<value>Mirror Out</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<bean id="pgmGratingSelect" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>VPG1</value>
+				<value>VPG2</value>
+				<value>VPG3</value>
+			</util:list>
+		</property>
+	</bean>
+
+	<!-- real motors -->
+	<bean id="pgmMirrorPitchMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="19.612259" />
+		<property name="maxPosition" value="211.612259" />
+		<property name="position" value="87.904944"/>
+		<property name="speed" value="0.020000" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="pgmGratingPitchMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.907834" />
+		<property name="maxPosition" value="173.092166" />
+		<property name="position" value="86.809038"/>
+		<property name="speed" value="0.025000" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="pgmMirrorSelectMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-67.0000" />
+		<property name="maxPosition" value="15.0000" />
+		<property name="position" value="-5.000"/>
+		<property name="speed" value="1.0000" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="pgmGratingSelectMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-182.0000" />
+		<property name="maxPosition" value="50.0000" />
+		<property name="position" value="-110.0000"/>
+		<property name="speed" value="1.0000" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="b2" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">8.4171</value>
+		</property>
+	</bean>
+	<bean id="cff" class="gda.device.scannable.DummyScannable">
+	</bean>
+	<bean id="n_pgm" class="gda.device.scannable.DummyScannable">
+	</bean>
+	<bean id="eref" class="gda.device.scannable.DummyScannable">
+	</bean>
+	<bean id="m_pgm" class="gda.device.scannable.DummyScannable">
+	</bean>
+
+</beans>

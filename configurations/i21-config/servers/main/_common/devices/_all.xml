@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- slits -->
+	<import resource="s1.xml"/>
+	<import resource="s2.xml"/>
+	<import resource="s3.xml"/>
+	<import resource="s4.xml"/>
+	<import resource="s5.xml"/>
+	<import resource="s6.xml"/>
+
+	<!-- diagnostic sticks -->
+	<import resource="dgn.xml" />
+	<import resource="d1.xml" />
+	<import resource="d2.xml" />
+	<import resource="d3a.xml" />
+	<import resource="d3b.xml" />
+	<import resource="d4.xml" />
+	<import resource="d7.xml" />
+	<import resource="d8.xml" />
+
+	<!-- pressure gauges -->
+	<import resource="pressureGauges.xml"/>
+	
+	<!-- ring -->
+	<import resource="ring.xml" />
+	
+	<!-- abstract base beans -->	
+	<import resource="abstract_nxplugins.xml" />
+
+	<!-- mirrors -->
+	<import resource="m1.xml" />
+	<import resource="m2.xml" />
+	<import resource="m4.xml" />
+	<import resource="m5.xml" />
+	<import resource="BeamMonitor.xml"/>
+	
+	<!-- PGM -->
+	<import resource="pgm.xml" />
+	
+	<!-- ID -->
+	<import resource="id.xml" />
+	<import resource="smp.xml" />
+	<import resource="sgm.xml" />
+	<import resource="spectrometer.xml"/>
+	<import resource="andor.xml"/>
+	<import resource="andor2.xml"/>
+	<import resource="polariser.xml"/>
+<!-- 	<import resource="andor_nx.xml"/> -->
+	<import resource="dummysmp_m5tth.xml" />
+	<import resource="TestMotors.xml"/>
+
+</beans>

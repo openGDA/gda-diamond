@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- D2 Stick Positioner -->
+	<bean id="d2pos" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL21I-DI-PHDGN-02:MP" />
+	</bean>
+
+	<!-- Stick motor -->
+	<bean id="d2motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-DI-PHDGN-02:POS" />
+		<property name="local" value="true" />
+	</bean>
+
+
+	<bean id="d2CamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL21I-DI-DCAM-02:CAM:" />
+	</bean>
+
+	<bean id="d2CollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="d2CamBase" />
+								<property name="restoreAcquireState" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="d2Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+		<property name="fileNameTemplate" value="d2"/>
+		<property name="ndFileHDF5">
+			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
+				<property name="ndFileImpl">
+					<bean class="gda.spring.V17NDFileFactoryBean">
+						<property name="prefix" value="BL21I-DI-DCAM-02:HDF5:" />
+						<property name="resetToInitialValues" value="false" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="d2_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/d2Roi" />
+	    <property name="service" ref="d2_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>	
+
+	<bean id="d2_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d2_RoiStats1" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-02:ROI1:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-02:STAT1:" />
+		<property name="roiInputNdArrayPort" value="D2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d2_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="d2_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d2_RoiStats2" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-02:ROI2:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-02:STAT2:" />
+		<property name="roiInputNdArrayPort" value="D2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d2_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="d2_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d2_RoiStats3" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-02:ROI3:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-02:STAT3:" />
+		<property name="roiInputNdArrayPort" value="D2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d2_roi" />
+	            <property name="index" value="2" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="d2_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d2_RoiStats4" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-02:ROI4:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-02:STAT4:" />
+		<property name="roiInputNdArrayPort" value="D2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d2_roi" />
+	            <property name="index" value="3" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="d2_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d2_RoiStats5" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-02:ROI5:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-02:STAT5:" />
+		<property name="roiInputNdArrayPort" value="D2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d2_roi" />
+	            <property name="index" value="4" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<bean id="d2_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d2_RoiStats6" />
+		<property name="baseRoiPVName" value="BL21I-DI-DCAM-02:ROI6:" />
+		<property name="baseStatsPVName" value="BL21I-DI-DCAM-02:STAT6:" />
+		<property name="roiInputNdArrayPort" value="D2.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d2_roi" />
+	            <property name="index" value="5" /> 
+	        </bean>
+		</property>
+	</bean>
+
+
+ 	<bean id="d2cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="d2cam" />
+		<property name="collectionStrategy" ref="d2CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d2_RoiStats1" />
+				<ref bean="d2_RoiStats2" />
+				<ref bean="d2_RoiStats3" />
+				<ref bean="d2_RoiStats4" />
+				<ref bean="d2_RoiStats5" />
+				<ref bean="d2_RoiStats6" />
+				<ref bean="d2Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="s5v1gap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5v1gapMotor" />
+		<property name="userUnits" value="um" />
+	</bean>
+	
+	<bean id="s5v2gap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5v2gapMotor" />
+		<property name="userUnits" value="um" />
+	</bean>
+	
+	<bean id="s5hgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5hgapMotor" />
+		<property name="userUnits" value="um" />
+	</bean>
+
+	<bean id="s5sut" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5sutMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s5vdso1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5vdso1Motor" />
+		<property name="userUnits" value="um" />
+	</bean>
+
+	<bean id="s5vdso2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5vdso2Motor" />
+		<property name="userUnits" value="um" />
+	</bean>
+
+	<bean id="s5hdso" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s5hdsoMotor" />
+		<property name="userUnits" value="um" />
+	</bean>
+
+
+	<bean id="s5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s5v1gap" />
+				<ref bean="s5v2gap" />
+				<ref bean="s5hgap" />
+				<ref bean="s5sut" />
+				<ref bean="s5vdso1" />
+				<ref bean="s5vdso2" />
+				<ref bean="s5hdso" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>	
+
+</beans>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+	<bean id="idgapMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="19.6" />
+		<property name="maxPosition" value="360.1" />
+		<property name="fastSpeed" value="400" />
+		<property name="mediumSpeed" value="200" />
+		<property name="slowSpeed" value="100" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="idcontrol" class="gda.device.insertiondevice.Apple2IDDummy">
+		<property name="local" value="true" />
+		<property name="maxPhaseMotorPos" value="30.0" />
+		<property name="minGapPos" value="25.0" />
+		<property name="speed" value="6.0" />
+	</bean>
+
+</beans>

@@ -1,0 +1,35 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: I21 Plug-in
+Bundle-SymbolicName: uk.ac.gda.beamline.i21;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: uk.ac.gda.beamline.i21.I21BeamlineActivator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ uk.ac.gda.client;bundle-version="1.0.0",
+ uk.ac.gda.core;bundle-version="1.0.0",
+ uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
+ org.eclipse.scanning.device.ui,
+ uk.ac.diamond.daq.mapping.ui;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Diamond Light Source
+Export-Package: uk.ac.gda.beamline.i21
+Import-Package: gda.configuration.properties,
+ org.apache.log4j.spi;version="1.2.17",
+ org.dawb.workbench.ui.perspective,
+ org.dawnsci.mapping.ui,
+ org.dawnsci.plotting.views,
+ org.dawnsci.processing.ui,
+ org.eclipse.scanning.api.event,
+ org.eclipse.scanning.api.event.queues,
+ org.eclipse.scanning.api.event.scan,
+ org.eclipse.scanning.api.ui,
+ org.eclipse.search.ui,
+ org.eclipse.ui.console,
+ org.eclipse.ui.intro.config,
+ org.python.core;version="2.7.1",
+ org.python.pydev.ui.wizards.files,
+ org.python.pydev.ui.wizards.project,
+ org.slf4j;version="1.7.25",
+ uk.ac.gda.client.live.stream.view

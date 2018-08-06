@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="dm_t" class="gda.device.motor.DummyMotor">
+		<property name="fastSpeed" value="400"/>
+		<property name="mediumSpeed" value="200"/>
+		<property name="slowSpeed" value="100"/>
+	</bean>
+
+	<bean id="tm" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dm_t"/>
+	</bean>
+
+	<bean id="TestMotors" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="tm"/>
+			</list>
+		</property>
+	</bean>
+</beans>

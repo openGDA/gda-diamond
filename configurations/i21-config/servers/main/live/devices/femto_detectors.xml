@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+	<!-- S2 Femtos -->
+	<bean id="s2cupper" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-AL-SLITS-02:FEMTO1:"/>
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="s2clower" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-AL-SLITS-02:FEMTO2:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="s2coffside" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-AL-SLITS-02:FEMTO3:"/>
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="s2cnearside" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-AL-SLITS-02:FEMTO4:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	
+	
+	<bean id="s3cupper" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-AL-SLITS-03:FEMTO1:"/>
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="s3clower" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-AL-SLITS-03:FEMTO2:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="s3coffside" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-AL-SLITS-03:FEMTO3:"/>
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="s3cnearside" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-AL-SLITS-03:FEMTO2:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	
+	<!-- D3B Femto -->
+	<bean id="d3bc" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-DI-PHGDB-03:FEMTO1:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	
+	<!-- Gas Cell Femtos -->
+	<bean id="d7cwire" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-DI-GAS-01:FEMTO1:"/>
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="d7cdiode" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-DI-GAS-01:FEMTO2:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	
+	<!--  M4 Femtos -->
+	<bean id="m4c1" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-MO-POD-01:FEMTO1:"/>
+		<property name="adcChannel" value="101" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+<!-- 		<property name="startProc" value="true"/> -->
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="m4c2" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-MO-POD-01:FEMTO2:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	
+	<!-- D8 FEMTO -->
+	<bean id="d8c" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-DI-PHDGN-08:FEMTO1:"/>
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	
+	<!-- Sample Femtos -->
+	<bean id="smpcdrain" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO1:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="smpcfy1" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO2:"/>
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="smpcstraight" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO3:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="smpcrotating" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO4:"/>
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="smpcfixed" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO5:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="smpc2theta" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO6:"/>
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+	<bean id="smpcextra" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO7:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
+		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+
+	<util:map id="gainMap">
+		<entry key="Low Noise">
+			<util:map>
+				<!-- Note: 1e3 means 1x10^3 -->
+    			<entry key="1e3" value="10^3 low noise" />
+    			<entry key="1e4" value="10^4 low noise" />
+    			<entry key="1e5" value="10^5 low noise" />
+    			<entry key="1e6" value="10^6 low noise" />
+    			<entry key="1e7" value="10^7 low noise" />
+    			<entry key="1e8" value="10^8 low noise" />
+    			<entry key="1e9" value="10^9 low noise" />
+			</util:map>
+		</entry>
+		<entry key="High Speed">
+			<util:map>
+    			<entry key="1e5" value="10^5 high speed" />
+    			<entry key="1e6" value="10^6 high speed" />
+    			<entry key="1e7" value="10^7 high speed" />
+    			<entry key="1e8" value="10^8 high speed" />
+    			<entry key="1e9" value="10^9 high speed" />
+    			<entry key="1e10" value="10^10 high spd" />
+    			<entry key="1e11" value="10^11 high spd" />
+			</util:map>	
+		</entry>
+	</util:map>
+	
+</beans>

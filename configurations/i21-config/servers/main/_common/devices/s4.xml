@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="s4hcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4hcentreMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	
+	<bean id="s4hsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4hsizeMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+	
+	<bean id="s4vcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4vcentreMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s4vsize" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4vsizeMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s4offside" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4offsideMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s4nearside" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4nearsideMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s4upper" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4upperMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s4lower" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="s4lowerMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="s4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s4hcentre" />
+				<ref bean="s4hsize" />
+				<ref bean="s4vcentre" />
+				<ref bean="s4vsize" />
+				<ref bean="s4offside" />
+				<ref bean="s4nearside" />
+				<ref bean="s4upper" />
+				<ref bean="s4lower" />
+<!-- 				<ref bean="s4femto1" /> -->
+<!-- 				<ref bean="s4femto2" /> -->
+<!-- 				<ref bean="s4femto3" /> -->
+<!-- 				<ref bean="s4femto4" /> -->
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>	
+
+</beans>

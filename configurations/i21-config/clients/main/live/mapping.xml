@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- The mapping experiment bean provides the options and defaults used for setting up new mapping experiments -->
+	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
+		<property name="detectorParameters">
+			<list>
+				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+					<constructor-arg name="name" value="andor" />
+					<constructor-arg name="model">
+						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+							<property name="name" value="andor_addetector" />
+							<property name="exposureTime" value="1.0" />
+						</bean>
+					</constructor-arg>
+					<constructor-arg name="includeInScan" value="true" />
+				</bean>
+				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
+					<constructor-arg name="name" value="mandelbrot" />
+					<!-- 
+					     Configuring spring models is incorrect, you must ask the server for the mandelbrot model 
+					     and the DetectorInformation to provide the user interface label.
+					     The name of the detector is reserved for the scan command. 
+					     Also detector models can be changed by different clients including
+					     python commands. Therefore hard coding the wrong model into the UI
+					     is incorrect, it should reflect the server values as RunnableDeviceService
+					     provides if made in its remote form.
+				     -->
+					<constructor-arg name="model">
+						<bean class="org.eclipse.scanning.example.detector.MandelbrotModel">
+							<property name="realAxisName" ref="x_axis_name" />
+							<property name="imaginaryAxisName" ref="y_axis_name" />
+						</bean>
+					</constructor-arg>
+					<constructor-arg name="includeInScan" value="false" />
+				</bean>			</list>
+		</property>
+		<property name="scriptFiles">
+			<bean class="uk.ac.diamond.daq.mapping.impl.ScriptFiles"/>
+		</property>
+		<property name="beamlineConfiguration">
+			<map>
+				<!-- specify where the scannables must be at during mapping experiment -->
+<!-- 				<entry key="D7A" value="Gap" /> -->
+<!-- 				<entry key="D7B" value="gap" /> -->
+<!-- 				<entry key="kb_vfm_x" value-type="java.lang.Double" value="7.0" /> -->
+<!-- 				<entry key="energy" value-type="java.lang.Double" value="10000.0" /> -->
+<!-- 				<entry key="sc_sample_z" value-type="java.lang.Double" value="0.0" /> -->
+<!-- 				<entry key="table_z" value-type="java.lang.Double" value="0.0" /> -->
+			</map>
+		</property>
+		<property name="scanDefinition">
+			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
+				<property name="outerScannables">
+					<list>
+						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
+							<constructor-arg name="name" value="energy" />
+							<constructor-arg name="model"><null /></constructor-arg>
+							<constructor-arg name="includeInScan" value="false"/>
+						</bean>
+						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
+							<constructor-arg name="name" value="stage_z" />
+							<constructor-arg name="model"><null /></constructor-arg>
+							<constructor-arg name="includeInScan" value="false" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+</beans>

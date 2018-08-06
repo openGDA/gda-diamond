@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="fastshutter" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="name" value="fastshutter" />
+		<property name="recordName" value="BL21I-OP-SHTR-01:CON" />
+		<property name="readOnly" value="false"/>
+		<property name="level" value="6" />
+	</bean>
+
+</beans>

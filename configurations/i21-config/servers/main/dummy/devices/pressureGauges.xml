@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="gauge01" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mbar" />
+		<property name="value">
+			<value type="double">0</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="3.0e-8" />
+		<property name="increment" value="0.2e-8" />
+	</bean>
+
+	<bean id="gauge02" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mbar" />
+		<property name="value">
+			<value type="double">0.235e-8</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="3.0e-8" />
+		<property name="increment" value="0.2e-8" />
+	</bean>
+
+	<bean id="gauge03" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mbar" />
+		<property name="value">
+			<value type="double">0.865e-8</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="3.0e-8" />
+		<property name="increment" value="0.2e-8" />
+	</bean>
+
+	<bean id="gauge04" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mbar" />
+		<property name="value">
+			<value type="double">0.118e-8</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="3.0e-8" />
+		<property name="increment" value="0.2e-8" />
+	</bean>
+
+	<bean id="gauge05" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mbar" />
+		<property name="value">
+			<value type="double">0.734e-8</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="3.0e-8" />
+		<property name="increment" value="0.2e-8" />
+	</bean>
+
+	<bean id="gauge06" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mbar" />
+		<property name="value">
+			<value type="double">0.590e-8</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="3.0e-8" />
+		<property name="increment" value="0.2e-8" />
+	</bean>
+
+	<bean id="gauge07" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mbar" />
+		<property name="value">
+			<value type="double">0.635e-8</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="3.0e-8" />
+		<property name="increment" value="0.2e-8" />
+	</bean>
+
+	<bean id="gauge08" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mbar" />
+		<property name="value">
+			<value type="double">0.494e-8</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="3.0e-8" />
+		<property name="increment" value="0.2e-8" />
+	</bean>
+
+</beans>

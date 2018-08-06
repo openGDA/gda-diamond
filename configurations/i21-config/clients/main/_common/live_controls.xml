@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Translations -->
+	<bean id="sax_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="x" />
+		<property name="group" value="Sample Translations" />
+		<property name="scannableName" value="x" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="say_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="y" />
+		<property name="group" value="Sample Translations" />
+		<property name="scannableName" value="y" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="saz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="z" />
+		<property name="group" value="Sample Translations" />
+		<property name="scannableName" value="z" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<!-- Stage Rotations -->
+	<bean id="sapolar_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="th" />
+		<property name="group" value="Sample Rotations" />
+		<property name="scannableName" value="th" />
+		<property name="increment" value="1" />
+	</bean>
+	
+	<bean id="satilt_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="chi" />
+		<property name="group" value="Sample Rotations" />
+		<property name="scannableName" value="chi" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="saazimuth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="phi" />
+		<property name="group" value="Sample Rotations" />
+		<property name="scannableName" value="phi" />
+		<property name="increment" value="1" />
+	</bean>
+	
+	<!-- Andor detector control -->
+	<bean id="andorStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andor_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); andor_addetector.collectData()" />
+		<property name="buttonText" value="Start" />
+		<property name="group" value="Andor" />
+	</bean>
+
+	<bean id="andorStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andor_addetector.adBase.stopAcquiring()" />
+		<property name="buttonText" value="Stop" />
+		<property name="group" value="Andor" />
+	</bean>
+	<bean id="andorShutterOpen" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andorshutter.moveTo('Open')" />
+		<property name="buttonText" value="Open Shutter" />
+		<property name="group" value="Andor" />
+	</bean>
+
+	<bean id="andorShutterClose" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andorshutter.moveTo('Close')" />
+		<property name="buttonText" value="Close Shutter" />
+		<property name="group" value="Andor" />
+	</bean>
+	
+	<!-- Sample Positioner control -->
+	<bean id="screws_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('Screws')" />
+		<property name="buttonText" value="Screws" />
+		<property name="group" value="Sample Positioner" />
+	</bean>
+	<bean id="transfer_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('Transfer')" />
+		<property name="buttonText" value="Transfer" />
+		<property name="group" value="Sample Positioner" />
+	</bean>
+	<bean id="rixs_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('RIXS')" />
+		<property name="buttonText" value="RIXS" />
+		<property name="group" value="Sample Positioner" />
+	</bean>
+
+	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="sax_control" />
+				<ref bean="say_control" />
+				<ref bean="saz_control" />
+				<ref bean="sapolar_control" />
+				<ref bean="satilt_control" />
+				<ref bean="saazimuth_control" />
+				<ref bean="screws_position" />
+				<ref bean="transfer_position" />
+				<ref bean="rixs_position" />
+				<ref bean="andorStart" />
+				<ref bean="andorStop" />
+				<ref bean="andorShutterOpen" />
+				<ref bean="andorShutterClose" />
+			</list>
+		</property>
+	</bean>
+</beans>

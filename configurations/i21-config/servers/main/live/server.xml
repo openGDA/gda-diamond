@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+	<import resource="../../../properties/_common/gdaProperties.xml"/>
+	
+	<import resource="devices/_all.xml"/>
+	
+	<!-- add dummy motors from dls-config for solstice scanning testing-->
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/dummy/mapping_motors.xml"/>
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/dummy/det.xml"/>
+	
+	<import resource="../../../../../gda-diamond.git/dls-config/servers/live/icat_xml_creator.xml" />
+	<!-- do not remove anything below here -->
+	<import resource="../_common/server.xml" />
+
+</beans>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+ 	<bean id="gauge01" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-IMG-01:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+ 	<bean id="gauge02" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-IMG-02:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+ 	<bean id="gauge03" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-IMG-03:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+ 	<bean id="gauge04" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-IMG-04:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+ 	<bean id="gauge05" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-IMG-05:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+ 	<bean id="gauge06" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-IMG-06:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+ 	<bean id="gauge07" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-IMG-07:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+ 	<bean id="gauge08" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL21I-VA-IMG-08:P"/>
+		<property name="unit" value="mbar"/>
+		<property name="poll" value="true"/>
+		<property name="local" value="true" />
+		<property name="sensitivity" value="2.0"/>
+	</bean>
+
+</beans>

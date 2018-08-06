@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>i21-config</name>
+	<comment></comment>
+	<projects>
+		<project>diffcalc</project>
+		<project>i21-python</project>
+		<project>org.eclipse.scanning.api</project>
+		<project>org.eclipse.scanning.example</project>
+		<project>org.eclipse.scanning.sequencer</project>
+		<project>uk.ac.diamond.daq.detectors.addetector</project>
+		<project>uk.ac.diamond.daq.detectors.addetector.api</project>
+		<project>uk.ac.diamond.daq.dls.controls</project>
+		<project>uk.ac.diamond.daq.mapping</project>
+		<project>uk.ac.diamond.scisoft.jython</project>
+		<project>uk.ac.diamond.scisoft.python</project>
+		<project>uk.ac.gda.beamline.synoptics</project>
+		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.devices.andor</project>
+		<project>uk.ac.gda.dls.client</project>
+		<project>uk.ac.gda.epics</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.dltk.core.scriptbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.python.pydev.PyDevBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.springframework.ide.eclipse.core.springbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.springframework.ide.eclipse.core.springnature</nature>
+		<nature>org.python.pydev.pythonNature</nature>
+		<nature>org.eclipse.dltk.sh.core.nature</nature>
+	</natures>
+</projectDescription>

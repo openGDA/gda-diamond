@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="m4x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m4xTransMotor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="m4y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m4yTransMotor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="m4z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m4zTransMotor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="m4rx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m4xRotMotor" />
+		<property name="userUnits" value="mdeg"/>
+	</bean>
+
+	<bean id="m4ry" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2yRotMotor" />
+		<property name="userUnits" value="mdeg"/>
+	</bean>
+
+	<bean id="m4rz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m4zRotMotor" />
+		<property name="userUnits" value="mdeg"/>
+	</bean>
+	<bean id="m4longy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m4VerticalStage" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+
+	<bean id="m4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m4x" />
+				<ref bean="m4y" />
+				<ref bean="m4z" />
+				<ref bean="m4rx" />
+				<ref bean="m4ry" />
+				<ref bean="m4rz" />
+				<ref bean="m4longy" />
+				<ref bean="m4femto1" />
+				<ref bean="m4femto2" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+	
+
+</beans>

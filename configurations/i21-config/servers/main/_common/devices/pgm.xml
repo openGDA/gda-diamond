@@ -1,0 +1,65 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- PGM control -->
+	<bean id="pgmEnergy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmEnergyMotor" />
+		<property name="userUnits" value="eV" />
+	</bean>
+
+	<bean id="pgmB2Shadow" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmB2ShadowMotor" />
+		<property name="userUnits" value="" />
+	</bean>
+
+
+	<!-- real motors -->
+
+	<bean id="pgmGratingPitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmGratingPitchMotor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+	
+	<bean id="pgmMirrorSelectReal" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmMirrorSelectMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="pgmGratingSelectReal" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmGratingSelectMotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="pgmMirrorPitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pgmMirrorPitchMotor" />
+		<property name="userUnits" value="deg" />
+	</bean>
+
+
+	<!-- Group pgm-related objects -->	
+ 	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pgmEnergy" />
+				<ref bean="pgmB2Shadow" />
+				<ref bean="pgmMirrorSelect" />
+				<ref bean="pgmGratingSelect" />
+				<ref bean="pgmMirrorPitch" />
+				<ref bean="pgmGratingPitch" />
+				<ref bean="pgmMirrorSelectReal" />
+				<ref bean="pgmGratingSelectReal" />
+				<ref bean="b2" />
+				<ref bean="cff" />
+				<ref bean="n_pgm" />
+				<ref bean="eref" />
+				<ref bean="m_pgm" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+
+ </beans>

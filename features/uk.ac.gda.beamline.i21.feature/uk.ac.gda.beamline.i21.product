@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Diamond Beamline i21" id="uk.ac.gda.beamline.i21.product" application="uk.ac.gda.client.application" version="9.9.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+      <text>
+         Diamond Beamline i21 
+
+Based on GDA See &lt;http://www.opengda.org/&gt;
+      </text>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Dgda.instance.dir=/dls_sw/i21/software/gda/config
+-Dgda.facility.dir=/dls_sw/i21/software/gda/workspace_git/gda-diamond.git/dls-config
+-Dgda.core.dir=/dls_sw/i21/software/gda/workspace_git/gda-core.git/core-config
+-Dgda.group.dir=/dls_sw/i21/software/gda/workspace_git/gda-core.git/core-config/no-group
+-Dgda.config=/dls_sw/i21/software/gda/config
+-Dgda.propertiesFile=/dls_sw/i21/software/gda/config/properties/live/live_instance_java.properties
+-Djacorb.config.dir=/dls_sw/i21/software/gda/config/properties/live/jacorb
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i21/software/gda/config/properties/live/JCALibrary.properties
+-Declipse.pluginCustomization=/dls_sw/i21/software/gda/config/plugin_customization.ini
+-Dgda.install.git.loc=/dls_sw/i21/software/gda/workspace_git
+-Dgda.install.workspace.loc=/dls_sw/i21/software/gda/workspace
+-Dgda.logs.dir=/dls_sw/i21//logs
+-Dgda.data=/dls/i21/data
+-Dgda.gui.beans.xml=/dls_sw/i21/software/gda/config/clients/main/live/client.xml
+-Dgda.var=/dls_sw/i21/software/gda_versions/var
+-Dgda.mode=live
+-Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
+-Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Dpydev.funding.hide=true
+-Xms256m
+-Xmx2048m
+-XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.gda.beamline.i21" />
+   <launcher name="gda-i21">
+      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="uk.ac.gda.client.intro"/>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/licenses/</url>
+        <text>
+   Copyright © 2016 Diamond Light Source Ltd.
+
+GDA is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License version 3 as published by the Free
+Software Foundation.
+
+GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along
+with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
+         </text>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.i21.feature"/>
+   </features>
+
+
+</product>

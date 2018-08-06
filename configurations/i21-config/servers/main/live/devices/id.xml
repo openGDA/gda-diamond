@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="idgapMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="SR21I-MO-SERVC-01:BLGAPMTR" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="idcontrol" class="gda.device.insertiondevice.Apple2IDEpics">
+		<property name="local" value="true" />
+		<property name="basePVName" value="SR21I-MO-SERVC-01" />
+		<property name="maxPhaseMotorPos" value="28.0" />
+		<property name="motorPosDelay" value="200" />
+		<property name="motorPositionTolerance" value="0.012"/>
+		<property name="minGapPos" value="20.0"/>
+		<property name="maxGapPos" value="100.0"/>
+	</bean>
+
+</beans>

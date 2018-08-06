@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- D3B Stick Positioner -->
+	<bean id="d3bpos" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL21I-DI-PHDGB-03:MP" />
+	</bean>
+
+	<!-- Stick motor -->
+	<bean id="d3bmotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-DI-PHDGB-03:POS" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Femto -->
+	<bean id="d3bfemto" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-DI-PHGDB-03:FEMTO1" />
+		<property name="local" value="true" />
+	</bean>
+	
+</beans>

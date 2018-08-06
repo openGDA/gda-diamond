@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<!-- Diagnostic stick -->
+	<bean id="d3astick" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d3amotor" />
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<!-- Group d3a-related objects -->	
+ 	<bean id="d3a" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d3apos" />
+				<ref bean="d3astick" />
+<!-- 				<ref bean="d3acam" /> -->
+				<ref bean="d3afemto" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+ </beans>

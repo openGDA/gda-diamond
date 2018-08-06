@@ -1,0 +1,97 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="th" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpthMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="deg" />
+	</bean>
+
+	<bean id="x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpxMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpyMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpzMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="mm" />
+	</bean>
+	<bean id="phi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpphiMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="deg" />
+	</bean>
+	<bean id="delta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpdeltaMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="deg" />
+	</bean>
+	<bean id="chi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpchiMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="deg" />
+	</bean>
+
+	<!-- Group d4-related objects -->	
+ 	<bean id="smp" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="th" />
+				<ref bean="x" />
+				<ref bean="y" />
+				<ref bean="z" />
+				<ref bean="phi" />
+				<ref bean="delta" />
+				<ref bean="chi" />
+				<ref bean="draincurrent" />
+				<ref bean="fy1" />
+				<ref bean="straightdiode" />
+				<ref bean="rotatingdiode" />
+				<ref bean="fixdiode1" />
+				<ref bean="extradiode" />
+				<ref bean="tthdiode" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+ </beans>

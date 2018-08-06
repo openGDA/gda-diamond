@@ -1,0 +1,96 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="simth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpthDummyMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="deg" />
+	</bean>
+
+	<bean id="simx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpxDummyMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="simy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpyDummyMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="mm" />
+	</bean>
+
+	<bean id="simz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpzDummyMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="mm" />
+	</bean>
+	<bean id="simphi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpphiDummyMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="deg" />
+	</bean>
+	<bean id="simdelta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpdeltaDummyMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="deg" />
+	</bean>
+	<bean id="simchi" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="smpchiDummyMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%10.6f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="deg" />
+	</bean>
+	
+	<bean id="simm5tth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m5tthDummyMotor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	
+	<!-- Group d4-related objects -->	
+ 	<bean id="simsmp" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="simth" />
+				<ref bean="simx" />
+				<ref bean="simy" />
+				<ref bean="simz" />
+				<ref bean="simphi" />
+				<ref bean="simchi" />
+				<ref bean="simdelta" />
+				<ref bean="simm5tth" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+ </beans>
