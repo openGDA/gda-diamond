@@ -46,11 +46,11 @@
 					    </bean>
 						<bean class="gda.jython.ScriptProject">
 							<constructor-arg index="0"
-								value="${gda.install.git.loc}/gda-dls-beamlines-i21.git/i21-python/src" />
+								value="${gda.install.git.loc}/gda-diamond.git/configurations/i21-python/src" />
 							<constructor-arg index="1" value="Scripts: Python" />
 							<constructor-arg index="2" type="gda.jython.ScriptProjectType"
 								value="CORE" />
-						</bean>				
+						</bean>
 					</list>
 				</property>
 				<property name="startupScript" value="${gda.config}/scripts/localStation.py"/>
