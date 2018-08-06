@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="analyserModel" class="uk.ac.diamond.daq.detectors.vgscienta.electronanalyser.api.ElectronAnalyserRunnableDeviceModel">
+		<property name="name" value="analyser" />
+		<property name="exposureTime" value="0.1" />
+		<property name="timeout" value="600" />
+	</bean>
+
+	<bean id="analyserInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="DA30" />
+		<property name="description" value="DA30" />
+	</bean>
+
+	<bean id="analyserDevice" class="uk.ac.diamond.daq.detectors.vgscienta.electronanalyser.ElectronAnalyserRunnableDevice"
+		init-method="register">
+		<property name="name" value="analyser" />
+		<property name="model" ref="analyserModel" />
+		<property name="analyser" ref="analyser" />
+		<property name="deviceInformation" ref="analyserInfo" />
+		<property name="activated" value="true" />
+	</bean>
+
+</beans>

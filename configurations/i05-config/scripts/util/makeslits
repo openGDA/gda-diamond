@@ -1,0 +1,15 @@
+
+
+for i in 1 2 3 4 ; do 
+sh mots2xml.sh s$i << EOF
+xcentre SLITS$i.XGAPCENTRE
+xgap SLITS$i.XGAPSIZE
+ycentre SLITS$i.YGAPCENTRE
+ygap SLITS$i.YGAPSIZE
+xring SLITS$i.XRING
+xhall SLITS$i.XHALL
+ytop SLITS$i.YPLUS
+ybottom SLITS$i.YMINUS
+EOF
+done
+

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sj9_xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sj9_xcentre_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sj9_xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sj9_xgap_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sj9_ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sj9_ycentre_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sj9_ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sj9_ygap_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sj9_xring" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sj9_xring_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sj9_xhall" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sj9_xhall_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sj9_ytop" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sj9_ytop_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sj9_ybottom" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sj9_ybottom_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sj9" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="sj9_xcentre" />
+				<ref bean="sj9_xgap" />
+				<ref bean="sj9_ycentre" />
+				<ref bean="sj9_ygap" />
+				<ref bean="sj9_xring" />
+				<ref bean="sj9_xhall" />
+				<ref bean="sj9_ytop" />
+				<ref bean="sj9_ybottom" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="smx_control" />
+				<ref bean="smy_control" />
+				<ref bean="smz_control" />
+				<ref bean="smpolar_control" />
+				<ref bean="anapolar_control" />
+				<ref bean="smazi_control" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- Translations -->
+	<bean id="smx_control" class="uk.ac.gda.client.livecontrol.Control">
+		<property name="displayName" value="smx" />
+		<property name="group" value="Sample Translations" />
+		<property name="scannableName" value="smx" />
+		<property name="increment" value="10" />
+	</bean>
+
+	<bean id="smy_control" class="uk.ac.gda.client.livecontrol.Control">
+		<property name="displayName" value="smy" />
+		<property name="group" value="Sample Translations" />
+		<property name="scannableName" value="smy" />
+		<property name="increment" value="10" />
+	</bean>
+
+	<bean id="smz_control" class="uk.ac.gda.client.livecontrol.Control">
+		<property name="displayName" value="smz" />
+		<property name="group" value="Sample Translations" />
+		<property name="scannableName" value="smz" />
+		<property name="increment" value="10" />
+	</bean>
+
+	<!-- Stage Rotations -->
+	<bean id="smpolar_control" class="uk.ac.gda.client.livecontrol.Control">
+		<property name="displayName" value="smpolar" />
+		<property name="group" value="Rotations" />
+		<property name="scannableName" value="smpolar" />
+		<property name="increment" value="1" />
+	</bean>
+	
+	<bean id="anapolar_control" class="uk.ac.gda.client.livecontrol.Control">
+		<property name="displayName" value="anapolar" />
+		<property name="group" value="Rotations" />
+		<property name="scannableName" value="anapolar" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="smazi_control" class="uk.ac.gda.client.livecontrol.Control">
+		<property name="displayName" value="smazimuth" />
+		<property name="group" value="Rotations" />
+		<property name="scannableName" value="smazimuth" />
+		<property name="increment" value="1" />
+	</bean>
+
+</beans>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE configuration>
+
+<user_permissions>
+	<!-- beamline staff -->
+	<i05user>3</i05user>
+	<!-- data acq -->
+	<rbl46502>3</rbl46502> <!-- James Mudd -->
+	<vvw07985>3</vvw07985> <!-- Olly King -->
+</user_permissions>

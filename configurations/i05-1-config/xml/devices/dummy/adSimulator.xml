@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	
+	<!-- Objects that are not true dummies but access a simulated area detector -->
+	<!-- You will have to change the PVs to those corresponding to your simulator -->
+	
+	<bean id="simCamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="ws141-AD-SIM-01:CAM:" />
+	</bean>
+
+	<bean id="simRoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats" />
+		<property name="baseRoiPVName" value="ws141-AD-SIM-01:ROI:" />
+		<property name="baseStatsPVName" value="ws141-AD-SIM-01:STAT:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider" ref="mcp_roi" />
+	</bean>
+
+	<bean id="simHdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+		<property name="fileNameTemplate" value="simAd"/>
+		<property name="ndFileHDF5">
+			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
+				<property name="ndFileImpl">
+					<bean class="gda.spring.V17NDFileFactoryBean">
+						<property name="prefix" value="ws141-AD-SIM-01:HDF5:" />
+						<property name="resetToInitialValues" value="false" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="simCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="restoreTriggerMode" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+						<property name="restoreAcquireState" value="true" />
+						<property name="adBase" ref="simCamBase" />
+						<property name="readoutTime" value="-1" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="abstractHdf5FilewriternNochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter" abstract="true">
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="0" />
+		<property name="framesFlush" value="0" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+	</bean>
+	
+</beans>

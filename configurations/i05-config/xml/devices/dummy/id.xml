@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="id" class="uk.ac.gda.arpes.scannable.I05Apple">
+		<property name="local" value="true" />
+		<property name="gapScannable" ref="rawid_gap" />
+		<property name="upperPhaseScannable" ref="rawid_upperphase" />
+		<property name="lowerPhaseScannable" ref="rawid_lowerphase" />
+		<property name="exclusionZone">
+			<list>
+				<bean class="java.awt.geom.Rectangle2D.Double">
+					<constructor-arg>
+						<value>-65</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>0</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>130</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>25</value>
+					</constructor-arg>
+				</bean>
+				<bean class="java.awt.geom.Rectangle2D.Double">
+					<constructor-arg>
+						<value>-10</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>0</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>20</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>37</value>
+					</constructor-arg>
+				</bean>
+			</list>
+		</property>
+		<property name="horizontalGapPolynomial">
+			<bean
+				class="org.apache.commons.math3.analysis.polynomials.PolynomialFunction">
+				<constructor-arg>
+					<list>
+						<value>13.048</value>
+						<value>1.8702</value>
+						<value>-0.035329</value>
+						<value>0.00046146</value>
+						<value>-3.8182e-6</value>
+						<value>1.9733e-8</value>
+						<value>-6.1567e-11</value>
+						<value>1.0584e-13</value>
+						<value>-7.6867e-17</value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="verticalGapPolynomial">
+			<bean
+				class="org.apache.commons.math3.analysis.polynomials.PolynomialFunction">
+				<constructor-arg>
+					<list>
+						<value>8.6534</value>
+						<value>1.3005</value>
+						<value>-0.034767</value>
+						<value>0.00065254</value>
+						<value>-7.5216e-6</value>
+						<value>5.2519e-8</value>
+						<value>-2.1624e-10</value>
+						<value>4.8233e-13</value>
+						<value>-4.4904e-16</value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="circularPhasePolynomial">
+			<bean
+				class="org.apache.commons.math3.analysis.polynomials.PolynomialFunction">
+				<constructor-arg>
+					<list>
+						<value>37.527</value>
+						<value>0.45575</value>
+						<value>-0.0076008</value>
+						<value>7.7986e-5</value>
+						<value>-4.9078e-7</value>
+						<value>1.9312e-9</value>
+						<value>-4.7534e-12</value>
+						<value>7.0938e-15</value>
+						<value>-5.8606e-18</value>
+						<value>2.0545e-21</value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="circularGapPolynomial">
+			<bean
+				class="org.apache.commons.math3.analysis.polynomials.PolynomialFunction">
+				<constructor-arg>
+					<list>
+						<value>8.049</value>
+						<value>1.5442</value>
+						<value>-0.032253</value>
+						<value>0.0004126</value>
+						<value>-3.0994e-6</value>
+						<value>1.404e-8</value>
+						<value>-3.8685e-11</value>
+						<value>6.3267e-14</value>
+						<value>-5.6361e-17</value>
+						<value>2.1043e-20</value>
+					</list>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="energy" class="uk.ac.gda.arpes.scannable.EnergyScannable">
+		<property name="pgm" ref="pgm_energy" />
+		<property name="id" ref="id" />
+		<property name="outputFormat" value="%5.5g eV" />
+	</bean>
+	<bean id="polarisation" class="uk.ac.gda.arpes.scannable.PolarisationScannable">
+		<property name="pgm" ref="pgm_energy" />
+		<property name="id" ref="id" />
+		<property name="outputFormat" value="%s" />
+	</bean>
+
+</beans>

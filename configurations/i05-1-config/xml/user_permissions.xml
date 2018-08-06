@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE configuration>
+
+<user_permissions>
+	<!-- beamline staff -->
+	<i05user>3</i05user>
+	<!-- data acq -->
+	<zjt21856>3</zjt21856>
+	<tjs15132>3</tjs15132>
+</user_permissions>

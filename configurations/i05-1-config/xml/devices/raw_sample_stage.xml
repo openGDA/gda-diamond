@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="ssx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ssx_motor" />
+		<property name="initialUserUnits" value="micron" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="-7000" />
+		<property name="upperGdaLimits" value="6500" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ssy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ssy_motor" />
+		<property name="initialUserUnits" value="micron" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="-7000" />
+		<property name="upperGdaLimits" value="6500" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ssz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ssz_motor" />
+		<property name="initialUserUnits" value="micron" />
+		<property name="hardwareUnitString" value="mm" />
+		<property name="lowerGdaLimits" value="-7500" />
+		<property name="upperGdaLimits" value="7000" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="ss" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ssx" />
+				<ref bean="ssy" />
+				<ref bean="ssz" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

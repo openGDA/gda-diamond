@@ -1,0 +1,487 @@
+
+#% macro, P, Device Prefix
+#% macro, R, Device Suffix
+#% macro, PORT, Asyn Port name
+
+# This associates the template with an edm screen
+# % gui, $(PORT), edmtab, electronAnalyser.edl, P=$(P),R=$(R)
+
+record(stringin, "$(P)$(R)X_UNITS_RBV")
+{
+  field(DESC, "X Axis Units")
+  field(DTYP, "asynOctetRead")
+  field(INP,  "@asyn($(PORT) 0)ACQ_CHANNEL_UNIT")
+  field(SCAN, "I/O Intr")
+}
+
+record(stringin, "$(P)$(R)Y_UNITS_RBV")
+{
+  field(DESC, "Y Axis Units")
+  field(DTYP, "asynOctetRead")
+  field(INP,  "@asyn($(PORT) 0)ACQ_INTENSITY_UNIT")
+  field(SCAN, "I/O Intr")
+}
+
+record(longout, "$(P)$(R)SLICES") 
+{
+  field(DESC, "Number of slices")
+  field(DTYP, "asynInt32")
+  field(OUT, "@asyn($(PORT) 0)DETECTOR_SLICES")
+  field(PINI, "YES")
+  field(VAL,  "10")
+  field(DRVL, "1")
+  field(DRVH, "1000")
+}
+
+record(longin, "$(P)$(R)SLICES_RBV") 
+{
+  field(DESC, "Number of slices Readback")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) 0)DETECTOR_SLICES")
+  field(SCAN, "I/O Intr")
+}
+
+######################## Modes ########################### 
+
+record(mbbo, "$(P)$(R)ACQ_MODE")
+{
+  field(DESC, "Acquisition Mode")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)ACQUISITION_MODE")
+  field(ZRST, "Swept")
+  field(ZRVL, "0")
+  field(ONST, "Fixed")
+  field(ONVL, "1")
+  field(PINI, "YES")
+  field(VAL,  "0")
+}
+
+record(mbbi, "$(P)$(R)ACQ_MODE_RBV")
+{
+  field(DESC, "Acquisition Mode Readback")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)ACQUISITION_MODE")
+  field(SCAN, "I/O Intr")
+  field(ZRST, "Swept")
+  field(ZRVL, "0")
+  field(ONST, "Fixed")
+  field(ONVL, "1")
+  field(FLNK, "$(P)$(R)MODE_LOCK")
+}
+
+record(mbbo, "$(P)$(R)ENERGY_MODE")
+{
+  field(DESC, "Energy Mode")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)ENERGY_MODE")
+  field(ZRST, "Binding")
+  field(ZRVL, "0")
+  field(ONST, "Kinetic")
+  field(ONVL, "1")
+  field(PINI, "YES")
+  field(VAL, "1")
+}
+
+record(mbbi, "$(P)$(R)ENERGY_MODE_RBV")
+{
+  field(DESC, "Energy Mode Readback")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)ENERGY_MODE")
+  field(SCAN, "I/O Intr")
+  field(ZRST, "Binding")
+  field(ZRVL, "0")
+  field(ONST, "Kinetic")
+  field(ONVL, "1")
+}
+
+record(mbbo, "$(P)$(R)LENS_MODE") 
+{
+  field(DESC, "Lens Mode")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)LENS_MODES")
+  field(ZRST, "Transmission")
+  field(ZRVL, "0")
+  field(ONST, "Angular14")
+  field(ONVL, "1")
+  field(TWST, "Angular7_fix")
+  field(TWVL, "2")
+  field(THST, "Angular30")
+  field(THVL, "3")
+  field(FRST, "Angular7")
+  field(FRVL, "4")
+  field(FVST, "A14small")
+  field(FVVL, "5")
+  field(SXST, "A30small")
+  field(SXVL, "6")
+  field(PINI, "YES")
+  field(VAL, "0")  
+}
+
+record(mbbi, "$(P)$(R)LENS_MODE_RBV") 
+{
+  field(DESC, "Lens Mode Readback")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)LENS_MODES")
+  field(SCAN, "I/O Intr")
+  field(ZRST, "Transmission")
+  field(ZRVL, "0")
+  field(ONST, "Angular14")
+  field(ONVL, "1")
+  field(TWST, "Angular7_fix")
+  field(TWVL, "2")
+  field(THST, "Angular30")
+  field(THVL, "3")
+  field(FRST, "Angular7")
+  field(FRVL, "4")
+  field(FVST, "A14small")
+  field(FVVL, "5")
+  field(SXST, "A30small")
+  field(SXVL, "6")  
+}
+
+record(mbbo, "$(P)$(R)DETECTOR_MODE")
+{
+  field(DESC, "Detector Mode")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)DETECTOR_MODE")
+  field(ZRST, "Pulse Counting")
+  field(ZRVL, "0")
+  field(ONST, "ADC")
+  field(ONVL, "1")
+  field(PINI, "YES")
+  field(VAL, "1")
+}
+
+record(mbbi, "$(P)$(R)DETECTOR_MODE_RBV")
+{
+  field(DESC, "Dectector Mode Readback")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)DETECTOR_MODE")
+  field(SCAN, "I/O Intr")
+  field(ZRST, "Pulse Counting")
+  field(ZRVL, "0")
+  field(ONST, "ADC")
+  field(ONVL, "1")
+}
+
+###################### Energy (eV) ########################
+
+record(calcout, "$(P)$(R)MODE_LOCK")
+{
+  field(DESC, "Lock out fields in fixed mode")
+  field(CALC, "A")
+  field(INPA, "$(P)$(R)ACQ_MODE_RBV")
+  field(OUT,  "$(P)$(R)MODE_LOCK_FANOUT PP")
+}
+
+record(dfanout, "$(P)$(R)MODE_LOCK_FANOUT")
+{
+  field(DESC, "Fanout the mode lock")
+  field(DOL,  "$(P)$(R)MODE_LOCK")
+  field(OUTA, "$(P)$(R)LOW_ENERGY.DISA PP")
+  field(OUTB, "$(P)$(R)HIGH_ENERGY.DISA PP")
+  field(OUTC, "$(P)$(R)STEP_SIZE.DISA PP")
+  field(OMSL, "closed_loop")
+}
+
+record(mbbo, "$(P)$(R)PASS_ENERGY") 
+{
+  field(DESC, "Pass Energy")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)PASS_ENERGY")
+  field(ZRST, "1")
+  field(ZRVL, "0")
+  field(ONST, "2")
+  field(ONVL, "1")
+  field(TWST, "5")
+  field(TWVL, "2")
+  field(THST, "10")
+  field(THVL, "3")
+  field(FRST, "20")
+  field(FRVL, "4")
+  field(FVST, "50")
+  field(FVVL, "5")
+  field(SXST, "100")
+  field(SXVL, "6")
+  field(PINI, "YES")
+  field(VAL, "0")  
+}
+
+record(mbbi, "$(P)$(R)PASS_ENERGY_RBV") 
+{
+  field(DESC, "Pass Energy Readback")
+  field(DTYP, "asynInt32")
+  field(SCAN, "I/O Intr")
+  field(INP,  "@asyn($(PORT) 0)PASS_ENERGY")
+  field(ZRST, "1")
+  field(ZRVL, "0")
+  field(ONST, "2")
+  field(ONVL, "1")
+  field(TWST, "5")
+  field(TWVL, "2")
+  field(THST, "10")
+  field(THVL, "3")
+  field(FRST, "20")
+  field(FRVL, "4")
+  field(FVST, "50")
+  field(FVVL, "5")
+  field(SXST, "100")
+  field(SXVL, "6")  
+}
+
+record(ao, "$(P)$(R)LOW_ENERGY") 
+{
+  field(DESC, "Low Energy")
+  field(DTYP, "asynFloat64")
+  field(OUT, "@asyn($(PORT) 0)LOW_ENERGY")
+  field(PREC, "3")
+  field(PINI, "YES")
+  field(VAL, "82")
+}
+
+record(ai, "$(P)$(R)LOW_ENERGY_RBV") 
+{
+  field(DESC, "Low Energy Readback")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT) 0)LOW_ENERGY")
+  field(SCAN, "I/O Intr")
+  field(PREC, "3")
+  field(FLNK, "$(P)$(R)ENERGY_WIDTH_RBV")
+}
+
+record(ao, "$(P)$(R)CENTRE_ENERGY") 
+{
+  field(DESC, "Centre Energy")
+  field(DTYP, "asynFloat64")
+  field(OUT, "@asyn($(PORT) 0)CENTER_ENERGY")
+  field(PREC, "3")
+  field(PINI, "YES")
+  field(VAL, "84")
+}
+
+record(ai, "$(P)$(R)CENTRE_ENERGY_RBV") 
+{
+  field(DESC, "Centre Energy Readback")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT) 0)CENTER_ENERGY")
+  field(SCAN, "I/O Intr")
+  field(PREC, "3")
+}
+
+record(ao, "$(P)$(R)HIGH_ENERGY") 
+{
+  field(DESC, "High Energy")
+  field(DTYP, "asynFloat64")
+  field(OUT, "@asyn($(PORT) 0)HIGH_ENERGY")
+  field(PREC, "3")
+  field(PINI, "YES")
+  field(VAL, "86")
+}
+
+record(ai, "$(P)$(R)HIGH_ENERGY_RBV") 
+{
+  field(DESC, "High Energy Readback")
+  field(DTYP, "asynFloat64")
+  field(INP, "@asyn($(PORT) 0)HIGH_ENERGY")
+  field(SCAN, "I/O Intr")
+  field(PREC, "3")
+  field(FLNK, "$(P)$(R)ENERGY_WIDTH_RBV")
+}
+
+record(calc, "$(P)$(R)ENERGY_WIDTH_RBV")
+{
+  field(DESC, "Calculated energy width")
+  field(SCAN, "Passive")
+  field(CALC, "B-A")
+  field(INPA, "$(P)$(R)LOW_ENERGY_RBV")
+  field(INPB, "$(P)$(R)HIGH_ENERGY_RBV")
+  field(PREC, "3")
+}
+
+###################### Step ########################
+
+record(ao, "$(P)$(R)STEP_SIZE") 
+{
+  field(DESC, "Energy Step Size")
+  field(DTYP, "asynFloat64")
+  field(OUT,  "@asyn($(PORT) 0)ENERGY_STEP")
+  field(PREC, "3")
+  field(PINI, "YES")
+  field(VAL,  "0.2")
+}
+
+record(ai, "$(P)$(R)STEP_SIZE_RBV") 
+{
+  field(DESC, "Energy Step Size Readback")
+  field(DTYP, "asynFloat64")
+  field(INP,  "@asyn($(PORT) 0)ENERGY_STEP")
+  field(SCAN, "I/O Intr")
+  field(PREC, "3")
+}
+
+record(longout, "$(P)$(R)FRAMES") 
+{
+  field(DESC, "Number of Frames")
+  field(DTYP, "Soft Channel")
+  field(OUT,  "$(P)$(R)FRAMES_CALC")
+  field(PINI, "YES")
+  field(VAL,  "30")
+  field(FLNK, "$(P)$(R)FRAMES_RBV")
+}
+
+record(longin, "$(P)$(R)FRAMES_RBV") 
+{
+  field(DESC, "Number of Frames Readback")
+  field(DTYP, "Soft Channel")
+  field(INP,  "$(P)$(R)FRAMES")
+  field(SCAN, "Passive")
+  field(FLNK, "$(P)$(R)FRAMES_CALC")
+}
+
+record(longin, "$(P)$(R)MAX_FRAMES_RBV") 
+{
+  field(DESC, "Max Frames Readback")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) 0)FRAME_RATE")
+  field(SCAN, "I/O Intr")
+}
+
+record(calcout, "$(P)$(R)FRAMES_CALC")
+{
+  field(DESC, "Calculate time from frames")
+  field(CALC, "A/B")
+  field(INPA, "$(P)$(R)FRAMES")
+  field(INPB, "$(P)$(R)MAX_FRAMES_RBV")
+  field(OUT,  "$(P)$(R)AcquireTime PP")
+}
+
+#record(ao, "$(P)$(R)STEP_TIME") 
+#{
+#  field(DESC, "Dwell Time")
+#  field(DTYP, "asynInt32")
+#  field(OUT, "@asyn($(PORT) 0)DWELL_TIME")
+#  field(PREC, "3")
+#}
+
+#record(ai, "$(P)$(R)STEP_TIME_RBV") 
+#{
+#  field(DESC, "Step Time Readback")
+#  field(DTYP, "asynInt32")
+#  field(INP,  "@asyn($(PORT) 0)DWELL_TIME")
+#  field(SCAN, "I/O Intr")
+#  field(PREC, "3")
+#}
+
+################## Element Sets ####################
+
+record(mbbo, "$(P)$(R)ELEMENT_SET")
+{
+  field(DESC, "Element Set")
+  field(DTYP, "asynInt32")
+  field(OUT,  "@asyn($(PORT) 0)ELEMENT_SETS")
+  field(ZRST, "Laser")
+  field(ZRVL, "0")
+  field(ONST, "He I")
+  field(ONVL, "1")
+  field(PINI, "YES")
+  field(VAL, "0")
+}
+
+record(mbbi, "$(P)$(R)ELEMENT_SET_RBV")
+{
+  field(DESC, "Element Set Readback")
+  field(DTYP, "asynInt32")
+  field(INP,  "@asyn($(PORT) 0)ELEMENT_SETS")
+  field(SCAN, "I/O Intr")
+  field(ZRST, "Laser")
+  field(ZRVL, "0")
+  field(ONST, "He I")
+  field(ONVL, "1")
+}
+
+###################################################
+
+record(waveform, "$(P)$(R)INT_SPECTRUM")
+{
+  field(DESC, "Integrated Spectrum")
+  field(DTYP, "asynFloat64ArrayIn")
+  field(INP,  "@asyn($(PORT) 0)ACQ_SPECTRUM")
+  field(SCAN, "I/O Intr")
+  field(FTVL, "DOUBLE")
+  field(NELM, "50000")
+}
+
+record(waveform, "$(P)$(R)IMAGE")
+{
+  field(DESC, "Acquired Image")
+  field(DTYP, "asynFloat64ArrayIn")
+  field(INP,  "@asyn($(PORT) 0)ACQ_IMAGE")
+  field(SCAN, "I/O Intr")
+  field(FTVL, "DOUBLE")
+  field(NELM, "50000")
+}
+
+################# Data Choice #####################
+
+#record(mbbo, "$(P)$(R)DATA_CHOICE")
+#{
+#  field(DESC, "Data Choice")
+#  field(DTYP, "asynInt32")
+#  field(OUT,  "@asyn($(PORT) 0)DATA_CHOICE")
+#  field(ZRST, "1D Spectrum")
+#  field(ZRVL, "1")
+#  field(ONST, "2D Image")
+#  field(ONVL, "2")
+#}
+
+#record(mbbi, "$(P)$(R)DATA_CHOICE_RBV")
+#{
+#  field(DESC, "Data Choice Readback")
+#  field(DTYP, "asynInt32")
+#  field(INP,  "@asyn($(PORT) 0)DATA_CHOICE")
+#  field(SCAN, "I/O Intr")
+#  field(ZRST, "1D Spectrum")
+#  field(ZRVL, "1")
+#  field(ONST, "2D Image")
+#  field(ONVL, "2")
+#}
+
+################## Progress ######################
+
+record(ai, "$(P)$(R)PROGRESS_RBV") 
+{
+  field(DESC, "Data Acq Progress")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) 0)PERCENT_COMPLETE")
+  field(SCAN, "I/O Intr")
+  field(PREC, "0")
+  field(EGU, "%")
+}
+
+record(ai, "$(P)$(R)NUM_CHANNELS_RBV") 
+{
+  field(DESC, "Number of Channels")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) 0)NUM_CHANNELS")
+  field(SCAN, "I/O Intr")
+  field(PREC, "0")
+}
+
+record(ai, "$(P)$(R)CURRENT_CHANNEL_RBV") 
+{
+  field(DESC, "Current Acq Channel")
+  field(DTYP, "asynInt32")
+  field(INP, "@asyn($(PORT) 0)CURRENT_CHANNEL")
+  field(SCAN, "I/O Intr")
+  field(PREC, "0")
+}
+
+record(calc, "$(P)$(R)TOTAL_POINTS_RBV")
+{
+  field(DESC, "Total Acq Points")
+  field(SCAN, ".5 second")
+  field(CALC, "A*B")
+  field(INPA, "$(P)$(R)NUM_CHANNELS_RBV")
+  field(INPB, "$(P)$(R)NumExposures_RBV")
+}
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="localscriptproject" class="gda.jython.ScriptProject">
+		<property name="path" value="/dls_sw/i05/scripts/" />
+		<property name="name" value="Scripts: User" />
+		<property name="type" value="USER" />
+	</bean>
+
+	<import resource="../_common/server.xml"/>
+
+</beans>

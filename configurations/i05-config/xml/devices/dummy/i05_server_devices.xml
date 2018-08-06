@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="rawid.xml" />
+	<import resource="id.xml" />
+	<import resource="scientaslit.xml" />
+	<import resource="gonio.xml" />
+	<import resource="pgm.xml" />
+	<import resource="analyser.xml" />
+	<import resource="../combinedgonio.xml" />
+	<import resource="dummyMotor.xml" />
+	<import resource="pressure_gauges.xml" />
+	<import resource="cryostat.xml" />
+	<import resource="ring.xml"/>
+	<import resource="shtr1.xml"/>
+	<import resource="analyser_over_exposure.xml" />
+
+	<!-- Femtos -->
+	<import resource="femto.xml" />
+
+	<bean class="gda.device.scannable.DummyUnitsScannable" id="s6_xsize">
+		<property name="inputNames">
+			<list>
+				<value>s6_xsize</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.0f</value>
+			</list>
+		</property>
+		<property name="protectionLevel" value="3"></property>
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="5" />
+	</bean>
+	
+	<bean class="gda.device.scannable.DummyUnitsScannable" id="exit_slit">
+		<property name="inputNames">
+			<list>
+				<value>exit_slit</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.0f</value>
+			</list>
+		</property>
+		<property name="protectionLevel" value="3"></property>
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="5" />
+	</bean>
+	
+	<bean class="gda.device.scannable.DummyUnitsScannable" id="s2_ysize">
+		<property name="inputNames">
+			<list>
+				<value>s2_ysize</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.0f</value>
+			</list>
+		</property>
+		<property name="protectionLevel" value="3"></property>
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="5" />
+	</bean>
+	
+	<bean class="gda.device.scannable.DummyUnitsScannable" id="s2_xsize">
+		<property name="inputNames">
+			<list>
+				<value>s2_xsize</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.0f</value>
+			</list>
+		</property>
+		<property name="protectionLevel" value="3"></property>
+		<property name="lowerGdaLimits" value="0" />
+		<property name="upperGdaLimits" value="5" />
+	</bean>
+
+</beans>

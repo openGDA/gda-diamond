@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dj9positioner" class="gda.spring.EpicsEnumPositionerFactoryBean">
+		<property name="pvBase" value="BL05J-DI-PHDGN-03:DET:Y:MP" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="dj9current" class="gda.device.currentamplifier.CalibratedAmplifier">
+		<property name="scalingAndOffset" ref="dj9gain" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL05J-DI-PHDGN-03:DET:I" />
+		<property name="settletime" value="500" />
+		<property name="upperThreshold" value="9.5" />
+		<property name="autoGain" value="false" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="dj9average" class="gda.device.currentamplifier.CalibratedAmplifier">
+		<property name="scalingAndOffset" ref="dj9gain" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+		<property name="pvName" value="BL05J-DI-PHDGN-03:DET:IAV" />
+		<property name="settletime" value="500" />
+		<property name="upperThreshold" value="9.5" />
+		<property name="autoGain" value="false" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="dj9gain" class="gda.device.currentamplifier.GainWithScalingAndOffset">
+		<property name="pvName" value="BL05J-DI-PHDGN-03:DET:GAIN" />
+		<property name="gaintosando">
+			<map> <!-- scaling: multiply by negated gain exponent to display pre-gain value 
+					(amps) given the post-gain value (volts) -->
+				<entry key="0">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="1e-4" />
+					</bean>
+				</entry>
+				<entry key="1">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="1e-5" />
+					</bean>
+				</entry>
+				<entry key="2">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="1e-6" />
+					</bean>
+				</entry>
+				<entry key="3">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="1e-7" />
+					</bean>
+				</entry>
+				<entry key="4">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="1e-8" />
+					</bean>
+				</entry>
+				<entry key="5">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="1e-9" />
+					</bean>
+				</entry>
+				<entry key="6">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="1e-10" />
+					</bean>
+				</entry>
+				<entry key="7">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="1e-11" />
+					</bean>
+				</entry>
+				<entry key="8">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="1e-12" />
+					</bean>
+				</entry>
+				<entry key="9">
+					<bean class="gda.device.currentamplifier.ScalingAndOffsetParameters">
+						<property name="scaling" value="1e-13" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+</beans>

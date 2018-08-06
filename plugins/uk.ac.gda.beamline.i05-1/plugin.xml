@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            description="GDA nanoARPES"
+            name="Beamline I05-1">
+         <property
+               name="appName"
+               value="Beamline I05-1">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+         </property>         
+      </product>
+   </extension>
+<extension point="uk.ac.gda.client.dashboard.objects">
+      <Scannable name="s2_xsize" tooltip="s2 horizontal slit size" />
+      <Scannable name="s2_ysize" tooltip="s2 vertical slit size" />
+      <Scannable name="exit_slit" tooltip="monochromator exit slit setting" />
+      <Scannable name="analyser_slit" tooltip="analyser entrance slit setting"/>
+      <Scannable name="energy" tooltip="photon energy" />
+      <Scannable name="polarisation" tooltip="photon beam polarisation" />
+      <Scannable name="id" tooltip="insertion device" />
+      <Scannable name="pgm_cff" tooltip="monochromator cff" />
+      <Scannable name="psu_mode" tooltip="Analyser high or low pass mode" />
+</extension>
+<extension
+      point="uk.ac.gda.client.preferences">
+   <preference
+         name="gda.client.max.size.cached.points"
+         value="10000">
+   </preference>
+</extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Data Acquisition - ARPES"
+            id="gda.rcp.arpes">
+      </category>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.ROIProfilePlotView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.client.arpes.cameraview"
+            name="Detector Plot"
+            restorable="true">
+      </view>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.client.arpes.sweptview"
+            name="Swept Plot"
+            restorable="true">
+      </view>
+      <view
+            category="gda.rcp.arpes"
+            class="uk.ac.diamond.scisoft.analysis.rcp.views.PlotView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.client.arpes.sumview"
+            name="Detector Sum Plot"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            category="gda.rcp.arpes"
+            class="uk.ac.gda.beamline.i05_1.views.I05_1ContinuousModeControllerView"
+            icon="icons/sample.gif"
+            id="uk.ac.gda.arpes.ContinuousModeControllerView"
+            name="Continuous Mode"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i05_1.I05_1Startup">
+      </startup>
+   </extension>
+ </plugin>

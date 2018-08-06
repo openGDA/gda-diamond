@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.diamond.ac.uk/schema/gda/corba
+	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
+	http://www.diamond.ac.uk/schema/gda/gda
+	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+
+ 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list value-type="java.lang.String">
+				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
+				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
+				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+
+	<bean class="gda.factory.corba.util.AdapterFactory">
+		<constructor-arg index="0" value="${gda.factory.factoryName}" />
+		<constructor-arg index="1">
+			<bean class="gda.spring.NetServiceFactoryBean" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
+		<property name="serviceInterface" value="uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+</beans>

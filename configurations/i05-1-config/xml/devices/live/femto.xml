@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="d3current_new" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL05I-DI-PHDGN-03:DET" />
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5" />
+		<property name="upperVoltageBound" value="9.5" />
+		<property name="modeToGainToGainStringMap" ref="gainMap" />
+		<property name="local" value="true" />
+		<property name="hasIinPV" value="false" />
+		<property name="supportsCoupling" value="false" />
+	</bean>
+
+	<bean id="dj7current_new" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL05J-DI-PHDGN-02:DET" />
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5" />
+		<property name="upperVoltageBound" value="9.5" />
+		<property name="modeToGainToGainStringMap" ref="gainMap" />
+		<property name="local" value="true" />
+		<property name="hasIinPV" value="false" />
+		<property name="supportsCoupling" value="false" />
+	</bean>
+
+	<bean id="dj9current_new" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL05J-DI-PHDGN-03:DET" />
+		<property name="adcChannel" value="1" />
+		<property name="lowerVoltageBound" value="0.5" />
+		<property name="upperVoltageBound" value="9.5" />
+		<property name="modeToGainToGainStringMap" ref="gainMap" />
+		<property name="local" value="true" />
+		<property name="hasIinPV" value="false" />
+		<property name="supportsCoupling" value="false" />
+	</bean>
+
+	<bean id="femto_nano_es_current_new" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL05J-EA-SM-01:DET" />
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5" />
+		<property name="upperVoltageBound" value="9.5" />
+		<property name="modeToGainToGainStringMap" ref="gainMap" />
+		<property name="local" value="true" />
+		<property name="hasIinPV" value="false" />
+		<property name="supportsCoupling" value="false" />
+	</bean>
+
+	<util:map id="gainMap">
+		<entry key="default">
+			<util:map>
+				<!-- Note: 1e3 means 1x10^3 -->
+				<entry key="1e4" value="10^4" />
+				<entry key="1e5" value="10^5" />
+				<entry key="1e6" value="10^6" />
+				<entry key="1e7" value="10^7" />
+				<entry key="1e8" value="10^8" />
+				<entry key="1e9" value="10^9" />
+				<entry key="1e10" value="10^10" />
+				<entry key="1e11" value="10^11" />
+				<entry key="1e12" value="10^12" />
+				<entry key="1e13" value="10^13" />
+			</util:map>
+		</entry>
+	</util:map>
+
+</beans>

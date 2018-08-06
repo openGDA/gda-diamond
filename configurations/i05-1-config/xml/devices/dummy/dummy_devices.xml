@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- electron analyser -->
+	<import resource="scientaslit.xml" />
+
+	<!-- sample environment -->
+	<import resource="sample_stage.xml" />
+	<import resource="raw_sample_stage.xml"/>
+	<import resource="cryostat.xml"/>
+
+	<!-- slits -->
+	<import resource="s2.xml"/>
+	<import resource="sj6.xml"/>
+	<import resource="sj9.xml"/>
+
+	<!-- plain grating monocromator -->
+	<import resource="pgm.xml" />
+
+	<!-- insertion device -->
+	<import resource="rawid.xml" />
+	<import resource="id.xml" />
+
+	<!-- storage ring -->
+	<import resource="ring.xml" />
+
+	<!-- femtos -->
+	<import resource="femto.xml" />
+
+	<import resource="zone_plate.xml" />
+	<import resource="osa.xml" />
+	<import resource="analyser_rotation.xml"/>
+	<import resource="mj7j8.xml" />
+
+	<import resource="mcp.xml" />
+
+</beans>

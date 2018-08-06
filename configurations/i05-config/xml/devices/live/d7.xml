@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="d7_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL05I-DI-PHDGN-07:IONC:Y" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="d7y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="d7_y_motor" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="d7filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
+		<property name="pvBase" value="BL05I-DI-PHDGN-07:IONC:Y:MP" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

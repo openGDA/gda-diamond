@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Analyser live camera configuration -->
+	<bean id="liveAnalyserCam"	class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Analyser Live Camera" />
+		<property name="url" value="http://i05-storage1.diamond.ac.uk:8080/EAVIEW.mjpg.mjpg" />
+	</bean>
+	
+	<!-- MCP camera configuration -->
+	<bean id="liveMcpCam"	class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="MCP" />
+		<property name="url" value="http://bl05i-di-serv-02.diamond.ac.uk:8080/MCP.DCAM.MJPG.mjpg" />
+	</bean>
+	
+	<!-- Microscope configuration -->
+	<bean id="liveMicroscope"	class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Microscope" />
+		<property name="url" value="http://bl05i-di-serv-02.diamond.ac.uk:8080/Mic.DCAM.MJPG.mjpg" />
+	</bean>
+
+</beans>

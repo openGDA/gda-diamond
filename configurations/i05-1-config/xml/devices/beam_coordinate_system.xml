@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="smvert" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
+		<property name="scannables">
+			<list>
+				<ref bean="ssx" />
+				<ref bean="ssy" />
+				<ref bean="smazimuth" />
+			</list>
+		</property>
+		<property name="calculator">
+			<bean class="uk.ac.gda.arpes.calculator.SmVertCalculator" />
+		</property>
+	</bean>
+	
+	<bean id="smhor" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
+		<property name="scannables">
+			<list>
+				<ref bean="ssx" />
+				<ref bean="ssy" />
+				<ref bean="smazimuth" />
+			</list>
+		</property>
+		<property name="calculator">
+			<bean class="uk.ac.gda.arpes.calculator.SmHorCalculator" />
+		</property>
+	</bean>
+
+	<bean id="smlong" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
+		<property name="scannables">
+			<list>
+				<ref bean="ssz" />
+				<ref bean="smhor" />
+				<ref bean="smpolar" />
+			</list>
+		</property>
+		<property name="calculator">
+			<bean class="uk.ac.gda.arpes.calculator.SmLongCalculator" />
+		</property>
+	</bean>
+	
+	<bean id="smperp" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
+		<property name="scannables">
+			<list>
+				<ref bean="ssz" />
+				<ref bean="smhor" />
+				<ref bean="smpolar" />
+			</list>
+		</property>
+		<property name="calculator">
+			<bean class="uk.ac.gda.arpes.calculator.SmPerpCalculator" />
+		</property>
+	</bean>
+
+	<bean id="smvirtual" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="smvert" />
+				<ref bean="smhor" />
+				<ref bean="smlong" />
+				<ref bean="smperp" />
+			</list>
+		</property>
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

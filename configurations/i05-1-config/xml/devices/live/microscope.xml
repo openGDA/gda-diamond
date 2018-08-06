@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="mic_ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL05J-DI-PHDGN-11:DCAM:CAM:" />
+		<property name="initialDataType" value="UInt8" />
+	</bean>
+
+	<bean id="mic_array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL05J-DI-PHDGN-11:DCAM:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL05J-DI-PHDGN-11:DCAM:ARR:" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="mic" class="gda.device.detector.addetector.ADCameraDetector">
+		<property name="basePVName" value="BL05I-DI-PHDGN-11:DCAM:" />
+		<property name="areaDetector" ref="mic_ad" />
+		<property name="array" ref="mic_array" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="mic_total" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL05J-DI-PHDGN-11:DCAM:STAT:Total_RBV" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

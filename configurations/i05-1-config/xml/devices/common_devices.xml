@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- The files which define the scannables common to dummy and live-->
+	<import resource="analyser_rotation.xml" />
+	<import resource="sample_stage.xml" />
+	<import resource="sj6.xml" />
+	<import resource="sj9.xml" />
+	<import resource="zone_plate.xml" />
+	<import resource="osa.xml" />
+	<import resource="mj7j8.xml" />
+	<import resource="beam_coordinate_system.xml" />
+	<import resource="raw_sample_stage.xml"/>
+	
+	<!-- analyser -->
+	<import resource="analyser.xml"/>
+	<import resource="analyser_mapping.xml"/>
+
+	<!-- Import the mode specific devices -->
+	<import resource="${gda.mode}/${gda.mode}_devices.xml" />
+
+</beans>
