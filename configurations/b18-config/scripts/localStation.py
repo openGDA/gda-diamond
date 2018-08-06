@@ -33,8 +33,6 @@ offsets = [i0_stanford_offset, it_stanford_offset, iref_stanford_offset]
 offset_units = [i0_stanford_offset_units, it_stanford_offset_units, iref_stanford_offset_units]
 
 
-
-
 if (LocalProperties.get("gda.mode") == 'live'):
     #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
     detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
@@ -176,5 +174,8 @@ def reconnect_daserver() :
     counterTimer01.configure()
     print "Ignore this error (it's 'normal'...)"
     counterTimer01.getScaler().clear()
+
+# Set nexusTreeWriter flag for buffered xspress2
+qexafs_xspress.setUseNexusTreeWriter(True)
 
 print "Initialization Complete";
