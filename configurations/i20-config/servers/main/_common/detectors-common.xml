@@ -45,6 +45,7 @@
 	<bean id="vortexDetector" class="gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter" >
 		<constructor-arg index="0" ref="xmapMca" />
 		<constructor-arg index="1" value="1" />
+		<property name="mcaCollectionUsesTfg" value="true" />
 	</bean>
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/vortexDetector" />
@@ -63,7 +64,7 @@
 	<bean id="detectorMonitorDataProvider" class="gda.device.detector.DetectorMonitorDataProvider">
 		<property name="name" value="detectorMonitorDataProvider" />
 <!-- 		<property name="xspress2Detector" ref="xspress2system" /> -->
-		<property name="xspress4Detector" ref="xspress4" />
+<!-- 		<property name="xspress4Detector" ref="xspress4" /> -->
 		<property name="xmapDetector" ref="xmapMca" />
 		<property name="ionChambers" ref="ionchambers" />
 		<property name="medipixDetector" ref="medipix_addetector" />
