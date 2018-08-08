@@ -64,28 +64,12 @@
 		</property>
 		<property name="scanDefinition">
 			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
-				<property name="outerScannables">
+				<property name="defaultOuterScannables">
 					<list>
-						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-							<constructor-arg name="name" value="energyFocus" />
-							<constructor-arg name="model"><null /></constructor-arg>
-							<constructor-arg name="includeInScan" value="false" />
-						</bean>
-						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-							<constructor-arg name="name" value="energyFocusPGM" />
-							<constructor-arg name="model"><null /></constructor-arg>
-							<constructor-arg name="includeInScan" value="false" />
-						</bean>
-						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-							<constructor-arg name="name" value="ZonePlateZ" />
-							<constructor-arg name="model"><null /></constructor-arg>
-							<constructor-arg name="includeInScan" value="false" />
-						</bean>
-						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-							<constructor-arg name="name" value="pgm_energy" />
-							<constructor-arg name="model"><null /></constructor-arg>
-							<constructor-arg name="includeInScan" value="false" />
-						</bean>
+						<value>energyFocus</value>
+						<value>energyFocusPGM</value>
+						<value>ZonePlateZ</value>
+						<value>pgm_energy</value>
 					</list>
 				</property>
 			</bean>

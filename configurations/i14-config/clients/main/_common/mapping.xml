@@ -19,7 +19,6 @@
 	<!-- Stage axis names defined as String beans for convenience and to avoid repetition of the same literal value -->
 	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="stage1_x"/></bean>
 	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="stage1_y"/></bean>
-	<bean id="z_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="stage1_z"/></bean>
 
 	<!-- The mapping experiment bean provides the options and defaults used for setting up new mapping experiments -->
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
@@ -84,24 +83,6 @@
 		<property name="scriptFiles">
 			<bean class="uk.ac.diamond.daq.mapping.impl.ScriptFiles"/>
 		</property>
-		<property name="scanDefinition">
-			<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanDefinition">
-				<property name="outerScannables">
-					<list>
-						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-							<constructor-arg name="name" ref="z_axis_name" />
-							<constructor-arg name="model"><null /></constructor-arg>
-							<constructor-arg name="includeInScan" value="false" />
-						</bean>
-						<bean class="uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper">
-							<constructor-arg name="name" value="dcm_enrg" />
-							<constructor-arg name="model"><null /></constructor-arg>
-							<constructor-arg name="includeInScan" value="false" />
-						</bean>
-					</list>
-				</property>
-			</bean>
-		</property>
 	</bean>
 
 	<!-- Create a mapping experiment bean provider and register it as an OSGi service -->
@@ -144,7 +125,7 @@
 		<property name="service" ref="mapping_stage_options" />
 	</bean>
 
-	<!-- Th mapping stage info object encapsulates the current choice of motors used for mapping experiments, and
+	<!-- The mapping stage info object encapsulates the current choice of motors used for mapping experiments, and
 	     includes a beam size field which is used when showing the current beam position on the map plot -->
 	<bean id="mapping_stage_info" class="uk.ac.diamond.daq.mapping.impl.MappingStageInfo">
 		<property name="activeFastScanAxis" ref="x_axis_name" />

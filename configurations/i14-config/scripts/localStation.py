@@ -4,7 +4,7 @@ from gda.configuration.properties import LocalProperties
 from gda.jython.commands.GeneralCommands import alias, cmd, ls, ls_names, pause, reset_namespace, run
 from gdascripts.scan import gdascans
 
-from gda.device import Scannable
+from gda.device import Scannable, ScannableMotionUnits
 from mapping_scan_commands import *
 
 from i14_utilities import isLive
@@ -61,7 +61,7 @@ from uk.ac.gda.remoting.server import GdaRmiServiceExporter
 dcm_enrg_exporter = GdaRmiServiceExporter()
 dcm_enrg_exporter.serviceName = "gda/dcm_enrg"
 dcm_enrg_exporter.service = dcm_enrg
-dcm_enrg_exporter.serviceInterface = Scannable
+dcm_enrg_exporter.serviceInterface = ScannableMotionUnits
 dcm_enrg_exporter.afterPropertiesSet()
 
 # Initialise the array plugin for all detectors
