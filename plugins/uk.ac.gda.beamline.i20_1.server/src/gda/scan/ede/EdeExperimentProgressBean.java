@@ -20,6 +20,7 @@ package gda.scan.ede;
 
 import java.io.Serializable;
 
+import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
 
@@ -35,6 +36,7 @@ public class EdeExperimentProgressBean implements Serializable {
 	private final String dataLabel;
 	private final ExperimentCollectionType experimentCollectionType;
 	private DoubleDataset uncalibratedXAxisData;
+	private boolean selectedByDefault;
 
 	public EdeExperimentProgressBean(ExperimentCollectionType experimentCollectionType, EdeScanProgressBean progress, String dataLabel, DoubleDataset data, DoubleDataset energyData) {
 		this.experimentCollectionType = experimentCollectionType;
@@ -45,6 +47,7 @@ public class EdeExperimentProgressBean implements Serializable {
 		int max = energyData.getShape()[0];
 		uncalibratedXAxisData = DatasetFactory.createRange(DoubleDataset.class, 0, max, 1);
 		uncalibratedXAxisData.setName("pixel number");
+		selectedByDefault = dataLabel.equals(EdeDataConstants.LN_I0_IT_COLUMN_NAME);
 	}
 
 	public EdeScanProgressBean getProgress() {
@@ -73,5 +76,17 @@ public class EdeExperimentProgressBean implements Serializable {
 
 	public void setUncalibratedXAxisData(DoubleDataset uncalibratedXAxisData) {
 		this.uncalibratedXAxisData = uncalibratedXAxisData;
+	}
+
+	public void setSelectedByDefault(boolean selected) {
+		selectedByDefault  = selected;
+	}
+
+	/**
+	 * Whether this data is to selected by default in the plot view. (i.e. checked in the data tree and plotted).
+	 * @return
+	 */
+	public boolean isSelectedByDefault() {
+		return selectedByDefault;
 	}
 }

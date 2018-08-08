@@ -60,8 +60,9 @@ public class SpectraNode extends Node {
 	 * @param label Label used to identify the data in the tree view
 	 * @return new ScanDataItemNode object created using yDoubleDataset, identifer, label etc.
 	 */
-	public ScanDataItemNode updateData(DoubleDataset yDoubleDataset, String identifier, String label) {
+	public ScanDataItemNode updateData(DoubleDataset yDoubleDataset, String identifier, String label, boolean selectedByDefault) {
 		ScanDataItemNode newnode = new ScanDataItemNode(this, identifier, label, yDoubleDataset);
+		newnode.setPlotByDefault(selectedByDefault);
 		addChildNode(newnode);
 		return newnode;
 	}

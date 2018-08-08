@@ -196,7 +196,7 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 			// plotLabel is used for the spectrum label in the tree view.
 			String plotLabel = "Group " + groupNumber.getInt(i) + " spectrum " + spectrumNumber.getInt(i);
 
-			ScanDataItemNode dataItemNode = newNode.updateData(dblDataset, plotIdentifier, plotLabel);
+			ScanDataItemNode dataItemNode = newNode.updateData(dblDataset, plotIdentifier, plotLabel, fullDataset.equals(EdeDataConstants.LN_I0_IT_COLUMN_NAME));
 			setTraceStyle(dataItemNode, edeScanNode);
 
 			firePropertyChange(ExperimentRootNode.DATA_ADDED_PROP_NAME, null, edeScanNode);

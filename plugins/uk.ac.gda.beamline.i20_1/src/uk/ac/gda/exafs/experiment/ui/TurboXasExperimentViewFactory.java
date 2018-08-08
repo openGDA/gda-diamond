@@ -32,6 +32,7 @@ public class TurboXasExperimentViewFactory extends FindableViewFactoryBase {
 		private List<String> detectorNames;
 		private String viewLabel;
 		private Map<String, String> detectorNamesMap;
+		private Map<String, String> defaultPlottedFields;
 
 		public String getViewLabel() {
 			return viewLabel;
@@ -65,6 +66,10 @@ public class TurboXasExperimentViewFactory extends FindableViewFactoryBase {
 			this.detectorNamesMap = detectorNamesMap;
 		}
 
+		public void setDefaultPlottedFields(Map<String, String> defaultPlottedFields) {
+			this.defaultPlottedFields = defaultPlottedFields;
+		}
+
 		private String[] listToArray(List<String> list) {
 			if (list==null) {
 				return null;
@@ -82,6 +87,7 @@ public class TurboXasExperimentViewFactory extends FindableViewFactoryBase {
 			view.setMotorNames(listToArray(motorNames));
 			view.setDetectorNamesMap(detectorNamesMap);
 			view.setDetectorNames(listToArray(detectorNames));
+			view.setDefaultPlottedFields(defaultPlottedFields);
 			ViewUtils.setViewName(view, viewLabel);
 			return view;
 		}

@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
+import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.slf4j.Logger;
@@ -100,6 +101,7 @@ public class TurboXasScan extends ContinuousScan {
 	private int numReadoutsPerCycle;
 	private int numCycles;
 	private int maxNumScalerFramesPerCycle = 250000;
+	private String dataNameToSelectInPlot = EdeDataConstants.LN_I0_IT_COLUMN_NAME;
 
 	private volatile int lastFrameRead;
 
@@ -133,6 +135,7 @@ public class TurboXasScan extends ContinuousScan {
 		}
 		plotUpdater.setEnergyAxisName(energyAxisName);
 		plotUpdater.setPositionAxisName(TurboXasNexusTree.POSITION_COLUMN_NAME);
+		plotUpdater.setDatanameToSelectInPlot(dataNameToSelectInPlot);
 
 		plotUpdater.clearDatanamesToIgnore();
 		plotUpdater.addDatanameToIgnore(TurboXasNexusTree.ENERGY_COLUMN_NAME);
@@ -867,5 +870,13 @@ public class TurboXasScan extends ContinuousScan {
 
 	public void setDataWriter(AsciiWriter asciiWriter) {
 		this.asciiWriter = asciiWriter;
+	}
+
+	public String getDataNameToSelectInPlot() {
+		return dataNameToSelectInPlot;
+	}
+
+	public void setDataNameToSelectInPlot(String dataNameToSelectInPlot) {
+		this.dataNameToSelectInPlot = dataNameToSelectInPlot;
 	}
 }

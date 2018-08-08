@@ -76,8 +76,15 @@
 				<value>turbo_xas_slit</value>
 			</list>
 		</property>
+		<property name="defaultPlottedFields">
+			<map>
+				<entry key="scaler_for_zebra" value="lnI0It" />
+				<entry key="ionchambers_diode" value="FFI0" />
+				<entry key="buffered_xspress3" value="FF_sumI0" />
+			</map>
+		</property>
 	</bean>
-	
+
 	<bean id="xspress3" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}xspress3" />
 		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />

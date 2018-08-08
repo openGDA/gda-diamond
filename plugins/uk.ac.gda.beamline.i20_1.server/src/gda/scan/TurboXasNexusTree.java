@@ -84,10 +84,8 @@ public class TurboXasNexusTree {
 	public static final String INDEX_UNITS = "index";
 	public static final String POSITION_UNITS = "cm";
 	public static final String I0_LABEL = "I0";
+	public static final String FF_SUM_IO_NAME = "FF_sumI0";
 
-	// For 'FF_sum/I0' label, use u2215 (division slash, ∕) rather than solidus (/), so ratio is displayed nicely
-	// and Nexus writer doesn't get confused
-	public static final String FF_SUM_IO_NAME = "FF_sum\u2215I0";
 
 	// Dataset names for spectrum and timing group index (to match Ede scan data names...)
 	public static final String SPECTRUM_INDEX = EdeDataConstants.FRAME_COLUMN_NAME;

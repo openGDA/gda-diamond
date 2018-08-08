@@ -18,7 +18,6 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
-import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.PointStyle;
 import org.eclipse.dawnsci.plotting.api.trace.ILineTrace.TraceType;
@@ -41,7 +40,7 @@ public class ScanDataItemNode extends LineTraceProviderNode {
 		this.data = data;
 		this.label = label;
 		setTraceStyle(getDefaultTraceStyle());
-		setPlotByDefault(getParent().getLabel().equals(EdeDataConstants.LN_I0_IT_COLUMN_NAME));
+//		setPlotByDefault(getParent().getLabel().equals(EdeDataConstants.LN_I0_IT_COLUMN_NAME));
 	}
 
 	@Override

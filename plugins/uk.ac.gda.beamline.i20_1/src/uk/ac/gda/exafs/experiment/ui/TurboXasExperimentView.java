@@ -129,6 +129,7 @@ public class TurboXasExperimentView extends ViewPart {
 	private String[] detectorNames = new String[]{"scaler_for_zebra"};
 
 	private Map<String,String> detectorNamesMap;
+	private Map<String, String> defaultPlottedFields;
 
 	private Button[] detectorCheckboxes;
 
@@ -715,10 +716,20 @@ public class TurboXasExperimentView extends ViewPart {
 	 * construct a string of Jython commands to setup and run the scan.
 	 */
 	private void runScan() {
+		// Get name of data to be selected by default in the plot view (e.g. lnI0It, FFI0 etc)
+		// use last detector (Xspress3 if selected);
+		String[] selectedDetectors = turboXasParameters.getDetectors();
+		int numDetectors = selectedDetectors.length;
+		String lastDetector = selectedDetectors[numDetectors-1];
+		String defaultSelectedDataName = defaultPlottedFields.get(lastDetector);
+		// Create Jython command string to set the data name :
+		String setPlotString = "txasScan.setDataNameToSelectInPlot(\""+defaultSelectedDataName+"\")\n";		
 		String paramString = turboXasParameters.toXML().replace("\n", " ");
+
 		String imports = "from gda.scan import TurboXasParameters\n";
 		String command = "turboXasParams = TurboXasParameters.fromXML(\""+paramString+"\") \n"+
 				"txasScan = turboXasParams.createScan() \n" +
+				setPlotString +
 				"txasScan.runScan()";
 
 		logger.info("Scan run command : {}", imports+command);
@@ -925,5 +936,9 @@ public class TurboXasExperimentView extends ViewPart {
 	 */
 	public void setMotorNames(String[] motorNames) {
 		this.motorNames = motorNames;
+	}
+
+	public void setDefaultPlottedFields(Map<String, String> defaultPlottedFields) {
+		this.defaultPlottedFields = defaultPlottedFields;
 	}
 }
