@@ -15,6 +15,7 @@ from gdascripts.pd.epics_pds import * #@UnusedWildImport
 
 print "Load time utilities."
 from gdascripts.pd.time_pds import * #@UnusedWildImport
+from timerelated import clock, t, dt, w #@UnusedImport
 # Make time scannable 
 # Example: scan timeScannable 0 3600 30 analyser - Make a scan starting now, for 1 hour, recording the analyser every 30 secs
 from gdascripts.scannable.timerelated import TimeSinceScanStart
