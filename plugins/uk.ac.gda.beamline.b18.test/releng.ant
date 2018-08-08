@@ -42,7 +42,7 @@
 				<pathelement location="${workspace.git.loc}/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.b18.server/bin" />
 				<pathelement location="${workspace.git.loc}/gda-core.git/uk.ac.gda.client.experimentdefinition/bin" />
 				<pathelement location="${workspace.git.loc}/gda-xas-core.git/uk.ac.gda.exafs.api/bin" />
-				<pathelement location="${workspace.git.loc}/gda-devices-mythen.git/uk.ac.gda.devices.mythen/bin" />
+				<pathelement location="${workspace.git.loc}/gda-devices.git/uk.ac.gda.devices.mythen/bin" />
 				<pathelement location="${workspace.git.loc}/gda-nexus.git/uk.ac.gda.nexus/bin" />
 				<pathelement location="${workspace.git.loc}/richbeans.git/org.eclipse.richbeans.api/bin" />
 				<pathelement location="${workspace.git.loc}/richbeans.git/org.eclipse.richbeans.xml/bin" />
