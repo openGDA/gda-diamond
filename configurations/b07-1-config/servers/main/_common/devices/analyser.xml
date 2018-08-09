@@ -13,6 +13,7 @@
 		</property>
 		<property name="photonEnergyProvider" ref="pgm_energy" />
 		<property name="prelensValve" ref="analyser_prelens_valve" />
+		<property name="experimentalShutter" ref="expt_shutter" />
 		<property name="workFunction" value="0.0" /> <!-- Set to zero, work function correction applied in SPECS -->
 		<!-- detectorEnergyWidth can be found by (analyser.endEnergy - analyser.startEnergy)/analyser.passEnergy -->
 		<property name="detectorEnergyWidth" value="0.06531314413818123" />
