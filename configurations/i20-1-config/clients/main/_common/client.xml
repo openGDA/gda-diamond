@@ -111,5 +111,6 @@
 	</bean>
 
 	<import resource="file:${gda.config}/clients/main/_common/AlignmentPerspectiveCompositeFactories.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
 
 </beans>

@@ -13,6 +13,7 @@ run("shutter_functions.py")
 run("frelon_scan_runner.py")
 run("turboxas_scan_runner.py")
 run("d10CentroidScannables.py")
+run("continuous_detector_scan.py")
 
 finder = Finder.getInstance()
 das = finder.find("DAServer")

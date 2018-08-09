@@ -39,15 +39,4 @@
 		<property name="zebraDevice" ref="zebra_device" />
 	</bean>
 
-     <bean id="qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
-		<property name="motor" ref="turbo_slit_x_motor" />
-		<property name="lowerGdaLimits" value="-100" />
-		<property name="upperGdaLimits" value="100" />
-		<property name="outputFormat">
-			<list>
-				<value>%.2f</value>
-			</list>
-		</property>
-	</bean>
-
 </beans>

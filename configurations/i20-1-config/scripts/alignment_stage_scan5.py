@@ -286,12 +286,12 @@ contScannable.setRampDistance(0.2)
 #cvscan contScannable scan_start scan_end scan_num_readouts scan_time bufferedDetector
 import math
 
-accumulation_reaout_time=0.8e-3
+accumulation_readout_time=0.8e-3
 
 # start, stop, step, frelon accumulation time [secs], frelon num accumulations,
 def run_slit_scan(scan_start, scan_end, scan_step, accumulation_time, num_accumulations) :
     scan_num_readouts = math.ceil( float((scan_end - scan_start)/scan_step) )
-    scan_time_per_spectrum = (accumulation_time+accumulation_reaout_time)*num_accumulations
+    scan_time_per_spectrum = (accumulation_time+accumulation_readout_time)*num_accumulations
     scan_total_time = scan_num_readouts * scan_time_per_spectrum
     units = contScannable.getMotorToMove().getUserUnits()
     

@@ -208,5 +208,18 @@
 			</list>
 		</property>
 	</bean>
-	
+
+	<bean id="dummy_motor" class="gda.device.motor.DummyMotor" />
+
+	<bean id="qexafs_energy" class="uk.ac.gda.server.exafs.epics.device.scannable.QexafsTestingScannable">
+		<property name="motor" ref="dummy_motor" />
+		<property name="lowerGdaLimits" value="-10000" />
+		<property name="upperGdaLimits" value="10000" />
+		<property name="outputFormat">
+			<list>
+				<value>%.2f</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>

@@ -130,7 +130,7 @@ public class TurboXasScan extends ContinuousScan {
 		plotUpdater.setCurrentGroupNumber(1);
 
 		String energyAxisName =  TurboXasNexusTree.POSITION_COLUMN_NAME;
-		if (turboXasMotorParams != null && turboXasMotorParams.getScanParameters().isUsePositionsForScan()) {
+		if (turboXasMotorParams != null && !turboXasMotorParams.getScanParameters().isUsePositionsForScan()) {
 			energyAxisName = TurboXasNexusTree.ENERGY_COLUMN_NAME;
 		}
 		plotUpdater.setEnergyAxisName(energyAxisName);
@@ -222,7 +222,9 @@ public class TurboXasScan extends ContinuousScan {
 
 		// send profile points to Epics trajectory scan, building and appending as necessary
 		TrajectoryScanController controller = trajScanPreparer.getTrajectoryScanController();
-
+		if (controller.getExecuteState() != ExecuteState.DONE) {
+			throw new Exception("Problem building trajectory scan profile - scan is already runninng!");
+		}
 		controller.sendAppendProfileValues();
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
@@ -255,6 +257,9 @@ public class TurboXasScan extends ContinuousScan {
 			Thread.sleep(500);
 		}
 
+		if (controller.getExecuteStatus() != ExecuteStatus.SUCCESS) {
+			logger.warn("Trajectory scan failed to execute correctly - status = {}. Check Edm screen for more information", controller.getExecuteStatus());
+		}
 		// Output some info on trajectory scan final execution state
 		logger.info("Trajectory scan finished. Execute state = {}, percent complete = {}",
 				controller.getExecuteState(), controller.getScanPercentComplete());
@@ -412,9 +417,16 @@ public class TurboXasScan extends ContinuousScan {
 			}
 
 			logger.info("Waiting for detector collection thread to finish...");
-			while (!detectorReadoutRunnable.collectionFinished() && timeWaited<maxWaitTimeSecs) {
+			int lastFrame = detectorReadoutRunnable.getLastFrameRead();
+			int currentFrame = lastFrameRead+1;
+			while (lastFrame!=currentFrame && timeWaited<maxWaitTimeSecs) {
+				lastFrame = currentFrame;
 				Thread.sleep(pollIntervalMillis);
 				timeWaited += pollIntervalMillis * 0.001;
+				currentFrame = detectorReadoutRunnable.getLastFrameRead();
+				if (lastFrame == currentFrame) {
+					logger.info("No more frames written after {} milliseconds. Assuming detector collection has finished");
+				}
 			}
 		} catch (InterruptedException e) {
 			logger.error("Sleep interrupted while waiting for readout to finish", e);
@@ -487,7 +499,7 @@ public class TurboXasScan extends ContinuousScan {
 			checkThreadInterrupted();
 			if (detector instanceof Xspress3BufferedDetector) {
 				xspress3BufferedDetector = (Xspress3BufferedDetector)detector;
-				prepareXSpress3(numSpectra*numReadoutsPerSpectra);
+				prepareXSpress3(numSpectra, numReadoutsPerSpectra);
 			}
 		}
 	}
@@ -517,16 +529,21 @@ public class TurboXasScan extends ContinuousScan {
 	 * @param numReadouts
 	 * @throws Exception
 	 */
-	public void prepareXSpress3(int numReadouts) throws Exception{
+	public void prepareXSpress3(int numSpectra, int numReadoutsPerSpectrum) throws Exception{
 		if (xspress3BufferedDetector != null) {
 			Xspress3Controller controller = xspress3BufferedDetector.getController();
+
+			int totNumReadouts = numSpectra*numReadoutsPerSpectrum;
 
 			controller.setSavingFiles(false);
 			controller.doStop();
 			controller.doReset();
-			controller.setNumFramesToAcquire(numReadouts);
-			controller.setHDFNumFramesToAcquire(numReadouts);
+			controller.setNumFramesToAcquire(totNumReadouts);
+			controller.setHDFNumFramesToAcquire(totNumReadouts);
 			controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only);
+
+			// set the HDF writer extra dimensions, so that MCA data has outer dimensions = [numSpectra, numReadoutsPerSpectrum]
+			controller.setHDFExtraDims(new int[] { numReadoutsPerSpectrum, numSpectra });
 
 			// controller.doReset();
 			controller.setNextFileNumber(0);
@@ -536,7 +553,6 @@ public class TurboXasScan extends ContinuousScan {
 			// create reader for loading data from Swmr file - only if using real hardware
 			if (useXspress3SwmrReadout && controller instanceof EpicsXspress3Controller) {
 				xspress3FileReader = new SwmrFileReader();
-				xspress3FileReader.openFile(controller.getFullFileName());
 				if (xspressAttributeMap.isEmpty()) {
 					setupXspressAttributeMap(xspress3BufferedDetector);
 				}
@@ -689,6 +705,10 @@ public class TurboXasScan extends ContinuousScan {
 			if (detector instanceof Xspress3BufferedDetector) {
 				numFramesAvailable = ((Xspress3BufferedDetector) detector).getController().getTotalHDFFramesAvailable();
 				if (xspress3FileReader != null) {
+					if (xspress3FileReader.getFilename().isEmpty()) {
+						String hdfFilename = ((Xspress3BufferedDetector) detector).getController().getFullFileName();
+						xspress3FileReader.openFile(hdfFilename);
+					}
 					numFramesAvailable = xspress3FileReader.getNumAvailableFrames();
 				}
 			}
@@ -779,7 +799,6 @@ public class TurboXasScan extends ContinuousScan {
 		String metashopName = LocalProperties.get(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop");
 		NXMetaDataProvider metashop = Finder.getInstance().find(metashopName);
 		if (metashop != null) {
-			metashop.clear();
 			metashop.add("TurboXasParameters", turboXasMotorParams.getScanParameters().toXML() );
 		}
 	}
