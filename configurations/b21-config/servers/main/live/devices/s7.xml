@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s7_xcentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BL21B-AL-SLITS-07:X:CENTRE" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s7_xgap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BL21B-AL-SLITS-07:X:GAP" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s7_ycentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BL21B-AL-SLITS-07:Y:CENTRE" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s7_ygap_motor" class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="BL21B-AL-SLITS-07:Y:GAP" />
+		<property name="local" value="true" />
+	</bean>
+</beans>

@@ -24,6 +24,5 @@
 	<logger name="gda.scan.ScanDataPointPopulatorAndPublisher" level="INFO" />
 	<root>
 		<level value="DEBUG"/>
-		<appender-ref ref="Console"/>
 	</root>
 </included>
