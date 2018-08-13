@@ -14,7 +14,7 @@
 		<property name="motor" ref="d2motor" />
 	</bean>
 	<bean id="d2_current" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="D2.D1I" />
+		<property name="pvName" value="BL20J-DI-PHDGN-02:DIODE:I" />
 	</bean>
 	<bean id="d2_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
 		<property name="pvName" value="BL20J-DI-IAMP-01:GAIN" />
@@ -53,7 +53,7 @@
 		<property name="motor" ref="d5motor" />
 	</bean>
 	<bean id="d5_current" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="D5.D1I" />
+		<property name="pvName" value="BL20J-DI-PHDGN-05:DIODE:I" />
 	</bean>
 	<bean id="d5_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
 		<property name="pvName" value="BL20J-DI-IAMP-02:GAIN" />

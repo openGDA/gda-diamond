@@ -18,7 +18,13 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
+import java.util.Random;
+
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.nebula.visualization.xygraph.figures.XYGraph;
+import org.eclipse.swt.graphics.RGB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.scan.ede.EdeExperimentProgressBean;
 import uk.ac.gda.client.plotting.model.ITreeNode;
@@ -30,10 +36,12 @@ import uk.ac.gda.client.plotting.model.ScanNode;
  * Stores a list of {@link SpectraNode}s. i.e. all data for a single scan - a list of top level nodes (one list item for each type of data).
  */
 public class EdeScanNode extends ScanNode {
+	private static final Logger logger = LoggerFactory.getLogger(EdeScanNode.class);
 
 	private final boolean multiCollection;
 	private String label;
 	private int totalNumPlots;
+	private int colourIndex;
 
 	/**
 	 * @param parent
@@ -46,6 +54,7 @@ public class EdeScanNode extends ScanNode {
 		this.label = label;
 		this.multiCollection = multiCollection;
 		totalNumPlots = 0;
+		colourIndex = new Random().nextInt(XYGraph.DEFAULT_TRACES_COLOR.length);
 	}
 
 	public Node updateData(final EdeExperimentProgressBean arg) {
@@ -75,7 +84,8 @@ public class EdeScanNode extends ScanNode {
 			plotIdentifier = nodeKey + ":" + customLabel;
 		}
 
-		dataNode.updateData(arg.getData(), plotIdentifier, plotLabel);
+		logger.info("data {}, selected = {}",nodeKey, arg.isSelectedByDefault());
+		dataNode.updateData(arg.getData(), plotIdentifier, plotLabel, arg.isSelectedByDefault());
 		totalNumPlots++;
 		return dataNode;
 	}
@@ -91,5 +101,9 @@ public class EdeScanNode extends ScanNode {
 
 	public int getTotalNumPlots() {
 		return totalNumPlots;
+	}
+
+	public RGB getNextColour() {
+		return XYGraph.DEFAULT_TRACES_COLOR[ (colourIndex++) % XYGraph.DEFAULT_TRACES_COLOR.length];
 	}
 }

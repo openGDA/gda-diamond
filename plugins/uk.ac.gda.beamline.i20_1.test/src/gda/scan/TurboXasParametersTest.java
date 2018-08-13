@@ -46,8 +46,14 @@ public class TurboXasParametersTest {
 	static final double startEnergy = 1200.0;
 	static final double endEnergy = 1800.0;
 	static final double energyStep = 2.5;
+
+	static final double startPosition = 0.0;
+	static final double endPosition = 10.0;
+	static final double positionStep = 0.1;
+	static final boolean usePositionsForScan = true;
+
 	static double calibrationPolyMinEnergy = 1000, calibrationPolyEnergyRange = 1000;
-	static final String calibrationPoly = "1000 + 1000*x + 20x^2";
+	static final String calibrationPoly = calibrationPolyMinEnergy+" + 1000*x + 20x^2";
 
 	static final double calibrationMinPos = -5, calibrationMaxPos = 5;
 	static final String calibrationRefFilename = "reference_file.txt";
@@ -77,6 +83,7 @@ public class TurboXasParametersTest {
 		parameters.setStartEnergy(startEnergy);
 		parameters.setEndEnergy(endEnergy);
 		parameters.setEnergyStep(energyStep);
+		parameters.setUsePositionsForScan(true);
 		parameters.setEnergyCalibrationPolynomial( calibrationPoly );
 		parameters.setEnergyCalibrationMinPosition(calibrationMinPos);
 		parameters.setEnergyCalibrationMaxPosition(calibrationMaxPos);
@@ -86,7 +93,7 @@ public class TurboXasParametersTest {
 		parameters.addTimingGroup( new TurboSlitTimingGroup(group1Name, group1TimePerSpectrum, group1TimeBetweenSpectra, group1NumSpectra) );
 		parameters.addTimingGroup( new TurboSlitTimingGroup(group2Name, group2TimePerSpectrum, group2TimeBetweenSpectra, group2NumSpectra) );
 
-		motorParameters = new TurboXasMotorParameters( parameters );
+		motorParameters = parameters.getMotorParameters();
 		motorParameters.setMotorMaxSpeed(10000);
 	}
 
@@ -140,6 +147,7 @@ public class TurboXasParametersTest {
 	public void positionEnergyCalculationIsWorking() {
 		// Test to make sure solver produces correct position values from energy :
 		// Scan across range of polynomial, evaluate the calibration polynomial and run the solver...
+		parameters.setUsePositionsForScan(false);
 		for(double frac = 0 ; frac <= 1.0; frac += 0.1 ) {
 
 			double testPosition = calibrationMinPos + frac * ( calibrationMaxPos - calibrationMinPos );
@@ -156,9 +164,9 @@ public class TurboXasParametersTest {
 
 	@Test
 	public void motorCalculationsAreCorrect() {
+		parameters.setUsePositionsForScan(false);
 		// set calibration poly to be linear so that position stepsize for energy step is constant across scan range
 		motorParameters.setPositionToEnergyPolynomial("1000 + 1000*x");
-
 		motorParameters.setMotorParametersForTimingGroup(0);
 
 		// Motor positions for start and end of energy scan range
@@ -188,6 +196,7 @@ public class TurboXasParametersTest {
 
 		// Check that scan with zero range is detected
 		parameters.setEndEnergy( startEnergy );
+		parameters.setUsePositionsForScan(false);
 		motorParameters.setMotorParametersForTimingGroup(0);
 
 		assertThat( motorParameters.validMotorScanRange(), is(equalTo(false)) );
@@ -277,6 +286,12 @@ public class TurboXasParametersTest {
 		assertThat(xmlStringFromParams , is( equalTo(expectedXmlString) ) );
 	}
 
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetPositionThrowsExceptionForTooLowEnergy() {
+		motorParameters.getPositionForEnergy(calibrationPolyMinEnergy*0.5);
+	}
+
 	/**
 	 * Return string with serialized version of TurboXasParameters test object
 	 * @return
@@ -288,6 +303,10 @@ public class TurboXasParametersTest {
 						"  <startEnergy>"+TurboXasParameters.doubleToString(startEnergy)+"</startEnergy>\n" +
 						"  <endEnergy>"+TurboXasParameters.doubleToString(endEnergy)+"</endEnergy>\n" +
 						"  <energyStep>"+TurboXasParameters.doubleToString(energyStep)+"</energyStep>\n" +
+						"  <startPosition>"+TurboXasParameters.doubleToString(startPosition)+"</startPosition>\n" +
+						"  <endPosition>"+TurboXasParameters.doubleToString(endPosition)+"</endPosition>\n" +
+						"  <positionStepSize>"+TurboXasParameters.doubleToString(positionStep)+"</positionStepSize>\n" +
+						"  <usePositionsForScan>"+usePositionsForScan+"</usePositionsForScan>\n" +
 						"  <energyCalibrationPolynomial>"+calibrationPoly+"</energyCalibrationPolynomial>\n" +
 						"  <energyCalibrationMinPosition>"+TurboXasParameters.doubleToString(calibrationMinPos)+"</energyCalibrationMinPosition>\n" +
 						"  <energyCalibrationMaxPosition>"+TurboXasParameters.doubleToString(calibrationMaxPos)+"</energyCalibrationMaxPosition>\n" +

@@ -165,7 +165,7 @@ public class B18DetectorPreparerTest {
 
 			Mockito.verify(energy_scannable).moveTo(10000.0);
 			Mockito.verify(mythen_scannable).setCollectionTime(1.2);
-			Mockito.verify(mythen_scannable).setSubDirectory("path/");
+			Mockito.verify(mythen_scannable).setSubDirectory("path/mythen");
 
 			Mockito.verify(mythen_scannable).collectData();
 			Mockito.verify(mythen_scannable).readout();

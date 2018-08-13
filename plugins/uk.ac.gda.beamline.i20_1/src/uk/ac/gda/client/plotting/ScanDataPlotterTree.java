@@ -19,8 +19,11 @@
 package uk.ac.gda.client.plotting;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -43,6 +46,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Menu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +57,7 @@ import uk.ac.gda.client.plotting.model.LineTraceProviderNode;
 import uk.ac.gda.client.plotting.model.LineTraceProviderNode.TraceStyleDetails;
 import uk.ac.gda.client.plotting.model.Node;
 import uk.ac.gda.client.plotting.model.ScanNode;
+import uk.ac.gda.exafs.plotting.model.ExperimentRootNode;
 
 /**
  * Class to handle the TreeViewer widget used to show list of scans and plots in {@link ScanDataPlotterComposite}.
@@ -67,10 +72,11 @@ public class ScanDataPlotterTree {
 	private final Node rootDataNode;
 	private final Map<String, Color> nodeColors = new HashMap<>();
 	private int maxNumberOfAcquiredSpectraToPlot = 10;
+	private Composite parentComposite;
 
 	public ScanDataPlotterTree(Composite parent, final Node rootDataNode, final IContentProvider contentProvider) {
 		this.rootDataNode = rootDataNode;
-
+		parentComposite = parent;
 		dataTreeViewer = new DataPlotterCheckedTreeViewer(parent, SWT.MULTI);
 		dataTreeViewer.getTree().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		dataTreeViewer.setLabelProvider(new ColumnLabelProvider() {
@@ -118,6 +124,8 @@ public class ScanDataPlotterTree {
 		final MenuManager menuMgr = new MenuManager();
 		Menu menu = menuMgr.createContextMenu(dataTreeViewer.getControl());
 		menuMgr.addMenuListener(menuManager -> {
+
+			menuMgr.add(getLoadFromFileAction());
 
 			if (!rootDataNode.getChildren().isEmpty()) {
 				menuMgr.add(getMaxNumSpectraAction());
@@ -167,6 +175,25 @@ public class ScanDataPlotterTree {
 		};
 	}
 
+	private Action getLoadFromFileAction() {
+		return new Action("Load data from Nexus file...") {
+			@Override
+			public void run() {
+				FileDialog dialog = new FileDialog(parentComposite.getShell(), SWT.OPEN|SWT.MULTI);
+				dialog.setFilterNames(new String[] { "xml files", "All Files (*.*)" });
+				dialog.setFilterExtensions(new String[] { "*.nxs", "*.*" });
+				dialog.open();
+
+				// Create list of full absolute path for selected files
+				List<String> filenames = new ArrayList<String>();
+				for (String filename : dialog.getFileNames()) {
+					filenames.add(Paths.get(dialog.getFilterPath(), filename).toString());
+				}
+				((ExperimentRootNode) rootDataNode).update(null, filenames.toArray(new String[] {}));
+			}
+		};
+	}
+
 	private Action getRemoveAllAction() {
 		return new Action("Remove All") {
 			@Override
@@ -198,7 +225,7 @@ public class ScanDataPlotterTree {
 					if (dataTreeViewer.getChecked(nodeToRemove)) {
 						dataTreeViewer.updateCheckSelection(nodeToRemove, false);
 					}
-					rootDataNode.removeChild(nodeToRemove);
+					rootDataNode.getChildren().remove(nodeToRemove);
 				}
 			}
 		};

@@ -69,7 +69,6 @@ public class I20OutputPreparer extends OutputPreparerBase {
 		this.detectorBean = detectorBean;
 		this.i20OutputParams = (I20OutputParameters) outputParameters;
 		// redefineNexusMetadata();
-		ionchambers.setOutputLogValues(true);
 		// # Custom for I20, which is why it is here instead of the shared DetectorConfiguration.java classes.
 		// # Set the output options for the fluo detectors. Hope that this output preparer has been called AFTER the
 		// # detector preparer or these settings will be overwritten.

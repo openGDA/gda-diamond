@@ -329,7 +329,7 @@ public class MonoOptimisation extends FindableBase {
 
 		// Return first dataset from data group
 		String nodeName = groupNode.getNodeNameIterator().next();
-		Dataset dataset = (Dataset) groupNode.getDataNode(nodeName).getDataset().getSlice(null, null, null);
+		Dataset dataset = (Dataset) groupNode.getDataNode(nodeName).getDataset().getSlice(null, null, null).squeeze();
 		file.close();
 		return dataset;
 	}
@@ -374,12 +374,12 @@ public class MonoOptimisation extends FindableBase {
 		int endIndex = Math.min(maxPosIndex + peakRange+1, numDatapoints);
 		// Slice slice = new Slice( startIndex, endIndex, 1);
 
-		return dataFromFile.getSlice(new int[] {startIndex, 0}, new int[]{endIndex, numColumns}, null);
+		return dataFromFile.getSlice(new int[] {startIndex, 0}, new int[]{endIndex, numColumns}, null).squeeze();
 	}
 
 	private Dataset getColumnFromDataSet(Dataset dataset, int columnIndex) {
 		int numRows = dataset.getShape()[0];
-		return dataset.getSlice(new int[]{0, columnIndex}, new int[]{numRows, columnIndex+1}, null);
+		return dataset.getSlice(new int[]{0, columnIndex}, new int[]{numRows, columnIndex+1}, null).squeeze();
 	}
 
 	/**

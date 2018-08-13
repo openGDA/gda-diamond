@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="hidenrga_controller" class="gda.device.hidenrga.HidenRGAController">
+		<constructor-arg index="0" value="ME12G-EA-RGA-01"/>
+		<property name="numberOfMassChannels" value="21"/>
+		<property name="currentValvePvName" value=":VALVE" />
+		<property name="currentTemperaturePvName" value=":TEMPCALC" />
+	</bean>
+
+	<bean id="rga" class="gda.device.hidenrga.HidenRGAScannable">
+		<property name="controller" ref="hidenrga_controller" />
+		<property name="useAuxiliaryInputs" value="true" />
+		<property name="collectionRate" value="1" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/rga" />
+		<property name="service" ref="rga" />
+		<property name="serviceInterface" value="gda.device.hidenrga.HidenRGA" />
+	</bean>
+
+</beans>

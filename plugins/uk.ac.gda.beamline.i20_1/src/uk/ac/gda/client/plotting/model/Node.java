@@ -20,8 +20,10 @@ package uk.ac.gda.client.plotting.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.core.databinding.observable.list.IObservableList;
 import org.eclipse.core.databinding.observable.list.WritableList;
 
@@ -33,6 +35,11 @@ public class Node extends ObservableModel implements ITreeNode {
 	private final IObservableList nodeList = new WritableList(new ArrayList<ITreeNode>(), ITreeNode.class);
 	private final ITreeNode parent;
 	private String identifier;
+	private String label = "";
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
 	public Node(ITreeNode parent) {
 		this.parent = parent;
@@ -64,7 +71,11 @@ public class Node extends ObservableModel implements ITreeNode {
 
 	@Override
 	public String getLabel() {
-		return toString();
+		if (StringUtils.isEmpty(label)) {
+			return toString();
+		} else {
+			return label;
+		}
 	}
 
 	public void removeChild(Node dataNode) {
@@ -91,5 +102,64 @@ public class Node extends ObservableModel implements ITreeNode {
 	public void addChildNode(int index, ITreeNode node) {
 		nodeList.add(index, node);
 		nodeMap.put(node.getIdentifier(), node);
+	}
+
+	/** Return top level root node of tree */
+	public ITreeNode getRootNode() {
+		ITreeNode nextNode = getParent();
+		ITreeNode childNode = this;;
+		while(nextNode != null) {
+			childNode = nextNode;
+			nextNode = childNode.getParent();
+		}
+		return childNode;
+	}
+
+	/** Return the total number of 'end' nodes contained under this node.
+    This is the number of nodes without any children (e.g. ScanDataItemNodes).
+    @see #getTotalNumChildren(ITreeNode)
+ * @return Number of nodes below 'startNode' that do not have any children
+ */
+	public int getTotalNumChildren() {
+		return getTotalNumChildren(this);
+	}
+
+	/** Recursively count number of 'end' nodes contained under 'startNode'
+	    This is the number of nodes without any children (e.g. ScanDataItemNodes).
+	 * @param startNode
+	 * @return Number of nodes below 'startNode' that do not have any children
+	 */
+	public static int getTotalNumChildren(ITreeNode startNode) {
+		int numChildren = 0;
+		for(ITreeNode node : startNode.getChildren()) {
+			boolean hasChildNodes = node.getChildren() != null && !node.getChildren().isEmpty();
+			if (hasChildNodes) {
+				numChildren += getTotalNumChildren(node);
+			} else {
+				numChildren += 1;
+			}
+		}
+		return numChildren;
+	}
+
+	/**
+	 * Return list of all child nodes under 'startNode' that have class type 'clazz'.
+	 * (Recursive navigation of tree).
+	 * @param startNode
+	 * @param clazz
+	 * @return list of all child nodes under 'startNode' of specified class type.
+	 */
+	public static List<ITreeNode> getNodesOfType(ITreeNode startNode, Class<?> clazz) {
+		List<ITreeNode> nodeList = new ArrayList<>();
+		for(ITreeNode node : startNode.getChildren()) {
+			if (node.getClass().equals(clazz)) {
+				nodeList.add(node);
+			}
+			boolean hasChildNodes = node.getChildren() != null && !node.getChildren().isEmpty();
+			if (hasChildNodes) {
+				nodeList.addAll(getNodesOfType(node, clazz));
+			}
+		}
+		return nodeList;
 	}
 }

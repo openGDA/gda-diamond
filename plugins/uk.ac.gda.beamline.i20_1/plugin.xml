@@ -65,7 +65,7 @@
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.alignment.ui.BeamlineAlignmentView"
-            icon="icons/crosshairs.gif"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/crosshairs.gif"
             id="uk.ac.gda.exafs.ui.views.beamlinealignmentview"
             name="Optics"
             restorable="true">
@@ -74,7 +74,7 @@
             allowMultiple="false"
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.alignment.ui.SingleSpectrumAlignmentView"
-            icon="icons/1-star.gif"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.alignmentSingleSpectrumView"
             name="Single Collection"
             restorable="true">
@@ -90,7 +90,7 @@
             allowMultiple="false"
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView"
-            icon="icons/chart_curve.png"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
             name="Live Mode"
             restorable="true">
@@ -99,7 +99,7 @@
             allowMultiple="false"
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.calibration.ui.EdeManualCalibrationPlotView"
-            icon="icons/chart_curve.png"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.calibrationreference"
             name="Reference Spectrum"
             restorable="true">
@@ -108,7 +108,7 @@
             allowMultiple="false"
             category="uk.ac.diamond.scisoft.analysis.rcp"
             class="uk.ac.gda.exafs.calibration.ui.EdeManualCalibrationPlotView"
-            icon="icons/chart_curve.png"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.calibrationEdeData"
             name="EDE Data Spectrum"
             restorable="true">
@@ -116,7 +116,7 @@
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.alignment.ui.AlignmentStageCalibrationView"
-            icon="icons/brick.png"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/brick.png"
             id="uk.ac.gda.exafs.ui.views.alignmentstagecalibration"
             name="Alignment Stage"
             restorable="true">
@@ -124,7 +124,7 @@
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.experiment.ui.SingleSpectrumCollectionView"
-            icon="icons/1-star.gif"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/1-star.gif"
             id="uk.ac.gda.exafs.ui.views.experimentSingleSpectrumView"
             name="Single Collection"
             restorable="true">
@@ -139,7 +139,7 @@
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.plotting.ui.ExperimentDataPlotView"
-            icon="icons/1-star.gif"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.dataplotview"
             name="Ede experiment plot"
             restorable="true">
@@ -154,7 +154,7 @@
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView"
-            icon="icons/Temperature.png"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/Temperature.png"
             id="uk.ac.gda.exafs.ui.views.DetectorTemperatureLogView"
             name="Detector Temperatures"
             restorable="true">
@@ -177,17 +177,19 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="uk.ac.gda.exafs.ui.perspectives.AlignmentPerspective"
-            icon="icons/chart_curve.png"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/chart_curve.png"
             id="uk.ac.gda.beamline.i20_1.AlignmentPerspective"
             name="Alignment">
       </perspective>
       <perspective
             class="uk.ac.gda.exafs.ui.perspectives.ExperimentPerspective"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/camera.png"
             id="uk.ac.gda.beamline.i20_1.ExperimentPerspective"
             name="EDE Experiment">
       </perspective>
       <perspective
             class="uk.ac.gda.exafs.ui.perspectives.TurboXasPerspective"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/ui-slider.png"
             id="uk.ac.gda.beamline.i20_1.TurboXasPerspective"
             name="TurboXAS experiment">
       </perspective>

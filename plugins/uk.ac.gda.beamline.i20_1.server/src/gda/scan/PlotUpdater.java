@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.dawnsci.ede.EdeDataConstants;
 import org.dawnsci.ede.EdePositionType;
 import org.dawnsci.ede.EdeScanType;
 import org.eclipse.january.dataset.DatasetFactory;
@@ -58,8 +59,8 @@ public class PlotUpdater {
 	private String filename;
 	private Map<String, DoubleDataset> dataSets = new LinkedHashMap<>(); // set ketSet() returns keys in same order as they were added
 	private List<String> dataNamesToIgnore = new ArrayList<>();
-
 	private String positionColumnName;
+	private String dataNameToSelectInPlot = EdeDataConstants.LN_I0_IT_COLUMN_NAME;
 
 	public String getFilename() {
 		return filename;
@@ -176,9 +177,14 @@ public class PlotUpdater {
 						scanProgressBean, dataName, dataSets.get(dataName), dataSets.get(energyAxisName));
 
 				progressBean.setUncalibratedXAxisData(dataSets.get(positionColumnName));
+				progressBean.setSelectedByDefault(dataName.equals(dataNameToSelectInPlot));
 
 				controller.update(null, progressBean);
 			}
 		}
+	}
+
+	public void setDatanameToSelectInPlot(String dataNameToSelectInPlot) {
+		this.dataNameToSelectInPlot = dataNameToSelectInPlot;
 	}
 }

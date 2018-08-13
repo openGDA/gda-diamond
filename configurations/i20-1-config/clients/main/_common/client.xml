@@ -67,6 +67,7 @@
 		<property name="detectorNameMap">
 			<map>
 				<entry key="Ionchambers" value="scaler_for_zebra" />
+				<entry key="Ionchambers + Diode" value="ionchambers_diode" />
 				<entry key="Xspress3" value="buffered_xspress3" />
 			</map>
 		</property>
@@ -75,8 +76,15 @@
 				<value>turbo_xas_slit</value>
 			</list>
 		</property>
+		<property name="defaultPlottedFields">
+			<map>
+				<entry key="scaler_for_zebra" value="lnI0It" />
+				<entry key="ionchambers_diode" value="FFI0" />
+				<entry key="buffered_xspress3" value="FF_sumI0" />
+			</map>
+		</property>
 	</bean>
-	
+
 	<bean id="xspress3" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}xspress3" />
 		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
@@ -103,5 +111,6 @@
 	</bean>
 
 	<import resource="file:${gda.config}/clients/main/_common/AlignmentPerspectiveCompositeFactories.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
 
 </beans>

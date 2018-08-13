@@ -84,10 +84,8 @@ public class TurboXasNexusTree {
 	public static final String INDEX_UNITS = "index";
 	public static final String POSITION_UNITS = "cm";
 	public static final String I0_LABEL = "I0";
+	public static final String FF_SUM_IO_NAME = "FF_sumI0";
 
-	// For 'FF_sum/I0' label, use u2215 (division slash, ∕) rather than solidus (/), so ratio is displayed nicely
-	// and Nexus writer doesn't get confused
-	public static final String FF_SUM_IO_NAME = "FF_sum\u2215I0";
 
 	// Dataset names for spectrum and timing group index (to match Ede scan data names...)
 	public static final String SPECTRUM_INDEX = EdeDataConstants.FRAME_COLUMN_NAME;
@@ -430,13 +428,31 @@ public class TurboXasNexusTree {
 			Arrays.fill(step, 1);
 			try {
 				logger.info("Adding data from XSpress3 hdf file {}", xspress3FileReader.getFilename());
+
+				// Build list of suffixes of dataset names for detector elements *excluded* from FF sum
+				// e.g. "_1", "_2", "_3" etc
+				List<String> exludedElementSuffixList = new ArrayList<>();
+				for(int i=0; i< detector.getNumberOfElements(); i++) {
+					if (!detector.getController().isChannelEnabled(i)) {
+						exludedElementSuffixList.add(String.format("_%d", i+1));
+					}
+				}
+				if (!exludedElementSuffixList.isEmpty()) {
+					logger.debug("Detector elements excluded from FF sum : {}", exludedElementSuffixList);
+				}
+
 				ffSum = DatasetFactory.zeros(highFrame - lowFrame -1);
 				ffSum.setName("FF_sum");
 				for (Dataset dataset : xspress3FileReader.readDatasets(start, shape, step)) {
-					NXDetectorData.addData(detTree, dataset.getName(), NexusGroupData.createFromDataset(dataset),
-							"counts", 1);
+					NXDetectorData.addData(detTree, dataset.getName(), NexusGroupData.createFromDataset(dataset), "counts", 1);
 					if (dataset.getName().startsWith("FF")) {
-						ffSum.iadd(dataset);
+						boolean excludeInSum = exludedElementSuffixList.stream()
+							.filter(elementSuffix -> dataset.getName().endsWith(elementSuffix))
+							.findFirst().isPresent();
+
+						if (!excludeInSum) {
+							ffSum.iadd(dataset);
+						}
 					}
 				}
 				NXDetectorData.addData(detTree, ffSum.getName(), NexusGroupData.createFromDataset(ffSum), "counts", 1);

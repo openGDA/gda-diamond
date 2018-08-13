@@ -32,6 +32,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/zebra_turboslits.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/zebra_turboslits.xml" />
 
 <!-- 	do this here as it may have object references to earlier XML files -->
 	<import resource="file:${gda.config}/servers/main/_common/dataformat.xml" />
@@ -40,13 +41,6 @@
 <!--  Frelon camera - comment out when not being used -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/frelon_tango.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/frelon.xml" />
-
-<!-- for when this used live: -->
-
-<!-- Apparently not used any more? imh 6/11/2015 -->
-<!-- 	<bean class="gda.configuration.epics.EpicsConfiguration"> -->
-<!-- 		<constructor-arg value="${gda.config}/xml/BL20J-gda-interface.xml" /> -->
-<!-- 	</bean> -->
 
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />

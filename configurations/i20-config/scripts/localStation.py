@@ -259,4 +259,6 @@ DAServer.sendCommand("tfg alternate-veto veto0-normal")
 # Create DTC_energy scannable to set, get the XSpress4 DTC energy value
 run 'xspress4_dtc_energy_scannable.py'
 
+cryostat.stop() # To stop the 'status' thread from running on the Lakeshore cryostat (fills logpanel with debug messages)
+
 print "****GDA startup script complete.****\n\n"

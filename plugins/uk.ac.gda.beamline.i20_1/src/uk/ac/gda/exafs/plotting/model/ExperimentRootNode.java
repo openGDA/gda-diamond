@@ -18,12 +18,15 @@
 
 package uk.ac.gda.exafs.plotting.model;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.swt.widgets.Display;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.factory.Finder;
 import gda.jython.IScanDataPointObserver;
@@ -34,7 +37,9 @@ import gda.scan.ede.EdeExperimentProgressBean;
 import gda.scan.ede.EdeExperimentProgressBean.ExperimentCollectionType;
 import gda.scan.ede.EdeScanProgressBean;
 import uk.ac.gda.client.plotting.ScanDataPlotterComposite;
+import uk.ac.gda.client.plotting.model.ITreeNode;
 import uk.ac.gda.client.plotting.model.Node;
+import uk.ac.gda.client.plotting.model.ScanNodeProviderFromNexusFile;
 import uk.ac.gda.exafs.data.DetectorModel;
 
 /**
@@ -60,6 +65,7 @@ import uk.ac.gda.exafs.data.DetectorModel;
  *  each SpectraNode has a list of ScanDataItemNodes. ScanDataItemNodes contains datasets with the x-y values to be plotted
  */
 public class ExperimentRootNode extends Node implements IScanDataPointObserver {
+	private static final Logger logger = LoggerFactory.getLogger(ExperimentRootNode.class);
 
 	private final DoubleDataset stripsData;
 
@@ -68,7 +74,7 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 	public static final String SCAN_ADDED_PROP_NAME = "addedScan";
 	public static final String USE_STRIPS_AS_X_AXIS_PROP_NAME = "useStripsAsXaxis";
 	private boolean useStripsAsXaxis;
-
+	private ScanNodeProviderFromNexusFile scanNodeProvider = new ScanNodeProviderFromNexusFile();
 	private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 	public ExperimentRootNode() {
@@ -88,12 +94,11 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 	}
 
 	private void updateScansData() {
-		for (Object scanObj: getChildren()) {
-			for (Object spectraObj: ((EdeScanNode) scanObj).getChildren()) {
-				SpectraNode spectraNode = (SpectraNode) spectraObj;
-				for (Object scanDataObj: spectraNode.getChildren()) {
-					this.firePropertyChange(DATA_CHANGED_PROP_NAME, null, scanDataObj);
-				}
+		for(Object node : this.getChildren()) {
+			ITreeNode treenode = (ITreeNode) node;
+			List<ITreeNode> dataItemNodes = Node.getNodesOfType(treenode,  ScanDataItemNode.class);
+			for(ITreeNode dataNode : dataItemNodes) {
+				this.firePropertyChange(DATA_CHANGED_PROP_NAME, null, dataNode);
 			}
 		}
 	}
@@ -136,6 +141,16 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 
 			Node addedData = scanNode.updateData((EdeExperimentProgressBean) arg);
 			this.firePropertyChange(DATA_ADDED_PROP_NAME, null, addedData);
+		} else if (arg instanceof String[]) {
+			//load data from Nexus files
+			String[] filenameList = (String[]) arg;
+			for (String filename : filenameList) {
+				try {
+					scanNodeProvider.addEdeScanNode(filename, this);
+				} catch (Exception e) {
+					logger.error("Problem adding data to tree from Nexus file {} : {}", filename, e.getMessage(), e);
+				}
+			}
 		}
 	}
 
