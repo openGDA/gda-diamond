@@ -58,6 +58,11 @@ def setupTfg(numberOfFrames, exposure, waitTime, waitPulse=DEFAULT_WAIT_PULSE, r
     else:
         print("TFG updated to record " + repr(numberOfFrames) + " frames of " + repr(exposure) + "ms exposures, with frames taken every " +repr(exposure+waitTime) + "ms.")
 
+def setupTfgGroups(*groups):
+    timer.clearFrameSets()
+    for group in groups:
+        timer.addFrameSet(*group)
+    timer.loadFrameSets()
 
 def fs(actionrequested=None):
     """Set the idle position of the fast shutter
