@@ -84,7 +84,7 @@ except:
 
 gridxy=ScannableGroup()
 gridxy.setName("gridxy")
-gridxy.setGroupMembers([mfstage_x, mfstage_y])
+gridxy.setGroupMembers([base_x, base_y])
 gridxy.configure()
 try:
 	ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", mfgige, gridxy, ncddetectors)
