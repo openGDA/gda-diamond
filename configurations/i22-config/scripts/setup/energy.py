@@ -1,4 +1,5 @@
 from java.lang import Double
+from gda.device.enumpositioner import EpicsSimpleMbbinary
 
 THRESHOLD_ERROR = 'Cannot access %s: check detector is connected and run ' +\
 		'%s.configure()'
@@ -110,12 +111,13 @@ class CalibratedID(gda.device.scannable.PseudoDevice):
 	    Purpose:       To change the ID gap to the right energy value.It is assumed the DCM has been commissioned first.
 	"""
 
-	def __init__(self, name, id_gap):
+	def __init__(self, name, id_gap, check):
 		""" Constructor method give the device a name - in this case CalibratedID"""
 		self.name = name
 		self.setInputNames([name])
 		self.id_gap = id_gap
 		self.selectedHarmonic = 3
+		self.check = check
 		harmonics =[]
 		#                            fit y = ax^3 + bx^2 + cx +d
 		#                            n: harmonic order
@@ -133,13 +135,16 @@ class CalibratedID(gda.device.scannable.PseudoDevice):
 		self.harmonics = harmonics
 
 	def isBusy(self):
-		return self.id_gap.isBusy()
+		return self.check() == 'ENABLED' and self.id_gap.isBusy()
 
 	def getPosition(self):
 		return float(self.id_gap.getPosition())
 
 	def asynchronousMoveTo(self,X):
-		self.id_gap.asynchronousMoveTo(self.calculateposition(X)-0.005)
+		if self.check() == 'ENABLED':
+			self.id_gap.asynchronousMoveTo(self.calculateposition(X)-0.005)
+		else:
+			print 'Not moving ID gap - access is disabled'
 
 	def getSelectedHarmonic(self, X):
 		n = len(self.harmonics)
@@ -191,7 +196,11 @@ class CalibratedOffset(gda.device.scannable.PseudoDevice):
 pilthres = PilatusThreshold("pilthres", "BL22I-EA-PILAT-01:CAM")
 pilthresWAXS_L = PilatusThreshold("pilthresWAXS_L", "BL22I-EA-PILAT-03:CAM")
 calibrated_offset = CalibratedOffset("calibrated_offset", dcm_offset)
-calibrated_ID = CalibratedID("calibrated_ID", idgap_mm)
+id_enabled = EpicsSimpleMbbinary()
+id_enabled.name = 'id_enabled'
+id_enabled.recordName = 'SR22I-MO-SERVC-01:IDBLENA'
+id_enabled.configure()
+calibrated_ID = CalibratedID("calibrated_ID", idgap_mm, check=id_enabled)
 energy.clearScannables()
 for i in [calibrated_ID, calibrated_offset, pilthres, pilthresWAXS_L]:
 	energy.addScannable(i)

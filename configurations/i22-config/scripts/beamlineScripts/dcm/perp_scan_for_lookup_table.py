@@ -1,5 +1,3 @@
-import java
-import time
 import scisoftpy as dnp
 from gda.data import NumTracker
 from gda.data import PathConstructor
@@ -21,7 +19,7 @@ dcm_pitch scans done on D3 inline diode
 dcm_perp scans done on D4 Inline Diode HFM position
 '''
 
-filePath = (PathConstructor.createFromDefaultProperty()+"perp_parameters_"+time.strftime("%Y-%m-%d-%H_%M")+".csv")
+filePath = (PathConstructor.createFromDefaultProperty()+"/perp_parameters_"+time.strftime("%Y-%m-%d-%H_%M")+".csv")
 outfile = open(filePath,"a")
 outfile.write("File, Energy , bragg, 1/cos(bragg), dcm_perp1, dcm_perp2, dcm_perp3, pitch1, pitch2\n")
 outfile.close()
@@ -40,15 +38,15 @@ for x in dnp.linspace(1.14992,1.004898,10,True):
     pos dcm_pitch 0
     pos dcm_finepitch -130
     sleep(2)
-    scan dcm_finepitch -130 130 1 topup d3d2
+    scan dcm_finepitch -130 130 1 topup d3d1
     go maxval
-    scan dcm_perp 12.1 15.0 0.05 topup d3d2
+    scan dcm_perp 12.1 15.0 0.05 topup d3d1
     go maxval
     pos dcm_finepitch 0
     pos dcm_pitch 0
     pos dcm_finepitch -130
     sleep(2)
-    scan dcm_finepitch -130 130 1 topup d3d2
+    scan dcm_finepitch -130 130 1 topup d3d1
     go maxval
     pitchPos_start = dcm_pitch.getPosition()
     pos d3filter "Clear"

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="fswitch" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="fswitch_x"/>
+                <ref bean="fswitch_y"/>
+                <ref bean="fswitch_pitch"/>
+                <ref bean="fswitch_yaw"/>
+            </list>
+        </property>
+        <property name="local" value="true"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
+    <bean id="fswitch_x" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="fswitch_x_motor"/>
+        <property name="local" value="true"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
+    <bean id="fswitch_y" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="fswitch_y_motor"/>
+        <property name="local" value="true"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
+    <bean id="fswitch_pitch" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="fswitch_pitch_motor"/>
+        <property name="local" value="true"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
+    <bean id="fswitch_yaw" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="fswitch_yaw_motor"/>
+        <property name="local" value="true"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+</beans>
+

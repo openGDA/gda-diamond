@@ -34,7 +34,7 @@ if USE_DUMMY_DETECTOR:
     cam1det = CreateImageReadingDummyDetector.create(x)
 else:
     print "Creating cam1det"
-    cam1det = EpicsGigECamera('cam1det', 'BL22I-DI-PHDGN-12:', None, False)
+    cam1det = EpicsGigECamera('cam1det', 'BL22I-DI-PHDGN-08:', None, False)
     
 print "Creating cam1, peak2d and max2d"
 cam1 = ProcessingDetectorWrapper('cam1', cam1det, [], panel_name='None')

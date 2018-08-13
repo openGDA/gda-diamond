@@ -17,6 +17,5 @@
     <import resource="lenses.xml"/>
     <import resource="mfbs.xml"/>
     <import resource="platform.xml"/>
-    <import resource="s6.xml"/>
     <import resource="stage.xml"/>
 </beans>

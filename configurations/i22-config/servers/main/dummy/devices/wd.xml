@@ -16,10 +16,4 @@
     <bean id="wd_x_motor" class="gda.device.motor.DummyMotor">
         <property name="local" value="true" />
     </bean>
-    <bean id="wdl_y_motor" class="gda.device.motor.DummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="wd_y_motor" class="gda.device.motor.DummyMotor">
-        <property name="local" value="true" />
-    </bean>
 </beans>

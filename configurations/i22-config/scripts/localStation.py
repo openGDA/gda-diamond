@@ -58,20 +58,6 @@ lrm4k=LinkamRampMaster4000("lrm4k",linkam)
 from setup.installStandardScansWithProcessing import *
 scan_processor.rootNamespaceDict=globals()
 
-from ncdutils import DetectorMeta, DetectorMetaWithPv, DetectorMetaString
-waxs_distance = DetectorMeta("waxs_distance", ncddetectors, "WAXS", "distance", "m")
-waxs_centre_x = DetectorMeta("waxs_centre_x", ncddetectors, "WAXS", "beam_center_x")
-waxs_centre_y = DetectorMeta("waxs_centre_y", ncddetectors, "WAXS", "beam_center_y")
-waxs_mask = DetectorMetaString("waxs_mask", ncddetectors, 'WAXS', 'maskFile')
-waxs_calibration = DetectorMetaString('waxs_calibration', ncddetectors, 'WAXS', 'calibrationFile')
-
-saxs_distance = DetectorMetaWithPv("saxs_distance", ncddetectors, "SAXS", "distance", "m", pv=('BL22I-EA-SAXSP-01:', 'CAMERA'))
-saxs_distance.pv_conversion = 1000
-saxs_centre_x = DetectorMeta("saxs_centre_x", ncddetectors, "SAXS", "beam_center_x")
-saxs_centre_y = DetectorMeta("saxs_centre_y", ncddetectors, "SAXS", "beam_center_y")
-saxs_mask = DetectorMetaString("saxs_mask", ncddetectors, 'SAXS', 'maskFile')
-saxs_calibration = DetectorMetaString('saxs_calibration', ncddetectors, 'SAXS', 'calibrationFile')
-saxs_abs_cal = DetectorMeta("saxs_abs_cal", ncddetectors, "SAXS", "scaling_factor")
 
 # preseed listener dispatcher
 print "Pre-seeding listener dispatcher"
@@ -98,7 +84,7 @@ except:
 
 gridxy=ScannableGroup()
 gridxy.setName("gridxy")
-gridxy.setGroupMembers([mfstage_x, mfstage_y])
+gridxy.setGroupMembers([base_x, base_y])
 gridxy.configure()
 try:
 	ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", mfgige, gridxy, ncddetectors)

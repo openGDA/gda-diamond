@@ -55,6 +55,7 @@ class Valves():
 
 	def __init__(self):
 		v = []
+		v.append("BL22I-VA-VALVE-06:CON")
 		v.append("BL22I-VA-VALVE-05:CON")
 		v.append("BL22I-VA-VALVE-04:CON")
 		v.append("BL22I-VA-VALVE-03:CON")

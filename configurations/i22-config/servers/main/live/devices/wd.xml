@@ -21,18 +21,8 @@
 		<property name="local" value="true"/>
 	</bean>
 
-	<bean id="wdl_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-EA-DET-01:Y"/>
-		<property name="local" value="true"/>
-	</bean>
-
 	<bean id="wd_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-EA-DET-01:Y"/>
 		<property name="local" value="true"/>
-	</bean>
-
-	<bean id="wdl_x_motor" class="gda.device.motor.EpicsMotor" >
-		<property name="pvName" value="BL22I-EA-DET-01:X" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

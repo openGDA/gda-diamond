@@ -24,7 +24,6 @@
 	<logger name="gda.scan.MultithreadedScanDataPointPipeline" level="INFO" />
 	<logger name="gda.scan.ScanDataPointPopulatorAndPublisher" level="INFO" />
 	<root>                                                                      
-        <level value="DEBUG"/>                                                  
-        <appender-ref ref="Console"/>                                           
+        <level value="DEBUG"/>
     </root>
 </included>

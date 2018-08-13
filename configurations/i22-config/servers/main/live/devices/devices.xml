@@ -27,7 +27,6 @@
 	<import resource="idgap.xml" />
 	<import resource="shutter.xml" />
 	<import resource="slits/slits.xml" />
-	<import resource="microfocus/microfocus.xml" />
 
 	<!-- <import resource="bsaxs-axes.xml"/> -->
 
@@ -37,8 +36,9 @@
 	<import resource="d4.xml" />
 	<import resource="d5.xml" />
 	<import resource="d6.xml" />
-	<import resource="d7.xml" />
+	<import resource="d8.xml" />
 	<import resource="diodes.xml" />
+	<import resource="qbpm1.xml" />
 
 	<import resource="dcm.xml" />
 	<import resource="hfm.xml" />
@@ -53,6 +53,8 @@
 	<import resource="base.xml" />
 	<import resource="bco.xml" />
 	<import resource="user.xml" />
+
+	<import resource="fswitch.xml" />
 
 	<import resource="beamline.xml" />
 

@@ -22,9 +22,10 @@
     <import resource='d4.xml'/>
     <import resource='d5.xml'/>
     <import resource='d6.xml'/>
-    <import resource='d7.xml'/>
+    <import resource="d8.xml" />
     <import resource='dcm.xml'/>
     <import resource='diodes.xml'/>
+    <import resource="qbpm1.xml" />
     <import resource='feaptr.xml'/>
     <import resource='gonio.xml'/>
     <import resource='hfm.xml'/>
@@ -38,7 +39,8 @@
     <import resource='vfm.xml'/>
     <import resource='wd.xml'/>
     
-    <import resource="microfocus/microfocus.xml"/>
+    <import resource="fswitch.xml" />
+
     <import resource="gisaxs/gisaxs.xml"/>
     <import resource="slits/slits.xml"/>
 </beans>
