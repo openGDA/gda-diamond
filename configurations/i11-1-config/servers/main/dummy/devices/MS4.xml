@@ -6,4 +6,5 @@
 	<bean id="ms4x_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="ms4y_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="ms4rot_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ms4lift_motor" class="gda.device.motor.DummyMotor"/>
 </beans>

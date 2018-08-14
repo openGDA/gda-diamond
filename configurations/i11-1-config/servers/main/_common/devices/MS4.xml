@@ -12,6 +12,9 @@
 	<bean id="ms4rot" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ms4rot_motor"/>
 	</bean>
+	<bean id="ms4lift" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ms4lift_motor"/>
+	</bean>
 	
 	<bean id="ms4" class="org.opengda.lde.experiments.SampleStage">
 		<property name="groupMembers">
@@ -19,6 +22,7 @@
 				<ref bean="ms4x"/>
 				<ref bean="ms4y"/>
 				<ref bean="ms4rot"/>
+				<ref bean="ms4lift"/>
 			</list>
 		</property>
 		<property name="engagePosition" value="0.0"/>

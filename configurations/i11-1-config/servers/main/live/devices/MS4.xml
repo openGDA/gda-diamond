@@ -12,4 +12,7 @@
 	<bean id="ms4rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11J-MO-MSLID-04:ROT"/>
 	</bean>
+	<bean id="ms4lift_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11J-MO-LIFT-04:Y"/>
+	</bean>
 </beans>
