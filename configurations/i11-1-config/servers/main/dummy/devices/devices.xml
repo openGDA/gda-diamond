@@ -14,7 +14,6 @@
 	<import resource="FrontEndAperture.xml" />
 	<import resource="FrontEndShutter.xml" />
 	<import resource="DCM.xml" />
-	<import resource="Mar345.xml" />
 	<import resource="GBD.xml" />
 	<import resource="MRIFurnace.xml" />
 	<import resource="PhenixCryostat.xml" />
@@ -40,10 +39,8 @@
 	<import resource="LS.xml" />
 	<import resource="LargeSampleTable.xml" />
 	<import resource="DummyMotors.xml" />
-	<import resource="SmallSampleTable.xml" />
 	<import resource="Table1.xml" />
 	<import resource="OxfordCryoStream.xml" />
-	<import resource="usermotors.xml" />
 	<import resource="CyberStarBlower.xml" />
 	<import resource="MS1.xml" />
 	<import resource="MS2.xml" />
