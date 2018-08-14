@@ -94,6 +94,7 @@
 								<property name="label" value="Ring Current" />
 								<property name="units" value="mA" />
 								<property name="decimalPlaces" value="2" />
+								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
@@ -101,6 +102,7 @@
 								<property name="label" value="Time to refill" />
 								<property name="units" value="s" />
 								<property name="decimalPlaces" value="0" />
+								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
@@ -108,6 +110,7 @@
 								<property name="label" value="ID Gap" />
 								<property name="units" value="mm" />
 								<property name="decimalPlaces" value="4" />
+								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 						</list>
 					</property>
@@ -123,6 +126,7 @@
 								<property name="label" value="Io" />
 								<property name="units" value="" />
 								<property name="decimalPlaces" value="0" />
+								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
@@ -130,6 +134,7 @@
 								<property name="label" value="Ie2 " />
 								<property name="units" value="" />
 								<property name="decimalPlaces" value="0" />
+								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
@@ -137,6 +142,7 @@
 								<property name="label" value="Wavelength" />
 								<property name="units" value="Ang" />
 								<property name="decimalPlaces" value="6" />
+								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
@@ -144,6 +150,7 @@
 								<property name="label" value="Ie" />
 								<property name="units" value="" />
 								<property name="decimalPlaces" value="0" />
+								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
@@ -151,6 +158,7 @@
 								<property name="label" value="Ic4" />
 								<property name="units" value="" />
 								<property name="decimalPlaces" value="3" />
+								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
@@ -158,6 +166,7 @@
 								<property name="label" value="Energy" />
 								<property name="units" value="keV" />
 								<property name="decimalPlaces" value="4" />
+								<property name="forceLayoutOnLengthChange" value="false" />
 							</bean>
 						</list>
 					</property>
