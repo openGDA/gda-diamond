@@ -19,17 +19,20 @@
 package uk.ac.gda.server.exafs.scan.preparers;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import gda.device.EnumPositioner;
 import gda.device.scannable.ScannableMotor;
+import gda.factory.Factory;
+import gda.factory.FactoryException;
+import gda.factory.Finder;
 import gda.gui.RCPController;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
@@ -44,16 +47,13 @@ public class I18SamplePreparerTest {
 	private ScannableMotor mocked_sc_MicroFocusSampleX;
 	private ScannableMotor mocked_sc_MicroFocusSampleY;
 	private ScannableMotor mocked_sc_sample_z;
-	private ScannableMotor mocked_table_x;
-	private ScannableMotor mocked_table_y;
-	private ScannableMotor mocked_table_z;
 	private ScannableMotor mocked_kb_vfm_x;
 	private EnumPositioner d7a;
 	private EnumPositioner d7b;
 	private I18SamplePreparer preparer;
 
 	@Before
-	public void setupObjects() {
+	public void setupObjects() throws FactoryException {
 
 		JythonServerFacade jythonserverfacade = mock(JythonServerFacade.class);
 		InterfaceProvider.setTerminalPrinterForTesting(jythonserverfacade);
@@ -65,10 +65,6 @@ public class I18SamplePreparerTest {
 		mocked_sc_MicroFocusSampleY = createMockScannableMotor("mocked_sc_MicroFocusSampleY");
 		mocked_sc_sample_z = createMockScannableMotor("mocked_sc_sample_z");
 
-		mocked_table_x = createMockScannableMotor("mocked_sc_MicroFocusSampleX");
-		mocked_table_y = createMockScannableMotor("mocked_sc_MicroFocusSampleY");
-		mocked_table_z = createMockScannableMotor("mocked_sc_sample_z");
-
 		d7a = mock(EnumPositioner.class);
 		when(d7a.getName()).thenReturn("d7a");
 		d7b = mock(EnumPositioner.class);
@@ -76,9 +72,23 @@ public class I18SamplePreparerTest {
 
 		mocked_kb_vfm_x = createMockScannableMotor("mocked_kb_vfm_x");
 
-		preparer = new I18SamplePreparer(rcpController, d7a, d7b, mocked_kb_vfm_x);
-		preparer.setStage1(mocked_sc_MicroFocusSampleX, mocked_sc_MicroFocusSampleY, mocked_sc_sample_z);
-		preparer.setStage3(mocked_table_x, mocked_table_y, mocked_table_z);
+		// put mocks in finder
+		Factory mocksFactory = mock(Factory.class);
+		when(mocksFactory.getFindable("mocked_sc_MicroFocusSampleX")).thenReturn(mocked_sc_MicroFocusSampleX);
+		when(mocksFactory.getFindable("mocked_sc_MicroFocusSampleY")).thenReturn(mocked_sc_MicroFocusSampleY);
+		when(mocksFactory.getFindable("mocked_sc_sample_z")).thenReturn(mocked_sc_sample_z);
+		when(mocksFactory.getFindable("d7a")).thenReturn(d7a);
+		when(mocksFactory.getFindable("d7b")).thenReturn(d7b);
+		when(mocksFactory.getFindable("mocked_kb_vfm_x")).thenReturn(mocked_kb_vfm_x);
+
+		Finder.getInstance().addFactory(mocksFactory);
+
+		preparer = new I18SamplePreparer(rcpController);
+	}
+
+	@After
+	public void cleanUpFinder() {
+		Finder.getInstance().removeAllFactories();
 	}
 
 	private ScannableMotor createMockScannableMotor(String string) {
@@ -88,52 +98,50 @@ public class I18SamplePreparerTest {
 	}
 
 	@Test
-	public void testSampleStageWithoutVFMAndWithStage1() {
-		try {
-			String sampleName = "sample1";
-			String description1 = "This is my first sample";
+	public void testSampleStageWithoutVFMAndWithStage1() throws Exception {
+		String sampleName = "sample1";
+		String description1 = "This is my first sample";
 
-			SampleStageParameters sampleStageParameters = new SampleStageParameters();
-			sampleStageParameters.setX(1.);
-			sampleStageParameters.setY(2.);
-			sampleStageParameters.setZ(3.);
+		SampleStageParameters sampleStageParameters = new SampleStageParameters();
+		sampleStageParameters.setX(1.);
+		sampleStageParameters.setY(2.);
+		sampleStageParameters.setZ(3.);
+		sampleStageParameters.setXName("mocked_sc_MicroFocusSampleX");
+		sampleStageParameters.setYName("mocked_sc_MicroFocusSampleY");
+		sampleStageParameters.setZName("mocked_sc_sample_z");
 
-			AttenuatorParameters atn1Parameters = new AttenuatorParameters();
-			atn1Parameters.setSelectedPosition("first");
+		AttenuatorParameters atn1Parameters = new AttenuatorParameters();
+		atn1Parameters.setName("d7a");
+		atn1Parameters.setSelectedPosition("first");
 
-			AttenuatorParameters atn2Parameters = new AttenuatorParameters();
-			atn2Parameters.setSelectedPosition("second");
+		AttenuatorParameters atn2Parameters = new AttenuatorParameters();
+		atn2Parameters.setName("d7b");
+		atn2Parameters.setSelectedPosition("second");
 
-			I18SampleParameters parameters = new I18SampleParameters();
-			parameters.setName(sampleName);
-			parameters.setDescription(description1);
-			parameters.setSampleStageParameters(sampleStageParameters);
-			parameters.setAttenuatorParameter1(atn1Parameters);
-			parameters.setAttenuatorParameter2(atn2Parameters);
-			parameters.setVfmxActive(false);
+		I18SampleParameters parameters = new I18SampleParameters();
+		parameters.setName(sampleName);
+		parameters.setDescription(description1);
+		parameters.setSampleStageParameters(sampleStageParameters);
+		parameters.addAttenuator(atn1Parameters);
+		parameters.addAttenuator(atn2Parameters);
+		parameters.setVfmxActive(false);
 
-			preparer.configure(null, parameters);
-			preparer.setStage(1);
-			SampleEnvironmentIterator iterator = preparer.createIterator(null);
+		preparer.configure(null, parameters);
+		SampleEnvironmentIterator iterator = preparer.createIterator(null);
 
-			assertEquals(1, iterator.getNumberOfRepeats());
-			assertEquals(sampleName, iterator.getNextSampleName());
-			assertEquals(1, iterator.getNextSampleDescriptions().size());
-			assertEquals(description1, iterator.getNextSampleDescriptions().get(0));
+		assertEquals(1, iterator.getNumberOfRepeats());
+		assertEquals(sampleName, iterator.getNextSampleName());
+		assertEquals(1, iterator.getNextSampleDescriptions().size());
+		assertEquals(description1, iterator.getNextSampleDescriptions().get(0));
 
-			assertEquals("mocked_sc_MicroFocusSampleX", mocked_sc_MicroFocusSampleX.getName());
+		iterator.next();
+		verify(mocked_sc_MicroFocusSampleX).moveTo(1.);
+		verify(mocked_sc_MicroFocusSampleY).moveTo(2.);
+		verify(mocked_sc_sample_z).moveTo(3.);
+		verify(d7a).moveTo("first");
+		verify(d7b).moveTo("second");
+		verifyZeroInteractions(mocked_kb_vfm_x);
 
-			iterator.next();
-			verify(mocked_sc_MicroFocusSampleX).moveTo(1.);
-			verify(mocked_sc_MicroFocusSampleY).moveTo(2.);
-			verify(mocked_sc_sample_z).moveTo(3.);
-			verify(d7a).moveTo("first");
-			verify(d7b).moveTo("second");
-			verifyZeroInteractions(mocked_kb_vfm_x);
-
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
 	}
 
 }

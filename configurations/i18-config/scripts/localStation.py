@@ -77,10 +77,7 @@ sensitivities = [I0_stanford_sensitivity, It_stanford_sensitivity] # @UndefinedV
 sensitivity_units = [I0_stanford_sensitivity_units, It_stanford_sensitivity_units] # @UndefinedVariable
 detectorPreparer = I18DetectorPreparer(sensitivities, sensitivity_units, counterTimer01, xspress3, raster_counterTimer01, raster_xspress3,raster_FFI0_xspress3) # @UndefinedVariable
 
-samplePreparer   = I18SamplePreparer(rcpController, D7A, D7B, kb_vfm_x) # @UndefinedVariable
-samplePreparer.setStage1(sc_MicroFocusSampleX, sc_MicroFocusSampleY, sc_sample_z) # @UndefinedVariable
-samplePreparer.setStage3(table_x, table_y, table_z) # @UndefinedVariable
-samplePreparer.setStage(1)
+samplePreparer   = I18SamplePreparer(rcpController) # @UndefinedVariable
 outputPreparer   = I18OutputPreparer(datawriterconfig,Finder.getInstance().find("metashop"))
 beamlinePreparer = I18BeamlinePreparer(topupMonitor, beamMonitor, detectorFillingMonitor, energy, energy_nogap, auto_mDeg_idGap_mm_converter) # @UndefinedVariable
 
@@ -157,7 +154,7 @@ alias("meta_ll")
 alias("meta_ls")
 alias("meta_rm")
 
-selectStage = StageSelector(samplePreparer,map)
+selectStage = StageSelector(map)
 alias("selectStage")
 selectStage(1)
 
