@@ -1,41 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="sample_theta_coarse_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.ROT"></property>
 		<property name="local" value="true" />
+		<property name="pvName" value="BL18I-MO-TABLE-01:ROT" />
 	</bean>
 
 	<bean id="sample_theta_fine_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.FROT"></property>
 		<property name="local" value="true" />
+		<property name="pvName" value="BL18I-MO-TABLE-01:FROT" />
 	</bean>
 
 	<bean id="sample_y1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.Y1"></property>
 		<property name="local" value="true" />
+		<property name="pvName" value="BL18I-MO-TABLE-01:Y1" />
 	</bean>
 
 	<bean id="sample_y2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.Y2"></property>
 		<property name="local" value="true" />
+		<property name="pvName" value="BL18I-MO-TABLE-01:Y2" />
 	</bean>
 
 	<bean id="sample_y3_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.Y3"></property>
 		<property name="local" value="true" />
+		<property name="pvName" value="BL18I-MO-TABLE-01:Y3" />
 	</bean>
 
 	<bean id="sample_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.X"></property>
 		<property name="local" value="true" />
+		<property name="pvName" value="BL18I-MO-TABLE-01:X" />
 	</bean>
 
 	<bean id="sample_z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="T1.Z"></property>
 		<property name="local" value="true" />
+		<property name="pvName" value="BL18I-MO-TABLE-01:Z" />
 	</bean>
 
 </beans>
