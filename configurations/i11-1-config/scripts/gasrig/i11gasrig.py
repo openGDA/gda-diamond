@@ -20,10 +20,8 @@ Created on 6 Dec 2013
 from gasrig.alicatMassFlowController import AlicatMassFlowController 
 from gasrig.gasRig import GasRigClass
 from gasrig.alicatPressureController import AlicatPressureController
+from gasrig.samplePressure import SamplePressure
 
-mfc1=AlicatMassFlowController("mfc1","I11GasRig:MFC1:","%.3f")
-mfc2=AlicatMassFlowController("mfc2","I11GasRig:MFC2:","%.3f")
-mfc3=AlicatMassFlowController("mfc3","I11GasRig:MFC3:","%.3f")
-bpr=AlicatPressureController("bpr","I11GasRig:BPR:","%.3f")
-dvpc=AlicatPressureController("dvpc","I11GasRig:DVPC:","%.3f")
-gasrig=GasRigClass("gasrig", "I11GasRig:")
+
+#sampleP=SamplePressure("sampleP", bpr)
+gasrig=GasRigClass("gasrig", "BL11J-EA-GIR-01:")

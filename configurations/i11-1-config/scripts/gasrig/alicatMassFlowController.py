@@ -1,10 +1,18 @@
 '''
+scannable for Alicat mass flow controller to provide access to its properties, i.e. 
+get and set methods.
+Build in default flow tolerance is 0.01, and reading precision is 3 decimals.
+
+usage example:
+    mfc1=AlicatMassFlowController("mfc1","BL11J-EA-GIR-01:MFC1:",0.01,"%.3f")
+    
 Created on 6 Dec 2013
+updated on 16 June 2014
 
 @author: fy65
 '''
 from gda.epics import CAClient
-#ROOT_PV="I11GasRig:MFC1:"
+#ROOT_PV="BL11J-EA-GIR-01:MFC1:"
 READ_MASS_FLOW="MASS:FLOW:RD"
 READ_MASS_FLOW_TARGET="SETPOINT:RD"
 SET_MASS_FLOW_TARGET="SETPOINT:WR"
@@ -28,16 +36,16 @@ from gda.device.scannable import ScannableMotionBase
 
 class AlicatMassFlowController(ScannableMotionBase):
     '''
-    classdocs
+    scannable for set and get mass flow in a scannable way. It also provides method to query other mass flow properties.
     '''
-    def __init__(self,name, rootPV, formatstring):
+    def __init__(self,name, rootPV, tolerance=0.01, formatstring="%.3f"):
         '''
         Constructor
         '''
-        self.setName(name);
+        self.setName(name)
         self.setInputNames([name])
         self.setOutputFormat([formatstring])
-        self.setLevel(3)
+        self.setLevel(5)
         self.currentflowcli=CAClient(rootPV+READ_MASS_FLOW)
         self.setflowtargetcli=CAClient(rootPV+SET_MASS_FLOW_TARGET)
         self.readflowtargetcli=CAClient(rootPV+READ_MASS_FLOW_TARGET)
@@ -52,7 +60,14 @@ class AlicatMassFlowController(ScannableMotionBase):
         self.readproportionalgaincli=CAClient(rootPV+READ_PROPORTIONAL_GAIN)
         self.setderivativegaincli=CAClient(rootPV+SET_DERIVATIVE_GAIN)
         self.readderivativegaincli=CAClient(rootPV+READ_DERIVATIVE_GAIN)
+        self.mytolerance=tolerance
         
+    def getTolerance(self):
+        return self.mytolerance
+    
+    def setTolerance(self, value):
+        self.mytolerance=value
+    
     def getCurrentFlow(self):
         try:
             if not self.currentflowcli.isConfigured():
@@ -216,16 +231,19 @@ class AlicatMassFlowController(ScannableMotionBase):
             
             
 #### methods for scannable 
+    def getPosition(self):
+        return self.getCurrentFlow()
+    
+    def asynchronousMoveTo(self, posi):
+        self.setTarget(float(posi))
+        
+    def isBusy(self):
+        return (abs(self.getPosition()-self.getTarget())>self.getTolerance())
+    
     def atScanStart(self):
         pass
     def atPointStart(self):
         pass
-    def getPosition(self):
-        pass
-    def asynchronousMoveTo(self, posi):
-        pass
-    def isBusy(self):
-        return False
     def stop(self):
         pass
     def atPointEnd(self):

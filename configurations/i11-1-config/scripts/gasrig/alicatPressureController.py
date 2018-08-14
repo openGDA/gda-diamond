@@ -1,10 +1,19 @@
 '''
+scannable for Alicat pressure controller to provide access to its properties, i.e. 
+get and set methods.
+Build in default flow tolerance is 0.01, and reading precision is 3 decimals.
+
+usage example:
+    bpr=AlicatPressureController("bpr","BL11J-EA-GIR-01:SYSTEM:","%.3f")
+    
 Created on 6 Dec 2013
+updated on 16 June 2014
 
 @author: fy65
 '''
 from gda.epics import CAClient
-#ROOT_PV="I11GasRig:BPR:"
+from time import sleep
+#ROOT_PV="BL11J-EA-GIR-01:BPR:"
 READ_MODE="MODE:RD"
 SET_MODE="MODE:WR"
 READ_PRESSURE="P:RD"
@@ -15,19 +24,19 @@ SET_PROPORTIONAL_GAIN="PGAIN:WR"
 READ_DERIVATIVE_GAIN="DGAIN:RD"
 SET_DERIVATIVE_GAIN="DGAIN:WR"
 
-modes={0:"Hold",1:"Control"}
+modes={0:"Control",1:"Hold"}
 
 from gda.device.scannable import ScannableMotionBase
 
 class AlicatPressureController(ScannableMotionBase):
     '''
-    classdocs
+    construct a scannable for pressure control. It also provides access to other properties.
     '''
-    def __init__(self,name, rootPV, formatstring):
+    def __init__(self,name, rootPV, tolerance=0.01, formatstring="%.3f"):
         '''
         Constructor
         '''
-        self.setName(name);
+        self.setName(name)
         self.setInputNames([name])
         self.setOutputFormat([formatstring])
         self.setLevel(3)
@@ -40,7 +49,37 @@ class AlicatPressureController(ScannableMotionBase):
         self.readproportionalgaincli=CAClient(rootPV+READ_PROPORTIONAL_GAIN)
         self.setderivativegaincli=CAClient(rootPV+SET_DERIVATIVE_GAIN)
         self.readderivativegaincli=CAClient(rootPV+READ_DERIVATIVE_GAIN)
+        self.mytolerance=tolerance
+        self.isConfigured=False
         
+    def configure(self):
+        if not self.isConfigured:
+            if not self.readmodecli.isConfigured():
+                self.readmodecli.configure()
+            if not self.setmodecli.isConfigured():
+                self.setmodecli.configure()
+            if not self.settargetcli.isConfigured():
+                self.settargetcli.configure()
+            if not self.readtargetcli.isConfigured():
+                self.readtargetcli.configure()
+            if not self.readpressurecli.isConfigured():
+                self.readpressurecli.configure()
+            self.isConfigured=True
+            
+    def deconfigure(self):
+        if self.isConfigured:
+            if self.readmodecli.isConfigured():
+                self.readmodecli.clearup()
+            if self.setmodecli.isConfigured():
+                self.setmodecli.clearup()
+            if self.settargetcli.isConfigured():
+                self.settargetcli.clearup()
+            if self.readtargetcli.isConfigured():
+                self.readtargetcli.clearup()
+            if self.readpressurecli.isConfigured():
+                self.readpressurecli.clearup()
+            self.isConfigured=False
+            
     def getMode(self):
         try:
             if not self.readmodecli.isConfigured():
@@ -78,15 +117,15 @@ class AlicatPressureController(ScannableMotionBase):
 
     def getTarget(self):
         try:
-            if not self.readtargetcli.isConfigured():
-                self.readtargetcli.configure()
-                output=float(self.readtargetcli.caget())
-                self.readtargetcli.clearup()
+            if not self.settargetcli.isConfigured():
+                self.settargetcli.configure()
+                output=float(self.settargetcli.caget())
+                self.settargetcli.clearup()
             else:
-                output=float(self.readtargetcli.caget())
+                output=float(self.settargetcli.caget())
             return output
         except:
-            print "Error returning flow target value"
+            print "Error returning target value"
             return 0
 
     def getPressure(self):
@@ -151,17 +190,31 @@ class AlicatPressureController(ScannableMotionBase):
             print "error set to derivative gain"
             
             
+    def getTolerance(self):
+        return self.mytolerance
+    
+    def setTolerance(self, value):
+        self.mytolerance=value
+
 #### methods for scannable 
+    def getPosition(self):
+        return self.getPressure()
+    
+    def asynchronousMoveTo(self, posi):
+        self.setTarget(float(posi))
+
+    def moveTo(self, posi, sleepdelta=0.5):
+        self.asynchronousMoveTo(posi)
+        while self.isBusy():
+            sleep(sleepdelta)
+
+    def isBusy(self):
+        return (abs(float(self.getPosition())-float(self.getTarget()))>float(self.getTolerance()))
+
     def atScanStart(self):
         pass
     def atPointStart(self):
         pass
-    def getPosition(self):
-        pass
-    def asynchronousMoveTo(self, posi):
-        pass
-    def isBusy(self):
-        return False
     def stop(self):
         pass
     def atPointEnd(self):
