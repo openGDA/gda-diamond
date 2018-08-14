@@ -4,7 +4,8 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="${gda.config}/servers/main/live/BL18I-gda-interface2-0.xml" />
+		<constructor-arg
+			value="${gda.config}/servers/main/live/BL18I-gda-interface2-0.xml" />
 	</bean>
 
 	<!-- ***************************** -->
@@ -136,36 +137,36 @@
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"></property>
 		<property name="local" value="true" />
 	</bean>
-	
+
 	<!-- Period between topups in minutes -->
 	<bean id="machineTopupPeriod" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="SR-CS-FILL-01:FILLPERIOD"/>
-		<property name="local" value="true"/>
+		<property name="pvName" value="SR-CS-FILL-01:FILLPERIOD" />
+		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="machineModeMonitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
 		<property name="local" value="false" />
 	</bean>
-	
+
 	<bean id="ringModeMonitor" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="SR-CS-RING-01:MODE"/>
-		<property name="local" value="false"/>
-	</bean>
-	
-	<bean id="ringcurrent" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL"/>
-		<property name="local" value="false"/>
-	</bean>
-	
-	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="FE18I-PS-SHTR-02:STA"/>
+		<property name="pvName" value="SR-CS-RING-01:MODE" />
+		<property name="local" value="false" />
 	</bean>
 
-	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we need events to
-	   be fired for the GDA9 ExpressionWatchdog -->
+	<bean id="ringcurrent" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+		<property name="local" value="false" />
+	</bean>
+
+	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE18I-PS-SHTR-02:STA" />
+	</bean>
+
+	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we 
+		need events to be fired for the GDA9 ExpressionWatchdog -->
 	<bean id="fe_absorber" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="FE18I-RS-ABSB-01:STA"/>
+		<property name="pvName" value="FE18I-RS-ABSB-01:STA" />
 	</bean>
 
 	<!-- *************************** -->

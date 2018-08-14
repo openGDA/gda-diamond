@@ -1,1005 +1,1487 @@
 <?xml version="1.0" ?>
-<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2010-5/gdaApp/src/genericBeamlineSchema.xsd">
+<devices xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://serv0002.cs.diamond.ac.uk/repos/controls/diamond/release/support/gda/2010-5/gdaApp/src/genericBeamlineSchema.xsd">
 	<simpleMotor desc="HFM Y1" name="HFM:Y1">
-		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:Y1" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:Y1" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM Y2" name="HFM:Y2">
-		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:Y2" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:Y2" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM Y3" name="HFM:Y3">
-		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:Y3" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:Y3" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM X1" name="HFM:X1">
-		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:X1" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:X1" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM X2" name="HFM:X2">
-		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:X2" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:X2" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM BEND1" name="HFM:BEND1">
-		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:BEND1" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:BEND1" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM BEND2" name="HFM:BEND2">
-		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:BEND2" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:BEND2" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM SAG" name="HFM:SAG">
-		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:SAG" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HFM-01:SAG" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HRM Y" name="HRM:Y">
-		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:Y" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:Y" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB VFM X" name="KB.VFM.X">
-		<RECORD desc="Motor" pv="BL18I-OP-KBM-01:VFM:X" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-KBM-01:VFM:X" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB HFM Y" name="KB.HFM.Y">
-		<RECORD desc="Motor" pv="BL18I-OP-KBM-01:HFM:Y" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-KBM-01:HFM:Y" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="PIN X" name="PIN:X">
-		<RECORD desc="Motor" pv="BL18I-AL-APTR-02:X" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-AL-APTR-02:X" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="PIN Y" name="PIN:Y">
-		<RECORD desc="Motor" pv="BL18I-AL-APTR-02:Y" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-AL-APTR-02:Y" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="TW Y" name="TW:Y">
-		<RECORD desc="Motor" pv="BL18I-RS-ABSB-04:Y" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-RS-ABSB-04:Y" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="VMA zoom" name="VMA:ZOOM">
-		<RECORD desc="Motor" pv="BL18I-DI-DCAM-01:ZOOM" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-DI-DCAM-01:ZOOM" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="VMA focus" name="VMA:FOCUS">
-		<RECORD desc="Motor" pv="BL18I-DI-DCAM-01:FOCUS" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-DI-DCAM-01:FOCUS" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="CCD X" name="CCD:X">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-01:X" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-01:X" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="CCD Y" name="CCD:Y">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-01:Y" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-01:Y" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="MLD X" name="MLD:X">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-02:X" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-02:X" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="MLD Y" name="MLD:Y">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-02:Y" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-02:Y" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="MLD Z" name="MLD:Z">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-02:Z" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-02:Z" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="MLD ANGLE" name="MLD:ANGLE">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-02:ANGLE" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-02:ANGLE" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="MLD SCREEN" name="MLD:SCREEN">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-02:SCREEN" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-02:SCREEN" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="MLD DET" name="MLD:DET">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-02:DET" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-02:DET" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="WDS X" name="WDS:X">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-03:X" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-03:X" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="WDS Y" name="WDS:Y">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-03:Y" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-03:Y" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="WDS Z" name="WDS:Z">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-03:Z" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-03:Z" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="WDS LAMBDA" name="WDS:LAMBDA">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-03:LAMBDA" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-03:LAMBDA" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="WDS SLIT" name="WDS:SLIT">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-03:SLIT" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-03:SLIT" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="WDS XTAL" name="WDS:XTAL">
-		<RECORD desc="Motor" pv="BL18I-EA-DET-03:XTAL" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-EA-DET-03:XTAL" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S1 X Negative Motor" name="S1.XNEG">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:X:NEG" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:X:NEG" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S1 X Positive Motor" name="S1.XPOS">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:X:POS" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:X:POS" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S1 X Centre Motor" name="S1.XCENTRE">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:X:CENTER" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:X:CENTER" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S1 X Size Motor" name="S1.XSIZE">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:X:SIZE" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:X:SIZE" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S1 Y Negative Motor" name="S1.YNEG">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:Y:NEG" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:Y:NEG" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S1 Y Positive Motor" name="S1.YPOS">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:Y:POS" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:Y:POS" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S1 Y Centre Motor" name="S1.YCENTRE">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:Y:CENTER" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:Y:CENTER" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S1 Y Size Motor" name="S1.YSIZE">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:Y:SIZE" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-01:Y:SIZE" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S2 X Size Motor" name="S2.XSIZE">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-02:X:SIZE" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-02:X:SIZE" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S2 X Displacement Motor" name="S2.XDISP">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-02:X:DISP" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-02:X:DISP" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S2 Y Size Motor" name="S2.YSIZE">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-02:Y:SIZE" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-02:Y:SIZE" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S2 Y Displacement Motor" name="S2.YDISP">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-02:Y:DISP" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-02:Y:DISP" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S3 X Centre Motor" name="S3.XCENTRE">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:X:CENTER" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:X:CENTER" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S3 X Size Motor" name="S3.XSIZE">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:X:SIZE" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:X:SIZE" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S3 X Negative Motor" name="S3.XNEG">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:X:NEG" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:X:NEG" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S3 X Positive Motor" name="S3.XPOS">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:X:POS" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:X:POS" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S3 Y Centre Motor" name="S3.YCENTRE">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:Y:CENTER" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:Y:CENTER" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S3 Y Size Motor" name="S3.YSIZE">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:Y:SIZE" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:Y:SIZE" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S3 Y Negative Motor" name="S3.YNEG">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:Y:NEG" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:Y:NEG" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="S3 Y Positive Motor" name="S3.YPOS">
-		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:Y:POS" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-AL-SLITS-03:Y:POS" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM X Motors PITCH Motor" name="HFM.X.PITCH">
-		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:PITCH" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:PITCH" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM X Motors X Motor" name="HFM.X.X">
-		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:X" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:X" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM Bend Curve Motor" name="HFM.CURVE">
-		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:CURVE" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:CURVE" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM Bend Ellipticity Motor" name="HFM.ELLIP">
-		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:ELLIP" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:ELLIP" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM Y Motors Y Motor" name="HFM.Y.Y">
-		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:Y" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:Y" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM Y Motors YAW Motor" name="HFM.Y.YAW">
-		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:YAW" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:YAW" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HFM Y Motors ROLL Motor" name="HFM.Y.ROLL">
-		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:ROLL" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-HFM-01:ROLL" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB VFM Curve Motor" name="KB.VFM.CURVE">
-		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:VFM:CURVE" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:VFM:CURVE" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB VFM Ellipticity Motor" name="KB.VFM.ELLIP">
-		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:VFM:ELLIP" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:VFM:ELLIP" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB HFM Curve Motor" name="KB.HFM.CURVE">
-		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:HFM:CURVE" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:HFM:CURVE" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB HFM Ellipticity Motor" name="KB.HFM.ELLIP">
-		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:HFM:ELLIP" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:HFM:ELLIP" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB HFM X Motors PITCH Motor" name="KB.HFM.X.PITCH">
-		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:HFM:PITCH" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:HFM:PITCH" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB HFM X Motors X Motor" name="KB.HFM.X.X">
-		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:HFM:X" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:HFM:X" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB VFM Y Motors PITCH Motor" name="KB.VFM.X.PITCH">
-		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:VFM:PITCH" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:VFM:PITCH" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB VFM Y Motors Y Motor" name="KB.VFM.X.Y">
-		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:VFM:Y" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="BL18I-OP-KBM-01:VFM:Y" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<pneumaticCallback desc="Valve 01" name="GV1">
-		<CONTROL desc="CONTROL" pv="BL18I-VA-VALVE-01:CON" ro="false" type="mbbinary"/>
-		<STA desc="STA" pv="BL18I-VA-VALVE-01:STA" ro="true" type="mbbinary"/>
+		<CONTROL desc="CONTROL" pv="BL18I-VA-VALVE-01:CON" ro="false"
+			type="mbbinary" />
+		<STA desc="STA" pv="BL18I-VA-VALVE-01:STA" ro="true" type="mbbinary" />
 	</pneumaticCallback>
 	<pneumaticCallback desc="Valve 02" name="GV2">
-		<CONTROL desc="CONTROL" pv="BL18I-VA-VALVE-02:CON" ro="false" type="mbbinary"/>
-		<STA desc="STA" pv="BL18I-VA-VALVE-02:STA" ro="true" type="mbbinary"/>
+		<CONTROL desc="CONTROL" pv="BL18I-VA-VALVE-02:CON" ro="false"
+			type="mbbinary" />
+		<STA desc="STA" pv="BL18I-VA-VALVE-02:STA" ro="true" type="mbbinary" />
 	</pneumaticCallback>
 	<pneumaticCallback desc="Valve 03" name="GV3">
-		<CONTROL desc="CONTROL" pv="BL18I-VA-VALVE-03:CON" ro="false" type="mbbinary"/>
-		<STA desc="STA" pv="BL18I-VA-VALVE-03:STA" ro="true" type="mbbinary"/>
+		<CONTROL desc="CONTROL" pv="BL18I-VA-VALVE-03:CON" ro="false"
+			type="mbbinary" />
+		<STA desc="STA" pv="BL18I-VA-VALVE-03:STA" ro="true" type="mbbinary" />
 	</pneumaticCallback>
 	<pneumaticCallback desc="Valve 04" name="GV4">
-		<CONTROL desc="CONTROL" pv="BL18I-VA-VALVE-04:CON" ro="false" type="mbbinary"/>
-		<STA desc="STA" pv="BL18I-VA-VALVE-04:STA" ro="true" type="mbbinary"/>
+		<CONTROL desc="CONTROL" pv="BL18I-VA-VALVE-04:CON" ro="false"
+			type="mbbinary" />
+		<STA desc="STA" pv="BL18I-VA-VALVE-04:STA" ro="true" type="mbbinary" />
 	</pneumaticCallback>
 	<pneumaticCallback desc="PS Shutter 01" name="PSSHTR01">
-		<CONTROL desc="CONTROL" pv="BL18I-PS-SHTR-01:CON" ro="false" type="mbbinary"/>
-		<STA desc="STA" pv="BL18I-PS-SHTR-01:STA" ro="true" type="mbbinary"/>
+		<CONTROL desc="CONTROL" pv="BL18I-PS-SHTR-01:CON" ro="false"
+			type="mbbinary" />
+		<STA desc="STA" pv="BL18I-PS-SHTR-01:STA" ro="true" type="mbbinary" />
 	</pneumaticCallback>
 	<pneumaticCallback desc="Valve 06" name="GV6">
-		<CONTROL desc="CONTROL" pv="BL18I-VA-VALVE-06:CON" ro="false" type="mbbinary"/>
-		<STA desc="STA" pv="BL18I-VA-VALVE-06:STA" ro="true" type="mbbinary"/>
+		<CONTROL desc="CONTROL" pv="BL18I-VA-VALVE-06:CON" ro="false"
+			type="mbbinary" />
+		<STA desc="STA" pv="BL18I-VA-VALVE-06:STA" ro="true" type="mbbinary" />
 	</pneumaticCallback>
 	<pneumaticCallback desc="Valve 07" name="GV7">
-		<CONTROL desc="CONTROL" pv="BL18I-VA-VALVE-07:CON" ro="false" type="mbbinary"/>
-		<STA desc="STA" pv="BL18I-VA-VALVE-07:STA" ro="true" type="mbbinary"/>
+		<CONTROL desc="CONTROL" pv="BL18I-VA-VALVE-07:CON" ro="false"
+			type="mbbinary" />
+		<STA desc="STA" pv="BL18I-VA-VALVE-07:STA" ro="true" type="mbbinary" />
 	</pneumaticCallback>
 	<pneumaticCallback desc="EA Shutter 01" name="EASHTR01">
-		<CONTROL desc="CONTROL" pv="BL18I-EA-SHTR-01:CON" ro="false" type="mbbinary"/>
-		<STA desc="STA" pv="BL18I-EA-SHTR-01:STA" ro="true" type="mbbinary"/>
+		<CONTROL desc="CONTROL" pv="BL18I-EA-SHTR-01:CON" ro="false"
+			type="mbbinary" />
+		<STA desc="STA" pv="BL18I-EA-SHTR-01:STA" ro="true" type="mbbinary" />
 	</pneumaticCallback>
 	<simplePv desc="D1 waterflow" name="D1:WFS1">
-		<RECORD desc="Waterflow Status Record" pv="BL18I-DI-PHDGN-01:WFS1:STATUS" ro="true" type="pv"/>
+		<RECORD desc="Waterflow Status Record" pv="BL18I-DI-PHDGN-01:WFS1:STATUS"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="S1 waterflow 1" name="S1:WFS1">
-		<RECORD desc="Waterflow Status Record" pv="BL18I-AL-SLITS-01:WFS1:STATUS" ro="true" type="pv"/>
+		<RECORD desc="Waterflow Status Record" pv="BL18I-AL-SLITS-01:WFS1:STATUS"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="S1 waterflow 2" name="S1:WFS2">
-		<RECORD desc="Waterflow Status Record" pv="BL18I-AL-SLITS-01:WFS2:STATUS" ro="true" type="pv"/>
+		<RECORD desc="Waterflow Status Record" pv="BL18I-AL-SLITS-01:WFS2:STATUS"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="D2 waterflow" name="D2:WFS1">
-		<RECORD desc="Waterflow Status Record" pv="BL18I-DI-PHDGN-02:WFS1:STATUS" ro="true" type="pv"/>
+		<RECORD desc="Waterflow Status Record" pv="BL18I-DI-PHDGN-02:WFS1:STATUS"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="HFM waterflow 1" name="HFM:WFS1">
-		<RECORD desc="Waterflow Status Record" pv="BL18I-OP-HFM-01:WFS1:STATUS" ro="true" type="pv"/>
+		<RECORD desc="Waterflow Status Record" pv="BL18I-OP-HFM-01:WFS1:STATUS"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="HFM waterflow 2" name="HFM:WFS2">
-		<RECORD desc="Waterflow Status Record" pv="BL18I-OP-HFM-01:WFS2:STATUS" ro="true" type="pv"/>
+		<RECORD desc="Waterflow Status Record" pv="BL18I-OP-HFM-01:WFS2:STATUS"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="HFM waterflow 3" name="HFM:WFS3">
-		<RECORD desc="Waterflow Status Record" pv="BL18I-OP-HFM-01:WFS3:STATUS" ro="true" type="pv"/>
+		<RECORD desc="Waterflow Status Record" pv="BL18I-OP-HFM-01:WFS3:STATUS"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="D3 waterflow" name="D3:WFS1">
-		<RECORD desc="Waterflow Status Record" pv="BL18I-DI-PHDGN-03:WFS1:STATUS" ro="true" type="pv"/>
+		<RECORD desc="Waterflow Status Record" pv="BL18I-DI-PHDGN-03:WFS1:STATUS"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="AP waterflow" name="AP:WFS3">
-		<RECORD desc="Waterflow Status Record" pv="BL18I-AL-APTR-01:WFS1:STATUS" ro="true" type="pv"/>
+		<RECORD desc="Waterflow Status Record" pv="BL18I-AL-APTR-01:WFS1:STATUS"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="DCM waterflow" name="DCM:WFS1">
-		<RECORD desc="Waterflow Status Record" pv="BL18I-OP-DCM-01:WFS1:STATUS" ro="true" type="pv"/>
+		<RECORD desc="Waterflow Status Record" pv="BL18I-OP-DCM-01:WFS1:STATUS"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="D4 waterflow" name="D4:WFS1">
-		<RECORD desc="Waterflow Status Record" pv="BL18I-DI-PHDGN-04:WFS1:STATUS" ro="true" type="pv"/>
+		<RECORD desc="Waterflow Status Record" pv="BL18I-DI-PHDGN-04:WFS1:STATUS"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="WBS waterflow" name="WBS:WFS1">
-		<RECORD desc="Waterflow Status Record" pv="BL18I-RS-ABSB-03:WFS1:STATUS" ro="true" type="pv"/>
+		<RECORD desc="Waterflow Status Record" pv="BL18I-RS-ABSB-03:WFS1:STATUS"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature A1" name="S1:A:TEMP1">
-		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:A:TEMP1" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:A:TEMP1" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature B1" name="S1:B:TEMP1">
-		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:B:TEMP1" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:B:TEMP1" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature A2" name="S1:A:TEMP2">
-		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:A:TEMP2" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:A:TEMP2" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature B2" name="S1:B:TEMP2">
-		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:B:TEMP2" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:B:TEMP2" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature A3" name="S1:A:TEMP3">
-		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:A:TEMP3" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:A:TEMP3" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature B3" name="S1:B:TEMP3">
-		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:B:TEMP3" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:B:TEMP3" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature A4" name="S1:A:TEMP4">
-		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:A:TEMP4" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:A:TEMP4" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature B4" name="S1:B:TEMP4">
-		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:B:TEMP4" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-AL-SLITS-01:B:TEMP4" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature 1" name="HFM:TEMP1">
-		<RECORD desc="Temperature" pv="BL18I-OP-HFM-01:TEMP1" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-OP-HFM-01:TEMP1" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature 2" name="HFM:TEMP2">
-		<RECORD desc="Temperature" pv="BL18I-OP-HFM-01:TEMP2" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-OP-HFM-01:TEMP2" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Bend 1 Temperature" name="HFM:BEND:TEMP1">
-		<RECORD desc="Temperature" pv="BL18I-OP-HFM-01:BEND1:TEMP" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-OP-HFM-01:BEND1:TEMP" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Bend 2 Temperature" name="HFM:BEND:TEMP2">
-		<RECORD desc="Temperature" pv="BL18I-OP-HFM-01:BEND2:TEMP" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-OP-HFM-01:BEND2:TEMP" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature 1" name="AP:TEMP1">
-		<RECORD desc="Temperature" pv="BL18I-AL-APTR-01:TEMP1" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-AL-APTR-01:TEMP1" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature 2" name="AP:TEMP2">
-		<RECORD desc="Temperature" pv="BL18I-AL-APTR-01:TEMP2" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-AL-APTR-01:TEMP2" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="XTAL1 Temp" name="DCM:XTAL1:TEMP">
-		<RECORD desc="Temperature" pv="BL18I-OP-DCM-01:XTAL1:TEMP" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-OP-DCM-01:XTAL1:TEMP" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="XTAL2 Temp" name="DCM:XTAL2:TEMP">
-		<RECORD desc="Temperature" pv="BL18I-OP-DCM-01:XTAL2:TEMP" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-OP-DCM-01:XTAL2:TEMP" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Cage Temp" name="DCM:CAGE:TEMP">
-		<RECORD desc="Temperature" pv="BL18I-OP-DCM-01:CAGE:TEMP" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-OP-DCM-01:CAGE:TEMP" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Roll Plate Temp" name="DCM:XTAL1:RP:TEMP">
-		<RECORD desc="Temperature" pv="BL18I-OP-DCM-01:XTAL1:RP:TEMP" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-OP-DCM-01:XTAL1:RP:TEMP"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="Pitch Plate Temp" name="DCM:XTAL1:PP:TEMP">
-		<RECORD desc="Temperature" pv="BL18I-OP-DCM-01:XTAL2:PP:TEMP" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-OP-DCM-01:XTAL2:PP:TEMP"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature 1" name="WBS:TEMP1">
-		<RECORD desc="Temperature" pv="BL18I-RS-ABSB-03:TEMP1" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-RS-ABSB-03:TEMP1" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Temperature 2" name="WBS:TEMP2">
-		<RECORD desc="Temperature" pv="BL18I-RS-ABSB-03:TEMP2" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-RS-ABSB-03:TEMP2" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Y Temperature" name="HRM:Y:TEMP">
-		<RECORD desc="Temperature" pv="BL18I-OP-HRM-01:Y:TEMP" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-OP-HRM-01:Y:TEMP" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="VFM Y Temperature" name="VFM:Y:TEMP">
-		<RECORD desc="Temperature" pv="BL18I-OP-KBM-01:VFM:Y:TEMP" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-OP-KBM-01:VFM:Y:TEMP" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="HFM Y Temperature" name="HFM:Y:TEMP">
-		<RECORD desc="Temperature" pv="BL18I-OP-KBM-01:HFM:Y:TEMP" ro="true" type="pv"/>
+		<RECORD desc="Temperature" pv="BL18I-OP-KBM-01:HFM:Y:TEMP" ro="true"
+			type="pv" />
 	</simplePv>
 	<DLS8512 desc="scalar 2" name="scalar02">
-		<TIME desc="Integration Time" pv="BL18I-DI-8512-02:PRESET" ro="false" type="pv"/>
-		<TRIGGER desc="Restart counter" pv="BL18I-DI-8512-02:STARTCOUNT" ro="false" type="binary"/>
-		<SCALED0 desc="scaled value 0" pv="BL18I-EA-IAMP-07:I1F" ro="true" type="pv"/>
-		<RAW0 desc="raw value 0" pv="BL18I-EA-IAMP-07:I1F-RAW" ro="true" type="pv"/>
-		<SCALED1 desc="scaled value 1" pv="BL18I-EA-IAMP-07:I2F" ro="true" type="pv"/>
-		<RAW1 desc="raw value 1" pv="BL18I-EA-IAMP-07:I2F-RAW" ro="true" type="pv"/>
-		<SCALED2 desc="scaled value 2" pv="BL18I-EA-IAMP-07:I3F" ro="true" type="pv"/>
-		<RAW2 desc="raw value 2" pv="BL18I-EA-IAMP-07:I3F-RAW" ro="true" type="pv"/>
-		<SCALED3 desc="scaled value 3" pv="BL18I-EA-IAMP-07:I4F" ro="true" type="pv"/>
-		<RAW3 desc="raw value 3" pv="BL18I-EA-IAMP-07:I4F-RAW" ro="true" type="pv"/>
+		<TIME desc="Integration Time" pv="BL18I-DI-8512-02:PRESET" ro="false"
+			type="pv" />
+		<TRIGGER desc="Restart counter" pv="BL18I-DI-8512-02:STARTCOUNT"
+			ro="false" type="binary" />
+		<SCALED0 desc="scaled value 0" pv="BL18I-EA-IAMP-07:I1F" ro="true"
+			type="pv" />
+		<RAW0 desc="raw value 0" pv="BL18I-EA-IAMP-07:I1F-RAW" ro="true"
+			type="pv" />
+		<SCALED1 desc="scaled value 1" pv="BL18I-EA-IAMP-07:I2F" ro="true"
+			type="pv" />
+		<RAW1 desc="raw value 1" pv="BL18I-EA-IAMP-07:I2F-RAW" ro="true"
+			type="pv" />
+		<SCALED2 desc="scaled value 2" pv="BL18I-EA-IAMP-07:I3F" ro="true"
+			type="pv" />
+		<RAW2 desc="raw value 2" pv="BL18I-EA-IAMP-07:I3F-RAW" ro="true"
+			type="pv" />
+		<SCALED3 desc="scaled value 3" pv="BL18I-EA-IAMP-07:I4F" ro="true"
+			type="pv" />
+		<RAW3 desc="raw value 3" pv="BL18I-EA-IAMP-07:I4F-RAW" ro="true"
+			type="pv" />
 	</DLS8512>
 	<simpleScaler desc="SIS3820 Scaler" name="scaler03">
-		<RECORD desc="Scaler" pv="BL18I-EA-DET-03:SCALER" ro="false" type="scaler"/>
+		<RECORD desc="Scaler" pv="BL18I-EA-DET-03:SCALER" ro="false"
+			type="scaler" />
 	</simpleScaler>
 	<mcaGroup desc="SIS3820 Multichannel Scaler" name="mcs01">
-		<ERASESTART desc="Clear all spectrums and start acquiring" pv="BL18I-EA-DET-03:MCA:EraseStart" ro="false" type="binary"/>
-		<ERASE desc="Clear all spectrums" pv="BL18I-EA-DET-03:MCA:EraseAll" ro="false" type="binary"/>
-		<START desc="Start acquiring" pv="BL18I-EA-DET-03:MCA:StartAll" ro="false" type="binary"/>
-		<STOP desc="Stop acquiring" pv="BL18I-EA-DET-03:MCA:StopAll" ro="false" type="binary"/>
-		<NBINS desc="Number of bins to use in spectrum" pv="BL18I-EA-DET-03:MCA:NuseAll" ro="false" type="pv"/>
-		<STATRATE desc="Status update rate" pv="BL18I-EA-DET-03:MCA:StatusAll.SCAN" ro="false" type="pv"/>
-		<READRATE desc="Data update rate" pv="BL18I-EA-DET-03:MCA:ReadAll.SCAN" ro="false" type="pv"/>
-		<TREAL desc="Real time since start of acquisition" pv="BL18I-EA-DET-03:MCA:ElapsedReal" ro="true" type="pv"/>
-		<ACQ desc="Acquiring status" pv="BL18I-EA-DET-03:MCA:Acquiring" ro="true" type="binary"/>
-		<TACQ desc="Set total acquisition time" pv="BL18I-EA-DET-03:MCA:PresetReal" ro="false" type="pv"/>
-		<TDWELL desc="Set integration time [s] for incrementing bin number" pv="BL18I-EA-DET-03:MCA:Dwell" ro="false" type="pv"/>
-		<BINADV desc="Set internal or external bin advance signal" pv="BL18I-EA-DET-03:MCA:ChannelAdvance" ro="false" type="binary"/>
-		<EXTPRE desc="External bin advance prescaler" pv="BL18I-EA-DET-03:MCA:Prescale" ro="false" type="pv"/>
-		<SIG1 desc="SIS3820 input signal number 1" pv="BL18I-EA-DET-03:MCA:mca1" ro="false" type="mca"/>
-		<SIG2 desc="SIS3820 input signal number 2" pv="BL18I-EA-DET-03:MCA:mca2" ro="false" type="mca"/>
-		<SIG3 desc="SIS3820 input signal number 3" pv="BL18I-EA-DET-03:MCA:mca3" ro="false" type="mca"/>
-		<SIG4 desc="SIS3820 input signal number 4" pv="BL18I-EA-DET-03:MCA:mca4" ro="false" type="mca"/>
-		<SIG5 desc="SIS3820 input signal number 5" pv="BL18I-EA-DET-03:MCA:mca5" ro="false" type="mca"/>
-		<SIG6 desc="SIS3820 input signal number 6" pv="BL18I-EA-DET-03:MCA:mca6" ro="false" type="mca"/>
-		<SIG7 desc="SIS3820 input signal number 7" pv="BL18I-EA-DET-03:MCA:mca7" ro="false" type="mca"/>
-		<SIG8 desc="SIS3820 input signal number 8" pv="BL18I-EA-DET-03:MCA:mca8" ro="false" type="mca"/>
-		<SIG9 desc="SIS3820 input signal number 9" pv="BL18I-EA-DET-03:MCA:mca9" ro="false" type="mca"/>
-		<SIG10 desc="SIS3820 input signal number 10" pv="BL18I-EA-DET-03:MCA:mca10" ro="false" type="mca"/>
-		<SIG11 desc="SIS3820 input signal number 11" pv="BL18I-EA-DET-03:MCA:mca11" ro="false" type="mca"/>
-		<SIG12 desc="SIS3820 input signal number 12" pv="BL18I-EA-DET-03:MCA:mca12" ro="false" type="mca"/>
-		<SIG13 desc="SIS3820 input signal number 13" pv="BL18I-EA-DET-03:MCA:mca13" ro="false" type="mca"/>
-		<SIG14 desc="SIS3820 input signal number 14" pv="BL18I-EA-DET-03:MCA:mca14" ro="false" type="mca"/>
-		<SIG15 desc="SIS3820 input signal number 15" pv="BL18I-EA-DET-03:MCA:mca15" ro="false" type="mca"/>
-		<SIG16 desc="SIS3820 input signal number 16" pv="BL18I-EA-DET-03:MCA:mca16" ro="false" type="mca"/>
-		<SIG17 desc="SIS3820 input signal number 17" pv="BL18I-EA-DET-03:MCA:mca17" ro="false" type="mca"/>
-		<SIG18 desc="SIS3820 input signal number 18" pv="BL18I-EA-DET-03:MCA:mca18" ro="false" type="mca"/>
-		<SIG19 desc="SIS3820 input signal number 19" pv="BL18I-EA-DET-03:MCA:mca19" ro="false" type="mca"/>
-		<SIG20 desc="SIS3820 input signal number 20" pv="BL18I-EA-DET-03:MCA:mca20" ro="false" type="mca"/>
-		<SIG21 desc="SIS3820 input signal number 21" pv="BL18I-EA-DET-03:MCA:mca21" ro="false" type="mca"/>
-		<SIG22 desc="SIS3820 input signal number 22" pv="BL18I-EA-DET-03:MCA:mca22" ro="false" type="mca"/>
-		<SIG23 desc="SIS3820 input signal number 23" pv="BL18I-EA-DET-03:MCA:mca23" ro="false" type="mca"/>
-		<SIG24 desc="SIS3820 input signal number 24" pv="BL18I-EA-DET-03:MCA:mca24" ro="false" type="mca"/>
-		<SIG25 desc="SIS3820 input signal number 25" pv="BL18I-EA-DET-03:MCA:mca25" ro="false" type="mca"/>
-		<SIG26 desc="SIS3820 input signal number 26" pv="BL18I-EA-DET-03:MCA:mca26" ro="false" type="mca"/>
-		<SIG27 desc="SIS3820 input signal number 27" pv="BL18I-EA-DET-03:MCA:mca27" ro="false" type="mca"/>
-		<SIG28 desc="SIS3820 input signal number 28" pv="BL18I-EA-DET-03:MCA:mca28" ro="false" type="mca"/>
-		<SIG29 desc="SIS3820 input signal number 29" pv="BL18I-EA-DET-03:MCA:mca29" ro="false" type="mca"/>
-		<SIG30 desc="SIS3820 input signal number 30" pv="BL18I-EA-DET-03:MCA:mca30" ro="false" type="mca"/>
-		<SIG31 desc="SIS3820 input signal number 31" pv="BL18I-EA-DET-03:MCA:mca31" ro="false" type="mca"/>
-		<SIG32 desc="SIS3820 input signal number 32" pv="BL18I-EA-DET-03:MCA:mca32" ro="false" type="mca"/>
+		<ERASESTART desc="Clear all spectrums and start acquiring"
+			pv="BL18I-EA-DET-03:MCA:EraseStart" ro="false" type="binary" />
+		<ERASE desc="Clear all spectrums" pv="BL18I-EA-DET-03:MCA:EraseAll"
+			ro="false" type="binary" />
+		<START desc="Start acquiring" pv="BL18I-EA-DET-03:MCA:StartAll"
+			ro="false" type="binary" />
+		<STOP desc="Stop acquiring" pv="BL18I-EA-DET-03:MCA:StopAll" ro="false"
+			type="binary" />
+		<NBINS desc="Number of bins to use in spectrum" pv="BL18I-EA-DET-03:MCA:NuseAll"
+			ro="false" type="pv" />
+		<STATRATE desc="Status update rate" pv="BL18I-EA-DET-03:MCA:StatusAll.SCAN"
+			ro="false" type="pv" />
+		<READRATE desc="Data update rate" pv="BL18I-EA-DET-03:MCA:ReadAll.SCAN"
+			ro="false" type="pv" />
+		<TREAL desc="Real time since start of acquisition" pv="BL18I-EA-DET-03:MCA:ElapsedReal"
+			ro="true" type="pv" />
+		<ACQ desc="Acquiring status" pv="BL18I-EA-DET-03:MCA:Acquiring"
+			ro="true" type="binary" />
+		<TACQ desc="Set total acquisition time" pv="BL18I-EA-DET-03:MCA:PresetReal"
+			ro="false" type="pv" />
+		<TDWELL desc="Set integration time [s] for incrementing bin number"
+			pv="BL18I-EA-DET-03:MCA:Dwell" ro="false" type="pv" />
+		<BINADV desc="Set internal or external bin advance signal" pv="BL18I-EA-DET-03:MCA:ChannelAdvance"
+			ro="false" type="binary" />
+		<EXTPRE desc="External bin advance prescaler" pv="BL18I-EA-DET-03:MCA:Prescale"
+			ro="false" type="pv" />
+		<SIG1 desc="SIS3820 input signal number 1" pv="BL18I-EA-DET-03:MCA:mca1"
+			ro="false" type="mca" />
+		<SIG2 desc="SIS3820 input signal number 2" pv="BL18I-EA-DET-03:MCA:mca2"
+			ro="false" type="mca" />
+		<SIG3 desc="SIS3820 input signal number 3" pv="BL18I-EA-DET-03:MCA:mca3"
+			ro="false" type="mca" />
+		<SIG4 desc="SIS3820 input signal number 4" pv="BL18I-EA-DET-03:MCA:mca4"
+			ro="false" type="mca" />
+		<SIG5 desc="SIS3820 input signal number 5" pv="BL18I-EA-DET-03:MCA:mca5"
+			ro="false" type="mca" />
+		<SIG6 desc="SIS3820 input signal number 6" pv="BL18I-EA-DET-03:MCA:mca6"
+			ro="false" type="mca" />
+		<SIG7 desc="SIS3820 input signal number 7" pv="BL18I-EA-DET-03:MCA:mca7"
+			ro="false" type="mca" />
+		<SIG8 desc="SIS3820 input signal number 8" pv="BL18I-EA-DET-03:MCA:mca8"
+			ro="false" type="mca" />
+		<SIG9 desc="SIS3820 input signal number 9" pv="BL18I-EA-DET-03:MCA:mca9"
+			ro="false" type="mca" />
+		<SIG10 desc="SIS3820 input signal number 10" pv="BL18I-EA-DET-03:MCA:mca10"
+			ro="false" type="mca" />
+		<SIG11 desc="SIS3820 input signal number 11" pv="BL18I-EA-DET-03:MCA:mca11"
+			ro="false" type="mca" />
+		<SIG12 desc="SIS3820 input signal number 12" pv="BL18I-EA-DET-03:MCA:mca12"
+			ro="false" type="mca" />
+		<SIG13 desc="SIS3820 input signal number 13" pv="BL18I-EA-DET-03:MCA:mca13"
+			ro="false" type="mca" />
+		<SIG14 desc="SIS3820 input signal number 14" pv="BL18I-EA-DET-03:MCA:mca14"
+			ro="false" type="mca" />
+		<SIG15 desc="SIS3820 input signal number 15" pv="BL18I-EA-DET-03:MCA:mca15"
+			ro="false" type="mca" />
+		<SIG16 desc="SIS3820 input signal number 16" pv="BL18I-EA-DET-03:MCA:mca16"
+			ro="false" type="mca" />
+		<SIG17 desc="SIS3820 input signal number 17" pv="BL18I-EA-DET-03:MCA:mca17"
+			ro="false" type="mca" />
+		<SIG18 desc="SIS3820 input signal number 18" pv="BL18I-EA-DET-03:MCA:mca18"
+			ro="false" type="mca" />
+		<SIG19 desc="SIS3820 input signal number 19" pv="BL18I-EA-DET-03:MCA:mca19"
+			ro="false" type="mca" />
+		<SIG20 desc="SIS3820 input signal number 20" pv="BL18I-EA-DET-03:MCA:mca20"
+			ro="false" type="mca" />
+		<SIG21 desc="SIS3820 input signal number 21" pv="BL18I-EA-DET-03:MCA:mca21"
+			ro="false" type="mca" />
+		<SIG22 desc="SIS3820 input signal number 22" pv="BL18I-EA-DET-03:MCA:mca22"
+			ro="false" type="mca" />
+		<SIG23 desc="SIS3820 input signal number 23" pv="BL18I-EA-DET-03:MCA:mca23"
+			ro="false" type="mca" />
+		<SIG24 desc="SIS3820 input signal number 24" pv="BL18I-EA-DET-03:MCA:mca24"
+			ro="false" type="mca" />
+		<SIG25 desc="SIS3820 input signal number 25" pv="BL18I-EA-DET-03:MCA:mca25"
+			ro="false" type="mca" />
+		<SIG26 desc="SIS3820 input signal number 26" pv="BL18I-EA-DET-03:MCA:mca26"
+			ro="false" type="mca" />
+		<SIG27 desc="SIS3820 input signal number 27" pv="BL18I-EA-DET-03:MCA:mca27"
+			ro="false" type="mca" />
+		<SIG28 desc="SIS3820 input signal number 28" pv="BL18I-EA-DET-03:MCA:mca28"
+			ro="false" type="mca" />
+		<SIG29 desc="SIS3820 input signal number 29" pv="BL18I-EA-DET-03:MCA:mca29"
+			ro="false" type="mca" />
+		<SIG30 desc="SIS3820 input signal number 30" pv="BL18I-EA-DET-03:MCA:mca30"
+			ro="false" type="mca" />
+		<SIG31 desc="SIS3820 input signal number 31" pv="BL18I-EA-DET-03:MCA:mca31"
+			ro="false" type="mca" />
+		<SIG32 desc="SIS3820 input signal number 32" pv="BL18I-EA-DET-03:MCA:mca32"
+			ro="false" type="mca" />
 	</mcaGroup>
 	<currAmpSingle desc="Current ampEA01 control" name="IAMPEA01CTR">
-		<OVERLOAD desc="Get overload status" pv="BL18I-EA-IAMP-01:OL" ro="true" type="binary"/>
-		<SETGAIN desc="Set gain" pv="BL18I-EA-IAMP-01:GAIN" ro="false" type="mbbinary"/>
-		<SETACDC desc="Set AC or DC mode" pv="BL18I-EA-IAMP-01:ACDC" ro="false" type="binary"/>
-		<VENDOR desc="Vendor String" pv="BL18I-EA-IAMP-01:VENDOR" ro="true" type="pv"/>
-		<MODEL desc="Model String" pv="BL18I-EA-IAMP-01:MODEL" ro="true" type="pv"/>
+		<OVERLOAD desc="Get overload status" pv="BL18I-EA-IAMP-01:OL"
+			ro="true" type="binary" />
+		<SETGAIN desc="Set gain" pv="BL18I-EA-IAMP-01:GAIN" ro="false"
+			type="mbbinary" />
+		<SETACDC desc="Set AC or DC mode" pv="BL18I-EA-IAMP-01:ACDC"
+			ro="false" type="binary" />
+		<VENDOR desc="Vendor String" pv="BL18I-EA-IAMP-01:VENDOR" ro="true"
+			type="pv" />
+		<MODEL desc="Model String" pv="BL18I-EA-IAMP-01:MODEL" ro="true"
+			type="pv" />
 	</currAmpSingle>
 	<currAmpSingle desc="Current ampEA02 control" name="IAMPEA02CTR">
-		<OVERLOAD desc="Get overload status" pv="BL18I-EA-IAMP-02:OL" ro="true" type="binary"/>
-		<SETGAIN desc="Set gain" pv="BL18I-EA-IAMP-02:GAIN" ro="false" type="mbbinary"/>
-		<SETACDC desc="Set AC or DC mode" pv="BL18I-EA-IAMP-02:ACDC" ro="false" type="binary"/>
-		<VENDOR desc="Vendor String" pv="BL18I-EA-IAMP-02:VENDOR" ro="true" type="pv"/>
-		<MODEL desc="Model String" pv="BL18I-EA-IAMP-02:MODEL" ro="true" type="pv"/>
+		<OVERLOAD desc="Get overload status" pv="BL18I-EA-IAMP-02:OL"
+			ro="true" type="binary" />
+		<SETGAIN desc="Set gain" pv="BL18I-EA-IAMP-02:GAIN" ro="false"
+			type="mbbinary" />
+		<SETACDC desc="Set AC or DC mode" pv="BL18I-EA-IAMP-02:ACDC"
+			ro="false" type="binary" />
+		<VENDOR desc="Vendor String" pv="BL18I-EA-IAMP-02:VENDOR" ro="true"
+			type="pv" />
+		<MODEL desc="Model String" pv="BL18I-EA-IAMP-02:MODEL" ro="true"
+			type="pv" />
 	</currAmpSingle>
 	<simplePv desc="IOC1 current" name="IOC1I">
-		<RECORD desc="Current Value" pv="BL18I-EA-IONC-01:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-IONC-01:I" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="IOC2 current" name="IOC2I">
-		<RECORD desc="Current Value" pv="BL18I-EA-IONC-02:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-IONC-02:I" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="IP330-01 Trigger" name="IP330ADC1T">
-		<RECORD desc="Current Value" pv="BL18I-EA-IP330-01:TRIG" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-IP330-01:TRIG" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="D7B current" name="D7BDI">
-		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-07:B:DRAIN:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-07:B:DRAIN:I"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="USER1 current" name="IP330ADC2U1">
-		<RECORD desc="Current Value" pv="BL18I-EA-IP330-02:USER1" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-IP330-02:USER1" ro="true"
+			type="pv" />
 	</simplePv>
 	<simpleMbbinary desc="Scan mode" name="IP330ADC1SM">
-		<RECORD desc="Set ScanMode" pv="BL18I-EA-IP330-01:ScanMode" ro="false" type="mbbinary"/>
+		<RECORD desc="Set ScanMode" pv="BL18I-EA-IP330-01:ScanMode" ro="false"
+			type="mbbinary" />
 	</simpleMbbinary>
 	<simpleMbbinary desc="Scan mode" name="IP330ADC2SM">
-		<RECORD desc="Set ScanMode" pv="BL18I-EA-IP330-02:ScanMode" ro="false" type="mbbinary"/>
+		<RECORD desc="Set ScanMode" pv="BL18I-EA-IP330-02:ScanMode" ro="false"
+			type="mbbinary" />
 	</simpleMbbinary>
 	<simplePv desc="Det2 I1 current" name="DET2I1">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I1" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I1" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I2 current" name="DET2I2">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I2" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I2" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I3 current" name="DET2I3">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I3" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I3" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I4 current" name="DET2I4">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I4" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I4" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I5 current" name="DET2I5">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I5" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I5" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I6 current" name="DET2I6">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I6" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I6" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I7 current" name="DET2I7">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I7" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I7" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I8 current" name="DET2I8">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I8" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I8" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I9 current" name="DET2I9">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I9" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I9" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I10 current" name="DET2I10">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I10" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I10" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I11 current" name="DET2I11">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I11" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I11" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I12 current" name="DET2I12">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I12" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I12" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I13 current" name="DET2I13">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I13" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I13" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I14 current" name="DET2I14">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I14" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I14" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Det2 I15 current" name="DET2I15">
-		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I15" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-EA-DET-02:I15" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Output Voltage 01" name="VOUT01">
-		<RECORD desc="RECORD" pv="BL18I-EA-VOUT-01:V" ro="false" type="pv"/>
+		<RECORD desc="RECORD" pv="BL18I-EA-VOUT-01:V" ro="false" type="pv" />
 	</simplePv>
-	<!--<simpleBinary desc="Collision Detector" name="DET4ILK">
-		<RECORD desc="RECORD" pv="BL18I-MP-DET-04:ILK" ro="true" type="binary"/>
-	</simpleBinary>
-	--><simplePv desc="Collision Detector" name="DET4ILK">
-		<RECORD desc="RECORD" pv="BL18I-MP-DET-04:ILK" ro="true" type="pv"/>
+	<!--<simpleBinary desc="Collision Detector" name="DET4ILK"> <RECORD desc="RECORD" 
+		pv="BL18I-MP-DET-04:ILK" ro="true" type="binary"/> </simpleBinary> -->
+	<simplePv desc="Collision Detector" name="DET4ILK">
+		<RECORD desc="RECORD" pv="BL18I-MP-DET-04:ILK" ro="true" type="pv" />
 	</simplePv>
 	<camera desc="D1 Camera" name="D1.CAM">
-		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-01:CAM:HEIGHT" ro="true" type="pv"/>
-		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-01:CAM:WIDTH" ro="true" type="pv"/>
-		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-01:CAM:IMAGE" ro="true" type="array"/>
-		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-01:CAM:SNAPSHOT" ro="false" type="pv"/>
+		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-01:CAM:HEIGHT"
+			ro="true" type="pv" />
+		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-01:CAM:WIDTH" ro="true"
+			type="pv" />
+		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-01:CAM:IMAGE" ro="true"
+			type="array" />
+		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-01:CAM:SNAPSHOT"
+			ro="false" type="pv" />
 	</camera>
 	<camera desc="D2 Camera" name="D2.CAM">
-		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-02:CAM:HEIGHT" ro="true" type="pv"/>
-		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-02:CAM:WIDTH" ro="true" type="pv"/>
-		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-02:CAM:IMAGE" ro="true" type="array"/>
-		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-02:CAM:SNAPSHOT" ro="false" type="pv"/>
+		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-02:CAM:HEIGHT"
+			ro="true" type="pv" />
+		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-02:CAM:WIDTH" ro="true"
+			type="pv" />
+		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-02:CAM:IMAGE" ro="true"
+			type="array" />
+		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-02:CAM:SNAPSHOT"
+			ro="false" type="pv" />
 	</camera>
 	<camera desc="D3 Camera" name="D3.CAM">
-		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-03:CAM:HEIGHT" ro="true" type="pv"/>
-		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-03:CAM:WIDTH" ro="true" type="pv"/>
-		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-03:CAM:IMAGE" ro="true" type="array"/>
-		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-03:CAM:SNAPSHOT" ro="false" type="pv"/>
+		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-03:CAM:HEIGHT"
+			ro="true" type="pv" />
+		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-03:CAM:WIDTH" ro="true"
+			type="pv" />
+		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-03:CAM:IMAGE" ro="true"
+			type="array" />
+		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-03:CAM:SNAPSHOT"
+			ro="false" type="pv" />
 	</camera>
 	<camera desc="D4 Camera" name="D4.CAM">
-		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-04:CAM:HEIGHT" ro="true" type="pv"/>
-		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-04:CAM:WIDTH" ro="true" type="pv"/>
-		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-04:CAM:IMAGE" ro="true" type="array"/>
-		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-04:CAM:SNAPSHOT" ro="false" type="pv"/>
+		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-04:CAM:HEIGHT"
+			ro="true" type="pv" />
+		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-04:CAM:WIDTH" ro="true"
+			type="pv" />
+		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-04:CAM:IMAGE" ro="true"
+			type="array" />
+		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-04:CAM:SNAPSHOT"
+			ro="false" type="pv" />
 	</camera>
 	<camera desc="D5A Camera" name="D5A.CAM">
-		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-05:B:CAMA:HEIGHT" ro="true" type="pv"/>
-		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-05:B:CAMA:WIDTH" ro="true" type="pv"/>
-		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-05:B:CAMA:IMAGE" ro="true" type="array"/>
-		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-05:B:CAMA:SNAPSHOT" ro="false" type="pv"/>
+		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-05:B:CAMA:HEIGHT"
+			ro="true" type="pv" />
+		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-05:B:CAMA:WIDTH"
+			ro="true" type="pv" />
+		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-05:B:CAMA:IMAGE"
+			ro="true" type="array" />
+		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-05:B:CAMA:SNAPSHOT"
+			ro="false" type="pv" />
 	</camera>
 	<camera desc="D5B Camera" name="D5B.CAM">
-		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-05:B:CAMB:HEIGHT" ro="true" type="pv"/>
-		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-05:B:CAMB:WIDTH" ro="true" type="pv"/>
-		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-05:B:CAMB:IMAGE" ro="true" type="array"/>
-		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-05:B:CAMB:SNAPSHOT" ro="false" type="pv"/>
+		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-05:B:CAMB:HEIGHT"
+			ro="true" type="pv" />
+		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-05:B:CAMB:WIDTH"
+			ro="true" type="pv" />
+		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-05:B:CAMB:IMAGE"
+			ro="true" type="array" />
+		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-05:B:CAMB:SNAPSHOT"
+			ro="false" type="pv" />
 	</camera>
 	<camera desc="D7B Camera" name="D7B.CAM">
-		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-06:B:CAM:HEIGHT" ro="true" type="pv"/>
-		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-06:B:CAM:WIDTH" ro="true" type="pv"/>
-		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-06:B:CAM:IMAGE" ro="true" type="array"/>
-		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-06:B:CAM:SNAPSHOT" ro="false" type="pv"/>
+		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-06:B:CAM:HEIGHT"
+			ro="true" type="pv" />
+		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-06:B:CAM:WIDTH" ro="true"
+			type="pv" />
+		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-06:B:CAM:IMAGE"
+			ro="true" type="array" />
+		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-06:B:CAM:SNAPSHOT"
+			ro="false" type="pv" />
 	</camera>
 	<camera desc="D8B Camera" name="D8B.CAM">
-		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-07:B:CAM:HEIGHT" ro="true" type="pv"/>
-		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-07:B:CAM:WIDTH" ro="true" type="pv"/>
-		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-07:B:CAM:IMAGE" ro="true" type="array"/>
-		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-07:B:CAM:SNAPSHOT" ro="false" type="pv"/>
+		<HEIGHT desc="Image height" pv="BL18I-DI-PHDGN-07:B:CAM:HEIGHT"
+			ro="true" type="pv" />
+		<WIDTH desc="Image width" pv="BL18I-DI-PHDGN-07:B:CAM:WIDTH" ro="true"
+			type="pv" />
+		<DATA desc="snapshot image" pv="BL18I-DI-PHDGN-07:B:CAM:IMAGE"
+			ro="true" type="array" />
+		<CAPTURE desc="Capture one snapshot" pv="BL18I-DI-PHDGN-07:B:CAM:SNAPSHOT"
+			ro="false" type="pv" />
 	</camera>
 	<simpleMotor desc="FE APTR X motor" name="FEAPTRX">
-		<RECORD desc="Motor Record" pv="FE18I-AL-APTR-02:XBL" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="FE18I-AL-APTR-02:XBL" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="FE APTR Y motor" name="FEAPTRY">
-		<RECORD desc="Motor Record" pv="FE18I-AL-APTR-02:YBL" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="FE18I-AL-APTR-02:YBL" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<pneumaticCallback desc="Front End Permit Beam" name="FE.BEAM">
-		<CONTROL desc="beamline permit beam control" pv="FE18I-CS-BEAM-01:BLCON" ro="false" type="mbbinary"/>
-		<STA desc="Status" pv="FE18I-CS-BEAM-01:STA" ro="true" type="mbbinary"/>
+		<CONTROL desc="beamline permit beam control" pv="FE18I-CS-BEAM-01:BLCON"
+			ro="false" type="mbbinary" />
+		<STA desc="Status" pv="FE18I-CS-BEAM-01:STA" ro="true" type="mbbinary" />
 	</pneumaticCallback>
 	<horibaTriax190 desc="Triax spectrometer" name="TRIAX1">
-		<ACCBUSY desc="Acc busy" pv="BL18I-EA-SPEC-01:ACC:BUSY" ro="true" type="binary"/>
-		<ACCEXITSET desc="Exit mirror position" pv="BL18I-EA-SPEC-01:ACC:EXIT:SET" ro="false" type="mbbinary"/>
-		<GRATINGSET desc="Grating select" pv="BL18I-EA-SPEC-01:GRATING:SET" ro="false" type="mbbinary"/>
-		<GRATINGGET desc="Current grating" pv="BL18I-EA-SPEC-01:GRATING" ro="true" type="mbbinary"/>
-		<TTLIN desc="get TTL input" pv="BL18I-EA-SPEC-01:TTL:IN" ro="true" type="pv"/>
-		<TTLOUT desc="set TTL output" pv="BL18I-EA-SPEC-01:TTL:OUT:SET" ro="false" type="pv"/>
-		<EXITSLIT desc="exit slit motor" pv="BL18I-EA-SPEC-01:EXIT:SLIT:MOT" ro="false" type="motor"/>
-		<ENTRSLIT desc="entrance slit motor" pv="BL18I-EA-SPEC-01:ENTR:SLIT:MOT" ro="false" type="motor"/>
-		<MONO desc="mono motor" pv="BL18I-EA-SPEC-01:MONO:WV:MOT" ro="false" type="motor"/>
+		<ACCBUSY desc="Acc busy" pv="BL18I-EA-SPEC-01:ACC:BUSY" ro="true"
+			type="binary" />
+		<ACCEXITSET desc="Exit mirror position" pv="BL18I-EA-SPEC-01:ACC:EXIT:SET"
+			ro="false" type="mbbinary" />
+		<GRATINGSET desc="Grating select" pv="BL18I-EA-SPEC-01:GRATING:SET"
+			ro="false" type="mbbinary" />
+		<GRATINGGET desc="Current grating" pv="BL18I-EA-SPEC-01:GRATING"
+			ro="true" type="mbbinary" />
+		<TTLIN desc="get TTL input" pv="BL18I-EA-SPEC-01:TTL:IN" ro="true"
+			type="pv" />
+		<TTLOUT desc="set TTL output" pv="BL18I-EA-SPEC-01:TTL:OUT:SET"
+			ro="false" type="pv" />
+		<EXITSLIT desc="exit slit motor" pv="BL18I-EA-SPEC-01:EXIT:SLIT:MOT"
+			ro="false" type="motor" />
+		<ENTRSLIT desc="entrance slit motor" pv="BL18I-EA-SPEC-01:ENTR:SLIT:MOT"
+			ro="false" type="motor" />
+		<MONO desc="mono motor" pv="BL18I-EA-SPEC-01:MONO:WV:MOT" ro="false"
+			type="motor" />
 	</horibaTriax190>
 	<linkam desc="Linkam stage" name="LINKAM1">
-		<SETPUMPMODE desc="Set pump mode" pv="BL18I-EA-TEMPC-01:PUMP:MODE:SET" ro="false" type="binary"/>
-		<SETRAMPLIMIT desc="Set ramp limit" pv="BL18I-EA-TEMPC-01:RAMP:LIMIT:SET" ro="false" type="pv"/>
-		<SETRAMPRATE desc="Set ramp rate" pv="BL18I-EA-TEMPC-01:RAMP:RATE:SET" ro="false" type="pv"/>
-		<SETRAMPCONTROL desc="Set ramp control" pv="BL18I-EA-TEMPC-01:RAMP:CTRL:SET" ro="false" type="mbbinary"/>
-		<SETLOGPERIOD desc="Set log period" pv="BL18I-EA-TEMPC-01:LOG:PERIOD:SET" ro="false" type="mbbinary"/>
-		<CLEARLOG desc="Clear log" pv="BL18I-EA-TEMPC-01:LOG:RESET" ro="false" type="binary"/>
-		<SETLOGMODE desc="Set log mode" pv="BL18I-EA-TEMPC-01:LOG:MODE:SET" ro="false" type="mbbinary"/>
-		<STATUS desc="Get ramp status" pv="BL18I-EA-TEMPC-01:STATUS" ro="true" type="mbbinary"/>
-		<EB1 desc="Get EB1" pv="BL18I-EA-TEMPC-01:ERROR" ro="true" type="pv"/>
-		<GS1 desc="Get GS1" pv="BL18I-EA-TEMPC-01:GSTATUS" ro="true" type="pv"/>
-		<SB1 desc="Get SB1" pv="BL18I-EA-TEMPC-01:CALCSB1" ro="true" type="pv"/>
-		<PUMPSPEED desc="Get pump speed" pv="BL18I-EA-TEMPC-01:PUMP:SPEED" ro="true" type="pv"/>
-		<SETPUMPSPEED desc="Set manual pump speed" pv="BL18I-EA-TEMPC-01:PUMP:SPEED:SET" ro="false" type="pv"/>
-		<PUMPMODE desc="Get pump mode" pv="BL18I-EA-TEMPC-01:PUMP:MODE" ro="true" type="pv"/>
-		<STAGESTATUS desc="Get stage status" pv="BL18I-EA-TEMPC-01:RSTATUS2" ro="true" type="pv"/>
-		<STARTREAD desc="Read log" pv="BL18I-EA-TEMPC-01:LOG:STARTREAD" ro="false" type="binary"/>
-		<DISABLE desc="Disable comms" pv="BL18I-EA-TEMPC-01:DISABLE" ro="false" type="binary"/>
-		<LOGTEMP desc="Log temp data" pv="BL18I-EA-TEMPC-01:LOG:TEMP:CMP" ro="true" type="array"/>
-		<LOGDSC desc="Log DSC data" pv="BL18I-EA-TEMPC-01:LOG:DSC:CMP" ro="true" type="array"/>
-		<TEMP desc="Current temp" pv="BL18I-EA-TEMPC-01:TEMP" ro="true" type="pv"/>
+		<SETPUMPMODE desc="Set pump mode" pv="BL18I-EA-TEMPC-01:PUMP:MODE:SET"
+			ro="false" type="binary" />
+		<SETRAMPLIMIT desc="Set ramp limit" pv="BL18I-EA-TEMPC-01:RAMP:LIMIT:SET"
+			ro="false" type="pv" />
+		<SETRAMPRATE desc="Set ramp rate" pv="BL18I-EA-TEMPC-01:RAMP:RATE:SET"
+			ro="false" type="pv" />
+		<SETRAMPCONTROL desc="Set ramp control" pv="BL18I-EA-TEMPC-01:RAMP:CTRL:SET"
+			ro="false" type="mbbinary" />
+		<SETLOGPERIOD desc="Set log period" pv="BL18I-EA-TEMPC-01:LOG:PERIOD:SET"
+			ro="false" type="mbbinary" />
+		<CLEARLOG desc="Clear log" pv="BL18I-EA-TEMPC-01:LOG:RESET"
+			ro="false" type="binary" />
+		<SETLOGMODE desc="Set log mode" pv="BL18I-EA-TEMPC-01:LOG:MODE:SET"
+			ro="false" type="mbbinary" />
+		<STATUS desc="Get ramp status" pv="BL18I-EA-TEMPC-01:STATUS"
+			ro="true" type="mbbinary" />
+		<EB1 desc="Get EB1" pv="BL18I-EA-TEMPC-01:ERROR" ro="true" type="pv" />
+		<GS1 desc="Get GS1" pv="BL18I-EA-TEMPC-01:GSTATUS" ro="true" type="pv" />
+		<SB1 desc="Get SB1" pv="BL18I-EA-TEMPC-01:CALCSB1" ro="true" type="pv" />
+		<PUMPSPEED desc="Get pump speed" pv="BL18I-EA-TEMPC-01:PUMP:SPEED"
+			ro="true" type="pv" />
+		<SETPUMPSPEED desc="Set manual pump speed" pv="BL18I-EA-TEMPC-01:PUMP:SPEED:SET"
+			ro="false" type="pv" />
+		<PUMPMODE desc="Get pump mode" pv="BL18I-EA-TEMPC-01:PUMP:MODE"
+			ro="true" type="pv" />
+		<STAGESTATUS desc="Get stage status" pv="BL18I-EA-TEMPC-01:RSTATUS2"
+			ro="true" type="pv" />
+		<STARTREAD desc="Read log" pv="BL18I-EA-TEMPC-01:LOG:STARTREAD"
+			ro="false" type="binary" />
+		<DISABLE desc="Disable comms" pv="BL18I-EA-TEMPC-01:DISABLE"
+			ro="false" type="binary" />
+		<LOGTEMP desc="Log temp data" pv="BL18I-EA-TEMPC-01:LOG:TEMP:CMP"
+			ro="true" type="array" />
+		<LOGDSC desc="Log DSC data" pv="BL18I-EA-TEMPC-01:LOG:DSC:CMP"
+			ro="true" type="array" />
+		<TEMP desc="Current temp" pv="BL18I-EA-TEMPC-01:TEMP" ro="true"
+			type="pv" />
 	</linkam>
 	<simpleMotor desc="DCM BRAGG" name="DCM:BRAGG">
-		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:BRAGG" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:BRAGG" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="DCM LATERAL" name="DCM:X">
-		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:X" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:X" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="XTAL1 ROLL" name="DCM:XTAL1:ROLL">
-		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:XTAL1:ROLL" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:XTAL1:ROLL" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="XTAL2 PERP" name="DCM:XTAL2:YPRIME">
-		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:XTAL2:YPRIME" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:XTAL2:YPRIME" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="XTAL2 PITCH" name="DCM:XTAL2:PITCH">
-		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:XTAL2:PITCH" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:XTAL2:PITCH" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="XTAL2 ROLL" name="DCM:XTAL2:ROLL">
-		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:XTAL2:ROLL" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:XTAL2:ROLL" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="DCM ENERGY" name="DCM.ENERGY">
-		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:ENERGY" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:ENERGY" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="DCM OFFSET" name="DCM.OFFSET">
-		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:OFFSET" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:OFFSET" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HRM PITCH" name="HRM:PITCH">
-		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:PITCH" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:PITCH" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="HRM X" name="HRM:X">
-		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:X" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:X" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="SHR X" name="SHR:X">
-		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:SHR:X" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:SHR:X" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<positioner desc="Crystal Select" name="DCM:X:MP">
-		<SELECT desc="Position Selection" pv="BL18I-OP-DCM-01:MP:SELECT" ro="false" type="mbbinary"/>
-		<DMOV desc="Done Moving Indicator" pv="BL18I-OP-DCM-01:MP:DMOV" ro="true" type="pv"/>
-		<ERROR desc="Error Indicator" pv="BL18I-OP-DCM-01:MP:ERROR.K" ro="true" type="pv"/>
-		<INPOS desc="In Position Indicator" pv="BL18I-OP-DCM-01:MP:INPOS" ro="true" type="pv"/>
-		<STOP desc="Stop Button" pv="BL18I-OP-DCM-01:MP:STOP.PROC" ro="false" type="pv"/>
+		<SELECT desc="Position Selection" pv="BL18I-OP-DCM-01:MP:SELECT"
+			ro="false" type="mbbinary" />
+		<DMOV desc="Done Moving Indicator" pv="BL18I-OP-DCM-01:MP:DMOV"
+			ro="true" type="pv" />
+		<ERROR desc="Error Indicator" pv="BL18I-OP-DCM-01:MP:ERROR.K"
+			ro="true" type="pv" />
+		<INPOS desc="In Position Indicator" pv="BL18I-OP-DCM-01:MP:INPOS"
+			ro="true" type="pv" />
+		<STOP desc="Stop Button" pv="BL18I-OP-DCM-01:MP:STOP.PROC" ro="false"
+			type="pv" />
 	</positioner>
 	<simpleBinary desc="DCM deferred move" name="DCM.DEFER">
-		<RECORD desc="RECORD" pv="BL18I-OP-DCM-01:DEFER" ro="false" type="binary"/>
+		<RECORD desc="RECORD" pv="BL18I-OP-DCM-01:DEFER" ro="false"
+			type="binary" />
 	</simpleBinary>
 	<simpleMotor desc="FE ID gap motor gap soft motor" name="FEIDGAP.GAP">
-		<RECORD desc="Motor Record" pv="SR18I-MO-SERVC-01:BLGAPMTR" ro="false" type="motor"/>
+		<RECORD desc="Motor Record" pv="SR18I-MO-SERVC-01:BLGAPMTR" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="Fine Pitch Motor" name="DCM:XTAL2:FP">
-		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:FPMTR" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:FPMTR" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="Fine Roll Motor" name="DCM:XTAL2:FR">
-		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:FRMTR" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-DCM-01:FRMTR" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simplePv desc="X+ - X- current" name="S2XPOS">
-		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-02:XPOS" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-02:XPOS" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Y+ - Y- current" name="S2YPOS">
-		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-02:YPOS" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-02:YPOS" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="X+ current" name="S2XPI">
-		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-02:X:PLUS:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-02:X:PLUS:I"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="X- current" name="S2XMI">
-		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-02:X:MINUS:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-02:X:MINUS:I"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="Y+ current" name="S2YPI">
-		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-02:Y:PLUS:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-02:Y:PLUS:I"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="X- current" name="S2YMI">
-		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-02:Y:MINUS:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-02:Y:MINUS:I"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="X+ - X- current" name="S3XPOS">
-		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-03:XPOS" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-03:XPOS" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="Y+ - Y- current" name="S3YPOS">
-		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-03:YPOS" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-03:YPOS" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="X+ current" name="S3XPI">
-		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-03:X:PLUS:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-03:X:PLUS:I"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="X- current" name="S3XMI">
-		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-03:X:MINUS:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-03:X:MINUS:I"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="Y+ current" name="S3YPI">
-		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-03:Y:PLUS:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-03:Y:PLUS:I"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="X- current" name="S3YMI">
-		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-03:Y:MINUS:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-AL-SLITS-03:Y:MINUS:I"
+			ro="true" type="pv" />
 	</simplePv>
 	<simpleMbbinary desc="Scan mode" name="IP330MOADC1SM">
-		<RECORD desc="Set ScanMode" pv="BL18I-MO-IP330-01:ScanMode" ro="false" type="mbbinary"/>
+		<RECORD desc="Set ScanMode" pv="BL18I-MO-IP330-01:ScanMode" ro="false"
+			type="mbbinary" />
 	</simpleMbbinary>
 	<currAmpQuad desc="D1 D2 D3 D5B amp" name="AMP1">
-		<RANGE desc="Range Selection" pv="BL18I-DI-IAMP-01:RANGE_MENU" ro="false" type="mbbinary"/>
-		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-01:VENDOR" ro="true" type="pv"/>
-		<MODEL desc="Model String" pv="BL18I-DI-IAMP-01:MODEL" ro="true" type="pv"/>
+		<RANGE desc="Range Selection" pv="BL18I-DI-IAMP-01:RANGE_MENU"
+			ro="false" type="mbbinary" />
+		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-01:VENDOR" ro="true"
+			type="pv" />
+		<MODEL desc="Model String" pv="BL18I-DI-IAMP-01:MODEL" ro="true"
+			type="pv" />
 	</currAmpQuad>
 	<currAmpQuad desc="D5B D6B D7B amp" name="AMP3">
-		<RANGE desc="Range Selection" pv="BL18I-DI-IAMP-03:RANGE_MENU" ro="false" type="mbbinary"/>
-		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-03:VENDOR" ro="true" type="pv"/>
-		<MODEL desc="Model String" pv="BL18I-DI-IAMP-03:MODEL" ro="true" type="pv"/>
+		<RANGE desc="Range Selection" pv="BL18I-DI-IAMP-03:RANGE_MENU"
+			ro="false" type="mbbinary" />
+		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-03:VENDOR" ro="true"
+			type="pv" />
+		<MODEL desc="Model String" pv="BL18I-DI-IAMP-03:MODEL" ro="true"
+			type="pv" />
 	</currAmpQuad>
 	<currAmpQuad desc="D8 amp" name="AMP8">
-		<I1 desc="Channel 1 Current" pv="BL18I-DI-PHDGN-08:XP:YP:I" ro="true" type="pv"/>
-		<I2 desc="Channel 2 Current" pv="BL18I-DI-PHDGN-08:XP:YM:I" ro="true" type="pv"/>
-		<I3 desc="Channel 3 Current" pv="BL18I-DI-PHDGN-08:XM:YP:I" ro="true" type="pv"/>
-		<I4 desc="Channel 4 Current" pv="BL18I-DI-PHDGN-08:XM:YM:I" ro="true" type="pv"/>
-		<RANGE desc="Range Selection" pv="BL18I-DI-IAMP-08:RANGE_MENU" ro="false" type="mbbinary"/>
-		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-08:VENDOR" ro="true" type="pv"/>
-		<MODEL desc="Model String" pv="BL18I-DI-IAMP-08:MODEL" ro="true" type="pv"/>
+		<I1 desc="Channel 1 Current" pv="BL18I-DI-PHDGN-08:XP:YP:I" ro="true"
+			type="pv" />
+		<I2 desc="Channel 2 Current" pv="BL18I-DI-PHDGN-08:XP:YM:I" ro="true"
+			type="pv" />
+		<I3 desc="Channel 3 Current" pv="BL18I-DI-PHDGN-08:XM:YP:I" ro="true"
+			type="pv" />
+		<I4 desc="Channel 4 Current" pv="BL18I-DI-PHDGN-08:XM:YM:I" ro="true"
+			type="pv" />
+		<RANGE desc="Range Selection" pv="BL18I-DI-IAMP-08:RANGE_MENU"
+			ro="false" type="mbbinary" />
+		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-08:VENDOR" ro="true"
+			type="pv" />
+		<MODEL desc="Model String" pv="BL18I-DI-IAMP-08:MODEL" ro="true"
+			type="pv" />
 	</currAmpQuad>
 	<simplePv desc="D1 current" name="D1I">
-		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-01:DIODE:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-01:DIODE:I" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="D2 current" name="D2I">
-		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-02:DIODE:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-02:DIODE:I" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="D3 current" name="D3I">
-		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-03:DIODE:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-03:DIODE:I" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="D5B current" name="D5BI">
-		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-05:B:DIODE:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-05:B:DIODE:I"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="D6B current" name="D6BI">
-		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-06:B:DIODE:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-06:B:DIODE:I"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="D7B current" name="D7BI">
-		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-07:B:DIODE:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-07:B:DIODE:I"
+			ro="true" type="pv" />
 	</simplePv>
 	<simplePv desc="D8X+Y+ current" name="D8XPYPI">
-		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XP:YP:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XP:YP:I" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="D8X+Y- current" name="D8XPYMI">
-		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XP:YM:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XP:YM:I" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="D8X-Y+ current" name="D8XMYPI">
-		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XM:YP:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XM:YP:I" ro="true"
+			type="pv" />
 	</simplePv>
 	<simplePv desc="D8X-Y- current" name="D8XMYMI">
-		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XM:YM:I" ro="true" type="pv"/>
+		<RECORD desc="Current Value" pv="BL18I-DI-PHDGN-08:XM:YM:I" ro="true"
+			type="pv" />
 	</simplePv>
 	<bpm desc="D8 BPM" name="D8.BPM">
-		<XPOS desc="X Position" pv="BL18I-DI-PHDGN-08:XPOS" ro="true" type="pv"/>
-		<YPOS desc="Y Position" pv="BL18I-DI-PHDGN-08:YPOS" ro="true" type="pv"/>
-		<INTENSITY desc="Summed intensity value" pv="BL18I-DI-PHDGN-08:INTEN" ro="true" type="pv"/>
+		<XPOS desc="X Position" pv="BL18I-DI-PHDGN-08:XPOS" ro="true"
+			type="pv" />
+		<YPOS desc="Y Position" pv="BL18I-DI-PHDGN-08:YPOS" ro="true"
+			type="pv" />
+		<INTENSITY desc="Summed intensity value" pv="BL18I-DI-PHDGN-08:INTEN"
+			ro="true" type="pv" />
 	</bpm>
 	<DLS8512 desc="scalar 1" name="scalar01">
-		<TIME desc="Integration Time" pv="BL18I-DI-8512-01:PRESET" ro="false" type="pv"/>
-		<TRIGGER desc="Restart counter" pv="BL18I-DI-8512-01:STARTCOUNT" ro="false" type="binary"/>
-		<SCALED0 desc="scaled value 0" pv="BL18I-DI-PHDGN-01:DIODE:IF" ro="true" type="pv"/>
-		<RAW0 desc="raw value 0" pv="BL18I-DI-PHDGN-01:DIODE:IF-RAW" ro="true" type="pv"/>
-		<SCALED1 desc="scaled value 1" pv="BL18I-DI-PHDGN-02:DIODE:IF" ro="true" type="pv"/>
-		<RAW1 desc="raw value 1" pv="BL18I-DI-PHDGN-02:DIODE:IF-RAW" ro="true" type="pv"/>
-		<SCALED2 desc="scaled value 2" pv="BL18I-DI-PHDGN-03:DIODE:IF" ro="true" type="pv"/>
-		<RAW2 desc="raw value 2" pv="BL18I-DI-PHDGN-03:DIODE:IF-RAW" ro="true" type="pv"/>
-		<SCALED3 desc="scaled value 3" pv="BL18I-DI-PHDGN-05:B:DIODE:IF" ro="true" type="pv"/>
-		<RAW3 desc="raw value 3" pv="BL18I-DI-PHDGN-05:B:DIODE:IF-RAW" ro="true" type="pv"/>
-		<SCALED4 desc="scaled value 4" pv="BL18I-DI-IAMP-02:I1F" ro="true" type="pv"/>
-		<RAW4 desc="raw value 4" pv="BL18I-DI-IAMP-02:I1F-RAW" ro="true" type="pv"/>
-		<SCALED5 desc="scaled value 5" pv="BL18I-DI-IAMP-02:I2F" ro="true" type="pv"/>
-		<RAW5 desc="raw value 5" pv="BL18I-DI-IAMP-02:I2F-RAW" ro="true" type="pv"/>
-		<SCALED6 desc="scaled value 6" pv="BL18I-DI-IAMP-02:I3F" ro="true" type="pv"/>
-		<RAW6 desc="raw value 6" pv="BL18I-DI-IAMP-02:I3F-RAW" ro="true" type="pv"/>
-		<SCALED7 desc="scaled value 7" pv="BL18I-DI-IAMP-02:I4F" ro="true" type="pv"/>
-		<RAW7 desc="raw value 7" pv="BL18I-DI-IAMP-02:I4F-RAW" ro="true" type="pv"/>
-		<SCALED8 desc="scaled value 8" pv="BL18I-DI-PHDGN-06:B:DIODE:IF" ro="true" type="pv"/>
-		<RAW8 desc="raw value 8" pv="BL18I-DI-PHDGN-06:B:DIODE:IF-RAW" ro="true" type="pv"/>
-		<SCALED9 desc="scaled value 9" pv="BL18I-DI-PHDGN-07:B:DIODE:IF" ro="true" type="pv"/>
-		<RAW9 desc="raw value 9" pv="BL18I-DI-PHDGN-07:B:DIODE:IF-RAW" ro="true" type="pv"/>
-		<SCALED10 desc="scaled value 10" pv="BL18I-AL-SLITS-03:Y:PLUS:IF" ro="true" type="pv"/>
-		<RAW10 desc="raw value 10" pv="BL18I-AL-SLITS-03:Y:PLUS:IF-RAW" ro="true" type="pv"/>
-		<SCALED11 desc="scaled value 11" pv="BL18I-AL-SLITS-03:Y:MINUS:IF" ro="true" type="pv"/>
-		<RAW11 desc="raw value 11" pv="BL18I-AL-SLITS-03:Y:MINUS:IF-RAW" ro="true" type="pv"/>
+		<TIME desc="Integration Time" pv="BL18I-DI-8512-01:PRESET" ro="false"
+			type="pv" />
+		<TRIGGER desc="Restart counter" pv="BL18I-DI-8512-01:STARTCOUNT"
+			ro="false" type="binary" />
+		<SCALED0 desc="scaled value 0" pv="BL18I-DI-PHDGN-01:DIODE:IF"
+			ro="true" type="pv" />
+		<RAW0 desc="raw value 0" pv="BL18I-DI-PHDGN-01:DIODE:IF-RAW" ro="true"
+			type="pv" />
+		<SCALED1 desc="scaled value 1" pv="BL18I-DI-PHDGN-02:DIODE:IF"
+			ro="true" type="pv" />
+		<RAW1 desc="raw value 1" pv="BL18I-DI-PHDGN-02:DIODE:IF-RAW" ro="true"
+			type="pv" />
+		<SCALED2 desc="scaled value 2" pv="BL18I-DI-PHDGN-03:DIODE:IF"
+			ro="true" type="pv" />
+		<RAW2 desc="raw value 2" pv="BL18I-DI-PHDGN-03:DIODE:IF-RAW" ro="true"
+			type="pv" />
+		<SCALED3 desc="scaled value 3" pv="BL18I-DI-PHDGN-05:B:DIODE:IF"
+			ro="true" type="pv" />
+		<RAW3 desc="raw value 3" pv="BL18I-DI-PHDGN-05:B:DIODE:IF-RAW"
+			ro="true" type="pv" />
+		<SCALED4 desc="scaled value 4" pv="BL18I-DI-IAMP-02:I1F" ro="true"
+			type="pv" />
+		<RAW4 desc="raw value 4" pv="BL18I-DI-IAMP-02:I1F-RAW" ro="true"
+			type="pv" />
+		<SCALED5 desc="scaled value 5" pv="BL18I-DI-IAMP-02:I2F" ro="true"
+			type="pv" />
+		<RAW5 desc="raw value 5" pv="BL18I-DI-IAMP-02:I2F-RAW" ro="true"
+			type="pv" />
+		<SCALED6 desc="scaled value 6" pv="BL18I-DI-IAMP-02:I3F" ro="true"
+			type="pv" />
+		<RAW6 desc="raw value 6" pv="BL18I-DI-IAMP-02:I3F-RAW" ro="true"
+			type="pv" />
+		<SCALED7 desc="scaled value 7" pv="BL18I-DI-IAMP-02:I4F" ro="true"
+			type="pv" />
+		<RAW7 desc="raw value 7" pv="BL18I-DI-IAMP-02:I4F-RAW" ro="true"
+			type="pv" />
+		<SCALED8 desc="scaled value 8" pv="BL18I-DI-PHDGN-06:B:DIODE:IF"
+			ro="true" type="pv" />
+		<RAW8 desc="raw value 8" pv="BL18I-DI-PHDGN-06:B:DIODE:IF-RAW"
+			ro="true" type="pv" />
+		<SCALED9 desc="scaled value 9" pv="BL18I-DI-PHDGN-07:B:DIODE:IF"
+			ro="true" type="pv" />
+		<RAW9 desc="raw value 9" pv="BL18I-DI-PHDGN-07:B:DIODE:IF-RAW"
+			ro="true" type="pv" />
+		<SCALED10 desc="scaled value 10" pv="BL18I-AL-SLITS-03:Y:PLUS:IF"
+			ro="true" type="pv" />
+		<RAW10 desc="raw value 10" pv="BL18I-AL-SLITS-03:Y:PLUS:IF-RAW"
+			ro="true" type="pv" />
+		<SCALED11 desc="scaled value 11" pv="BL18I-AL-SLITS-03:Y:MINUS:IF"
+			ro="true" type="pv" />
+		<RAW11 desc="raw value 11" pv="BL18I-AL-SLITS-03:Y:MINUS:IF-RAW"
+			ro="true" type="pv" />
 	</DLS8512>
 	<currAmpSingle desc="Current amp4 control" name="IAMP4CTRL">
-		<OVERLOAD desc="Get overload status" pv="BL18I-DI-IAMP-04:OL" ro="true" type="binary"/>
-		<SETGAIN desc="Set gain" pv="BL18I-DI-IAMP-04:GAIN" ro="false" type="mbbinary"/>
-		<SETACDC desc="Set AC or DC mode" pv="BL18I-DI-IAMP-04:ACDC" ro="false" type="binary"/>
-		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-04:VENDOR" ro="true" type="pv"/>
-		<MODEL desc="Model String" pv="BL18I-DI-IAMP-04:MODEL" ro="true" type="pv"/>
+		<OVERLOAD desc="Get overload status" pv="BL18I-DI-IAMP-04:OL"
+			ro="true" type="binary" />
+		<SETGAIN desc="Set gain" pv="BL18I-DI-IAMP-04:GAIN" ro="false"
+			type="mbbinary" />
+		<SETACDC desc="Set AC or DC mode" pv="BL18I-DI-IAMP-04:ACDC"
+			ro="false" type="binary" />
+		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-04:VENDOR" ro="true"
+			type="pv" />
+		<MODEL desc="Model String" pv="BL18I-DI-IAMP-04:MODEL" ro="true"
+			type="pv" />
 	</currAmpSingle>
 	<currAmpSingle desc="Current amp5 control" name="IAMP5CTRL">
-		<OVERLOAD desc="Get overload status" pv="BL18I-DI-IAMP-05:OL" ro="true" type="binary"/>
-		<SETGAIN desc="Set gain" pv="BL18I-DI-IAMP-05:GAIN" ro="false" type="mbbinary"/>
-		<SETACDC desc="Set AC or DC mode" pv="BL18I-DI-IAMP-05:ACDC" ro="false" type="binary"/>
-		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-05:VENDOR" ro="true" type="pv"/>
-		<MODEL desc="Model String" pv="BL18I-DI-IAMP-05:MODEL" ro="true" type="pv"/>
+		<OVERLOAD desc="Get overload status" pv="BL18I-DI-IAMP-05:OL"
+			ro="true" type="binary" />
+		<SETGAIN desc="Set gain" pv="BL18I-DI-IAMP-05:GAIN" ro="false"
+			type="mbbinary" />
+		<SETACDC desc="Set AC or DC mode" pv="BL18I-DI-IAMP-05:ACDC"
+			ro="false" type="binary" />
+		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-05:VENDOR" ro="true"
+			type="pv" />
+		<MODEL desc="Model String" pv="BL18I-DI-IAMP-05:MODEL" ro="true"
+			type="pv" />
 	</currAmpSingle>
 	<currAmpSingle desc="Current amp6 control" name="IAMP6CTRL">
-		<OVERLOAD desc="Get overload status" pv="BL18I-DI-IAMP-06:OL" ro="true" type="binary"/>
-		<SETGAIN desc="Set gain" pv="BL18I-DI-IAMP-06:GAIN" ro="false" type="mbbinary"/>
-		<SETACDC desc="Set AC or DC mode" pv="BL18I-DI-IAMP-06:ACDC" ro="false" type="binary"/>
-		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-06:VENDOR" ro="true" type="pv"/>
-		<MODEL desc="Model String" pv="BL18I-DI-IAMP-06:MODEL" ro="true" type="pv"/>
+		<OVERLOAD desc="Get overload status" pv="BL18I-DI-IAMP-06:OL"
+			ro="true" type="binary" />
+		<SETGAIN desc="Set gain" pv="BL18I-DI-IAMP-06:GAIN" ro="false"
+			type="mbbinary" />
+		<SETACDC desc="Set AC or DC mode" pv="BL18I-DI-IAMP-06:ACDC"
+			ro="false" type="binary" />
+		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-06:VENDOR" ro="true"
+			type="pv" />
+		<MODEL desc="Model String" pv="BL18I-DI-IAMP-06:MODEL" ro="true"
+			type="pv" />
 	</currAmpSingle>
 	<currAmpSingle desc="Current amp7 control" name="IAMP7CTRL">
-		<OVERLOAD desc="Get overload status" pv="BL18I-DI-IAMP-07:OL" ro="true" type="binary"/>
-		<SETGAIN desc="Set gain" pv="BL18I-DI-IAMP-07:GAIN" ro="false" type="mbbinary"/>
-		<SETACDC desc="Set AC or DC mode" pv="BL18I-DI-IAMP-07:ACDC" ro="false" type="binary"/>
-		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-07:VENDOR" ro="true" type="pv"/>
-		<MODEL desc="Model String" pv="BL18I-DI-IAMP-07:MODEL" ro="true" type="pv"/>
+		<OVERLOAD desc="Get overload status" pv="BL18I-DI-IAMP-07:OL"
+			ro="true" type="binary" />
+		<SETGAIN desc="Set gain" pv="BL18I-DI-IAMP-07:GAIN" ro="false"
+			type="mbbinary" />
+		<SETACDC desc="Set AC or DC mode" pv="BL18I-DI-IAMP-07:ACDC"
+			ro="false" type="binary" />
+		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-07:VENDOR" ro="true"
+			type="pv" />
+		<MODEL desc="Model String" pv="BL18I-DI-IAMP-07:MODEL" ro="true"
+			type="pv" />
 	</currAmpSingle>
 	<currAmpSingle desc="Current amp9 control" name="IAMP9CTRL">
-		<OVERLOAD desc="Get overload status" pv="BL18I-DI-IAMP-09:OL" ro="true" type="binary"/>
-		<SETGAIN desc="Set gain" pv="BL18I-DI-IAMP-09:GAIN" ro="false" type="mbbinary"/>
-		<SETACDC desc="Set AC or DC mode" pv="BL18I-DI-IAMP-09:ACDC" ro="false" type="binary"/>
-		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-09:VENDOR" ro="true" type="pv"/>
-		<MODEL desc="Model String" pv="BL18I-DI-IAMP-09:MODEL" ro="true" type="pv"/>
+		<OVERLOAD desc="Get overload status" pv="BL18I-DI-IAMP-09:OL"
+			ro="true" type="binary" />
+		<SETGAIN desc="Set gain" pv="BL18I-DI-IAMP-09:GAIN" ro="false"
+			type="mbbinary" />
+		<SETACDC desc="Set AC or DC mode" pv="BL18I-DI-IAMP-09:ACDC"
+			ro="false" type="binary" />
+		<VENDOR desc="Vendor String" pv="BL18I-DI-IAMP-09:VENDOR" ro="true"
+			type="pv" />
+		<MODEL desc="Model String" pv="BL18I-DI-IAMP-09:MODEL" ro="true"
+			type="pv" />
 	</currAmpSingle>
 	<simpleMotor desc="First HRM Pitch" name="FHRPITCH">
-		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:FHR:PITCH" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-HRM-01:FHR:PITCH" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<cryocooler desc="Cryocooler" name="CRYO">
-		<NFLOW desc="nitrogen flow rate" pv="BL18I-CG-CRYO-01:NFLOW" ro="true" type="pv"/>
-		<FEEDT desc="nitrogen feed temperature" pv="BL18I-CG-CRYO-01:FEEDT" ro="true" type="pv"/>
-		<COOLP desc="measured cooling power" pv="BL18I-CG-CRYO-01:COOLP" ro="true" type="pv"/>
-		<PSET desc="nitrogen pump speed" pv="BL18I-CG-CRYO-01:PSET" ro="false" type="pv"/>
-		<TPBUF desc="target pressure for buff." pv="BL18I-CG-CRYO-01:TPBUF" ro="false" type="pv"/>
-		<LP1L desc="vessel start fill level" pv="BL18I-CG-CRYO-01:LP1L" ro="false" type="pv"/>
-		<LP1H desc="vessel stop fill level" pv="BL18I-CG-CRYO-01:LP1H" ro="false" type="pv"/>
+		<NFLOW desc="nitrogen flow rate" pv="BL18I-CG-CRYO-01:NFLOW" ro="true"
+			type="pv" />
+		<FEEDT desc="nitrogen feed temperature" pv="BL18I-CG-CRYO-01:FEEDT"
+			ro="true" type="pv" />
+		<COOLP desc="measured cooling power" pv="BL18I-CG-CRYO-01:COOLP"
+			ro="true" type="pv" />
+		<PSET desc="nitrogen pump speed" pv="BL18I-CG-CRYO-01:PSET" ro="false"
+			type="pv" />
+		<TPBUF desc="target pressure for buff." pv="BL18I-CG-CRYO-01:TPBUF"
+			ro="false" type="pv" />
+		<LP1L desc="vessel start fill level" pv="BL18I-CG-CRYO-01:LP1L"
+			ro="false" type="pv" />
+		<LP1H desc="vessel stop fill level" pv="BL18I-CG-CRYO-01:LP1H"
+			ro="false" type="pv" />
 	</cryocooler>
 	<simpleMotor desc="T1 Z" name="T1.Z">
-		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:Z" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:Z" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="T1 ROT" name="T1.ROT">
-		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:ROT" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:ROT" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="T1 X" name="T1.X">
-		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:X" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:X" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="T1 Y1" name="T1.Y1">
-		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:Y1" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:Y1" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="T1 Y2" name="T1.Y2">
-		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:Y2" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:Y2" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="T1 Y3" name="T1.Y3">
-		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:Y3" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:Y3" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="T1 FROT" name="T1.FROT">
-		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:FROT" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-TABLE-01:FROT" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleBinary desc="XPS1 deferred move" name="XPS1DEFER">
-		<RECORD desc="RECORD" pv="BL18I-MO-XPS-01:DEFER" ro="false" type="binary"/>
+		<RECORD desc="RECORD" pv="BL18I-MO-XPS-01:DEFER" ro="false"
+			type="binary" />
 	</simpleBinary>
 	<trajectoryScan desc="T1 Trajectory Scan" name="TRAJ">
-		<NELM desc="# of elements in trajectory" pv="BL18I-MO-TABLE-01:TRAJ1:Nelements" ro="false" type="pv"/>
-		<NPULSES desc="number of output pulses" pv="BL18I-MO-TABLE-01:TRAJ1:Npulses" ro="false" type="pv"/>
-		<SPULSES desc="element # to start pulses" pv="BL18I-MO-TABLE-01:TRAJ1:StartPulses" ro="false" type="pv"/>
-		<EPULSES desc="element # to end pulses" pv="BL18I-MO-TABLE-01:TRAJ1:EndPulses" ro="false" type="pv"/>
-		<APULSES desc="actual # of output pulses" pv="BL18I-MO-TABLE-01:TRAJ1:Nactual" ro="true" type="pv"/>
-		<TIME desc="trajectory time" pv="BL18I-MO-TABLE-01:TRAJ1:Time" ro="false" type="pv"/>
-		<M1MOVE desc="move m1 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M1Move" ro="false" type="binary"/>
-		<M2MOVE desc="move m2 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M2Move" ro="false" type="binary"/>
-		<M3MOVE desc="move m3 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M3Move" ro="false" type="binary"/>
-		<M4MOVE desc="move m4 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M4Move" ro="false" type="binary"/>
-		<M5MOVE desc="move m5 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M5Move" ro="false" type="binary"/>
-		<M6MOVE desc="move m6 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M6Move" ro="false" type="binary"/>
-		<M7MOVE desc="move m7 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M7Move" ro="false" type="binary"/>
-		<M8MOVE desc="move m8 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M8Move" ro="false" type="binary"/>
-		<M1TRAJ desc="m1 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M1Traj" ro="false" type="array"/>
-		<M2TRAJ desc="m2 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M2Traj" ro="false" type="array"/>
-		<M3TRAJ desc="m3 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M3Traj" ro="false" type="array"/>
-		<M4TRAJ desc="m4 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M4Traj" ro="false" type="array"/>
-		<M5TRAJ desc="m5 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M5Traj" ro="false" type="array"/>
-		<M6TRAJ desc="m6 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M6Traj" ro="false" type="array"/>
-		<M7TRAJ desc="m7 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M7Traj" ro="false" type="array"/>
-		<M8TRAJ desc="m8 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M8Traj" ro="false" type="array"/>
-		<BUILD desc="build and check trajectory" pv="BL18I-MO-TABLE-01:TRAJ1:Build" ro="false" type="pv"/>
-		<BSTATE desc="trajectory build state" pv="BL18I-MO-TABLE-01:TRAJ1:BuildState" ro="true" type="mbbinary"/>
-		<BSTATUS desc="trajectory build status" pv="BL18I-MO-TABLE-01:TRAJ1:BuildStatus" ro="true" type="mbbinary"/>
-		<BMESS desc="trajectory build message" pv="BL18I-MO-TABLE-01:TRAJ1:BuildMessage" ro="true" type="pv"/>
-		<EXECUTE desc="start trajectory motion" pv="BL18I-MO-TABLE-01:TRAJ1:Execute" ro="false" type="pv"/>
-		<ESTATE desc="trajectory execute state" pv="BL18I-MO-TABLE-01:TRAJ1:ExecState" ro="true" type="mbbinary"/>
-		<ESTATUS desc="trajectory execute status" pv="BL18I-MO-TABLE-01:TRAJ1:ExecStatus" ro="true" type="mbbinary"/>
-		<EMESS desc="trajectory execute message" pv="BL18I-MO-TABLE-01:TRAJ1:ExecMessage" ro="true" type="pv"/>
-		<ABORT desc="abort trajectory motion" pv="BL18I-MO-TABLE-01:TRAJ1:Abort" ro="false" type="pv"/>
-		<READ desc="read back actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:Readback" ro="false" type="pv"/>
-		<RSTATE desc="readback state" pv="BL18I-MO-TABLE-01:TRAJ1:ReadState" ro="true" type="mbbinary"/>
-		<RSTATUS desc="readback status" pv="BL18I-MO-TABLE-01:TRAJ1:ReadStatus" ro="true" type="mbbinary"/>
-		<RMESS desc="trajectory read message" pv="BL18I-MO-TABLE-01:TRAJ1:ReadMessage" ro="true" type="pv"/>
-		<M1ACTUAL desc="m1 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M1Actual" ro="true" type="array"/>
-		<M2ACTUAL desc="m2 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M2Actual" ro="true" type="array"/>
-		<M3ACTUAL desc="m3 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M3Actual" ro="true" type="array"/>
-		<M4ACTUAL desc="m4 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M4Actual" ro="true" type="array"/>
-		<M5ACTUAL desc="m5 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M5Actual" ro="true" type="array"/>
-		<M6ACTUAL desc="m6 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M6Actual" ro="true" type="array"/>
-		<M7ACTUAL desc="m7 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M7Actual" ro="true" type="array"/>
-		<M8ACTUAL desc="m8 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M8Actual" ro="true" type="array"/>
-		<M1NAME desc="motor record pv for m1" pv="BL18I-MO-TABLE-01:TRAJ1:M1NAME" ro="true" type="pv"/>
-		<M2NAME desc="motor record pv for m2" pv="BL18I-MO-TABLE-01:TRAJ1:M2NAME" ro="true" type="pv"/>
-		<M3NAME desc="motor record pv for m3" pv="BL18I-MO-TABLE-01:TRAJ1:M3NAME" ro="true" type="pv"/>
-		<M4NAME desc="motor record pv for m4" pv="BL18I-MO-TABLE-01:TRAJ1:M4NAME" ro="true" type="pv"/>
-		<M5NAME desc="motor record pv for m5" pv="BL18I-MO-TABLE-01:TRAJ1:M5NAME" ro="true" type="pv"/>
-		<M6NAME desc="motor record pv for m6" pv="BL18I-MO-TABLE-01:TRAJ1:M6NAME" ro="true" type="pv"/>
-		<M7NAME desc="motor record pv for m7" pv="BL18I-MO-TABLE-01:TRAJ1:M7NAME" ro="true" type="pv"/>
-		<M8NAME desc="motor record pv for m8" pv="BL18I-MO-TABLE-01:TRAJ1:M8NAME" ro="true" type="pv"/>
+		<NELM desc="# of elements in trajectory" pv="BL18I-MO-TABLE-01:TRAJ1:Nelements"
+			ro="false" type="pv" />
+		<NPULSES desc="number of output pulses" pv="BL18I-MO-TABLE-01:TRAJ1:Npulses"
+			ro="false" type="pv" />
+		<SPULSES desc="element # to start pulses" pv="BL18I-MO-TABLE-01:TRAJ1:StartPulses"
+			ro="false" type="pv" />
+		<EPULSES desc="element # to end pulses" pv="BL18I-MO-TABLE-01:TRAJ1:EndPulses"
+			ro="false" type="pv" />
+		<APULSES desc="actual # of output pulses" pv="BL18I-MO-TABLE-01:TRAJ1:Nactual"
+			ro="true" type="pv" />
+		<TIME desc="trajectory time" pv="BL18I-MO-TABLE-01:TRAJ1:Time"
+			ro="false" type="pv" />
+		<M1MOVE desc="move m1 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M1Move"
+			ro="false" type="binary" />
+		<M2MOVE desc="move m2 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M2Move"
+			ro="false" type="binary" />
+		<M3MOVE desc="move m3 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M3Move"
+			ro="false" type="binary" />
+		<M4MOVE desc="move m4 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M4Move"
+			ro="false" type="binary" />
+		<M5MOVE desc="move m5 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M5Move"
+			ro="false" type="binary" />
+		<M6MOVE desc="move m6 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M6Move"
+			ro="false" type="binary" />
+		<M7MOVE desc="move m7 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M7Move"
+			ro="false" type="binary" />
+		<M8MOVE desc="move m8 motor?" pv="BL18I-MO-TABLE-01:TRAJ1:M8Move"
+			ro="false" type="binary" />
+		<M1TRAJ desc="m1 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M1Traj"
+			ro="false" type="array" />
+		<M2TRAJ desc="m2 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M2Traj"
+			ro="false" type="array" />
+		<M3TRAJ desc="m3 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M3Traj"
+			ro="false" type="array" />
+		<M4TRAJ desc="m4 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M4Traj"
+			ro="false" type="array" />
+		<M5TRAJ desc="m5 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M5Traj"
+			ro="false" type="array" />
+		<M6TRAJ desc="m6 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M6Traj"
+			ro="false" type="array" />
+		<M7TRAJ desc="m7 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M7Traj"
+			ro="false" type="array" />
+		<M8TRAJ desc="m8 increments" pv="BL18I-MO-TABLE-01:TRAJ1:M8Traj"
+			ro="false" type="array" />
+		<BUILD desc="build and check trajectory" pv="BL18I-MO-TABLE-01:TRAJ1:Build"
+			ro="false" type="pv" />
+		<BSTATE desc="trajectory build state" pv="BL18I-MO-TABLE-01:TRAJ1:BuildState"
+			ro="true" type="mbbinary" />
+		<BSTATUS desc="trajectory build status" pv="BL18I-MO-TABLE-01:TRAJ1:BuildStatus"
+			ro="true" type="mbbinary" />
+		<BMESS desc="trajectory build message" pv="BL18I-MO-TABLE-01:TRAJ1:BuildMessage"
+			ro="true" type="pv" />
+		<EXECUTE desc="start trajectory motion" pv="BL18I-MO-TABLE-01:TRAJ1:Execute"
+			ro="false" type="pv" />
+		<ESTATE desc="trajectory execute state" pv="BL18I-MO-TABLE-01:TRAJ1:ExecState"
+			ro="true" type="mbbinary" />
+		<ESTATUS desc="trajectory execute status" pv="BL18I-MO-TABLE-01:TRAJ1:ExecStatus"
+			ro="true" type="mbbinary" />
+		<EMESS desc="trajectory execute message" pv="BL18I-MO-TABLE-01:TRAJ1:ExecMessage"
+			ro="true" type="pv" />
+		<ABORT desc="abort trajectory motion" pv="BL18I-MO-TABLE-01:TRAJ1:Abort"
+			ro="false" type="pv" />
+		<READ desc="read back actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:Readback"
+			ro="false" type="pv" />
+		<RSTATE desc="readback state" pv="BL18I-MO-TABLE-01:TRAJ1:ReadState"
+			ro="true" type="mbbinary" />
+		<RSTATUS desc="readback status" pv="BL18I-MO-TABLE-01:TRAJ1:ReadStatus"
+			ro="true" type="mbbinary" />
+		<RMESS desc="trajectory read message" pv="BL18I-MO-TABLE-01:TRAJ1:ReadMessage"
+			ro="true" type="pv" />
+		<M1ACTUAL desc="m1 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M1Actual"
+			ro="true" type="array" />
+		<M2ACTUAL desc="m2 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M2Actual"
+			ro="true" type="array" />
+		<M3ACTUAL desc="m3 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M3Actual"
+			ro="true" type="array" />
+		<M4ACTUAL desc="m4 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M4Actual"
+			ro="true" type="array" />
+		<M5ACTUAL desc="m5 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M5Actual"
+			ro="true" type="array" />
+		<M6ACTUAL desc="m6 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M6Actual"
+			ro="true" type="array" />
+		<M7ACTUAL desc="m7 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M7Actual"
+			ro="true" type="array" />
+		<M8ACTUAL desc="m8 actual positions" pv="BL18I-MO-TABLE-01:TRAJ1:M8Actual"
+			ro="true" type="array" />
+		<M1NAME desc="motor record pv for m1" pv="BL18I-MO-TABLE-01:TRAJ1:M1NAME"
+			ro="true" type="pv" />
+		<M2NAME desc="motor record pv for m2" pv="BL18I-MO-TABLE-01:TRAJ1:M2NAME"
+			ro="true" type="pv" />
+		<M3NAME desc="motor record pv for m3" pv="BL18I-MO-TABLE-01:TRAJ1:M3NAME"
+			ro="true" type="pv" />
+		<M4NAME desc="motor record pv for m4" pv="BL18I-MO-TABLE-01:TRAJ1:M4NAME"
+			ro="true" type="pv" />
+		<M5NAME desc="motor record pv for m5" pv="BL18I-MO-TABLE-01:TRAJ1:M5NAME"
+			ro="true" type="pv" />
+		<M6NAME desc="motor record pv for m6" pv="BL18I-MO-TABLE-01:TRAJ1:M6NAME"
+			ro="true" type="pv" />
+		<M7NAME desc="motor record pv for m7" pv="BL18I-MO-TABLE-01:TRAJ1:M7NAME"
+			ro="true" type="pv" />
+		<M8NAME desc="motor record pv for m8" pv="BL18I-MO-TABLE-01:TRAJ1:M8NAME"
+			ro="true" type="pv" />
 	</trajectoryScan>
-	
+
 	<trajectoryScan desc="T3 Trajectory Scan" name="TRAJ3">
-		<NELM desc="# of elements in trajectory" pv="BL18I-MO-TABLE-03:TRAJ1:Nelements" ro="false" type="pv"/>
-		<NPULSES desc="number of output pulses" pv="BL18I-MO-TABLE-03:TRAJ1:Npulses" ro="false" type="pv"/>
-		<SPULSES desc="element # to start pulses" pv="BL18I-MO-TABLE-03:TRAJ1:StartPulses" ro="false" type="pv"/>
-		<EPULSES desc="element # to end pulses" pv="BL18I-MO-TABLE-03:TRAJ1:EndPulses" ro="false" type="pv"/>
-		<APULSES desc="actual # of output pulses" pv="BL18I-MO-TABLE-03:TRAJ1:Nactual" ro="true" type="pv"/>
-		<TIME desc="trajectory time" pv="BL18I-MO-TABLE-03:TRAJ1:Time" ro="false" type="pv"/>
-		<M1MOVE desc="move m1 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M1Move" ro="false" type="binary"/>
-		<M2MOVE desc="move m2 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M2Move" ro="false" type="binary"/>
-		<M3MOVE desc="move m3 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M3Move" ro="false" type="binary"/>
-		<M4MOVE desc="move m4 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M4Move" ro="false" type="binary"/>
-		<M5MOVE desc="move m5 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M5Move" ro="false" type="binary"/>
-		<M6MOVE desc="move m6 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M6Move" ro="false" type="binary"/>
-		<M7MOVE desc="move m7 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M7Move" ro="false" type="binary"/>
-		<M8MOVE desc="move m8 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M8Move" ro="false" type="binary"/>
-		<M1TRAJ desc="m1 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M1Traj" ro="false" type="array"/>
-		<M2TRAJ desc="m2 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M2Traj" ro="false" type="array"/>
-		<M3TRAJ desc="m3 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M3Traj" ro="false" type="array"/>
-		<M4TRAJ desc="m4 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M4Traj" ro="false" type="array"/>
-		<M5TRAJ desc="m5 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M5Traj" ro="false" type="array"/>
-		<M6TRAJ desc="m6 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M6Traj" ro="false" type="array"/>
-		<M7TRAJ desc="m7 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M7Traj" ro="false" type="array"/>
-		<M8TRAJ desc="m8 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M8Traj" ro="false" type="array"/>
-		<BUILD desc="build and check trajectory" pv="BL18I-MO-TABLE-03:TRAJ1:Build" ro="false" type="pv"/>
-		<BSTATE desc="trajectory build state" pv="BL18I-MO-TABLE-03:TRAJ1:BuildState" ro="true" type="mbbinary"/>
-		<BSTATUS desc="trajectory build status" pv="BL18I-MO-TABLE-03:TRAJ1:BuildStatus" ro="true" type="mbbinary"/>
-		<BMESS desc="trajectory build message" pv="BL18I-MO-TABLE-03:TRAJ1:BuildMessage" ro="true" type="pv"/>
-		<EXECUTE desc="start trajectory motion" pv="BL18I-MO-TABLE-03:TRAJ1:Execute" ro="false" type="pv"/>
-		<ESTATE desc="trajectory execute state" pv="BL18I-MO-TABLE-03:TRAJ1:ExecState" ro="true" type="mbbinary"/>
-		<ESTATUS desc="trajectory execute status" pv="BL18I-MO-TABLE-03:TRAJ1:ExecStatus" ro="true" type="mbbinary"/>
-		<EMESS desc="trajectory execute message" pv="BL18I-MO-TABLE-03:TRAJ1:ExecMessage" ro="true" type="pv"/>
-		<ABORT desc="abort trajectory motion" pv="BL18I-MO-TABLE-03:TRAJ1:Abort" ro="false" type="pv"/>
-		<READ desc="read back actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:Readback" ro="false" type="pv"/>
-		<RSTATE desc="readback state" pv="BL18I-MO-TABLE-03:TRAJ1:ReadState" ro="true" type="mbbinary"/>
-		<RSTATUS desc="readback status" pv="BL18I-MO-TABLE-03:TRAJ1:ReadStatus" ro="true" type="mbbinary"/>
-		<RMESS desc="trajectory read message" pv="BL18I-MO-TABLE-03:TRAJ1:ReadMessage" ro="true" type="pv"/>
-		<M1ACTUAL desc="m1 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M1Actual" ro="true" type="array"/>
-		<M2ACTUAL desc="m2 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M2Actual" ro="true" type="array"/>
-		<M3ACTUAL desc="m3 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M3Actual" ro="true" type="array"/>
-		<M4ACTUAL desc="m4 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M4Actual" ro="true" type="array"/>
-		<M5ACTUAL desc="m5 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M5Actual" ro="true" type="array"/>
-		<M6ACTUAL desc="m6 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M6Actual" ro="true" type="array"/>
-		<M7ACTUAL desc="m7 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M7Actual" ro="true" type="array"/>
-		<M8ACTUAL desc="m8 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M8Actual" ro="true" type="array"/>
-		<M1NAME desc="motor record pv for m1" pv="BL18I-MO-TABLE-03:TRAJ1:M1NAME" ro="true" type="pv"/>
-		<M2NAME desc="motor record pv for m2" pv="BL18I-MO-TABLE-03:TRAJ1:M2NAME" ro="true" type="pv"/>
-		<M3NAME desc="motor record pv for m3" pv="BL18I-MO-TABLE-03:TRAJ1:M3NAME" ro="true" type="pv"/>
-		<M4NAME desc="motor record pv for m4" pv="BL18I-MO-TABLE-03:TRAJ1:M4NAME" ro="true" type="pv"/>
-		<M5NAME desc="motor record pv for m5" pv="BL18I-MO-TABLE-03:TRAJ1:M5NAME" ro="true" type="pv"/>
-		<M6NAME desc="motor record pv for m6" pv="BL18I-MO-TABLE-03:TRAJ1:M6NAME" ro="true" type="pv"/>
-		<M7NAME desc="motor record pv for m7" pv="BL18I-MO-TABLE-03:TRAJ1:M7NAME" ro="true" type="pv"/>
-		<M8NAME desc="motor record pv for m8" pv="BL18I-MO-TABLE-03:TRAJ1:M8NAME" ro="true" type="pv"/>
+		<NELM desc="# of elements in trajectory" pv="BL18I-MO-TABLE-03:TRAJ1:Nelements"
+			ro="false" type="pv" />
+		<NPULSES desc="number of output pulses" pv="BL18I-MO-TABLE-03:TRAJ1:Npulses"
+			ro="false" type="pv" />
+		<SPULSES desc="element # to start pulses" pv="BL18I-MO-TABLE-03:TRAJ1:StartPulses"
+			ro="false" type="pv" />
+		<EPULSES desc="element # to end pulses" pv="BL18I-MO-TABLE-03:TRAJ1:EndPulses"
+			ro="false" type="pv" />
+		<APULSES desc="actual # of output pulses" pv="BL18I-MO-TABLE-03:TRAJ1:Nactual"
+			ro="true" type="pv" />
+		<TIME desc="trajectory time" pv="BL18I-MO-TABLE-03:TRAJ1:Time"
+			ro="false" type="pv" />
+		<M1MOVE desc="move m1 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M1Move"
+			ro="false" type="binary" />
+		<M2MOVE desc="move m2 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M2Move"
+			ro="false" type="binary" />
+		<M3MOVE desc="move m3 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M3Move"
+			ro="false" type="binary" />
+		<M4MOVE desc="move m4 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M4Move"
+			ro="false" type="binary" />
+		<M5MOVE desc="move m5 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M5Move"
+			ro="false" type="binary" />
+		<M6MOVE desc="move m6 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M6Move"
+			ro="false" type="binary" />
+		<M7MOVE desc="move m7 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M7Move"
+			ro="false" type="binary" />
+		<M8MOVE desc="move m8 motor?" pv="BL18I-MO-TABLE-03:TRAJ1:M8Move"
+			ro="false" type="binary" />
+		<M1TRAJ desc="m1 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M1Traj"
+			ro="false" type="array" />
+		<M2TRAJ desc="m2 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M2Traj"
+			ro="false" type="array" />
+		<M3TRAJ desc="m3 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M3Traj"
+			ro="false" type="array" />
+		<M4TRAJ desc="m4 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M4Traj"
+			ro="false" type="array" />
+		<M5TRAJ desc="m5 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M5Traj"
+			ro="false" type="array" />
+		<M6TRAJ desc="m6 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M6Traj"
+			ro="false" type="array" />
+		<M7TRAJ desc="m7 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M7Traj"
+			ro="false" type="array" />
+		<M8TRAJ desc="m8 increments" pv="BL18I-MO-TABLE-03:TRAJ1:M8Traj"
+			ro="false" type="array" />
+		<BUILD desc="build and check trajectory" pv="BL18I-MO-TABLE-03:TRAJ1:Build"
+			ro="false" type="pv" />
+		<BSTATE desc="trajectory build state" pv="BL18I-MO-TABLE-03:TRAJ1:BuildState"
+			ro="true" type="mbbinary" />
+		<BSTATUS desc="trajectory build status" pv="BL18I-MO-TABLE-03:TRAJ1:BuildStatus"
+			ro="true" type="mbbinary" />
+		<BMESS desc="trajectory build message" pv="BL18I-MO-TABLE-03:TRAJ1:BuildMessage"
+			ro="true" type="pv" />
+		<EXECUTE desc="start trajectory motion" pv="BL18I-MO-TABLE-03:TRAJ1:Execute"
+			ro="false" type="pv" />
+		<ESTATE desc="trajectory execute state" pv="BL18I-MO-TABLE-03:TRAJ1:ExecState"
+			ro="true" type="mbbinary" />
+		<ESTATUS desc="trajectory execute status" pv="BL18I-MO-TABLE-03:TRAJ1:ExecStatus"
+			ro="true" type="mbbinary" />
+		<EMESS desc="trajectory execute message" pv="BL18I-MO-TABLE-03:TRAJ1:ExecMessage"
+			ro="true" type="pv" />
+		<ABORT desc="abort trajectory motion" pv="BL18I-MO-TABLE-03:TRAJ1:Abort"
+			ro="false" type="pv" />
+		<READ desc="read back actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:Readback"
+			ro="false" type="pv" />
+		<RSTATE desc="readback state" pv="BL18I-MO-TABLE-03:TRAJ1:ReadState"
+			ro="true" type="mbbinary" />
+		<RSTATUS desc="readback status" pv="BL18I-MO-TABLE-03:TRAJ1:ReadStatus"
+			ro="true" type="mbbinary" />
+		<RMESS desc="trajectory read message" pv="BL18I-MO-TABLE-03:TRAJ1:ReadMessage"
+			ro="true" type="pv" />
+		<M1ACTUAL desc="m1 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M1Actual"
+			ro="true" type="array" />
+		<M2ACTUAL desc="m2 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M2Actual"
+			ro="true" type="array" />
+		<M3ACTUAL desc="m3 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M3Actual"
+			ro="true" type="array" />
+		<M4ACTUAL desc="m4 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M4Actual"
+			ro="true" type="array" />
+		<M5ACTUAL desc="m5 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M5Actual"
+			ro="true" type="array" />
+		<M6ACTUAL desc="m6 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M6Actual"
+			ro="true" type="array" />
+		<M7ACTUAL desc="m7 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M7Actual"
+			ro="true" type="array" />
+		<M8ACTUAL desc="m8 actual positions" pv="BL18I-MO-TABLE-03:TRAJ1:M8Actual"
+			ro="true" type="array" />
+		<M1NAME desc="motor record pv for m1" pv="BL18I-MO-TABLE-03:TRAJ1:M1NAME"
+			ro="true" type="pv" />
+		<M2NAME desc="motor record pv for m2" pv="BL18I-MO-TABLE-03:TRAJ1:M2NAME"
+			ro="true" type="pv" />
+		<M3NAME desc="motor record pv for m3" pv="BL18I-MO-TABLE-03:TRAJ1:M3NAME"
+			ro="true" type="pv" />
+		<M4NAME desc="motor record pv for m4" pv="BL18I-MO-TABLE-03:TRAJ1:M4NAME"
+			ro="true" type="pv" />
+		<M5NAME desc="motor record pv for m5" pv="BL18I-MO-TABLE-03:TRAJ1:M5NAME"
+			ro="true" type="pv" />
+		<M6NAME desc="motor record pv for m6" pv="BL18I-MO-TABLE-03:TRAJ1:M6NAME"
+			ro="true" type="pv" />
+		<M7NAME desc="motor record pv for m7" pv="BL18I-MO-TABLE-03:TRAJ1:M7NAME"
+			ro="true" type="pv" />
+		<M8NAME desc="motor record pv for m8" pv="BL18I-MO-TABLE-03:TRAJ1:M8NAME"
+			ro="true" type="pv" />
 	</trajectoryScan>
-	
+
 	<simpleMotor desc="ANC1 X" name="ANC1.X">
-		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:X" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:X" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="ANC1 Y" name="ANC1.Y">
-		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:Y" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:Y" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="ANC1 Z" name="ANC1.Z">
-		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:Z" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:Z" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="ANC1 THETA" name="ANC1.THETA">
-		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:THETA" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:THETA" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="ANC1 CAPPA" name="ANC1.CAPPA">
-		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:PHI" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:PHI" ro="false" type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="ANC1 ROT" name="ANC1.ROT">
-		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:ROLL" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-MO-ANC-01:ROLL" ro="false" type="motor" />
 	</simpleMotor>
-	
+
 	<!-- Added in GDA -->
 	<simpleMotor desc="D1 Motor" name="D1.POSN">
-		<RECORD desc="Motor" pv="BL18I-DI-PHDGN-01:POSN" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-DI-PHDGN-01:POSN" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="D2 Motor" name="D2.POSN">
-		<RECORD desc="Motor" pv="BL18I-DI-PHDGN-02:POSN" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-DI-PHDGN-02:POSN" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="D3 Motor" name="D3.POSN">
-		<RECORD desc="Motor" pv="BL18I-DI-PHDGN-03:POSN" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-DI-PHDGN-03:POSN" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="D5A Motor" name="D5A.POSN">
-	<RECORD desc="Motor" pv="BL18I-DI-PHDGN-05:A:POSN" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-DI-PHDGN-05:A:POSN" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="D5B Motor" name="D5B.POSN">
-	<RECORD desc="Motor" pv="BL18I-DI-PHDGN-05:B:POSN" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-DI-PHDGN-05:B:POSN" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="D6A Motor" name="D6A.POSN">
-	<RECORD desc="Motor" pv="BL18I-DI-PHDGN-06:A:POSN" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-DI-PHDGN-06:A:POSN" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="D6B Motor" name="D6B.POSN">
-	<RECORD desc="Motor" pv="BL18I-DI-PHDGN-06:B:POSN" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-DI-PHDGN-06:B:POSN" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="D7A Motor" name="D7A.POSN">
-	<RECORD desc="Motor" pv="BL18I-DI-PHDGN-07:A:POSN" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-DI-PHDGN-07:A:POSN" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="D7B Motor" name="D7B.POSN">
-	<RECORD desc="Motor" pv="BL18I-DI-PHDGN-07:B:POSN" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-DI-PHDGN-07:B:POSN" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB HFM bend1 motor" name="KB.HFM.BEND1">
-	<RECORD desc="Motor" pv="BL18I-OP-KBM-01:HFM:BEND1" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-KBM-01:HFM:BEND1" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB HFM bend2 motor" name="KB.HFM.BEND2">
-	<RECORD desc="Motor" pv="BL18I-OP-KBM-01:HFM:BEND2" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-KBM-01:HFM:BEND2" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB VFM bend1 motor" name="KB.VFM.BEND1">
-	<RECORD desc="Motor" pv="BL18I-OP-KBM-01:VFM:BEND1" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-KBM-01:VFM:BEND1" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<simpleMotor desc="KB VFM bend2 motor" name="KB.VFM.BEND2">
-	<RECORD desc="Motor" pv="BL18I-OP-KBM-01:VFM:BEND2" ro="false" type="motor"/>
+		<RECORD desc="Motor" pv="BL18I-OP-KBM-01:VFM:BEND2" ro="false"
+			type="motor" />
 	</simpleMotor>
 	<positioner desc="D7 Stick A Positioner" name="D7A.POSITIONER">
-		<SELECT desc="Position Selection" pv="BL18I-DI-PHDGN-07:A:MP:SELECT" ro="false" type="mbbinary"/>
-		<DMOV desc="Done Moving Indicator" pv="BL18I-DI-PHDGN-07:A:MP:DMOV" ro="true" type="pv"/>
-		<ERROR desc="Error Indicator" pv="BL18I-DI-PHDGN-07:A:MP:ERROR.K" ro="true" type="pv"/>
-		<INPOS desc="In Position Indicator" pv="BL18I-DI-PHDGN-07:A:MP:INPOS" ro="true" type="pv"/>
-		<STOP desc="Stop Button" pv="BL18I-DI-PHDGN-07:A:MP:STOP.PROC" ro="false" type="pv"/>
+		<SELECT desc="Position Selection" pv="BL18I-DI-PHDGN-07:A:MP:SELECT"
+			ro="false" type="mbbinary" />
+		<DMOV desc="Done Moving Indicator" pv="BL18I-DI-PHDGN-07:A:MP:DMOV"
+			ro="true" type="pv" />
+		<ERROR desc="Error Indicator" pv="BL18I-DI-PHDGN-07:A:MP:ERROR.K"
+			ro="true" type="pv" />
+		<INPOS desc="In Position Indicator" pv="BL18I-DI-PHDGN-07:A:MP:INPOS"
+			ro="true" type="pv" />
+		<STOP desc="Stop Button" pv="BL18I-DI-PHDGN-07:A:MP:STOP.PROC"
+			ro="false" type="pv" />
 	</positioner>
 	<positioner desc="D7 Stick B Positioner" name="D7B.POSITIONER">
-		<SELECT desc="Position Selection" pv="BL18I-DI-PHDGN-07:B:MP:SELECT" ro="false" type="mbbinary"/>
-		<DMOV desc="Done Moving Indicator" pv="BL18I-DI-PHDGN-07:B:MP:DMOV" ro="true" type="pv"/>
-		<ERROR desc="Error Indicator" pv="BL18I-DI-PHDGN-07:B:MP:ERROR.K" ro="true" type="pv"/>
-		<INPOS desc="In Position Indicator" pv="BL18I-DI-PHDGN-07:B:MP:INPOS" ro="true" type="pv"/>
-		<STOP desc="Stop Button" pv="BL18I-DI-PHDGN-07:B:MP:STOP.PROC" ro="false" type="pv"/>
+		<SELECT desc="Position Selection" pv="BL18I-DI-PHDGN-07:B:MP:SELECT"
+			ro="false" type="mbbinary" />
+		<DMOV desc="Done Moving Indicator" pv="BL18I-DI-PHDGN-07:B:MP:DMOV"
+			ro="true" type="pv" />
+		<ERROR desc="Error Indicator" pv="BL18I-DI-PHDGN-07:B:MP:ERROR.K"
+			ro="true" type="pv" />
+		<INPOS desc="In Position Indicator" pv="BL18I-DI-PHDGN-07:B:MP:INPOS"
+			ro="true" type="pv" />
+		<STOP desc="Stop Button" pv="BL18I-DI-PHDGN-07:B:MP:STOP.PROC"
+			ro="false" type="pv" />
 	</positioner>
 </devices>
