@@ -19,16 +19,8 @@ BACKGROUND_SAVE.configure()
 client = CAClient()
 caputWait = client.caputWait
 
-def collectDarkFrame(expo=1):
-    EXPOSURE.caputWait(expo)
-#     sleep(2)
-    ACQ_PERIOD.caputWait(expo+0.2)
-#     sleep(2)
+def collectDarkFrame(exposure=1.0):
     BACKGROUND_ENABLE.caputWait(0)
-#     sleep(2)
-    ACQUIRE.caputWait(1)
-    sleep(1)
-    BACKGROUND_ENABLE.caputWait(1)
-#     sleep(2)
+    scan(ds, 1, 1, 1, perkin_hdf, exposure)
     BACKGROUND_SAVE.caputWait(1)
-    
+    BACKGROUND_ENABLE.caput(1)
