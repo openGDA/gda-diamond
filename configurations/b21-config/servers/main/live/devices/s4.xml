@@ -4,43 +4,43 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="s4_xcentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.XCENTRE" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL21B-AL-SLITS-04:X:CENTRE" />
 	</bean>
 
 	<bean id="s4_xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.XSIZE" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL21B-AL-SLITS-04:X:SIZE" />
 	</bean>
 
 	<bean id="s4_ycentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.YCENTRE" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL21B-AL-SLITS-04:Y:CENTRE" />
 	</bean>
 
 	<bean id="s4_ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.YSIZE" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL21B-AL-SLITS-04:Y:SIZE" />
 	</bean>
 
 	<bean id="s4_xplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.XPLUS" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL21B-AL-SLITS-04:X:PLUS" />
 	</bean>
 
 	<bean id="s4_xminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.XMINUS" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL21B-AL-SLITS-04:X:MINUS" />
 	</bean>
 
 	<bean id="s4_yplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.YPLUS" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL21B-AL-SLITS-04:Y:PLUS" />
 	</bean>
 
 	<bean id="s4_yminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.YMINUS" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL21B-AL-SLITS-04:Y:MINUS" />
 	</bean>
 
 	<bean id="s4_xplusi" class="gda.device.scannable.EpicsScannable">

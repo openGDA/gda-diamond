@@ -14,13 +14,13 @@
 	</bean>
 
 	<bean id="m1_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="M1.Y" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL21B-OP-MR-01:Y" />
 	</bean>
 
 	<bean id="m1_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="M1.PITCH" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL21B-OP-MR-01:PITCH" />
 	</bean>
 
 	<bean id="m1_y1_motor" class="gda.device.motor.EpicsMotor">
