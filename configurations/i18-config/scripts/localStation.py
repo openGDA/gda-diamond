@@ -162,7 +162,8 @@ selectStage(1)
 from prepare_for_snapshot import prep_xsp3
 prep_xsp3()
 
-from mapping_scan_commands import mscan, grid, detector
+from mapping_scan_commands import mscan, grid, detector, mstep, rect
+from org.eclipse.scanning.api.points.models import StepModel
 
 print "Initialization Complete";
 
