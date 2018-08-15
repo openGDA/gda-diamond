@@ -6,7 +6,6 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<import resource="BeamMonitor1.xml" />
-	<import resource="BeamMonitor2.xml" />
 	<import resource="tfg2.xml" />
 	<import resource="detectorArm.xml" />
 	<import resource="BSTP1.xml" />
