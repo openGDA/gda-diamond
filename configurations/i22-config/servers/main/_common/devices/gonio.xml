@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/corba
+        http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+    <bean id="gonio_pitch" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="gonio_pitch_motor"/>
+        <property name="local" value="true"/>
+        <property name="protectionLevel" value="2"/>
+    </bean>
+
+    <bean id="gonio_roll" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="gonio_roll_motor"/>
+        <property name="local" value="true"/>
+        <property name="protectionLevel" value="2"/>
+    </bean>
+
+    <bean id="gonio" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="local" value="true"/>
+        <property name="groupMembers">
+            <list>
+                <ref bean="gonio_roll"/>
+                <ref bean="gonio_pitch"/>
+                <ref bean="gonio_yaw"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="gonio_yaw" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="gonio_yaw_motor"/>
+        <property name="local" value="true"/>
+        <property name="protectionLevel" value="2"/>
+    </bean>
+</beans>

@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="logfilenameprovider" class="gda.data.metadata.IntransparentLogFilePathProvider">
+		<property name="storedMetadataEntry" ref="subdirectory" />
+		<property name="pathTemplate"
+			value="${gda.data}/$year$/$visit$/gda-console-$visit$.log" />
+	</bean>
+	
+	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
+		<constructor-arg ref="logfilenameprovider" />
+	</bean>
+	
+    <bean class="gda.jython.logger.OutputTerminalAdapter">
+        <constructor-arg ref="jythonServerFacade"/>
+        <constructor-arg ref="terminal_logger"/>
+    </bean>
+
+    <bean class="gda.jython.logger.InputTerminalAdapter">
+        <constructor-arg ref="command_server"/>
+        <constructor-arg ref="terminal_logger"/>
+    </bean>
+
+    <bean class="gda.jython.logger.ScanDataPointAdapter">
+        <constructor-arg ref="jythonServerFacade"/>
+        <constructor-arg ref="terminal_logger"/>
+    </bean>
+
+    <bean class="gda.jython.logger.BatonChangedAdapter">
+        <constructor-arg ref="jythonServerFacade"/>
+        <constructor-arg ref="terminal_logger"/>
+    </bean>
+</beans>

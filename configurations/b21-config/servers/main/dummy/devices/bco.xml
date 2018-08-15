@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+        <bean id="bco_pitch_motor" class="gda.device.motor.DummyMotor">
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_roll_motor" class="gda.device.motor.DummyMotor">
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_y_motor" class="gda.device.motor.DummyMotor">
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_x_motor" class="gda.device.motor.DummyMotor">
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_yaw_motor" class="gda.device.motor.DummyMotor">
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_jack1_motor" class="gda.device.motor.DummyMotor">
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_jack2_motor" class="gda.device.motor.DummyMotor">
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_jack3_motor" class="gda.device.motor.DummyMotor">
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_xslide1_motor" class="gda.device.motor.DummyMotor">
+                <property name="local" value="true" />
+        </bean>
+
+        <bean id="bco_xslide2_motor" class="gda.device.motor.DummyMotor">
+                <property name="local" value="true" />
+        </bean>
+
+</beans>

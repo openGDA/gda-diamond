@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="bco_pitch" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bco_pitch_motor"/>
+        <property name="local" value="true"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
+    <bean id="bco_x" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bco_x_motor"/>
+        <property name="local" value="true"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
+    <bean id="bco_y" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="bco_y_motor"/>
+        <property name="local" value="true"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+
+    <bean id="bco" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="bco_x"/>
+                <ref bean="bco_y"/>
+                <ref bean="bco_pitch"/>
+            </list>
+        </property>
+        <property name="local" value="true"/>
+        <property name="protectionLevel" value="3"/>
+    </bean>
+</beans>

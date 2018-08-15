@@ -1,0 +1,17 @@
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN" "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+<!-- warning this is a generated file -- do not edit -->
+<Menu>
+	<Name>Applications</Name>
+	<Menu>
+		<Name>Data Acquisition</Name>
+		<Include> <Filename>/dls_sw/i22/software/gda/config/desktop/launchers/Dream.desktop</Filename> </Include>
+		<Include> <Filename>/dls_sw/i22/software/gda/config/desktop/launchers/GDA Client.desktop</Filename> </Include>
+		<Include> <Filename>/dls_sw/i22/software/gda/config/desktop/launchers/GDA Logging.desktop</Filename> </Include>
+		<Include> <Filename>/dls_sw/i22/software/gda/config/desktop/launchers/GDA Server.desktop</Filename> </Include>
+		<Include> <Filename>/dls_sw/i22/software/gda/config/desktop/launchers/HotsaxsServer.desktop</Filename> </Include>
+		<Include> <Filename>/dls_sw/i22/software/gda/config/desktop/launchers/HotwaxsServer.desktop</Filename> </Include>
+		<Include> <Filename>/dls_sw/i22/software/gda/config/desktop/launchers/MarView.desktop</Filename> </Include>
+		<Include> <Filename>/dls_sw/i22/software/gda/config/desktop/launchers/RapidServer.desktop</Filename> </Include>
+		<Include> <Filename>/dls_sw/i22/software/gda/config/desktop/launchers/Synoptic Launcher.desktop</Filename> </Include>
+	</Menu>
+</Menu>

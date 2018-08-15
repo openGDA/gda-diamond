@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                http://www.springframework.org/schema/util
+                http://www.springframework.org/schema/util/spring-util-2.5.xsd
+                http://www.springframework.org/schema/tx
+                http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                http://www.springframework.org/schema/aop
+                http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                http://www.diamond.ac.uk/schema/gda/corba
+                http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+    <bean class="uk.ac.gda.video.views.CameraParameters" id="webcam9_cam_config">
+        <property name="name" value="Webcam 9"/>
+        <property name="mjpegURL" value="http://i22-webcam9.diamond.ac.uk/mjpg/video.mjpg"/>
+    </bean>
+
+    <bean class="uk.ac.gda.video.views.EpicsCameraParameters" id="xrayeye_cam_config">
+        <property name="name" value="XRAY EYE"/>
+        <property name="urlPV" value="BL22I-DI-DCAM-01:MJPG_URL_RBV"/>
+        <property name="exposurePV" value="BL22I-DI-DCAM-01:CAM:AcquireTime"/>
+        <property name="acqPeriodPV" value="BL22I-DI-DCAM-01:CAM:AcquirePeriod"/>
+        <property name="gainPV" value="BL22I-DI-DCAM-01:CAM:Gain"/>
+        <property name="acquirePV" value="BL22I-DI-DCAM-01:CAM:Acquire"/>
+    </bean>
+
+    <bean class="uk.ac.gda.video.views.EpicsCameraParameters" id="mfgige_cam_config">
+        <property name="name" value="Microfocus Camera"/>
+        <property name="urlPV" value="BL22I-DI-PHDGN-13:MJPG:MJPG_URL_RBV"/>
+        <property name="exposurePV" value="BL22I-DI-PHDGN-13:CAM:AcquireTime"/>
+        <property name="acqPeriodPV" value="BL22I-DI-PHDGN-13:CAM:AcquirePeriod"/>
+        <property name="gainPV" value="BL22I-DI-PHDGN-13:CAM:Gain"/>
+        <property name="acquirePV" value="BL22I-DI-PHDGN-13:CAM:Acquire"/>
+    </bean>
+
+    <bean class="uk.ac.gda.video.views.EpicsCameraParameters" id="biosaxs_epics_cam_config">
+        <property name="name" value="BioSAXS EPICS Camera"/>
+        <property name="urlPV" value="BL22I-EA-BSAX-01:MJPG:MJPG_URL_RBV"/>
+        <property name="exposurePV" value="BL22I-EA-BSAX-01:CAM:AcquireTime"/>
+        <property name="acqPeriodPV" value="BL22I-EA-BSAX-01:CAM:AcquirePeriod"/>
+        <property name="gainPV" value="BL22I-EA-BSAX-01:CAM:Gain"/>
+        <property name="acquirePV" value="BL22I-EA-BSAX-01:CAM:Acquire"/>
+    </bean>
+
+    <bean class="uk.ac.gda.video.views.CameraParameters" id="biosaxs_cam_config">
+        <property name="name" value="BioSAXS Camera"/>
+        <property name="mjpegURL" value="http://i22-firewire01.diamond.ac.uk:8082/BSAXS.MJPEG.mjpg"/>
+    </bean>
+
+    <bean class="uk.ac.gda.video.views.CameraConfig" id="camera_config">
+        <property name="cameras">
+            <list>
+                <ref bean="xrayeye_cam_config"/>
+                <ref bean="mfgige_cam_config"/>
+                <ref bean="webcam9_cam_config"/>
+                <ref bean="biosaxs_cam_config"/>
+                <ref bean="biosaxs_epics_cam_config"/>
+            </list>
+        </property>
+        <!-- should not be required -->
+        <property name="plotViewID" value="uk.ac.gda.beamline.i13j.DetectorPlot"/>
+    </bean>
+</beans>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+        http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+    <bean id="SaxsMemory" class="gda.device.memory.Gdscaler">
+        <property name="daServerName" value="DAServer" />
+        <property name="width" value="64" />
+        <property name="height" value="64" />
+        <property name="supportedDimensions">
+            <list>
+                <value>16</value>
+                <value>32</value>
+                <value>48</value>
+                <value>64</value>
+                <value>128</value>
+                <value>256</value>
+                <value>512</value>
+            </list>
+        </property>
+        <property name="openCommand" value="gdscaler open 'saxs' 1" />
+        <property name="sizeCommand" value="gdscaler get-mem-size 'saxs'" />
+    </bean>
+
+    <bean id="Pilatus2M" class="uk.ac.gda.server.ncd.subdetector.NcdWireDetector">
+        <property name="detectorType" value="SAXS" />
+        <property name="memory" ref="SaxsMemory" />
+        <property name="pixelSize" value="0.000383" />
+        <property name="metaProviders">
+            <list>
+                <ref bean="saxs_mask" />
+                <ref bean="saxs_cal" />
+            </list>
+        </property>
+    </bean>
+</beans>

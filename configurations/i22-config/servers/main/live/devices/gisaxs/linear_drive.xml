@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<bean id="linearDrive_baseTemp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:LDBASETEMP"/>
+	</bean>
+
+	<bean id="linearDrive_pillarTemp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:PILLARTEMP"/>
+	</bean>
+
+	<bean id="linearDrive_motorTemp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:LINEARTEMP"/>
+	</bean>
+
+	<bean id="linearDrive_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-MO-HEX-01:LINEAR"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="linearDrive_topTemp" class="gda.device.monitor.EpicsMonitor">
+		<property name="unit" value="celsius"/>
+		<property name="pvName" value="BL22I-MO-HEX-01:LDTOPTEMP"/>
+	</bean>
+</beans>

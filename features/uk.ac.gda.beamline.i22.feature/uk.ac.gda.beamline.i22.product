@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Beamline I22" id="uk.ac.gda.beamline.i22.product" application="uk.ac.gda.client.application" version="9.9.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Dgda.config=${workspace_loc:i22-config}
+-Dgda.mode=dummy
+-Dgda.propertiesFile=${workspace_loc:i22-config}/properties/dummy/dummy_instance_java.properties
+-Djacorb.config.dir=${workspace_loc:i22-config}/properties/dummy/jacorb
+-Dgov.aps.jca.JCALibrary.properties=${workspace_loc:i22-config}/properties/dummy/JCALibrary.properties
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
+-Dgda.install.git.loc=${workspace_loc}/../workspace_git
+-Dgda.logs.dir=${workspace_loc}/../logs
+-Dgda.instance.dir=${workspace_loc:i22-config}
+-Dgda.facility.dir=${workspace_loc:dls-config}
+-Dgda.core.dir=${workspace_loc:core-config}
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Xms1g
+-Xmx4g
+-XX:PermSize=128m
+-XX:MaxPermSize=512m
+-XX:-UseCompressedOops
+-Dorg.dawb.editor.h5.use.default=false
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.gda.beamline.i22" />
+   <launcher name="gda-i22">
+      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.xpm"/>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <intro introId="uk.ac.gda.client.intro"/>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/licenses/</url>
+        <text>
+   Copyright © 2016 Diamond Light Source Ltd.
+
+GDA is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License version 3 as published by the Free
+Software Foundation.
+
+GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along
+with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
+         </text>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.i22.feature"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.dawnsci.conversion" autoStart="true" startLevel="2" />
+      <plugin id="org.dawnsci.jexl" autoStart="true" startLevel="2" />
+      <plugin id="org.dawnsci.persistence" autoStart="true" startLevel="2" />
+      <plugin id="uk.ac.diamond.scisoft.analysis" autoStart="true" startLevel="2" />
+      <plugin id="uk.ac.diamond.scisoft.analysis.osgi" autoStart="true" startLevel="2" />
+      <property name="gda.mode" value="dummy" />
+   </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>

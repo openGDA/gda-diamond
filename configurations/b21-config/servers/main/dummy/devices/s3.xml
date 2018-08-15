@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="s3_xcentre_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_xgap_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_ycentre_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_ygap_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_xplus_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_xminus_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_yplus_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_yminus_motor" class="gda.device.motor.DummyMotor">
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="s3_xplusi" class="gda.device.scannable.DummyScannable"/>
+	<bean id="s3_xminusi" class="gda.device.scannable.DummyScannable"/>
+	<bean id="s3_yplusi" class="gda.device.scannable.DummyScannable"/>
+	<bean id="s3_yminusi" class="gda.device.scannable.DummyScannable"/>
+
+</beans>

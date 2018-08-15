@@ -1,0 +1,9 @@
+#! /bin/sh
+
+INSTALLDIR=/dls_sw/i22/software/nexus2otoko
+module load python/ana
+
+# wait for file to appear on network
+sleep 10
+
+python $INSTALLDIR/ncd/nexusbsl.py $@

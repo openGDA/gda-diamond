@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean class="gda.device.scannable.scannablegroup.ScannableGroup" id="stat4">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="stat4_min"/>
+				<ref bean="stat4_minx"/>
+				<ref bean="stat4_miny"/>
+				<ref bean="stat4_max"/>
+				<ref bean="stat4_maxx"/>
+				<ref bean="stat4_maxy"/>
+				<ref bean="stat4_mean"/>
+				<ref bean="stat4_sum"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stat3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="stat3_min"/>
+				<ref bean="stat3_minx"/>
+				<ref bean="stat3_miny"/>
+				<ref bean="stat3_max"/>
+				<ref bean="stat3_maxx"/>
+				<ref bean="stat3_maxy"/>
+				<ref bean="stat3_mean"/>
+				<ref bean="stat3_sum"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stat6" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="stat6_min"/>
+				<ref bean="stat6_minx"/>
+				<ref bean="stat6_miny"/>
+				<ref bean="stat6_max"/>
+				<ref bean="stat6_maxx"/>
+				<ref bean="stat6_maxy"/>
+				<ref bean="stat6_mean"/>
+				<ref bean="stat6_sum"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stat2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="stat2_min"/>
+				<ref bean="stat2_minx"/>
+				<ref bean="stat2_miny"/>
+				<ref bean="stat2_max"/>
+				<ref bean="stat2_maxx"/>
+				<ref bean="stat2_maxy"/>
+				<ref bean="stat2_mean"/>
+				<ref bean="stat2_sum"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stat1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="stat1_min"/>
+				<ref bean="stat1_minx"/>
+				<ref bean="stat1_miny"/>
+				<ref bean="stat1_max"/>
+				<ref bean="stat1_maxx"/>
+				<ref bean="stat1_maxy"/>
+				<ref bean="stat1_mean"/>
+				<ref bean="stat1_sum"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stat5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="stat5_min"/>
+				<ref bean="stat5_minx"/>
+				<ref bean="stat5_miny"/>
+				<ref bean="stat5_max"/>
+				<ref bean="stat5_maxx"/>
+				<ref bean="stat5_maxy"/>
+				<ref bean="stat5_mean"/>
+				<ref bean="stat5_sum"/>
+			</list>
+		</property>
+	</bean>
+</beans>

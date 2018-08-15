@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BimorphParameters>
+    <mirrorScannableName>vfm_v</mirrorScannableName>
+    <mirrorType>vfm</mirrorType>
+    <numberOfElectrodes>8</numberOfElectrodes>
+    <mirrorLength>1.2</mirrorLength>
+    <voltageIncrement>0.0</voltageIncrement>
+    <slitSizeScannable>s2_ygap</slitSizeScannable>
+    <slitPosScannable>s2_ycentre</slitPosScannable>
+    <slitSize>0.03</slitSize>
+    <slitStart>-0.65</slitStart>
+    <slitEnd>0.65</slitEnd>
+    <slitStep>0.01</slitStep>
+    <otherSlitSizeScannable>s2_xgap</otherSlitSizeScannable>
+    <otherSlitPosScannable>s2_xcentre</otherSlitPosScannable>
+    <otherSlitPosValue>0.0</otherSlitPosValue>
+    <otherSlitSize>2.04</otherSlitSize>
+    <detectorName>cam1</detectorName>
+    <exposureTime>0.05</exposureTime>
+    <settleTime>0.0</settleTime>
+    <scanDirectory>/dls/ixx/users/</scanDirectory>
+    <scanNumberInputs>446714,446715,446716,446717,446718,446719,446720,446721,446722,446723,446724,446725,446726,446727,446728,446729,446730</scanNumberInputs>
+    <errorFile>446714</errorFile>
+    <beamOffset>0.0</beamOffset>
+    <bimorphScannableName>vfm_v</bimorphScannableName>
+    <bimorphVoltages>-259.7, -416.9, 83.1, 86.2, -131.0, -365.7, -50.1, -160.0, -177.1, 72.1, -369.7, -135.5, 79.7, 39.6, -331.3, -400.0</bimorphVoltages>
+    <pixelSize>1.93</pixelSize>
+    <detectorDistance>19.625</detectorDistance>
+    <iSign>downstream</iSign>
+    <inv>-1</inv>
+    <method>2</method>
+    <presentSourceMirrorDistance>27.725</presentSourceMirrorDistance>
+    <presentMirrorFocusDistance>19.625</presentMirrorFocusDistance>
+    <presentAngleOfIncidence>2.6</presentAngleOfIncidence>
+    <newSourceMirrorDistance>27.725</newSourceMirrorDistance>
+    <newMirrorFocusDistance>29.225</newMirrorFocusDistance>
+    <newAngleOfIncidence>2.6</newAngleOfIncidence>
+    <focusSize>0.0</focusSize>
+    <calculateErrorFile>false</calculateErrorFile>
+    <returnVoltagesToOriginalValues>true</returnVoltagesToOriginalValues>
+    <autoOffset>true</autoOffset>
+    <autoDist>false</autoDist>
+    <slitScanDetDist>20.275</slitScanDetDist>
+    <presentDetDist>22.625</presentDetDist>
+    <bimorphGroups></bimorphGroups>
+    <btnGroupElectrodesTogether>false</btnGroupElectrodesTogether>
+    <minSlitPos>-0.62</minSlitPos>
+    <maxSlitPos>0.62</maxSlitPos>
+</BimorphParameters>

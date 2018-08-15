@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="Beamline I22">
+         <property
+               name="appName"
+               value="Beamline I22">
+         </property>
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutImage"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png">
+         </property>         
+      </product>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="uk.ac.gda.beamline.i22.I22StartupService">
+      </startup>
+   </extension>
+      <extension
+         point="org.eclipse.ui.intro">
+      <intro
+            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
+            id="uk.ac.gda.beamline.i22.i22intro">
+      </intro>
+      <introProductBinding introId="uk.ac.gda.beamline.i22.i22intro" productId="uk.ac.gda.beamline.i22.product"/>
+   </extension>
+   <extension
+          point="org.eclipse.ui.perspectiveExtensions">
+    <perspectiveExtension targetID="*">
+       <perspectiveShortcut
+             id="gda.rcp.ncd.perspectives.SetupPerspective">
+       </perspectiveShortcut>      
+       <perspectiveShortcut id="gda.rcp.ncd.perspectives.NcdDetectorPerspective"/>
+       <perspectiveShortcut
+             id="gda.rcp.ncd.perspectives.SaxsPerspective">
+       </perspectiveShortcut>
+       <perspectiveShortcut
+             id="gda.rcp.ncd.perspectives.SaxsProcessingPerspective">
+       </perspectiveShortcut>
+       <perspectiveShortcut
+             id="gda.rcp.ncd.perspectives.WaxsPerspective">
+       </perspectiveShortcut>
+       <perspectiveShortcut
+             id="uk.ac.gda.client.scripting.JythonPerspective">
+       </perspectiveShortcut>
+       <perspectiveShortcut
+             id="gda.rcp.ncd.perspectives.GridScanPerspective">
+       </perspectiveShortcut>
+    </perspectiveExtension>
+   </extension>
+   <extension
+      point="uk.ac.gda.client.dashboard.objects">
+   <Scannable
+         name="bs2diode"
+         tooltip="beamstop diode reading.">
+   </Scannable>
+   <Scannable
+         name="d4d2"
+         tooltip="d4d2 diode reading.">
+   </Scannable>
+</extension>
+<extension
+      point="uk.ac.gda.client.preferences">
+   <preference
+         name="gda.client.max.size.cached.points"
+         value="10000">
+   </preference>
+</extension>
+<extension
+      point="org.eclipse.ui.intro.config">
+   <config
+         content="introContent.xml"
+         id="uk.ac.gda.beamline.i22.i22intro.config"
+         introId="uk.ac.gda.beamline.i22.i22intro">
+      <presentation
+            home-page-id="root"
+            standby-page-id="standby">
+         <implementation
+               kind="html">
+         </implementation>
+      </presentation>
+   </config>
+</extension>
+      <extension
+            point="org.eclipse.ui.views">
+         <view
+               class="gda.rcp.ncd.views.SyringeControlView"
+               id="gda.rcp.ncd.views.SyringeControlView"
+               name="Syringe Control"
+               restorable="true">
+         </view>
+      </extension>
+      <extension
+            point="org.eclipse.ui.menus">
+         <menuContribution
+		      allPopups="false"
+		      locationURI="menu:window?after=showView">
+		   <menu
+		         label="Area Detectors">
+		      <command
+		            commandId="org.eclipse.ui.views.showView"
+		            label="Pilatus2M"
+		            style="push">
+		         <parameter
+		               name="org.eclipse.ui.views.showView.viewId"
+		               value="uk.ac.gda.epics.adviewer.mpegview">
+		         </parameter>
+		         <parameter
+		               name="org.eclipse.ui.views.showView.secondaryId"
+		               value="pv//Pilatus2M//BL22I-EA-PILAT-01@//saxsDetectorSuffixes">
+		         </parameter>
+		      </command>
+		   </menu>
+		</menuContribution>
+   </extension>
+      <extension
+            point="org.eclipse.ui.activities">
+         <activity
+               id="uk.ac.gda.beamline.i22.disablePerspectives"
+               name="disable">
+            <enabledWhen>
+               <with variable="true">
+                  <equals value="false"/>
+               </with>
+            </enabledWhen>
+         </activity>
+         <!-- remove Debug perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.debug.ui.DebugPerspective">
+         </activityPatternBinding>
+         <!-- remove Java Browsing perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.jdt.ui.JavaBrowsingPerspective">
+         </activityPatternBinding>
+         <!-- remove XML perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.wst.xml.ui.perspective">
+         </activityPatternBinding>
+         <!-- remove PyDev perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.python.pydev.ui.PythonPerspective">
+         </activityPatternBinding>
+         <!-- remove Java Type Hierarchy perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.jdt.ui.JavaHierarchyPerspective">
+         </activityPatternBinding>
+         <!-- remove Team Synchronizing perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.team.ui.TeamSynchronizingPerspective">
+         </activityPatternBinding>
+         <!-- remove Polling perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/uk.ac.diamond.scisoft.analysis.polling.perspective">
+         </activityPatternBinding>
+         <!-- remove Java perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.jdt.ui.JavaPerspective">
+         </activityPatternBinding>
+         <!-- remove Python perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/uk.ac.diamond.scisoft.jythonperspective">
+         </activityPatternBinding>
+         <!-- remove Object Viewer perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/gda.rcp.ovperspective">
+         </activityPatternBinding>
+         <!-- remove Resource perspective -->
+         <activityPatternBinding
+           activityId="uk.ac.gda.beamline.i22.disablePerspectives"
+           pattern=".*/org.eclipse.ui.resourcePerspective">
+         </activityPatternBinding>
+      </extension>
+  </plugin>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.diamond.ac.uk/schema/gda/corba
+		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+
+	<bean id="roi5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="roi5_minx"/>
+				<ref bean="roi5_sizex"/>
+				<ref bean="roi5_miny"/>
+				<ref bean="roi5_sizey"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="roi1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="roi1_minx"/>
+				<ref bean="roi1_sizex"/>
+				<ref bean="roi1_miny"/>
+				<ref bean="roi1_sizey"/>
+			</list>
+		</property>
+		<!--		<property name="extraNames">
+			<list>
+				<value>minx</value>
+				<value>sizex</value>
+				<value>miny</value>
+				<value>sizey</value>
+			</list>
+		</property>
+		<property name="outputFormat">
+			<list>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+				<value>%5.5g</value>
+			</list>
+		</property>-->
+	</bean>
+
+	<bean id="roi3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="roi3_minx"/>
+				<ref bean="roi3_sizex"/>
+				<ref bean="roi3_miny"/>
+				<ref bean="roi3_sizey"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="roi4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="roi4_minx"/>
+				<ref bean="roi4_sizex"/>
+				<ref bean="roi4_miny"/>
+				<ref bean="roi4_sizey"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="roi6" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="roi6_minx"/>
+				<ref bean="roi6_sizex"/>
+				<ref bean="roi6_miny"/>
+				<ref bean="roi6_sizey"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="roi2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="roi2_minx"/>
+				<ref bean="roi2_sizex"/>
+				<ref bean="roi2_miny"/>
+				<ref bean="roi2_sizey"/>
+			</list>
+		</property>
+	</bean>
+</beans>

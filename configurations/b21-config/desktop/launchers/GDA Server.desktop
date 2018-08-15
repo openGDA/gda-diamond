@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=No name
+Type=Application
+Exec=gnome-terminal -t "gda server startup" -x /dls_sw/b21/software/gda/bin/gdaservers
+TryExec=
+Icon=/usr/share/icons/Bluecurve/48x48/apps/gnome-server-config.png
+X-GNOME-DocPath=
+Terminal=true
+Name[en_GB]=gda.servers
+GenericName[en_GB]=
+Comment[en_GB]=
+Categories=Application;Education;Science;Physics;

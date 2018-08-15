@@ -1,0 +1,23 @@
+.img_link {
+	display: inline-block;
+	float: left;
+	max-width: 220px;
+	margin: 0.5em;
+}
+
+#main, #docs {
+	clear: left;
+}
+
+a div {
+	text-align: center;
+	line-height: 150%;
+	font-weight: bold;
+	font-size: 110%;
+}
+
+img {
+	display: block;
+	height: 230px;
+	margin: 0 auto;
+}

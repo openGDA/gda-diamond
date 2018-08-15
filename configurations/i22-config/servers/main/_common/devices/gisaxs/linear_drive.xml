@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<bean id="linearDrive" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="local" value="true"/>
+		<property name="groupMembers">
+			<list>
+				<ref bean="linearDrive_x"/>
+				<ref bean="linearDrive_motorTemp"/>
+				<ref bean="linearDrive_baseTemp"/>
+				<ref bean="linearDrive_topTemp"/>
+				<ref bean="linearDrive_pillarTemp"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="linearDrive_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="linearDrive_motor"/>
+		<property name="local" value="true"/>
+	</bean>
+</beans>
