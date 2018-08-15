@@ -167,8 +167,8 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
-            id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xspress3"
+            class="gda.rcp.views.ViewFactoryFinder:xspress3ViewFactory"
+            id="uk.ac.gda.exafs.ui.views.xspress3View"
             name="Xspress3 view"
             restorable="true">
       </view>
@@ -434,7 +434,7 @@
                style="push">
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xspress3">
+                  value="uk.ac.gda.exafs.ui.views.xspress3View">
             </parameter>
          </command>
       </menu>

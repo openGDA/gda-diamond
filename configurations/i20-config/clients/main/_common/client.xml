@@ -163,4 +163,14 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
+	<bean id="vortexViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
+		<property name="name" value="vortexViewFactory" />
+		<property name="detectorName" value="vortexDetector" />
+	</bean>
+
+	<bean id="xspress4ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
+		<property name="name" value="xspress4ViewFactory" />
+		<property name="detectorName" value="xspress4" />
+	</bean>
+
 </beans>

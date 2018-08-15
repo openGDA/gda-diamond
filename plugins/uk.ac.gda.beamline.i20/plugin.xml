@@ -533,7 +533,7 @@
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:vortexDetector">
+                   value="uk.ac.gda.exafs.ui.views.vortexView">
              </parameter>
           </command>
           <command
@@ -542,7 +542,7 @@
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xspress4">
+                   value="uk.ac.gda.exafs.ui.views.xspress4View">
              </parameter>
           </command>
 	      </menu>
@@ -666,14 +666,14 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
-            id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:vortexDetector"
+            class="gda.rcp.views.ViewFactoryFinder:vortexViewFactory"
+            id="uk.ac.gda.exafs.ui.views.vortexView"
             name="XMap view"
             restorable="true">
       </view>
       <view
-            class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
-            id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xspress4"
+            class="gda.rcp.views.ViewFactoryFinder:xspress4ViewFactory"
+            id="uk.ac.gda.exafs.ui.views.xspress4View"
             name="Xspress4 view"
             restorable="true">
       </view>

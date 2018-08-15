@@ -160,4 +160,14 @@
 		</property>
 	</bean>
 
+	<bean id="xspress2ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
+		<property name="name" value="xspress2ViewFactory" />
+		<property name="detectorName" value="xspress2system" />
+	</bean>
+
+	<bean id="xspress3ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
+		<property name="name" value="xspress3ViewFactory" />
+		<property name="detectorName" value="xspress3" />
+	</bean>
+
 </beans>
