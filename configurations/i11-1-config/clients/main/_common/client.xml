@@ -31,6 +31,10 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
+	<bean class="uk.ac.gda.client.ServerFileListener" id="dataProjectUpdater">
+		<property name="clientFileAnnouncerName" value="client_file_announcer"/>
+	</bean>
+
 	<import resource="commandQueueProcessor.xml" />
 	<import resource="batonStateProvider.xml" />
 	<import resource="commandRunner.xml" />

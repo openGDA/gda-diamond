@@ -26,6 +26,11 @@
 	</bean>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<bean class="uk.ac.gda.client.ServerFileListener" id="dataProjectUpdater">
+		<property name="clientFileAnnouncerName" value="client_file_announcer"/>
+	</bean>
+
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
 	<gda:rbac />
