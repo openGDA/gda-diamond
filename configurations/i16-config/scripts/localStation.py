@@ -42,7 +42,7 @@ global sixckappa_cryo, cryophi
 global _sixckappa_deffered_only, delta_axis_offset
 global azir, psi, psic, hkl
 global kbmbase, setDatadirPropertyFromPersistanceDatabase, pitchupClass
-global stoke,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
+global stokes,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
 global ic1monitor, ppth, ppp_xtal1_111_offset, ppp_xtal1_m220_offset, ppp_xtal1_220_offset, ppp_xtal1_440_offset, ppp_xtal2_111_offset
 global x2000, x2003
 global delta
@@ -77,10 +77,17 @@ import installation
 
 if installation.isDummy():
 	print "*"*80
-	print "DUMY Mode!"
+	print "DUMMY Mode!"
 	print "*"*80
 	USE_DIFFCALC = True
-	USE_CRYO_GEOMETRY = False
+	#USE_CRYO_GEOMETRY = False
+	def test_excessive_logs(num):
+		from org.slf4j import LoggerFactory
+		logger = LoggerFactory.getLogger("localStation.py")
+		for i in range(num):
+			padding = "*"*1024
+			logger.trace("test_excessive_logs({}) #{}, padding {}", num, i, padding)
+	#test_excessive_logs(4096)
 
 # USE_DIFFCALC, USE_CRYO_GEOMETRY, USE_DUMMY_IDGAP_MOTOR & USE_XMAP are now
 # defined in the localStationConfiguration.py user script
@@ -115,17 +122,25 @@ import gdascripts.scan.concurrentScanWrapper
 from gdascripts.utils import jobs
 from gdascripts.scan import gdascans
 from gdascripts.scannable.installStandardScannableMetadataCollection import * #@UnusedWildImport
+print "Importing EpicsPilatus"
 from gdascripts.scannable.detector.epics.EpicsPilatus import EpicsPilatus
+print "Importing ProcessingDetectorWrapper..."
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, HardwareTriggerableProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
+print "Importing DetectorDataProcessor..."
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessor, DetectorDataProcessorWithRoi, HardwareTriggerableDetectorDataProcessor
+print "Importing MultiInputExtraFieldsDummy, SingleInputDummy"
 from gdascripts.scannable.dummy import MultiInputExtraFieldsDummy, SingleInputDummy
+print "Importing EpicsFirewireCamera"
 from gdascripts.scannable.detector.epics.EpicsFirewireCamera import EpicsFirewireCamera
-
+print "Importing NxProcessingDetectorWrapper"
 from epics.detector.NxProcessingDetectorWrapper import NxProcessingDetectorWrapper
 
 # I16
+print "Importing installation"
 import installation
+print "Importing ShelveIO"
 import ShelveIO
+print "Importing BLobjects"
 import beamline_objects as BLobjects
 
 ### Configure shelveIO path
@@ -345,7 +360,7 @@ def pos(*args):
 	if not args:
 		print "pos command listing is disabled on I16"
 	else:
-		print pos_orig(*args)
+		pos_orig(*args)
 
 ### Create datadir functions
 print "Running startup_dataDirFunctions.py"
@@ -432,10 +447,12 @@ if USE_CRYO_GEOMETRY:
 else:
 	run("startup_diffractometer_euler")
 
+""" PA motors now defined in spring
 if installation.isLive():
 	thp=SingleEpicsPositionerClass('thp','BL16I-EA-POLAN-01:THETAp.VAL','BL16I-EA-POLAN-01:THETAp.RBV','BL16I-EA-POLAN-01:THETAp.DMOV','BL16I-EA-POLAN-01:THETAp.STOP','deg','%.4f')
 	tthp=SingleEpicsPositionerClass('tthp','BL16I-EA-POLAN-01:DET1:2THETAp.VAL','BL16I-EA-POLAN-01:DET1:2THETAp.RBV','BL16I-EA-POLAN-01:DET1:2THETAp.DMOV','BL16I-EA-POLAN-01:DET1:2THETAp.STOP','deg','%.3f')
 	dettrans=SingleEpicsPositionerClass('dettrans','BL16I-EA-POLAN-01:DET2:2THETAp.VAL','BL16I-EA-POLAN-01:DET2:2THETAp.RBV','BL16I-EA-POLAN-01:DET2:2THETAp.DMOV','BL16I-EA-POLAN-01:DET2:2THETAp.STOP','mm','%.3f')
+"""
 
 if not USE_DIFFCALC:
 	run("startup_diffractometer_hkl")
@@ -446,7 +463,9 @@ if not USE_DIFFCALC:
 else:
 	del sixc
 	import diffcalc
-	diffcalc_root = os.path.realpath(diffcalc.__file__).split('diffcalc/__init__.py')[0]
+#	diffcalc_root = os.path.realpath(diffcalc.__file__).split('diffcalc/__init__.py')[0]
+	#Fajin's change after receive email from Steve Collins.
+	diffcalc_root = "/dls_sw/i16/software/gda_versions/gda_9.8b/workspace_git/diffcalc.git"
 	diffcalc_startup_script = os.path.join(diffcalc_root, 'startup', 'i16.py')
 	print "Starting Diffcalc by running: ", diffcalc_startup_script
 	run(diffcalc_startup_script)
@@ -640,8 +659,8 @@ if installation.isLive():
 	
 	### Polarization analyser ###
 	print "   creating polarisation analyser scannable: pol"
-#	pol=PolarizationAnalyser("Polarization Analyser",stoke,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset,tthp_detoffset,cry_offset,ref_offset)
-	pol=PolarizationAnalyser("Polarization Analyser",stoke,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,dettrans,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety)
+#	pol=PolarizationAnalyser("Polarization Analyser",stokes,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset,      tthp_detoffset,cry_offset,ref_offset)
+	pol=PolarizationAnalyser("Polarization Analyser",stokes,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,dettrans,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety)
 
 	
 	### TCA  ###
@@ -904,7 +923,7 @@ _pilatus3_counter_monitor = Finder.getInstance().find("pilatus3_plugins").get('p
 #pil3_100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil3_100k',
 pil3_100k = NxProcessingDetectorWrapper('pil3_100k',
 		pilatus3,
-		pilatus3_hardware_triggered,
+		zebrapil3,
 		pilatus3_for_snaps,
 		[],
 		panel_name_rcp='Pilatus',
@@ -921,7 +940,7 @@ pil3 = pil3_100k
 pil3s = pil3_100ks
 
 pil3_100kthresh = PilatusThreshold('pil3_100kthresh', pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
-
+pil3_100kgain =        PilatusGain('pil3_100kgain',   pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 
 ### cam2 ###
 cor = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor',
@@ -1165,6 +1184,7 @@ thv=OffsetAxisClass('thv',mu,mu_offset,help='mu device with offset given by mu_o
 #############################################################################
 ###                           P/A detector angles                           ###
 ###############################################################################
+""" PA motors are now defined in spring, so we cannot store ad-hoc values in tthp
 if installation.isLive():
 	#tthp.apd = 1.75 #16/1/15 - changed from 1.75
 	#tthp.apd = 3.25 #30/9/15
@@ -1181,7 +1201,7 @@ if installation.isLive():
 	tthp.vortex=-14.75 #31/1/10
 	#tthp.ccd=70
 	tthp.ccd=40 #24/04/18
-
+"""
 
 ###############################################################################
 ###                                Metadata                                 ###
@@ -1207,7 +1227,7 @@ if installation.isLive():
 	#mono=ReadPDGroupClass('Mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm,cryolevel])
 	mono=ReadPDGroupClass('mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm])
 	###
-	pa=ReadPDGroupClass('pa',[stoke, tthp, thp, zp])
+	pa=ReadPDGroupClass('pa',[stokes, tthp, thp, zp])
 	pp=ReadPDGroupClass('pp',[ppth, ppx, ppy, ppchi])
 	#positions=ReadPDGroupClass('positions',[sx,sy,sz,base_y,base_z,ytable, ztable])
 	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12
@@ -1235,9 +1255,13 @@ if installation.isLive():
 	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
 try:
 	if not USE_DIFFCALC:
-		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo,source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2]
+		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo, source, jjslits, pa, pp,
+				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets, p2,
+				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
 	else:
-		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, source, jjslits, pa, pp, positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore,offsets,p2]
+		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa,           source, jjslits, pa, pp,
+				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets, p2,
+				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
 
 	addedInSpring = [sixckappa] + [delta_axis_offset]
 	toadd = [ _x for _x in toadd if _x != None and not _x in addedInSpring ]
@@ -1426,9 +1450,11 @@ run("setup_cvscan")
 print "Continuous scans setup"
 print "==========================="
 
-"""
-run("startup_pie725")
-"""
+if installation.isLive():
+	try:
+		run("startup_pie725")
+	except Exception as e:
+		localStation_exception("running startup_pie725 script", e)
 
 if USE_NEXUS:
 	run("datawriting/i16_nexus")
@@ -1454,7 +1480,7 @@ etarock.verbose = False
 
 from sz_cryo import szCryoCompensation
 cryodevices={'800K':[4.47796541e-14, -7.01502180e-11, 4.23265147e-08, -1.24509237e-05, 8.48412284e-04, 1.00618264e+01],'4K':[-1.43421764e-13, 1.05344999e-10, -1.68819096e-08, -5.63109884e-06, 3.38834427e-04, 9.90716891]}
-szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K','Ta') \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K','Tc') for the cryofurnace.")
+szc=szCryoCompensation("szc", sz, cryodevices, help="Sample height with temperature compensation.\nEnter, for example szc.calibrate('4K',Ta) \nto calibrate using the 4K cryo and channel Ta or\nszc.calibrate('800K',Tc) for the cryofurnace.")
 
 
 

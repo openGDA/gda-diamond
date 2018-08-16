@@ -214,4 +214,28 @@
 		</property>
 	</bean>
 
+	<bean id="zebrapil3" class="gda.device.detector.HardwareTriggeredNXDetector">
+		<property name="name" value="zebrapil3" />
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController" />
+		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_hardware_triggering" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="zebrapil3_camserver_nxfilewriter_for_hardware_triggering" />
+				<ref bean="pilatus3_force_callbacks" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="zebrapil3_camserver_nxfilewriter_for_hardware_triggering"
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="zebrapil3" />
+		<property name="ndFile" ref="pilatus3_camserver_ndfile" />
+		<property name="waitForFileArrival" value="false" />
+		<property name="fileNumberAtScanStart" value="0" />
+		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus3_100k_path_template" />
+		<property name="returnPathRelativeToDatadir" value="true" />
+	</bean>
 </beans>

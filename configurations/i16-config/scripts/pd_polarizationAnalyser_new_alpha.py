@@ -193,7 +193,7 @@ class PolarizationAnalyser(PseudoDevice):
 		self.thbragg = 180/pi*asin(wl/(2*self.dspace))
 		newthp=self.thbragg+self.offset1()+newoffcry
 		newtthp=2*self.thbragg+newdetoff
-		print "stoke=%1.2f thp=%1.2f tthp=%1.2f detlatoff=%1.2f"%(newpol,newthp,newtthp,detlatoff)
+		print "stokes=%1.2f thp=%1.2f tthp=%1.2f detlatoff=%1.2f"%(newpol,newthp,newtthp,detlatoff)
 
 	def isBusy(self):
 		""" Returns Busy if either stokes or thp or tthp are busy"""
@@ -203,9 +203,9 @@ class PolarizationAnalyser(PseudoDevice):
 			return 0
 
 	def calibrate(self):
-		""" Calibrate the PA at stoke=0 and 90 degrees
-	use: when stoke = 0 and the reflection on the analiser centered call pol.calibrate() 
-	use: when stoke = 90 and the reflection on the analiser centered call pol.calibrate()
+		""" Calibrate the PA at stokes=0 and 90 degrees
+	use: when stokes = 0 and the reflection on the analiser centered call pol.calibrate() 
+	use: when stokes = 90 and the reflection on the analiser centered call pol.calibrate()
 	The set-up of the analyser is complete. 
 		"""
 		wl = BLi.getWavelength()
@@ -222,7 +222,7 @@ class PolarizationAnalyser(PseudoDevice):
 			self.offset8(yyy)
 			self.offset10(self.dettrans())
 		else:
-			print "Can't calibrate at stoke=",self.stokes()
+			print "Can't calibrate at stokes=",self.stokes()
 		return [self.offset1(),self.offset2(), self.offset3(),self.offset4(),self.offset5(),self.offset8(),self.offset9(),self.offset10()]
 
 	def out(self,newtthp=None):

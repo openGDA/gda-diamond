@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<bean id="PAEtaMotor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PA.Eta" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="PAThetaMotor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PA.Theta" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="PADet12thetaMotor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PA.Det1.2Theta" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="PADet22thetaMotor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="deviceName" value="PA.Det2.2Theta" />
+		<property name="local" value="true" />
+	</bean>
+</beans>

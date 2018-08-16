@@ -108,8 +108,8 @@ def extract_axes(datfile):
     gammas = datfile["gam"]
     return {"delta" : deltas, "gamma" : gammas}
 
-def extract_image_paths(datfile, datadir):
-    template = "%s/" + datfile["metadata"]["pilatus100k_path_template"]
+def extract_image_paths(datfile, datadir, detector_path_template):
+    template = "%s/" + datfile["metadata"][detector_path_template]
     numbers = datfile["path"]
     return [ template % (datadir, n) for n in numbers ]
 
@@ -117,7 +117,7 @@ def extract_pixel_peaks(image_paths):
     peaks = []
     for image_path in image_paths:
         image = dnp.io.load(image_path, warn=False)
-        image = image['image0']
+        image = image['image_01']
         fast_axis_length = image.shape[1]
         peaks.append( (image.argmax() % fast_axis_length,
             image.argmax() / fast_axis_length) )
@@ -161,11 +161,11 @@ def indent_tree(elem, level=0):
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = i
 
-def generate_xml(fast, slow, d0, pixel_size, timestamp, scannumber):
+def generate_xml(fast, slow, d0, pixel_size, timestamp, scannumber, detector):
     format_string = '%.9f'
     root = ET.Element('geometry')
     det_node = ET.SubElement(root, 'detector')
-    det_node.attrib['name'] = 'pilatus1'
+    det_node.attrib['name'] = detector
     fast_node = ET.SubElement(det_node, 'axis')
     fast_node.attrib['name'] = 'fast'
     slow_node = ET.SubElement(det_node, 'axis')
@@ -217,11 +217,32 @@ def generate_xml(fast, slow, d0, pixel_size, timestamp, scannumber):
     indent_tree(root)
     return ET.ElementTree(root)
 
+def usage():
+    print """
+Usage: dpcalib /path/to/dat/file.dat detector"
+
+    where detector is pilatus1 or pilatus3
+
+e.g.
+    dpcalib.py /dls/i16/data/2018/cm19668-2/705061.dat pilatus3
+"""
+
 def main( argv ):
-    if len(argv) < 2:
-        print "Require path to data file"
+    if len(argv) < 3:
+        usage()
         return
     datfilepath = argv[1]
+    detector = argv[2]
+
+    if detector == "pilatus1":
+        detector_path_template = "pilatus_100k_path_template"
+    elif detector == "pilatus3":
+        detector_path_template = "pilatus3_100k_path_template"
+    else:
+        print "detector must be pilatus1 or pilatus3"
+        usage()
+        return
+
     datadir = datfilepath.rsplit('/', 1)[0]
     print "\nProcessing data file " + datfilepath
     print "data file directory " + datadir
@@ -232,7 +253,7 @@ def main( argv ):
     axes = extract_axes(datfile)
     deltas = axes["delta"]
     gammas = axes["gamma"]
-    data = extract_pixel_peaks(extract_image_paths(datfile, datadir))
+    data = extract_pixel_peaks(extract_image_paths(datfile, datadir, detector_path_template))
 
     params = OrderedDict([('x_rot', 0.5), ('y_rot', -45), ('z_rot', 0),
                           ('x_pos', 18), ('y_pos', 50), ('z_pos', 500)])
@@ -249,7 +270,8 @@ def main( argv ):
 
     detector_origin_position = [params['x_pos'], params['y_pos'], params['z_pos']]
     print_output(params, fast, slow, normal, detector_origin_position, fitted_params[0], deltas, gammas, data)
-    xml_tree = generate_xml(fast, slow, detector_origin_position, pixel_size, timestamp, scannumber)
+    # TODO: rework this so that this script doesn't erase the calibration for pilatus1 when pilatus3 is calibrated. 
+    xml_tree = generate_xml(fast, slow, detector_origin_position, pixel_size, timestamp, scannumber, detector)
     xml_tree.write('geometry.xml')
 
 if __name__ == "__main__":
