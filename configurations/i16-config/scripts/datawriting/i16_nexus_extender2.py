@@ -427,12 +427,26 @@ class I16NexusExtender(DataWriterExtenderBase):
             detName = det.getName()
             detGroup = nFile.getGroup(instrument, detName, "NXdetector", False)
             self.writeDetector(nFile, detGroup, detName, dependsOn)
-            if isinstance(det, ProcessingDetectorWrapper):
+            pathTemplate=None
+            self.logger.debug("writeDynamicDetectors() calling isinstance({}, {})", det, ProcessingDetectorWrapper)
+            # This isinstance is failing because det and ProcessingDetectorWrapper are both showing as 
+            #  writeDynamicDetectors() calling isinstance(pil2m<
+            #    class org.python.proxies.epics.detector.NxProcessingDetectorWrapper$NxProcessingDetectorWrapper$740>,
+            #    class org.python.proxies.gdascripts.scannable.detector.ProcessingDetectorWrapper$ProcessingDetectorWrapper$732)
+            #if isinstance(det, ProcessingDetectorWrapper):
+            try: # Rather than checking type, just try to call the function
                 #path = det.getFilepathRelativeToRootDataDir().split('/')[0] + "/"
                 pathTemplate = det.getFilepathRelativeToRootDataDir()
+            except:
+                self.logger.debug("writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir()", det)
+            if pathTemplate:
+                self.logger.debug("writeDynamicDetectors() pathTemplate={}", pathTemplate)
                 #remove the "last" instance of 5 digits with "%05d" for template purposes
                 pathTemplate = re.sub("[0-9]+", "%05d"[::-1], pathTemplate[::-1], 1)[::-1]
                 self.writeTifPaths(nFile, detGroup, detName, pathTemplate)
+                self.logger.debug("writeDynamicDetectors() writeTifPaths() completed")
+            else:
+                self.logger.debug("writeDynamicDetectors() pathTemplate={}, can't be a ProcessingDetectorWrapper", pathTemplate)
 
     def parseCrystalInfo(self, nFile, metadataGroup):
         self.logger.debug("parseCrystalInfo(nFile={}, metadataGroup={})", nFile, metadataGroup)
