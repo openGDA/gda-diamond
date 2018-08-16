@@ -1,7 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.diamond.ac.uk/schema/gda/gda
+		http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
 	<!-- Set up EPICS Area Detector plugin tabs -->
 	<bean id="pixium.cam" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
@@ -287,9 +290,8 @@
 		</property>
 	</bean>
 	
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/pixium" />
-		<property name="service" ref="pixium" />
-		<property name="serviceInterface" value="gda.device.detector.pixium.IPixiumNXDetector" />
-	</bean>
+	<gda:rmi-export
+		service="pixium"
+		serviceName="gda/pixium"
+		serviceInterface="gda.device.detector.pixium.IPixiumNXDetector" />
 </beans>
