@@ -73,4 +73,6 @@
 	<import resource="S5.xml" />
 	<import resource="S6.xml" />
 	<import resource="S7.xml" />
+	<import resource="Scaler1.xml" />
+	<import resource="Scaler2.xml" />
 </beans>
