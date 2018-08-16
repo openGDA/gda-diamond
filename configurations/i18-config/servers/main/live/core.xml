@@ -3,8 +3,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!--  Only reference script folders here that are within a config folder or separate from the workspace -->
-	<!--  all other should use the uk.ac.diamond.daq.jython.api.scriptLocations extension point-->
+	<!-- Only reference script folders here that are within a config folder 
+		or separate from the workspace -->
+	<!-- all other should use the uk.ac.diamond.daq.jython.api.scriptLocations 
+		extension point -->
 	<bean id="jython_script_paths" class="gda.jython.ScriptPaths">
 		<property name="projects">
 			<list>
@@ -24,7 +26,8 @@
 	</bean>
 
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
-	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+	<import
+		resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
 		<property name="name" value="DataWriterFactory" />

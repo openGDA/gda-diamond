@@ -4,8 +4,10 @@
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
 	<description>
-		This file was copied from p45-config/servers/main/live/det.xml
-		and then the ids, basePVNames and initialArrayPorts were modified.
+		This file was copied from
+		p45-config/servers/main/live/det.xml
+		and then the ids, basePVNames and
+		initialArrayPorts were modified.
 	</description>
 
 	<bean id="vma_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
@@ -27,7 +29,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="BL18I-DI-DCAM-01:CAM:ARR:" />
-                                <property name="initialArrayPort" value="DCAM.CAM1.roi" />
+				<property name="initialArrayPort" value="DCAM.CAM1.roi" />
 			</bean>
 		</property>
 	</bean>
