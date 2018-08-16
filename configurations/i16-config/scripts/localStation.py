@@ -77,10 +77,17 @@ import installation
 
 if installation.isDummy():
 	print "*"*80
-	print "DUMY Mode!"
+	print "DUMMY Mode!"
 	print "*"*80
 	USE_DIFFCALC = True
-	USE_CRYO_GEOMETRY = False
+	#USE_CRYO_GEOMETRY = False
+	def test_excessive_logs(num):
+		from org.slf4j import LoggerFactory
+		logger = LoggerFactory.getLogger("localStation.py")
+		for i in range(num):
+			padding = "*"*1024
+			logger.trace("test_excessive_logs({}) #{}, padding {}", num, i, padding)
+	#test_excessive_logs(4096)
 
 # USE_DIFFCALC, USE_CRYO_GEOMETRY, USE_DUMMY_IDGAP_MOTOR & USE_XMAP are now
 # defined in the localStationConfiguration.py user script
@@ -115,17 +122,25 @@ import gdascripts.scan.concurrentScanWrapper
 from gdascripts.utils import jobs
 from gdascripts.scan import gdascans
 from gdascripts.scannable.installStandardScannableMetadataCollection import * #@UnusedWildImport
+print "Importing EpicsPilatus"
 from gdascripts.scannable.detector.epics.EpicsPilatus import EpicsPilatus
+print "Importing ProcessingDetectorWrapper..."
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, HardwareTriggerableProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
+print "Importing DetectorDataProcessor..."
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessor, DetectorDataProcessorWithRoi, HardwareTriggerableDetectorDataProcessor
+print "Importing MultiInputExtraFieldsDummy, SingleInputDummy"
 from gdascripts.scannable.dummy import MultiInputExtraFieldsDummy, SingleInputDummy
+print "Importing EpicsFirewireCamera"
 from gdascripts.scannable.detector.epics.EpicsFirewireCamera import EpicsFirewireCamera
-
+print "Importing NxProcessingDetectorWrapper"
 from epics.detector.NxProcessingDetectorWrapper import NxProcessingDetectorWrapper
 
 # I16
+print "Importing installation"
 import installation
+print "Importing ShelveIO"
 import ShelveIO
+print "Importing BLobjects"
 import beamline_objects as BLobjects
 
 ### Configure shelveIO path
