@@ -11,8 +11,6 @@ finder = Finder.getInstance();
 logger=ScriptLoggerClass();
 
 i07=BeamlineFunctionClass('i07');
-i07.setTerminalLogger();
-
 
 print "-------------------------------------------------------------------"
 print "Enable the setAlias/setGdaAlias functions"
@@ -22,7 +20,7 @@ print "or:"
 print "     setGdaAlias('aliasName', 'AliasedJythonExpression')"
 print "For example:"
 print "    setGdaAlias('t1', 'testMotor1.moveTo(1)')"
-print "will create an aliase 't1' command to move the testMotor1 to 1 effectively"
+print "will create an alias 't1' command to move the testMotor1 to 1 effectively"
 
 
 from Diamond.PseudoDevices.AliasDevice import AliasDeviceClass;

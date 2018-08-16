@@ -1,7 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="pilatus3_driver" class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
 		<property name="deviceName" value="pilatus3_pilatus" />
@@ -38,7 +37,7 @@
 		
 		<property name="ndArray">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-				<property name="deviceName" value="pilatus3.Image1_NDStdArrays" />
+				<property name="basePVName" value="BL07I-EA-PILAT-03:image1:" />
 				<property name="pluginBase">
 					<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 						<property name="deviceName" value="pilatus3.Image1_NDPluginBase" />
@@ -76,7 +75,7 @@
 	</bean>
 
 	<bean id="pilatus3.PROC1_NDProcess" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-		<property name="deviceName" value="pilatus3.PROC1_NDProcess" />
+		<property name="basePVName" value="BL07I-EA-PILAT-03:Proc1:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="deviceName" value="pilatus3.PROC1_NDPluginBase" />
@@ -110,7 +109,7 @@
 
 	<bean id="pilatus3.HDF5_NDFileHDF5"
 		class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
-		<property name="deviceName" value="pilatus3.HDF5_NDFileHDF5" />
+		<property name="basePVName" value="BL07I-EA-PILAT-03:HDF5:" />
 		<property name="file">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 				<property name="deviceName" value="pilatus3.HDF5_NDFile" />

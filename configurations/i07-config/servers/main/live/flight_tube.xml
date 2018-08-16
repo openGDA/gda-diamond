@@ -1,38 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://www.springframework.org/schema/util 
-    http://www.springframework.org/schema/util/spring-util-2.5.xsd
-    http://www.diamond.ac.uk/schema/gda/corba 
-    http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-    http://www.springframework.org/schema/tx 
-    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-    http://www.springframework.org/schema/aop 
-    http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="ftbsx_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DET.BEAMSTOPX" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-FLITE-01:BEAMSTOP:X" />
 	</bean>
 	<bean id="ftbsy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DET.BEAMSTOPY" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-FLITE-01:BEAMSTOP:Y" />
 	</bean>
 	<bean id="ftrbsx_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DET.RBEAMSTOPX" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-FLITE-01:RBEAMSTOP:X" />
 	</bean>
 	<bean id="ftrbsy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DET.RBEAMSTOPY" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-FLITE-01:RBEAMSTOP:Y" />
 	</bean>
-
 
 	<bean id="ftbsx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ftbsx_motor" />
 		<property name="local" value="true" />
+
 	</bean>
 	<bean id="ftbsy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ftbsy_motor" />
@@ -58,6 +49,4 @@
 		</property>
 	</bean>
 
-
 </beans>
-    

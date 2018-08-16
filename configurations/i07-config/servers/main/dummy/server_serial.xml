@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+
+    <bean id="com1" class="gda.device.serial.DummySerialDevice">
+        <property name="portName" value="COM1" />
+        <property name="baudRate" value="9600" />
+        <property name="byteSize" value="8" />
+        <property name="stopBits" value="1" />
+        <property name="parity" value="none" />
+        <property name="flowControl" value="none" />
+    </bean>
+    
+    
+    <bean id="sc1" class="gda.device.serial.SerialController">
+        <property name="serialDeviceName" value="com1" />
+        <property name="commandTerminator" value="\r" />
+        <property name="replyTerminator" value="\r" />
+        <property name="serialTimeout" value="5000" />
+        <property name="errorChars" value="Something that is impossible!" />
+        
+        <property name="baudRate" value="9600" />
+        <property name="byteSize" value="8" />
+        <property name="stopBits" value="1" />
+        <property name="parity" value="none" />
+        <property name="flowControl" value="none" />
+    </bean>
+    
+</beans>

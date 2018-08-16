@@ -1,9 +1,10 @@
+
 ### I07 specific ###
-/users
-/var
+###/users
+###/var
 /.settings
 
-## .gitignore from core ###
+### .gitignore from p45 ###
 
 ### Temporary files ###
 *.bak
@@ -21,6 +22,9 @@ __pycache__/
 *.py[cod]
 jythonCache/
 cachedir/
+.cmdHistory.txt
+gdaserver.py
+
 
 ### Build output ###
 .springBeans

@@ -1,254 +1,239 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans 
-    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-    http://www.springframework.org/schema/util 
-    http://www.springframework.org/schema/util/spring-util-2.5.xsd
-    http://www.diamond.ac.uk/schema/gda/corba 
-    http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-    http://www.springframework.org/schema/tx 
-    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-    http://www.springframework.org/schema/aop 
-    http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
-    
-    <!--  ============================== EH 2 EPICS Devices ============== -->
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- Mono Beam Slits MBS4 Motors -->
-    <bean id="MotorXPos_MBS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="MBS4.XPLUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXNeg_MBS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="MBS4.XMINUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYPos_MBS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="MBS4.YPLUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYNeg_MBS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="MBS4.YMINUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXSize_MBS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="MBS4.XSIZE" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXCentre_MBS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="MBS4.XCENTER" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYSize_MBS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="MBS4.YSIZE" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYCentre_MBS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="MBS4.YCENTER" />
-        <property name="local" value="true" />
-    </bean>
+	<!-- ============================== EH 2 EPICS Devices ============== -->
+
+	<!-- Mono Beam Slits MBS4 Motors -->
+	<bean id="MotorXPos_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-08:X:PLUS" />
+	</bean>
+	<bean id="MotorXNeg_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-08:X:MINUS" />
+	</bean>
+	<bean id="MotorYPos_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-08:Y:PLUS" />
+	</bean>
+	<bean id="MotorYNeg_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-08:Y:MINUS" />
+	</bean>
+	<bean id="MotorXSize_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-08:X:SIZE" />
+	</bean>
+	<bean id="MotorXCentre_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-08:X:CENTER" />
+	</bean>
+	<bean id="MotorYSize_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-08:Y:SIZE" />
+	</bean>
+	<bean id="MotorYCentre_MBS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-08:Y:CENTER" />
+	</bean>
 
 
-    <!-- Tube Slits 2 (TS2)  Motors -->
-    <bean id="MotorXPos_TS2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="TS2.XPLUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXNeg_TS2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="TS2.XMINUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYPos_TS2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="TS2.YPLUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYNeg_TS2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="TS2.YMINUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXSize_TS2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="TS2.XSIZE" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXCentre_TS2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="TS2.XCENTER" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYSize_TS2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="TS2.YSIZE" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYCentre_TS2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="TS2.YCENTER" />
-        <property name="local" value="true" />
-    </bean>
-    
-    <!-- Diffractometer 2 (DIFF2) Motors -->
-    <bean id="MotorBASEX_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.BASEX" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorBASEY_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.BASEY" />
-        <property name="local" value="true" />
-    </bean>
+	<!-- Tube Slits 2 (TS2) Motors -->
+	<bean id="MotorXPos_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-09:X:PLUS" />
+	</bean>
+	<bean id="MotorXNeg_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-09:X:MINUS" />
+	</bean>
+	<bean id="MotorYPos_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-09:Y:PLUS" />
+	</bean>
+	<bean id="MotorYNeg_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-09:Y:MINUS" />
+	</bean>
+	<bean id="MotorXSize_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-09:X:SIZE" />
+	</bean>
+	<bean id="MotorXCentre_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-09:X:CENTER" />
+	</bean>
+	<bean id="MotorYSize_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-09:Y:SIZE" />
+	</bean>
+	<bean id="MotorYCentre_TS2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-09:Y:CENTER" />
+	</bean>
 
-    <bean id="MotorBASEY1_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.BASEY1" />
-        <property name="local" value="true" />
-    </bean>
+	<!-- Diffractometer 2 (DIFF2) Motors -->
+	<bean id="MotorBASEX_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:X" />
+	</bean>
+	<bean id="MotorBASEY_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:Y" />
+	</bean>
 
-    <bean id="MotorBASEY2_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.BASEY2" />
-        <property name="local" value="true" />
-    </bean>
+	<bean id="MotorBASEY1_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:Y1" />
+	</bean>
 
-    <bean id="MotorOMEGA_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.OMEGA" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorALPHA_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.ALPHA" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorDELTA_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.DELTA" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorGAMMA_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.GAMMA" />
-        <property name="local" value="true" />
-    </bean>
+	<bean id="MotorBASEY2_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:Y2" />
+	</bean>
+
+	<bean id="MotorOMEGA_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:OMEGA" />
+	</bean>
+	<bean id="MotorALPHA_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:ALPHA" />
+	</bean>
+	<bean id="MotorDELTA_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:DELTA" />
+	</bean>
+	<bean id="MotorGAMMA_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:GAMMA" />
+	</bean>
 
 
-    <bean id="MotorDROT_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.DROT" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorDETROT_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.DETROT" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorNU2_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.NU2" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorNU1_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.NU1" />
-        <property name="local" value="true" />
-    </bean>
-<!--
-    <bean id="MotorSLIT_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.SL-DET1" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorSLITVR_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.SL-VR" />
-        <property name="local" value="true" />
-    </bean>
--->
-    
-    <bean id="MotorBASEPITCH_DIFF2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DIFF2.BASEPITCH" />
-        <property name="local" value="true" />
-    </bean>
+	<bean id="MotorDROT_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:D_ROT" />
+	</bean>
+	<bean id="MotorDETROT_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:NU_PIL" />
+	</bean>
+	<bean id="MotorNU2_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:NU_DET" />
+	</bean>
+	<bean id="MotorNU1_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:VAC_ROT" />
+	</bean>
+	<!-- <bean id="MotorSLIT_DIFF2" class="gda.device.motor.EpicsMotor"> <property 
+		name="deviceName" value="DIFF2.SL-DET1" /> <property name="local" value="true" 
+		/> </bean> <bean id="MotorSLITVR_DIFF2" class="gda.device.motor.EpicsMotor"> 
+		<property name="deviceName" value="DIFF2.SL-VR" /> <property name="local" 
+		value="true" /> </bean> -->
+
+	<bean id="MotorBASEPITCH_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:PITCH" />
+	</bean>
 
 
 
-    <!-- Detector Slits DETS3 Motors -->
-    <bean id="MotorXPos_DETS3" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS3.XPLUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXNeg_DETS3" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS3.XMINUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYPos_DETS3" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS3.YPLUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYNeg_DETS3" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS3.YMINUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXSize_DETS3" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS3.XSIZE" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXCentre_DETS3" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS3.XCENTER" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYSize_DETS3" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS3.YSIZE" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYCentre_DETS3" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS3.YCENTER" />
-        <property name="local" value="true" />
-    </bean>
+	<!-- Detector Slits DETS3 Motors -->
+	<bean id="MotorXPos_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-10:X:PLUS" />
+	</bean>
+	<bean id="MotorXNeg_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-10:X:MINUS" />
+	</bean>
+	<bean id="MotorYPos_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-10:Y:PLUS" />
+	</bean>
+	<bean id="MotorYNeg_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-10:Y:MINUS" />
+	</bean>
+	<bean id="MotorXSize_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-10:X:SIZE" />
+	</bean>
+	<bean id="MotorXCentre_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-10:X:CENTER" />
+	</bean>
+	<bean id="MotorYSize_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-10:Y:SIZE" />
+	</bean>
+	<bean id="MotorYCentre_DETS3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-10:Y:CENTER" />
+	</bean>
 
-    <!-- Detector Slits DETS4 Motors -->
-    <bean id="MotorXPos_DETS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS4.XPLUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXNeg_DETS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS4.XMINUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYPos_DETS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS4.YPLUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYNeg_DETS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS4.YMINUS" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXSize_DETS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS4.XSIZE" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXCentre_DETS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS4.XCENTER" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYSize_DETS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS4.YSIZE" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYCentre_DETS4" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="DETS4.YCENTER" />
-        <property name="local" value="true" />
-    </bean>
+	<!-- Detector Slits DETS4 Motors -->
+	<bean id="MotorXPos_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-11:X:PLUS" />
+	</bean>
+	<bean id="MotorXNeg_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-11:X:MINUS" />
+	</bean>
+	<bean id="MotorYPos_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-11:Y:PLUS" />
+	</bean>
+	<bean id="MotorYNeg_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-11:Y:MINUS" />
+	</bean>
+	<bean id="MotorXSize_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-11:X:SIZE" />
+	</bean>
+	<bean id="MotorXCentre_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-11:X:CENTER" />
+	</bean>
+	<bean id="MotorYSize_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-11:Y:SIZE" />
+	</bean>
+	<bean id="MotorYCentre_DETS4" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-AL-SLITS-11:Y:CENTER" />
+	</bean>
 
 
-    <!-- Hexapod2 Motors -->
-    <bean id="MotorX_HEX2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="HEX2.X" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorY_HEX2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="HEX2.Y" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorZ_HEX2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="HEX2.Z" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorRX_HEX2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="HEX2.RX" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorRY_HEX2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="HEX2.RY" />
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorRZ_HEX2" class="gda.device.motor.EpicsMotor">
-        <property name="deviceName" value="HEX2.RZ" />
-        <property name="local" value="true" />
-    </bean>
+	<!-- Hexapod2 Motors -->
+	<bean id="MotorX_HEX2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-HEX-02:X" />
+	</bean>
+	<bean id="MotorY_HEX2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-HEX-02:Y" />
+	</bean>
+	<bean id="MotorZ_HEX2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-HEX-02:Z" />
+	</bean>
+	<bean id="MotorRX_HEX2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-HEX-02:RX" />
+	</bean>
+	<bean id="MotorRY_HEX2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-HEX-02:RY" />
+	</bean>
+	<bean id="MotorRZ_HEX2" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL07I-MO-HEX-02:RZ" />
+	</bean>
 
 </beans>

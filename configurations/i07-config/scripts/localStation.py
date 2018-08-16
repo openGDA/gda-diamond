@@ -1,7 +1,7 @@
 #localStation.py
 
 print "===================================================================";
-print " Performing Beanline I07 specific initialisation code (localStation.py).";
+print " Performing Beamline I07 specific initialisation code (localStation.py).";
 print
 
 
@@ -14,8 +14,8 @@ from gdascripts.utils import *  # @UnusedWildImport
 import scisoftpy as dnp  # @UnusedImport
 
 	
-gdaScriptDir = LocalProperties.get("gda.jython.gdaScriptDir") + "/";
-userScriptDir = LocalProperties.get("gda.jython.userScriptDir") + "/";
+gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/";
+userScriptDir = "/dls_sw/" + LocalProperties.get("gda.beamline.name") + "/scripts/";
 
 	
 def try_execfile(filepath, description=None, full_log=False, absolute=False):
@@ -35,6 +35,7 @@ def try_execfile(filepath, description=None, full_log=False, absolute=False):
 		print "XXXXXXXXXX:  Exception caught while: '%s'" % description
 		if full_log:
 			logger.fullLog(None, "Error", exceptionType, exception, traceback, True);
+			#Note that the final argument 'True' causes a Java exception to be thrown which will terminate the script
 		else:
 			logger.dump("---> ", exceptionType, exception, traceback)
 		print "************************************************************"
@@ -94,7 +95,7 @@ try_execfile("BeamlineI07/setFastScan.py", "Fast scan setup")
 try_execfile("BeamlineI07/setSrsDataFileHeader.py", "Metadata Header setup")
 
 # Changes everything to %8.3f without saying why
-try_execfile("BeamlineI07/setOutputFormat.py", "Change the defautl output format according to I07 requirements")
+try_execfile("BeamlineI07/setOutputFormat.py", "Change the default output format according to I07 requirements")
 
 try_execfile("BeamlineI07/createAlias.py")
 

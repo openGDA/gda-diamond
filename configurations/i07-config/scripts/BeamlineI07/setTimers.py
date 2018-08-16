@@ -10,7 +10,7 @@ timekeeper.autoReset=False;
 
 clock=ShowClockClass('clock');
 
-print 'For time measureing, using lineTime and pointTime for the time spent on one line of a scan and each scan point';
+print 'For time measuring, using lineTime and pointTime for the time spent on one line of a scan and each scan point';
 lineTime=LineTimeClass('lineTime');
 pointTime=PointTimeClass('pointTime');
 
