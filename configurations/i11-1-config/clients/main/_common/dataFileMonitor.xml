@@ -11,12 +11,8 @@
 <!-- 		<property name="excludedDirectory" value="processing,spool,tmp,xml"/> -->
 <!-- 		<property name="server" value="false"/> -->
 <!-- 	</bean> -->
-	<bean id="dirListener" class="uk.ac.gda.beamline.synoptics.utils.DataFileListener">
-		<property name="directory" value=""/>
-		<property name="recursive" value="true"/>
-		<!-- the following property only works for String[], not List<String> -->
-		<property name="filenameExtensions" value="dat,tif,nxs,h5"/>
-		<property name="excludedDirectory" value="processing,spool,tmp,xml"/>
-		<property name="server" value="false"/>
+	<bean id="dirListener" class="uk.ac.gda.beamline.synoptics.utils.NewFileListener">
+		<property name="fileProviderName" value="client_file_announcer" />
+		<property name="ignoredFiles" value=".*\.log, .*\.reprocessing, .*\.xye, .*\.txt, .*\.archived" />
 	</bean>
 </beans>
