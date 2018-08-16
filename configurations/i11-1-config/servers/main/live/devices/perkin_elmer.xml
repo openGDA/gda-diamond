@@ -184,7 +184,7 @@
 		<property name="ndFileHDF5" ref="perkin.hdf"/>
 		<property name="fileNameTemplate" value="perkin"/>
 		<property name="filePathTemplate" value="$datadir$"/>
-		<property name="fileTemplate" value="%s%s_%05d"/>
+		<property name="fileTemplate" value="%s%s_%d.h5"/>
 		<property name="fileNumberAtScanStart" value="1"/>
 		<property name="setFileNameAndNumber" value="true"/>
 		<property name="blocking" value="False"/>
