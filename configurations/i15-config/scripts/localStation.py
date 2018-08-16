@@ -678,9 +678,9 @@ try:
 				simpleLog("                             can't find: " + " ".join(x for x in cant_find))
 			if (errors):
 				simpleLog("                               erroring: " + " ".join(x for x in errors))
+				localStation_exceptions.append("    adding scannables to metadata: " + " ".join(x for x in errors))
 			if (after):
 				simpleLog("                                current: " + " ".join(str(x.name) for x in after))
-			#return ''
 
 		stdmeta()
 		simpleLog("Use 'stdmeta' to reset to standard scannables")

@@ -143,7 +143,16 @@ try:
     metadataRunnableDeviceProxy.setDelegate(metadataJythonRunnableDeviceDelegate)
     metadataRunnableDeviceProxy.register()
 
-    print "Configured xbpm3 detector"
+    print "Configured metadata runnable device"
+
+    multimetaRunnableDeviceProxyFinder = finder.find("multimetaRunnableDeviceProxyFinder")
+    multimetaRunnableDeviceProxy = multimetaRunnableDeviceProxyFinder.getRunnableDevice()
+
+    multimetaJythonRunnableDeviceDelegate = JythonRunnableDeviceDelegate(multimetaRunnableDeviceProxy)
+    multimetaRunnableDeviceProxy.setDelegate(multimetaJythonRunnableDeviceDelegate)
+    multimetaRunnableDeviceProxy.register()
+
+    print "Configured multimeta runnable device"
 
     xbpm3AreaDetectorRunnableDeviceProxyFinder = finder.find("xbpm3AreaDetectorRunnableDeviceProxyFinder")
     xbpm3AreaDetectorRunnableDeviceProxy = xbpm3AreaDetectorRunnableDeviceProxyFinder.getRunnableDevice()
@@ -152,7 +161,7 @@ try:
     xbpm3AreaDetectorRunnableDeviceProxy.setDelegate(xbpm3JythonAreaDetectorRunnableDeviceDelegate)
     xbpm3AreaDetectorRunnableDeviceProxy.register()
 
-    print "Configured metadata runnable device"
+    print "Configured xbpm3 detector"
 
     cryojetRunnableDeviceProxyFinder = finder.find("cryojetRunnableDeviceProxyFinder")
     cryojetRunnableDeviceProxy = cryojetRunnableDeviceProxyFinder.getRunnableDevice()

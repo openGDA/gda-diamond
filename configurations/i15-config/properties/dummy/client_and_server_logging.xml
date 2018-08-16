@@ -31,6 +31,10 @@
 	<logger name="gda.device.detector.odccd.collectionstrategy.ODCCDSingleExposure">	<level value="TRACE"/></logger>
 	<logger name="gda.device.detector.odccd.collectionstrategy.ODCCDOverflow">			<level value="TRACE"/></logger>
 	<logger name="gda.epics.LazyPVFactory">												<level value="DEBUG"/></logger>
+	<logger name="gda.observable.ObservableComponent">									<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.ActiveMQSession">									<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.transport.AbstractInactivityMonitor">				<level value="DEBUG"/></logger>
+	<logger name="uk.ac.diamond.daq.concurrent.Async">									<level value="DEBUG"/></logger>
 	 -->
 
 	<logger name="gda">																	<level value="ALL"/></logger>
