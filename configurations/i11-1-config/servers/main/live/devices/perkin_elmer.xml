@@ -189,8 +189,8 @@
 		<property name="setFileNameAndNumber" value="true"/>
 		<property name="blocking" value="False"/>
 		<property name="rowChunks" value="2881"/>
-		<property name="xPixelSize" value="148.0"/>
-		<property name="yPixelSize" value="148.0"/>
+		<property name="xPixelSize" value="100.0"/>
+		<property name="yPixelSize" value="100.0"/>
 		<property name="xPixelSizeUnit" value="µm"/>
 		<property name="yPixelSizeUnit" value="µm"/>
 	</bean>
