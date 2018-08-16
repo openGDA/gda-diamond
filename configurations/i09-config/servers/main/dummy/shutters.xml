@@ -2,9 +2,37 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="fsj1" class="gda.device.enumpositioner.DummyValve" />
-	<bean id="fsi1" class="gda.device.enumpositioner.DummyValve" />
-	<bean id="fsj1inlim" class="gda.device.enumpositioner.DummyValve" />
-	<bean id="fsi1inlim" class="gda.device.enumpositioner.DummyValve" />
+	<bean id="fsj1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="fsi1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="fsj1inlim" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="fsi1inlim" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>In</value>
+				<value>Out</value>
+			</list>
+		</property>
+	</bean>
 
 </beans>
