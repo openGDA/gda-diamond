@@ -105,10 +105,24 @@ zp=SingleEpicsPositionerClass('zp','BL16I-EA-POLAN-01:X.VAL','BL16I-EA-POLAN-01:
 
 comm2=['/home/i16user/bin/power_up_xtal_rotation','/home/i16user/bin/power_down_xtal_rotation']
 
+class DeprecatedSingleEpicsPositionerClass(SingleEpicsPositionerClass):
+	def __init__(self, name, replacement, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring, help=None, command=None):
+		SingleEpicsPositionerClass.__init__(self, name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring, help, command)
+		self.replacement=replacement
+		print "Warning, scannable '%s' is deprecated and should not be used, please use '%s' instead." % (self.getName(), self.replacement)
 
+	def getPosition(self):
+		print "Warning, scannable '%s' is deprecated and should not be used, please use '%s' instead." % (self.getName(), self.replacement)
+		return SingleEpicsPositionerClass.getPosition(self)
 
-stoke=SingleEpicsPositionerClass('stoke','BL16I-EA-POLAN-01:ETA.VAL','BL16I-EA-POLAN-01:ETA.RBV','BL16I-EA-POLAN-01:ETA.DMOV','BL16I-EA-POLAN-01:ETA.STOP','deg','%.3f')
+	def asynchronousMoveTo(self,new_position):
+		print "Warning, scannable '%s' is deprecated and should not be used, please use '%s' instead." % (self.getName(), self.replacement)
+		SingleEpicsPositionerClass.asynchronousMoveTo(self, new_position)
 
+stoke=DeprecatedSingleEpicsPositionerClass( 'stoke','stokes','BL16I-EA-POLAN-01:ETA.VAL','BL16I-EA-POLAN-01:ETA.RBV','BL16I-EA-POLAN-01:ETA.DMOV','BL16I-EA-POLAN-01:ETA.STOP','deg','%.3f')
+""" stokes now defined in Spring
+stokes=         SingleEpicsPositionerClass('stokes',         'BL16I-EA-POLAN-01:ETA.VAL','BL16I-EA-POLAN-01:ETA.RBV','BL16I-EA-POLAN-01:ETA.DMOV','BL16I-EA-POLAN-01:ETA.STOP','deg','%.3f')
+"""
 
 ##############################################################
 

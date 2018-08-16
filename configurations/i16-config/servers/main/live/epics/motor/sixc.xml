@@ -40,16 +40,15 @@
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
 
-	<!--
-	<bean id="sixcCryoPhiMotor" class="gda.device.motor.DummyMotor" >
+	<bean id="sixcCryoPhiMotor"
+			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
-	</bean>
-	-->
-
-	<bean id="sixcCryoPhiMotor" class="gda.device.motor.EpicsMotor">
+	<!--
+			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-ANC-01:P1" />
 		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="false" />
+	-->
 	</bean>
 
 	<bean id="xps2DeferFlag" class="gda.device.controlpoint.EpicsControlPoint">

@@ -37,7 +37,8 @@
 	</bean>
 
 	<!-- Transient only -->
-	<!--
+	<!-- Note that even if cryophi is uncommented here, sixcCryoPhiMotor may have been defined as a DummyMotor
+		 in live/epics/motor/sixc.xml since it is also referenced by live/epics/motor/sixc.xml below.
 	<bean id="cryophi" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sixcCryoPhiMotor" />
 		<property name="returnDemandPosition" value="true" />

@@ -113,23 +113,6 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="PAEtaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PA.Eta" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="PAThetaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PA.Theta" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="PADet12thetaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PA.Det1.2Theta" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="PADet22thetaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PA.Det2.2Theta" />
-		<property name="local" value="true" />
-	</bean>
-
 	<bean id="PPRTMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="PPR.T" />
 		<property name="local" value="true" />

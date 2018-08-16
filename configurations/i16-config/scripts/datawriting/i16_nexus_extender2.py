@@ -117,6 +117,17 @@ DETECTOR_TRANSFORMATIONS = {
                 TRANSFORMATION_UNITS : 'mm',
                 TRANSFORMATION_OFFSET_UNITS : 'mm',
             },
+        ],
+        "pilatus3" : [
+            {
+                TRANSFORMATION_NAME : 'origin_offset',
+                TRANSFORMATION_TYPE : TRANSFORMATION_TRANSLATION,
+                TRANSFORMATION_VECTOR : [0., 0., 0.],
+                TRANSFORMATION_OFFSET : [0., 0., 0.],
+                TRANSFORMATION_SIZE : [1.],
+                TRANSFORMATION_UNITS : 'mm',
+                TRANSFORMATION_OFFSET_UNITS : 'mm',
+            },
         ]
     }
 
@@ -153,7 +164,23 @@ DETECTOR_MODULES = {
             OFFSET_VECTOR : [0., 0., 0.],
             OFFSET_OFFSET : [0., 0., 0.],
             OFFSET_UNITS : 'mm'
-        }
+        },
+        "pilatus3" : {
+            DATA_ORIGIN : [0, 0],
+            DATA_SIZE : [487, 195],
+            FAST_PIXEL_DIRECTION : [0., 0., 0.],
+            FAST_PIXEL_SIZE : [0.000172],
+            FAST_PIXEL_OFFSET : [0., 0., 0.],
+            FAST_PIXEL_UNITS : 'm',
+            SLOW_PIXEL_DIRECTION : [0., 0., 0.],
+            SLOW_PIXEL_SIZE : [0.000172],
+            SLOW_PIXEL_UNITS : 'm',
+            SLOW_PIXEL_OFFSET : [0., 0., 0.],
+            OFFSET : [0.],
+            OFFSET_VECTOR : [0., 0., 0.],
+            OFFSET_OFFSET : [0., 0., 0.],
+            OFFSET_UNITS : 'mm'
+        },
     }
 
 DETECTOR_PROPERTIES = {
@@ -176,7 +203,17 @@ DETECTOR_PROPERTIES = {
             SENSOR_DESCRIPTION : "Pilatus 100k",
             CALIBRATION_TIME : CALIBRATION_TIME_DEF,
             CALIBRATION_SCAN : CALIBRATION_SCAN_DEF
-        }
+        },
+        "pilatus3" : {
+            SENSOR_SATURATION_VALUE : [1000000],
+            SENSOR_MATERIAL : "Silicon",
+            SENSOR_THICKNESS : [0.32],
+            SENSOR_THICKNESS_UNITS : "mm",
+            SENSOR_TYPE : "Pixel",
+            SENSOR_DESCRIPTION : "Pilatus 100k",
+            CALIBRATION_TIME : CALIBRATION_TIME_DEF,
+            CALIBRATION_SCAN : CALIBRATION_SCAN_DEF
+        },
     }
 
 import copy
@@ -191,6 +228,13 @@ DETECTOR_TRANSFORMATIONS["pil100k"] = DETECTOR_TRANSFORMATIONS['pilatus1']
 DETECTOR_MODULES["pil100ks"] = DETECTOR_MODULES["pilatus1"]
 DETECTOR_PROPERTIES["pil100ks"] = DETECTOR_PROPERTIES["pilatus1"]
 DETECTOR_TRANSFORMATIONS["pil100ks"] = DETECTOR_TRANSFORMATIONS['pilatus1']
+
+DETECTOR_MODULES["pil3_100k"] = DETECTOR_MODULES["pilatus3"]
+DETECTOR_PROPERTIES["pil3_100k"] = DETECTOR_PROPERTIES["pilatus3"]
+DETECTOR_TRANSFORMATIONS["pil3_100k"] = DETECTOR_TRANSFORMATIONS['pilatus3']
+DETECTOR_MODULES["pil3_100ks"] = DETECTOR_MODULES["pilatus3"]
+DETECTOR_PROPERTIES["pil3_100ks"] = DETECTOR_PROPERTIES["pilatus3"]
+DETECTOR_TRANSFORMATIONS["pil3_100ks"] = DETECTOR_TRANSFORMATIONS['pilatus3']
 
 DETECTOR_PROPERTIES["swmr"] = copy.deepcopy(DETECTOR_PROPERTIES["simad"])
 DETECTOR_MODULES["swmr"] = copy.deepcopy(DETECTOR_MODULES["simad"])
@@ -254,7 +298,9 @@ class I16NexusExtender(DataWriterExtenderBase):
         nFile.createData(group, data)
 
     def writeDetectorModule(self, nFile, group, detName, dependsOn):
+        self.logger.debug("writeDetectorModule({}, {}, {}, {})", nFile, group, detName, dependsOn)
         if not DETECTOR_MODULES.has_key(detName):
+            self.logger.warn("DETECTOR_MODULES does not have key {} - NeXuS file may not be valid", detName)
             return
         detModule = DETECTOR_MODULES[detName]
         moduleDependsOn = "/entry1/instrument/%s/module/module_offset" % detName #would like to avoid this path here
@@ -296,7 +342,9 @@ class I16NexusExtender(DataWriterExtenderBase):
         NexusUtils.writeAttribute(nFile, node, "vector", detModule[OFFSET_VECTOR])
 
     def writeDetectorProperties(self, nFile, group, detName):
+        self.logger.debug("writeDetectorProperties({}, {}, {})", nFile, group, detName)
         if not DETECTOR_PROPERTIES.has_key(detName):
+            self.logger.warn("DETECTOR_PROPERTIES does not have key {} - NeXuS file may not be valid", detName)
             return
         properties = DETECTOR_PROPERTIES[detName]
 
@@ -332,7 +380,9 @@ class I16NexusExtender(DataWriterExtenderBase):
             nFile.createData(group, data)
 
     def writeDetector(self, nFile, group, name, dependsOn):
+        self.logger.debug("writeDetector({}, {}, {}, {})", nFile, group, name, dependsOn)
         if not DETECTOR_TRANSFORMATIONS.has_key(name):
+            self.logger.warn("DETECTOR_TRANSFORMATIONS does not have key {} - NeXuS file may not be valid", name)
             return
         transGroup = nFile.getGroup(group, "transformations", "NXtransformations", True)
         for properties in DETECTOR_TRANSFORMATIONS[name]:
@@ -354,6 +404,7 @@ class I16NexusExtender(DataWriterExtenderBase):
         self.writeDetectorProperties(nFile, group, name)
 
     def writeTifPaths(self, nFile, group, detName, fileTemplate):
+        self.logger.info("writeTifPaths({}, {}, {}, {})", nFile, group, detName, fileTemplate)
         numberDataset = nFile.getData(group, "path").getDataset().getSlice()
         dimensions = numberDataset.shape
         length = 1
@@ -366,46 +417,62 @@ class I16NexusExtender(DataWriterExtenderBase):
         pathDataset.resize(dimensions.tolist())
         pathDataset.name = "image_data"
         data = nFile.createData(group, pathDataset)
+        self.logger.debug("writeTifPaths() data={}", data)
         NexusUtils.writeAttribute(nFile, data, "data_filename", [1])
         NexusUtils.writeAttribute(nFile, data, "signal", [1])
 
     def writeDynamicDetectors(self, nFile, instrument, detectors, dependsOn):
+        self.logger.debug("writeDynamicDetectors({}, {}, {}, {})", nFile, instrument, detectors, dependsOn)
         for det in detectors:
             detName = det.getName()
             detGroup = nFile.getGroup(instrument, detName, "NXdetector", False)
             self.writeDetector(nFile, detGroup, detName, dependsOn)
-            if isinstance(det, ProcessingDetectorWrapper):
+            pathTemplate=None
+            self.logger.debug("writeDynamicDetectors() calling isinstance({}, {})", det, ProcessingDetectorWrapper)
+            # This isinstance is failing because det and ProcessingDetectorWrapper are both showing as 
+            #  writeDynamicDetectors() calling isinstance(pil2m<
+            #    class org.python.proxies.epics.detector.NxProcessingDetectorWrapper$NxProcessingDetectorWrapper$740>,
+            #    class org.python.proxies.gdascripts.scannable.detector.ProcessingDetectorWrapper$ProcessingDetectorWrapper$732)
+            #if isinstance(det, ProcessingDetectorWrapper):
+            try: # Rather than checking type, just try to call the function
                 #path = det.getFilepathRelativeToRootDataDir().split('/')[0] + "/"
                 pathTemplate = det.getFilepathRelativeToRootDataDir()
+            except:
+                self.logger.debug("writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir()", det)
+            if pathTemplate:
+                self.logger.debug("writeDynamicDetectors() pathTemplate={}", pathTemplate)
                 #remove the "last" instance of 5 digits with "%05d" for template purposes
                 pathTemplate = re.sub("[0-9]+", "%05d"[::-1], pathTemplate[::-1], 1)[::-1]
                 self.writeTifPaths(nFile, detGroup, detName, pathTemplate)
+                self.logger.debug("writeDynamicDetectors() writeTifPaths() completed")
+            else:
+                self.logger.debug("writeDynamicDetectors() pathTemplate={}, can't be a ProcessingDetectorWrapper", pathTemplate)
 
     def parseCrystalInfo(self, nFile, metadataGroup):
-        self.logger.trace("parseCrystalInfo(nFile={}, metadataGroup={})", nFile, metadataGroup)
+        self.logger.debug("parseCrystalInfo(nFile={}, metadataGroup={})", nFile, metadataGroup)
         xtalinfo = nFile.getGroup(metadataGroup, "xtalinfo", "NXcollection", False)
-        self.logger.trace("parseCrystalInfo() xtalinfo={}", xtalinfo)
+        self.logger.debug("parseCrystalInfo() xtalinfo={}", xtalinfo)
         orientationMatrix = [0] * 9
         latticeVals = [0] * 6
         for i in xrange(0, 3):
             for j in xrange(0, 3):
                 ubval = "UB" + str(i + 1) + str(j + 1)
                 try:
-                    self.logger.trace("parseCrystalInfo() nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0)={}", nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0))
+                    self.logger.debug("parseCrystalInfo() nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0)={}", nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0))
                     orientationMatrix[ 3 * i + j ] = nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0)
                 except:
                     orientationMatrix[ 3 * i + j ] = nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble()
                     self.logger.error("parseCrystalInfo() coudn't get nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble(0) use getDouble() instead")
-                    self.logger.trace("parseCrystalInfo() nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble()={}", nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble())
+                    self.logger.debug("parseCrystalInfo() nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble()={}", nFile.getData(xtalinfo, ubval).getDataset().getSlice().getDouble())
         for i, val in zip(xrange(0, 6), ["a", "b", "c", "alpha1", "alpha2", "alpha3"]):
-            self.logger.trace("parseCrystalInfo() val={}", val)
+            self.logger.debug("parseCrystalInfo() val={}", val)
             try:
-                self.logger.trace("parseCrystalInfo() nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0)={}", nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0))
+                self.logger.debug("parseCrystalInfo() nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0)={}", nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0))
                 latticeVals[i] = nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0)
             except:
                 latticeVals[i] = nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble()
                 self.logger.error("parseCrystalInfo() coudn't get nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble(0) use getDouble() instead")
-                self.logger.trace("parseCrystalInfo() nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble()={}", nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble())
+                self.logger.debug("parseCrystalInfo() nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble()={}", nFile.getData(xtalinfo, val).getDataset().getSlice().getDouble())
         self.logger.info("parseCrystalInfo() returning latticeVals={}, orientationMatrix={}", latticeVals, orientationMatrix)
         return (latticeVals, orientationMatrix)
 
@@ -442,12 +509,12 @@ class I16NexusExtender(DataWriterExtenderBase):
     def writeIncidentWavelength(self, nFile, group):
         self.logger.info("writeIncidentWavelength(nFile={}, group={})", nFile, group)
         try:
-            self.logger.trace("parseCrystalInfo() nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble(0)={}", nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble(0))
+            self.logger.debug("parseCrystalInfo() nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble(0)={}", nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble(0))
             energy = nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble(0)
         except:
             energy = nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble()
             self.logger.error("parseCrystalInfo() coudn't get nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble(0) use getDouble() instead")
-            self.logger.trace("parseCrystalInfo() nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble()={}", nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble())
+            self.logger.debug("parseCrystalInfo() nFile.getData(group, 'incident_energy').getDataset().getSlice().getDouble()={}", nFile.getData(group, "incident_energy").getDataset().getSlice().getDouble())
         wavelength = 1e9 * PLANCK * LIGHTSPEED / (energy * 1000 * EVOLT_TO_JOULE)
         dataset = DF.createFromObject(wavelength)
         dataset.name = "incident_wavelength"
@@ -534,5 +601,6 @@ class I16NexusExtender(DataWriterExtenderBase):
                 self.complete = True
                 self.writeStuffToFile(self.scanFileName)
         except Exception, e:
+            self.logger.error("completeCollection({}) failed", dwParent, e)
             traceback.print_exc()
         DataWriterExtenderBase.completeCollection(self, dwParent)

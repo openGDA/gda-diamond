@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This file allows facilities to customise logging. e.g. if they want it all to be logged to a central server -->
+
+<included>
+	<!-- Use the central Graylog appender definition -->
+	<include file="/dls_sw/dasc/graylog/graylog_appender.xml" />
+
+	<!-- This is a bit dubious but it seems to work i.e. the Graylog appender gets added to the root logger but it
+		 kind of looks like you are redefining the root logger. If you set the level here it will override it on the
+		 core root logger as the root logger can only have one overall level. -->
+	<root>
+		<level value="TRACE" />
+		<appender-ref ref="GrayLog" />
+		<appender-ref ref="LogServer" />
+	</root>
+
+	<logger name="gda.device.motor.EpicsMotor">						<level value="INFO"/></logger>
+	<logger name="gda.device.motor.MoveEventQueue">					<level value="DEBUG"/></logger>
+	<logger name="gda.factory.corba.util.PushEventQueue">			<level value="DEBUG"/></logger>
+	<logger name="gda.observable.ObservableComponent">				<level value="DEBUG"/></logger>
+	<logger name="uk.ac.diamond.daq.concurrent.Async">				<level value="DEBUG"/></logger>
+	<logger name="I16NexusExtender">								<level value="ALL"/></logger>
+
+</included>

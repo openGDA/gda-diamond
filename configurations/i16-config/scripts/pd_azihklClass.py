@@ -6,7 +6,7 @@ class AzihklClass(PseudoDevice):
 		self.setLevel(3)
 		self.setInputNames(['azih','azik','azil'])
 #		self.Units=[]
-		self.setOutputFormat(['%.0f', '%.0f','%.0f'])
+		self.setOutputFormat(['%4.4f', '%4.4f','%4.4f'])
 		self.azir_function = None
 		
 	def asynchronousMoveTo(self,new_position):
