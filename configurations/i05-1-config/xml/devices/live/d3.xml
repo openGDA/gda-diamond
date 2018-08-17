@@ -83,4 +83,11 @@
 		</property>
 	</bean>
 
+	<!-- Femto -->
+	<bean id="d3femto" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL05I-DI-PHDGN-03:DET" />
+		<property name="acdcAvailable" value="false"/>
+		<property name="local" value="true" />
+	</bean>
+
 </beans>
