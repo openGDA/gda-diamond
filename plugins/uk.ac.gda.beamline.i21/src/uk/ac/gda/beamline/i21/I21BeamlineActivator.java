@@ -3,10 +3,8 @@ package uk.ac.gda.beamline.i21;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.scanning.device.ui.Activator;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 public class I21BeamlineActivator extends AbstractUIPlugin {
