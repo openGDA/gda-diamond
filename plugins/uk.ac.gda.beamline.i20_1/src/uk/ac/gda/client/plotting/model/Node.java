@@ -107,7 +107,7 @@ public class Node extends ObservableModel implements ITreeNode {
 	/** Return top level root node of tree */
 	public ITreeNode getRootNode() {
 		ITreeNode nextNode = getParent();
-		ITreeNode childNode = this;;
+		ITreeNode childNode = this;
 		while(nextNode != null) {
 			childNode = nextNode;
 			nextNode = childNode.getParent();
