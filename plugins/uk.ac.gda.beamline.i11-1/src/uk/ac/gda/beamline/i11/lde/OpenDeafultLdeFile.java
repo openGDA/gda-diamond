@@ -18,34 +18,22 @@
 
 package uk.ac.gda.beamline.i11.lde;
 
-import java.io.File;
-
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.opengda.lde.model.ldeexperiment.presentation.LDEExperimentsEditor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.data.PathConstructor;
 import gda.rcp.DataProject;
-import uk.ac.gda.preferences.PreferenceConstants;
 
 public class OpenDeafultLdeFile implements IStartup {
 
