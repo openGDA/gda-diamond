@@ -43,7 +43,6 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.configuration.properties.LocalProperties;
 import gda.util.exafs.Element;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
