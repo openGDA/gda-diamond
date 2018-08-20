@@ -4,7 +4,6 @@ import org.dawb.workbench.ui.perspective.DataBrowsingPerspective;
 import org.dawnsci.mapping.ui.MappingPerspective;
 import org.dawnsci.plotting.views.ToolPageView;
 import org.dawnsci.processing.ui.ProcessingPerspective;
-import org.eclipse.scanning.api.event.EventConstants;
 import org.eclipse.scanning.api.event.queues.QueueViews;
 import org.eclipse.scanning.api.event.scan.ScanBean;
 import org.eclipse.scanning.api.ui.CommandConstants;
@@ -19,7 +18,6 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.IViewLayout;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.namespace.ExecutionEnvironmentNamespace;
 
 import uk.ac.gda.client.live.stream.view.SnapshotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
