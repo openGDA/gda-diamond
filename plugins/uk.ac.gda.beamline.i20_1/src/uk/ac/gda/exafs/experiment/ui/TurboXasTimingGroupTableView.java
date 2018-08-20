@@ -78,7 +78,7 @@ public class TurboXasTimingGroupTableView {
 		public String getName() {
 			return enumName;
 		}
-	};
+	}
 
 	private class ParameterLabelProvider extends ColumnLabelProvider  {
 		final TimingGroupParamType paramType;
@@ -90,7 +90,7 @@ public class TurboXasTimingGroupTableView {
 			TurboSlitTimingGroup param = (TurboSlitTimingGroup) element;
 			return getDataForColumn(param, paramType).toString();
 		}
-	};
+	}
 
 	/**
 	 * Get parameter from timing group object to go in column of table

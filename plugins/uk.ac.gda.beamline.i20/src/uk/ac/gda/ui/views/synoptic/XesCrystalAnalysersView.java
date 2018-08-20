@@ -51,7 +51,7 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 	private static enum SS {CRYST_MINUS1_X, CRYST_MINUS1_Y, CRYST_MINUS1_ROT, CRYST_MINUS1_PITCH,
 		CRYST_CENTRE_Y, CRYST_CENTRE_ROT, CRYST_CENTRE_PITCH,
 		CRYST_PLUS1_X, CRYST_PLUS1_Y, CRYST_PLUS1_ROT, CRYST_PLUS1_PITCH,
-		DET_X, DET_Y, DET_ROT, XTAL_X, SPECT_ROT };
+		DET_X, DET_Y, DET_ROT, XTAL_X, SPECT_ROT }
 
 	/** Map from SS enum value to corresponding scannable object */
 	private Map<SS, Scannable> scannableForType;

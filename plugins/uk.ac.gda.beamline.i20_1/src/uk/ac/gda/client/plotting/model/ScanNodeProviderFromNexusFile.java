@@ -265,7 +265,7 @@ public class ScanNodeProviderFromNexusFile extends ObservableModel {
 		return "";
 	}
 
-	private enum ScanType {TurboXas, Ede};
+	private enum ScanType {TurboXas, Ede}
 
 
 	private int getLightItStartIndex(GroupNode entryGroup) throws DatasetException {
