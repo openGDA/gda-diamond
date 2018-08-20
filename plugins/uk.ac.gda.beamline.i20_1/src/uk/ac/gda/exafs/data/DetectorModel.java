@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.detector.EdeDetector;
 import gda.device.detector.Roi;
-import gda.device.detector.xstrip.StripDetector;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.observable.IObserver;

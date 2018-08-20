@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
 
 import gda.analysis.datastructure.DataVector;
 import gda.analysis.numerical.integration.Integrate;
-import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 
