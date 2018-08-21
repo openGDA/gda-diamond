@@ -21,9 +21,12 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.gda.dls;bundle-version="1.0.0",
  uk.ac.gda.dls.client;bundle-version="1.0.0",
  uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
- uk.ac.gda.client.live.stream;bundle-version="1.0.0"
+ uk.ac.gda.client.live.stream;bundle-version="1.0.0",
+ org.python.pydev
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i06,
  uk.ac.gda.beamline.i06.perspective
+Import-Package: org.dawnsci.plotting.views,
+ org.slf4j;version="1.7.25"
