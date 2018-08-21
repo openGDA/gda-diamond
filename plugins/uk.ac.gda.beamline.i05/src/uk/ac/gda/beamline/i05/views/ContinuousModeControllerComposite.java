@@ -66,6 +66,8 @@ public class ContinuousModeControllerComposite extends Composite {
 		// Overall layout of groups
 		RowLayoutFactory.swtDefaults().type(SWT.VERTICAL).spacing(5).wrap(false).applyTo(this);
 
+		parent.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+
 		// Analyser group
 		Group analyserGroup = new Group(this, SWT.NONE);
 		analyserGroup.setText("Analyser");
