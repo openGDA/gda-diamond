@@ -30,6 +30,7 @@ import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 
 import gda.rcp.views.JythonTerminalView;
 import uk.ac.gda.client.live.stream.view.LiveStreamView;
+import uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogram;
 import uk.ac.gda.client.live.stream.view.SnapshotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
@@ -66,8 +67,10 @@ public class Peem implements IPerspectiveFactory {
 		topMiddlefolder.addView(LivePlotView.ID);
 
 		IFolderLayout topRightFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.5, PLOT_1D_FOLDER); //$NON-NLS-1$
-		topRightFolder.addView(LiveStreamView.ID+":pco_cam#EPICS_ARRAY");
-		topRightFolder.addPlaceholder("uk.ac.gda.client.live.stream.view.LiveStreamView:*");
+		topRightFolder.addView(LiveStreamViewWithHistogram.ID+":pco_cam#EPICS_ARRAY");
+		topRightFolder.addPlaceholder(LiveStreamViewWithHistogram.ID+":*");
+		topRightFolder.addPlaceholder(LiveStreamView.ID);
+		topRightFolder.addPlaceholder(LiveStreamView.ID+":*");
 
 		IFolderLayout topLeftfolder = layout.createFolder(TERMINAL_FOLDER, IPageLayout.TOP, (float)0.6, PROJ_FOLDER); //$NON-NLS-1$
 		topLeftfolder.addView(gda.rcp.views.JythonTerminalView.ID);

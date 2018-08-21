@@ -18,6 +18,7 @@
 <!-- 		<property name="url" value="http://i06-control.diamond.ac.uk:8080/pcorx.mjpg.mjpg" /> -->
 		<property name="arrayPv" value="BL06I-EA-DET-01:ARR2" />
 		<property name="roiProvider" ref="pco_roi" />
+		<property name="withHistogram" value="true"/>
 	</bean>
 
 </beans>

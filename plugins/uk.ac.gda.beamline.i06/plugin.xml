@@ -134,8 +134,8 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="uk.ac.gda.client.live.stream.view.LiveStreamView"
-            id="uk.ac.gda.client.live.stream.view.LiveStreamView:pco_cam#EPICS_ARRAY"
+            class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogram"
+            id="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogram:pco_cam#EPICS_ARRAY"
             name="PCO Array"
             restorable="true">
       </view>
