@@ -131,6 +131,9 @@ class BeamEnergyPolarisationClass(ScannableMotionBase):
             raise ValueError("Required Soft X-Ray ID phase is %s out side allowable bound (%s, %s)!" % (phase, 0, self.maxPhase))
         return (gap, phase)
 
+    def calc(self, energy, mode):
+        return self.idgapphase(energy, mode, 1)
+
     def rawGetPosition(self):
         '''returns the current beam energy, or polarisation, or both.'''
 
