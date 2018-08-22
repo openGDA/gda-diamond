@@ -3,7 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
-
 	<bean id="d5c_positioner" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL07C-DI-PHDGN-05" />
 	</bean>
@@ -15,13 +14,6 @@
 
 	<!-- The Object which gets the ROIs from the client over RMI -->
 	<bean id="d5c_cam1_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
-	<!-- Export it over RMI so the client can use it -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-	    <property name="serviceName" value="gda/d5c1Roi" />
-	    <property name="service" ref="d5c_cam1_roi" />
-	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-	</bean>
-
 	<bean id="d5c_cam1_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats1" />
 		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source for the array view -->
@@ -110,7 +102,7 @@
 	<!-- Export it over RMI so the client can use it -->
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 	    <property name="serviceName" value="gda/d5c2Roi" />
-	    <property name="service" ref="d5c_cam1_roi" />
+	    <property name="service" ref="d5c_cam2_roi" />
 	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 	</bean>
 
