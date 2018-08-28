@@ -4,27 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="qbpm1_x" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="qbpm1_x_motor"/>
+	<bean id="qbpm1_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-DI-PHDGN-07:X"/>
 		<property name="local" value="true"/>
-		<property name="protectionLevel" value="3"/>
 	</bean>
-
-	<bean id="qbpm1_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="qbpm1_y_motor"/>
+	<bean id="qbpm1_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL22I-DI-PHDGN-07:Y"/>
 		<property name="local" value="true"/>
-		<property name="protectionLevel" value="3"/>
-	</bean>
-
-	<bean id="qbpm1" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="qbpm1_x"/>
-				<ref bean="qbpm1_y"/>
-			</list>
-		</property>
-		<property name="local" value="true"/>
-		<property name="protectionLevel" value="3"/>
 	</bean>
 </beans>
 
