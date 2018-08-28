@@ -26,10 +26,6 @@
          version="0.0.0"/>
 
    <includes
-         id="uk.ac.diamond.daq.mapping.ui.feature"
-         version="0.0.0"/>
-
-   <includes
          id="uk.ac.gda.client.tomo.feature"
          version="0.0.0"/>
 
@@ -144,6 +140,27 @@
 
    <plugin
          id="com.github.tschoonj.xraylib"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.scanning.device.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.dawnsci.processing.python"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.diamond.scisoft.analysis.processing"
          download-size="0"
          install-size="0"
          version="0.0.0"

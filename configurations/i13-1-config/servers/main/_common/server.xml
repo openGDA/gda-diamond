@@ -192,7 +192,7 @@
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/dataFileWriter.xml" />
-	
+
 	<!-- See uk.ac.gda.exafs.ui.detector.DetectorEditor.EXAFS_SCRIPT_OBSERVER-->
 	<bean id="ExafsScriptObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 
@@ -201,14 +201,6 @@
 
 	<!-- Initialise Jython late on in case scripts use Spring beans -->
 	<import resource="jythonServerFacade.xml" />
-
-	<!--
-		Mapping scans
-		IMPORTANT: this will start processing the scanning queue.
-		Detectors must be created before doing this.
-		ADVISED: do it last or towards the end, scan will now start to run!
-	 -->
-	<import resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml"/>
 
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />

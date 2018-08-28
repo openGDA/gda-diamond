@@ -12,8 +12,7 @@
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="rmi_imports.xml" />
 	<import resource="osgi_services.xml" />
-	<import resource="mapping.xml" />
-	
+
 	<import resource="../../rcp/statusView.xml" />
 	<import resource="../../rcp/alignmentView.xml" />
 	<import resource="../../rcp/detectorImage.xml" />

@@ -89,7 +89,6 @@
 	<!-- Shared files                                         		 -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/servers/main/_common/GDAMetadata.xml" />
-	<import resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml" />
 
 	<import resource="file:${gda.config}/devices/_common/b16_xps.xml"/>
 	<import resource="file:${gda.config}/devices/_common/cam1.xml"/>

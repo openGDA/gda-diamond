@@ -38,8 +38,6 @@
 	<import resource="file:${gda.config}/clients/main/_common/devices/tomoAlignment.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/devices/tomoConfiguration.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/devices/edxd.xml" />
-	
-	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
 
 	<bean id="helpScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
