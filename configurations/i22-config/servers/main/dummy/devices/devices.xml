@@ -34,6 +34,8 @@
     
     <import resource="fswitch.xml" />
 
+	<import resource="xmap_dxp.xml" />
+
     <import resource="gisaxs/gisaxs.xml"/>
     <import resource="slits/slits.xml"/>
 </beans>

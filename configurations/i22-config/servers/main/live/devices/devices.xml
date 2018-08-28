@@ -44,6 +44,8 @@
 
 	<import resource="fswitch.xml" />
 
+	<import resource="xmap_dxp.xml" />
+
 	<import resource="beamline.xml" />
 
 </beans>

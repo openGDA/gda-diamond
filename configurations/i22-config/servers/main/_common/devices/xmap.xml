@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	profile="xmap"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
+		<property name="local" value="true" />
+		<property name="xmap" ref="xmap_dxp" />
+		<property name="numberOfElements" value="4" />
+		<property name="elementOffset" value="1" />
+	</bean>
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
+		<property name="local" value="true" />
+		<property name="edxdControllerName" value="edxdcontroller" />
+	</bean>
+	<bean id="xmap" class="uk.ac.gda.server.ncd.subdetector.NcdXmapDetector">
+		<property name="xmapControllerName" value="xmapcontroller" />
+	</bean>
+</beans>
