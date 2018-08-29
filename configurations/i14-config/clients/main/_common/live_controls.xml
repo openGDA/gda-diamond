@@ -9,7 +9,7 @@
 		<property name="displayName" value="Stage X" />
 		<property name="scannableName" value="stage1_x" />
 		<property name="group" value="Stage Controls" />
-		<property name="increment" value="0.1" />
+		<property name="increment" value="0.025" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
 
@@ -17,7 +17,7 @@
 		<property name="displayName" value="Stage Y" />
 		<property name="scannableName" value="stage1_y" />
 		<property name="group" value="Stage Controls" />
-		<property name="increment" value="0.1" />
+		<property name="increment" value="0.025" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
 
@@ -25,7 +25,7 @@
 		<property name="displayName" value="Stage Z" />
 		<property name="scannableName" value="stage1_z" />
 		<property name="group" value="Stage Controls" />
-		<property name="increment" value="0.1" />
+		<property name="increment" value="0.025" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
 
@@ -34,6 +34,23 @@
 		<property name="scannableName" value="stage1_rotation" />
 		<property name="group" value="Stage Controls" />
 		<property name="increment" value="0.1" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+	<!-- Sample stage fine motors -->
+ 	<bean id="stage1_xf_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Stage X fine" />
+		<property name="scannableName" value="stage1_xf" />
+		<property name="group" value="Stage Controls (fine)" />
+		<property name="increment" value="0.001" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
+ 	<bean id="stage1_yf_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Stage Y fine" />
+		<property name="scannableName" value="stage1_yf" />
+		<property name="group" value="Stage Controls (fine)" />
+		<property name="increment" value="0.001" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
 
@@ -95,6 +112,8 @@
 				<ref bean="stage1_y_control" />
 				<ref bean="stage1_z_control" />
 				<ref bean="stage1_rotation_control" />
+				<ref bean="stage1_xf_control" />
+				<ref bean="stage1_yf_control" />
 			</list>
 		</property>
 	</bean>
