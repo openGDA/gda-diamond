@@ -4,6 +4,7 @@ numberofframes needs to be an integer, and the timings in msec
 from gda.configuration.properties import LocalProperties
 from gda.factory import Finder
 from gdaserver import operationMode
+from contextlib import contextmanager
 
 DEFAULT_RUN_PULSE = int(LocalProperties.get("gda.ncd.defaultRunPulse", "11111111"), 2)
 DEFAULT_WAIT_PULSE = int(LocalProperties.get("gda.ncd.defaultWaitPulse", "00000000"), 2)
@@ -34,7 +35,21 @@ def _normalise_pulse(pulse):
         raise ValueError('Need 8 bit value for run or wait pulse')
     return int(pulse[::-1], 2)
 
-def setupTfg(numberOfFrames, exposure, waitTime, waitPulse=DEFAULT_WAIT_PULSE, runPulse=DEFAULT_RUN_PULSE, waitPause=DEFAULT_WAIT_PAUSE, runPause=DEFAULT_RUN_PAUSE):
+@contextmanager
+def tfgGroups(quiet=False):
+    timer.clearFrameSets()
+    yield
+    timer.loadFrameSets()
+    groups = timer.getFramesets()
+    if not quiet:
+        print 'TFG configured to record:'
+        for group in groups:
+            if group.frameCount < 2:
+                print("  a single frame with a {0.requestedLiveTime}ms exposure and a {0.requestedDeadTime}ms wait time.".format(group))
+            else:
+                print("  {0.frameCount} frames with {0.requestedLiveTime}ms exposure, with frames taken every {1}ms.".format(group, group.requestedLiveTime + group.requestedDeadTime))
+
+def addGroup(numberOfFrames, exposure, waitTime, waitPulse=DEFAULT_WAIT_PULSE, runPulse=DEFAULT_RUN_PULSE, waitPause=DEFAULT_WAIT_PAUSE, runPause=DEFAULT_RUN_PAUSE):
     """
     set number of frames and exposure times (optional arguments need keywords)
 
@@ -49,20 +64,22 @@ def setupTfg(numberOfFrames, exposure, waitTime, waitPulse=DEFAULT_WAIT_PULSE, r
 
     runPulse = _normalise_pulse(runPulse)
     waitPulse = _normalise_pulse(waitPulse)
-    timer.clearFrameSets()
     timer.addFrameSet(numberOfFrames, waitTime, exposure, waitPulse, runPulse, waitPause, runPause)
-    timer.loadFrameSets()
 
-    if numberOfFrames < 2:
-        print("TFG updated to record a single frame with a " + repr(exposure) + "ms exposure and a " +repr(waitTime) + "ms wait time.")
-    else:
-        print("TFG updated to record " + repr(numberOfFrames) + " frames of " + repr(exposure) + "ms exposures, with frames taken every " +repr(exposure+waitTime) + "ms.")
+def setupTfg(*a, **kw):
+    """
+    set number of frames and exposure times (optional arguments need keywords)
 
-def setupTfgGroups(*groups):
-    timer.clearFrameSets()
-    for group in groups:
-        timer.addFrameSet(*group)
-    timer.loadFrameSets()
+    numberOfFrames: the number of frames to collect
+    exposure: the time per frame (in ms)
+    waitTime: the dead time between frames (in ms)
+    (optional)waitPulse: the trigger pulse for the dead time (defaults to value in properties file)
+    (optional)runPulse: the trigger pulse for the live frames (defaults to value in properties file)
+    (optional)waitPause: defaults to 0 (no pause)
+    (optional)runPause: defaults to 0 (no pause)
+    """
+    with tfgGroups():
+        addGroup(*a, **kw)
 
 def fs(actionrequested=None):
     """Set the idle position of the fast shutter
