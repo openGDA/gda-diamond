@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
@@ -51,8 +49,6 @@
 		<property name="regionValidator" ref="regionvalidator"/>
 	</bean>
 	
-	<corba:import namespace="i09" names="dcmenergy, pgmenergy" />
-
 	<bean id="regionviewfactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.RegionViewFactory">
 		<property name="viewPartName" value="Region Editor" />
@@ -94,18 +90,6 @@
 		<property name="updatesPerSecond" value="3" />
 	</bean>
 
-<!-- 	<bean id="externalioviewfactory" -->
-<!-- 		class="org.opengda.detector.electronanalyser.client.viewfactories.ExternalIOViewFactory"> -->
-<!-- 		<property name="viewPartName" value="External IO" /> -->
-<!-- 		<property name="analyser" ref="analyser" /> -->
-<!-- 		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV"/> -->
-<!-- 	</bean> -->
-<!-- 	<bean id="slicesviewfactory" -->
-<!-- 		class="org.opengda.detector.electronanalyser.client.viewfactories.SlicesViewFactory"> -->
-<!-- 		<property name="viewPartName" value="Slices" /> -->
-<!-- 		<property name="analyser" ref="analyser" /> -->
-<!-- 		<property name="updatePV" value="BL09I-EA-DET-01:CAM:CURRENT_POINT_RBV"/> -->
-<!-- 	</bean> -->
 	<bean id="progressviewfactory"
 		class="org.opengda.detector.electronanalyser.client.viewfactories.ProgressViewFactory">
 		<property name="viewPartName" value="Progress" />
@@ -123,10 +107,5 @@
 
 		<property name="currentIterationPV" value="BL09I-EA-DET-01:CAM:NumExposuresCounter_RBV"/>
 		<property name="totalIterationsPV" value="BL09I-EA-DET-01:CAM:NumExposures"/>
-		
-<!-- 		<property name="iterationTotalPointsPV" value="BL09I-EA-DET-01:CAM:TOTAL_POINTS_ITERATION_RBV" /> -->
-<!-- 		<property name="currentDataPointPV" value="BL09I-EA-DET-01:CAM:CURRENT_DATA_POINT_RBV"/> -->
-<!-- 		<property name="inLeadPV" value="BL09I-EA-DET-01:CAM:LEADING_IN_RBV"/> -->
-<!-- 		<property name="currentLeadPointPV" value="BL09I-EA-DET-01:CAM:CURRENT_LEAD_POINT_RBV" /> -->
 	</bean>
 </beans>

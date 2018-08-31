@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
-	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}highestExistingFileMonitor" />
-		<property name="serviceInterface"
-			value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="imageFileDisplayer" class="uk.ac.gda.dls.client.views.ImageFileDisplayer">
 		<property name="viewName" value="Detector Image" />
@@ -34,12 +27,7 @@
 								<property name="label" value="Ring Current" />
 								<property name="units" value="mA" />
 							</bean>
-<!-- 							<bean -->
-<!-- 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory"> -->
-<!-- 								<property name="scannable" ref="timeToRefill" /> -->
-<!-- 								<property name="label" value="Time to refill" /> -->
-<!-- 								<property name="units" value="s" /> -->
-<!-- 							</bean> -->
+
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
 								<property name="scannable" ref="idGap" />
@@ -89,17 +77,10 @@
 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
 		<property name="service" ref="camera_config" />
 	</bean>
-
-		<corba:import namespace="i09"
-		names="command_server, ScanDataStore, SimpleServlet" />
-
-	<!-- create connection to remote objects via netService -->
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
+	
+	<bean id="pgmenergy" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="dcmenergy" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
