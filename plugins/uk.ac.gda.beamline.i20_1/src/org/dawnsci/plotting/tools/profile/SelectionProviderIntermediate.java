@@ -27,8 +27,8 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 
 public class SelectionProviderIntermediate implements IPostSelectionProvider {
 
-	private final ListenerList selectionListeners = new ListenerList();
-	private final ListenerList postSelectionListeners = new ListenerList();
+	private final ListenerList<ISelectionChangedListener> selectionListeners = new ListenerList<>();
+	private final ListenerList<ISelectionChangedListener> postSelectionListeners = new ListenerList<>();
 
 	private ISelectionProvider delegate;
 
@@ -85,7 +85,7 @@ public class SelectionProviderIntermediate implements IPostSelectionProvider {
 		fireSelectionChanged(postSelectionListeners, selection);
 	}
 
-	private void fireSelectionChanged(ListenerList list, ISelection selection) {
+	private void fireSelectionChanged(ListenerList<ISelectionChangedListener> list, ISelection selection) {
 		SelectionChangedEvent event = new SelectionChangedEvent(delegate, selection);
 		Object[] listeners = list.getListeners();
 		for (int i = 0; i < listeners.length; i++) {

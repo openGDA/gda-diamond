@@ -69,7 +69,7 @@ public class AlignmentStageCalibrationView extends ViewPart {
 
 	private final String ALIGNMENT_STAGE_DATA_STORE_KEY = "ALIGNMENT_STAGE_DATA_STORE_KEY";
 
-	private final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
+	private final WritableList<Scannable> movingScannables = new WritableList<>(new ArrayList<>(), Scannable.class);
 	private final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
 
 	public AlignmentStageCalibrationView() {}

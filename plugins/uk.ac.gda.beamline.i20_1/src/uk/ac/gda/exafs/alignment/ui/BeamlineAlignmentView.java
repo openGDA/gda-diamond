@@ -133,7 +133,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private FormText labelPowerEstimateValue;
 	private FormText labelDeltaEValueSuggestion;
 
-	private final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
+	private final WritableList<Scannable> movingScannables = new WritableList<>(new ArrayList<>(), Scannable.class);
 	private final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
 	private Label energyLabel;
 	private Button butDetectorSetup;

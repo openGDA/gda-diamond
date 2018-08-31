@@ -65,9 +65,9 @@ public class DetectorModel extends ObservableModel {
 		return energyCalibrationSetObserver;
 	}
 
-	private final List<EdeDetector> availableDetectors = new ArrayList<EdeDetector>();
-	private final List<Roi> roisModel = new ArrayList<Roi>();
-	private final WritableList rois = new WritableList(roisModel, Roi.class);
+	private final List<EdeDetector> availableDetectors = new ArrayList<>();
+	private final List<Roi> roisModel = new ArrayList<>();
+	private final WritableList<Roi> rois = new WritableList<>(roisModel, Roi.class);
 
 	private Integer[] excludedStripsCache;
 
@@ -208,7 +208,7 @@ public class DetectorModel extends ObservableModel {
 		return currentDetector.getPixels();
 	}
 
-	public WritableList getRois() {
+	public WritableList<Roi> getRois() {
 		return rois;
 	}
 
@@ -243,8 +243,8 @@ public class DetectorModel extends ObservableModel {
 	}
 	public static class ROIsSetObserver extends ObservableModel implements IObserver {
 		public static final String ROIS_PROP_NAME = EdeDetector.ROIS_PROP_NAME;
-		List<Roi> roisModel = new ArrayList<Roi>();
-		WritableList rois = new WritableList(roisModel, Roi.class);
+		List<Roi> roisModel = new ArrayList<>();
+		WritableList<Roi> rois = new WritableList<>(roisModel, Roi.class);
 		@Override
 		public void update(final Object source, Object arg) {
 			if (arg.equals(EdeDetector.ROIS_PROP_NAME)) {
@@ -261,7 +261,7 @@ public class DetectorModel extends ObservableModel {
 			}
 		}
 
-		public WritableList getRois() {
+		public WritableList<Roi> getRois() {
 			if (rois.isEmpty()) {
 				for (Roi roi : DetectorModel.INSTANCE.getCurrentDetector().getRois()) {
 					rois.add(roi);
