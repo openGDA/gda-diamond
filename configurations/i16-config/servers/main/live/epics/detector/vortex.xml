@@ -41,7 +41,5 @@
 		</property>
 		<property name="alwaysRecordRawMCAs" value="true" />
 		<property name="slave" value="false" />
-		<property name="configFileName"
-			value="${gda.config}/xml/vortex_parameters.xml" />
 	</bean>
 </beans>
