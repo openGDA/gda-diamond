@@ -1,5 +1,5 @@
 from java.io import FileNotFoundException
-from gdaserver import dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe
+from gdaserver import dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current
 from gda.configuration.properties import LocalProperties
 from gda.jython.commands.GeneralCommands import alias, cmd, ls, ls_names, pause, reset_namespace, run
 from gdascripts.scan import gdascans
@@ -54,6 +54,7 @@ else:
     print("Running in dummy mode")
     from Beamline.MotionsAndDetectors.dcm_enrg import DCMpdq
     dcm_enrg = DCMpdq("dcm_enrg", dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current)
+    run("Beamline/Utilities/align/xanes_scan.py")
 
 # Export dcm_enrg over RMI
 print("Exporting dcm_enrg")
