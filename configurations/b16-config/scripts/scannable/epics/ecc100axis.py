@@ -37,7 +37,7 @@ class Ecc100Axis(ScannableBase):
         return int(self.ca_inposition.caget()) != 1
 
     def getPosition(self):
-        return self.ca_position_rbv.caget()
+        return float(self.ca_position_rbv.caget())
 
     def asynchronousMoveTo(self, pos):
         self.ca_position.caput(pos)

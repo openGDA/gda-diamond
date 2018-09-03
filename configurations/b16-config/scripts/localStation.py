@@ -71,6 +71,9 @@ ENABLE_PILATUS = True
 ENABLE_PCOEDGE = True
 ENABLE_PCO4000 = True
 
+ENABLE_LAKESHORE_340 = False
+ENABLE_PIE_725 = False
+
 #USE_YOU_DIFFCALC_ENGINE = True
 USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
 
@@ -234,7 +237,7 @@ sca.assign(16, ['ct16'])
 
 # there is an offical server.xml device to do this. This hack taken from i16.
 print "Creating TCA scanables"
-if installation.isLive():
+if False and installation.isLive():
 	vtca=device_tca.TCA('BL16B-EA-DET-01:tca1')
 
 	vroi1 = pd_tca.tcasca('vroi1',"%4.3f",vtca,"%",'1')
@@ -640,7 +643,7 @@ if installation.isLive():
 	expuni = ExposeUniblitzShutter('expuni', 'BL16B-EA-SHTR-03')#,'BL16B-EA-DET-01:SCALER1' )
 
 	from scannable.hw.TimingSystemScannable import TimingSystemScannable
-	expunishort = TimingSystemScannable('ts', 'BL16B-EA-DIO-01:BO0','BL16B-EA-EVR-01')#, 'BL16B-EA-DET-01:SCALER1' )
+	expunishort = TimingSystemScannable('ts', 'BL16B-EA-DIO-01:BO1','BL16B-EA-EVR-01')#, 'BL16B-EA-DET-01:SCALER1' )
 
 
 ###############################################################################
@@ -877,12 +880,12 @@ if installation.isLive():
 	ai7prompt=pd_readPvAfterWaiting.ReadPvAfterWaiting("ai7prompt","BL16B-EA-RIM-01:AI7")
 	Braggtemp=pd_readPvAfterWaiting.ReadPvAfterWaiting("Braggtemp","BL16B-OP-DCM-01:TEMP:BRAGG")
 
-	bo1trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo1trig','BL16B-EA-DIO-01:BO0',True )
-	bo1trigFancy = pd_toggleBinaryPvAndWaitFancy.ToggleBinaryPvAndWaitFancy('bo1trig','BL16B-EA-DIO-01:BO0',True )
+	bo1trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo1trig','BL16B-EA-DIO-01:BO1',True )
+	bo1trigFancy = pd_toggleBinaryPvAndWaitFancy.ToggleBinaryPvAndWaitFancy('bo1trig','BL16B-EA-DIO-01:BO1',True )
 	bo1trig = bo1trigBasic
 
-	bo2trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo2trig','BL16B-EA-DIO-01:BO1',True )
-	bo2trigFancy = pd_toggleBinaryPvAndWaitFancy.ToggleBinaryPvAndWaitFancy('bo2trig','BL16B-EA-DIO-01:BO1',True )
+	bo2trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo2trig','BL16B-EA-DIO-01:BO2',True )
+	bo2trigFancy = pd_toggleBinaryPvAndWaitFancy.ToggleBinaryPvAndWaitFancy('bo2trig','BL16B-EA-DIO-01:BO2',True )
 	bo2trig = bo2trigBasic
 
 	vortlivet = pd_readPvAfterWaiting.ReadPvAfterWaiting("vlivet","BL16B-EA-DET-01:aim_adc1.ELTM")
@@ -968,8 +971,9 @@ print visit_setter
 print "======================================================================"
 
 
-if installation.isLive():
-	run('femtogains')
+#femtos are gone - Igor 27-06-18
+#if installation.isLive():
+#	run('femtogains')
 
 run('setup_bimorph')
 
@@ -1152,52 +1156,55 @@ lkts1500 = Linkam("lkts1500", "BL16B-EA-TEMPC-01:")
 
 ######################################################################################################################################
 #LakeShore Temperature controller
-print "Setting up LakeShore 340 Temperature Controller from I16"
+if ENABLE_LAKESHORE_340:
+	print "Setting up LakeShore 340 Temperature Controller from I16"
 
-run('pd_LS340control.py')
+	run('pd_LS340control.py')
 #tset = EpicsLScontrol('tset','BL16B-EA-LS340-01:','K','%5.2f','0','1')
-ls340set = EpicsLScontrol('ls340set','BL16B-EA-LS340-01:','K','%5.2f','0','1')
+	ls340set = EpicsLScontrol('ls340set','BL16B-EA-LS340-01:','K','%5.2f','0','1')
 
-from gda.device.scannable import EpicsScannable
-Tc = EpicsScannable()
-Tc.name = 'Tc'
-Tc.pvName = 'BL16B-EA-LS340-01:KRDG2'
-Tc.userUnits = 'K'
-Tc.extraNames = ['Tc']
-Tc.outputFormat = ['%6f']
-Tc.configure()
+	from gda.device.scannable import EpicsScannable
+	Tc = EpicsScannable()
+	Tc.name = 'Tc'
+	Tc.pvName = 'BL16B-EA-LS340-01:KRDG2'
+	Tc.userUnits = 'K'
+	Tc.extraNames = ['Tc']
+	Tc.outputFormat = ['%6f']
+	Tc.configure()
 
-Td = EpicsScannable()
-Td.name = 'Td'
-Td.pvName = 'BL16B-EA-LS340-01:KRDG3'
-Td.userUnits = 'K'
-Td.extraNames = ['Td']
-Td.outputFormat = ['%6f']
-Td.configure()
+	Td = EpicsScannable()
+	Td.name = 'Td'
+	Td.pvName = 'BL16B-EA-LS340-01:KRDG3'
+	Td.userUnits = 'K'
+	Td.extraNames = ['Td']
+	Td.outputFormat = ['%6f']
+	Td.configure()
 
-ls340ramp = EpicsScannable()
-ls340ramp.name = 'ls340ramp'
-ls340ramp.pvName = 'BL16B-EA-LS340-01:RAMP_S'
-ls340ramp.userUnits = 'K'
-ls340ramp.extraNames = ['ls340ramp']
-ls340ramp.outputFormat = ['%6f']
-ls340ramp.configure()
+	ls340ramp = EpicsScannable()
+	ls340ramp.name = 'ls340ramp'
+	ls340ramp.pvName = 'BL16B-EA-LS340-01:RAMP_S'
+	ls340ramp.userUnits = 'K'
+	ls340ramp.extraNames = ['ls340ramp']
+	ls340ramp.outputFormat = ['%6f']
+	ls340ramp.configure()
 
-ls340target=EpicsScannable()
-ls340target.name = 'ls340target'
-ls340target.pvName = 'BL16B-EA-LS340-01:SETP_S'
-ls340target.userUnits = 'K'
-ls340target.extraNames = ['ls340target']
+	ls340target=EpicsScannable()
+	ls340target.name = 'ls340target'
+	ls340target.pvName = 'BL16B-EA-LS340-01:SETP_S'
+	ls340target.userUnits = 'K'
+	ls340target.extraNames = ['ls340target']
 #ls340target.inputFormat = ['%6f']
-ls340target.outputFormat = ['%6f']
-ls340target.configure()
+	ls340target.outputFormat = ['%6f']
+	ls340target.configure()
 
-print "Done!"
+	print "Done!"
 ######################################################################################################################################
 
 from epics_scripts.device.scannable.pvscannables_with_logic import PVWithSeparateReadbackAndToleranceScannable
 furnace = PVWithSeparateReadbackAndToleranceScannable('furnace', pv_set='BL16B-EA-TEMPC-01:RAMP:LIMIT:SET', pv_read='BL16B-EA-TEMPC-01:TEMP', timeout=36000, tolerance = .1)
-run('startup_pie725')
+
+if ENABLE_PIE_725:
+	run('startup_pie725')
 
 
 #print "!!!! Renaming pcoedgepeak2d --> peak2d for bimorph scripts !!!!"
