@@ -17,13 +17,6 @@
 	<!-- The Object which gets the ROIs from the client over RMI -->
 	<bean id="sim_roi"
 		class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
-	<!-- Export it over RMI so the client can use it -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/simRoi" />
-		<property name="service" ref="sim_roi" />
-		<property name="serviceInterface"
-			value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-	</bean>
 	<bean id="simRoiStats1"
 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats" />

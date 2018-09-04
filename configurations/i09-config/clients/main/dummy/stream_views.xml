@@ -17,9 +17,5 @@
 	</bean>
 
 	<!-- Import the server side object over RMI -->
-	<bean id="sim_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
-		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	<bean id="sim_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 </beans>
