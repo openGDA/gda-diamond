@@ -2,14 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd
-	http://www.diamond.ac.uk/schema/gda/corba
-	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
 	http://www.diamond.ac.uk/schema/gda/gda
 	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
@@ -39,13 +36,6 @@
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
-
 	<bean id="twodplot" class="gda.data.scan.TwoDPlotListener">
 		<property name="plotPanel" value="2D Scan Plot" />
 	</bean>
@@ -60,7 +50,8 @@
 	<import resource="solstice_scanning.xml"/>
 	<import resource="example_detectors.xml"/>
 
-	<corba:export namespace="${gda.factory.factoryName}" />
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 	<import resource="jython_server.xml" />
 
