@@ -66,6 +66,7 @@ else:
 
 def picture(acqTime):
     scan(t,1,1,1,pcotif,acqTime)  # @UndefinedVariable
+from gda.jython.commands.GeneralCommands import alias
 alias("picture")
 #
 if installation.isLive():

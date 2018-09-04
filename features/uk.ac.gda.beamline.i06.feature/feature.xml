@@ -92,13 +92,6 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          unpack="false"/>
 
    <plugin
-         id="uk.ac.gda.devices.peem"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.devices.pco"
          download-size="0"
          install-size="0"
