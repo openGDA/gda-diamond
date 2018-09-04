@@ -18,11 +18,11 @@ alias('fs')
 
 
 # Get the locatation of the GDA beamline script directory
-gdaScriptDir = "/dls/i22/software/gda/config/scripts/"
+gdaScriptDir = "/dls_sw/i22/software/gda/config/scripts/"
 setupScriptDir = "setup/"
 #beamlineScriptDir = "beamlineScripts/"
 
-gdascripts = "/dls/i22/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
+gdascripts = "/dls_sw/i22/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/scripts/gdascripts/"
 
 execfile(gdascripts + "/pd/epics_pds.py")
 execfile(gdascripts + "/pd/time_pds.py")
