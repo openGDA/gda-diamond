@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -36,9 +34,7 @@ import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -176,21 +172,17 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		comboCrystalQ.setSelection( new StructuredSelection( AlignmentParametersModel.INSTANCE.getQ()) );
 
 		cmbDetectorType.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector()));
-		cmbDetectorType.addSelectionChangedListener(new ISelectionChangedListener() {
-
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				if (event!=null && !event.getSelection().isEmpty()) {
-					String text = cmbDetectorType.getCCombo().getText();
-					Findable detector = Finder.getInstance().find(text);
-					if (detector != null && detector instanceof EdeDetector) {
-						EdeDetector ededetector = (EdeDetector) detector;
-						DetectorModel.INSTANCE.setCurrentDetector(ededetector);
-						// TODO why frelon settings not update in GUI
-						//IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-						//IViewPart view = page.findView(DetectorLiveModeView.ID);
-						//((DetectorLiveModeView)view).update(ededetector);
-					}
+		cmbDetectorType.addSelectionChangedListener(event -> {
+			if (event!=null && !event.getSelection().isEmpty()) {
+				String text = cmbDetectorType.getCCombo().getText();
+				Findable detector = Finder.getInstance().find(text);
+				if (detector != null && detector instanceof EdeDetector) {
+					EdeDetector ededetector = (EdeDetector) detector;
+					DetectorModel.INSTANCE.setCurrentDetector(ededetector);
+					// TODO why frelon settings not update in GUI
+					//IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+					//IViewPart view = page.findView(DetectorLiveModeView.ID);
+					//((DetectorLiveModeView)view).update(ededetector);
 				}
 			}
 		});
@@ -318,30 +310,27 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	}
 
 	private void updatePower() {
-		Display.getDefault().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					double wigglerGap = (double) ScannableSetup.WIGGLER_GAP.getScannable().getPosition();
-					double slitHGap = (double) ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannable().getPosition();
-					final int powerValue = (int) PowerCalulator.getPower(PowerCalulator.REF_DATA_PATH, wigglerGap, slitHGap, 300);
-					String powerWatt = UnitSetup.WATT.addUnitSuffix(Integer.toString(powerValue));
-					if (powerValue > ScannableSetup.MAX_POWER_IN_WATT) {
-						String value ="Estimated power is " + powerWatt;
-						scrolledPolyForm.getForm().setMessage(value, IMessageProvider.ERROR);
-					} else {
-						scrolledPolyForm.getForm().setMessage("");
-					}
-					labelPowerEstimateValue.setText(getHighlightedFormatedString(powerWatt), true, false);
-				} catch (FileNotFoundException e) {
-					labelPowerEstimateValue.setText(
-							getHighlightedFormatedString("Unable to calculate with current parameters"), true, false);
-					logger.warn("Power calculation file not found");
-				} catch (Exception e) {
-					labelPowerEstimateValue.setText(
-							getHighlightedFormatedString("Unable to calculate with current parameters"), true, false);
-					logger.error("Unable to calculate with current parameters", e);
+		Display.getDefault().asyncExec(() -> {
+			try {
+				double wigglerGap = (double) ScannableSetup.WIGGLER_GAP.getScannable().getPosition();
+				double slitHGap = (double) ScannableSetup.SLIT_1_HORIZONAL_GAP.getScannable().getPosition();
+				final int powerValue = (int) PowerCalulator.getPower(PowerCalulator.REF_DATA_PATH, wigglerGap, slitHGap, 300);
+				String powerWatt = UnitSetup.WATT.addUnitSuffix(Integer.toString(powerValue));
+				if (powerValue > ScannableSetup.MAX_POWER_IN_WATT) {
+					String value ="Estimated power is " + powerWatt;
+					scrolledPolyForm.getForm().setMessage(value, IMessageProvider.ERROR);
+				} else {
+					scrolledPolyForm.getForm().setMessage("");
 				}
+				labelPowerEstimateValue.setText(getHighlightedFormatedString(powerWatt), true, false);
+			} catch (FileNotFoundException e1) {
+				labelPowerEstimateValue.setText(
+						getHighlightedFormatedString("Unable to calculate with current parameters"), true, false);
+				logger.warn("Power calculation file not found");
+			} catch (Exception e2) {
+				labelPowerEstimateValue.setText(
+						getHighlightedFormatedString("Unable to calculate with current parameters"), true, false);
+				logger.error("Unable to calculate with current parameters", e2);
 			}
 		});
 	}
@@ -464,28 +453,21 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 						}
 					});
 
-			butDetectorSetup.addListener(SWT.Selection, new Listener() {
-				@Override
-				public void handleEvent(Event event) {
-					DetectorSetupDialog setup;
-					try {
-						setup = new DetectorSetupDialog(Display.getDefault().getActiveShell());
-						setup.setBlockOnOpen(true);
-						setup.open();
-					} catch (Exception e) {
-						logger.error("Tried to open incorrect detector setup page.", e);
-					}
+			butDetectorSetup.addListener(SWT.Selection, event -> {
+				DetectorSetupDialog setup;
+				try {
+					setup = new DetectorSetupDialog(Display.getDefault().getActiveShell());
+					setup.setBlockOnOpen(true);
+					setup.open();
+				} catch (Exception e) {
+					logger.error("Tried to open incorrect detector setup page.", e);
 				}
 			});
 
 			cmbDetectorType.setInput(DetectorModel.INSTANCE.getAvailableDetectors());
 
-			AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.SUGGESTED_PARAMETERS_PROP_KEY, new PropertyChangeListener() {
-				@Override
-				public void propertyChange(PropertyChangeEvent evt) {
-					updateAlignmentParametersSuggestion((AlignmentParametersBean) evt.getNewValue());
-				}
-			});
+			AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.SUGGESTED_PARAMETERS_PROP_KEY,
+					evt -> updateAlignmentParametersSuggestion((AlignmentParametersBean) evt.getNewValue()));
 
 			updateAlignmentParametersSuggestion(AlignmentParametersModel.INSTANCE.getAlignmentSuggestedParameters());
 		} catch (Exception e) {
@@ -666,16 +648,13 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 	private Button createApplyButtonControl(Composite parent, ScannableSetup scannableSetup, Label posLabel) {
 		Button button = createApplyButtonControl(parent);
-		button.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					scannableSetup.getScannable().asynchronousMoveTo(posLabel.getText());
-				} catch (Exception e) {
-					String errorMessage = "Exception setting motor to " + posLabel.getText();
-					UIHelper.showError(errorMessage, e.getMessage());
-					logger.error(errorMessage, e);
-				}
+		button.addListener(SWT.Selection, event -> {
+			try {
+				scannableSetup.getScannable().asynchronousMoveTo(posLabel.getText());
+			} catch (Exception e) {
+				String errorMessage = "Exception setting motor to " + posLabel.getText();
+				UIHelper.showError(errorMessage, e.getMessage());
+				logger.error(errorMessage, e);
 			}
 		});
 		return button;
@@ -687,16 +666,13 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		enumPositionViewer.getComboWrapper().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		enumPositionViewer.setEnabled(controlsEnabled);
 
-		applyButton.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				try {
-					scnSetup.getScannable().asynchronousMoveTo(suggestionLabel.getText());
-				} catch (Exception e) {
-					String errorMessage = "Exception setting motor to " + suggestionLabel.getText();
-					UIHelper.showError(errorMessage, e.getMessage());
-					logger.error(errorMessage, e);
-				}
+		applyButton.addListener(SWT.Selection, event -> {
+			try {
+				scnSetup.getScannable().asynchronousMoveTo(suggestionLabel.getText());
+			} catch (Exception e) {
+				String errorMessage = "Exception setting motor to " + suggestionLabel.getText();
+				UIHelper.showError(errorMessage, e.getMessage());
+				logger.error(errorMessage, e);
 			}
 		});
 		return enumPositionViewer;
@@ -774,36 +750,33 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	}
 
 	private void showSuggestionValues(final AlignmentParametersBean results) {
-		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-			@Override
-			public void run() {
-				lblWigglerSuggestion.setText(ScannableSetup.WIGGLER_GAP.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getWigglerGap())));
-				lblPolyBender1Suggestion.setText(ScannableSetup.POLY_BENDER_1.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getPolyBend1())));
-				lblPolyBender2Suggestion.setText(ScannableSetup.POLY_BENDER_2.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getPolyBend2())));
-				lblMe1StripSuggestion.setText(results.getMe1stripe());
-				lblMe2StripSuggestion.setText(results.getMe2stripe());
-				lblSlitGapSuggestion.setText(ScannableSetup.SLIT_1_HORIZONAL_GAP.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getPrimarySlitGap())));
-				lblArm2ThetaAngleSuggestion.setText(ScannableSetup.ARM_2_THETA_ANGLE.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getArm2Theta())));
-				lblPolyBraggSuggestion.setText(ScannableSetup.POLY_BRAGG.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getBraggAngle())));
-				lblMe2PitchAngleSuggestion.setText(ScannableSetup.ME2_PITCH_ANGLE.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getMe2Pitch())));
+		PlatformUI.getWorkbench().getDisplay().asyncExec(() -> {
+			lblWigglerSuggestion.setText(ScannableSetup.WIGGLER_GAP.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getWigglerGap())));
+			lblPolyBender1Suggestion.setText(ScannableSetup.POLY_BENDER_1.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getPolyBend1())));
+			lblPolyBender2Suggestion.setText(ScannableSetup.POLY_BENDER_2.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getPolyBend2())));
+			lblMe1StripSuggestion.setText(results.getMe1stripe());
+			lblMe2StripSuggestion.setText(results.getMe2stripe());
+			lblSlitGapSuggestion.setText(ScannableSetup.SLIT_1_HORIZONAL_GAP.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getPrimarySlitGap())));
+			lblArm2ThetaAngleSuggestion.setText(ScannableSetup.ARM_2_THETA_ANGLE.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getArm2Theta())));
+			lblPolyBraggSuggestion.setText(ScannableSetup.POLY_BRAGG.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getBraggAngle())));
+			lblMe2PitchAngleSuggestion.setText(ScannableSetup.ME2_PITCH_ANGLE.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getMe2Pitch())));
 
-				// TODO Check if this value is correct
-				// FIXME Conversion shouldn't not be done in this UI section
-				lblDetectorDistanceSuggestion.setText(ScannableSetup.DETECTOR_Z_POSITION.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getDetectorDistance() * 1000))); // Convert to mm
-				lblDetectorHeightSuggestion.setText(ScannableSetup.DETECTOR_HEIGHT.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getDetectorHeight())));
+			// TODO Check if this value is correct
+			// FIXME Conversion shouldn't not be done in this UI section
+			lblDetectorDistanceSuggestion.setText(ScannableSetup.DETECTOR_Z_POSITION.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getDetectorDistance() * 1000))); // Convert to mm
+			lblDetectorHeightSuggestion.setText(ScannableSetup.DETECTOR_HEIGHT.getUnit().addUnitSuffix(DataHelper.roundDoubletoString(results.getDetectorHeight())));
 
-				lblAtn1Suggestion.setText(results.getAtn1().toString());
-				lblAtn2Suggestion.setText(results.getAtn2().toString());
-				lblAtn3Suggestion.setText(results.getAtn3().toString());
+			lblAtn1Suggestion.setText(results.getAtn1().toString());
+			lblAtn2Suggestion.setText(results.getAtn2().toString());
+			lblAtn3Suggestion.setText(results.getAtn3().toString());
 
-				if (results.getEnergyBandwidth() != null) {
-					String value = getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(Integer.toString(results.getEnergyBandwidth().intValue())));
-					labelDeltaEValueSuggestion.setText(value, true, false);
-				}
-				if (results.getReadBackEnergyBandwidth() != null) {
-					String value = getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(Integer.toString(results.getReadBackEnergyBandwidth().intValue())));
-					labelDeltaEValue.setText(value, true, false);
-				}
+			if (results.getEnergyBandwidth() != null) {
+				String value1 = getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(Integer.toString(results.getEnergyBandwidth().intValue())));
+				labelDeltaEValueSuggestion.setText(value1, true, false);
+			}
+			if (results.getReadBackEnergyBandwidth() != null) {
+				String value2 = getHighlightedFormatedString(UnitSetup.EV.addUnitSuffix(Integer.toString(results.getReadBackEnergyBandwidth().intValue())));
+				labelDeltaEValue.setText(value2, true, false);
 			}
 		});
 	}

@@ -18,7 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
@@ -182,18 +181,15 @@ public class FocusingView extends ViewPart {
 		samplePositionComposite.setLayout(new GridLayout(2, false));
 		samplePositionSection.setClient(samplePositionComposite);
 
-		sampleStageMotorsChangeListener = new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				try {
-					clearSampleStageMotorControls(samplePositionComposite);
-					addSampleStageMotorEditors(samplePositionComposite, moveObserver, (ExperimentMotorPostion[]) evt.getNewValue());
-					samplePositionSection.layout(true);
-					samplePositionSection.getParent().layout(true);
-				} catch (Exception e) {
-					UIHelper.showError("Unable to add Sample stage motor controls", e.getMessage());
-					logger.error("Unable to add Sample stage motor controls", e);
-				}
+		sampleStageMotorsChangeListener = evt -> {
+			try {
+				clearSampleStageMotorControls(samplePositionComposite);
+				addSampleStageMotorEditors(samplePositionComposite, moveObserver, (ExperimentMotorPostion[]) evt.getNewValue());
+				samplePositionSection.layout(true);
+				samplePositionSection.getParent().layout(true);
+			} catch (Exception e) {
+				UIHelper.showError("Unable to add Sample stage motor controls", e.getMessage());
+				logger.error("Unable to add Sample stage motor controls", e);
 			}
 		};
 		addSampleStageMotorEditors(samplePositionComposite, moveObserver, (SampleStageMotors.INSTANCE.getSelectedMotors()));

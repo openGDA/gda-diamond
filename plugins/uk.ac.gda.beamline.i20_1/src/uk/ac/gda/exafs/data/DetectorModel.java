@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.data;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,14 +70,11 @@ public class DetectorModel extends ObservableModel {
 	private Integer[] excludedStripsCache;
 
 	private DetectorModel() {
-		this.addPropertyChangeListener(DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if ((boolean) evt.getNewValue()) {
-					reloadROIs();
-				} else {
-					rois.clear();
-				}
+		this.addPropertyChangeListener(DETECTOR_CONNECTED_PROP_NAME, evt -> {
+			if ((boolean) evt.getNewValue()) {
+				reloadROIs();
+			} else {
+				rois.clear();
 			}
 		});
 		try {
@@ -221,14 +216,11 @@ public class DetectorModel extends ObservableModel {
 		@Override
 		public void update(final Object source, Object arg) {
 			if (arg.equals(EdeDetector.CALIBRATION_PROP_KEY)) {
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						String value = "";
-						if (((EdeDetector) source).isEnergyCalibrationSet()) {
-							value = ((EdeDetector) source).getEnergyCalibration().getFormattedPolinormal();
-							EnergyCalibrationSetObserver.this.firePropertyChange(ENERGY_CALIBRATION_PROP_NAME, null, value);
-						}
+				Display.getDefault().asyncExec(() -> {
+					String value = "";
+					if (((EdeDetector) source).isEnergyCalibrationSet()) {
+						value = ((EdeDetector) source).getEnergyCalibration().getFormattedPolinormal();
+						EnergyCalibrationSetObserver.this.firePropertyChange(ENERGY_CALIBRATION_PROP_NAME, null, value);
 					}
 				});
 			}
@@ -248,15 +240,12 @@ public class DetectorModel extends ObservableModel {
 		@Override
 		public void update(final Object source, Object arg) {
 			if (arg.equals(EdeDetector.ROIS_PROP_NAME)) {
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						rois.clear();
-						for (Roi roi : ((EdeDetector) source).getRois()) {
-							rois.add(roi);
-						}
-						ROIsSetObserver.this.firePropertyChange(ROIsSetObserver.ROIS_PROP_NAME, null, rois);
+				Display.getDefault().asyncExec(() -> {
+					rois.clear();
+					for (Roi roi : ((EdeDetector) source).getRois()) {
+						rois.add(roi);
 					}
+					ROIsSetObserver.this.firePropertyChange(ROIsSetObserver.ROIS_PROP_NAME, null, rois);
 				});
 			}
 		}

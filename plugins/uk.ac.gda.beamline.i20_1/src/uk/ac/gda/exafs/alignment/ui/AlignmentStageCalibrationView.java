@@ -18,7 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
@@ -28,7 +27,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.forms.widgets.Form;
@@ -92,35 +90,31 @@ public class AlignmentStageCalibrationView extends ViewPart {
 	// Make Listener object for given AlignmentStageDevice
 	private Listener makeListenerForDevice( final AlignmentStageDevice alignmentStageDevice )
 	{
-		Listener listenerForDevice = new Listener() {
+		Listener listenerForDevice = event -> {
 
-			@Override
-			public void handleEvent(Event event) {
+			Scannable xposScannable, yposScannable, xposFastShutter, yposFastShutter;
+			try {
+				// get current position for device and move the alignment motors
+				// double xpos =  alignmentStageDevice.getLocation().getxPosition();
+				// double ypos =  alignmentStageDevice.getLocation().getyPosition();
 
-				Scannable xposScannable, yposScannable, xposFastShutter, yposFastShutter;
-				try {
-					// get current position for device and move the alignment motors
-					// double xpos =  alignmentStageDevice.getLocation().getxPosition();
-					// double ypos =  alignmentStageDevice.getLocation().getyPosition();
+				xposScannable = ScannableSetup.ALIGNMENT_STAGE_X_POSITION.getScannable();
+				yposScannable = ScannableSetup.ALIGNMENT_STAGE_Y_POSITION.getScannable();
 
-					xposScannable = ScannableSetup.ALIGNMENT_STAGE_X_POSITION.getScannable();
-					yposScannable = ScannableSetup.ALIGNMENT_STAGE_Y_POSITION.getScannable();
+				// xposScannable.asynchronousMoveTo(xpos);
+				// yposScannable.asynchronousMoveTo(ypos);
 
-					// xposScannable.asynchronousMoveTo(xpos);
-					// yposScannable.asynchronousMoveTo(ypos);
+				xposFastShutter = ScannableSetup.FAST_SHUTTER_X_POSITION.getScannable();
+				yposFastShutter = ScannableSetup.FAST_SHUTTER_Y_POSITION.getScannable();
 
-					xposFastShutter = ScannableSetup.FAST_SHUTTER_X_POSITION.getScannable();
-					yposFastShutter = ScannableSetup.FAST_SHUTTER_Y_POSITION.getScannable();
-
-					alignmentStageDevice.moveLocation(xposScannable, yposScannable, xposFastShutter, yposFastShutter);
-				}
-				catch (DeviceException e) {
-					logger.error("Problem moving alignment stage ", e);
-				} catch (Exception e) {
-					logger.error("Problem getting scannable for alignment stage ", e);
-				}
-
+				alignmentStageDevice.moveLocation(xposScannable, yposScannable, xposFastShutter, yposFastShutter);
 			}
+			catch (DeviceException e1) {
+				logger.error("Problem moving alignment stage ", e1);
+			} catch (Exception e2) {
+				logger.error("Problem getting scannable for alignment stage ", e2);
+			}
+
 		};
 		return listenerForDevice;
 	}
@@ -307,12 +301,7 @@ public class AlignmentStageCalibrationView extends ViewPart {
 	}
 
 	// Listener used to update persistence store when model changes.
-	private final PropertyChangeListener textBoxListener = new PropertyChangeListener() {
-		@Override
-		public void propertyChange(PropertyChangeEvent event) {
-			saveAlignmentStageSettings();
-		}
-	};
+	private final PropertyChangeListener textBoxListener = event -> saveAlignmentStageSettings();
 
 	private Composite createAlignmentStageXY(Composite parent, ScannableSetup xScannable, ScannableSetup yScannable) throws Exception {
 		Composite xyPositionComposite = toolkit.createComposite(parent, SWT.NONE);

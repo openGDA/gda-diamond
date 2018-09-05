@@ -32,21 +32,15 @@ public class SelectionProviderIntermediate implements IPostSelectionProvider {
 
 	private ISelectionProvider delegate;
 
-	private final ISelectionChangedListener selectionListener = new ISelectionChangedListener() {
-		@Override
-		public void selectionChanged(SelectionChangedEvent event) {
-			if (event.getSelectionProvider() == delegate) {
-				fireSelectionChanged(event.getSelection());
-			}
+	private final ISelectionChangedListener selectionListener = event -> {
+		if (event.getSelectionProvider() == delegate) {
+			fireSelectionChanged(event.getSelection());
 		}
 	};
 
-	private final ISelectionChangedListener postSelectionListener = new ISelectionChangedListener() {
-		@Override
-		public void selectionChanged(SelectionChangedEvent event) {
-			if (event.getSelectionProvider() == delegate) {
-				firePostSelectionChanged(event.getSelection());
-			}
+	private final ISelectionChangedListener postSelectionListener = event -> {
+		if (event.getSelectionProvider() == delegate) {
+			firePostSelectionChanged(event.getSelection());
 		}
 	};
 
