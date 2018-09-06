@@ -32,10 +32,7 @@ import org.eclipse.dawnsci.nexus.NexusException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.configuration.properties.LocalProperties;
-import gda.data.metadata.NXMetaDataProvider;
 import gda.data.nexus.tree.NexusTreeProvider;
-import gda.data.scan.datawriter.NexusDataWriter;
 import gda.data.scan.datawriter.XasNexusDataWriter;
 import gda.data.swmr.SwmrFileReader;
 import gda.device.ContinuousParameters;
@@ -46,6 +43,7 @@ import gda.device.detector.DummyNXDetector;
 import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.detector.countertimer.TfgScalerWithLogValues;
 import gda.device.scannable.ContinuouslyScannable;
+import gda.device.scannable.MetashopDataScannable;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TurboXasScannable;
 import gda.device.trajectoryscancontroller.TrajectoryScanController;
@@ -53,15 +51,16 @@ import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteState
 import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteStatus;
 import gda.device.zebra.controller.Zebra;
 import gda.factory.FactoryException;
-import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.datawriters.AsciiWriter;
 import gov.aps.jca.CAException;
 import uk.ac.diamond.daq.concurrent.Async;
+import uk.ac.gda.beans.vortex.Xspress3Parameters;
 import uk.ac.gda.devices.detector.xspress3.TRIGGER_MODE;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.Xspress3Controller;
 import uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 /**
  *  A TurboXasScan is a type of Continuous scan which can perform multiple sweeps of a fast slit and collect the spectra for each sweep.
@@ -117,6 +116,7 @@ public class TurboXasScan extends ContinuousScan {
 				motorParams.getNumReadoutsForScan(), 0.0, detectors);
 		turboXasMotorParams = motorParams;
 		doTrajectoryScan = turboXasMotorParams.getScanParameters().getUseTrajectoryScan();
+		addMetaDataScannable();
 	}
 
 	@Override
@@ -197,8 +197,6 @@ public class TurboXasScan extends ContinuousScan {
 	private void collectMultipleSpectraTrajectoryScan() throws Exception {
 		TurboXasScannable turboXasScannable = (TurboXasScannable) getScanAxis();
 		logger.info("Setting up scan using TurboXasScannable ({})", turboXasScannable.getName());
-
-		addMetaDataAtScanStart();
 
 		// Set area detector flag (for timing, encoder position information)
 		turboXasScannable.setUseAreaDetector(useAreaDetector);
@@ -342,8 +340,6 @@ public class TurboXasScan extends ContinuousScan {
 		TurboXasScannable turboXasScannable = (TurboXasScannable) getScanAxis();
 		logger.info("Setting up scan using TurboXasScannable ({})", turboXasScannable.getName());
 
-		addMetaDataAtScanStart();
-
 		// Set area detector flag (for timing, encoder position information)
 		turboXasScannable.setUseAreaDetector(useAreaDetector);
 		turboXasScannable.setMotorParameters(turboXasMotorParams);
@@ -423,7 +419,7 @@ public class TurboXasScan extends ContinuousScan {
 				timeWaited += pollIntervalMillis * 0.001;
 				currentFrame = detectorReadoutRunnable.getLastFrameRead();
 				if (lastFrame == currentFrame) {
-					logger.info("No more frames written after {} milliseconds. Assuming detector collection has finished");
+					logger.info("No more frames written after {} milliseconds. Assuming detector collection has finished", timeWaited);
 				}
 			}
 		} catch (InterruptedException e) {
@@ -793,11 +789,19 @@ public class TurboXasScan extends ContinuousScan {
 		plotUpdater.sendDataToController();
 	}
 
-	private void addMetaDataAtScanStart() {
-		String metashopName = LocalProperties.get(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME,"metashop");
-		NXMetaDataProvider metashop = Finder.getInstance().find(metashopName);
-		if (metashop != null) {
-			metashop.add("TurboXasParameters", turboXasMotorParams.getScanParameters().toXML() );
+	private void addMetaDataScannable() {
+		MetashopDataScannable scannableToManageMetadata = new MetashopDataScannable();
+
+		allScannables.add(scannableToManageMetadata);
+
+		scannableToManageMetadata.addData("TurboXasParameters", turboXasMotorParams.getScanParameters().toXML());
+		Xspress3BufferedDetector xspress3Detector = getXspress3Detector();
+		if (xspress3Detector != null) {
+			try {
+				scannableToManageMetadata.addData("Xspress3", XMLHelpers.toXMLString(Xspress3Parameters.mappingURL, xspress3Detector.getConfigurationParameters()));
+			} catch (Exception e) {
+				logger.warn("Problem getting Xspress3 parameter meta data", e);
+			}
 		}
 	}
 

@@ -18,7 +18,8 @@ Require-Bundle: uk.ac.gda.test.helpers;bundle-version="1.0.0",
  uk.ac.gda.devices.xspress3.epics,
  uk.ac.gda.devices.xspress3,
  uk.ac.gda.exafs.datawriter;bundle-version="1.0.0",
- com.thoughtworks.xstream
+ com.thoughtworks.xstream,
+ uk.ac.gda.exafs.api
 Import-Package: de.jaret.util.ui.timebars.model;version="1.48.0",
  gda.scan.ede.position,
  org.eclipse.core.runtime;version="3.4.0",

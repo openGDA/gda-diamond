@@ -55,6 +55,7 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
+import gda.data.scan.datawriter.NexusDataWriter;
 import gda.device.DeviceException;
 import gda.device.detector.DummyDAServer;
 import gda.device.detector.EdeDummyDetector;
@@ -822,6 +823,12 @@ public class EdeScanTest extends EdeTestBase {
 		// Create the ascii files
 		TimeResolvedDataFileHelper.createAsciiFiles(theExperiment.getNexusFilename());
 		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, allParams.getItTimingGroups().size(), false);
+	}
+
+	@Override
+	protected void setup(Class<?> classType, String testName) throws Exception {
+		super.setup(classType, testName);
+		LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "");
 	}
 
 	@Test
