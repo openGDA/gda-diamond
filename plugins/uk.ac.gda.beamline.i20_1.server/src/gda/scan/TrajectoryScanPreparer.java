@@ -19,7 +19,10 @@
 package gda.scan;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +57,13 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 
 	/** Whether to use maxTimePerStep for subdivisions; otherwise use numStepsForSpectrumSweep, numStepsForReturnSweep */
 	private boolean useMaxTimePerStep = true;
+
+	/** In memory trajectory parameters */
+	private List<Double> trajectoryPositions = new ArrayList<>();
+
+	private List<Double> trajectoryTimes = new ArrayList<>();
+
+	private List<Integer> trajectoryVelocityModes = new ArrayList<>();
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -148,7 +158,7 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 		double startDelta = motorParameters.getScanStartPosition()-motorParameters.getStartPosition();
 		double endDelta = motorParameters.getEndPosition() - motorParameters.getScanEndPosition();
 
-		trajScanController.clearTrajectoryLists();
+		clearTrajectoryLists();
 		for(int i=0; i<numTimingGroups; i++) {
 			TurboSlitTimingGroup timingGroup = timingGroups.get(i);
 
@@ -320,11 +330,18 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 	 * @param velocityMode
 	 */
 	public void addPointsToTrajectory(Double[] positions, Double[] times, Integer[] velocityMode) {
-		trajScanController.addPointsToTrajectory(positions, times, velocityMode);
+		if (positions.length != times.length || positions.length != velocityMode.length) {
+			throw new IllegalArgumentException("Trajectory parameter arrays have differing lengths");
+		}
+		trajectoryPositions.addAll(Arrays.asList(positions));
+		trajectoryTimes.addAll(Arrays.asList(times));
+		trajectoryVelocityModes.addAll(Arrays.asList(velocityMode));
 	}
 
 	public void addPointToTrajectory(double position, double time, int velocityMode) {
-		trajScanController.addPointToTrajectory(position, time, velocityMode);
+		trajectoryPositions.add(position);
+		trajectoryTimes.add(time);
+		trajectoryVelocityModes.add(velocityMode);
 	}
 
 	/**
@@ -332,32 +349,118 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 	 * (i.e. convert from List to array and send to appropriate PV)
 	 * @throws Exception
 	 */
+
 	public void sendProfileValues() throws Exception {
-		trajScanController.sendProfileValues();
+		sendProfileValues(0, trajectoryTimes.size()-1);
+	}
+
+	/**
+	 * Send trajectory profile to Epics, building and appending as many times as
+	 * necessary to send all the points. See also {@link #sendAppendProfileValues(int)}.
+	 * @throws Exception
+	 */
+	public void sendAppendProfileValues() throws Exception {
+		int startPoint = 0;
+		int numPoints = trajectoryTimes.size();
+
+		while(startPoint < numPoints) {
+			startPoint = sendAppendProfileValues(startPoint);
+		}
+	}
+
+	/**
+	 * Build/append profile in Epics; take range of values from trajectory scan list.
+	 * Build if startPoint==0; otherwise Append. Use 'maxPointsPerProfileBuild' to set the
+	 * number of profile points sent per build/append operation.
+	 * @param startPoint index of first point in trajectory profile to send.
+	 * @return index of next point to be sent to Epics
+	 * @throws Exception
+	 */
+	public int sendAppendProfileValues(int startPoint) throws Exception {
+		int maxPointIndex = trajectoryTimes.size()-1;
+		int endPointIndex = Math.min(maxPointIndex, startPoint + trajScanController.getMaxPointsPerProfileBuild() - 1);
+		logger.debug("Appending points {} ... {} to trajectory profile", startPoint, endPointIndex);
+		sendProfileValues(startPoint, endPointIndex);
+		if (startPoint == 0) {
+			setBuildProfile();
+			if (getBuildProfileStatus() == Status.FAILURE){
+				throw new Exception("Failure when building trajectory scan profile - check Epics EDM screen");
+			}
+		} else {
+			setAppendProfile();
+			if (getAppendProfileStatus() == Status.FAILURE){
+				throw new Exception("Failure when appending to trajectory scan profile - check Epics EDM screen");
+			}
+		}
+		return endPointIndex+1;
+	}
+
+	/**
+	 * Send values from currently stored trajectory scan list values to Epics.
+	 * (i.e. convert from List to array and send to appropriate PV)
+	 * @param startIndex index of first point in profile to send
+	 * @param endIndex index of last point in profile to send
+	 * @throws Exception
+	 */
+	private void sendProfileValues(int startIndex, int endIndex) throws Exception {
+		int xAxisIndex = trajScanController.getAxisNames().indexOf("X");
+		int start = Math.max(0, startIndex);
+		start = Math.min(start, trajectoryTimes.size()-1);
+		int end = Math.min(endIndex, trajectoryTimes.size()-1);
+		int numPoints = end - start + 1;
+
+		Integer[] userMode = new Integer[numPoints];
+		Arrays.fill(userMode, 0);
+
+		List<Double> convertedTimes = trajectoryTimes.stream()
+				.map(t -> t * trajScanController.getTimeConversionFromSecondsToDeviceUnits())
+				.collect(Collectors.toList());
+
+		// check no time exceeds the maximum the device can handle
+		final double maxTime = 1 << 24;
+		if (trajectoryTimes.stream().anyMatch(t -> t >= maxTime)) {
+			throw new Exception("Time array has values exceeding maximum allowed time of '" + maxTime + "'");
+		}
+
+		// Used to give type information to toArray method
+		Double[] dblArray = new Double[0];
+		Integer[] intArray = new Integer[0];
+
+		trajScanController.setProfileNumPointsToBuild(numPoints);
+		trajScanController.setProfileTimeArray(convertedTimes.subList(start, end+1).toArray(dblArray));
+		trajScanController.setAxisPoints(xAxisIndex, trajectoryPositions.subList(start, end+1).toArray(dblArray));
+		trajScanController.setProfileVelocityModeArray(trajectoryVelocityModes.subList(start, end+1).toArray(intArray) );
+		trajScanController.setProfileUserArray(userMode);
 	}
 
 	public List<Double> getTrajectoryPositionsList() {
-		return trajScanController.getTrajectoryPositionsList();
+		return trajectoryPositions;
 	}
 
 	public void setTrajectoryPositionList(List<Double> positionProfileValues) {
-		trajScanController.setTrajectoryPositionList(positionProfileValues);
+		trajectoryPositions = positionProfileValues;
 	}
 
 	public List<Double> getTrajectoryTimesList() {
-		return trajScanController.getTrajectoryTimesList();
+		return trajectoryTimes;
 	}
 
 	public void setTrajectoryTimesList(List<Double> timeProfileValues) {
-		trajScanController.setTrajectoryTimesList(timeProfileValues);
+		trajectoryTimes = timeProfileValues;
 	}
 
 	public List<Integer> getTrajectoryVelocityModesList() {
-		return trajScanController.getTrajectoryVelocityModesList();
+		return trajectoryVelocityModes;
 	}
 
 	public void setTrajectoryVelocityModesList(List<Integer> velocityModeProfileValues) {
-		trajScanController.setTrajectoryVelocityModesList(velocityModeProfileValues);
+		trajectoryVelocityModes = velocityModeProfileValues;
+	}
+
+	private void clearTrajectoryLists() {
+		trajectoryPositions.clear();
+		trajectoryTimes.clear();
+		trajectoryVelocityModes.clear();
 	}
 
 	public int getNumStepsForReturnSweep() {

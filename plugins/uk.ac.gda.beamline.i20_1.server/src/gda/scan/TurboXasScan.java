@@ -226,7 +226,7 @@ public class TurboXasScan extends ContinuousScan {
 		if (controller.getExecuteState() != ExecuteState.DONE) {
 			throw new Exception("Problem building trajectory scan profile - scan is already runninng!");
 		}
-		controller.sendAppendProfileValues();
+		trajScanPreparer.sendAppendProfileValues();
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
 

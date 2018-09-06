@@ -52,7 +52,7 @@ public class TrajectoryScanPreparerTest {
 		double delta = 0.1;
 		double startPos = 0;
 		double endPos = 1;
-		
+
 		TrajectoryScanPreparer trajScanPrep = getTrajectoryScanPreparer();
 		trajScanPrep.addSpectrumToTrajectory(startPos, endPos, delta, delta, 1, 2, 2);
 		Double[] times = trajScanPrep.getTrajectoryTimesList().toArray(new Double[0]);
@@ -118,7 +118,7 @@ public class TrajectoryScanPreparerTest {
 		// Send profile by building and appending.
 		int startIndex = 0;
 		while (startIndex < numPoints) {
-			startIndex = controller.sendAppendProfileValues(startIndex);
+			startIndex = trajScanPrep.sendAppendProfileValues(startIndex);
 			assertEquals(startIndex, controller.getBuiltProfile().size());
 		}
 
