@@ -90,25 +90,26 @@ xspress3Controller = finder.find("xspress3Controller")
 # xspress3 = finder.get("xspress3")
 
 swmrFrameFlush = 5
-if xspress3Controller != None and LocalProperties.isDummyModeEnabled() == False:
-    print "Setting up XSpress3 : "
-    print "  Trigger mode = 'TTL Veto Only'"
-    from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
-    xspress3Controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
-    #Set input array port on HDF5 plugin to point to arrayport of Detector. imh 7/8/2017
-    basePvName = xspress3Controller.getEpicsTemplate()
-    detPort = caget(basePvName+":PortName_RBV")
-    print "  HDF5 array port name = ", detPort
-    caput(basePvName+":HDF5:NDArrayPort", detPort)
-    
-    print "  HDF5 SWMR mode = On" 
-    caput(basePvName+":HDF5:SWMRMode", True) # Set SWMR mode on.
-    
-    print "  HDF5 SWMR : Flush on nth frame, NDAttribute flush = ", swmrFrameFlush
-    caput(basePvName+":HDF5:NumFramesFlush", swmrFrameFlush)
-    caput(basePvName+":HDF5:NDAttributeChunk", swmrFrameFlush)
-    
-    xspress3.setFilePath("")
+if LocalProperties.isDummyModeEnabled() == False :
+    if xspress3Controller != None and xspress3Controller.isConfigured() :
+        print "Setting up XSpress3 : "
+        print "  Trigger mode = 'TTL Veto Only'"
+        from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
+        xspress3Controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
+        #Set input array port on HDF5 plugin to point to arrayport of Detector. imh 7/8/2017
+        basePvName = xspress3Controller.getEpicsTemplate()
+        detPort = caget(basePvName+":PortName_RBV")
+        print "  HDF5 array port name = ", detPort
+        caput(basePvName+":HDF5:NDArrayPort", detPort)
+        
+        print "  HDF5 SWMR mode = On" 
+        caput(basePvName+":HDF5:SWMRMode", True) # Set SWMR mode on.
+        
+        print "  HDF5 SWMR : Flush on nth frame, NDAttribute flush = ", swmrFrameFlush
+        caput(basePvName+":HDF5:NumFramesFlush", swmrFrameFlush)
+        caput(basePvName+":HDF5:NDAttributeChunk", swmrFrameFlush)
+        
+        xspress3.setFilePath("")
     
     print "Adding continuous scan commands for alignment slit : \n\trun_slit_scan(start, stop, step, accumulation_time, num_accumulations)\n\tplot_last_data()"
     run('alignment_stage_scan5.py')

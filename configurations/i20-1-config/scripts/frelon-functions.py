@@ -14,10 +14,13 @@ def showFrelonState() :
 
 
 def resetFrelonToInternalTriggerMode() :
-    triggerMode = limaCcd.AcqTriggerMode.INTERNAL_TRIGGER
-    #triggerMode = limaCcd.AcqTriggerMode.EXTERNAL_TRIGGER
-    print "Stopping frelon and resetting trigger mode to internal..."
-    frelon.stop()
-    frelon.getDetectorData().setTriggerMode(triggerMode)
-    limaCcd.setAcqTriggerMode(triggerMode)
-    print "Done"
+    try :
+        triggerMode = limaCcd.AcqTriggerMode.INTERNAL_TRIGGER
+        #triggerMode = limaCcd.AcqTriggerMode.EXTERNAL_TRIGGER
+        print "Stopping frelon and resetting trigger mode to internal..."
+        frelon.stop()
+        frelon.getDetectorData().setTriggerMode(triggerMode)
+        limaCcd.setAcqTriggerMode(triggerMode)
+        print "Done"
+    except DeviceException as err :
+        print "Problem resetting frelon trigger mode : ",err

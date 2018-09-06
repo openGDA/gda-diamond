@@ -29,10 +29,10 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/eh_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/zebra_turboslits.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/zebra_turboslits.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 
 <!-- 	do this here as it may have object references to earlier XML files -->
 	<import resource="file:${gda.config}/servers/main/_common/dataformat.xml" />
