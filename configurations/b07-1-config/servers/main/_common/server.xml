@@ -38,6 +38,9 @@
 		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
 	</bean>
 
+	<!-- Machine Status Scannables -->
+	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
+
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
