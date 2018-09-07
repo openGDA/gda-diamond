@@ -8,11 +8,11 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
 
-	<bean id="samplewheel_names" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}samplewheel_names" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+<!-- 	<bean id="filterwheel" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
+<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}filterwheel" /> -->
+<!-- 		<property name="serviceInterface" value="gda.device.EnumPositioner" /> -->
+<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
+<!-- 	</bean> -->
 
 	<bean id="spreadsheet_view_config" class="uk.ac.gda.exafs.ui.dialogs.SpreadsheetViewConfig">
 		<property name="name" value="spreadsheet_view_config" />
@@ -20,10 +20,10 @@
 		<!--  list of types for the scan, detector, sample, output parameters -->
 		<property name="parameterTypes" >
 			<list>
-				<value>uk.ac.gda.beans.exafs.QEXAFSParameters</value>
+				<value>uk.ac.gda.beans.exafs.XasScanParameters</value>
 				<value>uk.ac.gda.beans.exafs.DetectorParameters</value>
-				<value>uk.ac.gda.beans.exafs.b18.B18SampleParameters</value>
-				<value>uk.ac.gda.beans.exafs.OutputParameters</value>
+				<value>uk.ac.gda.beans.exafs.i20.I20SampleParameters</value>
+				<value>uk.ac.gda.beans.exafs.i20.I20OutputParameters</value>
 			</list>
 		</property>
 
@@ -33,28 +33,28 @@
 				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
 					<property name="description" value="File name" />
 					<property name="fullPathToGetter" value="getName" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20SampleParameters" />
 				</bean>
 
 				<!-- Description -->
 				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
 					<property name="description" value="Description (header)" />
-					<property name="fullPathToGetter" value="getDescription1" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+					<property name="fullPathToGetter" value="getDescription" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20SampleParameters" />
 				</bean>
 
 				<!-- Sample wheel -->
 				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="Sample wheel" />
-					<property name="fullPathToGetter" value="getSampleWheelParameters.getFilter" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
-					<property name="allowedValuesFromEnum" ref="samplewheel_names" />
+					<property name="description" value="Filter wheel" />
+					<property name="fullPathToGetter" value="getSampleWheelPosition" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20SampleParameters" />
+					<property name="allowedValuesFromEnum" ref="filterwheel" />
 				</bean>
 
 				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
-					<property name="description" value="Enable sample wheel" />
-					<property name="fullPathToGetter" value="getSampleWheelParameters.isWheelEnabled" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
+					<property name="description" value="Enable filter wheel" />
+					<property name="fullPathToGetter" value="getUseSampleWheel" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20SampleParameters" />
 					<property name="allowedValuesFromBoolean" value="true" />
 				</bean>
 
@@ -65,7 +65,7 @@
 				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
 					<property name="description" value="Script/command before first repetition" />
 					<property name="fullPathToGetter" value="getBeforeFirstRepetition" />
-					<property name="beanType" value="uk.ac.gda.beans.exafs.OutputParameters" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.i20.I20OutputParameters" />
 				</bean>
 
 				<!-- <bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig"> -->
