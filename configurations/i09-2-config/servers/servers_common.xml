@@ -1,12 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd 
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.diamond.ac.uk/schema/gda/gda
 	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd" >
@@ -102,6 +100,7 @@
 		class -->
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
-	<corba:export namespace="i09-2" />
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 </beans>
