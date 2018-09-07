@@ -14,7 +14,6 @@
 	<import resource="dummyMotor.xml" />
 	<import resource="pressure_gauges.xml" />
 	<import resource="cryostat.xml" />
-	<import resource="ring.xml"/>
 	<import resource="shtr1.xml"/>
 	<import resource="analyser_over_exposure.xml" />
 
