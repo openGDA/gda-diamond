@@ -364,6 +364,10 @@ if installation.isLive():
 		attol1 = createEcc100Axis("attol1", "BL16B-EA-ECC-04:ACT0:")
 		attol2 = createEcc100Axis("attol2", "BL16B-EA-ECC-04:ACT1:")
 		attol3 = createEcc100Axis("attol3", "BL16B-EA-ECC-04:ACT2:")
+
+		attoltilt1 = createEcc100Axis("attoltilt1", "BL16B-EA-ECC-02:ACT0:")
+		attoutilt1 = createEcc100Axis("attoutilt1", "BL16B-EA-ECC-02:ACT1:")
+		attorot1   = createEcc100Axis("attorot1",   "BL16B-EA-ECC-02:ACT2:")
 	except:
 		print "Could not initialise attocube devices"
 else:
