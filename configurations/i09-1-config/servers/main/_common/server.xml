@@ -1,12 +1,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.diamond.ac.uk/schema/gda/corba
-	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 	http://www.diamond.ac.uk/schema/gda/gda
 	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
 	http://www.springframework.org/schema/context
@@ -42,6 +39,6 @@
 	<import resource="common_nxplugins.xml"/>
 	<import resource="nexus_datawriter.xml"/>
 
-	<corba:export namespace="${gda.beamline.name}" />
-
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>
