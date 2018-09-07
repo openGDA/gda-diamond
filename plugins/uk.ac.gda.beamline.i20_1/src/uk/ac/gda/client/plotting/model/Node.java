@@ -32,7 +32,7 @@ import uk.ac.gda.beans.ObservableModel;
 public class Node extends ObservableModel implements ITreeNode {
 
 	private final Map<String, ITreeNode> nodeMap = new HashMap<>();
-	private final IObservableList nodeList = new WritableList(new ArrayList<ITreeNode>(), ITreeNode.class);
+	private final IObservableList<ITreeNode> nodeList = new WritableList<>(new ArrayList<>(), ITreeNode.class);
 	private final ITreeNode parent;
 	private String identifier;
 	private String label = "";

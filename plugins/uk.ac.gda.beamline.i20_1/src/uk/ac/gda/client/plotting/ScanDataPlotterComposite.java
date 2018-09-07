@@ -53,6 +53,7 @@ import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.client.plotting.model.ITreeNode;
 import uk.ac.gda.client.plotting.model.LineTraceProviderNode;
 import uk.ac.gda.client.plotting.model.Node;
 import uk.ac.gda.exafs.plotting.model.ExperimentRootNode;
@@ -70,7 +71,7 @@ public class ScanDataPlotterComposite extends ResourceComposite {
 	private final Node rootDataNode;
 
 	private final DataBindingContext dataBindingCtx = new DataBindingContext();
-	private final IObservableList selectedNodeList = new WritableList(new ArrayList<Node>(), Node.class);
+	private final IObservableList<Node> selectedNodeList = new WritableList<>(new ArrayList<>(), Node.class);
 
 	private Binding selectionBinding;
 
@@ -153,10 +154,10 @@ public class ScanDataPlotterComposite extends ResourceComposite {
 		});
 	}
 
-	IObservableFactory dataObservableFactory = new IObservableFactory() {
+	IObservableFactory<ITreeNode, IObservable> dataObservableFactory = new IObservableFactory<ITreeNode, IObservable>() {
 		/** This receives the data and adds it to the plot view */
 		@Override
-		public IObservable createObservable(Object target) {
+		public IObservable createObservable(ITreeNode target) {
 			if (target instanceof LineTraceProviderNode) {
 				LineTraceProviderNode lineTraceNode = (LineTraceProviderNode) target;
 				if (lineTraceNode.isPlotByDefault()) {

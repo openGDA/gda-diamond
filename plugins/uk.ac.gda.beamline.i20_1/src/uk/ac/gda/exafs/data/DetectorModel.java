@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.data;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,21 +63,18 @@ public class DetectorModel extends ObservableModel {
 		return energyCalibrationSetObserver;
 	}
 
-	private final List<EdeDetector> availableDetectors = new ArrayList<EdeDetector>();
-	private final List<Roi> roisModel = new ArrayList<Roi>();
-	private final WritableList rois = new WritableList(roisModel, Roi.class);
+	private final List<EdeDetector> availableDetectors = new ArrayList<>();
+	private final List<Roi> roisModel = new ArrayList<>();
+	private final WritableList<Roi> rois = new WritableList<>(roisModel, Roi.class);
 
 	private Integer[] excludedStripsCache;
 
 	private DetectorModel() {
-		this.addPropertyChangeListener(DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if ((boolean) evt.getNewValue()) {
-					reloadROIs();
-				} else {
-					rois.clear();
-				}
+		this.addPropertyChangeListener(DETECTOR_CONNECTED_PROP_NAME, evt -> {
+			if ((boolean) evt.getNewValue()) {
+				reloadROIs();
+			} else {
+				rois.clear();
 			}
 		});
 		try {
@@ -208,7 +203,7 @@ public class DetectorModel extends ObservableModel {
 		return currentDetector.getPixels();
 	}
 
-	public WritableList getRois() {
+	public WritableList<Roi> getRois() {
 		return rois;
 	}
 
@@ -221,14 +216,11 @@ public class DetectorModel extends ObservableModel {
 		@Override
 		public void update(final Object source, Object arg) {
 			if (arg.equals(EdeDetector.CALIBRATION_PROP_KEY)) {
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						String value = "";
-						if (((EdeDetector) source).isEnergyCalibrationSet()) {
-							value = ((EdeDetector) source).getEnergyCalibration().getFormattedPolinormal();
-							EnergyCalibrationSetObserver.this.firePropertyChange(ENERGY_CALIBRATION_PROP_NAME, null, value);
-						}
+				Display.getDefault().asyncExec(() -> {
+					String value = "";
+					if (((EdeDetector) source).isEnergyCalibrationSet()) {
+						value = ((EdeDetector) source).getEnergyCalibration().getFormattedPolinormal();
+						EnergyCalibrationSetObserver.this.firePropertyChange(ENERGY_CALIBRATION_PROP_NAME, null, value);
 					}
 				});
 			}
@@ -243,25 +235,22 @@ public class DetectorModel extends ObservableModel {
 	}
 	public static class ROIsSetObserver extends ObservableModel implements IObserver {
 		public static final String ROIS_PROP_NAME = EdeDetector.ROIS_PROP_NAME;
-		List<Roi> roisModel = new ArrayList<Roi>();
-		WritableList rois = new WritableList(roisModel, Roi.class);
+		List<Roi> roisModel = new ArrayList<>();
+		WritableList<Roi> rois = new WritableList<>(roisModel, Roi.class);
 		@Override
 		public void update(final Object source, Object arg) {
 			if (arg.equals(EdeDetector.ROIS_PROP_NAME)) {
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						rois.clear();
-						for (Roi roi : ((EdeDetector) source).getRois()) {
-							rois.add(roi);
-						}
-						ROIsSetObserver.this.firePropertyChange(ROIsSetObserver.ROIS_PROP_NAME, null, rois);
+				Display.getDefault().asyncExec(() -> {
+					rois.clear();
+					for (Roi roi : ((EdeDetector) source).getRois()) {
+						rois.add(roi);
 					}
+					ROIsSetObserver.this.firePropertyChange(ROIsSetObserver.ROIS_PROP_NAME, null, rois);
 				});
 			}
 		}
 
-		public WritableList getRois() {
+		public WritableList<Roi> getRois() {
 			if (rois.isEmpty()) {
 				for (Roi roi : DetectorModel.INSTANCE.getCurrentDetector().getRois()) {
 					rois.add(roi);

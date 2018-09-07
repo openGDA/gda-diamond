@@ -18,7 +18,6 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
@@ -87,7 +86,7 @@ public class FocusingView extends ViewPart {
 
 	@SuppressWarnings({ "static-access", "unused" })
 	private void createFormBendSection(Form form) throws Exception {
-		final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
+		final WritableList<Scannable> movingScannables = new WritableList<>(new ArrayList<>(), Scannable.class);
 		final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
 		final Section bendSection = toolkit.createSection(form.getBody(), Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
 		toolkit.paintBordersFor(bendSection);
@@ -121,7 +120,7 @@ public class FocusingView extends ViewPart {
 	}
 
 	private void createFormCurvatureSection(Form form) throws Exception {
-		final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
+		final WritableList<Scannable> movingScannables = new WritableList<>(new ArrayList<>(), Scannable.class);
 		final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
 		final Section curvatureSection = toolkit.createSection(form.getBody(), ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		toolkit.paintBordersFor(curvatureSection);
@@ -162,7 +161,7 @@ public class FocusingView extends ViewPart {
 	}
 
 	private void createFormSampleSection(Form form) throws Exception {
-		final WritableList movingScannables = new WritableList(new ArrayList<Scannable>(), Scannable.class);
+		final WritableList<Scannable> movingScannables = new WritableList<>(new ArrayList<>(), Scannable.class);
 		final ScannableMotorMoveObserver moveObserver = new ScannableMotorMoveObserver(movingScannables);
 
 		final Section samplePositionSection = toolkit.createSection(form.getBody(), ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
@@ -182,18 +181,15 @@ public class FocusingView extends ViewPart {
 		samplePositionComposite.setLayout(new GridLayout(2, false));
 		samplePositionSection.setClient(samplePositionComposite);
 
-		sampleStageMotorsChangeListener = new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				try {
-					clearSampleStageMotorControls(samplePositionComposite);
-					addSampleStageMotorEditors(samplePositionComposite, moveObserver, (ExperimentMotorPostion[]) evt.getNewValue());
-					samplePositionSection.layout(true);
-					samplePositionSection.getParent().layout(true);
-				} catch (Exception e) {
-					UIHelper.showError("Unable to add Sample stage motor controls", e.getMessage());
-					logger.error("Unable to add Sample stage motor controls", e);
-				}
+		sampleStageMotorsChangeListener = evt -> {
+			try {
+				clearSampleStageMotorControls(samplePositionComposite);
+				addSampleStageMotorEditors(samplePositionComposite, moveObserver, (ExperimentMotorPostion[]) evt.getNewValue());
+				samplePositionSection.layout(true);
+				samplePositionSection.getParent().layout(true);
+			} catch (Exception e) {
+				UIHelper.showError("Unable to add Sample stage motor controls", e.getMessage());
+				logger.error("Unable to add Sample stage motor controls", e);
 			}
 		};
 		addSampleStageMotorEditors(samplePositionComposite, moveObserver, (SampleStageMotors.INSTANCE.getSelectedMotors()));
