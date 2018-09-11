@@ -589,6 +589,41 @@ else:
 	print "*** Pilatus disabled from localStation.py "
 
 if installation.isLive():
+	print "-------------------------------MEDIPIX QUAD INIT---------------------------------------"
+	try:
+		medipix4 = SwitchableHardwareTriggerableProcessingDetectorWrapper('medipix4',
+																		_medipix4,
+																		None,
+																		_medipix4_for_snaps,
+																		[],
+																		panel_name='Data Vector',
+																		panel_name_rcp='Plot 1',
+																		iFileLoader=PilatusTiffLoader,
+																		fileLoadTimout=60,
+																		printNfsTimes=False,
+									returnPathAsImageNumberOnly=True)
+		medipix4.disable_operation_outside_scans = True
+		medipix4_threshold0_kev = SetPvAndWaitForCallbackWithSeparateReadback('medipix4_threshold_kev', 'BL16B-EA-DET-20:Merlin2:ThresholdEnergy0', 'BL16B-EA-DET-20:Merlin2:ThresholdEnergy0_RBV', 10)
+		medipix4.processors=[DetectorDataProcessorWithRoi('max', medipix4, [SumMaxPositionAndValue()], False)]
+
+		medipix4.display_image = True
+		medipix4peak2d = DetectorDataProcessorWithRoi('medipix4peak2d', medipix4, [TwodGaussianPeak()])
+		medipix4max2d = DetectorDataProcessorWithRoi('medipix4max2d', medipix4, [SumMaxPositionAndValue()])
+		medipix4intensity2d = DetectorDataProcessorWithRoi('medipix4intensity2d', medipix4, [PixelIntensity()])
+		medipix4roi1 = DetectorDataProcessorWithRoi('medipix4roi1', medipix4, [SumMaxPositionAndValue()])
+		medipix4roi2 = DetectorDataProcessorWithRoi('medipix4roi2', medipix4, [SumMaxPositionAndValue()])
+		medipix4roi3 = DetectorDataProcessorWithRoi('medipix4roi3', medipix4, [SumMaxPositionAndValue()])
+		#medipix4roi1.setRoi(0,0,50,50)
+
+	except gda.factory.FactoryException:
+		print " *** Could not connect to medipix4 (FactoryException)"
+	except 	java.lang.IllegalStateException:
+		print " *** Could not connect to medipix4 (IllegalStateException)"
+	print "-------------------------------PILATUS INIT COMPLETE---------------------------------------"
+else:
+	print "*** medipix4 disabled from localStation.py "
+
+if installation.isLive():
 	print "-------------------------------PSL INIT---------------------------------------"
 	try:
 
