@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="excaliburADController" class="uk.ac.gda.epics.adviewer.ADControllerImpl">
+		<property name="serviceName" value="excalibur"/>
+		<property name="imageNDStats" ref="excalibur_summary_stat" />
+		<property name="liveViewNDProc" ref="excalibur_summary_proc" />
+		<property name="imageNDArray" ref="excalibur_summary_arr" />
+		<property name="imageHistSize" value="500" />
+		<property name="imageMin" value="0" />
+		<property name="detectorName" value="Excalibur" />
+		<property name="adBase" ref="excalibur_config_base" />
+		<property name="ffmpegStream" ref="excalibur_summary_mjpg" />
+		<property name="ffmpegImageOutHeightMax" value="1200" />
+		<property name="ffmpegImageOutWidthMax" value="1600" />
+		<property name="imageNDROI" ref="excalibur_summary_roi"/>
+		<property name="setExposureTimeCmd" value="excalibur_config.runContinuous(exposureTime=%f)"/>
+		<property name="imageNDArrayPortInput" value="master.slaves"/>
+	</bean>
+
+	<bean id="excalibur_dictionary" class="java.util.Hashtable">
+		<constructor-arg>
+			<map>
+				<entry key="SERVICE_NAME" value="excalibur" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean class="gda.rcp.util.OSGIServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
+		<property name="service" ref="excaliburADController" />
+		<property name="properties" ref="excalibur_dictionary" />
+	</bean>
+
+</beans>

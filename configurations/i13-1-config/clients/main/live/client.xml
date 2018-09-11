@@ -5,11 +5,10 @@
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<context:property-placeholder/>
-
 	<import resource="pco.xml"/>
-	<import resource="../../../devices/live/excalibur_shared.xml"/>
-	<import resource="../_common/client.xml" />
+	<import resource="file:${gda.config}/devices/live/excalibur_shared.xml"/>
+	<import resource="file:${gda.config}/clients/main/live/excalibur.xml"/>
+	<import resource="file:${gda.config}/devices/live/pco1_ndplugins.xml" />
 
 	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="SR13J-MO-SERVC-01:CURRGAPD" />
@@ -29,47 +28,6 @@
 		<property name="useNameAsExtraName" value="true"/>
 	</bean>
 
-	<bean id="excaliburADController"
-		class="uk.ac.gda.epics.adviewer.ADControllerImpl">
-		<property name="serviceName" value="excalibur"/>
-		<property name="imageNDStats" ref="excalibur_summary_stat" />
-		<property name="liveViewNDProc" ref="excalibur_summary_proc" />
-		<property name="imageNDArray" ref="excalibur_summary_arr" />
-		<property name="imageHistSize" value="500" />
-		<property name="imageMin" value="0" />
-		<property name="detectorName" value="Excalibur" />
-		<property name="adBase" ref="excalibur_config_base" />
-		<property name="ffmpegStream" ref="excalibur_summary_mjpg" />
-		<property name="ffmpegImageOutHeightMax" value="1200" />
-		<property name="ffmpegImageOutWidthMax" value="1600" />
-		<property name="imageNDROI" ref="excalibur_summary_roi"/>
-		<property name="setExposureTimeCmd" value="excalibur_config.runContinuous(exposureTime=%f)"/>
-		<property name="imageNDArrayPortInput" value="master.slaves"/>
-	</bean>
-
-	<bean id="excalibur_dictionary" class="java.util.Hashtable">
-		<constructor-arg>
-			<map>
-				<entry key="SERVICE_NAME" value="excalibur" />
-			</map>
-		</constructor-arg>
-	</bean>
-	<bean class="gda.rcp.util.OSGIServiceRegister">
-		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
-		<property name="service" ref="excaliburADController" />
-		<property name="properties" ref="excalibur_dictionary" />
-	</bean>
-	<import resource="../../../devices/live/ion_chamber.xml" />
-	<import resource="../../../devices/live/pco1_ndplugins.xml" />
-
-	<bean class="java.util.Hashtable">
-		<constructor-arg>
-			<map>
-				<entry key="SERVICE_NAME" value="i13" />
-			</map>
-		</constructor-arg>
-	</bean>
-
 	<bean id="expt_sht_stat" class="gda.device.scannable.EpicsScannable">
 		<property name="hasUnits" value="False" />
 		<property name="getAsString" value="True" />
@@ -81,5 +39,7 @@
 		<property name="getAsString" value="True" />
 		<property name="pvName" value="BL13J-EA-FSHTR-01:CONTROL" />
 	</bean>
+
+	<import resource="../_common/client.xml" />
 
 </beans>

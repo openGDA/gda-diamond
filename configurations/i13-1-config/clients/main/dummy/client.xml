@@ -39,8 +39,6 @@
 		</property>
 	</bean>
 
-	<import resource="../../../devices/dummy/ion_chamber.xml" />
-
 	<import resource="../_common/client.xml" />
 
 </beans>
