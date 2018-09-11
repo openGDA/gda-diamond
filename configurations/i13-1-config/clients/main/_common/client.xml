@@ -19,7 +19,6 @@
 	<!-- Device files with separate live and dummy versions          -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/pco_binning.xml" />
-	<import resource="file:${gda.config}/devices/${gda.mode}/ion_chamber.xml" />
 
 	<import resource="../../../devices/_common/cameraScaleProviders.xml" />
 

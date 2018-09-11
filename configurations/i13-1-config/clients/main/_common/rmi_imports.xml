@@ -9,39 +9,39 @@
 	<context:property-placeholder/>
 
 	<!-- Motors -->
- 	<bean id="t1_sx" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="t1_sx" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="t1_sy" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
- 	<bean id="t1_sz" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="t1_sz" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
- 	<bean id="t1_theta" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="t1_theta" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
- 	<bean id="t1_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="t1_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="t1_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
- 	<bean id="t1_z" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="t1_z" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
- 	<bean id="s6_xplus" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="s6_xplus" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
- 	<bean id="s6_xminus" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="s6_xminus" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
- 	<bean id="s6_yplus" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="s6_yplus" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
- 	<bean id="s6_yminus" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="s6_yminus" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
- 	<bean id="scope1_turret" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="scope1_turret" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<!-- Detectors -->
- 	<bean id="binning_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="binning_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
- 	<bean id="binning_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="binning_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<!-- Stages -->
- 	<bean id="rotationAxisXScannable" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="rotationAxisXScannable" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
- 	<bean id="cameraXYScannable" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="cameraXYScannable" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<!-- Core -->
 	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
@@ -53,5 +53,13 @@
 	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="highestExistingFileMonitor" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<!-- Front end & shutters -->
+	<bean id="ring_current" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="idGap" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="topup_start_countdown" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="eh_shtr" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="fs" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="ionc_i" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 </beans>

@@ -10,36 +10,6 @@
 	<import resource="file:${gda.config}/clients/main/live/excalibur.xml"/>
 	<import resource="file:${gda.config}/devices/live/pco1_ndplugins.xml" />
 
-	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="SR13J-MO-SERVC-01:CURRGAPD" />
-		<property name="useNameAsExtraName" value="true" />
-	</bean>
-	<bean id="timeToRefill" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
-		<property name="useNameAsExtraName" value="true" />
-		<property name="outputFormat">
-			<list>
-				<value>%4.4g</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="ringCurrent" class="gda.device.scannable.EpicsScannable">
-		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL"/>
-		<property name="useNameAsExtraName" value="true"/>
-	</bean>
-
-	<bean id="expt_sht_stat" class="gda.device.scannable.EpicsScannable">
-		<property name="hasUnits" value="False" />
-		<property name="getAsString" value="True" />
-		<property name="pvName" value="BL13J-PS-SHTR-02:STA" />
-	</bean>
-
-	<bean id="fast_shtr_stat" class="gda.device.scannable.EpicsScannable">
-		<property name="hasUnits" value="False" />
-		<property name="getAsString" value="True" />
-		<property name="pvName" value="BL13J-EA-FSHTR-01:CONTROL" />
-	</bean>
-
 	<import resource="../_common/client.xml" />
 
 </beans>

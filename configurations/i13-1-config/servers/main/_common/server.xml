@@ -112,6 +112,7 @@
 	<!-- Shared device files                                         -->
 	<!-- =========================================================== -->
 
+	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
 	<import resource="file:${gda.config}/devices/_common/fast_shutter.xml"/>
 	<import resource="file:${gda.config}/devices/_common/undulator.xml" />
 	<import resource="file:${gda.config}/devices/_common/front_end.xml" />

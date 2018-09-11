@@ -4,6 +4,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+
+	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="SR13J-MO-SERVC-01:CURRGAPD" />
+		<property name="useNameAsExtraName" value="true" />
+	</bean>
+
 	<bean id="fes1_xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE13J-AL-SLITS-01:X:SIZE" />
 		<property name="local" value="true" />
@@ -36,7 +42,7 @@
 		<property name="recordName" value="BL13I-VA-FMASK-02:STA" />
 	</bean>
 
-	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we 
+	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
 		need events to be fired for the GDA9 ExpressionWatchdog -->
 	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE13I-PS-SHTR-02:STA" />
