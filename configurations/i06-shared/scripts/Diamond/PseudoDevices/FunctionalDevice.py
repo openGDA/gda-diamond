@@ -175,6 +175,3 @@ class AnotherFunctionalDeviceClass(ScannableBase):
 
 #scan testMotor1 -10 10 0.1 tm1 dummyCounter 0.1
 #scan testMotor1 -10 10 0.1 tm3 dummyCounter 0.1
-
-#scan testMotor1 -10 10 0.1 PlotXY("testMotor1",["math.sin(testMotor1)"])
-
