@@ -8,8 +8,6 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<import resource="BPM1.xml"/>
-	<import resource="BPM2.xml"/>
 	<import resource="BPM3.xml"/>
 	<import resource="CyberStarBlower.xml"/>
 	<import resource="daserver.xml"/>
