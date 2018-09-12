@@ -8,7 +8,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="TMAR.BASE"/>
+				<property name="pvName" value="BL11I-EA-TMAR-01:BASE" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -16,7 +16,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="TMAR.ROT"/>
+				<property name="pvName" value="BL11I-EA-TMAR-01:ROT" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -24,7 +24,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="TMAR.X"/>
+				<property name="pvName" value="BL11I-EA-TMAR-01:X" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -32,7 +32,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="TMAR.Y"/>
+				<property name="pvName" value="BL11I-EA-TMAR-01:Y" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -40,7 +40,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="TMAR.Z"/>
+				<property name="pvName" value="BL11I-EA-TMAR-01:Z" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -48,7 +48,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="S6.YP"/>
+				<property name="pvName" value="BL11I-AL-SLITS-06:YP" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -56,7 +56,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="S6.YM"/>
+				<property name="pvName" value="BL11I-AL-SLITS-06:YM" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -64,7 +64,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="S6.XM"/>
+				<property name="pvName" value="BL11I-AL-SLITS-06:XM" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -72,7 +72,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="S6.XP"/>
+				<property name="pvName" value="BL11I-AL-SLITS-06:XP" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -80,7 +80,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="COL.Y"/>
+				<property name="pvName" value="BL11I-AL-COL-01:Y" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -88,7 +88,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="COL.X"/>
+				<property name="pvName" value="BL11I-AL-COL-01:X" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -96,7 +96,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="BS.Y"/>
+				<property name="pvName" value="BL11I-RS-ABSB-03:Y" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -104,7 +104,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="BS.X"/>
+				<property name="pvName" value="BL11I-RS-ABSB-03:X" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -112,7 +112,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="D6.X"/>
+				<property name="pvName" value="BL11I-DI-PHDGN-06:X" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -120,7 +120,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="OAV.X"/>
+				<property name="pvName" value="BL11I-DI-OAV-01:X" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -128,7 +128,7 @@
 		<property name="iocPv" value="BL11I-MO-IOC-03:STATUS"/>
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
-				<property name="deviceName" value="OAV.Y"/>
+				<property name="pvName" value="BL11I-DI-OAV-01:Y" />
 			</bean>
 		</constructor-arg>
 	</bean>
