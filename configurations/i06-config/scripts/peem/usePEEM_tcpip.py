@@ -1,4 +1,8 @@
-from gda.device.detector.uviewnew import UViewImageDetectorROI as UViewImageDetectorROINew
+'''
+This script is deprecated, replace by area detector implementation in java
+'''
+#following  line requires 'uk.ac.gda.devices.peem' plugin
+from gda.device.detector.uviewnew import UViewImageDetectorROI as UViewImageDetectorROINew  # @UnresolvedImport
 from Peem.UViewDetector import UViewDetectorClassNew;
 from gda.analysis.io import TIFFImageLoader
 import __main__  # @UnresolvedImport

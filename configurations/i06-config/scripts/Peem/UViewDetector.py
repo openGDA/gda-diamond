@@ -1,11 +1,15 @@
+'''
+This script is deprecated, replace by area detector implementation in java
+'''
 from time import sleep
 import os, stat, time;
 
 from gda.factory import Finder
 from gda.device.detector import DetectorBase
-from gda.device.detector.uviewnew.UViewController.ImageFile import ImageFormat
-from gda.device.detector.uviewnew.UViewController.ImageFile import ImageContentsType
-from gda.device.detector.uviewnew.UViewImageDetector import TriggerMode
+#following 3 lines require 'uk.ac.gda.devices.peem' plugin
+from gda.device.detector.uviewnew.UViewController.ImageFile import ImageFormat  # @UnresolvedImport 
+from gda.device.detector.uviewnew.UViewController.ImageFile import ImageContentsType  # @UnresolvedImport
+from gda.device.detector.uviewnew.UViewImageDetector import TriggerMode  # @UnresolvedImport
 #import java.io.FileNotFoundException
 from gda.configuration.properties import LocalProperties
 from gda.device import Detector
@@ -24,11 +28,13 @@ from gda.analysis import RCPPlotter;
 import __main__ as gdamain  # @UnresolvedImport
 
 from gda.data import NumTracker
+from py4j.java_gateway import deprecated
 
 
 
 #The Class for creating a PEEM UView Detector as Psuedo Device
 #For PEEM UView in I06 only.
+@deprecated
 class UViewDetectorClass(DetectorBase):
 	DETECTOR_STATUS_IDLE, DETECTOR_STATUS_BUSY, DETECTOR_STATUS_PAUSED, DETECTOR_STATUS_STANDBY, DETECTOR_STATUS_FAULT, DETECTOR_STATUS_MONITORING = range(6);
 	ImageFileLoaders={  'TIF' : TIFFImageLoader,

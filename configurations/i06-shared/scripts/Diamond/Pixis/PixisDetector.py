@@ -12,9 +12,10 @@ from uk.ac.diamond.scisoft.analysis import SDAPlotter;
 
 import scisoftpy as dnp;
 
-import __main__ as gdamain
+import __main__ as gdamain  # @UnresolvedImport
 
 from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
+from org.eclipse.january.dataset import DatasetUtils
 logger=ScriptLoggerClass();
 
 #The Class for creating a Pixis Detector as Psuedo Device
@@ -192,7 +193,7 @@ class PixisDetectorClass(DetectorBase):
 
 		if self.panel:
 			if self.logScale:
-				SDAPlotter.imagePlot(self.panel, DatasetMaths.lognorm(dataset)); #For RCP GUI
+				SDAPlotter.imagePlot(self.panel, DatasetUtils.lognorm(dataset)); #For RCP GUI
 			else:
 				SDAPlotter.imagePlot(self.panel, dataset); #For RCP GUI
 		else:
