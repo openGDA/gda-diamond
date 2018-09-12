@@ -7,9 +7,6 @@
 
 	<context:property-placeholder/>
 
-	<!-- Ring -->
-	<import resource="ring.xml"/>
-
 	<!-- Diagnostics -->
 	<import resource="HD2.xml" />
 	<import resource="HD3.xml" />

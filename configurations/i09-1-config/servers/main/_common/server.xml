@@ -39,6 +39,9 @@
 	<import resource="common_nxplugins.xml"/>
 	<import resource="nexus_datawriter.xml"/>
 
+	<!-- Machine Status Scannables -->
+	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
+
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>

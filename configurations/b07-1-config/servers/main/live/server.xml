@@ -3,9 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
-	<!-- Ring -->
-	<import resource="ring.xml"/>
-
 	<!-- Slits -->
 	<import resource="s1c.xml"/>
 	<import resource="s2c.xml"/>

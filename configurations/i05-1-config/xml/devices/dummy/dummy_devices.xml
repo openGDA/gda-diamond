@@ -24,9 +24,6 @@
 	<import resource="rawid.xml" />
 	<import resource="id.xml" />
 
-	<!-- storage ring -->
-	<import resource="ring.xml" />
-
 	<!-- femtos -->
 	<import resource="femto.xml" />
 
