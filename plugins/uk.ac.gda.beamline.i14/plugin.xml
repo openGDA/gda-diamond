@@ -44,7 +44,7 @@
             category="uk.ac.gda.beamline.i14"
             class="gda.rcp.views.ViewFactory:statusView"
             icon="platform:/plugin/uk.ac.gda.beamline.i14/icons/status.png"
-            id="uk.ac.diamond.daq.mapping.ui.StatusView"
+            id="uk.ac.gda.beamline.i14.views.I14StatusView"
             name="Status">
       </view>
    </extension>
@@ -53,12 +53,13 @@
       <perspectiveExtension
             targetID="uk.ac.diamond.daq.mapping.ui.experiment.MappingPerspective">
          <view
-               id="uk.ac.diamond.daq.mapping.ui.StatusView"
+               id="uk.ac.gda.beamline.i14.views.I14StatusView"
                minimized="false"
-               relationship="stack"
-               relative="gda.rcp.jythonterminalview">
+               relative="org.dawnsci.mapping.ui.mappeddataview"
+               relationship="bottom"
+               ratio="0.55">
          </view>
       </perspectiveExtension>
    </extension>
-  
+
 </plugin>
