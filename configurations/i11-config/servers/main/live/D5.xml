@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="d5aposn" class="gda.spring.EpicsPositionerFactoryBean">
-		<property name="deviceName" value="D5.APOSN"/>
+	<bean id="d5aposn" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL11I-DI-PHDGN-05:A:MP" />
 	</bean>
-	<bean id="d5bposn" class="gda.spring.EpicsPositionerFactoryBean">
-		<property name="deviceName" value="D5.BPOSN"/>
+	<bean id="d5bposn" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL11I-DI-PHDGN-05:B:MP" />
 	</bean>
 </beans>
