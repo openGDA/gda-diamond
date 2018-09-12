@@ -28,7 +28,6 @@
 		<property name="name" value="BL14I-ML-EXCBR-01" />
 		<property name="model" ref="malcolmModelExcaliburSoftware" />
 		<property name="deviceInformation" ref="malcolmInfoExcaliburSoftware" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
@@ -42,7 +41,6 @@
 		<property name="name" value="BL14I-ML-SCAN-03" />
 		<property name="model" ref="malcolmModelExcaliburHardwareCoarse" />
 		<property name="deviceInformation" ref="malcolmInfoExcaliburHardwareCoarse" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
@@ -56,7 +54,6 @@
 		<property name="name" value="BL14I-ML-SCAN-07" />
 		<property name="model" ref="malcolmModelExcaliburHardwareFine" />
 		<property name="deviceInformation" ref="malcolmInfoExcaliburHardwareFine" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
@@ -70,7 +67,6 @@
 		<property name="name" value="BL14I-ML-SCAN-04" />
 		<property name="model" ref="malcolmModelExcaliburXsp3" />
 		<property name="deviceInformation" ref="malcolmInfoExcaliburXsp3" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
@@ -97,7 +93,6 @@
 		<property name="name" value="BL14I-ML-SCAN-06" />
 		<property name="model" ref="malcolmModelXsp3Fine" />
 		<property name="deviceInformation" ref="malcolmInfoXsp3Fine" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
@@ -111,7 +106,6 @@
 		<property name="name" value="BL14I-ML-SCAN-02" />
 		<property name="model" ref="malcolmModelMerlinCoarse" />
 		<property name="deviceInformation" ref="malcolmInfoMerlinCoarse" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
@@ -124,7 +118,6 @@
 		<property name="name" value="BL14I-ML-SCAN-09" />
 		<property name="model" ref="malcolmModelMerlinFine" />
 		<property name="deviceInformation" ref="malcolmInfoMerlinFine" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
@@ -138,7 +131,6 @@
 		<property name="name" value="BL14I-ML-SCAN-08" />
 		<property name="model" ref="malcolmModelXsp3MerlinCoarse" />
 		<property name="deviceInformation" ref="malcolmInfoXsp3MerlinCoarse" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
@@ -151,7 +143,6 @@
 		<property name="name" value="BL14I-ML-SCAN-10" />
 		<property name="model" ref="malcolmModelXsp3MerlinFine" />
 		<property name="deviceInformation" ref="malcolmInfoXsp3MerlinFine" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 

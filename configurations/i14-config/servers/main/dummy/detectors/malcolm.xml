@@ -3,8 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Dummy Malcolm devices -->
-
 	<!--  Xspress3 coarse scan -->
 	<bean id="malcolmModelXsp3" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-01" />
