@@ -37,5 +37,11 @@
 		<property name="serviceInterface" value="gda.device.scannable.AlignmentStage" />
 	</bean>
 
+<!--  Scannable for opening, closing shutter during TurboXas scan -->
+	<bean id="openCloseShutterDuringScan" class="gda.device.scannable.ShutterOpenClose">
+		<property name="name" value="openCloseShutterDuringScan" />
+		<property name="shutter" ref="shutter2" />
+	</bean>
+
 	<import resource="simpleScannables.xml"/>
 </beans>
