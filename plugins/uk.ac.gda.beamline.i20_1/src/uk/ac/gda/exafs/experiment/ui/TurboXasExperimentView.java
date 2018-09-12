@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.experiment.ui;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,6 +131,7 @@ public class TurboXasExperimentView extends ViewPart {
 
 	private Map<String,String> detectorNamesMap;
 	private Map<String, String> defaultPlottedFields;
+	private List<String> defaultExtraScannables;
 
 	private Button[] detectorCheckboxes;
 
@@ -220,6 +222,7 @@ public class TurboXasExperimentView extends ViewPart {
 		createHardwareOptionsSection(form.getBody());
 		createLoadSaveSection(form.getBody());
 		loadSettingsFromPreferenceStore();
+		addDefaultExtraScannablesToParameters();
 
 		addListenersVerifiers();
 		form.layout();
@@ -265,7 +268,7 @@ public class TurboXasExperimentView extends ViewPart {
 			detectorCheckboxes[i].setText(name);  // GUI label for the detector
 			detectorCheckboxes[i].setData(detectorNamesMap.get(name)); // name of the detector object
 			detectorCheckboxes[i].setToolTipText(detectorNamesMap.get(name));
-			detectorCheckboxes[i].setSelection(true);
+			detectorCheckboxes[i].setSelection(false);
 			detectorCheckboxes[i].setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 			i++;
 		}
@@ -639,6 +642,7 @@ public class TurboXasExperimentView extends ViewPart {
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
 			turboXasParameters = TurboXasParameters.loadFromFile(filename);
+			addDefaultExtraScannablesToParameters();
 			timingGroupTable.setTimingGroups(turboXasParameters);
 			timingGroupTable.refresh();
 			updateGuiFromParameters();
@@ -723,7 +727,7 @@ public class TurboXasExperimentView extends ViewPart {
 		String lastDetector = selectedDetectors[numDetectors-1];
 		String defaultSelectedDataName = defaultPlottedFields.get(lastDetector);
 		// Create Jython command string to set the data name :
-		String setPlotString = "txasScan.setDataNameToSelectInPlot(\""+defaultSelectedDataName+"\")\n";		
+		String setPlotString = "txasScan.setDataNameToSelectInPlot(\""+defaultSelectedDataName+"\")\n";
 		String paramString = turboXasParameters.toXML().replace("\n", " ");
 
 		String imports = "from gda.scan import TurboXasParameters\n";
@@ -894,6 +898,25 @@ public class TurboXasExperimentView extends ViewPart {
 	}
 
 	/**
+	 * Add the default extra scannables to the TurboXasParameters bean.
+	 */
+	private void addDefaultExtraScannablesToParameters() {
+		if (defaultExtraScannables == null) {
+			return;
+		}
+
+		List<String> extraScannables = turboXasParameters.getExtraScannables();
+		if (extraScannables == null) {
+			turboXasParameters.setExtraScannables(defaultExtraScannables);
+		} else {
+			// Add default scannables to extraScannable if they aren't already there.
+			defaultExtraScannables.stream()
+				.filter(name -> !extraScannables.contains(name))
+				.forEach(extraScannables::add);
+		}
+	}
+
+	/**
 	 * Save the current TurboXasParameters to preference store.
 	 */
 	private void saveSettingsToPreferenceStore(){
@@ -940,5 +963,9 @@ public class TurboXasExperimentView extends ViewPart {
 
 	public void setDefaultPlottedFields(Map<String, String> defaultPlottedFields) {
 		this.defaultPlottedFields = defaultPlottedFields;
+	}
+
+	public void setDefaultExtraScannables(List<String> defaultExtraScannables) {
+		this.defaultExtraScannables = defaultExtraScannables;
 	}
 }

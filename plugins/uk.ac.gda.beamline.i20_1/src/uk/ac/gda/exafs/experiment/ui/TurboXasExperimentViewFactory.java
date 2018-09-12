@@ -25,70 +25,82 @@ import org.eclipse.ui.part.ViewPart;
 
 import gda.rcp.views.FindableViewFactoryBase;
 import gda.rcp.views.ViewUtils;
+import gda.scan.TurboXasParameters;
 
 public class TurboXasExperimentViewFactory extends FindableViewFactoryBase {
 
-		private List<String> motorNames;
-		private List<String> detectorNames;
-		private String viewLabel;
-		private Map<String, String> detectorNamesMap;
-		private Map<String, String> defaultPlottedFields;
+	private List<String> motorNames;
+	private List<String> detectorNames;
+	private String viewLabel;
+	private Map<String, String> detectorNamesMap;
+	private Map<String, String> defaultPlottedFields;
+	private List<String> defaultExtraScannables;
 
-		public String getViewLabel() {
-			return viewLabel;
-		}
+	public String getViewLabel() {
+		return viewLabel;
+	}
 
-		public void setViewLabel(String viewLabel) {
-			this.viewLabel = viewLabel;
-		}
+	public void setViewLabel(String viewLabel) {
+		this.viewLabel = viewLabel;
+	}
 
-		public List<String> getMotorNames() {
-			return motorNames;
-		}
+	public List<String> getMotorNames() {
+		return motorNames;
+	}
 
-		public void setMotorNames(List<String> motorNames) {
-			this.motorNames = motorNames;
-		}
+	public void setMotorNames(List<String> motorNames) {
+		this.motorNames = motorNames;
+	}
 
-		public List<String> getDetectorNames() {
-			return detectorNames;
-		}
+	public List<String> getDetectorNames() {
+		return detectorNames;
+	}
 
-		public void setDetectorNames(List<String> detectorNames) {
-			this.detectorNames = detectorNames;
-		}
+	public void setDetectorNames(List<String> detectorNames) {
+		this.detectorNames = detectorNames;
+	}
 
-		/**
-		 * Map containing detector names and corresponding GUI labels; key = GUI label, value = detector object name
-		 * @param detectorNamesMap
-		 */
-		public void setDetectorNameMap(Map<String, String> detectorNamesMap) {
-			this.detectorNamesMap = detectorNamesMap;
-		}
+	/**
+	 * Names of 'extra scannables' to be set on {@link TurboXasParameters} object
+	 * when loading parameters into {@link TurboXasExperimentView}.
+	 * @param extraScannables
+	 */
+	public void setDefaultExtraScannables(List<String> extraScannables) {
+		this.defaultExtraScannables = extraScannables;
+	}
+	/**
+	 * Map containing detector names and corresponding GUI labels; key = GUI label, value = detector object name
+	 *
+	 * @param detectorNamesMap
+	 */
+	public void setDetectorNameMap(Map<String, String> detectorNamesMap) {
+		this.detectorNamesMap = detectorNamesMap;
+	}
 
-		public void setDefaultPlottedFields(Map<String, String> defaultPlottedFields) {
-			this.defaultPlottedFields = defaultPlottedFields;
-		}
+	public void setDefaultPlottedFields(Map<String, String> defaultPlottedFields) {
+		this.defaultPlottedFields = defaultPlottedFields;
+	}
 
-		private String[] listToArray(List<String> list) {
-			if (list==null) {
-				return null;
-			}
-			String[] listAsArray = new String[list.size()];
-			for(int i=0; i<list.size(); i++) {
-				listAsArray[i]=list.get(i);
-			}
-			return listAsArray;
+	private String[] listToArray(List<String> list) {
+		if (list == null) {
+			return null;
 		}
+		String[] listAsArray = new String[list.size()];
+		for (int i = 0; i < list.size(); i++) {
+			listAsArray[i] = list.get(i);
+		}
+		return listAsArray;
+	}
 
-		@Override
-		public ViewPart createView() {
-			TurboXasExperimentView view = new TurboXasExperimentView();
-			view.setMotorNames(listToArray(motorNames));
-			view.setDetectorNamesMap(detectorNamesMap);
-			view.setDetectorNames(listToArray(detectorNames));
-			view.setDefaultPlottedFields(defaultPlottedFields);
-			ViewUtils.setViewName(view, viewLabel);
-			return view;
-		}
+	@Override
+	public ViewPart createView() {
+		TurboXasExperimentView view = new TurboXasExperimentView();
+		view.setMotorNames(listToArray(motorNames));
+		view.setDetectorNamesMap(detectorNamesMap);
+		view.setDetectorNames(listToArray(detectorNames));
+		view.setDefaultPlottedFields(defaultPlottedFields);
+		view.setDefaultExtraScannables(defaultExtraScannables);
+		ViewUtils.setViewName(view, viewLabel);
+		return view;
+	}
 }

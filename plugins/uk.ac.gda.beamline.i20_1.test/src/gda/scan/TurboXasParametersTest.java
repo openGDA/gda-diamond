@@ -27,7 +27,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -73,6 +75,8 @@ public class TurboXasParametersTest {
 	private static final String defaultDetector = "scaler_for_zebra";
 	private static final boolean defaultUseTrajectoryScan = false;
 
+	private static final List<String> extraScannablesList = Arrays.asList("scannable1", "scannable2");
+
 	private Map<String,String> scannablesToMonitor = null;
 	private boolean writeAsciiData = false;
 
@@ -93,6 +97,8 @@ public class TurboXasParametersTest {
 		parameters.addTimingGroup( new TurboSlitTimingGroup(group1Name, group1TimePerSpectrum, group1TimeBetweenSpectra, group1NumSpectra) );
 		parameters.addTimingGroup( new TurboSlitTimingGroup(group2Name, group2TimePerSpectrum, group2TimeBetweenSpectra, group2NumSpectra) );
 
+		parameters.setDetectors(new String[] { defaultDetector });
+		parameters.setExtraScannables(extraScannablesList);
 		motorParameters = parameters.getMotorParameters();
 		motorParameters.setMotorMaxSpeed(10000);
 	}
@@ -111,7 +117,7 @@ public class TurboXasParametersTest {
 	@Test
 	public void serializedXmlIsCorrect() {
 		String xmlStringFromParams = parameters.toXML();
-		String actualXmlString = getCorrectXmlString();
+		String actualXmlString = getCorrectXmlString(parameters);
 		assertThat(xmlStringFromParams , is( equalTo(actualXmlString) ) );
 	}
 
@@ -124,6 +130,10 @@ public class TurboXasParametersTest {
 		assertThat( parameters.getEnergyCalibrationPolynomial(), is(equalTo(calibrationPoly)));
 		testDoublesEquals( calibrationMinPos, parameters.getEnergyCalibrationMinPosition() );
 		testDoublesEquals( calibrationMaxPos, parameters.getEnergyCalibrationMaxPosition() );
+
+		assertEquals( defaultDetector,  parameters.getDetectors()[0]);
+
+		assertEquals( extraScannablesList, parameters.getExtraScannables());
 
 		// Test values of the timing groups ...
 		assertThat( parameters.getTimingGroups().size(), is(equalTo(2)) );
@@ -282,7 +292,7 @@ public class TurboXasParametersTest {
 		scannablesToMonitor = getScannableMap();
 		parameters.setScannablesToMonitorDuringScan(scannablesToMonitor);
 		String xmlStringFromParams = parameters.toXML();
-		String expectedXmlString = getCorrectXmlString();
+		String expectedXmlString = getCorrectXmlString(parameters);
 		assertThat(xmlStringFromParams , is( equalTo(expectedXmlString) ) );
 	}
 
@@ -296,47 +306,61 @@ public class TurboXasParametersTest {
 	 * Return string with serialized version of TurboXasParameters test object
 	 * @return
 	 */
-	private String getCorrectXmlString() {
-		String serializedXmlString =
-						"<TurboXasParameters>\n" +
-						"  <sampleName>"+testSampleName+"</sampleName>\n" +
-						"  <startEnergy>"+TurboXasParameters.doubleToString(startEnergy)+"</startEnergy>\n" +
-						"  <endEnergy>"+TurboXasParameters.doubleToString(endEnergy)+"</endEnergy>\n" +
-						"  <energyStep>"+TurboXasParameters.doubleToString(energyStep)+"</energyStep>\n" +
-						"  <startPosition>"+TurboXasParameters.doubleToString(startPosition)+"</startPosition>\n" +
-						"  <endPosition>"+TurboXasParameters.doubleToString(endPosition)+"</endPosition>\n" +
-						"  <positionStepSize>"+TurboXasParameters.doubleToString(positionStep)+"</positionStepSize>\n" +
-						"  <usePositionsForScan>"+usePositionsForScan+"</usePositionsForScan>\n" +
-						"  <energyCalibrationPolynomial>"+calibrationPoly+"</energyCalibrationPolynomial>\n" +
-						"  <energyCalibrationMinPosition>"+TurboXasParameters.doubleToString(calibrationMinPos)+"</energyCalibrationMinPosition>\n" +
-						"  <energyCalibrationMaxPosition>"+TurboXasParameters.doubleToString(calibrationMaxPos)+"</energyCalibrationMaxPosition>\n" +
-						"  <energyCalibrationReferenceFile>"+calibrationRefFilename+"</energyCalibrationReferenceFile>\n" +
-						"  <energyCalibrationFile>"+calibrationSampleFilename+"</energyCalibrationFile>\n" +
-						"  <motorToMove>"+defaultMotorToMove+"</motorToMove>\n"+
-						"  <detectors>\n"+
-						"    <string>"+defaultDetector+"</string>\n"+
-						"  </detectors>\n"+
-						"  <useTrajectoryScan>"+defaultUseTrajectoryScan+"</useTrajectoryScan>\n"+
-						"  <TimingGroup>\n" +
-						"    <name>"+group1Name+"</name>\n" +
-						"    <timePerSpectrum>"+TurboXasParameters.doubleToString(group1TimePerSpectrum)+"</timePerSpectrum>\n" +
-						"    <timeBetweenSpectra>"+TurboXasParameters.doubleToString(group1TimeBetweenSpectra)+"</timeBetweenSpectra>\n" +
-						"    <numSpectra>"+group1NumSpectra+"</numSpectra>\n" +
-						"  </TimingGroup>\n" +
-						"  <TimingGroup>\n" +
-						"    <name>"+group2Name+"</name>\n" +
-						"    <timePerSpectrum>"+TurboXasParameters.doubleToString(group2TimePerSpectrum)+"</timePerSpectrum>\n" +
-						"    <timeBetweenSpectra>"+TurboXasParameters.doubleToString(group2TimeBetweenSpectra)+"</timeBetweenSpectra>\n" +
-						"    <numSpectra>"+group2NumSpectra+"</numSpectra>\n" +
-						"  </TimingGroup>\n";
+	private String getCorrectXmlString(TurboXasParameters parameters) {
+		StringBuilder serializedXmlString = new StringBuilder();
 
-		if (scannablesToMonitor != null) {
-			serializedXmlString += getExpectedMapXmlString(scannablesToMonitor, "  ")+"\n";
+		serializedXmlString.append(
+			"<TurboXasParameters>\n" +
+			"  <sampleName>"+parameters.getSampleName()+"</sampleName>\n" +
+			"  <startEnergy>"+TurboXasParameters.doubleToString(parameters.getStartEnergy())+"</startEnergy>\n" +
+			"  <endEnergy>"+TurboXasParameters.doubleToString(parameters.getEndEnergy())+"</endEnergy>\n" +
+			"  <energyStep>"+TurboXasParameters.doubleToString(parameters.getEnergyStep())+"</energyStep>\n" +
+			"  <startPosition>"+TurboXasParameters.doubleToString(parameters.getStartPosition())+"</startPosition>\n" +
+			"  <endPosition>"+TurboXasParameters.doubleToString(parameters.getEndPosition())+"</endPosition>\n" +
+			"  <positionStepSize>"+TurboXasParameters.doubleToString(parameters.getPositionStepSize())+"</positionStepSize>\n" +
+			"  <usePositionsForScan>"+parameters.isUsePositionsForScan()+"</usePositionsForScan>\n" +
+			"  <energyCalibrationPolynomial>"+parameters.getEnergyCalibrationPolynomial()+"</energyCalibrationPolynomial>\n" +
+			"  <energyCalibrationMinPosition>"+TurboXasParameters.doubleToString(parameters.getEnergyCalibrationMinPosition())+"</energyCalibrationMinPosition>\n" +
+			"  <energyCalibrationMaxPosition>"+TurboXasParameters.doubleToString(parameters.getEnergyCalibrationMaxPosition())+"</energyCalibrationMaxPosition>\n" +
+			"  <energyCalibrationReferenceFile>"+parameters.getEnergyCalibrationReferenceFile()+"</energyCalibrationReferenceFile>\n" +
+			"  <energyCalibrationFile>"+parameters.getEnergyCalibrationFile()+"</energyCalibrationFile>\n" +
+			"  <motorToMove>"+parameters.getMotorToMove()+"</motorToMove>\n");
+
+		// Add the detector(s)
+		serializedXmlString.append("  <detectors>\n");
+		for(String detectorName : parameters.getDetectors()) {
+			serializedXmlString.append("    <string>"+detectorName+"</string>\n");
+		}
+		serializedXmlString.append("  </detectors>\n");
+
+		serializedXmlString.append("  <useTrajectoryScan>"+parameters.getUseTrajectoryScan()+"</useTrajectoryScan>\n");
+
+		if (parameters.getTimingGroups() != null) {
+			parameters.getTimingGroups().forEach( timingGroup -> {
+				serializedXmlString.append(
+				"  <TimingGroup>\n" +
+				"    <name>"+timingGroup.getName()+"</name>\n" +
+				"    <timePerSpectrum>"+TurboXasParameters.doubleToString(timingGroup.getTimePerSpectrum())+"</timePerSpectrum>\n" +
+				"    <timeBetweenSpectra>"+TurboXasParameters.doubleToString(timingGroup.getTimeBetweenSpectra())+"</timeBetweenSpectra>\n" +
+				"    <numSpectra>"+timingGroup.getNumSpectra()+"</numSpectra>\n" +
+				"  </TimingGroup>\n");
+				}
+			);
 		}
 
-		serializedXmlString += "  <writeAsciiData>"+writeAsciiData+"</writeAsciiData>\n";
+		if (parameters.getScannablesToMonitorDuringScan() != null) {
+			serializedXmlString.append(getExpectedMapXmlString(parameters.getScannablesToMonitorDuringScan(), "  ")+"\n");
+		}
 
-		serializedXmlString += "</TurboXasParameters>";
-		return serializedXmlString;
+		if (parameters.getExtraScannables() != null) {
+			serializedXmlString.append("  <extraScannables>\n");
+			parameters.getExtraScannables().forEach((name) -> serializedXmlString.append("    <string>"+name+"</string>\n") );
+			serializedXmlString.append("  </extraScannables>\n");
+		}
+		serializedXmlString.append("  <writeAsciiData>"+parameters.getWriteAsciiData()+"</writeAsciiData>\n");
+
+		serializedXmlString.append("</TurboXasParameters>");
+
+		return serializedXmlString.toString();
 	}
 }
