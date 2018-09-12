@@ -45,7 +45,6 @@
 
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
-<!--      <perspectiveExtension targetID="uk.ac.diamond.gda.rcp.ExperimentPerspective" -->
       <perspectiveExtension targetID="uk.ac.gda.beamline.i06.perspective.Experiment">
          <view
                closeable="false"
@@ -117,25 +116,14 @@
                showTitle="true"
                visible="true">
          </view>
-<!--         
-         <view
-               closeable="true"
-               id="uk.ac.gda.nano.views.TestView"
-               moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.nano.views.terminalView"
-               showTitle="true"
-               visible="true">
-         </view>
--->
       </perspectiveExtension>
 
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogram"
-            id="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogram:pco_cam#EPICS_ARRAY"
+            class="gda.rcp.views.ViewFactoryFinder:pcoControlWidgetFactory"
+            id="uk.ac.gda.beamline.i06.pco.live.stream.view.LiveStreamViewWithHistogram"
             name="PCO Array"
             restorable="true">
       </view>

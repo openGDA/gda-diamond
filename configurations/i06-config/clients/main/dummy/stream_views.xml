@@ -20,6 +20,7 @@
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="pco_roi" />
 		<property name="withHistogram" value="true"/>
+<!-- 		<property name="hasCameraControl" value="true"/> -->
 	</bean>
 	<bean id="sim_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="SIM" />

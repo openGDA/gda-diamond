@@ -3,17 +3,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="pcoExposureTime" class="gda.device.scannable.SimplePVScannable">
+	<bean id="pcoExposureTime" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06I-EA-DET-01:CAM:AcquireTime"/>
-		<property name="textInput" value="false"/>	
+		<property name="useNameAsInputName" value="true"/>
+		<property name="hasUnits" value="false"/>	
 	</bean>
-	<bean id="pcoAcquirePeriod" class="gda.device.scannable.SimplePVScannable">
+	<bean id="pcoAcquirePeriod" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06I-EA-DET-01:CAM:AcquirePeriod"/>
-		<property name="textInput" value="false"/>	
+		<property name="useNameAsInputName" value="true"/>
+		<property name="hasUnits" value="false"/>	
 	</bean>
-	<bean id="pcoRotationAngle" class="gda.device.scannable.SimplePVScannable">
+	<bean id="pcoRotationAngle" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06I-EA-DET-01:ROT:Angle"/>
-		<property name="textInput" value="false"/>	
+		<property name="useNameAsInputName" value="true"/>
+		<property name="hasUnits" value="false"/>	
 	</bean>
 
 </beans>

@@ -5,25 +5,25 @@
 
 	<!-- Translations -->
 	<bean id="pco_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Exposure Time" />
-		<property name="group" value="PCO Camera" />
+		<property name="displayName" value="Exposure" />
+		<property name="group" value="PCO Acquire Time" />
 		<property name="scannableName" value="pcoExposureTime" />
-		<property name="textWidth" value="30"/>
+		<property name="textWidth" value="150"/>
 		<property name="userUnits" value="s" />
 	</bean>
 
 	<bean id="pco_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Acquire Period" />
-		<property name="group" value="PCO Camera" />
+		<property name="displayName" value="Period" />
+		<property name="group" value="PCO Acquire Time" />
 		<property name="scannableName" value="pcoAcquirePeriod" />
-		<property name="textWidth" value="30"/>
+		<property name="textWidth" value="132"/>
 		<property name="userUnits" value="s" />
 	</bean>
 	<bean id="pco_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
-		<property name="displayName" value="Rot Angle" />
-		<property name="group" value="PCO Mode" />
+		<property name="displayName" value="Rot.Ang" />
+		<property name="group" value="PCO Rotation" />
 		<property name="scannableName" value="pcoRotationAngle" />
-		<property name="textWidth" value="30" />
+		<property name="textWidth" value="132" />
 		<property name="userUnits" value="deg"/>
 	</bean>
 
@@ -65,30 +65,48 @@
 	<bean id="unrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="unrotate()" />
 		<property name="buttonText" value="Unrotate" />
-		<property name="group" value="PCO Array Live Stream Control" />
+		<property name="group" value="PCO Rotation" />
 	</bean>
 	<bean id="rotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="rotate()" />
 		<property name="buttonText" value="Rotate" />
-		<property name="group" value="PCO Array Live Stream Control" />
+		<property name="group" value="PCO Rotation" />
 	</bean>
 
 
-	<bean name="controlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+	<bean id="pco_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
-				<ref bean="pcoStart" />
-				<ref bean="pcoStop" />
+<!-- 				<ref bean="pcoStart" /> -->
+<!-- 				<ref bean="pcoStop" /> -->
 				<ref bean="pco_expsure_time_control" />
 				<ref bean="pco_acquire_period_control"/>
 				<ref bean="preview" />
 				<ref bean="imaging" />
 				<ref bean="pco_image_rotation_angle_control" />
-				<ref bean="pcoarrayenable"/>
-				<ref bean="pcoarraydisable"/>
+<!-- 				<ref bean="pcoarrayenable"/> -->
+<!-- 				<ref bean="pcoarraydisable"/> -->
 				<ref bean="unrotate"/>
 				<ref bean="rotate"/>
 			</list>
+		</property>
+	</bean>
+	
+	<bean id="pcoControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
+		<property name="customWidget">
+			<bean class="uk.ac.gda.beamline.i06.views.CameraControlWidget">
+				<property name="liveControls">
+					<list>
+						<ref bean="pco_expsure_time_control" />
+						<ref bean="pco_acquire_period_control"/>
+						<ref bean="preview" />
+						<ref bean="imaging" />
+						<ref bean="pco_image_rotation_angle_control" />
+						<ref bean="unrotate"/>
+						<ref bean="rotate"/>
+					</list>
+				</property>
+			</bean>
 		</property>
 	</bean>
 </beans>

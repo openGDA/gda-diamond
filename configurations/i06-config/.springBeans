@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.9.0.201707061730-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.9.5.201807030714-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -56,7 +56,7 @@
 		<config>clients/main/dummy/client_demo.xml</config>
 		<config>servers/main/_common/scannables/pco.xml</config>
 		<config>servers/main/live/devices/pco.xml</config>
-		<config>servers/main/live/devices/live_controls.xml</config>
+		<config>clients/main/live/live_controls.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
