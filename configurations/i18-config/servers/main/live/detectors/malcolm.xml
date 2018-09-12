@@ -3,6 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<!-- XSPRESS3 SCANS -->
+
 	<bean id="t1xyDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
 		init-method="register">
 		<property name="name" value="BL18I-ML-SCAN-01" />
@@ -73,6 +75,81 @@
 		<property name="label" value="T3 X vs theta" />
 		<property name="description"
 			value="Scan of Xspress3 and ion chambers over T3 X (fast) and fine theta (slow)" />
+	</bean>
+	
+	
+	<!-- MERLIN SCANS -->
+	
+	<bean id="merlinT1xyDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
+		init-method="register">
+		<property name="name" value="BL18I-ML-SCAN-05" />
+		<property name="model" ref="merlinT1xyModel" />
+		<property name="deviceInformation" ref="merlinT1xyInfo" />
+		<property name="activated" value="false" />
+	</bean>
+	<bean id="merlinT1xyModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL18I-ML-SCAN-05" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+	<bean id="merlinT1xyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id" value="org.eclipse.scanning.malcolm.merlinT1xyDevice" />
+		<property name="label" value="Merlin T1 X vs Y" />
+		<property name="description"
+			value="Scan of Merlin and ion chambers over T1 X (fast) and Y (slow)" />
+	</bean>
+
+	<bean id="merlinT1xtDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
+		init-method="register">
+		<property name="name" value="BL18I-ML-SCAN-06" />
+		<property name="model" ref="merlinT1xtModel" />
+		<property name="deviceInformation" ref="merlinT1xtInfo" />
+		<property name="activated" value="false" />
+	</bean>
+	<bean id="merlinT1xtModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL18I-ML-SCAN-06" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+	<bean id="merlinT1xtInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id" value="org.eclipse.scanning.malcolm.merlinT1xtDevice" />
+		<property name="label" value="Merlin T1 X vs theta" />
+		<property name="description"
+			value="Scan of Merlin and ion chambers over T1 X (fast) and fine theta (slow)" />
+	</bean>
+
+	<bean id="merlinT3xyDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
+		init-method="register">
+		<property name="name" value="BL18I-ML-SCAN-07" />
+		<property name="model" ref="merlinT3xyModel" />
+		<property name="deviceInformation" ref="merlinT3xyInfo" />
+		<property name="activated" value="false" />
+	</bean>
+	<bean id="merlinT3xyModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL18I-ML-SCAN-07" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+	<bean id="merlinT3xyInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id" value="org.eclipse.scanning.malcolm.merlinT3xyDevice" />
+		<property name="label" value="Merlin T3 X vs Y" />
+		<property name="description"
+			value="Scan of Merlin and ion chambers over T3 X (fast) and Y (slow)" />
+	</bean>
+
+	<bean id="merlinT3xtDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice"
+		init-method="register">
+		<property name="name" value="BL18I-ML-SCAN-08" />
+		<property name="model" ref="merlinT3xtModel" />
+		<property name="deviceInformation" ref="merlinT3xtInfo" />
+		<property name="activated" value="false" />
+	</bean>
+	<bean id="merlinT3xtModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL18I-ML-SCAN-08" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+	<bean id="merlinT3xtInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id" value="org.eclipse.scanning.malcolm.merlinT3xtDevice" />
+		<property name="label" value="Merlin T3 X vs theta" />
+		<property name="description"
+			value="Scan of Merlin and ion chambers over T3 X (fast) and fine theta (slow)" />
 	</bean>
 
 </beans>
