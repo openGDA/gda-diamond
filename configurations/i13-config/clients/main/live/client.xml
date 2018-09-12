@@ -3,6 +3,54 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<import resource="live_client_common.xml" />
+	<import resource="../_common/client.xml" />
+
+	<import resource="cameraview.xml" />
+	<import resource="../../../devices/live/pco1_ndplugins.xml"/>
+	<import resource="../../../devices/live/ion_chamber.xml" />
+
+	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="SR13I-MO-SERVC-01:CURRGAPD" />
+		<property name="useNameAsExtraName" value="true" />
+	</bean>
+
+	<bean id="timeToRefill" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="outputFormat">
+			<list>
+				<value>%4.4g</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ringCurrent" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
+		<property name="useNameAsExtraName" value="true" />
+	</bean>
+
+	<bean id="pco_binx_rbv" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-EA-DET-01:CAM:BinX_RBV" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+	</bean>
+
+	<bean id="pco_biny_rbv" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL13I-EA-DET-01:CAM:BinY_RBV" />
+		<property name="useNameAsExtraName" value="true" />
+		<property name="hasUnits" value="false" />
+	</bean>
+
+	<bean id="expt_sht_stat" class="gda.device.scannable.EpicsScannable">
+		<property name="hasUnits" value="False" />
+		<property name="getAsString" value="True" />
+		<property name="pvName" value="BL13I-PS-SHTR-02:STA" />
+	</bean>
+
+	<bean id="fast_shtr_stat" class="gda.device.scannable.EpicsScannable">
+		<property name="hasUnits" value="False" />
+		<property name="getAsString" value="True" />
+		<property name="pvName" value="BL13I-EA-FSHTR-01:CONTROL" />
+	</bean>
 
 </beans>
