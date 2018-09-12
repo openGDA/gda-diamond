@@ -65,7 +65,7 @@ class anritsuDetector(DetectorBase):
 		pass
 
 	def stop(self):
-	self.loop = False
+		self.loop = False
 
 
 
@@ -276,7 +276,7 @@ class collectDataThread(Runnable):
 	"""
         
       
-	self.myDetector.isCollecting = 0
+		self.myDetector.isCollecting = 0
 
 
 
