@@ -20,8 +20,6 @@
 	<import resource="PhenixCryostat.xml" />
 	<import resource="StoeFurnace.xml" />
 	<import resource="Spinner.xml" />
-	<import resource="BPM1.xml" />
-	<import resource="BPM2.xml" />
 	<import resource="BPM3.xml" />
 	<import resource="ID.xml" />
 	<import resource="Ic1.xml" />
