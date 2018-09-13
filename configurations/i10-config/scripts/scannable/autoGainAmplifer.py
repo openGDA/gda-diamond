@@ -1,7 +1,12 @@
 '''
+An instance of this class automatically switching gain setting during a scan when the current reading reaches the given limits.
+
 Instance of this class requires a root PV name for the amplifier with at least 2 end points (:I and :GAIN) to work!
 You need to provide a Gain dictionary which maps enum position to actual gain value (see example below).
- 
+
+Example usages:      
+    rca1=AutoGainAmplifier("rca1", "ME01D-EA-IAMP-01", 0.5, 9.0, "%.4e")
+
 Created on 13 September 2018
 
 @author: fy65
@@ -94,5 +99,3 @@ class AutoGainAmplifier(ScannableMotionBase):
     def toFormattedString(self):
         return self.name + " : " + self.getInputNames()[0] +" : " + str(self.getPosition()[0]) + ", " + self.getExtraNames()[0] +" : "+ str(self.getPosition()[1])
 
-#Example usages:      
-#cleverIamp10=CleverAmplifier("cleverIamp10", rfdiamp10, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
