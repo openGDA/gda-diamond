@@ -1,12 +1,11 @@
-<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
-	<bean id="fs" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="recordName" value="BL13I-EA-FSHTR-01:CONTROL" />
+	<bean id="idGap" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="SR13I-MO-SERVC-01:CURRGAPD" />
+		<property name="useNameAsExtraName" value="true" />
 	</bean>
 
 </beans>
