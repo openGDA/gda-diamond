@@ -96,6 +96,15 @@ if installation.isLive():
         gflow2=EpicsDeviceClass(name='gflow2', pvSet="BL10J-EA-TCTRL-02:GFLOW:SET", pvGet="BL10J-EA-TCTRL-02:GFLOW", pvStatus=None, strUnit="", strFormat="%.2f", timeout=None)
     except:
         localStation_exception(sys.exc_info(), "creating gflow2 scannable")
+    
+    try:
+        from scannable.autoGainAmplifer import AutoGainAmplifier
+        rca1=AutoGainAmplifier("rca1", "ME01D-EA-IAMP-01", 0.5, 9.0, "%.4e")  # @UndefinedVariable
+        rca2=AutoGainAmplifier("rca2", "ME01D-EA-IAMP-02", 0.5, 9.0, "%.4e")  # @UndefinedVariable
+        rca3=AutoGainAmplifier("rca3", "ME01D-EA-IAMP-03", 0.5, 9.0, "%.4e")  # @UndefinedVariable
+    except:
+        localStation_exception(sys.exc_info(), "creating AutoGainAmplifer scannables")
+
 else:
     global m1fpitch
         
@@ -218,9 +227,12 @@ pc,nc,lh,lv,la,lh3 = Polarisation.POLARISATIONS
 print
 print "*"*80
 #DiffCalc
-# print "import DIFFCALC support for I10"
-# from startup.i10 import *  # @UnusedWildImport
-
+print "import DIFFCALC support for I10"
+try:
+    from startup.i10 import *  # @UnusedWildImport
+except:
+    localStation_exception(sys.exc_info(), "import diffcalc error.")
+    
 ##Position Wrapper
 print "-"*100
 print "Creating 'wa' command for returning RASOR motor positions"
