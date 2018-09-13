@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Analyser EAV Cam -->
+	<bean id="analyser_eav_CamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL09I-DI-EAN-01:CAM:" />
+	</bean>
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="analyser_eav_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/analyserEAVRoi" />
+	    <property name="service" ref="analyser_eav_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<bean id="analyser_eav_RoiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source for the array view -->
+		<property name="baseRoiPVName" value="BL09I-DI-EAN-01:ROI:" />
+		<property name="baseStatsPVName" value="BL09I-DI-EAN-01:STAT:" />
+		<property name="roiInputNdArrayPort" value="EAV.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="analyser_eav_roi" />
+				<property name="index" value="0" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="eavImageMax" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-DI-EAN-01:STAT:MaxValue_RBV"/>
+	</bean>
+	<bean id="eavImageTotal" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-DI-EAN-01:STAT:Total_RBV"/>
+	</bean>
+	<bean id="eavImageMean" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL09I-DI-EAN-01:STAT:MeanValue_RBV"/>
+	</bean>
+</beans>

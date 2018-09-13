@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- Objects that are not true dummies but access a simulated area detector -->
+	<!-- You will have to change the PVs to those corresponding to your simulator -->
+	<bean id="localhostInetAddress" class="java.net.InetAddress"
+		factory-method="getLocalHost" />
+
+	<bean id="eavCamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix"
+			value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:" />
+	</bean>
+
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="analyser_eav_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/eavRoi" />
+	    <property name="service" ref="analyser_eav_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+
+	<bean id="eavHdf5Filewriter" parent="abstractHdf5FilewriterNochunking">
+		<property name="fileNameTemplate" value="eavAd" />
+		<property name="ndFileHDF5">
+			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
+				<property name="ndFileImpl">
+					<bean class="gda.spring.V17NDFileFactoryBean">
+						<property name="prefix"
+							value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+						<property name="resetToInitialValues" value="false" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="eavCollectionStrategy"
+		class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="decoratee">
+			<bean
+				class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="restoreTriggerMode" value="true" />
+				<property name="decoratee">
+					<bean
+						class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+						<property name="restoreAcquireTime" value="true" />
+						<property name="decoratee">
+							<bean
+								class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="restoreAcquireState" value="true" />
+								<property name="adBase" ref="eavCamBase" />
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- This is the ROI+STATS pair that needs to be added to a NXDetector to enable ROI STATS -->
+	<bean id="eav_roiStats" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+	    <property name="pluginName" value="roistats" />
+	    <property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:" />
+	    <property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
+	    <property name="roiInputNdArrayPort" value="CAM.CAM" />
+	    <property name="enabledBasicStats" value="Total" />
+	    <property name="oneTimeSeriesCollectionPerLine" value="false" />
+	    <property name="roiProvider">
+	        <!-- To use with the Live Stream View you need a ROI indexer, this specifies the server side ROI source and which ROI should be used by this pair -->
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="analyser_eav_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+	    </property>
+	</bean>
+	<!-- This is the ROI+STATS pair that needs to be added to a NXDetector to enable ROI STATS -->
+	<bean id="eav_roiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+	    <property name="pluginName" value="roistats2" />
+	    <property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:" />
+	    <property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT2:" />
+	    <property name="roiInputNdArrayPort" value="CAM.CAM" />
+	    <property name="enabledBasicStats" value="Total" />
+	    <property name="oneTimeSeriesCollectionPerLine" value="false" />
+	    <property name="roiProvider">
+	        <!-- To use with the Live Stream View you need a ROI indexer, this specifies the server side ROI source and which ROI should be used by this pair -->
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="analyser_eav_roi" />
+	            <property name="index" value="1" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+	    </property>
+	</bean>
+	<!-- This is the ROI+STATS pair that needs to be added to a NXDetector to enable ROI STATS -->
+	<bean id="eav_roiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+	    <property name="pluginName" value="roistats3" />
+	    <property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI3:" />
+	    <property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT3:" />
+	    <property name="roiInputNdArrayPort" value="CAM.CAM" />
+	    <property name="enabledBasicStats" value="Total" />
+	    <property name="oneTimeSeriesCollectionPerLine" value="false" />
+	    <property name="roiProvider">
+	        <!-- To use with the Live Stream View you need a ROI indexer, this specifies the server side ROI source and which ROI should be used by this pair -->
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="analyser_eav_roi" />
+	            <property name="index" value="2" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+	    </property>
+	</bean>
+	<!-- This is the ROI+STATS pair that needs to be added to a NXDetector to enable ROI STATS -->
+	<bean id="eav_roiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+	    <property name="pluginName" value="roistats4" />
+	    <property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI4:" />
+	    <property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT4:" />
+	    <property name="roiInputNdArrayPort" value="CAM.CAM" />
+	    <property name="enabledBasicStats" value="Total" />
+	    <property name="oneTimeSeriesCollectionPerLine" value="false" />
+	    <property name="roiProvider">
+	        <!-- To use with the Live Stream View you need a ROI indexer, this specifies the server side ROI source and which ROI should be used by this pair -->
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="analyser_eav_roi" />
+	            <property name="index" value="3" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+	    </property>
+	</bean>
+	<!-- This is the ROI+STATS pair that needs to be added to a NXDetector to enable ROI STATS -->
+	<bean id="eav_roiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+	    <property name="pluginName" value="roistats5" />
+	    <property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI5:" />
+	    <property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT5:" />
+	    <property name="roiInputNdArrayPort" value="CAM.CAM" />
+	    <property name="enabledBasicStats" value="Total" />
+	    <property name="oneTimeSeriesCollectionPerLine" value="false" />
+	    <property name="roiProvider">
+	        <!-- To use with the Live Stream View you need a ROI indexer, this specifies the server side ROI source and which ROI should be used by this pair -->
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="analyser_eav_roi" />
+	            <property name="index" value="4" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+	    </property>
+	</bean>
+	<!-- This is the ROI+STATS pair that needs to be added to a NXDetector to enable ROI STATS -->
+	<bean id="eav_roiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+	    <property name="pluginName" value="roistats6" />
+	    <property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI6:" />
+	    <property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT6:" />
+	    <property name="roiInputNdArrayPort" value="CAM.CAM" />
+	    <property name="enabledBasicStats" value="Total" />
+	    <property name="oneTimeSeriesCollectionPerLine" value="false" />
+	    <property name="roiProvider">
+	        <!-- To use with the Live Stream View you need a ROI indexer, this specifies the server side ROI source and which ROI should be used by this pair -->
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="analyser_eav_roi" />
+	            <property name="index" value="5" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+	    </property>
+	</bean>
+	<bean id="eavImageMax" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:MaxValue_RBV"/>
+	</bean>
+	<bean id="eavImageTotal" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:Total_RBV"/>
+	</bean>
+	<bean id="eavImageMean" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:MeanValue_RBV"/>
+	</bean>
+</beans>

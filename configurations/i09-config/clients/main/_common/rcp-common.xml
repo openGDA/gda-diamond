@@ -55,28 +55,6 @@
 		</property>
 	</bean>
 
-<!-- setup CameraView -->
-	<bean id="analyser_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
-		<property name="name" value="Analyser Camera Preview" />
-		<property name="exposurePV" value="BL09I-EA-DET-01:CAM:AcquireTime" />
-		<property name="acqPeriodPV" value="BL09I-EA-DET-01:CAM:AcquirePeriod" />
-		<property name="gainPV" value="BL09I-EA-DET-01:CAM:Gain" />
-		<property name="acquirePV" value="BL09I-EA-DET-01:CAM:Acquire" />
-		<property name="urlPV" value="ELECTRON-ANALYSER-01:MPG:MJPG_URL_RBV" />
-	</bean>
-	<bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
-		<property name="cameras">
-			<list>
-				<ref bean="analyser_cam_config" />
-			</list>
-		</property>
-		<property name="plotViewID" value="uk.ac.gda.beamline.i09.plotView" />
-	</bean>
-
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
-		<property name="service" ref="camera_config" />
-	</bean>
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 	
 	<bean id="pgmenergy" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
