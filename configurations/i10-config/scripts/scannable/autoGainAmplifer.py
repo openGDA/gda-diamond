@@ -1,4 +1,6 @@
 '''
+An instance of this class automatically switching gain setting during a scan when the current reading reaches the given limits.
+
 Instance of this class requires a root PV name for the amplifier with at least 2 end points (:I and :GAIN) to work!
 You need to provide a Gain dictionary which maps enum position to actual gain value (see example below).
  
