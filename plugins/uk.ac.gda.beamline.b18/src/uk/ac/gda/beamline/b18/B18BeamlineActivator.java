@@ -21,6 +21,8 @@ package uk.ac.gda.beamline.b18;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import uk.ac.gda.exafs.ui.data.ScanObjectManager;
+
 /**
  * The activator class controls the plug-in life cycle
  */
@@ -42,6 +44,7 @@ public class B18BeamlineActivator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		ScanObjectManager.setQEXAFSDefaultScanType(true);
 	}
 
 	@Override
