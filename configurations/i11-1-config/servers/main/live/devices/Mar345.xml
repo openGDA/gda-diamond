@@ -1,55 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- MAR345 platform motor	-->	
+	<!-- MAR345 platform motor	-->
 	<bean id="tmar_base_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TMAR.BASE"/>
+		<property name="pvName" value="BL11I-EA-TMAR-01:BASE" />
 	</bean>
 	<bean id="tmar_rot_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TMAR.ROT"/>
+		<property name="pvName" value="BL11I-EA-TMAR-01:ROT" />
 	</bean>
 	<bean id="tmar_x_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TMAR.X"/>
+		<property name="pvName" value="BL11I-EA-TMAR-01:X" />
 	</bean>
 	<bean id="tmar_y_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TMAR.Y"/>
+		<property name="pvName" value="BL11I-EA-TMAR-01:Y" />
 	</bean>
 	<bean id="tmar_z_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TMAR.Z"/>
+		<property name="pvName" value="BL11I-EA-TMAR-01:Z" />
 	</bean>
 	<bean id="s6yp_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S6.YP"/>
+		<property name="pvName" value="BL11I-AL-SLITS-06:YP" />
 	</bean>
 	<bean id="s6ym_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S6.YM"/>
+		<property name="pvName" value="BL11I-AL-SLITS-06:YM" />
 	</bean>
 	<bean id="s6xm_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S6.XM"/>
+		<property name="pvName" value="BL11I-AL-SLITS-06:XM" />
 	</bean>
 	<bean id="s6xp_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S6.XP"/>
+		<property name="pvName" value="BL11I-AL-SLITS-06:XP" />
 	</bean>
 	<bean id="coly_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="COL.Y"/>
+		<property name="pvName" value="BL11I-AL-COL-01:Y" />
 	</bean>
 	<bean id="colx_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="COL.X"/>
+		<property name="pvName" value="BL11I-AL-COL-01:X" />
 	</bean>
 	<bean id="bsy_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="BS.Y"/>
+		<property name="pvName" value="BL11I-RS-ABSB-03:Y" />
 	</bean>
 	<bean id="bsx_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="BS.X"/>
+		<property name="pvName" value="BL11I-RS-ABSB-03:X" />
 	</bean>
 	<bean id="d6x_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D6.X"/>
+		<property name="pvName" value="BL11I-DI-PHDGN-06:X" />
 	</bean>
-		<bean id="oavx_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="OAV.X"/>
+	<bean id="oavx_mtr" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11I-DI-OAV-01:X" />
 	</bean>
 	<bean id="oavy_mtr" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="OAV.Y"/>
+		<property name="pvName" value="BL11I-DI-OAV-01:Y" />
 	</bean>
 </beans>
