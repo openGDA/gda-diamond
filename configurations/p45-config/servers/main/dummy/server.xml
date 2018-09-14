@@ -8,7 +8,9 @@
 	<import resource="file://${gda.facility.dir}/servers/dummy/mic.xml" />
 	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/>
 
-<!-- Do not remove anything below here -->
+	<import resource="dummy_devices.xml"/>
+
+	<!-- Do not remove anything below here -->
 	<import resource="../../main/_common/server.xml" />
 
 </beans>
