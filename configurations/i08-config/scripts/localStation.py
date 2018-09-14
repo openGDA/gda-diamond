@@ -3,12 +3,10 @@ import sys
 
 from ScannableInvertedValue import PositionInvertedValue
 from gda.configuration.properties import LocalProperties
-from gda.device import Scannable
-from gda.factory import Finder
-from gda.jython.commands.GeneralCommands import ls_names, run, alias # @UnusedImport
+from gda.jython.commands.GeneralCommands import run, alias  # @UnusedImport
 from gdascripts.pd.time_pds import waittimeClass, showtimeClass, showincrementaltimeClass, actualTimeClass
 from gdascripts.scan.installStandardScansWithProcessing import *  # @UnusedWildImport
-from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs # @UnusedImport
+from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs  # @UnusedImport
 
 
 # Add config/scripts to import search path (why is this not already set in gda9?).
@@ -18,14 +16,7 @@ sys.path.append(os.path.abspath(scriptDir))
 
 print("Initialisation Started");
 
-def ls_scannables():
-    ls_names(Scannable)
-
-def is_live():
-    mode = LocalProperties.get("gda.mode")
-    return mode == 'live'
-
-finder = Finder.getInstance()
+run("i08_utilities.py")
 
 photoDiode1Inverted = PositionInvertedValue("photoDiode1Inverted", "photoDiode1")
 
@@ -42,10 +33,7 @@ showtime = showtimeClass('showtime')
 inctime = showincrementaltimeClass('inctime')
 actualTime = actualTimeClass("actualTime")
 
-# Property so that user can drag ROIs in FluorescenceDetector views. imh 11/11/2016
-LocalProperties.set("exafs.editor.overlay.Preference", "True")
-
-# For access to new mscan mapping scan command. imh 11/11/2016
+# For access to new mscan mapping scan command.
 print("Adding mscan mapping scan command. Use help(mscan) to get information on how to use it.")
 run('mapping_scan_commands.py')
 
