@@ -1,7 +1,9 @@
 # Functions to control the IOC
-
 import time
+
 from gda.epics import CAClient
+from i08_utilities import is_live
+
 
 def restart_ioc():
     if is_live():
