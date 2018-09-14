@@ -25,13 +25,13 @@
 	<bean id="s4xgap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorXSize_S4" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
+		<property name="initialUserUnits" value="um" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="s4ygap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorYSize_S4" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
+		<property name="initialUserUnits" value="um" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="S4" class="gda.device.scannable.scannablegroup.ScannableGroup">
