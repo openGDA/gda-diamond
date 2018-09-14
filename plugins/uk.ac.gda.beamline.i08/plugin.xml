@@ -26,14 +26,6 @@
       </product>
    </extension>
    <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="uk.ac.gda.beamline.i08.perspectives.ExperimentPerspective"
-            id="uk.ac.gda.microscopy.ExperimentPerspective"
-            name="X-ray Microscopy Experiment">
-      </perspective>
-   </extension>
-   <extension
          point="org.eclipse.ui.perspectiveExtensions">
 
       <perspectiveExtension
@@ -45,69 +37,6 @@
                relationship="stack"
                relative="gda.rcp.jythonterminalview"
                showTitle="true"
-               visible="true">
-         </view>
-      </perspectiveExtension>
-
-      <perspectiveExtension
-            targetID="uk.ac.gda.microscopy.ExperimentPerspective">
-
-         <view
-               closeable="false"
-               id="gda.rcp.jythonterminalview"
-               minimized="false"
-               moveable="true"
-               ratio="0.95"
-               relationship="left"
-               relative="org.eclipse.ui.editorss"
-               showTitle="true"
-               visible="true">
-         </view>
-<!--         
-         <view
-               closeable="true"
-               id="uk.ac.gda.nano.views.TestView"
-               moveable="true"
-               relationship="stack"
-               relative="uk.ac.gda.nano.views.terminalView"
-               showTitle="true"
-               visible="true">
-         </view>
--->         
-         <view
-               closeable="false"
-               id="uk.ac.gda.client.liveplotview"
-               minimized="false"
-               moveable="true"
-               ratio="0.6"
-               relationship="top"
-               relative="gda.rcp.jythonterminalview"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               closeable="true"
-               id="uk.ac.gda.rcp.views.dashboardView"
-               moveable="false"
-               ratio="0.75"
-               relationship="right"
-               relative="gda.rcp.jythonterminalview"
-               showTitle="true"
-               visible="true">
-         </view>
-         <view
-               id="uk.ac.gda.client.navigator"
-               minimized="false"
-               ratio="0.2"
-               relationship="left"
-               relative="uk.ac.gda.client.liveplotview">
-         </view>
-         <view
-               id="uk.ac.gda.epics.adviewer.mpegview"
-               minimized="false"
-               ratio="0.2"
-               relationship="right"
-               relative="uk.ac.gda.client.liveplotview"
                visible="true">
          </view>
       </perspectiveExtension>
@@ -150,38 +79,6 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            allPopups="false"
-            locationURI="menu:window?after=showView">
-         <menu
-               label="Area Detectors">
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Andor"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//Andor//BL08I-EA-DET-01@">
-               </parameter>
-            </command>
-         </menu>
-         <menu
-               label="Fluorescence detector">
-            <command
-                  commandId="org.eclipse.ui.views.showView"
-                  label="Fluorescence"
-                  style="push">
-               <parameter
-                     name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
-               </parameter>
-            </command>
-         </menu>
-      </menuContribution>
-      <menuContribution
             locationURI="toolbar:uk.ac.gda.rcp.views.dashboardView">
          <command
                commandId="uk.ac.gda.beamline.i08.EditEnergyFocusFunction"
@@ -191,15 +88,6 @@
                tooltip="Edit energy focus function">
          </command>
       </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.views">
-      <view
-            class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
-            id="uk.ac.gda.beamline.i08.FluorescenceDetector"
-            name="Xmap Fluorescence Detector"
-            restorable="true">
-      </view>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
