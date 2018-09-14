@@ -21,4 +21,9 @@
 		<property name="value" value="Open" />
 	</bean>
 
+	<bean id="absorber" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="Open" />
+		<property name="outputFormat" value="%s" />
+	</bean>
+
 </beans>

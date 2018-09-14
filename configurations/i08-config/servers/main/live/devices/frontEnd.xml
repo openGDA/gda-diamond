@@ -18,4 +18,11 @@
 		<property name="pvName" value="FE08I-PS-SHTR-01:STA" />
 	</bean>
 
+	<bean id="absorber" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="FE08I-RS-ABSB-01:STA" />
+		<property name="local" value="true" />
+		<property name="poll" value="true" />
+		<property name="outputFormat" value="%s" />
+	</bean>
+
 </beans>
