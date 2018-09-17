@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- Stick positioner -->
+	<bean id="d6_positioner" class="gda.device.enumpositioner.EpicsEnumPositioner">
+		<property name="pvBase" value="BL08I-DI-PHDGN-06:MP:SELECT" />
+	</bean>
+
+</beans>
