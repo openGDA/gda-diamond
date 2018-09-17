@@ -7,7 +7,7 @@
 	<bean id="malcolmModelSample" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
 		<property name="name" value="I08-SCAN01"/>
 		<property name="exposureTime" value="0.1"/>
-		<property name="timeout" value="300"/> <!-- 5 minute timeout for testing -->
+		<property name="timeout" value="300"/>
 		<property name="axesToMove">
 			<list>
 				<value>SampleX</value>
@@ -27,7 +27,7 @@
 	<bean id="malcolmModelFocus" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
 		<property name="name" value="I08-SCAN02"/>
 		<property name="exposureTime" value="0.1"/>
-		<property name="timeout" value="300"/> <!-- 5 minute timeout for testing -->
+		<property name="timeout" value="300"/>
 		<property name="axesToMove">
 			<list>
 				<value>SampleX</value>
@@ -48,7 +48,7 @@
 	<bean id="malcolmModelSampleXmap" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
 		<property name="name" value="I08-SCAN03-XMAP"/>
 		<property name="exposureTime" value="0.1"/>
-		<property name="timeout" value="300"/> <!-- 5 minute timeout for testing -->
+		<property name="timeout" value="300"/>
 		<property name="axesToMove">
 			<list>
 				<value>SampleX</value>
@@ -68,7 +68,7 @@
 	<bean id="malcolmModelSampleAndor" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
 		<property name="name" value="I08-SCAN04-ANDOR"/>
 		<property name="exposureTime" value="0.1"/>
-		<property name="timeout" value="300"/> <!-- 5 minute timeout for testing -->
+		<property name="timeout" value="300"/>
 		<property name="axesToMove">
 			<list>
 				<value>SampleX</value>

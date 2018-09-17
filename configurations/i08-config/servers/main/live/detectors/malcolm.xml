@@ -13,7 +13,6 @@
 		<property name="name" value="I08-SCAN01" />
 		<property name="model" ref="malcolmModelSample" />
 		<property name="deviceInformation" ref="malcolmInfoSample" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
@@ -27,7 +26,6 @@
 		<property name="name" value="I08-SCAN02" />
 		<property name="model" ref="malcolmModelFocus" />
 		<property name="deviceInformation" ref="malcolmInfoFocus" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
@@ -41,7 +39,6 @@
 		<property name="name" value="I08-SCAN03-XMAP" />
 		<property name="model" ref="malcolmModelSampleXmap" />
 		<property name="deviceInformation" ref="malcolmInfoSampleXmap" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
@@ -55,7 +52,6 @@
 		<property name="name" value="I08-SCAN04-ANDOR" />
 		<property name="model" ref="malcolmModelSampleAndor" />
 		<property name="deviceInformation" ref="malcolmInfoSampleAndor" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
@@ -69,7 +65,6 @@
 		<property name="name" value="I08-SCAN05-ANDOR-XMAP" />
 		<property name="model" ref="malcolmModelSampleAndorXmap" />
 		<property name="deviceInformation" ref="malcolmInfoSampleAndorXmap" />
-		<!-- Whether this is the default device to use in a scan -->
 		<property name="activated" value="false" />
 	</bean>
 
