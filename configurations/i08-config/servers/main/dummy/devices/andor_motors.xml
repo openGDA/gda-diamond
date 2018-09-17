@@ -4,25 +4,25 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="andor_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-7.0" />
-		<property name="maxPosition" value="0.0" />
-		<property name="position" value="-2.001" />
+		<property name="minPosition" value="-5.3" />
+		<property name="maxPosition" value="5.4" />
+		<property name="position" value="2.3" />
 		<property name="speed" value="100" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
 	<bean id="andor_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-5.0" />
-		<property name="maxPosition" value="0.0" />
-		<property name="position" value="-2.7" />
+		<property name="minPosition" value="-5.9" />
+		<property name="maxPosition" value="5.3" />
+		<property name="position" value="-5.7004" />
 		<property name="speed" value="100" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
 	<bean id="andor_z_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1000.0" />
-		<property name="maxPosition" value="10000.0" />
-		<property name="position" value="-36.1" />
+		<property name="minPosition" value="200.0" />
+		<property name="maxPosition" value="350.0" />
+		<property name="position" value="249.87" />
 		<property name="speed" value="100" />
 	 	<property name="unitString" value="mm"/>
 	</bean>

@@ -20,7 +20,7 @@
 	</bean>
 
 	<bean id="bda_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.0" />
+		<property name="minPosition" value="-10.0" />
 		<property name="maxPosition" value="10.0" />
 		<property name="position" value="0.06" />
 	 	<property name="unitString" value="mm"/>
@@ -28,8 +28,8 @@
 
 	<bean id="bda_y_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-10.0" />
-		<property name="maxPosition" value="0.0" />
-		<property name="position" value="0.001" />
+		<property name="maxPosition" value="10.0" />
+		<property name="position" value="0.005" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
@@ -131,8 +131,8 @@
 	</bean>
 
 	<bean id="grating_pitch_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="77.501" />
-		<property name="maxPosition" value="89.871" />
+		<property name="minPosition" value="77.498" />
+		<property name="maxPosition" value="89.868" />
 		<property name="position" value="86.504" />
 	 	<property name="unitString" value="deg"/>
 	</bean>
@@ -152,8 +152,8 @@
 	</bean>
 
 	<bean id="m2_pitch_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="78.76" />
-		<property name="maxPosition" value="90.92" />
+		<property name="minPosition" value="79.029" />
+		<property name="maxPosition" value="91.189" />
 		<property name="position" value="87.083" />
 	 	<property name="unitString" value="deg"/>
 	</bean>
@@ -250,23 +250,23 @@
 	</bean>
 
 	<bean id="s2_ap_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-0.81" />
+		<property name="minPosition" value="-8.0" />
 		<property name="maxPosition" value="8.14" />
-		<property name="position" value="-2.3" />
+		<property name="position" value="-7.76" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
 	<bean id="s2_ss_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-1.857" />
-		<property name="maxPosition" value="8.093" />
+		<property name="minPosition" value="-100.0" />
+		<property name="maxPosition" value="100.0" />
 		<property name="position" value="4.32" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
 
 	<bean id="s2_ss_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-2.832" />
-		<property name="maxPosition" value="7.118" />
-		<property name="position" value="2.74" />
+		<property name="minPosition" value="-50.0" />
+		<property name="maxPosition" value="50.0" />
+		<property name="position" value="-2.55" />
 	 	<property name="unitString" value="mm"/>
 	</bean>
 

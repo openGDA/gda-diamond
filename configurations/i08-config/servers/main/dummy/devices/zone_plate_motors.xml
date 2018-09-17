@@ -5,9 +5,9 @@
 
 
 	<bean id="ZPZ_motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0.0" />
-		<property name="maxPosition" value="17.5" />
-		<property name="position" value="16.99" />
+		<property name="minPosition" value="9.0" />
+		<property name="maxPosition" value="12.0" />
+		<property name="position" value="10.753" />
 	 	<property name="unitString" value="mm"/>
 	 	<property name="speed" value="100"/>
 	</bean>
