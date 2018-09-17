@@ -25,7 +25,6 @@ import java.nio.file.Paths;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -41,7 +40,7 @@ import gda.data.PathConstructor;
 import gda.jython.ICommandRunner;
 import gda.jython.InterfaceProvider;
 
-public class EditEnergyFocusFunctionHandler extends AbstractHandler implements IHandler {
+public class EditEnergyFocusFunctionHandler extends AbstractHandler {
 	private static final String ENERGY_FOCUS_FILE_NAME = "energyFocusFunction.json";
 	private static final String DEFAULT_SLOPE_DIVIDEND = "0.0 um";
 	private static final String DEFAULT_INTERCEPTION = "0.0 um";
