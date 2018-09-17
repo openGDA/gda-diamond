@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="opticsShutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="local" value="false"/>
+		<property name="pvBase" value="FE08I-PS-SHTR-02"/>
+	</bean>
+
+	<bean id="shutter1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="local" value="false"/>
+		<property name="pvBase" value="BL08I-PS-SHTR-01"/>
+	</bean>
+
+</beans>
