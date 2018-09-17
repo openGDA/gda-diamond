@@ -25,7 +25,6 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/andor_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/diagnostics_and_shutters.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/frontEnd.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/id.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/optics.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/photodiode.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/sample_motors.xml" />
@@ -47,7 +46,6 @@
  	<import resource="file:${gda.config}/servers/main/_common/devices/andor_stage.xml" />
  	<import resource="file:${gda.config}/servers/main/_common/devices/beam_watchdogs.xml"/>
  	<import resource="file:${gda.config}/servers/main/_common/devices/frontEnd.xml"/>
- 	<import resource="file:${gda.config}/servers/main/_common/devices/id.xml"/>
  	<import resource="file:${gda.config}/servers/main/_common/devices/opticsScannables.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/zone_plate.xml" />
