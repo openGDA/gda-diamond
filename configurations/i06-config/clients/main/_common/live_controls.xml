@@ -26,6 +26,13 @@
 		<property name="textWidth" value="132" />
 		<property name="userUnits" value="deg"/>
 	</bean>
+	<bean id="pco_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="NumFilter" />
+		<property name="group" value="PCO PROC" />
+		<property name="scannableName" value="pcoProcNumFilter" />
+		<property name="textWidth" value="100" />
+		<property name="userUnits" value=""/>
+	</bean>
 
 	<!-- PCO detector control -->
 	<bean id="pcoStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
@@ -100,6 +107,7 @@
 						<ref bean="pco_expsure_time_control" />
 						<ref bean="pco_acquire_period_control"/>
 						<ref bean="preview" />
+						<ref bean="pco_proc_num_filter_control" />
 						<ref bean="imaging" />
 						<ref bean="pco_image_rotation_angle_control" />
 						<ref bean="unrotate"/>

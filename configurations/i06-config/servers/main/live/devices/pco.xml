@@ -229,31 +229,31 @@
 		<property name="restoreAcquireState" value="true"/>
 		<property name="decoratee" ref="pco1adc"/>
 	</bean>
-	<!-- preview -->
-	<bean id="pcoprocfilter" class="gda.device.detector.addetector.collectionstrategy.ProcessFilterDecorator">
-		<property name="restoreState" value="true"/>
-		<property name="ndProcess" ref="pco_proc"/>
-		<property name="processDataTypeOut">
-		 	<util:constant static-field="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin.DataType.UINT8"/>
-		</property>
-		<property name="outputEveryArray" value="true"/>
-		<property name="resetFilterAtStart" value="true"/>
-		<property name="autoReset" value="false"/>
-		<property name="filterType" value="0"/>
-		<property name="numberOfImagesToFilter" value="3"/>
-		<property name="enableFilter" value="true"/>
-		<property name="decoratee" ref="pcoimagemodecontinuous"/>
-	</bean>
-	<bean id="pco2adc" class="gda.device.detector.pco.collectionstrategy.PCOADCModeDecorator">
-		<property name="restoreADCMode" value="true"/>
-		<property name="adcMode" value="TwoADC"/> <!-- possible values: OneADC, TwoADC -->
-		<property name="pcoController" ref="pcocontroller"/>
-		<property name="decoratee" ref="pcoprocfilter"/>
-	</bean>
-	<bean id="pcoPreviewCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
-		<property name="restoreAcquireState" value="true"/>
-		<property name="decoratee" ref="pco2adc"/>
-	</bean>
+	<!-- preview - replaced by PROCB-->
+<!-- 	<bean id="pcoprocfilter" class="gda.device.detector.addetector.collectionstrategy.ProcessFilterDecorator"> -->
+<!-- 		<property name="restoreState" value="true"/> -->
+<!-- 		<property name="ndProcess" ref="pco_proc"/> -->
+<!-- 		<property name="processDataTypeOut"> -->
+<!-- 		 	<util:constant static-field="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin.DataType.UINT8"/> -->
+<!-- 		</property> -->
+<!-- 		<property name="outputEveryArray" value="true"/> -->
+<!-- 		<property name="resetFilterAtStart" value="true"/> -->
+<!-- 		<property name="autoReset" value="false"/> -->
+<!-- 		<property name="filterType" value="0"/> -->
+<!-- 		<property name="numberOfImagesToFilter" value="3"/> -->
+<!-- 		<property name="enableFilter" value="true"/> -->
+<!-- 		<property name="decoratee" ref="pcoimagemodecontinuous"/> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pco2adc" class="gda.device.detector.pco.collectionstrategy.PCOADCModeDecorator"> -->
+<!-- 		<property name="restoreADCMode" value="true"/> -->
+<!-- 		<property name="adcMode" value="TwoADC"/> possible values: OneADC, TwoADC -->
+<!-- 		<property name="pcoController" ref="pcocontroller"/> -->
+<!-- 		<property name="decoratee" ref="pcoprocfilter"/> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="pcoPreviewCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator"> -->
+<!-- 		<property name="restoreAcquireState" value="true"/> -->
+<!-- 		<property name="decoratee" ref="pco2adc"/> -->
+<!-- 	</bean> -->
 	<!-- data collection -->
 	<bean id="pcotriggermode_soft" class="gda.device.detector.pco.collectionstrategy.PCOTriggerModeDecorator">
 		<property name="restoreTriggerMode" value="true"/>
@@ -282,4 +282,46 @@
 			</bean>
 		</property>
 	</bean>
+	<!--pcoview plugins -->
+	<bean id="pco_procb" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="BL06I-EA-DET-01:PROCB:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL06I-EA-DET-01:PROCB:" />
+				<property name="initialArrayPort" value="pcoview.ROT" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="pcoprocbfilter" class="gda.device.detector.addetector.collectionstrategy.ProcessFilterDecorator">
+		<property name="restoreState" value="true"/>
+		<property name="ndProcess" ref="pco_procb"/>
+		<property name="processDataTypeOut">
+		 	<util:constant static-field="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin.DataType.UINT16"/>
+		</property>
+		<property name="outputEveryArray" value="true"/>
+		<property name="resetFilterAtStart" value="true"/>
+		<property name="autoReset" value="false"/>
+		<property name="filterType" value="0"/>
+		<property name="numberOfImagesToFilter" value="1"/>
+		<property name="enableFilter" value="true"/>
+		<property name="enableNumFilter" value="false"/>
+		<property name="decoratee" ref="pcoimagemodecontinuous"/>
+	</bean>
+	<bean id="pco2adc" class="gda.device.detector.pco.collectionstrategy.PCOADCModeDecorator">
+		<property name="restoreADCMode" value="true"/>
+		<property name="adcMode" value="TwoADC"/> <!-- possible values: OneADC, TwoADC -->
+		<property name="pcoController" ref="pcocontroller"/>
+		<property name="decoratee" ref="pcoprocbfilter"/>
+	</bean>
+	<bean id="pcoPreviewCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="true"/>
+		<property name="decoratee" ref="pco2adc"/>
+	</bean>
+	<!-- scannable to set pcoview.PROC avreage number of images -->
+	<bean id="pcoAverage" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL06I-EA-DET-01:PROCB:NumFilter"/>
+		<property name="useNameAsInputName" value="true"/>
+		<property name="hasUnits" value="false"/>	
+	</bean>
+	
 </beans>
