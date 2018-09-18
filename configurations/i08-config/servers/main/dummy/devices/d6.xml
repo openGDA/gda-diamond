@@ -15,4 +15,7 @@
 		</property>
 	</bean>
 
+	<!-- Diagnostic camera -->
+	<alias name="sim_adbase" alias="d6_adbase"/>
+
 </beans>

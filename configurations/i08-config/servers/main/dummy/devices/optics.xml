@@ -289,13 +289,8 @@
 		</property>
 	</bean>
 
-	<bean id="s2_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Open</value>
-				<value>Closed</value>
-			</list>
-		</property>
+	<bean id="s2_shutter" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Open" />
 	</bean>
 
 	<bean id="s2_ztranslation_motor" class="gda.device.motor.DummyMotor">

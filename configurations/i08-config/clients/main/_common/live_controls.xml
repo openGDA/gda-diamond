@@ -45,6 +45,15 @@
 		<property name="group" value="S2 shutter" />
 	</bean>
 
+	<!-- S2 array -->
+ 	<bean id="s2_array_x" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="S2 array x" />
+		<property name="scannableName" value="s2_ss_x" />
+		<property name="group" value="Exit slit array" />
+		<property name="increment" value="0.025" />
+		<property name="incrementTextWidth" value="60" />
+	</bean>
+
 	<!-- Control set: there can be only one -->
 	<bean name="live_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
@@ -55,6 +64,7 @@
 				<ref bean="restart_ioc" />
 				<ref bean="open_s2_shutter" />
 				<ref bean="close_s2_shutter" />
+				<ref bean="s2_array_x" />
 			</list>
 		</property>
 	</bean>

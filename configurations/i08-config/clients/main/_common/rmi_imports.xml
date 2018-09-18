@@ -4,14 +4,15 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- Motors -->
-	<bean id="SampleX" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="m4_pitch" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
-	<bean id="SampleY" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<!-- Detectors -->
+	<bean id="d6_positioner" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="d6_camera_control" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
-	<bean id="andor_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-
-	<bean id="andor_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-
-	<bean id="andor_z" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<!-- Shutters -->
+	<bean id="s2_shutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="s2_ss_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="s2_ss_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 </beans>

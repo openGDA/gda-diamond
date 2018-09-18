@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="exit_slit_config_params" class="uk.ac.diamond.daq.client.gui.exitslit.configuration.ConfigureExitSlitsParameters">
+		<property name="propertyFilePath" value="${gda.var}/configureExitSlits/configureExitSlitsParams.properties" />
+		<property name="cameraConfig" ref="exit_slit_cam_config" />
+		<property name="cameraControl" ref="d6_camera_control" />
+		<property name="diagnosticPositioner" ref="d6_positioner" />
+		<property name="exitSlitShutter" ref="s2_shutter" />
+		<property name="apertureArrayXMotor" ref="s2_ss_x" />
+		<property name="apertureArrayYMotor" ref="s2_ss_y" />
+		<property name="apertureArrayInPosition" value="-2.55" />
+		<property name="apertureArrayOutPosition" value="-7.2" />
+		<property name="mirrorPitchMotor" ref="m4_pitch" />
+	</bean>
+
+</beans>

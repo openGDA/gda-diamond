@@ -9,4 +9,9 @@
 		<property name="pvBase" value="BL08I-DI-PHDGN-06:MP:SELECT" />
 	</bean>
 
+	<!-- Diagnostic camera -->
+ 	<bean id="d6_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL08I-DI-PHDGN-06:CAM1:CAM:" />
+	</bean>
+
 </beans>

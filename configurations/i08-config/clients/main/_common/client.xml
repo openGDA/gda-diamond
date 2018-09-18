@@ -18,12 +18,18 @@
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
 	<!-- =========================================================== -->
+	<!-- 	mode-specific files -->
+	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/configure_exit_slits.xml" />
+
+	<!-- =========================================================== -->
 	<!-- 	shared files -->
 	<!-- =========================================================== -->
-	<import resource="file:${gda.config}/clients/main/_common/rmi_imports.xml" />
-	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/configure_exit_slits.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/osgi_services.xml" />
-	<import resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/rmi_imports.xml" />
 
 </beans>
