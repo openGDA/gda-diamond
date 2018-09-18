@@ -1085,6 +1085,15 @@ keithley1gain = scannable.hw.keithley.KeithleyGain('keithley1gain', 'BL16B-EA-IA
 keithley2gain = scannable.hw.keithley.KeithleyGain('keithley2gain', 'BL16B-EA-IAMP-02')
 keithley3gain = scannable.hw.keithley.KeithleyGain('keithley3gain', 'BL16B-EA-IAMP-03')
 
+print "Creating stanford1sensitivity, stanford2sensitivity, stanford1unit and stanford2unit scannables"
+
+from scannable.hw.stanford_sensitivity import StanfordSensitivity
+stanford1sensitivity = StanfordSensitivity('stanford1sensitivity', "BL16B-EA-STANF-01:SENS:")
+stanford2sensitivity = StanfordSensitivity('stanford2sensitivity', "BL16B-EA-STANF-02:SENS:")
+
+from scannable.hw.stanford_unit import StanfordUnit
+stanford1unit = StanfordUnit('stanford1unit', "BL16B-EA-STANF-01:SENS:")
+stanford2unit = StanfordUnit('stanford2unit', "BL16B-EA-STANF-02:SENS:")
 
 print "creating waitForAi8 (to be less than .1)"
 import scannable.condition
