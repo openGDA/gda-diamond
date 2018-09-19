@@ -317,7 +317,7 @@
 		<property name="restoreAcquireState" value="true"/>
 		<property name="decoratee" ref="pco2adc"/>
 	</bean>
-	<!-- scannable to set pcoview.PROC average number of images -->
+	<!-- scannable to set pcoview.PROC avreage number of images -->
 	<bean id="pcoAverage" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06I-EA-DET-01:PROCB:NumFilter"/>
 		<property name="useNameAsInputName" value="true"/>

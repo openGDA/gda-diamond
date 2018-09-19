@@ -117,15 +117,6 @@
                visible="true">
          </view>
       </perspectiveExtension>
-      <perspectiveExtension
-            targetID="uk.ac.gda.beamline.i06.perspective.Peem">
-         <view
-               id="org.dawb.workbench.plotting.views.toolPageView.fixed"
-               minimized="true"
-               relationship="stack"
-               relative="org.eclipse.ui.editorss">
-         </view>
-      </perspectiveExtension>
 
    </extension>
    <extension
@@ -136,122 +127,6 @@
             name="PCO Array"
             restorable="true">
       </view>
-   </extension>
-   <extension point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i06.pco.live.stream.view.LiveStreamViewWithHistogram">
-         <command
-               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
-               icon="icons/camera.png"
-               label="Sanpshot"
-               style="push">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="activePartId">
-                  <equals
-                        value="uk.ac.gda.beamline.i06.pco.live.stream.view.LiveStreamViewWithHistogram">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.startcommand"
-               icon="icons/control_play_blue.png"
-               label="Start"
-               style="push"
-               tooltip="Start camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.pco.live.stream.active">
-                  <equals
-                        value="STOPPED">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.stopcommand"
-               icon="icons/control_stop_blue.png"
-               label="Stop"
-               style="push"
-               tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.pco.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.freezecommand"
-               icon="icons/control_freeze_blue.png"
-               label="Freeze"
-               style="toggle"
-               tooltip="Enable/disable image update">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.pco.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-      </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.handlers">
-      <handler
-            class="uk.ac.gda.beamline.i06.live.stream.handlers.EpicsCameraStartHandler"
-            commandId="uk.ac.gda.client.live.stream.startcommand">
-      </handler>
-      <handler
-            class="uk.ac.gda.beamline.i06.live.stream.handlers.EpicsCameraStopHandler"
-            commandId="uk.ac.gda.client.live.stream.stopcommand">
-      </handler>
-      <handler
-            class="uk.ac.gda.beamline.i06.live.stream.handlers.EpicsFreezeLiveStreamDiaplayUpdateHandler"
-            commandId="uk.ac.gda.client.live.stream.freezecommand">
-      </handler>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-      <command
-            description="Start camera acquisition"
-            id="uk.ac.gda.client.live.stream.startcommand"
-            name="Start">
-      </command>
-      <command
-            description="Stop camera acquisition"
-            id="uk.ac.gda.client.live.stream.stopcommand"
-            name="Stop">
-      </command>
-      <command
-            description="Enable/disable image update"
-            id="uk.ac.gda.client.live.stream.freezecommand"
-            name="Freeze">
-      </command>
-   </extension>
-   <extension
-         point="org.eclipse.ui.services">
-      <sourceProvider
-            provider="uk.ac.gda.beamline.i06.live.stream.EpicsCameraState">
-         <variable
-               name="uk.ac.gda.live.stream.active"
-               priorityLevel="workbench">
-         </variable>
-         <variable
-               name="i06.pco.live.stream.active"
-               priorityLevel="workbench">
-         </variable>
-      </sourceProvider>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
