@@ -21,6 +21,7 @@ package uk.ac.gda.beamline.i06;
 import org.dawnsci.plotting.views.ToolPageView;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
@@ -38,10 +39,12 @@ public class EarlyStartup implements IStartup {
 			@Override
 			public void run() {
 				try {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.region.editor");
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.InfoPixel2D");
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ToolPageView.FIXED_VIEW_ID+":org.dawnsci.plotting.histogram.histogram_tool_page_2");
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.gda.client.livecontrol.LiveControlsView");
+					// make sure 'Region editor' view Title is shown at start without making the view either in focus or visible
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ToolPageView.FIXED_VIEW_ID, "org.dawb.workbench.plotting.tools.region.editor",IWorkbenchPage.VIEW_CREATE);
+					// ensure the PCO Stream View has focus so the 'Region Editor' above is linked to this image
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.gda.beamline.i06.pco.live.stream.view.LiveStreamViewWithHistogram","pco_cam#EPICS_ARRAY",IWorkbenchPage.VIEW_ACTIVATE);
+					//make the dynamic toolbar items visible, not just inside drop-down menu.
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().resetPerspective();
 				} catch (PartInitException e) {
 					logger.warn("showView calls failed in {}", getClass().getName());
 				}

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd ">
 
 	<!-- Translations -->
 	<bean id="pco_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Exposure" />
 		<property name="group" value="PCO Acquire Time" />
 		<property name="scannableName" value="pcoExposureTime" />
-		<property name="textWidth" value="150"/>
+		<property name="textWidth" value="30"/>
 		<property name="userUnits" value="s" />
 	</bean>
 
@@ -16,21 +18,21 @@
 		<property name="displayName" value="Period" />
 		<property name="group" value="PCO Acquire Time" />
 		<property name="scannableName" value="pcoAcquirePeriod" />
-		<property name="textWidth" value="132"/>
+		<property name="textWidth" value="30"/>
 		<property name="userUnits" value="s" />
 	</bean>
 	<bean id="pco_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Rot.Ang" />
 		<property name="group" value="PCO Rotation" />
 		<property name="scannableName" value="pcoRotationAngle" />
-		<property name="textWidth" value="132" />
+		<property name="textWidth" value="30" />
 		<property name="userUnits" value="deg"/>
 	</bean>
 	<bean id="pco_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="NumFilter" />
 		<property name="group" value="PCO PROC" />
 		<property name="scannableName" value="pcoProcNumFilter" />
-		<property name="textWidth" value="100" />
+		<property name="textWidth" value="10" />
 		<property name="userUnits" value=""/>
 	</bean>
 
@@ -80,7 +82,6 @@
 		<property name="group" value="PCO Rotation" />
 	</bean>
 
-
 	<bean id="pco_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
@@ -99,6 +100,10 @@
 		</property>
 	</bean>
 	
+	<bean id="pcoCameraState" class="uk.ac.gda.beamline.i06.live.stream.EpicsCameraState">
+		<property name="cameraConfig" ref="pco_cam"/>
+		<property name="stateVariableName" value="i06.pco.live.stream.active"/>
+	</bean>
 	<bean id="pcoControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
 		<property name="customWidget">
 			<bean class="uk.ac.gda.beamline.i06.views.CameraControlWidget">
@@ -107,13 +112,14 @@
 						<ref bean="pco_expsure_time_control" />
 						<ref bean="pco_acquire_period_control"/>
 						<ref bean="preview" />
-						<ref bean="pco_proc_num_filter_control" />
 						<ref bean="imaging" />
+						<ref bean="pco_proc_num_filter_control" />
 						<ref bean="pco_image_rotation_angle_control" />
 						<ref bean="unrotate"/>
 						<ref bean="rotate"/>
 					</list>
 				</property>
+				<property name="cameraState" ref="pcoCameraState"/>
 			</bean>
 		</property>
 	</bean>
