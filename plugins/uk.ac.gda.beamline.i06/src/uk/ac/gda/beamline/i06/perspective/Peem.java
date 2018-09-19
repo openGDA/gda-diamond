@@ -62,25 +62,22 @@ public class Peem implements IPerspectiveFactory {
 		bottomLeftfolder.addView(IPageLayout.ID_PROJECT_EXPLORER);
 		bottomLeftfolder.addView(uk.ac.gda.views.baton.BatonView.ID);
 		bottomLeftfolder.addPlaceholder(GDA_NAVIGATOR_VIEW_ID);
+		bottomLeftfolder.addPlaceholder(IPageLayout.ID_OUTLINE);
 
-		IFolderLayout bottomRightFolder=layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.RIGHT, (float)0.5, IPageLayout.ID_EDITOR_AREA); //$NON-NLS-1$
-//		bottomRightFolder.addView("uk.ac.gda.client.livecontrol.LiveControlsView");
-		bottomRightFolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.region.editor");
-		bottomRightFolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.InfoPixel2D");
-		bottomRightFolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawnsci.plotting.histogram.histogram_tool_page_2");
-		bottomRightFolder.addPlaceholder(ToolPageView.TOOLPAGE_1D_VIEW_ID);
-		bottomRightFolder.addPlaceholder(ToolPageView.TOOLPAGE_2D_VIEW_ID);
-		bottomRightFolder.addPlaceholder(SnapshotView.ID);
-		bottomRightFolder.addPlaceholder(IPageLayout.ID_OUTLINE);
-
-		IFolderLayout topMiddlefolder=layout.createFolder(PLOT_1D_FOLDER, IPageLayout.TOP, (float)0.60, IPageLayout.ID_EDITOR_AREA); //$NON-NLS-1$
-		topMiddlefolder.addView(LivePlotView.ID);
-
-		IFolderLayout topRightFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.TOP, (float)0.7, TOOLPAGE_FOLDER); //$NON-NLS-1$
+		IFolderLayout topRightFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.53, IPageLayout.ID_EDITOR_AREA); //$NON-NLS-1$
 		topRightFolder.addView("uk.ac.gda.beamline.i06.pco.live.stream.view.LiveStreamViewWithHistogram:pco_cam#EPICS_ARRAY");
 		topRightFolder.addPlaceholder(LiveStreamViewWithHistogram.ID+":*");
 		topRightFolder.addPlaceholder(LiveStreamView.ID);
 		topRightFolder.addPlaceholder(LiveStreamView.ID+":*");
+
+		IFolderLayout topMiddlefolder=layout.createFolder(PLOT_1D_FOLDER, IPageLayout.TOP, (float)0.6, IPageLayout.ID_EDITOR_AREA); //$NON-NLS-1$
+		topMiddlefolder.addView(LivePlotView.ID);
+		topMiddlefolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.region.editor");
+//		topMiddlefolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.InfoPixel2D");
+		topMiddlefolder.addPlaceholder(ToolPageView.FIXED_VIEW_ID+":org.dawnsci.plotting.histogram.histogram_tool_page_2");
+		topMiddlefolder.addPlaceholder(ToolPageView.TOOLPAGE_1D_VIEW_ID);
+		topMiddlefolder.addPlaceholder(ToolPageView.TOOLPAGE_2D_VIEW_ID);
+		topMiddlefolder.addPlaceholder(SnapshotView.ID);
 
 		IFolderLayout topLeftfolder = layout.createFolder(TERMINAL_FOLDER, IPageLayout.TOP, (float)0.6, PROJ_FOLDER); //$NON-NLS-1$
 		topLeftfolder.addView(gda.rcp.views.JythonTerminalView.ID);

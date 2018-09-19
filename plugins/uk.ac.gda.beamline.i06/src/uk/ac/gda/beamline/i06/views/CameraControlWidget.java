@@ -21,34 +21,66 @@ package uk.ac.gda.beamline.i06.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.layout.RowLayoutFactory;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
 import gda.factory.FindableBase;
+import uk.ac.gda.beamline.i06.live.stream.ICameraState;
 import uk.ac.gda.client.live.stream.view.ICustomWidget;
 import uk.ac.gda.client.livecontrol.LiveControl;
 
 public class CameraControlWidget extends FindableBase implements ICustomWidget {
-	private List<LiveControl> liveControls=new ArrayList<>();
+private static final Logger logger=LoggerFactory.getLogger(CameraControlWidget.class);
+	private List<LiveControl> liveControls = new ArrayList<>();
+	private ICameraState cameraState = null;
 
 	@Override
 	public void createWidget(Composite composite) {
-		if (liveControls.isEmpty()) {
-			return;
+		if (!liveControls.isEmpty()) {
+			Group cameraControlGroup = new Group(composite, SWT.BORDER);
+			cameraControlGroup.setLayout(new GridLayout(4, false));
+			cameraControlGroup.setLayoutData(GridDataFactory.fillDefaults().grab(true, false).create());
+			cameraControlGroup.setText("Camera Control");
+			for (LiveControl control : liveControls) {
+				control.createControl(cameraControlGroup);
+			}
 		}
-
-		Group cameraControlGroup=new Group(composite, SWT.BORDER);
-		cameraControlGroup.setLayout(RowLayoutFactory.fillDefaults().spacing(5).wrap(true).create());
-		cameraControlGroup.setText("Camera Control");
-		for (LiveControl control : liveControls) {
-			control.createControl(cameraControlGroup);
+		if (cameraState !=null) {
+			if (!cameraState.isConnected()) {
+				try {
+					cameraState.connect();
+				} catch (DeviceException e) {
+					logger.error("Connect to camera state failed.", e);
+				}
+			} else {
+				logger.info("Camera state is already connected.");
+			}
 		}
 	}
 
 	public void setLiveControls(List<LiveControl> liveControls) {
 		this.liveControls = liveControls;
+	}
+
+	/**
+	 * @param cameraState
+	 *            The cameraState to set.
+	 */
+	public void setCameraState(ICameraState cameraState) {
+		this.cameraState = cameraState;
+	}
+
+	@Override
+	public void disposeWidget() {
+		if (cameraState !=null) {
+			cameraState.dispose();
+		}
 	}
 
 }
