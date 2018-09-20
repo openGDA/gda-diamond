@@ -22,7 +22,12 @@
 		<property name="pssPVName" value="BL20J-PS-SHTR-02:CON"/>
 	</bean>
 	
-	
+	<bean id="eurotherm" class="gda.device.temperature.EpicsEurotherm903">
+			<property name="inputNames" value="eurotherm" />
+			<property name="eurothermPv" value="BL20J-EA-TEMPC-01:EUROTHERM" />
+			<property name="setpointPv" value="BL20J-EA-TEMPC-01:EUROTHERM:SP" />
+	</bean>
+
 	<import resource="file:${gda.config}/servers/main/_common/scannables.xml" />
 
 </beans>

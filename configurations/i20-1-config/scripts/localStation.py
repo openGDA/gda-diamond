@@ -68,6 +68,13 @@ zebra_gatePulsePreparer=finder.find("zebra_gatePulsePreparer")
 zebra_device=finder.find("zebra_device")
 trajscan_preparer=finder.find("trajscan_preparer")
 
+#Copy encoder positions to zebra (in case any motors have been re-homed)
+print "Copying encoder motor positions to Zebra"
+zebra_device.encCopyMotorPosToZebra(1)
+zebra_device.encCopyMotorPosToZebra(2)
+zebra_device.encCopyMotorPosToZebra(3)
+zebra_device.encCopyMotorPosToZebra(4)
+
 print "Stopping tfg and setting it to use scaler64 collection mode"
 das4tfg.sendCommand("tfg stop")
 das4tfg.sendCommand("tfg setup-cc-mode scaler64");
@@ -132,6 +139,15 @@ xstrip.setSynchroniseToBeamOrbit(True)
 
 # Make version of scalers with 'user friendly' name
 ionchambers = scaler_for_zebra
+
+# After restarting GDA servers. first call of 'BufferedScaler.clearMemory()' fails ("Ghist scaler_memory_zebra clear failed")
+# Do it here to prevent it from throwing exception during first scan..
+try :
+    print "Clearing scaler memory"
+    scaler_for_zebra.clearMemory()
+except :
+    pass
+
 
 # Add functions to control metadata added to Nexus files. 10/7/2018
 run 'gdascripts/metadata/metadata_commands.py'
