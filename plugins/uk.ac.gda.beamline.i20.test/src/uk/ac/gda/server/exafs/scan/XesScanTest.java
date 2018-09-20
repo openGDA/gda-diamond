@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import org.aspectj.util.Reflection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -266,7 +265,7 @@ public class XesScanTest {
 		return newMock;
 	}
 
-	private void prepareMockScan() {
+	private void prepareMockScan() throws NoSuchMethodException, SecurityException {
 		// create mock scan
 		mockScan = PowerMockito.mock(ConcurrentScan.class);
 
@@ -287,8 +286,7 @@ public class XesScanTest {
 		Mockito.when(mockScan.getScanPlotSettings()).thenReturn(mockPlotSettings);
 
 		// then stub the factory method and make sure that it always retruns the stub
-		Method staticMethod = Reflection.getMatchingMethod(ScannableCommands.class, "createConcurrentScan",
-				new Object[] { new Object[0] });
+		Method staticMethod = ScannableCommands.class.getMethod("createConcurrentScan", Object[].class);
 		MethodStubStrategy<Object> stubbedMethod = MemberModifier.stub(staticMethod);
 		stubbedMethod.toReturn(mockScan);
 
