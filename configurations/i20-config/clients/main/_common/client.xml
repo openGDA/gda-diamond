@@ -20,6 +20,14 @@
 		</property>
 	</bean>
 
+	<bean id="filterwheel" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}filterwheel" />
+		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<import resource="spreadsheet-view.xml" />
+
 	<bean id="XASLoggingScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}XASLoggingScriptController" />
 		<property name="serviceInterface" value="gda.jython.scriptcontroller.logging.ILoggingScriptController" />
