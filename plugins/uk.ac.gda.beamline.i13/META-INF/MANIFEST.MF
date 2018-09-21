@@ -42,7 +42,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: uk.ac.gda.beamline.i13
 Bundle-Vendor: Diamond Light Source
-Eclipse-RegisterBuddy: uk.ac.gda.core, uk.ac.gda.libs
+Eclipse-RegisterBuddy: uk.ac.gda.core
 Import-Package: org.eclipse.draw2d,
  org.eclipse.draw2d.geometry,
  org.slf4j;version="[1.7.2,2.0.0)",

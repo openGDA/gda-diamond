@@ -45,6 +45,6 @@ Import-Package: gda.device.detectorfilemonitor,
  org.springframework.context.support;version="3.0.4",
  org.springframework.core;version="3.0.4",
  org.springframework.util;version="3.0.4"
-Eclipse-RegisterBuddy: uk.ac.gda.core, uk.ac.gda.libs
+Eclipse-RegisterBuddy: uk.ac.gda.core
 Bundle-ClassPath: jars/gda_dls-corba.jar,
  .

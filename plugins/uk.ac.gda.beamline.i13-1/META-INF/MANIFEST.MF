@@ -13,7 +13,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.help.ui;bundle-version="3.4.1",
  uk.ac.gda.dls;bundle-version="1.0.0",
  uk.ac.gda.dls.client;bundle-version="1.0.0",
- uk.ac.gda.libs;bundle-version="1.0.0",
  org.eclipse.ui.console,
  org.eclipse.jdt.ui,
  org.eclipse.core.resources;bundle-version="3.7.100",
@@ -25,4 +24,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: uk.ac.gda.beamline.i13_1
 Bundle-Vendor: Diamond Light Source
-Eclipse-RegisterBuddy: uk.ac.gda.core, uk.ac.gda.libs
+Eclipse-RegisterBuddy: uk.ac.gda.core
