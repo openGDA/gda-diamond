@@ -20,8 +20,6 @@ package uk.ac.gda.ui.views.synoptic;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -41,6 +39,7 @@ public class ScannablePositionGui implements IObserver {
 	private Scannable scannable;
 	private Composite parent;
 	private Text textbox;
+	private volatile boolean updatingTextFromObserver = false;
 
 	public ScannablePositionGui(Composite parent, String scannableName) {
 		this.parent = parent;
@@ -68,10 +67,9 @@ public class ScannablePositionGui implements IObserver {
 	}
 
 	/**
-	 * Add combo box to parent composite
-	 * @throws DeviceException
+	 * Add text box to parent composite
 	 */
-	public void createTextbox() throws DeviceException {
+	public void createTextbox() {
 		textbox = new Text(parent, SWT.BORDER);
 		textbox.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		textbox.setText( getPosition(scannable) );
@@ -79,37 +77,36 @@ public class ScannablePositionGui implements IObserver {
 		addListenerObservers();
 	}
 
+	/**
+	 * Add listeners to the textbox to update the scannable when the contents
+	 * change or when textbox loses focus.
+	 */
 	private void addListenerObservers() {
-		// update position when textbox widget changes
-		textbox.addKeyListener(new KeyListener() {
-			@Override
-			public void keyReleased(KeyEvent e) {
+		// update position when textbox content changes
+		textbox.addListener(SWT.KeyDown, keyEvent -> {
+			if (keyEvent.keyCode==SWT.CR || keyEvent.keyCode == SWT.KEYPAD_CR
+					&& !updatingTextFromObserver) {
+				setPosition(textbox.getText());
 			}
+		} );
 
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.keyCode==SWT.CR && !updatingTextFromObserver) {
-					setPosition(textbox.getText());
-				}
+		// Update when textbox loses focus
+		textbox.addListener(SWT.FocusOut, focusEvent -> {
+			if (!updatingTextFromObserver) {
+				setPosition(textbox.getText());
 			}
 		});
 
 		scannable.addIObserver(this);
 	}
 
-	private volatile boolean updatingTextFromObserver = false;
-
 	@Override
 	public void update(Object source, Object arg) {
-		Display.getDefault().asyncExec( new Runnable() {
-			@Override
-			public void run() {
-				updatingTextFromObserver = true;
-				textbox.setText(getPosition(scannable));
-				textbox.update();
-				updatingTextFromObserver = false;
-			}
-
+		Display.getDefault().asyncExec( () -> {
+			updatingTextFromObserver = true;
+			textbox.setText(getPosition(scannable));
+			textbox.update();
+			updatingTextFromObserver = false;
 		});
 	}
 }

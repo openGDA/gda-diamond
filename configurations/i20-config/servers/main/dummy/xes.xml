@@ -62,40 +62,4 @@
 		<property name="speed" value="200" />
 	</bean>
 
-	<bean id="radius" class="gda.device.scannable.DummyPersistentScannable">
-		<property name="outputFormat">
-			<util:list>
-				<value>1.0</value>
-			</util:list>
-		</property>
-	</bean>
-	
-	<bean id="cut1" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>1</value>
-				<value>2</value>
-				<value>3</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="cut2" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>1</value>
-				<value>2</value>
-				<value>3</value>
-			</list>
-		</property>
-	</bean>
-	<bean id="cut3" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>1</value>
-				<value>2</value>
-				<value>3</value>
-			</list>
-		</property>
-	</bean>
-
 </beans>

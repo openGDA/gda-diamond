@@ -57,12 +57,12 @@ public class EnumPositionerGui implements IObserver {
 	private Label nameLabel;
 	private Group group;
 
-	public EnumPositionerGui(Composite parent, String positionerName) throws DeviceException {
+	public EnumPositionerGui(Composite parent, String positionerName) {
 		this.parent = parent;
 		enumPositioner = Finder.getInstance().find(positionerName);
 	}
 
-	public EnumPositionerGui(Composite parent, EnumPositioner enumPositioner) throws DeviceException {
+	public EnumPositionerGui(Composite parent, EnumPositioner enumPositioner) {
 		this.parent = parent;
 		this.enumPositioner = enumPositioner;
 	}
@@ -82,11 +82,16 @@ public class EnumPositionerGui implements IObserver {
 
 	/**
 	 * Add combo box to parent composite
-	 * @throws DeviceException
 	 */
-	public void createCombo(Composite parent) throws DeviceException {
+	public void createCombo(Composite parent) {
 		selectionCombo = new Combo(parent, SWT.NONE);
-		selectionCombo.setItems( enumPositioner.getPositions() );
+		try {
+			selectionCombo.setItems( enumPositioner.getPositions() );
+		} catch (DeviceException e) {
+			logger.warn("Problem getting positions from {} to use in combo box- widget will be disabled", enumPositioner.getName(), e);
+			selectionCombo.setEnabled(false);
+			selectionCombo.setToolTipText("Widget disabled - problem getting values from "+enumPositioner.getName());
+		}
 		selectionCombo.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 
 		updateComboBox();
@@ -94,7 +99,7 @@ public class EnumPositionerGui implements IObserver {
 		setComboWidth();
 	}
 
-	public void createCombo() throws DeviceException {
+	public void createCombo() {
 		createCombo(parent);
 	}
 
@@ -119,9 +124,8 @@ public class EnumPositionerGui implements IObserver {
 	/**
 	 * Make new composite containing labelled group and combo box
 	 * Create GUI elements
-	 * @throws DeviceException
 	 */
-	public void createControls() throws DeviceException {
+	public void createControls() {
 		group = new Group(parent, SWT.NONE);
 		group.setLayout(new GridLayout(1, false));
 		Composite controlWidgets = new Composite(group, SWT.NONE);
@@ -131,12 +135,24 @@ public class EnumPositionerGui implements IObserver {
 		nameLabel = new Label(controlWidgets, SWT.SINGLE);
 		nameLabel.setText(enumPositioner.getName());
 		nameLabel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
-		nameLabel.setToolTipText(enumPositioner.getName()+ " : "+ArrayUtils.toString(enumPositioner.getPositions()));
+		nameLabel.setToolTipText(getToolTipText());
 
 		createCombo(group);
 
 		updateComboBox();
 		addListenerObservers();
+	}
+
+	public String getToolTipText() {
+		String tooltipText = "";
+		if (enumPositioner != null) {
+			try {
+				tooltipText = enumPositioner.getName()+ " : "+ArrayUtils.toString(enumPositioner.getPositions());
+			} catch (DeviceException e) {
+				logger.warn("Problem getting positions for tooltip text", e);
+			}
+		}
+		return tooltipText;
 	}
 
 	private void addListenerObservers() {

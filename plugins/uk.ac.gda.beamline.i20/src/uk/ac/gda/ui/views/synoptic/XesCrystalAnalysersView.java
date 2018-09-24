@@ -19,8 +19,7 @@
 package uk.ac.gda.ui.views.synoptic;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -41,20 +40,18 @@ import gda.factory.Finder;
 public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 
 	public static final String ID = "uk.ac.gda.ui.views.synoptic.XesCrystalAnalyserView";
-	private ScannablegroupAdapter spectrometerGroup;
-	private Scannable[] spectrometerScannables;
 
 	/** This 'SpectrometerScannable' enum (SS for brevity) is used to identify the different scannable motors associated
 	 * with the crystal analysers.
 	 * The enum contents should match the order (and purpose!) of scannables in the 'spectrometer' scannable group.
 	 * This is used by {@link #scannableForType} map to go from enum value to the corresponding scannable.  */
-	private static enum SS {CRYST_MINUS1_X, CRYST_MINUS1_Y, CRYST_MINUS1_ROT, CRYST_MINUS1_PITCH,
+	private enum SS {CRYST_MINUS1_X, CRYST_MINUS1_Y, CRYST_MINUS1_ROT, CRYST_MINUS1_PITCH,
 		CRYST_CENTRE_Y, CRYST_CENTRE_ROT, CRYST_CENTRE_PITCH,
 		CRYST_PLUS1_X, CRYST_PLUS1_Y, CRYST_PLUS1_ROT, CRYST_PLUS1_PITCH,
 		DET_X, DET_Y, DET_ROT, XTAL_X, SPECT_ROT }
 
 	/** Map from SS enum value to corresponding scannable object */
-	private Map<SS, Scannable> scannableForType;
+	private EnumMap<SS, Scannable> scannableForType;
 
 	/** List of scannables that control position and orientation for each crystal */
 	private static SS[] crystMinus1Scannables = new SS[]{SS.CRYST_MINUS1_X, SS.CRYST_MINUS1_Y, SS.CRYST_MINUS1_ROT, SS.CRYST_MINUS1_PITCH};
@@ -70,7 +67,7 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 	}
 
 	@Override
-	protected void createControls(Composite parent) throws Exception {
+	protected void createControls(Composite parent) throws IOException, DeviceException {
 		setViewName("Xes Crystal Analyser View");
 		setBackgroundImage(getImageFromPlugin("oe images/xes_analysers2.bmp"), new Point(200, 350));
 		parent.getShell().setBackgroundMode(SWT.INHERIT_FORCE);
@@ -78,6 +75,7 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 		setupScannables();
 
 		createMotorControls(parent);
+		createRadiusControls(parent);
 		createCrystalCutControls(parent);
 		createArrows(parent);
 		createLabels(parent);
@@ -92,12 +90,12 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 	 */
 	private void setupScannables() {
 		// Get list of names of all the scannables contained in the 'spectrometer' group
-		spectrometerGroup = Finder.getInstance().find("spectrometer");
-		String []nameList = spectrometerGroup.getGroupMemberNames();
+		ScannablegroupAdapter spectrometerGroup = Finder.getInstance().find("spectrometer");
+		String[] nameList = spectrometerGroup.getGroupMemberNames();
 
 		// Get scannable for each item in group, store in map using corresponding enum value as key
-		SS enumTypeForScannable[] = SS.values();
-		scannableForType = new HashMap<SS, Scannable>();
+		SS[] enumTypeForScannable = SS.values();
+		scannableForType = new EnumMap<>(SS.class);
 		for(int i=0; i<nameList.length; i++) {
 			Scannable scannableFromGroup = Finder.getInstance().find(nameList[i]);
 			scannableForType.put(enumTypeForScannable[i], scannableFromGroup);
@@ -140,38 +138,44 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 
 		MotorControlsGui motorControls = new MotorControlsGui(parent, scannableForType.get(SS.XTAL_X));
 		motorControls.setLabel("Main translation (x)");
-		setWidgetPosition(motorControls.getControls(), -30, 25);
+		setWidgetPosition(motorControls.getControls(), -30, 10, 150);
 	}
 
-	private void createCrystalCutControls(Composite parent) throws DeviceException {
+	private void createRadiusControls(Composite parent) {
+		Composite group = new Group(parent, SWT.NONE);
+		group.setLayout(new GridLayout(2, false));
+		group.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+
+		Label label = new Label(group, SWT.NONE);
+		label.setText("Radius ");
+
+		ScannablePositionGui radius = new ScannablePositionGui(group, "radius");
+		radius.createTextbox();
+
+		setWidgetPosition(group, -30,  75, 150);
+	}
+
+	private void createEnumControl(Composite parent, String labelText, String positionerName) {
+		Label label = new Label(parent, SWT.NONE);
+		label.setText(labelText);
+
+		EnumPositionerGui enumPositioner = new EnumPositionerGui(parent, positionerName);
+		enumPositioner.createCombo();
+		label.setToolTipText(enumPositioner.getToolTipText());
+	}
+
+	private void createCrystalCutControls(Composite parent) {
 		Group group = new Group(parent, SWT.NONE);
 		group.setLayout(new GridLayout(2, false));
 		group.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
 		group.setText("Crystal cuts");
 
-		Label crystalCutLabel = new Label(group, SWT.NONE);
-		crystalCutLabel.setText("Crystal -1");
-		ScannablePositionGui cut1 = new ScannablePositionGui(group, "cut1");
-		cut1.createTextbox();
+		createEnumControl(group, "Material ", "material");
+		createEnumControl(group, "Crystal -1 ", "cut1");
+		createEnumControl(group, "Crystal 0 ", "cut2");
+		createEnumControl(group, "Crystal 1 ", "cut3");
 
-		//EnumPositionerGui enumPositioner = new EnumPositionerGui(group, "cut1");
-		//enumPositioner.createCombo();
-
-		crystalCutLabel = new Label(group, SWT.NONE);
-		crystalCutLabel.setText("Crystal 0");
-		ScannablePositionGui cut2 = new ScannablePositionGui(group, "cut2");
-		cut2.createTextbox();
-//		enumPositioner= new EnumPositionerGui(group, "cut2");
-//		enumPositioner.createCombo();
-
-		crystalCutLabel = new Label(group, SWT.NONE);
-		crystalCutLabel.setText("Crystal 1");
-		ScannablePositionGui cut3 = new ScannablePositionGui(group, "cut3");
-		cut3.createTextbox();
-//		enumPositioner =new EnumPositionerGui(group, "cut3");
-//		enumPositioner.createCombo();
-
-		setWidgetPosition(group, -30,  60, 150);
+		setWidgetPosition(group, -30, 35, 150);
 	}
 
 	private void createArrows(Composite parent) throws IOException {

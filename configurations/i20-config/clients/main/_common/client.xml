@@ -181,4 +181,29 @@
 		<property name="detectorName" value="xspress4" />
 	</bean>
 
+<!-- Import scannables for persisted material, crystal cut values -->
+	<bean id="material" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}material" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="cut1" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}cut1" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="cut2" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}cut2" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
+	<bean id="cut3" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}cut3" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+
 </beans>

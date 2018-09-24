@@ -369,8 +369,12 @@
 		<property name="initialUserUnits" value="mm" />
 	</bean>
 
+
+<!-- Scannables for persisted radius, material, crystal cut values -->
+	<bean id="radius" class="gda.device.scannable.DummyPersistentScannable" />
+
 	<bean id="material" class="gda.device.scannable.DummyPersistentEnumScannable" >
-		<property name="acceptableStrings">
+		<property name="positions">
 			<list>
 				<value>Si</value>
 				<value>Ge</value>
@@ -378,5 +382,61 @@
 		</property>
 	</bean>
 
+	<bean id="cut1" class="gda.device.scannable.DummyPersistentEnumScannable" >
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>3</value>
+				<value>4</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cut2" class="gda.device.scannable.DummyPersistentEnumScannable" >
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>3</value>
+				<value>4</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cut3" class="gda.device.scannable.DummyPersistentEnumScannable" >
+		<property name="positions">
+			<list>
+				<value>1</value>
+				<value>2</value>
+				<value>3</value>
+				<value>4</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/material" />
+		<property name="service" ref="material" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/cut1" />
+		<property name="service" ref="cut1" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/cut2" />
+		<property name="service" ref="cut2" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+	</bean>
+
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/cut3" />
+		<property name="service" ref="cut3" />
+		<property name="serviceInterface" value="gda.device.EnumPositioner" />
+	</bean>
 </beans>
 	

@@ -69,28 +69,4 @@
 		<property name="local" value="false"/>
 	</bean>
 
-	<bean id="radius" class="gda.device.scannable.DummyPersistentScannable" />
-	<bean id="cut1" class="gda.device.scannable.DummyPersistentScannable">
-		<property name="outputFormat">
-			<util:list>
-				<value>%.0f</value>
-			</util:list>
-		</property>
-	</bean>
-	<bean id="cut2" class="gda.device.scannable.DummyPersistentScannable" >
-		<property name="outputFormat">
-			<util:list>
-				<value>%.0f</value>
-			</util:list>
-		</property>
-	</bean>
-	<bean id="cut3" class="gda.device.scannable.DummyPersistentScannable" >
-		<property name="outputFormat">
-			<util:list>
-				<value>%.0f</value>
-			</util:list>
-		</property>
-	</bean>
-
-
 </beans>
