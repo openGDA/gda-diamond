@@ -72,8 +72,8 @@ public class I14StatusView extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		GridDataFactory.fillDefaults().applyTo(parent);
-		RowLayoutFactory.fillDefaults().applyTo(parent);
+		GridDataFactory.swtDefaults().applyTo(parent);
+		RowLayoutFactory.swtDefaults().applyTo(parent);
 		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 
 		setPartName(name);
@@ -137,7 +137,7 @@ public class I14StatusView extends ViewPart {
 		final Group group = new Group(parent, SWT.NONE);
 		group.setText(name);
 		group.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
-		GridLayoutFactory.fillDefaults().margins(5, 5).numColumns(columns).applyTo(group);
+		GridLayoutFactory.swtDefaults().numColumns(columns).applyTo(group);
 		return group;
 	}
 
