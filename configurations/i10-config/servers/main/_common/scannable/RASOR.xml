@@ -140,6 +140,11 @@
 	
 	<bean id="tth" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="tth" />
+		<property name="inputNames">
+			<list>
+				<value>tth</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_twotheta_motor" />
 		<property name="hardwareUnitString" value="deg" />
@@ -151,6 +156,11 @@
 
 	<bean id="th" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="th" />
+		<property name="inputNames">
+			<list>
+				<value>th</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_theta_motor" />
 		<property name="hardwareUnitString" value="deg" />
@@ -163,6 +173,11 @@
 
 	<bean id="chi" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="chi" />
+		<property name="inputNames">
+			<list>
+				<value>chi</value>
+			</list>
+		</property>
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="diff_chi_motor" />
 		<property name="hardwareUnitString" value="deg" />
