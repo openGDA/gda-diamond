@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
 
 import gda.data.metadata.NXMetaDataProvider;
-import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.device.Scannable;
 import gda.jython.scriptcontroller.logging.LoggingScriptController;
 import junit.framework.Assert;
@@ -35,7 +34,6 @@ public class XesScanFactoryTest {
 	private OutputPreparer outputPreparer;
 	private SampleEnvironmentPreparer samplePreparer;
 	private LoggingScriptController loggingScriptController;
-	private AsciiDataWriterConfiguration datawriterconfig;
 	private Scannable energyScannable;
 	private NXMetaDataProvider metashop;
 	private Scannable xesEnergyScannable;
@@ -51,7 +49,6 @@ public class XesScanFactoryTest {
 		samplePreparer = PowerMockito.mock(SampleEnvironmentPreparer.class);
 		outputPreparer = PowerMockito.mock(OutputPreparer.class);
 		loggingScriptController = PowerMockito.mock(LoggingScriptController.class);
-		datawriterconfig = PowerMockito.mock(AsciiDataWriterConfiguration.class);
 		energyScannable = PowerMockito.mock(Scannable.class);
 		xesEnergyScannable = PowerMockito.mock(Scannable.class);
 		analyserAngle = PowerMockito.mock(Scannable.class);
@@ -69,7 +66,6 @@ public class XesScanFactoryTest {
 		theFactory.setSamplePreparer(samplePreparer);
 		theFactory.setOutputPreparer(outputPreparer);
 		theFactory.setLoggingScriptController(loggingScriptController);
-		theFactory.setDatawriterconfig(datawriterconfig);
 		theFactory.setEnergyScannable(energyScannable);
 		theFactory.setMetashop(metashop);
 		theFactory.setIncludeSampleNameInNexusName(true);
@@ -100,7 +96,6 @@ public class XesScanFactoryTest {
 		theFactory.setSamplePreparer(samplePreparer);
 		theFactory.setOutputPreparer(outputPreparer);
 		theFactory.setLoggingScriptController(loggingScriptController);
-		theFactory.setDatawriterconfig(datawriterconfig);
 		theFactory.setEnergyScannable(energyScannable);
 		theFactory.setMetashop(metashop);
 		theFactory.setIncludeSampleNameInNexusName(true);
@@ -130,7 +125,6 @@ public class XesScanFactoryTest {
 		theFactory.setSamplePreparer(samplePreparer);
 		theFactory.setOutputPreparer(outputPreparer);
 		theFactory.setLoggingScriptController(loggingScriptController);
-		theFactory.setDatawriterconfig(datawriterconfig);
 		theFactory.setEnergyScannable(energyScannable);
 		theFactory.setMetashop(metashop);
 		theFactory.setIncludeSampleNameInNexusName(true);

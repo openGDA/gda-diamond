@@ -53,7 +53,6 @@ theFactory.setDetectorPreparer(detectorPreparer);
 theFactory.setSamplePreparer(samplePreparer);
 theFactory.setOutputPreparer(outputPreparer);
 theFactory.setLoggingScriptController(XASLoggingScriptController);
-theFactory.setDatawriterconfig(datawriterconfig);
 theFactory.setEnergyScannable(energy);
 theFactory.setMetashop(Finder.getInstance().find("metashop"));
 theFactory.setIncludeSampleNameInNexusName(True);
