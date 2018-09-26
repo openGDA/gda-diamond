@@ -13,6 +13,11 @@
 		<property name="motor" ref="samY_motor" />
 	</bean>
 
+	<bean id="samPhi" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="deg"/>
+		<property name="motor" ref="samPhi_motor" />
+	</bean>
+
 	<bean id="blowerZ" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm"/>
 		<property name="motor" ref="blowerZ_motor" />
