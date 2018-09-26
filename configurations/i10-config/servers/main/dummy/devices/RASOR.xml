@@ -87,6 +87,8 @@
 		<property name="minPosition" value="-50.0573" />
 		<property name="maxPosition" value="139.998" />
 		<property name="speed" value="1.388" />
+		<property name="maxSpeed" value="1.388"/>
+		<property name="timeToVelocity" value="0.6"/>
 		<property name="unitString" value="deg"/>
 		<property name="local" value="true" />
 	</bean>

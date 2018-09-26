@@ -1,6 +1,11 @@
 from utils.ExceptionLogs import localStation_exceptions
-from gdaserver import alpha_rasor, chi, difx, dsd, dsu, eta,\
-    lgb, lgf, lgm, th, tth, sx, sy, sz
+import sys
+try:
+    from gdaserver import alpha_rasor, chi, difx, dsd, dsu, eta,\
+        lgb, lgf, lgm, th, tth, sx, sy, sz
+except:
+    print "gdaserver.py not yet generated!"
+    
 import installation
 from gda.jython.commands import GeneralCommands
 from gda.jython.commands.GeneralCommands import alias
@@ -152,20 +157,22 @@ rmotors=MetaDataPD("rmotors", [tth, th, chi, eta, ttp, thp, py, pz, dsu, dsd, di
 
 # meta data
 try:
-    from gda.jython.commands.ScannableCommands import add_default
     from gdaserver import idd_gap, idd_rowphase1, idd_jawphase,\
         idd_rowphase3, idd_rowphase4, idd_rowphase2, idd_sepphase, idu_gap,\
         idu_rowphase1, idu_rowphase2, idu_jawphase, idu_rowphase3, idu_rowphase4,\
         idu_sepphase, pgm_grat_pitch, pgm_m2_pitch,pgm_energy
-        
-    print '-'*80
-    print "Define metadata list for data collection:"
-    iddmetadatascannables = (idd_gap,idd_rowphase1,idd_rowphase2,idd_rowphase3,idd_rowphase4,idd_jawphase,idd_sepphase)
-    idumetadatascannables = (idu_gap,idu_rowphase1,idu_rowphase2,idu_rowphase3,idu_rowphase4,idu_jawphase,idu_sepphase)
-    pgmmetadatascannables = (pgm_energy, pgm_grat_pitch, pgm_m2_pitch)
+except:
+    pass #the oject should already in jython namespace - only occur 1st time running server    
 
-    stdmetadatascannables = iddmetadatascannables + idumetadatascannables + pgmmetadatascannables
+print '-'*80
+print "Define metadata list for data collection:"
+metadatalist=[]
+iddlist = [idd_gap,idd_rowphase1,idd_rowphase2,idd_rowphase3,idd_rowphase4,idd_jawphase,idd_sepphase]
+idulist = [idu_gap,idu_rowphase1,idu_rowphase2,idu_rowphase3,idu_rowphase4,idu_jawphase,idu_sepphase]
+pgmlist = [pgm_energy, pgm_grat_pitch, pgm_m2_pitch]
 
+metadatalist=metadatalist+iddlist+idulist+pgmlist
+try:
     #SRS file metadata only works when run in localStation.py - see globals()
     print "-"*50
     print "SRS or ASCII file metadata command:"
@@ -173,34 +180,36 @@ try:
     meta.rootNamespaceDict=globals()
     note.rootNamespaceDict=globals()
     def stdmeta():
-        setmeta_ret=setmeta(*stdmetadatascannables)
+        setmeta_ret=setmeta(*metadatalist)
         print "Standard metadata scannables: " + setmeta_ret
     stdmeta()
     print "    Use 'stdmeta' to reset to standard scannables"
     alias('stdmeta')
-    add_default(meta)
+    add_default(meta)  # @UndefinedVariable
     meta.quiet = True
-    
-    #Nexus file
-    print "-"*50
-    print "Nexus file metadata commands:"
-    print "    'meta_add' - add a scannable or scannables to the scan metadata"
-    print "    'meta_ll'  - list the items and their values to be put into the scan metadata"
-    print "    'meta_ls'  - list only the items to be put into the scan metadata"
-    print "    'meta_rm'  - remove a scannable or scannables from the scan metadata"
-
-    from metadata.metashop import  *  # @UnusedWildImport
-    for each in stdmetadatascannables:
-        meta_add(each)
 except:
     localStation_exception(sys.exc_info(), "creating SRS file metadata objects")
+
+#Nexus file
+print "-"*50
+print "Nexus file metadata commands:"
+print "    'meta_add' - add a scannable or scannables to the scan metadata"
+print "    'meta_ll'  - list the items and their values to be put into the scan metadata"
+print "    'meta_ls'  - list only the items to be put into the scan metadata"
+print "    'meta_rm'  - remove a scannable or scannables from the scan metadata"
+
+from metadata.metashop import *  # @UnusedWildImport
+meta_add(*metadatalist)
 
 # check beam scannables
 from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv, checkbeam4scan, checkbeam4cvscan # @UnusedImport
 
-
 # multi-image per scan data point scan
 from scan.miscan import miscan; print miscan.__doc__  # @UndefinedVariable
+print "-"*100
+from scan.flyscan_script import flyscannable, FlyScanPositionsProvider, flyscan  # @UnusedImport
+from  scan import flyscan_script; print flyscan_script.__doc__  # @UndefinedVariable
+print "-"*100
 
 #import post scan data process The following 5 lines must be in localStation.py 
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
@@ -241,10 +250,10 @@ from rasor.positionWrapper import PositionWrapper
 wa=PositionWrapper(wascannables)
 alias('wa')
 
-# print "Creating 'wh' command for return RASOR positions in DIFFCALC HKL"
-# wherescannables=[delta,eta,chi,phi,h,k,l,en]
-# wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
-# alias('wh')
+print "Creating 'wh' command for return RASOR positions in DIFFCALC HKL"
+wherescannables=[tth,th,chi,phi,h,k,l,en]
+wh=PositionWrapper(wherescannables) ##can only be used with diffcalc
+alias('wh')
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i10commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport
