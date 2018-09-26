@@ -1,0 +1,195 @@
+#### To run in dummy mode from the ide, you need to use ####
+
+activemq-for-dummy
+
+#### To run up the Simulated Area Detector ####
+
+Diamond Launcher > Utilities > GDA SWMR AreaDetector Simulation
+
+#### To try the new log panel ####
+
+module load gdalogpanel/snapshot ; gdalogpanel &
+
+#### Run an example scan using mandelbrot detector ####
+
+Scanning Perspective
+	Scan Editor
+		Grid
+			Bounding Box	Start=[-1.5,-1] length=[2,2]
+			Fast Axis		stage_x
+			Fast Axis Count	5
+			Slow Axis		stage_y
+			Slow Axis Count	5
+			Snake			unckecked
+	Detectors
+		Mandelbrot Example Detector		Check
+			...
+	Monitors
+		Unckeck all
+
+mscan(path=[grid(axes=('stage_x', 'stage_y'), start=(-1.5, -1.0), stop=(0.5, 1.0), count=(5, 5), snake=False, continuous=False)], det=[detector('mandelbrot', 0.1, maxIterations=500, escapeRadius=10.0, columns=301, rows=241, points=1000, maxRealCoordinate=1.5, maxImaginaryCoordinate=1.2, realAxisName='stage_x', imaginaryAxisName='stage_y', enableNoise=False, noiseFreeExposureTime=5.0, saveImage=True, saveSpectrum=True, saveValue=True)])
+
+#### To scan a Simulated Area Detector ####
+
+
+
+#### To run up a local processing queue ####
+
+
+
+#### To run a scan with processing ####
+
+
+=============================================================
+
+Monitoring threads
+
+	Identify processes connected to ActiveMQ
+
+netstat -tnp | grep :61616 | sort
+pss server.product
+pss i15-1.product
+pss activemq
+
+16072	Server		28710	
+16799	Client		29519	
+15125	Activemq	14075	
+
+SERVERPID=16788
+CLIENTPID=17498
+ACTIVEMQPID=15693
+
+MSG=1
+jstack $SERVERPID > jstack.$SERVERPID.server.$MSG
+jstack $CLIENTPID > jstack.$CLIENTPID.client.$MSG
+jstack $ACTIVEMQPID > jstack.$ACTIVEMQPID.activemq.$MSG
+ll -tr
+
+	Diff first three
+
+kdiff3 jstack.$SERVERPID.server.1* jstack.$SERVERPID.server.2* jstack.$SERVERPID.server.$MSG ; kdiff3 jstack.$CLIENTPID.client.1* jstack.$CLIENTPID.client.2* jstack.$CLIENTPID.client.$MSG ; kdiff3 jstack.$ACTIVEMQPID.activemq.1* jstack.$ACTIVEMQPID.activemq.2* jstack.$ACTIVEMQPID.activemq.$MSG
+
+	Loop forever diffing jstacks to previous
+	 
+~/bin/jstacks
+
+	Search in gda_server.log
+
+less gda_server.log
+/>>>|TcpTransport|EventServiceImpl|ConsumerImpl|SubmitterImpl|ScanServlet
+
+	Run simplest scan
+
+mscan(repeat('dummy1', 1, 0.0, 0))
+
+	Run a block of scans
+
+for x in range(10):
+	mscan(repeat('dummy1', 1, 0.0, 0))
+
+--------------------------------------------------------------------------------
+Java
+--------------------------------------------------------------------------------
+
+	 * adding a specified CA monitor to this Channel, users need to specify a proper
+	 * monitor handler that implement MonitorChanged(MonitorEvent ev) method.
+
+import gov.aps.jca.event.MonitorEvent;
+
+--------------------------------------------------------------------------------
+Jython
+--------------------------------------------------------------------------------
+
+from gdascripts.messages import handle_messages
+from gov.aps.jca.event import MonitorListener
+
+class JythonMonitorListenerSimple(MonitorListener):
+	def monitorChanged(self, ev):
+		handle_messages.log(None, "2:monitorChanged() called...")
+
+cli=CAClient("ws346-AD-SIM-01:CAM:ArrayCounter_RBV")
+ml=JythonMonitorListenerSimple()
+cli.configure()
+monitor=cli.camonitor(ml)
+cli.cleanup
+
+class JythonMonitorListener(MonitorListener):
+	def monitorChanged(self, ev):
+		handle_messages.log(None, name+":monitorChanged() called...")
+
+    def __init__(self, name):
+        self.name=name
+
+from gda.epics import CAClient
+
+cli=CAClient("ws346-AD-SIM-01:CAM:ArrayCounter_RBV")
+ml=JythonMonitorListener("test")
+cli.configure()
+monitor=cli.camonitor(ml)
+cli.removeMonitor(monitor)
+
+cli=CAClient()
+ml=JythonMonitorListener()
+monitor=cli.camonitor(ml, 1)
+
+cli.addMonitorListener("ws346-AD-SIM-01:CAM:ArrayCounter_RBV", ml)
+
+        self.cliProc3ArrayCounter=CAClient(self.pvStem+"PROC3:ArrayCounter_RBV")
+        self.cliProc3ArrayCounter.configure()
+
+--------------------------------------------------------------------------------
+Current implementation:
+
+peAd.py
+
+        self.cliProc3UniqueId=CAClient(self.pvStem+"PROC3:UniqueId_RBV")
+        self.cliProc3UniqueId.configure()
+...
+                while (arrayCounter <= self.nextAcquisitionCounter):
+                    ###NEW LINES ADDED PC 13/09/2017###
+                    i = 0
+                    checkTime = float(max((self.acquirePeriod/10.),self.cagetMinTime))
+                    timeOut = int(float(self.exposureTime*3.) / checkTime)
+                    sleep(checkTime)
+
+                    while int(self.cliProc3UniqueId.caget()) < int(arrayCounter):
+                        sleep(float(checkTime))
+                        i += 1
+                        if i > timeOut:
+                            self.logger.error("Special waitFor timed out while waiting for stuff to happen")
+                            raise NameError("Special waitFor timed out while waiting for stuff to happen") 
+
+                self.logger.info("run() Waiting for last array {} to be collected...", self.nextAcquisitionCounter)
+                waitForCli(self.cliProc3UniqueId,self.nextAcquisitionCounter,checkTime=max((self.acquirePeriod/10.),self.cagetMinTime),timeOut=self.exposureTime*3.)
+...
+        ###Destroy CAclients
+        self.cliProc3UniqueId.clearup()
+        self.cliProc3ArrayCounter.clearup()
+
+xpdfUtils.py
+
+def waitForCli(cli,value,checkTime=0.5,timeOut=30):
+    """Same as waitFor, but takes an open CAClient as a argument"""
+    i = 0
+    timeOut = int(float(timeOut) / float(checkTime))
+    sleep(float(checkTime))
+    while str(int(cli.caget())) != str(value):
+        sleep(float(checkTime))
+        i += 1
+        if i > timeOut:
+            raise NameError("waitFor timed out while waiting for "+ str(cli) + " to change to " + str(value)) 
+
+Note that this isn't very different to the "special case":
+
+    checkTime = float(max((self.acquirePeriod/10.),self.cagetMinTime))
+    i = 0
+    timeOut = int(float(self.exposureTime*3.) / checkTime)
+    sleep(checkTime)
+    while int(self.cliProc3UniqueId.caget()) < int(arrayCounter):
+        sleep(float(checkTime))
+        i += 1
+        if i > timeOut:
+            self.logger.error("Special waitFor timed out while waiting for stuff to happen")
+            raise NameError("Special waitFor timed out while waiting for stuff to happen") 
+
+
