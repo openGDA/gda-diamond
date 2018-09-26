@@ -38,4 +38,12 @@
 	<bean id="exposure" class="gda.device.scannable.DummyScannable">
 		<property name="name" value="exposure" />
 	</bean>
+
+	<bean id="frame" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="frame" />
+	</bean>
+
+	<bean id="temperature_k" class="gda.device.scannable.DummyScannable">
+		<property name="name" value="temperature_k" />
+	</bean>
 </beans>
