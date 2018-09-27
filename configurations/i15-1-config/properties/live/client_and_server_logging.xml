@@ -18,9 +18,7 @@
     <logger name="gda.device.motor.EpicsMotor">											<level value="INFO"/></logger>
     <logger name="gda.device.motor.MoveEventQueue">										<level value="INFO"/></logger>
     <logger name="gda.factory">															<level value="INFO"/></logger>
-    <logger name="gda.device.corba.impl">												<level value="INFO"/></logger>
     <logger name="gda.epics.connection.EpicsController">								<level value="INFO"/></logger>
-    <logger name="gda.jython.corba.impl.JythonImpl">									<level value="INFO"/></logger>
    
 	<!-- Classes for which TRACE messages are excessive
 	 -->
