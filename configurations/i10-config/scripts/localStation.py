@@ -207,8 +207,8 @@ from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, che
 # multi-image per scan data point scan
 from scan.miscan import miscan; print miscan.__doc__  # @UndefinedVariable
 print "-"*100
-from scan.flyscan_script import flyscannable, FlyScanPositionsProvider, flyscan  # @UnusedImport
-from  scan import flyscan_script; print flyscan_script.__doc__  # @UndefinedVariable
+from scan.flyscan_command import flyscannable, FlyScanPositionsProvider, flyscan  # @UnusedImport
+from  scan import flyscan_command; print flyscan_command.__doc__  # @UndefinedVariable
 print "-"*100
 
 #import post scan data process The following 5 lines must be in localStation.py 

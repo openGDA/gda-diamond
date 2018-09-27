@@ -22,6 +22,7 @@ from types import IntType, FloatType
 import sys
 from time import sleep
 
+SHOW_DEMAND_VALUE=False
 class PositionReader(ScannableBase):
     '''returns the actual position of the given scannable irrespective of its moving state.
     '''
@@ -113,9 +114,9 @@ class FlyScannable(ScannableBase):
         if len( self.scannable.getInputNames()) != 1:
             raise Exception("No support for scannables with inputNames != 1")
         self.name = scannable.getName()+"_fly"
-        self.inputNames = [scannable.getInputNames() [0]+"_demand"]
+        self.inputNames = [scannable.getInputNames() [0]+"_actual"]
         self.extraNames= []
-        self.outputFormats=[ "%.5g"]
+        self.outputFormats=[ "%.5g", "%.5g"]
         self.level = 3
         self.positive = True
         self.requiredPosVal = 0.
@@ -128,6 +129,7 @@ class FlyScannable(ScannableBase):
         self.origionalSpeed=None
         self.alreadyStarted=False
         self.moveToStartCompleted=False
+        self.showDemandValue=False
         
     def getCurrentPositionOfScannable(self):
         return ScannableUtils.positionToArray(self.scannable.getPosition(), self.scannable)[0]
@@ -224,7 +226,11 @@ class FlyScannable(ScannableBase):
         return
 
     def rawGetPosition(self):
-        return self.requiredPosVal
+        if self.showDemandValue:
+            return [self.scannable.getPosition(), self.requiredPosVal]
+        else:
+            return self.scannable.getPosition()
+
 
 def flyscan(*args):
     ''' A scan that moves a scannable from start position to stop position non-stop or on the fly and collecting data 
@@ -251,7 +257,15 @@ def flyscan(*args):
                 flyscannablewraper.startVal=startpos
                 newargs.append( flyscannablewraper )
                 newargs.append( FlyScanPositionsProvider(flyscannablewraper.scannable, startpos, stoppos, stepsize) )
-                newargs.append( PositionReader(arg) ) # to read the actual position
+                flyscannablewraper.showDemandValue=SHOW_DEMAND_VALUE
+                if SHOW_DEMAND_VALUE:
+                    flyscannablewraper.setExtraNames([arg.getInputNames() [0]+"_demand"])
+                    flyscannablewraper.setOutputFormat([ "%.5g", "%.5g"])
+                else:
+                    flyscannablewraper.setExtraNames([])
+                    flyscannablewraper.setOutputFormat([ "%.5g"])
+                    
+#                 newargs.append( PositionReader(arg) ) # to read the actual position
                 i=i+4
         else:
             newargs.append(arg) 
