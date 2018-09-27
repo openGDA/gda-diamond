@@ -50,10 +50,6 @@
 	<import resource="../../p45/_common/mapping_stage.xml"/>
 	<import resource="../../p45/_common/mandelbrot_detectors.xml"/>
 
-<!-- Is this the right one to remove?
-	<corba:export namespace="${gda.beamline.name}" />
- -->
-
 	<!--  
 	      IMPORTANT: this will start processing the scanning queue. 
 	      detectors must be created before doing this.
@@ -74,7 +70,8 @@
 		</property>
 	</bean>
 
-	<corba:export namespace="${gda.factory.factoryName}" />
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 </beans>

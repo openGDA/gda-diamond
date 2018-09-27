@@ -28,12 +28,8 @@
 	<import resource="stage_controls_tree.xml"/>
 	<import resource="mapping.xml"/>
 
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
 	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
