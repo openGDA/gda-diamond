@@ -18,17 +18,9 @@
 
 package uk.ac.gda.beamline.i14.views;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.scanning.api.device.models.AbstractDetectorModel;
-import org.eclipse.scanning.api.device.models.ClusterProcessingModel;
-import org.eclipse.scanning.api.device.models.IDetectorModel;
-import org.eclipse.scanning.api.points.models.GridModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
@@ -38,10 +30,6 @@ import org.slf4j.LoggerFactory;
 
 import gda.jython.ICommandRunner;
 import gda.jython.InterfaceProvider;
-import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
-import uk.ac.diamond.daq.mapping.api.IMappingScanRegion;
-import uk.ac.diamond.daq.mapping.api.IScanModelWrapper;
-import uk.ac.diamond.daq.mapping.region.RectangularMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.AbstractMappingSection;
 
 public class I14SubmitXanesScanSection extends AbstractMappingSection {
@@ -69,12 +57,12 @@ public class I14SubmitXanesScanSection extends AbstractMappingSection {
 	private void submitScan() {
 		final I14XanesMappingView mappingView = (I14XanesMappingView) getMappingView();
 		final I14XanesEdgeParametersSection paramsSection = (I14XanesEdgeParametersSection) mappingView.getSection(I14XanesEdgeParametersSection.class);
-		final XanesScanParameters scanParameters = new XanesScanParameters(getMappingBean(), paramsSection.getScanParameters());
+		final XanesScanParameters scanParameters = new XanesScanParameters(paramsSection.getScanParameters());
 		final IMarshallerService marshaller = getService(IMarshallerService.class);
 		final ICommandRunner commandRunner = InterfaceProvider.getCommandRunner();
 
 		try {
-			final String parameterString = marshaller.marshal(scanParameters);
+			final String parameterString = marshaller.marshal(scanParameters).replaceAll("'", "\\\\'");
 			final String command = String.format("run_xanes_scan('%s')", parameterString);
 			logger.debug("Executing Jython command: {}", command);
 			commandRunner.runCommand(command);
@@ -89,6 +77,7 @@ public class I14SubmitXanesScanSection extends AbstractMappingSection {
 	 * This will be serialised to JSON and passed to the XANES script.
 	 */
 	private class XanesScanParameters {
+		// XANES-specific parameters
 		@SuppressWarnings("unused")
 		public final double preEdgeStart;
 		@SuppressWarnings("unused")
@@ -100,76 +89,18 @@ public class I14SubmitXanesScanSection extends AbstractMappingSection {
 		@SuppressWarnings("unused")
 		public final String trackingMethod;
 
-		public final double xStart;
-		public final double xStop;
+		// Standard mscan command
 		@SuppressWarnings("unused")
-		public final double xStep;
-		public final double yStart;
-		public final double yStop;
-		@SuppressWarnings("unused")
-		public final double yStep;
+		public final String mscanCommand;
 
-		@SuppressWarnings("unused")
-		public final List<XanesDetectorModel> detectors;
-
-		@SuppressWarnings("unused")
-		public final List<String> processingFiles;
-
-		XanesScanParameters(IMappingExperimentBean mappingBean, I14XanesEdgeParameters xanesParams) {
+		XanesScanParameters(I14XanesEdgeParameters xanesParams) {
 			preEdgeStart = xanesParams.getPreEdgeStart();
 			preEdgeStop = xanesParams.getPreEdgeStop();
 			preEdgeStep = xanesParams.getPreEdgeStep();
 			linesToTrack = xanesParams.getLinesToTrack();
 			trackingMethod = xanesParams.getTrackingMethod();
 
-			final IMappingScanRegion region = mappingBean.getScanDefinition().getMappingScanRegion();
-			if (!(region.getRegion() instanceof RectangularMappingRegion)) {
-				throw new IllegalArgumentException("Scan region must be rectangular");
-			}
-			final RectangularMappingRegion mappingRegion = (RectangularMappingRegion) region.getRegion();
-
-			if (!(region.getScanPath() instanceof GridModel)) {
-				throw new IllegalArgumentException("Scan model must be a grid model");
-			}
-			final GridModel model = (GridModel) region.getScanPath();
-
-			xStart = mappingRegion.getxStart();
-			xStop = mappingRegion.getxStop();
-			xStep = (xStop - xStart) / model.getFastAxisPoints();
-			yStart = mappingRegion.getyStart();
-			yStop = mappingRegion.getyStop();
-			yStep = (yStop - yStart) / model.getSlowAxisPoints();
-
-			final List<IScanModelWrapper<IDetectorModel>> detectorParameters = mappingBean.getDetectorParameters();
-			if (detectorParameters == null) {
-				detectors = Collections.emptyList();
-			} else {
-				final List<IDetectorModel> detectorModels = detectorParameters.stream()
-						.filter(IScanModelWrapper<IDetectorModel>::isIncludeInScan)
-						.map(IScanModelWrapper<IDetectorModel>::getModel)
-						.collect(Collectors.toList());
-				detectors = detectorModels.stream()
-						.map(d -> new XanesDetectorModel(d.getName(), d.getExposureTime(), d.getTimeout()))
-						.collect(Collectors.toList());
-			}
-
-			final List<IScanModelWrapper<ClusterProcessingModel>> clusterProcessingConfiguration = mappingBean.getClusterProcessingConfiguration();
-			if (clusterProcessingConfiguration == null) {
-				processingFiles = Collections.emptyList();
-			} else {
-				processingFiles = clusterProcessingConfiguration.stream()
-						.filter(IScanModelWrapper<ClusterProcessingModel>::isIncludeInScan)
-						.map(IScanModelWrapper<ClusterProcessingModel>::getName)
-						.collect(Collectors.toList());
-			}
-		}
-
-		private class XanesDetectorModel extends AbstractDetectorModel {
-			XanesDetectorModel(String name, double exposureTime, long timeout) {
-				setName(name);
-				setExposureTime(exposureTime);
-				setTimeout(timeout);
-			}
+			mscanCommand = createScanCommand();
 		}
 	}
 }
