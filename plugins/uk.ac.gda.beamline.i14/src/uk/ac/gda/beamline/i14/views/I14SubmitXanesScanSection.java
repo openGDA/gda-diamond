@@ -30,8 +30,7 @@ import org.eclipse.scanning.api.device.models.ClusterProcessingModel;
 import org.eclipse.scanning.api.device.models.IDetectorModel;
 import org.eclipse.scanning.api.points.models.GridModel;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
@@ -57,14 +56,9 @@ public class I14SubmitXanesScanSection extends AbstractMappingSection {
 
 		// Button to submit a scan to the queue
 		final Button submitScanButton = new Button(composite, SWT.PUSH);
-		submitScanButton.setText("Queue Scan");
 		GridDataFactory.swtDefaults().applyTo(submitScanButton);
-		submitScanButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				submitScan();
-			}
-		});
+		submitScanButton.setText("Queue Scan");
+		submitScanButton.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> submitScan()));
 	}
 
 	@Override
