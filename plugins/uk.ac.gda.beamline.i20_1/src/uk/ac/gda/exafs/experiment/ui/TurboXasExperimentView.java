@@ -20,7 +20,6 @@ package uk.ac.gda.exafs.experiment.ui;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -561,16 +560,11 @@ public class TurboXasExperimentView extends ViewPart {
 		String referenceDataFileName = EDECalibrationSection.getCurrentReferenceDataPath();
 		String energyCalPolynomialString = energyCalibrationPolyTextbox.getText();
 
-		// Set name of sample file, use nexus file from last run scan if not set
-		String sampleFileName = energyCalibrationFileTextbox.getText();
-		if (StringUtils.isEmpty(sampleFileName)) {
-			sampleFileName = lastScanFilename; //might be empty/null
-		}
 		EnergyCalibration calibrationModel = new EnergyCalibration();
 		try {
 			String message = "";
 			message += tryToSetCalibrationData(calibrationModel, referenceDataFileName, true);
-			message += tryToSetCalibrationData(calibrationModel, sampleFileName, false);
+			message += tryToSetCalibrationData(calibrationModel, lastScanFilename, false);
 
 			// Show warning message, but still display calibration tool if data cannot be set automatically
 			if (message.length() > 0) {

@@ -337,8 +337,13 @@ public class TurboXasParameters {
 	}
 
 	public void setScannablesToMonitorDuringScan(Map<String, String> scannablesToMonitorDuringScan) {
-		this.scannablesToMonitorDuringScan = new LinkedHashMap<>();
-		this.scannablesToMonitorDuringScan.putAll(scannablesToMonitorDuringScan);
+		if (scannablesToMonitorDuringScan!=null && !scannablesToMonitorDuringScan.isEmpty()) {
+			this.scannablesToMonitorDuringScan = new LinkedHashMap<>();
+			this.scannablesToMonitorDuringScan.putAll(scannablesToMonitorDuringScan);
+		} else {
+			//set to null if empty, so field does not appear in serialized xml string and cause problems with de-serialization
+			this.scannablesToMonitorDuringScan = null;
+		}
 	}
 
 	public boolean getWriteAsciiData() {

@@ -21,6 +21,7 @@ package gda.scan;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -328,6 +329,10 @@ public class TurboXasScan extends ContinuousScan {
 			}
 			asciiWriter.setAsciiFilename(asciiDir.resolve(asciiName).toAbsolutePath().toString());
 
+			// Set the detector names on AsciiWriter so the correct data is read from Nexus file. 20/9/2018
+			String[] detectorNames = Arrays.stream(getScanDetectors()).map(BufferedDetector::getName).toArray(String[]::new);
+			asciiWriter.setDetectorNames(detectorNames);
+
 			logger.info("Writing ascii data to {} at end of scan", asciiWriter.getAsciiFilename());
 			asciiWriter.writeAsciiFile();
 		}
@@ -407,7 +412,7 @@ public class TurboXasScan extends ContinuousScan {
 					timeWaited += pollIntervalMillis * 0.001;
 				}
 				//stop the file writer
-				xspress3BufferedDetector.getController().setSavingFiles(false);
+				xspress3BufferedDetector.getController().doStopSavingFiles();
 			}
 
 			logger.info("Waiting for detector collection thread to finish...");
@@ -529,7 +534,7 @@ public class TurboXasScan extends ContinuousScan {
 
 			int totNumReadouts = numSpectra*numReadoutsPerSpectrum;
 
-			controller.setSavingFiles(false);
+			controller.doStopSavingFiles();
 			controller.doStop();
 			controller.doReset();
 			controller.setNumFramesToAcquire(totNumReadouts);
