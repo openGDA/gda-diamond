@@ -15,7 +15,8 @@ Require-Bundle: org.eclipse.ui,
  uk.ac.gda.nexus;bundle-version="1.0.0",
  slf4j.api,
  uk.ac.gda.client.live.stream,
- org.eclipse.scanning.device.ui
+ org.eclipse.scanning.device.ui,
+ uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: uk.ac.gda.beamline.i10;uses:="org.eclipse.ui.plugin,org.osgi.framework"

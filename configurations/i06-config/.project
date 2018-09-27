@@ -7,6 +7,7 @@
 		<project>uk.ac.diamond.scisoft.python</project>
 		<project>uk.ac.gda.beamline.i06</project>
 		<project>uk.ac.gda.client.live.stream</project>
+		<project>uk.ac.gda.client.live.stream.controls</project>
 		<project>uk.ac.gda.common</project>
 		<project>uk.ac.gda.common.rcp</project>
 		<project>uk.ac.gda.core</project>

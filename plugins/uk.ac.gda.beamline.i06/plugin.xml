@@ -143,7 +143,7 @@
             locationURI="toolbar:uk.ac.gda.beamline.i06.pco.live.stream.view.LiveStreamViewWithHistogram">
          <command
                commandId="uk.ac.gda.client.live.stream.snapshotcommand"
-               icon="icons/camera.png"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
                label="Sanpshot"
                style="push">
             <visibleWhen
@@ -157,8 +157,8 @@
             </visibleWhen>
          </command>
          <command
-               commandId="uk.ac.gda.client.live.stream.startcommand"
-               icon="icons/control_play_blue.png"
+               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
                label="Start"
                style="push"
                tooltip="Start camera acquisition">
@@ -173,8 +173,8 @@
             </visibleWhen>
          </command>
          <command
-               commandId="uk.ac.gda.client.live.stream.stopcommand"
-               icon="icons/control_stop_blue.png"
+               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
                label="Stop"
                style="push"
                tooltip="Stop camera acquisition">
@@ -189,8 +189,8 @@
             </visibleWhen>
          </command>
          <command
-               commandId="uk.ac.gda.client.live.stream.freezecommand"
-               icon="icons/control_freeze_blue.png"
+               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
                label="Freeze"
                style="toggle"
                tooltip="Enable/disable image update">
@@ -207,46 +207,9 @@
       </menuContribution>
    </extension>
    <extension
-         point="org.eclipse.ui.handlers">
-      <handler
-            class="uk.ac.gda.beamline.i06.live.stream.handlers.EpicsCameraStartHandler"
-            commandId="uk.ac.gda.client.live.stream.startcommand">
-      </handler>
-      <handler
-            class="uk.ac.gda.beamline.i06.live.stream.handlers.EpicsCameraStopHandler"
-            commandId="uk.ac.gda.client.live.stream.stopcommand">
-      </handler>
-      <handler
-            class="uk.ac.gda.beamline.i06.live.stream.handlers.EpicsFreezeLiveStreamDiaplayUpdateHandler"
-            commandId="uk.ac.gda.client.live.stream.freezecommand">
-      </handler>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-      <command
-            description="Start camera acquisition"
-            id="uk.ac.gda.client.live.stream.startcommand"
-            name="Start">
-      </command>
-      <command
-            description="Stop camera acquisition"
-            id="uk.ac.gda.client.live.stream.stopcommand"
-            name="Stop">
-      </command>
-      <command
-            description="Enable/disable image update"
-            id="uk.ac.gda.client.live.stream.freezecommand"
-            name="Freeze">
-      </command>
-   </extension>
-   <extension
          point="org.eclipse.ui.services">
       <sourceProvider
-            provider="uk.ac.gda.beamline.i06.live.stream.EpicsCameraState">
-         <variable
-               name="uk.ac.gda.live.stream.active"
-               priorityLevel="workbench">
-         </variable>
+            provider="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
          <variable
                name="i06.pco.live.stream.active"
                priorityLevel="workbench">
@@ -276,10 +239,7 @@
                name="appName"
                value="uk.ac.gda.beamline.i06.dummy.product">
          </property>
-         <property
-               name="aboutImage"
-               value="icons/schematic_I06_sm.png">
-         </property>
+
          <property
                name="aboutText"
                value="GDA for DLS Beamone i06.">
@@ -299,6 +259,10 @@
          <property
                name="startupProgressRect"
                value="2,215,598,15">
+         </property>
+         <property
+               name="aboutImage"
+               value="icons/schematic_I06_sm.png">
          </property>
          <property
                name="preferenceCustomization"

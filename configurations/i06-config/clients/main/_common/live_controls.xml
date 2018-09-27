@@ -100,13 +100,13 @@
 		</property>
 	</bean>
 	
-	<bean id="pcoCameraState" class="uk.ac.gda.beamline.i06.live.stream.EpicsCameraState">
+	<bean id="pcoCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
 		<property name="cameraConfig" ref="pco_cam"/>
 		<property name="stateVariableName" value="i06.pco.live.stream.active"/>
 	</bean>
 	<bean id="pcoControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
 		<property name="customWidget">
-			<bean class="uk.ac.gda.beamline.i06.views.CameraControlWidget">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
 				<property name="liveControls">
 					<list>
 						<ref bean="pco_expsure_time_control" />

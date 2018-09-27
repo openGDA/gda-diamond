@@ -19,7 +19,6 @@
 package uk.ac.gda.beamline.i06;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -71,10 +70,4 @@ public class Activator extends AbstractUIPlugin {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
 	}
 
-	@Override
-	protected void initializeImageRegistry(ImageRegistry reg) {
-		for (String imgPath : ImageConstants.IMAGES) {
-			reg.put(imgPath, imageDescriptorFromPlugin(PLUGIN_ID, imgPath));
-		}
-	}
 }

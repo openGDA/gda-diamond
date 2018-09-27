@@ -22,14 +22,14 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
  uk.ac.gda.client.live.stream;bundle-version="1.0.0",
  org.python.pydev,
- org.eclipse.core.expressions;bundle-version="3.6.0"
+ org.eclipse.core.expressions;bundle-version="3.6.0",
+ uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-RegisterBuddy: uk.ac.gda.core
 Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i06,
- uk.ac.gda.beamline.i06.perspective,
- uk.ac.gda.beamline.i06.views
+ uk.ac.gda.beamline.i06.perspective
 Import-Package: gda.epics.connection,
  gov.aps.jca;version="2.4.1",
  gov.aps.jca.dbr;version="2.4.1",
