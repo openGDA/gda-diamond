@@ -5,8 +5,6 @@ import org.eclipse.search.ui.NewSearchUI;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.python.pydev.ui.wizards.files.PythonModuleWizard;
 import org.python.pydev.ui.wizards.files.PythonPackageWizard;
@@ -16,6 +14,7 @@ import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 import gda.rcp.views.JythonTerminalView;
 import uk.ac.diamond.daq.mapping.ui.experiment.MappingPerspective;
 import uk.ac.gda.client.live.stream.view.LiveStreamView;
+import uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogram;
 import uk.ac.gda.client.live.stream.view.SnapshotView;
 import uk.ac.gda.client.liveplot.LivePlotView;
 import uk.ac.gda.client.scripting.JythonPerspective;
@@ -46,7 +45,7 @@ public class AreaDetectorPerspective implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 		layout.setEditorAreaVisible(false);
 
-		IFolderLayout topLeft = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.63, editorArea); //$NON-NLS-1$
+		IFolderLayout topLeft = layout.createFolder(PROJ_FOLDER, IPageLayout.LEFT, (float)0.65, editorArea); //$NON-NLS-1$
 		topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
 		topLeft.addPlaceholder(GDA_NAVIGATOR_VIEW_ID);
 		topLeft.addPlaceholder("uk.ac.diamond.sda.navigator.views.FileView");
@@ -61,30 +60,24 @@ public class AreaDetectorPerspective implements IPerspectiveFactory {
 		topMiddlefolder.addView(LivePlotView.ID);
 		topMiddlefolder.addPlaceholder("org.dawnsci.mapping.ui.spectrumview");
 		topMiddlefolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.plotView1");
+		topMiddlefolder.addView(ToolPageView.FIXED_VIEW_ID+":org.dawb.workbench.plotting.tools.region.editor");
+		topMiddlefolder.addPlaceholder(ToolPageView.FIXED_VIEW_ID+":org.dawnsci.plotting.histogram.histogram_tool_page_2");
+		topMiddlefolder.addPlaceholder(ToolPageView.TOOLPAGE_1D_VIEW_ID);
+		topMiddlefolder.addPlaceholder(ToolPageView.TOOLPAGE_2D_VIEW_ID);
+		topMiddlefolder.addPlaceholder(SnapshotView.ID);
 
         IFolderLayout middlefolder = layout.createFolder(TERMINAL_FOLDER,IPageLayout.BOTTOM, 0.58f, PLOT_1D_FOLDER);
         middlefolder.addView(gda.rcp.views.JythonTerminalView.ID);
+        middlefolder.addView("uk.ac.gda.client.livecontrol.LiveControlsView");
 
         IFolderLayout topRightFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.LEFT, (float)0.5, editorArea); //$NON-NLS-1$
-		topRightFolder.addView(LiveStreamView.ID+":pimte_cam#EPICS_ARRAY");
-		topRightFolder.addView(LiveStreamView.ID+":pixis_cam#EPICS_ARRAY");
-		topRightFolder.addPlaceholder("uk.ac.gda.client.live.stream.view.LiveStreamView:*");
-		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(LiveStreamView.ID+":pixis_cam#EPICS_ARRAY");
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(LiveStreamView.ID+":pimte_cam#EPICS_ARRAY");
-		} catch (PartInitException e) {
-			// No-op just to try fix the title of views
-		}
+		topRightFolder.addView("uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram:pimte_cam#EPICS_ARRAY");
+		topRightFolder.addView("uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamViewWithHistogram:pixis_cam#EPICS_ARRAY");
+		topRightFolder.addPlaceholder(LiveStreamView.ID+":*");
+		topRightFolder.addPlaceholder(LiveStreamViewWithHistogram.ID+":*");
+		topRightFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
+		topRightFolder.addPlaceholder(IPageLayout.ID_OUTLINE);
 
-		IFolderLayout bottomRightFolder=layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, (float)0.5, PLOT_2D_FOLDER); //$NON-NLS-1$
-		bottomRightFolder.addView("uk.ac.gda.client.livecontrol.LiveControlsView");
-		bottomRightFolder.addPlaceholder(ToolPageView.TOOLPAGE_1D_VIEW_ID);
-		bottomRightFolder.addPlaceholder(ToolPageView.TOOLPAGE_2D_VIEW_ID);
-		bottomRightFolder.addPlaceholder(SnapshotView.ID);
-
-		IFolderLayout belowEditorFolder=layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, (float)0.5, editorArea); //$NON-NLS-1$
-		belowEditorFolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
-		belowEditorFolder.addPlaceholder(IPageLayout.ID_OUTLINE);
 	}
 
 	private void defineActions(IPageLayout layout) {
