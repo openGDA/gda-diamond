@@ -127,9 +127,10 @@
       </menuContribution>
       <menuContribution
             allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram">
+            locationURI="toolbar:uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamViewWithHistogram">
          <command
                commandId="uk.ac.gda.client.live.stream.snapshotcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
                label="Snapshot"
                style="push">
             <visibleWhen
@@ -137,7 +138,7 @@
                <with
                      variable="activePartId">
                   <equals
-                        value="uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram">
+                        value="uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamViewWithHistogram">
                   </equals>
                </with>
             </visibleWhen>
@@ -151,7 +152,7 @@
             <visibleWhen
                   checkEnabled="false">
                <with
-                     variable="i10.pimte.live.stream.active">
+                     variable="i10.pixis.live.stream.active">
                   <equals
                         value="STOPPED">
                   </equals>
@@ -167,7 +168,7 @@
             <visibleWhen
                   checkEnabled="false">
                <with
-                     variable="i10.pimte.live.stream.active">
+                     variable="i10.pixis.live.stream.active">
                   <equals
                         value="RUNNING">
                   </equals>
@@ -183,270 +184,13 @@
             <visibleWhen
                   checkEnabled="false">
                <with
-                     variable="i10.pimte.live.stream.active">
+                     variable="i10.pixis.live.stream.active">
                   <equals
                         value="RUNNING">
                   </equals>
                </with>
             </visibleWhen>
          </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram">
-         <command
-               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
-               label="Snapshot"
-               style="push">
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
-               label="Start"
-               style="push"
-               tooltip="Star camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i10.pimte.live.stream.active">
-                  <equals
-                        value="STOPPED">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
-               label="Stop"
-               style="push"
-               tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i10.pimte.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
-               label="Freeze"
-               style="toggle"
-               tooltip="Enable/disable image update">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i10.pimte.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram">
-         <command
-               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
-               label="Snapshot"
-               style="push">
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
-               label="Start"
-               style="push"
-               tooltip="Star camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i10.pimte.live.stream.active">
-                  <equals
-                        value="STOPPED">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
-               label="Stop"
-               style="push"
-               tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i10.pimte.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
-               label="Freeze"
-               style="toggle"
-               tooltip="Enable/disable image update">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.pco.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram">
-         <command
-               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
-               label="Snapshot"
-               style="push">
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
-               label="Start"
-               style="push"
-               tooltip="Star camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i10.pimte.live.stream.active">
-                  <equals
-                        value="STOPPED">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
-               label="Stop"
-               style="push"
-               tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i10.pimte.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram">
-         <command
-               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
-               label="Snapshot"
-               style="push">
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
-               label="Start"
-               style="push"
-               tooltip="Star camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i10.pimte.live.stream.active">
-                  <equals
-                        value="STOPPED">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
-               label="Stop"
-               style="push"
-               tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.pco.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram">
-         <command
-               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
-               label="Snapshot"
-               style="push">
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
-               label="Start"
-               style="push"
-               tooltip="Star camera acquisition">
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
-               label="Stop"
-               style="push"
-               tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.pco.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram">
-         <command
-               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
-               label="Snapshot"
-               style="push">
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
-               label="Start"
-               style="push"
-               tooltip="Star camera acquisition">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram">
-         <command
-               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
-               label="Snapshot"
-               style="push">
-         </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram">
       </menuContribution>
    </extension>
    <extension
@@ -502,15 +246,15 @@
             restorable="true">
       </view>
       <view
-            class="gda.rcp.views.ViewFactoryFinder:pixisControlWidgetFactory"
-            id="uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamViewWithHistogram"
-            name="PIXIS"
-            restorable="true">
-      </view>
-      <view
             class="gda.rcp.views.ViewFactoryFinder:pimteControlWidgetFactory"
             id="uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram"
             name="PIMTE"
+            restorable="true">
+      </view>
+      <view
+            class="gda.rcp.views.ViewFactoryFinder:pixisControlWidgetFactory"
+            id="uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamViewWithHistogram"
+            name="PIXIS"
             restorable="true">
       </view>
    </extension>
@@ -518,10 +262,6 @@
          point="org.eclipse.ui.services">
       <sourceProvider
             provider="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-         <variable
-               name="uk.ac.gda.live.stream.active"
-               priorityLevel="workbench">
-         </variable>
          <variable
                name="i10.pimte.live.stream.active"
                priorityLevel="workbench">

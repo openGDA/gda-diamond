@@ -37,3 +37,4 @@ Import-Package: org.dawb.workbench.ui.perspective,
  org.python.pydev.ui.wizards.files,
  org.python.pydev.ui.wizards.project,
  uk.ac.diamond.daq.mapping.ui.experiment
+Automatic-Module-Name: uk.ac.gda.beamline.i10
