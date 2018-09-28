@@ -76,7 +76,7 @@ public class I10ScanPerspective implements IPerspectiveFactory {
 
 		IFolderLayout middleRightfolder = layout.createFolder(TOOLPAGE_FOLDER, IPageLayout.BOTTOM, 0.5f, editorArea);
 		middleRightfolder.addView("uk.ac.gda.client.livecontrol.LiveControlsView");
-		middleRightfolder.addView(IPageLayout.ID_OUTLINE);
+		middleRightfolder.addPlaceholder(IPageLayout.ID_OUTLINE);
 		middleRightfolder.addPlaceholder("org.dawb.workbench.plotting.views.toolPageView.1D");
 		middleRightfolder.addPlaceholder("org.dawb.workbench.plotting.views.toolPageView.2D");
 		middleRightfolder.addPlaceholder("org.dawb.workbench.views.dataSetView");
