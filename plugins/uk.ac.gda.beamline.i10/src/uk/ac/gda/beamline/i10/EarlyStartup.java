@@ -18,6 +18,8 @@
 
 package uk.ac.gda.beamline.i10;
 
+import org.dawnsci.plotting.views.ToolPageView;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -26,16 +28,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class EarlyStartup implements IStartup {
-	private static final Logger logger=LoggerFactory.getLogger(EarlyStartup.class);
+	private static final Logger logger = LoggerFactory.getLogger(EarlyStartup.class);
+
 	@Override
 	public void earlyStartup() {
-		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram","pimte_cam#EPICS_ARRAY", IWorkbenchPage.VIEW_ACTIVATE);
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamViewWithHistogram","pixis_cam#EPICS_ARRAY", IWorkbenchPage.VIEW_ACTIVATE);
-		} catch (PartInitException e) {
-			logger.warn("showView calls failed in {}", getClass().getName());
-		}
+		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
+			public void run() {
+				try {
+					// make sure 'Region editor' view Title is shown at start without making the view either in focus or visible
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ToolPageView.FIXED_VIEW_ID,
+							"org.dawb.workbench.plotting.tools.region.editor", IWorkbenchPage.VIEW_CREATE);
+					// ensure the PIMTE Stream View has focus so the 'Region Editor' above is linked to this image
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(
+							"uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram", "pimte_cam#EPICS_ARRAY", IWorkbenchPage.VIEW_ACTIVATE);
+					// ensure PIXIS live stream view title is displyed at startup
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamViewWithHistogram","pixis_cam#EPICS_ARRAY",IWorkbenchPage.VIEW_CREATE);
+					// make the dynamic toolbar items visible, not just inside drop-down menu.
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().resetPerspective();
+				} catch (PartInitException e) {
+					logger.warn("showView calls failed in {}", getClass().getName());
+				}
+			}
+		});
 	}
-
 }
