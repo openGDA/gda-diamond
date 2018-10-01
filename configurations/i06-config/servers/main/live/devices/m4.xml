@@ -15,33 +15,33 @@
 	<!-- KB Mirror (M4/M5) Motors -->
 	<!-- KB Mirrors M4 (HFM) -->
 	<bean id="MotorHFMX_M4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.X" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-KBM-01:HFM:X" />
 	</bean>
 
 	<bean id="MotorHFMPitch_M4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.PITCH" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-KBM-01:HFM:PITCH" />
 	</bean>
 
 	<bean id="MotorHFMFinePitch_M4" class="gda.device.motor.FeedbackControlledEpicsMotor">
-		<property name="deviceName" value="M4.FPITCH" />
+		<property name="pvName" value="BL06I-OP-KBM-01:HFM:FPITCH" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorHFMBender1_M4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.BEND1" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-KBM-01:HFM:BEND1" />
 	</bean>
 
 	<bean id="MotorHFMBender2_M4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.BEND2" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-KBM-01:HFM:BEND2" />
 	</bean>
 
 	<bean id="MotorHFMRoll_M4" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="HFM.ROLL" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-KBM-01:HFM:ROLL" />
 	</bean>
 
 	<!-- AD hardware -->

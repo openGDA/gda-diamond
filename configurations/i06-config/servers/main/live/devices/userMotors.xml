@@ -4,33 +4,33 @@
 
 	<!-- PEEM line User Motors U1 Motors -->
 	<bean id="MotorMTR1_U1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="U1.MTR1" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:MTR1" />
 	</bean>
 
 	<bean id="MotorMTR2_U1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="U1.MTR2" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:MTR2" />
 	</bean>
 
 	<bean id="MotorMTR3_U1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="U1.MTR3" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:MTR3" />
 	</bean>
 
 	<bean id="MotorMTR4_U1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="U1.MTR4" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:MTR4" />
 	</bean>
 
 	<bean id="MotorMTR5_U1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="U1.MTR5" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:MTR5" />
 	</bean>
 
 	<bean id="MotorMTR6_U1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="U1.MTR6" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:MTR6" />
 	</bean>
 
 </beans>

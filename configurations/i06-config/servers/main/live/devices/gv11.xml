@@ -4,8 +4,8 @@
 
 	<!-- PEEM line Gate Valve 11 -->
 	<bean id="gv11i" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="GV11" />
 		<property name="local" value="true" />
+		<property name="pvBase" value="BL06I-VA-VALVE-11" />
 	</bean>
 
 </beans>

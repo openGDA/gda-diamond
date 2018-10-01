@@ -14,23 +14,23 @@
 
 	<!-- KB Mirrors M5 (VFM) Positioner and DOFs -->
 	<bean id="MotorVFMPitch_M5" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="VFM.PITCH" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-KBM-01:VFM:PITCH" />
 	</bean>
 
 	<bean id="MotorVFMBender1_M5" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="VFM.BEND1" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-KBM-01:VFM:BEND1" />
 	</bean>
 
 	<bean id="MotorVFMBender2_M5" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="VFM.BEND2" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-KBM-01:VFM:BEND2" />
 	</bean>
 
 	<bean id="MotorVFMFinePitch_M5" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="M5.FPITCH" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-KBM-01:VFM:FPITCH" />
 	</bean>
 
 	<!-- AD hardware -->

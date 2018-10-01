@@ -4,64 +4,64 @@
 
 	<!-- Patch Panel U1 Analog Output ControlPoint EpicsControlPoint -->
 	<bean id="dac11" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="U1.AO1" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:AO1" />
 	</bean>
 
 	<bean id="dac12" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="U1.AO2" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:AO2" />
 	</bean>
 
 	<bean id="dac13" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="U1.AO3" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:AO3" />
 	</bean>
 
 	<bean id="dac14" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="U1.AO4" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:AO4" />
 	</bean>
 
 	<bean id="dac15" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="U1.AO5" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:AO5" />
 	</bean>
 
 	<bean id="dac16" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="U1.AO6" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:AO6" />
 	</bean>
 
 	<bean id="dac17" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="U1.AO7" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:AO7" />
 	</bean>
 
 	<bean id="dac18" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="U1.AO8" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:AO8" />
 	</bean>
 
 	<!-- Patch Panel U1 Analog Input Monitor -->
 	<bean id="adc11" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="U1.AI1" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:AI1" />
 	</bean>
 
 	<bean id="adc12" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="U1.AI2" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:AI2" />
 	</bean>
 
 	<bean id="adc13" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="U1.AI3" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:AI3" />
 	</bean>
 
 	<bean id="adc14" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="U1.AI4" />
 		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-EA-USER-01:AI4" />
 	</bean>
 
 </beans>
