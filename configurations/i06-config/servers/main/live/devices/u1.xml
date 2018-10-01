@@ -1,68 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Patch Panel U1 Analog Output ControlPoint EpicsControlPoint -->
 	<bean id="dac11" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="U1.AO1" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dac12" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="U1.AO2" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dac13" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="U1.AO3" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dac14" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="U1.AO4" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dac15" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="U1.AO5" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dac16" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="U1.AO6" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dac17" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="U1.AO7" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dac18" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="U1.AO8" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<!-- Patch Panel U1 Analog Input Monitor -->
 	<bean id="adc11" class="gda.device.monitor.EpicsMonitor">
 		<property name="deviceName" value="U1.AI1" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="adc12" class="gda.device.monitor.EpicsMonitor">
 		<property name="deviceName" value="U1.AI2" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="adc13" class="gda.device.monitor.EpicsMonitor">
 		<property name="deviceName" value="U1.AI3" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="adc14" class="gda.device.monitor.EpicsMonitor">
 		<property name="deviceName" value="U1.AI4" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 </beans>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- PEEM line Gate Valve 11  -->
+	<!-- PEEM line Gate Valve 11 -->
 	<bean id="gv11i" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="deviceName" value="GV11" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 </beans>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- M3 Hexapod Legs Control Point -->
 	<bean id="m3leg1" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M3.LEG1" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -16,7 +15,7 @@
 
 	<bean id="m3leg2" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M3.LEG2" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -26,7 +25,7 @@
 
 	<bean id="m3leg3" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M3.LEG3" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -36,7 +35,7 @@
 
 	<bean id="m3leg4" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M3.LEG4" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -46,7 +45,7 @@
 
 	<bean id="m3leg5" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M3.LEG5" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -56,7 +55,7 @@
 
 	<bean id="m3leg6" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="deviceName" value="M3.LEG6" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -67,37 +66,37 @@
 	<!-- Focusing Mirrow M3 Motors -->
 	<bean id="MotorX_M3" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M3.X" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorY_M3" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M3.Y" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorZ_M3" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M3.Z" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorYaw_M3" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M3.YAW" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorPitch_M3" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M3.PITCH" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorRoll_M3" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M3.ROLL" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorFinePitch_M3" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="M3.FPITCH" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 
 </beans>

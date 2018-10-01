@@ -1,127 +1,126 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
     http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-    <bean id="c2cam_adbase"  class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-        <property name="deviceName" value="GIGE1.CAM_ADBase" />
-    </bean>
-    
-    <bean id="c2cam_ndArray"  class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-        <property name="deviceName" value="GIGE1.ARR_NDStdArrays" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="deviceName" value="GIGE1.ARR_NDPluginBase" />
-            </bean>
-        </property>
-    </bean>
-    
-    <bean id="c2cam_ndStats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
-        <property name="deviceName" value="GIGE1.STAT_NDStats" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="deviceName" value="GIGE1.STAT_NDPluginBase" />
-            </bean>
-        </property>
-    </bean>
-        
-    <bean id="c2cam_ndFile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-        <property name="deviceName" value="GIGE1.TIFF_NDFile" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="deviceName" value="GIGE1.TIFF_NDPluginBase" />
-            </bean>
-        </property>
-        
-        <property name="initialAutoSave" value="Not hooked up to anything!" /> <!-- currently yes -->
-        <property name="initialAutoIncrement" value="Not hooked up to anything!" /> <!-- currently true -->
-        <property name="initialWriteMode" value="0" /> <!-- Single(current), Capture, Stream, -->
-        <property name="initialNumCapture" value="1" /> <!-- current = 1 -->
-        <property name="initialFileName" value="c2cam" />
-        <property name="initialFileTemplate" value="%s%s%d.tif" />
-    </bean>
-    
-    <bean id="c2cam_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
-        <property name="deviceName" value="GIGE1.ROI_NDROI" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="deviceName" value="GIGE1.ROI_NDPluginBase" />
-            </bean>
-        </property>
-        <property name="initialBinX" value="0" />
-        <property name="initialBinY" value="0" />
-        <property name="initialMinX" value="0" />
-        <property name="initialMinY" value="0" />
-        <property name="initialSizeX" value="487" />
-        <property name="initialSizeY" value="195" />
-    </bean>
-    
-    <bean id="c2cam_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-        <property name="deviceName" value="GIGE1.PROC_NDProcess" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="deviceName" value="GIGE1.PROC_NDPluginBase" />
-            </bean>
-        </property>
-    </bean>
-    
-    <bean id="c2cam_ffmpeg" class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
-        <property name="deviceName" value="GIGE1.MJPG_ffmpegStream" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="deviceName" value="GIGE1.MJPG_NDPluginBase" />
-            </bean>
-        </property>
-    </bean>
+	<bean id="c2cam_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="deviceName" value="GIGE1.CAM_ADBase" />
+	</bean>
 
-    <bean id="c2cam_overlay" class="gda.device.detector.areadetector.v17.impl.NDOverlayImpl">
-        <property name="deviceName" value="GIGE1.OVER_NDOverlay" />
-        <property name="pluginBase">
-            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-                <property name="deviceName" value="GIGE1.OVER_NDPluginBase" />
-            </bean>
-        </property>
-    </bean>
+	<bean id="c2cam_ndArray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="deviceName" value="GIGE1.ARR_NDStdArrays" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="deviceName" value="GIGE1.ARR_NDPluginBase" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="c2cam_ndStats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="deviceName" value="GIGE1.STAT_NDStats" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="deviceName" value="GIGE1.STAT_NDPluginBase" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="c2cam_ndFile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="deviceName" value="GIGE1.TIFF_NDFile" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="deviceName" value="GIGE1.TIFF_NDPluginBase" />
+			</bean>
+		</property>
+
+		<property name="initialAutoSave" value="Not hooked up to anything!" /> <!-- currently yes -->
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" /> <!-- currently true -->
+		<property name="initialWriteMode" value="0" /> <!-- Single(current), Capture, Stream, -->
+		<property name="initialNumCapture" value="1" /> <!-- current = 1 -->
+		<property name="initialFileName" value="c2cam" />
+		<property name="initialFileTemplate" value="%s%s%d.tif" />
+	</bean>
+
+	<bean id="c2cam_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+		<property name="deviceName" value="GIGE1.ROI_NDROI" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="deviceName" value="GIGE1.ROI_NDPluginBase" />
+			</bean>
+		</property>
+		<property name="initialBinX" value="0" />
+		<property name="initialBinY" value="0" />
+		<property name="initialMinX" value="0" />
+		<property name="initialMinY" value="0" />
+		<property name="initialSizeX" value="487" />
+		<property name="initialSizeY" value="195" />
+	</bean>
+
+	<bean id="c2cam_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="deviceName" value="GIGE1.PROC_NDProcess" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="deviceName" value="GIGE1.PROC_NDPluginBase" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="c2cam_ffmpeg" class="gda.device.detector.areadetector.v17.impl.FfmpegStreamImpl">
+		<property name="deviceName" value="GIGE1.MJPG_ffmpegStream" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="deviceName" value="GIGE1.MJPG_NDPluginBase" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="c2cam_overlay" class="gda.device.detector.areadetector.v17.impl.NDOverlayImpl">
+		<property name="deviceName" value="GIGE1.OVER_NDOverlay" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="deviceName" value="GIGE1.OVER_NDPluginBase" />
+			</bean>
+		</property>
+	</bean>
 
 
-    <bean id="c2cam_adplugins" class="gda.device.FindableObjectHolder">
-        <property name="map">
-            <util:map>
-                <entry key="c2cam_adbase"  value-ref="c2cam_adbase"/>
-                <entry key="c2cam_ndArray" value-ref="c2cam_ndArray"/>
-                <entry key="c2cam_roi"     value-ref="c2cam_roi"/>
-                <entry key="c2cam_proc"    value-ref="c2cam_proc"/>
-                <entry key="c2cam_ffmpeg"  value-ref="c2cam_ffmpeg"/>
-                <entry key="c2cam_overlay" value-ref="c2cam_overlay"/>
-            </util:map>
-        </property>
-    </bean>
+	<bean id="c2cam_adplugins" class="gda.device.FindableObjectHolder">
+		<property name="map">
+			<util:map>
+				<entry key="c2cam_adbase" value-ref="c2cam_adbase" />
+				<entry key="c2cam_ndArray" value-ref="c2cam_ndArray" />
+				<entry key="c2cam_roi" value-ref="c2cam_roi" />
+				<entry key="c2cam_proc" value-ref="c2cam_proc" />
+				<entry key="c2cam_ffmpeg" value-ref="c2cam_ffmpeg" />
+				<entry key="c2cam_overlay" value-ref="c2cam_overlay" />
+			</util:map>
+		</property>
+	</bean>
 
-    <bean id="c2cam_ad" class="gda.device.detector.addetector.ADDetector">
-        <property name="adBase" ref="c2cam_adbase"/>
-        <property name="collectionStrategy">
-            <bean class="gda.device.detector.addetector.triggering.InternalTriggeredStandard">
-                <constructor-arg ref="c2cam_adbase" />
-                <constructor-arg value="0.05" />
-            </bean>
-        </property>
-        
-        <property name="ndFile"  ref="c2cam_ndFile"/>
-        <property name="ndArray" ref="c2cam_ndArray"/>
-        <property name="ndStats" ref="c2cam_ndStats"/>
+	<bean id="c2cam_ad" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="c2cam_adbase" />
+		<property name="collectionStrategy">
+			<bean class="gda.device.detector.addetector.triggering.InternalTriggeredStandard">
+				<constructor-arg ref="c2cam_adbase" />
+				<constructor-arg value="0.05" />
+			</bean>
+		</property>
 
-        <property name="readArray" value="true" />
-        <property name="createsOwnFiles" value="true" />
-        <property name="readFilepath" value="true" />
-        <property name="readAcquisitionTime" value="true" />
-        <property name="readAcquisitionPeriod" value="false" />
-        <property name="computeStats" value="false" />
-        <property name="computeCentroid" value="false" />
-    </bean>
-    
+		<property name="ndFile" ref="c2cam_ndFile" />
+		<property name="ndArray" ref="c2cam_ndArray" />
+		<property name="ndStats" ref="c2cam_ndStats" />
+
+		<property name="readArray" value="true" />
+		<property name="createsOwnFiles" value="true" />
+		<property name="readFilepath" value="true" />
+		<property name="readAcquisitionTime" value="true" />
+		<property name="readAcquisitionPeriod" value="false" />
+		<property name="computeStats" value="false" />
+		<property name="computeCentroid" value="false" />
+	</bean>
+
 </beans>
