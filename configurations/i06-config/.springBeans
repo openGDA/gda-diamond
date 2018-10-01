@@ -151,7 +151,6 @@
 				<config>servers/main/_common/scannables/userMotors.xml</config>
 				<config>servers/main/_common/scannables/valves.xml</config>
 				<config>/i06-shared/properties/_common/gdaProperties.xml</config>
-				<config>/i06-shared/servers/main/live/devices/epicsConfiguration.xml</config>
 			</configs>
 			<profiles>
 			</profiles>
