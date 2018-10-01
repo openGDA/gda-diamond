@@ -111,7 +111,6 @@
 				<config>/i06-shared/servers/main/_common/scannables/xbpm2.xml</config>
 				<config>/i06-shared/servers/main/_common/server.xml</config>
 				<config>/i06-shared/servers/main/live/devices/_all_devices.xml</config>
-				<config>/i06-shared/servers/main/live/devices/agilentADC.xml</config>
 				<config>/i06-shared/servers/main/live/devices/ca1.xml</config>
 				<config>/i06-shared/servers/main/live/devices/ca2.xml</config>
 				<config>/i06-shared/servers/main/live/devices/ca3.xml</config>

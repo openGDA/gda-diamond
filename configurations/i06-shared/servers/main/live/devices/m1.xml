@@ -1,103 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Collimation Mirror M1 Motors -->
 	<bean id="MotorX_M1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="M1.X" />
-		<property name="local" value="true"/>
-	</bean>
+		<property name="local" value="true" />
+	<property name="pvName" value="BL06I-OP-COLM-01:S:X" /></bean>
 
 	<bean id="MotorY_M1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="M1.Y" />
-		<property name="local" value="true"/>
-	</bean>
+		<property name="local" value="true" />
+	<property name="pvName" value="BL06I-OP-COLM-01:S:Y" /></bean>
 
 	<bean id="MotorZ_M1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="M1.Z" />
-		<property name="local" value="true"/>
-	</bean>
+		<property name="local" value="true" />
+	<property name="pvName" value="BL06I-OP-COLM-01:S:Z" /></bean>
 
 	<bean id="MotorYaw_M1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="M1.YAW" />
-		<property name="local" value="true"/>
-	</bean>
+		<property name="local" value="true" />
+	<property name="pvName" value="BL06I-OP-COLM-01:S:YAW" /></bean>
 
 	<bean id="MotorPitch_M1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="M1.PITCH" />
-		<property name="local" value="true"/>
-	</bean>
+		<property name="local" value="true" />
+	<property name="pvName" value="BL06I-OP-COLM-01:S:PITCH" /></bean>
 
 	<bean id="MotorRoll_M1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="M1.ROLL" />
-		<property name="local" value="true"/>
-	</bean>
+		<property name="local" value="true" />
+	<property name="pvName" value="BL06I-OP-COLM-01:S:ROLL" /></bean>
 
 	<bean id="MotorFinePitch_M1" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="M1.FPITCH" />
-		<property name="local" value="true"/>
-	</bean>
+		<property name="local" value="true" />
+	<property name="pvName" value="BL06I-OP-COLM-01:FPITCH" /></bean>
 	
 		<!-- M1 Hexapod Legs Control Point -->
 	<bean id="m1leg1" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="M1.LEG1" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
 			</array>
 		</property>
-	</bean>
+	<property name="pvName" value="BL06I-OP-COLM-01:MR1:EGUPS" /></bean>
 
 	<bean id="m1leg2" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="M1.LEG2" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
 			</array>
 		</property>
-	</bean>
+	<property name="pvName" value="BL06I-OP-COLM-01:MR2:EGUPS" /></bean>
 
 	<bean id="m1leg3" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="M1.LEG3" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array value-type="java.lang.String">
 				<value>%10.6f</value>
 			</array>
 		</property>
-	</bean>
+	<property name="pvName" value="BL06I-OP-COLM-01:MR3:EGUPS" /></bean>
 
 	<bean id="m1leg4" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="M1.LEG4" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
 			</array>
 		</property>
-	</bean>
+	<property name="pvName" value="BL06I-OP-COLM-01:MR4:EGUPS" /></bean>
 
 	<bean id="m1leg5" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="M1.LEG5" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
 			</array>
 		</property>
-	</bean>
+	<property name="pvName" value="BL06I-OP-COLM-01:MR5:EGUPS" /></bean>
 
 	<bean id="m1leg6" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceName" value="M1.LEG6" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
 			</array>
 		</property>
-	</bean>
+	<property name="pvName" value="BL06I-OP-COLM-01:MR6:EGUPS" /></bean>
 	
 </beans>

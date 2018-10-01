@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Front End Shutter 2 (Optics Shutter) -->
 	<bean id="shtr2" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="FE.SHTR2" />
-		<property name="local" value="true"/>
-	</bean>
+		<property name="local" value="true" />
+	<property name="pvBase" value="FE06I-PS-SHTR-02" /></bean>
 
 </beans>

@@ -6,12 +6,18 @@
 	<!--  ============= Current Amplifier Controller, BPM Controller and BPM definition section ============ -->
 	<!-- Current Amplifier CA1 Controller, BPM Controller and BPM -->
 	<bean id="qca1" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
-		<property name="deviceName" value="CA1"/>
+		<property name="current1Pv" value="BL06I-DI-IAMP-01:PHD1:I"/>
+		<property name="current2Pv" value="BL06I-DI-IAMP-01:PHD2:I"/>
+		<property name="current3Pv" value="BL06I-DI-IAMP-01:PHD3:I"/>
+		<property name="current2Pv" value="BL06I-DI-IAMP-01:PHD4:I"/>
+		<property name="rangePv" value="BL06I-DI-IAMP-01:RANGE_MENU"/>
+		<property name="rangeRbvPv" value="BL06I-DI-IAMP-01:MRREADBACK"/>
 		<property name="poll" value="true"/>
 		<property name="local" value="true"/>
 	</bean>
 	<bean id="bpm1" class="gda.device.monitor.EpicsBpmController">
-		<property name="deviceName" value="S2.BPM"/>
+		<property name="xposPvName" value="BL06I-AL-SLITS-02:XPOS"/>
+		<property name="yposPvName" value="BL06I-AL-SLITS-02:YPOS"/>
 		<property name="poll" value="true"/>
 		<property name="local" value="true"/>
 	</bean>
