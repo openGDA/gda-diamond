@@ -1,11 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Branch Line shutter -->
     <bean id="shtr1j" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-    	<property name="deviceName" value="SHTR3" />
-    </bean>
+    	<property name="pvBase" value="BL06J-PS-SHTR-01" /></bean>
 
 </beans>

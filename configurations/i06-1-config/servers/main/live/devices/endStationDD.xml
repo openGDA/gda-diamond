@@ -1,51 +1,45 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Dichorism and Diffraction Motors -->
 	<bean id="MotorTheta_DD" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-EA-USER-01:MTR4" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 	<bean id="Motor2Theta_DD" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-EA-DDIFF-01:DET:2THETA" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 	<bean id="MotorXSample_DD" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06J-EA-USER-01:MTR1"/>
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL06J-EA-USER-01:MTR1" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="MotorYSample_DD" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-EA-USER-01:MTR2" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 	<bean id="MotorZSample_DD" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06J-EA-USER-01:MTR3"/>
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL06J-EA-USER-01:MTR3" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="MotorYDetector_DD" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-EA-DDIFF-01:DET:Y" />
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 	</bean>
 	<bean id="MotorXTable_DD" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DDIFF.X" />
-		<property name="local" value="true"/>
-	</bean>
+		<property name="local" value="true" />
+	<property name="pvName" value="BL06I-EA-DDIFF-01:X" /></bean>
 	
 	<bean id="MotorXTrans_DD" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DDIFF.PINX" />
-		<property name="local" value="true"/>
-	</bean>
+		<property name="local" value="true" />
+	<property name="pvName" value="BL06I-EA-DDIFF-01:PINHOLE:X" /></bean>
 
 	<bean id="MotorYTrans_DD" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DDIFF.PINY" />
-		<property name="local" value="true"/>
-	</bean>
+		<property name="local" value="true" />
+	<property name="pvName" value="BL06I-EA-DDIFF-01:PINHOLE:Y" /></bean>
 
 	<bean id="MotorZTrans_DD" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DDIFF.PINZ" />
-		<property name="local" value="true"/>
-	</bean>
+		<property name="local" value="true" />
+	<property name="pvName" value="BL06I-EA-DDIFF-01:PINHOLE:Z" /></bean>
 
 </beans>
