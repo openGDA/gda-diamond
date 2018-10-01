@@ -50,7 +50,6 @@
 		<config>clients/main/dummy/client.xml</config>
 		<config>clients/main/live/Endstations-PCO-2000-cam.xml</config>
 		<config>clients/main/live/client_peem.xml</config>
-		<config>clients/main/dummy/client_demo.xml</config>
 		<config>servers/main/_common/scannables/pco.xml</config>
 		<config>servers/main/live/devices/pco.xml</config>
 		<config>clients/main/live/live_controls.xml</config>
