@@ -43,8 +43,6 @@ public class EarlyStartup implements IStartup {
 					// ensure the PIMTE Stream View has focus so the 'Region Editor' above is linked to this image
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(
 							"uk.ac.gda.beamline.i10.pimte.live.stream.view.LiveStreamViewWithHistogram", "pimte_cam#EPICS_ARRAY", IWorkbenchPage.VIEW_ACTIVATE);
-					// ensure PIXIS live stream view title is displyed at startup
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.gda.beamline.i10.pixis.live.stream.view.LiveStreamViewWithHistogram","pixis_cam#EPICS_ARRAY",IWorkbenchPage.VIEW_CREATE);
 					// make the dynamic toolbar items visible, not just inside drop-down menu.
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().resetPerspective();
 				} catch (PartInitException e) {
