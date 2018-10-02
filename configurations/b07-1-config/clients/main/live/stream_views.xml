@@ -9,7 +9,7 @@
 	<bean id="d1c_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="d1c_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D1C Cam 1" />
-		<property name="url" value="http://bl07c-di-serv-01.diamond.ac.uk:8081/D1C.DCAM1.mjpg.mjpg" />
+		<property name="url" value="http://bl07c-di-serv-01.diamond.ac.uk:8082/D1C.DCAM1.mjpg.mjpg" />
 		<property name="arrayPv" value="BL07C-DI-PHDGN-01:DCAM1:ARR" />
 		<property name="roiProvider" ref="d1c_cam1_roi" />
 	</bean>
@@ -18,7 +18,7 @@
 	<bean id="d1c_cam2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="d1c_cam2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D1C Cam 2" />
-		<property name="url" value="http://bl07c-di-serv-01.diamond.ac.uk:8081/D1C.DCAM0.mjpg.mjpg" />
+		<property name="url" value="http://bl07c-di-serv-01.diamond.ac.uk:8082/D1C.DCAM0.mjpg.mjpg" />
 		<property name="arrayPv" value="BL07C-DI-PHDGN-01:DCAM0:ARR" />
 		<property name="roiProvider" ref="d1c_cam2_roi" />
 	</bean>
@@ -99,7 +99,7 @@
 	<bean id="d21c_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="d21c_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D21C Cam 1" />
-		<property name="url" value="http://bl07c-di-serv-01.diamond.ac.uk:8081/D21C.DCAM1.mjpg.mjpg" />
+		<property name="url" value="http://bl07c-di-serv-01.diamond.ac.uk:8083/D21C.DCAM1.mjpg.mjpg" />
 		<property name="arrayPv" value="BL07C-DI-PHDGN-21:DCAM1:ARR" />
 		<property name="roiProvider" ref="d21c_cam1_roi" />
 	</bean>
@@ -108,7 +108,7 @@
 	<bean id="d22c_cam1_roi" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="d22c_cam1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D22C Cam 1" />
-		<property name="url" value="http://bl07c-di-serv-01.diamond.ac.uk:8081/D22C.DCAM1.mjpg.mjpg" />
+		<property name="url" value="http://bl07c-di-serv-01.diamond.ac.uk:8083/D22C.DCAM1.mjpg.mjpg" />
 		<property name="arrayPv" value="BL07C-DI-PHDGN-22:DCAM1:ARR" />
 		<property name="roiProvider" ref="d22c_cam1_roi" />
 	</bean>
