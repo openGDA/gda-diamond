@@ -27,6 +27,7 @@ import java.util.Set;
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.plotting.api.PlotType;
+import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.IDataset;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -39,6 +40,7 @@ import org.springframework.beans.factory.InitializingBean;
 import gda.analysis.io.MACLoader;
 import gda.device.detector.mythen.data.MythenMergedDataset;
 import gda.device.detector.mythen.data.MythenProcessedDataset;
+import gda.device.detector.mythen.data.MythenRawDataset;
 import gda.device.detectorfilemonitor.FileProcessor;
 import gda.factory.ConfigurableBase;
 import gda.factory.FactoryException;
@@ -114,10 +116,14 @@ public class DetectorFileDisplayer extends ConfigurableBase implements FileProce
 					MythenMergedDataset mergedDataset = new MythenMergedDataset(new File(filename));
 					xds = mergedDataset.getAngleDataSet();
 					yds = mergedDataset.getCountDataSet();
-				} else {
+				} else if (FilenameUtils.isExtension(filename, "dat")) {
 					MythenProcessedDataset mythenProcessedDataset = new MythenProcessedDataset(new File(filename));
 					xds = mythenProcessedDataset.getAngleDataset();
 					yds = mythenProcessedDataset.getCountDataset();
+				} else {
+					MythenRawDataset mythenProcessedDataset = new MythenRawDataset(new File(filename));
+					xds = DatasetFactory.createFromObject(mythenProcessedDataset.getChannelArray());
+					yds = DatasetFactory.createFromObject(mythenProcessedDataset.getCountArray());
 				}
 				xds.setName("delta");
 				yds.setName(name);
