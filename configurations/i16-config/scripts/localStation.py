@@ -1256,11 +1256,11 @@ if installation.isLive():
 try:
 	if not USE_DIFFCALC:
 		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo, source, jjslits, pa, pp,
-				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets, p2,
+				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
 				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
 	else:
 		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa,           source, jjslits, pa, pp,
-				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets, p2,
+				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
 				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
 
 	addedInSpring = [sixckappa] + [delta_axis_offset]
