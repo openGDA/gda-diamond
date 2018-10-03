@@ -49,7 +49,6 @@ public class XesScanFactory extends XasScanFactory {
 		xesScan.setSamplePreparer(samplePreparer);
 		xesScan.setOutputPreparer(outputPreparer);
 		xesScan.setLoggingScriptController(loggingScriptController);
-		xesScan.setDatawriterconfig(datawriterconfig);
 		xesScan.setMetashop(metashop);
 		xesScan.setIncludeSampleNameInNexusName(includeSampleNameInNexusName);
 		xesScan.setXesOffsets(xesOffsets);

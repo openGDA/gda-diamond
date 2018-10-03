@@ -43,7 +43,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import gda.configuration.properties.LocalProperties;
 import gda.data.metadata.NXMetaDataProvider;
-import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
@@ -91,7 +90,6 @@ public class XesScanTest {
 	private DetectorPreparer detectorPreparer;
 	private SampleEnvironmentPreparer samplePreparer;
 	private OutputPreparer outputPreparer;
-	private AsciiDataWriterConfiguration datawriterconfig;
 	private NXMetaDataProvider metashop;
 	private LoggingScriptController loggingScriptController;
 	private EnergyScan xasscan;
@@ -144,7 +142,6 @@ public class XesScanTest {
 		detectorPreparer = PowerMockito.mock(DetectorPreparer.class);
 		samplePreparer = PowerMockito.mock(SampleEnvironmentPreparer.class);
 		outputPreparer = PowerMockito.mock(OutputPreparer.class);
-		datawriterconfig = new AsciiDataWriterConfiguration();
 		metashop = new NXMetaDataProvider();
 		loggingScriptController = PowerMockito.mock(LoggingScriptController.class);
 
@@ -162,7 +159,6 @@ public class XesScanTest {
 		theFactory.setSamplePreparer(samplePreparer);
 		theFactory.setOutputPreparer(outputPreparer);
 		theFactory.setLoggingScriptController(loggingScriptController);
-		theFactory.setDatawriterconfig(datawriterconfig);
 		theFactory.setMetashop(metashop);
 		theFactory.setIncludeSampleNameInNexusName(true);
 		theFactory.setEnergyScannable(mono_energy);
@@ -222,7 +218,6 @@ public class XesScanTest {
 		xesScan.setSamplePreparer(samplePreparer);
 		xesScan.setOutputPreparer(outputPreparer);
 		xesScan.setLoggingScriptController(loggingScriptController);
-		xesScan.setDatawriterconfig(datawriterconfig);
 		xesScan.setMetashop(metashop);
 		xesScan.setIncludeSampleNameInNexusName(true);
 
