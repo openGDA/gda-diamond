@@ -5,8 +5,8 @@ from gda.device.scannable import PseudoDevice
 
 from time import sleep
 from javashell import shellexecute
+from org.slf4j import LoggerFactory
 import misc_functions
-
 
 class DisplayEpicsPVClass(PseudoDevice):
 	'''
@@ -14,6 +14,7 @@ class DisplayEpicsPVClass(PseudoDevice):
 	dev=DisplayEpicsPVClass(name, pvstring, unitstring, formatstring)
 	'''
 	def __init__(self, name, pvstring, unitstring, formatstring):
+		self.logger = LoggerFactory.getLogger("DisplayEpicsPVClass")
 		self.setName(name);
 		self.setInputNames([])
 		self.setExtraNames([name]);
