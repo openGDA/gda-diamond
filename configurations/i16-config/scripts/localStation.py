@@ -1308,6 +1308,7 @@ except NameError, e:
 	print "Error trying to setup the metadata, metadata will not be properly written to files. Namespace error was: ",str(e)
 	print "!*"*40
 	print "!*"*40
+	localStation_exception("trying to set up metadata", e)
 
 ###Default Scannables###
 default_scannable_list = [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]
