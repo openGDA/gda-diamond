@@ -76,6 +76,21 @@ class absoluteTimeClass(PseudoDevice):
 	def isBusy(self):
 		return 0
 
+class absoluteTimeClassTwo(PseudoDevice):
+	'''absoluteTimeClass - show absolute time in seconds'''
+	def __init__(self, name):
+		self.setName(name);
+		self.setInputNames([])
+		self.setExtraNames(['TimeFromEpoch']);
+#		self.Units=['sec']
+		self.setOutputFormat(['%.3f'])
+		self.setLevel(7)
+
+	def getPosition(self):
+		return time.time()
+
+	def isBusy(self):
+		return 0
 
 class showincrementaltimeClass(PseudoDevice):
 	'''showtimeClass - show time since initialization or atStart. Useful for timing scan points'''

@@ -163,7 +163,7 @@ from device_serial_ace import ace
 from device_tca import TCA
 from pd_epics import SingleEpicsPositionerSetAndGetOnlyClass
 from pd_readSingleValueFromVectorScannable import ReadSingleValueFromVectorPDClass
-from pd_time import tictoc, showtimeClass, mrwolfClass, showincrementaltimeClass, waittimeClass, TimeScannable, absoluteTimeClass
+from pd_time import tictoc, showtimeClass, mrwolfClass, showincrementaltimeClass, waittimeClass, TimeScannable, absoluteTimeClass, absoluteTimeClassTwo
 from pd_dummy import dummyClass
 from pd_foilinserter import Foilinserter
 from pd_attenuator import Atten
@@ -323,6 +323,7 @@ showtime=showtimeClass('Showtime')
 inctime=showincrementaltimeClass('inctime')
 waittime=waittimeClass('Waittime')
 atime=absoluteTimeClass('atime')
+atimetwo=absoluteTimeClassTwo('atimetwo')
 w=waittime	#abreviated name
 mrwolf=mrwolfClass('mrwolf')
 
@@ -1416,6 +1417,7 @@ xpsgather = ScannableXPSDataGatherer('xpsgather', pvroot='BL16I-CS-IOC-15:XPSG:'
 if installation.isLive():
 	add_default(meta)
 	add_default(atime)
+	add_default(atimetwo)	
 	add_default(ic1monitor)
 	add_default(rc)
 	add_default(waitforinjection)

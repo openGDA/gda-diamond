@@ -172,8 +172,8 @@ class PolarizationAnalyser(PseudoDevice):
 		wl = BLi.getWavelength()
 
 		self.thbragg = 180/pi*asin(wl/(2*self.dspace))		
-		newthp=self.thbragg+self.offset1()+newoffcry
-		newtthp=2*self.thbragg+newdetoff
+		newthp=self.thbragg*self.offset1()+newoffcry
+		newtthp=2*self.offset1()*self.thbragg+newdetoff
 		self.stokes.asynchronousMoveTo(newpol)
 		print "newtthp",newtthp
 		print "newdetoff",newdetoff
@@ -191,8 +191,8 @@ class PolarizationAnalyser(PseudoDevice):
 
 		wl = BLi.getWavelength()
 		self.thbragg = 180/pi*asin(wl/(2*self.dspace))
-		newthp=self.thbragg+self.offset1()+newoffcry
-		newtthp=2*self.thbragg+newdetoff
+		newthp=self.offset1()*self.thbragg+newoffcry
+		newtthp=2*self.offset1()*self.thbragg+newdetoff
 		print "stokes=%1.2f thp=%1.2f tthp=%1.2f detlatoff=%1.2f"%(newpol,newthp,newtthp,detlatoff)
 
 	def isBusy(self):
@@ -210,13 +210,15 @@ class PolarizationAnalyser(PseudoDevice):
 		"""
 		wl = BLi.getWavelength()
 		if abs(self.stokes()) <= .5:
-			xxx=180/pi*asin( wl/(2*self.dspace)) - (self.thp()-self.offset1())
+			#xxx=180/pi*asin( wl/(2*self.dspace)) - (self.thp()-self.offset1())
+			xxx=180/pi*asin( wl/(2*self.dspace)) - (self.thp())
 			self.offset2(-xxx)
 			yyy=self.tthp()-2*180/pi*asin(wl/(2*self.dspace))-self.offset5()
 			self.offset4(yyy)
 			self.offset9(self.dettrans())
 		elif abs(self.stokes()-90.) <= .5:
 			xxx=180/pi*asin( wl/(2*self.dspace)) - (self.thp()-self.offset1())
+			#xxx=180/pi*asin( wl/(2*self.dspace)) - (self.thp()-self.offset1())
 			self.offset3(-xxx)
 			yyy=self.tthp()-2*180/pi*asin(wl/(2*self.dspace))-self.offset5()
 			self.offset8(yyy)
