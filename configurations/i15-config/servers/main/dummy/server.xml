@@ -99,7 +99,8 @@
 	 -->
 	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
 
-	<corba:export namespace="${gda.factory.factoryName}" />
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 	<!-- SingletonRegistrationPostProcessor not needed in dummy
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
