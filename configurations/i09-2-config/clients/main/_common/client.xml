@@ -29,6 +29,7 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
+	<import resource="live_controls.xml" />
 
  	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
  		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
