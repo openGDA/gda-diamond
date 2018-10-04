@@ -102,6 +102,6 @@
 		</property>
 	</bean>
 
-	<corba:export namespace="i16server" />
-
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>

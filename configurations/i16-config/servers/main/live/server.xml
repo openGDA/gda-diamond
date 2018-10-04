@@ -133,9 +133,8 @@
 		</property>
 	</bean>
 
-	<corba:export namespace="i16server" />
-	
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-	
 
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>
