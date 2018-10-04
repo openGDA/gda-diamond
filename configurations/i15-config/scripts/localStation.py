@@ -618,6 +618,9 @@ try:
 		# New metadata system doesn't allow metadata scannables to be set
 		def stdmeta():
 			""" This function resets the metadata scannables to the standard list in localststion"""
+
+			logger = LoggerFactory.getLogger("stdmeta")
+
 			stdmetadatascannables = ('ringCurrent', 'wigglerField',
 				's1xpos', 's1xgap', 's1ypos', 's1ygap',
 				's1xplus', 's1xminus', 's1yplus', 's1yminus',
@@ -653,21 +656,26 @@ try:
 				'det2z',
 				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9',
 				'd1sum', 'd2sum', 'd3sum', 'd4sum', 'd5sum',
-				'cryox', 'cryoy', 'cryoz', 'cryorot'
+				'cryox', 'cryoy', 'cryoz', 'cryorot',
 				)
 			
 			before=set(metashop.getMetaScannables())
 			cant_find=[]
 			errors=[]
 			for scn_name in stdmetadatascannables:
-				try:
-					scn=finder.find(scn_name)
+				scn=finder.find(scn_name)
+				if not scn:
+					logger.debug("Unable to find {}, trying jythonNameMap", scn_name)
+					scn=jythonNameMap[scn_name]
+				if scn:
 					try:
 						scn.getPosition()
 						meta_add(scn)
 					except:
+						logger.error("Unable to add {}", scn_name, sys.exc_info()[1])
 						errors.append(scn_name)
-				except:
+				else:
+					logger.error("Unable to find {}", scn_name)
 					cant_find.append(scn_name)
 			after=set(metashop.getMetaScannables())
 			if (before-after):
@@ -676,9 +684,11 @@ try:
 				simpleLog("                                  added: " + " ".join(str(x.name) for x in after-before))
 			if (cant_find):
 				simpleLog("                             can't find: " + " ".join(x for x in cant_find))
+				localStation_exceptions.append("  finding scannables for metadata: " + " ".join(x for x in cant_find))
 			if (errors):
 				simpleLog("                               erroring: " + " ".join(x for x in errors))
 				localStation_exceptions.append("    adding scannables to metadata: " + " ".join(x for x in errors))
+				localStation_exceptions.append("     Try running `stdmeta` again now that localstation has finished")
 			if (after):
 				simpleLog("                                current: " + " ".join(str(x.name) for x in after))
 
