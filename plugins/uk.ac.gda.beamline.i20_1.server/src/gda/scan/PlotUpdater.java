@@ -132,9 +132,22 @@ public class PlotUpdater {
 		final List<String> scnNames = scanDataPoint.getScannableNames();
 		final List<Object> scnPositions = scanDataPoint.getScannablePositions();
 		for(int i=0; i<scnNames.size(); i++) {
-			DoubleDataset dataset = DatasetFactory.createFromObject(DoubleDataset.class, scnPositions.get(i));
-			dataset.setName(scnNames.get(i));
-			dataSets.put(scnNames.get(i), dataset);
+			String[] inputNames = scanDataPoint.getScannable(scnNames.get(i)).getInputNames();
+
+			if (inputNames.length == 1) {
+				// Position of scannable has one value
+				DoubleDataset dataset = DatasetFactory.createFromObject(DoubleDataset.class, scnPositions.get(i), 1);
+				dataset.setName(scnNames.get(i));
+				dataSets.put(dataset.getName(), dataset);
+			} else {
+				// Position of scannable is an array, loop over inputnames add each value
+				Object[] positions = (Object[]) scnPositions.get(i);
+				for(int j=0; j<inputNames.length; j++) {
+					DoubleDataset dataset = DatasetFactory.createFromObject(DoubleDataset.class, positions[j], 1);
+					dataset.setName(inputNames[j]);
+					dataSets.put(dataset.getName(), dataset);
+				}
+			}
 		}
 	}
 

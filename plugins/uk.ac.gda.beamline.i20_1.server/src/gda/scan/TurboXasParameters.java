@@ -53,6 +53,7 @@ import gda.device.scannable.ContinuouslyScannable;
 import gda.device.scannable.PVScannable;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
+import gda.jython.InterfaceProvider;
 
 
 /**
@@ -114,6 +115,9 @@ public class TurboXasParameters {
 
 	/** Scannables to be monitored during scan : key = name of scannable, value = PV with value to record (optional) */
 	private LinkedHashMap<String, String> scannablesToMonitorDuringScan;
+
+	/** Names of any extra scannables that should be added to TurboXasScan object */
+	private List<String> extraScannables;
 
 	private boolean writeAsciiData;
 
@@ -286,6 +290,14 @@ public class TurboXasParameters {
 		this.detectors = detectors;
 	}
 
+	public void setExtraScannables(List<String> extraScannables) {
+		this.extraScannables = new ArrayList<>(extraScannables);
+	}
+
+	public List<String> getExtraScannables() {
+		return extraScannables;
+	}
+
 	public boolean getUseTrajectoryScan() {
 		return useTrajectoryScan;
 	}
@@ -325,8 +337,13 @@ public class TurboXasParameters {
 	}
 
 	public void setScannablesToMonitorDuringScan(Map<String, String> scannablesToMonitorDuringScan) {
-		this.scannablesToMonitorDuringScan = new LinkedHashMap<>();
-		this.scannablesToMonitorDuringScan.putAll(scannablesToMonitorDuringScan);
+		if (scannablesToMonitorDuringScan!=null && !scannablesToMonitorDuringScan.isEmpty()) {
+			this.scannablesToMonitorDuringScan = new LinkedHashMap<>();
+			this.scannablesToMonitorDuringScan.putAll(scannablesToMonitorDuringScan);
+		} else {
+			//set to null if empty, so field does not appear in serialized xml string and cause problems with de-serialization
+			this.scannablesToMonitorDuringScan = null;
+		}
 	}
 
 	public boolean getWriteAsciiData() {
@@ -474,6 +491,7 @@ public class TurboXasParameters {
 
 		} catch ( IOException e ) {
 			logger.error("Problem loading xml data from file {}", filePath, e);
+			InterfaceProvider.getTerminalPrinter().print("Problem loading data from file "+filePath+" : "+e.getMessage());
 		}
 
 		return null;
@@ -531,6 +549,27 @@ public class TurboXasParameters {
 	}
 
 	/**
+	 * Create list of scannable objects using the Finder.
+	 * @param scannableNames names of scannables to look for
+	 * @return
+	 */
+	private List<Scannable> findScannableObjects(List<String> scannableNames) {
+		final List<Scannable> scannableList = new ArrayList<>();
+		if (scannableNames != null) {
+			scannableNames.forEach(name -> {
+				Scannable scn = Finder.getInstance().findLocalNoWarn(name);
+				if (scn != null) {
+					scannableList.add(scn);
+					logger.debug("Adding scannable {}", scn.getName());
+				} else {
+					logger.warn("Unable to find scannable called {} on server", name);
+				}
+			});
+		}
+		return scannableList;
+	}
+
+	/**
 	 * Create a {@link TurboXasScan} object from the current set of scan parameters.
 	 * It attempts to get scannables to be used from {@link #motorToMove} and {@link #detectors} strings
 	 * using the {@link Finder}. It also attempts to validate the positions and speeds to be used
@@ -571,6 +610,7 @@ public class TurboXasParameters {
 
 		TurboXasScan scan = new TurboXasScan(motor, motorParams, bufDetectors);
 		scan.setScannablesToMonitor(getScannablesToMonitor());
+		scan.getAllScannables().addAll(findScannableObjects(extraScannables));
 		scan.setWriteAsciiDataAfterScan(writeAsciiData);
 		return scan;
 	}

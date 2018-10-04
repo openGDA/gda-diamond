@@ -20,6 +20,7 @@ package gda.scan;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,9 +32,12 @@ import org.eclipse.january.dataset.IDataset;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
+import gda.data.metadata.NXMetaDataProvider;
 import gda.device.DeviceException;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.DummyDAServer;
@@ -49,12 +53,15 @@ import gda.factory.Factory;
 import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.scan.ede.datawriters.AsciiWriterTest;
+import uk.ac.gda.beans.vortex.Xspress3Parameters;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
 import uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller;
+import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class TurboXasScanTest extends EdeTestBase {
 
+	private static final Logger logger = LoggerFactory.getLogger(TurboXasScanTest.class);
 	private DummyDAServer daserver;
 	private Etfg tfg;
 	private Scaler memory;
@@ -69,6 +76,9 @@ public class TurboXasScanTest extends EdeTestBase {
 
 	public static final String BUFFERED_XSPRESS3_NAME = "xspress3bufferedDetector";
 	public static final String[] BUFFERED_XSPRESS3_FIELDS = new String[] {"FF", TurboXasNexusTree.FF_SUM_IO_NAME };
+
+	private static final String XSPRESS3_METADATA_NAME = "Xspress3";
+	private static final String TURBOXAS_METADATA_NAME = "TurboXasParameters";
 
 	@AfterClass
 	public static void tearDownClass() {
@@ -290,7 +300,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		while (runScanThread.isAlive()) {
 			Thread.sleep(500);
 			pointCount = scan.getCurrentPointCount();
-			System.out.println("Waiting for scan to complete, current point = " + pointCount);
+			logger.info("Waiting for scan to complete, current point = {}", pointCount);
 			if (pointCount > 5) {
 				turboXasScannable.setThrowException(true);
 			}
@@ -320,6 +330,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		String nexusFilename = scan.getDataWriter().getCurrentFileName();
 		checkScalerNexusData(nexusFilename, numSpectra, numPointsPerSpectrum);
 		checkDetectorNexusData(nexusFilename, xspress3bufferedDetector.getName(), numSpectra, numPointsPerSpectrum);
+		checkMetaData(nexusFilename, parameters);
 	}
 
 	@Test
@@ -360,6 +371,7 @@ public class TurboXasScanTest extends EdeTestBase {
 
 		// Check data for the scannable being monitored is present and has correct dimensions (1 value per spectrum)
 		assertDimensions(nexusFilename, bufferedScaler.getName(), testMotor.getName(), new int[]{numSpectra});
+		checkMetaData(nexusFilename, parameters);
 	}
 
 	/**
@@ -455,5 +467,55 @@ public class TurboXasScanTest extends EdeTestBase {
 			assertDimensions(filename, groupName, TurboXasNexusTree.SPECTRUM_INDEX, new int[] {numSpectra});
 			assertDimensions(filename, groupName, TurboXasNexusTree.TIME_COLUMN_NAME, new int[] {numSpectra});
 		}
+	}
+
+	@Test
+	public void checkMetaDataAddedRemovedFromMetaShop() throws Exception {
+		setup(TurboXasScan.class, "checkMetaDataAddedRemovedFromMetaShop");
+
+		TurboXasParameters parameters = getTurboXasParameters();
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 10));
+
+		TurboXasScan scan = parameters.createScan();
+
+		// At scan start should add turboxas and xspress parameter metadata to metashop
+		NXMetaDataProvider metaShop = Finder.getInstance().find("metaShop");
+		scan.callScannablesAtScanStart();
+		assertEquals(TURBOXAS_METADATA_NAME+" in metashop does not match expected value", parameters.toXML(), metaShop.get(TURBOXAS_METADATA_NAME));
+		assertEquals(XSPRESS3_METADATA_NAME+" parameters in metashop does not match expected value", getXspress3ConfigParmeters(), metaShop.get(XSPRESS3_METADATA_NAME));
+
+
+		// At scan end should remove the metadata from metashop
+		scan.callScannablesAtScanEnd();
+		assertNull(TURBOXAS_METADATA_NAME+" parameters not removed from metashop", metaShop.get(TURBOXAS_METADATA_NAME));
+		assertNull(XSPRESS3_METADATA_NAME+" parameters not removed from metashop", metaShop.get(XSPRESS3_METADATA_NAME));
+	}
+
+	/**
+	 * Check metadata added to before_scan section of Nexus file is correct.
+	 * i.e. TurboXasParameter and Xspress3 parameter XML strings match expected values.
+	 * @param filename
+	 * @param parameters
+	 * @throws Exception
+	 */
+	private void checkMetaData(String filename, TurboXasParameters parameters) throws Exception {
+		// check the TurboXas parameters
+		IDataset metadata = getDataset(filename, "before_scan", TURBOXAS_METADATA_NAME);
+		assertNotNull(metadata);
+		assertEquals(TURBOXAS_METADATA_NAME+" metadata does not match expected value", parameters.toXML(), metadata.getString(0));
+		logger.info("{} metadata is ok", TURBOXAS_METADATA_NAME);
+
+		// Check xspress3 parameters if that detector was included in the scan
+		String scanCommand = getDataset(filename, "", "scan_command").getString();
+		if (scanCommand.contains(xspress3bufferedDetector.getName())) {
+			metadata = getDataset(filename, "before_scan", XSPRESS3_METADATA_NAME);
+			assertNotNull(metadata);
+			assertEquals(XSPRESS3_METADATA_NAME+" parameter metadata does not match expected value", getXspress3ConfigParmeters(), metadata.getString(0));
+			logger.info("{} metadata is ok", XSPRESS3_METADATA_NAME);
+		}
+	}
+
+	private String getXspress3ConfigParmeters() throws Exception {
+		return XMLHelpers.toXMLString(Xspress3Parameters.mappingURL, xspress3bufferedDetector.getConfigurationParameters());
 	}
 }

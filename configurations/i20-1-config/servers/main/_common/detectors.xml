@@ -54,6 +54,11 @@
 		<property name="defaultSubdirectory" value="nexus" />
 	</bean>
 
+	<bean id="xspress3FFI0" class="gda.device.detector.TfgFFoverI0">
+		<property name="xspress" ref="xspress3" />
+		<property name="counterTimer" ref="scaler_for_zebra" />
+	</bean>
+
 	<bean id="buffered_xspress3"
 		class="uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector">
 		<property name="xspress3Detector" ref="xspress3" />

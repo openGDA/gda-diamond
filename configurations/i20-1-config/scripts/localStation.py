@@ -68,6 +68,13 @@ zebra_gatePulsePreparer=finder.find("zebra_gatePulsePreparer")
 zebra_device=finder.find("zebra_device")
 trajscan_preparer=finder.find("trajscan_preparer")
 
+#Copy encoder positions to zebra (in case any motors have been re-homed)
+print "Copying encoder motor positions to Zebra"
+zebra_device.encCopyMotorPosToZebra(1)
+zebra_device.encCopyMotorPosToZebra(2)
+zebra_device.encCopyMotorPosToZebra(3)
+zebra_device.encCopyMotorPosToZebra(4)
+
 print "Stopping tfg and setting it to use scaler64 collection mode"
 das4tfg.sendCommand("tfg stop")
 das4tfg.sendCommand("tfg setup-cc-mode scaler64");
@@ -90,25 +97,26 @@ xspress3Controller = finder.find("xspress3Controller")
 # xspress3 = finder.get("xspress3")
 
 swmrFrameFlush = 5
-if xspress3Controller != None and LocalProperties.isDummyModeEnabled() == False:
-    print "Setting up XSpress3 : "
-    print "  Trigger mode = 'TTL Veto Only'"
-    from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
-    xspress3Controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
-    #Set input array port on HDF5 plugin to point to arrayport of Detector. imh 7/8/2017
-    basePvName = xspress3Controller.getEpicsTemplate()
-    detPort = caget(basePvName+":PortName_RBV")
-    print "  HDF5 array port name = ", detPort
-    caput(basePvName+":HDF5:NDArrayPort", detPort)
-    
-    print "  HDF5 SWMR mode = On" 
-    caput(basePvName+":HDF5:SWMRMode", True) # Set SWMR mode on.
-    
-    print "  HDF5 SWMR : Flush on nth frame, NDAttribute flush = ", swmrFrameFlush
-    caput(basePvName+":HDF5:NumFramesFlush", swmrFrameFlush)
-    caput(basePvName+":HDF5:NDAttributeChunk", swmrFrameFlush)
-    
-    xspress3.setFilePath("")
+if LocalProperties.isDummyModeEnabled() == False :
+    if xspress3Controller != None and xspress3Controller.isConfigured() :
+        print "Setting up XSpress3 : "
+        print "  Trigger mode = 'TTL Veto Only'"
+        from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
+        xspress3Controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
+        #Set input array port on HDF5 plugin to point to arrayport of Detector. imh 7/8/2017
+        basePvName = xspress3Controller.getEpicsTemplate()
+        detPort = caget(basePvName+":PortName_RBV")
+        print "  HDF5 array port name = ", detPort
+        caput(basePvName+":HDF5:NDArrayPort", detPort)
+        
+        print "  HDF5 SWMR mode = On" 
+        caput(basePvName+":HDF5:SWMRMode", True) # Set SWMR mode on.
+        
+        print "  HDF5 SWMR : Flush on nth frame, NDAttribute flush = ", swmrFrameFlush
+        caput(basePvName+":HDF5:NumFramesFlush", swmrFrameFlush)
+        caput(basePvName+":HDF5:NDAttributeChunk", swmrFrameFlush)
+        
+        xspress3.setFilePath("")
     
     print "Adding continuous scan commands for alignment slit : \n\trun_slit_scan(start, stop, step, accumulation_time, num_accumulations)\n\tplot_last_data()"
     run('alignment_stage_scan5.py')
@@ -131,6 +139,15 @@ xstrip.setSynchroniseToBeamOrbit(True)
 
 # Make version of scalers with 'user friendly' name
 ionchambers = scaler_for_zebra
+
+# After restarting GDA servers. first call of 'BufferedScaler.clearMemory()' fails ("Ghist scaler_memory_zebra clear failed")
+# Do it here to prevent it from throwing exception during first scan..
+try :
+    print "Clearing scaler memory"
+    scaler_for_zebra.clearMemory()
+except :
+    pass
+
 
 # Add functions to control metadata added to Nexus files. 10/7/2018
 run 'gdascripts/metadata/metadata_commands.py'

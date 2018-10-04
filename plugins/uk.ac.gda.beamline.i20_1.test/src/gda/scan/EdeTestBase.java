@@ -43,6 +43,8 @@ import org.eclipse.january.dataset.IDataset;
 import org.eclipse.january.dataset.IndexIterator;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.TestHelpers;
 import gda.configuration.properties.LocalProperties;
@@ -56,6 +58,8 @@ import gda.factory.Factory;
 import gda.factory.Finder;
 
 public class EdeTestBase {
+
+	private static final Logger logger = LoggerFactory.getLogger(EdeTestBase.class);
 
 	public static ScannableMotor createMotor(String name) throws Exception {
 		return createMotor(name, 7000.0);
@@ -147,7 +151,7 @@ public class EdeTestBase {
 	public static void assertDimensions(String filename, String groupName, String dataName, int[] expectedDims) throws NexusException {
 		int[] shape = getDataset(filename, groupName, dataName).getShape();
 		assertArrayEquals(expectedDims,  shape);
-		System.out.println("Shape of "+groupName+"/"+dataName+" is ok");
+		logger.info("Shape of {}/{} is ok ", groupName, dataName);
 	}
 
 	public static GroupNode getGroupNode(String nexusFilename, String groupName) throws NexusException {
@@ -194,6 +198,7 @@ public class EdeTestBase {
 			String message = "Data value "+val+" not within valid range at index = "+iter.index+"\n"+rangeValidator.info();
 			assertTrue(message, rangeValidator.valueOk(val));
 		}
+		logger.info("Data in {}/{} is ok", groupName, dataName);
 	}
 
 	/**
@@ -213,6 +218,7 @@ public class EdeTestBase {
 			}
 			assertTrue(Math.abs(diff)<toleranceFrac);
 		}
+		logger.info("Datasets {} and {} match ok", expected.getName(), actual.getName());
 	}
 
 	public static List<String> getLinesInFile(String filename) throws IOException {
@@ -270,7 +276,6 @@ public class EdeTestBase {
 		LocalProperties.set("gda.scanbase.firstScanNumber", "-1");
 		LocalProperties.set(LocalProperties.GDA_DATA_SCAN_DATAWRITER_DATAFORMAT, "NexusDataWriter");
 		LocalProperties.set("gda.nexus.createSRS", "false");
-		LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "");
 		testDir = LocalProperties.getBaseDataDir();
 	}
 
