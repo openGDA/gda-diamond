@@ -29,6 +29,7 @@
 	<bean class="uk.ac.gda.client.ServerFileListener">
 		<property name="clientFileAnnouncerName" value="client_file_announcer" />
 	</bean>
+	<import resource="live_controls.xml"/>
 
 	<!-- Commented out by default as it requires bundles which currently live in gda-incubation -->
 	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
