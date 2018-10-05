@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <configuration  scan="true" scanPeriod="10 seconds" debug="true">
+	<!-- scan="true" allows this file to be modified live to change the logging configuration -->
+	<!-- debug="true" logs the logback configuration -->
 
-    <include file="${gda.config}/properties/_common/client_and_server_logging.xml"/>
+	<include file="${gda.config}/properties/_common/client_and_server_logging.xml"/>
 
-    <!-- Note that messages filtered here will not be seen by the log server at all, so will never end up in the log
-         file or on the panel no matter what levels are set to elsewhere. -->
+	<root>
+		<level value="ALL"/>
+		<appender-ref ref="logserver_async"/>
+		<!-- Should really log directly to Graylog here. -->
 
-    <root>
-        <level value="ALL"/>
-        <appender-ref ref="SOCKET"/>
-    </root>
+	</root>
 
-    <!-- Do not set level to ALL or TRACE on EpicsMotor or you will be flooded with messages
-     -->
-    <logger name="gda.device.motor.EpicsMotor">											<level value="DEBUG"/></logger>
+	<!-- Note that messages filtered here will not be seen by the log server at all, so will never end up in the log
+		 file or on the panel no matter what levels are set to elsewhere. -->
 
-    <!-- Do not set level to DEBUG or lower on MoveEventQueue or you will be flooded with messages
-     -->
-    <logger name="gda.device.motor.MoveEventQueue">										<level value="INFO"/></logger>
+	<!-- Classes for which INFO messages are excessive
+	 -->
 
-	<logger name="gda.factory">															<level value="INFO"/></logger>
-	<logger name="gda.device.detector.areadetector">									<level value="ALL"/></logger>
-	<logger name="gda.epics.connection.EpicsController">								<level value="INFO"/></logger>
+	<!-- Classes for which DEBUG messages are excessive
+	 -->
 	<logger name="gda.device.detector.mar345">											<level value="INFO"/></logger>
+	<logger name="gda.epics.connection.EpicsController">								<level value="INFO"/></logger>
+	<logger name="gda.factory">															<level value="INFO"/></logger>
+
+	<!-- Classes for which TRACE messages are excessive
+	 -->
 	<logger name="gda.device.zebra.ZebraConstantVelocityMoveController">				<level value="DEBUG"/></logger>
-	<logger name="gda.device.detector.odccd.collectionstrategy.ODCCDSingleExposure">	<level value="TRACE"/></logger>
-	<logger name="gda.device.detector.odccd.collectionstrategy.ODCCDOverflow">			<level value="TRACE"/></logger>
 	<logger name="gda.epics.LazyPVFactory">												<level value="DEBUG"/></logger>
 	<logger name="gda.observable.ObservableComponent">									<level value="DEBUG"/></logger>
-	<logger name="org.apache.activemq.ActiveMQSession">									<level value="DEBUG"/></logger>
-	<logger name="org.apache.activemq.transport.AbstractInactivityMonitor">				<level value="DEBUG"/></logger>
 	<logger name="uk.ac.diamond.daq.concurrent.Async">									<level value="DEBUG"/></logger>
 
+	<!-- Classes where we want all messages
+	 -->
 	<logger name="gda">																	<level value="ALL"/></logger>
+	<logger name="gda.device.detector.areadetector">									<level value="ALL"/></logger>
+	<logger name="gda.device.detector.odccd.collectionstrategy.ODCCDOverflow">			<level value="ALL"/></logger>
+	<logger name="gda.device.detector.odccd.collectionstrategy.ODCCDSingleExposure">	<level value="ALL"/></logger>
 </configuration>
