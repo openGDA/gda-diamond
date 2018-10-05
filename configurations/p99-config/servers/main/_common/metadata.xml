@@ -1,0 +1,61 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+		<property name="metadataEntries">
+			<list>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="instrument" />
+					<property name="propertyName" value="gda.instrument" />
+				</bean>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facility" />
+					<property name="propertyName" value="gda.facility" />
+				</bean>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facilityType" />
+					<property name="propertyName" value="gda.facilityType" />
+				</bean>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="userid" />
+					<property name="propertyName" value="user.name" />
+				</bean>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="federalid" />
+				</bean>
+				<bean id="subdirectory" class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="subdirectory" />
+					<property name="value" value="nexus" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="gda.data.scan.datawriter.NexusDataWriter.setLocationmap" />
+		<property name="arguments">
+			<map>
+				<entry key="ring_current">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/source:NXsource/current" />
+						<property name="units" value="mA" />
+					</bean>
+				</entry>
+				<entry key="ring_energy">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/source:NXsource/energy" />
+						<property name="units" value="GeV" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
+		<property name="name" value="metashop" />
+	</bean>
+
+</beans>

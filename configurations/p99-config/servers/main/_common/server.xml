@@ -1,61 +1,74 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/context
-	http://www.springframework.org/schema/context/spring-context.xsd
-	http://www.diamond.ac.uk/schema/gda/corba
-	http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-	http://www.diamond.ac.uk/schema/gda/gda
-	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd" >
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:property-placeholder/>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
+	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+
+	<!-- Command Server -->
+	<import resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
+
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
-	<!--  object to provide recording of metadata in Nexus files -->
-	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">
-		<property name="name" value="metashop"/>
-	</bean>
-
-	<!-- This can't be replaced with gda:rmi-export as it doesn't yet handle plain objects retrieved via SpEL -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ScanDataPointServer" />
-		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
-	</bean>
-
-
-	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+	<!-- =========================================================== -->
+	<!-- 	mode specific files -->
+	<!-- =========================================================== -->
 	
-	<import resource="mapping_motors.xml"/>
-	<import resource="dummyMalcolmDetector.xml"/>
-	<import resource="mandelbrotDetector.xml"/>
-	<import resource="command_queue_processor.xml"/>
-	<import resource="jython_server_facade.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor2_addetector.xml" />
+	<!-- <import resource="file:${gda.config}/servers/main/${gda.mode}/devices/j08_stage.xml" /> -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/smaract_stage.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/laser.xml" />
 
-	<import resource="aop.xml"/>
-	<import resource="logging_script_controller.xml"/>
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/malcolm.xml" />
+
+	<!-- file registration -->
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+
+	<!-- =========================================================== -->
+	<!-- 	shared files -->
+	<!-- =========================================================== -->
 	
-	<import resource="beamSize.xml" />
-
-
-	<!-- To enable use of a simulated AD uncomment this import -->
-	<!-- <import resource="simulated_area_detector.xml"/> -->
-	<corba:export namespace="${gda.beamline.name}" />
-
+	<import resource="file:${gda.config}/servers/main/_common/detectors/andor2_addetector.xml" />
+	<!--  <import resource="file:${gda.config}/servers/main/_common/devices/j08_stage.xml" /> -->
+	<import resource="file:${gda.config}/servers/main/_common/devices/smaract_stage.xml" />
 	
-	<!--  
-	      IMPORTANT: this will start processing the scanning queue. 
-	      detectors must be created before doing this.
-	      ADVISED: do it last or towards the end, scan will now start to run!
-	 --> 
-	<import resource="solstice_scanning.xml"/> 
+	<import resource="file:${gda.config}/servers/main/_common/beam_dimensions.xml" />
+
+	<import resource="file:${gda.config}/servers/main/_common/detectors/malcolm.xml" />
+
+	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
+
+	<!-- file registration -->
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/data_writer.xml" />
+
+	<!-- Dummies -->
+	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
+
+	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+	<!--
+		Mapping scans
+		IMPORTANT: this will start processing the scanning queue.
+		Detectors must be created before doing this.
+		ADVISED: do it last or towards the end, scan will now start to run!
+	 -->
+	<import resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
+
+	<!-- Initialise Jython late on, as localStation refers to beans -->
+	<import resource="jythonServerFacade.xml" />
+
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 </beans>
