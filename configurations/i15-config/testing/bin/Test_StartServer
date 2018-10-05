@@ -1,8 +1,0 @@
-#!/bin/sh
-#
-
-. /dls/i06/software/gda-test/config/testing/bin/test_profile.sh
-
-#StartUp
-java -cp ${FITNESSE_HOME}/fitnesse.jar fitnesse.FitNesse -p ${TEST_PORT} -d ${GDA_CONFIG}/testing -r DiamondFitnesse -l ${GDA_USERS}/logs -e 365 &
-
