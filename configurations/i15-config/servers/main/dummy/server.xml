@@ -84,11 +84,6 @@
 		<property name="dummyMode" value="true"/>
 	</bean>
 
-	<!-- id="prop" not available in dummy -->	
-
-	<!-- id="ODCCD" not available in dummy -->	
-	<!-- id="Mar345Detector" not available in dummy -->	
-
 	<!--  
 	      IMPORTANT: this will start processing the scanning queue. 
 	      detectors must be created before doing this.
