@@ -23,7 +23,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.ede.CalibrationDetails;
 import org.dawnsci.ede.DataFileHelper;
 import org.dawnsci.ede.EdeDataConstants;
@@ -63,6 +62,8 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	private Roi[] rois=new Roi[EdeDetector.INITIAL_NO_OF_ROIS];
 
 	private DetectorSetupType detectorSetupType = DetectorSetupType.NOT_SET;
+
+	private boolean checkForExcludedStrips;
 
 	@Override
 	public void configure() throws FactoryException {
@@ -139,8 +140,8 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		return groupData;
 	}
 
-	protected NXDetectorData createNXDetectorData(int[] elements) {
-		double[] correctedData = performCorrections(elements, false)[0];
+	private NXDetectorData createNXDetectorData(int[] elements) {
+		double[] correctedData = performCorrections(elements)[0];
 		NXDetectorData thisFrame = new NXDetectorData(this);
 		double[] energies = this.getEnergyForChannels();
 
@@ -171,24 +172,41 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		return thisFrame;
 	}
 
-	protected double[][] performCorrections(int[] rawData, boolean checkForExcludedStrips) {
-		int frameCount = rawData.length / getMaxPixel();
-		double[][] out = new double[frameCount][getMaxPixel()];
+	/**
+	 * Set counts for excluded detector channels to zero.
+	 * i.e. any pixel index returned by {@link #getExcludedPixels()},
+	 * or any pixel outside of lower and upper channel.
+	 * @param pixelData
+	 */
+	private void removeExcludedStrips(double[] pixelData) {
+		final int maxPixel = getMaxPixel();
+		// Set 'dead pixels' to zero
+		for(Integer deadPixelIndex : getExcludedPixels() ) {
+			if (deadPixelIndex>0 && deadPixelIndex<maxPixel) {
+				pixelData[deadPixelIndex] = 0.0;
+			}
+		}
+		// Set pixels outside of ROI range to zero
+		if (currentScanParameter!=null && !currentScanParameter.getIncludeCountsOutsideROIs() ) {
+			for(int i=0; i<getLowerChannel(); i++) {
+				pixelData[i] = 0.0;
+			}
+			for(int i=getUpperChannel()+1; i<maxPixel; i++) {
+				pixelData[i] = 0.0;
+			}
+		}
+	}
+
+	private double[][] performCorrections(int[] rawData) {
+		final int maxPixel = getMaxPixel();
+		int frameCount = rawData.length / maxPixel;
+		double[][] out = new double[frameCount][maxPixel];
 		for (int frame = 0; frame < frameCount; frame++) {
-			for (int stripIndex = 0; stripIndex < getMaxPixel(); stripIndex++) {
-				if (checkForExcludedStrips) {
-					// simply set excluded strips to be zero
-					if (ArrayUtils.contains(getExcludedPixels(), stripIndex)) {
-						out[frame][stripIndex] = 0.0;
-					} else if (currentScanParameter!=null && !currentScanParameter.getIncludeCountsOutsideROIs()
-							&& (stripIndex < getLowerChannel() || stripIndex > getUpperChannel())) {
-						out[frame][stripIndex] = 0.0;
-					} else {
-						out[frame][stripIndex] = rawData[(frame * getMaxPixel()) + stripIndex];
-					}
-				} else {
-					out[frame][stripIndex] = rawData[(frame * getMaxPixel()) + stripIndex];
-				}
+			for (int stripIndex = 0; stripIndex < maxPixel; stripIndex++) {
+				out[frame][stripIndex] = rawData[(frame * maxPixel) + stripIndex];
+			}
+			if (checkForExcludedStrips) {
+				removeExcludedStrips(out[frame]);
 			}
 		}
 		return out;
@@ -300,7 +318,6 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	 */
 	@Override
 	public NexusTreeProvider readout() throws DeviceException {
-		// TODO read data from detector
 		return readFrames(1,1)[0];
 	}
 
@@ -446,11 +463,17 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		setNumberRois(getNumberOfRois());
 	}
 
+	/**
+	 * Return array of 'dead pixel' locations.
+	 */
 	@Override
 	public Integer[] getExcludedPixels() {
 		return excludedPixels;
 	}
 
+	/**
+	 * Set array of dead pixel locations
+	 */
 	@Override
 	public void setExcludedPixels(Integer[] excludedPixels) {
 		this.excludedPixels = excludedPixels;
@@ -494,4 +517,21 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 		return detectorSetupType;
 	}
 
+	/**
+	 * @return true if excluded pixels are set to zero in the detector data.
+	 */
+	public boolean isCheckForExcludedStrips() {
+		return checkForExcludedStrips;
+	}
+
+	/**
+	 * If set to true, detector data will have counts for 'excluded' pixels set to zero.
+	 * Excluded pixels are those defined by {@link #setExcludedPixels(Integer[])} or outside of lower and upper channels.<p>
+	 * Note that pixels outside of ROI range are only excluded if {@link #currentScanParameter}.getIncludeCountsOutsideROIs()
+	 * also returns true.
+	 * @param checkForExcludedStrips
+	 */
+	public void setCheckForExcludedStrips(boolean checkForExcludedStrips) {
+		this.checkForExcludedStrips = checkForExcludedStrips;
+	}
 }
