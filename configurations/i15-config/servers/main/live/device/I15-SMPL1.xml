@@ -30,10 +30,4 @@
 	<bean id="Dr1muMotor" class="gda.device.motor.EpicsMotor">
 		<property name="deviceName" value="DIFF.MU" />
 	</bean>
-
-	<!-- 
-	<bean id="DVMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.V" />
-	</bean>
-	 -->
 </beans>
