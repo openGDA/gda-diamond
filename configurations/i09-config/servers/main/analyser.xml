@@ -137,9 +137,6 @@
 		<property name="initialAlwaysOn" value="0" />
 	</bean>
 
-	<bean id="analyserCapability"
-		class="org.opengda.detector.electronanalyser.server.AnalyserCapabilities" />
-
 	<bean id="analysercontroller" class="uk.ac.gda.devices.vgscienta.VGScientaController">
 		<property name="basePVName" value="BL09I-EA-DET-01:CAM:" />
 	</bean>
@@ -152,7 +149,6 @@
 	<bean id="analyser"
 		class="org.opengda.detector.electronanalyser.server.VGScientaAnalyser">
 		<property name="controller" ref="analysercontroller" />
-		<property name="capabilities" ref="analyserCapability" />
 		<property name="adBase" ref="analyser.cam" />
 		<property name="ndProc" ref="analyser.proc" />
 		<property name="ndArray" ref="analyser.arr" />
