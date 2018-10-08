@@ -20,16 +20,16 @@ package uk.ac.gda.server.exafs.scan.iterators;
 
 import java.util.List;
 
-import uk.ac.gda.beans.exafs.ISampleParameters;
+import uk.ac.gda.beans.exafs.ISampleParametersWithMotorPositions;
+import uk.ac.gda.server.exafs.scan.SampleParameterMotorMover;
 
 public class I20SingleSampleIterator implements SampleEnvironmentIterator {
 
-	private ISampleParameters sampleBean;
+	private ISampleParametersWithMotorPositions sampleBean;
 
-	public I20SingleSampleIterator(ISampleParameters sampleBean) {
+	public I20SingleSampleIterator(ISampleParametersWithMotorPositions sampleBean) {
 		this.sampleBean = sampleBean;
 	}
-
 
 	@Override
 	public int getNumberOfRepeats() {
@@ -38,7 +38,7 @@ public class I20SingleSampleIterator implements SampleEnvironmentIterator {
 
 	@Override
 	public void next() {
-		//
+		SampleParameterMotorMover.moveMotors(sampleBean.getSampleParameterMotorPositions());
 	}
 
 	@Override

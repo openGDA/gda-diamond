@@ -74,4 +74,52 @@
 		<deviceName>custom</deviceName>
 		<value>0.0</value>
 	</custom>
+    <sampleParameterMotorPosition>
+        <scannableName>sample_x</scannableName>
+        <description>Sample X</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sample_y</scannableName>
+        <description>Sample Y</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sample_z</scannableName>
+        <description>Sample Z</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sample_pitch</scannableName>
+        <description>Sample Pitch</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sample_roll</scannableName>
+        <description>Sample Roll</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sample_rot</scannableName>
+        <description>Sample Rotation</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>sample_fine_rot</scannableName>
+        <description>Sample Fine Rotation</description>
+        <doMove>false</doMove>
+        <demandPosition>0.0</demandPosition>
+    </sampleParameterMotorPosition>
+    <sampleParameterMotorPosition>
+        <scannableName>cryostat</scannableName>
+        <description>Lakeshore cryostat temperature</description>
+        <doMove>false</doMove>
+        <demandPosition>1200.0</demandPosition>
+    </sampleParameterMotorPosition>
 </I20SampleParameters>

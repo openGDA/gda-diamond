@@ -65,6 +65,7 @@ import gda.observable.IObserver;
 import uk.ac.gda.beans.exafs.i20.CryostatParameters;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
 import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
+import uk.ac.gda.exafs.ui.SampleParameterMotorPositionsComposite;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
 import uk.ac.gda.richbeans.editors.DirtyContainer;
 import uk.ac.gda.richbeans.editors.RichBeanEditorPart;
@@ -90,6 +91,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 	private Group sampleDetails;
 	private GridData sampleDetailsGridData;
 	ExpandableComposite sampleEnvExpander;
+	private SampleParameterMotorPositionsComposite motorPositionComposite;
 
 	public I20SampleParametersUIEditor(String path, URL mappingURL, DirtyContainer dirtyContainer, Object bean) {
 		super(path, mappingURL, dirtyContainer, bean);
@@ -116,6 +118,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		gridLayout.numColumns = 1;
 		composite.setLayout(gridLayout);
 		createSampleDetailsGroup(composite);
+		createMotorComposite(composite);
 		createSampleCombo(composite);
 		createSampleEnvironmentGroup(composite);
 		if (!ScanObjectManager.isXESOnlyMode())
@@ -123,6 +126,18 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		scrolledComposite.setContent(mainComp);
 		mainComp.layout();
 		scrolledComposite.setMinSize(mainComp.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+	}
+
+	private void createMotorComposite(final Composite parent) {
+
+		Group group = new Group(parent, SWT.NONE);
+		group.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		group.setLayout(new GridLayout(1, false));
+		group.setText("Motor parameters");
+
+		motorPositionComposite = new SampleParameterMotorPositionsComposite(group, bean.getSampleParameterMotorPositions());
+		motorPositionComposite.setParentEditor(this);
+		motorPositionComposite.makeComposite();
 	}
 
 	private void createSampleWheelGroup(final Composite composite) {
@@ -437,8 +452,7 @@ public class I20SampleParametersUIEditor extends RichBeanEditorPart {
 		return useSampleWheel;
 	}
 
-	public String _testGetElementName() {
-		return sampleWheelPosition.getItem(sampleWheelPosition.getSelectionIndex());
+	public SampleParameterMotorPositionsComposite getSampleParameterMotorPositions() {
+		return motorPositionComposite;
 	}
-
 }
