@@ -17,6 +17,7 @@
         <cs:dependency name="uk.ac.gda.beamline.i06_1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i07.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i08.site" componentType="eclipse.feature"/>
+        <cs:dependency name="uk.ac.gda.beamline.i08-1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i09.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i09-1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i09-2.site" componentType="eclipse.feature"/>
@@ -27,8 +28,8 @@
         <cs:dependency name="uk.ac.gda.beamline.i13.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i13-1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i14.site" componentType="eclipse.feature"/>
-        <cs:dependency name="uk.ac.gda.beamline.i15-1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i15.site" componentType="eclipse.feature"/>
+        <cs:dependency name="uk.ac.gda.beamline.i15-1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i16.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i18.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i20.site" componentType="eclipse.feature"/>
