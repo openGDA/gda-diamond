@@ -5,6 +5,6 @@
 
 	<!-- Fast Mask -->
 	<bean id="fmfabsb" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="FM.FABSB" />
+		<property name="pvBase" value="BL15I-MP-FABSB-01" />
 	</bean>
 </beans>

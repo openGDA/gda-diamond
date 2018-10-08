@@ -4,13 +4,13 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="FsxMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="FS.X" />
-		<property name="local" value="true"/>
-	</bean>	
+		<property name="pvName" value="BL15I-EA-SHTR-01:X" />
+		<property name="local" value="true" />
+	</bean>
 
 	<bean id="FsyMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="FS.Y" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-EA-SHTR-01:Y" />
+		<property name="local" value="true" />
 	</bean>	
 
 	<!-- This zero input scannable can be added to a scan to read back the actual shutter open time.

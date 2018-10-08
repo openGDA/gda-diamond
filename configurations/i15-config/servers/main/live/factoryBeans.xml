@@ -114,10 +114,9 @@
 		<property name="dummyMode" value="false"/>
 	</bean>
 
-	<!-- Proportional Counter -->	
-	<bean id="prop"
-			class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="PRCNT1.I" />
+	<!-- Proportional Counter -->
+	<bean id="prop" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15I-DI-PROP-01:I" />
 	</bean>
 
 	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">

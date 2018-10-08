@@ -4,7 +4,7 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="Eht2dtxMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="EHT2.DTX" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-MO-TABLE-03:DETECTOR2:Z" />
+		<property name="local" value="true" />
 	</bean>
 </beans>
