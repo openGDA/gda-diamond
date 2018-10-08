@@ -5,7 +5,7 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="etl1" class="gda.device.detector.etldetector.EpicsETLController">
-		<property name="deviceName" value="ETL1"/>
+		<property name="pvRoot" value="BL15I-EA-DET-01:M1:D0"/>
 		<property name="local" value="true"/>
 	</bean>
 
