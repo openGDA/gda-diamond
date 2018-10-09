@@ -45,12 +45,12 @@
 	<import resource="epics/monitor/sixc.xml" />
 
 	<bean id="ic1monitor_" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI4AV" />
+		<property name="pvName" value="BL16I-EA-USER-01:AI4AV" />
 		<property name="local" value="true" />
 		<property name="poll" value="false" />
 	</bean>
 	<bean id="ic1poll_" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI4AV" />
+		<property name="pvName" value="BL16I-EA-USER-01:AI4AV" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>

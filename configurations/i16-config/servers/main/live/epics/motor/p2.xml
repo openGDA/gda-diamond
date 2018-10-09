@@ -4,19 +4,19 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="p2y1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="P2TAB2.Y1" />
+		<property name="pvName" value="BL16I-MO-P2TAB-02:Y1" />
 	</bean>
 	<bean id="p2x1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="P2TAB2.X1" />
+		<property name="pvName" value="BL16I-MO-P2TAB-02:X1" />
 	</bean>
 	<bean id="p2ztopMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="P2TAB2.ZTOP" />
+		<property name="pvName" value="BL16I-MO-P2TAB-02:ZTOP" />
 	</bean>
 	<bean id="p2zbotMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="P2TAB2.ZBOT" />
+		<property name="pvName" value="BL16I-MO-P2TAB-02:ZBOT" />
 	</bean>
 	<bean id="p2rotMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="P2TAB2.ROT" />
+		<property name="pvName" value="BL16I-MO-P2TAB-02:ROT" />
 	</bean>
 
 </beans>

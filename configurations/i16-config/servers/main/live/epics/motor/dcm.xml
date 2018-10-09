@@ -4,35 +4,35 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="dcmBraggMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM:BRAGG" />
+		<property name="pvName" value="BL16I-OP-DCM-01:BRAGG" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="dcmPitchMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM:XTAL2:PITCH" />
+		<property name="pvName" value="BL16I-OP-DCM-01:XTAL2:PITCH" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="dcmRoll1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM:XTAL1:ROLL" />
+		<property name="pvName" value="BL16I-OP-DCM-01:XTAL1:ROLL" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="dcmRoll2Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM:XTAL2:ROLL" />
+		<property name="pvName" value="BL16I-OP-DCM-01:XTAL2:ROLL" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="dcmPerpMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM:XTAL2:YPRIME" />
+		<property name="pvName" value="BL16I-OP-DCM-01:XTAL2:YPRIME" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="dcmFinepitchMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM:XTAL2:FP" />
+		<property name="pvName" value="BL16I-OP-DCM-01:XTAL2:FPITCH" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="dcmFinerollMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM:XTAL2:FR" />
+		<property name="pvName" value="BL16I-OP-DCM-01:XTAL2:FROLL" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="dcmLatMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DCM:X" />
+		<property name="pvName" value="BL16I-OP-DCM-01:X" />
 		<property name="local" value="true" />
 	</bean>
 	

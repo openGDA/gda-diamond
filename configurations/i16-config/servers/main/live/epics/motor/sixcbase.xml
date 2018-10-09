@@ -4,19 +4,19 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
 	<bean id="DBh1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D.BH1" />
+		<property name="pvName" value="BL16I-MO-DIFF-01:BASE:Y1" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="DBh2Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D.BH2" />
+		<property name="pvName" value="BL16I-MO-DIFF-01:BASE:Y2" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="DBh3Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D.BH3" />
+		<property name="pvName" value="BL16I-MO-DIFF-01:BASE:Y3" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="DBtMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D.BT" />
+		<property name="pvName" value="BL16I-MO-DIFF-01:BASE:X" />
 		<property name="local" value="true" />
 	</bean>
 	
