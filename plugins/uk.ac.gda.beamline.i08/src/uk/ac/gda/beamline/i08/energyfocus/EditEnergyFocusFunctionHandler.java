@@ -37,8 +37,8 @@ import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
 import gda.data.PathConstructor;
-import gda.jython.ICommandRunner;
-import gda.jython.InterfaceProvider;
+import gda.factory.Finder;
+import gda.function.ILinearFunction;
 
 public class EditEnergyFocusFunctionHandler extends AbstractHandler {
 	private static final String ENERGY_FOCUS_FILE_NAME = "energyFocusFunction.json";
@@ -114,9 +114,13 @@ public class EditEnergyFocusFunctionHandler extends AbstractHandler {
 
 	// Update energy focus function in running server
 	private static void updateServer(final EnergyFocusConfig config) {
-		final ICommandRunner commandRunner = InterfaceProvider.getCommandRunner();
-		final String jythonCommand = String.format("setEnergyFocus('%s', '%s', '%s')",
-				config.getSlopeDividend(), config.getInterception(), config.getSlopeDivisor());
-		commandRunner.runCommand(jythonCommand);
+		final ILinearFunction energyFocusFunction = Finder.getInstance().find("energyFocusFunction");
+		if (energyFocusFunction != null) {
+			energyFocusFunction.setSlopeDividend(config.getSlopeDividend());
+			energyFocusFunction.setInterception(config.getInterception());
+			energyFocusFunction.setSlopeDivisor(config.getSlopeDivisor());
+		} else {
+			logger.error("Unable to set energyFocusFunction: object not found");
+		}
 	}
 }
