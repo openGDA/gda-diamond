@@ -6,7 +6,7 @@
 
 
 	<!-- Area detector camera -->
-	<bean id="eacam2" class="gda.spring.V17ADBaseFactoryBean">
+	<bean id="eacam2Base" class="gda.spring.V17ADBaseFactoryBean">
 		<property name="prefix" value="BL21I-DI-DCAM-11:CAM:" />
 	</bean>
 
@@ -19,7 +19,7 @@
 					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 						<property name="decoratee">
 							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-								<property name="adBase" ref="eacam2" />
+								<property name="adBase" ref="eacam2Base" />
 								<property name="restoreAcquireState" value="true"/>
 							</bean>
 						</property>

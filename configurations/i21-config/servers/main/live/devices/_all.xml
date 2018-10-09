@@ -48,7 +48,7 @@
 	<import resource="mbs.xml" />
 	<import resource="mbs_cam1.xml" />
 	<import resource="mbs_cam2.xml" />
-	<import resource="mbs_cam2.xml" />
+	<import resource="mbs_cam3.xml" />
 	
 	<!-- ID -->
 	<import resource="id.xml" />
