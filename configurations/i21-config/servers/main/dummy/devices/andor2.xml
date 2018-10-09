@@ -7,8 +7,6 @@
 	http://www.springframework.org/schema/util 
 	http://www.springframework.org/schema/util/spring-util.xsd"> 
 	
-	<bean id="SWMRSimhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
-
 <!-- Andor driver specific information for metadata -->
 	<bean id="andor2AccumulatePeriod" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="s"/>
