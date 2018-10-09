@@ -39,7 +39,7 @@ except Exception as e:
 global Finder, pos, finder, add_default, meta
 
 global sixckappa_cryo, cryophi
-global _sixckappa_deffered_only, delta_axis_offset
+global delta_axis_offset
 global azir, psi, psic, hkl
 global kbmbase, setDatadirPropertyFromPersistanceDatabase, pitchupClass
 global stokes,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
@@ -422,9 +422,6 @@ scan_processor.processors.append(Rcen())
 print "Creating diffractometer base scannable base_z"
 #base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
 base_z= DiffoBaseClass(basez1, basez2, basez3, [0.,0.,0.]) #jacks recal to zero in epics 8 keV direct beam 20/10/15
-
-if installation.isLive():
-	sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(_sixckappa_deffered_only)
 
 if USE_CRYO_GEOMETRY:
 	# u'phi', u'chi', u'eta', u'mu', u'delta', u'gam'
@@ -1342,8 +1339,6 @@ run('whynobeam')
 
 print "New minimirrors function - type help minimirrors"
 run('minimirrors')
-
-run("startup_trajscan")
 
 if USE_DIFFCALC == False:
 	print "run possiblehkl_new"

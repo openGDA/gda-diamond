@@ -46,7 +46,6 @@
 
 	<import resource="detector/vortex.xml" />
 	
-	<import resource="trajectory_scan_controller_xps2.xml" />
 	<bean id="script_paths" parent="common_script_paths_with_diffcalc_and_epics"/>
 	
 	<bean id="beamline_test_suite" class="gda.jython.ScriptProject">

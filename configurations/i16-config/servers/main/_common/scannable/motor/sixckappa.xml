@@ -73,8 +73,8 @@
 			</map>
 		</property>
 	</bean>
-	
-	<bean id="sixckappa" class="gda.device.scannable.scannablegroup.DeferredAndTrajectoryScannableGroup">
+
+	<bean id="sixckappa" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="kphi" />
@@ -88,20 +88,11 @@
 
 		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
 
-		<property name="deferredControlPoint" ref="xps2DeferFlag" />
-
-		<!-- 
-		<property name="numberToMoveControlPoint" ref="xps2numberAxesToMoveControlPoint" />
-
-		<property name="checkStartControlPoint" ref="xps2didDeferedMoveStartControlPoint" />
-		 -->
-
-		<property name="continuousMoveController" ref="xpsTrajController" />
+		<property name="deferredControlPoint" ref="deferFlag" />
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
 
 		<property name="deferOnValue" value="1" />
-
 	</bean>
 
 	<bean id="dummy_chi" class="gda.device.motor.DummyMotor" >
@@ -112,7 +103,7 @@
 		<property name="speed" value="360000000" />
 	</bean>
 
-	<bean id="euler_cryo" class="gda.device.scannable.scannablegroup.DeferredAndTrajectoryScannableGroup">
+	<bean id="euler_cryo" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<bean class="gda.device.scannable.ScannableMotor">
@@ -156,37 +147,11 @@
 
 		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
 
-		<property name="deferredControlPoint" ref="xps2DeferFlag" />
-
-		<property name="continuousMoveController" ref="xpsTrajController" />
+		<property name="deferredControlPoint" ref="deferFlag" />
 
 		<property name="logDefFlagChangesAsInfo" value="true" />
 
 		<property name="deferOnValue" value="1" />
 
 	</bean>
-	
-	
-	<bean id="_sixckappa_deffered_only" class="gda.device.scannable.scannablegroup.DeferredScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="kphi" />
-				<ref bean="kap" />
-				<ref bean="kth" />
-				<ref bean="kmu" />
-				<ref bean="kdelta" />
-				<ref bean="kgam" />
-			</list>
-		</property>
-
-		<property name="additionalPositionValidators" ref="sixc_additional_position_validators"/>
-
-		<property name="deferredControlPoint" ref="xps2DeferFlag" />
-
-		<property name="logDefFlagChangesAsInfo" value="true" />
-
-		<property name="deferOnValue" value="1" />
-
-	</bean>
-
 </beans>

@@ -180,16 +180,6 @@
 				<ref bean="pilatus1_nxfilewriter_for_hardware_triggering" />
 			</list>
 		</property>
-		<!--
-		<property name="hardwareTriggerProvider" ref="xpsTrajController" />
-		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_hardware_triggering"/>
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="pilatus1_nxfilewriter_for_hardware_triggering" />
-				<ref bean="pilatus1_force_callbacks" />
-			</list>
-		</property>
-	-->
 	</bean>
 
 	<bean id="pilatus1_for_snaps" class="gda.device.detector.NXDetector">

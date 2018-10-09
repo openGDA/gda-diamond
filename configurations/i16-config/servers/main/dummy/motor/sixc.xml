@@ -26,10 +26,5 @@
 		<property name="speed" value="360000000" />
 	</bean>
 	
-	<bean id="xps2DeferFlag" class="gda.device.controlpoint.DummyControlPoint"/>
-	
-	<bean id="xps2numberAxesToMoveControlPoint" class="gda.device.controlpoint.DummyControlPoint"/>
-
-	<bean id="xps2didDeferedMoveStartControlPoint" class="gda.device.controlpoint.DummyControlPoint"/>
-	
+	<bean id="deferFlag" class="gda.device.controlpoint.DummyControlPoint"/>
 </beans>
