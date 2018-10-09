@@ -133,21 +133,6 @@
 	<bean id="xps3mot8" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="XPS3P8Motor" />
 	</bean>
-	<bean id="bragg" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="BraggMotor" />
-	</bean>
-	<bean id="pitch" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="PitchMotor" />
-	</bean>
-	<bean id="perp" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="PerpMotor" />
-	</bean>
-	<bean id="roll1" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="Roll1Motor" />
-	</bean>
-	<bean id="roll2" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="Roll2Motor" />
-	</bean>
 	
 	<bean id="base_z1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="BaseZ1Motor" />

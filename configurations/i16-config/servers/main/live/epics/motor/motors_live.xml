@@ -67,27 +67,6 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="BraggMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ODDCMBR" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="Roll1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ODDCMRL1" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="Roll2Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ODDCMRL2" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="PitchMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ODDCMPT" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="PerpMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="ODDCMPD" />
-		<property name="local" value="true" />
-	</bean>
-
 	<bean id="P2TABY1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-P2TAB-01:Y1" />
 		<property name="local" value="true" />

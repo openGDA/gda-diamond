@@ -23,11 +23,6 @@
 	<bean id="M3YawMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="M4XMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="M4YawMotor" class="gda.device.motor.DummyMotor" />
-	<bean id="BraggMotor" class="gda.device.motor.DummyMotor" />
-	<bean id="Roll1Motor" class="gda.device.motor.DummyMotor" />
-	<bean id="Roll2Motor" class="gda.device.motor.DummyMotor" />
-	<bean id="PitchMotor" class="gda.device.motor.DummyMotor" />
-	<bean id="PerpMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="P2TABY1Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="P2TABY2Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="P2TABY3Motor" class="gda.device.motor.DummyMotor" />
