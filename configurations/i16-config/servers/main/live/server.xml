@@ -122,7 +122,11 @@
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<bean id="Beamline" class="gda.device.epicsdevice.FindableEpicsDevice">
-		<property name="deviceName" value="Beamline" />
+		<property name="recordPVs">
+			<map>
+				<entry key="Top" value="BL16I"/>
+			</map>
+		</property>
 	</bean>
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
