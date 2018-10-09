@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="eax" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000.0000" />
+		<property name="maxPosition" value="1000.0000" />
+		<property name="position" value="95.000" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="1.5000" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="eay" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000.0000" />
+		<property name="maxPosition" value="1000.0000" />
+		<property name="position" value="26.400" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="2.0000" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="eay" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000.0000" />
+		<property name="maxPosition" value="1000.0000" />
+		<property name="position" value="0.0000" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="2.0000" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="eapolar" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-860.0000" />
+		<property name="maxPosition" value="1140.0000" />
+		<property name="position" value="90.0000" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="3.0000" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>
