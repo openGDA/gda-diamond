@@ -22,4 +22,6 @@
 	<logger name="uk.ac.diamond.daq.concurrent.Async">				<level value="DEBUG"/></logger>
 	<logger name="I16NexusExtender">								<level value="ALL"/></logger>
 
+	<logger name="org.apache.activemq.ActiveMQSession">									<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.util.ClassLoadingAwareObjectInputStream">			<level value="DEBUG"/></logger>
 </included>
