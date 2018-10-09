@@ -34,6 +34,19 @@ def idgap_calc(Ep, polarisation):
                 
             else:
                 raise ValueError("Unknown Grating select in LH polarisationMode")
+        elif (Ep>600 and Ep<700):
+            if pgmGratingSelect.getPosition()=="VPG1":
+                #gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15
+                gap = 18.9610065 + 0.02329706*Ep #Corrected for VPG1 on 2018/06/22
+            elif pgmGratingSelect.getPosition()=="VPG2":
+                #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
+                #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
+                #gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
+                gap = 18.9256730 + 0.02327420*Ep  #Corrected for VPG2 around 550 eV on 2018/06/22
+            elif pgmGratingSelect.getPosition()=="VPG3":
+                gap = 18.9464110 + 0.02331950*Ep #Corrected for VPG3 on 2018/06/22                
+            else:
+                raise ValueError("Unknown Grating select in LH polarisationMode")
         elif (Ep>690 and Ep<820):
             if pgmGratingSelect.getPosition()=="VPG1":
                 #gap = 19.2998231 + 0.02285595*Ep #Corrected for VPG1 on 2017/12/01
@@ -64,7 +77,12 @@ def idgap_calc(Ep, polarisation):
             elif pgmGratingSelect.getPosition()=="VPG3":
                 gap = 15.1190608 + 0.03150392*Ep #Corrected for VPG3 on 2018/04/16
             else:
-                raise ValueError("Unknown Grating select in LH polarisationMode")    
+                raise ValueError("Unknown Grating select in LH polarisationMode")
+        elif (Ep>450 and Ep<500):
+            if pgmGratingSelect.getPosition()=="VPG2":
+                gap = 17.1120838 + 0.02661410*Ep #Corrected for VPG2 on 2018/08/03
+            else:
+                raise ValueError("Unknown Grating select in LH polarisationMode")
         elif (Ep>=1160 and Ep<=1220):
             if pgmGratingSelect.getPosition()=="VPG1":
                 gap = 8.60527040 + 0.03287279*Ep  #Corrected for VPG1 on 2018/06/21
@@ -115,6 +133,20 @@ def idgap_calc(Ep, polarisation):
                 gap = 11.4922997 + 0.01867722*Ep #Corrected for VPG3 on 2018/01/20
             else:
                 raise ValueError("Unknown Grating select in LV polarisationMode")
+        elif (Ep>600 and Ep<700):
+            if pgmGratingSelect.getPosition()=="VPG1":
+                #gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15
+                gap = 12.0417084 + 0.01768560*Ep #Corrected for VPG1 on 2018/06/22
+            elif pgmGratingSelect.getPosition()=="VPG2":
+                #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
+                #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
+                #gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
+                gap = 12.0417084 + 0.01768560*Ep  #Corrected for VPG2 around 550 eV on 2018/06/22
+            elif pgmGratingSelect.getPosition()=="VPG3":
+                gap = 12.0035701 + 0.01780733*Ep #Corrected for VPG3 on 2018/06/22
+                
+            else:
+                raise ValueError("Unknown Grating select in LV polarisationMode")
         elif (Ep>690 and Ep<820):
             if pgmGratingSelect.getPosition()=="VPG1":
                 #gap = 12.1996757 + 0.01755656*Ep #Corrected for VPG1 on 2017/12/01
@@ -147,6 +179,11 @@ def idgap_calc(Ep, polarisation):
                 gap = 2.82442703 + 0.02637886*Ep #Corrected for VPG3 on 2018/06/19
             else:
                 raise ValueError("Unknown Grating select in LH polarisationMode")    
+        elif (Ep>=460 and Ep<500):
+            if pgmGratingSelect.getPosition()=="VPG2":
+                gap = 11.0197952 + 0.01953697*Ep #Corrected for VPG2 on 2018/08/03
+            else:
+                raise ValueError("Unknown Grating select in LH polarisationMode")
         elif (Ep>=1380 and Ep<=1430):
             if pgmGratingSelect.getPosition()=="VPG1":
                 gap =-40.0707586 + 0.05886600*Ep  #Corrected for VPG1 on 2018/06/21
