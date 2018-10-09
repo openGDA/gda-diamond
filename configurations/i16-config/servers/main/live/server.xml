@@ -55,7 +55,6 @@
 		<property name="poll" value="true" />
 	</bean>
 
-	<import resource="epics/detector/struck.xml" />
 	<!--<import resource="epics/detector/vortex.xml" />-->
 	<import resource="epics/detector/pilatus100k.xml" />
 	<import resource="epics/detector/pilatus3_100k.xml" />

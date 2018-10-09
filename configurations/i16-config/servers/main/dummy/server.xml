@@ -44,7 +44,6 @@
 	<import resource="monitor/machine.xml" />
 	<import resource="monitor/sixc.xml" />
 
-	<import resource="detector/struck.xml" />
 	<import resource="detector/vortex.xml" />
 	
 	<import resource="trajectory_scan_controller_xps2.xml" />
