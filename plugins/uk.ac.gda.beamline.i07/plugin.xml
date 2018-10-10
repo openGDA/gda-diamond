@@ -112,17 +112,6 @@
                visible="true">
          </view>
       </perspectiveExtension>
-      <perspectiveExtension
-            targetID="uk.ac.gda.sixd.ScriptingPerspective">
-         <view
-               id="uk.ac.gda.sixd.views.JythonConsoleView"
-               minimized="false"
-               relationship="stack"
-               relative="uk.ac.gda.sixd.views.terminalView"
-               showTitle="true"
-               visible="true">
-         </view>
-      </perspectiveExtension>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
