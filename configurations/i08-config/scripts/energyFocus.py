@@ -1,10 +1,9 @@
-# Allow control of the function that maps energy to zone plate position
+# Set the function that maps energy to zone plate position
 import json
 from os.path import abspath
 
 from gda.configuration.properties import LocalProperties
-from gda.factory import Finder
-
+from gdaserver import energyFocusFunction
 
 # Load values of energy/focus function from stash file
 def loadEnergyFocus():
@@ -25,15 +24,9 @@ def loadEnergyFocus():
         interception = "0.0 um"
         slopeDivisor = "1.0 eV"
 
-    setEnergyFocus(slopeDividend, interception, slopeDivisor)
-
-
-# Set new parameter values
-def setEnergyFocus(slopeDividend, interception, slopeDivisor):
-    energyFocusFunction = Finder.getInstance().find("energyFocusFunction")
-    energyFocusFunction.slopeDividend = slopeDividend
-    energyFocusFunction.interception = interception
-    energyFocusFunction.slopeDivisor = slopeDivisor
+    energyFocusFunction.setSlopeDividend(slopeDividend)
+    energyFocusFunction.setInterception(interception)
+    energyFocusFunction.setSlopeDivisor(slopeDivisor)
     print("energyFocusFunction set to: " + str(energyFocusFunction))
 
 

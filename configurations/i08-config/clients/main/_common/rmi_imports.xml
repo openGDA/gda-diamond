@@ -15,4 +15,7 @@
 	<bean id="s2_ss_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="s2_ss_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
+	<!-- Energy focus parameters -->
+	<bean id="energyFocusFunction" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
 </beans>
