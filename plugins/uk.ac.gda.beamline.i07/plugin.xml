@@ -38,7 +38,7 @@
                id="gda.rcp.jythonterminalview"
                minimized="false"
                moveable="true"
-               ratio="0.95"
+               ratio="0.35"
                relationship="left"
                relative="org.eclipse.ui.editorss"
                showTitle="true"
