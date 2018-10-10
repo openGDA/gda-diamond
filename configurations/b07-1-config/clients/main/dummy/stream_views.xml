@@ -16,7 +16,7 @@
 	</bean>
 	<bean id="sim_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Simulated Camera" />
-		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
+		<property name="url" value="http://localhost:8080/ADSIM.mjpg.mjpeg" />
 		<property name="arrayPv" value="#{localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="sim_roi" />
 	</bean>
