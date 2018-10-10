@@ -2,19 +2,10 @@
 
 <included>
 
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%date %-5level [%thread] %logger - %message %ex %n</Pattern>
-        </layout>
-    </appender>
-
 	<!-- This suppresses lots of warnings about chunking from the user see GDA-6192 -->
 	<logger name="org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5" level="ERROR"/>
 	<!-- sends logs to logback-beagle -->
 	<!-- <consolePlugin /> -->
 	
-	<root level="debug">
-    	<appender-ref ref="CONSOLE" />
-  	</root>
 
 </included>
