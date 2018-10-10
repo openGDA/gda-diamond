@@ -66,6 +66,13 @@
 						</list>
 					</property>
 				</bean>
+				<bean class="uk.ac.gda.beamline.synoptics.composites.ImageButtonCompositeFactory">
+					<property name="label" value="Panic"/>
+					<property name="tooltipText" value="Stop all scannables, motors, detectors except explicitly excluded." />
+					<property name="imagePath" value="icons/panicstop80x80.png" />
+<!-- 					<property name="actionId" value="uk.ac.gda.client.StopAllCommand" /> -->
+					<property name="actionId" value="uk.ac.gda.beamline.synoptics.StopAllCommand" />
+				</bean>
 				<bean class="gda.rcp.views.GroupCompositeFactory">
 					<property name="label" value="Machine" />
 					<property name="columns" value="2" />
@@ -117,14 +124,6 @@
 						</list>
 					</property>
 				</bean>
-				<bean class="uk.ac.gda.beamline.synoptics.composites.ImageButtonCompositeFactory">
-					<property name="label" value="Panic"/>
-					<property name="tooltipText" value="Stop all scannables, motors, detectors except explicitly excluded." />
-					<property name="imagePath" value="icons/panicstop80x80.png" />
-<!-- 					<property name="actionId" value="uk.ac.gda.client.StopAllCommand" /> -->
-					<property name="actionId" value="uk.ac.gda.beamline.synoptics.StopAllCommand" />
-				</bean>
-				
 
 <!-- 				<bean class="uk.ac.gda.dls.client.feedback.FeedbackCompositeFactory"/> -->
 			</list>
