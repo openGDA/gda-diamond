@@ -18,6 +18,9 @@
 
 package gda.device.detector.frelon;
 
+import java.util.HashMap;
+
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,10 +39,6 @@ import gda.device.lima.LimaCCD.AcqStatus;
 import gda.device.lima.LimaCCD.ImageType;
 import gda.device.lima.impl.LimaROIIntImpl;
 import gda.factory.FactoryException;
-
-import java.util.HashMap;
-
-import org.apache.commons.lang.ArrayUtils;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
 public class EdeFrelon extends EdeDetectorBase {
@@ -90,6 +89,14 @@ public class EdeFrelon extends EdeDetectorBase {
 			}
 			setConfigured(true);
 		}
+	}
+
+	@Override
+	public void reconfigure() throws FactoryException {
+		super.reconfigure();
+		setConfigured(false);
+		// Might also need to do something with limaCcd or frelon to (re)establish connection to hardware?...
+		configure();
 	}
 
 	@Override

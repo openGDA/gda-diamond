@@ -3,6 +3,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<bean id="DAServerXspress3" class="gda.device.detector.xstrip.DummyXStripDAServer">
+		<property name="local" value="True" />
+		<property name="host" value="localhost" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+		<property name="configureAtStartup" value="true" />
+	</bean>
+
 	<bean id="DAServer" class="gda.device.detector.xstrip.DummyXStripDAServer">
 		<property name="local" value="True" />
 		<property name="host" value="localhost" />
@@ -14,6 +28,7 @@
 		</property>
 		<property name="dataPort" value="20030" />
 		<property name="replyTimeOut" value="5000" />
+		<property name="configureAtStartup" value="false" />
 	</bean>
 
 	<import resource="file:${gda.config}/servers/main/_common/detectors.xml" />
@@ -21,7 +36,7 @@
 <!-- Dummy Xspress3 detector - define this after detectors-common has been imported, so that tfg object is available -->
 	<bean id="xspress3Controller" class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
 		<constructor-arg>
-			<ref bean="DAServer" />
+			<ref bean="DAServerXspress3" />
 		</constructor-arg>
 		<constructor-arg>
 			<ref bean="tfg" />

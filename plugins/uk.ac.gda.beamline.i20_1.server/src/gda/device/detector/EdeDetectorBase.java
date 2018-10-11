@@ -65,9 +65,12 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 
 	private boolean checkForExcludedStrips;
 
+	public EdeDetectorBase() {
+		createPixelData();
+	}
+
 	@Override
 	public void configure() throws FactoryException {
-		createPixelData();
 		setNumberRois(INITIAL_NO_OF_ROIS);
 		updateExtraNames(getRois());
 	}
