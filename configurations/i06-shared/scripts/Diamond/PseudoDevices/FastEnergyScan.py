@@ -280,8 +280,7 @@ class FastEnergyScanControlClass(object):
 		for each in roi_stat_pairs:
 			#ScanInformation is not used in zacscan so just create a dummy to make Java method works
 			#update ROIs and enable EPICS rois and stats plugins
-			each.getRoiPlugin().prepareForCollection(numImages, ScanInformation.EMPTY)
-			each.getStatsPlugin().prepareForCollection(numImages, ScanInformation.EMPTY)
+			each.prepareForCollection(numImages, ScanInformation.EMPTY)
 
 	def enableAreaDetector(self):
 		self.chAreaDetector.caput(1) # 0-Disabled, 1-Enabled
