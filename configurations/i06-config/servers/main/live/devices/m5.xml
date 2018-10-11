@@ -28,7 +28,7 @@
 		<property name="pvName" value="BL06I-OP-KBM-01:VFM:BEND2" />
 	</bean>
 
-	<bean id="MotorVFMFinePitch_M5" class="gda.device.motor.EpicsMotor">
+	<bean id="MotorVFMFinePitch_M5" class="gda.device.motor.FeedbackControlledEpicsMotor">
 		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-OP-KBM-01:VFM:FPITCH" />
 	</bean>

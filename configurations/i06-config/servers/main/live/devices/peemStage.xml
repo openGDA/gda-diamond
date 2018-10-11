@@ -14,7 +14,7 @@
 	</bean>
 	<bean id="MotorPEEMStage_phi" class="gda.device.motor.EpicsMotor">
 		<property name="local" value="true" />
-		<property name="pvName" value="BL06I-MO-PEEM-01:PHI" />
+		<property name="pvName" value="BL06I-MO-PEEM-01:PHI:OS" />
 	</bean>
 
 </beans>
