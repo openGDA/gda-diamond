@@ -74,17 +74,17 @@ if [[ ${GDA_SERVERS_UP:-} == true ]] && [[ $@ == *"servers"* ]] && [[ $@ != *"--
         readonly MY_NAME=$(basename "$(readlink -e "$0")")         # The name of this script
         readarray -t my_clients_arr < <(pgrep -f -U `whoami` "gda-i06")
 
-        if [[ -n ${my_clients_arr:-} ]]; then 
-            for proc in "${my_clients_arr[@]}"; do 
-                bashlog info "$MY_NAME" "killing client process $proc"
-                kill $proc
-                sleep 3
-                if [[ "$(ps -p $proc)" == *"$proc "* ]]; then
-                    bashlog info "$MY_NAME" "SIGKILL required for $proc"
-                    kill -9 $proc
-                fi
-            done;
-        fi
+#        if [[ -n ${my_clients_arr:-} ]]; then 
+#            for proc in "${my_clients_arr[@]}"; do 
+#                bashlog info "$MY_NAME" "killing client process $proc"
+#                kill $proc
+#                sleep 3
+#                if [[ "$(ps -p $proc)" == *"$proc "* ]]; then
+#                    bashlog info "$MY_NAME" "SIGKILL required for $proc"
+#                    kill -9 $proc
+#                fi
+#            done;
+#        fi
         echo Starting GDA RCP Client...
         echo
         source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core --start client &
