@@ -22,6 +22,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.swt.widgets.Display;
@@ -30,7 +31,6 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.detector.EdeDetector;
 import gda.device.detector.Roi;
-import gda.device.detector.xstrip.StripDetector;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.observable.IObserver;
@@ -72,6 +72,8 @@ public class DetectorModel extends ObservableModel {
 
 	private Integer[] excludedStripsCache;
 
+	private static final String DETECTOR_NAME_DATA_STORE_KEY = "currentSelectedDetectorName";
+
 	private DetectorModel() {
 		this.addPropertyChangeListener(DETECTOR_CONNECTED_PROP_NAME, new PropertyChangeListener() {
 			@Override
@@ -93,14 +95,18 @@ public class DetectorModel extends ObservableModel {
 	private void setupDetectors() {
 		for (DetectorSetupType detectorSetup : DetectorSetupType.values()) {
 
-			Findable detector = Finder.getInstance().find(detectorSetup.getDetectorName());
+			Findable detector = Finder.getInstance().findNoWarn(detectorSetup.getDetectorName());
 			if (detector != null && detector instanceof EdeDetector) {
 				EdeDetector ededetector = (EdeDetector) detector;
 				ededetector.setDetectorSetupType(detectorSetup);
 				availableDetectors.add(ededetector);
 			}
 		}
-		setCurrentDetector(availableDetectors.get(availableDetectors.size()-1));
+		loadDetectorNameFromPreferenceStore();
+		if (currentDetector == null) {
+			currentDetector = availableDetectors.get(availableDetectors.size()-1);
+		}
+		setCurrentDetector(currentDetector);
 	}
 
 	public void reloadROIs() {
@@ -177,6 +183,7 @@ public class DetectorModel extends ObservableModel {
 		firePropertyChange(UPPER_CHANNEL_PROP_NAME, null, currentDetector.getUpperChannel());
 		currentDetector.addIObserver(energyCalibrationSetObserver);
 		currentDetector.addIObserver(roisSetObserver);
+		saveDetectorNameToPreferenceStore();
 	}
 
 	public boolean isDetectorConnected() {
@@ -269,6 +276,27 @@ public class DetectorModel extends ObservableModel {
 				}
 			}
 			return rois;
+		}
+	}
+
+	/**
+	 * Save name of current detector to preference store
+	 */
+	private void saveDetectorNameToPreferenceStore() {
+		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(DETECTOR_NAME_DATA_STORE_KEY, currentDetector.getName());
+	}
+
+	/**
+	 * Load name of previously selected detector from preference store.
+	 */
+	private void loadDetectorNameFromPreferenceStore() {
+		String detectorName = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(DETECTOR_NAME_DATA_STORE_KEY, String.class);
+		if (detectorName != null && !detectorName.isEmpty()) {
+			Optional<EdeDetector> selectedDet = availableDetectors.stream().filter( det -> det.getName().equals(detectorName)).findFirst();
+			if (selectedDet.isPresent()) {
+				currentDetector = selectedDet.get();
+			}
+
 		}
 	}
 

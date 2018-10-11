@@ -34,11 +34,10 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -113,6 +112,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 	private ComboViewer comboElementEdge;
 	private ComboViewer comboCrystalQ;
 	private ComboViewer cmbDetectorType;
+	private Button butDetectorConnect;
 
 	private FormToolkit toolkit;
 	private ScrolledForm scrolledPolyForm;
@@ -176,26 +176,44 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		comboCrystalQ.setSelection( new StructuredSelection( AlignmentParametersModel.INSTANCE.getQ()) );
 
 		cmbDetectorType.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector()));
-		cmbDetectorType.addSelectionChangedListener(new ISelectionChangedListener() {
+		cmbDetectorType.addSelectionChangedListener( event -> {
+			if (event != null && !event.getSelection().isEmpty()) {
+				String text = cmbDetectorType.getCombo().getText();
+				Findable detector = Finder.getInstance().find(text);
+				logger.debug("Detector name changed to {}", text);
+				if (detector != null && detector instanceof EdeDetector) {
+					EdeDetector edeDetector = (EdeDetector) detector;
+					logger.debug("Setting EdeDetector object, configured = {}", edeDetector.isConfigured());
+					DetectorModel.INSTANCE.setCurrentDetector(edeDetector);
+				}
+			}
+		});
 
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				if (event!=null && !event.getSelection().isEmpty()) {
-					String text = cmbDetectorType.getCCombo().getText();
-					Findable detector = Finder.getInstance().find(text);
-					if (detector != null && detector instanceof EdeDetector) {
-						EdeDetector ededetector = (EdeDetector) detector;
-						DetectorModel.INSTANCE.setCurrentDetector(ededetector);
-						// TODO why frelon settings not update in GUI
-						//IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-						//IViewPart view = page.findView(DetectorLiveModeView.ID);
-						//((DetectorLiveModeView)view).update(ededetector);
-					}
+		// Try to (re)configure selected detector
+		butDetectorConnect.addListener( SWT.Selection, listener -> {
+			EdeDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
+			// Check really want to conf. detector.
+			String message = "Are you sure you want to try and configure " + detector.getName() + "?";
+			if (detector.isConfigured()) {
+				message += "\n(It is already configured)";
+			}
+			boolean runConfigure = MessageDialog.openQuestion(butDetectorConnect.getShell(), "Configure detector", message);
+
+			if (runConfigure) {
+				logger.debug("Attempting to reconfigure detector {}", detector.getName());
+				ConnectDeviceDialog connectionDialog = new ConnectDeviceDialog(butDetectorConnect.getShell());
+				connectionDialog.setDetector(detector);
+				connectionDialog.setBlockOnOpen(true);
+				// need to try with hardware to find realistic timeout value (xh is slow to configure...)
+				// Might need to use different value for different detectors.
+				connectionDialog.setMaxExpectedConfigureTimeSecs(20);
+				connectionDialog.open();
+				if (detector.isConfigured()) {
+					DetectorModel.INSTANCE.setCurrentDetector(detector);
 				}
 			}
 		});
 	}
-
 
 	@Override
 	public void dispose() {
@@ -218,7 +236,7 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 		Composite detectorConfigComposite = toolkit.createComposite(mainSelectionComposite, SWT.None);
 		detectorConfigComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		GridLayout gridLayout = UIHelper.createGridLayoutWithNoMargin(2, false);
+		GridLayout gridLayout = UIHelper.createGridLayoutWithNoMargin(3, false);
 		detectorConfigComposite.setLayout(gridLayout);
 		cmbDetectorType =  new ComboViewer(detectorConfigComposite, SWT.READ_ONLY);
 		cmbDetectorType.setContentProvider(ArrayContentProvider.getInstance());
@@ -230,6 +248,9 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		});
 		cmbDetectorType.getCombo().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		toolkit.paintBordersFor(detectorConfigComposite);
+
+		butDetectorConnect = toolkit.createButton(detectorConfigComposite, "Connect", SWT.FLAT);
+		butDetectorConnect.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
 
 		butDetectorSetup = toolkit.createButton(detectorConfigComposite, "Setup", SWT.FLAT);
 		butDetectorSetup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));

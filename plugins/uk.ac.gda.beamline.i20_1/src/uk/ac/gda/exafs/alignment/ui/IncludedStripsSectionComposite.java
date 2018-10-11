@@ -18,12 +18,11 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.BeansObservables;
+import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ViewersObservables;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -39,12 +38,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import gda.device.detector.EdeDetector;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.DetectorModel;
 
 public class IncludedStripsSectionComposite extends ResourceComposite {
+
+	private static final Logger logger = LoggerFactory.getLogger(IncludedStripsSectionComposite.class);
 
 	private Section section;
 	private final FormToolkit toolkit;
@@ -98,18 +102,12 @@ public class IncludedStripsSectionComposite extends ResourceComposite {
 		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.DETECTOR_CONNECTED_PROP_NAME, dectectorChangeListener);
 
 		//TODO why the following extra 2 listeners is required to keep 2 instance of 'Included strips' in sync.
-		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.LOWER_CHANNEL_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				cmbFirstStripViewer.setSelection(new StructuredSelection(evt.getNewValue()));
-			}
+		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.LOWER_CHANNEL_PROP_NAME, event -> {
+			cmbFirstStripViewer.setSelection(new StructuredSelection(event.getNewValue()));
 		});
 
-		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.UPPER_CHANNEL_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				cmbLastStripViewer.setSelection(new StructuredSelection(evt.getNewValue()));
-			}
+		DetectorModel.INSTANCE.addPropertyChangeListener(DetectorModel.UPPER_CHANNEL_PROP_NAME, event -> {
+			cmbLastStripViewer.setSelection(new StructuredSelection(event.getNewValue()));
 		});
 
 		if (DetectorModel.INSTANCE.getCurrentDetector() != null) {
@@ -123,39 +121,56 @@ public class IncludedStripsSectionComposite extends ResourceComposite {
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(cmbFirstStripViewer.getControl()),
-				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
+				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
 
 		dataBindingCtx.bindValue(
 				WidgetProperties.enabled().observe(cmbLastStripViewer.getControl()),
-				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.DETECTOR_CONNECTED_PROP_NAME));
+				BeanProperties.value(DetectorModel.DETECTOR_CONNECTED_PROP_NAME).observe(DetectorModel.INSTANCE));
+
+		DetectorModel.INSTANCE.addPropertyChangeListener( event -> {
+			if (event.getPropertyName().equals(DetectorModel.DETECTOR_CONNECTED_PROP_NAME)) {
+				logger.debug("Updating strip combo boxes after detector change");
+				updateStripCombosForDetector();
+			}
+		});
+	}
+
+	private void updateStripCombosForDetector() {
+		final EdeDetector detector = DetectorModel.INSTANCE.getCurrentDetector();
+		if (detector == null) {
+			logger.warn("Cannot update upper, lower strip combo boxes - no detector has been set");
+			return;
+		}
+
+		cmbLastStripViewer.setInput(detector.getPixels());
+		cmbFirstStripViewer.setInput(detector.getPixels());
+		cmbFirstStripViewer.setSelection(new StructuredSelection(detector.getLowerChannel()));
+		cmbLastStripViewer.setSelection(new StructuredSelection(detector.getUpperChannel()));
 	}
 
 	private void bindUpperAndLowerChannelComboViewers() {
 		cmbFirstStripViewerBinding = dataBindingCtx.bindValue(
 				ViewersObservables.observeSingleSelection(cmbFirstStripViewer),
-				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.LOWER_CHANNEL_PROP_NAME));
+				BeanProperties.value(DetectorModel.LOWER_CHANNEL_PROP_NAME).observe(DetectorModel.INSTANCE));
 		cmbLastStripViewerBinding = dataBindingCtx.bindValue(
 				ViewersObservables.observeSingleSelection(cmbLastStripViewer),
-				BeansObservables.observeValue(DetectorModel.INSTANCE, DetectorModel.UPPER_CHANNEL_PROP_NAME));
+				BeanProperties.value(DetectorModel.UPPER_CHANNEL_PROP_NAME).observe(DetectorModel.INSTANCE));
 	}
 
-	private final PropertyChangeListener dectectorChangeListener = new PropertyChangeListener() {
-		@Override
-		public void propertyChange(PropertyChangeEvent evt) {
-			boolean detectorConnected = (boolean) evt.getNewValue();
-			if (detectorConnected) {
-				bindUpperAndLowerChannelComboViewers();
-			} else {
-				if (cmbFirstStripViewerBinding != null) {
-					dataBindingCtx.removeBinding(cmbFirstStripViewerBinding);
-					cmbFirstStripViewerBinding.dispose();
-					cmbFirstStripViewerBinding = null;
-				}
-				if (cmbLastStripViewerBinding != null) {
-					dataBindingCtx.removeBinding(cmbLastStripViewerBinding);
-					cmbLastStripViewerBinding.dispose();
-					cmbLastStripViewerBinding = null;
-				}
+	private final PropertyChangeListener dectectorChangeListener = event ->  {
+		boolean detectorConnected = (boolean) event.getNewValue();
+		if (detectorConnected) {
+			bindUpperAndLowerChannelComboViewers();
+		} else {
+			if (cmbFirstStripViewerBinding != null) {
+				dataBindingCtx.removeBinding(cmbFirstStripViewerBinding);
+				cmbFirstStripViewerBinding.dispose();
+				cmbFirstStripViewerBinding = null;
+			}
+			if (cmbLastStripViewerBinding != null) {
+				dataBindingCtx.removeBinding(cmbLastStripViewerBinding);
+				cmbLastStripViewerBinding.dispose();
+				cmbLastStripViewerBinding = null;
 			}
 		}
 	};
