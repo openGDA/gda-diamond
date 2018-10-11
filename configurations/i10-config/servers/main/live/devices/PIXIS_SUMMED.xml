@@ -126,7 +126,7 @@
 		<property name="fileNameTemplate" value="pixis"/>
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileTemplate" value="%s%s-%d.hdf" />
-		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="fileNumberAtScanStart" value="0" />
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="rowChunks" value="0" />
 		<property name="colChunks" value="0" />
@@ -143,7 +143,7 @@
 		<property name="fileNameTemplate" value="pixis"/>
 		<property name="filePathTemplate" value="$datadir$/$scan$-pixis-files" />
 		<property name="fileTemplate" value="%s%s-%d.tiff" />
-		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="fileNumberAtScanStart" value="0" />
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="blocking" value="false" />
 		<property name="pathErrorSuppressed" value="true" />
