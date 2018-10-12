@@ -118,13 +118,14 @@ public class TurboXasScan extends ContinuousScan {
 		turboXasMotorParams = motorParams;
 		doTrajectoryScan = turboXasMotorParams.getScanParameters().getUseTrajectoryScan();
 		addMetaDataScannable();
+
+		// Set the datawriter
+		XasNexusDataWriter dataWriter = new XasNexusDataWriter();
+		setDataWriter(dataWriter);
 	}
 
 	@Override
 	public void doCollection() throws Exception {
-
-		XasNexusDataWriter dataWriter = new XasNexusDataWriter();
-		setDataWriter(dataWriter);
 
 		logger.info("Running scan");
 
@@ -797,8 +798,6 @@ public class TurboXasScan extends ContinuousScan {
 	private void addMetaDataScannable() {
 		MetashopDataScannable scannableToManageMetadata = new MetashopDataScannable();
 
-		allScannables.add(scannableToManageMetadata);
-
 		scannableToManageMetadata.addData("TurboXasParameters", turboXasMotorParams.getScanParameters().toXML());
 		Xspress3BufferedDetector xspress3Detector = getXspress3Detector();
 		if (xspress3Detector != null) {
@@ -808,6 +807,9 @@ public class TurboXasScan extends ContinuousScan {
 				logger.warn("Problem getting Xspress3 parameter meta data", e);
 			}
 		}
+
+		scannableToManageMetadata.atScanStart(); // add data to metashop *before* creating datawriter
+		allScannables.add(scannableToManageMetadata);
 	}
 
 	public TurboXasMotorParameters getTurboXasMotorParams() {
