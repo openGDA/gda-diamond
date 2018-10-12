@@ -11,7 +11,7 @@
 	
 	<bean id="polarisergamma" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="polariserGammaMotor" />
-		<property name="userUnits" value="mm" />
+		<property name="userUnits" value="deg" />
 	</bean>
 	
 	<bean id="polariser" class="gda.device.scannable.scannablegroup.ScannableGroup">

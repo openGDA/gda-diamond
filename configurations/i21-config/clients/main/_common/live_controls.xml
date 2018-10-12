@@ -47,30 +47,6 @@
 		<property name="increment" value="1" />
 	</bean>
 	
-	<!-- Andor detector control -->
-	<bean id="andorStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="andor_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); andor_addetector.collectData()" />
-		<property name="buttonText" value="Start" />
-		<property name="group" value="Andor" />
-	</bean>
-
-	<bean id="andorStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="andor_addetector.adBase.stopAcquiring()" />
-		<property name="buttonText" value="Stop" />
-		<property name="group" value="Andor" />
-	</bean>
-	<bean id="andorShutterOpen" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="andorshutter.moveTo('Open')" />
-		<property name="buttonText" value="Open Shutter" />
-		<property name="group" value="Andor" />
-	</bean>
-
-	<bean id="andorShutterClose" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
-		<property name="jythonCommand" value="andorshutter.moveTo('Close')" />
-		<property name="buttonText" value="Close Shutter" />
-		<property name="group" value="Andor" />
-	</bean>
-	
 	<!-- Sample Positioner control -->
 	<bean id="screws_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('Screws')" />
@@ -100,11 +76,113 @@
 				<ref bean="screws_position" />
 				<ref bean="transfer_position" />
 				<ref bean="rixs_position" />
-				<ref bean="andorStart" />
-				<ref bean="andorStop" />
-				<ref bean="andorShutterOpen" />
-				<ref bean="andorShutterClose" />
 			</list>
 		</property>
 	</bean>
+	
+	<!-- Andor Controls -->
+	<bean id="andor_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure" />
+		<property name="group" value="Andor" />
+		<property name="scannableName" value="andorExposureTime" />
+		<property name="textWidth" value="30"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="andor_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Period" />
+		<property name="group" value="Andor" />
+		<property name="scannableName" value="andorAcquirePeriod" />
+		<property name="textWidth" value="30"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="andorShutterOpen" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andorshutter.moveTo('Open')" />
+		<property name="buttonText" value="Open Shutter" />
+		<property name="group" value="Andor" />
+	</bean>
+	<bean id="andorShutterClose" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andorshutter.moveTo('Close')" />
+		<property name="buttonText" value="Close Shutter" />
+		<property name="group" value="Andor" />
+	</bean>
+	<bean id="andorCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+		<property name="cameraConfig" ref="andor_cam"/>
+		<property name="stateVariableName" value="i21.andor.live.stream.active"/>
+	</bean>
+	<bean id="andorControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
+		<property name="customWidget">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
+				<property name="liveControls">
+					<list>
+						<ref bean="andor_expsure_time_control" />
+						<ref bean="andor_acquire_period_control"/>
+						<ref bean="andorShutterOpen" />
+						<ref bean="andorShutterClose" />
+					</list>
+				</property>
+				<property name="cameraState" ref="andorCameraState"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Polarimeter Controls -->
+	<bean id="polarimeter_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure" />
+		<property name="group" value="Polarimeter" />
+		<property name="scannableName" value="polarimeterExposureTime" />
+		<property name="textWidth" value="30"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="polarimeter_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Period" />
+		<property name="group" value="Polarimeter" />
+		<property name="scannableName" value="polarimeterAcquirePeriod" />
+		<property name="textWidth" value="30"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="polarimeterShutterOpen" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andor2shutter.moveTo('Open')" />
+		<property name="buttonText" value="Open Shutter" />
+		<property name="group" value="Polarimeter" />
+	</bean>
+	<bean id="polarimeterShutterClose" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="andor2shutter.moveTo('Close')" />
+		<property name="buttonText" value="Close Shutter" />
+		<property name="group" value="Polarimeter" />
+	</bean>
+	<bean id="polarimeter_stick_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Stick" />
+		<property name="group" value="Polariser" />
+		<property name="scannableName" value="polariserstick" />
+		<property name="increment" value="1" />
+	</bean>
+	<bean id="polarimeter_gamma_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Gamma" />
+		<property name="group" value="Polariser" />
+		<property name="scannableName" value="polarisergamma" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="polarimeterCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+		<property name="cameraConfig" ref="andor2_cam"/>
+		<property name="stateVariableName" value="i21.polarimeter.live.stream.active"/>
+	</bean>
+	<bean id="polarimeterControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
+		<property name="customWidget">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
+				<property name="liveControls">
+					<list>
+						<ref bean="polarimeter_expsure_time_control" />
+						<ref bean="polarimeter_acquire_period_control"/>
+						<ref bean="polarimeterShutterOpen" />
+						<ref bean="polarimeterShutterClose" />
+						<ref bean="polarimeter_stick_control" />
+						<ref bean="polarimeter_gamma_control" />
+					</list>
+				</property>
+				<property name="cameraState" ref="polarimeterCameraState"/>
+			</bean>
+		</property>
+	</bean>
+
 </beans>

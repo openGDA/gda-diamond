@@ -7,12 +7,10 @@
 
 	<bean id="polariserStickMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-POL-01:STICK" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="polariserGammaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-POL-01:GAMMA" />
-		<property name="local" value="true" />
 	</bean>
 	
 </beans>

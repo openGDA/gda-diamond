@@ -34,10 +34,158 @@
       </product>
    </extension>
    <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="uk.ac.gda.beamline.i21.perspectives.RIXSPerspective"
+            icon="icons/rixs.png"
+            id="uk.ac.gda.beamline.i21.perspectives.rixs"
+            name="RIXS">
+      </perspective>
+      <perspective
+            class="uk.ac.gda.beamline.i21.perspectives.ScanPerspective"
+            id="uk.ac.gda.beamline.i21.perspectives.scan"
+            name="Scan">
+      </perspective>
+   </extension>
+   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
             locationURI="menu:window?after=showView">
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamViewWithHistogram">
+         <command
+               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
+               label="Snapshot"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activePartId">
+                  <equals
+                        value="uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamViewWithHistogram">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
+               label="Start"
+               style="push"
+               tooltip="Star camera acquisition">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i21.andor.live.stream.active">
+                  <equals
+                        value="STOPPED">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
+               label="Stop"
+               style="push"
+               tooltip="Stop camera acquisition">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i21.andor.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
+               label="Freeze"
+               style="toggle"
+               tooltip="Enable/disable image update">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i21.andor.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:uk.ac.gda.beamline.i21.polarimeter.live.stream.view.LiveStreamViewWithHistogram">
+         <command
+               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
+               label="Snapshot"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activePartId">
+                  <equals
+                        value="uk.ac.gda.beamline.i21.polarimeter.live.stream.view.LiveStreamViewWithHistogram">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
+               label="Start"
+               style="push"
+               tooltip="Star camera acquisition">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i21.polarimeter.live.stream.active">
+                  <equals
+                        value="STOPPED">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
+               label="Stop"
+               style="push"
+               tooltip="Stop camera acquisition">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i21.polarimeter.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
+               label="Freeze"
+               style="toggle"
+               tooltip="Enable/disable image update">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i21.polarimeter.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
       </menuContribution>
    </extension>
    <extension
@@ -48,6 +196,18 @@
             icon="icons/Status.png"
             id="uk.ac.gda.beamline.i21.statusView"
             name="Beamline Status"
+            restorable="true">
+      </view>
+      <view
+            class="gda.rcp.views.ViewFactoryFinder:andorControlWidgetFactory"
+            id="uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamViewWithHistogram"
+            name="Andor"
+            restorable="true">
+      </view>
+      <view
+            class="gda.rcp.views.ViewFactoryFinder:polarimeterControlWidgetFactory"
+            id="uk.ac.gda.beamline.i21.polarimeter.live.stream.view.LiveStreamViewWithHistogram"
+            name="Polarimeter"
             restorable="true">
       </view>
    </extension>
@@ -88,23 +248,23 @@
       </product>
    </extension>
    <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="uk.ac.gda.beamline.i21.perspectives.RIXSPerspective"
-            icon="icons/rixs.png"
-            id="uk.ac.gda.beamline.i21.perspectives.rixs"
-            name="RIXS">
-      </perspective>
-      <perspective
-            class="uk.ac.gda.beamline.i21.perspectives.ScanPerspective"
-            id="uk.ac.gda.beamline.i21.perspectives.scan"
-            name="Scan">
-      </perspective>
-   </extension>
-   <extension
          point="org.eclipse.ui.startup">
       <startup
             class="uk.ac.gda.beamline.i21.startup.EarlyStartup">
       </startup>
+   </extension>
+   <extension
+         point="org.eclipse.ui.services">
+      <sourceProvider
+            provider="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+         <variable
+               name="i21.andor.live.stream.active"
+               priorityLevel="workbench">
+         </variable>
+         <variable
+               name="i21.polarimeter.live.stream.active"
+               priorityLevel="workbench">
+         </variable>
+      </sourceProvider>
    </extension>
 </plugin>
