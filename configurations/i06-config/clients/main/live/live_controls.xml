@@ -39,7 +39,7 @@
 		<property name="hasUnits" value="false"/>	
 		<property name="outputFormat">
 			<list>
-				<value>%2.0f</value>
+				<value>%2d</value>
 			</list>
 		</property>	
 	</bean>

@@ -25,12 +25,14 @@ from gda.device.detector.nxdetector.plugin.areadetector import ADRoiStatsPair
 from types import ListType
 from gda.device.detector.addetector.filewriter import MultipleImagesPerHDF5FileWriter,\
 	SingleImagePerFileWriter
-from i06shared.scan.idd_fast_energy_scan import beamline_name
-logger=ScriptLoggerClass();
 
 from gda.jython import ScriptBase
 
 import scisoftpy as dnp
+from gda.configuration.properties import LocalProperties
+
+beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
+logger=ScriptLoggerClass();
 
 class FastEnergyScanControlClass(object):
 	""" """

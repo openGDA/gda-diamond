@@ -61,14 +61,14 @@
 	<bean id="wp1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="wp1_motor" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	<bean id="wp2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="wp2_motor" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 
 </beans>

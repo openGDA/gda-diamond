@@ -9,7 +9,7 @@
 		<property name="current1Pv" value="BL06I-DI-IAMP-01:PHD1:I"/>
 		<property name="current2Pv" value="BL06I-DI-IAMP-01:PHD2:I"/>
 		<property name="current3Pv" value="BL06I-DI-IAMP-01:PHD3:I"/>
-		<property name="current2Pv" value="BL06I-DI-IAMP-01:PHD4:I"/>
+		<property name="current4Pv" value="BL06I-DI-IAMP-01:PHD4:I"/>
 		<property name="rangePv" value="BL06I-DI-IAMP-01:RANGE_MENU"/>
 		<property name="rangeRbvPv" value="BL06I-DI-IAMP-01:MRREADBACK"/>
 		<property name="poll" value="true"/>
@@ -18,6 +18,7 @@
 	<bean id="bpm1" class="gda.device.monitor.EpicsBpmController">
 		<property name="xposPvName" value="BL06I-AL-SLITS-02:XPOS"/>
 		<property name="yposPvName" value="BL06I-AL-SLITS-02:YPOS"/>
+		<property name="intensityPvName" value="BL06I-AL-SLITS-02:INTEN"/>
 		<property name="poll" value="true"/>
 		<property name="local" value="true"/>
 	</bean>
