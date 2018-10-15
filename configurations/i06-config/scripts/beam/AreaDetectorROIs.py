@@ -5,12 +5,12 @@ from gda.device.detector import NXDetector
 from gda.device.detector.nxdetector.plugin.areadetector import ADRoiStatsPair
 from gda.scan import ScanInformation
 
-def setupROIs(self, rois, roi_provider_name='pco_roi'):
+def setupROIs(rois, roi_provider_name='pco_roi'):
     '''update ROIs list in GDA ROI provider object but not yet send to EPICS
     This must be called when ROI is changed, and before self.prepareROIsForCollection(areadet)
     @param rois: list of rois i.e. [[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size]]
     '''
-    if rois is not ListType:
+    if not type(rois)==ListType:
         raise Exception("Input must be a list of ROIs, each provides a list specifies [x_start,y_start,x_size,y_size]")
     i=1
     newRois=[]
@@ -21,13 +21,13 @@ def setupROIs(self, rois, roi_provider_name='pco_roi'):
     roi_provider=finder.find(roi_provider_name)
     roi_provider.updateRois(newRois)
     
-def clearROIs(self, roi_provider_name='pco_roi'):
+def clearROIs(roi_provider_name='pco_roi'):
     '''remove all ROIs from the ROI provider
     '''
     roi_provider=finder.find(roi_provider_name)
     roi_provider.updateRois([])
 
-def prepareROIsForCollection(self, areadet, numImages):
+def prepareROIsForCollection(areadet, numImages):
     '''configure ROIs and STATs plugins in EPICS for data collection with regions of interests
     @param areadet: must be a NXDetector 
     '''

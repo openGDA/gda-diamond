@@ -86,8 +86,6 @@ class BeamStabilisation(object):
         return [dS_rotated[0]/1000.0*fov, dS_rotated[1]/1000.0*fov]
                 
     def centerBeamSingle(self, dummyMoveFlag):
-        self.setRois()
-        sleep(0.15)
         dS = self.get_dS()
         dS_rotated = self.rot_dS(dS)
         dS_rot_Volt = self.pixelToVolts(dS_rotated)

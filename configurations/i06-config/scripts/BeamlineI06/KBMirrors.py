@@ -2,11 +2,8 @@ from gda.device.scannable import ScannableBase
 from gda.epics import CAClient
 from gda.jython.commands.GeneralCommands import alias
 from Diamond.PseudoDevices.EpicsDevices import EpicsMonitorClass
-import __main__  # @UnresolvedImport
-
-if __main__.USE_UVIEW:
-	from peem.usePEEM import uvimaging, uvpreview
-	from peem.usePEEM_tcpip import uv
+from peem.usePEEM import uvimaging, uvpreview
+from peem.usePEEM_tcpip import uv
 
 print "-"*100
 print "Enable KB Mirror objects: m4bend1g,m4bend2g,m5bend1g,m5bend2g,kbpiezoh,kbpiezov,kbraster,vertFactor,horizFactor,kbpreview,kbimaging,kboff,kbfov"
@@ -211,21 +208,13 @@ kbraster.setFovFactor(horizFactor)
 def kbimaging(collectionTime=1.0):
 	kbraster.setFreq( 1.0/collectionTime )
 	kbraster.setFreqDiv( 1.0 )
-	if __main__.USE_UVIEW:
-		uvimaging()
-		uv.setCollectionTime(collectionTime)
-	else:
-		#TODO EPICS PCO
-		pass
+	uvimaging()
+	uv.setCollectionTime(collectionTime)
 
 def kbpreview():
 	kbraster.setFreq( 10 )
 	kbraster.setFreqDiv( 1.0 )
-	if __main__.USE_UVIEW:
-		uvpreview()
-	else:
-		#TODO EPICS PCO
-		pass
+	uvpreview()
 		
 
 def kboff():
