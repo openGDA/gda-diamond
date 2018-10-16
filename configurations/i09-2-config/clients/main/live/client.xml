@@ -27,5 +27,4 @@
 	</bean>
 
 	<import resource="../_common/client.xml" />
-
 </beans>
