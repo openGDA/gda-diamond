@@ -15,7 +15,7 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  org.eclipse.ui,
  uk.ac.gda.common.client;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.artenum.jyconsole,
  org.eclipse.debug.ui,
  org.eclipse.search.ui,
@@ -41,3 +41,4 @@ Export-Package: uk.ac.gda.nano;
  uk.ac.gda.nano.perspectives;uses:="org.eclipse.ui",
  uk.ac.gda.nano.views
 Bundle-ClassPath: .
+Automatic-Module-Name: uk.ac.gda.client.nano
