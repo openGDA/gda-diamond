@@ -1,6 +1,6 @@
 from gda.device.scannable import PseudoDevice
 from time import sleep
-import time
+import sys, time
 import java.lang.IllegalStateException
 from pd_epics import DisplayEpicsPVClass
 
