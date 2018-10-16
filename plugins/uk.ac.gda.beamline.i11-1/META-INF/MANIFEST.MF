@@ -33,7 +33,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.dawnsci.plotting.api;bundle-version="1.2.0",
  org.opengda.lde.model.editor
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Diamond Light Source
 Export-Package: uk.ac.gda.beamline.i11.lde,
  uk.ac.gda.beamline.i11.lde.views
@@ -43,3 +43,4 @@ Import-Package: org.dawnsci.plotting.jreality,
  org.eclipse.draw2d,
  org.slf4j;version="1.5.6",
  org.springframework.beans.factory;version="4.0.6.RELEASE"
+Automatic-Module-Name: uk.ac.gda.beamline.i11-1
