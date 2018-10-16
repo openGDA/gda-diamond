@@ -16,14 +16,14 @@
 					<property name="compositeFactories">
 						<list>
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="ringCurrent" />
+								<property name="scannable" ref="ring_current" />
 								<property name="label" value="Ring Current" />
 								<property name="units" value="mA" />
 								<property name="minPeriodMS" value="1000" />
 								<property name="decimalPlaces" value="2" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="timeToRefill" />
+								<property name="scannable" ref="topup_start_countdown" />
 								<property name="label" value="Time to refill" />
 								<property name="units" value="s" />
 								<property name="minPeriodMS" value="1000" />
@@ -67,7 +67,7 @@
 					<property name="compositeFactories">
 						<list>
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="expt_sht_stat" />
+								<property name="scannable" ref="eh_shtr" />
 								<property name="label" value="State" />
 								<property name="colourMap" ref="shutterStatusColourMap" />
 							</bean>
@@ -102,7 +102,7 @@
 					<property name="compositeFactories">
 						<list>
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="fast_shtr_stat" />
+								<property name="scannable" ref="fs" />
 								<property name="label" value="State" />
 								<property name="colourMap" ref="shutterStatusColourMap" />
 							</bean>
@@ -214,7 +214,10 @@
 
 	<util:map id="shutterStatusColourMap">
 		<entry key="Open" value="6" />
+		<entry key="Opening" value="6" />
 		<entry key="Closed" value="3" />
+		<entry key="Closing" value="3" />
+		<entry key="Reset" value="8" />
 	</util:map>
 
 </beans>

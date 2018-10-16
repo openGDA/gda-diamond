@@ -4,14 +4,8 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="eh_shtr" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="positions">
-			<list>
-				<value>Open</value>
-				<value>Close</value>
-				<value>Reset</value>
-			</list>
-		</property>
-	</bean> 
+	<bean id="eh_shtr" class="gda.device.enumpositioner.DummyValve">
+		<property name="position" value="Open" />
+	</bean>
 
-</beans>	
+</beans>
