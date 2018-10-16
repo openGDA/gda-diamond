@@ -5,7 +5,7 @@ Bundle-SymbolicName: uk.ac.gda.beamline.b18.test
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Diamond Light Source
 Fragment-Host: uk.ac.gda.beamline.b18;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
  uk.ac.diamond.org.powermock;bundle-version="[1.6.4,2.0.0)",
  org.mockito.mockito-core;bundle-version="[1.10.19,2.0.0)",
@@ -16,3 +16,4 @@ Require-Bundle: org.junit;bundle-version="[4.12.0,5.0.0)",
 Import-Package: gda.device.detector.xmap,
  gda.device.scannable,
  uk.ac.gda.server.exafs.scan.iterators
+Automatic-Module-Name: uk.ac.gda.beamline.b18.test
