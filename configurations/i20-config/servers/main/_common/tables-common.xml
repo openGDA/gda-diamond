@@ -54,9 +54,4 @@
 		<property name="local" value="false" />
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/filterwheel" />
-		<property name="service" ref="filterwheel" />
-		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
-	</bean>
 </beans>

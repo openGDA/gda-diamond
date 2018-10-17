@@ -8,21 +8,5 @@
 	<bean id="ionc1_stanford" class="gda.device.currentamplifier.DummyStanfordScannable" />
 	<bean id="ionc2_stanford" class="gda.device.currentamplifier.DummyStanfordScannable" />
 	<bean id="ionc3_stanford" class="gda.device.currentamplifier.DummyStanfordScannable" />
-	
-<!-- RMI export the Stanford scannables -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ionc1_stanford" />
-		<property name="service" ref="ionc1_stanford" />
-		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ionc2_stanford" />
-		<property name="service" ref="ionc2_stanford" />
-		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ionc3_stanford" />
-		<property name="service" ref="ionc3_stanford" />
-		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
-	</bean>
+
 </beans>

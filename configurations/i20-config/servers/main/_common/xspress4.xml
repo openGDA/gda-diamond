@@ -10,12 +10,6 @@
 		<property name="configFileName" value="${gda.config}/var/templates/Xspress4_Parameters_64Ge.xml" />
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/xspress4" />
-		<property name="service" ref="xspress4" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
-	</bean>
-
 	<bean id="xspress4FFI0" class="gda.device.detector.TfgFFoverI0">
 		<property name="xspress" ref="xspress4" />
 		<property name="i0_channel" value="0" />

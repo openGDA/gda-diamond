@@ -158,18 +158,6 @@
 		</property>
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/XESEnergy" />
-		<property name="service" ref="XESEnergy" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/XESBragg" />
-		<property name="service" ref="XESBragg" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
-
 <!-- 	the following is for a simulation of values for use before moving -->
 
 	<bean id="dummy_xtal_minus1_x_motor" class="gda.device.motor.DummyMotor">
@@ -415,28 +403,5 @@
 		</property>
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/material" />
-		<property name="service" ref="material" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-	</bean>
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/cut1" />
-		<property name="service" ref="cut1" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-	</bean>
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/cut2" />
-		<property name="service" ref="cut2" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-	</bean>
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/cut3" />
-		<property name="service" ref="cut3" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-	</bean>
 </beans>
 	

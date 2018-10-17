@@ -18,12 +18,6 @@
 		<property name="recordName" value="BL20I-CG-CRYO-02:MP" />
 	</bean>
 	
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/cryostick" />
-		<property name="service" ref="cryostick" />
-		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
-	</bean>
-	
 	<bean id="cryostat_controller" class="uk.ac.gda.beamline.i20.scannable.Lakeshore340Controller">
 		<property name="pvName" value="BL20I-EA-TEMPC-01:" />
 	</bean>

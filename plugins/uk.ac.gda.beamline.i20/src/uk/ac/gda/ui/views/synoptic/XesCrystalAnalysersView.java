@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Label;
 
 import gda.device.DeviceException;
 import gda.device.Scannable;
-import gda.device.scannable.scannablegroup.corba.impl.ScannablegroupAdapter;
+import gda.device.scannable.scannablegroup.IScannableGroup;
 import gda.factory.Finder;
 /**
  * View of XES spectrometer crystal positions
@@ -90,7 +90,7 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 	 */
 	private void setupScannables() {
 		// Get list of names of all the scannables contained in the 'spectrometer' group
-		ScannablegroupAdapter spectrometerGroup = Finder.getInstance().find("spectrometer");
+		IScannableGroup spectrometerGroup = Finder.getInstance().find("spectrometer");
 		String[] nameList = spectrometerGroup.getGroupMemberNames();
 
 		// Get scannable for each item in group, store in map using corresponding enum value as key

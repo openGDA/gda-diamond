@@ -1,13 +1,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
@@ -20,101 +19,32 @@
 		</property>
 	</bean>
 
-	<bean id="filterwheel" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}filterwheel" />
-		<property name="serviceInterface" value="gda.device.EditableEnumPositioner" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
 	<import resource="spreadsheet-view.xml" />
 
-	<bean id="XASLoggingScriptController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}XASLoggingScriptController" />
-		<property name="serviceInterface" value="gda.jython.scriptcontroller.logging.ILoggingScriptController" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
-	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}commandQueueProcessor" />
-		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean class="gda.rcp.util.OSGIServiceRegister">
+	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="gda.commandqueue.Processor" />
 		<property name="service" ref="commandQueueProcessor" />
 	</bean>
-	<bean class="gda.rcp.util.OSGIServiceRegister">
+
+	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="gda.commandqueue.Queue" />
 		<property name="service" ref="commandQueueProcessor" />
 	</bean>
 
-
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<corba:adapterfactory namespace="${gda.factory.factoryName}"/>
-
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
-
-	<bean id="RCPController" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}rcpController" />
-		<property name="serviceInterface" value="gda.gui.RCPController" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>	
-
-<!-- 	<bean id="xspress2system" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}xspress2system" /> -->
-<!-- 		<property name="serviceInterface" -->
-<!-- 			value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" /> -->
-<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
-<!-- 	</bean>  -->
-
-<!-- 	<bean id="xspressConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}xspressConfig" /> -->
-<!-- 		<property name="serviceInterface" -->
-<!-- 			value="gda.device.detector.FluorescentDetectorConfiguration" /> -->
-<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
-<!-- 	</bean> -->
-
-	<bean id="vortexConfig" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}vortexConfig" />
-		<property name="serviceInterface"
-			value="gda.device.detector.FluorescentDetectorConfiguration" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>	
-	<bean id="vortexDetector" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}vortexDetector" />
-		<property name="serviceInterface"
-			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>	
 
 	<bean id="detectorMonitorDataProvider" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}detectorMonitorDataProvider" />
 		<property name="serviceInterface" value="gda.device.detector.DetectorMonitorDataProviderInterface" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-
-	<bean id="ionc1_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}ionc1_stanford" />
-		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="ionc2_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}ionc2_stanford" />
-		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	<bean id="ionc3_stanford" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}ionc3_stanford" />
-		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
-	<bean id="xspress4" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xspress4" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.detector.FluorescenceDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean> 
 
 	<bean id="detectorGroupTemplateConfiguration" class="uk.ac.gda.beans.exafs.DetectorGroupTemplateConfiguration" >
 		<property name="detectorGroupsMap">
@@ -159,18 +89,6 @@
 		</property>
 	</bean>
 
-	<bean id="XESEnergy" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}XESEnergy" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
-	<bean id="XESBragg" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}XESBragg" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
 	<bean id="vortexViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
 		<property name="name" value="vortexViewFactory" />
 		<property name="detectorName" value="vortexDetector" />
@@ -179,31 +97,6 @@
 	<bean id="xspress4ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
 		<property name="name" value="xspress4ViewFactory" />
 		<property name="detectorName" value="xspress4" />
-	</bean>
-
-<!-- Import scannables for persisted material, crystal cut values -->
-	<bean id="material" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}material" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
-	<bean id="cut1" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}cut1" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
-	<bean id="cut2" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}cut2" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
-	<bean id="cut3" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}cut3" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
 </beans>
