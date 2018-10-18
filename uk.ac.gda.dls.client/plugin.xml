@@ -45,6 +45,7 @@
               locationURI="toolbar:uk.ac.gda.client.toolbar?after=additions">
            <command
                  commandId="uk.ac.gda.dls.client.feedbackCommand"
+                 icon="icons/mail-send.png"
                  label="Send Feedback"
                  mode="FORCE_TEXT"
                  style="push"
