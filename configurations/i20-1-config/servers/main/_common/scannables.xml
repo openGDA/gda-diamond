@@ -31,12 +31,6 @@
 
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/alignment_stage" />
-		<property name="service" ref="alignment_stage" />
-		<property name="serviceInterface" value="gda.device.scannable.AlignmentStage" />
-	</bean>
-
 <!--  Scannable for opening, closing shutter during TurboXas scan -->
 	<bean id="openCloseShutterDuringScan" class="gda.device.scannable.ShutterOpenClose">
 		<property name="name" value="openCloseShutterDuringScan" />

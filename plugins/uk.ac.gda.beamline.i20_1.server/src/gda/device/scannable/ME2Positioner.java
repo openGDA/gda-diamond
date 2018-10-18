@@ -23,7 +23,9 @@ import java.util.Arrays;
 import gda.device.DeviceException;
 import gda.device.EnumPositioner;
 import gda.device.enumpositioner.EnumPositionerBase;
+import uk.ac.gda.api.remoting.ServiceInterface;
 
+@ServiceInterface(EnumPositioner.class)
 public class ME2Positioner extends EnumPositionerBase implements EnumPositioner {
 
 	public enum Positions {

@@ -32,6 +32,7 @@ import gda.device.detector.DetectorStatus;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.EdeDetectorBase;
 import gda.jython.InterfaceProvider;
+import uk.ac.gda.api.remoting.ServiceInterface;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -47,7 +48,7 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * <p>
  * Not implemented yet: beam orbit trigger, setup-leds. But these may not be required.
  */
-
+@ServiceInterface(EdeDetector.class)
 public class XhDetector extends EdeDetectorBase implements EdeDetector {
 
 	private static final Logger logger = LoggerFactory.getLogger(XhDetector.class);

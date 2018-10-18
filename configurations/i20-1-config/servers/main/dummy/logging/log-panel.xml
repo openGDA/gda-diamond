@@ -32,9 +32,6 @@
     <logger name="gda.jython.GDAInteractiveConsole">
         <level value="INFO"/>
     </logger>
-    <logger name="gda.factory.corba.util.PushEventQueue">
-        <level value="ERROR"/>
-    </logger>
     <logger name="gda.jython.GDAJythonInterpreter">
         <level value="WARN"/>
     </logger>

@@ -1,10 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
@@ -16,6 +14,7 @@
 			</bean>
 		</property>
 	</bean>
+
 	<bean id="__frelon" class="gda.device.frelon.impl.FrelonImpl">
 		<property name="tangoDeviceProxy">
 			<bean class="gda.device.TangoDeviceProxy">
@@ -25,7 +24,7 @@
 	</bean>
 	<bean id="frelonDetectorData" class="gda.device.detector.frelon.FrelonCcdDetectorData">
 	</bean>
-	
+
 	<bean id="frelon" class="gda.device.detector.frelon.EdeFrelon">
 		<property name="frelon" ref="__frelon"/>
 		<property name="limaCcd" ref="__limaCCD"/>
@@ -34,39 +33,10 @@
 		<property name="upperChannel" value="2047"/>
 		<property name="lowerChannel" value="0"/>
 	</bean>
-		
+
 	<bean id="ssfrelon" class="gda.device.detector.StepScanEdeDetector">
 		<property name="detector" ref="frelon"/>
 	</bean>
-	
-<!-- 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter"> -->
-<!-- 		<property name="serviceName" value="gda/frelonDetectorData" /> -->
-<!-- 		<property name="service" ref="frelonDetectorData" /> -->
-<!-- 		<property name="serviceInterface" value="gda.device.detector.IDetectorData" /> -->
-<!-- 	</bean> -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/frelon" />
-		<property name="service" ref="frelon" />
-		<property name="serviceInterface" value="gda.device.detector.EdeDetector" />
-	</bean>
-	
-	
-	
-<!-- 
->>>frelon_obj=finder.find("frelon_objects")
->>>limaCCD=frelon_obj.get("limaCCD")
->>>limaCCD.getStatus()
-The device is in ON state.
->>>limaCCD.getAcqMode()
-SINGLE
--->
-<!-- 	<bean id="__maxiPix2" class="gda.device.maxipix2.impl.MaxiPix2Impl">
-		<property name="tangoDeviceProxy">
-			<bean class="gda.device.TangoDeviceProxy">
-			<constructor-arg ref="maxiPixTangoDevice"/>
-			</bean>
-		</property>
-	</bean>	 -->
 
 	<bean id="frelon_objects" class="gda.device.FindableObjectHolder">
 		<property name="map">

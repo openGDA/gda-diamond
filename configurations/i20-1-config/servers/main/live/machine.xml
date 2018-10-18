@@ -29,31 +29,16 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="wiggler_gap_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="frontend_aperture" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="frontend_aperture_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="absorber" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE20I-RS-ABSB-01:STA" />
 		<property name="local" value="true" />
 	</bean>
-	
-<!-- rmi exports -->
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/wiggler_gap" />
-		<property name="service" ref="wiggler_gap" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>  
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/frontend_aperture" />
-		<property name="service" ref="frontend_aperture" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>
 </beans>

@@ -38,8 +38,10 @@ import gda.device.EnumPositionerStatus;
 import gda.device.MotorStatus;
 import gda.device.Scannable;
 import gda.factory.FactoryException;
+import uk.ac.gda.api.remoting.ServiceInterface;
 import uk.ac.gda.beans.ObservableModel;
 
+@ServiceInterface(AlignmentStage.class)
 public class AlignmentStageScannable extends ScannableBase implements EnumPositioner, AlignmentStage {
 
 	private static final Logger logger = LoggerFactory.getLogger(AlignmentStageScannable.class);

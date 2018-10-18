@@ -13,33 +13,5 @@
 			</list>
 		</property>
 	</bean>
-
-	<!-- rmi exports -->
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/atn1" />
-		<property name="service" ref="atn1" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-	</bean>  
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/atn2" />
-		<property name="service" ref="atn2" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-	</bean>  
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/atn3" />
-		<property name="service" ref="atn3" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-	</bean>  
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/atn4" />
-		<property name="service" ref="atn4" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-	</bean>  
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/atn5" />
-		<property name="service" ref="atn5" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-	</bean>  
 	
 </beans>

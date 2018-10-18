@@ -82,6 +82,7 @@
 	<bean id="me2_stripe" class="gda.device.scannable.ME2Positioner">
 		<property name="stripeScannable" ref="me2_stripe_positioner" />
 		<property name="yScannable" ref="me2_y_positioner" />
+		<property name="local" value="false" />
 	</bean>
 
 	<bean id="me2" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -166,46 +167,5 @@
 			</list>
 		</property>
 	</bean>
-
-<!-- rmi exports -->
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/me2_pitch" />
-		<property name="service" ref="me2_pitch" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>  
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/me2_stripe" />
-		<property name="service" ref="me2_stripe" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-	</bean>  
-
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/poly_bend1" />
-		<property name="service" ref="poly_bend1" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>  
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/poly_bend2" />
-		<property name="service" ref="poly_bend2" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>  
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/poly_curve" />
-		<property name="service" ref="poly_curve" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>  
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/poly_ellip" />
-		<property name="service" ref="poly_ellip" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>  
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/poly_theta" />
-		<property name="service" ref="poly_theta" />
-		<property name="serviceInterface" value="gda.device.ScannableMotionUnits" />
-	</bean>  
 
 </beans>

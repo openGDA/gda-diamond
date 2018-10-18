@@ -18,6 +18,9 @@
 
 package gda.device.detector.frelon;
 
+import java.util.HashMap;
+
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +29,7 @@ import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.detector.DetectorStatus;
+import gda.device.detector.EdeDetector;
 import gda.device.detector.EdeDetectorBase;
 import gda.device.frelon.Frelon;
 import gda.device.frelon.Frelon.ROIMode;
@@ -36,12 +40,10 @@ import gda.device.lima.LimaCCD.AcqStatus;
 import gda.device.lima.LimaCCD.ImageType;
 import gda.device.lima.impl.LimaROIIntImpl;
 import gda.factory.FactoryException;
-
-import java.util.HashMap;
-
-import org.apache.commons.lang.ArrayUtils;
+import uk.ac.gda.api.remoting.ServiceInterface;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
+@ServiceInterface(EdeDetector.class)
 public class EdeFrelon extends EdeDetectorBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(EdeFrelon.class);

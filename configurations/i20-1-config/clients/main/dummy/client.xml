@@ -1,42 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<import resource="file:${gda.config}/clients/main/_common/client.xml" />
-
-<!-- 	<bean id="xhDetectorData" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}/xhDetectorData" /> -->
-<!-- 		<property name="serviceInterface" value="gda.device.detector.IDetectorData" /> -->
-<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
-<!-- 	</bean> -->
-	<bean id="xh" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xh" />
-		<property name="serviceInterface" value="gda.device.detector.EdeDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
-	<bean id="xstrip" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}xstrip" />
-		<property name="serviceInterface" value="gda.device.detector.EdeDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-	
-<!-- 	<bean id="frelonDetectorData" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}/frelonDetectorData" /> -->
-<!-- 		<property name="serviceInterface" value="gda.device.detector.IDetectorData" /> -->
-<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="frelon" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}frelon" /> -->
-<!-- 		<property name="serviceInterface" value="gda.device.detector.EdeDetector" /> -->
-<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
-<!-- 	</bean> -->
 
 </beans>

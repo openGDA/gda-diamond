@@ -14,13 +14,7 @@
     <logger name="gda">
         <level value="DEBUG"/>
     </logger>
-    <logger name="gda.device.corba.impl">
-        <level value="INFO"/>
-    </logger>
     <logger name="gda.device.temperature">
-        <level value="INFO"/>
-    </logger>
-    <logger name="gda.jython.corba.impl">
         <level value="INFO"/>
     </logger>
 
