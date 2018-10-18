@@ -574,47 +574,4 @@
 		<property name="name" value="samplewheel_names" />
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/samplewheel_names" />
-		<property name="service" ref="samplewheel_names" />
-		<property name="serviceInterface" value="gda.device.EnumPositioner" />
-	</bean>
-
-<!-- RMI export the Stanford scannables -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ionc1_stanford" />
-		<property name="service" ref="ionc1_stanford" />
-		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ionc2_stanford" />
-		<property name="service" ref="ionc2_stanford" />
-		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ionc3_stanford" />
-		<property name="service" ref="ionc3_stanford" />
-		<property name="serviceInterface" value="gda.device.currentamplifier.StanfordAmplifier" />
-	</bean>
-
-<!-- RMI export the gas injector scannables -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ionc1_gas_injector" />
-		<property name="service" ref="ionc1_gas_injector" />
-		<property name="serviceInterface"
-			value="gda.device.Scannable" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ionc2_gas_injector" />
-		<property name="service" ref="ionc2_gas_injector" />
-		<property name="serviceInterface"
-			value="gda.device.Scannable" />
-	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ionc3_gas_injector" />
-		<property name="service" ref="ionc3_gas_injector" />
-		<property name="serviceInterface"
-			value="gda.device.Scannable" />
-	</bean>
-
 </beans>

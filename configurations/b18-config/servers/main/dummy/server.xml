@@ -1,13 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-2.0.xsd
-           http://www.diamond.ac.uk/schema/gda/corba
-           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
            http://www.springframework.org/schema/context 
            http://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -27,5 +24,6 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/metadata.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/core.xml" />
 
-	<corba:export namespace="b18" />
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>

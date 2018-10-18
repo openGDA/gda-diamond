@@ -91,11 +91,6 @@
 		<property name="pauseWhenQueueEmpty" value="true" />
 		<property name="logFilePath" value="${gda.logs.dir}/commandQueueProcessor.log" />
 	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/commandQueueProcessor" />
-		<property name="service" ref="commandQueueProcessor" />
-		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
-	</bean>
 
 	<import resource="../LoggingScriptController.xml" />
 </beans>

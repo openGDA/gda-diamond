@@ -175,13 +175,6 @@
 		<property name="xspress3Detector" ref="xspress3" />
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/xspress3" />
-		<property name="service" ref="xspress3" />
-		<property name="serviceInterface"
-			value="uk.ac.gda.devices.detector.FluorescenceDetector" />
-	</bean>
-
 	<bean id="FFI0_xspress3"
 		class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0Detector">
 		<property name="xspress3" ref="xspress3" />
@@ -195,13 +188,6 @@
 		<property name="qexafsXspress" ref="qexafs_xspress3" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 		<property name="i0_channel" value="1" />
-	</bean>
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/xspress2system" />
-		<property name="service" ref="xspress2system" />
-		<property name="serviceInterface"
-			value="uk.ac.gda.devices.detector.XspressFluorescenceDetector" />
 	</bean>
 
 	<bean id="detectorMonitorDataProvider" class="gda.device.detector.DetectorMonitorDataProvider">
