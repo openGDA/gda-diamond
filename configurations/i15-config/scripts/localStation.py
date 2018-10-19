@@ -48,7 +48,7 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 
-global finder, run, etl, prop, add_default, vararg_regex, \
+global finder, run, etl, prop, add_default, vararg_alias, \
 	s1xpos, s1xgap, s1ypos, s1ygap,\
 	s1xplus, s1xminus, s1yplus, s1yminus,\
 	dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,\
@@ -314,7 +314,7 @@ try:
 
 	try:
 		simpleLog("Setup aliases")
-		vararg_regex("scan")
+		vararg_alias("scan")
 		alias("dp")
 		alias("shopen")
 		alias("oehs")
