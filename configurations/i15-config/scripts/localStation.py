@@ -645,7 +645,7 @@ try:
 				'd7x', 'd7y',
 				'bs2x', 'bs2y', 'bs3x', 'bs3y', 'bs3z',
 				'det2z',
-				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9',
+				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd9',
 				'd1sum', 'd2sum', 'd3sum', 'd4sum', 'd5sum',
 				'cryox', 'cryoy', 'cryoz', 'cryorot',
 				)
@@ -654,13 +654,16 @@ try:
 			cant_find=[]
 			errors=[]
 			for scn_name in stdmetadatascannables:
-				scn=finder.find(scn_name)
+				scn=jythonNameMap[scn_name]
 				if not scn:
-					logger.debug("Unable to find {}, trying jythonNameMap", scn_name)
-					scn=jythonNameMap[scn_name]
+					logger.debug("Unable to find {} in jythonNameMap, trying finder", scn_name)
+					scn=finder.find(scn_name)
 				if scn:
 					try:
-						scn.getPosition()
+						if scn.isConfigured():
+							scn.getPosition()
+						else:
+							logger.debug("Ignoring {} as it's not configured!")
 						meta_add(scn)
 					except:
 						logger.error("Unable to add {}", scn_name, sys.exc_info()[1])
