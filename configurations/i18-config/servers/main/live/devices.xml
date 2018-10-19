@@ -145,7 +145,7 @@
 	</bean>
 
 	<bean id="ringModeMonitor" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="SR-CS-RING-01:MODE" />
+		<property name="pvName" value="SR-CS-FILL-01:TOPUPMODE" />
 		<property name="local" value="false" />
 	</bean>
 
