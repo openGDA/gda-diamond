@@ -304,15 +304,6 @@ try:
 		localStation_exception(sys.exc_info(), "creating diodes")
 
 	try:
-		simpleLog("Create mca's")
-		d1_mca = finder.find("D1_MCA")
-		d2_mca = finder.find("D2_MCA")
-		d3_mca = finder.find("D3_MCA")
-		d4_mca = finder.find("D4_MCA")
-	except:
-		localStation_exception(sys.exc_info(), "creating mca's")
-
-	try:
 		simpleLog("Setup aliases")
 		vararg_alias("scan")
 		alias("dp")
