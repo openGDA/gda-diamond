@@ -7,7 +7,7 @@
 	<bean id="ocs_controller" class="gda.device.temperature.CryoController">
 		<property name="local" value="true"/>
 		<property name="configureAtStartup" value="true"/>
-		<property name="deviceName" value="ENV.CSTRM1"/>
+		<property name="pvRoot" value="BL15I-EA-CSTRM-01"/>
 	</bean>
 
 	<bean id="ocs" class="gda.device.temperature.OxfordCryostream700">

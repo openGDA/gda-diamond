@@ -4,22 +4,22 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="Pin2XMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PIN2.X" />
+		<property name="pvName" value="BL15I-AL-APTR-02:X" />
 	</bean>
 
 	<bean id="Pin2YMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PIN2.Y" />
+		<property name="pvName" value="BL15I-AL-APTR-02:Y" />
 	</bean>
 
 	<bean id="Pin2ZMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PIN2.Z" />
+		<property name="pvName" value="BL15I-AL-APTR-02:Z" />
 	</bean>
 
 	<bean id="Pin2PitchMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PIN2.PITCH" />
+		<property name="pvName" value="BL15I-AL-APTR-02:PITCH" />
 	</bean>
 
 	<bean id="Pin2YawMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PIN2.YAW" />
+		<property name="pvName" value="BL15I-AL-APTR-02:YAW" />
 	</bean>
 </beans>

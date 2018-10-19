@@ -1,25 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <included debug="true">
 
-    <!-- The include statement in the following java.properties file is not read so you need to reference both -->
-    <property file="${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties" />
-    <property file="${gda.config}/properties/_common/common_instance_java.properties" />
-    <!-- include file is relative to the application directory -->
+	<!-- Include the standard set of properties files -->
+	<include file="${gda.core.dir}/properties/logging_properties_includes.xml" />
 
-    <!-- Note that messages filtered here will not be seen by the log server at all, so will never end up in the log
-         file or on the panel no matter what levels are set to elsewhere. -->
+	<!-- address where the messages from Object Servers send to - the LogServer-->
+	<appender name="LogServer" class="ch.qos.logback.classic.net.SocketAppender">
+		<RemoteHost>${gda.logserver.host}</RemoteHost>
+		<Port>${gda.server.logging.port}</Port>
+		<ReconnectionDelay>10000</ReconnectionDelay>
+		<IncludeCallerData>true</IncludeCallerData>
+	</appender>
 
-    <!-- address where the messages from Object Servers send to - the LogServer-->
-    <appender name="SOCKET" class="ch.qos.logback.classic.net.SocketAppender">
-        <RemoteHost>${gda.logserver.host}</RemoteHost>
-        <Port>${gda.server.logging.port}</Port>
-        <ReconnectionDelay>10000</ReconnectionDelay>
-        <IncludeCallerData>true</IncludeCallerData>
-    </appender>
-    
-	<logger name="uk.ac.diamond.scisoft.analysis.rcp.plotting.PlotWindowManager">
-        <level value="OFF"/>
-    </logger>
+	<!-- Wrap the Logserver appender with a AsyncAppender to ensure logging never reduces client or server performance
+			http://logback.qos.ch/manual/appenders.html#AsyncAppender
+			http://blog.takipi.com/how-to-instantly-improve-your-java-logging-with-7-logback-tweaks/ -->
+	<appender name="logserver_async" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="LogServer" />
+		<queueSize>1000</queueSize>
+		<discardingThreshold>0</discardingThreshold> <!-- This wont drop any messages unless the queue becomes full -->
+		<neverBlock>true</neverBlock> <!-- If the message queue becomes full this will drop messages instead of blocking  -->
+	</appender>
+	<!-- Also AsyncAppender populates threadName in log message, so %thread in format works. -->
+
+	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d %-5level %logger - %m [%t]%n%rEx</pattern>
+		</layout>
+	</appender>
+
+	<!-- Note that messages filtered here will not be seen by the log server at all, so will never end up in the log
+		 file or on the panel no matter what levels are set to elsewhere. -->
+
+	<!-- Classes for which INFO messages are excessive
+	 -->
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.PlotWindowManager">			<level value="ERROR"/></logger>
+
+	<!-- Classes for which DEBUG messages are excessive
+	 -->
+	<logger name="gda.device.motor.MoveEventQueue">										<level value="INFO"/></logger>
+	<logger name="org.apache.activemq.transport.AbstractInactivityMonitor">				<level value="INFO"/></logger>
+	<logger name="org.eclipse.jetty.server">											<level value="INFO"/></logger>
+	<logger name="org.eclipse.jetty.servlet">											<level value="INFO"/></logger>
+	<logger name="org.eclipse.jetty.io">												<level value="INFO"/></logger>
+	<logger name="org.eclipse.jetty.http">												<level value="INFO"/></logger>
+
+
+	<!-- Classes for which TRACE messages are excessive
+	 -->
+	<logger name="gda.device.motor.EpicsMotor">											<level value="DEBUG"/></logger>
+	<logger name="hdf.hdf5lib.H5">														<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.ActiveMQMessageConsumer">							<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.ActiveMQSession">									<level value="DEBUG"/></logger>
+	<logger name="org.apache.activemq.thread.PooledTaskRunner">							<level value="DEBUG"/></logger>
+	<logger name="uk.ac.diamond.daq.concurrent.Async">									<level value="DEBUG"/></logger>
+	<logger name="uk.ac.diamond.scisoft.analysis.io.HDF5Loader">						<level value="DEBUG"/></logger>
 
 </included>

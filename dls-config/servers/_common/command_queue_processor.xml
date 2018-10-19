@@ -13,10 +13,4 @@
 		<property name="queue" ref="commandQueue" />
 		<property name="startImmediately" value="true"/>
 	</bean>
-
-	<gda:rmi-export
-		service="commandQueueProcessor"
-		serviceName="gda/commandQueueProcessor"
-		serviceInterface="gda.commandqueue.IFindableQueueProcessor" />
-
 </beans>

@@ -1,9 +1,0 @@
-#!/bin/sh
-#
-
-. /dls/i06/software/gda-test/config/testing/bin/test_profile.sh
-
-
-#ShutDown manually over URL by http://hostname:prot?responder=shutdown, or:
-java -cp ${FITNESSE_HOME}/fitnesse.jar fitnesse.Shutdown -p ${TEST_PORT}
-

@@ -4,17 +4,17 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="shdx_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SHEAD.X" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-MO-SHEAD-01:X" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="shdy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SHEAD.Y" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-MO-SHEAD-01:Y" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="shdz_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="SHEAD.Z" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-MO-SHEAD-01:Z" />
+		<property name="local" value="true" />
 	</bean>
 </beans>

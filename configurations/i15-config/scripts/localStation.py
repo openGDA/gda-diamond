@@ -48,7 +48,7 @@ from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProc
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue #@UnusedImport
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 
-global finder, run, etl, prop, add_default, vararg_regex, \
+global finder, run, etl, prop, add_default, vararg_alias, \
 	s1xpos, s1xgap, s1ypos, s1ygap,\
 	s1xplus, s1xminus, s1yplus, s1yminus,\
 	dcmbragg1, dcmbragg2, dcmxtl1y, dcmxtl2y,\
@@ -304,17 +304,8 @@ try:
 		localStation_exception(sys.exc_info(), "creating diodes")
 
 	try:
-		simpleLog("Create mca's")
-		d1_mca = finder.find("D1_MCA")
-		d2_mca = finder.find("D2_MCA")
-		d3_mca = finder.find("D3_MCA")
-		d4_mca = finder.find("D4_MCA")
-	except:
-		localStation_exception(sys.exc_info(), "creating mca's")
-
-	try:
 		simpleLog("Setup aliases")
-		vararg_regex("scan")
+		vararg_alias("scan")
 		alias("dp")
 		alias("shopen")
 		alias("oehs")
@@ -618,6 +609,9 @@ try:
 		# New metadata system doesn't allow metadata scannables to be set
 		def stdmeta():
 			""" This function resets the metadata scannables to the standard list in localststion"""
+
+			logger = LoggerFactory.getLogger("stdmeta")
+
 			stdmetadatascannables = ('ringCurrent', 'wigglerField',
 				's1xpos', 's1xgap', 's1ypos', 's1ygap',
 				's1xplus', 's1xminus', 's1yplus', 's1yminus',
@@ -651,23 +645,31 @@ try:
 				'd7x', 'd7y',
 				'bs2x', 'bs2y', 'bs3x', 'bs3y', 'bs3z',
 				'det2z',
-				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9',
+				'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd8', 'd9',
 				'd1sum', 'd2sum', 'd3sum', 'd4sum', 'd5sum',
-				'cryox', 'cryoy', 'cryoz', 'cryorot'
+				'cryox', 'cryoy', 'cryoz', 'cryorot',
 				)
 			
 			before=set(metashop.getMetaScannables())
 			cant_find=[]
 			errors=[]
 			for scn_name in stdmetadatascannables:
-				try:
+				scn=jythonNameMap[scn_name]
+				if not scn:
+					logger.debug("Unable to find {} in jythonNameMap, trying finder", scn_name)
 					scn=finder.find(scn_name)
+				if scn:
 					try:
-						scn.getPosition()
+						if scn.isConfigured():
+							scn.getPosition()
+						else:
+							logger.debug("Ignoring {} as it's not configured!")
 						meta_add(scn)
 					except:
+						logger.error("Unable to add {}", scn_name, sys.exc_info()[1])
 						errors.append(scn_name)
-				except:
+				else:
+					logger.error("Unable to find {}", scn_name)
 					cant_find.append(scn_name)
 			after=set(metashop.getMetaScannables())
 			if (before-after):
@@ -676,9 +678,11 @@ try:
 				simpleLog("                                  added: " + " ".join(str(x.name) for x in after-before))
 			if (cant_find):
 				simpleLog("                             can't find: " + " ".join(x for x in cant_find))
+				localStation_exceptions.append("  finding scannables for metadata: " + " ".join(x for x in cant_find))
 			if (errors):
 				simpleLog("                               erroring: " + " ".join(x for x in errors))
 				localStation_exceptions.append("    adding scannables to metadata: " + " ".join(x for x in errors))
+				localStation_exceptions.append("     Try running `stdmeta` again now that localstation has finished")
 			if (after):
 				simpleLog("                                current: " + " ".join(str(x.name) for x in after))
 

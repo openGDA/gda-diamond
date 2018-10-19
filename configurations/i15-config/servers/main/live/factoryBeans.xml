@@ -1,13 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/util
-		http://www.springframework.org/schema/util/spring-util-2.0.xsd
-		http://www.diamond.ac.uk/schema/gda/corba
-		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+		http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 	<bean id="Ring"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
@@ -39,50 +36,87 @@
 	 -->
 	<bean id="PHDGN1"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN1" />
+		<property name="recordPvs">
+			<map>
+				<entry key="RECORD" value="BL15I-DI-PHDGN-01:I" />
+			</map>
+		</property>
 		<property name="dummyMode" value="false"/>
 	</bean>
+
 	<bean id="PHDGN2"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN2" />
+		<property name="recordPvs">
+			<map>
+				<entry key="RECORD" value="BL15I-DI-PHDGN-02:I" />
+			</map>
+		</property>
 		<property name="dummyMode" value="false"/>
 	</bean>
+
 	<bean id="PHDGN3"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN3" />
+		<property name="recordPvs">
+			<map>
+				<entry key="RECORD" value="BL15I-DI-PHDGN-03:I" />
+			</map>
+		</property>
 		<property name="dummyMode" value="false"/>
 	</bean>
+
 	<bean id="PHDGN4"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN4" />
+		<property name="recordPvs">
+			<map>
+				<entry key="RECORD" value="BL15I-DI-PHDGN-04:I" />
+			</map>
+		</property>
 		<property name="dummyMode" value="false"/>
 	</bean>
+
 	<bean id="PHDGN5"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN5" />
+		<property name="recordPvs">
+			<map>
+				<entry key="RECORD" value="BL15I-DI-PHDGN-05:I" />
+			</map>
+		</property>
 		<property name="dummyMode" value="false"/>
 	</bean>
+
 	<bean id="PHDGN6"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN6" />
+		<property name="recordPvs">
+			<map>
+				<entry key="RECORD" value="BL15I-DI-PHDGN-06:I" />
+			</map>
+		</property>
 		<property name="dummyMode" value="false"/>
 	</bean>
 
 	<bean id="PHDGN8"
 			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN8" />
-		<property name="dummyMode" value="false"/>
-	</bean>
-	<bean id="PHDGN9"
-			class="gda.spring.FindableEpicsDeviceFactoryBean">
-		<property name="deviceName" value="PHDGN9" />
+		<property name="recordPvs">
+			<map>
+				<entry key="RECORD" value="BL15I-DI-PHDGN-08:I" />
+			</map>
+		</property>
 		<property name="dummyMode" value="false"/>
 	</bean>
 
-	<!-- Proportional Counter -->	
-	<bean id="prop"
-			class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="PRCNT1.I" />
+	<bean id="PHDGN9"
+			class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="RECORD" value="BL15I-DI-PHDGN-09:I" />
+			</map>
+		</property>
+		<property name="dummyMode" value="false"/>
+	</bean>
+
+	<!-- Proportional Counter -->
+	<bean id="prop" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL15I-DI-PROP-01:I" />
 	</bean>
 
 	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">

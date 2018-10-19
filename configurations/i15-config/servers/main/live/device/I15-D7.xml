@@ -4,12 +4,12 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="d7x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D7.X" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-DI-PHDGN-07:X" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="d7y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D7.Y" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-DI-PHDGN-07:Y" />
+		<property name="local" value="true" />
 	</bean>
 </beans>

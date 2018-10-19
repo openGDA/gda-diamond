@@ -4,56 +4,38 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="S1xminusMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.XMINUS" />
+		<property name="pvName" value="BL15I-AL-SLITS-01:X:MINUS" />
 	</bean>
 
 	<bean id="S1xplusMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.XPLUS" />
+		<property name="pvName" value="BL15I-AL-SLITS-01:X:PLUS" />
 	</bean>
 
 	<bean id="S1yminusMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.YMINUS" />
+		<property name="pvName" value="BL15I-AL-SLITS-01:Y:MINUS" />
 	</bean>
 
 	<bean id="S1yplusMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.YPLUS" />
+		<property name="pvName" value="BL15I-AL-SLITS-01:Y:PLUS" />
 	</bean>
 
 	<bean id="S1xposMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.XCENTRE" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-AL-SLITS-01:X:CENTER" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S1xgapMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.XSIZE" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-AL-SLITS-01:X:SIZE" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S1yposMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.YCENTRE" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-AL-SLITS-01:Y:CENTER" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S1ygapMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.YSIZE" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-AL-SLITS-01:Y:SIZE" />
+		<property name="local" value="true" />
 	</bean>
-
-	<!-- 
-	<bean id="s1atemp1" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="S1.AT1" />
-	</bean>
-
-	<bean id="s1atemp2" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="S1.AT2" />
-	</bean>
-
-	<bean id="s1btemp1" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="S1.BT1" />
-	</bean>
-
-	<bean id="s1btemp2" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="S1.BT2" />
-	</bean>
-	 -->
 </beans>

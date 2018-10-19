@@ -16,7 +16,11 @@ class ChiPseudoDevice(PseudoDevice):
         self.phi=phi
         self.hconv=H.EulerianKconversion(theta, kappa, phi, thoffset, phioffset)
         self.verbose = False
-        self.vphi, self.vkappa, self.vtheta = phi.speed, kappa.speed, theta.speed
+        self.vphi, self.vkappa, self.vtheta = (
+            phi.speed if phi.isConfigured() else 0, 
+            kappa.speed if kappa.isConfigured() else 0, 
+            theta.speed if theta.isConfigured() else 0
+        )
         self.speedsAdjusted=False
 
     def asynchronousMoveTo(self,new_chi):

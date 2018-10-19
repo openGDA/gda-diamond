@@ -2,15 +2,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util-2.0.xsd
 		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.diamond.ac.uk/schema/gda/corba
-		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+		http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -87,11 +84,6 @@
 		<property name="dummyMode" value="true"/>
 	</bean>
 
-	<!-- id="prop" not available in dummy -->	
-
-	<!-- id="ODCCD" not available in dummy -->	
-	<!-- id="Mar345Detector" not available in dummy -->	
-
 	<!--  
 	      IMPORTANT: this will start processing the scanning queue. 
 	      detectors must be created before doing this.
@@ -99,7 +91,8 @@
 	 -->
 	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
 
-	<corba:export namespace="${gda.factory.factoryName}" />
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 	<!-- SingletonRegistrationPostProcessor not needed in dummy
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
