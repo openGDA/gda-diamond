@@ -164,22 +164,20 @@ prep_xsp3()
 from mapping_scan_commands import mscan, grid, detector, mstep, rect
 from org.eclipse.scanning.api.points.models import StepModel
 
-print "Initialization Complete";
+print "Initialization Complete"
 
 print "****************************************"
 print ""
 print "Useful commands:"
 print ""
-print "To switch to use table 3 (large stage) for rastering:"
-print " selectStage(3)"
-print "To switch back to table 1 (small stage) for rastering:"
-print " selectStage(1)"
-print ""
 print "To disable/enable use of the ID Gap:"
 print " map.disableUseIDGap()"
 print " map.enableUseIDGap()"
 print ""
-print "To change the y axis used in maps to fine theta (but could be any motor) using stage1 (for tomography measurements):"
-print " map.setStage1Y(sc_sample_thetafine)"
-print " map.setStage(1)"
+print "To disable/enable all watchdogs:"
+print " disableWatchdogs()/enableWatchdogs()"
+print ""
+print "To disable/enable a single watchdog e.g. topup:"
+print " topupWatchdog.setEnabled(False)/(True)"
+print ""
 print "****************************************"
