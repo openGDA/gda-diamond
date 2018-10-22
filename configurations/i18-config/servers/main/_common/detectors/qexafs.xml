@@ -67,8 +67,7 @@
 	<bean id="zebraContinuousMoveControllerForQexafs"
 		class="gda.device.zebra.ZebraConstantVelocityMoveControllerForQexafs">
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController" />
-		<!-- <property name="mode" value="1"/> -->
-		<!-- <property name="zebraMotorInfoProvider" ref="zebraSM1"/> -->
+		<property name="sampleShutter" ref="sample_shutter" />
 		<property name="minimumBraggAccelerationDistance" value="0.001" />
 		<property name="minimumScannableMotorAccelerationDistance"
 			value="0.01" />

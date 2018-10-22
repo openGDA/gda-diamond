@@ -424,5 +424,9 @@
 		<property name="pvName" value="BL18I-MO-TABLE-02:Y" />
 		<property name="local" value="true" />
 	</bean>
+		
+	<bean id="sample_shutter" class="gda.device.enumpositioner.EpicsValve">
+		<property name="epicsRecordName" value="BL18I-EA-SHTR-01" />
+	</bean>
 
 </beans>
