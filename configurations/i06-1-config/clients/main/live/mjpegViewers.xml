@@ -1,0 +1,119 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+<!-- setup CameraView -->
+       <bean id="d3_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="D3 Cam1 Preview" />
+              <property name="exposurePV" value="BL06I-DI-PHDGN-99:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="BL06I-DI-PHDGN-99:CAM:AcquirePeriod" />
+              <property name="gainPV" value="BL06I-DI-PHDGN-99:CAM:Gain" />
+              <property name="acquirePV" value="BL06I-DI-PHDGN-99:CAM:Acquire" />
+              <property name="urlPV" value="BL06I-DI-PHDGN-99:MJPG:MJPG_URL_RBV" />
+       </bean>
+       
+       <bean id="d4_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="D4 Cam1 Preview" />
+              <property name="exposurePV" value="BL06I-DI-PHDGN-02:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="BL06I-DI-PHDGN-02:CAM:AcquirePeriod" />
+              <property name="gainPV" value="BL06I-DI-PHDGN-02:CAM:Gain" />
+              <property name="acquirePV" value="BL06I-DI-PHDGN-02:CAM:Acquire" />
+              <property name="urlPV" value="BL06I-DI-PHDGN-02:MJPG:MJPG_URL_RBV" />
+       </bean>
+
+       <bean id="d7_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="D7 Cam1 Preview" />
+              <property name="exposurePV" value="BL06I-DI-PHDGN-04:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="BL06I-DI-PHDGN-04:CAM:AcquirePeriod" />
+              <property name="gainPV" value="BL06I-DI-PHDGN-04:CAM:Gain" />
+              <property name="acquirePV" value="BL06I-DI-PHDGN-04:CAM:Acquire" />
+              <property name="urlPV" value="BL06I-DI-PHDGN-04:MJPG:MJPG_URL_RBV" />
+       </bean>
+
+       <bean id="peem_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="PEEM Cam1 Preview" />
+              <property name="exposurePV" value="BL06I-EA-PHDGN-01:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="BL06I-EA-PHDGN-01:CAM:AcquirePeriod" />
+              <property name="gainPV" value="BL06I-EA-PHDGN-01:CAM:Gain" />
+              <property name="acquirePV" value="BL06I-EA-PHDGN-01:CAM:Acquire" />
+              <property name="urlPV" value="BL06I-EA-PHDGN-01:MJPG:MJPG_URL_RBV" />
+       </bean>
+       
+       <bean id="pixis_cam_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="Pixis Camera Preview" />
+              <property name="exposurePV" value="BL06I-EA-PIXIS-01:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="BL06I-EA-PIXIS-01:CAM:AcquirePeriod" />
+              <property name="gainPV" value="BL06I-EA-PIXIS-01:CAM:Gain" />
+              <property name="acquirePV" value="BL06I-EA-PIXIS-01:CAM:Acquire" />
+              <property name="urlPV" value="BL06I-EA-PIXIS-01:MJPG1:MJPG_URL_RBV" />
+       </bean>
+       
+
+       <bean id="ddiff_dcam1_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="DDIFF Cam1 Preview" />
+              <property name="exposurePV" value="BL06I-EA-DDIFF-01:DCAM1:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="BL06I-EA-DDIFF-01:DCAM1:CAM:AcquirePeriod" />
+              <property name="gainPV" value="BL06I-EA-DDIFF-01:DCAM1:CAM:Gain" />
+              <property name="acquirePV" value="BL06I-EA-DDIFF-01:DCAM1:CAM:Acquire" />
+              <property name="urlPV" value="BL06I-EA-DDIFF-01:DCAM1:MJPG:MJPG_URL_RBV" />
+       </bean>
+
+
+       <bean id="ddiff_dcam2_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="DDIFF Cam2 Preview" />
+              <property name="exposurePV" value="BL06I-EA-DDIFF-01:DCAM2:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="BL06I-EA-DDIFF-01:DCAM2:CAM:AcquirePeriod" />
+              <property name="gainPV" value="BL06I-EA-DDIFF-01:DCAM2:CAM:Gain" />
+              <property name="acquirePV" value="BL06I-EA-DDIFF-01:DCAM2:CAM:Acquire" />
+              <property name="urlPV" value="BL06I-EA-DDIFF-01:DCAM2:MJPG:MJPG_URL_RBV" />
+       </bean>
+
+       <bean id="ddiff_dcam3_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="DDIFF Cam3 Preview" />
+              <property name="exposurePV" value="BL06I-EA-DDIFF-01:DCAM3:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="BL06I-EA-DDIFF-01:DCAM3:CAM:AcquirePeriod" />
+              <property name="gainPV" value="BL06I-EA-DDIFF-01:DCAM3:CAM:Gain" />
+              <property name="acquirePV" value="BL06I-EA-DDIFF-01:DCAM3:CAM:Acquire" />
+              <property name="urlPV" value="BL06I-EA-DDIFF-01:DCAM3:MJPG:MJPG_URL_RBV" />
+       </bean>
+
+       <bean id="ddiff_dcam4_config" class="uk.ac.gda.video.views.EpicsCameraParameters">
+              <property name="name" value="DDIFF Cam4 Preview" />
+              <property name="exposurePV" value="BL06I-EA-DDIFF-01:DCAM4:CAM:AcquireTime" />
+              <property name="acqPeriodPV" value="BL06I-EA-DDIFF-01:DCAM4:CAM:AcquirePeriod" />
+              <property name="gainPV" value="BL06I-EA-DDIFF-01:DCAM4:CAM:Gain" />
+              <property name="acquirePV" value="BL06I-EA-DDIFF-01:DCAM4:CAM:Acquire" />
+              <property name="urlPV" value="BL06I-EA-DDIFF-01:DCAM4:MJPG:MJPG_URL_RBV" />
+       </bean>
+       
+       <bean id="camera_config" class="uk.ac.gda.video.views.CameraConfig">
+              <property name="cameras">
+                     <list>
+                           <ref bean="d3_cam_config" />
+                           <ref bean="d4_cam_config" />
+                           <ref bean="d7_cam_config" />
+                           <ref bean="d7_cam_config" />
+                           <ref bean="ddiff_dcam1_config" />
+                           <ref bean="ddiff_dcam2_config" />
+                           <ref bean="ddiff_dcam3_config" />
+                           <ref bean="ddiff_dcam4_config" />
+                           <ref bean="pixis_cam_config" />
+                     </list>
+              </property>
+              <property name="plotViewID" value="uk.ac.gda.nano.views.ImageView" />
+       </bean>
+       
+        <bean class="gda.util.osgi.OSGiServiceRegister">
+                <property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
+                <property name="service" ref="camera_config" />
+        </bean>
+       
+
+</beans>

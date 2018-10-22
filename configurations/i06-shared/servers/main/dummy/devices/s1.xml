@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Primary Slits S1 Motors -->
+	<bean id="MotorXPos_S1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-2.40000" />
+		<property name="maxPosition" value="5.445000" />
+		<property name="speed" value="0.1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="MotorXNeg_S1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5.454000" />
+		<property name="maxPosition" value="1.9000000" />
+		<property name="speed" value="0.1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="MotorYPos_S1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.900000" />
+		<property name="maxPosition" value="5.746000" />
+		<property name="speed" value="0.1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorYNeg_S1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5.154000" />
+		<property name="maxPosition" value="1.900000" />
+		<property name="speed" value="0.1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorXSize_S1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-3.809000" />
+		<property name="maxPosition" value="6.200000" />
+		<property name="speed" value="0.1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorXCentre_S1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5.154000" />
+		<property name="maxPosition" value="2.650500" />
+		<property name="speed" value="0.1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorYSize_S1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5.154000" />
+		<property name="maxPosition" value="6.200000" />
+		<property name="speed" value="0.1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorYCentre_S1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-2.650000" />
+		<property name="maxPosition" value="2.650000" />
+		<property name="speed" value="0.1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

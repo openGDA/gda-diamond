@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
+	<import resource="scanDataPointServer.xml"/>
+	<import resource="commandQueueProcessor.xml"/>
+	<import resource="serverFileListener.xml"/>
+	
+	
+	<!-- enable remote object access via client side AdapterFactory, to support gda.factory.Findable#find(name) in client codes -->
+	<bean class="gda.factory.corba.util.AdapterFactory">
+		<constructor-arg index="0" value="${gda.factory.factoryName}" />
+		<constructor-arg index="1">
+			<bean class="gda.spring.NetServiceFactoryBean" />
+		</constructor-arg>
+	</bean>
+	
+	<!-- ensure all Findables have their name set (from ID attribute?) -->
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+</beans>

@@ -1,0 +1,248 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
+   
+   	<!-- Insertion Device -->
+	<!--  IDD or ID1 -->
+	<bean id="idd_gap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idd_gap_motor" />
+	</bean>
+
+	<bean id="idd_rowphase1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idd_rowphase1_motor" />
+	</bean>
+
+	<bean id="idd_rowphase2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idd_rowphase2_motor" />
+	</bean>
+
+	<bean id="idd_rowphase3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idd_rowphase3_motor" />
+	</bean>
+
+	<bean id="idd_rowphase4" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idd_rowphase4_motor" />
+	</bean>
+
+	<bean id="idd_jawphase" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idd_jawphase_motor" />
+	</bean>
+
+	<bean id="idd_sepphase" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idd_sepphase_motor" />
+	</bean>
+	
+	<!-- IDU or ID2 -->
+	<bean id="idu_gap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idu_gap_motor" />
+	</bean>
+
+	<bean id="idu_rowphase1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idu_rowphase1_motor" />
+	</bean>
+
+	<bean id="idu_rowphase2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idu_rowphase2_motor" />
+	</bean>
+
+	<bean id="idu_rowphase3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idu_rowphase3_motor" />
+	</bean>
+
+	<bean id="idu_rowphase4" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idu_rowphase4_motor" />
+	</bean>
+
+	<bean id="idu_jawphase" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idu_jawphase_motor" />
+	</bean>
+
+	<bean id="idu_sepphase" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="idu_sepphase_motor" />
+	</bean>
+
+	<!-- Configure ID gap and row phase converters -->
+	
+<!-- 	<bean id="idu_gap_from_eV_pos" class="gda.util.converters.JEPConverterHolder"> -->
+<!-- 		<constructor-arg value="idu_gap_from_eV_pos" /> -->
+<!-- 		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/idu_gap_from_eV_pos.xml" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="idu_gap_from_eV_neg" class="gda.util.converters.JEPConverterHolder"> -->
+<!-- 		<constructor-arg value="idu_gap_from_eV_neg" /> -->
+<!-- 		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/idu_gap_from_eV_neg.xml" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="idu_row_phase_from_gap_pos" class="gda.util.converters.JEPConverterHolder"> -->
+<!-- 		<constructor-arg value="idu_row_phase_from_gap_pos" /> -->
+<!-- 		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/idu_row_phase_from_gap_pos.xml" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="idu_row_phase_from_gap_neg" class="gda.util.converters.JEPConverterHolder"> -->
+<!-- 		<constructor-arg value="idu_row_phase_from_gap_neg" /> -->
+<!-- 		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/idu_row_phase_from_gap_neg.xml" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="idu_row_phase_from_eV_pos" class="gda.util.converters.CoupledConverterHolder"> -->
+<!-- 		<constructor-arg value="idu_row_phase_from_eV_pos" /> -->
+<!-- 		<constructor-arg value="idu_gap_from_eV_pos" /> -->
+<!-- 		<constructor-arg value="idu_row_phase_from_gap_pos" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="idu_row_phase_from_eV_neg" class="gda.util.converters.CoupledConverterHolder"> -->
+<!-- 		<constructor-arg value="idu_row_phase_from_eV_neg" /> -->
+<!-- 		<constructor-arg value="idu_gap_from_eV_neg" /> -->
+<!-- 		<constructor-arg value="idu_row_phase_from_gap_neg" /> -->
+<!-- 	</bean> -->
+
+	<!-- Converter and Coupled scannables -->
+	
+<!-- 	<bean id="idupgmpos_energy_test" class="gda.device.scannable.CoupledScannable"> -->
+<!-- 		<property name="name" value="idupgmpos_energy_test" /> -->
+<!-- 		<property name="scannables"> -->
+<!-- 			<list> -->
+<!-- 				<bean class="gda.device.scannable.ConvertorScannable"> -->
+<!-- 					<property name="name" value="idu_gap_energy_pos" /> -->
+<!-- 					<property name="scannableName" value="idu_gap"/> -->
+<!-- 					<property name="convertorName" value="idu_gap_from_eV_pos"/>	 -->
+<!-- 				</bean> -->
+<!-- 				<bean class="gda.device.scannable.ConvertorScannable"> -->
+<!-- 					<property name="name" value="idu_rowphase1_energy_pos" /> -->
+<!-- 					<property name="scannableName" value="idu_rowphase1"/> -->
+<!-- 					<property name="convertorName" value="idu_row_phase_from_eV_pos"/>	 -->
+<!-- 				</bean> -->
+<!-- 				<bean class="gda.device.scannable.ConvertorScannable"> -->
+<!-- 					<property name="name" value="idu_rowphase2_energy_pos" /> -->
+<!-- 					<property name="scannableName" value="idu_rowphase2"/> -->
+<!-- 					<property name="convertorName" value="idu_row_phase_from_eV_pos"/>	 -->
+<!-- 				</bean> -->
+<!-- 				<bean class="gda.device.scannable.ConvertorScannable"> -->
+<!-- 					<property name="name" value="idu_rowphase3_energy_pos" /> -->
+<!-- 					<property name="scannableName" value="idu_rowphase3"/> -->
+<!-- 					<property name="convertorName" value="idu_row_phase_from_eV_pos"/>	 -->
+<!-- 				</bean> -->
+<!-- 				<bean class="gda.device.scannable.ConvertorScannable"> -->
+<!-- 					<property name="name" value="idu_rowphase4_energy_pos" /> -->
+<!-- 					<property name="scannableName" value="idu_rowphase4"/> -->
+<!-- 					<property name="convertorName" value="idu_row_phase_from_eV_pos"/>	 -->
+<!-- 				</bean> -->
+<!-- 				<ref bean="pgm_energy" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="idupgmneg_energy_test" class="gda.device.scannable.CoupledScannable"> -->
+<!-- 		<property name="name" value="idupgmneg_energy_test" /> -->
+<!-- 		<property name="scannables"> -->
+<!-- 			<list> -->
+<!-- 				<bean class="gda.device.scannable.ConvertorScannable"> -->
+<!-- 					<property name="name" value="idu_gap_energy_neg" /> -->
+<!-- 					<property name="scannableName" value="idu_gap"/> -->
+<!-- 					<property name="convertorName" value="idu_gap_from_eV_neg"/>	 -->
+<!-- 				</bean> -->
+<!-- 				<bean class="gda.device.scannable.ConvertorScannable"> -->
+<!-- 					<property name="name" value="idu_rowphase1_energy_neg" /> -->
+<!-- 					<property name="scannableName" value="idu_rowphase1"/> -->
+<!-- 					<property name="convertorName" value="idu_row_phase_from_eV_neg"/>	 -->
+<!-- 				</bean> -->
+<!-- 				<bean class="gda.device.scannable.ConvertorScannable"> -->
+<!-- 					<property name="name" value="idu_rowphase2_energy_neg" /> -->
+<!-- 					<property name="scannableName" value="idu_rowphase2"/> -->
+<!-- 					<property name="convertorName" value="idu_row_phase_from_eV_neg"/>	 -->
+<!-- 				</bean> -->
+<!-- 				<bean class="gda.device.scannable.ConvertorScannable"> -->
+<!-- 					<property name="name" value="idu_rowphase3_energy_neg" /> -->
+<!-- 					<property name="scannableName" value="idu_rowphase3"/> -->
+<!-- 					<property name="convertorName" value="idu_row_phase_from_eV_neg"/>	 -->
+<!-- 				</bean> -->
+<!-- 				<bean class="gda.device.scannable.ConvertorScannable"> -->
+<!-- 					<property name="name" value="idu_rowphase4_energy_neg" /> -->
+<!-- 					<property name="scannableName" value="idu_rowphase4"/> -->
+<!-- 					<property name="convertorName" value="idu_row_phase_from_eV_neg"/>	 -->
+<!-- 				</bean> -->
+<!-- 				<ref bean="pgm_energy" /> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+	
+	<bean id="id" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="idd_gap" />
+				<ref bean="idu_gap" />
+				<ref bean="idd_rowphase1" />
+				<ref bean="idd_rowphase2" />
+				<ref bean="idd_rowphase3" />
+				<ref bean="idd_rowphase4" />
+				<ref bean="idd_jawphase" />
+				<ref bean="idd_sepphase" />
+				<ref bean="idu_rowphase1" />
+				<ref bean="idu_rowphase2" />
+				<ref bean="idu_rowphase3" />
+				<ref bean="idu_rowphase4" />
+				<ref bean="idu_jawphase" />
+				<ref bean="idu_sepphase" />
+				<!-- 
+				<ref bean="idupgmpos_energy_test" />
+				<ref bean="idupgmneg_energy_test" />
+				 -->
+			</list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="id_by_id" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<!-- IDD / ID1 -->
+				<ref bean="idd_gap" />
+				<ref bean="idd_rowphase1" />
+				<ref bean="idd_rowphase2" />
+				<ref bean="idd_rowphase3" />
+				<ref bean="idd_rowphase4" />
+				<ref bean="idd_jawphase" />
+				<ref bean="idd_sepphase" />
+				<!-- IDU / ID2 -->
+				<ref bean="idu_gap" />
+				<ref bean="idu_rowphase1" />
+				<ref bean="idu_rowphase2" />
+				<ref bean="idu_rowphase3" />
+				<ref bean="idu_rowphase4" />
+				<ref bean="idu_jawphase" />
+				<ref bean="idu_sepphase" />
+				<!-- 
+				<ref bean="idupgmpos_energy_test" />
+				<ref bean="idupgmneg_energy_test" />
+				 -->
+			</list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="id_by_para" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="idd_gap" />
+				<ref bean="idu_gap" />
+				<ref bean="idd_rowphase1" />
+				<ref bean="idu_rowphase1" />
+				<ref bean="idd_rowphase2" />
+				<ref bean="idu_rowphase2" />
+				<ref bean="idd_rowphase3" />
+				<ref bean="idu_rowphase3" />
+				<ref bean="idd_rowphase4" />
+				<ref bean="idu_rowphase4" />
+				<ref bean="idd_jawphase" />
+				<ref bean="idu_jawphase" />
+				<ref bean="idd_sepphase" />
+				<ref bean="idu_sepphase" />
+				<!-- 
+				<ref bean="idupgmpos_energy_test" />
+				<ref bean="idupgmneg_energy_test" />
+				 -->
+			</list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+</beans>

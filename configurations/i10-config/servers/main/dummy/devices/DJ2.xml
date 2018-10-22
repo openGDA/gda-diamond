@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+    	http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+	<!-- DJ2 (D10) -->
+	
+	<bean id="dj2d10_gcell_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-48.0" />
+		<property name="maxPosition" value="0.5" />
+		<property name="speed" value="0.4" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="dj2_pos" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Cell Out</value>
+				<value>Cell In</value>
+			</util:list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+</beans>

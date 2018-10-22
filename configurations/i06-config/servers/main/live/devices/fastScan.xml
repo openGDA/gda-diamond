@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- I: Downstream ID, U1 Scaler -->
+	<bean id="iddFastScanElementCounter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-MO-FSCAN-01:ELEMENTCOUNTER" />
+		<property name="local" value="true" />
+	</bean>
+	<!-- I:Upstream ID, U1 Scaler -->
+	<bean id="iduFastScanElementCounter" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-MO-FSCAN-02:ELEMENTCOUNTER" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

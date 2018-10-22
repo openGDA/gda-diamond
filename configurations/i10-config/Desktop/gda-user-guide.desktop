@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=gda-user-guide
+Type=Application
+Exec=firefox http://doc.diamond.ac.uk/Documentation/GDA-manual.html
+Icon=/usr/share/pixmaps/nautilus/Bluecurve/emblem-web.png
+Icon[en_GB]=/usr/share/pixmaps/nautilus/Bluecurve/emblem-web.png
+Terminal=false
+Name[en_GB]=GDA User Guide
+GenericName[en_GB]=GDA User Guide
+Comment[en_GB]=Open GDA User Guide
+Categories=X-ogda;
+

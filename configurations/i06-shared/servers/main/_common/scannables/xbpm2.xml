@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="XPBM2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pm2a" />
+				<ref bean="pm2b" />
+				<ref bean="pm2c" />
+				<ref bean="pm2d" />
+				<ref bean="pm2x" />
+				<ref bean="pm2y" />
+				<ref bean="pm2xabs" />
+				<ref bean="pm2yabs" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

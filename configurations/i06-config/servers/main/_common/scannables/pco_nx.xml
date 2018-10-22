@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- detector 'pco_nx' default to write HDF file -->
+ 	<bean id="pco_nx" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco_nx" />
+		<property name="collectionStrategy" ref="pcoCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pcoRoiStats1" />
+				<ref bean="pcoRoiStats2" />
+				<ref bean="pcoRoiStats3" />
+				<ref bean="pcoRoiStats4" />
+				<ref bean="pcoRoiStats5" />
+				<ref bean="pcoRoiStats6" />
+				<ref bean="pcoHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- detector 'pcotif_nx' default to write TIFF file during scan -->
+ 	<bean id="pcotif_nx" class="gda.device.detector.NXDetector">
+		<property name="name" value="pcotif_nx" />
+		<property name="collectionStrategy" ref="pcoCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pcoRoiStats1" />
+				<ref bean="pcoRoiStats2" />
+				<ref bean="pcoRoiStats3" />
+				<ref bean="pcoRoiStats4" />
+				<ref bean="pcoRoiStats5" />
+				<ref bean="pcoRoiStats6" />
+				<ref bean="pco_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- detector 'pcosnap_nx' is used to get a snapshot of the PCO detector.Data stored in $datadir$/snapped-data/ -->
+ 	<bean id="pcosnap_nx" class="gda.device.detector.NXDetector">
+		<property name="name" value="pcosnap_nx" />
+		<property name="collectionStrategy" ref="pcoCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pcoRoiStats1" />
+				<ref bean="pcoRoiStats2" />
+				<ref bean="pcoRoiStats3" />
+				<ref bean="pcoRoiStats4" />
+				<ref bean="pcoRoiStats5" />
+				<ref bean="pcoRoiStats6" />
+				<ref bean="pco_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>

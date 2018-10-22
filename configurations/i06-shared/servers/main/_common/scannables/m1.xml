@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="M1LEGS" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1leg1" />
+				<ref bean="m1leg2" />
+				<ref bean="m1leg3" />
+				<ref bean="m1leg4" />
+				<ref bean="m1leg5" />
+				<ref bean="m1leg6" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+	<!-- Collimation Mirror M1 -->
+	<bean id="m1x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorX_M1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m1y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorY_M1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m1z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorZ_M1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m1roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorRoll_M1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="uRad" />
+		<property name="hardwareUnitString" value="uRad" />
+	</bean>
+	<bean id="m1yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYaw_M1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="uRad" />
+		<property name="hardwareUnitString" value="uRad" />
+	</bean>
+	<bean id="m1pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorPitch_M1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="uRad" />
+		<property name="hardwareUnitString" value="uRad" />
+	</bean>
+	<bean id="m1qg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorFinePitch_M1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+		
+	<bean id="M1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1x" />
+				<ref bean="m1y" />
+				<ref bean="m1z" />
+				<ref bean="m1roll" />
+				<ref bean="m1yaw" />
+				<ref bean="m1pitch" />
+				<ref bean="m1qg" />
+				<ref bean="m1leg1" />
+				
+				<ref bean="m1leg2" />
+				<ref bean="m1leg3" />
+				<ref bean="m1leg4" />
+				<ref bean="m1leg5" />
+				<ref bean="m1leg6" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

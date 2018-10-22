@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- 
+Inputs:
+
+BL10I-EA-ZEBRA-01:PULSE1_DLY	Delay before positive pulse starts		0.01 = 10ms after pulse
+																		0.09 = 10ms before pulse (0.10-0.01)
+BL10I-EA-ZEBRA-01:PULSE1_WID	Width of positive pulse starts			0.01
+
+BL10I-EA-ZEBRA-01:PULSE2_DLY	Delay before negative pulse starts
+BL10I-EA-ZEBRA-01:PULSE2_WID	Width of negative pulse starts
+
+BL10I-EA-ZEBRA-01:PC_GATE_NGATE	Number of 10Hz cycles					1000 = 100s
+BL10I-EA-ZEBRA-01:SYS_RESET.PROC	Start an acq.
+
+Outputs:
+
+BL10I-EA-ZEBRA-01:PC_DIV1_LAST	Detector count during positive
+BL10I-EA-ZEBRA-01:PC_DIV2_LAST	Detector count during negative
+BL10I-EA-ZEBRA-01:PC_DIV3_LAST	Monitor count during positive
+BL10I-EA-ZEBRA-01:PC_DIV4_LAST	Monitor count during negative
+ -->
+
+    <bean id="zebra" class="gda.device.zebra.controller.impl.ZebraImpl">
+        <property name="zebraPrefix" value="BL10I-EA-ZEBRA-01:"/>
+    </bean>
+</beans> 

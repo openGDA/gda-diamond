@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
+
+	<!-- D6 (D8) -->
+
+	<bean id="d6_det" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="d6d8_det_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<!-- 
+		<property name="lowerGdaLimits" value="-100" />
+		<property name="upperGdaLimits" value="100" />
+		 -->
+	</bean>
+	
+	<bean id="D6" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d6_scrn" />
+				<ref bean="d6_det" />
+				<ref bean="d6_pos" />
+			</list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+	<!-- Detector objects used in new scanning -->
+	<bean id="d6camModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="d6cam_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="d6camInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i10.d6cam.DeviceInformation" />
+		<property name="label" value="D6CAM" />
+		<property name="description" value="D6 CAM Detector" />
+	</bean>
+
+	<bean id="d6cam_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="d6cam_addetector" />
+		<property name="model" ref="d6camModel" />
+		<property name="deviceInformation" ref="d6camInfo" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
+</beans>

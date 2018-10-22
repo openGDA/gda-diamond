@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+
+. /dls/i06/software/gda-test/config/testing/bin/test_profile.sh
+
+CLASSPATH=$GDA_ROOT/patches/temp:$GDA_ROOT/patches/java:$GDA_ROOT/jars/gda_alpha.jar:$GDA_ROOT/jars/gda.jar:$JYTHON_HOME/jython.jar:${CLASSPATH}
+
+export CLASSPATH
+
+${GDA_ROOT}/bin/GDA_StartServers &

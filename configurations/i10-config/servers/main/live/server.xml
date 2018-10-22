@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util-2.0.xsd
+           http://www.diamond.ac.uk/schema/gda/corba
+           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+	<import resource="../../../properties/_common/gdaProperties.xml"/>
+	<import resource="../../../../i10-shared/servers/main/live/devices/all.xml"/>
+	<import resource="devices/all.xml"/>
+	
+	<!-- add dummy motors from dls-config for solstice scanning testing-->
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/mapping_motors.xml"/>
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/dummy/det.xml"/>
+	
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/live/icat_xml_creator.xml" />
+
+	<!-- do not remove anything below here -->
+	<import resource="../_common/server.xml" />
+
+</beans>

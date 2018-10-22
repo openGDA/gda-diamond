@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Laser 1 (Rega) devices -->
+	<!-- Beam Positioning Monitors -->
+	<bean id="bpm1x" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">-0.250</value>
+		</property>
+		<property name="lowerLimit" value="-10.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.1" />
+		<property name="local" value="true"/>
+	</bean>	
+	<bean id="bpm1y" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">-1.0</value>
+		</property>
+		<property name="lowerLimit" value="-10.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.1" />
+		<property name="local" value="true"/>
+	</bean>	
+	<bean id="bpm1pow" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">6.4210</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.1" />
+		<property name="local" value="true"/>
+	</bean>	
+
+	<!-- Fast Steering Mirror 1 (LT1) -->
+	<bean id="MotorX_LFSM1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="10" />
+		<property name="speed" value="0.0001" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="MotorY_LFSM1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="10" />
+		<property name="speed" value="0.0001" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Control Points that control the Laser Stabilisation System Motor's Set Point -->
+
+	<bean id="fsm1xfsp" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="-1.0" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="fsm1yfsp" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="-0.25" />
+		<property name="local" value="true"/>
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>	
+
+	<!-- delay stage -->
+	<bean id="llds1_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.3800" />
+		<property name="maxPosition" value="150.000" />
+		<property name="speed" value="0.40000" />
+		<property name="local" value="true" />
+	</bean>
+	
+</beans>

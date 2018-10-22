@@ -1,0 +1,30 @@
+!2 ID Testing
+!contents
+
+!3 Check ID control status 
+|!-uk.ac.diamond.dlsfitnesse.GDACommandActionFixture-!|
+|run         |idcontrol=finder.find("idblena_id")     |
+|evaluate    |idcontrol.getAccessControlState()       | ENABLED |
+
+!3 Check ID key values
+IDd
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?  |deviceName| getValue?  |deviceName| getValue?  |
+|iddgap    | >0         |iddtrp    | >0         |iddbrp    | >0         |
+
+IDu
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?  |deviceName| getValue?  |deviceName| getValue?  |
+|idugap    | >0         |idutrp    | >0         |idubrp    | >0         |
+
+!3 Scan ID Energy 
+|!-uk.ac.diamond.dlsfitnesse.GDACommandActionFixture-!|
+|whichFile   |                            |
+|noFileExists|                            |
+|evaluate    |scan pgmenergy 400 450 1 iddenergy 400 1 ca31sr| None |
+|pause       |5                           |
+|fileExists  |                            |
+
+
+----
+!lastmodified

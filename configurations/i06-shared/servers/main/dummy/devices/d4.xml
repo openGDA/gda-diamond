@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- D4 Fluorescent Screen Pneumatic Valve -->
+	<bean id="d4valve" class="gda.device.enumpositioner.DummyValve">
+		<property name="local" value="true"/>
+	</bean>
+	<!-- Fluorescent Screen and Diode D4 Motors -->
+	<bean id="MotorD_D4" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="speed" value="90" />
+		<property name="local" value="true" />
+	</bean>
+</beans>

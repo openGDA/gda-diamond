@@ -1,0 +1,17 @@
+!2 PEEM Conntection Test
+!contents
+
+!3 Check Key Values:
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName   | getValue?       |
+|ca71         | >=0             |
+|startVoltage | >=0             |
+|objective    | >=0             |
+
+
+!3 List Modules:
+|!-uk.ac.diamond.dlsfitnesse.GDACommandActionFixture-!|
+|evaluate    | pm.modules() |The total number of LEEM2000 modules is: 92. The active module number is:|
+
+----
+!lastmodified

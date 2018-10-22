@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
+	
+	<!-- D1 (D3) --> 
+
+	<bean id="d1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d1_scrn"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Detector objects used in new scanning -->
+	<bean id="d1camModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="d1cam_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="d1camInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i10.d1cam.DeviceInformation" />
+		<property name="label" value="D1CAM" />
+		<property name="description" value="D1 CAM Detector" />
+	</bean>
+
+	<bean id="d1cam_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="d1cam_addetector" />
+		<property name="model" ref="d1camModel" />
+		<property name="deviceInformation" ref="d1camInfo" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
+	
+</beans>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- Branch Line Exit Slits S6 -->
+	<bean id="s6y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorXGap_S6" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s6x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYGap_S6" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s6z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorZ_S6" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s6xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorXSize_S6" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="um" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s6ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYSize_S6" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="um" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="S6" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s6y" />
+				<ref bean="s6x" />
+				<ref bean="s6z" />
+				<ref bean="s6xgap" />
+				<ref bean="s6ygap" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

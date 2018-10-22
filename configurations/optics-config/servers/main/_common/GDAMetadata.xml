@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+	
+	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
+		<property name="metadataEntries">
+			<list>
+				
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="instrument"/>
+					<property name="propertyName" value="gda.instrument"/>
+				</bean>
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="defVisit"/>
+					<property name="propertyName" value="gda.defVisit"/>
+				</bean>
+				
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="federalid" />
+				</bean>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="visitid" />
+				</bean>
+				<bean class="gda.data.metadata.StoredScanMetadataEntry">
+					<property name="name" value="title" />
+					<property name="value" value="undefined" />
+				</bean>
+				<bean class="gda.data.metadata.StoredMetadataEntry">
+					<property name="name" value="note" />
+					<property name="value" value="undefined" />
+				</bean>
+				
+				<ref bean="subdirectory"/>			
+			</list>
+		</property>
+	</bean>
+		
+	<bean id="subdirectory" class="gda.data.metadata.StoredMetadataEntry">
+		<property name="name" value="subdirectory"/>
+		<property name="value" value=""/>
+	</bean>
+	
+	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider" >
+		<property name="name" value="metashop"/>
+	</bean>
+
+	
+</beans>

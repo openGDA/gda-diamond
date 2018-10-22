@@ -1,0 +1,88 @@
+--------------------------------------------------------------------------------
+run "scannable/continuous/try_continuous_energy.py"                             # Command start ; First data point returned ; Last data point 
+scan idu_lin_hor_energy 840 880 0.5  macr16  1 macr17 macr19                    # 
+cvscan egy              840 880 0.5  mcsr16  1 mcsr17 mcsr19                    # 
+cvscan egy              840 880 0.5  mcsr16  1 mcsr17                           # 
+cvscan egy              840 880 0.05 mcsr16 .1 mcsr17                           # 
+
+--------------------------------------------------------------------------------
+run "scannable/continuous/try_continuous_energy.py"                             # Command start ; First data point returned ; Last data point 
+pos idu_circ_pos_energy 1225
+scan pgm_energy 1220 1230 0.5 macr16 .1                                         # 2013-10-31 14:21:34 ; 2013-10-31 14:21:38 ; 2013-10-31 14:22:24
+cvscan egy      1220 1230 0.5 mcsr16 .1                                         # 2013-10-31 14:22:28 ; 2013-10-31 14:22:33 ; 2013-10-31 14:22:35
+
+scan pgm_energy 1220 1230 0.5 macr16 .1                                         # 2013-10-31 14:54:32 ; 2013-10-31 14:54:36 ; 2013-10-31 14:55:22
+																				# /dls/i10/data/2013/cm5934-4/i10-144305.dat
+cvscan egy      1220 1230 0.5 mcsr16 .1                                         # 2013-10-31 14:55:25 ; 2013-10-31 14:55:30 ; 2013-10-31 14:55:32
+																				# /dls/i10/data/2013/cm5934-4/i10-144306.dat
+
+scan pgm_energy 1220 1230 0.5 macr16 1                                          # 2013-10-31 14:56:14 ; 1@ 2013-10-31 14:56:19 ; 21@ 2013-10-31 14:57:04
+																				# /dls/i10/data/2013/cm5934-4/i10-144307.dat
+cvscan egy      1220 1230 0.5 mcsr16 1                                          # 2013-10-31 14:57:20 ; 1@ 2013-10-31 14:57:25 ; 21@ 2013-10-31 14:57:45
+																				# /dls/i10/data/2013/cm5934-4/i10-144308.dat
+
+egy.verbose=True
+cemc.verbose=True
+
+scan pgm_energy 1220 1230 0.5 macr16 .1                                         # 2013-10-31 15:49:59 ; 1@ 2013-10-31 15:50:04 ; 21@ 2013-10-31 15:50:50
+																				# /dls/i10/data/2013/cm5934-4/i10-144309.dat
+cvscan egy      1220 1230 0.5 mcsr16 .1                                         # 2013-10-31 15:52:08 ; 1@ 2013-10-31 15:52:13 ; 21@ 2013-10-31 15:52:15
+																				# /dls/i10/data/2013/cm5934-4/i10-144310.dat
+
+scan pgm_energy 1220 1230 0.5 macr16 1                                          # 2013-10-31 16:00:46 ; 1@ 2013-10-31 16:00:51 ; 21@ 2013-10-31 16:01:37
+																				# /dls/i10/data/2013/cm5934-4/i10-144311.dat
+cvscan egy      1220 1230 0.5 mcsr16 1                                          # 2013-10-31 16:03:16 ; 1@ 2013-10-31 16:03:21 ; 21@ 2013-10-31 16:03:41
+																				# /dls/i10/data/2013/cm5934-4/i10-144312.dat
+
+cvscan egy      1220 1230 0.05 mcsr16 .1                                        # 2013-10-31 16:19:03 ; 1@ ? ; 21@ ?
+																				# /dls/i10/data/2013/cm5934-4/i10-144313.dat
+
+--------------------------------------------------------------------------------
+
+run "scannable/continuous/try_continuous_energy.py"                             # Command start ; First data point returned ; Last data point 
+scan idu_circ_pos_energy 770 780 0.5 macj11 1 macj116 macj117 macr1 1 macr18    # 2013-10-09 16:45:35 ; 16:46:14 ; 16:48:24 => 2:10
+cvscan egy 770 780 0.5 mcsj1 1 mcsj16 mcsj17 mcsr1 1 mcsr18                     # Failed as mcsj doesn't seem to support MCS mode (PVs fail)
+cvscan egy 770 780 0.5 mcsr1 1 mcsr18                                           # 2013-10-09 17:11:50 ; 17:12:21 ; 17:12:41 => 0:20
+cvscan egy 770 780 0.05 mcsr1 .1 mcsr18                                         # 2013-10-09 17:16:03 ; 17:16:35 ; 17:16:55 => 0:20
+
+cvscan egy 770 780 0.5 mcsr1 1 mcsr18                                           # 2013-10-09 17:11:50 ; 17:12:21 ; 17:12:41 => 0:20
+cvscan egy 770 780 0.05 mcsr1 .1 mcsr18                                         # 2013-10-09 17:16:03 ; 17:16:35 ; 17:16:55 => 0:20
+
+scan idu_circ_pos_energy 770 780 0.5 macj11 1 macj116 macj117 macr1 1 macr18    #
+pos idu_circ_pos_energy 775
+scan pgm_energy 770 780 0.5 macj11 1 macj116 macj117 macr1 1 macr18             #
+cvscan      egy 770 780 0.5 mcsj1  1 mcsj16  mcsj17  mcsr1 1 mcsr18             # Failed as mcsj doesn't seem to support MCS mode (PVs fail)
+
+
+pos idu_circ_pos_energy 775
+scan pgm_energy 770 780 0.5 macr1 1 macr18                                      # 2013-10-10 15:39:25 ; 15:39:48 ; 15:41:28 => 
+
+pos idu_circ_pos_energy 775
+cvscan      egy 770 780 0.5 mcs1  1 mcs18                                       # 
+
+pos idu_circ_pos_energy 775
+scan pgm_energy 770 780 0.5 macr1 1 macr18                                      # 
+
+switched pgm_energy to 20eV/s (from 0.5eV/s)
+
+run "scannable/continuous/try_continuous_energy.py"
+pgm_energy.speed=20
+scan pgm_energy 770 780 0.5 macr18 1 mac117 1                                   # 2013-10-10 17:25:35 ; 
+pgm_energy.speed
+cvscan      egy 770 780 0.5 mcsr18 1 mcsi17 1                                   # maximum recursion depth exceeded
+pgm_energy.speed 
+
+scan pgm_energy 770 780 0.5 macr18 1 mac117 1									# 2013-10-10 17:33:27
+cvscan      egy 770 780 0.5 mcsi17 1											# maximum recursion depth exceeded
+
+scan pgm_energy 770 780 0.5 macr18 1 mac117 1									# 2013-10-10 17:44:00
+cvscan      egy 770 780 0.5 mcsi17 1											# maximum recursion depth exceeded
+cvscan      egy 770 780 0.5 mcsr18 1											# 2013-10-10 18:03:54
+scan pgm_energy 770 780 0.5 macr18 1 mac117 1									# 
+
+scan pgm_energy 770 780 0.5 macr18 1 mac117 1									# 2013-10-10 17:44:00
+cvscan      egy 770 780 0.5 mcsi17 1											# maximum recursion depth exceeded
+cvscan      egy 770 780 0.5 mcsr18 1											# 2013-10-10 18:03:54
+scan pgm_energy 770 780 0.5 macr18 1 mac117 1									# 
+
+--------------------------------------------------------------------------------

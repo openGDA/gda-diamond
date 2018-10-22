@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- NXDetector collection strategies -->
+	<bean id="ddcam6ADCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="ddiff_dcam6AD_cam" />
+								<property name="restoreAcquireState" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- NXDetector file writers -->
+	<bean id="ddcam6_hdf5_MultipleImagesPerHDF5FileWriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="ddiff_dcam6_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="$scan$-ddcam6" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setChunking" value="false" />
+		<property name="lazyOpen" value="true" />
+	</bean>
+
+	<!-- SingleImagePerFileWriter(String detectorName)	 -->
+	<bean id="ddcam6_tiff_SingleImagePerFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="ddcam6" />
+		<property name="ndFile" ref="ddiff_dcam6_NDFileTiff" />
+		<property name="keyNameForMetadataPathTemplate" value="ddiff_dcam6_path_template" />
+	</bean>
+		<!-- NXDetectors -->
+ 	<bean id="ddcam6" class="gda.device.detector.NXDetector">
+		<property name="name" value="ddcam6" />
+		<property name="collectionStrategy" ref="ddcam6ADCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="ddcam6_RoiStats1" />
+				<ref bean="ddcam6_RoiStats2" />
+				<ref bean="ddcam6_RoiStats3" />
+				<ref bean="ddcam6_RoiStats4" />
+				<ref bean="ddcam6_RoiStats5" />
+				<ref bean="ddcam6_RoiStats6" />
+				<ref bean="ddcam6_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="ddcam6_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+</beans>

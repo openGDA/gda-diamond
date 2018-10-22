@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="BEAM" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="beamenergy" />
+				<ref bean="ringcurrent" />
+				<ref bean="xbpm1x" />
+				<ref bean="xbpm1y" />
+				<ref bean="xbpm2x" />
+				<ref bean="xbpm2y" />
+				<ref bean="xbpm1anglex" />
+				<ref bean="xbpm1angley" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

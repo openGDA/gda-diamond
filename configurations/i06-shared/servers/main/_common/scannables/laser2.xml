@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="BPM3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="bpm3x" />
+				<ref bean="bpm3y" />
+				<ref bean="bpm3pow" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- Scannable motors that control the Laser Stabilisation System -->
+	<bean id="fsm3x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorX_LFSM3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+	
+	<bean id="fsm3y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorY_LFSM3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+	
+	<bean id="FSM3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="fsm3x" />
+				<ref bean="fsm3y" />
+				<ref bean="fsm3xfsp" />
+				<ref bean="fsm3yfsp" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- delay stage and interferrometer motors in Table 2-->
+	<bean id="mi1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mi1_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	
+	<bean id="llds2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="llds2_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="wp1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="wp1_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	<bean id="wp2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="wp2_motor" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+
+</beans>

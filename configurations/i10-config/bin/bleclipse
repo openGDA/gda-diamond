@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Unload existing modules which might conflict with the modules to be loaded
+
+
+# Load the modules specific to this beamline
+
+
+# Add options to this script as additional options for Eclipse
+
+export ECLIPSE_OPTIONS=$*
+
+# Add beamline specific options for Eclipse
+
+#ECLIPSE_OPTIONS=$ECLIPSE_OPTIONS' -consoleLog'
+
+# Do not set a non-standard eclipse keyring location (see the Developer's
+# Reference Card) in the beamline bleclipse, instead add an export to your
+# ~/.bashrc_local for instance:
+#    export ECLIPSE_KEYRING=/path/to/my/keyring
+
+########################################################################
+# The section below should only need to change if the location of this
+# script changes.
+########################################################################
+
+SELF=$(readlink -f $0)
+
+# How many directories we have to go up depends on the location of our
+# config/bin directory.
+
+# For example, on i15 ROOT is 5 directories up from config/bin:
+#   workspace_git/gda-mt.git/configurations/i15-config/bin/bleclipse
+GDA_ROOT=$(dirname $SELF)/../../../../..
+
+# But on i13, ROOT is only 4 directories up from config/bin:
+#   workspace_git/gda-dls-beamlines-i13x.git/i13i/bin/bleclipse
+#GDA_ROOT=$(dirname $SELF)/../../../..
+
+$GDA_ROOT/workspace_git/gda-diamond.git/dls-config/bin/bleclipse
+########################################################################

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="GDA for Diamond Light Source Beamline I10" id="uk.ac.gda.beamline.i10.product" application="uk.ac.gda.client.application" version="9.10.0" useFeatures="true" includeLaunchers="true">
+
+   <aboutInfo>
+      <image path="/uk.ac.gda.core/icons/GDAlogos/GDALogomed.png"/>
+   </aboutInfo>
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-debug
+      </programArgs>
+      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
+-Dorg.eclipse.swt.internal.gtk.useCairo=false
+-Dosgi.framework.extensions=org.eclipse.fx.osgi
+-Drun.in.eclipse=false 
+-Dgda.instance.dir=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config
+-Dgda.facility.dir=/dls_sw/i10/software/gda_versions/gda_9.8/workspace_git/gda-diamond.git/dls-config
+-Dgda.core.dir=/dls_sw/i10/software/gda_versions/gda_9.8/workspace_git/gda-core.git/core-config
+-Dgda.install.git.loc=/dls_sw/i10/software/gda/workspace_git
+-Dgda.install.workspace.loc=/dls_sw/i10/software/gda/workspace
+-Dgda.config=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config
+-Dgda.mode=live
+-Djacorb.config.dir=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/properties/live/jacorb
+-Dgda.propertiesFile=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/properties/live/live_instance_java.properties
+-Dgov.aps.jca.JCALibrary.properties=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/properties/live/JCALibrary.properties
+-Declipse.pluginCustomization=/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/pluginCustomization.ini
+-Dgda.logs.dir=/dls_sw/i10/logs
+-Dgda.client.jython.automatic.interpreter=1
+-Dorg.eclipse.scanning.event.remote.scannableServiceTimeout=1000
+-Dorg.eclipse.scanning.event.remote.positionerTimeout=1000
+-Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
+-Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=False
+-Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
+-Xms512m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m -XX:+DisableExplicitGC
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages i16="/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png" i32="/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png" i48="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png" i64="/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png" i128="/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png"/>
+
+   <splash
+      location="uk.ac.gda.beamline.i10"
+      startupProgressRect="2,215,598,15"
+      startupMessageRect="4,195,595,20"
+      startupForegroundColor="000000" />
+   <launcher name="gda-i10">
+      <linux icon="/uk.ac.gda.core/icons/GDAlogos/GDALogo48.xpm"/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <license>
+        <url>http://www.gnu.org/licenses/</url>
+        <text>
+   Copyright © 2013 Diamond Light Source Ltd.
+
+GDA is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License version 3 as published by the Free
+Software Foundation.
+
+GDA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+You should have received a copy of the GNU General Public License along
+with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
+         </text>
+   </license>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="uk.ac.gda.beamline.i10.feature"/>
+   </features>
+
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>

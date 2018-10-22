@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- D4 Fluorescent Screen Pneumatic Valve -->
+	<bean id="d4valve" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="local" value="true" />
+	<property name="pvBase" value="BL06I-DI-PHDGN-02" /></bean>
+	<!-- Fluorescent Screen and Diode D4 Motors -->
+	<bean id="MotorD_D4" class="gda.device.motor.EpicsMotor">
+		<!--		<property name="accessControlName" value="ace1" />-->
+	<property name="pvName" value="BL06I-DI-PHDGN-02:X" /></bean>
+
+</beans>

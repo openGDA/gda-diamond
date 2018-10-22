@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Area detector camera -->
+	<!-- NXDetector -->
+ 	<!-- To use this, you will have to start an area detector simulator -->
+	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
+ 	<bean id="rasorcam1" class="gda.device.detector.NXDetector">
+		<property name="name" value="rasorcam1" />
+		<property name="collectionStrategy" ref="simCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="sim_RoiStats1" />
+				<ref bean="sim_RoiStats2" />
+				<ref bean="sim_RoiStats3" />
+				<ref bean="sim_RoiStats4" />
+				<ref bean="sim_RoiStats5" />
+				<ref bean="sim_RoiStats6" />
+				<ref bean="simHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

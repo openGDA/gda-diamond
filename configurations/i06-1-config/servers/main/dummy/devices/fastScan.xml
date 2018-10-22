@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- Used to get HEAD position in data during zacscan, should increase with time which cannot yet be simulated here! -->
+	<!-- I: Downstream ID, U1 Scaler -->
+	<bean id="iddFastScanElementCounter" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="" />
+		<property name="value">
+			<value type="double">25</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="10000" />
+		<property name="increment" value="5" />
+	</bean>
+	<!-- I:Upstream ID, U1 Scaler -->
+	<bean id="iduFastScanElementCounter" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="" />
+		<property name="value">
+			<value type="double">25</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="10000" />
+		<property name="increment" value="6" />
+	</bean>
+
+</beans>

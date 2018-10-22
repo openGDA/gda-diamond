@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- CA3 Epics Monitor -->
+	
+	<bean id="ca31" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">1.75856</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.01" />
+	</bean>
+	<bean id="ca32" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">1.75856</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.01" />
+	</bean>
+	<bean id="ca33" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">1.75856</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.01" />
+	</bean>	
+	<bean id="ca34" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">1.75856</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.01" />
+	</bean>
+</beans>

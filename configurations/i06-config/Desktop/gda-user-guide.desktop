@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Open GDA manual
+Type=Application
+Exec=firefox http://www.opengda.org/documentation/manuals/GDA_User_Guide/trunk/contents.html
+Icon=/usr/share/pixmaps/gnome-html.png
+Icon[en_GB]=/usr/share/pixmaps/gnome-html.png
+Terminal=false
+Name[en_GB]=Open GDA Manual
+GenericName[en_GB]=Open GDA Manual
+Comment[en_GB]=Open GDA Manual
+Categories=X-ogda;

@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<!-- Mirror / M4 --> 
+	
+	<bean id="m4x_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="10.0" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>		
+	<bean id="m4y_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-45.0" />
+		<property name="maxPosition" value="45.0" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>		
+	<bean id="m4z_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="12.0" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>		
+	<bean id="m4yaw_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-35000" />
+		<property name="maxPosition" value="35000" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="urad"/>
+		<property name="local" value="true" />
+	</bean>		
+	<bean id="m4pitch_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-35000" />
+		<property name="maxPosition" value="35000" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="urad"/>
+		<property name="local" value="true" />
+	</bean>		
+	<bean id="m4roll_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-9000" />
+		<property name="maxPosition" value="9000" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="urad"/>
+		<property name="local" value="true" />
+	</bean>		
+</beans>

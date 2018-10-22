@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Tertiary Slits / S9 Optical Element -->
+	
+	<bean id="s9xring_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10J-AL-SLITS-03:XRING" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s9xhall_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10J-AL-SLITS-03:XHALL" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s9yplus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10J-AL-SLITS-03:YPLUS" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s9yminus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10J-AL-SLITS-03:YMINUS" />
+		<property name="local" value="true"/>
+	</bean>
+</beans>

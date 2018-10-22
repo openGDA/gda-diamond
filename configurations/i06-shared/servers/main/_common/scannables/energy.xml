@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Downstream energy -->
+	<bean id="iddenergy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorEnergy_ID1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
+		<property name="outputFormat">
+			<array>
+				<value>%11.7f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="iddpgmenergy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorEnergy_IDDPGM" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
+		<property name="outputFormat">
+			<array>
+				<value>%11.7f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="iddrpenergy0" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorEnergy_IDDRP" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+	<bean id="denergy0" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorEnergy_IDDRPPGM" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+	
+	<!-- Epics softmotors that changes IDd gap (and rowphase of course) in energy term in the Linear Arbitrary/Angle (LA) mode -->
+	<bean id="iddrpenergy1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorLA_Energy_IDD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
+		<!-- If this works, add it to other scannables too
+		<property name="logMoveRequestsWithInfo" value="true"/>
+		 -->
+	</bean>
+	
+	<!-- Epics softmotors that changes pgm, IDd gap (and rowphase of course) together in energy term in the Linear Arbitrary/Angle (LA) mode -->
+	<bean id="denergy1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorLA_Energy_IDDPGM" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+	
+	
+	<bean id="IDdEnergy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="iddenergy" />
+				<ref bean="iddpgmenergy" />
+				<ref bean="iddrpenergy0" />
+				<ref bean="iddrpenergy1" />
+				<ref bean="denergy0" />
+				<ref bean="denergy1" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<!-- Downstream energy -->
+	<bean id="iduenergy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorEnergy_ID2" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
+		<property name="outputFormat">
+			<array>
+				<value>%11.7f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="idupgmenergy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorEnergy_IDUPGM" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
+		<property name="outputFormat">
+			<array>
+				<value>%11.7f</value>
+			</array>
+		</property>
+	</bean>
+	<bean id="idurpenergy0" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorEnergy_IDURP" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+	<bean id="uenergy0" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorEnergy_IDURPPGM" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+	<!-- Epics softmotors that changes IDu gap (and rowphase of course) in energy term in the Linear Arbitrary/Angle (LA) mode -->
+	<bean id="idurpenergy1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorLA_Energy_IDU" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+	
+	<!-- Epics softmotors that changes pgm, IDu gap (and rowphase of course) together in energy term in the Linear Arbitrary/Angle (LA) mode -->
+	<bean id="uenergy1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorLA_Energy_IDUPGM" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="eV" />
+		<property name="hardwareUnitString" value="eV" />
+	</bean>
+	
+	<bean id="IDuEnergy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="iduenergy" />
+				<ref bean="idupgmenergy" />
+				<ref bean="idurpenergy0" />
+				<ref bean="idurpenergy1" />
+				<ref bean="uenergy0" />
+				<ref bean="uenergy1" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<!-- All the energy-->
+	<bean id="Energy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="pgmenergy" />
+				<ref bean="iddenergy" />
+				<ref bean="iddpgmenergy" />
+				<ref bean="iduenergy" />
+				<ref bean="idupgmenergy" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

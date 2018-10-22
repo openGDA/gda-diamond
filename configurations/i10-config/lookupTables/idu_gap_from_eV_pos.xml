@@ -1,0 +1,7 @@
+<JEPQuantityConverter>
+<ExpressionStoT>4.7691433e-023*X^9-3.5614398e-019*X^8 +1.1661506e-015*X^7-2.1961059e-012*X^6+2.6198401e-009*X^5-2.0520865e-006*X^4+1.0549550e-003*X^3-3.4313173e-001*X^2+6.4087669e+001*X-5.2115204e+003</ExpressionStoT>
+<ExpressionTtoS>-49346.58366 +9867.22012*X-872.05044*X^2+44.82437*X^3-1.47804*X^4+0.03252*X^5-4.77652E-4*X^6+4.50905E-6*X^7-2.47586E-8*X^8+6.0086E-11*X^9</ExpressionTtoS>
+<AcceptableSourceUnits>eV</AcceptableSourceUnits>
+<AcceptableTargetUnits>mm</AcceptableTargetUnits>
+<SourceMinIsTargetMax>false</SourceMinIsTargetMax>
+</JEPQuantityConverter>

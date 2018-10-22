@@ -1,0 +1,19 @@
+#scan idd_pos_neg_switcher 0 1 1 idd_pos_neg_switchable 774 780 3
+#
+#idd_pos_neg_switchable , idd_pos_neg_switcher
+#774.0 0
+#774.0 1
+#777.0 0
+#777.0 1
+#780.0 0
+#780.0 1
+#idd_pos_neg_switchable , idd_pos_neg_switcher
+#
+#idd_pos_neg_switcher , idd_pos_neg_switchable
+0 774.0
+1 774.0
+0 777.0
+1 777.0
+0 780.0
+1 780.0
+#idd_pos_neg_switcher , idd_pos_neg_switchable

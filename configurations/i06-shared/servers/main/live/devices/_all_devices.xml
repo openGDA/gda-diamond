@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="ring.xml"/>
+	<import resource="id.xml"/>
+	<import resource="frontEndAperture.xml"/>
+	<import resource="frontEndAbsorber.xml"/>
+	<import resource="frontEndPermitBeam.xml"/>
+	<import resource="xbpm1.xml"/>
+	<import resource="xbpm2.xml"/>
+	<import resource="portShutter.xml"/>
+	<import resource="opticShutter.xml"/>
+	<import resource="s1.xml"/>
+	<import resource="gv2.xml"/>
+	<import resource="m1.xml"/>
+	<import resource="s2.xml"/>
+	<import resource="d3.xml"/>
+	<import resource="pgmController.xml"/>
+	<import resource="pgm.xml"/>
+	<import resource="s3.xml"/>
+	<import resource="d4.xml"/>
+	<import resource="m6.xml"/>
+	<import resource="testMotors.xml"/>
+	
+	<import resource="ca1.xml"/>
+	<import resource="ca2.xml"/>
+	<import resource="ca3.xml"/>
+	<import resource="ca4.xml"/>
+	<import resource="laser1.xml"/>
+	<import resource="laser2.xml"/>
+	<import resource="ld1.xml"/>
+	<import resource="P2.xml"/>
+	<import resource="lsm1.xml"/>
+	<import resource="ld2.xml"/>
+	<import resource="lsm2.xml"/>
+	
+</beans>

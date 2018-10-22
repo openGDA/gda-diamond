@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
+   
+    <!-- FrontEnd Aperture -->
+    
+    <bean id="feapx" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="feapx_motor" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+    </bean>
+    
+    <bean id="feapy" class="gda.device.scannable.ScannableMotor">
+        <property name="motor" ref="feapy_motor" />
+        <property name="initialUserUnits" value="mm" />
+        <property name="hardwareUnitString" value="mm" />
+    </bean>
+    
+    <bean id="FE" class="gda.device.scannable.scannablegroup.ScannableGroup">
+        <property name="groupMembers">
+            <list>
+                <ref bean="feapx" />
+                <ref bean="feapy" />
+                <ref bean="frontend" />
+                <ref bean="ab0" />
+                <ref bean="portshutter" />
+                <ref bean="opticsshutter" />
+            </list>
+        </property>
+		<property name="local" value="true"/>
+    </bean>
+</beans>

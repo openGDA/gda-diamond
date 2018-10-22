@@ -1,0 +1,18 @@
+Files in this directory are used for desktop launchers. 
+To be installed to /var/Desktop/ on fresh GDA installation
+will be updated on user login automatically to ensure these are not changed by others.
+
+Important: Both Applications -> Data Acquisition menu and desktop GDA_Launchers depends on these.
+
+gda-beamline-manual.desktop		: launch Beamline-specific manual if available
+gda-client.desktop				: launch GDA Client
+gda-data-backup-2-usb.desktop 	: back up data to UBS disk
+gda-logfile.desktop				: display GDA log file "gda_output.txt" on terminal
+gda-logpanel.desktop				: open GDA log panel
+gda-servers.desktop				: launch GDA servers - Name Server, Log Server, Event Server, and Object Server
+gda-start-mythen-detector.desktop	: start Mythen GUI
+gda-startup-guide.desktop			: display GDA startup guide
+gda-user-guide.desktop			: display GDA user Guide
+
+gda.directory					: Define the "Data Acquisition" submenu
+gda.menu						: define the submenu contribution to GNOME menu system

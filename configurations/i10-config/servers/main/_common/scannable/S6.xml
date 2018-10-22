@@ -1,0 +1,102 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
+
+	<!-- Tertiary Slits / S6 Optical Element -->
+
+	<bean id="s6xring" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="s6xring_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<!-- 
+		<property name="lowerGdaLimits" value="-100" />
+		<property name="upperGdaLimits" value="100" />
+		 -->
+	</bean>
+	
+	<bean id="s6xhall" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="s6xhall_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<!-- 
+		<property name="lowerGdaLimits" value="-100" />
+		<property name="upperGdaLimits" value="100" />
+		 -->
+	</bean>
+	
+	<bean id="s6yplus" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="s6yplus_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<!-- 
+		<property name="lowerGdaLimits" value="-100" />
+		<property name="upperGdaLimits" value="100" />
+		 -->
+	</bean>
+    
+    <bean id="s6yminus" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="s6yminus_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<!-- 
+		<property name="lowerGdaLimits" value="-100" />
+		<property name="upperGdaLimits" value="100" />
+		 -->
+	</bean>  
+
+	<bean id="s6xsize" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="s6xsize_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<!-- 
+		<property name="lowerGdaLimits" value="-100" />
+		<property name="upperGdaLimits" value="100" />
+		 -->
+	</bean> 
+	 
+	<bean id="s6xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="s6xcentre_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<!-- 
+		<property name="lowerGdaLimits" value="-100" />
+		<property name="upperGdaLimits" value="100" />
+		 -->
+	</bean>  
+	
+	<bean id="s6ysize" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="s6ysize_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<!-- 
+		<property name="lowerGdaLimits" value="-100" />
+		<property name="upperGdaLimits" value="100" />
+		 -->
+	</bean>  
+	
+	<bean id="s6ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="s6ycentre_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<!-- 
+		<property name="lowerGdaLimits" value="-100" />
+		<property name="upperGdaLimits" value="100" />
+		 -->
+	</bean>
+	
+	<bean id="s6" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s6xring" />
+				<ref bean="s6xhall" />
+				<ref bean="s6yplus" />
+				<ref bean="s6yminus" />
+				<ref bean="s6xsize" />
+				<ref bean="s6xcentre" />
+				<ref bean="s6ysize" />
+				<ref bean="s6ycentre" />			</list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+</beans>

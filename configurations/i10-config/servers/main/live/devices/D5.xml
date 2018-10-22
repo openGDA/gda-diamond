@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- D5 (D7) -->
+
+	<bean id="d5d7_gcell_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10I-DI-IONC-01:Y" />
+		<property name="local" value="true"/>
+	</bean>
+
+    <bean id="d5_pos" class="gda.device.enumpositioner.EpicsPositioner">
+        <property name="recordName" value="BL10I-DI-IONC-01:Y:MP"/>
+    </bean>
+
+    <bean id="d5a_pos" class="gda.device.enumpositioner.EpicsPositioner">
+        <property name="recordName" value="BL10I-DI-PHDGN-06:DET:X:MP"/>
+    </bean>
+
+	<bean id="d5d7_det_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10I-DI-PHDGN-06:DET:X" />
+		<property name="local" value="true"/>
+	</bean>
+</beans>

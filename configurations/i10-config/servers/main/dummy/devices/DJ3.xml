@@ -1,0 +1,81 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+    	http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+	<!-- DJ3 (D11) -->
+
+	<bean id="dj3_scrn" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Move In</value>
+				<value>Move Out</value>
+				<value>Reset</value>
+			</util:list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="dj3d11_det_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.4" />
+		<property name="maxPosition" value="45.0" />
+		<property name="speed" value="0.8" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>	
+	<bean id="dj3_pos" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>Diode Out</value>
+				<value>Diode In</value>
+			</util:list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+	<!-- Area detector camera -->
+	<!-- To use this, you will have to start an area detector simulator -->
+	<!-- and edit adSimulator.xml with the correct PVs for your simulator -->
+ 	<bean id="dj3cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="dj3cam" />
+		<property name="collectionStrategy" ref="simCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="sim_RoiStats1" />
+				<ref bean="sim_RoiStats2" />
+				<ref bean="sim_RoiStats3" />
+				<ref bean="sim_RoiStats4" />
+				<ref bean="sim_RoiStats5" />
+				<ref bean="sim_RoiStats6" />
+				<ref bean="simHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	<bean id="dj3camtiff" class="gda.device.detector.NXDetector">
+		<property name="name" value="dj3camtiff" />
+		<property name="collectionStrategy" ref="simCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="sim_RoiStats1" />
+				<ref bean="sim_RoiStats2" />
+				<ref bean="sim_RoiStats3" />
+				<ref bean="sim_RoiStats4" />
+				<ref bean="sim_RoiStats5" />
+				<ref bean="sim_RoiStats6" />
+				<ref bean="simTiffFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- ADDetector used in new scanning -->
+	<bean id="dj3cam_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="simCollectionStrategy"/>
+		<property name="adBase" ref="simCamBase" />
+		<property name="ndFile" ref="simcam_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="simcam_ndarray" />
+		<property name="ndStats" ref="simcam_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="simHdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+	
+</beans>

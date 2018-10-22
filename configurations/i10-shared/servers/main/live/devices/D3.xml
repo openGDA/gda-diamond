@@ -1,0 +1,262 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- D3 (D5) --> 
+	<bean id="d3_scrn" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="BL10I-DI-PHDGN-03:CON"/>
+		<property name="statusPv" value="BL10I-DI-PHDGN-03:STA"/>
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="d3d5_det_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10I-DI-PHDGN-03:DET:X" />
+		<property name="local" value="true"/>
+	</bean>
+
+    <bean id="d3_pos" class="gda.device.enumpositioner.EpicsPositioner">
+        <property name="recordName" value="BL10I-DI-PHDGN-03:DET:X:MP"/>
+    </bean>
+    
+	<!-- Area detector camera -->
+	<bean id="d3CamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL10I-DI-PHDGN-03:DCAM:CAM:" />
+	</bean>
+	<bean id="d3cam_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="BL10I-DI-PHDGN-03:DCAM:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10I-DI-PHDGN-03:DCAM:STAT:" />
+				<property name="initialArrayPort" value="D3.DCAM.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="d3cam_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL10I-DI-PHDGN-03:DCAM:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10I-DI-PHDGN-03:DCAM:ARR:" />
+				<property name="initialArrayPort" value="D3.DCAM.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="d3cam_tifffile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL10I-DI-PHDGN-03:DCAM:TIFF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10I-DI-PHDGN-03:DCAM:TIFF:" />
+				<property name="initialArrayPort" value="D3.DCAM.CAM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="d3cam" />
+		<property name="initialFileTemplate" value="%s%s-%d.tiff" />
+	</bean>
+	<bean id="d3cam_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL10I-DI-PHDGN-03:DCAM:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL10I-DI-PHDGN-03:DCAM:HDF5:" />
+				<property name="initialArrayPort" value="D3.DCAM.CAM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="d3cam" />
+		<property name="initialFileTemplate" value="%s%s-%d.hdf5" />
+	</bean>
+	<bean id="d3cam_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL10I-DI-PHDGN-03:DCAM:HDF5:" />
+		<property name="file" ref="pimte_ndfile" />
+	</bean>
+
+	<bean id="d3CollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="d3CamBase" />
+								<property name="restoreAcquireState" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>	
+	<bean id="d3Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="d3cam_hdf5"/>
+		<property name="fileNameTemplate" value="d3"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1" />
+		<property name="framesFlush" value="1" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="ndArrayPortVal" value="D3.DCAM.CAM"/>
+	</bean>
+	<!-- TIFF plugin - SingleImagePerFileWriter(String detectorName), one tiff file per scan data point	 -->
+	<bean id="d3TiffFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<property name="ndFile" ref="d3cam_tifffile"/>
+		<property name="fileNameTemplate" value="d3"/>
+		<property name="filePathTemplate" value="$datadir$/$scan$-d1-files" />
+		<property name="fileTemplate" value="%s%s-%d.tiff" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="blocking" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="keyNameForMetadataPathTemplate" value="pixis_path_template" />
+		<property name="ndArrayPortVal" value="D3.DCAM.CAM"/>
+	</bean>
+
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="d3_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/d3Roi" />
+	    <property name="service" ref="d3_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>	
+	<bean id="d3_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d3_RoiStats1" />
+		<property name="baseRoiPVName" value="BL10I-DI-PHDGN-03:DCAM:ROI1:" />
+		<property name="baseStatsPVName" value="BL10I-DI-PHDGN-03:DCAM:STAT1:" />
+		<property name="roiInputNdArrayPort" value="D3.DCAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d3_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+		</property>
+	</bean>
+	<bean id="d3_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d3_RoiStats2" />
+		<property name="baseRoiPVName" value="BL10I-DI-PHDGN-03:DCAM:ROI2:" />
+		<property name="baseStatsPVName" value="BL10I-DI-PHDGN-03:DCAM:STAT2:" />
+		<property name="roiInputNdArrayPort" value="D3.DCAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d3_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="d3_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d3_RoiStats3" />
+		<property name="baseRoiPVName" value="BL10I-DI-PHDGN-03:DCAM:ROI3:" />
+		<property name="baseStatsPVName" value="BL10I-DI-PHDGN-03:DCAM:STAT3:" />
+		<property name="roiInputNdArrayPort" value="D3.DCAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d3_roi" />
+	            <property name="index" value="2" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="d3_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d3_RoiStats4" />
+		<property name="baseRoiPVName" value="BL10I-DI-PHDGN-03:DCAM:ROI4:" />
+		<property name="baseStatsPVName" value="BL10I-DI-PHDGN-03:DCAM:STAT4:" />
+		<property name="roiInputNdArrayPort" value="D3.DCAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d3_roi" />
+	            <property name="index" value="3" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="d3_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d3_RoiStats5" />
+		<property name="baseRoiPVName" value="BL10I-DI-PHDGN-03:DCAM:ROI5:" />
+		<property name="baseStatsPVName" value="BL10I-DI-PHDGN-01:DCAM:STAT5:" />
+		<property name="roiInputNdArrayPort" value="D3.DCAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d3_roi" />
+	            <property name="index" value="4" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="d3_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="d3_RoiStats6" />
+		<property name="baseRoiPVName" value="BL10I-DI-PHDGN-03:DCAM:ROI6:" />
+		<property name="baseStatsPVName" value="BL10I-DI-PHDGN-03:DCAM:STAT6:" />
+		<property name="roiInputNdArrayPort" value="D3.DCAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="d3_roi" />
+	            <property name="index" value="5" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<!-- NXDetector -->
+ 	<bean id="d3cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="d3cam" />
+		<property name="collectionStrategy" ref="d3CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d3_RoiStats1" />
+				<ref bean="d3_RoiStats2" />
+				<ref bean="d3_RoiStats3" />
+				<ref bean="d3_RoiStats4" />
+				<ref bean="d3_RoiStats5" />
+				<ref bean="d3_RoiStats6" />
+				<ref bean="d3Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	<bean id="d3camtiff" class="gda.device.detector.NXDetector">
+		<property name="name" value="d3camtiff" />
+		<property name="collectionStrategy" ref="d3CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d3_RoiStats1" />
+				<ref bean="d3_RoiStats2" />
+				<ref bean="d3_RoiStats3" />
+				<ref bean="d3_RoiStats4" />
+				<ref bean="d3_RoiStats5" />
+				<ref bean="d3_RoiStats6" />
+				<ref bean="d3TiffFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- ADDetector used in new scanning -->
+	<bean id="d3cam_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="d3CollectionStrategy"/>
+		<property name="adBase" ref="d3CamBase" />
+		<property name="ndFile" ref="d3cam_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="d3cam_ndarray" />
+		<property name="ndStats" ref="d3cam_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="d3Hdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+</beans>

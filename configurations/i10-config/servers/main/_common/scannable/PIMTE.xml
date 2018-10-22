@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- NXDetector -->
+	<bean id="pimte" class="gda.device.detector.NXDetector">
+		<property name="name" value="pimte" />
+		<property name="collectionStrategy" ref="pimteCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pimte_RoiStats1" />
+				<ref bean="pimte_RoiStats2" />
+				<ref bean="pimte_RoiStats3" />
+				<ref bean="pimte_RoiStats4" />
+				<ref bean="pimte_RoiStats5" />
+				<ref bean="pimte_RoiStats6" />
+				<ref bean="pimteHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+ 	<bean id="pimtetiff" class="gda.device.detector.NXDetector">
+		<property name="name" value="pimtetiff" />
+		<property name="collectionStrategy" ref="pimteCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pimte_RoiStats1" />
+				<ref bean="pimte_RoiStats2" />
+				<ref bean="pimte_RoiStats3" />
+				<ref bean="pimte_RoiStats4" />
+				<ref bean="pimte_RoiStats5" />
+				<ref bean="pimte_RoiStats6" />
+				<ref bean="pimteTiffFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- ADDetector used in new scanning -->
+	<bean id="pimte_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="pimteCollectionStrategy"/>
+		<property name="adBase" ref="pimte_adbase" />
+		<property name="ndFile" ref="pimte_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="pimte_ndarray" />
+		<property name="ndStats" ref="pimte_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="pimteHdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+
+	<bean id="pimteModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="pimte_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="pimteInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i10.pimte.DeviceInformation" />
+		<property name="label" value="PIMTE" />
+		<property name="description" value="PIMTE Detector" />
+	</bean>
+
+	<bean id="pimte_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="pimte_addetector" />
+		<property name="model" ref="pimteModel" />
+		<property name="deviceInformation" ref="pimteInfo" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
+
+</beans>

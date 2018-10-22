@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- ===== Front End: Downstream Insertion Device (IDd or ID1) Motors -->
+	<bean id="MotorGap_ID1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="16" />
+		<property name="maxPosition" value="200" />
+		<property name="speed" value="1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="MotorUpperPhase_ID1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-200" />
+		<property name="maxPosition" value="200" />
+		<property name="speed" value="9" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="MotorLowerPhase_ID1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-200" />
+		<property name="maxPosition" value="200" />
+		<property name="speed" value="9" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Epics softmotor that move the ID1 gap in energy term -->
+	<bean id="MotorEnergy_ID1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="300" />
+		<property name="maxPosition" value="1200" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="eV"/>
+		<property name="local" value="true" />
+	</bean>
+	<!-- Epics softmotor that move the ID1 gap and row phase together in energy term -->
+	<bean id="MotorEnergy_IDDRP" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="300" />
+		<property name="maxPosition" value="1200" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="eV"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Epics softmotor that move the ID1 gap and PGM in energy term -->
+	<bean id="MotorEnergy_IDDPGM" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="300" />
+		<property name="maxPosition" value="1200" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="eV"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Epics softmotor that move the ID1 gap, rowphase and PGM in energy term -->
+	<bean id="MotorEnergy_IDDRPPGM" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="300" />
+		<property name="maxPosition" value="1200" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="eV"/>
+		<property name="local" value="true" />
+	</bean>
+	
+	<!-- Epics softmotors that changes the IDd polarisation angle in the Linear Arbitrary/Angle (LA) mode (Energy stays constant)-->
+	<bean id="MotorLA_Angle_ID1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0" />
+		<property name="maxPosition" value="90" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true" />
+	</bean>
+	
+	<!-- Epics softmotors that changes IDd gap (and rowphase of course) in energy term in the Linear Arbitrary/Angle (LA) mode -->
+	<bean id="MotorLA_Energy_IDD" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="300" />
+		<property name="maxPosition" value="1200" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="eV"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Epics softmotors that changes pgm, IDd gap (and rowphase of course) together in energy term in the Linear Arbitrary/Angle (LA) mode -->
+	<bean id="MotorLA_Energy_IDDPGM" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="300" />
+		<property name="maxPosition" value="1200" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="eV"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- ===== Front End: Uptream Insertion Device (IDu or ID2) Motors -->
+	<bean id="MotorGap_ID2" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="16" />
+		<property name="maxPosition" value="200" />
+		<property name="speed" value="1" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="MotorUpperPhase_ID2" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-200" />
+		<property name="maxPosition" value="200" />
+		<property name="speed" value="9" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="MotorLowerPhase_ID2" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-200" />
+		<property name="maxPosition" value="200" />
+		<property name="speed" value="9" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<!-- Epics softmotor that move the ID2 gap in energy term -->
+	<bean id="MotorEnergy_ID2" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="300" />
+		<property name="maxPosition" value="1200" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="eV"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Epics softmotor that move the ID2 gap and row phase together in energy term -->
+	<bean id="MotorEnergy_IDURP" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="300" />
+		<property name="maxPosition" value="1200" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="eV"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Epics softmotor that move the ID2 gap and PGM in energy term -->
+	<bean id="MotorEnergy_IDUPGM" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="300" />
+		<property name="maxPosition" value="1200" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="eV"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Epics softmotor that move the ID2 gap, rowphase and PGM in energy term -->
+	<bean id="MotorEnergy_IDURPPGM" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="300" />
+		<property name="maxPosition" value="1200" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="eV"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Epics softmotors that changes the IDd polarisation angle in the Linear Arbitrary/Angle (LA) mode (Energy stays constant)-->
+	<bean id="MotorLA_Angle_ID2" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0" />
+		<property name="maxPosition" value="90" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Epics softmotors that changes IDu gap (and rowphase of course) in energy term in the Linear Arbitrary/Angle (LA) mode -->
+	<bean id="MotorLA_Energy_IDU" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="300" />
+		<property name="maxPosition" value="1200" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="eV"/>
+		<property name="local" value="true" />
+	</bean>
+
+	<!-- Epics softmotors that changes pgm, IDu gap (and rowphase of course) together in energy term in the Linear Arbitrary/Angle (LA) mode -->
+	<bean id="MotorLA_Energy_IDUPGM" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="300" />
+		<property name="maxPosition" value="1200" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="eV"/>
+		<property name="local" value="true" />
+	</bean>
+	
+	<!-- ID Phasing Unit Gap softmotor -->
+	<bean id="MotorPHU_GAP" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="16" />
+		<property name="maxPosition" value="200" />
+		<property name="speed" value="1" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<!-- ID Phasing Unit Gap speed control -->
+	<bean id="pugapspeed" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="2" />
+	</bean>
+	
+</beans>

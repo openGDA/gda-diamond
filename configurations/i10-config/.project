@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>i10-config</name>
+	<comment></comment>
+	<projects>
+		<project>diffcalc</project>
+		<project>dls-config</project>
+		<project>optics-config</project>
+		<project>uk.ac.diamond.daq.dls.controls</project>
+		<project>uk.ac.gda.api</project>
+		<project>uk.ac.gda.beamline.i10</project>
+		<project>uk.ac.gda.beamline.synoptics</project>
+		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.devices.xmap</project>
+		<project>uk.ac.gda.devices.xmap.epics</project>
+		<project>uk.ac.gda.dls</project>
+		<project>uk.ac.gda.dls.client</project>
+		<project>uk.ac.gda.epics</project>
+		<project>uk.ac.gda.exafs.api</project>
+		<project>uk.ac.gda.test.helpers</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.python.pydev.PyDevBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.springframework.ide.eclipse.core.springbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.springframework.ide.eclipse.boot.validation.springbootbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.springframework.ide.eclipse.core.springnature</nature>
+		<nature>org.python.pydev.pythonNature</nature>
+	</natures>
+</projectDescription>

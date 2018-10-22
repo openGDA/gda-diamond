@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- M3 Hexapod Legs Control Point -->
+	<bean id="m3leg1" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="local" value="true" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+		<property name="pvName" value="BL06I-OP-FCMIR-01:MR7:EGUPS" />
+	</bean>
+
+	<bean id="m3leg2" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="local" value="true" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+		<property name="pvName" value="BL06I-OP-FCMIR-01:MR8:EGUPS" />
+	</bean>
+
+	<bean id="m3leg3" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="local" value="true" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+		<property name="pvName" value="BL06I-OP-FCMIR-01:MR9:EGUPS" />
+	</bean>
+
+	<bean id="m3leg4" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="local" value="true" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+		<property name="pvName" value="BL06I-OP-FCMIR-01:MR10:EGUPS" />
+	</bean>
+
+	<bean id="m3leg5" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="local" value="true" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+		<property name="pvName" value="BL06I-OP-FCMIR-01:MR11:EGUPS" />
+	</bean>
+
+	<bean id="m3leg6" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="local" value="true" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+		<property name="pvName" value="BL06I-OP-FCMIR-01:MR12:EGUPS" />
+	</bean>
+
+	<!-- Focusing Mirrow M3 Motors -->
+	<bean id="MotorX_M3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:X" />
+	</bean>
+
+	<bean id="MotorY_M3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:Y" />
+	</bean>
+
+	<bean id="MotorZ_M3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:Z" />
+	</bean>
+
+	<bean id="MotorYaw_M3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:YAW" />
+	</bean>
+
+	<bean id="MotorPitch_M3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:PITCH" />
+	</bean>
+
+	<bean id="MotorRoll_M3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:S:ROLL" />
+	</bean>
+
+	<bean id="MotorFinePitch_M3" class="gda.device.motor.EpicsMotor">
+		<property name="local" value="true" />
+		<property name="pvName" value="BL06I-OP-FCMIR-01:FPITCH" />
+	</bean>
+
+</beans>

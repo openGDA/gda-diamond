@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Current Amplifier CA4 Controller, BPM Controller and BPM -->
+	<bean id="qca4" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
+		<property name="rangePv" value="BL06I-DI-IAMP-04:RANGE_MENU"/>
+		<property name="rangeRbvPv" value="BL06I-DI-IAMP-04:MRREADBACK"/>
+		<property name="current1Pv" value="BL06I-DI-IAMP-04:PHD1:I"/>
+		<property name="current2Pv" value="BL06I-DI-IAMP-04:PHD2:I"/>
+		<property name="current3Pv" value="BL06I-DI-IAMP-04:PHD3:I"/>
+		<property name="current4Pv" value="BL06I-DI-IAMP-04:PHD4:I"/>
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- CA4 Epics Monitor -->
+	<bean id="ca41" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-DI-IAMP-04:PHD1:I" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="ca42" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-DI-IAMP-04:PHD2:I" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="ca43" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-DI-IAMP-04:PHD3:I" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<bean id="ca44" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-DI-IAMP-04:PHD4:I" />
+		<property name="local" value="true"/>
+	</bean>
+
+</beans>

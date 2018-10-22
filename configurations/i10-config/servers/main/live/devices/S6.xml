@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Tertiary Slits / S6 Optical Element -->
+
+  	<bean id="s6xring_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10I-AL-SLITS-06:XRING" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s6xhall_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10I-AL-SLITS-06:XHALL" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s6yplus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10I-AL-SLITS-06:YPLUS" />
+		<property name="local" value="true"/>
+	</bean>
+	
+  	<bean id="s6yminus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10I-AL-SLITS-06:YMINUS" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s6xsize_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10I-AL-SLITS-06:XSIZE" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s6xcentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10I-AL-SLITS-06:XCENTRE" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s6ysize_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10I-AL-SLITS-06:YSIZE" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<bean id="s6ycentre_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL10I-AL-SLITS-06:YCENTRE" />
+		<property name="local" value="true"/>
+	</bean>
+</beans>

@@ -1,0 +1,200 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.diamond.ac.uk/schema/gda/gda	http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+
+	<gda:rmi-import
+		id="magnetX"
+		serviceUrl="${gda.rmi.prefix}magnetX"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetY"
+		serviceUrl="${gda.rmi.prefix}magnetY"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetZ"
+		serviceUrl="${gda.rmi.prefix}magnetZ"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetSum"
+		serviceUrl="${gda.rmi.prefix}magnetSum"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetModeControl"
+		serviceUrl="${gda.rmi.prefix}magnetModeControl"
+		serviceInterface="gda.device.EnumPositioner" />
+
+<!-- The magnet control GUI -->
+	<bean id="magnetField" class="gda.rcp.views.FindableGroupCompositeFactory">
+		<property name="label" value="Magnetic Filed"/>
+		<property name="columns" value="1"/>
+		<property name="compositeFactories">
+			<list>
+				<bean class="uk.ac.gda.dls.client.views.MonitorCompositeFactory">
+					<property name="scannable" ref="magnetX"/>
+					<property name="label" value="X Field"/>
+					<property name="units" value="T"/>
+					<property name="labelWidth" value="60"/>
+					<property name="contentWidth" value="80"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.MonitorCompositeFactory">
+					<property name="scannable" ref="magnetY"/>
+					<property name="label" value="Y Field"/>
+					<property name="units" value="T"/>
+					<property name="labelWidth" value="60"/>
+					<property name="contentWidth" value="80"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.MonitorCompositeFactory">
+					<property name="scannable" ref="magnetZ"/>
+					<property name="label" value="Z Field"/>
+					<property name="units" value="T"/>
+					<property name="labelWidth" value="60"/>
+					<property name="contentWidth" value="80"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.MonitorCompositeFactory">
+					<property name="scannable" ref="magnetSum"/>
+					<property name="label" value="Sum"/>
+					<property name="units" value="T"/>
+					<property name="labelWidth" value="60"/>
+					<property name="contentWidth" value="80"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+					<property name="positioner" ref="magnetModeControl"/>
+					<property name="label" value="Mode"/>
+					<property name="labelWidth" value="40"/>
+					<property name="contentWidth" value="110"/>
+				</bean>
+ 			</list>
+		</property>
+	</bean>
+
+<!-- The temperature control GUI -->
+	<gda:rmi-import
+		id="magnetSampleTemp"
+		serviceUrl="${gda.rmi.prefix}magnetSampleTemp"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetHeaterControl"
+		serviceUrl="${gda.rmi.prefix}magnetHeaterControl"
+		serviceInterface="gda.device.EnumPositioner" />
+	<gda:rmi-import
+		id="magnetManualOutput"
+		serviceUrl="${gda.rmi.prefix}magnetManualOutput"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetTargetTemp"
+		serviceUrl="${gda.rmi.prefix}magnetTargetTemp"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetNeedleValve"
+		serviceUrl="${gda.rmi.prefix}magnetNeedleValve"
+		serviceInterface="gda.device.EnumPositioner" />
+
+	<bean id="magnetTemp" class="gda.rcp.views.FindableGroupCompositeFactory">
+		<property name="label" value="Temperature"/>
+		<property name="columns" value="1"/>
+		<property name="compositeFactories">
+			<list>
+				<bean class="uk.ac.gda.dls.client.views.MonitorCompositeFactory">
+					<property name="scannable" ref="magnetSampleTemp"/>
+					<property name="label" value="Sample Temp"/>
+					<property name="labelWidth" value="100"/>
+					<property name="contentWidth" value="80"/>
+					<property name="units" value="K"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+					<property name="positioner" ref="magnetHeaterControl"/>
+					<property name="label" value="Heater Control"/>
+					<property name="labelWidth" value="100"/>
+					<property name="contentWidth" value="90"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.ScannableCompositeFactory">
+					<property name="scannable" ref="magnetManualOutput"/>
+					<property name="label" value="Manual Output"/>
+					<property name="labelWidth" value="100"/>
+					<property name="contentWidth" value="60"/>
+					<property name="units" value="%"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.ScannableCompositeFactory">
+					<property name="scannable" ref="magnetTargetTemp"/>
+					<property name="label" value="Target Temp"/>
+					<property name="units" value="K"/>
+					<property name="labelWidth" value="100"/>
+					<property name="contentWidth" value="60"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+					<property name="positioner" ref="magnetNeedleValve"/>
+					<property name="label" value="Needle Valve"/>
+					<property name="labelWidth" value="100"/>
+					<property name="contentWidth" value="90"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+<!-- The cooling control GUI -->
+	<gda:rmi-import
+		id="magnetNitrogenLevel"
+		serviceUrl="${gda.rmi.prefix}magnetNitrogenLevel"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetHeliumLevel"
+		serviceUrl="${gda.rmi.prefix}magnetHeliumLevel"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetPotHeliumLevel"
+		serviceUrl="${gda.rmi.prefix}magnetPotHeliumLevel"
+		serviceInterface="gda.device.ScannableMotionUnits" />
+	<gda:rmi-import
+		id="magnetHeliumMode"
+		serviceUrl="${gda.rmi.prefix}magnetHeliumMode"
+		serviceInterface="gda.device.EnumPositioner" />
+	<gda:rmi-import
+		id="magnetDiaphragmPump"
+		serviceUrl="${gda.rmi.prefix}magnetDiaphragmPump"
+		serviceInterface="gda.device.EnumPositioner" />
+
+	<bean id="magnetCool" class="gda.rcp.views.FindableGroupCompositeFactory">
+		<property name="label" value="Cooling"/>
+		<property name="columns" value="1"/>
+		<property name="compositeFactories">
+			<list>
+				<bean class="uk.ac.gda.dls.client.views.MonitorCompositeFactory">
+					<property name="scannable" ref="magnetNitrogenLevel"/>
+					<property name="label" value="Nitrogen Level"/>
+					<property name="units" value="%"/>
+					<property name="labelWidth" value="170"/>
+					<property name="contentWidth" value="80"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.MonitorCompositeFactory">
+					<property name="scannable" ref="magnetHeliumLevel"/>
+					<property name="label" value="Cryostat Helium Level"/>
+					<property name="units" value="mm"/>
+					<property name="labelWidth" value="170"/>
+					<property name="contentWidth" value="80"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.MonitorCompositeFactory">
+					<property name="scannable" ref="magnetPotHeliumLevel"/>
+					<property name="label" value="1K Pot Helium Level"/>
+					<property name="units" value="mm"/>
+					<property name="labelWidth" value="170"/>
+					<property name="contentWidth" value="80"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+					<property name="positioner" ref="magnetHeliumMode"/>
+					<property name="label" value="Helium Operating Mode"/>
+					<property name="labelWidth" value="170"/>
+					<property name="contentWidth" value="90"/>
+				</bean>
+				<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+					<property name="positioner" ref="magnetDiaphragmPump"/>
+					<property name="label" value=" Diaphragm Pump Control"/>
+					<property name="labelWidth" value="170"/>
+					<property name="contentWidth" value="90"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

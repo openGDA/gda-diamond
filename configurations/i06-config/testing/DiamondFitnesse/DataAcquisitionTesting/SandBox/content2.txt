@@ -1,0 +1,162 @@
+GDA Acceptance Test new page
+!contents
+
+!define GDA_ROOT {/home/xr56/Dev/gdaDev}
+!define GDA_CONFIG {/home/xr56/Dev/gdaConfigLocal/local}
+!define GDA_USERS {/home/xr56/Dev/gdaConfigLocal/users}
+!define GDA_JARS {/home/xr56/Dev/gdaDev/jars}
+
+!path /home/xr56/mp/acTest/target/classes
+!path /home/xr56/mp/acTest/target/test-classes
+!path /usr/local/jython/jython2.2.1/jython.jar
+!path /home/xr56/Dev/gdaDev/gda_alpha.jar
+
+
+!path ${GDA_JARS}/avalon-framework-4.1.5.jar:${GDA_JARS}/axis.jar:${GDA_JARS}/bcel-5.2.jar
+!path ${GDA_JARS}/BrowserLauncher2-10.jar
+!path ${GDA_JARS}/caj-1.1.4.jar
+!path ${GDA_JARS}/castor-1.1.2.1.jar
+!path ${GDA_JARS}/commons-beanutils.jar
+!path ${GDA_JARS}/commons-collections-3.1.jar
+!path ${GDA_JARS}/commons-configuration-1.1.jar
+!path ${GDA_JARS}/commons-digester-1.7.jar
+!path ${GDA_JARS}/commons-discovery-0.2.jar
+!path ${GDA_JARS}/commons-io-1.2.jar
+!path ${GDA_JARS}/commons-lang-2.1.jar
+!path ${GDA_JARS}/commons-logging.jar
+!path ${GDA_JARS}/derby.jar
+!path ${GDA_JARS}/dlsplot.jar
+!path ${GDA_JARS}/dna.jar
+!path ${GDA_JARS}/epics-3.1.jar
+!path ${GDA_JARS}/epics.jar
+!path ${GDA_JARS}/gda-corba.jar
+!path ${GDA_JARS}/gnu-regexp.jar
+!path ${GDA_JARS}/icat3-core.jar
+!path ${GDA_JARS}/icat-ws-alpha.jar
+!path ${GDA_JARS}/idl.jar
+!path ${GDA_JARS}/j2ee.jar
+!path ${GDA_JARS}/jacorb.jar
+!path ${GDA_JARS}/jaf.jar
+!path ${GDA_JARS}/Jama-1.0.1.jar
+!path ${GDA_JARS}/jargon_1.4.16_diamond.jar
+!path ${GDA_JARS}/javaee.jar
+!path ${GDA_JARS}/javolution.jar
+!path ${GDA_JARS}/jaxrpc.jar
+!path ${GDA_JARS}/jca-2.3.1.jar
+!path ${GDA_JARS}/jcameraman.jar
+!path ${GDA_JARS}/jcommon-1.0.0.jar
+!path ${GDA_JARS}/jdbc-se2.0.jar
+!path ${GDA_JARS}/Jdl.jar
+!path ${GDA_JARS}/jep-2.4.0.jar
+!path ${GDA_JARS}/jfreechart-1.0.0.jar
+!path ${GDA_JARS}/jide-common.jar
+!path ${GDA_JARS}/jide-dock.jar
+!path ${GDA_JARS}/Jlibdc1394-media.jar
+!path ${GDA_JARS}/jmf.jar
+!path ${GDA_JARS}/JMinuit.jar
+!path ${GDA_JARS}/jnexus.jar
+!path ${GDA_JARS}/jscience.jar
+!path ${GDA_JARS}/jta1.0.1.jar
+!path ${GDA_JARS}/ledatastream.jar
+!path ${GDA_JARS}/log4j-1.2.13.jar
+!path ${GDA_JARS}/logback-classic-0.9.5.jar
+!path ${GDA_JARS}/logback-core-0.9.5.jar
+!path ${GDA_JARS}/logkit-1.2.jar
+!path ${GDA_JARS}/mail.jar
+!path ${GDA_JARS}/mysql-connector-java-3.0.9-stable-bin.jar
+!path ${GDA_JARS}/ojdbc14.jar
+!path ${GDA_JARS}/overrideQueue.jar
+!path ${GDA_JARS}/peem-0.3.jar
+!path ${GDA_JARS}/rcommands.jar
+!path ${GDA_JARS}/RXTXcomm.jar
+!path ${GDA_JARS}/saaj.jar
+!path ${GDA_JARS}/slf4j-api-1.4.3.jar
+!path ${GDA_JARS}/STAC.jar
+!path ${GDA_JARS}/testng-5.5-jdk15.jar
+!path ${GDA_JARS}/toplink-essentials-agent.jar
+!path ${GDA_JARS}/toplink-essentials.jar
+!path ${GDA_JARS}/velocity-dep-1.4.jar
+!path ${GDA_JARS}/wrapper.jar
+!path ${GDA_JARS}/wsdl4j-1.5.1.jar
+!path ${GDA_JARS}/xercesImpl-2.9.1.jar
+
+
+
+!define GDA_DDD {-Dgda.root=/home/xr56/Dev/gdaDev -Dgda.config=/home/xr56/Dev/gdaConfigLocal/local -Dgda.propertiesFile=/home/xr56/Dev/gdaConfigLocal/local/properties/java.properties -Djacorb.config.dir=/home/xr56/Dev/gdaConfigLocal/local/properties -Dgov.aps.jca.JCALibrary.properties=/home/xr56/Dev/gdaConfigLocal/local/properties/JCALibrary.properties -Dgda.users=/home/xr56/Dev/gdaConfigLocal/users}
+
+!define COMMAND_PATTERN {java -Dgda.root=/home/xr56/Dev/gdaDev -Dgda.config=/home/xr56/Dev/gdaConfigLocal/local -Dgda.propertiesFile=/home/xr56/Dev/gdaConfigLocal/local/properties/java.properties -Djacorb.config.dir=/home/xr56/Dev/gdaConfigLocal/local/properties -Dgov.aps.jca.JCALibrary.properties=/home/xr56/Dev/gdaConfigLocal/local/properties/JCALibrary.properties -Dgda.users=/home/xr56/Dev/gdaConfigLocal/users -cp %p %m}
+
+
+----
+First, an example:
+
+|gda.myDivision|
+|numerator|denominator|quotient?|
+|10       |2          |5        |
+|12.6     |3          |4.2      |
+|100      |4          |33       |  
+
+[[Dummy Motor Testing][OneMinuteDescription]]
+
+!1 Dummy motor Test
+
+Using an ActionFixture to do the test.
+
+| Action Fixture.                                      |
+| start | !-gda.acceptancetest.GDAFixture-!            |
+| press | start client                                 |
+| enter | set command  | pos testMotor1 123            |
+| press | just wait    |                               |
+| enter | do it        | pos testMotor1                |
+| check | check it     | testMotor1 : 123.00 dof(-5000.0 : 5000.0) |
+| enter | set command  | pos testMotor2 10             |
+| press | just wait    |                               |
+| enter | do it        | pos testMotor2                |
+| check | check it     | testMotor2 : 10.000 dof(-1.0000e+05 : 1.0000e+05) |
+| enter | do it        | pos testMotor3 90              |
+| check | check it     | New positions: testMotor3 90.0 |
+| enter | do it        | pos testMotor3 190             |
+| check | check it     | New positions: testMotor3 90.0 |
+
+
+
+
+In this style of FitNesse test table (ColumnFixture), each row represents a complete scenario of example inputs and outputs. Here, the "numerator" and "denominator" columns are for inputs, and the question mark in the "quotient?" column tells FitNesse that this is our column of expected outputs. Notice our "10/2 = 5" scenario. Try reading it as a question: ''"If I give you a numerator of 10 and denominator of 2, do I get back a 5?"''
+!3 Running our test table: Click the Test button
+Before we do another thing, let's run this test table. See the little blue and white '''Test''' button in the upper-left, just below the !-FitNesse-! logo? Click it and see what happens. 
+
+Ah, color! In the green cells, we got back the expected values from our code. When we divided 10 by 2, we expected and got back 5. When we divided 12.6 by 3, we expected and got back 4.2. 
+
+What about red? A cell turns red when we get back a different value than what we expected. We also see two values: the '''expected''' value and the '''actual''' value. Above we expected 33 back when we divided 100 by 4, but we got back 25. Ah, a flaw in our test table. That happens!
+
+!3 Creating the Table
+How did we put that test table on this page in the first place? Well, we used FitNesse itself to do it!
+
+FitNesse is a [[wiki][http://wiki.org/wiki.cgi?WhatIsWiki]], which is a style of web server that allows any visitor to make any edits, including changing existing pages and creating new pages. A simple markup language lets you easily create headings, make text bold, underline, and italic, create bulleted lists, and do other kinds of simple formatting. You can read more about it on EditingFitNessePages.
+
+Once you download FitNesse to your own computer, you can edit any page simply by clicking on the Edit button on the left (just below the Test button). If you are reading this page on your own copy of FitNesse on your own machine, you can click the Edit button and see for yourself. (To learn more, see DownloadingAndInstallingFitNesse.)
+
+The wiki markup for our table above looks like this: {{{
+|eg.Division|
+|numerator|denominator|quotient?|
+|10       |2          |5        |
+|12.6     |3          |4.2      |
+|100      |4          |33       |  }}}
+The vertical bars delimit table cells. For this table, there is not much more too it than that. You don't have to line up the vertical bars this way; we just do it to make it easier to read.
+
+Note that if you don't like mucking about with a markup language at all, you can create your test tables in a spreadsheet such as Excel, copy them to the clipboard, and use the '''Spreadsheet to Fitnesse''' button on the Edit page to have FitNesse format your table properly for you. 
+
+'''Note''' also that if you change "eg.Division" to any other name, you may need to use a ! before the fixture to avoid confusing FitNesse with [[!-WikiWord-!][.FitNesse.WikiWord]]s (see .FitNesse.MarkupTable)
+
+!3 Organizing Tests
+FitNesse test tables live on test pages (such as this one). There are several TestTableStyles. As your sets of test pages grows, you can organize them into hierarchical TestSuites. 
+
+!2 Learning More
+!3 You Have Choices!
+How shall you spend the next few minutes? It's up to you.  
+!3 More Technical Detail...
+If you are more interested in learning how to create the code that makes test tables work, see FixtureCode. If you want to start diving into installing and running FitNesse, check out DownloadingAndInstallingFitNesse. 
+!3 More Useage Detail...
+If you are more interested in why and how to get teams to use FitNesse, see AcceptanceTests.  If you want to learn how to create and run FitNesse tests, check out EditingFitNessePages, CreatingTestTables, and TestTableStyles.
+!3 Or Take Your Own Path
+Finally, if you want to zoom back out and look at all of the FitNesse topics, check out the table of contents on the UserGuide. 

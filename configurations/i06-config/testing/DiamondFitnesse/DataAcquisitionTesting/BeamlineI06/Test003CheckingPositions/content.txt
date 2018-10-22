@@ -1,0 +1,87 @@
+!2 Key OE Position Checking
+!contents
+
+!3 Check Slits:
+Slits S1:
+|!-uk.ac.diamond.dlsfitnesse.GDACommandActionFixture-!|
+|evaluate  |pos s1hall         |s1hall : 0.59800 mm dof(-1.9000 : 5.7960)|
+|evaluate  |pos s1ring         |s1ring :   |
+|evaluate  |pos s1top          |s1top :    |
+|evaluate  |pos s1bottom       |s1bottom : |
+|evaluate  |pos s1xgap         |s1xgap :   |
+|evaluate  |pos s1xcentre      |s1xcentre :|
+|evaluate  |pos s1ygap         |s1ygap :   |
+|evaluate  |pos s1ycentre      |s1ycentre :|
+
+Slits S2:
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?       |deviceName| getValue?      |deviceName| getValue?     |deviceName | getValue?        |
+|s2hall    |-1.0005<_<2.0000 |s2ring    | -5.0<_<-1.001  |s2top     | 0.99950<_<1.0 |s2bottom   | -2.0000<_<-1.0025|
+|s2xgap    |      0<_<4.0005 |s2xcentre | -6.0<_<3       |s2ygap    | 0<_<2.0003    |s2ycentre  | -3.0010<_<2.0100 |
+
+Slits S4:
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?   |deviceName| getValue?      |deviceName| getValue?  |
+|s4y       |-10.0<_<10.0 |s4x       | -1.0<_<30.02   |s4z       | -100<_<100 |
+|s4ygap    | >0          |
+
+!3 Check Diagnostic Motors:
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?       |deviceName| getValue?      |deviceName| getValue?     |deviceName | getValue?        |
+|d4x       |-1.5<_<47.0      |d5x       | -10<_<48       |d6y       | -44<_<0       |d8x        |-5<_<45           |
+|d7x       |-2.0<_<46.0      |d7ax      | -30<_<71       |d9y       | -46<_<21      |           |                  |
+
+!3 Check Counter Timers:
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?       |deviceName| getValue?      |deviceName| getValue?     |deviceName | getValue?        |
+|ca11      | >0              |ca12      | >0             |ca13      | >0            |ca14       | >0               |
+|ca21      | >0              |ca22      | >0             |ca23      | >0            |ca24       | >0               |
+|ca31      | >0              |ca32      | >0             |ca33      | >0            |ca34       | >0               |
+|ca41      | >0              |ca42      | >0             |ca43      | >0            |ca44       | >0               |
+
+!3 Check Mirrors:
+M1
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?       |deviceName| getValue?      |deviceName| getValue?       |
+|m1x       |  -10<_<10       |m1y       | -10 <_<10      |m1z       | -10 <_<10       |
+|m1yaw     |  -3500<_<3500   |m1pitch   | -3500 <_<3500  |m1roll    | -10000 <_<10000 |
+|m1leg1    |  >0             |m1leg2    | >0             |m1leg3    | >0              |
+|m1leg4    |  >0             |m1leg5    | >0             |m1leg6    | >0              |
+|m1finepitch| -8190<_<8190   |
+
+M3
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?       |deviceName| getValue?      |deviceName| getValue?       |
+|m3x       |  -10<_<10       |m3y       | -10 <_<10      |m3z       | -10 <_<10       |
+|m3yaw     |  -3500<_<3500   |m3pitch   | -3500 <_<3500  |m3roll    | -10000 <_<10000 |
+|m3finepitch| -8190<_<8190   |
+
+KBM (M4 & M5)
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-! |
+|deviceName| getValue?      |deviceName| getValue?     |deviceName| getValue?    |deviceName| getValue?     |deviceName| getValue?       |
+|m4x       | -9.000<_<9.000 |m4pitch   | -20.56<_<15.44|m4roll    |  -11<_<11    |m4bend1   |40000<_<700000 |m4bend2   | 100000<_<700000 |
+|m5y       | -9.000<_<9.000 |m5pitch   | -15<_<11.0    |m5roll    |-5.01<_<16.99 |m5bend1   |40000<_<700000 |m5bend2   | 100000<_<700000 |
+
+
+M6
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?       |deviceName| getValue?      |deviceName| getValue?       |
+|m6x       |  -10<_<10       |m6y       | -10 <_<10      |m6z       | -10 <_<10       |
+|m6yaw     |  -3500<_<3500   |m6pitch   | -3500 <_<3500  |m6roll    | -10000 <_<10000 |
+|m6finepitch| -8190<_<8190   |
+
+M7
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?       |deviceName| getValue?      |deviceName| getValue?       |
+|m7x       |  -10<_<10       |m7y       | -10 <_<10      |m7z       | -10 <_<10       |
+|m7yaw     |  -3500<_<3500   |m7pitch   | -3500 <_<3500  |m7roll    | -10000 <_<10000 |
+|m7finepitch| -8190<_<8190   |
+
+!3 Check PGM
+|!-uk.ac.diamond.dlsfitnesse.GDACommandColumnFixture-!|
+|deviceName| getValue?      |
+|cff       | 0<_<5          |
+|pgmenergy | >0             |
+
+----
+!lastmodified

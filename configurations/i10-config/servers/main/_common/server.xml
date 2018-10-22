@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd
+           http://www.diamond.ac.uk/schema/gda/corba
+           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
+           http://www.diamond.ac.uk/schema/gda/gda
+           http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
+
+	<!-- 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" /> -->
+	<import resource="../../../../../../gda-core.git/core-config/servers/_common/plot_server.xml" />
+	<import resource="scanDataPointServer.xml"/>
+	<import resource="commandQueueProcessor.xml"/>
+	<import resource="commandServer.xml"/>
+	<!-- watch dogs for solstice scanning. -->
+<!-- 	<import resource="topupWatchdog.xml"/> -->
+<!-- 	<import resource="expressionWatchdog.xml"/> -->
+<!-- 	<import resource="xRayWatchdog.xml"/> -->
+
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/file_registrar.xml" />
+
+	<import resource="terminal_logger.xml"/>
+	<import resource="dataWriter.xml"/>
+	
+	<import resource="../../../../i10-shared/servers/main/_common/scannable/all.xml"/>
+	<import resource="scannable/all.xml"/>
+	
+	<!-- dummy beans from dls-config, can be used for testing solstice scanning. -->
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/det.xml"/>
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mapping_motors.xml"/>
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mandelbrotDetector.xml"/>
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/darkImageDetector.xml"/>
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/constantVelocityDevice.xml"/>
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/mandelbrot_detectors.xml"/>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+	<!-- beanAdder must be placed after commandServer.xml -->
+	<import resource="../../../../optics-config/servers/main/_common/beanAdder.xml"/>
+
+	<corba:export namespace="${gda.factory.factoryName}" />
+
+	<!--  
+	      IMPORTANT: this will start processing the scanning queue. 
+	      detectors must be created before doing this.
+	      ADVISED: do it last or towards the end, scan will now start to run!
+	 --> 
+	<import resource="../../../../../../gda-diamond.git/dls-config/servers/_common/solstice_scanning.xml"/>
+</beans>

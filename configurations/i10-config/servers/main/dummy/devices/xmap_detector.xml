@@ -1,0 +1,120 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- NXDetector file writers -->
+	<bean id="xmap_hdf5filewriter_for_scans" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="sim_hdf5" />
+		<property name="fileNameTemplate" value="xmap" />
+		<property name="filePathTemplate" value="$datadir$/" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="storeAttr" value="true" />
+		<property name="ndArrayPortVal" value="ADSIM.CAM" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" /> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks	is 64 -->
+		<property name="FramesChunks" value="1" />
+		<property name="setChunking" value="false" />
+		<property name="writeErrorStatusSupported" value="true" />
+	</bean>
+
+	<bean id="xmapMapping" class="gda.device.detector.nxdetector.xmap.controller.DummyXmapMappingModeEpicsLayer">
+		<constructor-arg index="0" value="${WORKSTATION}-AD-SIM-01:" />
+		<property name="pixelsPerBuffer" value="10" />
+	</bean>
+
+	<bean id="edxdcontroller" class="gda.device.detector.nxdetector.xmap.controller.DummyXmapAcquisitionBaseEpicsLayer">
+		<constructor-arg index="0" value="${WORKSTATION}-AD-SIM-01:" />
+		<constructor-arg index="1" ref="xmapMapping" />
+	</bean>
+
+	<!-- Separate the EPICs layer from the collection strategy -->	
+	<bean id="xbufferpv" class="gda.device.detector.nxdetector.xmap.xbufferPlugin.XBufferPVs">
+		<constructor-arg index="0" value="" />
+	</bean>
+
+	<!-- Define ROIs -->
+	<bean id="xmaproistats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats1" />
+		<property name="baseRoiPVName" value="${WORKSTATION}-AD-SIM-01:ROI1:" />
+		<property name="baseStatsPVName" value="${WORKSTATION}-AD-SIM-01:STAT1:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<bean id="xmaproistats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats2" />
+		<property name="baseRoiPVName" value="${WORKSTATION}-AD-SIM-01:ROI2:" />
+		<property name="baseStatsPVName" value="${WORKSTATION}-AD-SIM-01:STAT2:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<bean id="xmaproistats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats3" />
+		<property name="baseRoiPVName" value="${WORKSTATION}-AD-SIM-01:ROI3:" />
+		<property name="baseStatsPVName" value="${WORKSTATION}-AD-SIM-01:STAT3:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<bean id="xmaproistats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats4" />
+		<property name="baseRoiPVName" value="${WORKSTATION}-AD-SIM-01:ROI4:" />
+		<property name="baseStatsPVName" value="${WORKSTATION}-AD-SIM-01:STAT4:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<bean id="xmaproistats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats5" />
+		<property name="baseRoiPVName" value="${WORKSTATION}-AD-SIM-01:ROI5:" />
+		<property name="baseStatsPVName" value="${WORKSTATION}-AD-SIM-01:STAT5:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<bean id="xmaproistats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats6" />
+		<property name="baseRoiPVName" value="${WORKSTATION}-AD-SIM-01:ROI6:" />
+		<property name="baseStatsPVName" value="${WORKSTATION}-AD-SIM-01:STAT6:" />
+		<property name="roiInputNdArrayPort" value="" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<bean id="xmaproistats7" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats7" />
+		<property name="baseRoiPVName" value="${WORKSTATION}-AD-SIM-01:ROI7:" />
+		<property name="baseStatsPVName" value="${WORKSTATION}-AD-SIM-01:STAT7:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<bean id="xmaproistats8" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="xmaproistats8" />
+		<property name="baseRoiPVName" value="${WORKSTATION}-AD-SIM-01:ROI8:" />
+		<property name="baseStatsPVName" value="${WORKSTATION}-AD-SIM-01:STAT8:" />
+		<property name="roiInputNdArrayPort" value="ADSIM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+	</bean>
+
+	<!-- Controller -->
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
+		<property name="numberOfElements" value="10" />
+		<property name="numberOfBins" value="1024" />
+		<property name="numberOfROIs" value="10" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+gda logpanel
+gda client $*

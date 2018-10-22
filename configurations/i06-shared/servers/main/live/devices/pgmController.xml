@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!--   ============================== Access control for PGM   ==============================  -->
+	<!-- PEEM=0 means PEEM Line has control of PGM; BRANCHLINE=1 means Branchline has control of PGM --> 	
+	<bean id="pgmController" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL06I-OP-PGM-01:CONTROLLER"/>
+	</bean>
+	
+</beans>

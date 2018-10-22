@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">     
+	
+	<!-- DJ2 (D10) -->
+	
+	<bean id="dj2_gcell" class="gda.device.scannable.ScannableMotor">
+		<property name="initialUserUnits" value="mm" />
+		<property name="motor" ref="dj2d10_gcell_motor" />
+		<property name="hardwareUnitString" value="mm" />
+		<!-- 
+		<property name="lowerGdaLimits" value="-100" />
+		<property name="upperGdaLimits" value="100" />
+		 -->
+	</bean>
+	
+	<bean id="DJ2" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dj2_gcell" />
+				<ref bean="dj2_pos" />
+			</list>
+		</property>
+		<property name="local" value="true"/>
+	</bean>
+ </beans>

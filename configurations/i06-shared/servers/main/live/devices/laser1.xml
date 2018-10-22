@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Laser 1 (Rega) devices -->
+	<!-- Beam Positioning Monitors -->
+	<bean id="bpm1x" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-DI-LBPM-01:X:POS" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="bpm1y" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-DI-LBPM-01:Y:POS" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="bpm1pow" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL06I-DI-LBPM-01:POWER" />
+		<property name="local" value="true"/>
+	</bean>
+	
+	<!-- Fast Steering Mirror 1 (LT1) -->
+	<bean id="MotorX_LFSM1" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-OP-FSM-01:X" />
+		<property name="local" value="true"/>
+	</bean>
+	<bean id="MotorY_LFSM1" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-OP-FSM-01:Y" />
+		<property name="local" value="true"/>
+	</bean>
+
+	<!-- Control Points that control the Laser Stabilisation System Motor's Set Point -->
+
+	<bean id="fsm1xfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-01:X:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-01:X:FFB:SETPOINT" />
+	</bean>
+
+	<bean id="fsm1yfsp" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameSetPoint" value="BL06I-OP-FSM-01:Y:FFB:SETPOINT" />
+		<property name="pvNameGetPoint" value="BL06I-OP-FSM-01:Y:FFB:SETPOINT" />
+	</bean>
+
+	<!-- delay stage -->
+	<bean id="llds1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06I-OP-DELAY-01:MTR" />
+		<property name="local" value="true"/>
+	</bean>
+	
+</beans>

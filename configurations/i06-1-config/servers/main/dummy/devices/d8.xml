@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Branchline Fluorescent Screen and Diode D8 Motors -->
+	<bean id="MotorD_D8" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-5.000000" />
+		<property name="maxPosition" value="45.000000" />
+		<property name="speed" value="1.0" />
+		<property name="unitString" value="mm"/>
+		<property name="local" value="true" />
+	</bean>
+</beans>
