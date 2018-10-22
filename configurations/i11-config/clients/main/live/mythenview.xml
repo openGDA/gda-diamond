@@ -1,13 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 	<!-- acquire state -->
 	<bean id="startlistener" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsEnumDataListener">
@@ -15,11 +13,7 @@
 		<property name="pvName" value="BL11I-EA-DET-03:DET:Acquire"/>
 	</bean>
 	
-	<bean id="mythen" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/mythen" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.mythen.epics.IMythenDetector" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	<bean id="mythen" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="mythenmessagelistener" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsByteArrayAsStringDataListener">
 		<property name="name" value="mythenmessagelistener"/>

@@ -4,10 +4,5 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="spin" class="gda.device.spin.DummySpinner"/>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/spin" />
-		<property name="service" ref="spin" />
-		<property name="serviceInterface" value="gda.device.ISpin" />
-	</bean>
 
 </beans>

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:epics="http://www.diamond.ac.uk/schema/gda/epics"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 		http://www.diamond.ac.uk/schema/gda/epics http://www.diamond.ac.uk/schema/gda/epics/gda-epics-1.0.xsd
 		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
@@ -206,10 +204,4 @@
 		<property name="hasChannelInfo" value="false"/>
 		<property name="numberOfModules" value="18"/>
 	</bean>
-	
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/mythen" />
-		<property name="service" ref="mythen" />
-		<property name="serviceInterface" value="uk.ac.gda.devices.mythen.epics.IMythenDetector" />
-	</bean>  
 </beans>

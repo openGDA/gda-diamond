@@ -8,9 +8,4 @@
 		<property name="useAuxiliaryInputs" value="false" />
 		<property name="local" value="true"/>
 	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/rga" />
-		<property name="service" ref="rga" />
-		<property name="serviceInterface" value="gda.device.HidenRGA" />
-	</bean>
 </beans>

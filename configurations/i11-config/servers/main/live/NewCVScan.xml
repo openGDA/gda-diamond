@@ -22,9 +22,4 @@
 		<property name="level" value="9"/>
 	</bean>
 	
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/cvscan" />
-		<property name="service" ref="cvscan" />
-		<property name="serviceInterface" value="gda.device.Scannable" />
-	</bean>  
 </beans>

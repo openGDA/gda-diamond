@@ -4,10 +4,5 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="RCPController" class="gda.gui.RCPControllerImpl"/>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/rcpController" />
-		<property name="service" ref="RCPController" />
-		<property name="serviceInterface" value="gda.gui.RCPController" />
-	</bean>
 
 </beans>

@@ -9,10 +9,4 @@
 		<property name="logFilePath" value="${gda.logs.dir}/ProcessQueue.log"/> 		
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/commandQueueProcessor" />
-		<property name="service" ref="commandQueueProcessor" />
-		<property name="serviceInterface" value="gda.commandqueue.IFindableQueueProcessor" />
-	</bean>
-
 </beans>

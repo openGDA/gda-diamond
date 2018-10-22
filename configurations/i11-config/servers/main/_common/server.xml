@@ -1,14 +1,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<context:property-placeholder />
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
@@ -25,8 +24,4 @@
 
 	<!--enable types supported by the PropertyEditors listed in the GdaPropertyEditorRegistrar class -->
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
-
-	<!-- corba export must be the final bean. Later beans are not exported via Corba -->
-	<corba:export namespace="i11" />
-
 </beans>

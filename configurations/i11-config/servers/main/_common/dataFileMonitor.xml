@@ -4,10 +4,5 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="highestExistingFileMonitor" class="gda.device.detectorfilemonitor.impl.SimpleHighestExistingFileMonitor" />
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/highestExistingFileMonitor" />
-		<property name="service" ref="highestExistingFileMonitor" />
-		<property name="serviceInterface" value="gda.device.detectorfilemonitor.HighestExistingFileMonitor" />
-	</bean>
-	
+
 </beans>

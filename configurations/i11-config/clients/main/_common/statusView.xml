@@ -2,22 +2,19 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
        xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
 		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
-	
-	<corba:import namespace="i11" names="fastshutter, feshutter, portshutter, wavelength"/>
-	
-	<bean id="bm" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}/bm" />
-		<property name="serviceInterface" value="gda.device.IBeamMonitor" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+
+	<bean id="bm" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="portshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="fastshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="ehshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="feshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="wavelength" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 		<property name="viewTitle" value="Synoptics" />

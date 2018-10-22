@@ -7,10 +7,5 @@
 		<property name="monitor" ref="Ic4"/>
 		<property name="threshold" value="0.5"/>
 	</bean>
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/bm" />
-		<property name="service" ref="bm" />
-		<property name="serviceInterface" value="gda.device.IBeamMonitor" />
-	</bean>
-	
+
 </beans>
