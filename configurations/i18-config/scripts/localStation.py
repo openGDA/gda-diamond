@@ -115,7 +115,6 @@ mapFactory.setDetectorPreparer(detectorPreparer);
 mapFactory.setSamplePreparer(samplePreparer);
 mapFactory.setOutputPreparer(outputPreparer);
 mapFactory.setLoggingScriptController(XASLoggingScriptController);
-mapFactory.setDatawriterconfig(datawriterconfig);
 mapFactory.setEnergyWithGapScannable(energy); # @UndefinedVariable
 mapFactory.setEnergyNoGapScannable(energy_nogap); # @UndefinedVariable
 mapFactory.setMetashop(Finder.getInstance().find("metashop"));
