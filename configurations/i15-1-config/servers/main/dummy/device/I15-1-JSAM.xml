@@ -9,6 +9,9 @@
 	<bean id="samY_motor"
 			class="gda.device.motor.DummyMotor"/>
 
+	<bean id="samPhi_motor"
+			class="gda.device.motor.DummyMotor"/>
+
 	<bean id="blowerZ_motor"
 			class="gda.device.motor.DummyMotor"/>
 
