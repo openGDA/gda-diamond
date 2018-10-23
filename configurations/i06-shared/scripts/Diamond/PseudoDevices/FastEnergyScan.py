@@ -90,6 +90,8 @@ class FastEnergyScanControlClass(object):
 		self.putListener = FastEnergyScanControlClass.CaputCallbackListenerClass(self);
 		self.isCalled = True;
 		self.areaDetector=None
+		self.adbase=None
+		self.existingCameraParametersCaptured=False
 
 	def __del__(self):
 		self.cleanChannel(self.chScanReady01);
@@ -185,7 +187,8 @@ class FastEnergyScanControlClass(object):
 		
 		c= int(float(self.chScanReady.caget()));
 		return (c == 0);
-	
+
+##### add support for area detector	
 	def setAreaDetector(self, areadet):
 		self.areaDetector=areadet
 		
@@ -198,42 +201,51 @@ class FastEnergyScanControlClass(object):
 		adcmode=cs.getDecoratee()
 		self.pcocontroller=adcmode.getPcoController()
 		self.adbase=self.pcocontroller.getAreaDetector()
-		#capture existing settings that will be changed for fast scan
-		self.aquire_state=self.adbase.getAcquireState()
-		self.exposure_period=self.adbase.getAcquirePeriod()
-		self.exposure_time=self.adbase.getAcquireTime()
-		self.image_mode=self.adbase.getImageMode()
-		self.num_images=self.adbase.getNumImages()
-		self.trigger_mode=self.adbase.getTriggerMode()
-		self.adc_mode=self.pcocontroller.getAdcMode()
-		self.pixel_rate=self.pcocontroller.getPixRate()
-		self.arm_mode=self.pcocontroller.getArmMode()
-		#stop camera before change settings
-		self.adbase.stopAcquiring()
-		#set camera parameters for fast scan
-		self.adbase.setAcquireTime(expotime)
-		self.adbase.setAcquirePeriod(expotime)
-		self.adbase.setImageMode(1) # Multiple
-		self.adbase.setNumImages(numImages)
-		self.adbase.setTriggerMode(0) # Auto
-		self.pcocontroller.setADCMode(0) # OneADC
-		self.pcocontroller.setPixRate(0) # 10MHz
-		self.pcocontroller.setArmMode(1) # arm detector
-
+		if self.adbase is not None:
+			#capture existing settings that will be changed for fast scan
+			self.aquire_state=self.adbase.getAcquireState()
+			self.exposure_period=self.adbase.getAcquirePeriod()
+			self.exposure_time=self.adbase.getAcquireTime()
+			self.image_mode=self.adbase.getImageMode()
+			self.num_images=self.adbase.getNumImages()
+			self.trigger_mode=self.adbase.getTriggerMode()
+			self.adc_mode=self.pcocontroller.getAdcMode()
+			self.pixel_rate=self.pcocontroller.getPixRate()
+			self.arm_mode=self.pcocontroller.getArmMode()
+			self.existingCameraParametersCaptured=True
+			#stop camera before change settings
+			self.adbase.stopAcquiring()
+			#set camera parameters for fast scan
+			self.adbase.setAcquireTime(expotime)
+			self.adbase.setAcquirePeriod(expotime)
+			self.adbase.setImageMode(1) # Multiple
+			self.adbase.setNumImages(numImages)
+			self.adbase.setTriggerMode(0) # Auto
+			self.pcocontroller.setADCMode(0) # OneADC
+			self.pcocontroller.setPixRate(0) # 10MHz
+			self.pcocontroller.setArmMode(1) # arm detector
+		else:
+			raise RuntimeError("self.adbase is not defined!")
+		
 	def restoreAreaDetectorParametersAfterCollection(self):
-		#stop camera before change settings
-		self.adbase.stopAcquiring()
-		#set camera parameters for fast scan
-		self.adbase.setAcquireTime(self.exposure_time)
-		self.adbase.setAcquirePeriod(self.exposure_period)
-		self.adbase.setImageMode(self.image_mode) # Multiple
-		self.adbase.setNumImages(self.num_images)
-		self.adbase.setTriggerMode(self.trigger_mode) # Auto
-		self.pcocontroller.setADCMode(self.adc_mode) # OneADC
-		self.pcocontroller.setPixRate(self.pixel_rate) # 10MHz
-		self.pcocontroller.setArmMode(self.arm_mode) # arm detector
-		if self.aquire_state == 1:
-			self.adbase.startAcquiring()
+		if not self.existingCameraParametersCaptured:
+			return
+		if self.adbase is not None:
+			#stop camera before change settings
+			self.adbase.stopAcquiring()
+			#set camera parameters for fast scan
+			self.adbase.setAcquireTime(self.exposure_time)
+			self.adbase.setAcquirePeriod(self.exposure_period)
+			self.adbase.setImageMode(self.image_mode) # Multiple
+			self.adbase.setNumImages(self.num_images)
+			self.adbase.setTriggerMode(self.trigger_mode) # Auto
+			self.pcocontroller.setADCMode(self.adc_mode) # OneADC
+			self.pcocontroller.setPixRate(self.pixel_rate) # 10MHz
+			self.pcocontroller.setArmMode(self.arm_mode) # arm detector
+			if self.aquire_state == 1:
+				self.adbase.startAcquiring()
+		else:
+			raise RuntimeError("self.adbase is not defined!")
 		
 	def configureFileWriterPlugin(self, areadet,numImages):
 		if not isinstance(areadet, NXDetector):
@@ -253,7 +265,7 @@ class FastEnergyScanControlClass(object):
 		This must be called when ROI is changed, and before self.prepareAreaDetectorForCollection(areadet)
 		@param rois: list of rois i.e. [[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size]]
 		'''
-		if rois is not ListType:
+		if not type(rois)== ListType:
 			raise Exception("Input must be a list of ROIs, each provides a list specifies [x_start,y_start,x_size,y_size]")
 		i=1
 		newRois=[]
@@ -268,9 +280,8 @@ class FastEnergyScanControlClass(object):
 		roi_provider=finder.find(roi_provider_name)
 		roi_provider.updateRois([])
 	
-	def prepareAreaDetectorROIsForCollection(self, areadet, numImages):
-		'''configure ROIs and STATs plugins in EPICS for data collection with regions of interests
-		@param areadet: must be a NXDetector 
+	def getROIStatsPair4DetectorFromGDA(self, areadet):
+		''' retrieve GDA ROI and STAT pairs for a given detector
 		'''
 		if not isinstance(areadet, NXDetector):
 			raise Exception("'%s' detector is not a NXDetector! " % (areadet.getName()))
@@ -279,10 +290,29 @@ class FastEnergyScanControlClass(object):
 		for each in additional_plugin_list:
 			if isinstance(each, ADRoiStatsPair):
 				roi_stat_pairs.append(each)
-		for each in roi_stat_pairs:
+		return roi_stat_pairs
+
+	def prepareAreaDetectorROIsForCollection(self, areadet, numImages):
+		'''configure ROIs and STATs plugins in EPICS for data collection with regions of interests
+		@param areadet: must be a NXDetector 
+		'''
+		for each in self.getROIStatsPair4DetectorFromGDA(areadet):
 			#ScanInformation is not used in zacscan so just create a dummy to make Java method works
 			#update ROIs and enable EPICS rois and stats plugins
 			each.prepareForCollection(numImages, ScanInformation.EMPTY)
+
+	def stopROIStatsPair(self, areadet):
+		'''stop or abort ROI and STAT plug-in processes. 
+		This must be called when users interrupt or abort beam stabilisation process!
+		'''
+		for each in self.getROIStatsPair4DetectorFromGDA(areadet):
+			each.stop()
+	
+	def completeCollectionFromROIStatsPair(self,areadet):
+		'''must be called when beam stabilisation process completed!
+		'''
+		for each in self.getROIStatsPair4DetectorFromGDA(areadet):
+			each.completeCollection()
 
 	def enableAreaDetector(self):
 		self.chAreaDetector.caput(1) # 0-Disabled, 1-Enabled
@@ -586,6 +616,13 @@ class FastEnergyDeviceClass(PseudoDevice):
 	def stop(self):
 		print self.getName() + ": Panic Stop Called"
 		self.fesController.abortScan();
+		if beamline_name == "i06":
+			if self.fesController.getAreaDetector() == None:
+				pcotif.stop()  # @UndefinedVariable
+			else:
+				self.fesController.getAreaDetector().stop()
+			self.fesController.restoreAreaDetectorParametersAfterCollection()
+		self.fesController.existingCameraParametersCaptured=False
 
 	def applyFileFilter(self, indexName, low, high):
 		sff= SrsFileFilterClass(indexName, low, high);
@@ -594,7 +631,6 @@ class FastEnergyDeviceClass(PseudoDevice):
 		sff.applyFilter();
 		sff.saveFile();
 #		sff.saveNewFile();
-
 
 	def cvscan(self, startEnergy, endEnergy, scanTime, pointTime):
 		
@@ -663,9 +699,12 @@ class FastEnergyDeviceClass(PseudoDevice):
 				self.applyFileFilter(str(self.getName()), startEnergy, endEnergy);
 			print "The Fast Energy Scan for complete.";
 		
-		if beamline_name == "i06":
-			#restore area detector settings	
-			self.fesController.restoreAreaDetectorParametersAfterCollection()
+			if beamline_name == "i06":
+				# restore ADRoiStatsPair state in GDA
+				self.fesController.completeCollectionFromROIStatsPair()
+				#restore area detector settings	
+				self.fesController.restoreAreaDetectorParametersAfterCollection()
+				self.fesController.existingCameraParametersCaptured=False
 
 #######################################################
 class EpicsScandataDeviceClass(PseudoDevice):

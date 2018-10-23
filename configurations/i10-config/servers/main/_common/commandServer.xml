@@ -44,13 +44,13 @@
 
 	<bean id="beamline_shared_config_script_project" class="gda.jython.ScriptProject">
 		<property name="path"
-			value="${gda.install.git.loc}/gda-mt.git/configurations/i10-shared/scripts" />
+			value="${gda.install.git.loc}/gda-diamond.git/configurations/i10-shared/scripts" />
 		<property name="name" value="Scripts: i10-shared" />
 		<property name="type" value="CONFIG" />
 	</bean>
 		
 	<bean id="optics_config_script_project" class="gda.jython.ScriptProject">
-		<property name="path" value="${gda.install.git.loc}/gda-mt.git/configurations/optics-config/scripts" />
+		<property name="path" value="${gda.install.git.loc}/gda-diamond.git/configurations/optics-config/scripts" />
 		<property name="name" value="Scripts: optics-config" />
 		<property name="type" value="CONFIG" />
 	</bean>

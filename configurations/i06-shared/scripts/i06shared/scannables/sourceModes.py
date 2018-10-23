@@ -35,9 +35,9 @@ class SourceMode(ScannableBase):
         self.setName(name)
         self.amIBusy=False
         self.mode=defaultmode
-        self.idd_fast_energy_scan_script=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/idd_fast_energy_scan.py")
-        self.idu_fast_energy_scan_script=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/idu_fast_energy_scan.py")
-        self.remove_zacscan_script=str(gda_git_loc+"/gda-mt.git/configurations/i06-shared/scripts/i06shared/scan/remove_zacscan.py")
+        self.idd_fast_energy_scan_script=str(gda_git_loc+"/gda-daimond.git/configurations/i06-shared/scripts/i06shared/scan/idd_fast_energy_scan.py")
+        self.idu_fast_energy_scan_script=str(gda_git_loc+"/gda-diamond.git/configurations/i06-shared/scripts/i06shared/scan/idu_fast_energy_scan.py")
+        self.remove_zacscan_script=str(gda_git_loc+"/gda-diamond.git/configurations/i06-shared/scripts/i06shared/scan/remove_zacscan.py")
         InterfaceProvider.getCommandRunner().runScript(File(self.idd_fast_energy_scan_script))
         
     def getPosition(self):
