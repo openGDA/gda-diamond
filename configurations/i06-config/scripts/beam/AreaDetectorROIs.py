@@ -1,45 +1,62 @@
-from types import ListType
-from gda.device.detector.nxdetector.roi import ImutableRectangularIntegerROI
-from i06shared.commands.dirFileCommands import finder
-from gda.device.detector import NXDetector
-from gda.device.detector.nxdetector.plugin.areadetector import ADRoiStatsPair
-from gda.scan import ScanInformation
+from gda.epics import CAClient
+from time import sleep
 
-def setupROIs(rois, roi_provider_name='pco_roi'):
-    '''update ROIs list in GDA ROI provider object but not yet send to EPICS
-    This must be called when ROI is changed, and before self.prepareROIsForCollection(areadet)
-    @param rois: list of rois i.e. [[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size],[x_start,y_start,x_size,y_size]]
-    '''
-    if not type(rois)==ListType:
-        raise Exception("Input must be a list of ROIs, each provides a list specifies [x_start,y_start,x_size,y_size]")
-    i=1
-    newRois=[]
-    for roi in rois:
-        newRoi=ImutableRectangularIntegerROI(roi[0],roi[1],roi[2],roi[3],'Region'+str(i))
-        i +=1
-        newRois.append(newRoi)
-    roi_provider=finder.find(roi_provider_name)
-    roi_provider.updateRois(newRois)
+PV_ROOT_NAME="BL06I-EA-DET-01"
+
+class ROI_STAT_Pair_Class():
+    def __init__(self, pvRootName=PV_ROOT_NAME):
+        self.pvRootName=pvRootName
+        self.ca = CAClient()
+        return
     
-def clearROIs(roi_provider_name='pco_roi'):
-    '''remove all ROIs from the ROI provider
-    '''
-    roi_provider=finder.find(roi_provider_name)
-    roi_provider.updateRois([])
-
-def prepareROIsForCollection(areadet, numImages):
-    '''configure ROIs and STATs plugins in EPICS for data collection with regions of interests
-    @param areadet: must be a NXDetector 
-    '''
-    if not isinstance(areadet, NXDetector):
-        raise Exception("'%s' detector is not a NXDetector! " % (areadet.getName()))
-    additional_plugin_list = areadet.getAdditionalPluginList()
-    roi_stat_pairs=[]
-    for each in additional_plugin_list:
-        if isinstance(each, ADRoiStatsPair):
-            roi_stat_pairs.append(each)
-    for each in roi_stat_pairs:
-        #update ROIs and enable and configure EPICS rois and stats plugins
-        each.prepareForCollection(numImages, ScanInformation.EMPTY)
-
+    def setRoi(self, roiNum, Xstart, Ystart, Xsize, Ysize):
+        roiXStartPV = self.pvRootName+":ROI"+str(roiNum)+":MinX"
+        roiYStartPV = self.pvRootName+":ROI"+str(roiNum)+":MinY"
+        roiXSizePV = self.pvRootName+":ROI"+str(roiNum)+":SizeX"
+        roiYSizePV = self.pvRootName+":ROI"+str(roiNum)+":SizeY"
+        self.ca.caput(roiXStartPV,Xstart)
+        self.ca.caput(roiYStartPV,Ystart)
+        self.ca.caput(roiXSizePV,Xsize)
+        self.ca.caput(roiYSizePV,Ysize)
+        sleep(0.1)
+        self.activateStat(roiNum)
+        self.activateROIs(roiNum)
+        return
     
+    def activateStat(self, roiNum):
+        statEnablePV = self.pvRootName+":STAT"+str(roiNum)+":EnableCallbacks"
+        self.ca.caput(statEnablePV, "Enable")
+        
+        statStatOnPV = self.pvRootName+":STAT"+str(roiNum)+":ComputeStatistics"
+        self.ca.caput(statStatOnPV, "Yes")
+    
+    def activateROIs(self, roiNum):
+        roiEnablePV = self.pvRootName+":ROI"+str(roiNum)+":EnableCallbacks"
+        self.ca.caput(roiEnablePV, "Enable")
+        
+        roiXEnablePV = self.pvRootName+":ROI"+str(roiNum)+":EnableX"
+        self.ca.caput(roiXEnablePV, "Enable")
+        
+        roiYEnablePV = self.pvRootName+":ROI"+str(roiNum)+":EnableY"
+        self.ca.caput(roiYEnablePV, "Enable")
+        
+    def deactivateStat(self, roiNum):
+        statEnablePV = self.pvRootName+":STAT"+str(roiNum)+":EnableCallbacks"
+        self.ca.caput(statEnablePV, "Disable")
+        
+        statStatOnPV = self.pvRootName+":STAT"+str(roiNum)+":ComputeStatistics"
+        self.ca.caput(statStatOnPV, "No")
+    
+    def deactivateROIs(self, roiNum):
+        roiEnablePV = self.pvRootName+":ROI"+str(roiNum)+":EnableCallbacks"
+        self.ca.caput(roiEnablePV, "Disable")
+        
+        roiXEnablePV = self.pvRootName+":ROI"+str(roiNum)+":EnableX"
+        self.ca.caput(roiXEnablePV, "Disable")
+        
+        roiYEnablePV = self.pvRootName+":ROI"+str(roiNum)+":EnableY"
+        self.ca.caput(roiYEnablePV, "Disable")
+
+    def getRoiAvg(self, roiNum):
+        roiAvgPV = self.pvRootName+":STAT"+str(roiNum)+":MeanValue_RBV"
+        return float(self.ca.caget(roiAvgPV))
