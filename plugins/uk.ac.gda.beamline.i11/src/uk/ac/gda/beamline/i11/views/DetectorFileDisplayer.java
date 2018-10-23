@@ -41,7 +41,6 @@ import gda.analysis.io.MACLoader;
 import gda.device.detector.mythen.data.MythenMergedDataset;
 import gda.device.detector.mythen.data.MythenProcessedDataset;
 import gda.device.detector.mythen.data.MythenRawDataset;
-import gda.device.detectorfilemonitor.FileProcessor;
 import gda.factory.ConfigurableBase;
 import gda.factory.FactoryException;
 import gda.factory.Findable;
@@ -49,7 +48,7 @@ import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.HDF5Loader;
 import uk.ac.diamond.scisoft.analysis.io.SRSLoader;
 import uk.ac.diamond.scisoft.analysis.io.TIFFImageLoader;
-import uk.ac.gda.beamline.synoptics.api.PlotConfigurable;
+import uk.ac.gda.beamline.synoptics.api.PlottingFileProcessor;
 import uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView;
 
 /**
@@ -61,7 +60,7 @@ import uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView;
  * <li>allow both new plot of each data file or plot over of multiple data files.</li>
  * </ul>
  */
-public class DetectorFileDisplayer extends ConfigurableBase implements FileProcessor, PlotConfigurable, InitializingBean, Findable {
+public class DetectorFileDisplayer extends ConfigurableBase implements PlottingFileProcessor, InitializingBean, Findable {
 
 	private String viewName;
 	public PlotType plotType;
