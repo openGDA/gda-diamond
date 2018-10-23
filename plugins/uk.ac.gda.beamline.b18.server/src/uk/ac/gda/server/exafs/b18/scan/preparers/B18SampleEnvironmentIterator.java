@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.SampleWheel;
-import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import uk.ac.gda.beans.exafs.b18.B18SampleParameters;
 import uk.ac.gda.beans.exafs.b18.FurnaceParameters;
@@ -35,10 +34,10 @@ import uk.ac.gda.beans.exafs.b18.LN2CryoStageParameters;
 import uk.ac.gda.beans.exafs.b18.LakeshoreParameters;
 import uk.ac.gda.beans.exafs.b18.PulseTubeCryostatParameters;
 import uk.ac.gda.beans.exafs.b18.SXCryoStageParameters;
-import uk.ac.gda.beans.exafs.b18.SampleParameterMotorPosition;
 import uk.ac.gda.beans.exafs.b18.SampleWheelParameters;
 import uk.ac.gda.beans.exafs.b18.UserStageParameters;
 import uk.ac.gda.beans.exafs.b18.XYThetaStageParameters;
+import uk.ac.gda.server.exafs.scan.SampleParameterMotorMover;
 import uk.ac.gda.server.exafs.scan.iterators.SampleEnvironmentIterator;
 
 public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
@@ -100,7 +99,7 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 
 		//If it's set, use generic motor position in preference to old sample stages.
 		if (parameters.getSampleParameterMotorPositions().size() > 0) {
-			moveMotorsIntoPosition();
+			SampleParameterMotorMover.moveMotors(parameters.getSampleParameterMotorPositions());
 		} else {
 			List<String> selectedStages = parameters.getSelectedSampleStages();
 			if ( selectedStages != null && selectedStages.size() > 0 ) {
@@ -122,38 +121,6 @@ public class B18SampleEnvironmentIterator implements SampleEnvironmentIterator {
 			}
 		}
 		currentSampleRepetitionNumber++;
-	}
-
-
-	/**
-	 * Move all the motors in SampleParameterMotorPosition list into demand positions.
-	 * Motor moves are synchronous, and take place in the same order as the list.
-	 */
-	private void moveMotorsIntoPosition() {
-		logger.info("Moving sample parameter motors into position");
-		List<SampleParameterMotorPosition> sampleParameterMotors = parameters.getSampleParameterMotorPositions();
-		for(SampleParameterMotorPosition motorPos : sampleParameterMotors) {
-			logger.info("scannable name = {}, description = {}, move? = {}", motorPos.getScannableName(), motorPos.getDescription(), motorPos.getDoMove());
-
-			// Don't move motor
-			if (!motorPos.getDoMove()) {
-				continue;
-			}
-
-			Scannable scn = Finder.getInstance().find(motorPos.getScannableName());
-			if (scn==null) {
-				logger.warn("Unable to find scannable called {}", motorPos.getScannableName());
-				continue;
-			}
-
-			// Catch the exception, so the other scannables in list can still be processed if one fails.
-			try {
-				logger.info("Moving scannable {} to position {}", motorPos.getScannableName(), motorPos.getDemandPosition());
-				scn.moveTo(motorPos.getDemandPosition());
-			} catch (DeviceException e) {
-				logger.warn("Problem moving scannable", e);
-			}
-		}
 	}
 
 	private void moveSampleStage(String stage) throws DeviceException {
