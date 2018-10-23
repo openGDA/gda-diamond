@@ -159,19 +159,16 @@
 						</list>
 					</property>
 				</bean>
-				<bean class="uk.ac.gda.beamline.synoptics.composites.LatestFilenameCompositeFactory">
-					<property name="label" value="Latest Detector File" />
-					<property name="fileProcessor" ref="detectorFileDisplayer" />
-					<property name="dirWatcher" ref="dirListener"/>
-					<property name="detectors">
+				<bean class="uk.ac.gda.beamline.synoptics.composites.DetectorFileSelectionFactory">
+					<property name="fileListener" ref="dirListener"/>
+					<property name="fileFilters">
 						<map>
-							<entry key="Mythen" value="\d*-mythen_summed.dat" />
+							<entry key="All Data" value=".*" />
+							<entry key="Mythen" value="\d*-mythen[_-]summed.dat" />
 							<entry key="Mac" value=".*mac.*.dat" />
 						</map>
 					</property>
-					<property name="showButtonSeparator" value="true"/>
-					<property name="separatePlayPauseButtons" value="true" />
-					<property name="startNumber" value="0"/>
+					<property name="plotter" ref="detectorFileDisplayer" />
 				</bean>
 				<bean class="uk.ac.gda.beamline.synoptics.composites.ImageButtonCompositeFactory">
 					<property name="label" value="Panic"/>
