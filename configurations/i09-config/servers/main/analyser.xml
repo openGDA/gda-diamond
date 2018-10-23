@@ -184,8 +184,6 @@
 	</bean>
 
 	<bean id="regionDefinitionResourceUtil" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
-<!-- 		<property name="fileName" value="D:/scratch/i09/data/Test123/My.seq" /> -->
-		<property name="fileName" value="user.seq" />
 		<property name="sourceSelectable" value="true"/>
 		<property name="XRaySourceEnergyLimit" value="2100"/>
 	</bean>

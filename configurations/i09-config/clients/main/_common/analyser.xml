@@ -10,7 +10,7 @@
 	</bean>
 	
 	<bean id="regionDefinitionResourceUtil" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
-		<property name="fileName" value="user.seq" />
+		<!-- <property name="fileName" value="/scratch/i09/test/user.seq"/> -->
 		<property name="sourceSelectable" value="true"/>
 		<property name="XRaySourceEnergyLimit" value="2100"/>
 	</bean>
