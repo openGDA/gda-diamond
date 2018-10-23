@@ -79,20 +79,33 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- Andor Controls -->
+	<bean id="andor_time_remaining" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownControl">
+		<property name="displayName" value="Time remain"/>
+		<property name="group" value="Andor" />
+		<property name="observable" ref="andorCountdown" />
+		<property name="textWidth" value="30"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="andor_time_remaining_progress" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownProgressBarControl">
+		<property name="displayName" value=""/>
+		<property name="group" value="Andor" />
+		<property name="observable" ref="andorCountdownProgress" />
+		<property name="barWidth" value="110"/>
+	</bean>
 	<bean id="andor_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Exposure" />
 		<property name="group" value="Andor" />
 		<property name="scannableName" value="andorExposureTime" />
-		<property name="textWidth" value="30"/>
+		<property name="textWidth" value="50"/>
 		<property name="userUnits" value="s" />
 	</bean>
 	<bean id="andor_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Period" />
 		<property name="group" value="Andor" />
 		<property name="scannableName" value="andorAcquirePeriod" />
-		<property name="textWidth" value="30"/>
+		<property name="textWidth" value="50"/>
 		<property name="userUnits" value="s" />
 	</bean>
 	<bean id="andorShutterOpen" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
@@ -118,6 +131,8 @@
 						<ref bean="andor_acquire_period_control"/>
 						<ref bean="andorShutterOpen" />
 						<ref bean="andorShutterClose" />
+						<ref bean="andor_time_remaining" />
+						<ref bean="andor_time_remaining_progress" />
 					</list>
 				</property>
 				<property name="cameraState" ref="andorCameraState"/>
@@ -126,18 +141,31 @@
 	</bean>
 	
 	<!-- Polarimeter Controls -->
+	<bean id="polarimeter_time_remaining" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownControl">
+		<property name="displayName" value="Time Remain"/>
+		<property name="group" value="Polarimeter" />
+		<property name="observable" ref="polarimeterCountdown" />
+		<property name="textWidth" value="30"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="polarimeter_time_remaining_progress" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownProgressBarControl">
+		<property name="displayName" value=""/>
+		<property name="group" value="Polarimeter" />
+		<property name="observable" ref="polarimeterCountdownProgress" />
+		<property name="barWidth" value="110"/>
+	</bean>
 	<bean id="polarimeter_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Exposure" />
 		<property name="group" value="Polarimeter" />
 		<property name="scannableName" value="polarimeterExposureTime" />
-		<property name="textWidth" value="30"/>
+		<property name="textWidth" value="50"/>
 		<property name="userUnits" value="s" />
 	</bean>
 	<bean id="polarimeter_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Period" />
 		<property name="group" value="Polarimeter" />
 		<property name="scannableName" value="polarimeterAcquirePeriod" />
-		<property name="textWidth" value="30"/>
+		<property name="textWidth" value="50"/>
 		<property name="userUnits" value="s" />
 	</bean>
 	<bean id="polarimeterShutterOpen" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
@@ -176,6 +204,8 @@
 						<ref bean="polarimeter_acquire_period_control"/>
 						<ref bean="polarimeterShutterOpen" />
 						<ref bean="polarimeterShutterClose" />
+						<ref bean="polarimeter_time_remaining" />
+						<ref bean="polarimeter_time_remaining_progress" />
 						<ref bean="polarimeter_stick_control" />
 						<ref bean="polarimeter_gamma_control" />
 					</list>
