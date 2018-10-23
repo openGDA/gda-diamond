@@ -36,7 +36,7 @@
 	<bean id="pcoProcNumFilter" class="gda.device.scannable.DummyScannable">
 		<property name="outputFormat">
 			<list>
-				<value>%2d</value>
+				<value>%2.0f</value>
 			</list>
 		</property>	
 	</bean>
