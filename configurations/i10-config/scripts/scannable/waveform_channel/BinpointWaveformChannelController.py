@@ -1,4 +1,4 @@
-# Based on gda-mt.git/configurations/i10-config/scripts/future/scannable/scaler.py at c35fcbb
+# Based on gda-diamond.git/configurations/i10-config/scripts/future/scannable/scaler.py at c35fcbb
 
 from gda.epics import CAClient
 from scannable.waveform_channel.WaveformChannelPollingInputStream import WaveformChannelPollingInputStream

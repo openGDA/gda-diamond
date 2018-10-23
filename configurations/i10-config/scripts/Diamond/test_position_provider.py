@@ -81,7 +81,7 @@ class ScanPositionProviderFromFile(ScanPositionProvider):
         return self.__str__()
 
 idd_pos_neg_positions = ScanPositionProviderFromFile()
-idd_pos_neg_positions.load("/dls_sw/i10/software/gda/workspace_git/gda-mt.git/configurations/i10-config/scripts/Diamond/test_position_provider.dat")
+idd_pos_neg_positions.load("/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config/scripts/Diamond/test_position_provider.dat")
 
 # To replicate
 example_file = """

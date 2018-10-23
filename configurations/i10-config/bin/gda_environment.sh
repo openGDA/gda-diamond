@@ -17,7 +17,7 @@ unset JYTHON_HOME
 unset SVN_HOME
 
 GDA_ROOT=/dls_sw/$BEAMLINE/software/gda
-GDA_CONFIG=$GDA_ROOT/workspace_git/gda-mt.git/configurations/$BEAMLINE-config
+GDA_CONFIG=$GDA_ROOT/workspace_git/gda-diamond.git/configurations/$BEAMLINE-config
 
 export GDA_MODE=live
 export PATH=$GDA_CONFIG/bin:${PATH}

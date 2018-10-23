@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Name=gda-startup-guide
 Type=Application
-Exec=firefox file:///dls_sw/i10//software/gda/workspace_git/gda-mt.git/configurations/i10-config/doc/Starting_GDA_Help.html
+Exec=firefox file:///dls_sw/i10//software/gda/workspace_git/gda-diamond.git/configurations/i10-config/doc/Starting_GDA_Help.html
 Icon=/usr/share/pixmaps/gnome-html.png
 Icon[en_GB]=/usr/share/pixmaps/gnome-html.png
 Terminal=false

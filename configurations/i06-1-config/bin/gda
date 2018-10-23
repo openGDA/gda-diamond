@@ -43,7 +43,7 @@ fi
 ##################################################################################################################
 
 # For instance if you use an actual group config you might put
-export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mt.git/configurations/i06-shared
+export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-diamond.git/configurations/i06-shared
 
 #GDA environment need to be source here to support rollback to 8.38. - To be removed when 8.38 not used any more
 . ${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/etc/live/i06-1_profile.sh
