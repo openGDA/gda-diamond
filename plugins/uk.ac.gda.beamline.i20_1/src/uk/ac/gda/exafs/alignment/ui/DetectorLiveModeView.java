@@ -34,7 +34,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.device.detector.EdeDetector;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.ui.composites.XHControlComposite;
@@ -101,9 +100,5 @@ public class DetectorLiveModeView extends ViewPart {
 			return plottingSystem;
 		}
 		return super.getAdapter(clazz);
-	}
-
-	public void update(EdeDetector ededetector) {
-		controlComposite.updateView(ededetector);
 	}
 }

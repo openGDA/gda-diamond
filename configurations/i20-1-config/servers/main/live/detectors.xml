@@ -8,20 +8,21 @@
 
 <!--  XStrip detector -->
 <!-- Replace with dummy while detector is away -->
-<!-- 	<bean id="DAServer" class="gda.device.detector.DAServer"> -->
-<!-- 		<property name="local" value="True" /> -->
-<!-- IP address = 172.23.90.204 -->
-<!-- 		<property name="host" value="i20-1-xh0.diamond.ac.uk" /> -->
-<!-- 		<property name="port" value="1972" /> -->
-<!-- 		<property name="startupCommands"> -->
-<!-- 			<list> -->
-<!-- 				<value>~config_xs</value> -->
-<!-- 				<value>~cool_xs -20</value> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!--  		<property name="dataPort" value="20030" /> -->
-<!-- 		<property name="replyTimeOut" value="5000" /> -->
-<!-- 	</bean> -->
+	<bean id="DAServer" class="gda.device.detector.DAServer">
+		<property name="local" value="True" />
+<!-- IP address = 172.23.90.205 -->
+		<property name="host" value="i20-1-xh1.diamond.ac.uk" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config_xs</value>
+				<value>~cool_xs -20</value>
+			</list>
+		</property>
+ 		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+		<property name="configureAtStartup" value="false" />
+	</bean>
 
 <!--  XH detector -->
 <!-- 	<bean id="DAServer" class="gda.device.detector.DAServer"> -->
@@ -36,21 +37,8 @@
 <!-- 		</property> -->
 <!--  		<property name="dataPort" value="20030" /> -->
 <!-- 		<property name="replyTimeOut" value="5000" /> -->
+<!-- 		<property name="configureAtStartup" value="false" /> -->
 <!-- 	</bean> -->
-
-<!--  Dummy XH -->
-	<bean id="DAServer" class="gda.device.detector.xstrip.DummyXStripDAServer">
-		<property name="local" value="True" />
-		<property name="host" value="localhost" />
-		<property name="port" value="1972" />
-		<property name="startupCommands">
-			<list>
-				<value>~config</value>
-			</list>
-		</property>
-		<property name="dataPort" value="20030" />
-		<property name="replyTimeOut" value="5000" />
-	</bean>
 
 <!-- Xspress3 added 18Nov216 -->
 	<bean id="xspress3Controller"

@@ -31,6 +31,7 @@ import gda.device.detector.DAServer;
 import gda.device.detector.DetectorStatus;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.EdeDetectorBase;
+import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
 import uk.ac.gda.api.remoting.ServiceInterface;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
@@ -119,6 +120,28 @@ public class XhDetector extends EdeDetectorBase implements EdeDetector {
 		this.daServer = daServer;
 		this.detectorName = detectorName;
 		detectorTemp = new XhDetectorTemperature(daServer, detectorName);
+	}
+
+	/**
+	 * Return configured state of underlying DAServer.
+	 */
+	@Override
+	public boolean isConfigured() {
+		return daServer.isConfigured();
+	}
+
+	/**
+	 * Release timing,data handles and try to reconnect to DAServer.
+	 */
+	@Override
+	public void reconfigure() throws FactoryException {
+		try {
+			logger.debug("reconfigure() called on {}", getName());
+			close();
+			daServer.reconfigure();
+		} catch (DeviceException e) {
+			throw new FactoryException("Problem reconfiguring "+getName(), e);
+		}
 	}
 
 	private void createNewTimingHandle() throws DeviceException {

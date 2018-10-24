@@ -95,6 +95,14 @@ public class EdeFrelon extends EdeDetectorBase {
 	}
 
 	@Override
+	public void reconfigure() throws FactoryException {
+		super.reconfigure();
+		setConfigured(false);
+		// Might also need to do something with limaCcd or frelon to (re)establish connection to hardware?...
+		configure();
+	}
+
+	@Override
 	public void fetchDetectorSettings() {
 
 		LimaBin imageBin;

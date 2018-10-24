@@ -16,6 +16,9 @@
 		<property name="upperChannel" value="1023"/>
 		<property name="lowerChannel" value="0"/>
 		<property name="local" value="false"/>
+		<property name="configureAtStartup" value="false" />
+		<property name="checkForExcludedStrips" value="false" />
+		<property name="synchroniseToBeamOrbit" value="false" />
 	</bean>
 
  
@@ -30,6 +33,9 @@
 		<property name="upperChannel" value="1023"/>
 		<property name="lowerChannel" value="0"/>
 		<property name="local" value="false"/>
+		<property name="configureAtStartup" value="false" />
+		<property name="checkForExcludedStrips" value="false" />
+		<property name="synchroniseToBeamOrbit" value="false" />
 	</bean>
 
 	<bean id="ssxh" class="gda.device.detector.StepScanEdeDetector">

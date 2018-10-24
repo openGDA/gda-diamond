@@ -67,7 +67,7 @@ import uk.ac.gda.exafs.data.DetectorModel;
 public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 	private static final Logger logger = LoggerFactory.getLogger(ExperimentRootNode.class);
 
-	private final DoubleDataset stripsData;
+	private DoubleDataset stripsData = null;
 
 	public static final String DATA_CHANGED_PROP_NAME = "changedData";
 	public static final String DATA_ADDED_PROP_NAME = "addedData";
@@ -81,7 +81,6 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 		super(null);
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(this);
 		InterfaceProvider.getScanDataPointProvider().addIScanDataPointObserver(this);
-		stripsData = DetectorModel.INSTANCE.getCurrentDetector().createDatasetForPixel();
 	}
 
 	public boolean isUseStripsAsXaxis() {
@@ -160,6 +159,6 @@ public class ExperimentRootNode extends Node implements IScanDataPointObserver {
 	}
 
 	public DoubleDataset getStripsData() {
-		return stripsData;
+		return DetectorModel.INSTANCE.getCurrentDetector().createDatasetForPixel();
 	}
 }

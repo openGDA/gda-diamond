@@ -8,12 +8,14 @@ vararg_alias("cvscan")
 
 run("roi_control.py")
 run("gdascripts/javajythonutil.py")
-run("shutter_functions.py")
-
+run 'gdascripts/metadata/metadata_commands.py'
 run("frelon_scan_runner.py")
 run("turboxas_scan_runner.py")
-run("d10CentroidScannables.py")
-run("continuous_detector_scan.py")
+
+if LocalProperties.isDummyModeEnabled() == False:
+    run("shutter_functions.py")
+    run("d10CentroidScannables.py")
+    run("continuous_detector_scan.py")
 
 finder = Finder.getInstance()
 das = finder.find("DAServer")
@@ -54,12 +56,9 @@ else:
 
 add_default detectorMonitorDataProvider
 
-xstrip.start() #Call start so data and timing handles are set correctly. imh 16/12/2015
-
-
 # Setup metashop for writing metadata into Nexus file (TurboXas scans). imh 29/7/2016
 from gda.data.scan.datawriter import NexusDataWriter
-# Local property used bye NexusDataWriter to store name of metadata object
+# Local property used by NexusDataWriter to store name of metadata object
 LocalProperties.set(NexusDataWriter.GDA_NEXUS_METADATAPROVIDER_NAME, "metashop")
 metashop = Finder.getInstance().find("metashop")
 
@@ -133,27 +132,20 @@ if LocalProperties.get("gda.mode") == "live":
 # Set name of shutter to be operated when collecting dark current on ionchambers. imh 21/4/2017
 LocalProperties.set("gda.exafs.darkcurrent.shutter", turbo_slit_shutter.getName())
 
-xstrip.setSynchroniseToBeamOrbit(True)
-
-
-
 # Make version of scalers with 'user friendly' name
 ionchambers = scaler_for_zebra
 
 # After restarting GDA servers. first call of 'BufferedScaler.clearMemory()' fails ("Ghist scaler_memory_zebra clear failed")
-# Do it here to prevent it from throwing exception during first scan..
+# Do it here to avoid first scan from throwing exception.
 try :
     print "Clearing scaler memory"
     scaler_for_zebra.clearMemory()
 except :
     pass
-
-
-# Add functions to control metadata added to Nexus files. 10/7/2018
-run 'gdascripts/metadata/metadata_commands.py'
-
+ 
 # Remove 'air bearing' from some scannables, so air is not automatically switched on/off for motor moves. 10/7/2018
 sample_z.setAirBearingScannable(None)
 stage3_z.setAirBearingScannable(None)
 det_z.setAirBearingScannable(None)
 twotheta.setAirBearingScannable(None)
+
