@@ -10,7 +10,8 @@ import org.eclipse.january.dataset.DatasetFactory as DF
 import org.eclipse.january.dataset.LinearAlgebra as LA
 from org.eclipse.january.dataset import Dataset
 from org.slf4j import LoggerFactory
-import traceback
+import java
+import sys, traceback
 import math
 import re
 
@@ -437,8 +438,12 @@ class I16NexusExtender(DataWriterExtenderBase):
             try: # Rather than checking type, just try to call the function
                 #path = det.getFilepathRelativeToRootDataDir().split('/')[0] + "/"
                 pathTemplate = det.getFilepathRelativeToRootDataDir()
+            except Exception, e:
+                self.logger.debug("writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir() [Exception]", det, e)
+            except java.lang.Exception, e:
+                self.logger.debug("writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir() [Java.lang.Exception]", det, e)
             except:
-                self.logger.debug("writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir()", det)
+                self.logger.debug("writeDynamicDetectors() failed calling {}.getFilepathRelativeToRootDataDir( [except])", det, sys.exc_info())
             if pathTemplate:
                 self.logger.debug("writeDynamicDetectors() pathTemplate={}", pathTemplate)
                 #remove the "last" instance of 5 digits with "%05d" for template purposes

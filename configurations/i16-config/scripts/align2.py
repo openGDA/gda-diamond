@@ -52,7 +52,7 @@ def alignpinh():
 	print "===Align pin - edge must be aligned with camera at phi=0. Last chance to abort!"; sleep(5)
 	pos eta 0
 	pos chi 90
-	pos tthp tthp.diode
+#	pos tthp tthp.diode
 	#pos delta 0
 #	pos diodegain 0
 #	pos qbpm6inserter 1

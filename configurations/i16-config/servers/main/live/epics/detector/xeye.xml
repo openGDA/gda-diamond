@@ -30,6 +30,7 @@
 		<property name="keyNameForMetadataPathTemplate" value="xeye_path_template" />
 		<property name="waitForFileArrival" value="false" />
 		<property name="writeErrorStatusSupported" value="false" />
+		<property name="alwaysPrepare" value="true" />
 	</bean>
 
 	<bean id="xeye_nxfilewriter_for_snaps"
@@ -39,6 +40,7 @@
 		<property name="numTrackerExtension" value="xeyesnaps" />
 		<property name="keyNameForMetadataPathTemplate" value="xeye_path_template" />
 		<property name="writeErrorStatusSupported" value="false" />
+		<property name="alwaysPrepare" value="true" />
 	</bean>
 
 	<bean id="_xeye" class="gda.device.detector.NXDetector">

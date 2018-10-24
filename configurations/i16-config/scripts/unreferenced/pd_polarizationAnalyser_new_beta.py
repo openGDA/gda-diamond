@@ -53,14 +53,14 @@ class PolarizationAnalyser(PseudoDevice):
 		except:
 			print "Warning: not able to retrieve the analyser crystal"
 #		self.setCrystal('pg001',6)
-		self.offset1=offset1 
-		self.offset2=offset2 #thp_0
-		self.offset3=offset3 #thp_90 
-		self.offset4=offset4 #tthp_0
-		self.offset5=offset5
-		self.offset8=offset8 #tthp_90
-		self.offset9=offset9
-		self.offset10=offset10
+		self.sign= offset1 
+		self.offset2 = offset2 #thp_0
+		self.offset3 = offset3 #thp_90 
+		self.offset4 = offset4 #tthp_0
+		self.offset5 = offset5
+		self.offset8 = offset8 #tthp_90
+		self.offset9 = offset9
+		self.offset10 = offset10
 		self.oldpos=None
 
 
@@ -156,12 +156,6 @@ class PolarizationAnalyser(PseudoDevice):
 		xxx1 = self.stokes()
 		xxx2 = self.thp()
 		xxx3 = self.tthp()
-		"""
-		if xxx3 > 68. and xxx3 < 72:
-			print "WARNING:: Detector in the chamber pillar!!!"  
-		if xxx3 < -63. and xxx3 > -67:
-			print "WARNING:: Detector in the chamber pillar!!!"
-		"""  
 		return [xxx1, xxx2, xxx3]
 
 	def asynchronousMoveTo(self,newpol):
@@ -172,8 +166,8 @@ class PolarizationAnalyser(PseudoDevice):
 		wl = BLi.getWavelength()
 
 		self.thbragg = 180/pi*asin(wl/(2*self.dspace))		
-		newthp=self.thbragg*self.offset1()+newoffcry
-		newtthp=2*self.offset1()*self.thbragg+newdetoff +self.offset5()
+		newthp=self.thbragg*self.sign()+newoffcry
+		newtthp=2*self.sign()*self.thbragg+newdetoff +self.offset5()
 		self.stokes.asynchronousMoveTo(newpol)
 		print "newtthp",newtthp
 		print "newdetoff",newdetoff
@@ -191,8 +185,8 @@ class PolarizationAnalyser(PseudoDevice):
 
 		wl = BLi.getWavelength()
 		self.thbragg = 180/pi*asin(wl/(2*self.dspace))
-		newthp=self.offset1()*self.thbragg+newoffcry
-		newtthp=2*self.offset1()*self.thbragg+newdetoff
+		newthp=self.sign()*self.thbragg+newoffcry
+		newtthp=2*self.sign()*self.thbragg+newdetoff
 		print "stokes=%1.2f thp=%1.2f tthp=%1.2f detlatoff=%1.2f"%(newpol,newthp,newtthp,detlatoff)
 
 	def isBusy(self):
@@ -210,38 +204,33 @@ class PolarizationAnalyser(PseudoDevice):
 		"""
 		wl = BLi.getWavelength()
 		if abs(self.stokes()) <= .5:
-			#xxx=180/pi*asin( wl/(2*self.dspace)) - (self.thp()*self.offset1()) #this seemed to work
-			xxx=self.offset1()*180/pi*asin( wl/(2*self.dspace)) - (self.thp())
+			xxx=self.sign()*180/pi*asin( wl/(2*self.dspace)) - (self.thp())
 			self.offset2(-xxx)
-			#yyy=self.tthp()-2*180/pi*asin(wl/(2*self.dspace))-self.offset5()
-			yyy=self.tthp()-self.offset1()*2*180/pi*asin(wl/(2*self.dspace))-self.offset5()
+			yyy=self.tthp()-self.sign()*2*180/pi*asin(wl/(2*self.dspace))-self.offset5()
 			self.offset4(yyy)
 			self.offset9(self.dettrans())
 		elif abs(self.stokes()-90.) <= .5:
-			#xxx=180/pi*asin( wl/(2*self.dspace)) - (self.thp()*self.offset1())
-			xxx=self.offset1()*180/pi*asin( wl/(2*self.dspace)) - (self.thp())
+			xxx=self.sign()*180/pi*asin( wl/(2*self.dspace)) - (self.thp())
 			self.offset3(-xxx)
-			#yyy=self.tthp()-2*180/pi*asin(wl/(2*self.dspace))-self.offset5()
-			yyy=self.tthp()-self.offset1()*2*180/pi*asin(wl/(2*self.dspace))-self.offset5()
+			yyy=self.tthp()-self.sign()*2*180/pi*asin(wl/(2*self.dspace))-self.offset5()
 			self.offset8(yyy)
 			self.offset10(self.dettrans())
 		else:
 			print "Can't calibrate at stokes=",self.stokes()
-		return [self.offset1(),self.offset2(), self.offset3(),self.offset4(),self.offset5(),self.offset8(),self.offset9(),self.offset10()]
+		return [self.sign(),self.offset2(), self.offset3(),self.offset4(),self.offset5(),self.offset8(),self.offset9(),self.offset10()]
 
+"""
 	def out(self,newtthp=None):
 		self.oldpos=[self.stokes(), self.thp(), self.tthp(), self.zp()]
 		if newtthp==None:
-			pos([self.stokes, 0, self.thp, self.offset1(), self.zp, -10])
-			#pos self.stokes 0 self.thp self.offset1() self.zp -10
+			pos([self.stokes, 0, self.thp, self.sign(), self.zp, -10])
 		else:
-			#pos self.stokes 0 self.thp self.offset1() self.tthp newtthp self.zp -10
-			pos([self.stokes, 0, self.thp, self.offset1(), self.tthp, newtthp, self.zp, -10])
+			pos([self.stokes, 0, self.thp, self.sign(), self.tthp, newtthp, self.zp, -10])
 
 	def reset(self):
-		""" Resets all the offsets to zero before changing crystal """
-		#pos self.offset1 0 self.offset2 0 self.offset3 0 self.offset4 0 self.offset5 0
-		pos([self.offset1, 0, self.offset2, 0, self.offset3, 0, self.offset4, 0, self.offset5, 0]) 
+		Resets all the offsets to zero before changing crystal 
+		#pos self.sign0 self.offset2 0 self.offset3 0 self.offset4 0 self.offset5 0
+		pos([self.sign, 0, self.offset2, 0, self.offset3, 0, self.offset4, 0, self.offset5, 0]) 
 
 
 	def _in(self): # in is a keyword in Jython2.5
@@ -249,6 +238,6 @@ class PolarizationAnalyser(PseudoDevice):
 			print 'no position is defined'
 		else:
 			pos([self.stokes, self.oldpos[0], self.thp, self.oldpos[1], self.tthp, self.oldpos[2], self.zp, self.oldpos[3]])
-			#pos self.stokes self.oldpos[0] self.thp self.oldpos[1] self.tthp self.oldpos[2] self.zp self.oldpos[3]
+"""			
 
 

@@ -1,10 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:property-placeholder/>
 
@@ -18,7 +18,9 @@
 	<import resource="epics/motor/dcm.xml" />
 	<import resource="epics/motor/m1.xml" />
 	<import resource="epics/motor/m2.xml" />
+	<!-- IOC off so diable or GDA start prevented
 	<import resource="epics/motor/p2.xml" />
+	 -->
 	<import resource="epics/motor/pa.xml" />
 	<import resource="epics/motor/s1.xml" />
 	<import resource="epics/motor/s2.xml" />
@@ -43,17 +45,16 @@
 	<import resource="epics/monitor/sixc.xml" />
 
 	<bean id="ic1monitor_" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI4AV" />
+		<property name="pvName" value="BL16I-EA-USER-01:AI4AV" />
 		<property name="local" value="true" />
 		<property name="poll" value="false" />
 	</bean>
 	<bean id="ic1poll_" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI4AV" />
+		<property name="pvName" value="BL16I-EA-USER-01:AI4AV" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 
-	<import resource="epics/detector/struck.xml" />
 	<!--<import resource="epics/detector/vortex.xml" />-->
 	<import resource="epics/detector/pilatus100k.xml" />
 	<import resource="epics/detector/pilatus3_100k.xml" />
@@ -68,9 +69,6 @@
 	<import resource="epics/detector/c10.xml" />
 	<import resource="epics/detector/xeye.xml" />
 	<import resource="epics/detector/zylar.xml" />
-
-
-	<import resource="epics/trajectory_scan_controller_xps2.xml" />
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
 
@@ -120,7 +118,11 @@
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 
 	<bean id="Beamline" class="gda.device.epicsdevice.FindableEpicsDevice">
-		<property name="deviceName" value="Beamline" />
+		<property name="recordPVs">
+			<map>
+				<entry key="Top" value="BL16I"/>
+			</map>
+		</property>
 	</bean>
 
 	<bean id="DefaultDataWriterFactory" class="gda.data.scan.datawriter.DefaultDataWriterFactory">
@@ -131,9 +133,8 @@
 		</property>
 	</bean>
 
-	<corba:export namespace="i16server" />
-	
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
-	
 
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>

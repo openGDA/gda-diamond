@@ -1,8 +1,7 @@
  <beans xmlns="http://www.springframework.org/schema/beans"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
 	<import resource="motor/atten.xml" />
 	<import resource="motor/diag.xml" />
@@ -10,7 +9,9 @@
 	<import resource="motor/dcm.xml" />
 	<import resource="motor/m1.xml" />
 	<import resource="motor/m2.xml" />
+	<!-- IOC off so disable or GDA start prevented
 	<import resource="motor/p2.xml" />
+	 -->
 	<import resource="motor/pa.xml" />
 	<import resource="motor/s1.xml" />
 	<import resource="motor/s2.xml" />

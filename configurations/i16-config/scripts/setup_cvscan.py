@@ -1,3 +1,5 @@
+from gdascripts.scan import trajscans
+from gdascripts.scan.scanListener import ScanListener
 from org.slf4j import LoggerFactory
 
 class TrajectoryControllerHelper(ScanListener):

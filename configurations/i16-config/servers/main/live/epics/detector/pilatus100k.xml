@@ -84,6 +84,7 @@
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="blocking" value="false" />
 		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="alwaysPrepare" value="true" />
 
 		<!-- for soft trigger mode only -->
 		<!--
@@ -113,6 +114,7 @@
 		<property name="fileTemplateForReadout" value="%s00000_%s%05d.tif" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true" />
 	</bean>
 
 	<bean id="pilatus1_nxfilewriter_for_snaps"
@@ -122,6 +124,7 @@
 		<property name="numTrackerExtension" value="pilatus100ksnaps" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true" />
 	</bean>
 	
 	<bean id="pilatus1_nxfilewriter_for_multiple_exposures_per_collection_internal_triggering"
@@ -134,6 +137,7 @@
 		<property name="fileTemplateForReadout" value="%s%s%05d_nnnnn.tif" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="pathErrorSuppressed" value="true" />
+		<property name="alwaysPrepare" value="true" />
 	</bean>
 	
 	<bean id="pilatus1_counter_monitor" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayCounterMonitor">
@@ -176,16 +180,6 @@
 				<ref bean="pilatus1_nxfilewriter_for_hardware_triggering" />
 			</list>
 		</property>
-		<!--
-		<property name="hardwareTriggerProvider" ref="xpsTrajController" />
-		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_hardware_triggering"/>
-		<property name="additionalPluginList">
-			<list>
-				<ref bean="pilatus1_nxfilewriter_for_hardware_triggering" />
-				<ref bean="pilatus1_force_callbacks" />
-			</list>
-		</property>
-	-->
 	</bean>
 
 	<bean id="pilatus1_for_snaps" class="gda.device.detector.NXDetector">
@@ -264,6 +258,7 @@
 		<property name="pathErrorSuppressed" value="true" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
 		<property name="returnPathRelativeToDatadir" value="true" />
+		<property name="alwaysPrepare" value="true" />
 	</bean>
 
 </beans>

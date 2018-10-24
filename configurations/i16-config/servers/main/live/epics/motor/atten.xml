@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="A2AMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="A2" />
+		<property name="pvName" value="BL16I-OP-ATTN-02:POSN" />
 		<property name="local" value="true" />
 	</bean>
 

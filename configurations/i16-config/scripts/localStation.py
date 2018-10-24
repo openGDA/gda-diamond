@@ -39,7 +39,7 @@ except Exception as e:
 global Finder, pos, finder, add_default, meta
 
 global sixckappa_cryo, cryophi
-global _sixckappa_deffered_only, delta_axis_offset
+global delta_axis_offset
 global azir, psi, psic, hkl
 global kbmbase, setDatadirPropertyFromPersistanceDatabase, pitchupClass
 global stokes,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
@@ -163,7 +163,7 @@ from device_serial_ace import ace
 from device_tca import TCA
 from pd_epics import SingleEpicsPositionerSetAndGetOnlyClass
 from pd_readSingleValueFromVectorScannable import ReadSingleValueFromVectorPDClass
-from pd_time import tictoc, showtimeClass, mrwolfClass, showincrementaltimeClass, waittimeClass, TimeScannable, absoluteTimeClass
+from pd_time import tictoc, showtimeClass, mrwolfClass, showincrementaltimeClass, waittimeClass, TimeScannable, absoluteTimeClass, absoluteTimeClassTwo
 from pd_dummy import dummyClass
 from pd_foilinserter import Foilinserter
 from pd_attenuator import Atten
@@ -323,6 +323,7 @@ showtime=showtimeClass('Showtime')
 inctime=showincrementaltimeClass('inctime')
 waittime=waittimeClass('Waittime')
 atime=absoluteTimeClass('atime')
+atimetwo=absoluteTimeClassTwo('atimetwo')
 w=waittime	#abreviated name
 mrwolf=mrwolfClass('mrwolf')
 
@@ -421,9 +422,6 @@ scan_processor.processors.append(Rcen())
 print "Creating diffractometer base scannable base_z"
 #base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
 base_z= DiffoBaseClass(basez1, basez2, basez3, [0.,0.,0.]) #jacks recal to zero in epics 8 keV direct beam 20/10/15
-
-if installation.isLive():
-	sixckappa.getContinuousMoveController().setScannableForMovingGroupToStart(_sixckappa_deffered_only)
 
 if USE_CRYO_GEOMETRY:
 	# u'phi', u'chi', u'eta', u'mu', u'delta', u'gam'
@@ -1256,11 +1254,11 @@ if installation.isLive():
 try:
 	if not USE_DIFFCALC:
 		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo, source, jjslits, pa, pp,
-				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets, p2,
+				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
 				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
 	else:
 		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa,           source, jjslits, pa, pp,
-				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets, p2,
+				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
 				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
 
 	addedInSpring = [sixckappa] + [delta_axis_offset]
@@ -1308,6 +1306,7 @@ except NameError, e:
 	print "Error trying to setup the metadata, metadata will not be properly written to files. Namespace error was: ",str(e)
 	print "!*"*40
 	print "!*"*40
+	localStation_exception("trying to set up metadata", e)
 
 ###Default Scannables###
 default_scannable_list = [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]
@@ -1340,8 +1339,6 @@ run('whynobeam')
 
 print "New minimirrors function - type help minimirrors"
 run('minimirrors')
-
-run("startup_trajscan")
 
 if USE_DIFFCALC == False:
 	print "run possiblehkl_new"
@@ -1415,6 +1412,7 @@ xpsgather = ScannableXPSDataGatherer('xpsgather', pvroot='BL16I-CS-IOC-15:XPSG:'
 if installation.isLive():
 	add_default(meta)
 	add_default(atime)
+	add_default(atimetwo)	
 	add_default(ic1monitor)
 	add_default(rc)
 	add_default(waitforinjection)

@@ -1,10 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:property-placeholder/>
 
@@ -20,7 +20,9 @@
 	<import resource="motor/dcm.xml" />
 	<import resource="motor/m1.xml" />
 	<import resource="motor/m2.xml" />
+	<!-- IOC off so disable or GDA start prevented
 	<import resource="motor/p2.xml" />
+	 -->
 	<import resource="motor/pa.xml" />
 	<import resource="motor/s1.xml" />
 	<import resource="motor/s2.xml" />
@@ -42,10 +44,8 @@
 	<import resource="monitor/machine.xml" />
 	<import resource="monitor/sixc.xml" />
 
-	<import resource="detector/struck.xml" />
 	<import resource="detector/vortex.xml" />
 	
-	<import resource="trajectory_scan_controller_xps2.xml" />
 	<bean id="script_paths" parent="common_script_paths_with_diffcalc_and_epics"/>
 	
 	<bean id="beamline_test_suite" class="gda.jython.ScriptProject">
@@ -100,6 +100,6 @@
 		</property>
 	</bean>
 
-	<corba:export namespace="i16server" />
-
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>
