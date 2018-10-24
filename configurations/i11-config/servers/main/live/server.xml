@@ -9,10 +9,6 @@
 
 
 
-	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="${gda.config}/epics/live/BL11I-gda-interface.xml" />
-	</bean>
-	
 	<import resource="BPM3.xml"/>
 <!-- 	<import resource="CVScanController.xml"/> -->
 	<import resource="EpicsCVScan.xml"/>
