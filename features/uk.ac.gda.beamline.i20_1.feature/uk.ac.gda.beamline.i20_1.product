@@ -29,8 +29,6 @@
 -Xms128m
 -Xmx1024m
 -XX:+DisableExplicitGC
--Xdebug
--Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=n
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread
 			-Dorg.eclipse.swt.internal.carbon.smallFonts
@@ -42,7 +40,6 @@
    <splash
       location="uk.ac.gda.client" />
    <launcher name="gda-i20-1">
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>

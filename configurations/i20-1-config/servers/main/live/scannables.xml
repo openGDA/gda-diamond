@@ -28,6 +28,12 @@
 			<property name="setpointPv" value="BL20J-EA-TEMPC-01:EUROTHERM:SP" />
 	</bean>
 
+	<bean id="gasRigValve" class="gda.device.enumpositioner.EpicsValve">
+		<property name="name" value="gasRigValve" />
+		<property name="epicsRecordName" value="ME08G-EA-VALVE-24" />
+		<property name="configureAtStartup" value="false" />
+	</bean>
+
 	<import resource="file:${gda.config}/servers/main/_common/scannables.xml" />
 
 </beans>
