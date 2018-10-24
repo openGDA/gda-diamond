@@ -63,17 +63,17 @@ source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core "$@"
 
 # N.B. no need to check that we are not on the control machine here as GDA_SERVERS_UP is never
 # set by the path eexcuted from the control machine
-if [[ ${GDA_SERVERS_UP:-} == true ]] && [[ $@ == *"servers"* ]] && [[ $@ != *"--stop"* ]] ;then
-    
-    echo Moving GDA Log Panel...
-    wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
-    
-    zenity --title "Start the GDA client?" --question --text "The GDA servers have started.\nClick OK to start the GDA client." --window-icon=question
-    STARTCLIENT=$?
-    if [ $STARTCLIENT == 0 ]; then
-        readonly MY_NAME=$(basename "$(readlink -e "$0")")         # The name of this script
-        readarray -t my_clients_arr < <(pgrep -f -U `whoami` "gda-i06")
-
+#if [[ ${GDA_SERVERS_UP:-} == true ]] && [[ $@ == *"servers"* ]] && [[ $@ != *"--stop"* ]] ;then
+#    
+#    echo Moving GDA Log Panel...
+#    wmctrl -r "GDA Log Panel" -e 0,1921,0,1000,1000
+#    
+#    zenity --title "Start the GDA client?" --question --text "The GDA servers have started.\nClick OK to start the GDA client." --window-icon=question
+#    STARTCLIENT=$?
+#    if [ $STARTCLIENT == 0 ]; then
+#        readonly MY_NAME=$(basename "$(readlink -e "$0")")         # The name of this script
+#        readarray -t my_clients_arr < <(pgrep -f -U `whoami` "gda-i06")
+#
 #        if [[ -n ${my_clients_arr:-} ]]; then 
 #            for proc in "${my_clients_arr[@]}"; do 
 #                bashlog info "$MY_NAME" "killing client process $proc"
@@ -85,11 +85,11 @@ if [[ ${GDA_SERVERS_UP:-} == true ]] && [[ $@ == *"servers"* ]] && [[ $@ != *"--
 #                fi
 #            done;
 #        fi
-        echo Starting GDA RCP Client...
-        echo
-        source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core --start client &
-        echo
-        for i in {25..1}; do echo -n . ; sleep 1 ; done ; echo . 
-        # otherwise this script ends before GDA client can properly launch, so it is killed
-    fi
-fi
+#        echo Starting GDA RCP Client...
+#        echo
+#        source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core --start client &
+#        echo
+#        for i in {25..1}; do echo -n . ; sleep 1 ; done ; echo . 
+#        # otherwise this script ends before GDA client can properly launch, so it is killed
+#    fi
+#fi
