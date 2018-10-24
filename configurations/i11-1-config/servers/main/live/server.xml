@@ -8,12 +8,6 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 
-
-	<bean class="gda.configuration.epics.EpicsConfiguration">
-		<constructor-arg value="${gda.epics.interface.xml}" />
-<!-- 		<constructor-arg value="/dls_sw/work/R3.14.12.3/ioc/BL11J/BL/data/${gda.epics.beamline.name}-gda-interface.xml" /> -->
-	</bean>
-
 	<import resource="pixiumMetadata.xml"/>
 	<import resource="GDAMetadata.xml"/>
 	<import resource="MachineStatus.xml" />
