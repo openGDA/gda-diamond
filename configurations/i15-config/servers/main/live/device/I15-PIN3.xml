@@ -4,10 +4,10 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="Pin3XMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PIN3.X" />
+		<property name="pvName" value="BL15I-AL-APTR-03:X" />
 	</bean>
 
 	<bean id="Pin3YMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PIN3.Y" />
+		<property name="pvName" value="BL15I-AL-APTR-03:Y" />
 	</bean>
 </beans>

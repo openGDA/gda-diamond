@@ -4,22 +4,22 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="S7xposMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S7.XCENTRE" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-AL-SLITS-07:X:CENTER" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S7xgapMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S7.XGAP" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-AL-SLITS-07:X:SIZE" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S7yposMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S7.YCENTRE" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-AL-SLITS-07:Y:CENTER" />
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S7ygapMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S7.YGAP" />
-		<property name="local" value="true"/>
+		<property name="pvName" value="BL15I-AL-SLITS-07:Y:SIZE" />
+		<property name="local" value="true" />
 	</bean>
 </beans>

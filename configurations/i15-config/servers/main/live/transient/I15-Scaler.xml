@@ -4,7 +4,7 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="scaler1" class="gda.device.detector.EpicsScaler">
-		<property name="deviceName" value="SCALER3820_1" />
+		<property name="pvName" value="BL15I-EA-DET-01:SCALER" />
 		<property name="frequency" value="50000000"/>
 	</bean>
 </beans>

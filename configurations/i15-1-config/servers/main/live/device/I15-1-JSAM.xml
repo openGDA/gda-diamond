@@ -13,6 +13,11 @@
 		<property name="pvName" value="BL15J-MO-TABLE-01:SAMPLE:Y" />
 	</bean>
 
+	<bean id="samPhi_motor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15J-MO-TABLE-01:SAMPLE:PHI2" />
+	</bean>
+
 	<bean id="blowerZ_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15J-EA-BLOWR-01:TLATE" />

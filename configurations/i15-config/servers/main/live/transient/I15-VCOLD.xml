@@ -4,26 +4,26 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="cryox_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="VCOLD.X" />
+		<property name="pvName" value="BL15I-MO-VCOLD-01:X" />
 	</bean>
 
 	<bean id="cryoy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="VCOLD.Y" />
+		<property name="pvName" value="BL15I-MO-VCOLD-01:Y" />
 	</bean>
 
 	<bean id="cryoz_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="VCOLD.Z" />
+		<property name="pvName" value="BL15I-MO-VCOLD-01:Z" />
 	</bean>
 
 	<bean id="cryorot_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="VCOLD.THETA" />
+		<property name="pvName" value="BL15I-MO-VCOLD-01:THETA" />
 	</bean>
 
 	<bean id="cryobsx_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="VCOLD.BSX" />
+		<property name="pvName" value="BL15I-MO-VCOLD-01:BS:X" />
 	</bean>
 
 	<bean id="cryobsy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="VCOLD.BSY" />
+		<property name="pvName" value="BL15I-MO-VCOLD-01:BS:Y" />
 	</bean>
 </beans>

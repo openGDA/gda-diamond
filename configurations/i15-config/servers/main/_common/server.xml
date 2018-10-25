@@ -1,13 +1,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util-2.0.xsd
-           http://www.diamond.ac.uk/schema/gda/corba
-           http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
@@ -21,13 +18,6 @@
 		<property name="jythonScriptPaths" ref="script_paths"/>
 		<property name="stopJythonScannablesOnStopAll" value="false" />
 		<property name="disableBatonControlOverVisitMetadataEntry" value="false" />
-	</bean>
-
-	<!-- This can't be replaced with gda:rmi-export as it doesn't yet handle plain objects retrieved via SpEL -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ScanDataPointServer" />
-		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
 	</bean>
 
 	<import resource="terminal_logger.xml" />

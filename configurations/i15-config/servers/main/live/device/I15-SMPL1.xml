@@ -4,36 +4,30 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="DXMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.X" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:SAMPLE:X" />
 	</bean>
 
 	<bean id="DYMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.Y" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:SAMPLE:Y" />
 	</bean>
 
 	<bean id="DZMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.Z" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:SAMPLE:Z" />
 	</bean>
 
 	<bean id="DkphiMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.KPHI" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:SAMPLE:KPHI" />
 	</bean>
 
 	<bean id="Dr1kappaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.KAPPA" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:SAMPLE:KAPPA" />
 	</bean>
 
 	<bean id="Dr1kthetaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.KTHETA" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:SAMPLE:KTHETA" />
 	</bean>
 
 	<bean id="Dr1muMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.MU" />
+		<property name="pvName" value="BL15I-MO-DIFF-01:SAMPLE:MU" />
 	</bean>
-
-	<!-- 
-	<bean id="DVMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.V" />
-	</bean>
-	 -->
 </beans>
