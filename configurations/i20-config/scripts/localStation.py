@@ -217,7 +217,7 @@ else :
 monoOptimiser.setAllowOptimisation(True)
 monoOptimiser.setOffsetStart(-2.0)
 monoOptimiser.setOffsetEnd(2.0)
-monoOptimiser.setOffsetNumPoints(20)
+monoOptimiser.setOffsetNumPoints(21)
 monoOptimiser.setSelectNewScansInPlotView(False) # False = don't select new bragg offset scans in Plot view
 
 bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when moving to new energy
@@ -256,6 +256,18 @@ DAServer.sendCommand("tfg alternate-veto veto0-normal")
 
 # Create DTC_energy scannable to set, get the XSpress4 DTC energy value
 run 'xspress4_dtc_energy_scannable.py'
+
+print "Reconnect daserver command : reconnect_daserver() "
+def reconnect_daserver() :
+    print "Trying to reconnect to DAServer and rerun ~config..."
+    DAServer.reconnect()
+    sleep(1)
+    # xspress2system.reconfigure()
+    print "Configuring ionchambers..."
+    ionchambers.configure()
+    sleep(1)
+    print "Ignore this error (it's 'normal'...)"
+    ionchambers.getScaler().clear()
 
 cryostat.stop() # To stop the 'status' thread from running on the Lakeshore cryostat (fills logpanel with debug messages)
 
