@@ -6,18 +6,30 @@
 	<!-- Dichorism and Diffraction Motors -->
 	<!-- Sample Rotation: Theta -->
 	<bean id="ddth" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ddth" />
+		<property name="inputNames">
+			<list>
+				<value>ddth</value>
+			</list>
+		</property>
 		<property name="motor" ref="MotorTheta_DD" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	
 	<!-- Detector Rotation: 2Theta -->
 	<bean id="dd2th" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dd2th" />
+		<property name="inputNames">
+			<list>
+				<value>dd2th</value>
+			</list>
+		</property>
 		<property name="motor" ref="Motor2Theta_DD" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	
 	<bean id="ddsx" class="gda.device.scannable.ScannableMotor">
