@@ -62,7 +62,7 @@
 				</constructor-arg>
 			</bean>
 		</property>
-
+		<property name="subDirectory" value="mythen" />
 		<property name="dataConverter" ref="mythendataConverter" />
 	</bean>
 
@@ -74,7 +74,7 @@
 <!-- 				<property name="areaDetector" ref="mythen_areadetector" /> -->
 <!-- 			</bean> -->
 <!-- 		</property> -->
-
+<!-- 		<property name="subDirectory" value="mythen" /> -->
 <!-- 		<property name="dataConverter" ref="mythendataConverter" /> -->
 <!-- 	</bean> -->
 </beans>

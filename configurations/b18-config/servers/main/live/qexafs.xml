@@ -33,6 +33,7 @@
 	<bean id="zebra_device" class="gda.device.zebra.controller.impl.ZebraImpl" >
 		<property name="name" value="zebra_device" />
 		<property name="zebraPrefix" value="BL18B-OP-DCM-01:ZEBRA:" />
+		<property name="armPutNoWait" value="true" />
 	</bean>
 
 	<bean id="qexafs_energy" class="gda.device.scannable.zebra.ZebraQexafsScannable">
@@ -45,6 +46,7 @@
 				<value>%.2f</value>
 			</list>
 		</property>
+		<property name="demandPositionTolerance" value="0.001" />
 		<property name="accelPV" value="BL18B-OP-DCM-01:BRAGG:MPACCEL:RBV" />
 		<property name="xtalSwitchPV" value="BL18B-OP-DCM-01:XTAL_SWITCH" />
 		<property name="braggCurrentSpeedPV" value="BL18B-OP-DCM-01:BRAGG:MPSPEED" />

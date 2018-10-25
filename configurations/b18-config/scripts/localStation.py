@@ -34,10 +34,10 @@ offset_units = [i0_stanford_offset_units, it_stanford_offset_units, iref_stanfor
 
 
 if (LocalProperties.get("gda.mode") == 'live'):
-    #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
-    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
+    detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
+    #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
 else :
-    # detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
+    #detectorPreparer = B18DetectorPreparer(qexafs_energy, mythenEpics, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
     detectorPreparer = B18DetectorPreparer(qexafs_energy, mythen, sensitivities, sensitivity_units ,offsets, offset_units, ionc_gas_injectors.getGroupMembers(), counterTimer01, xspress2system, xmapMca, xspress3)
 
 daServer = Finder.getInstance().find("DAServer")
@@ -122,7 +122,6 @@ if (LocalProperties.get("gda.mode") == 'live'):
     add_default(topupMonitor)
     add_default(beamMonitor)
     add_default(detectorMonitorDataProvider)
-    run("userStartupScript")
 else :
     print "Moving dummy DCM's to useful positions..."
     energy(7000) # start the simulation with an energy in a useful range
@@ -137,18 +136,10 @@ generic_cryostat.setSetPointPVName("BL18B-EA-TEMPC-06:TTEMP")  # currently OxIns
 generic_cryostat.setReadBackPVName("BL18B-EA-TEMPC-06:STEMP")
 generic_cryostat.configure()
 
-#Switch off Nexus detector compression, used faster cached version of data writer. imh 14/11/2016
-#from gda.data.scan.datawriter import XasNexusDataWriter;
-#LocalProperties.set(XasNexusDataWriter.GDA_XAS_NEXUS_DEFAULT_COMPRESSION, "0")
-#LocalProperties.set(XasNexusDataWriter.GDA_XAS_NEXUS_USE_CACHED_WRITER, "True")
-# LocalProperties.set(XasNexusDataWriter.GDA_XAS_NEXUS_USE_CACHED_WRITER, "False")
-
-
-# Set energy scannable for Mythen, so can add energy to output file. imh 2/12/2016
-#mythen.addScannableForHeader(qexafs_energy)
-#mythen.addScannableForHeader(user1)
-
+# Set some scannables for Mythen, so they are added to header of output file
 try :
+    mythen.addScannableForHeader(qexafs_energy)
+    mythen.addScannableForHeader(user1)
     mythenEpics.addScannableForHeader(qexafs_energy, "Energy")
     mythenEpics.addScannableForHeader(user1, "Motor angle")
 except NameError:
@@ -177,5 +168,11 @@ def reconnect_daserver() :
 
 # Set nexusTreeWriter flag for buffered xspress2
 qexafs_xspress.setUseNexusTreeWriter(True)
+
+samplewheel_names.setPositions( samplewheel.getFilterNames() )
+
+if (LocalProperties.get("gda.mode") == 'live'):
+    print "Running user startup script"
+    run("userStartupScript")
 
 print "Initialization Complete";
