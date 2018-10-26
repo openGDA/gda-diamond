@@ -40,6 +40,18 @@
 		<property name="assertHomedBeforeMoving" value="true" />
 	</bean>
 
+	<bean id="sixcKthEpicsMotor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-MO-DIFF-01:SAMPLE:KTHETA" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="sixcKphiEpicsMotor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-MO-DIFF-01:SAMPLE:KPHI" />
+		<property name="local" value="true" />
+	</bean>
+
 	<bean id="sixcCryoPhiMotor"
 			class="gda.device.motor.DummyMotor" >
 		<property name="speed" value="360000000" />
