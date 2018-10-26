@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans
-				http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+				http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="hdf5" class="uk.ac.gda.server.ncd.epics.NDFileHDF5Impl">
 		<property name="basePVName" value="BL22I-EA-PILAT-01:HDF5:"/>
