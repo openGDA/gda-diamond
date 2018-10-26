@@ -14,7 +14,6 @@
 	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" level="INFO" />
 	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.BeanScriptingManagerImpl" level="INFO" />
 	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.connection.Plotting2DUI" level="INFO" />
-	<logger name="gda.factory.corba.util.CorbaEventDispatcher" level="INFO" />
 	<logger name="org.springframework" level="INFO" />
 	<logger name="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" level="INFO" />
 	<logger name="gda.device.detector.DummyDAServer" level="INFO" />

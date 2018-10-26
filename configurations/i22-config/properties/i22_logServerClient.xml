@@ -35,11 +35,6 @@
         </layout>
     </appender>
     <logger name="gda" level="DEBUG"/>
-    <logger name="gda.device.corba.impl" level="DEBUG"/>
-    <logger name="gda.device.temperature.corba.impl" level="INFO"/>
-    <logger name="gda.jython.corba.impl" level="INFO"/>
-    <logger name="gda.oe.corba.impl" level="INFO"/>
-    <logger name="gda.device.monitor.corba.impl" level="INFO"/>
     <logger name="gda.data.nexus.extractor.NexusExtractor" level="DEBUG"/>
     <logger name="gda.data.nexus.NexusFileWrapper" level="DEBUG"/>
     <logger name="org.eclipse.dawnsci.hdf5" level="INFO"/>

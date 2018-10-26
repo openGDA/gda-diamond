@@ -9,13 +9,7 @@
     <context:property-placeholder/>
 
     <bean class="gda.spring.FindableNameSetterPostProcessor" />
-
-    <bean class="gda.factory.corba.util.AdapterFactory">
-        <constructor-arg index="0" value="${gda.factory.factoryName}" />
-        <constructor-arg index="1">
-            <bean class="gda.spring.NetServiceFactoryBean" />
-        </constructor-arg>
-    </bean>
+    <bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
     <bean class="uk.ac.gda.client.ServerFileListener" id="dataProjectUpdater">
         <property name="clientFileAnnouncerName" value="client_file_announcer"/>
