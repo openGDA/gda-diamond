@@ -21,11 +21,14 @@ roi3=[650,378,350,468]
 roi4=[1000,1000,150,200]
 rois=[roi1,roi2,roi3,roi4]
 
+#use 'zacpcotif' for zacscan with pco to produce TIFF image files
+#use 'zacpco' for zacscan with pco to produce Nexus and HDF files
+fesController.setAreaDetector(__main__.zacpcotif)
 #setup ROIs
 fesController.setupAreaDetectorROIs(rois)
 
 #run zacscan
-zacscan(600,700,180,0.5)
+zacscan 600 700 180 0.5
 
-#to clear rois - only required if you want to clear explicitly otherwise the late ROIs will override the earlier ones.
+#to clear rois - only required if you want to clear explicitly otherwise the later ROIs will override the earlier ones.
 fesController.clearAreaDetectorROIs()

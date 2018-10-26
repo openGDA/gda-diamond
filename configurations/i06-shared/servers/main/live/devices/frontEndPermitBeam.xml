@@ -4,6 +4,8 @@
 	<!-- Front End Permit Beam -->
 	<bean id="fepb" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="local" value="true" />
-	<property name="pvBase" value="FE06I-CS-BEAM-01" /></bean>
+		<property name="controlPv" value="FE06I-CS-BEAM-01:BLCON" />
+		<property name="statusPv" value="FE06I-CS-BEAM-01:STA"/>
+	</bean>
 
 </beans>

@@ -9,7 +9,7 @@
 		<property name="fileNameTemplate" value="pco"/>
 		<property name="filePathTemplate" value="$datadir$" />
 		<property name="fileTemplate" value="%s%s-%d.hdf" />
-		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="fileNumberAtScanStart" value="1" />
 		<property name="setFileNameAndNumber" value="true" />
 		<property name="rowChunks" value="0" />
 		<property name="colChunks" value="0" />
@@ -27,6 +27,22 @@
  	<bean id="pco" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco" />
 		<property name="collectionStrategy" ref="pcoCollectionStrategy" />
+		<property name="level" value="7"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco_RoiStats1" />
+				<ref bean="pco_RoiStats2" />
+				<ref bean="pco_RoiStats3" />
+				<ref bean="pco_RoiStats4" />
+				<ref bean="pco_RoiStats5" />
+				<ref bean="pco_RoiStats6" />
+				<ref bean="pcoHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	 	<bean id="zacpco" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco" />
+		<property name="collectionStrategy" ref="zacpcoCollectionStrategy" />
 		<property name="level" value="7"/>
 		<property name="additionalPluginList">
 			<list>
@@ -126,7 +142,23 @@
 			</list>
 		</property>
 	</bean>
-	
+	<!-- for zacscan -->
+ 	<bean id="zacpcotif" class="gda.device.detector.NXDetector">
+		<property name="name" value="zacpcotif" />
+		<property name="collectionStrategy" ref="zacpcoCollectionStrategy" />
+		<property name="level" value="7"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco_RoiStats1" />
+				<ref bean="pco_RoiStats2" />
+				<ref bean="pco_RoiStats3" />
+				<ref bean="pco_RoiStats4" />
+				<ref bean="pco_RoiStats5" />
+				<ref bean="pco_RoiStats6" />
+				<ref bean="pco_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>	
 	<!-- detector 'pcosnap' is used to get a snapshot of the PCO detector.Data stored in $datadir$/snapped-data/ -->
 	<!-- SingleImagePerFileWriterWithNumTracker(String detectorName)	 -->
 	<bean id="pco_nxfilewriter_for_snaps" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
