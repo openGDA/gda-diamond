@@ -209,7 +209,7 @@ class FastEnergyScanControlClass(object):
 			self.image_mode=self.adbase.getImageMode()
 			self.num_images=self.adbase.getNumImages()
 			self.trigger_mode=self.adbase.getTriggerMode()
-			self.adc_mode=self.pcocontroller.getAdcMode()
+			self.adc_mode=self.pcocontroller.getADCMode()
 			self.pixel_rate=self.pcocontroller.getPixRate()
 			self.arm_mode=self.pcocontroller.getArmMode()
 			self.existingCameraParametersCaptured=True
@@ -224,9 +224,17 @@ class FastEnergyScanControlClass(object):
 			self.pcocontroller.setADCMode(0) # OneADC
 			self.pcocontroller.setPixRate(0) # 10MHz
 			self.pcocontroller.setArmMode(1) # arm detector
+			self.prepareKBMirrorRastering(expotime)
 		else:
 			raise RuntimeError("self.adbase is not defined!")
-		
+	def prepareKBMirrorRastering(self, expotime):
+		self.chFreq=CAClient("BL06I-OP-KBM-01:VFM:FPITCH:FREQ");  self.configChannel(self.chFreq);
+		self.cachedFreq=float(self.chFreq.caget())
+		self.chFreq.caput(1.0/expotime)
+	
+	def restoreKBMirrorRastering(self):
+		self.chFreq.caput(self.cachedFreq)
+			
 	def restoreAreaDetectorParametersAfterCollection(self):
 		if not self.existingCameraParametersCaptured:
 			return
@@ -244,6 +252,7 @@ class FastEnergyScanControlClass(object):
 			self.pcocontroller.setArmMode(self.arm_mode) # arm detector
 			if self.aquire_state == 1:
 				self.adbase.startAcquiring()
+			self.restoreKBMirrorRastering()
 		else:
 			raise RuntimeError("self.adbase is not defined!")
 		
@@ -251,13 +260,14 @@ class FastEnergyScanControlClass(object):
 		if not isinstance(areadet, NXDetector):
 			raise Exception("'%s' detector is not a NXDetector! " % (areadet.getName()))
 		additional_plugin_list = areadet.getAdditionalPluginList()
+		datawriter=None
 		for each in additional_plugin_list:
 			if isinstance(each, MultipleImagesPerHDF5FileWriter):
 				datawriter=each
-			elif isinstance(each,SingleImagePerFileWriter):
+			elif isinstance(each, SingleImagePerFileWriter):
 				datawriter=each
-			else:
-				raise("Cannot find EPICS File Writer Plugin for detector %s" % (areadet.getName()))	
+		if datawriter is None:
+			raise Exception("Cannot find EPICS File Writer Plugin for detector %s" % (areadet.getName()))	
 		datawriter.prepareForCollection(numImages, ScanInformation.EMPTY)
 		
 	def setupAreaDetectorROIs(self, rois, roi_provider_name='pco_roi'):
@@ -310,6 +320,7 @@ class FastEnergyScanControlClass(object):
 	
 	def completeCollectionFromROIStatsPair(self,areadet):
 		'''must be called when beam stabilisation process completed!
+		IMPORTANT: test prove this method leave ROI-STAT pair locked, should not be used until Java code fix this.
 		'''
 		for each in self.getROIStatsPair4DetectorFromGDA(areadet):
 			each.completeCollection()
@@ -621,6 +632,7 @@ class FastEnergyDeviceClass(PseudoDevice):
 				pcotif.stop()  # @UndefinedVariable
 			else:
 				self.fesController.getAreaDetector().stop()
+			self.fesController.stopROIStatsPair(self.fesController.getAreaDetector())
 			self.fesController.restoreAreaDetectorParametersAfterCollection()
 		self.fesController.existingCameraParametersCaptured=False
 
@@ -664,23 +676,21 @@ class FastEnergyDeviceClass(PseudoDevice):
 			print "Number of scan points is set to ZERO. Please check your command carefully!"
 			return;
 		
-		if beamline_name == "i06":
-			self.fesController.enableAreaDetector() #using PCO area detector
-			if self.fesController.getAreaDetector() == None:
-				#default area detector is 'pcotif'
-				self.fesController.prepareAreaDetectorForCollection(pcotif, pointTime, numPoint)  # @UndefinedVariable 
-				self.fesController.configureFileWriterPlugin(pcotif, numPoint) # @UndefinedVariable 
-				self.fesController.prepareAreaDetectorROIsForCollection(pcotif, numPoint) # @UndefinedVariable 
-			else:
-				self.fesController.prepareAreaDetectorForCollection(self.fesController.getAreaDetector(), pointTime, numPoint)
-				self.fesController.configureFileWriterPlugin(self.fesController.getAreaDetector(), numPoint)
-				self.fesController.prepareAreaDetectorROIsForCollection(self.fesController.getAreaDetector(), numPoint)
+# 		if beamline_name == "i06":
+# 			self.fesController.enableAreaDetector() #using PCO area detector
+# 			self.fesController.prepareAreaDetectorForCollection(self.fesController.getAreaDetector(), pointTime, numPoint)
+# 			self.fesController.configureFileWriterPlugin(self.fesController.getAreaDetector(), numPoint)
+# 			self.fesController.prepareAreaDetectorROIsForCollection(self.fesController.getAreaDetector(), numPoint)
 				
 		#pscan fastEnergy 0 1 numPoint fesData 0 1;
 		fesData = self.fesDetector;
 		
 		try:
-			theScan = PointsScan([self,0,1,numPoint,fesData,0,1]);
+			if beamline_name == "i06":
+				self.fesController.enableAreaDetector() #using PCO area detector
+				theScan = PointsScan([self,0,1,numPoint,fesData,0,1,self.fesController.getAreaDetector(),pointTime]);
+			else:
+				theScan = PointsScan([self,0,1,numPoint,fesData,0,1]);
 			theScan.runScan();
 		except:
 			exceptionType, exception, traceback=sys.exc_info();
@@ -697,14 +707,16 @@ class FastEnergyDeviceClass(PseudoDevice):
 				# Apply the file filter to get rid of bad points
 				print "Filtering " + self.getName() + " between %r and %r" % (startEnergy, endEnergy)
 				self.applyFileFilter(str(self.getName()), startEnergy, endEnergy);
-			print "The Fast Energy Scan for complete.";
 		
 			if beamline_name == "i06":
 				# restore ADRoiStatsPair state in GDA
-				self.fesController.completeCollectionFromROIStatsPair()
+# 				self.fesController.completeCollectionFromROIStatsPair(self.fesController.getAreaDetector())
+				self.fesController.stopROIStatsPair(self.fesController.getAreaDetector())
 				#restore area detector settings	
 				self.fesController.restoreAreaDetectorParametersAfterCollection()
 				self.fesController.existingCameraParametersCaptured=False
+				
+			print "The Fast Energy Scan is completed."
 
 #######################################################
 class EpicsScandataDeviceClass(PseudoDevice):

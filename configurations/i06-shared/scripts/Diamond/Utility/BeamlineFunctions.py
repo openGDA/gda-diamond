@@ -324,16 +324,19 @@ class BeamlineFunctionClass(object):
 
 	def stopArchiving(self):
 		ddwf=finder.find("DefaultDataWriterFactory");
-		fr=finder.find("FileRegistrar");
+# 		fr=finder.find("FileRegistrar");
+		fr=finder.find("file_registrar")
 		ddwf.removeDataWriterExtender(fr);
 		
 	def restoreArchiving(self):
 		ddwf=finder.find("DefaultDataWriterFactory");
-		fr=finder.find("FileRegistrar");
+# 		fr=finder.find("FileRegistrar");
+		fr=finder.find("file_registrar")
 		ddwf.addDataWriterExtender(fr);
 
 	def registerFileForArchiving(self, fileName):
-		fr=finder.find("FileRegistrar");
+# 		fr=finder.find("FileRegistrar");
+		fr=finder.find("file_registrar")
 		if os.path.exists(fileName) and os.path.isfile(fileName):
 			fr.registerFile(fileName);
 
