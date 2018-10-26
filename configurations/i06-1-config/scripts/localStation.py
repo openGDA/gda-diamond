@@ -1,5 +1,6 @@
 #localStation.py
 #For beamline specific initialisation code.
+from utils.ExceptionLogs import localStation_exception
 
 print "===================================================================";
 print "Performing Beamline I06-1 specific initialisation code (localStation.py).";
@@ -99,7 +100,15 @@ def scan_processing_on():
  
 def scan_processing_off():
     scan_processor.processors = scan_processor_empty_processes
-    
+print
+print "*"*80
+#DiffCalc
+print "import DIFFCALC support for I06-1"
+try:
+    from startup.i10 import *  # @UnusedWildImport
+except:
+    localStation_exception(sys.exc_info(), "import diffcalc error.")
+        
 print "===================================================================";
 print " End of i06-1 localStation.py"
 
