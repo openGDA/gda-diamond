@@ -11,7 +11,6 @@
 		<property name="current3Pv" value="BL06I-DI-IAMP-01:PHD3:I"/>
 		<property name="current4Pv" value="BL06I-DI-IAMP-01:PHD4:I"/>
 		<property name="rangePv" value="BL06I-DI-IAMP-01:RANGE_MENU"/>
-		<property name="rangeRbvPv" value="BL06I-DI-IAMP-01:MRREADBACK"/>
 		<property name="poll" value="true"/>
 		<property name="local" value="true"/>
 	</bean>
