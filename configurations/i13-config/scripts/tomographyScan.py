@@ -221,19 +221,33 @@ def reportJythonNamespaceMapping():
     objectOfInterestFLY['tomography_flyscan_det'] = jns.tomography_flyscan_det
     objectOfInterestFLY['tomography_flyscan_flat_dark_det'] = jns.tomography_flyscan_flat_dark_det
     
-    objectOfInterestXGI = {}
-    objectOfInterestXGI['tomography_detector'] = jns.tomography_detector
-    objectOfInterestXGI['tomography_theta'] = jns.tomography_theta
-    objectOfInterestXGI['tomography_translation'] = jns.tomography_translation
-    objectOfInterestXGI['tomography_shutter'] = jns.tomography_shutter
-    objectOfInterestXGI['tomography_grating_translation'] = jns.tomography_grating_translation
-    objectOfInterestXGI['tomography_grating_translation_outer'] = jns.tomography_grating_translation_outer
-    objectOfInterestXGI['tomography_grating_translation_inner'] = jns.tomography_grating_translation_inner
+    objectOfInterestXGI_1D = {}
+    objectOfInterestXGI_1D['tomography_detector'] = jns.tomography_detector
+    objectOfInterestXGI_1D['tomography_theta'] = jns.tomography_theta
+    objectOfInterestXGI_1D['tomography_translation'] = jns.tomography_translation
+    objectOfInterestXGI_1D['tomography_shutter'] = jns.tomography_shutter
+    objectOfInterestXGI_1D['tomography_grating_translation'] = jns.tomography_grating_translation
+    
+    objectOfInterestXGI_2D = {}
+    objectOfInterestXGI_2D['tomography_detector'] = jns.tomography_detector
+    objectOfInterestXGI_2D['tomography_theta'] = jns.tomography_theta
+    objectOfInterestXGI_2D['tomography_translation'] = jns.tomography_translation
+    objectOfInterestXGI_2D['tomography_shutter'] = jns.tomography_shutter
+    objectOfInterestXGI_2D['tomography_grating_translation_outer'] = jns.tomography_grating_translation_outer
+    objectOfInterestXGI_2D['tomography_grating_translation_inner'] = jns.tomography_grating_translation_inner
+    
+    objectOfInterestHELICAL = {}
+    objectOfInterestHELICAL['tomography_theta'] = jns.tomography_theta
+    objectOfInterestHELICAL['tomography_shutter'] = jns.tomography_shutter
+    objectOfInterestHELICAL['tomography_translation'] = jns.tomography_translation
+    objectOfInterestHELICAL['tomography_detector'] = jns.tomography_detector
+    objectOfInterestHELICAL['tomography_beammonitor'] = jns.tomography_beammonitor
+    objectOfInterestHELICAL['tomography_translation_vert'] = jns.tomography_translation_vert
     
     msg = "\n Any of these mappings can be changed by editing a file named live_jythonNamespaceMapping, "
     msg += "\n located in i13-config/scripts (this can be done by beamline staff).\n"
 
-    print "****** NORMALISED IMAGE SETTINGS ******"
+    print "****** NORMALISED-IMAGE SETTINGS ******"
     idx=1
     for key, val in objectOfInterest.iteritems():
         name = "object undefined!"
@@ -243,7 +257,7 @@ def reportJythonNamespaceMapping():
         idx += 1
     print "\n"
     
-    print "****** STEP-SCAN PRIMARY SETTINGS ******"
+    print "****** TOMO STEP-SCAN PRIMARY SETTINGS ******"
     idx=1
     for key, val in objectOfInterestSTEP.iteritems():
         name = "object undefined!"
@@ -253,7 +267,7 @@ def reportJythonNamespaceMapping():
         idx += 1
     print "\n"
 
-    print "****** FLY-SCAN PRIMARY SETTINGS ******"
+    print "****** TOMO FLY-SCAN PRIMARY SETTINGS ******"
     idx=1
     for key, val in objectOfInterestFLY.iteritems():
         name = "object undefined!"
@@ -263,9 +277,29 @@ def reportJythonNamespaceMapping():
         idx += 1
     print "\n"
 
-    print "****** XGI-SCAN PRIMARY SETTINGS ******"
+    print "****** 1D-XGI STEP-SCAN PRIMARY SETTINGS ******"
     idx=1
-    for key, val in objectOfInterestXGI.iteritems():
+    for key, val in objectOfInterestXGI_1D.iteritems():
+        name = "object undefined!"
+        if val is not None:
+            name = str(val.getName())
+        print `idx` + "."+ key + ' = ' + name
+        idx += 1
+    print "\n"   
+    
+    print "****** 2D-XGI STEP-SCAN PRIMARY SETTINGS ******"
+    idx=1
+    for key, val in objectOfInterestXGI_2D.iteritems():
+        name = "object undefined!"
+        if val is not None:
+            name = str(val.getName())
+        print `idx` + "."+ key + ' = ' + name
+        idx += 1
+    print "\n"   
+    
+    print "****** HELICAL TOMO STEP-SCAN PRIMARY SETTINGS ******"
+    idx=1
+    for key, val in objectOfInterestHELICAL.iteritems():
         name = "object undefined!"
         if val is not None:
             name = str(val.getName())

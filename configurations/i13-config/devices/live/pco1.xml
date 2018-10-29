@@ -140,7 +140,18 @@
 				<ref bean="pco1_cameraroi"/>
 			</list>
 		</property>
-	</bean>	
+	</bean>
+	
+	<bean id="pco1_sw_hdf" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_sw_hdf"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter_nochunking" />
+			</list>
+		</property>
+	</bean>		
 
 	<bean id="pco1_hw_hdf_nochunk_radio" class="gda.device.detector.NXDetector">
 		<property name="name" value="pco1_hw_hdf_nochunking"/>
