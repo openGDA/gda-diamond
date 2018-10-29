@@ -103,8 +103,6 @@
 				<ref bean="t1_pitch" />
 				<ref bean="t1_roll" />
 				<ref bean="t1_theta" />
-				<ref bean="t1_xy" />
-				<ref bean="t1_sxy" />
 			</list>
 		</property>
 	</bean>

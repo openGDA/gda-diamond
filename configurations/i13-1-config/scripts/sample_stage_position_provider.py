@@ -26,6 +26,7 @@ class   ScanPositionProviderFromFile(ScanPositionProvider):
         self.offset=(0.,0)
         self.filepath=""
         self.output_index=True
+        self.scale=1.0
     def load(self, filepath, offset, scale=1.0):
         self.values = readfile(filepath)
         self.offset=offset

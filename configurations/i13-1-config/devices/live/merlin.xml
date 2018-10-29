@@ -38,6 +38,10 @@
 		<constructor-arg value="merlin_tif" />
 		<property name="ndFile" ref="merlin_ndfiletif" />
 		<property name="highestExistingFileMonitor" ref="highestExistingFileMonitor" />
+		<property name="xPixelSize" value="0" />
+		<property name="xPixelSizeUnit" value="undefined" />
+		<property name="yPixelSize" value="0" />
+		<property name="yPixelSizeUnit" value="undefined" />
 		<property name="waitForFileArrival" value="false" />
 	</bean>
 
