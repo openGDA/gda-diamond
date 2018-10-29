@@ -482,10 +482,18 @@ if isLive():
     
     print "Creating HELIOS objects"
     try:
-        heliosTemp = DisplayEpicsPVClass('heliosTemp','BL12I-EA-HELIOS-01:LOOP1:PV:RBV','deg C','%.3f')
+        heliosTemp = DisplayEpicsPVClass('heliosTemp','BL12I-EA-HELIO-01:LOOP1:PV:RBV','deg C','%.3f')
     except Exception, e:
         print "Error creating HELIOS objects: %s" %(str(e))
     
+    print "--------------------------------------------------"
+    
+    print "Creating Hot-Air Blower object(s)"
+    try:
+        blowerTemp = DisplayEpicsPVClass('blowerTemp','BL12I-EA-BLOW-01:EH1:PV:RBV','deg C','%.3f')
+    except Exception, e:
+        print "Error creating Hot-Air Blower object(s): %s" %(str(e))
+
     print "--------------------------------------------------"
     
     print "Creating tomoScan"

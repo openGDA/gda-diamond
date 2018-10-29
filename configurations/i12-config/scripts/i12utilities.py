@@ -304,6 +304,7 @@ def i12tomoFlyScan(description="Hello World", inBeamPosition=0.,outOfBeamPositio
     #caput("BL12I-EA-ZEBRA-01:M1:SETPOS.PROC", 1)    # copy motor position to Zebra 1 (on POS1 of ENC tab)
     caput("BL12I-EA-ZEBRA-01:SYS_RESET.PROC", 1)
     defaults_save = clear_defaults()
+    atTomoFlyScanStart()
     try:
         i13tomographyScan.tomoFlyScan(description=description, inBeamPosition=inBeamPosition, outOfBeamPosition=outOfBeamPosition, exposureTime=exposureTime, start=start, stop=stop, step=step, imagesPerDark=imagesPerDark, imagesPerFlat=imagesPerFlat, extraFlatsAtEnd=extraFlatsAtEnd, closeShutterAfterScan=closeShutterAfterScan, beamline="I12", vetoFlatsDarksAtStart=vetoFlatsDarksAtStart, helical_axis_stage=helical_axis_stage)
     except:
@@ -314,10 +315,11 @@ def i12tomoFlyScan(description="Hello World", inBeamPosition=0.,outOfBeamPositio
         # set to step-scan
         #import zebra_utilities
         #zebra_utilities.setZebra2Mode(1)
+        #_p2rcvmc.gap = _p2rcvmc_gap_saved
         for s in defaults_save:
             ScannableCommands.add_default(s)
             
-        atTomoFlyScanEnd();
+        atTomoFlyScanEnd()
     print "Finished running i12tomoFlyScan"
 
 def _make_subdir(dirname="rawdata"):
@@ -348,6 +350,29 @@ def _make_subdir(dirname="rawdata"):
         
         
 from gdascripts.parameters import beamline_parameters
+
+def atTomoFlyScanStart():
+    jns = beamline_parameters.JythonNameSpaceMapping(InterfaceProvider.getJythonNamespace())
+    tomography_theta=jns.tomography_theta
+    if tomography_theta is None:
+        raise "tomography_theta is not defined in Jython namespace"
+    tomography_theta_name = tomography_theta.name
+    #print tomography_theta_name
+    tomography_flyscan_det = jns.tomography_flyscan_det
+    if tomography_flyscan_det is None:
+        raise "tomography_flyscan_det is not defined in Jython namespace"
+    tomography_flyscan_det_name = tomography_flyscan_det.name
+    #print tomography_flyscan_det_name
+    isUsingP2R = ("p2r" in tomography_flyscan_det_name) or ("p2r" in tomography_theta_name)
+    _p2rcvmc_gap_saved = None
+    if isUsingP2R:
+        try:
+            _p2rcvmc = finder.find("p2rcvmc")
+            _p2rcvmc_gap_saved = _p2rcvmc.gap
+            _p2rcvmc.gap = False
+        except:
+            print("Unable to find p2rcvmc!")
+    return _p2rcvmc_gap_saved
 
 def atTomoFlyScanEnd():
     """
@@ -406,7 +431,9 @@ def atTomoStepScanEnd():
             # set angular speed to some decent value
             p2r_rot_motor.setSpeed(30)
         except:
-            p2r_rot_motor.smc.bidiAsciiCommunicator.closeConnection()
+            #p2r_rot_motor.smc.bidiAsciiCommunicator.closeConnection() # setSpeed below opens the connection if not present
+            from p2r_utilities import p2r_telnet
+            p2r_telnet.reset()
             try:
                 # the 1st attempt is usually unsuccessful
                 p2r_rot_motor.setSpeed(30)
@@ -569,9 +596,9 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
     tomography_flyscan_det_name = tomography_flyscan_det.name
     #print tomography_flyscan_det_name
     p2r_locked = None
+    from p2r_utilities import p2r_telnet
+    p2r_telnet.reset()
     if ("p2r" in tomography_flyscan_det_name) or ("p2r" in tomography_theta_name):
-        from p2r_utilities import p2r_telnet
-        p2r_telnet.reset()
         is_p2r_used = True
         tomography_flyscan_theta = jns.tomography_flyscan_theta
         _p2r_telnet = tomography_flyscan_theta.motor.smc.getBidiAsciiCommunicator()
@@ -643,8 +670,11 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
         nother += (imagesPerFlat if extraFlatsAtEnd else 0)
         nprojs = ScannableUtils.getNumberSteps(tomography_flyscan_theta, start, start+tomoRange, step) + 1
         print "ngates = %i, nprojs = %i, nother = %i" %(ngates, nprojs, nother)
+        #return
         #if is_p2r_used:
         _p2rcvmc = finder.find("p2rcvmc")
+        _p2rcvmc_gap_saved = _p2rcvmc.gap
+        _p2rcvmc.gap = True
         _p2rcvmc.setNumberOfGates(ngates)
         _p2rcvmc.setNprojs(nprojs)
         _p2rcvmc.setNother(nother)
@@ -790,6 +820,8 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
             print "Closing the shutter after the flyscan."
             tomography_shutter.moveTo("Close")    
         
+        _p2rcvmc.gap = _p2rcvmc_gap_saved
+        p2r_telnet.reset()
     print "Finished running %s" %(_fname,)
     
 
@@ -823,6 +855,8 @@ def i12tomoTRFlyScan(description="Hello World", inBeamPosition=0.,outOfBeamPosit
     _fname = i12tomoTRFlyScan.__name__
     print "Running %s" %(_fname,)
     
+    from p2r_utilities import p2r_telnet
+    p2r_telnet.reset()
     #import i13tomographyScan
 #    from gda.factory import Finder
 #    finder = Finder.getInstance()

@@ -4,43 +4,43 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean id="p2r_rot_motor_controller" class="uk.ac.gda.tomography.devices.p2r.P2RMotorController">
+	<bean id="p2r_rot_motor_controller_gap" class="uk.ac.gda.tomography.devices.p2r.P2RMotorControllerGap">
 		<property name="bidiAsciiCommunicator" ref="p2r_telnet" />
 		<property name="prefix" value="R" />
 		<property name="position_index" value="1" />
 		<property name="speed_index" value="4" />
 	</bean>
 
-	<bean id="p2r_y_motor_controller" class="uk.ac.gda.tomography.devices.p2r.P2RMotorController">
+	<bean id="p2r_y_motor_controller_gap" class="uk.ac.gda.tomography.devices.p2r.P2RMotorControllerGap">
 		<property name="bidiAsciiCommunicator" ref="p2r_telnet" />
 		<property name="prefix" value="D" />
 		<property name="position_index" value="0" />
 		<property name="speed_index" value="3" />
 	</bean>
 
-	<bean id="p2r_force_motor_controller" class="uk.ac.gda.tomography.devices.p2r.P2RMotorController">
+	<bean id="p2r_force_motor_controller_gap" class="uk.ac.gda.tomography.devices.p2r.P2RMotorControllerGap">
 		<property name="bidiAsciiCommunicator" ref="p2r_telnet" />
 		<property name="prefix" value="F" />
 		<property name="position_index" value="2" />
 		<property name="speed_index" value="2" />
 	</bean>
 
-	<bean id="p2r_rot" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="p2r_rot_motor" />
+	<bean id="p2r_rot_gap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="p2r_rot_motor_gap" />
 		<property name="userUnits" value="deg" />
 	</bean>
 
-	<bean id="p2r_y" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="p2r_y_motor" />
+	<bean id="p2r_y_gap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="p2r_y_motor_gap" />
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<bean id="p2r_force" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="p2r_force_motor" />
+	<bean id="p2r_force_gap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="p2r_force_motor_gap" />
 		<property name="userUnits" value="N" />
 	</bean>
 
-	<bean id="p2rcvmc" class="uk.ac.gda.tomography.devices.p2r.P2RZebraConstantVelMoveController">
+	<bean id="p2rcvmc_gap" class="uk.ac.gda.tomography.devices.p2r.P2RZebraConstantVelMoveControllerGap">
 		<property name="bidiAsciiCommunicator" ref="p2r_telnet" />
 		<property name="zebra" ref="zebra" />
 		<property name="mode" value="1" />
@@ -49,23 +49,23 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="p2rSM1" class="gda.device.zebra.ZebraScannableMotor">
-		<property name="motor" ref="p2r_rot_motor" />
-		<property name="zebraConstantVelocityMoveController" ref="p2rcvmc" />
+	<bean id="p2rSM1_gap" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="p2r_rot_motor_gap" />
+		<property name="zebraConstantVelocityMoveController" ref="p2rcvmc_gap" />
 		<property name="scurveTimeToVelocity" value="3.0" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="p2r_flyScanCollectionStrategy" class="gda.device.detector.addetector.triggering.PCOHWTriggerBase">
+<!-- 	<bean id="p2r_flyScanCollectionStrategy" class="gda.device.detector.addetector.triggering.PCOHWTriggerBase">
 		<constructor-arg ref="pco.cam" />
 		<constructor-arg ref="pco_hdf_adDriverPco" />
 		<property name="timeStamp" value="2"/>
-	</bean>
+	</bean> -->
 
-	<bean id="p2r_flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
-		<property name="name" value="p2r_flyScanDetector" />
+	<bean id="p2r_flyScanDetector_gap" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="p2r_flyScanDetector_gap" />
 		<property name="readOutTime" value=".001" />
-		<property name="hardwareTriggerProvider" ref="p2rcvmc" />
+		<property name="hardwareTriggerProvider" ref="p2rcvmc_gap" />
 		<property name="collectionStrategy" ref="p2r_flyScanCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
@@ -74,10 +74,10 @@
 		</property>
 	</bean>
 
-	<bean id="p2r_flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
-		<property name="name" value="p2r_flyScanDetectorTIF" />
+	<bean id="p2r_flyScanDetectorTIF_gap" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="p2r_flyScanDetectorTIF_gap" />
 		<property name="readOutTime" value=".001" />
-		<property name="hardwareTriggerProvider" ref="p2rcvmc" />
+		<property name="hardwareTriggerProvider" ref="p2rcvmc_gap" />
 		<property name="collectionStrategy" ref="p2r_flyScanCollectionStrategy" />
 		<property name="additionalPluginList">
 			<list>
@@ -86,7 +86,7 @@
 		</property>
 	</bean>
 
-	<bean id="p2r_flyScanFlatDarkDetector" class="gda.device.detector.NXDetector">
+<!-- 	<bean id="p2r_flyScanFlatDarkDetector" class="gda.device.detector.NXDetector">
 		<property name="name" value="p2r_flyScanFlatDarkDetector" />
 		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategy" />
 		<property name="additionalPluginList">
@@ -104,20 +104,20 @@
 				<ref bean="pco1_tif_writer" />
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 
-	<bean id="p2r" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="p2r_gap" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="p2rSM1" />
-				<ref bean="p2r_flyScanDetector" />
-				<ref bean="p2r_flyScanDetectorTIF" />
+				<ref bean="p2rSM1_gap" />
+				<ref bean="p2r_flyScanDetector_gap" />
+				<ref bean="p2r_flyScanDetectorTIF_gap" />
 				<ref bean="p2r_flyScanFlatDarkDetector" />
 				<ref bean="p2r_flyScanFlatDarkDetectorTIF" />
-				<ref bean="p2r_force" />
-				<ref bean="p2r_rot" />
-				<ref bean="p2r_y" />
-				<ref bean="p2rcvmc" />
+				<ref bean="p2r_force_gap" />
+				<ref bean="p2r_rot_gap" />
+				<ref bean="p2r_y_gap" />
+				<ref bean="p2rcvmc_gap" />
 			</list>
 		</property>
 	</bean>

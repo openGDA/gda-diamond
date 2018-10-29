@@ -127,8 +127,8 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="dcm1_bender_inboard" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="dcm1_bender_inboard" />
+	<bean id="dcm1_bender_1" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dcm1_bender_1" />
 		<property name="motor" ref="dcm1_bender_inboard_motor" />
 		<property name="tolerance" value="0.1" />
 		<property name="outputFormat">
@@ -137,8 +137,8 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="dcm1_bender_outboard" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="dcm1_bender_outboard" />
+	<bean id="dcm1_bender_2" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dcm1_bender_2" />
 		<property name="motor" ref="dcm1_bender_outboard_motor" />
 		<property name="tolerance" value="0.1" />
 		<property name="outputFormat">
@@ -147,8 +147,8 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="dcm2_bender_inboard" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="dcm2_bender_inboard" />
+	<bean id="dcm2_bender_1" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dcm2_bender_1" />
 		<property name="motor" ref="dcm2_bender_inboard_motor" />
 		<property name="tolerance" value="0.1" />
 		<property name="outputFormat">
@@ -157,8 +157,8 @@
 			</list>
 		</property>
 	</bean>
-	<bean id="dcm2_bender_outboard" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="dcm2_bender_outboard" />
+	<bean id="dcm2_bender_2" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dcm2_bender_2" />
 		<property name="motor" ref="dcm2_bender_outboard_motor" />
 		<property name="tolerance" value="0.1" />
 		<property name="outputFormat">
@@ -171,8 +171,8 @@
 		<property name="groupMembers">
 			<list>
 				<!--  Scannables in the group -->
-				<ref bean="dcm1_bender_inboard" />
-				<ref bean="dcm1_bender_outboard" />
+				<ref bean="dcm1_bender_1" />
+				<ref bean="dcm1_bender_2" />
 			</list>
 		</property>
 	</bean>
@@ -180,8 +180,8 @@
 		<property name="groupMembers">
 			<list>
 				<!--  Scannables in the group -->
-				<ref bean="dcm2_bender_inboard" />
-				<ref bean="dcm2_bender_outboard" />
+				<ref bean="dcm2_bender_1" />
+				<ref bean="dcm2_bender_2" />
 			</list>
 		</property>
 	</bean>

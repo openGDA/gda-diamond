@@ -36,12 +36,12 @@ def monodiffractionPositions():
     s3_yheight=50
     s3_diffxcentre=0
     s3_diffycentre=0
-    s3_diffxsize=2
-    s3_diffysize=2
+    s3_diffxsize=1
+    s3_diffysize=1
     
     #beamstop positions for diffraction
-    beamstopInBeam_x = 98.2
-    beamstopInBeam_y = 9.2
+    beamstopInBeam_x = 97.1
+    beamstopInBeam_y = 10.1
     
     #calculated values
     beamstopInBeam_lowLimit = beamstopInBeam_x-10
@@ -51,22 +51,22 @@ def monodiffractionPositions():
     
 def monoimagingPositions():
     # detector positions
-    detector_imagingxposition=1352.1
+    detector_imagingxposition=1351.6
     
     #slitpositions
     s2_imagingxcentre= 0
     s2_imagingycentre=50
-    s2_imagingxsize=9.0
-    s2_imagingysize=9.0
+    s2_imagingxsize=9.5
+    s2_imagingysize=8.0
     
     s3_yheight= 50
     s3_imagingxcentre=0
     s3_imagingycentre=0
-    s3_imagingxsize=9.5
-    s3_imagingysize=9.5
+    s3_imagingxsize=9.6
+    s3_imagingysize=8
     
     beamstopOutofBeam_x = 125
-    beamstopOutofBeam_y = 9.2
+    beamstopOutofBeam_y = 10.1
     
     #calculated values
     detector_imagingxposition_lowLimit = detector_imagingxposition-15   ## to restrict movement of pixium into beam when imaging
@@ -77,7 +77,7 @@ def monoimagingPositions():
 
 def endOfHutchDiagnosticPositions():
     #position of t3 to view with end of hutch camera
-    detector_diagnostic_xposition = 200
+    detector_diagnostic_xposition = 100
     
     return detector_diagnostic_xposition  
 
@@ -152,8 +152,8 @@ def monoimagingMode():
     pos(s2.yc, s2_imagingycentre, s2.ys, s2_imagingysize)
 
     #pos(s3.y, s3_yheight)
-    #pos(s3.xc, s3_imagingxcentre, s3.xs, s3_imagingxsize)
-    #pos(s3.yc, s3_imagingycentre, s3.ys, s3_imagingysize)
+    pos(s3.xc, s3_imagingxcentre, s3.xs, s3_imagingxsize)
+    pos(s3.yc, s3_imagingycentre, s3.ys, s3_imagingysize)
     print "******* Slits now in position."
     print "***** Moving beam stop."
 
@@ -205,7 +205,6 @@ def moveToEndOfHutchDiagnostic():
     pos(s2.ys, s2_imagingysize)
 
     #pos(s3.xc, s3_imagingxcentre)
-    #pos(s3.xs, s3_imagingxsize)
     pos(s3.xs, s3_imagingxsize, s3.ys, s3_imagingysize)
     print "******* Slits now in position."
     

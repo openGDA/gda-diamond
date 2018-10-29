@@ -168,7 +168,7 @@ class MiroXgraph():
 		if acq_period_sec <= exposure_time_sec+overhead_sec:
 			#print "Acquisition period of %.3f s is smaller than the exposure time + overhead: using the value of the exposure time of %.3f instead!" %(acq_period_sec, exposure_time_sec)
 			#acq_period_sec = exposure_time_sec
-			exposure_time_sec = acq_period_sec - overhead_sec
+			exposure_time_sec = acq_period_sec - overhead_sec 
 		print "Acquisition period of %.3f s is smaller or equal to the exposure time + overhead (20 us): using the exposure time of %.3f instead!" %(acq_period_sec, exposure_time_sec)
 
 		if nframes_post_trigger < 1:

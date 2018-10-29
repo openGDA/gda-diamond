@@ -4,7 +4,8 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="p2r_telnet" class="gda.io.socket.SocketBidiAsciiCommunicator">
-		<property name="address" value="172.23.112.131" />
+		<!-- <property name="address" value="172.23.112.131" /> -->
+		<property name="address" value="172.23.112.130" />
 		<property name="port" value="23" />
 	</bean>
 

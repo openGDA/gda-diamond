@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- 	<bean id="p2r_telnet" class="gda.io.socket.SocketBidiAsciiCommunicator">
+		<property name="address" value="172.23.112.131" />
+		<property name="address" value="172.23.112.130" />
+		<property name="port" value="23" />
+	</bean> -->
+
+	<bean id="p2r_rot_motor_gap" class="gda.device.motor.simplemotor.SimpleMotor">
+		<property name="name" value="p2r_rot_motor_gap" />
+		<property name="smc" ref="p2r_rot_motor_controller_gap" />
+	</bean>
+
+	<bean id="p2r_y_motor_gap" class="gda.device.motor.simplemotor.SimpleMotor">
+		<property name="name" value="p2r_y_motor_gap" />
+		<property name="smc" ref="p2r_y_motor_controller_gap" />
+	</bean>
+
+	<bean id="p2r_force_motor_gap" class="gda.device.motor.simplemotor.SimpleMotor">
+		<property name="name" value="p2r_force_motor" />
+		<property name="smc" ref="p2r_force_motor_controller_gap" />
+	</bean>
+
+</beans>
