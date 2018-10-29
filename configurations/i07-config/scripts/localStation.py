@@ -12,6 +12,7 @@ from time import sleep
 from gda.configuration.properties import LocalProperties;
 from gdascripts.utils import *  # @UnusedWildImport
 import scisoftpy as dnp  # @UnusedImport
+from gdaserver import ebe
 
 	
 gdaScriptDir = LocalProperties.get("gda.config") + "/scripts/";

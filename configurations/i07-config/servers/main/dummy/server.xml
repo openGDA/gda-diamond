@@ -14,6 +14,8 @@
 
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
+	<import resource="ebe.xml" />
+
 	<bean id="fastshutter" class="gda.device.scannable.DummyScannable">
 		<property name="name" value="fastshutter" />
 		<property name="level" value="6" />
