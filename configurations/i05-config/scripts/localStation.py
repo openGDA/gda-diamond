@@ -13,6 +13,7 @@ from time import sleep, localtime
 from gda.jython.commands.GeneralCommands import alias
 from gdascripts.pd.time_pds import actualTimeClass
 from gdascripts.scannable.timerelated import TimeSinceScanStart
+from dirFileCommands import pwd, lwf, nwf, nfn
 
 # Get the location of the GDA beamline script directory
 gdaScriptDir = LocalProperties.get("gda.config")+"/scripts/"
