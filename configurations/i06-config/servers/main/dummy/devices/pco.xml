@@ -279,4 +279,21 @@
 			</bean>
 		</property>
 	</bean>
+	<!-- for zacscan -->
+	<bean id="pcoimagemodemultiple" class="gda.device.detector.pco.collectionstrategy.PCOImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="imageMode" value="MULTIPLE" /> <!-- possible modes: SINGLE, MULTIPLE, CONTINUOUS -->
+		<property name="decoratee" ref="pcoacquireperiod_soft" />
+	</bean>
+	<bean id="zacpcoCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.pco.collectionstrategy.PCOADCModeDecorator">
+				<property name="restoreADCMode" value="true" />
+				<property name="adcMode" value="OneADC" /> <!-- possible values: OneADC, TwoADC -->
+				<property name="pcoController" ref="pcocontroller" />
+				<property name="decoratee" ref="pcoimagemodemultiple" />
+			</bean>
+		</property>
+	</bean>
 </beans>
