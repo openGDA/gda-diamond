@@ -10,7 +10,7 @@
 		<property name="displayName" value="Exposure" />
 		<property name="group" value="PCO Acquire Time" />
 		<property name="scannableName" value="pcoExposureTime" />
-		<property name="textWidth" value="30"/>
+		<property name="textWidth" value="35"/>
 		<property name="userUnits" value="s" />
 	</bean>
 
@@ -18,7 +18,7 @@
 		<property name="displayName" value="Period" />
 		<property name="group" value="PCO Acquire Time" />
 		<property name="scannableName" value="pcoAcquirePeriod" />
-		<property name="textWidth" value="30"/>
+		<property name="textWidth" value="35"/>
 		<property name="userUnits" value="s" />
 	</bean>
 	<bean id="pco_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
@@ -32,7 +32,7 @@
 		<property name="displayName" value="NumFilter" />
 		<property name="group" value="PCO PROC" />
 		<property name="scannableName" value="pcoProcNumFilter" />
-		<property name="textWidth" value="10" />
+		<property name="textWidth" value="30" />
 		<property name="userUnits" value=""/>
 	</bean>
 

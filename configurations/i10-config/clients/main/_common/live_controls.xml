@@ -274,21 +274,20 @@
 		<property name="displayName" value="Exposure" />
 		<property name="group" value="PIMTE Acquire Time" />
 		<property name="scannableName" value="pimteExposureTime" />
-		<property name="textWidth" value="30"/>
+		<property name="textWidth" value="35"/>
 		<property name="userUnits" value="s" />
 	</bean>
 	<bean id="pimte_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Period" />
 		<property name="group" value="PIMTE Acquire Time" />
 		<property name="scannableName" value="pimteAcquirePeriod" />
-		<property name="textWidth" value="30"/>
-		<property name="userUnits" value="s" />
+		<property name="textWidth" value="35" />
 	</bean>
 	<bean id="pimte_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="PROC NumFilter" />
 		<property name="group" value="PIMTE PROC" />
 		<property name="scannableName" value="pimteProcNumFilter" />
-		<property name="textWidth" value="10" />
+		<property name="textWidth" value="30" />
 		<property name="userUnits" value=""/>
 	</bean>
 	<bean id="pimteCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
@@ -314,21 +313,21 @@
 		<property name="displayName" value="Exposure" />
 		<property name="group" value="PIXIS Acquire Time" />
 		<property name="scannableName" value="pixisExposureTime" />
-		<property name="textWidth" value="30"/>
+		<property name="textWidth" value="35"/>
 		<property name="userUnits" value="s" />
 	</bean>
 	<bean id="pixis_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Period" />
 		<property name="group" value="PIXIS Acquire Time" />
 		<property name="scannableName" value="pixisAcquirePeriod" />
-		<property name="textWidth" value="30"/>
+		<property name="textWidth" value="35"/>
 		<property name="userUnits" value="s" />
 	</bean>
 	<bean id="pixis_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="PROC NumFilter" />
 		<property name="group" value="PIXIS PROC" />
 		<property name="scannableName" value="pixisProcNumFilter" />
-		<property name="textWidth" value="10" />
+		<property name="textWidth" value="30" />
 		<property name="userUnits" value=""/>
 	</bean>
 	<bean id="pixisCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
