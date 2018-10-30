@@ -24,8 +24,10 @@ import gda.device.Scannable;
 import gda.device.monitor.DummyMonitor;
 import gda.rcp.views.CompositeFactory;
 
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.springframework.beans.factory.InitializingBean;
@@ -82,6 +84,12 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 		this.forceLayoutOnLengthChange = forceLayoutOnLengthChange;
 	}	
 	
+	int preferredWidth = SWT.DEFAULT;
+
+	public void setPreferredWidth(int preferredWidth) {
+		this.preferredWidth = preferredWidth;
+	}
+
 	private Integer minPeriodMS;
 	
 
@@ -123,6 +131,12 @@ public class ReadonlyScannableCompositeFactory implements CompositeFactory, Init
 				label, units, decimalPlaces, forceLayoutOnLengthChange);
 		readonlyScannableComposite.setMinPeriodMS(minPeriodMS);
 		readonlyScannableComposite.setColourMap(colourMap);
+		
+		if (preferredWidth != SWT.DEFAULT) {
+			final Control textField = readonlyScannableComposite.getChildren()[1];
+			GridDataFactory.swtDefaults().hint(preferredWidth, SWT.DEFAULT).applyTo(textField);
+		}
+		
 		return readonlyScannableComposite;
 	}
 
