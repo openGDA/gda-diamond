@@ -14,6 +14,9 @@ from tomographyXGIScan import tomoXGIScan
 import tomographyXGIScan2d
 from tomographyXGIScan2d import tomoXGIScan2d
 
+import tomographyHelicalScan
+from tomographyHelicalScan import tomoHelicalScan
+
 from i13i_utilities import isLive, interruptable
 from i13i_utilities import pco_edge_agg, pco_4000_agg, filter_stick_1, filter_stick_2, filter_stick_3, filter_stick_4, filter_stick_5, dcm_mode
 from i13i_utilities import ionc_A_over_V_gain, ionc_gainmode, ionc_acdc
@@ -286,6 +289,9 @@ try:
 		from deben import *
 		deben_configure()
 		deben_after_ioc_restart()
+		#meta_add(dbn_y)
+		#meta_add(dbn_tension_rbv)
+		#meta_add(dbn_torsion_rbv)
 
 		print("\n Adding beamline meta scannables...")
 		meta_add_i13i()

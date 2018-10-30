@@ -426,6 +426,7 @@ try:
 	meta_scannables.append(s6)
 	meta_scannables.append(s7)
 	meta_scannables.append(t2)
+	meta_scannables.append(t1)
 
 	# this fails coz it is trying to write string as float
 	#meta_scannables.append(ionc_A_over_V_gain)
@@ -462,21 +463,75 @@ except:
 
 #shutter_director = ShutterDirector('shutter_director', delay_after_open_sec=0, delay_after_close_sec=0)
 
-print "Adding sample_lab_x_t1_pitch..." 
-sample_lab_x_t1_pitch = ScannableGroup()
-sample_lab_x_t1_pitch.addGroupMember(sample_lab_x)
-sample_lab_x_t1_pitch.addGroupMember(t1_pitch)
-sample_lab_x_t1_pitch.setName("sample_lab_x_t1_pitch")
-sample_lab_x_t1_pitch.configure()
+try:
+	print "Adding sample_lab_x_t1_pitch..." 
+	sample_lab_x_t1_pitch = ScannableGroup()
+	sample_lab_x_t1_pitch.addGroupMember(sample_lab_x)
+	sample_lab_x_t1_pitch.addGroupMember(t1_pitch)
+	sample_lab_x_t1_pitch.setName("sample_lab_x_t1_pitch")
+	sample_lab_x_t1_pitch.configure()
+except:
+	print "Failed to create sample_lab_x_t1_pitch!"
 
 excalibur_config_normal_vds.getCollectionStrategy().scriptEnabled=True
 excalibur_config_normal_vds.getCollectionStrategy().scriptFileName="/dls_sw/prod/tools/RHEL6-x86_64/defaults/bin/dls-vds-gen.py"
-excalibur_config_normal_vds.getAdditionalPluginList()[0].fileTemplate="%s%s-vds-%d.hdf"
+excalibur_config_normal_vds.getAdditionalPluginList()[0].fileTemplate="%s%s-%d.hdf"
+
+try:
+	print "Installing attocube axes from epics BL13J-EA-ECC..."
+	from ecc100axis import createEcc100Axis
+	attol1 = createEcc100Axis("attol1", "BL13J-EA-ECC-01:ACT0:")
+	attol2 = createEcc100Axis("attol2", "BL13J-EA-ECC-01:ACT1:")
+	attol3 = createEcc100Axis("attol3", "BL13J-EA-ECC-01:ACT2:")
+
+	attor1 = createEcc100Axis("attor1", "BL13J-EA-ECC-02:ACT0:")
+	attor2 = createEcc100Axis("attor2", "BL13J-EA-ECC-02:ACT1:")
+	attor3 = createEcc100Axis("attor3", "BL13J-EA-ECC-02:ACT2:")
+except:
+	print "Failed to create attocube axes!"
 
 print(section_sep)
 # localStationUser.py should be run at the very end of this localStation.py
 if not LocalProperties.check("gda.dummy.mode"):
 	run("localStationUser.py")
+
+zp = ScannableGroup()
+zp.addGroupMember(zp_x)
+zp.addGroupMember(zp_y)
+zp.addGroupMember(zp_z)
+zp.setName("zp")
+zp.configure()
+
+osa = ScannableGroup()
+osa.addGroupMember(osa_x)
+osa.addGroupMember(osa_y)
+osa.addGroupMember(osa_z)
+osa.setName("osa")
+osa.configure()
+
+cs = ScannableGroup()
+cs.addGroupMember(cs_x)
+cs.addGroupMember(cs_y)
+cs.addGroupMember(cs_z)
+cs.setName("cs")
+cs.configure()
+
+zpa = ScannableGroup()
+zpa.addGroupMember(diff_x)
+zpa.addGroupMember(diff_y)
+zpa.addGroupMember(diff_z)
+zpa.setName("zpa")
+zpa.configure()
+
+optics_zp = ScannableGroup()
+optics_zp.addGroupMember(zp)
+optics_zp.addGroupMember(osa)
+optics_zp.addGroupMember(cs)
+optics_zp.addGroupMember(zpa)
+optics_zp.setName("optics_zp")
+optics_zp.configure()
+
+meta_add(optics_zp)
 
 print(section_sep)	
 print("\n Finished running localStation.py")

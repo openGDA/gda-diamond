@@ -1,0 +1,67 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="t1_smar_lx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_lab_x_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="t1_smar_ly" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_lab_y_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="t1_smar_lz" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="sample_lab_z_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+	
+	<bean id="t1_smar_lab" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_smar_lx" />
+				<ref bean="t1_smar_ly" />
+				<ref bean="t1_smar_lz" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="t1_smar_lxy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_smar_lx" />
+				<ref bean="t1_smar_ly" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="t1_smar_lyx" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_smar_ly" />
+				<ref bean="t1_smar_lx" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="t1_smar_lxz" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_smar_lx" />
+				<ref bean="t1_smar_lz" />
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="t1_smar_lyz" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_smar_ly" />
+				<ref bean="t1_smar_lz" />
+			</list>
+		</property>
+	</bean>	
+	
+</beans>

@@ -1,0 +1,300 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<description>
+		There are 3 ways of configure EPICS access:
+		1. use Java content objects
+		provided by epics-x.x.x.jar to specify
+		'deviceName' property;
+		e.g. <!-- property 
+			name="deviceName" value="pixium.cam_ADBase"/ -->
+		2. set pvProvider property which in turn uses XMLPVProvider bean to
+		specify 'deviceName' property;
+		e.g. <!-- property name="pvProvider"> <bean 
+			class="uk.ac.gda.devices.excalibur.impl.XMLPVProvider"> <property name="deviceName" 
+			value="pixium.cam_ADBase" /> </bean> </property -->
+		3. set base PV name property with field or sub-element being coded in
+		Java classes.
+		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" 
+			/ -->
+	</description>
+
+
+
+	<!-- AD hardware -->
+
+	<bean id="pilatus_eh1_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL12I-EA-PILAT-01:CAM:" />
+	</bean>
+
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="pilatus_eh1_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+		<constructor-arg ref="pilatus_eh1_adbase" />
+		<constructor-arg value=".003" />
+	</bean>
+	
+	<!-- NXDetector file writers -->
+
+	<bean id="pilatus_eh1_hdf_file" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL12I-EA-PILAT-01:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<!-- <property name="deviceName" value="pco.hdf_NDPluginBase" /> -->
+				<property name="basePVName" value="BL12I-EA-PILAT-01:HDF5:" />
+				<property name="initialArrayPort" value="pilatus.cam" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="initialAutoSave" value="Yes" />
+		<property name="initialAutoIncrement" value="Yes" />
+		<property name="initialWriteMode" value="2" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="pilatus" />
+		<property name="initialFileTemplate" value="%s/%s.h5" />
+	</bean>
+	
+	<bean id="pilatus_eh1_ndfilehdf"
+		class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL12I-EA-PILAT-01:HDF5:" />
+		<property name="file" ref="pilatus_eh1_hdf_file" />
+	</bean>	
+	
+	<bean id="pilatus_eh1_hdf_filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pilatus_eh1_ndfilehdf" />
+		<property name="fileNameTemplate" value="pilatus"/>
+		<property name="filePathTemplate" value="$datadir$"/>
+		<property name="fileTemplate" value="%s%s-%d.hdf"/>
+		<property name="fileNumberAtScanStart" value="-1"/>
+		<property name="setFileNameAndNumber" value="true"/>
+		<property name="rowChunks" value="0"/>
+		<property name="colChunks" value="0"/>
+		<property name="framesChunks" value="0"/>
+		<property name="framesFlush" value="0"/>
+		<property name="lazyOpen" value="true"/>
+		<!-- property name="boundaryAlign" value="1048576"/ -->
+		<property name="blocking" value="false"/> <!-- must be false otherwise PCO Event Driver driver crashes if framesChunks is 64-->
+		<property name="pathErrorSuppressed" value="true"></property>
+	</bean>
+
+
+	<bean id="pilatus_eh1_ndfiletif_pvProvider"
+		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL12I-EA-PILAT-01:TIFF:" />
+	</bean>
+
+	<bean id="pilatus_eh1_ndfiletif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="pvProvider" ref="pilatus_eh1_ndfiletif_pvProvider" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<!-- <property name="pvProvider" ref="pilatus_eh1_ndfiletif_pvProvider" /> -->
+				<property name="basePVName" value="BL12I-EA-PILAT-01:TIFF:" />
+				<property name="initialArrayPort" value="pilatus.cam" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+	
+	<bean id="pilatus_eh1_singleImageFileWriter"
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pilatus"/>
+		<property name="fileTemplate" value="%s%s%05d.tif" />
+		<property name="filePathTemplate" value="$datadir$/$scan$/" />
+		<property name="fileNameTemplate" value="pil_" />
+		<property name="fileNumberAtScanStart" value="1" />
+		<property name="blocking" value="0" />
+		<property name="ndFile" ref="pilatus_eh1_ndfiletif" />
+		<property name="ndArrayPortVal" value="pilatus.cam" />
+		<property name="fileWriteMode" value="STREAM" />
+	</bean>
+	
+	<bean id="pilatus_eh1_multipleExposure"
+		class="gda.device.detector.addetector.triggering.PilatusMultipleExposureSoftwareTriggerAutoMode">
+		<constructor-arg ref="pilatus_eh1_adbase" />
+		<constructor-arg value="10.0" />
+		<property name="exposureTime" value="0.5" />
+		<property name="readAcquireTimeFromHardware" value="true" />
+		<property name="prefix" value="BL12I-EA-PILAT-01:CAM:"/>
+		<property name="ndFile" ref="pilatus_eh1_ndfiletif" />
+		<!-- <property name="imageMode" value="CONTINUOUS"/> -->
+		<property name="imageMode" value="SINGLE"/>
+	</bean>
+	
+	<!-- NXDetectors -->
+
+<!-- 	<bean id="pilatus_eh1_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus_eh1_tif" />
+		<property name="collectionStrategy" ref="pilatus_eh1_nxcollectionstrategy" />
+		<property name="collectionStrategy" ref="pilatus_eh1_multipleExposure" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus_eh1_tif_filewriter" />
+				<ref bean="pilatus_eh1_singleImageFileWriter" />
+			</list>
+		</property>
+	</bean> -->
+
+<!-- 	<bean id="pilatus_eh1_hdf" class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus_eh1_hdf" />
+		<property name="collectionStrategy" ref="pilatus_eh1_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus_eh1_hdf_filewriter" />
+			</list>
+		</property>
+	</bean> -->
+	
+	
+	<bean id="pilatus_eh1_ndfile_cbf_pvProvider"
+		class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+		<property name="prefix" value="BL12I-EA-PILAT-01:CAM:" />
+	</bean>
+
+	<bean id="pilatus_eh1_ndfile_cbf" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="pvProvider" ref="pilatus_eh1_ndfile_cbf_pvProvider" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<!-- <property name="pvProvider" ref="pilatus_eh1_ndfiletif_pvProvider" /> -->
+				<property name="basePVName" value="BL12I-EA-PILAT-01:CAM:" />
+				<!-- <property name="initialArrayPort" value="pilatus.cam" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="1" />
+				<property name="initialBlockingCallbacks" value="false" /> -->
+			</bean>
+		</property>
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+	
+	<bean id="pilatus_eh1_singleImageFileWriter_cbf"
+		class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pilatus"/>
+		<property name="fileTemplate" value="%s%s%05d.tif" />
+		<property name="filePathTemplate" value="$datadir$/$scan$/" />
+		<property name="fileNameTemplate" value="pil_" />
+		<property name="fileNumberAtScanStart" value="1" />
+		<property name="blocking" value="0" />
+		<property name="ndFile" ref="pilatus_eh1_ndfile_cbf" />
+		<!-- <property name="ndArrayPortVal" value="pilatus.cam" /> -->
+		<!-- <property name="fileWriteMode" value="STREAM" /> -->
+	</bean>
+	
+	<bean id="pilatus_eh1_multipleExposure_cbf"
+		class="gda.device.detector.addetector.triggering.PilatusMultipleExposureSoftwareTriggerAutoMode">
+		<constructor-arg ref="pilatus_eh1_adbase" />
+		<constructor-arg value="10.0" />
+		<property name="exposureTime" value="0.5" />
+		<property name="readAcquireTimeFromHardware" value="true" />
+		<property name="prefix" value="BL12I-EA-PILAT-01:CAM:"/>
+		<property name="ndFile" ref="pilatus_eh1_ndfile_cbf" />
+		<!-- <property name="imageMode" value="CONTINUOUS"/> -->
+		<property name="imageMode" value="SINGLE"/>
+	</bean>
+	
+<!-- 	<bean id="pilatus_eh1_cbf" class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus_eh1_cbf" />
+		<property name="collectionStrategy" ref="pilatus_eh1_nxcollectionstrategy" />
+		<property name="collectionStrategy" ref="pilatus_eh1_multipleExposure_cbf" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus_eh1_tif_filewriter" />
+				<ref bean="pilatus_eh1_singleImageFileWriter_cbf" />
+			</list>
+		</property>
+	</bean> -->
+    
+	<!-- AD hardware -->
+
+	<bean id="pilatus2_eh1_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL12I-EA-PILAT-01:CAM:" />
+	</bean>
+
+	<bean id="pilatus2_eh1_driver"
+		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
+		<property name="basePVName" value="BL12I-EA-PILAT-01:CAM:" />
+	</bean>
+
+	<bean id="pilatus2_eh1_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL12I-EA-PILAT-01:CAM:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.SimpleFilePathConverter">
+				<property name="userSubString" value="/dls/i12/data" />
+				<property name="internalSubString" value="/ramdisk" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- NXDetector collection strategies -->
+	
+	<bean id="pilatus2_eh1_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+		<constructor-arg ref="pilatus2_eh1_adbase" />
+		<constructor-arg value=".003" />
+	</bean>
+	
+	<!-- NXDetector file writers -->
+
+	<bean id="pilatus2_eh1_nxfilewriter_for_scans_tif"
+		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pilatus2M" />
+		<property name="ndFile" ref="pilatus2_eh1_camserver_ndfile" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus2m_path_template" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="waitForFileArrival" value="false" />
+	</bean>
+	
+	<!-- NXDetectors -->
+
+	<bean id="pilatus_eh1_sw_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus_eh1_sw_tif" />
+		<property name="collectionStrategy" ref="pilatus2_eh1_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus2_eh1_nxfilewriter_for_scans_tif" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="pilatus2_eh1_nxfilewriter_for_scans_cbf"
+		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+		<!-- <constructor-arg value="pilatus2M" /> -->
+		<property name="ndFile" ref="pilatus2_eh1_camserver_ndfile" />
+		<property name="keyNameForMetadataPathTemplate" value="pilatus2m_path_template" />
+		<property name="writeErrorStatusSupported" value="false"/>
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="waitForFileArrival" value="false" />
+		<!-- <property name="fileWriterName" value="cbfwriter" />  -->
+		<property name="fileTemplate" value="%s%s%05d.cbf" />
+		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus2M-files" />
+		<property name="fileNameTemplate" value="" />
+		<property name="fileNumberAtScanStart" value="1" />
+	</bean>
+	
+	<bean id="pilatus_eh1_caller" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject" ref="pilatus2_eh1_nxfilewriter_for_scans_cbf" />
+		<property name="targetMethod" value="setName" />
+	 	<property name="arguments">
+			<list>
+				<value>cbfwriter</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="pilatus_eh1_sw_cbf" class="gda.device.detector.NXDetector">
+		<property name="name" value="pilatus_eh1_sw_cbf" />
+		<property name="collectionStrategy" ref="pilatus2_eh1_nxcollectionstrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pilatus2_eh1_nxfilewriter_for_scans_cbf" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>

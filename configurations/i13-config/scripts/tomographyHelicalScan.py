@@ -1,6 +1,10 @@
 """
 Performs software triggered tomography
 """
+from time import sleep
+import datetime
+import os
+import sys
 
 #from pcoDetectorWrapper import PCODetectorWrapper
 from gda.configuration.properties import LocalProperties
@@ -19,7 +23,6 @@ from gdascripts.messages import handle_messages
 from gdascripts.metadata.metadata_commands import setTitle
 from gdascripts.parameters import beamline_parameters
 from java.lang import InterruptedException
-import sys
 from gdascripts.metadata.metadata_commands import meta_add
 
 
@@ -100,10 +103,10 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
    
     # detector independent items
     nxLinkCreator.setControl_data_target("entry1:NXentry/instrument:NXinstrument/ionc_i:NXpositioner/ionc_i:NXdata")
-    nxLinkCreator.setInstrument_detector_image_key_target("entry1:NXentry/instrument:NXinstrument/tomoScanDevice:NXpositioner/image_key:NXdata")
+    nxLinkCreator.setInstrument_detector_image_key_target("entry1:NXentry/instrument:NXinstrument/tomoHelicalScanDevice:NXpositioner/image_key:NXdata")
     nxLinkCreator.setInstrument_source_target("entry1:NXentry/instrument:NXinstrument/source:NXsource")
    
-    sample_rotation_angle_target = "entry1:NXentry/instrument:NXinstrument/tomoScanDevice:NXpositioner/"
+    sample_rotation_angle_target = "entry1:NXentry/instrument:NXinstrument/tomoHelicalScanDevice:NXpositioner/"
     sample_rotation_angle_target += tomography_theta_name + ":NXdata"
     nxLinkCreator.setSample_rotation_angle_target(sample_rotation_angle_target);
     nxLinkCreator.setSample_x_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplex:NXdata")
@@ -113,13 +116,13 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
     nxLinkCreator.setTitle_target("entry1:NXentry/title:NXdata")
    
     # detector dependent items
-    if tomography_detector_name == "pco1_hw_hdf" or tomography_detector_name == "pco1_hw_hdf_nochunking":
+    if tomography_detector_name in ("pco1_hw_hdf", "pco1_hw_hdf_nochunking", "pco1_sw_hdf"):
         # external file
         instrument_detector_data_target = "!entry1:NXentry/instrument:NXinstrument/"
         instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
         instrument_detector_data_target += "data:SDS"
         nxLinkCreator.setInstrument_detector_data_target(instrument_detector_data_target)
-    elif tomography_detector_name == "pco1_hw_tif" or tomography_detector_name == "pco1_tif":
+    elif tomography_detector_name in ("pco1_hw_tif", "pco1_tif"):
         # image filenames
         instrument_detector_data_target = "entry1:NXentry/instrument:NXinstrument/"
         instrument_detector_data_target += tomography_detector_name + ":NXdetector/"
@@ -136,6 +139,9 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
     scanObject.setDataWriter(dataWriter)
 
 
+def isLive():
+    mode = LocalProperties.get("gda.mode")
+    return mode =="live" or mode =="live_localhost"
 
 image_key_dark = 2
 image_key_flat = 1 # also known as bright
@@ -170,7 +176,21 @@ def tomoHelicalScan(description, inBeamPosition, outOfBeamPosition, exposureTime
     General scan sequence is: D, F, P, ..., P, F, D
     where D stands for dark field, F - for flat field, and P - for projection.
     """
+    print "Args START"
+    if not tomography_detector is None:
+        print "tomography_detector = %s" %(tomography_detector.getName()) 
+    print "inBeamPosition = %.3f" %(inBeamPosition)
+    print "outOfBeamPosition = %.3f" %(outOfBeamPosition)
+    print "exposureTime = %.3f" %(exposureTime)
+    print "start = %.3f" %(start)
+    print "step = %.3f" %(step)
+    
+    print "startVert = %.3f" %(startVert)
+    print "helicalPitch = %.3f" %(helicalPitch)
+    print "totVertIncrInPitchUnits = %.3f" %(totVertIncrInPitchUnits)
+    
     try:
+        startTm = datetime.datetime.now();
         darkFieldInterval = int(darkFieldInterval)
         flatFieldInterval = int(flatFieldInterval)
         
@@ -365,4 +385,11 @@ def tomoHelicalScan(description, inBeamPosition, outOfBeamPosition, exposureTime
     except :
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "Error in tomoScan", exceptionType, exception, traceback, True)
+    finally:
+        endTm = datetime.datetime.now()
+        elapsedTm = endTm - startTm
+        jns=beamline_parameters.JythonNameSpaceMapping()
+        if isLive():
+            print("This scan's data can be found in Nexus scan file %s." %(jns.lastScanDataPoint().currentFilename))
+        print("Elapsed time (in the format [D day[s], ][H]H:MM:SS[.UUUUUU]): %s" %(str(elapsedTm)))
 

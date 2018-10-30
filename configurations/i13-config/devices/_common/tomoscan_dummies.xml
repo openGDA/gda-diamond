@@ -20,5 +20,11 @@
 	<bean id="ss1_X_dummy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ss1_X_dummy_motor" />
 	</bean>
+	<bean id="ss1_sampley_dummy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="200" />
+	</bean>
+	<bean id="ss1_sampley_dummy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss1_sampley_dummy_motor" />
+	</bean>
 
 </beans>

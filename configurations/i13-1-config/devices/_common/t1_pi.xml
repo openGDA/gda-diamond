@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="t1_pi_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_pi_x_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="t1_pi_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_pi_y_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="t1_pi_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_pi_z_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+	
+	<bean id="t1_pi_xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_pi_x" />
+				<ref bean="t1_pi_y" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="t1_pi" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_pi_x" />
+				<ref bean="t1_pi_y" />
+				<ref bean="t1_pi_z" />
+			</list>
+		</property>
+	</bean>	
+	
+</beans>

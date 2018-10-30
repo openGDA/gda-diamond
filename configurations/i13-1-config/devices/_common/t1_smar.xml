@@ -1,0 +1,61 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--  the motors assignments and scaling will need to be reset once EPICS is correct-->
+	<bean id="t1_smar_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_sx_motor" />
+	</bean>
+
+	<bean id="t1_smar_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_sy_motor" />
+	</bean>
+
+	<bean id="t1_smar_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="t1_sz_motor" />
+	</bean>
+
+	<bean id="t1_smar_ixy" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="t1_smar_ixy"/>
+	</bean>
+	
+	<bean id="t1_smar_xy_plotter" class="gda.device.scannable.TwoDScanPlotter">
+		<property name="name" value="t1_smar_xy_plotter" />
+		<property name="z_colName" value="total" />
+	</bean>
+	
+	<!-- we should have the ability to not count hot pixels however they are specified. -->
+	<bean id="t1_smar_xyz_plotter" class="gda.device.scannable.TwoDScanPlotter">
+		<property name="name" value="t1_smar_xyz_plotter" />
+		<property name="z_colName" value="total" />
+	</bean>
+	
+	<bean id="t1_smar_xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_smar_x" />
+				<ref bean="t1_smar_y" />
+				<ref bean="t1_smar_ixy" />
+				<ref bean="t1_smar_xy_plotter" />
+				<ref bean="t1_smar_xyz_plotter" />
+			</list>
+		</property>
+	</bean>		
+	
+	<bean id="t1_smar" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="t1_smar_x" />
+				<ref bean="t1_smar_y" />
+				<ref bean="t1_smar_z" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

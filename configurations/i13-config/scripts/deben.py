@@ -1,5 +1,6 @@
 from epics_scripts.pv_scannable_utils import caput, caget
 from positionCompareMotorClass import PositionCompareMotorClass
+from epics_scripts.pv_scannable_utils import createPVScannable
 
 #def __init__(self, name, pvinstring, pvoutstring, pvstopstring, tolerance, unitstring, formatstring):
 
@@ -47,3 +48,5 @@ def deben_after_ioc_restart():
         print("Error in %s: %s" %(fname, str(e)))
     
     
+dbn_tension_rbv = createPVScannable("dbn_tension_rbv", "BL13I-EA-DOF-01:RIG:TENSIONFORCE")
+dbn_torsion_rbv = createPVScannable("dbn_torsion_rbv", "BL13I-EA-DOF-01:RIG:TORSIONFORCE")
