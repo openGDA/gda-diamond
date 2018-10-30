@@ -14,6 +14,7 @@ from gdascripts.analysis.datasetprocessor.oned.TwoGaussianEdges import TwoGaussi
 from gdascripts.scan.process.ScanDataProcessor import ScanDataProcessor
 from gdascripts.scan import specscans
 from gdascripts.scan import gdascans
+from gdaserver import dataPointCache
 
 from ScanFileProcessing import getFileProcessor
 
@@ -41,7 +42,7 @@ mxpav.formatString = 'maxval at %-12.6gmaxval = %.6g'
 mnpav = MinPositionAndValue()
 mnpav.formatString = 'minval at %-12.6gminval = %.6g'
 
-scan_processor = ScanDataProcessor([mnpav, mxpav, gpab, ge, tge], globals())
+scan_processor = ScanDataProcessor([mnpav, mxpav, gpab, ge, tge], globals(), scanDataPointCache=dataPointCache)
 
 go = scan_processor.go
 alias("go")
