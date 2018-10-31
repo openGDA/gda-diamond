@@ -45,15 +45,6 @@
         <property name="protectionLevel" value="2"/>
     </bean>
 
-    <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="IonChamber">
-        <property name="detectorType" value="CALIB"/>
-        <property name="memory" ref="CalibMemory"/>
-        <property name="units" value="counts"/>
-        <property name="channel" value="2"/>
-        <property name="label" value="data"/>
-        <property name="scalingAndOffset" ref="sao1"/>
-    </bean>
-
     <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="I0">
         <property name="detectorType" value="CALIB"/>
         <property name="memory" ref="CalibMemory"/>
@@ -116,6 +107,16 @@
             <property name="detectorType" value="WAXS"/>
             <property name="visitMeta" ref="visit"/>
             <property name="configFileName" value="saxs_masks" />
+        </bean>
+    </beans>
+    <beans profile="ionchamber">
+        <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="IonChamber">
+            <property name="detectorType" value="CALIB"/>
+            <property name="memory" ref="CalibMemory"/>
+            <property name="units" value="counts"/>
+            <property name="channel" value="2"/>
+            <property name="label" value="data"/>
+            <property name="scalingAndOffset" ref="sao1"/>
         </bean>
     </beans>
 </beans>
