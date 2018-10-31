@@ -12,9 +12,10 @@
 	</bean>
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="local" value="true" />
-		<property name="edxdControllerName" value="edxdcontroller" />
+		<property name="edxdController" ref="edxdcontroller" />
 	</bean>
 	<bean id="xmap" class="uk.ac.gda.server.ncd.subdetector.NcdXmapDetector">
 		<property name="xmapControllerName" value="xmapcontroller" />
+		<property name="xmapController" ref="xmapcontroller" />
 	</bean>
 </beans>
