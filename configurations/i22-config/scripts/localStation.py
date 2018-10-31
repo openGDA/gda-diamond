@@ -90,19 +90,24 @@ from setup import gridscan
 
 print "Create ncdgridscan"
 try:
-       del(gridxy)
+	del(gridxy)
 except:
-       pass
+	pass
 
-gridxy=ScannableGroup()
-gridxy.setName("gridxy")
-gridxy.setGroupMembers([base_x, base_y])
-gridxy.configure()
 try:
-	ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", mfgige, gridxy, ncddetectors)
+	gridxy=ScannableGroup()
+	gridxy.setName("gridxy")
+	if 'gridscan_stage' in globals():
+		stage = globals()['gridscan_stage']
+	else:
+		stage = [mfstage_x, mfstage_y]
+	gridxy.setGroupMembers(stage)
+	gridxy.configure()
+	ncdgridscan=gridscan.Grid("Microscope View", "Mapping Grid", d13gige, gridxy, ncddetectors)
 	ncdgridscan.snap()
-except:
+except Exception as e:
 	print "Could not configure ncdgridscan"
+	print '    ' + str(e)
 
 try:
 	from setup import metadatatweaks
