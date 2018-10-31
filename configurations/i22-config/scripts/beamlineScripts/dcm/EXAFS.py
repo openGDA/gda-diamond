@@ -1,4 +1,5 @@
 # # Script performing EXAfS scan on V, Fe, Cu, Zn, Au, Zr and Mo
+from gdaserver import d4d2
 
 pitch_start = 0
 
@@ -16,10 +17,8 @@ pos d4filter 'Scatter Diode'
 # pos energy 5.465
 # 
 # pos dcm_finepitch 0
-# pos dcm_pitch pitch_start
-# rscan dcm_finepitch -100 100 0.5 d6d1
-# inc dcm_finepitch -100
-# go maxval
+# pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
+# i22_common.moveToPosition("dcm_finepitch",pitchResult)
 # 
 # e1 = 5.465 - erange
 # e2 = 5.465 + erange
@@ -31,10 +30,8 @@ pos d4filter 'Scatter Diode'
 # pos energy 7.112
 # 
 # pos dcm_finepitch 0
-# pos dcm_pitch pitch_start
-# rscan dcm_finepitch -100 100 0.5 d6d1
-# inc dcm_finepitch -100
-# go maxval
+# pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
+# i22_common.moveToPosition("dcm_finepitch",pitchResult)
 # 
 # e1 = 7.112 -erange
 # e2 = 7.112 + erange
@@ -46,59 +43,60 @@ pos d4filter 'Scatter Diode'
 # pos energy 8.9789
 # 
 # pos dcm_finepitch 0
-# pos dcm_pitch pitch_start
-# rscan dcm_finepitch -100 100 0.5 d6d1
-# inc dcm_finepitch -100
-# go maxval
+# pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
+# i22_common.moveToPosition("dcm_finepitch",pitchResult)
 # 
 # e1 = 8.9789 -erange
 # e2 = 8.9789 + erange
 # setTitle("Copper K EXAFS")
 # scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
-# 
-# #Zn
-# pos d5motor 60.5
-# pos energy 9.6586
-# 
-# pos dcm_finepitch 0
-# pos dcm_pitch pitch_start
-# rscan dcm_finepitch -100 100 0.5 d6d1
-# inc dcm_finepitch -100
-# go maxval
-# 
-# e1 = 9.6586 -erange
-# e2 = 9.6586 + erange
-# setTitle("Zinc K EXAFS")
-# scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
+
+#Zn
+pos d5motor 60.5
+pos energy 9.6586
+
+pos dcm_finepitch 0
+pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
+i22_common.moveToPosition("dcm_finepitch",pitchResult)
+
+e1 = 9.6586 -erange
+e2 = 9.6586 + erange
+setTitle("Zinc K EXAFS")
+scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
+
+#Au
+pos d5motor 39.2
+pos energy 11.919
+
+pos dcm_finepitch 0
+pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
+i22_common.moveToPosition("dcm_finepitch",pitchResult)
+
+e1 = 11.919 -erange
+e2 = 11.919 + erange
+setTitle("Gold LIII EXAFS")
+scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
 
 #Zr
-# pos d5motor 6.3
-# pos energy 17.997
-# 
-# pos dcm_finepitch 0
-# pos dcm_pitch pitch_start
-# pos dcm_finepitch -100
-# sleep (1)
-# scan dcm_finepitch -100 100 0.5 d6d1
-# pos dcm_finepitch -100
-# go maxval
+pos d5motor 6.3
+pos energy 17.997
 
-# e1 = 17.997 -erange
-# e2 = 17.997 + erange
-# setTitle("Zirconium K EXAFS")
-# scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
+pos dcm_finepitch 0
+pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
+i22_common.moveToPosition("dcm_finepitch",pitchResult)
+
+e1 = 17.997 -erange
+e2 = 17.997 + erange
+setTitle("Zirconium K EXAFS")
+scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
 
 #Mo
 pos d5motor 17.5
 pos energy 19.999
 
 pos dcm_finepitch 0
-pos dcm_pitch pitch_start
-pos dcm_finepitch -100
-sleep (1)
-scan dcm_finepitch -100 100 0.5 d6d1
-pos dcm_finepitch -100
-go maxval
+pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
+i22_common.moveToPosition("dcm_finepitch",pitchResult)
 
 e1 = 19.999 -erange
 e2 = 19.999 + erange
