@@ -34,12 +34,15 @@ import gov.aps.jca.event.MonitorListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.gda.api.remoting.ServiceInterface;
+import uk.ac.gda.server.ncd.subdetector.INcdSubDetector;
 import uk.ac.gda.server.ncd.subdetector.NcdWireDetector;
 import uk.ac.gda.server.ncd.subdetector.corba.impl.SubdetectorAdapter;
 import uk.ac.gda.server.ncd.subdetector.corba.impl.SubdetectorImpl;
 
 @CorbaAdapterClass(SubdetectorAdapter.class)
 @CorbaImplClass(SubdetectorImpl.class)
+@ServiceInterface(INcdSubDetector.class)
 public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
 	
 	private class GasFlowException extends DeviceException {
