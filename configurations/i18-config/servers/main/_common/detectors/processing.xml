@@ -6,6 +6,7 @@
 	 <bean id="clusterProcessing" class="org.eclipse.scanning.api.device.models.ClusterProcessingModel">
 		<property name="name" value="processing"/>
 		<property name="detectorName" value="malcolm"/>
+		<property name="timeOut" value="600000" /> <!-- 10 mins -->
 	 </bean>
 	 <bean id="clusterProcessingInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Processing"/>
