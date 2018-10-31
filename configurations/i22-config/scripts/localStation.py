@@ -1,6 +1,7 @@
 #localStation.py
 #For beamline specific initialisation code.
 #
+from gdaserver import ncddetectors
 print "===================================================================";
 print "Performing beamline specific initialisation code (i22).";
 print
@@ -13,8 +14,19 @@ from time import sleep
 from gda.factory import Finder
 from gda.jython.commands.GeneralCommands import alias
 from setup.tfgsetup import setupTfg, addGroup, tfgGroups, fs
+from setup.ncddetectorConfig import NcdChannel
+import logging
+logger = logging.getLogger('localStation')
 
 alias('fs')
+
+try:
+	print 'Running beamline staff configuration (localStationStaff.py)'
+	run('localStationStaff.py')
+except Exception as e:
+	print 'Error running beamline staff configuration'
+	print e
+	logger.error('Failed to run beamline staff configuration', exc_info=True)
 
 
 # Get the locatation of the GDA beamline script directory
@@ -129,6 +141,18 @@ string = uk.ac.gda.server.ncd.config.DeviceLister.generateDeviceListHTML()
 gda.util.ElogEntry.postAsyn("device list from gda", string, "gda", None, "BLI22", "BLI22-RUNL", None)
 print "importing bimorph"
 import bimorph
+
+try:
+    for channel, conf in scaler_channels.items():
+        for det in ncddetectors.detectors:
+            if det.name == channel:
+                det.channel = conf.channel
+                det.scalingAndOffset = conf.scaling
+except NameError as ne:
+    print 'No user configuration for It and I0. Using defaults'
+except Exception as e:
+    print 'Could not apply user settings for It/I0'
+    print '    ' + str(e)
 
 #print "creating sampleCam and adding to ncdDetectors"
 #execfile(gdaScriptDir + "sampleCam.py")
