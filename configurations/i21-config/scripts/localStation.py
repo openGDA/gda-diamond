@@ -206,7 +206,7 @@ print "*"*80
 print "import DIFFCALC support for I21"
 from startup.i21 import *  # @UnusedWildImport
 toolpoint_off()  # @UndefinedVariable
-demo=I21Demo(globals())
+
 
 #Mapping scan
 from mapping_scan_commands import *
@@ -225,15 +225,15 @@ def acquireRIXS(n, det, exposure_time, *args):
     
 alias("acquireRIXS")
 
-if not installation.isLive():
-    print "Testing scan in hkl using DiffCalc ...."
-    newub('test_i21')  # @UndefinedVariable
-    setlat('test_i21', 3.78, 3.78, 20.1, 90, 90, 90)  # @UndefinedVariable
-    setub([[0.00000, 0.00000, 0.31260], [1.17537, -1.17537, 0.00000], [1.17537, 1.17537, 0.00000]])  # @UndefinedVariable
-    con(a_eq_b)  # @UndefinedVariable
-    setnhkl([0, 0, 1])  # @UndefinedVariable
-#     scan(h, .1, .2, .1, k, .1, .2, .1, l, .1, .2, .1, fourc, ct, 1)  # @UndefinedVariable
-    print "scan in hkl test completed."
+# if not installation.isLive():
+#     print "Testing scan in hkl using DiffCalc ...."
+#     newub('test_i21')  # @UndefinedVariable
+#     setlat('test_i21', 3.78, 3.78, 20.1, 90, 90, 90)  # @UndefinedVariable
+#     setub([[0.00000, 0.00000, 0.31260], [1.17537, -1.17537, 0.00000], [1.17537, 1.17537, 0.00000]])  # @UndefinedVariable
+#     con(a_eq_b)  # @UndefinedVariable
+#     setnhkl([0, 0, 1])  # @UndefinedVariable
+# #     scan(h, .1, .2, .1, k, .1, .2, .1, l, .1, .2, .1, fourc, ct, 1)  # @UndefinedVariable
+#     print "scan in hkl test completed."
     
     
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
