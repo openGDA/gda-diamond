@@ -18,7 +18,7 @@
 		<property name="psdScannableMotor" ref="delta"/>
 		<property name="psdSafePosition" ref="psdsafeposition"/>
 		<property name="scriptController" ref="dataFilenameObserver"/>
-		<property name="local" value="true"/>
+		<property name="local" value="false"/>
 		<property name="level" value="9"/>
 	</bean>
 	
