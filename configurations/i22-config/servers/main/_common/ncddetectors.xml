@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-
-<!-- <import resource="pilatus_saxs.xml"/> -->
-<!-- <import resource="pilatus_waxs_l.xml"/> -->
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    profile="ncddetectors,saxs,waxs"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean class="gda.device.timer.Etfg" id="Tfg">
         <property name="daServerName" value="DAServer"/>
@@ -48,15 +45,6 @@
         <property name="protectionLevel" value="2"/>
     </bean>
 
-    <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="IonChamber">
-        <property name="detectorType" value="CALIB"/>
-        <property name="memory" ref="CalibMemory"/>
-        <property name="units" value="counts"/>
-        <property name="channel" value="2"/>
-        <property name="label" value="data"/>
-        <property name="scalingAndOffset" ref="sao1"/>
-    </bean>
-
     <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="I0">
         <property name="detectorType" value="CALIB"/>
         <property name="memory" ref="CalibMemory"/>
@@ -94,39 +82,41 @@
                 <ref bean="scanStartFastShutterAction"/>
             </list>
         </property>
-        <property name="detectors">
-            <list>
-                <ref bean="Pilatus2M_SAXS"/>
-                <ref bean="Pilatus2M_WAXS"/>
-                <!-- <ref bean="Hotwaxs" /> -->
-                <ref bean="Scalers"/>
-                <!-- <ref bean="IonChamber" /> -->
-                <ref bean="I0"/>
-                <ref bean="It"/>
-                <ref bean="TfgTimes"/>
-                <!--			<ref bean="xmap" />-->
-            </list>
-        </property>
+        <property name="detectors" value="#{getBeanFactory().getBeansOfType(Class.forName('uk.ac.gda.server.ncd.subdetector.INcdSubDetector')).values()}"/>
     </bean>
 
-    <bean id="saxs_mask" class="uk.ac.gda.server.ncd.meta.NcdMaskLink">
-        <property name="detectorType" value="SAXS"/>
-        <property name="visitMeta" ref="visit"/>
-        <property name="configFileName" value="saxs_masks" />
-    </bean>
-    <bean id="saxs_cal" class="uk.ac.gda.server.ncd.meta.NcdCalibration">
-        <property name="detectorType" value="SAXS"/>
-        <property name="visitMeta" ref="visit"/>
-        <property name="configFileName" value="saxs_masks" />
-    </bean>
-    <bean id="waxs_mask" class="uk.ac.gda.server.ncd.meta.NcdMaskLink">
-        <property name="detectorType" value="WAXS"/>
-        <property name="visitMeta" ref="visit"/>
-        <property name="configFileName" value="saxs_masks" />
-    </bean>
-    <bean id="waxs_cal" class="uk.ac.gda.server.ncd.meta.NcdCalibration">
-        <property name="detectorType" value="WAXS"/>
-        <property name="visitMeta" ref="visit"/>
-        <property name="configFileName" value="saxs_masks" />
-    </bean>
+    <beans profile="saxs" >
+        <bean id="saxs_mask" class="uk.ac.gda.server.ncd.meta.NcdMaskLink">
+            <property name="detectorType" value="SAXS"/>
+            <property name="visitMeta" ref="visit"/>
+            <property name="configFileName" value="saxs_masks" />
+        </bean>
+        <bean id="saxs_cal" class="uk.ac.gda.server.ncd.meta.NcdCalibration">
+            <property name="detectorType" value="SAXS"/>
+            <property name="visitMeta" ref="visit"/>
+            <property name="configFileName" value="saxs_masks" />
+        </bean>
+    </beans>
+    <beans profile="waxs" >
+        <bean id="waxs_mask" class="uk.ac.gda.server.ncd.meta.NcdMaskLink">
+            <property name="detectorType" value="WAXS"/>
+            <property name="visitMeta" ref="visit"/>
+            <property name="configFileName" value="saxs_masks" />
+        </bean>
+        <bean id="waxs_cal" class="uk.ac.gda.server.ncd.meta.NcdCalibration">
+            <property name="detectorType" value="WAXS"/>
+            <property name="visitMeta" ref="visit"/>
+            <property name="configFileName" value="saxs_masks" />
+        </bean>
+    </beans>
+    <beans profile="ionchamber">
+        <bean class="uk.ac.gda.server.ncd.subdetector.SingleScalerWithScalingAndOffset" id="IonChamber">
+            <property name="detectorType" value="CALIB"/>
+            <property name="memory" ref="CalibMemory"/>
+            <property name="units" value="counts"/>
+            <property name="channel" value="2"/>
+            <property name="label" value="data"/>
+            <property name="scalingAndOffset" ref="sao1"/>
+        </bean>
+    </beans>
 </beans>

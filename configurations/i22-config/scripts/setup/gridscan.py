@@ -165,7 +165,7 @@ class Grid(DataWriterExtenderBase):
 					if isinstance(self.getSaxsDetector(), LastImageProvider):
 						ds=self.getSaxsDetector().readLastImage()
 				if ds is not None:
-					RCPPlotter.plotImageToGrid(self.gridPanel,ds._jdataset(),pno/self.dimensions[0],pno%self.dimensions[0],True)
+					RCPPlotter.plotImageToGrid(self.gridPanel,ds,pno/self.dimensions[0],pno%self.dimensions[0],True)
 		except:
 			type, exception, traceback = sys.exc_info()
 			handle_messages.log(None, "Error in grid_scan.addData", type, exception, traceback, False)		

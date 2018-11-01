@@ -48,10 +48,10 @@
 #sbpmxminus = DisplayEpicsPVClass("sbpmxminus","BL22I-AL-SLITS-04:BPM:BPMI2","V","%.6f")
 #ic = DisplayEpicsPVClass("ic","BL22I-DI-PHDGN-10:DIODE1:I","uA","%.5e")
 
-xrayeye_centroid_x = DisplayEpicsPVClass("xrayeye_centroid_x","BL22I-DI-PHDGN-12:STAT:CentroidX_RBV","px","%.6f")
-xrayeye_centroid_y = DisplayEpicsPVClass("xrayeye_centroid_y","BL22I-DI-PHDGN-12:STAT:CentroidY_RBV","px","%.6f")
+#xrayeye_centroid_x = DisplayEpicsPVClass("xrayeye_centroid_x","BL22I-DI-PHDGN-12:STAT:CentroidX_RBV","px","%.6f")
+#xrayeye_centroid_y = DisplayEpicsPVClass("xrayeye_centroid_y","BL22I-DI-PHDGN-12:STAT:CentroidY_RBV","px","%.6f")
 
-EPICS_energy = DisplayEpicsPVClass("EPICS_energy", "BL22I-OP-DCM-01:ENERGY.RBV", "keV", "%.4f")
+#EPICS_energy = DisplayEpicsPVClass("EPICS_energy", "BL22I-OP-DCM-01:ENERGY.RBV", "keV", "%.4f")
 
 #s1ypos = DisplayEpicsPVClass("qbpmypos","BL22I-DI-IAMP-06:YPOS","mm","%.5qe")
 #s1xpos = DisplayEpicsPVClass("qbpmypos","BL22I-DI-IAMP-06:YPOS","mm","%.5qe")
@@ -62,7 +62,10 @@ EPICS_energy = DisplayEpicsPVClass("EPICS_energy", "BL22I-OP-DCM-01:ENERGY.RBV",
 #roomtemp4=DisplayEpicsPVClass("roomtemp4","BL22I-EA-ROOM-01:TEMP4","deg","%5.4f")
 #roomtemp5=DisplayEpicsPVClass("roomtemp5","BL22I-EA-ROOM-01:TEMP5","deg","%5.4f")
 #roomtemp6=DisplayEpicsPVClass("roomtemp6","BL22I-EA-ROOM-01:TEMP6","deg","%5.4f")
-
+#roomtemp7=DisplayEpicsPVClass("roomtemp7","BL22I-EA-ROOM-02:TEMP1","deg","%5.4f")
+#roomtemp8=DisplayEpicsPVClass("roomtemp8","BL22I-EA-ROOM-02:TEMP2","deg","%5.4f")
+#roomtemp9=DisplayEpicsPVClass("roomtemp9","BL22I-EA-ROOM-02:TEMP3","deg","%5.4f")
+#roomtemp10=DisplayEpicsPVClass("roomtemp10","BL22I-EA-ROOM-02:TEMP4","deg","%5.4f")
 #Eurotherm=DisplayEpicsPVClass("Eurotherm","BL22I-EA-TEMPC-02:PV:RBV","deg","%5.2f")
 
 #alioy1=DisplayEpicsPVClass("alioy1","BL22I-MO-TABLE-06:Y1.RBV","mm","%.5qe")
@@ -96,5 +99,7 @@ EPICS_energy = DisplayEpicsPVClass("EPICS_energy", "BL22I-OP-DCM-01:ENERGY.RBV",
 #qbpmyplus = DisplayEpicsPVClass("qbpmyplus","BL22I-DI-PHDGN-07:Y:PLUS:I","V","%.4e")
 #qbpmyminus = DisplayEpicsPVClass("qbpmyminus","BL22I-DI-PHDGN-07:Y:MINUS:I","V","%.4e")
 #qbpmxplus = DisplayEpicsPVClass("qbpmxplus","BL22I-DI-PHDGN-07:X:PLUS:I","V","%.4e")
-#qbpmxminus = DisplayEpicsPVClass("qbpmxminus","BL22I-DI-PHDGN-07:X:MINUS:I","V","%.4e")
+#qbpmxminus = DisplayEpicsPVClass("qbpmxminus","BL22I-DI-PHDGN-07:X:MINUS:I","V","%.
+piezo_vfm=DisplayEpicsPVClass("piezo_vfm","BL22I-OP-KBM-01:VFM:FY3:RBV","V","%5.4f")
+piezo_hfm=DisplayEpicsPVClass("piezo_hfm","BL22I-OP-KBM-01:HFM:FY3:RBV","V","%5.4f")
 
