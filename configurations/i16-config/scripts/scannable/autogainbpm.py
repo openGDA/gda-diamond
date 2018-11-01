@@ -16,7 +16,6 @@ class AutogainBpm(ScannableBase):
                             None,
                             _cam1_for_snaps,
                             [],
-                            panel_name='Firecam',
                             panel_name_rcp='Plot 1', 
                             fileLoadTimout=60,
                             printNfsTimes=False,

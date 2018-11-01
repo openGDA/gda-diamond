@@ -234,14 +234,14 @@
 	</bean>
 
 	<bean id="kphiZebra" class="gda.device.zebra.ZebraScannableMotor">
-		<property name="motor" ref="sixcKphiMotor" />
+		<property name="motor" ref="sixcKphiEpicsMotor" />
 		<property name="local" value="true" />
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
 		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
 	</bean>
 
 	<bean id="kthZebra" class="gda.device.zebra.ZebraScannableMotor">
-		<property name="motor" ref="sixcKthMotor" />
+		<property name="motor" ref="sixcKthEpicsMotor" />
 		<property name="local" value="true" />
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
 		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
