@@ -1,29 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="operationmode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
 		<property name="local" value="false" />
 	</bean>
 	<bean id="fillmode" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
-		<property name="deviceName" value="MSTAT.FILL"/>
+		<property name="recordName" value="LI-TI-MTGEN-01:MODE" />
 	</bean>
-	<bean id="ringcurrent" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="MSTAT.CURRENT"/>
+	<bean id="ringcurrent" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
 	</bean>
-	<bean id="ringenergy" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="MSTAT.ENERGY"/>
+	<bean id="ringenergy" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
 	</bean>
-	<bean id="idgap" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="MSTAT.GAP"/>
+	<bean id="idgap" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR11I-MO-SERVC-01:CURRGAPD" />
 	</bean>
-	<bean id="idname" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="MSTAT.IDNAME"/>
+	<bean id="idname" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR11I-MO-STAT-01:IDNAME" />
 	</bean>
-	<bean id="lifetime" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="MSTAT.LIFETIME"/>
+	<bean id="lifetime" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-DI-DCCT-01:LIFE120" />
 	</bean>
 	<bean id="countdown" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />

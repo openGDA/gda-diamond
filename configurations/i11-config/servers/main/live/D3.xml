@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="d3screen" class="gda.spring.EpicsPneumaticFactoryBean">
-		<property name="deviceName" value="D3.SCREEN"/>
+	<bean id="d3screen" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="pvBase" value="BL11I-DI-PHDGN-03" />
 	</bean>
 </beans>

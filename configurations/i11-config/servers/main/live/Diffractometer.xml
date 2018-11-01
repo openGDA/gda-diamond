@@ -1,32 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Diffractometer Motors -->
 	<bean id="tth_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.TTH"/>
+		<property name="pvName" value="BL11I-MO-DIFF-01:2THETA" />
 	</bean>
 	<bean id="theta_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.TH"/>
+		<property name="pvName" value="BL11I-MO-DIFF-01:THETA" />
 	</bean>
 	<bean id="delta_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.DELTA"/>
+		<property name="pvName" value="BL11I-MO-DIFF-01:DELTA" />
 	</bean>
 	<bean id="trans_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFFB.X"/>
+		<property name="pvName" value="BL11I-MO-DIFF-01:BASE:X" />
 	</bean>
 	<bean id="y1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFFB.Y1"/>
+		<property name="pvName" value="BL11I-MO-DIFF-01:BASE:Y1" />
 	</bean>
 	<bean id="y2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFFB.Y2"/>
+		<property name="pvName" value="BL11I-MO-DIFF-01:BASE:Y2" />
 	</bean>
 	<bean id="y3_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFFB.Y3"/>
+		<property name="pvName" value="BL11I-MO-DIFF-01:BASE:Y3" />
 	</bean>
 	<!-- Sample Positioner motor -->
 	<bean id="spos_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF.SPOS"/>
+		<property name="pvName" value="BL11I-MO-DIFF-01:SPOS" />
 	</bean>
 </beans>

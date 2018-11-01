@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="spin" class="gda.device.spin.Spin">
-		<property name="enableName" value="SPIN.ENABLE"/>
-		<property name="speedName" value="SPIN.SPEED"/>
+		<property name="enablePV" value="BL11I-EA-ENV-01:SPIN:DISABLE" />
+		<property name="speedPV" value="BL11I-EA-ENV-01:SPIN:SPEED" />
 	</bean>
 
 </beans>

@@ -1,18 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="gbdtemp1" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="GBC.TEMP1"/>
+	<bean id="gbdtemp1" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11I-RS-ABSB-01:TEMP1" />
 	</bean>
-	<bean id="gbdtemp2" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="GBC.TEMP2"/>
+	<bean id="gbdtemp2" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11I-RS-ABSB-01:TEMP2" />
 	</bean>
-	<bean id="gbdtemp3" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="GBC.TEMP3"/>
+	<bean id="gbdtemp3" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11I-RS-ABSB-01:TEMP3" />
 	</bean>
-	<bean id="gbdtemp4" class="gda.spring.EpicsMonitorFactoryBean">
-		<property name="deviceName" value="GBC.TEMP4"/>
+	<bean id="gbdtemp4" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL11I-RS-ABSB-01:TEMP4" />
 	</bean>
 </beans>

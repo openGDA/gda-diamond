@@ -1,37 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="robot_controller" class="gda.device.robot.RobotNX100Controller">
-		<property name="deviceName" value="ROBOT.ROBOT"/>
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
 		<!-- TODO use explicit path to file -->
-		<property name="errorCodeFilename" value="motoman_error_code.txt"/>
+		<property name="errorCodeFilename" value="motoman_error_code.txt" />
+		<property name="pvName" value="BL11I-EA-ROBOT-01" />
 	</bean>
+
 	<bean id="samplechange_controller" class="gda.device.robot.RobotSampleState">
-		<property name="deviceName" value="ROBOT.SSTATE"/>
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
+		<property name="pvName" value="BL11I-EA-ROBOT-01:D010:RBV" />
 	</bean>
+
 	<bean id="doorLatch_controller" class="gda.device.robot.DoorLatchState">
-		<property name="deviceName" value="ROBOT.NEEDRECOVER"/>
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
+		<property name="pvName" value="BL11I-EA-ROBOT-01:NEEDRECOVER" />
 	</bean>
+
 	<bean id="nextsampleposition_controller" class="gda.device.robot.NextSamplePosition">
-		<property name="deviceName" value="ROBOT.SNUM"/>
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
+		<property name="pvName" value="BL11I-EA-ROBOT-01:D011" />
 	</bean>
+
 	<bean id="currentsampleposition_controller" class="gda.device.robot.CurrentSamplePosition">
-		<property name="deviceName" value="ROBOT.SNUMRBV"/>
-		<property name="local" value="true"/>
+		<property name="local" value="true" />
+		<property name="pvName" value="BL11I-EA-ROBOT-01:D012:RBV" />
 	</bean>
 
 	<bean id="sample" class="gda.device.robot.I11Robot">
-		<property name="robotController" ref="robot_controller"/>
-		<property name="sampleStateController" ref="samplechange_controller"/>
-		<property name="nextSampleNumberController" ref="nextsampleposition_controller"/>
-		<property name="currentSampleNumberController" ref="currentsampleposition_controller"/>
-		<property name="doorLatch" ref="doorLatch_controller"/>
+		<property name="robotController" ref="robot_controller" />
+		<property name="sampleStateController" ref="samplechange_controller" />
+		<property name="nextSampleNumberController" ref="nextsampleposition_controller" />
+		<property name="currentSampleNumberController" ref="currentsampleposition_controller" />
+		<property name="doorLatch" ref="doorLatch_controller" />
 	</bean>
 
 </beans>

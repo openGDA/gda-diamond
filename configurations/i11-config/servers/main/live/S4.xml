@@ -1,48 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
 	<!--  QBPM -->
 	<bean id="s4bpm" class="gda.device.qbpm.EpicsQbpm">
-		<property name="currAmpController" ref="s4_amp"/>
-		<property name="bpmController" ref="s4_bpm"/>
+		<property name="currAmpController" ref="s4_amp" />
+		<property name="bpmController" ref="s4_bpm" />
 	</bean>
 
 	<bean id="s4_amp" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
-		<property name="deviceName" value="S4.AMP"/>
-		<property name="poll" value="true"/>
+		<property name="rangePv" value="BL11I-DI-IAMP-04:SETRANGE" />
+		<property name="rangeRbvPv" value="BL11I-DI-IAMP-04:MRREADBACK" />
+		<property name="current1Pv" value="BL11I-AL-SLITS-04:BPMI1"/>
+		<property name="current2Pv" value="BL11I-AL-SLITS-04:BPMI2"/>
+		<property name="current3Pv" value="BL11I-AL-SLITS-04:BPMI3"/>
+		<property name="current4Pv" value="BL11I-AL-SLITS-04:BPMI4"/>
+		<property name="poll" value="true" />
 	</bean>
 	<bean id="s4_bpm" class="gda.device.monitor.EpicsBpmController">
-		<property name="deviceName" value="S4.BPM"/>
-		<property name="poll" value="true"/>
+		<property name="poll" value="true" />
+		<property name="pvName" value="BL11I-AL-SLITS-04" />
 	</bean>
 
 	<!-- S4 Motors (individual Motions) -->
 	<bean id="s4xminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.XMINUS"/>
+		<property name="pvName" value="BL11I-AL-SLITS-04:X:MINUS" />
 	</bean>
 	<bean id="s4xplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.XPLUS"/>
+		<property name="pvName" value="BL11I-AL-SLITS-04:X:PLUS" />
 	</bean>
 	<bean id="s4yminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.YMINUS"/>
+		<property name="pvName" value="BL11I-AL-SLITS-04:Y:MINUS" />
 	</bean>
 	<bean id="s4yplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.YPLUS"/>
+		<property name="pvName" value="BL11I-AL-SLITS-04:Y:PLUS" />
 	</bean>
 	<!-- S4 Motors (Compound Motions) -->
 	<bean id="s4xpos_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.XCENTRE"/>
+		<property name="pvName" value="BL11I-AL-SLITS-04:X:CENTRE" />
 	</bean>
 	<bean id="s4xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.XSIZE"/>
+		<property name="pvName" value="BL11I-AL-SLITS-04:X:SIZE" />
 	</bean>
 	<bean id="s4ypos_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.YCENTRE"/>
+		<property name="pvName" value="BL11I-AL-SLITS-04:Y:CENTRE" />
 	</bean>
 	<bean id="s4ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S4.YSIZE"/>
+		<property name="pvName" value="BL11I-AL-SLITS-04:Y:SIZE" />
 	</bean>
 </beans>

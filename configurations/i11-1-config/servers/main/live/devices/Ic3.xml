@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="Ic3" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-		<property name="deviceName" value="IC3.AMP"/>
-		<property name="enableValueMonitoring" value="false"/>
+		<property name="enableValueMonitoring" value="false" />
+		<property name="pvName" value="BL11I-DI-IONC-03:PHD1" />
 	</bean>
 </beans>
