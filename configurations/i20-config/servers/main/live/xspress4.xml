@@ -3,12 +3,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-<!-- Controller for XSpress4  -->
-	<bean id="controllerForXspress4"
+<!-- Controllers for XSpress4  -->
+	<bean id="xspress3Controller"
 		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
-<!-- 		Need to update this PV to point to XSpress4  -->
 		<property name="epicsTemplate" value="BL20I-EA-XSP4-01" />
 		<property name="numberOfChannels" value="64"/>
+	</bean>
+
+	<bean id="xspress4Controller"  class="uk.ac.gda.devices.detector.xspress4.EpicsXspress4Controller">
+		<property name="basePv" value="BL20I-EA-XSP4-01" />
+		<property name="numElements" value="64" />
+		<property name="numMcaChannels" value="4096" />
+		<property name="numScalers" value="8" />
 	</bean>
 
  	<bean id="DAServer_xspress4" class="gda.device.detector.DAServer"> 
