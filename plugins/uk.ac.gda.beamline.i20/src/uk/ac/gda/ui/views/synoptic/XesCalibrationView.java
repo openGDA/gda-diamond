@@ -31,8 +31,6 @@ import gda.jython.InterfaceProvider;
 
 public class XesCalibrationView extends HardwareDisplayComposite {
 
-	public static final String ID = "uk.ac.gda.ui.views.synoptic.XesCalibrationView";
-
 	public XesCalibrationView(Composite parent, int style) {
 		super(parent, style, new GridLayout(1,false));
 	}

@@ -26,12 +26,10 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 
 import gda.device.Scannable;
-import gda.device.scannable.scannablegroup.corba.impl.ScannablegroupAdapter;
+import gda.device.scannable.scannablegroup.IScannableGroup;
 import gda.factory.Finder;
 
 public class HutchFilterView extends HardwareDisplayComposite {
-
-	public static final String ID = "uk.ac.gda.ui.views.synoptic.HutchFilterView";
 
 	public HutchFilterView(Composite parent, int style) {
 		super(parent, style, new GridLayout(1,false));
@@ -41,7 +39,7 @@ public class HutchFilterView extends HardwareDisplayComposite {
 	protected void createControls(Composite parent) throws Exception {
 		setViewName("Experimental Hutch Filters");
 
-		ScannablegroupAdapter atn5group = Finder.getInstance().find("atn5group");
+		IScannableGroup atn5group = Finder.getInstance().find("atn5group");
 
 		Group group = new Group(parent, SWT.NONE);
 		group.setLayout(new GridLayout(2, false));

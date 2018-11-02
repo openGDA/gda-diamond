@@ -29,7 +29,7 @@ import gda.device.Scannable;
 import gda.factory.Finder;
 
 public class SampleStageView extends HardwareDisplayComposite {
-	public static final String ID = "uk.ac.gda.ui.views.synoptic.SampleStageView";
+
 	private boolean sampleStageForXes = false;
 
 	public SampleStageView(final Composite parent, int style) {
@@ -40,7 +40,7 @@ public class SampleStageView extends HardwareDisplayComposite {
 	protected void createControls(final Composite parent) throws Exception {
 		setViewName("Sample stage");
 		setBackgroundImage(getImageFromPlugin("oe images/stage_01.jpg"), new Point(200, 150));
-		parent.getShell().setBackgroundMode(SWT.INHERIT_FORCE);
+		parent.setBackgroundMode(SWT.INHERIT_FORCE);
 		// sampleStageForXes=true;
 		createMotorControls(parent);
 		createArrows(parent);

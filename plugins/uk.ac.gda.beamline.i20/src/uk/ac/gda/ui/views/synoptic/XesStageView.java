@@ -30,7 +30,6 @@ import org.eclipse.swt.widgets.Composite;
 import gda.device.DeviceException;
 
 public class XesStageView extends HardwareDisplayComposite {
-	public static final String ID = "uk.ac.gda.ui.views.synoptic.XesStageView";
 
 	public XesStageView(Composite parent, int style) {
 		super(parent, style);
@@ -41,7 +40,7 @@ public class XesStageView extends HardwareDisplayComposite {
 		setViewName("XES stage");
 
 		setBackgroundImage(getImageFromPlugin("oe images/xes_main.bmp"), new Point(150,150));
-		parent.getShell().setBackgroundMode(SWT.INHERIT_FORCE);
+		parent.setBackgroundMode(SWT.INHERIT_FORCE);
 
 		createMotorControls(parent);
 		createArrows(parent);
@@ -118,7 +117,7 @@ public class XesStageView extends HardwareDisplayComposite {
 		analysersButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				SynopticView.openView(XesCrystalAnalysersView.ID);
+				SynopticView.openView(XesCrystalAnalysersView.class.getCanonicalName());
 			}
 		});
 		setWidgetPosition(analysersButton, 65, 30);
@@ -129,7 +128,7 @@ public class XesStageView extends HardwareDisplayComposite {
 		calibrationButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				SynopticView.openView(XesCalibrationView.ID);
+				SynopticView.openView(XesCalibrationView.class.getCanonicalName());
 			}
 		});
 		setWidgetPosition(calibrationButton, 75, 25);

@@ -18,10 +18,7 @@
 
 package uk.ac.gda.ui.views.synoptic;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPage;
@@ -35,11 +32,7 @@ public class SynopticView extends ViewPart {
 	public static final String Id = "uk.ac.gda.ui.views.synoptic.SynopticView";
 	private static final Logger logger = LoggerFactory.getLogger(SampleStageView.class);
 
-	private List< Class<?>> idToClassMap = new ArrayList< Class<?>>();
-
-	// Composite classes that can be opened by createPartControl
-	private Class<?>[] synopticViews = new Class<?>[]{ OverviewButtonsView.class, SampleStageView.class, XasTableView.class,
-		XesCalibrationView.class, XesCrystalAnalysersView.class, XesStageView.class, HutchFilterView.class  };
+	private String className = ""; //Full name of class with composite to be opened
 
 	private HardwareDisplayComposite viewComposite;
 
@@ -47,34 +40,38 @@ public class SynopticView extends ViewPart {
 		super();
 	}
 
-	private Class<?> getClassMatchingId(String classIdToFind) throws Exception {
-		for (Class clazz : synopticViews) {
-			Field fieldForId = clazz.getDeclaredField("ID");
-			if (fieldForId != null) {
-				String idValueFromClass = (String) fieldForId.get(null);
-				if (classIdToFind.equals(idValueFromClass)) {
-					return clazz;
-				}
-			}
+	private Class<?extends HardwareDisplayComposite> getClassMatchingName(String classIdToFind) throws ClassNotFoundException {
+		Class<?> clazz = Class.forName(classIdToFind);
+		if (clazz != null && HardwareDisplayComposite.class.isAssignableFrom(clazz)) {
+			return (Class<? extends HardwareDisplayComposite>) clazz;
 		}
 		return null;
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
-		String secondaryId = getViewSite().getSecondaryId();
-
+		String fullClassName = getViewSite().getSecondaryId();
+		if (!className.isEmpty()) {
+			fullClassName = className;
+		}
+		// If no class name specified, use 'beamline overview' view.
+		if (fullClassName == null) {
+			fullClassName = OverviewButtonsView.class.getCanonicalName();
+		}
 		try {
-			if (secondaryId==null) {
-				viewComposite = new OverviewButtonsView(parent, SWT.NONE);
-			} else  {
-				Class<?> classFromId = getClassMatchingId(secondaryId);
-				Class[] constructorParamTypes = new Class[] { Composite.class, int.class };
-				Object obj = classFromId.getDeclaredConstructor(constructorParamTypes).newInstance(parent, SWT.NONE);
-				viewComposite = (HardwareDisplayComposite) obj;
+			Class<? extends HardwareDisplayComposite> classFromName = getClassMatchingName(fullClassName);
+			if (classFromName == null) {
+				throw new Exception("Could not create class with name " + fullClassName);
 			}
+			// Constructor parameter types : parent composite, swt options :
+			Class<? extends HardwareDisplayComposite>[] constructorParamTypes = new Class[] { Composite.class, int.class };
+			// Create new instance of class, passing the constructor params :
+			Object obj = classFromName.getDeclaredConstructor(constructorParamTypes).newInstance(parent, SWT.NONE);
+			viewComposite = (HardwareDisplayComposite) obj;
 		} catch (Exception e) {
-			logger.error("Problem occured when tring to create view for id {}", secondaryId, e);
+			logger.error("Problem occured when tring to create view for id {}", fullClassName, e);
+			MessageDialog.openWarning(parent.getShell(), "Problem opening syntopic view", "Problem occured when tring to create view for "+fullClassName);
+
 		}
 
 		// Set label used in tab for view
@@ -92,13 +89,21 @@ public class SynopticView extends ViewPart {
 
 	/**
 	 * Utility function to open the named 'Synoptic view', catching any PartInitException thrown.
-	 * @param secondaryId ID of view to open (i.e. {@link XesStageView#ID}, {@link SampleStageView#ID} etc.)
+	 * @param className fully qualified name of class of view to open
 	 */
-	public static void openView(String secondaryId) {
+	public static void openView(String className) {
 		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(SynopticView.Id, secondaryId, IWorkbenchPage.VIEW_ACTIVATE);
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(SynopticView.Id, className, IWorkbenchPage.VIEW_ACTIVATE);
 		} catch (PartInitException e1) {
-			logger.error("Problem opening Synoptic view with name {}", secondaryId, e1);
+			logger.error("Problem opening Synoptic view with name {}", className, e1);
 		}
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String classId) {
+		this.className = classId;
 	}
 }

@@ -20,10 +20,7 @@ package uk.ac.gda.ui.views.synoptic;
 
 import java.io.IOException;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -33,9 +30,6 @@ import org.eclipse.swt.widgets.Label;
 import gda.device.DeviceException;
 
 public class OverviewButtonsView extends HardwareDisplayComposite {
-
-	public static final String ID = "uk.ac.gda.ui.views.synoptic.OverviewButtonsView";
-	private Composite group;
 
 	public OverviewButtonsView(Composite parent, int style) {
 		super(parent, style, new GridLayout(1, true));
@@ -48,10 +42,10 @@ public class OverviewButtonsView extends HardwareDisplayComposite {
 	}
 
 	private Button addButton(Composite parent, String pathToImage, String labelText) throws IOException {
-		return addButton(parent, pathToImage, labelText, "");
+		return addButton(parent, pathToImage, labelText, null);
 	}
 
-	private Button addButton(Composite parent, String pathToImage, String labelText, final String viewName) throws IOException {
+	private Button addButton(Composite parent, String pathToImage, String labelText, final Class<?> viewClass) throws IOException {
 		Composite group = new Composite(parent, SWT.NONE);
 		group.setLayout(new GridLayout(1, false));
 		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -65,14 +59,9 @@ public class OverviewButtonsView extends HardwareDisplayComposite {
 		button.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
 		// Add listener to open view when button is clicked
-		if (!StringUtils.isEmpty(viewName)) {
+		if (viewClass != null) {
 			button.setToolTipText("Open controls for "+labelText);
-			button.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					SynopticView.openView(viewName);
-				}
-			});
+			button.addListener(SWT.Selection, event -> SynopticView.openView(viewClass.getCanonicalName()));
 		} else {
 			button.setToolTipText("Does not open any controls");
 		}
@@ -80,7 +69,7 @@ public class OverviewButtonsView extends HardwareDisplayComposite {
 	}
 
 	private void createLabels(Composite parent) throws IOException, DeviceException {
-		group = new Composite(parent, SWT.NONE);
+		Composite group = new Composite(parent, SWT.NONE);
 		group.setLayout(new GridLayout(19, false));
 
 		addButton(group, "oe thumb images/slits_thumb.png", "S1");
@@ -101,14 +90,14 @@ public class OverviewButtonsView extends HardwareDisplayComposite {
 
 		addButton(group, "oe thumb images/hrm_thumb.png", "HRM");
 		addButton(group, "oe thumb images/diagnostic.png", "D8");
-		addButton(group, "oe thumb images/diagnostic.png", "ATN5", HutchFilterView.ID);
+		addButton(group, "oe thumb images/diagnostic.png", "ATN5", HutchFilterView.class);
 
 		EnumPositionerGui photonShutter = new EnumPositionerGui(group, "photonshutter");
 		photonShutter.createControls();
 		photonShutter.setLabel("Photon shutter");
 
 		addButton(group, "oe thumb images/diagnostic.png", "D9");
-		addButton(group, "oe thumb images/xes_spectometer.png", "XES", XesStageView.ID);
-		addButton(group, "oe thumb images/ss_thumb.png", "Sample stage", SampleStageView.ID);
+		addButton(group, "oe thumb images/xes_spectometer.png", "XES", XesStageView.class);
+		addButton(group, "oe thumb images/ss_thumb.png", "Sample stage", SampleStageView.class);
 	}
 }

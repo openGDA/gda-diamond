@@ -39,8 +39,6 @@ import gda.factory.Finder;
  */
 public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 
-	public static final String ID = "uk.ac.gda.ui.views.synoptic.XesCrystalAnalyserView";
-
 	/** This 'SpectrometerScannable' enum (SS for brevity) is used to identify the different scannable motors associated
 	 * with the crystal analysers.
 	 * The enum contents should match the order (and purpose!) of scannables in the 'spectrometer' scannable group.
@@ -70,7 +68,7 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 	protected void createControls(Composite parent) throws IOException, DeviceException {
 		setViewName("Xes Crystal Analyser View");
 		setBackgroundImage(getImageFromPlugin("oe images/xes_analysers2.bmp"), new Point(200, 350));
-		parent.getShell().setBackgroundMode(SWT.INHERIT_FORCE);
+		parent.setBackgroundMode(SWT.INHERIT_FORCE);
 
 		setupScannables();
 
