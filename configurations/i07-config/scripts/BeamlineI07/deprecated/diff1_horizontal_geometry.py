@@ -2,6 +2,8 @@
 # vertical surface normal mode of operation, where the scattering plane tends to
 # the horizontal.
 #
+raise DeprecationWarning("This script is no longer supported (as of November 2018) and should not be used")
+
 print "<<< Running  /i07-config/scripts/BeamlineI07/diff1_horizontal_geometry.py"
 
 try:
