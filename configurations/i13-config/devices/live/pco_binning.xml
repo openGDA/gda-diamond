@@ -4,23 +4,16 @@
 	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 
-	<bean id="pco_model_rbv" class="gda.device.scannable.EpicsScannable">
+	<bean id="pco_model_rbv" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL13I-EA-DET-01:CAM:Model_RBV" />
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="getAsString" value="true" />
 	</bean>
 
-	<bean id="pco_binx_rbv" class="gda.device.scannable.EpicsScannable">
+	<bean id="pco_binx_rbv" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL13I-EA-DET-01:CAM:BinX_RBV" />
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
 	</bean>
 
-	<bean id="pco_biny_rbv" class="gda.device.scannable.EpicsScannable">
+	<bean id="pco_biny_rbv" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL13I-EA-DET-01:CAM:BinY_RBV" />
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
 	</bean>
 
 </beans>

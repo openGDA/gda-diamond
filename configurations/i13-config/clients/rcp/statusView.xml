@@ -38,7 +38,7 @@
 					<property name="compositeFactories">
 						<list>
 							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
-								<property name="scannable" ref="idGap" />
+								<property name="scannable" ref="id_gap" />
 								<property name="label" value="ID Gap" />
 								<property name="units" value="mm" />
 								<property name="minPeriodMS" value="1000" />

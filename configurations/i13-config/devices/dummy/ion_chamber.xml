@@ -4,14 +4,29 @@
 
 	<description>Ion chamber in Experiment Hutch</description>
 
-	<bean id="ionc_i" class="gda.device.scannable.SimpleScannable">
-		<property name="currentPosition" value="0.219" />
-		<property name="inputNames" value="ionc_i" />
+	<bean id="ionc_i" class="gda.device.monitor.DummyMonitor">
+		<property name="value" value="0.219" />
 	</bean>
 
-	<bean id="ionc_gain" class="gda.device.scannable.SimpleScannable">
-		<property name="currentPosition" value="5" />
-		<property name="inputNames" value="ionc_gain" />
+	<bean id="ionc_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>10^3 low noise</value>
+				<value>10^4 low noise</value>
+				<value>10^5 low noise</value>
+				<value>10^6 low noise</value>
+				<value>10^7 low noise</value>
+				<value>10^8 low noise</value>
+				<value>10^9 low noise</value>
+				<value>10^5 high speed</value>
+				<value>10^6 high speed</value>
+				<value>10^7 high speed</value>
+				<value>10^8 high speed</value>
+				<value>10^9 high speed</value>
+				<value>10^10 high spd</value>
+				<value>10^11 high spd</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="ionc_acdc" class="gda.device.enumpositioner.DummyEnumPositioner">
@@ -20,12 +35,10 @@
 				<value>AC</value>
 				<value>DC</value>
 			</list>
-		</property>
-	</bean>
+		</property>	</bean>
 
-	<bean id="ionc_photonflux" class="gda.device.scannable.SimpleScannable">
-		<property name="currentPosition" value="0.009" />
-		<property name="inputNames" value="ionc_photonflux" />
+	<bean id="ionc_photonflux" class="gda.device.monitor.DummyMonitor">
+		<property name="value" value="0.009" />
 	</bean>
 
 </beans>
