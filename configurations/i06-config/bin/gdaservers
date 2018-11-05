@@ -10,4 +10,5 @@
 # This script should not be added to as it is being phased out
 
 gda logpanel
+export JAVA_OPTS="-Xms256m -Xmx2048m"
 gda servers $*
