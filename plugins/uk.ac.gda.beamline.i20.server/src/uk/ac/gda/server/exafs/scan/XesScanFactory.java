@@ -19,6 +19,7 @@
 package uk.ac.gda.server.exafs.scan;
 
 import gda.device.Scannable;
+import gda.exafs.xes.IXesOffsets;
 
 public class XesScanFactory extends XasScanFactory {
 
