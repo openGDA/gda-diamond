@@ -26,7 +26,7 @@
 		</constructor-arg>
 	</bean>
 
-	<bean class="gda.rcp.util.OSGIServiceRegister">
+	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
 		<property name="service" ref="zebraTestADController" />
 		<property name="properties" ref="zebraTestAD_dictionary" />
