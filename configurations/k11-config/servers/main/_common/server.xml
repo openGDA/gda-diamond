@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder/>
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
+	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
+
+	<!-- Command Server -->
+	<import resource="file:${gda.config}/servers/main/_common/rcpController.xml" />
+
+	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
+
+	<!-- =========================================================== -->
+	<!-- 	mode specific files -->
+	<!-- =========================================================== -->
+
+	<!-- file registration -->
+	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
+
+	<!-- =========================================================== -->
+	<!-- 	shared files -->
+	<!-- =========================================================== -->
+
+	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
+
+	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
+
+	<!-- file registration -->
+	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/data_writer.xml" />
+
+	<!-- Dummies -->
+
+	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
+	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+
+	<!--
+		Mapping scans
+		IMPORTANT: this will start processing the scanning queue.
+		Detectors must be created before doing this.
+		ADVISED: do it last or towards the end, scan will now start to run!
+	 -->
+	<import resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
+
+ 	<!-- Initialise Jython late on, as localStation refers to beans -->
+	<import resource="jythonServerFacade.xml" />
+
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
+</beans>
