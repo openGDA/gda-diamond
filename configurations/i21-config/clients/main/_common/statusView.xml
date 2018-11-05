@@ -84,6 +84,7 @@
 								<property name="label" value="Current" />
 								<property name="units" value="mA" />
 								<property name="decimalPlaces" value="2" />
+								<property name="preferredWidth" value="80"/>
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
@@ -91,6 +92,7 @@
 								<property name="label" value="Refill" />
 								<property name="units" value="s" />
 								<property name="decimalPlaces" value="0" />
+								<property name="preferredWidth" value="80"/>
 							</bean>
 							<bean
 								class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
@@ -98,6 +100,7 @@
 								<property name="label" value="ID Gap" />
 								<property name="units" value="mm" />
 								<property name="decimalPlaces" value="4" />
+								<property name="preferredWidth" value="80"/>
 							</bean>
 						</list>
 					</property>
@@ -112,6 +115,7 @@
 								<property name="scannable" ref="m4femto1" />
 								<property name="label" value="M4_C1" />
 								<property name="units" value="Amp" />
+								<property name="preferredWidth" value="80"/>
 								<property name="decimalPlaces" value="3" />
 							</bean>
 							<bean
@@ -120,6 +124,7 @@
 								<property name="label" value="Energy" />
 								<property name="units" value="eV" />
 								<property name="decimalPlaces" value="4" />
+								<property name="preferredWidth" value="80"/>
 							</bean>
 						</list>
 					</property>
