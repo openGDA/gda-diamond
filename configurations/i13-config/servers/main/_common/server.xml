@@ -36,7 +36,6 @@
 	<!-- Device files with separate live and dummy versions          -->
 	<!-- =========================================================== -->
 	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
-	<import resource="file:${gda.config}/devices/${gda.mode}/id.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/undulator.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/front_end.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/ring.xml" />

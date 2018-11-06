@@ -5,12 +5,10 @@
 
 
 	<bean id="pco_model_rbv" class="gda.device.scannable.SimpleScannable">
-		<property name="name" value="pco_model_rbv"/>
 		<property name="currentPosition" value="PCO.Camera Edge" />
 	</bean>
-	
+
 	<bean id="pco_binx_rbv" class="gda.device.scannable.SimpleScannable">
-		<property name="name" value="pco_binx_rbv"/>
 		<property name="currentPosition">
 			<bean class="java.lang.Integer">
 				<constructor-arg value="1" />
@@ -19,7 +17,6 @@
 	</bean>
 	
 	<bean id="pco_biny_rbv" class="gda.device.scannable.SimpleScannable">
-		<property name="name" value="pco_biny_rbv"/>
 		<property name="currentPosition">
 			<bean class="java.lang.Integer">
 				<constructor-arg value="1" />

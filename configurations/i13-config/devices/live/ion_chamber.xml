@@ -5,35 +5,23 @@
 
 	<description> Ion chamber in Experiment Hutch</description>
 
-	<bean id="ionc_i" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsExtraName" value="true" />
-		<property name="hasUnits" value="false" />
+	<bean id="ionc_i" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL13I-DI-IONC-01:I" />
 	</bean>
 
-	<bean id="ionc_gain" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsInputName" value="true" />
-		<property name="hasUnits" value="false" />
+	<bean id="ionc_gain" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL13I-DI-FEMTO-06:GAIN" />
 	</bean>
 
-	<bean id="ionc_coupling" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsInputName" value="true" />
-		<property name="hasUnits" value="false" />
+	<bean id="ionc_coupling" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL13I-DI-FEMTO-06:ACDC" />
 	</bean>
 
-	<bean id="ionc_photonflux" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsExtraName" value="true" />
-		<!-- need an EGU value that EPICS ((DBR_CTRL_Double) dbr).getUnits(); will not pass '/' -->
-		<property name="hasUnits" value="false" />
+	<bean id="ionc_photonflux" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL13I-DI-IONC-01:PHOTONRATE" />
 	</bean>
 
-	<bean id="ionc_acdc" class="gda.device.scannable.EpicsScannable">
-		<property name="useNameAsInputName" value="true" />
-		<property name="hasUnits" value="false" />
-		<property name="getAsString" value="true" />
+	<bean id="ionc_acdc" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL13I-DI-FEMTO-06:ACDC" />
 	</bean>
 

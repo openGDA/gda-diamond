@@ -1,4 +1,4 @@
-import sys	
+import sys
 import os
 import time
 from gdascripts.messages import handle_messages
@@ -8,6 +8,7 @@ from gda.jython.commands import GeneralCommands
 from gda.device import Scannable
 from gda.jython.commands.GeneralCommands import ls_names, vararg_alias
 from gda.data import PathConstructor
+from gdaserver import fs
 
 import tomographyXGIScan
 from tomographyXGIScan import tomoXGIScan
@@ -149,7 +150,7 @@ try:
 	from flyscan_script import flyscan, flyscannable, WaitForScannableAtLineEnd
 	vararg_alias("flyscan")
 
-	expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", fastshutter)
+	expt_fastshutter = ExperimentShutterEnumPositioner("expt_fastshutter", fs)
 	
 	if isLive():
 		try:
