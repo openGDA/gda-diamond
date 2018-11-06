@@ -56,7 +56,7 @@
 
 	<!-- Front end & shutters -->
 	<bean id="ring_current" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="idGap" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="id_gap" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="topup_start_countdown" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="eh_shtr" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="fs" class="uk.ac.gda.remoting.client.GdaRmiProxy" />

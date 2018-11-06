@@ -35,7 +35,8 @@
 				<value>AC</value>
 				<value>DC</value>
 			</list>
-		</property>	</bean>
+		</property>
+	</bean>
 
 	<bean id="ionc_photonflux" class="gda.device.monitor.DummyMonitor">
 		<property name="value" value="0.009" />
