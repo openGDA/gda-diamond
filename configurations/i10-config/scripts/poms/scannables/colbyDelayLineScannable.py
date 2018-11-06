@@ -78,4 +78,5 @@ class colbyDelayLineScannable(PseudoDevice):
 
 
 	def atScanEnd(self):
-		self.moveTo(0)
+		pass
+		#self.moveTo(0)

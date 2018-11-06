@@ -42,9 +42,28 @@ def poms_default_vflipper_raw(name):
 
 
 
+def MH(egy):
+    pos pol pc
+    pos energy egy
+    pos vmag 400
+    time.sleep(5)
+    scan vmag 400 -400 5 refl 0.1
+    scan vmag -400 400 5 refl 0.1
+    pos vmag 0
+    time.sleep(30)
+    pos pol nc
+    pos energy egy
+    pos vmag 400
+    time.sleep(5)
+    scan vmag 400 -400 5 refl 0.1
+    scan vmag -400 400 5 refl 0.1
+    pos vmag 0
+    time.sleep(30)
 
 
-
+def phaseScan():
+    scan liaPhase -170 180 10 xfmr 1
+    
 
 
 

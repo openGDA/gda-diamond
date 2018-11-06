@@ -30,7 +30,7 @@ from other_devices.rs232Device import rs232Device
 
 
 
-class sr830LIASensitivityScannable(ScannableBase):
+class liaSensitivityScannable(ScannableBase):
 	def __init__(self, rs232):
 		self.name = "liaSens"
 		self.setInputNames(["liaSens"])
@@ -40,6 +40,7 @@ class sr830LIASensitivityScannable(ScannableBase):
 		self.lookup = [2e-15, 5e-15, 10e-15, 20e-15, 50e-15,100e-15, 200e-15, 500e-15, 1e-12, 2e-12, 5e-12,
 					10e-12, 20e-12, 50e-12, 100e-12, 200e-12, 500e-12, 1e-9, 2e-9, 5e-9, 10e-9, 20e-9, 50e-9,
 					100e-9, 200e-9, 500e-9, 1e-6] # Lookup for current
+		
 		#self.lookup = [2e-9, 5e-9, 10e-9, 20e-9, 50e-9, 100e-9, 200e-9, 500e-9, 1e-6, 2e-6, 5e-6, 10e-6,
 		#			20e-6, 50e-6, 100e-6, 200e-6, 500e-6, 1e-3, 2e-3, 5e-3, 10e-3, 20e-3, 50e-3, 100e-3, 
 		#			200e-3, 500e-3, 1] # Lookup for voltage
@@ -57,7 +58,7 @@ class sr830LIASensitivityScannable(ScannableBase):
 	
 	
 
-class sr830LIAInputScannable(ScannableBase):
+class liaInputScannable(ScannableBase):
 	def __init__(self, rs232):
 		self.rs232 = rs232
 		self.name = "liaInput"
@@ -75,6 +76,52 @@ class sr830LIAInputScannable(ScannableBase):
 
 	def isBusy(self):
 		return self.iambusy
+	
+	
+	
+class liaPhaseScannable(ScannableBase):
+	def __init__(self, rs232):
+		self.rs232 = rs232
+		self.name = "liaPhase"
+		self.setInputNames(["liaPhase"])
+		self.setOutputFormat(["%3d"])
+		self.iambusy = 0 
+	
+	def getPosition(self):
+		return float(self.rs232.query("PHAS?"))
+	
+	def asynchronousMoveTo(self, newPos):
+		self.iambusy = 1
+		self.rs232.write("PHAS %3d" % newPos)
+		self.iambusy = 0
+
+	def isBusy(self):
+		return self.iambusy
+
+class liaFreqScannable(ScannableBase):
+	def __init__(self, rs232):
+		self.rs232 = rs232
+		self.name = "liaFreq"
+		self.setInputNames(["liaFreq"])
+		self.setOutputFormat(["%3d"])
+		self.iambusy = 0 
+	
+	def getPosition(self):
+		return float(self.rs232.query("FREQ?"))
+	
+	def asynchronousMoveTo(self, newPos):
+		self.iambusy = 1
+		self.rs232.write("FREQ %3d" % newPos)
+		self.iambusy = 0
+
+	def isBusy(self):
+		return self.iambusy
+
+
+
+
+
+
 
 
 

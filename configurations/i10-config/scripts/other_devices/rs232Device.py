@@ -15,7 +15,7 @@ import os
 import time
 
 class rs232Device:
-	def __init__(self, branch, port):
+	def __init__(self, branch, port, baud=9600, ieos='\r', oeos='\r' ):
 		if branch == "I":
 			self.ser = device("BL10I-EA-USER-01")
 		else:
@@ -27,6 +27,10 @@ class rs232Device:
 		self.ioMode=None							#1=write, 2=read
 
 		self.waitTimeAfterWrite = 0.1
+		
+		self.ser.caput(self.port+".BAUD", baud)
+		self.ser.caput(self.port+".IEOS", ieos)
+		self.ser.caput(self.port+".OEOS", oeos)
 
 	def flush(self):
 		self.ser.caput(self.port+".TMOD", "Flush")

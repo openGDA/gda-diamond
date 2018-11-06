@@ -14,8 +14,8 @@ import time
 
 class sr570Device(rs232Device):
 	def __init__(self, branch, port):
-		rs232Device.__init__(self, branch, port)
-		self.setOutputTerminator("\n")
+		rs232Device.__init__(self, branch, port, oeos='\n')
+		#self.setOutputTerminator("\n")
 		self.sens = None
 		
 		self.maxOutput = 5.0
@@ -43,16 +43,14 @@ class sr570Device(rs232Device):
 	def increaseSens(self):
 		if self.getSens() == 0:
 			raise ValueError('SR current amplifier cannot increase sens, already on maximum sensitivity') 
-			#raise Exception('SR current amplifier on maximum sensitivity')
 		newSens = self.getSens() - 3
-		if newSens < 0: newSens = 0
+		if newSens < 1: newSens = 1
 		self.setSens(newSens)
 		time.sleep(0.5)		#time to allow current amplifier to react (there is no readback)
 		
 	def decreaseSens(self):
 		if self.getSens() == 27:
 			raise ValueError('SR current amplifier cannot decrease sens, already on minimum sensitivity') 
-			#raise Exception('SR current amplifier on minimum sensitivity')
 		newSens = self.getSens() + 1
 		if newSens > 27: newSens = 27
 		self.setSens(newSens)
