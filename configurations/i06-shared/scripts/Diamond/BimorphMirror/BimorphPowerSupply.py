@@ -1,5 +1,5 @@
 from gda.epics import CAClient
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from time import sleep;
 
 from Diamond.PseudoDevices.EpicsDevices import EpicsMonitorClass, EpicsSetterClass;
@@ -11,7 +11,7 @@ Ref: http://serv0002.cs.diamond.ac.uk/cgi-bin/wiki.cgi/bimorphpsu
 
 """
 
-class BimorphPowerSupplyDeviceClass(PseudoDevice):
+class BimorphPowerSupplyDeviceClass(ScannableMotionBase):
 	"""
 	This class is a wrapper for the Bimporph Mirror Power Supply Unit.
 	Ref: http://serv0002.cs.diamond.ac.uk/cgi-bin/wiki.cgi/bimorphpsu

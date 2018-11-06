@@ -1,5 +1,5 @@
 
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 from gda.device import Detector;
 
 from gda.analysis.io import JPEGLoader, TIFFImageLoader
@@ -23,7 +23,7 @@ GDA_FILELOADERS={
 			'JPEG':JPEGLoader,
 			}
 
-class DetectorAnalyserClass(PseudoDevice):
+class DetectorAnalyserClass(ScannableMotionBase):
 
 	def __init__(self, name, detector, processors=[], panelName="Area Detector", iFileLoader=None):
 		self.detector = detector;

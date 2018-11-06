@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 import random
 import math
@@ -104,7 +104,7 @@ class i06Magnet:
 		self.magphi = magPhi(self)
 		self.magrtp = magRTP(self)
 		
-		# other pseudodevices, e.g. temperature monitors
+		# other ScannableMotionBases, e.g. temperature monitors
 		self.tmonT1 = tmonT1(self)
 		self.tmonT2 = tmonT2(self)
 		self.tmonT3 = tmonT3(self)
@@ -158,7 +158,7 @@ class i06Magnet:
 ##	def getStatus(self):
 ##		return self.camera.cameraStatus
 
-class magX(PseudoDevice):
+class magX(ScannableMotionBase):
 	
 	def __init__(self, magnet, name="magX", unitstring="T", formatstring="%.4f"):
 		print "magX.__init__"
@@ -197,7 +197,7 @@ class magX(PseudoDevice):
 		return 1
 
 
-class magY(PseudoDevice):
+class magY(ScannableMotionBase):
 	
 	def __init__(self, magnet, name="magY", unitstring="T", formatstring="%.4f"):
 		print "magY.__init__"
@@ -235,7 +235,7 @@ class magY(PseudoDevice):
 		return 1
 
 
-class magZ(PseudoDevice):
+class magZ(ScannableMotionBase):
 	
 	def __init__(self, magnet, name="magZ", unitstring="T", formatstring="%.4f"):
 		print "magZ.__init__"
@@ -275,9 +275,9 @@ class magZ(PseudoDevice):
 		return 1
 
 	
-# combined x, y, z pseudodevice
+# combined x, y, z ScannableMotionBase
 
-class magXYZ(PseudoDevice):
+class magXYZ(ScannableMotionBase):
 	
 	def __init__(self, magnet, name="magXYZ", unitstring="T", formatstring="[%.4f][%.4f][%.4f]"):
 		print "magXYZ.__init__"
@@ -308,7 +308,7 @@ class magXYZ(PseudoDevice):
 	def isBusy(self):
 		return 0	
 		
-class magMode(PseudoDevice):
+class magMode(ScannableMotionBase):
 	
 	def __init__(self, magnet, name="magMode", mode="uniaxialx"):
 		print "magMode.__init__"
@@ -348,7 +348,7 @@ class magMode(PseudoDevice):
 	def isBusy(self):
 		return 0	
 	
-class magRho(PseudoDevice):
+class magRho(ScannableMotionBase):
 	
 	def __init__(self, magnet, name="magRho", rho=1.0, formatstring="[%.4f]"):
 		print "magRho.__init__"
@@ -368,7 +368,7 @@ class magRho(PseudoDevice):
 	def isBusy(self):
 		return 0	
 		
-class magTheta(PseudoDevice):
+class magTheta(ScannableMotionBase):
 	'''
 	theta in Diamond is 0-360 about the y axis
 	'''
@@ -403,7 +403,7 @@ class magTheta(PseudoDevice):
 	def isBusy(self):
 		return 0	
 		
-class magPhi(PseudoDevice):
+class magPhi(ScannableMotionBase):
 	'''
 	phi in Diamond is 0-180 from the positive y axis
 	'''
@@ -426,7 +426,7 @@ class magPhi(PseudoDevice):
 	def isBusy(self):
 		return 0	
 	
-class magRTP(PseudoDevice):
+class magRTP(ScannableMotionBase):
 	
 	def __init__(self, magnet, name="magRTP", rho=1, theta=90, phi=0, formatstring="[%.4f][%.4f][%.4f]"):
 		print "magRTP.__init__"
@@ -598,7 +598,7 @@ def checkMagnetModeRho(mode):
 
 #
 #
-# other magnet pseudodevices: temperature monitors etc.
+# other magnet ScannableMotionBases: temperature monitors etc.
 #
 # ["Magnet temperature 1", "TMON.T1", "BL06J-EA-TMON-01:T1", "true"],
 # ["Magnet temperature 2", "TMON.T2", "BL06J-EA-TMON-01:T2", "true"],
@@ -616,7 +616,7 @@ def checkMagnetModeRho(mode):
 #
 #
 
-class tmonT1(PseudoDevice):
+class tmonT1(ScannableMotionBase):
 	def __init__(self, magnet, name="tmonT1", formatstring="[%.4f]"):
 		print "tmonT1.__init__"
 		self.magnet = magnet
@@ -639,7 +639,7 @@ class tmonT1(PseudoDevice):
 	def isBusy(self):
 		return 0	
 	
-class tmonT2(PseudoDevice):
+class tmonT2(ScannableMotionBase):
 	def __init__(self, magnet, name="tmonT2", formatstring="[%.4f]"):
 		print "tmonT2.__init__"
 		self.magnet = magnet
@@ -662,7 +662,7 @@ class tmonT2(PseudoDevice):
 	def isBusy(self):
 		return 0	
 	
-class tmonT3(PseudoDevice):
+class tmonT3(ScannableMotionBase):
 	def __init__(self, magnet, name="tmonT3", formatstring="[%.4f]"):
 		print "tmonT3.__init__"
 		self.magnet = magnet
@@ -685,7 +685,7 @@ class tmonT3(PseudoDevice):
 	def isBusy(self):
 		return 0
 	
-class tmonNL(PseudoDevice):
+class tmonNL(ScannableMotionBase):
 	def __init__(self, magnet, name="tmonNL", formatstring="[%.4f]"):
 		print "tmonNL.__init__"
 		self.magnet = magnet
@@ -708,7 +708,7 @@ class tmonNL(PseudoDevice):
 	def isBusy(self):
 		return 0
 	
-class tcntrlT1(PseudoDevice):
+class tcntrlT1(ScannableMotionBase):
 	def __init__(self, magnet, name="tcntrlT1", formatstring="[%.4f]"):
 		print "tcntrlT1.__init__"
 		self.magnet = magnet
@@ -731,7 +731,7 @@ class tcntrlT1(PseudoDevice):
 	def isBusy(self):
 		return 0
 	
-class vtiDmd(PseudoDevice):
+class vtiDmd(ScannableMotionBase):
 	def __init__(self, magnet, name="vtiDmd", formatstring="[%.4f]"):
 		print "vtiDmd.__init__"
 		self.magnet = magnet
@@ -754,7 +754,7 @@ class vtiDmd(PseudoDevice):
 	def isBusy(self):
 		return 0
 	
-class vtiRbv(PseudoDevice):
+class vtiRbv(ScannableMotionBase):
 	def __init__(self, magnet, name="vtiRbv", formatstring="[%.4f]"):
 		print "vtiRbv.__init__"
 		self.magnet = magnet
@@ -777,7 +777,7 @@ class vtiRbv(PseudoDevice):
 	def isBusy(self):
 		return 0
 
-class nvalvDmd(PseudoDevice):
+class nvalvDmd(ScannableMotionBase):
 	def __init__(self, magnet, name="nvalvDmd", formatstring="[%.4f]"):
 		print "nvalvDmd.__init__"
 		self.magnet = magnet
@@ -800,7 +800,7 @@ class nvalvDmd(PseudoDevice):
 	def isBusy(self):
 		return 0
 	
-class nvalvRbv(PseudoDevice):
+class nvalvRbv(ScannableMotionBase):
 	def __init__(self, magnet, name="nvalvRbv", formatstring="[%.4f]"):
 		print "nvalvRbv.__init__"
 		self.magnet = magnet
@@ -823,7 +823,7 @@ class nvalvRbv(PseudoDevice):
 	def isBusy(self):
 		return 0	
 	
-class hdiLevel(PseudoDevice):
+class hdiLevel(ScannableMotionBase):
 	def __init__(self, magnet, name="hdiLevel", formatstring="[%.4f]"):
 		print "hdiLevel.__init__"
 		self.magnet = magnet
@@ -846,7 +846,7 @@ class hdiLevel(PseudoDevice):
 	def isBusy(self):
 		return 0	
 	
-class hdiPump(PseudoDevice):
+class hdiPump(ScannableMotionBase):
 	def __init__(self, magnet, name="hdiPump", formatstring="[%.4f]"):
 		print "hdiPump.__init__"
 		self.magnet = magnet

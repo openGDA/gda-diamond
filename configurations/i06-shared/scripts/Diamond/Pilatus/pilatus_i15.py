@@ -1,11 +1,11 @@
 from gda.analysis.datastructure import *
 from gda.analysis import *
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 from time import sleep
 from java.lang import String
 
-class Pilatus(PseudoDevice):
+class Pilatus(ScannableMotionBase):
 	'''Pilatus PD
 	obj=pd_pilatus.Pilatus(name,pvroot,filepath,filename)
 	e.g. pilatus=pd_pilatus.Pilatus('P100k','BL15I-EA-PILAT-01:','/dls/i15/data/2008/ee0/005','p')
@@ -165,7 +165,7 @@ class Pilatus(PseudoDevice):
 
 
 import os
-class DummyPilatus(PseudoDevice):
+class DummyPilatus(ScannableMotionBase):
 	'''Pilatus PD
 	obj=pd_pilatus.Pilatus(name,pvroot,filepath,filename)
 	e.g. pilatus=pd_pilatus.Pilatus('P100k','BL15I-EA-PILAT-01:','/dls/i15/data/2008/ee0/005','p')

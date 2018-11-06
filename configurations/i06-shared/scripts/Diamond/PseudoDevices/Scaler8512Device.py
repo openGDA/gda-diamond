@@ -1,14 +1,10 @@
-from time import sleep
-from java import lang
-from gda.device.scannable import PseudoDevice
-from gda.device import Scannable
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 
 from gda.device import Detector
-from gda.device.detector import DetectorBase
 
 #A Class to set all the detector's integration time in one go
-class DetectorIntegrationsDevice(PseudoDevice):
+class DetectorIntegrationsDevice(ScannableMotionBase):
 	def __init__(self, name, detectorList):
 		self.setName(name);
 		self.setInputNames([name]);
@@ -55,7 +51,7 @@ class DetectorIntegrationsDevice(PseudoDevice):
 
 #The Class for creating a Scaler channel monitor directly from EPICS PV
 #For 8512 Scaler Card used in I06 only. This scaler card is not supported by EPICS scaler record
-class Scaler8512ChannelEpicsDeviceClass(PseudoDevice):
+class Scaler8512ChannelEpicsDeviceClass(ScannableMotionBase):
 	def __init__(self, name, strChTP, strChCNT, strChSn):
 		self.setName(name);
 		self.setInputNames([name]);

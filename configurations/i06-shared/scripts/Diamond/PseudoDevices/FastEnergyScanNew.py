@@ -5,7 +5,7 @@ import time
 import jarray;
 
 from gda.epics import CAClient;
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 import scisoftpy as dnp
 
 from gda.scan import PointsScan;
@@ -166,7 +166,7 @@ class FastEnergyScanControlClass(object):
 		return self.scanStatus;
 
 ###########################################################################
-class FastEnergyScanIDModeClass(PseudoDevice):
+class FastEnergyScanIDModeClass(ScannableMotionBase):
 	""" """
 
 	def __init__(self, name, fastEnergyScanController):
@@ -186,7 +186,7 @@ class FastEnergyScanIDModeClass(PseudoDevice):
 	def getIDMode(self):
 		return self.fesController.getIDMode();
 
-#PseudoDevice Implementation
+#ScannableMotionBase Implementation
 	def getPosition(self):
 		mode = self.getIDMode();
 		modeString = FastEnergyScanControlClass.FASTSCAN_MODE_GDA_STRING[mode];
@@ -213,7 +213,7 @@ class FastEnergyScanIDModeClass(PseudoDevice):
 		return modeInfo;
 
 ###########################################################################
-class FastEnergyDeviceClass(PseudoDevice):
+class FastEnergyDeviceClass(ScannableMotionBase):
 	""" """
 
 	def __init__(self, name, fastEnergyScanController, fastEnergyScanDetector):
@@ -244,7 +244,7 @@ class FastEnergyDeviceClass(PseudoDevice):
 	def getIDMode(self):
 		return self.fesController.getIDMode();
 
-#PseudoDevice Implementation
+#ScannableMotionBase Implementation
 	def atScanStart(self):
 		try:
 	#		print "At Scan Start"
@@ -368,7 +368,7 @@ class FastEnergyDeviceClass(PseudoDevice):
 
 
 #######################################################
-class EpicsScandataDeviceClass(PseudoDevice):
+class EpicsScandataDeviceClass(ScannableMotionBase):
 	
 	def __init__(self, name, rootPV):
 
@@ -610,14 +610,14 @@ class SingleChannelEpicsScanDataDeviceClass(EpicsScandataDeviceClass):
 		self.setExtraNames([]);
 		self.setOutputFormat(["%20.12f"]);
 
-# PseudoDevice Implementation
+# ScannableMotionBase Implementation
 	def getPosition(self):
 		result = self.readout();
 		return result[self.channel-1];
 
 
 #######################################################
-class EpicsWaveformDeviceClass(PseudoDevice):
+class EpicsWaveformDeviceClass(ScannableMotionBase):
 	def __init__(self, name, rootPV, numberOfChannels):
 
 		self.numberOfChannels=numberOfChannels;

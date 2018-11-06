@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 
 #####################################################################################
@@ -14,7 +14,7 @@ from gda.device import Scannable
 #	PV of the Copy Button
 #
 #####################################################################################
-class HexapodWithCopyButtonClass(PseudoDevice):
+class HexapodWithCopyButtonClass(ScannableMotionBase):
 #	def __init__(self, name, strUnit, strFormat):
 	def __init__(self, name, hexapodDOF, strButtonPV):
 		self.setName(name);

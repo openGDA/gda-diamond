@@ -31,6 +31,19 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="hardwareUnitString" value="deg" />
 	</bean>
+	<!-- Dummy chi to satisfy DIFFCALC -->
+	<bean id="chi" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="chi" />
+		<property name="inputNames">
+			<list>
+				<value>chi</value>
+			</list>
+		</property>
+		<property name="motor" ref="Motor2Chi_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
 	
 	<bean id="ddsx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorXSample_DD" />

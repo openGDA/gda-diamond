@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from gda.factory import Finder
 
@@ -29,7 +29,7 @@ import __main__ as gdamain
 print "-"*100
 print "Enable CorrespondentDeviceClass - creating a scannable based on another scannable and forward and backward algorithms";
 
-class CorrespondentDeviceClass(PseudoDevice):
+class CorrespondentDeviceClass(ScannableMotionBase):
 	'''creating a scannable device based on the other scannable device, and forward and backward functions
 	'''
 	def __init__(self, name, unit, lowLimit, highLimit, refObjName, funNameForeward, funNameBackward):

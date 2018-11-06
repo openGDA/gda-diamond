@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from gda.factory import Finder
 
@@ -26,7 +26,7 @@ import __main__ as gdamain
 print "-"*100
 print "Enable DeviceFunctionClass - creating a scannable based on 2 other scannables and a function";
 
-class DeviceFunctionClass(PseudoDevice):
+class DeviceFunctionClass(ScannableMotionBase):
 	'''creating a device function based on two scannable devices, and a function
 	'''
 	def __init__(self, name, refObj1, refObj2, deviceFunName):

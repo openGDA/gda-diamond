@@ -1,9 +1,9 @@
 
 #import gda
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 
-class EpicsCamserverConnector(PseudoDevice):
+class EpicsCamserverConnector(ScannableMotionBase):
 	"""
 	This class implements the communication between EPICS and Camserver.
 	It will pass a command string for interpretation by camserver, 

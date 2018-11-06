@@ -3,7 +3,7 @@ from time import sleep;
 import math
 
 from gda.epics import CAClient;
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 from gda.device import DeviceBase
 
 from Diamond.Comm.SerialDevices import EpicsAsynRS232DeviceClass, GdaRS232DeviceClass;
@@ -230,7 +230,7 @@ class NimaLangmuirBlodgettTroughDeviceClass(object):
                 sleep(5);
 
 
-class TroughAreaDevice(PseudoDevice):
+class TroughAreaDevice(ScannableMotionBase):
     def __init__(self, name, trough):
         self.setName(name);
         self.setInputNames(["Area"]);
@@ -239,7 +239,7 @@ class TroughAreaDevice(PseudoDevice):
         self.setLevel(7);
         self.trough = trough;
 
-    #PseudoDevice Implementation
+    #ScannableMotionBase Implementation
     def getPosition(self):
         self.trough.readValues()
         return [self.trough.area, self.trough.pressure, self.trough.temperature];
@@ -258,7 +258,7 @@ class TroughAreaDevice(PseudoDevice):
         self.trough.stop();
         
 
-class TroughPressureDevice(PseudoDevice):
+class TroughPressureDevice(ScannableMotionBase):
     def __init__(self, name, trough):
         self.setName(name);
         self.setInputNames(["Pressure"]);
@@ -283,7 +283,7 @@ class TroughPressureDevice(PseudoDevice):
     
 
 
-class TroughSpeedDevice(PseudoDevice):
+class TroughSpeedDevice(ScannableMotionBase):
     def __init__(self, name, trough):
         self.setName(name);
         self.setInputNames(["Speed"]);

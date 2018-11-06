@@ -27,19 +27,19 @@
 	<gda:rmi-export
 		service="magnetX"
 		serviceName="gda/magnetX"
-		serviceInterface="gda.device.ScannableMotion" />
+		serviceInterface="gda.device.ScannableMotionUnits" />
 	<gda:rmi-export
 		service="magnetY"
 		serviceName="gda/magnetY"
-		serviceInterface="gda.device.ScannableMotion" />
+		serviceInterface="gda.device.ScannableMotionUnits" />
 	<gda:rmi-export
 		service="magnetZ"
 		serviceName="gda/magnetZ"
-		serviceInterface="gda.device.ScannableMotion" />
+		serviceInterface="gda.device.ScannableMotionUnits" />
 	<gda:rmi-export
 		service="magnetSum"
 		serviceName="gda/magnetSum"
-		serviceInterface="gda.device.ScannableMotion" />
+		serviceInterface="gda.device.ScannableMotionUnits" />
 	<gda:rmi-export
 		service="magnetModeControl"
 		serviceName="gda/magnetModeControl"
@@ -70,7 +70,7 @@
 	<gda:rmi-export
 		service="magnetSampleTemp"
 		serviceName="gda/magnetSampleTemp"
-		serviceInterface="gda.device.ScannableMotion" />
+		serviceInterface="gda.device.ScannableMotionUnits" />
 	<gda:rmi-export
 		service="magnetHeaterControl"
 		serviceName="gda/magnetHeaterControl"
@@ -78,11 +78,11 @@
 	<gda:rmi-export
 		service="magnetManualOutput"
 		serviceName="gda/magnetManualOutput"
-		serviceInterface="gda.device.ScannableMotion" />
+		serviceInterface="gda.device.ScannableMotionUnits" />
 	<gda:rmi-export
 		service="magnetTargetTemp"
 		serviceName="gda/magnetTargetTemp"
-		serviceInterface="gda.device.ScannableMotion" />
+		serviceInterface="gda.device.ScannableMotionUnits" />
 	<gda:rmi-export
 		service="magnetNeedleValve"
 		serviceName="gda/magnetNeedleValve"
@@ -113,15 +113,15 @@
 	<gda:rmi-export
 		service="magnetNitrogenLevel"
 		serviceName="gda/magnetNitrogenLevel"
-		serviceInterface="gda.device.ScannableMotion" />
+		serviceInterface="gda.device.ScannableMotionUnits" />
 	<gda:rmi-export
 		service="magnetHeliumLevel"
 		serviceName="gda/magnetHeliumLevel"
-		serviceInterface="gda.device.ScannableMotion" />
+		serviceInterface="gda.device.ScannableMotionUnits" />
 	<gda:rmi-export
 		service="magnetPotHeliumLevel"
 		serviceName="gda/magnetPotHeliumLevel"
-		serviceInterface="gda.device.ScannableMotion" />
+		serviceInterface="gda.device.ScannableMotionUnits" />
 	<gda:rmi-export
 		service="magnetHeliumMode"
 		serviceName="gda/magnetHeliumMode"

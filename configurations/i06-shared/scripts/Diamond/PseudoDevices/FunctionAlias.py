@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import __main__ as gdamain
 
@@ -21,7 +21,7 @@ import __main__ as gdamain
 #	distance = deviceFun(testMotor1, testMotor2)
 #
 #####################################################################################
-class FunctionAliasClass(PseudoDevice):
+class FunctionAliasClass(ScannableMotionBase):
 #	def __init__(self, name, strUnit, strFormat):
 	def __init__(self, name, funName, funParameter = None):
 		self.setName(name);

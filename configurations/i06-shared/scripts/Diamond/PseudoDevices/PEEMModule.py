@@ -1,7 +1,7 @@
 from time import sleep
 from java import lang
 from gda.factory import Finder
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 
 #####################################################################################
@@ -21,7 +21,7 @@ from gda.device import Scannable
 #####################################################################################
 
 #Set the PEEM
-class PEEMModuleClass(PseudoDevice):
+class PEEMModuleClass(ScannableMotionBase):
 	def __init__(self, name, index):
 		self.setName(name);
 		self.setInputNames([]);

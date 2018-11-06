@@ -1,5 +1,5 @@
 from gda.epics import CAClient
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device.monitor import EpicsMonitor
 
 """
@@ -69,7 +69,7 @@ class VfmBm:
 			
 				
 	
-class BimorphVoltage(PseudoDevice):
+class BimorphVoltage(ScannableMotionBase):
 	
 	def __init__(self, name, pvName, unitstring, formatstring):
 		self.setName(name)
@@ -104,7 +104,7 @@ class BimorphVoltage(PseudoDevice):
 
 	
 	
-class BimorphVoltageMonitor(PseudoDevice):
+class BimorphVoltageMonitor(ScannableMotionBase):
 	
 	def __init__(self, name, pvName, unitstring, formatstring):
 		self.setName(name)

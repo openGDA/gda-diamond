@@ -3,7 +3,7 @@
 from time import ctime
 import sys, os
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.data.metadata import Metadata
 from gda.data.metadata import GDAMetadataProvider
 
@@ -22,7 +22,7 @@ from java.lang import ArrayIndexOutOfBoundsException
 logger=ScriptLoggerClass();
 
 
-class MetadataHeaderDeviceClass(PseudoDevice):
+class MetadataHeaderDeviceClass(ScannableMotionBase):
 	'''Metadta writer.
 	Usage:
 	>>>run "MetaDataHeaderDeviceClass"

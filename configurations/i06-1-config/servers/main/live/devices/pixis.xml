@@ -40,7 +40,7 @@
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
-				<property name="unixSubString" value="/dls/i10/data" />
+				<property name="unixSubString" value="/dls/i06/data" />
 				<property name="windowsSubString" value="x:\data" />
 			</bean>
 		</property>
@@ -158,7 +158,7 @@
 							<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
 								<property name="decoratee">
 									<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
-										<property name="adBase" ref="pixis1_adbase" />
+										<property name="adBase" ref="pixis_adbase" />
 										<property name="restoreAcquireState" value="true"/>
 									</bean>
 								</property>
@@ -168,23 +168,6 @@
 				</property>
 			</bean>
 		</property>
-	</bean>
-
-	<!-- NXDetector file writers -->
-
-	<!-- SingleImagePerFileWriter(String detectorName)
-	 -->
-	<bean id="pixis1_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
-		<constructor-arg value="pixis" />
-		<property name="ndFile" ref="pixis_ndfile" />
-		<property name="keyNameForMetadataPathTemplate" value="pixis_path_template" />
-		<property name="blocking" value="false"/>
-		<property name="pathErrorSuppressed" value="true"/>
-		<property name="fileTemplate" value="%s%s_%05d.tif"/>
-		<property name="filePathTemplate" value="$datadir$/$scan$_PixisImage"/>
-		<property name="fileNameTemplate" value="pixis"/>
-		<property name="fileNumberAtScanStart" value="1"/>
 	</bean>
 
 </beans>

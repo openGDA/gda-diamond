@@ -4,7 +4,7 @@ from time import sleep
 import math
 
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient;
 
 #import cPickle as pickle
@@ -346,7 +346,7 @@ class SuperconductingMagnetClass(object):
 
 
 #The Class for creating a magnet pseudo class in the Cartesian coordinate
-class CartesianMagnetClass(PseudoDevice):
+class CartesianMagnetClass(ScannableMotionBase):
 	def __init__(self, name, nameMagnet):
 		self.setName(name);
 		self.setInputNames(['Bx', 'By', 'Bz']);
@@ -355,7 +355,7 @@ class CartesianMagnetClass(PseudoDevice):
 		self.setLevel(7);
 		self.magnet = vars(gdamain)[nameMagnet];
 
-	#PseudoDevice Implementation
+	#ScannableMotionBase Implementation
 	def toString(self):
 		ss=self.getName() + ": [Bx, By, Bz]: " + str(self.getPosition());
 		return ss;
@@ -371,7 +371,7 @@ class CartesianMagnetClass(PseudoDevice):
 		return self.magnet.isBusy();
 
 #The Class for creating a magnet pseudo class in the Spherical coordinate
-class SphericalMagnetClass(PseudoDevice):
+class SphericalMagnetClass(ScannableMotionBase):
 	def __init__(self, name, nameMagnet):
 		self.setName(name);
 		self.setInputNames(['Rho', 'Theta', 'Phi']);
@@ -380,7 +380,7 @@ class SphericalMagnetClass(PseudoDevice):
 		self.setLevel(7);
 		self.magnet = vars(gdamain)[nameMagnet];
 
-	#PseudoDevice Implementation
+	#ScannableMotionBase Implementation
 	def toString(self):
 		ss=self.getName() + ": [Rho, Theta, Phi]: " + str(self.getPosition());
 		return ss;
@@ -396,7 +396,7 @@ class SphericalMagnetClass(PseudoDevice):
 		return self.magnet.isBusy();
 
 #The Class of Pseudo device for changing the magnet mode
-class ModeMagnetClass(PseudoDevice):
+class ModeMagnetClass(ScannableMotionBase):
 	def __init__(self, name, nameMagnet):
 		self.setName(name);
 		self.setInputNames(['MagnetMode']);
@@ -405,7 +405,7 @@ class ModeMagnetClass(PseudoDevice):
 		self.setLevel(7);
 		self.magnet = vars(gdamain)[nameMagnet];
 
-	#PseudoDevice Implementation
+	#ScannableMotionBase Implementation
 	def toString(self):
 		ss=self.getName() + ": Current Magnet Mode: " + self.magnet.getMagnetMode();
 		return ss;
@@ -422,7 +422,7 @@ class ModeMagnetClass(PseudoDevice):
 
 
 #The Class for creating a pseudo class in the direction of a uniaxial x, y, or z
-class SingleAxisMagnetClass(PseudoDevice):
+class SingleAxisMagnetClass(ScannableMotionBase):
 	X, Y, Z, RHO, THETA, PHI  = range(6);
 
 	def __init__(self, name, nameMagnet, axialIndex):
@@ -436,7 +436,7 @@ class SingleAxisMagnetClass(PseudoDevice):
 		self.setLevel(7);
 		self.magnet = vars(gdamain)[nameMagnet];
 		
-	#PseudoDevice Implementation
+	#ScannableMotionBase Implementation
 	def toString(self):
 		ss=self.getName() + ': ' + self.axisName + ': ' + str(self.getPosition());
 		return ss;

@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 
 import time;
@@ -17,7 +17,7 @@ import time;
 #	delay: time needed in milli-second to reach the new value
 #
 #####################################################################################
-class ScannalbeControlPointClass(PseudoDevice):
+class ScannalbeControlPointClass(ScannableMotionBase):
 #	def __init__(self, name, strUnit, strFormat):
 	def __init__(self, name, lowLimit, highLimit, refObj, delay):
 		self.setName(name);

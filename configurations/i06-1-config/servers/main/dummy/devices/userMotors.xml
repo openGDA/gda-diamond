@@ -35,14 +35,14 @@
 		<property name="unitString" value="mm"/>
 		<property name="local" value="true" />
 	</bean>
-
-	<bean id="MotorMTR5_U2" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-10" />
-		<property name="maxPosition" value="10" />
-		<property name="speed" value="1" />
-		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>
+<!--  MTR5 is removed in EPICS -->
+<!-- 	<bean id="MotorMTR5_U2" class="gda.device.motor.DummyMotor"> -->
+<!-- 		<property name="minPosition" value="-10" /> -->
+<!-- 		<property name="maxPosition" value="10" /> -->
+<!-- 		<property name="speed" value="1" /> -->
+<!-- 		<property name="unitString" value="mm"/> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
 
 	<bean id="MotorMTR6_U2" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-10" />

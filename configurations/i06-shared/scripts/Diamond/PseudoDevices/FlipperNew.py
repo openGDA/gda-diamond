@@ -1,6 +1,6 @@
 #A GDA Pseudo Device that invokes the moke3d Java magnet power software controller over TCP/IP
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 import random
@@ -11,7 +11,7 @@ def update(controller, msg, exceptionType=None, exception=None, traceback=None, 
 	handle_messages.log(controller, msg, exceptionType, exception, traceback, Raise)
 
 #The Class for creating a device to calculate the XXX at two energy level
-class FlipperClass(PseudoDevice):
+class FlipperClass(ScannableMotionBase):
 	def __init__(self, name, magnetName, energyName, startEnergy, endEnergy, counterName1, counterName2, counterName3, integrationTime):
 		self.setName(name);
 		self.setInputNames([magnetName]);
@@ -68,7 +68,7 @@ class FlipperClass(PseudoDevice):
 		return [self.counter1.getPosition(), self.counter2.getPosition(), self.counter3.getPosition()];
 #		return [100*random.random(),100*random.random(),100*random.random()];
 
-#PseudoDevice Implementation
+#ScannableMotionBase Implementation
 	def atScanStart(self):
 		return;
 

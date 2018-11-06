@@ -1,13 +1,13 @@
 from time import sleep;
 import math;
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 from gda.epics import CAClient;
 
 import __main__ as gdamain
 
 #The Class for creating a Scaler channel monitor directly from EPICS PV
 #For 8512 Scaler Card used in I06 only. This scaler card is not supported by EPICS scaler record
-class TemperatureControllerClass(PseudoDevice):
+class TemperatureControllerClass(ScannableMotionBase):
 	def __init__(self, name, strTempSetPV,strTempSetReadBackPV, strTemp1GetPV, strTemp2GetPV):
 		self.setName(name);
 		self.setInputNames([name]);
@@ -144,7 +144,7 @@ class TemperatureControllerClass(PseudoDevice):
 		return ss;
 
 
-class AsymmetryDeviceClass(PseudoDevice):
+class AsymmetryDeviceClass(ScannableMotionBase):
 	def __init__(self, name, deviceFunName):
 		self.setName(name);
 		self.setInputNames([name]);
@@ -169,7 +169,7 @@ class AsymmetryDeviceClass(PseudoDevice):
 	def getAsymmetry(self):
 		return self.funAsymmetry();
 	
-	#PseudoDevice Implementation
+	#ScannableMotionBase Implementation
 	def atScanStart(self):
 		return;
 

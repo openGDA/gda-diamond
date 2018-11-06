@@ -1,9 +1,9 @@
 from gda.epics import CAClient;
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 from time import sleep
 
 #The Class for creating a Pseudo Device that can do Epics caput and caget
-class EpicsTriggerClass(PseudoDevice):
+class EpicsTriggerClass(ScannableMotionBase):
     def __init__(self, name, pvSet, pvGet,pulseLength):
         self.setName(name);
         self.setInputNames([name]);

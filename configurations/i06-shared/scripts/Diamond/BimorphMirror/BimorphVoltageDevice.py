@@ -1,5 +1,5 @@
 from gda.epics import CAClient
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device.monitor import EpicsMonitor;
 from time import sleep;
 
@@ -116,7 +116,7 @@ class BimorphVoltageDeviceClass(object):
 
 
 #####################
-class BimorphVoltage(PseudoDevice):
+class BimorphVoltage(ScannableMotionBase):
 	def __init__(self, name, pvVoltage, pvStatus, formatstring):
 		self.setName(name)
 		self.chVoltage = CAClient(pvVoltage);

@@ -70,7 +70,7 @@
 		<property name="pvName" value="BL06I-OP-FSM-04:X" />
 		<property name="local" value="true"/>
 	</bean>
-	<bean id="MotorX_LFSM4" class="gda.device.motor.EpicsMotor">
+	<bean id="MotorY_LFSM4" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-FSM-04:Y" />
 		<property name="local" value="true"/>
 	</bean>
