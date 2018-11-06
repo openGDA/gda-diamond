@@ -204,8 +204,11 @@ print
 print "*"*80
 #DiffCalc
 print "import DIFFCALC support for I21"
-from startup.i21 import *  # @UnusedWildImport
-toolpoint_off()  # @UndefinedVariable
+try:
+    from startup.i21 import *  # @UnusedWildImport
+    toolpoint_off()  # @UndefinedVariable
+except:
+    print "DIFFCALC import failed !"
 
 
 #Mapping scan
