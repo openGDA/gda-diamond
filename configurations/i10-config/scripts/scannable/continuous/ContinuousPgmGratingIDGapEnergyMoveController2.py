@@ -13,7 +13,8 @@ from org.slf4j import LoggerFactory
 from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating #, enecff2grating
 import threading, time
 import installation
-from time import sleep
+import math
+from java.lang import Math
 
 class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveController, DeviceBase):
     '''Controller for constant velocity scan moving both PGM Grating Pitch and ID Gap at same time at constant speed respectively.
@@ -58,25 +59,12 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self.mirror_pitch_positions=[]
         self.pgm_energy_positions=[]
         self._start_time = None
-        self.idspeedfactor=1.0
+        self.k=1.0
         self.pgmspeedfactor=1.0
-        self.idstartdelaytime=0.0
-       
-    def setIDStartDelayTime(self, t):
-        self.idstartdelaytime=t
-        
-    def getIDStartDelayTime(self):
-        return self.idstartdelaytime
-     
-    def setIDSpeedFactor(self, val):
-        self.idspeedfactor=val
     
-    def getIDSpeedFactor(self):
-        return self.idspeedfactor
-    
-    def setPGMSpeedFactor(self, val):
+    def setPGMSpeedFactor(self,val):
         self.pgmspeedfactor=val
-    
+        
     def getPGMSpeedFactor(self):
         return self.pgmspeedfactor
         
@@ -146,9 +134,11 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
 
 
     def PreparePGMForMove(self):
-        self._pgm_grat_pitch_speed_orig = 0.018 #required this because EPICS energy change this speed depending on the size of change set
+        self._pgm_grat_pitch_speed_orig = 0.018
         self._pgm_grat_pitch.speed=self._pgm_grat_pitch_speed_orig
-   
+#         if self._pgm_grat_pitch_speed_orig != 0.018:
+#             raise Exception("PGM Grit Pitch motor speed %f is not at maximum 0.018!" % (self._pgm_grat_pitch_speed_orig))
+        
         # Calculate the energy midpoint
         energy_midpoint = (self._move_end + self._move_start) / 2.
         if self.verbose:
@@ -182,8 +172,16 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
                                                  pmoff=self.plane_mirror_offset, 
                                                  ecg=self.energy_calibration_gradient, 
                                                  ecr=self.energy_calibration_reference)
+        if not self.isIDMoveEnabled():
+            self.k=1.0
+            
+        
+        print self.k
         ### Calculate main cruise moves & speeds from start/end/step
-        self._pgm_grat_pitch_speed = (abs(self._grat_pitch_end - self._grat_pitch_start) / self.getTotalTime())*self.getPGMSpeedFactor()
+        self._pgm_grat_pitch_speed = abs(self._grat_pitch_end - self._grat_pitch_start) / self.getTotalTime()
+        print self._pgm_grat_pitch_speed
+        self._pgm_grat_pitch_speed=self._pgm_grat_pitch_speed*self.k * self.pgmspeedfactor
+        print self._pgm_grat_pitch_speed
         
         ### Calculate ramp distance from required speed and ramp times
         #check speed within limits
@@ -231,20 +229,26 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         self._id_gap_end = self._id_energy.gap_from_energy(self._move_end)
         
             ### Calculate main cruise moves & speeds from start/end/step
-        self._id_gap_speed = abs(self._id_gap_end - self._id_gap_start) / self.getTotalTime()*self.idspeedfactor
+        self._id_gap_speed = abs(self._id_gap_end - self._id_gap_start) / self.getTotalTime()
+        
+        print self._id_gap_speed
+        self._id_gap_speed_rounded = Math.round(self._id_gap_speed*500.0)/500.0
+        print self._id_gap_speed_rounded
+        
+        self.k=self._id_gap_speed_rounded/self._id_gap_speed
         
         ### Calculate ramp distance from required speed and ramp times
         #check speed within limits
-        if self._id_gap_speed<0.004 or self._id_gap_speed>1.0:
-            raise Exception("Calculated ID gap speed %f is outside limits [%f, %f]!" % (self._id_gap_speed, 0.004, 1.0))
+        if self._id_gap_speed_rounded<0.004 or self._id_gap_speed_rounded>1.0:
+            raise Exception("Calculated ID gap speed %f is outside limits [%f, %f]!" % (self._id_gap_speed_rounded, 0.004, 1.0))
         if installation.isLive():
             #self._id_gap.speed = self._id_gap_speed #Cannot set id_gap.speed through soft motor which in EPICS is read-only 
-            self.idpvs['vel'].caput(self._id_gap_speed)
+            self.idpvs['vel'].caput(self._id_gap_speed_rounded)
         else:
-            self._id_gap.speed = self._id_gap_speed 
+            self._id_gap.speed = self._id_gap_speed_rounded 
             
         #acceleration time per axis
-        self._id_axis_speed=self._id_gap_speed/2
+        self._id_axis_speed=self._id_gap_speed_rounded/2
         self._id_runupdown_time_per_axis=self._id_axis_speed*4
         # Should really be / | | | | | \ not /| | | | |\
         self._id_runupdown_per_axis = self._id_axis_speed / 2 * self._id_runupdown_time_per_axis
@@ -276,17 +280,19 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
 
     def prepareForMove(self):
         if self.verbose: self.logger.info('prepareForMove()...')
+        
+        if self.isIDMoveEnabled():
+            self.PrepareIDForMove()
+        else:
+            if self.verbose:
+                self.logger.info('ID move is disabled in %r' % (self.getName()))
+                
         if self.isPGMMoveEnabled():
             self.PreparePGMForMove()
         else:
             if self.verbose:
                 self.logger.info('PGM move is disabled in %r' % (self.getName()))
 
-        if self.isIDMoveEnabled():
-            self.PrepareIDForMove()
-        else:
-            if self.verbose:
-                self.logger.info('ID move is disabled in %r' % (self.getName()))
             
         if not self.isPGMMoveEnabled() and not self.isIDMoveEnabled():
             raise Exception("Both PGM and ID moves are disabled so no scan will occur!")
@@ -308,9 +314,9 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
         
         if self.isIDMoveEnabled():
             if installation.isLive():
-                self.idpvs['vel'].caput(self._id_gap_speed)
+                self.idpvs['vel'].caput(self._id_gap_speed_rounded)
             else:
-                self._id_gap.speed = self._id_gap_speed 
+                self._id_gap.speed = self._id_gap_speed_rounded
         
         if self.isPGMMoveEnabled():
             if self.getGratingMoveDirectionPositive():
@@ -322,7 +328,6 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
                                                         (self._grat_pitch_end - self._pgm_runupdown)*1000., self._pgm_grat_pitch_speed))
                 self._pgm_grat_pitch.asynchronousMoveTo((self._grat_pitch_end - self._pgm_runupdown)*1000.)
         if self.isIDMoveEnabled():
-            sleep(self.getIDStartDelayTime())
             if self.getIDGapMoveDirectionPositive():
                 if self.verbose: self.logger.info('startMove ID Gap: asynchronousMoveTo(%r) @ %r (+ve)' % (
                                                         (self._id_gap_end + self._id_gap_runupdown), self._id_gap_speed))
