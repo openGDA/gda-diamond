@@ -1,10 +1,10 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import __main__ as gdamain;
 
 #The Class for creating a scannable Motor directly from EPICS PV
 #The motor status is reflected in the DMOV flag
-class AliasDeviceClass(PseudoDevice):
+class AliasDeviceClass(ScannableMotionBase):
 	def __init__(self, name, gdaCommandString):
 		self.setName(name);
 		self.setInputNames([name]);

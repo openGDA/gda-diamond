@@ -1,12 +1,12 @@
 from time import sleep
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 
 
 #The Class for changing the ID Harmonic
 #The PV is an Mbbinary elements that take the value "First" (1), "Third" (3) or "Fifth" (5)
 
-class ID_HarmonicClass(PseudoDevice):
+class ID_HarmonicClass(ScannableMotionBase):
 	"""
 	The Class for changing the ID Harmonic
 	The PV is an Mbbinary elements that take the value "First" (1), "Third" (3) or "Fifth" (5)
@@ -56,7 +56,7 @@ class ID_HarmonicClass(PseudoDevice):
 		self.chHarmonic.caput(harmonic_number);
 
 
-	#PseudoDevice Implementations
+	#ScannableMotionBase Implementations
 	def getPosition(self):
 		return self.getHarmonic();
 	

@@ -5,7 +5,7 @@ import random
 import math
 
 
-#from gda.device.scannable import PseudoDevice
+#from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable import ScannableBase
 
 from gda.epics import CAClient;
@@ -15,9 +15,9 @@ from gda.epics import CAClient;
 
 import __main__ as gdamain
 
-#class FilterSet(PseudoDevice):
+#class FilterSet(ScannableMotionBase):
 class FilterSet(ScannableBase):
-	"""Filter Set Class that implementing the GDA PseudoDevice interface"""
+	"""Filter Set Class that implementing the GDA ScannableMotionBase interface"""
 
 	
 	def __init__(self, name, filters):
@@ -56,7 +56,7 @@ class FilterSet(ScannableBase):
 		
 		return self.activeFilters;
 
-	#"""PseudoDevice Implementation"""
+	#"""ScannableMotionBase Implementation"""
 	def toString(self):
 		p=self.getPosition();
 		if p[1]>0.005: 
@@ -283,9 +283,9 @@ class FilterSet(ScannableBase):
 		return True;
 
 
-#class EpicsFilter(PseudoDevice):
+#class EpicsFilter(ScannableMotionBase):
 class EpicsFilter(ScannableBase):
-	"""Filter Class that implementing the GDA PseudoDevice interface"""
+	"""Filter Class that implementing the GDA ScannableMotionBase interface"""
 	IN_LIMIT_STATUS_NOTIN, IN_LIMIT_STATUS_IN = range(2);
 	IN_LIMIT_STRING = ['Not in', 'In'];
 	
@@ -398,7 +398,7 @@ class EpicsFilter(ScannableBase):
 #		print 'Filter Position: ' + str(self.filterPosition);
 		return self.filterPosition;
 
-	"""PseudoDevice Implementation"""
+	"""ScannableMotionBase Implementation"""
 	def toString(self):
 		self.getPosition();
 		ss=self.getName() + ': ' + EpicsFilter.FILTER_POSITION_STRING[self.filterPosition] ;

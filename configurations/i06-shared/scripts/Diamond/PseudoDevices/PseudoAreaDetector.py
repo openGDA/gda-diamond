@@ -32,7 +32,7 @@ import __main__ as gdamain
 # test.plot()
 # matrix = test.getImage().doubleMatrix()
 
-#class Pilatus(PseudoDevice):
+#class Pilatus(ScannableMotionBase):
 class PseudoAreaDetectorClass(DetectorBase, ShutterDeviceClass, MetadataConsumerClass):
 	DETECTOR_STATUS_IDLE, DETECTOR_STATUS_BUSY, DETECTOR_STATUS_PAUSED, DETECTOR_STATUS_STANDBY, DETECTOR_STATUS_FAULT, DETECTOR_STATUS_MONITORING = range(6);
 

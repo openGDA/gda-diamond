@@ -4,7 +4,7 @@
 
 from time import sleep
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from gda.epics import CAClient
 
@@ -16,7 +16,7 @@ from gda.epics import CAClient
 # Example usage:
 # img2=DisplayEpicsPVClass('IMG02', 'BL16I-VA-IMG-02:P', 'mbar', '%.1e')
 #
-class DisplayEpicsPVClass(PseudoDevice):
+class DisplayEpicsPVClass(ScannableMotionBase):
 	'''Create PD to display single EPICS PV'''
 	def __init__(self, name, pvstring, unitstring, formatstring):
 		self.setName(name);
@@ -45,7 +45,7 @@ class DisplayEpicsPVClass(PseudoDevice):
 # Example usage:
 #diag1pos=SingleEpicsPositionerClass('diag1','BL16I-OP-ATTN-02:P:SETVALUE2.VAL','BL16I-OP-ATTN-02:P:UPD.D','BL16I-OP-#ATTN-02:POSN.DMOV','BL16I-OP-ATTN-02:MP:STOP.PROC','mm','%.2f')
 #
-class SingleEpicsPositionerClass(PseudoDevice):
+class SingleEpicsPositionerClass(ScannableMotionBase):
 	'''Create PD for single EPICS positioner'''
 	def __init__(self, name, pvinstring, pvoutstring, pvstatestring, pvstopstring, unitstring, formatstring):
 		self.setName(name);
@@ -146,7 +146,7 @@ class SingleEpicsPositionerNoStatusClassDeadband(SingleEpicsPositionerNoStatusCl
 
 
 
-class SingleChannelBimorphClass(PseudoDevice):
+class SingleChannelBimorphClass(ScannableMotionBase):
         '''Create PD for single EPICS Bimorph channel'''
         def __init__(self, name, pvinstring, pvoutstring, pvstatestring, unitstring, formatstring):
                 self.setName(name);

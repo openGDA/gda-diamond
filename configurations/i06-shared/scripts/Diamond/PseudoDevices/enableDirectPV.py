@@ -1,11 +1,11 @@
 from gda.epics import CAClient
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from time import sleep
 
 #The Class for creating a Monitor directly from EPICS PV
-class MonitorEpicsPVClass(PseudoDevice):
+class MonitorEpicsPVClass(ScannableMotionBase):
 	def __init__(self, name, strPV, strUnit, strFormat):
 		self.setName(name);
 		self.setInputNames([])
@@ -84,7 +84,7 @@ class ScalerEpicsPVClass:
 
 
 #The Class for creating a Scaler Channel Monitor directly from EPICS PV
-class ScalerChannelMonitorEpicsPVClass(PseudoDevice):
+class ScalerChannelMonitorEpicsPVClass(ScannableMotionBase):
 	def __init__(self, name, strPV, strCh, time):
 		self.setName(name);
 		self.setInputNames([])
@@ -215,7 +215,7 @@ class ScalerChannelMonitorEpicsPVClass(PseudoDevice):
 
 
 #The Class for creating a scannable Motor directly from EPICS PV
-class ScannableMotorEpicsPVClass(PseudoDevice):
+class ScannableMotorEpicsPVClass(ScannableMotionBase):
 	def __init__(self, name, strPV, strUnit, strFormat):
 		self.setName(name);
 		self.setInputNames([name])

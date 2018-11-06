@@ -1,6 +1,6 @@
 #A GDA Pseudo Device that invokes the moke3d Java magnet power software controller over TCP/IP
 
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 from gda.device.Detector import BUSY;
 from org.eclipse.january.dataset import DatasetFactory
 # XXX Chosen to ignore old datset because it would be  incompatible with core scripts
@@ -10,7 +10,7 @@ from time import sleep
 import __main__ as gdamain
 
 #
-class FlippingDeviceClass(PseudoDevice):
+class FlippingDeviceClass(ScannableMotionBase):
 	'''
 	A 2D scan device which scans one device X and at each x, scan the second device Y. 
 	At each point y, use detectors to collect data and pass a data set to process.
@@ -134,7 +134,7 @@ class FlippingDeviceClass(PseudoDevice):
 			self.result[key] = val
 
 
-#PseudoDevice Implementation
+#ScannableMotionBase Implementation
 	def atScanStart(self):
 		return;
 

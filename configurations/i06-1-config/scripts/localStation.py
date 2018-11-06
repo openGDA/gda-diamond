@@ -89,23 +89,28 @@ print "Switch off scan processor by default at Sarnjeet's request on 11 May 2016
 print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
 print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
 
-from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
-scan_processor.rootNamespaceDict=globals()  
-gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
-scan_processor_normal_processes = scan_processor.processors
-scan_processor_empty_processes  = []
- 
-def scan_processing_on():
-    scan_processor.processors = scan_processor_normal_processes
- 
-def scan_processing_off():
-    scan_processor.processors = scan_processor_empty_processes
+try:
+    from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
+    scan_processor.rootNamespaceDict=globals() 
+    import gdascripts 
+    gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
+    scan_processor_normal_processes = scan_processor.processors
+    scan_processor_empty_processes  = []
+     
+    def scan_processing_on():
+        scan_processor.processors = scan_processor_normal_processes
+     
+    def scan_processing_off():
+        scan_processor.processors = scan_processor_empty_processes
+except:
+    localStation_exception(sys.exc_info(), "import scan processor error.")
+    
 print
 print "*"*80
 #DiffCalc
 print "import DIFFCALC support for I06-1"
 try:
-    from startup.i10 import *  # @UnusedWildImport
+    from startup.i06 import *  # @UnusedWildImport
 except:
     localStation_exception(sys.exc_info(), "import diffcalc error.")
         

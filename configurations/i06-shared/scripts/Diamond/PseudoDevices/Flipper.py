@@ -1,7 +1,7 @@
 #A GDA Pseudo Device that can flip magnetic fields
 
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from time import sleep
 import random
@@ -14,7 +14,7 @@ from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
 logger=ScriptLoggerClass();
 
 #The Class for creating a device to calculate the XXX at two energy level
-class FlipperClass(PseudoDevice):
+class FlipperClass(ScannableMotionBase):
 	def __init__(self, name, magnetName, energyName, startEnergy, endEnergy, counterName1, counterName2, counterName3, integrationTime):
 		self.setName(name);
 		self.setInputNames([magnetName]);
@@ -77,7 +77,7 @@ class FlipperClass(PseudoDevice):
 		c_sum=map(sum, zip( *cnt_list ) )
 		return c_sum
 
-#PseudoDevice Implementation
+#ScannableMotionBase Implementation
 	def atScanStart(self):
 		return;
 

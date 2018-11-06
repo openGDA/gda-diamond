@@ -1,5 +1,5 @@
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.jython import JythonServerFacade
 from gda.jython.JythonStatus import RUNNING
 
@@ -7,7 +7,7 @@ from time import asctime, sleep
 from datetime import time
 
 
-class WaitBelowAndShutterMonitorOnly(PseudoDevice):
+class WaitBelowAndShutterMonitorOnly(ScannableMotionBase):
 	'''
 	Can be configured with any monitor-like scannable and a minimum threshold.
 	This scannable's getPosition method will not return until the monitor-like scannables

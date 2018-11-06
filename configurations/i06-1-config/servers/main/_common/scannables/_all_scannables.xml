@@ -7,7 +7,7 @@
 	<import resource="valves.xml"/>
 	<import resource="d8.xml"/>
 	<import resource="s6.xml"/>
-	<import resource="CHP.xml"/>
+<!-- 	<import resource="CHP.xml"/> -->
 	<import resource="d9.xml"/>
 	<import resource="m7.xml"/>
 	<import resource="s7.xml"/>
@@ -17,12 +17,12 @@
 	<import resource="d12.xml"/>
 	<import resource="u2.xml"/>
 	<import resource="userMotors.xml"/>
+	<import resource="scm.xml"/>
+	<import resource="laser_ec2.xml"/>
 	
 	<!-- mobile end station devices below -->
 	<import resource="endStationDD.xml"/>
-	<import resource="laser_ec2.xml"/>
-<!-- 	<import resource="magnet.xml"/> -->
 <!-- 	<import resource="mobilerack.xml"/> -->
-<!-- 	<import resource="polarimeter.xml"/> -->
+	<import resource="pixis.xml"/>
 	
 </beans>

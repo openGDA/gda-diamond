@@ -2,7 +2,7 @@ from time import sleep
 
 
 from gda.epics import CAClient
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 from gov.aps.jca.event import PutEvent;
 from gov.aps.jca.event import PutListener;
@@ -11,7 +11,7 @@ from gov.aps.jca import CAStatus;
 
 #The Class for creating a scannable Motor directly from EPICS PV
 #The motor status is reflected in the DMOV flag
-class EpicsMotorClass(PseudoDevice):
+class EpicsMotorClass(ScannableMotionBase):
 	MOTOR_STATUS_UPPERLIMIT, MOTOR_STATUS_LOWERLIMIT, MOTOR_STATUS_FAULT, MOTOR_STATUS_READY, MOTOR_STATUS_BUSY, MOTOR_STATUS_UNKNOWN, MOTOR_STATUS_SOFTLIMITVIOLATION = range(7);
 	def __init__(self, name, pvRootMotor, strFormat):
 		self.setName(name);

@@ -6,7 +6,7 @@ import java.io.FileNotFoundException
 # test.plot()
 # matrix = test.getImage().doubleMatrix()
 
-class PilatusClass(PseudoDevice):
+class PilatusClass(ScannableMotionBase):
 	'''Pilatus PD
 	obj=PilatusClass(name,pvroot,filepath,filename)
 	e.g. pilatus=PilatusClass('P100k','BL16I-EA-PILAT-01:','/dls/i16/data/Pilatus/','p')

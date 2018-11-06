@@ -3,7 +3,7 @@ from time import sleep
 #import xmlrpclib;
 from xmlrpclib import ServerProxy;
 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device.detector import PseudoDetector
 from gda.device.Detector import BUSY, IDLE
 
@@ -122,7 +122,7 @@ class VersaStatClientClass(object):
 		return [e,i];
 		
 
-class VersaStatDeviceClass(PseudoDevice):
+class VersaStatDeviceClass(ScannableMotionBase):
 	def __init__(self, name, deviceName):
 		self.setName(name);
 		self.setInputNames(['E']);
@@ -153,7 +153,7 @@ class VersaStatDeviceClass(PseudoDevice):
 	def getDelay(self):
 		return self.device.getDelay();
 		
-	#PseudoDevice Implementation
+	#ScannableMotionBase Implementation
 	def toString(self):
 		ss=self.getName() + ": [E, I]: " + str(self.getPosition());
 		return ss;

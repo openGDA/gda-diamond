@@ -1,9 +1,9 @@
 from time import sleep
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
 
 #The Class for changing the grating on I06 PGM
-class PGM_GratingClass(PseudoDevice):
+class PGM_GratingClass(ScannableMotionBase):
 	def __init__(self, name, strGetPV, strSetPV, strGratingMoveStatusPV):
 		self.setName(name);
 		self.setInputNames([]);

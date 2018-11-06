@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from gda.factory import Finder
 
@@ -23,7 +23,7 @@ from time import sleep
 #
 #
 #####################################################################################
-class CurrentAmplifierSumClass(PseudoDevice):
+class CurrentAmplifierSumClass(ScannableMotionBase):
 	def __init__(self, name, refCA):
 		self.setName(name);
 		self.setInputNames([name+"_sum"]);

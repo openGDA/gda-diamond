@@ -23,12 +23,12 @@ ev=1.60217648740e-19
 wperev=(h*c/ev)*1.0e10
 
 from gda.device.scannable import ScannableBase;
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 import math;
 
 import __main__ as gdamain
 
-class DoubleCrystalDeflectorClass(PseudoDevice):
+class DoubleCrystalDeflectorClass(ScannableMotionBase):
     def __init__(self, name, wavelengthDevice, motorTheta, motorOmega, motorGamma, extraDevices=None, trackingDevices=[]):
         self.setName(name);
         self.setInputNames([name]);
@@ -199,7 +199,7 @@ class DoubleCrystalDeflectorClass(PseudoDevice):
         s=format % (self.getName(), self.getPosition(), self.getUnits()[0]);
         return s;
 
-class DoubleCrystalDeflectorMonitorClass(PseudoDevice):
+class DoubleCrystalDeflectorMonitorClass(ScannableMotionBase):
     def __init__(self, name, dcdDevice):
         self.setName(name);
         self.setInputNames(['dcdomega_requested']);
@@ -225,7 +225,7 @@ class DoubleCrystalDeflectorMonitorClass(PseudoDevice):
         return False;
 
 
-class ThetaXClass(PseudoDevice):
+class ThetaXClass(ScannableMotionBase):
     def __init__(self, name, motorDCD, motorGamma, extraDevices=None):
         self.setName(name);
         self.setInputNames([name]);
@@ -294,7 +294,7 @@ class ThetaXClass(PseudoDevice):
         return s;
     
 
-class MomentumTransferDeviceClass(PseudoDevice):
+class MomentumTransferDeviceClass(ScannableMotionBase):
     def __init__(self, name, wavelengthDevice, motorTheta, motor2Theta=None, extraDevices=None):
         self.setName(name);
         self.setInputNames([name]);

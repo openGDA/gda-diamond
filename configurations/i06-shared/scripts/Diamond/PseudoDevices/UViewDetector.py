@@ -2,7 +2,7 @@ from time import sleep
 from java import lang
 
 from gda.factory import Finder
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device.detector import PseudoDetector
 from gda.device import Scannable
 
@@ -61,7 +61,7 @@ class UViewDetectorClass(PseudoDetector):
 
 #The Class for creating a PEEM UView Region Of Interests Detector as Psuedo Device
 #For PEEM UView in I06 only.
-class UViewDetectorROIClass0(PseudoDevice):
+class UViewDetectorROIClass0(ScannableMotionBase):
 	def __init__(self, name, roi):
 		self.setName(name);
 		self.setInputNames([]);

@@ -5,7 +5,7 @@ import math;
 
 from gda.factory import Finder
 from gda.epics import CAClient;
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 from org.eclipse.january.dataset import DatasetFactory
 
 from gov.aps.jca.event import PutEvent;
@@ -186,7 +186,7 @@ class FastScanControlClass(object):
 	def abortScan(self):
 		self.restoreMotor();
 
-class FastMotionDeviceClass(PseudoDevice):
+class FastMotionDeviceClass(ScannableMotionBase):
 	""" """
 
 	def __init__(self, name, fastScanController, fastScanDetector):
@@ -211,7 +211,7 @@ class FastMotionDeviceClass(PseudoDevice):
 	def setDelay(self, delay):
 		self.delay = delay;
 
-#PseudoDevice Implementation
+#ScannableMotionBase Implementation
 	def atScanStart(self):
 #		print "At Scan Start"
 		#trigger the scan
@@ -295,7 +295,7 @@ class FastMotionDeviceClass(PseudoDevice):
 
 
 
-class EpicsMCADataDeviceClass(PseudoDevice):
+class EpicsMCADataDeviceClass(ScannableMotionBase):
 	
 	def __init__(self, name, rootPV, numberOfMCA):
 		self.numberOfDetectors = numberOfMCA;

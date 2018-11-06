@@ -3,7 +3,7 @@ from time import sleep;
 import math
 
 from gda.epics import CAClient;
-from gda.device.scannable import PseudoDevice;
+from gda.device.scannable import ScannableMotionBase;
 from gda.device import DeviceBase
 
 import __main__ as gdamain
@@ -397,7 +397,7 @@ class NimaLangmuirBlodgettTroughDeviceClass(object):
 
 
 
-class TroughAreaDevice(PseudoDevice):
+class TroughAreaDevice(ScannableMotionBase):
 	def __init__(self, name, trough):
 		self.setName(name);
 		self.setInputNames([name]);
@@ -406,7 +406,7 @@ class TroughAreaDevice(PseudoDevice):
 		self.setLevel(7);
 		self.trough = trough;
 
-	#PseudoDevice Implementation
+	#ScannableMotionBase Implementation
 	def getPosition(self):
 		self.trough.readValues()
 		return self.trough.area;

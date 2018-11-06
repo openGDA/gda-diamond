@@ -1,6 +1,6 @@
 from java import lang
 from time import sleep
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 import math
 
 #the parameters d, off (offset), are from BESTEC calibration, all in micron.
@@ -8,7 +8,7 @@ import math
 #the conversion between beamline coordinate and counts is: mm = counts/10000*sign
 #The offset must be expressed in counts as in the BESTEC report.
         
-class slitsMotorClassV2(PseudoDevice):
+class slitsMotorClassV2(ScannableMotionBase):
     #If testMode==1 the motor does not move
     def __init__(self,name,units,d,off, encoderSign, realMotor, testMode):
         self.setName(name);

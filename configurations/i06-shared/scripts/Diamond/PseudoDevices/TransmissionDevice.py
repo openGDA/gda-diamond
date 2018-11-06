@@ -1,10 +1,10 @@
 #New style Pseudo devices use gda.device.scannable.PseudoDevice 
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 
 import __main__ as gdamain
 
 #A Transmission Device that drives the slave device based on the master device's position using user defined function
-class TransmissionDeviceClass(PseudoDevice):
+class TransmissionDeviceClass(ScannableMotionBase):
 	def __init__(self, name, masterObj, slaveObj, deviceFunName):
 		self.setName(name);
 		self.setInputNames([name]);

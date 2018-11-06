@@ -1,12 +1,12 @@
 from time import sleep
 from java import lang
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 from gda.epics import CAClient
 
 #The Class for creating a Scaler channel monitor directly from EPICS PV
 #For 8512 Scaler Card used in I06 only. This scaler card is not supported by EPICS scaler record
-class PositionerPVClass(PseudoDevice):
+class PositionerPVClass(ScannableMotionBase):
 	def __init__(self, name, strPV):
 		self.setName(name);
 		self.setInputNames([]);

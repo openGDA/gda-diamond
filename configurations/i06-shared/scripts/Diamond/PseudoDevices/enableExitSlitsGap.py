@@ -1,4 +1,4 @@
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device import Scannable
 
 #####################################################################################
@@ -16,7 +16,7 @@ from gda.device import Scannable
 #	bladeFun: Name of the function to calculate the real blade position based on gap
 #
 #####################################################################################
-class EixtSlitsGapClass(PseudoDevice):
+class EixtSlitsGapClass(ScannableMotionBase):
 #	def __init__(self, name, strUnit, strFormat):
 	def __init__(self, name, lowLimit, highLimit, refObj, gapFun, bladeFun):
 		self.setName(name);

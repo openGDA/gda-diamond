@@ -2,7 +2,7 @@ import sys
 from datetime import datetime, timedelta
 from threading import Timer
 from time import sleep
-from gda.device.scannable import PseudoDevice
+from gda.device.scannable import ScannableMotionBase
 from gda.device.scannable import ScannableBase
 #from gda.device.scannable import ScannableMotor
 #from gda.device.scannable.component import MotorLimitsComponent
@@ -45,7 +45,7 @@ class CombinedIDEnergyClass(ScannableBase):
 
 
 #The Class for changing the underline EPICS motor at different ID polarisation conditions so that the same energy device name is used
-class EnergyConsolidationClass(PseudoDevice):
+class EnergyConsolidationClass(ScannableMotionBase):
 	def __init__(self, name, pol, energy0, energy1, inPositionTolerance = None):
 		self.logger = LoggerFactory.getLogger("EnergyConsolidationClass:%s" % name)
 		self.verbose = True
@@ -217,7 +217,7 @@ class NewEnergyConsolidationClass(ScannableMotor):
 
 
 #The Class for changing the ID polarisation
-class ID_PolarisationClass(PseudoDevice):
+class ID_PolarisationClass(ScannableMotionBase):
 	READBACK_POSITIONS = ['None', 'PosCirc', 'NegCirc', 'Horizontal', 'Vertical', 'LinArb', 'ERROR']
 	POLARISATIONS = { 0:'None', 
 					  1:'PosCirc', 
