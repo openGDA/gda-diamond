@@ -6,6 +6,7 @@
 
 	<bean id="ionc_i" class="gda.device.monitor.DummyMonitor">
 		<property name="value" value="0.219" />
+		<property name="unit" value="V" />
 	</bean>
 
 	<bean id="ionc_gain" class="gda.device.enumpositioner.DummyEnumPositioner">
