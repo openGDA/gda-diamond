@@ -5,7 +5,6 @@ Bundle-SymbolicName: uk.ac.gda.client.nano; singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: uk.ac.gda.nano.NanoActivator
 Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
- uk.ac.gda.libs;bundle-version="1.0.0",
  uk.ac.gda.client;bundle-version="1.0.0",
  uk.ac.gda.common;bundle-version="1.0.0",
  uk.ac.gda.common.rcp;bundle-version="1.0.0",
