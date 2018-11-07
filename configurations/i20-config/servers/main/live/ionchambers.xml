@@ -97,271 +97,84 @@
 	
 	<bean id="i0_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:SENS:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="i0_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:SENS:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA/V" value="pA/V" />
-				<entry key="nA/V" value="nA/V" />
-				<entry key="uA/V" value="uA/V" />
-				<entry key="mA/V" value="mA/V" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="i0_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:IOLV:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="i0_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:IOLV:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA" value="pA" />
-				<entry key="nA" value="nA" />
-				<entry key="uA" value="uA" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="i0_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-01:IOON" />
-		<property name="values">
-			<map>
-				<entry key="Off" value="Off" />
-				<entry key="On" value="On" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="it_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:SENS:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="it_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:SENS:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA/V" value="pA/V" />
-				<entry key="nA/V" value="nA/V" />
-				<entry key="uA/V" value="uA/V" />
-				<entry key="mA/V" value="mA/V" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="it_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:IOLV:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="it_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:IOLV:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA" value="pA" />
-				<entry key="nA" value="nA" />
-				<entry key="uA" value="uA" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="it_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-02:IOON" />
-		<property name="values">
-			<map>
-				<entry key="Off" value="Off" />
-				<entry key="On" value="On" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="iref_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-03:SENS:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="iref_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-03:SENS:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA/V" value="pA/V" />
-				<entry key="nA/V" value="nA/V" />
-				<entry key="uA/V" value="uA/V" />
-				<entry key="mA/V" value="mA/V" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="iref_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-03:IOLV:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="iref_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-03:IOLV:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA" value="pA" />
-				<entry key="nA" value="nA" />
-				<entry key="uA" value="uA" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="iref_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-03:IOON" />
-		<property name="values">
-			<map>
-				<entry key="Off" value="Off" />
-				<entry key="On" value="On" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="i1_stanford_sensitivity" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-04:SENS:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="i1_stanford_sensitivity_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-04:SENS:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA/V" value="pA/V" />
-				<entry key="nA/V" value="nA/V" />
-				<entry key="uA/V" value="uA/V" />
-				<entry key="mA/V" value="mA/V" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="i1_stanford_offset" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-04:IOLV:SEL1" />
-		<property name="values">
-			<map>
-				<entry key="1" value="1" />
-				<entry key="2" value="2" />
-				<entry key="5" value="5" />
-				<entry key="10" value="10" />
-				<entry key="20" value="20" />
-				<entry key="50" value="50" />
-				<entry key="100" value="100" />
-				<entry key="200" value="200" />
-				<entry key="500" value="500" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="i1_stanford_offset_units" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-04:IOLV:SEL2" />
-		<property name="values">
-			<map>
-				<entry key="pA" value="pA" />
-				<entry key="nA" value="nA" />
-				<entry key="uA" value="uA" />
-			</map>
-		</property>
 	</bean>
 
 	<bean id="i1_stanford_offset_current" class="gda.device.enumpositioner.EpicsSimplePositioner">
 		<property name="pvName" value="BL20I-EA-IAMP-04:IOON" />
-		<property name="values">
-			<map>
-				<entry key="Off" value="Off" />
-				<entry key="On" value="On" />
-			</map>
-		</property>
 	</bean>
+
 	<bean id="stanford_amplifiers" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
