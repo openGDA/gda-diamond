@@ -30,7 +30,7 @@
 		<property name="plotViewID" value="uk.ac.gda.beamline.i13j.DetectorPlot" />
 	</bean>
 
-	<bean class="gda.rcp.util.OSGIServiceRegister">
+	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="uk.ac.gda.video.views.ICameraConfig" />
 		<property name="service" ref="camera_config" />
 	</bean>

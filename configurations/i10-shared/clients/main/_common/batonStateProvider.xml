@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
 	<bean id="batonStateProvider" class="uk.ac.gda.client.interfaces.impl.BatonStateProviderBean" />
-	<bean class="gda.rcp.util.OSGIServiceRegister">
+	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="gda.jython.IBatonStateProvider" />
 		<property name="service" ref="batonStateProvider" />
 	</bean>

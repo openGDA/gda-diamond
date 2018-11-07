@@ -6,13 +6,13 @@
 	<!-- Command runner -->
 	<bean id="commandRunner" class="gda.jython.CommandRunnerBean" />
 
-	<bean class="gda.rcp.util.OSGIServiceRegister">
+	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="gda.jython.ICommandRunner" />
 		<property name="service" ref="commandRunner" />
 	</bean>
 
 	<!-- Tomography -->
-	<bean class="gda.rcp.util.OSGIServiceRegister">
+	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
 		<property name="service" ref="dataCollectionADController" />
 		<property name="properties">
@@ -29,7 +29,7 @@
 	<!-- Baton state provider -->
 	<bean id="batonStateProvider" class="uk.ac.gda.client.interfaces.impl.BatonStateProviderBean" />
 
-	<bean class="gda.rcp.util.OSGIServiceRegister">
+	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="gda.jython.IBatonStateProvider" />
 		<property name="service" ref="batonStateProvider" />
 	</bean>
@@ -39,7 +39,7 @@
 		<property name="filePath" value="${gda.var}/helpHandler.txt"/>
 	</bean>
 
-	<bean class="gda.rcp.util.OSGIServiceRegister">
+	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="uk.ac.gda.client.HelpHandler" />
 		<property name="service" ref="helpHandler" />
 	</bean>
