@@ -87,6 +87,5 @@
 
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="analyser.xml"/>
-	<gda:rbac />
 
 </beans>
