@@ -18,6 +18,12 @@
 
 package uk.ac.gda.ui.views.synoptic;
 
+import java.io.IOException;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Map;
+
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -27,9 +33,14 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import gda.jython.InterfaceProvider;
+import gda.device.DeviceException;
+import gda.exafs.xes.IXesOffsets;
+import gda.factory.Finder;
 
 public class XesCalibrationView extends HardwareDisplayComposite {
+
+	private IXesOffsets offsets;
+	private Text loadedOffsetFileTextbox;
 
 	public XesCalibrationView(Composite parent, int style) {
 		super(parent, style, new GridLayout(1,false));
@@ -48,60 +59,106 @@ public class XesCalibrationView extends HardwareDisplayComposite {
 		button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		return button;
 	}
+
+	private void setupScannables() {
+		Map<String, IXesOffsets> offsetObject = Finder.getInstance().getFindablesOfType(IXesOffsets.class);
+		if (!offsetObject.isEmpty()) {
+			offsets = offsetObject.values().iterator().next();
+			logger.debug("Using XesOffsets object {}", offsets.getName());
+		}
+	}
+
 	@Override
 	protected void createControls(Composite parent) throws Exception {
 		setViewName("XES calibration view");
+
+		setupScannables();
+		if (offsets == null) {
+			MessageDialog.openWarning(parent.getShell(), "Cannot open XES calibration view", "Cannot open XES calibration view - required XesOffset object not found on server.");
+			return;
+		}
+
 		Composite comp = new Group(parent, SWT.NONE);
 		comp.setLayout(new GridLayout(4, false));
 
 		// First row : XES energy control, expected energy and calibrate button
-		int options = MotorControlsGui.COMPACT_LAYOUT | MotorControlsGui.HIDE_BORDER | MotorControlsGui.HIDE_STOP_CONTROLS;
+		int options = MotorControlsGui.COMPACT_LAYOUT | MotorControlsGui.HIDE_BORDER;
 		MotorControlsGui xesEnergy = new MotorControlsGui(comp, "XESEnergy", options);
 		xesEnergy.setLabel("XES energy");
 
-		Label expectedEnergyLabel = addLabel(comp, "Expected energy");
+		addLabel(comp, "Expected energy");
 
 		Text expectedEnergyTextbox = new Text(comp, SWT.NONE);
 		expectedEnergyTextbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		expectedEnergyTextbox.setText(xesEnergy.getFormattedPosition());
 
 		Button calibrateButton = addButton(comp, "Calibrate");
+		calibrateButton.addListener(SWT.Selection, event -> applyCalibration(expectedEnergyTextbox.getText()));
+		calibrateButton.setToolTipText("Calculate the offsets for the expected energy and apply to the spectrometer motors");
 
 		// Second row : filename, load save offset button
-		Label fileNameLabel = addLabel(comp, "Filename");
-
-		Text fileNameTextbox = new Text(comp, SWT.NONE);
-		fileNameTextbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-
-		Button loadFileButton = addButton(comp, "Load file");
-		Button saveFile = addButton(comp, "Save file");
-
-		// 3rd row : Load offset from file, remove offset button
-		Label loadedOffsetLabel = addLabel(comp, "Loaded offset file");
+		addLabel(comp, "Filename");
 
 		Text offsetFileTextbox = new Text(comp, SWT.NONE);
 		offsetFileTextbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 
+		Button loadFileButton = addButton(comp, "Load file");
+		loadFileButton.setToolTipText("Load offset values from the given file and apply to the spectrometer motors");
+		loadFileButton.addListener(SWT.Selection, event -> loadFromFile(offsetFileTextbox.getText()));
+
+		Button saveFile = addButton(comp, "Save file");
+		saveFile.setToolTipText("Save the current offset values for all spectrometer motors to file with given name.");
+		saveFile.addListener(SWT.Selection, event -> saveToFile(offsetFileTextbox.getText()));
+
+		// 3rd row : Load offset from file, remove offset button
+		addLabel(comp, "Loaded offset file");
+
+		loadedOffsetFileTextbox = new Text(comp, SWT.NONE);
+		loadedOffsetFileTextbox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+
 		Button removeOffsetsButton = addButton(comp, "Remove offsets");
+		removeOffsetsButton.setToolTipText("Set the offsets for all spectrometer motors to zero");
+		removeOffsetsButton.addListener(SWT.Selection, event -> removeOffsets());
 	}
 
-	volatile boolean threadBusy = false;
-
-	private void runCommand(String command) {
-		InterfaceProvider.getCommandRunner().runCommand(command);
-	}
-	private void applyCalibration(double expectedEnergy) {
-		runCommand("xes_calculate.applyFromLive("+String.valueOf(expectedEnergy)+")");
+	private void applyCalibration(String expectedEnergy) {
+		try {
+			Double energy = (Double) NumberFormat.getInstance().parse(expectedEnergy);
+			offsets.applyFromLive(energy);
+		} catch (ParseException e) {
+			String message = "Could not run offset calculation - expected energy " + expectedEnergy	+ " is not recognised as a number";
+			MessageDialog.openWarning(parent.getShell(), "Problem starting offset calculation", message);
+		} catch (DeviceException | IOException e) {
+			logger.error("Problem running XES offset calculation", e);
+			String message = "Problem running calibration : " + e.getMessage() + ".\nSee log panel for more details";
+			MessageDialog.openWarning(parent.getShell(), "Problem running offset calculation", message);
+		}
 	}
 
 	private void loadFromFile(String filename) {
-		runCommand("xes_offsets.apply("+filename+")");
+		try {
+			offsets.apply(filename);
+			loadedOffsetFileTextbox.setText(filename);
+		} catch (IOException e) {
+			logger.error("Problem loading offsets from file {}", filename, e);
+			MessageDialog.openWarning(parent.getShell(), "Problem loading offsets from file", "Problem loading offsets from file : "+e.getMessage());
+		}
 	}
 
 	private void saveToFile(String filename) {
-		runCommand("xes_offsets.saveAs("+filename+")");
+		if (filename == null || filename.isEmpty()) {
+			MessageDialog.openWarning(parent.getShell(), "Problem saving offsets to file", "File name to save offsets to is empty.");
+			return;
+		}
+		try {
+			offsets.saveAs(filename);
+		} catch (IOException e) {
+			logger.error("Problem saving offsets to file {}", filename, e);
+			MessageDialog.openWarning(parent.getShell(), "Problem saving to file", "Problem saving offsets to file : "+e.getMessage()+".\nSee log panel for more information");
+		}
 	}
 
 	private void removeOffsets() {
-		runCommand("xes_offsets.removeAll()");
+		offsets.removeAll();
 	}
 }
