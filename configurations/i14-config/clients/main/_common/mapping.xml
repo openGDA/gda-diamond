@@ -211,7 +211,7 @@
 		<property name="numberOfFocusSteps" value="20" />
 		<property name="numberOfLinePoints" value="40" />
 		<!-- This field helps the UI choose the right malcolm device for focus scans -->
-		<!-- <property name="focusMalcolmDeviceName" value="I08-SCAN02"/> -->
+		<property name="focusMalcolmDeviceName" value="BL14I-ML-SCAN-08" />
 	</bean>
 
 	<!-- Register the focus bean as an OSGi service -->
