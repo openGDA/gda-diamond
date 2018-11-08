@@ -38,7 +38,7 @@
 		<property name="level" value="6" />
 	</bean>
 
-	<bean id="sample" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="sample_stage" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="SampleX" />
