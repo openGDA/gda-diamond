@@ -5,9 +5,9 @@
 
 	<!-- Dichorism and Diffraction Motors -->
 	<bean id="MotorTheta_DD" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="0" />
-		<property name="maxPosition" value="360" />
-		<property name="speed" value="1" />
+		<property name="minPosition" value="-70" />
+		<property name="maxPosition" value="110" />
+		<property name="speed" value="1.8150" />
 		<property name="unitString" value="deg"/>
 		<property name="local" value="true" />
 	</bean>
@@ -18,6 +18,28 @@
 		<property name="unitString" value="deg"/>
 		<property name="local" value="true" />
 	</bean>
+	<bean id="MotorChi_DD" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-7100" />
+		<property name="maxPosition" value="7100" />
+		<property name="speed" value="100" />
+		<property name="unitString" value="cts"/>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="MotorPhi_DD" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-8600" />
+		<property name="maxPosition" value="8600" />
+		<property name="speed" value="100" />
+		<property name="unitString" value="cts"/>
+		<property name="local" value="true" />
+	</bean>
+	<bean id="MotorDummyChi_DD" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="89.999999" />
+		<property name="maxPosition" value="90.000001" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="deg"/>
+		<property name="local" value="true" />
+	</bean>
+
 	<bean id="MotorXSample_DD" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-50" />
 		<property name="maxPosition" value="50" />
@@ -46,36 +68,4 @@
 		<property name="unitString" value="mm"/>
 		<property name="local" value="true" />
 	</bean>
-	<bean id="MotorXTable_DD" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-50" />
-		<property name="maxPosition" value="50" />
-		<property name="speed" value="1" />
-		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>
-	
-	<bean id="MotorXTrans_DD" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-50" />
-		<property name="maxPosition" value="50" />
-		<property name="speed" value="1" />
-		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="MotorYTrans_DD" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-50" />
-		<property name="maxPosition" value="50" />
-		<property name="speed" value="1" />
-		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="MotorZTrans_DD" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-50" />
-		<property name="maxPosition" value="50" />
-		<property name="speed" value="1" />
-		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>
-
 </beans>
