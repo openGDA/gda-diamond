@@ -70,6 +70,13 @@
 				<ref bean="sc_sample_y3" />
 			</list>
 		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />
 		<property name="outputFormat">

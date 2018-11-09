@@ -305,6 +305,12 @@
 				<ref bean="sc_dcm_perp_mDeg" />
 			</list>
 		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
 		<property name="initialUserUnits" value="mDeg" />
 		<property name="hardwareUnitString" value="mDeg" />
 	</bean>
@@ -315,6 +321,13 @@
 				<ref bean="sc_dcm_bragg" />
 				<ref bean="sc_idgap_mDeg" />
 				<ref bean="sc_dcm_perp_mDeg" />
+			</list>
+		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
 			</list>
 		</property>
 		<property name="initialUserUnits" value="mDeg" />
