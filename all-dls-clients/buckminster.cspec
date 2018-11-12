@@ -36,6 +36,7 @@
         <cs:dependency name="uk.ac.gda.beamline.i20_1.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i21.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.i22.site" componentType="eclipse.feature"/>
+        <cs:dependency name="uk.ac.gda.beamline.k11.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.example.site" componentType="eclipse.feature"/>
     </cs:dependencies>
 </cs:cspec>
