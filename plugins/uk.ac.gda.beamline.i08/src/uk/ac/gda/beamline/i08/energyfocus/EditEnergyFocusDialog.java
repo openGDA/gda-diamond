@@ -18,6 +18,8 @@
 
 package uk.ac.gda.beamline.i08.energyfocus;
 
+import static uk.ac.diamond.daq.mapping.ui.experiment.focus.FocusScanUtils.saveConfig;
+
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -25,20 +27,26 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.function.ILinearFunction;
 import uk.ac.diamond.daq.mapping.ui.experiment.focus.EnergyFocusFunctionDisplay;
 
 public class EditEnergyFocusDialog extends TitleAreaDialog {
+	private static final Logger logger = LoggerFactory.getLogger(EditEnergyFocusDialog.class);
+
 	private static final String TITLE = "Energy focus function editor";
 	private static final String MESSAGE = "Edit the parameters for the energy focus mapping";
 
 	private final ILinearFunction energyFocusFunction;
+	private final String energyFocusConfigPath;
 	private EnergyFocusFunctionDisplay energyFocusDisplay;
 
-	public EditEnergyFocusDialog(Shell parentShell, ILinearFunction energyFocusFunction) {
+	public EditEnergyFocusDialog(Shell parentShell, ILinearFunction energyFocusFunction, String energyFocusConfigPath) {
 		super(parentShell);
 		this.energyFocusFunction = energyFocusFunction;
+		this.energyFocusConfigPath = energyFocusConfigPath;
 	}
 
 	@Override
@@ -61,6 +69,7 @@ public class EditEnergyFocusDialog extends TitleAreaDialog {
 	@Override
 	protected void okPressed() {
 		energyFocusDisplay.updateEnergyFocusFunction();
+		saveConfig(energyFocusFunction, energyFocusConfigPath, logger);
 		super.okPressed();
 	}
 
