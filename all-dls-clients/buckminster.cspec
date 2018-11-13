@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="all-dls-config" componentType="eclipse.feature" version="1.0.0">
     <cs:dependencies>
         <cs:dependency name="all-mx-clients" componentType="buckminster"/>
-        <cs:dependency name="fr.esrf.gda.beamline.bm26.site" componentType="eclipse.feature"/>
-        <cs:dependency name="fr.esrf.gda.beamline.bm26a.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.diamond.daq.beamline.p45.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.diamond.daq.beamline.p99.site" componentType="eclipse.feature"/>
         <cs:dependency name="uk.ac.gda.beamline.b07.site" componentType="eclipse.feature"/>

@@ -6,8 +6,6 @@
         <cs:dependency name="b07-1-config" componentType="buckminster"/>
         <cs:dependency name="b18-config" componentType="buckminster"/>
         <cs:dependency name="b21-config" componentType="buckminster"/>
-        <cs:dependency name="bm26-config" componentType="buckminster"/>
-        <cs:dependency name="bm26a-config" componentType="buckminster"/>
         <cs:dependency name="example-config" componentType="buckminster"/>
         <cs:dependency name="i05-1-config" componentType="buckminster"/>
         <cs:dependency name="i05-config" componentType="buckminster"/>
