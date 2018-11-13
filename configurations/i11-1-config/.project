@@ -24,7 +24,6 @@
 		<project>uk.ac.gda.epics</project>
 		<project>uk.ac.gda.epics.client</project>
 		<project>uk.ac.gda.epics.client.pixium</project>
-		<project>uk.ac.gda.libs</project>
 		<project>uk.ac.gda.nexus</project>
 	</projects>
 	<buildSpec>

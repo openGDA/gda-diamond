@@ -21,10 +21,8 @@
 		<project>uk.ac.gda.dls.client</project>
 		<project>uk.ac.gda.epics</project>
 		<project>uk.ac.gda.hrpd</project>
-		<project>uk.ac.gda.libs</project>
 		<project>uk.ac.gda.nexus</project>
 		<project>uk.ac.gda.pydev.extension</project>
-		<project>uk.ac.gda.swingclient</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
