@@ -66,8 +66,8 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 
 	@Override
 	protected void createControls(Composite parent) throws IOException, DeviceException {
-		setViewName("Xes Crystal Analyser View");
-		setBackgroundImage(getImageFromPlugin("oe images/xes_analysers2.bmp"), new Point(200, 350));
+		setViewName("XES Crystal Analyser View");
+		setBackgroundImage(getImageFromPlugin("oe images/xes_analysers2.bmp"), new Point(50, 350));
 		parent.setBackgroundMode(SWT.INHERIT_FORCE);
 
 		setupScannables();
@@ -112,7 +112,7 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 		Group group = new Group(parent, SWT.NONE);
 		group.setLayout(new GridLayout(numColumns, false));
 		for(SS motorName : motors) {
-			MotorControlsGui motorControls = new MotorControlsGui(group, scannableForType.get(motorName), true);
+			MotorControlsGui motorControls = new MotorControlsGui(group, scannableForType.get(motorName), false);
 			motorControls.getControls().setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		}
 		return group;
@@ -120,23 +120,24 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 
 	private void createMotorControls(Composite parent) throws DeviceException {
 
-		int topPositionPercentage = -80;
+		int topPositionPercentage = -85;
+		int width = 180;
 		// Controls for analyser crystal 1
 		Group crystalGroupMinus1 = createMotorControlGroup(parent, crystMinus1Scannables, 1 );
 		crystalGroupMinus1.setText("Analyser crystal -1");
-		setWidgetPosition(crystalGroupMinus1, -30, topPositionPercentage);
+		setWidgetPosition(crystalGroupMinus1, 0, topPositionPercentage, width);
 
 		Group crystalGroupZero = createMotorControlGroup(parent, crystCentreScannables, 1);
 		crystalGroupZero.setText("Analyser crystal 0");
-		setWidgetPosition(crystalGroupZero, 30, topPositionPercentage);
+		setWidgetPosition(crystalGroupZero, 45, topPositionPercentage, width);
 
 		Group crystalGroupPlus1 = createMotorControlGroup(parent, crystPlus1Scannables, 1);
 		crystalGroupPlus1.setText("Analyser crystal 1");
-		setWidgetPosition(crystalGroupPlus1, 90, topPositionPercentage);
+		setWidgetPosition(crystalGroupPlus1, 90, topPositionPercentage, width);
 
 		MotorControlsGui motorControls = new MotorControlsGui(parent, scannableForType.get(SS.XTAL_X));
 		motorControls.setLabel("Main translation (x)");
-		setWidgetPosition(motorControls.getControls(), -30, 10, 150);
+		setWidgetPosition(motorControls.getControls(), 0, 25, width);
 	}
 
 	private void createRadiusControls(Composite parent) {
@@ -150,7 +151,7 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 		ScannablePositionGui radius = new ScannablePositionGui(group, "radius");
 		radius.createTextbox();
 
-		setWidgetPosition(group, -30,  75, 150);
+		setWidgetPosition(group, 0,  90, 150);
 	}
 
 	private void createEnumControl(Composite parent, String labelText, String positionerName) {
@@ -169,11 +170,11 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 		group.setText("Crystal cuts");
 
 		createEnumControl(group, "Material ", "material");
-		createEnumControl(group, "Crystal -1 ", "cut1");
-		createEnumControl(group, "Crystal 0 ", "cut2");
-		createEnumControl(group, "Crystal 1 ", "cut3");
+		createEnumControl(group, "   h", "cut1");
+		createEnumControl(group, "   k", "cut2");
+		createEnumControl(group, "   l", "cut3");
 
-		setWidgetPosition(group, -30, 35, 150);
+		setWidgetPosition(group, 0, 52, 150);
 	}
 
 	private void createArrows(Composite parent) throws IOException {

@@ -21,10 +21,7 @@ package uk.ac.gda.ui.views.synoptic;
 import java.io.IOException;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 import gda.device.DeviceException;
@@ -39,12 +36,11 @@ public class XesStageView extends HardwareDisplayComposite {
 	protected void createControls(Composite parent) throws Exception {
 		setViewName("XES stage");
 
-		setBackgroundImage(getImageFromPlugin("oe images/xes_main.bmp"), new Point(150,150));
+		setBackgroundImage(getImageFromPlugin("oe images/xes_main.bmp"), new Point(50,150));
 		parent.setBackgroundMode(SWT.INHERIT_FORCE);
 
 		createMotorControls(parent);
 		createArrows(parent);
-		addButtons(parent);
 		addResizeListener(parent);
 	}
 
@@ -94,7 +90,7 @@ public class XesStageView extends HardwareDisplayComposite {
 		setWidgetPosition(motorControls.getControls(), 25, 25);
 
 		motorControls = new MotorControlsGui(parent, "table2_y");
-		setWidgetPosition(motorControls.getControls(), -20, 55);
+		setWidgetPosition(motorControls.getControls(), -5, 45);
 
 		motorControls = new MotorControlsGui(parent, "table2_x");
 		setBackGround(motorControls.getControls(), SWT.COLOR_WHITE);
@@ -105,32 +101,9 @@ public class XesStageView extends HardwareDisplayComposite {
 		setWidgetPosition(motorControls.getControls(), 87, 60);
 
 		motorControls = new MotorControlsGui(parent, "XESEnergy");
-		setWidgetPosition(motorControls.getControls(), 75, 0);
+		setWidgetPosition(motorControls.getControls(), 75, 0, 150);
 
 		motorControls = new MotorControlsGui(parent, "XESBragg");
-		setWidgetPosition(motorControls.getControls(), 75, 12);
-	}
-
-	private void addButtons(Composite parent) {
-		Button analysersButton = new Button(parent, SWT.PUSH);
-		analysersButton.setText("Analysers");
-		analysersButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				SynopticView.openView(XesCrystalAnalysersView.class.getCanonicalName());
-			}
-		});
-		setWidgetPosition(analysersButton, 65, 30);
-
-
-		Button calibrationButton = new Button(parent, SWT.PUSH);
-		calibrationButton.setText("Calibration");
-		calibrationButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				SynopticView.openView(XesCalibrationView.class.getCanonicalName());
-			}
-		});
-		setWidgetPosition(calibrationButton, 75, 25);
+		setWidgetPosition(motorControls.getControls(), 75, 12, 150);
 	}
 }
