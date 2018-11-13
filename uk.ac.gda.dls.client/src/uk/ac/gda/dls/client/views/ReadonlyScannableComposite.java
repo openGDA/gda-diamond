@@ -36,6 +36,7 @@ import org.springframework.util.StringUtils;
 import com.swtdesigner.SWTResourceManager;
 
 import gda.device.DeviceException;
+import gda.device.EnumPositionerStatus;
 import gda.device.Scannable;
 import gda.device.scannable.ScannableGetPositionWrapper;
 import gda.device.scannable.ScannablePositionChangeEvent;
@@ -116,7 +117,8 @@ public class ReadonlyScannableComposite extends Composite {
 				// ScannablePositionChangeEvent - can get current position directly from the event
 				final ScannablePositionChangeEvent event = (ScannablePositionChangeEvent) arg;
 				setVal(new ScannableGetPositionWrapper(event.newPosition, formats).getStringFormattedValues()[0]);
-			} else if (arg instanceof ScannableStatus && ((ScannableStatus) arg) == ScannableStatus.IDLE) {
+			} else if ((arg instanceof ScannableStatus && (ScannableStatus) arg == ScannableStatus.IDLE)
+					|| (arg instanceof EnumPositionerStatus && (EnumPositionerStatus) arg == EnumPositionerStatus.IDLE)) {
 				// Scannable is idle - get current position from the scannable
 				try {
 					final ScannableGetPositionWrapper wrapper = new ScannableGetPositionWrapper(scannable.getPosition(), formats);
