@@ -15,7 +15,6 @@
 		<project>uk.ac.gda.epics.client.pco</project>
 		<project>uk.ac.gda.epics.client.pixium</project>
 		<project>uk.ac.gda.epics.dxp.client</project>
-		<project>uk.ac.gda.swingclient</project>
 		<project>uk.ac.gda.tomography</project>
 	</projects>
 	<buildSpec>

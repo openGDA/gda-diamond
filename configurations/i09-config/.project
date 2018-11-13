@@ -20,15 +20,12 @@
 		<project>uk.ac.gda.common.client</project>
 		<project>uk.ac.gda.common.rcp</project>
 		<project>uk.ac.gda.core</project>
-		<project>uk.ac.gda.dal</project>
 		<project>uk.ac.gda.dls</project>
 		<project>uk.ac.gda.dls.client</project>
 		<project>uk.ac.gda.epics</project>
 		<project>uk.ac.gda.epics.client</project>
-		<project>uk.ac.gda.libs</project>
 		<project>uk.ac.gda.nexus</project>
 		<project>uk.ac.gda.beamline.i09</project>
-		<project>uk.ac.gda.swingclient</project>
 		<project>uk.ac.gda.video.views</project>
 	</projects>
 	<buildSpec>
