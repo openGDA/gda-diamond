@@ -43,7 +43,6 @@
    <splash
       location="uk.ac.gda.client" />
    <launcher name="gda-i20">
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
@@ -77,9 +76,5 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
    <features>
       <feature id="uk.ac.gda.beamline.i20.feature"/>
    </features>
-
-   <configurations>
-      <plugin id="uk.ac.gda.dal" autoStart="false" startLevel="0" />
-   </configurations>
 
 </product>

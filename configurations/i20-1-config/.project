@@ -13,7 +13,6 @@
 		<project>uk.ac.gda.dls</project>
 		<project>uk.ac.gda.dls.client</project>
 		<project>uk.ac.gda.epics</project>
-		<project>uk.ac.gda.libs</project>
 		<project>uk.ac.gda.nexus</project>
 		<project>uk.ac.gda.server.exafs</project>
 		<project>uk.ac.gda.server.exafs.epics</project>
