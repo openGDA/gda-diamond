@@ -65,7 +65,7 @@
 
 	<bean id="malcolmInfoXsp3MerlinFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="XSP3/Merlin Malcolm fine" />
-		<property name="description" value="Combined XSP3 and Merlin Malcolm coarse fine" />
+		<property name="description" value="Combined XSP3 and Merlin Malcolm fine scan" />
 	</bean>
 
 </beans>
