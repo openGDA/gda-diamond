@@ -348,10 +348,47 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		groupDetailsSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 		groupDetailsSectionComposite.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
 
-		Label label = toolkit.createLabel(groupDetailsSectionComposite, "Time unit", SWT.None);
-		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		createGroupTimeUnits(groupDetailsSectionComposite);
+		createStartTime(groupDetailsSectionComposite);
+		createEndTime(groupDetailsSectionComposite);
+		createTimePerSpectrum(groupDetailsSectionComposite);
 
-		groupUnitSelectionCombo = new ComboViewer(groupDetailsSectionComposite);
+		if ( showRealTimePerSpectrum ) {
+			// Show corrected (i.e. real) time per spectra the detector can provide.
+			createRealTimePerSpectrum(groupDetailsSectionComposite);
+		}
+		createNumberOfSpectra(groupDetailsSectionComposite);
+
+		// Group delay and trigger section
+		final Composite groupTriggerSectionComposite = toolkit.createComposite(groupSectionComposite, SWT.NONE);
+		groupTriggerSectionComposite.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
+		groupTriggerSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+
+		createAccumulationTime(groupTriggerSectionComposite);
+		if (showAccumulationReadoutControls) {
+			createAccumulationReadoutTime(groupTriggerSectionComposite);
+		}
+		numberOfAccumulations(groupTriggerSectionComposite);
+		delayBeforeStartOfGroup(groupTriggerSectionComposite);
+
+		Composite externalTriggerComposite = toolkit.createComposite(groupTriggerSectionComposite);
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gridData.horizontalSpan = 2;
+		externalTriggerComposite.setLayoutData(gridData);
+		externalTriggerComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
+
+		useExternalTrigger(externalTriggerComposite);
+		useTopupChecker(externalTriggerComposite);
+
+		Composite sectionSeparator = toolkit.createCompositeSeparator(groupSection);
+		toolkit.paintBordersFor(sectionSeparator);
+		groupSection.setSeparatorControl(sectionSeparator);
+	}
+
+	private void createGroupTimeUnits(Composite parent) {
+		Label label = toolkit.createLabel(parent, "Time unit", SWT.None);
+		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		groupUnitSelectionCombo = new ComboViewer(parent);
 		groupUnitSelectionCombo.getControl().setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		groupUnitSelectionCombo.setContentProvider(new ArrayContentProvider());
 		groupUnitSelectionCombo.setLabelProvider(new LabelProvider() {
@@ -361,95 +398,82 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			}
 		});
 		groupUnitSelectionCombo.setInput(ExperimentUnit.values());
+	}
 
-		label = toolkit.createLabel(groupDetailsSectionComposite, "Start time", SWT.None);
+	private void createStartTime(Composite parent) throws Exception {
+		Label label = toolkit.createLabel(parent, "Start time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		startTimeValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
+		startTimeValueText = new NumberEditorControl(parent, SWT.None, false);
 		startTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+	}
 
-		label = toolkit.createLabel(groupDetailsSectionComposite, "End time", SWT.None);
+	private void createEndTime(Composite parent) throws Exception {
+		Label label = toolkit.createLabel(parent, "End time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-
-//		final Composite changableGroupDetailsSectionComposite = toolkit.createComposite(groupDetailsSectionComposite, SWT.NONE);
-//		changableGroupDetailsSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-//		gridData = new GridData(GridData.FILL, GridData.BEGINNING, true, false);
-//		changableGroupDetailsSectionComposite.setLayoutData(gridData);
-
-		endTimeValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
+		endTimeValueText = new NumberEditorControl(parent, SWT.None, false);
 		endTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+	}
 
-//		endTimeValueFixedFlag = toolkit.createButton(changableGroupDetailsSectionComposite, "", SWT.CHECK);
-//		endTimeValueFixedFlag.setImage(pin);
-//		endTimeValueFixedFlag.setToolTipText("Fix end time value");
-//		endTimeValueFixedFlag.setLayoutData(new GridData(SWT.FILL, SWT.END, false, false));
-
-		label = toolkit.createLabel(groupDetailsSectionComposite, "Time per spectrum", SWT.None);
+	private void createTimePerSpectrum(Composite parent) throws Exception {
+		Label label = toolkit.createLabel(parent, "Time per spectrum", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		timePerSpectrumValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
+		timePerSpectrumValueText = new NumberEditorControl(parent, SWT.None, false);
 		timePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+	}
 
-
-
-		if ( showRealTimePerSpectrum ) {
-			// Show corrected (i.e. real) time per spectra the detector can provide.
-			label = toolkit.createLabel(groupDetailsSectionComposite, "Real time per spectrum", SWT.None);
-			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-			realTimePerSpectrumValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
-			realTimePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-			realTimePerSpectrumValueText.setToolTipText("The actual time per spectrum Detector can deliver for your given accumulation parameters");
-		}
-
-		label = toolkit.createLabel(groupDetailsSectionComposite, "No. of spectra", SWT.None);
+	private void createRealTimePerSpectrum(Composite parent) throws Exception {
+		Label label = toolkit.createLabel(parent, "Real time per spectrum", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		noOfSpectrumValueText = new NumberEditorControl(groupDetailsSectionComposite, SWT.None, false);
+		realTimePerSpectrumValueText = new NumberEditorControl(parent, SWT.None, false);
+		realTimePerSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		realTimePerSpectrumValueText.setToolTipText("The actual time per spectrum Detector can deliver for your given accumulation parameters");
+	}
+
+	private void createNumberOfSpectra(Composite parent) throws Exception {
+		Label label = toolkit.createLabel(parent, "No. of spectra", SWT.None);
+		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		noOfSpectrumValueText = new NumberEditorControl(parent, SWT.None, false);
 		noOfSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+	}
 
-		// Group delay and trigger section
-
-		final Composite groupTriggerSectionComposite = toolkit.createComposite(groupSectionComposite, SWT.NONE);
-		groupTriggerSectionComposite.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
-		groupTriggerSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-
-		label = toolkit.createLabel(groupTriggerSectionComposite, "Accumulation time", SWT.None);
+	private void createAccumulationTime(Composite parent) throws Exception {
+		Label label = toolkit.createLabel(parent, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		integrationTimeValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
+		integrationTimeValueText = new NumberEditorControl(parent, SWT.None, false);
 		integrationTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+	}
 
-		if ( showAccumulationReadoutControls ) {
-			label = toolkit.createLabel(groupTriggerSectionComposite, "Accumulation readout time", SWT.None);
-			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-			accumulationReadoutTimeValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
-			accumulationReadoutTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		}
-
-		label = toolkit.createLabel(groupTriggerSectionComposite, "No. of accumulations", SWT.None);
+	private void createAccumulationReadoutTime(Composite parent) throws Exception {
+		Label label = toolkit.createLabel(parent, "Accumulation readout time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		noOfAccumulationValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
+		accumulationReadoutTimeValueText = new NumberEditorControl(parent, SWT.None, false);
+		accumulationReadoutTimeValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+	}
+
+	private void numberOfAccumulations(Composite parent) throws Exception {
+		Label label = toolkit.createLabel(parent, "No. of accumulations", SWT.None);
+		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		noOfAccumulationValueText = new NumberEditorControl(parent, SWT.None, false);
 		noOfAccumulationValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+	}
 
-
-		label = toolkit.createLabel(groupTriggerSectionComposite, "Delay before start of group", SWT.None);
+	private void delayBeforeStartOfGroup(Composite parent) throws Exception {
+		Label label = toolkit.createLabel(parent, "Delay before start of group", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		delayBeforeFristSpectrumValueText = new NumberEditorControl(groupTriggerSectionComposite, SWT.None, false);
+		delayBeforeFristSpectrumValueText = new NumberEditorControl(parent, SWT.None, false);
 		delayBeforeFristSpectrumValueText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+	}
 
-		Composite externalTriggerComposite = toolkit.createComposite(groupTriggerSectionComposite);
-		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		gridData.horizontalSpan = 2;
-		externalTriggerComposite.setLayoutData(gridData);
-		externalTriggerComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
-
-		useExternalTriggerCheckbox = toolkit.createButton(externalTriggerComposite, "Use external trigger", SWT.CHECK);
+	private void useExternalTrigger(Composite parent) {
+		useExternalTriggerCheckbox = toolkit.createButton(parent, "Use external trigger", SWT.CHECK);
 		useExternalTriggerCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 		useExternalTriggerCheckbox.setEnabled(true);
+	}
 
-		useTopupCheckerCheckbox = toolkit.createButton(externalTriggerComposite, "Use topup checker", SWT.CHECK);
+	private void useTopupChecker(Composite parent) {
+		useTopupCheckerCheckbox = toolkit.createButton(parent, "Use topup checker", SWT.CHECK);
 		useTopupCheckerCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 		useTopupCheckerCheckbox.setEnabled(true);
-
-		Composite sectionSeparator = toolkit.createCompositeSeparator(groupSection);
-		toolkit.paintBordersFor(sectionSeparator);
-		groupSection.setSeparatorControl(sectionSeparator);
 	}
 
 	private void createGroupTable(Composite sectionComposite) {
