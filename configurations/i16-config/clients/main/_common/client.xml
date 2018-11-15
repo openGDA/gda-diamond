@@ -29,6 +29,8 @@
 	<!-- Provides ability to import/find remote objects over RMI -->
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
+	<import resource="CameraConfigurations.xml" />
+
 	<bean id="webcam2" class="uk.ac.gda.video.views.CameraParameters">
 		<property name="name" value="webcam2"/>
 		<property name="mjpegURL" value="http://i16-webcam2/mjpg/video.mjpg" />
