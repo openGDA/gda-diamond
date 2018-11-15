@@ -26,7 +26,7 @@ fi
 # set the required variables below this line, also adding any environment variables specific to your installation:
 ##################################################################################################################
 
-
+export GDA_CLIENT_VMARGS="-Declipse.pluginCustomization=${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/clients/main/_common/pluginCustomization.ini"
 
 ######################################################################
 # before the gda-core script is invoked using the environment settings
