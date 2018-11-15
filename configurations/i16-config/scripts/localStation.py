@@ -461,12 +461,13 @@ if not USE_DIFFCALC:
 else:
 	del sixc
 	import diffcalc
-#	diffcalc_root = os.path.realpath(diffcalc.__file__).split('diffcalc/__init__.py')[0]
-	#Fajin's change after receive email from Steve Collins.
-	diffcalc_root = "/dls_sw/i16/software/gda_versions/gda_9.8b/workspace_git/diffcalc.git"
+	diffcalc_root = os.path.realpath(diffcalc.__file__).split('diffcalc/__init__.py')[0]
 	diffcalc_startup_script = os.path.join(diffcalc_root, 'startup', 'i16.py')
-	print "Starting Diffcalc by running: ", diffcalc_startup_script
-	run(diffcalc_startup_script)
+	try:
+		print "Starting Diffcalc by running: ", diffcalc_startup_script
+		run(diffcalc_startup_script)
+	except Exception as e:
+		localStation_exception("trying to set up difcalc via "+diffcalc_startup_script, e)
 	exec("phi=euler.phi")
 	exec("chi=euler.chi")
 	exec("eta=euler.eta")

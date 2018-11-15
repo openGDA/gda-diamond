@@ -17,10 +17,10 @@ nc=NC='NegCirc';   #negative circular polarization"
 
 
 #For Diffractometer Mode settings
-hor=Hor=Horizontal=horizontal=0;  #Horizontal Mode"
-ver=Ver=Vertical=vertical=1;   #Vertical Mode"
+hor=Hor=Horizontal=horizontal=eh1h;  #Horizontal Mode"
+ver=Ver=Vertical=vertical=eh1v;   #Vertical Mode"
 dummy=Dum=Dummy=2;   #Dummy Mode"
-eh2diff=EH2DIFF=3   #EH2 Diffractometer
+eh2diff=EH2DIFF=eh2   #EH2 Diffractometer
 
 #To define the useful beamline alias commands:
 
