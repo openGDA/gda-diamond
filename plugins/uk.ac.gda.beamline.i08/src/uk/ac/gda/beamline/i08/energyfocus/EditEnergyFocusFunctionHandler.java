@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import uk.ac.diamond.daq.mapping.api.FocusScanBean;
 import gda.factory.Finder;
 import gda.function.ILinearFunction;
 
@@ -40,7 +40,9 @@ public class EditEnergyFocusFunctionHandler extends AbstractHandler {
 		final Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		try {
 			final ILinearFunction energyFocusFunction = Finder.getInstance().find("energyFocusFunction");
-			final EditEnergyFocusDialog dialog = new EditEnergyFocusDialog(activeShell, energyFocusFunction);
+			final FocusScanBean focusScanBean = PlatformUI.getWorkbench().getService(FocusScanBean.class);
+			final String energyFocusConfigPath = focusScanBean.getEnergyFocusBean().getEnergyFocusConfigPath();
+			final EditEnergyFocusDialog dialog = new EditEnergyFocusDialog(activeShell, energyFocusFunction, energyFocusConfigPath);
 			dialog.open();
 		} catch (Exception e) {
 			logger.error("Exception opening editor for energy focus function", e);
