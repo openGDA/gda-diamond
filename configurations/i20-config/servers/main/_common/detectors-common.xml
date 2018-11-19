@@ -28,16 +28,6 @@
 
 	<bean id="detectorMonitorDataProvider" class="gda.device.detector.DetectorMonitorDataProvider">
 		<property name="name" value="detectorMonitorDataProvider" />
-<!-- 		<property name="xspress2Detector" ref="xspress2system" /> -->
-<!-- 		<property name="xspress4Detector" ref="xspress4" /> -->
-		<property name="xmapDetector" ref="xmapMca" />
-		<property name="ionChambers" ref="ionchambers" />
-		<property name="medipixDetector" ref="medipix_addetector" />
 	</bean>
 
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/detectorMonitorDataProvider" />
-		<property name="service" ref="detectorMonitorDataProvider" />
-		<property name="serviceInterface" value="gda.device.detector.DetectorMonitorDataProviderInterface" />
-	</bean>
 </beans>

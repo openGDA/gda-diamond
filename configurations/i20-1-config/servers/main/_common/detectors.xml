@@ -69,13 +69,6 @@
 <!-- Server side object used for collecting data for 'detector rate' views  -->
 	<bean id="detectorMonitorDataProvider" class="gda.device.detector.DetectorMonitorDataProvider">
 		<property name="name" value="detectorMonitorDataProvider" />
-		<property name="ionChambers" ref="scaler_for_zebra" />
-	</bean>
-
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/detectorMonitorDataProvider" />
-		<property name="service" ref="detectorMonitorDataProvider" />
-		<property name="serviceInterface" value="gda.device.detector.DetectorMonitorDataProviderInterface" />
 	</bean>
 
 </beans>

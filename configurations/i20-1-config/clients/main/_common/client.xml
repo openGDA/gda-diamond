@@ -98,16 +98,12 @@
 		</property>
 	</bean>
 
-	<bean id="detectorMonitorDataProvider" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}detectorMonitorDataProvider" />
-		<property name="serviceInterface" value="gda.device.detector.DetectorMonitorDataProviderInterface" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
 	<bean id="xspress3ViewFactory" class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorViewFactory" >
 		<property name="name" value="xspress3ViewFactory" />
 		<property name="detectorName" value="xspress3" />
 	</bean>
+
+	<import resource="file:${gda.config}/clients/main/_common/detector-rate-views.xml" />
 
 	<import resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
 

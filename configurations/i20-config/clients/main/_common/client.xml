@@ -23,7 +23,8 @@
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
 	<import resource="spreadsheet-view.xml" />
-
+	<import resource="detector-rate-views.xml" />
+	
 	<bean id="commandQueueProcessor" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean class="gda.util.osgi.OSGiServiceRegister">
@@ -39,12 +40,6 @@
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
-
-	<bean id="detectorMonitorDataProvider" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}detectorMonitorDataProvider" />
-		<property name="serviceInterface" value="gda.device.detector.DetectorMonitorDataProviderInterface" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
 
 	<bean id="detectorGroupTemplateConfiguration" class="uk.ac.gda.beans.exafs.DetectorGroupTemplateConfiguration" >
 		<property name="detectorGroupsMap">
