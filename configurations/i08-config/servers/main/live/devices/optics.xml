@@ -210,12 +210,12 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="s2_ss_presets" class="gda.device.enumpositioner.EpicsEnumPositioner">
-		<property name="pvBase" value="BL08I-AL-SLITS-02:SS:MP:SELECT" />
+	<bean id="s2_ss_presets" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL08I-AL-SLITS-02:SS:MP" />
 	</bean>
 
-	<bean id="s2_shutter" class="gda.device.enumpositioner.EpicsEnumPositioner">
-		<property name="pvBase" value="BL08I-AL-SLITS-02:CHOP:MP:SELECT" />
+	<bean id="s2_shutter" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL08I-AL-SLITS-02:CHOP:MP" />
 	</bean>
 
 	<bean id="s2_ztranslation_motor" class="gda.device.motor.EpicsMotor">
