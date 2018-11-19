@@ -87,6 +87,8 @@ bragg1WithOffset.setMonoOptimiser(monoOptimiser)
 detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix, topupChecker)
 # detectorPreparer.setFFI0(FFI0);
 detectorPreparer.setMonoOptimiser(monoOptimiser)
+detectorPreparer.setFFI1(FFI1)
+
 samplePreparer = I20SamplePreparer(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll, sample_pitch, filterwheel, cryostat, cryostick_pos, rcpController)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
 beamlinePreparer = I20BeamlinePreparer()
@@ -97,6 +99,7 @@ twodplotter.setName("twodplotter")
 store_dir = LocalProperties.getVarDir() +"xes_offsets/"
 xes_offsets = XESOffsets(store_dir, spectrometer)
 xes_calculate = XESCalculate(xes_offsets, material, cut1, cut2, cut3, radius)
+xesOffsets=Finder.getInstance().find("XesOffsets")
 
 theFactory = XesScanFactory();
 theFactory.setBeamlinePreparer(beamlinePreparer);
@@ -112,7 +115,7 @@ theFactory.setIncludeSampleNameInNexusName(False);
 theFactory.setScanName("xas")
 theFactory.setAnalyserAngle(XESBragg)
 theFactory.setXes_energy(XESEnergy)
-theFactory.setXesOffsets(xes_offsets)
+theFactory.setXesOffsets(xesOffsets)
 xes = theFactory.createXesScan()
 
 theFactory = XasScanFactory();
@@ -167,7 +170,6 @@ else:
     remove_default([topupChecker])
     remove_default([absorberChecker])
 
-
 #
 # XES offsets section
 #
@@ -181,21 +183,7 @@ xes_offsets.removeAll()
 
 if LocalProperties.get("gda.mode") == "live":
     run "adc_monitor"
-    run "xspress_config"
-    print "\nXspress detector set to high (>8KeV) mode."\
-    + "\nIf you wish to collect predominately at lower energies, type:"\
-    + "\nswitchXspressToLowEnergyMode()"\
-    + "\nto change the Xspress settings. Type:"\
-    + "\nswitchXspressToHighEnergyMode()"\
-    + "\n to changes the settings back again."\
-    + "\n"\
-    + "To find out current mode type:\n"\
-    + "finder.find(\"DAServer\").getStartupCommands()\n"
-    
-    # FFI0.setInputNames([])
-    run "vortexLiveTime"
-    #testVortexWiredCorrectly()
-    #calibrate_mono = mono_calibration.calibrate_mono()
+
 else :
     if material() == None:
         material('Si')
@@ -234,13 +222,16 @@ xspress4HdfFilePath = PathConstructor.createFromDefaultProperty()+"spool/"; # /d
 # hdf5Values = { "FilePath" : xspress4HdfFilePath, "FileTemplate" : "%s%s%d.hdf"}
 hdf5Values = { "FileTemplate" : "%s%s%d.hdf"}
 
+cryostat.stop() # To stop the 'status' thread from running on the Lakeshore cryostat (fills logpanel with debug messages)
+
+
 from gda.epics import CAClient
 ## Set file path and filename format if using 'real' XSpress4 detector
 if xspress4.isConfigured() == True and LocalProperties.get("gda.mode") == "live" :
      xspress4.setTriggerMode(3) # set 'TTL only' trigger mode
      ## Set to empty string, so that at scan start path is set to current visit directory.
-     xspress4.getDetector().setFilePath("");
-     basename = xspress4.getController().getEpicsTemplate()
+     xspress4.setFilePath("");
+     basename = xspress4.getController().getBasePv()
      for key in hdf5Values :
         pv = basename+":HDF5:"+key
         print "Setting "+pv+" to "+hdf5Values[key]
@@ -269,6 +260,5 @@ def reconnect_daserver() :
     print "Ignore this error (it's 'normal'...)"
     ionchambers.getScaler().clear()
 
-cryostat.stop() # To stop the 'status' thread from running on the Lakeshore cryostat (fills logpanel with debug messages)
 
 print "****GDA startup script complete.****\n\n"

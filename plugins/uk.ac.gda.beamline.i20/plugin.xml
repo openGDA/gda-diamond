@@ -620,6 +620,15 @@
                    value="uk.ac.gda.ui.views.synoptic.xesOffsetsView">
              </parameter>
           </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="XES Simulated Positions View"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.ui.views.synoptic.xesSimulatedPositionsView">
+             </parameter>
+          </command>
        </menu>
 	   </menuContribution>
 	</extension>
@@ -741,6 +750,12 @@
             class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesOffsetsView"
             id="uk.ac.gda.ui.views.synoptic.xesOffsetsView"
             name="XES Offsets View"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesSimulatedPositionsView"
+            id="uk.ac.gda.ui.views.synoptic.xesSimulatedPositionsView"
+            name="XES Simulated Positions View"
             restorable="true">
       </view>
  </extension>

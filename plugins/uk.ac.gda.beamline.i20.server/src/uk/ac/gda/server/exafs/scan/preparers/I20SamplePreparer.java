@@ -65,9 +65,6 @@ public class I20SamplePreparer implements SampleEnvironmentPreparer {
 
 	@Override
 	public void configure(IScanParameters scanParameters, ISampleParameters sampleParameters) throws Exception {
-		// print "Opening Plotting Perspective"
-		rcp_controller.openPerspective("org.diamond.exafs.ui.PlottingPerspective");
-
 		i20SampleParams = (I20SampleParameters) sampleParameters;
 
 		// TODO is it correct to perform this move at this point?

@@ -38,7 +38,7 @@ import gda.device.Scannable;
 import gda.device.detector.DAServer;
 import gda.device.detector.DetectorBase;
 import gda.device.detector.countertimer.TFGCounterTimer;
-import gda.device.detector.countertimer.TfgScalerWithFrames;
+import gda.device.detector.countertimer.TfgScalerWithDarkCurrent;
 import gda.device.scannable.ScannableUtils;
 import gda.factory.FindableBase;
 import gda.jython.InterfaceProvider;
@@ -88,6 +88,7 @@ public class MonoOptimisation extends FindableBase {
 
 	private Double[] tfgTimeFrames;
 	private Double tfgDarkCurrentCollectionTime;
+	private boolean tfgDarkCurrentRequired;
 
 	public Detector getMedipix() {
 		return medipix;
@@ -296,6 +297,10 @@ public class MonoOptimisation extends FindableBase {
 			((TFGCounterTimer) scannableToMonitor).clearFrameSets();
 			// maybe set the frame times here as well ( with .setTimes( [collectionTime, collectionTime, ...] );
 		}
+		saveTfgSettings();
+		if (scannableToMonitor instanceof TfgScalerWithDarkCurrent) {
+			((TfgScalerWithDarkCurrent)scannableToMonitor).setDarkCurrentRequired(false);
+		}
 
 		ConcurrentScan scan = new ConcurrentScan(getScanParamsList().toArray());
 		scan.setSendUpdateEvents(true);
@@ -311,6 +316,8 @@ public class MonoOptimisation extends FindableBase {
 
 		// wait here until finished
 		scan.waitForDetectorReadoutAndPublishCompletion();
+
+		applySavedTfgSettings();
 
 		return scan.getDataWriter().getCurrentFileName();
 	}
@@ -415,6 +422,7 @@ public class MonoOptimisation extends FindableBase {
 			double peakPos = positionData.getDouble(maxPosIndex);
 			fitFunc.setParameterValues(peakPos, 1.0, 1.0);
 		}
+		logger.debug("Fitted peak position = {}", fitFunc.getPosition());
 		return fitFunc;
 	}
 
@@ -467,22 +475,33 @@ public class MonoOptimisation extends FindableBase {
 	 * @param braggWithOffset
 	 */
 	public void configureOffsetParameters(MonoMoveWithOffsetScannable braggWithOffset) {
-		double offsetGradient = 0.0;
-		if (highEnergy>lowEnergy) {
-			offsetGradient = (fittedGaussianHighEnergy.getPosition() - fittedGaussianLowEnergy.getPosition())/(highEnergy - lowEnergy);
+		if (fittedGaussianLowEnergy == null) {
+			logger.warn("Offset parameter for low energy not set - not applying offset settings to {}.", braggWithOffset.getName());
+			return;
+		}
+		double offsetStartFitted = fittedGaussianLowEnergy.getPosition();
+		double offsetEndFitted = offsetStartFitted;
+		if (fittedGaussianHighEnergy != null) {
+			offsetEndFitted = fittedGaussianHighEnergy.getPosition();
 		}
 
-		double offsetFitStart = fittedGaussianLowEnergy.getPosition();
-		// Check that start value for offset is in range of offset scan. If not, don't apply the new parameters
+		// Check that start, end fitted offsets are in range of offset scan. If not, don't apply the new parameters
 		// to the scannable since something probably went wrong with fitting
-		if ( offsetFitStart < offsetStart || offsetFitStart > offsetEnd) {
-			logger.warn("Fitted offset start value {} is out of range of offset scan {} ... {} eV! Not applying offset settings to {}.",
-					offsetFitStart, offsetStart, offsetEnd, braggWithOffset.getName());
-		} else {
-			braggWithOffset.setOffsetGradient(offsetGradient);
-			braggWithOffset.setEnergyOffsetStart(lowEnergy);
-			braggWithOffset.setOffsetStartValue(fittedGaussianLowEnergy.getPosition());
+		if ( offsetStartFitted < offsetStart || offsetEndFitted > offsetEnd) {
+			logger.warn("Fitted offset start or end values ({}, {}) are out of range of offset scan {} ... {} eV!"+
+						"Not applying offset settings to {}.",
+					offsetStartFitted, offsetEndFitted, offsetStart, offsetEnd, braggWithOffset.getName());
+			return;
 		}
+
+		double offsetGradient = 0.0;
+		if (highEnergy>lowEnergy) {
+			offsetGradient = (offsetEndFitted - offsetStartFitted)/(highEnergy - lowEnergy);
+		}
+		logger.info("Setting bragg offset parameters : start offset = {}, start energy = {}, offset gradient = {}", offsetStartFitted, lowEnergy, offsetGradient);
+		braggWithOffset.setOffsetGradient(offsetGradient);
+		braggWithOffset.setEnergyOffsetStart(lowEnergy);
+		braggWithOffset.setOffsetStartValue(offsetStartFitted);
 	}
 
 	public void setSelectNewScansInPlotView(boolean selectNewScansInPlotView) {
@@ -696,12 +715,12 @@ public class MonoOptimisation extends FindableBase {
 	/**
 	 * Save Tfg time frame and dark current collection settings
 	 */
-	public void saveTfgSettings() {
-		if (scannableToMonitor instanceof TfgScalerWithFrames) {
-			TfgScalerWithFrames tfg = (TfgScalerWithFrames) scannableToMonitor;
-			logger.info("Saving time frame and dark current collection settings from Tfg {}", tfg.getName());
-			tfgTimeFrames = tfg.getTimes();
+	private void saveTfgSettings() {
+		if (scannableToMonitor instanceof TfgScalerWithDarkCurrent) {
+			TfgScalerWithDarkCurrent tfg = (TfgScalerWithDarkCurrent) scannableToMonitor;
+			logger.info("Saving dark current collection settings from Tfg {}", tfg.getName());
 			tfgDarkCurrentCollectionTime = tfg.getDarkCurrentCollectionTime();
+			tfgDarkCurrentRequired = tfg.isDarkCurrentRequired();
 		}
 	}
 
@@ -709,13 +728,12 @@ public class MonoOptimisation extends FindableBase {
 	 * Apply saved timeframe and dark current collection time settings to tfg
 	 * @throws DeviceException
 	 */
-	public void applySavedTfgSettings() throws DeviceException {
-		if (scannableToMonitor instanceof TfgScalerWithFrames) {
-			TfgScalerWithFrames tfg = (TfgScalerWithFrames) scannableToMonitor;
-			logger.info("Applying saved time frame and dark currentl collection settings to Tfg {}", tfg.getName());
-			tfg.clearFrameSets();
-			tfg.setTimes(tfgTimeFrames);
+	private void applySavedTfgSettings() {
+		if (scannableToMonitor instanceof TfgScalerWithDarkCurrent) {
+			TfgScalerWithDarkCurrent tfg = (TfgScalerWithDarkCurrent) scannableToMonitor;
+			logger.info("Applying saved time dark current collection settings to Tfg {}", tfg.getName());
 			tfg.setDarkCurrentCollectionTime(tfgDarkCurrentCollectionTime);
+			tfg.setDarkCurrentRequired(tfgDarkCurrentRequired);
 		}
 	}
 }
