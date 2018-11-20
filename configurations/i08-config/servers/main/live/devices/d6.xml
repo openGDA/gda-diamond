@@ -5,8 +5,8 @@
 
 
 	<!-- Stick positioner -->
-	<bean id="d6_positioner" class="gda.device.enumpositioner.EpicsEnumPositioner">
-		<property name="pvBase" value="BL08I-DI-PHDGN-06:MP:SELECT" />
+	<bean id="d6_positioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
+		<property name="recordName" value="BL08I-DI-PHDGN-06:MP" />
 	</bean>
 
 	<!-- Diagnostic camera -->
