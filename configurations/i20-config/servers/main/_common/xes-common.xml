@@ -158,6 +158,11 @@
 		</property>
 	</bean>
 
+	<bean id="XesOffsets" class="uk.ac.gda.beamline.i20.xesoffset.XesOffsets" >
+		<property name="spectrometerGroup" ref="spectrometer" />
+		<property name="xesEnergyScannable" ref="XESEnergy" />
+	</bean>
+
 <!-- 	the following is for a simulation of values for use before moving -->
 
 	<bean id="dummy_xtal_minus1_x_motor" class="gda.device.motor.DummyMotor">
@@ -373,10 +378,16 @@
 	<bean id="cut1" class="gda.device.scannable.DummyPersistentEnumScannable" >
 		<property name="positions">
 			<list>
+				<value>0</value>
 				<value>1</value>
 				<value>2</value>
 				<value>3</value>
 				<value>4</value>
+				<value>5</value>
+				<value>6</value>
+				<value>7</value>
+				<value>8</value>
+				<value>9</value>
 			</list>
 		</property>
 	</bean>
@@ -384,10 +395,16 @@
 	<bean id="cut2" class="gda.device.scannable.DummyPersistentEnumScannable" >
 		<property name="positions">
 			<list>
+				<value>0</value>
 				<value>1</value>
 				<value>2</value>
 				<value>3</value>
 				<value>4</value>
+				<value>5</value>
+				<value>6</value>
+				<value>7</value>
+				<value>8</value>
+				<value>9</value>
 			</list>
 		</property>
 	</bean>
@@ -395,10 +412,16 @@
 	<bean id="cut3" class="gda.device.scannable.DummyPersistentEnumScannable" >
 		<property name="positions">
 			<list>
+				<value>0</value>
 				<value>1</value>
 				<value>2</value>
 				<value>3</value>
 				<value>4</value>
+				<value>5</value>
+				<value>6</value>
+				<value>7</value>
+				<value>8</value>
+				<value>9</value>
 			</list>
 		</property>
 	</bean>

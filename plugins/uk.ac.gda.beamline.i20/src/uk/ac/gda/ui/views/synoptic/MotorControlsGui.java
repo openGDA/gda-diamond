@@ -352,7 +352,7 @@ public class MotorControlsGui implements IObserver {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				logger.debug("Key pressed : " + e.keyCode);
-				if (e.keyCode == SWT.CR && demandPositionTextbox.getText().length() > 0) {
+				if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR && demandPositionTextbox.getText().length() > 0) {
 					double newpos = getDemandPositionFromTextbox();
 					moveToDemandPosition(newpos);
 				}
@@ -471,6 +471,10 @@ public class MotorControlsGui implements IObserver {
 		String scannablePos = scannable.getPosition().toString();
 		double num =  Double.parseDouble(scannablePos);
 		return String.format(scannable.getOutputFormat()[0], num );
+	}
+
+	public String getFormattedPosition() throws DeviceException {
+		return getFormattedScannablePos(scannableMotor);
 	}
 
 	/** Update label in a textbox using gui thread

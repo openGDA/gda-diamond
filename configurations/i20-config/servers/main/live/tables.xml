@@ -58,7 +58,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="filterwheel" class="gda.device.enumpositioner.EpicsEditablePositionerCallback">
+	<bean id="filterwheel" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20I-OP-ATTN-06:MP" />
 	</bean>
 

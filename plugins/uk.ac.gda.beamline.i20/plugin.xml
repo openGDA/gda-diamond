@@ -554,11 +554,7 @@
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.SynopticView">
-             </parameter>
-             <parameter
-                   name="org.eclipse.ui.views.showView.secondaryId"
-                   value="uk.ac.gda.ui.views.synoptic.OverviewButtonsView">
+                   value="uk.ac.gda.ui.views.synoptic.beamlineOverview">
              </parameter>
           </command>
           <command
@@ -567,11 +563,7 @@
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.SynopticView">
-             </parameter>
-             <parameter
-                   name="org.eclipse.ui.views.showView.secondaryId"
-                   value="uk.ac.gda.ui.views.synoptic.XesStageView">
+                   value="uk.ac.gda.ui.views.synoptic.xesStageView">
              </parameter>
           </command>
           <command
@@ -580,11 +572,7 @@
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.SynopticView">
-             </parameter>
-             <parameter
-                   name="org.eclipse.ui.views.showView.secondaryId"
-                   value="uk.ac.gda.ui.views.synoptic.SampleStageView">
+                   value="uk.ac.gda.ui.views.synoptic.sampleStageView">
              </parameter>
           </command>
                     <command
@@ -593,24 +581,16 @@
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.SynopticView">
-             </parameter>
-             <parameter
-                   name="org.eclipse.ui.views.showView.secondaryId"
-                   value="uk.ac.gda.ui.views.synoptic.XasTableView">
+                   value="uk.ac.gda.ui.views.synoptic.xasTable">
              </parameter>
           </command>
           <command
                 commandId="org.eclipse.ui.views.showView"
-                label="Xes Crystal Analysers"
+                label="XES Crystal Analysers"
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.SynopticView">
-             </parameter>
-             <parameter
-                   name="org.eclipse.ui.views.showView.secondaryId"
-                   value="uk.ac.gda.ui.views.synoptic.XesCrystalAnalyserView">
+                   value="uk.ac.gda.ui.views.synoptic.xesCrystalView">
              </parameter>
           </command>
           <command
@@ -619,11 +599,25 @@
                 style="push">
              <parameter
                    name="org.eclipse.ui.views.showView.viewId"
-                   value="uk.ac.gda.ui.views.synoptic.SynopticView">
+                   value="uk.ac.gda.ui.views.synoptic.hutchFilterView">
              </parameter>
+          </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="XES Calibration View"
+                style="push">
              <parameter
-                   name="org.eclipse.ui.views.showView.secondaryId"
-                   value="uk.ac.gda.ui.views.synoptic.HutchFilterView">
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.ui.views.synoptic.xesCalibrationView">
+             </parameter>
+          </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="XES Offsets View"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.ui.views.synoptic.xesOffsetsView">
              </parameter>
           </command>
        </menu>
@@ -687,6 +681,66 @@
             class="uk.ac.gda.exafs.ui.dialogs.SpreadsheetView"
             id="uk.ac.gda.exafs.ui.spreadsheetview"
             name="&apos;Spreadsheet view&apos; scan generator"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.OverviewButtonsView"
+            id="uk.ac.gda.ui.views.synoptic.beamlineOverview"
+            name="Beamline overview"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesOffsetsView"
+            id="uk.ac.gda.ui.views.synoptic.xesOffsetView"
+            name="XES offset view"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.SampleStageView"
+            id="uk.ac.gda.ui.views.synoptic.sampleStageView"
+            name="Sample stage view"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XasTableView"
+            id="uk.ac.gda.ui.views.synoptic.xasTable"
+            name="XAS table view (T1)"
+            restorable="true">
+      </view>
+      <view
+             class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesCrystalAnalysersView"
+             id="uk.ac.gda.ui.views.synoptic.xesCrystalView"
+             name="XES Crystal Analyser View"
+             restorable="true">
+      </view>
+             <view
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesCalibrationView"
+            id="uk.ac.gda.ui.views.synoptic.xesCalibrationView"
+            name="XES Calibration view"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.HutchFilterView"
+            id="uk.ac.gda.ui.views.synoptic.hutchFilterView"
+            name="ATN5 view"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesStageView"
+            id="uk.ac.gda.ui.views.synoptic.xesStageView"
+            name="XES Stage view"
+            restorable="true">
+      </view>
+      <view
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesCalibrationView"
+            id="uk.ac.gda.ui.views.synoptic.xesCalibrationView"
+            name="XES Calibration View"
+            restorable="true">
+      </view>
+       <view
+            class="uk.ac.gda.ui.views.synoptic.SynopticViewFactory:uk.ac.gda.ui.views.synoptic.XesOffsetsView"
+            id="uk.ac.gda.ui.views.synoptic.xesOffsetsView"
+            name="XES Offsets View"
             restorable="true">
       </view>
  </extension>

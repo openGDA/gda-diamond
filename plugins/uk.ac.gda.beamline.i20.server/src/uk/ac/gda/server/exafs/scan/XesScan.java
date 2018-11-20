@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import gda.device.Detector;
 import gda.device.Scannable;
 import gda.device.scannable.TwoDScanPlotter;
+import gda.exafs.xes.IXesOffsets;
 import gda.jython.scriptcontroller.logging.LoggingScriptController;
 import uk.ac.gda.beans.exafs.IDetectorConfigurationParameters;
 import uk.ac.gda.beans.exafs.IDetectorParameters;

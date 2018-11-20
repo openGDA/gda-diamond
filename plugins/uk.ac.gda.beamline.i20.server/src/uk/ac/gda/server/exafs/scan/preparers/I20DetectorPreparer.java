@@ -215,8 +215,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	private void setHdfPathBeforeScan(Detector detector) throws DeviceException {
 		if (detector != null && detector instanceof Xspress4Detector) {
 			Xspress4Detector det = (Xspress4Detector) detector;
-			hdfFilePathBeforeScan = det.getDetector().getController().getFilePath();
-			det.getDetector().setFilePath(getNexusDataFullPath());
+			hdfFilePathBeforeScan = det.getXspress3Controller().getFilePath();
+			det.setFilePath(getNexusDataFullPath());
 		}
 	}
 
@@ -224,8 +224,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		if (detector != null && detector instanceof Xspress4Detector) {
 			try {
 				Xspress4Detector det = (Xspress4Detector) detector;
-				det.getDetector().getController().setFilePath(hdfFilePathBeforeScan);
-				det.getDetector().setFilePath(hdfFilePathBeforeScan);
+				det.getXspress3Controller().setFilePath(hdfFilePathBeforeScan);
+				det.setFilePath(hdfFilePathBeforeScan);
 			} catch (DeviceException e) {
 				logger.error("Problem setting hdf directory to {} for {} at end of scan",  hdfFilePathBeforeScan, detector.getName(), e);
 			}
