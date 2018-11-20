@@ -18,10 +18,15 @@
 
 package uk.ac.gda.beamline.i14.views;
 
+import static java.util.stream.Collectors.toList;
+import static uk.ac.gda.beamline.i14.views.I14XanesEdgeParameters.TrackingMethod.EDGE;
+import static uk.ac.gda.beamline.i14.views.I14XanesEdgeParameters.TrackingMethod.REFERENCE;
+
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.beans.PojoProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.databinding.observable.value.SelectObservableValue;
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
@@ -29,6 +34,7 @@ import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.scanning.api.points.models.IScanPathModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -40,7 +46,11 @@ import org.slf4j.LoggerFactory;
 
 import com.swtdesigner.SWTResourceManager;
 
+import gda.observable.IObserver;
+import uk.ac.diamond.daq.mapping.api.IScanModelWrapper;
 import uk.ac.diamond.daq.mapping.ui.experiment.AbstractMappingSection;
+import uk.ac.diamond.daq.mapping.ui.experiment.ScanPathEditor;
+import uk.ac.gda.beamline.i14.views.I14XanesEdgeParameters.TrackingMethod;
 
 /**
  * View to allow the user to input the additional parameters required for the XANES scanning script.
@@ -52,7 +62,11 @@ public class I14XanesEdgeParametersSection extends AbstractMappingSection {
 	private static final Logger logger = LoggerFactory.getLogger(I14XanesEdgeParametersSection.class);
 
 	private static final String I14_XANES_SCAN_KEY = "I14XanesScan.json";
+	private static final String ENERGY_SCANNABLE = "dcm_enrg";
 	private static final int NUM_COLUMNS = 3;
+
+	private ScanPathEditor energyEditor;
+	private final IObserver scanPathObserver = this::handleScanPathUpdate;
 
 	private I14XanesEdgeParameters scanParameters;
 
@@ -77,10 +91,26 @@ public class I14XanesEdgeParametersSection extends AbstractMappingSection {
 		createLabel(content, "XANES scan parameters", 2);
 
 		// Energy parameters
-		final Group grpEnergy = createGroup(content, "Energy", NUM_COLUMNS);
-		createTextInput(grpEnergy, "Pre-edge start", "e.g. 12.0", "preEdgeStart", Double.toString(scanParameters.getPreEdgeStart()));
-		createTextInput(grpEnergy, "Pre-edge stop", "e.g. 12.1", "preEdgeStop", Double.toString(scanParameters.getPreEdgeStart()));
-		createTextInput(grpEnergy, "Pre-edge step", "e.g. 0.001", "preEdgeStep", Double.toString(scanParameters.getPreEdgeStep()));
+		final Group grpEnergy = createGroup(content, String.format("Energy (%s)", ENERGY_SCANNABLE), NUM_COLUMNS);
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING).grab(true, false).applyTo(grpEnergy);
+
+		// Find the model wrapper for the energy scannable
+		final List<IScanModelWrapper<IScanPathModel>> energyScannables = getMappingBean().getScanDefinition()
+				.getOuterScannables()
+				.stream()
+				.filter(scannable -> scannable.getName().equals(ENERGY_SCANNABLE))
+				.collect(toList());
+
+		if (energyScannables.isEmpty()) {
+			logger.error("No energy scannable '{}' is defined", ENERGY_SCANNABLE);
+			return;
+		}
+
+		final IScanModelWrapper<IScanPathModel> energyScannable = energyScannables.get(0);
+		energyScannable.setIncludeInScan(true);
+		energyEditor = new ScanPathEditor(grpEnergy, SWT.NONE, energyScannable);
+		energyEditor.addIObserver(scanPathObserver);
+		scanParameters.setEnergySteps(energyEditor.getAxisText());
 
 		// Tracking parameters
 		final Group grpTracking = createGroup(content, "Tracking", NUM_COLUMNS);
@@ -93,16 +123,16 @@ public class I14XanesEdgeParametersSection extends AbstractMappingSection {
 
 		final SelectObservableValue<String> radioButtonObservable = new SelectObservableValue<>();
 		final Button btnUseReference = createRadioButton(cmpTrackingMethod, "Use reference");
-		radioButtonObservable.addOption(I14XanesEdgeTrackingMethod.REFERENCE.toString(), WidgetProperties.selection().observe(btnUseReference));
+		radioButtonObservable.addOption(REFERENCE.toString(), WidgetProperties.selection().observe(btnUseReference));
 		final Button btnUseEdge = createRadioButton(cmpTrackingMethod, "Use edge");
-		radioButtonObservable.addOption(I14XanesEdgeTrackingMethod.EDGE.toString(), WidgetProperties.selection().observe(btnUseEdge));
+		radioButtonObservable.addOption(EDGE.toString(), WidgetProperties.selection().observe(btnUseEdge));
 
-		final IObservableValue<I14XanesEdgeParameters> modelObservable = BeanProperties.value(I14XanesEdgeParameters.class, "trackingMethod", I14XanesEdgeTrackingMethod.class).observe(scanParameters);
+		final IObservableValue<I14XanesEdgeParameters> modelObservable = PojoProperties.value(I14XanesEdgeParameters.class, "trackingMethod", TrackingMethod.class).observe(scanParameters);
 		dataBindingContext.bindValue(radioButtonObservable, modelObservable);
 
-		if (scanParameters.getTrackingMethod().equals(I14XanesEdgeTrackingMethod.REFERENCE.toString())) {
+		if (scanParameters.getTrackingMethod().equals(REFERENCE.toString())) {
 			btnUseReference.setSelection(true);
-		} else if (scanParameters.getTrackingMethod().equals(I14XanesEdgeTrackingMethod.EDGE.toString())) {
+		} else if (scanParameters.getTrackingMethod().equals(EDGE.toString())) {
 			btnUseEdge.setSelection(true);
 		}
 	}
@@ -131,6 +161,12 @@ public class I14XanesEdgeParametersSection extends AbstractMappingSection {
 		return group;
 	}
 
+	private void handleScanPathUpdate(Object source, @SuppressWarnings("unused") Object arg) {
+		final ScanPathEditor scanPathEditor = (ScanPathEditor) source;
+		scanParameters.setEnergySteps(scanPathEditor.getAxisText());
+		updateStatusLabel();
+	}
+
 	/**
 	 * Create text input (comprising label, text box itself and hint), and bind to the model
 	 *
@@ -154,7 +190,7 @@ public class I14XanesEdgeParametersSection extends AbstractMappingSection {
 
 		final ISWTObservableValue txtObservable = WidgetProperties.text(SWT.Modify).observe(textBox);
 		@SuppressWarnings("unchecked")
-		final IObservableValue<I14XanesEdgeParameters> modelObservable = BeanProperties.value(modelProperty).observe(scanParameters);
+		final IObservableValue<I14XanesEdgeParameters> modelObservable = PojoProperties.value(modelProperty).observe(scanParameters);
 		dataBindingContext.bindValue(txtObservable, modelObservable);
 	}
 
@@ -188,5 +224,11 @@ public class I14XanesEdgeParametersSection extends AbstractMappingSection {
 
 	public I14XanesEdgeParameters getScanParameters() {
 		return scanParameters;
+	}
+
+	@Override
+	public void dispose() {
+		energyEditor.dispose();
+		super.dispose();
 	}
 }

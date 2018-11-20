@@ -18,48 +18,47 @@
 
 package uk.ac.gda.beamline.i14.views;
 
+import static uk.ac.gda.beamline.i14.views.I14XanesEdgeParameters.TrackingMethod.REFERENCE;
+
 public class I14XanesEdgeParameters {
 
-	private double preEdgeStart;
-	private double preEdgeStop;
-	private double preEdgeStep;
-	private String linesToTrack = "";
-	private String trackingMethod = I14XanesEdgeTrackingMethod.REFERENCE.toString();
+	public enum TrackingMethod {
+		REFERENCE,
+		EDGE
+	}
 
-	public double getPreEdgeStart() {
-		return preEdgeStart;
-	}
-	public void setPreEdgeStart(double preEdgeStart) {
-		this.preEdgeStart = preEdgeStart;
-	}
-	public double getPreEdgeStop() {
-		return preEdgeStop;
-	}
-	public void setPreEdgeStop(double preEdgeStop) {
-		this.preEdgeStop = preEdgeStop;
-	}
-	public double getPreEdgeStep() {
-		return preEdgeStep;
-	}
-	public void setPreEdgeStep(double preEdgeStep) {
-		this.preEdgeStep = preEdgeStep;
-	}
+	private String linesToTrack = "";
+	private String trackingMethod = REFERENCE.toString();
+	private String energySteps = "";
+
 	public String getLinesToTrack() {
 		return linesToTrack;
 	}
+
 	public void setLinesToTrack(String linesToTrack) {
 		this.linesToTrack = linesToTrack;
 	}
+
 	public String getTrackingMethod() {
 		return trackingMethod;
 	}
+
 	public void setTrackingMethod(String trackingMethod) {
 		this.trackingMethod = trackingMethod;
 	}
+
+	public String getEnergySteps() {
+		return energySteps;
+	}
+
+	public void setEnergySteps(String energySteps) {
+		this.energySteps = energySteps;
+	}
+
 	@Override
 	public String toString() {
-		return "I14XanesEdgeParameters [preEdgeStart=" + preEdgeStart + ", preEdgeStop=" + preEdgeStop
-				+ ", preEdgeStep=" + preEdgeStep + ", linesToTrack=" + linesToTrack + ", trackingMethod="
-				+ trackingMethod + "]";
+		return "I14XanesEdgeParameters [linesToTrack=" + linesToTrack + ", trackingMethod=" + trackingMethod
+				+ ", energySteps=" + energySteps + "]";
 	}
+
 }
