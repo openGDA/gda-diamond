@@ -31,8 +31,6 @@ import gda.device.DeviceException;
 
 public class XasTableView extends HardwareDisplayComposite {
 
-	public static final String ID = "uk.ac.gda.ui.views.synoptic.XasTableView";
-
 	public XasTableView(Composite parent, int style) {
 		super(parent, style);
 	}
@@ -41,7 +39,7 @@ public class XasTableView extends HardwareDisplayComposite {
 	protected void createControls(Composite parent) throws Exception {
 		setViewName("Xas table view (T1)");
 		setBackgroundImage(getImageFromPlugin("oe images/table_right_scaled.jpg"), new Point(150, 200));
-		parent.getShell().setBackgroundMode(SWT.INHERIT_FORCE);
+		parent.setBackgroundMode(SWT.INHERIT_FORCE);
 		createStanfordControls(parent);
 		createMotorControls(parent);
 		createArrows(parent);

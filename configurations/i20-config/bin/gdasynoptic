@@ -1,0 +1,38 @@
+#!/bin/bash
+# This script launches CSS for I20 with views for XAS experiments
+
+cssbinary=/dls_sw/prod/tools/RHEL6-x86_64/cs-studio/dls-4-4-2/prefix/bin/css.sh
+
+clean=""
+if [ "$1" == "--reset" ]; then
+	clean="y"
+fi
+
+export BEAMLINE=i20
+SHARE_LINK=\"/dls_sw/prod/R3.14.12.3/support/ADCore/2-4dls2/ADApp/op/opi\"=$BEAMLINE/ADApp_opi,
+SHARE_LINK+=\"/dls_sw/prod/R3.14.12.3/support/ADExample/2-0-1dls2/exampleApp/op/opi\"=$BEAMLINE/exampleApp_opi,
+SHARE_LINK+=\"/dls_sw/prod/R3.14.12.3/support/motor/6-9dls6/motorApp/opi/opi\"=$BEAMLINE/motorApp_opi
+
+workstation=${HOSTNAME%%.*}
+DEST_DIR=$HOME/cs-studio/workspaces/$workstation/
+SOURCE_ZIP="/dls_sw/i20/software/i20-css-Sept.zip"
+
+echo "OPI directory : "$DEST_DIR
+echo "Source file   : "$SOURCE_ZIP
+
+if [ "$clean" == "y" ]; then
+	echo "Removing files in OPI directory : $DEST_DIR"
+	rm -rf $DEST_DIR
+fi
+
+if [ ! -d $DEST_DIR ]; then
+	echo "Copying OPI files from $SOURCE_ZIP to $DEST_DIR"
+	unzip $SOURCE_ZIP -d $DEST_DIR
+else
+	echo "OPI files present at $DEST_DIR"
+fi
+
+OPI_FILE=$DEST_DIR/i20/i20-overview.opi
+echo "Running CSS studio using OPI file "$OPI_FILE
+
+$cssbinary -l $SHARE_LINK -o $OPI_FILE

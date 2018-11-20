@@ -1,0 +1,14 @@
+#!/bin/bash
+# Launch gda client with Synoptic perspective open by default.
+# This different workspace directory and plugin_customization.ini file from main gda client
+# img 3/7/2018
+
+export LD_LIBRARY_PATH=/dls_sw/i20/software/gda/client/plugins/uk.ac.gda.nexus_1.0.0/lib/linux-x86_64/
+
+WORKSPACE_DIR=/scratch/gda_workspaces/$USER"_synoptic_new"/
+PLUGIN_CUSTOMIZATION="-Declipse.pluginCustomization=/dls_sw/i20/software/gda_git/gda-dls-beamlines-xas.git/uk.ac.gda.beamline.i20/plugin_customization_synoptic.ini"
+
+# set GDA_CLIENT_VMARGS to use custom pluginCustomization file that disable opening of plot view when scan starts
+export GDA_CLIENT_VMARGS=$PLUGIN_CUSTOMIZATION
+
+/dls_sw/i20/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaclient "$@" -data $WORKSPACE_DIR 

@@ -4,17 +4,17 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 <!-- Controller for xspress4  -->
-	<bean id="controllerForXspress4"
-		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
-		<constructor-arg>
-			<ref bean="DAServer" />
-		</constructor-arg>
-		<constructor-arg>
-			<ref bean="tfg" />
-		</constructor-arg>
-		
+	<bean id="xspress3Controller" class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
+		<constructor-arg> <ref bean="DAServer" /> </constructor-arg>
+		<constructor-arg> <ref bean="tfg" /> </constructor-arg>
 		<property name="numberOfChannels" value="64"/>
 		<property name="simulationFileName" value="/scratch/simulationFilename" />
+	</bean>
+
+	<bean id="xspress4Controller"  class="uk.ac.gda.devices.detector.xspress4.DummyXspress4Controller">
+		<property name="numElements" value="64" />
+		<property name="numMcaChannels" value="4096" />
+		<property name="numScalers" value="8" />
 	</bean>
 
 </beans>

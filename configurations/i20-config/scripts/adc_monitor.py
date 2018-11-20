@@ -48,7 +48,10 @@ class adcmonitor(DetectorBase):
 
 	def getDetectorType(self):
 		return " "
-
+	
+	def createsOwnFiles(self):
+		return False
+	
 d1 = adcmonitor("d1","BL20I-DI-ADC-01","BL20I-DI-PHDGN-01:DIODE:I","d1")
 d3plus = adcmonitor("d3plus","BL20I-DI-ADC-01","BL20I-DI-PHDGN-03:Y:PLUS:I","d3plus")
 d3minus = adcmonitor("d3minus","BL20I-DI-ADC-01","BL20I-DI-PHDGN-03:Y:MINUS:I","d3minus")

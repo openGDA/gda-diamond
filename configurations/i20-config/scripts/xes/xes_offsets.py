@@ -1,6 +1,6 @@
 import os
 from uk.ac.diamond.daq.persistence.jythonshelf import LocalParameters
-from uk.ac.gda.server.exafs.scan import IXesOffsets
+from gda.exafs.xes import IXesOffsets
  
 class XESOffsets(IXesOffsets):
 
@@ -107,7 +107,7 @@ class XESOffsets(IXesOffsets):
             offsetsDict[name] = newOffset
         print offsetsDict
         self._applyFromDict(offsetsDict)
-        self.save()
+        self.saveToTemp()
 
     def _calcOffset(self, name,expectedReadback):
         scannable = self.spectrometer.getGroupMember(name)
