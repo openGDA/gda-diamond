@@ -21,9 +21,7 @@ package uk.ac.gda.beamline.i08.energyfocus;
 import static uk.ac.diamond.daq.mapping.ui.experiment.focus.FocusScanUtils.saveConfig;
 
 import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -38,6 +36,9 @@ public class EditEnergyFocusDialog extends TitleAreaDialog {
 
 	private static final String TITLE = "Energy focus function editor";
 	private static final String MESSAGE = "Edit the parameters for the energy focus mapping";
+
+	private static final int INITIAL_WIDTH = 450;
+	private static final int INITIAL_HEIGHT = 300;
 
 	private final ILinearFunction energyFocusFunction;
 	private final String energyFocusConfigPath;
@@ -59,11 +60,13 @@ public class EditEnergyFocusDialog extends TitleAreaDialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		final Composite dialogArea = (Composite) super.createDialogArea(parent);
-		final Composite container = new Composite(dialogArea, SWT.NONE);
-		GridDataFactory.fillDefaults().grab(true, true).applyTo(container);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(container);
-		energyFocusDisplay = new EnergyFocusFunctionDisplay(container, energyFocusFunction);
-		return container;
+		energyFocusDisplay = new EnergyFocusFunctionDisplay(dialogArea, energyFocusFunction);
+		return dialogArea;
+	}
+
+	@Override
+	protected Point getInitialSize() {
+		return new Point(INITIAL_WIDTH, INITIAL_HEIGHT);
 	}
 
 	@Override
