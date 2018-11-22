@@ -348,28 +348,27 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		groupDetailsSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 		groupDetailsSectionComposite.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
 
+		createAccumulationTime(groupDetailsSectionComposite);
+		if (showAccumulationReadoutControls) {
+			createAccumulationReadoutTime(groupDetailsSectionComposite);
+		}
+		numberOfAccumulations(groupDetailsSectionComposite);
 		createGroupTimeUnits(groupDetailsSectionComposite);
-		createStartTime(groupDetailsSectionComposite);
-		createEndTime(groupDetailsSectionComposite);
 		createTimePerSpectrum(groupDetailsSectionComposite);
-
 		if ( showRealTimePerSpectrum ) {
 			// Show corrected (i.e. real) time per spectra the detector can provide.
 			createRealTimePerSpectrum(groupDetailsSectionComposite);
 		}
-		createNumberOfSpectra(groupDetailsSectionComposite);
 
 		// Group delay and trigger section
 		final Composite groupTriggerSectionComposite = toolkit.createComposite(groupSectionComposite, SWT.NONE);
 		groupTriggerSectionComposite.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
 		groupTriggerSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 
-		createAccumulationTime(groupTriggerSectionComposite);
-		if (showAccumulationReadoutControls) {
-			createAccumulationReadoutTime(groupTriggerSectionComposite);
-		}
-		numberOfAccumulations(groupTriggerSectionComposite);
 		delayBeforeStartOfGroup(groupTriggerSectionComposite);
+		createStartTime(groupTriggerSectionComposite);
+		createNumberOfSpectra(groupTriggerSectionComposite);
+		createEndTime(groupTriggerSectionComposite);
 
 		Composite externalTriggerComposite = toolkit.createComposite(groupTriggerSectionComposite);
 		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
@@ -377,8 +376,8 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		externalTriggerComposite.setLayoutData(gridData);
 		externalTriggerComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 
-		useExternalTrigger(externalTriggerComposite);
 		useTopupChecker(externalTriggerComposite);
+		useExternalTrigger(externalTriggerComposite);
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(groupSection);
 		toolkit.paintBordersFor(sectionSeparator);
