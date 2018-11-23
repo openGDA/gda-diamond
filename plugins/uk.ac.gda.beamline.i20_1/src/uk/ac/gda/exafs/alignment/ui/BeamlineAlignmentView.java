@@ -169,9 +169,10 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 
 
 	private void initialiseUI() {
-		// Set crystal cut and Q combo manually (not automatically updated by binding)
+		// Set crystal cut, Q and element edge combos manually (not automatically updated by binding)
 		comboCrystalCut.setSelection( new StructuredSelection( AlignmentParametersModel.INSTANCE.getCrystalCut() ) );
 		comboCrystalQ.setSelection( new StructuredSelection( AlignmentParametersModel.INSTANCE.getQ()) );
+		comboElementEdge.setSelection( new StructuredSelection( AlignmentParametersModel.INSTANCE.getEdge().getEdgeType()) );
 
 		cmbDetectorType.setSelection(new StructuredSelection(DetectorModel.INSTANCE.getCurrentDetector()));
 		cmbDetectorType.addSelectionChangedListener( event -> {
