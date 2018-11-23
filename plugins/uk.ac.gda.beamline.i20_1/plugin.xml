@@ -81,9 +81,18 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.alignment.ui.FocusingView"
-            id="uk.ac.gda.exafs.ui.views.focusingview"
-            name="Focusing View"
+            class="uk.ac.gda.exafs.alignment.ui.SampleStageMotorsView"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/brick.png"
+            id="uk.ac.gda.exafs.ui.views.samplestagemotors"
+            name="Sample Stage Motors View"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.alignment.ui.DetectorRoiView"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/brick.png"
+            id="uk.ac.gda.exafs.ui.views.detectorroiview"
+            name="Detector ROIs View"
             restorable="true">
       </view>
       <view
