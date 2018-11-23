@@ -12,8 +12,6 @@
 		<property name="exitSlitShutter" ref="s2_shutter" />
 		<property name="apertureArrayXMotor" ref="s2_ss_x" />
 		<property name="apertureArrayYMotor" ref="s2_ss_y" />
-		<property name="apertureArrayInPosition" value="-2.55" />
-		<property name="apertureArrayOutPosition" value="-7.2" />
 		<property name="mirrorPitchMotor" ref="m4_pitch" />
 	</bean>
 
