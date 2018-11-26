@@ -75,27 +75,5 @@
             value="10000">
       </preference>
    </extension>
-  
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            locationURI="toolbar:uk.ac.gda.rcp.views.dashboardView">
-         <command
-               commandId="uk.ac.gda.beamline.i08.EditEnergyFocusFunction"
-               icon="icons/chart_line.png"
-               label="Edit energy focus function"
-               style="push"
-               tooltip="Edit energy focus function">
-         </command>
-      </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="uk.ac.gda.beamline.i08.energyfocus.EditEnergyFocusFunctionHandler"
-            description="Edit energy focus function"
-            id="uk.ac.gda.beamline.i08.EditEnergyFocusFunction"
-            name="Edit energy focus function">
-      </command>
-   </extension>
+
 </plugin>
