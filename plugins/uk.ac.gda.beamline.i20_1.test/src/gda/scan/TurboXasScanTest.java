@@ -22,6 +22,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,7 +90,8 @@ public class TurboXasScanTest extends EdeTestBase {
 
 	@Before
 	public void setupEnvironment() throws Exception {
-		LocalProperties.set(LocalProperties.GDA_VAR_DIR, "/scratch/Data");
+		Path tempDataDir = Files.createTempDirectory(TurboXasScanTest.class.getName());
+		LocalProperties.set(LocalProperties.GDA_VAR_DIR, tempDataDir.toString());
 
 		daserver = new DummyDAServer();
 		daserver.configure();
