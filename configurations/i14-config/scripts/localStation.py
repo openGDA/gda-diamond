@@ -66,8 +66,8 @@ dcm_enrg_exporter.serviceInterface = ScannableMotionUnits
 dcm_enrg_exporter.afterPropertiesSet()
 
 # Initialise the array plugin for all detectors
-from prepare_for_snapshot import prepare_detectors
-prepare_detectors()
+from initialise_detectors import initialise_detectors
+initialise_detectors()
 
 # Define functions to change interferometer/stage offsets
 run('ifs_functions.py')
