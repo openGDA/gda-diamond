@@ -7,8 +7,8 @@ from gdaserver import energyFocusFunction
 
 # Load values of energy/focus function from stash file
 def loadEnergyFocus():
-    print("Loading energy/focus parameters")
     stashFilePath = LocalProperties.get("gda.var") + "/energyFocusFunction.json"
+    print("Loading energy/focus parameters from " + abspath(stashFilePath))
 
     try:
         stashFile = open(stashFilePath, 'r')
