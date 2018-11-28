@@ -157,8 +157,12 @@ alias("selectStage")
 selectStage(1)
 
 # In order to perform AcquireRequests with Xspress3 we must initialise the plugin array:
-from prepare_for_snapshot import prep_xsp3
-prep_xsp3()
+from gdaserver import Xspress3A
+from gdascripts.detectors.initialise_detector import initialise_detector
+if live_mode:
+    initialise_detector("Xspress3", Xspress3A.getAdBase().getBasePVName(), Xspress3A.getNdArray().getBasePVName(), "Software")
+else:
+    initialise_detector("Xspress3", Xspress3A.getAdBase().getBasePVName(), Xspress3A.getNdArray().getBasePVName(), "Internal", "Single")
 
 from mapping_scan_commands import mscan, grid, detector, mstep, rect
 from org.eclipse.scanning.api.points.models import StepModel
