@@ -217,8 +217,6 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 
-		createIncludedStripsSelection();
-
 		createI0IRefComposites();
 
 		// It acquisition settings
@@ -276,11 +274,6 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		Composite defaultSectionSeparator = toolkit.createCompositeSeparator(section);
 		toolkit.paintBordersFor(defaultSectionSeparator);
 		section.setSeparatorControl(defaultSectionSeparator);
-	}
-
-	private void createIncludedStripsSelection() {
-		IncludedStripsSectionComposite includedStripsSectionComposite = new IncludedStripsSectionComposite(this, SWT.None, toolkit);
-		includedStripsSectionComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 	}
 
 	@Override

@@ -28,7 +28,8 @@ import gda.rcp.views.JythonTerminalView;
 import uk.ac.gda.exafs.alignment.ui.AlignmentStageCalibrationView;
 import uk.ac.gda.exafs.alignment.ui.BeamlineAlignmentView;
 import uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView;
-import uk.ac.gda.exafs.alignment.ui.FocusingView;
+import uk.ac.gda.exafs.alignment.ui.DetectorRoiView;
+import uk.ac.gda.exafs.alignment.ui.SampleStageMotorsView;
 import uk.ac.gda.exafs.alignment.ui.SingleSpectrumAlignmentView;
 import uk.ac.gda.exafs.calibration.ui.EdeManualCalibrationPlotView;
 import uk.ac.gda.exafs.plotting.ui.ExperimentDataPlotView;
@@ -64,8 +65,9 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		alignmentControlsFolder.addView(SingleSpectrumAlignmentView.ID);
 
 		IFolderLayout focusingControlsFolder = layout.createFolder(FOCUSING_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.32f, editorArea);
-		focusingControlsFolder.addView(FocusingView.ID);
-		propertyLayout = layout.getViewLayout(FocusingView.ID);
+		focusingControlsFolder.addView(DetectorRoiView.ID);
+		focusingControlsFolder.addView(SampleStageMotorsView.ID);
+		propertyLayout = layout.getViewLayout(SampleStageMotorsView.ID);
 		propertyLayout.setCloseable(false);
 		focusingControlsFolder.addView(AlignmentStageCalibrationView.ID);
 

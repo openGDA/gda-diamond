@@ -81,9 +81,18 @@
       </view>
       <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.alignment.ui.FocusingView"
-            id="uk.ac.gda.exafs.ui.views.focusingview"
-            name="Focusing View"
+            class="uk.ac.gda.exafs.alignment.ui.SampleStageMotorsView"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/brick.png"
+            id="uk.ac.gda.exafs.ui.views.samplestagemotors"
+            name="Sample Stage Motors View"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.alignment.ui.DetectorRoiView"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/brick.png"
+            id="uk.ac.gda.exafs.ui.views.detectorroiview"
+            name="Detector ROIs View"
             restorable="true">
       </view>
       <view
@@ -427,6 +436,7 @@
          allPopups="false"
          locationURI="menu:window?after=showView">
       <menu
+            id="detectorsMenu"
             label="Detectors">
          <command
                commandId="org.eclipse.ui.views.showView"
@@ -435,6 +445,67 @@
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
                   value="uk.ac.gda.exafs.ui.views.xspress3View">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Frelon/XH live view"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.DetectorLiveModeView">
+            </parameter>
+         </command>
+      </menu>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="menu:window?after=detectorsMenu">
+      <menu
+            label="Views">
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Alignment stage"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.alignmentstagecalibration">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Sample stage"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.samplestagemotors">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Detector ROIs"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.detectorroiview">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Ion chamber rates"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.ionchambersmonitor">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Ionchamber filling"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.ionchambers">
             </parameter>
          </command>
       </menu>
