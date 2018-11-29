@@ -19,6 +19,7 @@
 package uk.ac.gda.beamline.b18;
 
 import org.eclipse.ui.IStartup;
+import org.eclipse.ui.PlatformUI;
 
 import gda.configuration.properties.LocalProperties;
 
@@ -32,7 +33,7 @@ public class StartupService implements IStartup {
 	public void earlyStartup() {
 
 		if (!LocalProperties.get("gda.factory.factoryName","").equals("b18")) return;
-
+        PlatformUI.getWorkbench().getDisplay().asyncExec(CopyTemplateFiles::copy);
 	}
 
 
