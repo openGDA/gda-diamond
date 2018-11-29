@@ -24,10 +24,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
+import org.apache.commons.math3.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -488,6 +491,74 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		return triggerPoints;
 	}
 
+	/**
+	 *
+	 * @param triggerParams
+	 * @param startTime
+	 * @param endTime
+	 * @return List of TriggerParams that have a trigger taking place between startTime and endTime and a port output > 0
+	 */
+	private List<TriggerParams> getParamsForTimes(List<TriggerParams> triggerParams, double startTime, double endTime) {
+		return triggerParams.stream()
+				.filter(triggerParam -> triggerParam.getPort() > 0 && triggerParam.isOverlap(startTime, endTime))
+				.collect(Collectors.toList());
+	}
+
+	public Map<Integer, Pair<Integer, Integer> > getFramesForSpectra() {
+		List<TriggerParams> triggerParams = processTimes(true);
+		// Each TriggerParams corresponds to pulse edge.
+		// Each TriggerParams occurs at time t, has length l and specifies a number for the output signal on the USR ports.
+
+		int numSpectra = detectorDataCollection.getNumberOfFrames();
+		int totalNumDetectorPulses = getTotalNumberOfFrames();
+		int numDetectorPulsesPerSpectrum = totalNumDetectorPulses/numSpectra;
+
+		double firstSpectrumStartTime = detectorDataCollection.getTriggerDelay() + detectorDataCollection.getTriggerPulseLength();
+		double timePerSpectrum = getTimePerSpectrum();
+		double timePerDetectorPulse = timePerSpectrum/numDetectorPulsesPerSpectrum;
+
+
+		// Map from spectrum number -> scaler start frame, scaler end frame
+		Map<Integer, Pair<Integer, Integer> > framesForSpectra = new LinkedHashMap<>();
+		int startScalerFrame = 0;
+		int endScalerFrame = 0;
+
+		// Loop over spectra and set the start and end scaler frame for each one.
+		//  No Tfg output -> scaler frames all same length, one per detector readout
+		//  Tfg output -> scaler frame length from length of output signal, scaler start and end frame
+		// for each spectrum needs adjusting to account for non even in frame length.
+
+		for(int i=0; i<numSpectra; i++) {
+			double spectrumStartTime = firstSpectrumStartTime + i*timePerSpectrum;
+
+			// Get list of trigger params that overlap in time with this spectrum
+			List<TriggerParams> paramForSpectra = getParamsForTimes(triggerParams, spectrumStartTime, spectrumStartTime+timePerSpectrum);
+
+			startScalerFrame = endScalerFrame;
+
+			// Count the number of detector pulses that occur at same same as Tfg output signal
+			int numCoincidentPulses = 0;
+			if (paramForSpectra.isEmpty()) {
+				endScalerFrame += numDetectorPulsesPerSpectrum;
+			} else {
+				for (int detPulse = 0; detPulse < numDetectorPulsesPerSpectrum; detPulse++) {
+					double pulseTime = spectrumStartTime + detPulse * timePerDetectorPulse;
+					boolean overlap = paramForSpectra.stream()
+							.filter(param -> param.isOverlap(pulseTime) && param.getPort() > 0)
+							.findFirst()
+							.isPresent();
+					if (overlap) {
+						numCoincidentPulses++;
+					}
+				}
+				endScalerFrame += numDetectorPulsesPerSpectrum - numCoincidentPulses;
+			}
+
+			framesForSpectra.put(i, Pair.create(startScalerFrame, endScalerFrame));
+		}
+		return framesForSpectra;
+	}
+
 	private boolean isTriggerPulseOverlapForTheSamePort( List<TriggerableObject> triggerableObjList ) {
 		// Make list of triggerable objects for each output port
 		TreeMap<TriggerOutputPort, List<TriggerableObject>> outputPort2TriggerObj = new TreeMap<TriggerOutputPort, List<TriggerableObject>>();
@@ -524,7 +595,7 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 		return overlapping;
 	}
 
-	private boolean overlap(double min1, double max1, double min2, double max2) {
+	private static boolean overlap(double min1, double max1, double min2, double max2) {
 		double start = Math.max(min1,min2);
 		double end = Math.min(max1,max2);
 		double d = end - start + TFG_TIME_RESOLUTION; //ensure minimum pulse separation - TFG2 time resolution
@@ -655,6 +726,24 @@ public class TFGTrigger extends ObservableModel implements Serializable {
 
 		public void setTriggerIsDuringAccumulation(boolean triggerIsDuringAccumulation) {
 			this.triggerIsDuringAccumulation = triggerIsDuringAccumulation;
+		}
+
+		/**
+		 * @param testTime
+		 * @return true it testTime occurs within pulse start and pulse start + pulse length
+		 */
+		public boolean isOverlap(double testTime) {
+			return testTime> time && testTime < time + length;
+		}
+
+		/**
+		 *
+		 * @param startTime
+		 * @param endTime
+		 * @return True if any part of pulse is between startTime and endTime
+		 */
+		public boolean isOverlap(double startTime, double endTime) {
+			return overlap(time, time + length, startTime, endTime);
 		}
 	}
 

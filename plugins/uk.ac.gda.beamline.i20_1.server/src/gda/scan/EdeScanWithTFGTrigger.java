@@ -18,15 +18,17 @@
 
 package gda.scan;
 
+import java.util.Map;
+
+import org.apache.commons.math3.util.Pair;
 import org.dawnsci.ede.EdeDataConstants;
 import org.dawnsci.ede.EdeScanType;
-import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
-import org.eclipse.dawnsci.analysis.tree.TreeFactory;
-import org.eclipse.dawnsci.hdf5.nexus.NexusFileFactoryHDF5;
-import org.eclipse.dawnsci.nexus.NexusConstants;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
 import org.eclipse.dawnsci.nexus.NexusFile;
+import org.eclipse.january.dataset.BooleanDataset;
 import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
+import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -182,28 +184,55 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	 * @throws Exception
 	 * @since 6/5/2016
 	 */
-	private double[][] getScalerCountsForSpectra(double[][] scalerCountsForFrames, int numAccumulationsPerSpectra, int numSpectra) throws Exception {
-		int numScalers = scalerCountsForFrames[0].length;
-		int numFrames = scalerCountsForFrames.length;
+	private double[][] getScalerCountsForSpectra(int firstSpectrum, int lastSpectrum) throws Exception {
 
-		if ( numSpectra * numAccumulationsPerSpectra > numFrames ) {
-			// Don't throw an exception, since even if scaler values can't be converted, still want rest of
-			// processed data to be written at end of scan.
-			logger.error( "Problem converting scaler values : total number of frames != accumulations per spectra * number of spectra");
+		logger.debug("Getting scaler counts for spectra {} to {}", firstSpectrum, lastSpectrum);
+
+		// Lookup the range of scaler frames to be used for each spectrum :
+		Map<Integer, Pair<Integer, Integer>> framesForSpectra = triggeringParameters.getFramesForSpectra();
+		Pair<Integer, Integer> framesForFirstSpectrum = framesForSpectra.get(firstSpectrum);
+		Pair<Integer, Integer> framesForLastSpectrum = framesForSpectra.get(lastSpectrum);
+		if (framesForFirstSpectrum == null || framesForLastSpectrum == null) {
+			logger.error("Scaler frame range for spectrum {}...{} has not been set - no scaler values will be present for this spectrum", firstSpectrum, lastSpectrum);
 			return null;
 		}
 
-		double [][]scalerCountsForSpectra = new double[numSpectra][numScalers];
-		int specCount = 0;
-		for(int i = 0; i<numFrames; i++) {
+		logger.debug("Scaler frame ranges : spectrum {} = {}, spectrum {} = {}", firstSpectrum, framesForFirstSpectrum, lastSpectrum, framesForLastSpectrum);
 
-			// add to scaler values for current spectra
-			for(int j = 0; j<numScalers; j++)
-				scalerCountsForSpectra[specCount][j] += scalerCountsForFrames[i][j];
+		// Read the required scaler frame data from injectionCounter
+		int firstScalerFrameToRead = framesForFirstSpectrum.getFirst();
+		int lastScalerFrameToRead = framesForLastSpectrum.getSecond();
+		logger.debug("Reading scaler frames {} to {}", firstScalerFrameToRead, lastScalerFrameToRead);
+		Object[] detectorFrameData = injectionCounter.readoutFrames(firstScalerFrameToRead, lastScalerFrameToRead);
+		double[][] scalerCountsForFrames = (double[][]) detectorFrameData;
 
-			// increment counter for next spectra
-			if ( i%numAccumulationsPerSpectra == 0 && i>0 )
-				specCount++;
+		int numScalers = scalerCountsForFrames[0].length;
+		logger.debug("Scaler data shape : {}, {}", scalerCountsForFrames.length, numScalers);
+
+		// Array to store total scaler counts for each spectrum, for each scaler channel
+		int numSpectra = lastSpectrum - firstSpectrum + 1;
+		double[][] scalerCountsForSpectra = new double[numSpectra][numScalers];
+
+		for(int spectrumIndex=0; spectrumIndex<numSpectra; spectrumIndex++) {
+			int spectrumNumber = firstSpectrum + spectrumIndex;
+			Pair<Integer, Integer> frames = framesForSpectra.get(spectrumNumber);
+			if (frames == null) {
+				logger.warn("Scaler frame range for spectrum {} has not been set - no scaler values will be present for this spectrum", spectrumNumber);
+				continue;
+			}
+
+			// Convert absolute frame number to frame indices in scalerCountsForFrames :
+			int firstFrameIndex = frames.getFirst()-firstScalerFrameToRead;
+			int lastFrameIndex = frames.getSecond()-firstScalerFrameToRead;
+			logger.debug("Adding scaler counts for spectrum {} (frames = {}, indices = [{}, {}])", spectrumNumber, frames, firstFrameIndex, lastFrameIndex);
+
+			// Scaler values for spectrum is the sum of scaler counts over range of frames :
+			for(int scalerFrameIndex=firstFrameIndex; scalerFrameIndex<lastFrameIndex; scalerFrameIndex++) {
+				// Add counts for each scaler channel to the sum for the spectrum
+				for(int scalerChannelIndex = 0; scalerChannelIndex<numScalers; scalerChannelIndex++) {
+					scalerCountsForSpectra[spectrumIndex][scalerChannelIndex] += scalerCountsForFrames[scalerFrameIndex][scalerChannelIndex];
+				}
+			}
 		}
 
 		return scalerCountsForSpectra;
@@ -219,14 +248,10 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 			return;
 		}
 		String fname = getDataWriter().getCurrentFileName();
-		try (NexusFile file = new NexusFileFactoryHDF5().newNexusFile(fname)) {
-			file.openToWrite(false);
-			GroupNode g = file.getGroup("/entry1/" + theDetector.getName(), true);
-			if (!g.containsAttribute(NexusConstants.NXCLASS)) {
-				g.addAttribute(TreeFactory.createAttribute(NexusConstants.NXCLASS, NexusConstants.DATA));
-			}
-			file.createData(g, EdeDataConstants.SCALER_FRAME_COUNTS, topupScalerValueForSpectra);
-			file.createData(g, "is_topup_measured_from_scaler", topupValueUsesScalers);
+		try (NexusFile file = NexusFileHDF5.openNexusFile(fname)) {
+			String detectorEntry = "/entry1/" + theDetector.getName() + "/";
+			file.createData(detectorEntry, EdeDataConstants.SCALER_FRAME_COUNTS, topupScalerValueForSpectra,  true);
+			file.createData(detectorEntry, "is_topup_measured_from_scaler", topupValueUsesScalers,  true);
 		} catch (Exception e) {
 			logger.error("Problem when writing topup scaler information to Nexus file", e);
 		}
@@ -398,8 +423,8 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		}
 		int totalNumSpectra = scanParameters.getTotalNumberOfFrames();
 		int numScalers = injectionCounter.getNumChannelsToRead();
-		topupScalerValueForSpectra = DatasetFactory.zeros(new int[] {totalNumSpectra, numScalers}, Dataset.FLOAT64);
-		topupValueUsesScalers = DatasetFactory.zeros(new int[] {totalNumSpectra}, Dataset.BOOL);
+		topupScalerValueForSpectra = DatasetFactory.zeros(DoubleDataset.class, totalNumSpectra, numScalers);
+		topupValueUsesScalers = DatasetFactory.zeros(BooleanDataset.class, totalNumSpectra);
 	}
 
 	/**
@@ -477,17 +502,8 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 				return new double[totNumSpectra][numChannels];
 
 			} else {
-				int firstScalerFrameToRead = lowFrame * numAccumulationsPerSpectra;
-				int lastScalerFrameToRead = (highFrame + 1) * numAccumulationsPerSpectra;
-				logger.debug("Reading scaler frames {} to {}", firstScalerFrameToRead, lastScalerFrameToRead);
-
-				// Get scaler frame data from injectionCounter
-				Object[] detectorFrameData = injectionCounter.readoutFrames(firstScalerFrameToRead, lastScalerFrameToRead);
-				double[][] frameDataArray = (double[][]) detectorFrameData;
-				logger.debug("Frame data array {}", frameDataArray[0][0]);
 				// Sum over number of accumulations to find total counts for each spectrum
-				double[][] countsForSpectra= getScalerCountsForSpectra(frameDataArray, numAccumulationsPerSpectra, totNumSpectra);
-				logger.debug("Counts for spectra {}", countsForSpectra[0][0]);
+				double[][] countsForSpectra= getScalerCountsForSpectra(lowFrame, highFrame);
 				return countsForSpectra;
 			}
 		} catch (Exception e) {
