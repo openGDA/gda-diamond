@@ -436,6 +436,7 @@
          allPopups="false"
          locationURI="menu:window?after=showView">
       <menu
+            id="detectorsMenu"
             label="Detectors">
          <command
                commandId="org.eclipse.ui.views.showView"
@@ -444,6 +445,67 @@
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
                   value="uk.ac.gda.exafs.ui.views.xspress3View">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Frelon/XH live view"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.DetectorLiveModeView">
+            </parameter>
+         </command>
+      </menu>
+   </menuContribution>
+   <menuContribution
+         allPopups="false"
+         locationURI="menu:window?after=detectorsMenu">
+      <menu
+            label="Views">
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Alignment stage"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.alignmentstagecalibration">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Sample stage"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.samplestagemotors">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Detector ROIs"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.detectorroiview">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Ion chamber rates"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.views.ionchambersmonitor">
+            </parameter>
+         </command>
+         <command
+               commandId="org.eclipse.ui.views.showView"
+               label="Ionchamber filling"
+               style="push">
+            <parameter
+                  name="org.eclipse.ui.views.showView.viewId"
+                  value="uk.ac.gda.exafs.ui.ionchambers">
             </parameter>
          </command>
       </menu>
