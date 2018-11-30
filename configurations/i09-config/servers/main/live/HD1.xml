@@ -11,8 +11,5 @@
 	<bean id="hd1temp1" class="gda.spring.EpicsMonitorFactoryBean">
 		<property name="deviceName" value="HD1.TEMP1" />
 	</bean>
-	<!-- <bean id="hd1cam" class="gda.device.diagnosis.AravisCamera"> -->
-	<!-- <property name="deviceName" value="HD1.CAM_aravisCamera"/> -->
-	<!-- </bean> -->
 
 </beans>

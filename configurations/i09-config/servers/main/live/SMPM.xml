@@ -2,12 +2,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- <bean id="smpmiamp10" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> -->
-	<!-- <property name="deviceName" value="SMPM.IAMP10"/> -->
-	<!-- </bean> -->
-	<!-- <bean id="smpmiamp19" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> -->
-	<!-- <property name="deviceName" value="SMPM.IAMP19"/> -->
-	<!-- </bean> -->
 	<bean id="smpmiamp39" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="poll" value="true" />
 		<property name="pvName" value="BL09I-MO-SMPM-01:IAMP39" />

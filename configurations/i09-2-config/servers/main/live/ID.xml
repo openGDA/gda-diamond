@@ -16,14 +16,7 @@
 		<property name="minGapPos" value="16.0" />
 		<property name="maxGapPos" value="300.0" />
 	</bean>
-	<!-- <bean id="jidphaseurp_motor" class="gda.device.motor.EpicsMotor"> -->
-	<!-- <property name="deviceName" value="IDPHASE.URP" /> -->
-	<!-- <property name="accessControl" ref="jidblena" /> -->
-	<!-- </bean> -->
-	<!-- <bean id="jidphaselrp_motor" class="gda.device.motor.EpicsMotor"> -->
-	<!-- <property name="deviceName" value="IDPHASE.LRP" /> -->
-	<!-- <property name="accessControl" ref="jidblena" /> -->
-	<!-- </bean> -->
+
 	<bean id="jidblena" class="gda.epics.AccessControl">
 		<property name="accessControlPvName" value="SR09J-MO-SERVC-01:IDBLENA" />
 	</bean>

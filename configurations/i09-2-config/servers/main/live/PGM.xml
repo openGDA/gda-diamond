@@ -34,11 +34,5 @@
 	<bean id="pgmtemp2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL09J-MO-PGM-01:TEMP2" />
 	</bean>
-	<!-- <bean id="pgmtemp3" class="gda.spring.EpicsMonitorFactoryBean"> -->
-	<!-- <property name="deviceName" value="PGM.TEMP3" /> -->
-	<!-- </bean> -->
-	<!-- <bean id="pgmtemp4" class="gda.spring.EpicsMonitorFactoryBean"> -->
-	<!-- <property name="deviceName" value="PGM.TEMP4" /> -->
-	<!-- </bean> -->
 
 </beans>

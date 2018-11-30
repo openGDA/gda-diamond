@@ -12,7 +12,5 @@
 	<bean id="hd4aposn" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL09I-MO-HD-04:X:MP" />
 	</bean>
-	<!-- <bean id="hd4cam" class="gda.device.diagnosis.AravisCamera"> -->
-	<!-- <property name="deviceName" value="HD4.CAM_aravisCamera"/> -->
-	<!-- </bean> -->
+
 </beans>

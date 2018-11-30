@@ -3,13 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- <bean id="sm1temp1" class="gda.spring.EpicsMonitorFactoryBean"> -->
-	<!-- <property name="deviceName" value="SM1.TEMP1"/> -->
-	<!-- </bean> -->
-	<!-- <bean id="sm1temp2" class="gda.spring.EpicsMonitorFactoryBean"> -->
-	<!-- <property name="deviceName" value="SM1.TEMP2"/> -->
-	<!-- </bean> -->
-
 	<bean id="sm1wfs1" class="gda.device.monitor.DummyMonitor">
 	</bean>
 

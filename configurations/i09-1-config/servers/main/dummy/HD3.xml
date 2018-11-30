@@ -21,7 +21,5 @@
 		</property>
 		<property name="startPositionName" value="Direct"/>
 	</bean>
-	<!-- <bean id="hd3cam" class="gda.device.diagnosis.AravisCamera"> -->
-	<!-- <property name="deviceName" value="HD3.CAM_aravisCamera"/> -->
-	<!-- </bean> -->
+
 </beans>

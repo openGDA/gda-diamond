@@ -64,11 +64,5 @@
 	</bean>
 	<bean id="countdown" class="gda.device.monitor.DummyMonitor">
 	</bean>
-	<!-- <bean id="message1" class="gda.device.simplearray.EpicsSimpleArray"> -->
-	<!-- <property name="deviceName" value="MSTAT.MESS1"/> -->
-	<!-- </bean> -->
-	<!-- <bean id="message2" class="gda.device.simplearray.EpicsSimpleArray"> -->
-	<!-- <property name="deviceName" value="MSTAT.MESS2"/> -->
-	<!-- </bean> -->
 
 </beans>
