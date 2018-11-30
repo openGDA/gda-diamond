@@ -25,10 +25,13 @@ def loadCVSTable(filename):
         if DEBUG:
             for key in table.keys():
                 print key + ':' + str(table[key])
+            print
+            print max(table['energy']), min(table['energy'])
+            print
             
     return table
 
 if DEBUG:
-    table=loadCVSTable("../../lookupTables/idu_circ_neg_energy2motorPosition.csv")
+    table=loadCVSTable("../../lookupTables/idu_circ_neg_energy2gap.csv")
     for key in table.keys():
         print dict(zip(table['energy'], table[key]))
