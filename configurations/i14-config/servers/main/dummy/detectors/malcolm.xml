@@ -176,6 +176,7 @@
 			<list>
 				<value>stage1_x</value>
 				<value>stage1_y</value>
+				<value>stage1_z</value>
 			</list>
 		</property>
 	</bean>
