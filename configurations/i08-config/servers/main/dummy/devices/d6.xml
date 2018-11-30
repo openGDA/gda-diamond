@@ -13,6 +13,7 @@
 				<value>Photodiode</value>
 			</list>
 		</property>
+		<property name="timeToMove" value="3000" />
 	</bean>
 
 	<!-- Diagnostic camera -->
