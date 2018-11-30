@@ -20,11 +20,9 @@
 	<import resource="GBC1.xml" />
 	<import resource="GBC2.xml" />
 	<import resource="GBC3.xml" />
-	<!-- <import resource="HD1.xml"/> -->
 	<import resource="HD2.xml" />
 	<import resource="HD3.xml" />
 	<import resource="HD4.xml" />
-	<!-- <import resource="HD7.xml" /> -->
 	<import resource="HM3.xml" />
 	<import resource="HS1.xml" />
 	<import resource="HS2.xml" />
@@ -35,7 +33,6 @@
 	<import resource="SD1.xml" />
 	<import resource="SD2.xml" />
 	<import resource="SD3.xml" />
-	<!-- <import resource="SD4.xml"/> -->
 	<import resource="SD5.xml" />
 	<import resource="SD6.xml" />
 	<import resource="SD7.xml" />
