@@ -8,7 +8,7 @@ from gda.device.scannable import ContinuouslyScannableViaController, \
     PositionInputStream
 from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
-from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating
+from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating  # @UnresolvedImport
 from time import sleep
 import installation
 from scannable.continuous.ContinuousPgmGratingIDGapEnergyMoveController import ContinuousPgmGratingIDGapEnergyMoveController
@@ -171,7 +171,9 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             if isinstance(self._move_controller, ContinuousPgmGratingIDGapEnergyMoveController):
                 return self._move_controller._id_energy.pgm_energy.getPosition()
             else:
-                return self.super__getPosition()
+                # fix I10-366
+                from gdaserver import pgm_energy
+                return pgm_energy.getPosition()
 
 
     def waitWhileBusy(self):
@@ -219,7 +221,8 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             try: 
                 return self._move_controller._id_energy.pgm_energy.getExtraNames()
             except:
-                return self.super__getExtraNames()
+                from gdaserver import pgm_energy
+                return pgm_energy.getExtraNames()
     
     def getOutputFormat(self):
         if self._operating_continuously:
@@ -228,7 +231,8 @@ class ContinuousMovePgmEnergyBinpointScannable(ContinuouslyScannableViaControlle
             try:
                 return self._move_controller._id_energy.pgm_energy.getOutputFormat()
             except: #
-                return self.super__getOutputFormat()
+                from gdaserver import pgm_energy
+                return pgm_energy.getOutputFormat()
         
         
         """ Note, self._operating_continuously is being set back to false before atScanEnd is being called. See:
