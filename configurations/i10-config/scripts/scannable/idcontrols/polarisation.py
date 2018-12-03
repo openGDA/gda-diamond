@@ -9,6 +9,9 @@ Created on 9 May 2018
 '''
 from gda.device.scannable import ScannableBase
 from scannable.idcontrols.sourceModes import SourceMode
+from gdaserver import pgm_energy
+from org.slf4j import LoggerFactory
+import __main__  # @UnresolvedImport
 from scannable.continuous.continuous_energy_scannables import egy_g_idd_circ_pos_energy,\
     egy_g_idd_circ_neg_energy, egy_g_idd_lin_hor_energy,\
     egy_g_idd_lin_ver_energy, egy_g_idd_lin_arbitrary_energy,\
@@ -21,10 +24,24 @@ from scannable.continuous.continuous_energy_scannables import egy_g_idd_circ_pos
     cemc_g_idd_lin_hor_energy, cemc_g_idd_lin_ver_energy,\
     cemc_g_idd_lin_arbitrary_energy, egy_g_idu_lin_arbitrary_energy,\
     cemc_g_idu_lin_arbitrary_energy
-from scannable.id_energys.idd_lin_energy import idd_lin_arbitrary_angle
-import __main__  # @UnresolvedImport
-from org.slf4j import LoggerFactory
-from scannable.id_energys.idu_lin_energy import idu_lin_arbitrary_angle
+from scannable.id_energys.idd_lin_energy import idd_lin_arbitrary_angle,\
+    idd_lin_arbitrary_energy_minimum, idd_lin_arbitrary_energy_maximum,\
+    idd_lin_arbitrary_energy
+from scannable.id_energys.idu_lin_energy import idu_lin_arbitrary_angle,\
+    idu_lin_arbitrary_energy_minimum, idu_lin_arbitrary_energy_maximum,\
+    idu_lin_arbitrary_energy
+from scannable.id_energys.idd_energy_gap import idd_circ_pos_energy,\
+    idd_circ_pos_energy_minimum, idd_circ_pos_energy_maximum,\
+    idd_circ_neg_energy_maximum, idd_circ_neg_energy_minimum,\
+    idd_circ_neg_energy, idd_lin_hor_energy_minimum, idd_lin_hor_energy_maximum,\
+    idd_lin_hor_energy, idd_lin_ver_energy_maximum, idd_lin_ver_energy_minimum,\
+    idd_lin_ver_energy
+from scannable.id_energys.idu_energy_gap import idu_circ_pos_energy_maximum,\
+    idu_circ_pos_energy_minimum, idu_circ_neg_energy_maximum,\
+    idu_circ_neg_energy_minimum, idu_circ_neg_energy, idu_lin_hor_energy_minimum,\
+    idu_lin_hor_energy_maximum, idu_lin_hor_energy, idu_lin_ver_energy_maximum,\
+    idu_lin_ver_energy_minimum, idu_lin_ver_energy, idu_lin_hor3_energy_maximum,\
+    idu_lin_hor3_energy_minimum, idu_lin_hor3_energy, idu_circ_pos_energy
 
 class Polarisation(ScannableBase):
     '''
@@ -87,6 +104,12 @@ class Polarisation(ScannableBase):
                     message = "'energycontroller' is switched to %s " % (cemc_g_idd_circ_pos_energy.getName())
                     print message
                     self.logger.info(message)
+                #move ID polarisation to 'pc' while keeping current energy
+                current_energy=float(pgm_energy.getPosition())
+                if current_energy<idd_circ_pos_energy_minimum or current_energy > idd_circ_pos_energy_maximum:
+                    raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idd_circ_pos_energy_minimum,idd_circ_pos_energy_maximum,newpos))
+                current_ID_positions=idd_circ_pos_energy.getIdPosition(current_energy)
+                idd_circ_pos_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
                                     
             elif newpos == Polarisation.POLARISATIONS[1]:
                 __main__.energy = egy_g_idd_circ_neg_energy
@@ -109,6 +132,13 @@ class Polarisation(ScannableBase):
                     message = "'energycontroller' is switched to %s " % (cemc_g_idd_circ_neg_energy.getName())
                     print message
                     self.logger.info(message)
+                #move ID polarisation to 'pc' while keeping current energy
+                current_energy=float(pgm_energy.getPosition())
+                if current_energy<idd_circ_neg_energy_minimum or current_energy > idd_circ_neg_energy_maximum:
+                    raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idd_circ_neg_energy_minimum,idd_circ_neg_energy_maximum,newpos))
+                current_ID_positions=idd_circ_neg_energy.getIdPosition(current_energy)
+                idd_circ_neg_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+
             elif newpos == Polarisation.POLARISATIONS[2]:
                 __main__.energy = egy_g_idd_lin_hor_energy
                 __main__.energycontroller=cemc_g_idd_lin_hor_energy
@@ -130,6 +160,13 @@ class Polarisation(ScannableBase):
                     message = "'energycontroller' is switched to %s " % (cemc_g_idd_lin_hor_energy.getName())
                     print message
                     self.logger.info(message)
+                #move ID polarisation to 'pc' while keeping current energy
+                current_energy=float(pgm_energy.getPosition())
+                if current_energy < idd_lin_hor_energy_minimum or current_energy > idd_lin_hor_energy_maximum:
+                    raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idd_lin_hor_energy_minimum,idd_lin_hor_energy_maximum,newpos))
+                current_ID_positions=idd_lin_hor_energy.getIdPosition(current_energy)
+                idd_lin_hor_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+
             elif newpos == Polarisation.POLARISATIONS[3]:
                 __main__.energy = egy_g_idd_lin_ver_energy
                 __main__.energycontroller=cemc_g_idd_lin_ver_energy
@@ -151,6 +188,13 @@ class Polarisation(ScannableBase):
                     message = "'energycontroller' is switched to %s " % (cemc_g_idd_lin_ver_energy.getName())
                     print message
                     self.logger.info(message)
+                #move ID polarisation to 'pc' while keeping current energy
+                current_energy=float(pgm_energy.getPosition())
+                if current_energy < idd_lin_ver_energy_minimum or current_energy > idd_lin_ver_energy_maximum:
+                    raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idd_lin_ver_energy_minimum,idd_lin_ver_energy_maximum,newpos))
+                current_ID_positions=idd_lin_ver_energy.getIdPosition(current_energy)
+                idd_lin_ver_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+
             elif newpos == Polarisation.POLARISATIONS[4]:
                 __main__.energy = egy_g_idd_lin_arbitrary_energy
                 __main__.energycontroller=cemc_g_idd_lin_arbitrary_energy
@@ -173,6 +217,13 @@ class Polarisation(ScannableBase):
                     message = "'energycontroller' is switched to %s " % (cemc_g_idd_lin_arbitrary_energy.getName())
                     print message
                     self.logger.info(message)
+                #move ID polarisation to 'pc' while keeping current energy
+                current_energy=float(pgm_energy.getPosition())
+                if current_energy < idd_lin_arbitrary_energy_minimum or current_energy > idd_lin_arbitrary_energy_maximum:
+                    raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idd_lin_arbitrary_energy_minimum,idd_lin_arbitrary_energy_maximum,newpos))
+                current_ID_positions=idd_lin_arbitrary_energy.getIdPosition(current_energy)
+                idd_lin_arbitrary_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+
             elif newpos == Polarisation.POLARISATIONS[5]:
                 __main__.energy = None
                 raise Exception('Polarisation %s for source mode % is not supported: Energy Calibration is not available!' % (newpos, mode))
@@ -198,6 +249,13 @@ class Polarisation(ScannableBase):
                     message = "'energycontroller' is switched to %s " % (cemc_g_idu_circ_pos_energy.getName())
                     print message
                     self.logger.info(message)
+                #move ID polarisation to 'pc' while keeping current energy
+                current_energy=float(pgm_energy.getPosition())
+                if current_energy < idu_circ_pos_energy_minimum or current_energy > idu_circ_pos_energy_maximum:
+                    raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idu_circ_pos_energy_minimum,idu_circ_pos_energy_maximum,newpos))
+                current_ID_positions=idu_circ_pos_energy.getIdPosition(current_energy)
+                idu_circ_pos_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                                    
             elif newpos == Polarisation.POLARISATIONS[1]:
                 __main__.energy = egy_g_idu_circ_neg_energy
                 __main__.energycontroller=cemc_g_idu_circ_neg_energy
@@ -219,6 +277,13 @@ class Polarisation(ScannableBase):
                     message = "'energycontroller' is switched to %s " % (cemc_g_idu_circ_neg_energy.getName())
                     print message
                     self.logger.info(message)
+                #move ID polarisation to 'pc' while keeping current energy
+                current_energy=float(pgm_energy.getPosition())
+                if current_energy < idu_circ_neg_energy_minimum or current_energy > idu_circ_neg_energy_maximum:
+                    raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idu_circ_neg_energy_minimum,idu_circ_neg_energy_maximum,newpos))
+                current_ID_positions=idu_circ_neg_energy.getIdPosition(current_energy)
+                idu_circ_neg_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                                    
             elif newpos == Polarisation.POLARISATIONS[2]:
                 __main__.energy = egy_g_idu_lin_hor_energy
                 __main__.energycontroller=cemc_g_idu_lin_hor_energy
@@ -240,6 +305,13 @@ class Polarisation(ScannableBase):
                     message = "'energycontroller' is switched to %s " % (cemc_g_idu_lin_hor_energy.getName())
                     print message
                     self.logger.info(message)
+                #move ID polarisation to 'pc' while keeping current energy
+                current_energy=float(pgm_energy.getPosition())
+                if current_energy < idu_lin_hor_energy_minimum or current_energy > idu_lin_hor_energy_maximum:
+                    raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idu_lin_hor_energy_minimum,idu_lin_hor_energy_maximum,newpos))
+                current_ID_positions=idu_lin_hor_energy.getIdPosition(current_energy)
+                idu_lin_hor_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                                    
             elif newpos == Polarisation.POLARISATIONS[3]:
                 __main__.energy = egy_g_idu_lin_ver_energy
                 __main__.energycontroller=cemc_g_idu_lin_ver_energy
@@ -261,6 +333,13 @@ class Polarisation(ScannableBase):
                     message = "'energycontroller' is switched to %s " % (cemc_g_idu_lin_ver_energy.getName())
                     print message
                     self.logger.info(message)
+                #move ID polarisation to 'pc' while keeping current energy
+                current_energy=float(pgm_energy.getPosition())
+                if current_energy < idu_lin_ver_energy_minimum or current_energy > idu_lin_ver_energy_maximum:
+                    raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idu_lin_ver_energy_minimum,idu_lin_ver_energy_maximum,newpos))
+                current_ID_positions=idu_lin_ver_energy.getIdPosition(current_energy)
+                idu_lin_ver_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                                    
             elif newpos == Polarisation.POLARISATIONS[4]:
                 __main__.energy = egy_g_idu_lin_arbitrary_energy
                 __main__.energycontroller=cemc_g_idu_lin_arbitrary_energy
@@ -283,6 +362,13 @@ class Polarisation(ScannableBase):
                     message = "'energycontroller' is switched to %s " % (cemc_g_idu_lin_arbitrary_energy.getName())
                     print message
                     self.logger.info(message)
+                #move ID polarisation to 'pc' while keeping current energy
+                current_energy=float(pgm_energy.getPosition())
+                if current_energy < idu_lin_arbitrary_energy_minimum or current_energy > idu_lin_arbitrary_energy_maximum:
+                    raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idu_lin_arbitrary_energy_minimum,idu_lin_arbitrary_energy_maximum,newpos))
+                current_ID_positions=idu_lin_arbitrary_energy.getIdPosition(current_energy)
+                idu_lin_arbitrary_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                                    
             elif newpos == Polarisation.POLARISATIONS[5]:
                 __main__.energy = egy_g_idu_lin_hor3_energy
                 __main__.energycontroller=cemc_g_idu_lin_hor3_energy
@@ -304,6 +390,13 @@ class Polarisation(ScannableBase):
                     message = "'energycontroller' is switched to %s " % (cemc_g_idu_lin_hor3_energy.getName())
                     print message
                     self.logger.info(message)
+                #move ID polarisation to 'pc' while keeping current energy
+                current_energy=float(pgm_energy.getPosition())
+                if current_energy < idu_lin_hor3_energy_minimum or current_energy > idu_lin_hor3_energy_maximum:
+                    raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idu_lin_hor3_energy_minimum,idu_lin_hor3_energy_maximum,newpos))
+                current_ID_positions=idu_lin_hor3_energy.getIdPosition(current_energy)
+                idu_lin_hor3_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                                    
             
         self.polarisation=newpos
         self.amIBusy=False

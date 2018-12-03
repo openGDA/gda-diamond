@@ -29,6 +29,8 @@ try:
         gap_from_energy=dict(zip(idd_lin_arbitrary_table['energy'], idd_lin_arbitrary_table['idgap'])),
         #jawphase = ( alpha_real - 120. ) / 7.5
         jawphase_from_angle=Poly([-120./7.5, 1./7.5], power0first=True))
+    idd_lin_arbitrary_energy_maximum=max(idd_lin_arbitrary_table['energy'])
+    idd_lin_arbitrary_energy_minimum=min(idd_lin_arbitrary_table['energy'])
     idd_lin_arbitrary_energy_follower = SilentFollowerScannable('idd_circ_pos_energy_follower', followed_scannable=pgm_energy, follower_scannable=idd_lin_arbitrary_energy, follower_tolerance=0.35)
     idd_lin_arbitrary_energy.concurrentRowphaseMoves=True
     idd_lin_arbitrary_energy.energyMode=True

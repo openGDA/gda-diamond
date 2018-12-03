@@ -24,6 +24,8 @@ try:
             rowphase2=0,
             rowphase3=dict(zip(idu_circ_pos_table['energy'], idu_circ_pos_table['rowphase3'])),
             rowphase4=0, jawphase_lookup=0)
+    idu_circ_pos_energy_maximum=max(idu_circ_pos_table['energy'])
+    idu_circ_pos_energy_minimum=min(idu_circ_pos_table['energy'])
     idu_circ_pos_energy_follower = SilentFollowerScannable('idu_circ_pos_energy_follower', followed_scannable=pgm_energy, follower_scannable=idu_circ_pos_energy, follower_tolerance=0.35)
     idu_circ_pos_energy.concurrentRowphaseMoves=True
     idu_circ_pos_energy.energyMode=True
@@ -37,6 +39,8 @@ try:
             rowphase2=0,
             rowphase3=dict(zip(idu_circ_neg_table['energy'], idu_circ_neg_table['rowphase3'])),
             rowphase4=0, jawphase_lookup=0)
+    idu_circ_neg_energy_maximum=max(idu_circ_neg_table['energy'])
+    idu_circ_neg_energy_minimum=min(idu_circ_neg_table['energy'])
     idu_circ_neg_energy_follower = SilentFollowerScannable('idu_circ_neg_energy_follower', followed_scannable=pgm_energy, follower_scannable=idu_circ_neg_energy, follower_tolerance=0.35)
     idu_circ_neg_energy.concurrentRowphaseMoves=True
     idu_circ_neg_energy.energyMode=True
@@ -50,6 +54,8 @@ try:
             rowphase2=0,
             rowphase3=0,
             rowphase4=0, jawphase_lookup=0)
+    idu_lin_hor_energy_maximum=max(idu_lin_hor_table['energy'])
+    idu_lin_hor_energy_minimum=min(idu_lin_hor_table['energy'])
     idu_lin_hor_energy_follower = SilentFollowerScannable('idu_lin_hor_energy_follower', followed_scannable=pgm_energy, follower_scannable=idu_lin_hor_energy, follower_tolerance=0.35)
     idu_lin_hor_energy.concurrentRowphaseMoves=True
     idu_lin_hor_energy.energyMode=True
@@ -63,6 +69,8 @@ try:
             rowphase2=0,
             rowphase3=24,
             rowphase4=0, jawphase_lookup=0)
+    idu_lin_ver_energy_maximum=max(idu_lin_ver_table['energy'])
+    idu_lin_ver_energy_minimum=min(idu_lin_ver_table['energy'])
     idu_lin_ver_energy_follower = SilentFollowerScannable('idu_lin_ver_energy_follower', followed_scannable=pgm_energy, follower_scannable=idu_lin_ver_energy, follower_tolerance=0.35)
     idu_lin_ver_energy.concurrentRowphaseMoves=True
     idu_lin_ver_energy.energyMode=True
@@ -76,6 +84,8 @@ try:
             rowphase2=0,
             rowphase3=0,
             rowphase4=0, jawphase_lookup=0)
+    idu_lin_hor3_energy_maximum=max(idu_lin_hor3_table['energy'])
+    idu_lin_hor3_energy_minimum=min(idu_lin_hor3_table['energy'])
     idu_lin_hor3_energy_follower = SilentFollowerScannable('idu_lin_hor3_energy_follower', followed_scannable=pgm_energy, follower_scannable=idu_lin_hor3_energy, follower_tolerance=0.35)
     idu_lin_hor3_energy.concurrentRowphaseMoves=True
     idu_lin_hor3_energy.energyMode=True
