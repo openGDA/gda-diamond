@@ -45,6 +45,7 @@ import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerFacade;
 import gda.rcp.views.NudgePositionerComposite;
+import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.gda.devices.vgscienta.IVGScientaAnalyserRMI;
 
 public class ContinuousModeControllerComposite extends Composite {
@@ -169,11 +170,13 @@ public class ContinuousModeControllerComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				logger.info("Stopping continuous acquistion");
-				try {
-					analyser.zeroSupplies();
-				} catch (Exception ex) {
-					logger.error("Failed to stop analyser", ex);
-				}
+				Async.execute(() -> {
+					try {
+						analyser.zeroSupplies();
+					} catch (Exception ex) {
+						logger.error("Failed to stop analyser", ex);
+					}
+				});
 			}
 		});
 
