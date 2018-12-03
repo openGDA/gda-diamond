@@ -34,11 +34,13 @@ import org.slf4j.LoggerFactory;
 
 import gda.device.Detector;
 import gda.device.DeviceException;
+import gda.device.EnumPositioner;
 import gda.device.Scannable;
 import gda.device.detector.DAServer;
 import gda.device.detector.DetectorBase;
 import gda.device.detector.countertimer.TFGCounterTimer;
 import gda.device.detector.countertimer.TfgScalerWithDarkCurrent;
+import gda.device.enumpositioner.ValvePosition;
 import gda.device.scannable.ScannableUtils;
 import gda.factory.FindableBase;
 import gda.jython.InterfaceProvider;
@@ -89,6 +91,8 @@ public class MonoOptimisation extends FindableBase {
 	private Double[] tfgTimeFrames;
 	private Double tfgDarkCurrentCollectionTime;
 	private boolean tfgDarkCurrentRequired;
+
+	private EnumPositioner photonShutter;
 
 	public Detector getMedipix() {
 		return medipix;
@@ -301,6 +305,9 @@ public class MonoOptimisation extends FindableBase {
 		if (scannableToMonitor instanceof TfgScalerWithDarkCurrent) {
 			((TfgScalerWithDarkCurrent)scannableToMonitor).setDarkCurrentRequired(false);
 		}
+
+		// Try to open shutter before starting the scan
+		moveShutter(ValvePosition.OPEN);
 
 		ConcurrentScan scan = new ConcurrentScan(getScanParamsList().toArray());
 		scan.setSendUpdateEvents(true);
@@ -735,5 +742,27 @@ public class MonoOptimisation extends FindableBase {
 			tfg.setDarkCurrentCollectionTime(tfgDarkCurrentCollectionTime);
 			tfg.setDarkCurrentRequired(tfgDarkCurrentRequired);
 		}
+	}
+
+	/**
+	 * Move the photon shutter to the given position.
+	 * @param shutterPosition one of {@link ValvePosition#OPEN} , {@link ValvePosition#CLOSE};
+	 * @throws DeviceException
+	 */
+	private void moveShutter(String shutterPosition) throws DeviceException {
+		if (photonShutter != null) {
+			logger.info("Moving {} to {} position", photonShutter, shutterPosition);
+			photonShutter.moveTo(shutterPosition);
+		} else {
+			logger.warn("Not moving photon shutter to {} position - no photon shutter object has been set");
+		}
+	}
+
+	public EnumPositioner getPhotonShutter() {
+		return photonShutter;
+	}
+
+	public void setPhotonShutter(EnumPositioner photonShutter) {
+		this.photonShutter = photonShutter;
 	}
 }

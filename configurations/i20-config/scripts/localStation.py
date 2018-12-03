@@ -81,6 +81,7 @@ else :
 monoOptimiser.setBraggScannable(bragg1WithOffset)
 monoOptimiser.setMedipix(medipix)
 monoOptimiser.setDaServer(DAServer)
+monoOptimiser.setPhotonShutter(photonshutter)
 bragg1WithOffset.setMonoOptimiser(monoOptimiser)
 
 #### preparers ###
