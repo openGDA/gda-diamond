@@ -1,6 +1,7 @@
 import gda
 from gda.util import ElogEntry
 from gda.data.metadata import GDAMetadataProvider
+from gdaserver import GDAMetadata as meta
 
 def setTitle(title):
     GDAMetadataProvider.getInstance().setMetadataValue("title", title)
@@ -27,11 +28,11 @@ def setSubdirectory(title):
 def getSubdirectory():
     return GDAMetadataProvider.getInstance().getMetadataValue("subdirectory")
 
-def setBackgroundFile(title):
-    GDAMetadataProvider.getInstance().setMetadataValue("backgroundDataFile", title)
+def setSampleBackground(back_ground_file):
+    GDAMetadataProvider.getInstance().setMetadataValue("sample_background", back_ground_file)
 
-def getBackgroundFile():
-    return GDAMetadataProvider.getInstance().getMetadataValue("backgroundDataFile")
+def getSampleBackground():
+    return GDAMetadataProvider.getInstance().getMetadataValue("sample_background")
 
 class SampleNameScannable(gda.device.scannable.ScannableBase):
   

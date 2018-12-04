@@ -130,6 +130,10 @@ try:
 	alias("getVisit")
 	setVisit = metadatatweaks.setVisit
 	alias("setVisit")
+	setSampleBackground = metadatatweaks.setSampleBackground
+	alias("setSampleBackground")
+	getSampleBackground = metadatatweaks.getSampleBackground
+	alias("getSampleBackground")
 	sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
 except:
 	print "Could not set up metadatatweaks"
