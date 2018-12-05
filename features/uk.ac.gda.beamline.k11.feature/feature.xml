@@ -28,4 +28,29 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="uk.ac.diamond.daq.client.gui.camera"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.diamond.daq.experiment.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.diamond.daq.experiment.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.scanning.device.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
