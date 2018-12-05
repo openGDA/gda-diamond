@@ -23,24 +23,25 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
-import org.eclipse.ui.part.IntroPart;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,25 +51,46 @@ import uk.ac.gda.client.experimentdefinition.components.ExperimentPerspective;
 import uk.ac.gda.exafs.ExafsActivator;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
 
-public class I20IntroPart extends IntroPart {
+public class I20IntroDialog extends Dialog {
 
-	private static final Logger logger = LoggerFactory.getLogger(I20IntroPart.class);
+	private static final Logger logger = LoggerFactory.getLogger(I20IntroDialog.class);
 
-	@Override
-	public void standbyStateChanged(boolean standby) {
-		// TODO Auto-generated method stub
+	protected I20IntroDialog(Shell parentShell) {
+		super(parentShell);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
-		GridLayout layout = new GridLayout(2, false);
-		parent.setLayout(layout);
-		applyBackground(parent);
-		createFullWidthMessage(parent, "Welcome to I20.", 24);
-		createFullWidthMessage(parent, "You will collect data under experiment " + LocalProperties.get(LocalProperties.RCP_APP_VISIT), 20);
-		createFullWidthMessage(parent, "Choose the type of experiment you wish to perform:", 20);
-		createExperimentTypeButton(parent, "EXAFS\\XANES", createImage("icons/link_obj.gif"), false);
-		createExperimentTypeButton(parent, "XES", createImage("icons/link_obj.gif"), true);
+	public Control createDialogArea(Composite parent) {
+        Composite container = (Composite) super.createDialogArea(parent);
+        container.setLayout(new GridLayout(2, false));
+		applyBackground(container);
+		createFullWidthMessage(container, "Welcome to I20.", 24);
+		createFullWidthMessage(container, "You will collect data under experiment " + LocalProperties.get(LocalProperties.RCP_APP_VISIT), 20);
+		createFullWidthMessage(container, "Choose the type of experiment you wish to perform:", 20);
+		createExperimentTypeButton(container, "EXAFS\\XANES", createImage("icons/link_obj.gif"), false);
+		createExperimentTypeButton(container, "XES", createImage("icons/link_obj.gif"), true);
+		return container;
+	}
+
+	/**
+	 * Don't create the button bar - already has custom buttons
+	 */
+	@Override
+	protected void createButtonsForButtonBar(final Composite parent) {
+		GridLayout layout = (GridLayout) parent.getLayout();
+		layout.marginHeight = 0;
+	}
+
+	@Override
+	protected void configureShell(Shell newShell) {
+		super.configureShell(newShell);
+		newShell.setText("Experiment mode selection");
+	}
+
+	@Override
+	protected Point getInitialSize() {
+		return new Point(700, 280);
 	}
 
 	private void applyBackground(Composite parent) {
@@ -125,32 +147,24 @@ public class I20IntroPart extends IntroPart {
 		labelGD.heightHint = 100;
 		theLabel.setLayoutData(labelGD);
 
-		theLabel.addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				ScanObjectManager.setXESOnlyMode(isXES);
-				// Try to write XAS/XES mode preference to disk immediately.
-				try {
-					ScopedPreferenceStore store = (ScopedPreferenceStore) ExafsActivator.getDefault().getPreferenceStore();
-					store.save();
-				} catch (IOException ioException) {
-					logger.error("Problem saving XES/XAS mode preference to disk : ", ioException);
-				}
-				PlatformUI.getWorkbench().getIntroManager().closeIntro(I20IntroPart.this);
-				try {
-					for (IWorkbenchPage page : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPages())
-						page.close();
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().openPage(ExperimentPerspective.ID, null);
-				} catch (WorkbenchException e) {
-					e.printStackTrace();
-				}
+		theLabel.addListener(SWT.Selection, event -> {
+			ScanObjectManager.setXESOnlyMode(isXES);
+			// Try to write XAS/XES mode preference to disk immediately.
+			try {
+				ScopedPreferenceStore store = (ScopedPreferenceStore) ExafsActivator.getDefault().getPreferenceStore();
+				store.save();
+			} catch (IOException ioException) {
+				logger.error("Problem saving XES/XAS mode preference to disk : ", ioException);
 			}
+
+			try {
+				for (IWorkbenchPage page : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPages())
+					page.close();
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().openPage(ExperimentPerspective.ID, null);
+			} catch (WorkbenchException e) {
+				e.printStackTrace();
+			}
+			close();
 		});
 	}
-
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-	}
-
 }

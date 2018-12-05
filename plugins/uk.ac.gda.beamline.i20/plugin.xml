@@ -473,12 +473,10 @@
    -->
    
    <extension
-         point="org.eclipse.ui.intro">
-      <intro
-            class="uk.ac.gda.beamline.i20.I20IntroPart"
-            id="uk.ac.gda.client.i20.intro">
-      </intro>
-      <introProductBinding introId="uk.ac.gda.client.i20.intro" productId="uk.ac.gda.beamline.i20.product"/>
+         point="org.eclipse.ui.startup">
+      <startup
+          class="uk.ac.gda.beamline.i20.I20Startup">
+      </startup>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
