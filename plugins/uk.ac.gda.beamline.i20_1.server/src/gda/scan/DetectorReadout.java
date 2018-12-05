@@ -154,4 +154,12 @@ public abstract class DetectorReadout implements Runnable {
 	public void setTimingGroups(final List<TurboSlitTimingGroup> timingGroups) {
 		this.timingGroups = timingGroups;
 	}
+
+	public int getPollIntervalMillis() {
+		return pollIntervalMillis;
+	}
+
+	public void setPollIntervalMillis(int pollIntervalMillis) {
+		this.pollIntervalMillis = pollIntervalMillis;
+	}
 }

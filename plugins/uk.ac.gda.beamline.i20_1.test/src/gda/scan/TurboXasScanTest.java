@@ -210,10 +210,10 @@ public class TurboXasScanTest extends EdeTestBase {
 		double startPos = 0;
 		double endPos = 10;
 		int numReadouts = 20;
-		double timeForScan = 1;
+		double timeForScan = 0.001;
 
 		TurboXasScan scan = new TurboXasScan( turboXasScannable, startPos, endPos, numReadouts, timeForScan, new BufferedDetector[] {bufferedScaler} );
-		scan.runScan();
+		runScan(scan);
 
 		String nxsFile = scan.getDataWriter().getCurrentFileName();
 		int numPointsPerSpectrum = numReadouts-1;
@@ -246,6 +246,12 @@ public class TurboXasScanTest extends EdeTestBase {
 		return parameters;
 	}
 
+	/** Run TurboXasScan, first setting poll interval to small value so tests run quicker */
+	private void runScan(TurboXasScan scan) throws InterruptedException, Exception {
+		scan.setPollIntervalMillis(0);
+		scan.runScan();
+	}
+
 	/**
 	 * @param params
 	 * @return Total number of spectra across all timing groups
@@ -273,7 +279,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		motorParameters.setMotorParametersForTimingGroup(0);
 		turboXasScannable.setMotorParameters(motorParameters);
 		TurboXasScan scan = new TurboXasScan(turboXasScannable, motorParameters, new BufferedDetector[]{bufferedScaler});
-		scan.runScan();
+		runScan(scan);
 
 		String nexusFilename = scan.getDataWriter().getCurrentFileName();
 		checkScalerNexusData(nexusFilename, numSpectra, numPointsPerSpectrum);
@@ -292,7 +298,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		final TurboXasScan scan = new TurboXasScan(turboXasScannable, parameters.getMotorParameters(), new BufferedDetector[]{bufferedScaler});
 		Thread runScanThread = new Thread( () -> {
 			try {
-				scan.runScan();
+				runScan(scan);
 			} catch (Exception e) {
 				System.out.print("Exception caught during scan : " + e);
 		}});
@@ -328,7 +334,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		motorParameters.setMotorParametersForTimingGroup(0);
 		turboXasScannable.setMotorParameters(motorParameters);
 		TurboXasScan scan = new TurboXasScan(turboXasScannable, motorParameters, new BufferedDetector[]{bufferedScaler, xspress3bufferedDetector});
-		scan.runScan();
+		runScan(scan);
 
 		String nexusFilename = scan.getDataWriter().getCurrentFileName();
 		checkScalerNexusData(nexusFilename, numSpectra, numPointsPerSpectrum);
@@ -365,7 +371,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		int numSpectra = 10;
 
 		TurboXasScan scan = parameters.createScan();
-		scan.runScan();
+		runScan(scan);
 		String nexusFilename = scan.getDataWriter().getCurrentFileName();
 
 		checkScalerNexusData(nexusFilename, numSpectra, numPointsPerSpectrum);
@@ -390,7 +396,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 10));
 		TurboXasScan scan = parameters.createScan();
 		scan.setWriteAsciiDataAfterScan(true);
-		scan.runScan();
+		runScan(scan);
 
 		int numEnergies = getNumPointsPerSpectrum(parameters);
 		int numSpectra = parameters.getTotalNumSpectra();

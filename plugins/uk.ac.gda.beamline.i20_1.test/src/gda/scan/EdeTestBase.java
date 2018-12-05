@@ -145,6 +145,7 @@ public class EdeTestBase {
 		DummyEnumPositioner shutter2 = new DummyEnumPositioner();
 		shutter2.setName("Shutter");
 		shutter2.setPositions(new String[] { "Open", "Close", "Reset" });
+		shutter2.setTimeToMove(0);
 		return shutter2;
 	}
 

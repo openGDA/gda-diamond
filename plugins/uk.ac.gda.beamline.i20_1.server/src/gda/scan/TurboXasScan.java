@@ -105,6 +105,7 @@ public class TurboXasScan extends ContinuousScan {
 	private String dataNameToSelectInPlot = EdeDataConstants.LN_I0_IT_COLUMN_NAME;
 
 	private volatile int lastFrameRead;
+	private int pollIntervalMillis = 500;
 
 	public TurboXasScan(ContinuouslyScannable energyScannable, Double start, Double stop, Integer numberPoints,
 			Double time, BufferedDetector[] detectors) {
@@ -189,6 +190,7 @@ public class TurboXasScan extends ContinuousScan {
 		runnable.setNumFramesPerSpectrum(turboXasMotorParams.getNumReadoutsForScan());
 		runnable.setTotalNumSpectraToCollect(getTotalNumSpectra());
 		runnable.setTimingGroups(turboXasMotorParams.getScanParameters().getTimingGroups());
+		runnable.setPollIntervalMillis(pollIntervalMillis);
 		return runnable;
 	}
 
@@ -397,7 +399,6 @@ public class TurboXasScan extends ContinuousScan {
  	}
 
 	private void waitForReadoutToFinish(DetectorReadoutRunnable detectorReadoutRunnable, double maxWaitTimeSecs) throws ScanFileHolderException, DeviceException, InterruptedException {
-		long pollIntervalMillis = 1000;
 		try {
 			// Wait while XSpress3 hdf writing is still active; then close the file so final frames are
 			// flushed to disk and available for reading.
@@ -906,5 +907,17 @@ public class TurboXasScan extends ContinuousScan {
 
 	public void setDataNameToSelectInPlot(String dataNameToSelectInPlot) {
 		this.dataNameToSelectInPlot = dataNameToSelectInPlot;
+	}
+
+	public int getPollIntervalMillis() {
+		return pollIntervalMillis;
+	}
+
+	/**
+	 * Poll time interval to use when waiting for new data to become available on detector(s)
+	 * @param pollIntervalMillis
+	 */
+	public void setPollIntervalMillis(int pollIntervalMillis) {
+		this.pollIntervalMillis = pollIntervalMillis;
 	}
 }
