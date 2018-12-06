@@ -29,10 +29,7 @@ import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.XanesScanParameters;
 import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
-import uk.ac.gda.beans.exafs.i20.CryostatParameters;
-import uk.ac.gda.beans.exafs.i20.CryostatSampleDetails;
 import uk.ac.gda.beans.exafs.i20.I20SampleParameters;
-import uk.ac.gda.beans.exafs.i20.SampleStageParameters;
 import uk.ac.gda.beans.validation.InvalidBeanException;
 import uk.ac.gda.beans.validation.InvalidBeanMessage;
 import uk.ac.gda.client.experimentdefinition.IExperimentObject;
@@ -99,35 +96,10 @@ public class I20Validator extends ExafsValidator {
 
 		final List<InvalidBeanMessage> errors = new ArrayList<InvalidBeanMessage>(31);
 
-		//none
-		if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[0])){
-			if (s.getName().startsWith(DEFAULT_SAMPLE_NAME) || s.getName().isEmpty()){
-				errors.add(new InvalidBeanMessage("Sample Name has not been set in " + bean.getSampleFileName()));
-			} else if (!stringCouldBeConvertedToValidUnixFilename(s.getName())){
-				errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName() + " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
-			}
-		}
-		// room temp
-		else if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[1])){
-			List<SampleStageParameters> ssp = s.getRoomTemperatureParameters();
-			for (SampleStageParameters position : ssp){
-				if (!stringCouldBeConvertedToValidUnixFilename(position.getSample_name())) {
-					errors.add(new InvalidBeanMessage("The sample name " + position.getSample_name() + " in "
-							+ bean.getSampleFileName()
-							+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
-				}
-			}
-		}
-		// cryostat
-		else if (s.getSampleEnvironment().equalsIgnoreCase(I20SampleParameters.SAMPLE_ENV[2])){
-			CryostatParameters ssp = s.getCryostatParameters();
-			for (CryostatSampleDetails details : ssp.getSamples()) {
-				if (!stringCouldBeConvertedToValidUnixFilename(details.getSample_name()) || details.getSample_name().isEmpty()) {
-					errors.add(new InvalidBeanMessage("The sample name " + details.getSample_name() + " in "
-							+ bean.getSampleFileName()
-							+ " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
-				}
-			}
+		if (s.getName().startsWith(DEFAULT_SAMPLE_NAME) || s.getName().isEmpty()){
+			errors.add(new InvalidBeanMessage("Sample Name has not been set in " + bean.getSampleFileName()));
+		} else if (!stringCouldBeConvertedToValidUnixFilename(s.getName())){
+			errors.add(new InvalidBeanMessage("The given Sample Name in " + bean.getSampleFileName() + " cannot be converted into a valid file prefix.\nPlease remove invalid characters."));
 		}
 		return errors;
 	}

@@ -90,7 +90,7 @@ detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets
 detectorPreparer.setMonoOptimiser(monoOptimiser)
 detectorPreparer.setFFI1(FFI1)
 
-samplePreparer = I20SamplePreparer(sample_x, sample_y, sample_z, sample_rot, sample_fine_rot, sample_roll, sample_pitch, filterwheel, cryostat, cryostick_pos, rcpController)
+samplePreparer = I20SamplePreparer(filterwheel)
 outputPreparer = I20OutputPreparer(datawriterconfig, datawriterconfig_xes, metashop, ionchambers, xmapMca, detectorPreparer)
 beamlinePreparer = I20BeamlinePreparer()
 

@@ -5,76 +5,7 @@
 	<description>Please add a description...</description>
 	<sampleWheelPosition>Empty</sampleWheelPosition>
 	<useSampleWheel>false</useSampleWheel>
-	<sampleEnvironment>None</sampleEnvironment>
-    <sampleposition>
-        <sample_x>0.0</sample_x>
-        <sample_y>0.0</sample_y>
-        <sample_z>0.0</sample_z>
-        <sample_rotation>0.0</sample_rotation>
-        <sample_finerotation>0.0</sample_finerotation>
-        <sample_roll>0.0</sample_roll>
-        <sample_pitch>0.0</sample_pitch>
-        <sample_name>Please enter a sample name...</sample_name>
-        <sample_description></sample_description>
-        <numberOfRepetitions>1</numberOfRepetitions>
-        <samXEnabled>true</samXEnabled>
-        <samYEnabled>true</samYEnabled>
-        <samZEnabled>true</samZEnabled>
-        <rotEnabled>true</rotEnabled>
-        <rollEnabled>true</rollEnabled>
-        <pitchEnabled>true</pitchEnabled>
-        <fineRotEnabled>true</fineRotEnabled>
-    </sampleposition>
-	<cryostat>
-		<loopChoice>Loop over sample, then temperature</loopChoice>
-		<tolerance>1</tolerance>
-		<waitTime>5</waitTime>
-		<temperature>295</temperature>
-		<controlMode>Manual PID</controlMode>
-		<heaterRange>4mW</heaterRange>
-		<p>1</p>
-		<i>1</i>
-		<d>1</d>
-        <sample>
-            <position>0.0</position>
-            <finePosition>0.0</finePosition>
-            <sample_name>Please enter a sample name....</sample_name>
-            <sampleDescription></sampleDescription>
-            <numberOfRepetitions>1</numberOfRepetitions>
-        </sample>
-	</cryostat>
-	<furnace>
-		<temperature>295.0</temperature>
-		<tolerance>1.5</tolerance>
-		<time>5.0</time>
-		<x>6.9</x>
-		<y>4.7</y>
-		<z>2.5</z>
-	</furnace>
-	<microreactor>
-		<gas0Rate>20</gas0Rate>
-		<gas1Rate>0</gas1Rate>
-		<gas2Rate>0</gas2Rate>
-		<gas3Rate>20</gas3Rate>
-		<gas4Rate>0</gas4Rate>
-		<gas5Rate>0</gas5Rate>
-		<gas6Rate>0</gas6Rate>
-		<gas7Rate>0</gas7Rate>
-		<temperature>150</temperature>
-		<masses>2,32</masses>
-	</microreactor>
-	<custom_xyz>
-		<deviceName>customxyz</deviceName>
-		<x>0.0</x>
-		<y>0.0</y>
-		<z>0.0</z>
-		<value>0.0</value>
-	</custom_xyz>
-	<custom>
-		<deviceName>custom</deviceName>
-		<value>0.0</value>
-	</custom>
-    <sampleParameterMotorPosition>
+	<sampleParameterMotorPosition>
         <scannableName>sample_x</scannableName>
         <description>Sample X</description>
         <doMove>false</doMove>
@@ -93,18 +24,6 @@
         <demandPosition>0.0</demandPosition>
     </sampleParameterMotorPosition>
     <sampleParameterMotorPosition>
-        <scannableName>sample_pitch</scannableName>
-        <description>Sample Pitch</description>
-        <doMove>false</doMove>
-        <demandPosition>0.0</demandPosition>
-    </sampleParameterMotorPosition>
-    <sampleParameterMotorPosition>
-        <scannableName>sample_roll</scannableName>
-        <description>Sample Roll</description>
-        <doMove>false</doMove>
-        <demandPosition>0.0</demandPosition>
-    </sampleParameterMotorPosition>
-    <sampleParameterMotorPosition>
         <scannableName>sample_rot</scannableName>
         <description>Sample Rotation</description>
         <doMove>false</doMove>
@@ -115,11 +34,5 @@
         <description>Sample Fine Rotation</description>
         <doMove>false</doMove>
         <demandPosition>0.0</demandPosition>
-    </sampleParameterMotorPosition>
-    <sampleParameterMotorPosition>
-        <scannableName>cryostat</scannableName>
-        <description>Lakeshore cryostat temperature</description>
-        <doMove>false</doMove>
-        <demandPosition>1200.0</demandPosition>
     </sampleParameterMotorPosition>
 </I20SampleParameters>
