@@ -48,8 +48,7 @@
 
 	<!-- Terminal logging so that the terminal output is recorded in a log in the users visit/data directory -->
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
-		<property name="template"
-			value="${gda.data}/gdaterminal.log" />
+		<property name="template" value="${gda.paths.visitdirectory}/$subdirectory$/gdaterminal.log" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
 		<property name="local" value="true" />
 	</bean>
