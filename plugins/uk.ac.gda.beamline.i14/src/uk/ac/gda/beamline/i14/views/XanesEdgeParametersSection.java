@@ -19,8 +19,8 @@
 package uk.ac.gda.beamline.i14.views;
 
 import static java.util.stream.Collectors.toList;
-import static uk.ac.gda.beamline.i14.views.I14XanesEdgeParameters.TrackingMethod.EDGE;
-import static uk.ac.gda.beamline.i14.views.I14XanesEdgeParameters.TrackingMethod.REFERENCE;
+import static uk.ac.gda.beamline.i14.views.XanesEdgeParameters.TrackingMethod.EDGE;
+import static uk.ac.gda.beamline.i14.views.XanesEdgeParameters.TrackingMethod.REFERENCE;
 
 import java.util.List;
 import java.util.Map;
@@ -50,7 +50,7 @@ import gda.observable.IObserver;
 import uk.ac.diamond.daq.mapping.api.IScanModelWrapper;
 import uk.ac.diamond.daq.mapping.ui.experiment.AbstractMappingSection;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanPathEditor;
-import uk.ac.gda.beamline.i14.views.I14XanesEdgeParameters.TrackingMethod;
+import uk.ac.gda.beamline.i14.views.XanesEdgeParameters.TrackingMethod;
 
 /**
  * View to allow the user to input the additional parameters required for the XANES scanning script.
@@ -58,17 +58,17 @@ import uk.ac.gda.beamline.i14.views.I14XanesEdgeParameters.TrackingMethod;
  * These will be combined with the standard parameters from the Mapping view (x & y coordinates, detector etc.) and
  * passed to the appropriate script.
  */
-public class I14XanesEdgeParametersSection extends AbstractMappingSection {
-	private static final Logger logger = LoggerFactory.getLogger(I14XanesEdgeParametersSection.class);
+public class XanesEdgeParametersSection extends AbstractMappingSection {
+	private static final Logger logger = LoggerFactory.getLogger(XanesEdgeParametersSection.class);
 
-	private static final String I14_XANES_SCAN_KEY = "I14XanesScan.json";
+	private static final String XANES_SCAN_KEY = "XanesScan.json";
 	private static final String ENERGY_SCANNABLE = "dcm_enrg";
 	private static final int NUM_COLUMNS = 3;
 
 	private ScanPathEditor energyEditor;
 	private final IObserver scanPathObserver = this::handleScanPathUpdate;
 
-	private I14XanesEdgeParameters scanParameters;
+	private XanesEdgeParameters scanParameters;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -79,7 +79,7 @@ public class I14XanesEdgeParametersSection extends AbstractMappingSection {
 
 		// If loadState() has not loaded saved parameters, create empty object
 		if (scanParameters == null) {
-			scanParameters = new I14XanesEdgeParameters();
+			scanParameters = new XanesEdgeParameters();
 		}
 
 		final Composite content = new Composite(parent, SWT.NONE);
@@ -127,7 +127,7 @@ public class I14XanesEdgeParametersSection extends AbstractMappingSection {
 		final Button btnUseEdge = createRadioButton(cmpTrackingMethod, "Use edge");
 		radioButtonObservable.addOption(EDGE.toString(), WidgetProperties.selection().observe(btnUseEdge));
 
-		final IObservableValue<I14XanesEdgeParameters> modelObservable = PojoProperties.value(I14XanesEdgeParameters.class, "trackingMethod", TrackingMethod.class).observe(scanParameters);
+		final IObservableValue<XanesEdgeParameters> modelObservable = PojoProperties.value(XanesEdgeParameters.class, "trackingMethod", TrackingMethod.class).observe(scanParameters);
 		dataBindingContext.bindValue(radioButtonObservable, modelObservable);
 
 		if (scanParameters.getTrackingMethod().equals(REFERENCE.toString())) {
@@ -190,7 +190,7 @@ public class I14XanesEdgeParametersSection extends AbstractMappingSection {
 
 		final ISWTObservableValue txtObservable = WidgetProperties.text(SWT.Modify).observe(textBox);
 		@SuppressWarnings("unchecked")
-		final IObservableValue<I14XanesEdgeParameters> modelObservable = PojoProperties.value(modelProperty).observe(scanParameters);
+		final IObservableValue<XanesEdgeParameters> modelObservable = PojoProperties.value(modelProperty).observe(scanParameters);
 		dataBindingContext.bindValue(txtObservable, modelObservable);
 	}
 
@@ -199,7 +199,7 @@ public class I14XanesEdgeParametersSection extends AbstractMappingSection {
 		try {
 			logger.debug("Saving XANES parameters");
 			final IMarshallerService marshaller = getService(IMarshallerService.class);
-			persistedState.put(I14_XANES_SCAN_KEY, marshaller.marshal(scanParameters));
+			persistedState.put(XANES_SCAN_KEY, marshaller.marshal(scanParameters));
 		} catch (Exception e) {
 			logger.error("Error saving XANES scan parameters", e);
 		}
@@ -207,7 +207,7 @@ public class I14XanesEdgeParametersSection extends AbstractMappingSection {
 
 	@Override
 	protected void loadState(Map<String, String> persistedState) {
-		final String json = persistedState.get(I14_XANES_SCAN_KEY);
+		final String json = persistedState.get(XANES_SCAN_KEY);
 		if (json == null || json.isEmpty()) { // This happens when client is reset || if no detectors are configured.
 			logger.debug("No XANES parameters to load");
 			return;
@@ -216,13 +216,13 @@ public class I14XanesEdgeParametersSection extends AbstractMappingSection {
 		try {
 			logger.debug("Loading XANES parameters");
 			final IMarshallerService marshaller = getService(IMarshallerService.class);
-			scanParameters = marshaller.unmarshal(json, I14XanesEdgeParameters.class);
+			scanParameters = marshaller.unmarshal(json, XanesEdgeParameters.class);
 		} catch (Exception e) {
 			logger.error("Error restoring XANES scan parameters", e);
 		}
 	}
 
-	public I14XanesEdgeParameters getScanParameters() {
+	public XanesEdgeParameters getScanParameters() {
 		return scanParameters;
 	}
 

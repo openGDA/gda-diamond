@@ -18,9 +18,12 @@
 
 package uk.ac.gda.beamline.i14.views;
 
-import static uk.ac.gda.beamline.i14.views.I14XanesEdgeParameters.TrackingMethod.REFERENCE;
+import static uk.ac.gda.beamline.i14.views.XanesEdgeParameters.TrackingMethod.REFERENCE;
 
-public class I14XanesEdgeParameters {
+/**
+ * Parameters specific to tracking a XANES edge.
+ */
+public class XanesEdgeParameters {
 
 	public enum TrackingMethod {
 		REFERENCE,
@@ -57,7 +60,7 @@ public class I14XanesEdgeParameters {
 
 	@Override
 	public String toString() {
-		return "I14XanesEdgeParameters [linesToTrack=" + linesToTrack + ", trackingMethod=" + trackingMethod
+		return "XanesEdgeParameters [linesToTrack=" + linesToTrack + ", trackingMethod=" + trackingMethod
 				+ ", energySteps=" + energySteps + "]";
 	}
 

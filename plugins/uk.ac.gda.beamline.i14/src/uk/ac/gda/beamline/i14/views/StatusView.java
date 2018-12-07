@@ -52,10 +52,10 @@ import uk.ac.gda.dls.client.views.RunCommandComposite;
  * set to turn red when the respective values drop below a certain value by setting ringCurrentAlarmThreshold and
  * timeToRefillAlarmThreshold respectively. Additionally, the view title and icon may be changed.
  * <p>
- * This view should be created via I14StatusViewFactory, especially if you wish to set the alarm thresholds.
+ * This view should be created via {@link StatusViewFactory}, especially if you wish to set the alarm thresholds.
  */
-public class I14StatusView extends ViewPart {
-	private static final Logger logger = LoggerFactory.getLogger(I14StatusView.class);
+public class StatusView extends ViewPart {
+	private static final Logger logger = LoggerFactory.getLogger(StatusView.class);
 
 	private static final String TEXT_OPEN_CLOSE = "Open/Close";
 	private static final String TEXT_STATE = "State";

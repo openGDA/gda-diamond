@@ -26,13 +26,20 @@ import gda.jython.ICommandRunner;
 import gda.jython.InterfaceProvider;
 import uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection;
 
-public class I14SubmitXanesScanSection extends SubmitScanSection {
+/**
+ * Submit a XANES scan
+ * <p>
+ * This combines the standard mapping bean with the specific parameters from the {@link XanesEdgeParametersSection} and
+ * calls the script run_xanes_scan().<br>
+ * The script is beamline-specific but must be on the Jython path.
+ */
+public class XanesSubmitScanSection extends SubmitScanSection {
 
-	private static final Logger logger = LoggerFactory.getLogger(I14SubmitXanesScanSection.class);
+	private static final Logger logger = LoggerFactory.getLogger(XanesSubmitScanSection.class);
 
 	@Override
 	protected void submitScan() {
-		final I14XanesEdgeParametersSection paramsSection = (I14XanesEdgeParametersSection) getMappingView().getSection(I14XanesEdgeParametersSection.class);
+		final XanesEdgeParametersSection paramsSection = (XanesEdgeParametersSection) getMappingView().getSection(XanesEdgeParametersSection.class);
 		final XanesScanParameters xanesScanParameters = new XanesScanParameters(paramsSection.getScanParameters());
 		final IMarshallerService marshaller = getService(IMarshallerService.class);
 		final ICommandRunner commandRunner = InterfaceProvider.getCommandRunner();
@@ -61,7 +68,7 @@ public class I14SubmitXanesScanSection extends SubmitScanSection {
 		// Standard mscan command
 		public final String mscanCommand;
 
-		XanesScanParameters(I14XanesEdgeParameters xanesParams) {
+		XanesScanParameters(XanesEdgeParameters xanesParams) {
 			linesToTrack = xanesParams.getLinesToTrack();
 			trackingMethod = xanesParams.getTrackingMethod();
 			energySteps = xanesParams.getEnergySteps();

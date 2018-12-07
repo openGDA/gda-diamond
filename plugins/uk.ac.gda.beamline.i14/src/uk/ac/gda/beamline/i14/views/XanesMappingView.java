@@ -31,10 +31,13 @@ import uk.ac.diamond.daq.mapping.ui.experiment.ProcessingSection;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection;
 
-public class I14XanesMappingView extends AbstractSectionsView {
+/**
+ * Version of the Mapping view tailored to XANES scanning
+ */
+public class XanesMappingView extends AbstractSectionsView {
 
 	@Inject
-	public I14XanesMappingView(IMappingExperimentBeanProvider beanProvider) {
+	public XanesMappingView(IMappingExperimentBeanProvider beanProvider) {
 		super(beanProvider);
 	}
 
@@ -46,7 +49,7 @@ public class I14XanesMappingView extends AbstractSectionsView {
 			// a section for configuring the path of the mapping scan
 			RegionAndPathSection.class,
 			// a section for configuring XANES scans (I14-specific)
-			I14XanesEdgeParametersSection.class,
+			XanesEdgeParametersSection.class,
 			// a section for configuring metadata to add to the scan
 			ScanMetadataSection.class,
 			// a section for configuring live processing to run
@@ -57,7 +60,7 @@ public class I14XanesMappingView extends AbstractSectionsView {
 	protected List<Class<? extends AbstractMappingSection>> getUnscrolledSectionClasses() {
 		return Arrays.asList(
 			// a section for submitting the scan to the queue
-			I14SubmitXanesScanSection.class);
+			XanesSubmitScanSection.class);
 	}
 
 	@Override
@@ -69,7 +72,7 @@ public class I14XanesMappingView extends AbstractSectionsView {
 	@Override
 	protected void disposeInternal() {
 		// Edge parameters section must be disposed so that any scan path editors are properly disposed
-		final AbstractMappingSection paramsSection = getSection(I14XanesEdgeParametersSection.class);
+		final AbstractMappingSection paramsSection = getSection(XanesEdgeParametersSection.class);
 		if (paramsSection != null) {
 			paramsSection.dispose();
 		}

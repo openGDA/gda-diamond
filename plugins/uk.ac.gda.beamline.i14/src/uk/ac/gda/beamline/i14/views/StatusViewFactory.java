@@ -26,11 +26,11 @@ import org.slf4j.LoggerFactory;
 import gda.rcp.views.FindableExecutableExtension;
 
 /**
- * Factory class to create I14StatusView (q.v.)
+ * Factory class to create a {@link StatusView} for I14
  */
-public class I14StatusViewFactory implements FindableExecutableExtension {
+public class StatusViewFactory implements FindableExecutableExtension {
 
-	private static final Logger logger = LoggerFactory.getLogger(I14StatusViewFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(StatusViewFactory.class);
 
 	private String name;
 
@@ -53,7 +53,7 @@ public class I14StatusViewFactory implements FindableExecutableExtension {
 	@Override
 	public Object create() throws CoreException {
 		logger.info("Creating I14 status view: {}", this);
-		final I14StatusView view = new I14StatusView();
+		final StatusView view = new StatusView();
 		view.setName(viewName);
 		view.setIconPlugin(iconPlugin);
 		view.setIconFilePath(iconFilePath);
