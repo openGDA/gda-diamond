@@ -1,0 +1,79 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--  s5 slit real motors -->
+	<bean id="s5_xminus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-51.2301" />
+		<property name="maxPosition" value="6.76994" />
+		<property name="position" value="-3.0" />
+		<property name="speed" value="100" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s5_xplus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-32.1899" />
+		<property name="maxPosition" value="24.8101" />
+		<property name="position" value="3.2" />
+		<property name="speed" value="100" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s5_yminus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-29.925" />
+		<property name="maxPosition" value="23.075" />
+		<property name="position" value="-2.5" />
+		<property name="speed" value="100" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s5_yplus_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-13.905" />
+		<property name="maxPosition" value="38.095" />
+		<property name="position" value="2.5" />
+		<property name="speed" value="100" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<!--  s5 slit virtual motors (centre and size) -->
+	<bean id="s5_xcentre_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-18" />
+		<property name="maxPosition" value="17" />
+		<property name="position" value="0" />
+		<property name="speed" value="100" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s5_xsize_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-69" />
+		<property name="maxPosition" value="46" />
+		<property name="position" value="6" />
+		<property name="speed" value="100" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s5_ycentre_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-16" />
+		<property name="maxPosition" value="55" />
+		<property name="position" value="0" />
+		<property name="speed" value="100" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s5_ysize_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-63" />
+		<property name="maxPosition" value="40" />
+		<property name="position" value="5" />
+		<property name="speed" value="100" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="s5_ytrans_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-525" />
+		<property name="maxPosition" value="238" />
+		<property name="position" value="50.3" />
+		<property name="speed" value="100" />
+	 	<property name="unitString" value="mm"/>
+	</bean>
+
+</beans>
