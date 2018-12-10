@@ -44,6 +44,11 @@ run('energyFocus.py')
 run('sample_stage_control.py')
 run('ioc_control.py')
 
+# Define functions for sample movement
+run('sample_control/move_sample.py')
+alias('MoveSampleToTransferPos')
+alias('MoveSampleToOpsPos')
+
 # Watchdogs
 print("Adding watchdog commands: enable_watchdogs, disable_watchdogs, list_watchdogs")
 alias("enable_watchdogs")
