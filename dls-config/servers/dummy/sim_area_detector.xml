@@ -132,6 +132,10 @@
 		</property>
 	</bean>
 
+	<bean id="sim_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg ref="sim_adbase" />
+	</bean>
+
 	<!-- Define ROI/Stats pairs -->
 	<bean id="sim_roistats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats1" />
