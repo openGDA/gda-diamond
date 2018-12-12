@@ -9,6 +9,11 @@
 		<property name="url" value="http://bl14i-mo-serv-01.diamond.ac.uk:8080/merlin1.mjpg.mjpg" />
 		<property name="arrayPv" value="BL14I-EA-DET-03:ARR" />
 		<property name="sleepTime" value="5" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
+				<constructor-arg ref="merlin_camera_control" />
+			</bean>
+		</property>
 	</bean>
 	
 	<!-- scannables to calibrate live stream axes -->
@@ -30,6 +35,11 @@
                 <property name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
             </bean>
         </property>
+		<property name="topUi">
+			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
+				<constructor-arg ref="xreye_camera_control" />
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="xsp3_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
@@ -37,6 +47,11 @@
 		<property name="url" value="http://bl14i-ea-serv-01.diamond.ac.uk:8080/XSP3.mjpg.mjpg" />
 		<property name="arrayPv" value="BL14I-EA-XSP3-01:ARR" />
 		<property name="sleepTime" value="5" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
+				<constructor-arg ref="xsp3_camera_control" />
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="sample_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
@@ -54,6 +69,11 @@
                 <property name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
             </bean>
         </property>
+		<property name="topUi">
+			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
+				<constructor-arg ref="sample_camera_control" />
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="sample_dtab_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
@@ -61,16 +81,11 @@
 		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/DTAB.mjpg.mjpg" />
 		<property name="arrayPv" value="BL14I-OP-DCAM-10:ARR" />
 		<property name="sleepTime" value="5" />
-		<property name="calibratedAxesProvider">
-            <bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
-                <property name="xAxisScannable" value="stage1_x"/>
-                <property name="yAxisScannable" value="stage1_y"/>
-                <property name="xAxisPixelScaling" value="0.000912"/> <!-- Number of pixels per scannable unit in x axis  -->
-                <property name="yAxisPixelScaling" value="0.000912"/> <!-- Number of pixels per scannable unit in y axis  -->
-                <property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
-                <property name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
-            </bean>
-        </property>
+		<property name="topUi">
+			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
+				<constructor-arg ref="sample_dtab_camera_control" />
+			</bean>
+		</property>
 	</bean>
 
 </beans>

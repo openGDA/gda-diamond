@@ -12,6 +12,7 @@
 	<!-- =========================================================== -->
 	<!-- Files with separate live and dummy versions                 -->
 	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/rmi_imports.xml" />
 	<import resource="file:${gda.config}/clients/main/${gda.mode}/stream_views.xml" />
 
 	<!-- =========================================================== -->
