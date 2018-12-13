@@ -15,6 +15,7 @@
 		<property name="calculator">
 			<bean class="uk.ac.gda.arpes.calculator.SmVertCalculator" />
 		</property>
+		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="smhor" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
@@ -28,6 +29,7 @@
 		<property name="calculator">
 			<bean class="uk.ac.gda.arpes.calculator.SmHorCalculator" />
 		</property>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="smlong" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
@@ -41,6 +43,7 @@
 		<property name="calculator">
 			<bean class="uk.ac.gda.arpes.calculator.SmLongCalculator" />
 		</property>
+		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="smperp" class="uk.ac.gda.core.virtualaxis.CombinedManipulator">
@@ -54,6 +57,7 @@
 		<property name="calculator">
 			<bean class="uk.ac.gda.arpes.calculator.SmPerpCalculator" />
 		</property>
+		<property name="local" value="true" />
 	</bean>
 
 	<bean id="smvirtual" class="gda.device.scannable.scannablegroup.ScannableGroup">
