@@ -18,7 +18,8 @@
 
 package gda.images.camera;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 
@@ -28,21 +29,21 @@ import gda.device.DeviceException;
 import gda.images.camera.BeamDataComponent.BeamData;
 
 public class BeamDataComponentTest {
-	
+
 	@Test
 	public void testBeamDataComponent() {
 		File displayConfigFile = new File("testfiles/gda/images/camera/display.configuration");
-		
-		BeamDataComponent component = new BeamDataComponent(displayConfigFile.getAbsolutePath());
-		
+
+		BeamDataComponent component = BeamDataComponent.getTestingInstance(displayConfigFile.getAbsolutePath());
+
 		Camera camera = new DummyOpticalCamera() {
 			@Override
 			public double getZoom() throws DeviceException {
 				return 1.0;
 			}
 		};
-		component.setCamera(camera);
-		
+		component.setOpticalCamera(camera);
+
 		BeamData beamData = component.getCurrentBeamData();
 		assertNotNull(beamData);
 		assertEquals(512, beamData.xCentre);

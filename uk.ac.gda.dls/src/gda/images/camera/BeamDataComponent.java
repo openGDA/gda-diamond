@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
 import gda.device.DeviceException;
+import gda.factory.FindableConfigurableBase;
 import gda.factory.Finder;
 import gda.observable.IObservable;
 import gda.observable.IObserver;
@@ -40,17 +41,17 @@ import gda.observable.ObservableComponent;
 /**
  * Reads and saves the data which describes the various zoom levels of a gda.images.camera object.
  */
-public class BeamDataComponent implements IObservable {
+public class BeamDataComponent extends FindableConfigurableBase implements IObservable {
 
 	private static final Logger logger = LoggerFactory.getLogger(BeamDataComponent.class);
 
+	private static String INSTANCE_NAME = "BeamDataComponent";
 	private static BeamDataComponent theInstance;
 
 	// read in from the beamData file
 	private List<BeamData> beamDataArray = new Vector<BeamData>();
 
-	private Camera theCamera;
-	private static String cameraName;
+	private Camera opticalCamera;
 
 	private boolean singleBeamCenter = LocalProperties.check(LocalProperties.GDA_IMAGES_SINGLE_BEAM_CENTRE, false);
 
@@ -87,9 +88,7 @@ public class BeamDataComponent implements IObservable {
 	 */
 	public static BeamDataComponent getInstance() {
 		if (theInstance == null) {
-			theInstance = new BeamDataComponent();
-			theInstance.theCamera = Finder.getInstance().find(cameraName != null ? cameraName :
-				LocalProperties.get("gda.images.BeamDataComponent.cameraName"));
+			theInstance = Finder.getInstance().find(INSTANCE_NAME);
 		}
 		return theInstance;
 	}
@@ -113,22 +112,18 @@ public class BeamDataComponent implements IObservable {
 	}
 
 	/**
-	 * Creates a {@link BeamDataComponent}, reading the beam data from the specified file.
-	 */
-	public BeamDataComponent(String filename) {
-		this.filename = filename;
-		refreshBeamData();
-	}
-
-	public void setCamera(Camera camera) {
-		this.theCamera = camera;
-	}
-
-	/**
 	 * @return the camera object this object refers to.
 	 */
 	public Camera getCamera() {
-		return theCamera;
+		return opticalCamera;
+	}
+
+	public static BeamDataComponent getTestingInstance(String configfile) {
+		BeamDataComponent bdc = new BeamDataComponent();
+		bdc.filename = configfile;
+		theInstance = bdc;
+		bdc.refreshBeamData();
+		return bdc;
 	}
 
 	private boolean fileExists;
@@ -272,9 +267,9 @@ public class BeamDataComponent implements IObservable {
 	public BeamData getCurrentBeamData() {
 		// get the zoom level
 		double zoom = 0.0;
-		if (theCamera != null) {
+		if (opticalCamera != null) {
 			try {
-				zoom = theCamera.getZoom();
+				zoom = opticalCamera.getZoom();
 			} catch (DeviceException e) {
 				logger.error("Failed to get current zoom level", e);
 			}
@@ -315,13 +310,12 @@ public class BeamDataComponent implements IObservable {
 		return data;
 	}
 
-	/**
-	 * @param cameraName
-	 */
-	public void setCameraName(String cameraName) {
-		BeamDataComponent.cameraName = cameraName;
+	// Spring setters
+	public void setOpticalCamera(Camera opticalCamera) {
+		this.opticalCamera = opticalCamera;
 	}
 
+	// IObservable
 	@Override
 	public void addIObserver(IObserver observer) {
 		obsComp.addIObserver(observer);
