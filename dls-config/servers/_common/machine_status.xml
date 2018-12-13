@@ -11,6 +11,7 @@
 				<ref bean="ring_current" />
 				<ref bean="ring_energy" />
 				<ref bean="ring_mode" />
+				<ref bean="topup_mode" />
 				<ref bean="beam_lifetime" />
 				<ref bean="topup_start_countdown" />
 				<ref bean="topup_start_countdown_complete" />
