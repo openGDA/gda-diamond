@@ -352,6 +352,7 @@ def _make_subdir(dirname="rawdata"):
 from gdascripts.parameters import beamline_parameters
 
 def atTomoFlyScanStart():
+    print "atTomoFlyScanStart"
     jns = beamline_parameters.JythonNameSpaceMapping(InterfaceProvider.getJythonNamespace())
     tomography_theta=jns.tomography_theta
     if tomography_theta is None:
@@ -375,6 +376,7 @@ def atTomoFlyScanStart():
     return _p2rcvmc_gap_saved
 
 def atTomoFlyScanEnd():
+    print "atTomoFlyScanEnd"
     """
     Function to tidy up anything that needs tidying up after a fly scan, eg
     setting the angular speed of p2r to 30 deg/sec 
@@ -394,19 +396,25 @@ def atTomoFlyScanEnd():
         tomography_flyscan_theta = jns.tomography_flyscan_theta
         _p2r_telnet = tomography_flyscan_theta.motor.smc.getBidiAsciiCommunicator()
         try:
+            #stop all movement
+            #print "AB"
+            #_p2r_telnet.sendCmdNoReply("AB")        # abort all current movement
             # set angular speed to some decent value
             tomography_flyscan_theta.setSpeed(30)
             _p2r_telnet.sendCmdNoReply("MMPOSITION")
         except:
             tomography_flyscan_theta.motor.smc.bidiAsciiCommunicator.closeConnection()
             try:
+                #stop all movement
+                #print "AB"
+                #_p2r_telnet.sendCmdNoReply("AB")    # abort all current movement
                 # the 1st attempt is usually unsuccessful
                 tomography_flyscan_theta.setSpeed(30)
                 _p2r_telnet.sendCmdNoReply("MMPOSITION")
             except:
                 # the 2nd attempt is usually successful
                 tomography_flyscan_theta.setSpeed(30)
-                _p2r_telnet.sendCmdNoReply("MMPOSITION")                     
+                _p2r_telnet.sendCmdNoReply("MMPOSITION")
 
 def atTomoStepScanEnd():
     """
@@ -548,7 +556,7 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
     nrot - integer number of full (360 deg) rotations between the start angles of any two consecutive tomography frames (default = 0)
            Note: if nrot = 0, a single tomography frame is collected over the angular range specified by tomoRange 
     locked - if None, no action is taken
-             if True, p2r's Move Mode is set to MMPOSITION, ie linear and rotational axes move together
+             if True, p2r's Move Mode is set to MMPOSITION, ie linear and rotational axes are locked to move together
              if False, p2r's Move Mode is set to MMPOSITION-JOG, ie linear and rotational axes move independently from one another
              (default = None)
     imagesPerDark - integer number of images to be taken in each dark-field collection (default=20)
@@ -560,6 +568,9 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
     _fname = tomoTRFlyScan.__name__
     print "Running %s" %(_fname,)
     ntomo = int(ntomo)
+    if ntomo < 1:
+        msg = "ntomo must be larger than 0 - exiting!" %(ntomo)
+        raise ValueError(msg)
     nrot = int(nrot)
     
     if nrot > 0:
@@ -575,6 +586,36 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
         ngates = 1
         
     print "start = %f, stop = %f, step = %f" %(start, stop, step)
+    
+    _p2rcvmc = finder.find("p2rcvmc")
+    _p2rcvmc.gap = True
+    p2r_rot = finder.find("p2r_rot")
+    adiff_large = 3.0
+    pos_curr = None #p2r_rot.getPosition()
+    if (False and abs(pos_curr - start) > adiff_large):
+        #p2r_rot_motor=finder.find("p2r_rot_motor")
+        p2r_rot.moveTo(start)
+        sleep(0.5)
+        speed_curr = p2r_rot.getSpeed()
+        print "Moving p2r_rot to start = %f (with current (instantaneous) speed of %s)..." %(start, speed_curr)
+        tol = 0.01
+        pos_curr = p2r_rot.getPosition()
+        wait_sec = 1
+        veto = False
+        while(not veto):
+            sleep(wait_sec)
+            pos_prev = pos_curr
+            pos_curr = p2r_rot.getPosition()
+            adiff = abs(start - pos_curr)
+            adelta_iter = abs(pos_prev - pos_curr)
+            if adiff < tol:
+                veto = True
+                print "pos_curr = %.3f and start = %.3f are within tolerance tol = %.3f (adiff = %.3f)" %(pos_curr,start,tol,adiff)
+            elif adelta_iter < tol:
+                veto = True
+                print "p2r_rot appears to have stopped moving because \n\t the most recent relative displacement is within tolerance tol = %.3f (adelta_iter = %f)!" %(tol,adelta_iter)
+                print "Current (instantaneous) speed = %s" %(p2r_rot.getSpeed())
+        print "Finished moving p2r_rot to start = %f (with current (instantaneous) speed of %s)" %(start, p2r_rot.getSpeed())
     #i12tomoFlyScan(description=description, \
     #               inBeamPosition=inBeamPosition, outOfBeamPosition=outOfBeamPosition, \
     #               exposureTime=exposureTime, \
@@ -603,19 +644,21 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
         tomography_flyscan_theta = jns.tomography_flyscan_theta
         _p2r_telnet = tomography_flyscan_theta.motor.smc.getBidiAsciiCommunicator()
        # _p2r_telnet.sendCmdNoReply("MMPOSITION") # always make sure this is set at the begining
-        print "It appears from jythonNamespaceMapping_live that you are attempting to run scans using p2r!"
+        print "It appears (from jythonNamespaceMapping_live) that p2r is used!"
         #p2r_move_mode_admissible = ["MMPOSITION", "MMPOSITION-JOG"]
         if not locked is None:
             _p2r_telnet = tomography_flyscan_theta.motor.smc.getBidiAsciiCommunicator()
             print _p2r_telnet.address
             print _p2r_telnet.port
-            if locked: 
+            if not locked is None:      #if locked: 
                 print "requested move mode for p2r is: locked (MMPOSITION)"
-                p2r_locked = True
+                p2r_locked = locked     #p2r_locked = True
+                p2r_movemode = locked
+                print "requested move mode for p2r is: %d" %(p2r_movemode)
                 #_p2r_telnet.sendCmdNoReply("MMPOSITION") #done in Java coz this must be done after pos to lead-in position
             else:
                 print "requested move mode for p2r is: NOT locked (MMPOSITION-JOG)"
-                p2r_locked = False
+                pass                    #p2r_locked = False
                 #_p2r_telnet.sendCmdNoReply("MMPOSITION-JOG")
         
                   
@@ -689,6 +732,7 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
         _p2rcvmc.setSendTriggers(sendTriggers)
         if not p2r_locked is None: 
             _p2rcvmc.setP2R_locked(p2r_locked)
+            _p2rcvmc.setP2r_movemode(p2r_movemode)
         
         index=SimpleScannable()
         index.setCurrentPosition(0.0)
@@ -740,7 +784,8 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
             if beamline == "I13":
                 darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
             else:
-                darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                #darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                darkScan=ConcurrentScan([index, (start,)*imagesPerDark, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
             multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark, zebraTriggerMode=1)))
         else:
             print "No darkScan at start requested."
@@ -751,7 +796,8 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
             if beamline == "I13":
                 flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
             else:
-                flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                #flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                flatScan=ConcurrentScan([index, (start,)*imagesPerFlat, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
             multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, zebraTriggerMode=1)))
         else:
             print "No flatScan at start requested."
@@ -788,7 +834,8 @@ def tomoTRFlyScan(description="Hello World", inBeamPosition=0., outOfBeamPositio
             setTitle("undefined")
         
         multiScanObj = MultiScanRunner(multiScanItems)
-        #must pass fist scan to be run
+        #multiScanObj.veto = True
+        #must pass first scan to be run
         
         addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name, externalhdf=(tomography_flyscan_det.name != "flyScanDetectorTIF"))
         multiScanObj.runScan()
@@ -841,7 +888,7 @@ def i12tomoTRFlyScan(description="Hello World", inBeamPosition=0.,outOfBeamPosit
     nrot - integer number of full (360 deg) rotations between the start angles of any two consecutive tomography frames (default = 0)
            Note: if nrot = 0, a single tomography frame is collected over the angular range specified by tomoRange 
     locked - if None, no action is taken
-             if True, p2r's Move Mode is set to MMPOSITION, ie linear and rotational axes move together
+             if True, p2r's Move Mode is set to MMPOSITION, ie linear and rotational axes are locked to move together
              if False, p2r's Move Mode is set to MMPOSITION-JOG, ie linear and rotational axes move independently from one another
              (default = None)
     imagesPerDark - integer number of images to be taken in each dark-field collection (default=20)
@@ -1126,3 +1173,59 @@ def report_storage():
     #p2r...
     
 i12storage = BeamlineStorage('i12storage')
+
+
+from gda.device.scannable import PseudoDevice
+
+class SleepAtScanStart(PseudoDevice):
+    # c'tor
+    def __init__(self, name, sleep_sec=1, verbose=True):
+        self.setName(name) 
+        self.setInputNames([name])
+        self.setExtraNames([])
+        self.setOutputFormat(["%5.5g"])
+        self.sleep_sec = sleep_sec	# position
+        self.verbose = verbose
+        self.scan_pt = 0
+    
+    def reset(self):
+        self.scan_pt = 0
+    
+    # returns the value this scannable represents
+    def rawGetPosition(self):
+        return self.sleep_sec
+    
+    # Does the operation this Scannable represents
+    def rawAsynchronousMoveTo(self, new_position):
+        self.sleep_sec = new_position
+    
+    # Returns the status of this Scannable
+    def rawIsBusy(self):
+        return False
+    
+#    def atScanStart(self):
+#        print "sleeping..."
+#        sleep(self.sleep_sec)
+#        print "finished sleeping"
+    
+    def atPointStart(self):
+        self.scan_pt += 1
+        if self.scan_pt == 1:
+            if self.verbose:
+                print "Sleeping at scan point %i for %s s" %(self.scan_pt, self.sleep_sec)
+            sleep(self.sleep_sec)
+            if self.verbose:
+                print "Finished sleeping at scan point %i for %s s" %(self.scan_pt, self.sleep_sec)
+
+    def stop(self):
+        self.reset()
+    
+    def atScanEnd(self):
+        self.reset()
+    
+    def atCommandFailure(self):
+        self.reset()
+
+sleepy_start=SleepAtScanStart("sleepy_start",1)
+
+

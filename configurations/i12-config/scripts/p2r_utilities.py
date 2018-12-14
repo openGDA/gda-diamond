@@ -214,14 +214,14 @@ class p2r_telnet_connection():
             msg = "Failed to get telnet connection port: %s" %(str(e))
             print(msg)
         return out
-
+    
     def set_port(self, port):
         try:
             self.connectable.motor.smc.bidiAsciiCommunicator.setPort(port)
         except Exception, e:
             msg = "Failed to set telnet connection port: %s" %(str(e))
             print(msg)
-
+    
     def get_timeout_ms(self):
         out = None
         try:
@@ -230,13 +230,28 @@ class p2r_telnet_connection():
             msg = "Failed to get telnet connection timeout: %s" %(str(e))
             print(msg)
         return out
-
+    
     def set_timeout_ms(self, timeout):
         try:
             self.connectable.motor.smc.bidiAsciiCommunicator.setTimeout(timeout)
         except Exception, e:
             msg = "Failed to set telnet connection timeout: %s" %(str(e))
             print(msg)
+    
+    def send_cmd_no_reply(self, cmd):
+        try:
+            self.connectable.motor.smc.bidiAsciiCommunicator.sendCmdNoReply(cmd)
+        except Exception, e:
+            msg = "Failed to send cmd: %s" %(str(e))
+            print(msg)
+    
+    def send(self, cmd):
+        try:
+            reply_str = self.connectable.motor.smc.bidiAsciiCommunicator.send(cmd)
+        except Exception, e:
+            msg = "Failed to send cmd: %s" %(str(e))
+            print(msg)
+        return reply_str
 
 class csv_column(object):
     def __init__(self, outdir, outfile, is_time_stamped):
