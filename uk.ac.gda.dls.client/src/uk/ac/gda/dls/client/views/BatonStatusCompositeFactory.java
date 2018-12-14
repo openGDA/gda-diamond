@@ -21,6 +21,7 @@ package uk.ac.gda.dls.client.views;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -30,6 +31,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -38,6 +40,7 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
@@ -48,6 +51,7 @@ import org.slf4j.LoggerFactory;
 
 import com.swtdesigner.SWTResourceManager;
 
+import gda.configuration.properties.LocalProperties;
 import gda.jython.IBatonStateProvider;
 import gda.jython.InterfaceProvider;
 import gda.jython.UserMessage;
@@ -83,11 +87,13 @@ class BatonStatusComposite extends Composite {
 	private final Color BATON_NOT_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_RED);
 	private final String BATON_HELD_TOOL_TIP="Baton held!\nRight click open menu\nLeft click open manager";
 	private final String BATON__NOT_HELD_TOOL_TIP="Baton not held!\nRight click open menu\nLeft click open manager";
+	private final String PROP_BATON_BANNER = "gda.beamline.baton.banner";
 	
 	private Display display;
 	private Color currentColor;
 	private Canvas batonCanvas;
 	private IBatonStateProvider batonState = InterfaceProvider.getBatonStateProvider();
+	private Font boldFont;
 	
 	private MenuItem takeBaton;
 	private MenuItem requestBaton;
@@ -186,7 +192,7 @@ class BatonStatusComposite extends Composite {
 							"The GDA Server is not responding.\n\nPlease contact your GDA support engineer.");
 				}
 			});
-		}		
+		}
 		
 		batonCanvas.addMouseListener(new MouseAdapter() {
 
@@ -202,6 +208,16 @@ class BatonStatusComposite extends Composite {
 			}
 		});
 		
+		String banner = LocalProperties.get(PROP_BATON_BANNER, "");
+		if (!(null==banner || banner.isEmpty()) ) {
+			Label lblBanner = new Label(this, SWT.CENTER);
+			boldFont = FontDescriptor.createFrom(lblBanner.getFont())
+				.setStyle( SWT.BOLD )
+				.createFont( lblBanner.getDisplay() );
+			lblBanner.setFont(boldFont);
+			lblBanner.setText(banner);
+			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.FILL).applyTo(lblBanner);
+		}
 	}
 
 	private void updateBatonCanvas() {
@@ -246,7 +262,7 @@ class BatonStatusComposite extends Composite {
 			if (event.widget instanceof MenuItem) {
 				selected = (MenuItem) event.widget;
 			}
-			else 
+			else
 				return;
 			
 			if (selected.equals(takeBaton)) {
@@ -284,5 +300,6 @@ class BatonStatusComposite extends Composite {
 	@Override
 	public void dispose() {
 		super.dispose();
+		this.boldFont.dispose();
 	}
 }
