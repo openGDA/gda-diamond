@@ -26,6 +26,7 @@
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/tomography_stack_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/tr6_motors.xml" />
 	
 	<!-- detectors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_addetector.xml" />
@@ -43,6 +44,7 @@
 	
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/_common/stages/tomography_stack.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/stages/tr6.xml" />
 
 	<!-- detectors -->
 	<import resource="file:${gda.config}/servers/main/_common/detectors/imaging/cam_addetector.xml" />
