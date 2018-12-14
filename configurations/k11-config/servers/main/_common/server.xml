@@ -23,6 +23,9 @@
 	<!-- 	mode specific files -->
 	<!-- =========================================================== -->
 	
+	<!-- stages -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
+	
 	<!-- detectors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_motion.xml" />
