@@ -3,6 +3,7 @@
 tomography_theta=ss1_theta
 #tomography_theta=p2r_rot
 #tomography_theta=idummyscannablemotor_x
+#tomography_theta=dbn_rotb
 
 #tomography_detector=dummy_cam_ad
 #tomography_detector=dummy_cam
@@ -44,6 +45,12 @@ tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector
 #tomography_flyscan_det=p2r_flyScanDetector
 #tomography_flyscan_flat_dark_det=p2r_flyScanFlatDarkDetector
 #tomography_flyscan_theta=p2rSM1
+
+#Deben open-frame rig
+#tomography_flyscan_det=deben_flyScanDetector
+#tomography_flyscan_flat_dark_det=flyScanFlatDarkDetector
+#tomography_flyscan_theta=debenSM1
+
 
 #tomography_translation_vert=ss1_y3
 
