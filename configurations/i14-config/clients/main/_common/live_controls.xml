@@ -8,7 +8,7 @@
  	<bean id="stage1_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Stage X" />
 		<property name="scannableName" value="stage1_x" />
-		<property name="group" value="Stage Controls" />
+		<property name="group" value="Stage controls" />
 		<property name="increment" value="0.025" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
@@ -16,7 +16,7 @@
  	<bean id="stage1_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Stage Y" />
 		<property name="scannableName" value="stage1_y" />
-		<property name="group" value="Stage Controls" />
+		<property name="group" value="Stage controls" />
 		<property name="increment" value="0.025" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
@@ -24,7 +24,7 @@
  	<bean id="stage1_z_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Stage Z" />
 		<property name="scannableName" value="stage1_z" />
-		<property name="group" value="Stage Controls" />
+		<property name="group" value="Stage controls" />
 		<property name="increment" value="0.025" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
@@ -32,7 +32,7 @@
 	<bean id="stage1_rotation_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Rotation" />
 		<property name="scannableName" value="stage1_rotation" />
-		<property name="group" value="Stage Controls" />
+		<property name="group" value="Stage controls" />
 		<property name="increment" value="0.1" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
@@ -41,7 +41,7 @@
  	<bean id="stage1_xf_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Stage X fine" />
 		<property name="scannableName" value="stage1_xf" />
-		<property name="group" value="Stage Controls (fine)" />
+		<property name="group" value="Fine stage controls" />
 		<property name="increment" value="0.001" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
@@ -49,7 +49,7 @@
  	<bean id="stage1_yf_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Stage Y fine" />
 		<property name="scannableName" value="stage1_yf" />
-		<property name="group" value="Stage Controls (fine)" />
+		<property name="group" value="Fine stage controls" />
 		<property name="increment" value="0.001" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
@@ -58,7 +58,7 @@
  	<bean id="dcm_enrg_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="DCM energy" />
 		<property name="scannableName" value="dcm_enrg" />
-		<property name="group" value="Coupled motors" />
+		<property name="group" value="DCM energy" />
 		<property name="increment" value="0.1" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
@@ -67,7 +67,7 @@
  	<bean id="ifsy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="IF/stage y" />
 		<property name="scannableName" value="ifsy" />
-		<property name="group" value="Coupled motors" />
+		<property name="group" value="Coupled stage controls" />
 		<property name="increment" value="0.1" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
@@ -75,7 +75,7 @@
  	<bean id="ifsz_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="IF/stage z" />
 		<property name="scannableName" value="ifsz" />
-		<property name="group" value="Coupled motors" />
+		<property name="group" value="Coupled stage controls" />
 		<property name="increment" value="0.1" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
@@ -104,16 +104,16 @@
 	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
 		<property name="controls">
 			<list>
-				<ref bean="dcm_enrg_control" />
-				<ref bean="ifsy_control" />
-				<ref bean="ifsz_control" />
-				<ref bean="endstation_configurations" />
 				<ref bean="stage1_x_control" />
 				<ref bean="stage1_y_control" />
 				<ref bean="stage1_z_control" />
 				<ref bean="stage1_rotation_control" />
+				<ref bean="endstation_configurations" />
+				<ref bean="dcm_enrg_control" />
 				<ref bean="stage1_xf_control" />
 				<ref bean="stage1_yf_control" />
+				<ref bean="ifsy_control" />
+				<ref bean="ifsz_control" />
 			</list>
 		</property>
 	</bean>
