@@ -176,4 +176,45 @@
 		</property>
 	</bean>
 
+	<bean id="zebra3ContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
+		<property name="zebra" ref="zebra3" />
+		<property name="mode" value="1" />
+		<property name="pcPulseTriggerWidth" value="0.01" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<!-- Deben rig --> 
+	<bean id="debenSM1" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="deben_rot_bottom_motor" />
+		<property name="pcEnc" value="0" />
+		<property name="zebraConstantVelocityMoveController" ref="zebra3ContinuousMoveController"/>
+		<!-- <property name="scurveTimeToVelocity" value="5"/> --> <!--  read from weight system -->
+		<property name="local" value="true" />
+	</bean>
+	
+		<bean id="deben_flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="deben_flyScanDetector"/>
+		<property name="readOutTime" value=".05"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
+		<property name="hardwareTriggerProvider" ref="zebra3ContinuousMoveController"/>
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="deben_flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="deben_flyScanDetectorTIF"/>
+		<property name="readOutTime" value=".05"/> <!-- readoutTime for PCO4000 is .2s fpr Edge use 50ms-->
+		<property name="hardwareTriggerProvider" ref="zebra3ContinuousMoveController"/>
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>	
+	
+	
 </beans>
