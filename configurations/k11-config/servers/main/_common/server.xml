@@ -25,6 +25,7 @@
 	
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/tomography_stack_motors.xml" />
 	
 	<!-- detectors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_addetector.xml" />
@@ -39,6 +40,9 @@
 	<!-- =========================================================== -->
 	<!-- 	shared files -->
 	<!-- =========================================================== -->
+	
+	<!-- stages -->
+	<import resource="file:${gda.config}/servers/main/_common/stages/tomography_stack.xml" />
 
 	<!-- detectors -->
 	<import resource="file:${gda.config}/servers/main/_common/detectors/imaging/cam_addetector.xml" />
