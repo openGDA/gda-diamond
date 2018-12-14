@@ -23,6 +23,12 @@
 	<!-- 	mode specific files -->
 	<!-- =========================================================== -->
 	
+	<!-- beam -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/beam/beam_selector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/beam/energy.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/beam/kb_mirrors_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/beam/slits.xml" />
+	
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/tomography_stack_motors.xml" />
@@ -41,6 +47,11 @@
 	<!-- =========================================================== -->
 	<!-- 	shared files -->
 	<!-- =========================================================== -->
+	
+	<!-- beam -->
+	<import resource="file:${gda.config}/servers/main/_common/beam/energy.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/beam/kb_mirrors.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/beam/slits.xml" />
 	
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/_common/stages/tomography_stack.xml" />

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="beam_energy_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="7" />
+		<property name="maxPosition" value="38" />
+		<property name="position" value="7" />
+		<property name="unitString" value="keV" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<bean id="img_beam_type" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Mono</value>
+				<value>Pink</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>
