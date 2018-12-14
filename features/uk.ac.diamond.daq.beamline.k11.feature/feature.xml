@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="uk.ac.gda.beamline.k11.feature"
+      id="uk.ac.diamond.daq.beamline.k11.feature"
       label="k11-feature"
       version="9.11.0.qualifier"
       provider-name="Diamond Light Source">
@@ -22,7 +22,7 @@
          version="0.0.0"/>
 
    <plugin
-         id="uk.ac.gda.beamline.k11"
+         id="uk.ac.diamond.daq.beamline.k11"
          download-size="0"
          install-size="0"
          version="0.0.0"

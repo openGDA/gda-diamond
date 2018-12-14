@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: K11
-Bundle-SymbolicName: uk.ac.gda.beamline.k11;singleton:=true
+Bundle-SymbolicName: uk.ac.diamond.daq.beamline.k11;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

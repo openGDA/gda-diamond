@@ -22,11 +22,11 @@
                 <property key="product.ws" value="gtk" />
                 <property key="product.arch" value="x86" />
                 <property key="profile" value="GDA-k11" />
-                <property key="iu" value="uk.ac.gda.beamline.k11.product" />
+                <property key="iu" value="uk.ac.diamond.daq.beamline.k11.product" />
             </properties>
             <prerequisites>
                 <attribute name="create.product.setup" />
-                <attribute name="manifest" alias="manifest" component="uk.ac.gda.beamline.k11.feature" />
+                <attribute name="manifest" alias="manifest" component="uk.ac.diamond.daq.beamline.k11.feature" />
                 <attribute name="site.p2" alias="repository" />
             </prerequisites>
             <products alias="destination.parent"
@@ -44,11 +44,11 @@
                 <property key="product.ws" value="gtk" />
                 <property key="product.arch" value="x86_64" />
                 <property key="profile" value="GDA-k11" />
-                <property key="iu" value="uk.ac.gda.beamline.k11.product" />
+                <property key="iu" value="uk.ac.diamond.daq.beamline.k11.product" />
             </properties>
             <prerequisites>
                 <attribute name="create.product.setup" />
-                <attribute name="manifest" alias="manifest" component="uk.ac.gda.beamline.k11.feature" />
+                <attribute name="manifest" alias="manifest" component="uk.ac.diamond.daq.beamline.k11.feature" />
                 <attribute name="site.p2" alias="repository" />
             </prerequisites>
             <products alias="destination.parent"
@@ -66,11 +66,11 @@
                 <property key="product.ws" value="gtk" />
                 <property key="product.arch" value="x86_64" />
                 <property key="profile" value="GDA-k11" />
-                <property key="iu" value="uk.ac.gda.beamline.k11.product" />
+                <property key="iu" value="uk.ac.diamond.daq.beamline.k11.product" />
             </properties>
             <prerequisites>
                 <attribute name="create.product.setup" />
-                <attribute name="manifest" alias="manifest" component="uk.ac.gda.beamline.k11.feature" />
+                <attribute name="manifest" alias="manifest" component="uk.ac.diamond.daq.beamline.k11.feature" />
                 <attribute name="site.p2" alias="repository" />
             </prerequisites>
             <products alias="destination.parent"
@@ -88,11 +88,11 @@
                 <property key="product.ws" value="win32" />
                 <property key="product.arch" value="x86" />
                 <property key="profile" value="GDA-k11" />
-                <property key="iu" value="uk.ac.gda.beamline.k11.product" />
+                <property key="iu" value="uk.ac.diamond.daq.beamline.k11.product" />
             </properties>
             <prerequisites>
                 <attribute name="create.product.setup" />
-                <attribute name="manifest" alias="manifest" component="uk.ac.gda.beamline.k11.feature" />
+                <attribute name="manifest" alias="manifest" component="uk.ac.diamond.daq.beamline.k11.feature" />
                 <attribute name="site.p2" alias="repository" />
             </prerequisites>
             <products alias="destination.parent"
@@ -110,11 +110,11 @@
                 <property key="product.ws" value="win32" />
                 <property key="product.arch" value="x86_64" />
                 <property key="profile" value="GDA-k11" />
-                <property key="iu" value="uk.ac.gda.beamline.k11.product" />
+                <property key="iu" value="uk.ac.diamond.daq.beamline.k11.product" />
             </properties>
             <prerequisites>
                 <attribute name="create.product.setup" />
-                <attribute name="manifest" alias="manifest" component="uk.ac.gda.beamline.k11.feature" />
+                <attribute name="manifest" alias="manifest" component="uk.ac.diamond.daq.beamline.k11.feature" />
                 <attribute name="site.p2" alias="repository" />
             </prerequisites>
             <products alias="destination.parent"
@@ -132,11 +132,11 @@
                 <property key="product.ws" value="cocoa" />
                 <property key="product.arch" value="x86_64" />
                 <property key="profile" value="GDA-k11" />
-                <property key="iu" value="uk.ac.gda.beamline.k11.product" />
+                <property key="iu" value="uk.ac.diamond.daq.beamline.k11.product" />
             </properties>
             <prerequisites>
                 <attribute name="create.product.setup" />
-                <attribute name="manifest" alias="manifest" component="uk.ac.gda.beamline.k11.feature" />
+                <attribute name="manifest" alias="manifest" component="uk.ac.diamond.daq.beamline.k11.feature" />
                 <attribute name="site.p2" alias="repository" />
             </prerequisites>
             <products alias="destination.parent"
@@ -154,11 +154,11 @@
                 <property key="product.ws" value="gtk" />
                 <property key="product.arch" value="x86" />
                 <property key="profile" value="GDA-k11" />
-                <property key="iu" value="uk.ac.gda.beamline.k11.product" />
+                <property key="iu" value="uk.ac.diamond.daq.beamline.k11.product" />
             </properties>
             <prerequisites>
                 <attribute name="create.product.setup" />
-                <attribute name="manifest" alias="manifest" component="uk.ac.gda.beamline.k11.feature" />
+                <attribute name="manifest" alias="manifest" component="uk.ac.diamond.daq.beamline.k11.feature" />
                 <attribute name="site.p2" alias="repository" />
             </prerequisites>
             <products alias="destination.parent"
@@ -176,11 +176,11 @@
                 <property key="product.ws" value="gtk" />
                 <property key="product.arch" value="x86_64" />
                 <property key="profile" value="GDA-k11" />
-                <property key="iu" value="uk.ac.gda.beamline.k11.product" />
+                <property key="iu" value="uk.ac.diamond.daq.beamline.k11.product" />
             </properties>
             <prerequisites>
                 <attribute name="create.product.setup" />
-                <attribute name="manifest" alias="manifest" component="uk.ac.gda.beamline.k11.feature" />
+                <attribute name="manifest" alias="manifest" component="uk.ac.diamond.daq.beamline.k11.feature" />
                 <attribute name="site.p2" alias="repository" />
             </prerequisites>
             <products alias="destination.parent"
@@ -198,11 +198,11 @@
                 <property key="product.ws" value="win32" />
                 <property key="product.arch" value="x86" />
                 <property key="profile" value="GDA-k11" />
-                <property key="iu" value="uk.ac.gda.beamline.k11.product" />
+                <property key="iu" value="uk.ac.diamond.daq.beamline.k11.product" />
             </properties>
             <prerequisites>
                 <attribute name="create.product.setup" />
-                <attribute name="manifest" alias="manifest" component="uk.ac.gda.beamline.k11.feature" />
+                <attribute name="manifest" alias="manifest" component="uk.ac.diamond.daq.beamline.k11.feature" />
                 <attribute name="site.p2" alias="repository" />
             </prerequisites>
             <products alias="destination.parent"
@@ -221,11 +221,11 @@
                 <property key="product.ws" value="win32" />
                 <property key="product.arch" value="x86_64" />
                 <property key="profile" value="GDA-k11" />
-                <property key="iu" value="uk.ac.gda.beamline.k11.product" />
+                <property key="iu" value="uk.ac.diamond.daq.beamline.k11.product" />
             </properties>
             <prerequisites>
                 <attribute name="create.product.setup" />
-                <attribute name="manifest" alias="manifest" component="uk.ac.gda.beamline.k11.feature" />
+                <attribute name="manifest" alias="manifest" component="uk.ac.diamond.daq.beamline.k11.feature" />
                 <attribute name="site.p2" alias="repository" />
             </prerequisites>
             <products alias="destination.parent"
@@ -244,11 +244,11 @@
                 <property key="product.ws" value="cocoa" />
                 <property key="product.arch" value="x86_64" />
                 <property key="profile" value="GDA-k11" />
-                <property key="iu" value="uk.ac.gda.beamline.k11.product" />
+                <property key="iu" value="uk.ac.diamond.daq.beamline.k11.product" />
             </properties>
             <prerequisites>
                 <attribute name="create.product.setup" />
-                <attribute name="manifest" alias="manifest" component="uk.ac.gda.beamline.k11.feature" />
+                <attribute name="manifest" alias="manifest" component="uk.ac.diamond.daq.beamline.k11.feature" />
                 <attribute name="site.p2" alias="repository" />
             </prerequisites>
             <products alias="destination.parent"
