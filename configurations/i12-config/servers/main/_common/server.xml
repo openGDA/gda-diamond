@@ -85,6 +85,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/t7.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t8.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml"/>
+	<import resource="file:${gda.config}/devices/${gda.mode}/deben_motors.xml"/>
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
@@ -148,6 +149,7 @@
 	<import resource="file:${gda.config}/devices/_common/t7.xml"/>
 	<import resource="file:${gda.config}/devices/_common/t8.xml"/>
 	<import resource="file:${gda.config}/devices/_common/zebra.xml"/>
+	<!-- <import resource="file:${gda.config}/devices/_common/deben_rig.xml"/> -->
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
