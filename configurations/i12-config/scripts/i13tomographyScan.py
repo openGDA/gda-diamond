@@ -473,7 +473,8 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
                 darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
             else:
                 if not vetoFlatsDarksAtStart:
-                    darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                    #darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                    darkScan=ConcurrentScan([index, (start,)*int(imagesPerDark), image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
                     multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark, zebraTriggerMode=1)))
         else:
             print "No darkScan at start requested."
@@ -485,7 +486,8 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
                 flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
             else:
                 if not vetoFlatsDarksAtStart:
-                    flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                    #flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                    flatScan=ConcurrentScan([index, (start,)*int(imagesPerFlat), image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
                     multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, zebraTriggerMode=1)))
         else:
             print "No flatScan at start requested."
@@ -495,7 +497,8 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
             scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
         else: 
             scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,image_key_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
-        multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project, zebraTriggerMode=2), PostScanRunnable("Stopping helix-axis stage",10, helical_axis_stage) if (helical_axis_stage is not None) else None))
+        if start!=stop:
+            multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project, zebraTriggerMode=2), PostScanRunnable("Stopping helix-axis stage",10, helical_axis_stage) if (helical_axis_stage is not None) else None))
 
 #flats after
         if extraFlatsAtEnd or vetoFlatsDarksAtStart:
@@ -503,13 +506,15 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
                 if beamline == "I13":
                     darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
                 else:
-                    darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                    #darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                    darkScan=ConcurrentScan([index, (stop,)*int(imagesPerDark), image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
                     multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark, zebraTriggerMode=1)))
             if imagesPerFlat > 0:
                 if beamline == "I13":
                     flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ionc_i, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
                 else:
-                    flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                    #flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
+                    flatScan=ConcurrentScan([index, (stop,)*int(imagesPerFlat), image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
                 multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, zebraTriggerMode=1)))
         else:
             print "No flatScan at end requested."
