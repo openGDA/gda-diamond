@@ -41,32 +41,27 @@
 		<property name="pvNameSetPoint" value="BL20I-EA-TEMPC-01:CMODE_S" />
 	</bean>
 
-	<bean id="cryo_ch0" class="gda.device.monitor.EpicsMonitor">
+	<bean id="Hecryo_ch0" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG0" />
 		<property name="local" value="false"/>
 	</bean>
 
-	<bean id="cryo_ch1" class="gda.device.monitor.EpicsMonitor">
+	<bean id="Hecryo_ch1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG1" />
 		<property name="local" value="false"/>
 	</bean>
 
-	<bean id="cryo_ch2" class="gda.device.monitor.EpicsMonitor">
+	<bean id="Hecryo_ch2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG2" />
 		<property name="local" value="false"/>
 	</bean>
 
-	<bean id="cryo_ch3" class="gda.device.monitor.EpicsMonitor">
+	<bean id="Hecryo_ch3" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG3" />
 		<property name="local" value="false"/>
 	</bean>
 
 <!-- 	New scannables for setting temperatures of various equipment -->
-	<bean id="HeCryo_temp" class="gda.device.scannable.PVScannable">
-		<property name="name" value="HeCryo_temp" />
-		<property name="pvName" value="BL20I-EA-TEMPC-01:SETP" />
-		<property name="local" value="true" />
-	</bean>
 
 	<bean id="Linkam_temp" class="gda.device.scannable.PVScannable">
 		<property name="name" value="Linkam_temp" />

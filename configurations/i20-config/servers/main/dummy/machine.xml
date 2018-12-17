@@ -34,5 +34,11 @@
 	<bean id="absorber" class="gda.device.enumpositioner.DummyValve">
 		<property name="position" value="Open" />
 	</bean>
-
+	<bean id="machineModeMonitor" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+		<list>
+				<value>Shutdown</value>
+		</list>
+		</property>
+	</bean>
 </beans>

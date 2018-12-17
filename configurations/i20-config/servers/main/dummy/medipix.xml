@@ -118,7 +118,6 @@ imh 5/11/2015
 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiCountsI0">
 		<property name="roiName"    value="roistats1" />
 		<property name="counterTimer" ref="I1" />
-		<property name="i0_channel" value="1" />
 		<property name="nxDetector" ref="medipix" />
 	</bean>
 

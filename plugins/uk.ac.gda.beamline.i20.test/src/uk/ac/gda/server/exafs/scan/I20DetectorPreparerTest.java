@@ -34,10 +34,10 @@ import gda.TestHelpers;
 import gda.device.Detector;
 import gda.device.Scannable;
 import gda.device.detector.NXDetector;
-import gda.device.detector.TfgFFoverI0;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
 import gda.device.detector.xmap.NexusXmap;
 import gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter;
+import gda.device.detector.xmap.TfgXMapFFoverI0;
 import gda.device.detector.xmap.Xmap;
 import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.DummyScannable;
@@ -71,7 +71,7 @@ public class I20DetectorPreparerTest {
 	private Scannable[] offset;
 	private Scannable[] offset_units;
 	private TopupChecker topupChecker;
-	private TfgFFoverI0 ffI0;
+	private TfgXMapFFoverI0 ffI1;
 	private XspressParameters xspressParams ;
 	private VortexParameters vortexParams;
 	private MonoOptimisation monoOptimiser;
@@ -106,7 +106,7 @@ public class I20DetectorPreparerTest {
 		medipix = (NXDetector) createMock(NXDetector.class, "medipix");
 		ionchambers = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
 		I1 = (TfgScalerWithFrames) createMock(TfgScalerWithFrames.class, "ionchambers");
-		ffI0 = (TfgFFoverI0) createMock(TfgFFoverI0.class, "ffI0");
+		ffI1 = (TfgXMapFFoverI0) createMock(TfgXMapFFoverI0.class, "ffI0");
 
 		xmapFluoDetector = PowerMockito.mock(NexusXmapFluorescenceDetectorAdapter.class);
 		Mockito.when(xmapFluoDetector.getName()).thenReturn("xmapFluoDetector");
@@ -161,7 +161,7 @@ public class I20DetectorPreparerTest {
 	private I20DetectorPreparer makePreparer(FluorescenceDetectorParameters params) {
 		DetectorPreparerForTest thePreparer = new DetectorPreparerForTest(sensitivities, sensitivity_units, offset, offset_units,
 				ionchambers, I1, xmpaMca, medipix, topupChecker);
-		thePreparer.setFFI0(ffI0);
+		thePreparer.setFFI1(ffI1);
 		thePreparer.setParameterBean(params);
 		thePreparer.setMonoOptimiser(monoOptimiser);
 		return thePreparer;
@@ -171,7 +171,7 @@ public class I20DetectorPreparerTest {
 		TestHelpers.setUpTest(I20DetectorPreparer.class, testName, true);
 
 		// Findables the server needs to know about
-		Findable[] findables = new Findable[] { xspressSystem, xmpaMca, medipix, ionchambers, I1, ffI0, xmapFluoDetector };
+		Findable[] findables = new Findable[] { xspressSystem, xmpaMca, medipix, ionchambers, I1, ffI1, xmapFluoDetector };
 
 		final Factory factory = TestHelpers.createTestFactory("test");
 		for(Findable f : findables) {
@@ -220,7 +220,9 @@ public class I20DetectorPreparerTest {
 		detBean.setTransmissionParameters(transParams);
 		detBean.setExperimentType(DetectorParameters.TRANSMISSION_TYPE);
 
-		makePreparer(xspressParams).configure(scanBean, detBean, outputBean, experimentFullPath);
+		I20DetectorPreparer preparer = makePreparer(xspressParams);
+		preparer.configure(scanBean, detBean, outputBean, experimentFullPath);
+		preparer.beforeEachRepetition();
 
 		Mockito.verify(topupChecker).setCollectionTime(2.5);
 		Mockito.verify(ionchambers).setDarkCurrentCollectionTime(2.5);
@@ -270,6 +272,7 @@ public class I20DetectorPreparerTest {
 		assertEquals(preparer.getSelectedXspressDetector().getName(), xspressSystem.getName());
 		Mockito.verify(xmapFluoDetector, Mockito.never()).applyConfigurationParameters(vortexParams);
 
+		preparer.beforeEachRepetition();
 		Mockito.verify(topupChecker).setCollectionTime(2.5);
 		Mockito.verify(ionchambers).setDarkCurrentCollectionTime(2.5);
 
@@ -322,6 +325,7 @@ public class I20DetectorPreparerTest {
 		assertEquals(preparer.getVortex().getName(), xmpaMca.getName());
 		Mockito.verify(xspressSystem, Mockito.never()).applyConfigurationParameters(xspressParams);
 
+		preparer.beforeEachRepetition();
 		Mockito.verify(topupChecker).setCollectionTime(2.5);
 		Mockito.verify(ionchambers).setDarkCurrentCollectionTime(2.5);
 
