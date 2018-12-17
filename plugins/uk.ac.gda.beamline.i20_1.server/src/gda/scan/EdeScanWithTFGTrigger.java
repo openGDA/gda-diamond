@@ -33,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
+import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.DeviceException;
 import gda.device.Monitor;
 import gda.device.Scannable;
@@ -352,16 +353,15 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 	}
 
 	@Override
-	protected void addDetectorsToScanDataPoint(int lowFrame, Object[][] detData, int thisFrame,
+	protected void addDetectorsToScanDataPoint(int lowFrame, Object[] detData, int thisFrame,
 			ScanDataPoint thisPoint) throws DeviceException {
 
 		super.addDetectorsToScanDataPoint(lowFrame, detData, thisFrame, thisPoint);
 	}
 
 	@Override
-	protected Object[][] readDetectors(int lowFrame, int highFrame) throws Exception, DeviceException {
-		Object[][] detData = new Object[1][];
-		detData[0] = super.readDetectors(lowFrame, highFrame)[0];
+	protected NexusTreeProvider[] readDetectors(int lowFrame, int highFrame) throws Exception, DeviceException {
+		NexusTreeProvider[] detData = super.readDetectors(lowFrame, highFrame);
 		//detData[1] = injectionCounter.readoutFrames(lowFrame, highFrame);
 
 		// Get the topup signal value for each spectrum, do in try-catch so

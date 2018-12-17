@@ -22,7 +22,10 @@ import org.dawnsci.ede.EdeDataConstants;
 import org.dawnsci.ede.EdePositionType;
 import org.dawnsci.ede.EdeScanType;
 
+import gda.data.nexus.extractor.NexusGroupData;
+import gda.data.nexus.tree.INexusTree;
 import gda.device.DeviceException;
+import gda.device.detector.NXDetectorData;
 
 /**
  * This should be used within EdeScans to describe every spectrum collected.
@@ -57,6 +60,10 @@ public class FrameIndexer extends ScannableBase {
 		return position;
 	}
 
+	private Integer[] generateIndex() {
+		return generateIndex(scantype, positionsType, repetitionNumber, timingGroup, frameNumber);
+	}
+
 	private final int repetitionNumber;
 	private int frameNumber;
 	private int timingGroup;
@@ -80,8 +87,16 @@ public class FrameIndexer extends ScannableBase {
 		timingGroup = groupNum;
 	}
 
+	public int getGroup() {
+		return timingGroup;
+	}
+
 	public void setFrame(Integer frameNum) {
 		frameNumber = frameNum;
+	}
+
+	public int getFrame() {
+		return frameNumber;
 	}
 
 	@Override
@@ -91,12 +106,27 @@ public class FrameIndexer extends ScannableBase {
 
 	@Override
 	public Object rawGetPosition() throws DeviceException {
-		return generateIndex(scantype, positionsType, repetitionNumber, timingGroup, frameNumber);
+		return generateIndex();
 	}
 
 	@Override
 	public boolean isBusy() throws DeviceException {
 		return false;
+	}
+
+	/**
+	 * Add frame indexer info to the Nexus tree of named detector
+	 * @param frame
+	 * @param detName
+	 * @throws DeviceException
+	 */
+	public void addToNexusTree(NXDetectorData frame, String detName) throws DeviceException {
+		INexusTree detTree = frame.getDetTree(detName);
+		Integer[] positions = generateIndex();
+		String[] extraNames = getExtraNames();
+		for(int i=0; i<positions.length; i++) {
+			NXDetectorData.addData(detTree, extraNames[i], new NexusGroupData(positions[i]), "counts", 1);
+		}
 	}
 
 }

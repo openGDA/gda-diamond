@@ -24,19 +24,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.ede.EdePositionType;
 import org.dawnsci.ede.EdeScanType;
+import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.january.DatasetException;
 import org.eclipse.january.dataset.DoubleDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.data.nexus.extractor.NexusGroupData;
+import gda.data.nexus.tree.INexusTree;
 import gda.data.nexus.tree.NexusTreeProvider;
+import gda.data.scan.datawriter.DataWriter;
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.DetectorStatus;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.EdeDummyDetector;
+import gda.device.detector.NXDetectorData;
 import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.xstrip.DetectorScanDataUtils;
 import gda.device.detector.xstrip.XhDetector;
@@ -46,10 +53,13 @@ import gda.device.scannable.TopupChecker;
 import gda.jython.ITerminalPrinter;
 import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
+import gda.scan.ede.EdeExperiment;
 import gda.scan.ede.EdeScanProgressBean;
 import gda.scan.ede.datawriters.ScanDataHelper;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
+import gda.util.NexusTreeWriter;
+import uk.ac.gda.exafs.data.DetectorSetupType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
 
@@ -94,6 +104,9 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private boolean moveMotorDuringScan;
 
 	private List<Scannable> scannablesToMonitorDuringScan;
+
+	private NexusTreeWriter nexusTreeWriter;
+	private boolean useNexusTreeWriter = false;
 
 	/**
 	 * @param scanParameters
@@ -413,6 +426,12 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 					}
 				}
 			}
+
+			// Make sure NexusTreeWriter writes any remaining data and releases file handle.
+			if (nexusTreeWriter != null) {
+				nexusTreeWriter.writeNexusData();
+				nexusTreeWriter.closeFile();
+			}
 		}
 	}
 
@@ -482,6 +501,26 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		createDataPoints(absLowFrame, absHighFrame);
 	}
 
+	private void writeDetectorData(NexusTreeProvider[] detectorData, int lowFrame, int highFrame) throws NexusException, DatasetException {
+		logger.debug("writeDetectorData() called for frames {}...{}", lowFrame, highFrame);
+		if (nexusTreeWriter == null) {
+			logger.debug("Creating NexusTreeWriter for {} data", theDetector.getName());
+			nexusTreeWriter = new NexusTreeWriter();
+		}
+		nexusTreeWriter.addData(detectorData);
+
+		String nexusFileName = nexusTreeWriter.getScanNexusFilename();
+		if (!nexusFileName.isEmpty()) {
+			logger.debug("Setting Nexus tree writer output filename to {}", nexusFileName);
+			nexusTreeWriter.setFullpathToNexusFile(nexusFileName);
+		}
+
+		if (!nexusTreeWriter.getFullpathToNexusFile().isEmpty()) {
+			logger.debug("Writing detector data to Nexus file using NexusTreeWriter");
+			nexusTreeWriter.writeNexusData();
+		}
+	}
+
 	/**
 	 * @param lowFrame
 	 *            - where 0 is the first frame
@@ -491,10 +530,15 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	 */
 	private void createDataPoints(int lowFrame, int highFrame) throws Exception {
 		// readout the correct frame from the detectors
-		Object[][] detData = readDetectors(lowFrame, highFrame);
+		Object[] detData = readDetectors(lowFrame, highFrame);
+		if (useNexusTreeWriter) {
+			writeDetectorData((NexusTreeProvider[]) detData, lowFrame, highFrame);
+		}
 		int realFrameNumber=0;
 		int realLowFrameNumber=0;
 		ScanDataPoint thisPoint;
+		long startTime = System.currentTimeMillis();
+		DataWriter dataWriter = getDataWriter();
 		for (int thisFrame = lowFrame; thisFrame <= highFrame; thisFrame++) {
 			checkThreadInterrupted();
 			waitIfPaused();
@@ -513,9 +557,6 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				realFrameNumber = thisFrame;
 			}
 
-			// then write data to data handler
-			getDataWriter().addData(thisPoint);
-
 			checkThreadInterrupted();
 			waitIfPaused();
 			if (isFinishEarlyRequested()){
@@ -530,10 +571,36 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 			// then notify IObservers of this scan (e.g. GUI panels)
 			getJythonServerNotifer().notifyServer(this, thisPoint);
+
+			// Remove detector and indexer from ScanDataPoint so that NexusDataWriter doesn't also try to
+			// write the same data into Nexus file. Do it *after* broadcasting the SDP, since need to store the
+			// datapoint and broadcast energy and spectrum data to client...
+			if (useNexusTreeWriter && nexusTreeWriter != null) {
+				thisPoint.getDetectors().remove(theDetector);
+				thisPoint.getScannables().remove(indexer);
+				if (scannablesToMonitorDuringScan != null) {
+					thisPoint.getScannables().removeAll(scannablesToMonitorDuringScan);
+				}
+			}
+
+			// then write data to data handler
+			dataWriter.addData(thisPoint);
+
+		}
+		logger.info("Finished writing data after {} ms", System.currentTimeMillis() - startTime);
+	}
+
+	private void setupFrameIndexer(int frameNumber) {
+		if (theDetector.getDetectorSetupType() == DetectorSetupType.FRELON) {
+			indexer.setGroup(scanParameters.getGroups().indexOf(currentTimingGroup));
+			indexer.setFrame(frameNumber);
+		} else {
+			indexer.setGroup(DetectorScanDataUtils.getGroupNum(scanParameters, frameNumber));
+			indexer.setFrame(DetectorScanDataUtils.getFrameNum(scanParameters, frameNumber));
 		}
 	}
 
-	private ScanDataPoint createScanDataPoint(int lowFrame, Object[][] detData, int thisFrame)
+	private ScanDataPoint createScanDataPoint(int lowFrame, Object[] detData, int thisFrame)
 			throws DeviceException {
 		ScanDataPoint thisPoint = new ScanDataPoint();
 		thisPoint.setUniqueName(name);
@@ -543,17 +610,10 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		thisPoint.setScanDimensions(getDimensions());
 		if (indexer != null) {
 			indexer.setName(theDetector.getName() + "_progress"); // make sure indexer name is consistent with detector name (in case detector was renamed after EdeScan was created)
-			if (theDetector instanceof EdeFrelon) {
-				indexer.setGroup(scanParameters.getGroups().indexOf(currentTimingGroup));
-				indexer.setFrame(thisFrame);
-			} else {
-				indexer.setGroup(DetectorScanDataUtils.getGroupNum(scanParameters, thisFrame));
-				indexer.setFrame(DetectorScanDataUtils.getFrameNum(scanParameters, thisFrame));
-			}
+			setupFrameIndexer(thisFrame);
 			thisPoint.addScannable(indexer);
 			thisPoint.addScannablePosition(indexer.getPosition(), indexer.getOutputFormat());
 		}
-
 
 		addScannablesToScanDataPoint(thisPoint);
 
@@ -596,34 +656,77 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	}
 
 	@SuppressWarnings("unused")
-	protected void addDetectorsToScanDataPoint(int lowFrame, Object[][] detData, int thisFrame,
+	protected void addDetectorsToScanDataPoint(int lowFrame, Object[] detData, int thisFrame,
 			ScanDataPoint thisPoint) throws DeviceException {
+
 		thisPoint.addDetector(theDetector);
-		//thisPoint.addDetector(injectionCounter);
-		thisPoint.addDetectorData(detData[0][thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
-		//thisPoint.addDetectorData(placeHolderValue, ScannableUtils.getExtraNamesFormats(injectionCounter));
+		thisPoint.addDetectorData(detData[thisFrame - lowFrame], ScannableUtils.getExtraNamesFormats(theDetector));
 	}
 
-	protected Object[][] readDetectors(int lowFrame, int highFrame) throws Exception, DeviceException {
-		NexusTreeProvider[][] detData = new NexusTreeProvider[1][];
+	/**
+	 * Add values from a scannable to NexusTree.
+	 * @param detTree
+	 * @param scn
+	 * @throws DeviceException
+	 */
+	public void addToNexusTree(INexusTree detTree, Scannable scn) throws DeviceException {
+		double[] positions = ScannableUtils.getCurrentPositionArray(scn);
+		if (positions.length == 1) {
+			NXDetectorData.addData(detTree, scn.getName(), new NexusGroupData(positions[0]), "counts", 1);
+		} else {
+			String[] allNames = (String[]) ArrayUtils.addAll(scn.getInputNames(), scn.getExtraNames());
+			for(int i=0; i<allNames.length; i++) {
+				NXDetectorData.addData(detTree, allNames[i], new NexusGroupData(positions[i]), "counts", 1);
+			}
+		}
+	}
+
+	protected NexusTreeProvider[] readDetectors(int lowFrame, int highFrame) throws Exception, DeviceException {
 		logger.info("reading data from detectors from frames " + lowFrame + " to " + highFrame);
-		detData[0] = theDetector.readFrames(lowFrame, highFrame);
+		NexusTreeProvider[] detData = theDetector.readFrames(lowFrame, highFrame);
+
+		if (useNexusTreeWriter) {
+			logger.info("Adding indexer and scannable data to NexusTree");
+			// Add frame indexer information for each spectrum to the Nexus tree
+			int numFrames = highFrame - lowFrame + 1;
+			int startFrame = theDetector.isDropFirstFrame() ? lowFrame-1 : lowFrame;
+			if (indexer != null) {
+				for(int i=0; i<numFrames; i++) {
+					setupFrameIndexer(i + startFrame);
+					indexer.addToNexusTree((NXDetectorData)detData[i], theDetector.getName());
+				}
+			}
+
+			// Add scannable position information for each spectrum to the Nexus tree
+			if (scannablesToMonitorDuringScan != null) {
+				for(int i=0; i<numFrames; i++) {
+					INexusTree tree = ((NXDetectorData)detData[i]).getDetTree(theDetector.getName());
+					for(Scannable scn : scannablesToMonitorDuringScan) {
+						addToNexusTree(tree, scn);
+					}
+				}
+			}
+			logger.info("Finished adding data to NexusTree");
+		}
+
 		logger.info("data read successfully");
 		return detData;
 	}
 
+	/**
+	 * Store the ScanDataPoint and call {@link EdeExperiment#update(Object, Object)} to broadcast
+	 * data to the client.
+	 * @param absoulteFrameNumber
+	 * @param thisPoint
+	 */
 	private void storeAndBroadcastSDP(int absoulteFrameNumber, ScanDataPoint thisPoint) {
 		rawData.add(thisPoint);
 		if (progressUpdater != null) {
-			int frameNumOfThisSDP;
-			int groupNumOfThisSDP;
-			if (theDetector instanceof EdeFrelon) {
-				groupNumOfThisSDP = scanParameters.getGroups().indexOf(currentTimingGroup);
-				frameNumOfThisSDP = absoulteFrameNumber;
-
-			} else {
-				groupNumOfThisSDP = DetectorScanDataUtils.getGroupNum(scanParameters, absoulteFrameNumber);
-				frameNumOfThisSDP = DetectorScanDataUtils.getFrameNum(scanParameters, absoulteFrameNumber);
+			int frameNumOfThisSDP = 0;
+			int groupNumOfThisSDP = 0;
+			if (indexer != null) {
+				frameNumOfThisSDP = indexer.getFrame();
+				groupNumOfThisSDP = indexer.getGroup();
 			}
 			EdeScanProgressBean progress = new EdeScanProgressBean(groupNumOfThisSDP, frameNumOfThisSDP, scanType,
 					motorPositions.getType(), thisPoint.getCurrentFilename());
@@ -737,5 +840,13 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 
 	public void setFastShutter(Scannable fastShutter) {
 		this.fastShutter = fastShutter;
+	}
+
+	public boolean isUseNexusTreeWriter() {
+		return useNexusTreeWriter;
+	}
+
+	public void setUseNexusTreeWriter(boolean useNexusTreeWriter) {
+		this.useNexusTreeWriter = useNexusTreeWriter;
 	}
 }
