@@ -31,8 +31,6 @@ Export-Package: gda.analysis.io,
  gda.device.scannable.keyence,
  gda.gui.exafs,
  gda.images.camera,
- gda.images.camera.corba,
- gda.images.camera.corba.impl,
  gda.images.camera.example,
  gda.scan,
  gda.util
@@ -46,6 +44,5 @@ Import-Package: gda.device.detectorfilemonitor,
  org.springframework.core;version="3.0.4",
  org.springframework.util;version="3.0.4"
 Eclipse-RegisterBuddy: uk.ac.gda.core
-Bundle-ClassPath: jars/gda_dls-corba.jar,
- .
+Bundle-ClassPath: .
 Automatic-Module-Name: uk.ac.gda.dls

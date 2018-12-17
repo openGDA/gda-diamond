@@ -18,11 +18,12 @@
 
 package uk.ac.gda.beamline.i22.detector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.device.DeviceException;
 import gda.epics.connection.EpicsController;
 import gda.factory.FactoryException;
-import gda.factory.corba.util.CorbaAdapterClass;
-import gda.factory.corba.util.CorbaImplClass;
 import gda.jython.InterfaceProvider;
 import gov.aps.jca.Channel;
 import gov.aps.jca.dbr.DBR;
@@ -30,21 +31,13 @@ import gov.aps.jca.dbr.DBR_Double;
 import gov.aps.jca.dbr.DBR_Int;
 import gov.aps.jca.event.MonitorEvent;
 import gov.aps.jca.event.MonitorListener;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import uk.ac.gda.api.remoting.ServiceInterface;
 import uk.ac.gda.server.ncd.subdetector.INcdSubDetector;
 import uk.ac.gda.server.ncd.subdetector.NcdWireDetector;
-import uk.ac.gda.server.ncd.subdetector.corba.impl.SubdetectorAdapter;
-import uk.ac.gda.server.ncd.subdetector.corba.impl.SubdetectorImpl;
 
-@CorbaAdapterClass(SubdetectorAdapter.class)
-@CorbaImplClass(SubdetectorImpl.class)
 @ServiceInterface(INcdSubDetector.class)
 public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
-	
+
 	private class GasFlowException extends DeviceException {
 		public GasFlowException(String message) {
 			super(message);
@@ -55,8 +48,8 @@ public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
 			super(message);
 		}
 	}
-	
-	private static final Logger logger = LoggerFactory.getLogger(I22Hotwaxs.class);  		
+
+	private static final Logger logger = LoggerFactory.getLogger(I22Hotwaxs.class);
 
 	private EpicsController ec;
 	private String flowPVName, caenPVbase;
@@ -66,17 +59,17 @@ public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
 	private SupplyState[] supplyState = new SupplyState[4];
 	private DeviceException whatswrong = new DeviceException("uninitialised");
 	private Channel[] supplyChannels = new Channel[4];
-	
+
 	enum SupplyState {
 		ON, OFF, TRIPPED
 	}
-	
+
 	@Override
 	public void configure() throws FactoryException {
 		super.configure();
-		
+
 		ec = EpicsController.getInstance();
-		
+
 		try {
 			Channel channel = ec.createChannel(flowPVName);
 			ec.setMonitor(channel, this);
@@ -87,10 +80,10 @@ public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
 		} catch (Exception e) {
 			throw new FactoryException("error connecting to PVs for "+getName(), e);
 		}
-		
-		
+
+
 	}
-	
+
 	@Override
 	public void atScanStart() throws DeviceException {
 		if (whatswrong != null) throw whatswrong;
@@ -98,24 +91,24 @@ public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
 		inAScan = true;
 		restarts = 0;
 	}
-	
+
 	@Override
 	public void atScanEnd() throws DeviceException {
 		inAScan = false;
 		super.atScanEnd();
 	}
-	
-	
+
+
 	private DeviceException checkGas() {
 		double targetGasFlow = 100;
 		double gasFlowSpread = 1;
-		
+
 		if (gasFlow < targetGasFlow-gasFlowSpread || gasFlow > targetGasFlow+gasFlowSpread)
 			return new GasFlowException("Gas flow not in acceptable range. Contact beamline staff for help with "+getName());
-		
+
 		return null;
 	}
-	
+
 	private DeviceException checkSupplies() {
 		DeviceException de = null;
 		for (int i = 0; i < 3; i++) {
@@ -123,7 +116,7 @@ public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
 				return new SupplyException(String.format("Channel %d of HV supplies is OFF. Contact beamline staff to start up %s.", i, getName()));
 			}
 			if (supplyState[i] == SupplyState.TRIPPED) {
-				if (!inAScan) 
+				if (!inAScan)
 					return new SupplyException(String.format("Channel %d of HV supplies has tripped on %s.", i, getName()));
 				restarts++;
 				if (restarts < 12) {
@@ -138,7 +131,7 @@ public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
 				}
 			}
 		}
-		
+
 		return de;
 	}
 
@@ -151,21 +144,21 @@ public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
 		}
 		return SupplyState.OFF;
 	}
-	
-	
+
+
 	@Override
 	public void monitorChanged(MonitorEvent mev) {
-		
+
 		// FIXME check for disconnects in case the IOC goes down
-		
-		try { 
+
+		try {
 			final DeviceException oldError = whatswrong;
-			
+
 			DBR dbr = mev.getDBR();
-			
+
 			if (dbr instanceof DBR_Double) {
 				gasFlow = ((DBR_Double) dbr).getDoubleValue()[0];
-			
+
 				whatswrong = checkGas();
 			} else if (dbr instanceof DBR_Int){
 				for (int i = 0; i < 3; i++) {
@@ -182,16 +175,16 @@ public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
 					processNewState(oldError);
 				}
 			}).start();
-			
+
 		} catch (Exception e) {
 			logger.error("unexpected problems processing monitor updates on gain PV", e);
 		}
 	}
 
 	private void processNewState(DeviceException oldError) {
-		if (whatswrong == null) 
+		if (whatswrong == null)
 			whatswrong = checkSupplies();
-		
+
 		if (inAScan) {
 			if (whatswrong != null && oldError == null) {
 				InterfaceProvider.getTerminalPrinter().print(whatswrong.getMessage());
@@ -204,7 +197,7 @@ public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
 			}
 		}
 	}
-	
+
 	public String getFlowPVName() {
 		return flowPVName;
 	}
