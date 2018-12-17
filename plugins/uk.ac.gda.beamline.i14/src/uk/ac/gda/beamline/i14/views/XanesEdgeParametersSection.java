@@ -18,11 +18,10 @@
 
 package uk.ac.gda.beamline.i14.views;
 
-import static java.util.stream.Collectors.toList;
 import static uk.ac.gda.beamline.i14.views.XanesEdgeParameters.TrackingMethod.EDGE;
 import static uk.ac.gda.beamline.i14.views.XanesEdgeParameters.TrackingMethod.REFERENCE;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -48,6 +47,7 @@ import com.swtdesigner.SWTResourceManager;
 
 import gda.observable.IObserver;
 import uk.ac.diamond.daq.mapping.api.IScanModelWrapper;
+import uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper;
 import uk.ac.diamond.daq.mapping.ui.experiment.AbstractMappingSection;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanPathEditor;
 import uk.ac.gda.beamline.i14.views.XanesEdgeParameters.TrackingMethod;
@@ -94,23 +94,15 @@ public class XanesEdgeParametersSection extends AbstractMappingSection {
 		final Group grpEnergy = createGroup(content, String.format("Energy (%s)", ENERGY_SCANNABLE), NUM_COLUMNS);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING).grab(true, false).applyTo(grpEnergy);
 
-		// Find the model wrapper for the energy scannable
-		final List<IScanModelWrapper<IScanPathModel>> energyScannables = getMappingBean().getScanDefinition()
-				.getOuterScannables()
-				.stream()
-				.filter(scannable -> scannable.getName().equals(ENERGY_SCANNABLE))
-				.collect(toList());
-
-		if (energyScannables.isEmpty()) {
-			logger.error("No energy scannable '{}' is defined", ENERGY_SCANNABLE);
-			return;
-		}
-
-		final IScanModelWrapper<IScanPathModel> energyScannable = energyScannables.get(0);
-		energyScannable.setIncludeInScan(true);
+		// Energy scannable
+		final IScanModelWrapper<IScanPathModel> energyScannable = new ScanPathModelWrapper(ENERGY_SCANNABLE, null, true);
+		// Set in path editor
 		energyEditor = new ScanPathEditor(grpEnergy, SWT.NONE, energyScannable);
 		energyEditor.addIObserver(scanPathObserver);
 		scanParameters.setEnergySteps(energyEditor.getAxisText());
+		// Add as outer scannable in status panel
+		final XanesStatusPanel statusPanel = (XanesStatusPanel) getMappingView().getStatusPanel();
+		statusPanel.setOuterScannables(Arrays.asList(energyScannable));
 
 		// Tracking parameters
 		final Group grpTracking = createGroup(content, "Tracking", NUM_COLUMNS);
