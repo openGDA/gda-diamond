@@ -136,6 +136,10 @@
 		<constructor-arg ref="sim_adbase" />
 	</bean>
 
+	<bean id="sim_camera_reset" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="#{sim_pvbase}:CAM:Reset" />
+	</bean>
+
 	<!-- Define ROI/Stats pairs -->
 	<bean id="sim_roistats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats1" />

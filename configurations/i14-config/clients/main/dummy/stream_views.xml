@@ -14,6 +14,7 @@
 		<property name="topUi">
 			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
 				<constructor-arg ref="sim_camera_control" />
+				<property name="cameraResetScannable" ref="sim_camera_reset" />
 			</bean>
 		</property>
 	</bean>

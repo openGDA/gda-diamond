@@ -72,6 +72,11 @@
 		<property name="topUi">
 			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
 				<constructor-arg ref="sample_camera_control" />
+				<property name="cameraResetScannable">
+					<bean class="gda.device.scannable.PVScannable">
+						<property name="pvName" value="BL14I-OP-DCAM-09:CAM:RESET" />
+					</bean>
+				</property>
 			</bean>
 		</property>
 	</bean>
@@ -84,6 +89,11 @@
 		<property name="topUi">
 			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
 				<constructor-arg ref="sample_dtab_camera_control" />
+				<property name="cameraResetScannable">
+					<bean class="gda.device.scannable.PVScannable">
+						<property name="pvName" value="BL14I-OP-DCAM-10:CAM:RESET" />
+					</bean>
+				</property>
 			</bean>
 		</property>
 	</bean>

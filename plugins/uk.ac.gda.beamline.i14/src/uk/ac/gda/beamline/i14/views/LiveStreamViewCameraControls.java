@@ -18,20 +18,34 @@
 
 package uk.ac.gda.beamline.i14.views;
 
+import static org.eclipse.swt.events.SelectionListener.widgetSelectedAdapter;
+
 import java.util.Objects;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import gda.device.DeviceException;
+import gda.device.Scannable;
 import uk.ac.gda.api.camera.CameraControl;
 import uk.ac.gda.client.live.stream.view.customui.AbstractLiveStreamViewCustomUi;
 import uk.ac.gda.client.widgets.LiveStreamExposureTimeComposite;
 
 public class LiveStreamViewCameraControls extends AbstractLiveStreamViewCustomUi {
+	private static Logger logger = LoggerFactory.getLogger(LiveStreamViewCameraControls.class);
 
 	private CameraControl cameraControl;
+
+	/**
+	 * Scannable to reset camera - the actual camera, not GDA's connection to it (optional)
+	 */
+	private Scannable cameraResetScannable;
 
 	public LiveStreamViewCameraControls(CameraControl cameraControl) {
 		Objects.requireNonNull(cameraControl, "Camera control must not be null");
@@ -46,5 +60,25 @@ public class LiveStreamViewCameraControls extends AbstractLiveStreamViewCustomUi
 		// Exposure control
 		final LiveStreamExposureTimeComposite exposureTimeComposite = new LiveStreamExposureTimeComposite(mainComposite, SWT.NONE, cameraControl);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(exposureTimeComposite);
+
+		// Reset button
+		if (cameraResetScannable != null) {
+			final Button resetButton = new Button(mainComposite, SWT.PUSH);
+			GridDataFactory.swtDefaults().align(SWT.RIGHT, SWT.CENTER).applyTo(resetButton);
+			resetButton.setText("Reset camera");
+			resetButton.addSelectionListener(widgetSelectedAdapter(this::resetCamera));
+		}
+	}
+
+	private void resetCamera(@SuppressWarnings("unused") SelectionEvent e) {
+		try {
+			cameraResetScannable.asynchronousMoveTo(1);
+		} catch (DeviceException ex) {
+			logger.error("Error resetting camera {}", cameraControl.getName(), ex);
+		}
+	}
+
+	public void setCameraResetScannable(Scannable cameraResetScannable) {
+		this.cameraResetScannable = cameraResetScannable;
 	}
 }
