@@ -22,6 +22,13 @@
 	<!-- =========================================================== -->
 	<!-- 	mode specific files -->
 	<!-- =========================================================== -->
+	
+	<!-- detectors -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/imaging/cam_motion.xml" />
+	
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/det_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/det_motion.xml" />
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
@@ -29,6 +36,12 @@
 	<!-- =========================================================== -->
 	<!-- 	shared files -->
 	<!-- =========================================================== -->
+
+	<!-- detectors -->
+	<import resource="file:${gda.config}/servers/main/_common/detectors/imaging/cam_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/imaging/cam_scannables.xml" />
+	
+	<import resource="file:${gda.config}/servers/main/_common/detectors/diffraction/det_addetector.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/metadata.xml" />
 

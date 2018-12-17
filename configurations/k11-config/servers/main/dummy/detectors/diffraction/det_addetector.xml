@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<alias name="sim_adbase" alias="det_adbase" />
+	<alias name="sim_stats" alias="det_stats" />
+	<alias name="sim_array" alias="det_ndarray" />
+	<alias name="sim_file_hdf5" alias="det_ndfile" />
+	<alias name="sim_hdf5" alias="det_hdf5" />
+
+</beans>
