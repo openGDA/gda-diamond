@@ -15,8 +15,7 @@ Require-Bundle: uk.ac.gda.core;bundle-version="1.0.0",
  uk.ac.gda.common.client;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: com.artenum.jyconsole,
- org.eclipse.debug.ui,
+Import-Package: org.eclipse.debug.ui,
  org.eclipse.search.ui,
  org.eclipse.ui.console,
  org.slf4j;version="[1.7.2,2.0.0)",

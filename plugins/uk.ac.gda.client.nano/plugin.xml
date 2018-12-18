@@ -30,14 +30,6 @@
       </category>
       <view
             category="uk.ac.gda.nano.views.NanoCategory"
-            class="uk.ac.gda.nano.views.JythonConsoleView"
-            icon="icons/terminal_16.png"
-            id="uk.ac.gda.nano.views.JythonConsoleView"
-            name="JythonConsole"
-            restorable="true">
-      </view>
-      <view
-            category="uk.ac.gda.nano.views.NanoCategory"
             class="gda.rcp.views.JythonTerminalView"
             icon="icons/application_xp_terminal.png"
             id="uk.ac.gda.nano.views.terminalView"
