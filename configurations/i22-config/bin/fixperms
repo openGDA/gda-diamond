@@ -13,4 +13,4 @@
 
 cd /dls_sw/i22/software/gda-devel/config
 chmod a+x /dls_sw/i22/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
-setfacl -m g:i22_staff:rwx -m u:i22user:rwx xml/user_permissions.xml xml/beamlinestaff.xml /dls_sw/i22/software/gda/workspace_git/gda-scm.git/plugins/uk.ac.gda.devices.bssc/scripts/BSSC.py
+setfacl -m g:i22_staff:rwx -m u:i22user:rwx xml/user_permissions.xml xml/beamlinestaff.xml /dls_sw/i22/software/gda/workspace_git/gda-diamond.git/plugins/uk.ac.gda.devices.bssc/scripts/BSSC.py
