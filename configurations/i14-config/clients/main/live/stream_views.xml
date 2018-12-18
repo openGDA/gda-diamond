@@ -10,16 +10,20 @@
 		<property name="arrayPv" value="BL14I-EA-DET-03:ARR" />
 		<property name="sleepTime" value="5" />
 	</bean>
+	
+	<!-- scannables to calibrate live stream axes -->
+	<bean id="stage1_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="stage1_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="xreye_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="X-ray Eye Detector" />
 		<property name="url" value="http://I14-X-RAYEYE:8080/XREYE.mjpg.mjpg" />
 		<property name="arrayPv" value="BL14I-EA-XREYE-01:DET:ARR" />
 		<property name="sleepTime" value="5" />
-		<property name="cameraCalibration">
-            <bean class="uk.ac.gda.client.live.stream.view.CameraCalibration">
-                <property name="xAxisScannableName" value="stage1_x"/>
-                <property name="yAxisScannableName" value="stage1_y"/>
+		<property name="calibratedAxesProvider">
+            <bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
+                <property name="xAxisScannable" value="stage1_x"/>
+                <property name="yAxisScannable" value="stage1_y"/>
                 <property name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis  -->
                 <property name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
                 <property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
@@ -40,10 +44,10 @@
 		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/TAB.mjpg.mjpg" />
 		<property name="arrayPv" value="BL14I-OP-DCAM-09:ARR" />
 		<property name="sleepTime" value="5" />
-		<property name="cameraCalibration">
-            <bean class="uk.ac.gda.client.live.stream.view.CameraCalibration">
-                <property name="xAxisScannableName" value="stage1_x"/>
-                <property name="yAxisScannableName" value="stage1_y"/>
+		<property name="calibratedAxesProvider">
+            <bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
+                <property name="xAxisScannable" value="stage1_x"/>
+                <property name="yAxisScannable" value="stage1_y"/>
                 <property name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis  -->
                 <property name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
                 <property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
@@ -57,10 +61,10 @@
 		<property name="url" value="http://bl14i-di-serv-02.diamond.ac.uk:8083/DTAB.mjpg.mjpg" />
 		<property name="arrayPv" value="BL14I-OP-DCAM-10:ARR" />
 		<property name="sleepTime" value="5" />
-		<property name="cameraCalibration">
-            <bean class="uk.ac.gda.client.live.stream.view.CameraCalibration">
-                <property name="xAxisScannableName" value="stage1_x"/>
-                <property name="yAxisScannableName" value="stage1_y"/>
+		<property name="calibratedAxesProvider">
+            <bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
+                <property name="xAxisScannable" value="stage1_x"/>
+                <property name="yAxisScannable" value="stage1_y"/>
                 <property name="xAxisPixelScaling" value="0.000912"/> <!-- Number of pixels per scannable unit in x axis  -->
                 <property name="yAxisPixelScaling" value="0.000912"/> <!-- Number of pixels per scannable unit in y axis  -->
                 <property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
