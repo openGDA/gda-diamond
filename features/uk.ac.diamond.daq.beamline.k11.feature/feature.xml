@@ -21,6 +21,10 @@
          id="uk.ac.gda.diamond.feature"
          version="0.0.0"/>
 
+   <includes
+         id="uk.ac.diamond.daq.mapping.ui.feature"
+         version="0.0.0"/>
+
    <plugin
          id="uk.ac.diamond.daq.beamline.k11"
          download-size="0"
