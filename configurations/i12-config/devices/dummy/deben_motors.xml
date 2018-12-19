@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+		
+	<bean id="deben_rot_top_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.0000e+09" />
+		<property name="maxPosition" value="1.0000e+09" />
+		<property name="position" value="360.51" />
+		<property name="unitString" value="deg" />
+	</bean>
+
+	<bean id="deben_rot_bottom_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.0000e+09" />
+		<property name="maxPosition" value="1.0000e+09" />
+		<property name="position" value="352.76" />
+		<property name="unitString" value="deg" />
+	</bean>
+
+	<bean id="deben_lin_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.0000e+09" />
+		<property name="maxPosition" value="1.0000e+09" />
+		<property name="position" value="62.750" />
+		<property name="unitString" value="deg" />
+	</bean>
+
+</beans>

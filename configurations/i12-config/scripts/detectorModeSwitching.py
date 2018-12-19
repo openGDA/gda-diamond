@@ -20,18 +20,19 @@ except:
 def masterPositions():
     print "in masterPositions"
     detector_table = t3.m2z
-    detector_diffzposition= 1200
-    return detector_table , detector_diffzposition
+    detector_diffzposition= 1300
+    detector_SAFEdiffzposition= 1400
+    return detector_table , detector_diffzposition , detector_SAFEdiffzposition
     
 def monodiffractionPositions():
      # detector positions
     detector_diffxposition= 757
-    detector_diffyposition= -1
+    detector_diffyposition= 50
     #slitpositions
     s2_diffxcentre= 0
     s2_diffycentre=50
-    s2_diffxsize=0.5
-    s2_diffysize=0.5
+    s2_diffxsize=0.1
+    s2_diffysize=0.1
     
     s3_yheight=50
     s3_diffxcentre=0
@@ -41,7 +42,7 @@ def monodiffractionPositions():
     
     #beamstop positions for diffraction
     beamstopInBeam_x = 97.1
-    beamstopInBeam_y = 10.1
+    beamstopInBeam_y = 5.8
     
     #calculated values
     beamstopInBeam_lowLimit = beamstopInBeam_x-10
@@ -51,22 +52,22 @@ def monodiffractionPositions():
     
 def monoimagingPositions():
     # detector positions
-    detector_imagingxposition=1351.6
+    detector_imagingxposition=1351.22
     
     #slitpositions
     s2_imagingxcentre= 0
     s2_imagingycentre=50
-    s2_imagingxsize=9.5
-    s2_imagingysize=8.0
+    s2_imagingxsize=4
+    s2_imagingysize=4
     
     s3_yheight= 50
     s3_imagingxcentre=0
     s3_imagingycentre=0
-    s3_imagingxsize=9.6
-    s3_imagingysize=8
+    s3_imagingxsize=5
+    s3_imagingysize=5
     
-    beamstopOutofBeam_x = 125
-    beamstopOutofBeam_y = 10.1
+    beamstopOutofBeam_x = 117.1
+    beamstopOutofBeam_y = 5.8
     
     #calculated values
     detector_imagingxposition_lowLimit = detector_imagingxposition-15   ## to restrict movement of pixium into beam when imaging
@@ -89,7 +90,7 @@ def endOfHutchDiagnosticPositions():
 #################################################################
 def monodiffractionMode():
     
-    detector_table, detector_diffzposition = masterPositions()
+    detector_table, detector_diffzposition, detector_SAFEdiffzposition = masterPositions()
     detector_diffxposition, detector_diffyposition, s2_diffxcentre, s2_diffycentre, s2_diffxsize, s2_diffysize, s3_diffxcentre, s3_diffycentre, s3_diffxsize, s3_diffysize, s3_yheight, beamstopInBeam_x, beamstopInBeam_y, beamstopInBeam_lowLimit = monodiffractionPositions()
     
     print "\n *** Moving to monodiffractionMode. \n"
@@ -116,14 +117,14 @@ def monodiffractionMode():
     #pos(t3.m4y, beamstopInBeam_y)
 
     print "***** Moving large detector table. "     
+    pos(t3.m2z, detector_SAFEdiffzposition)
     pos(t3.x, detector_diffxposition)
-    pos(detector_table)
-    pos(detector_diffzposition)
+    pos(t3.m2z, detector_diffzposition)
+    #pos(detector_table) do not understand meaning of this command
+    #pos(detector_diffzposition) do not understand meaning of this command
     
 
     print "******* Large detector table in diffraction position. \n "
-    
-
     
     print "*** Move complete! Diffraction mode! Shutter is CLOSED. \n"
     
@@ -135,7 +136,7 @@ alias("moveToDiffractionMode")
 
 def monoimagingMode():
     
-    detector_table, detector_diffzposition = masterPositions()
+    detector_table, detector_diffzposition, detector_SAFEdiffzposition = masterPositions()
     detector_imagingxposition, s2_imagingxcentre, s2_imagingycentre, s2_imagingxsize, s2_imagingysize, s3_imagingxcentre, s3_imagingycentre, s3_imagingxsize, s3_imagingysize, s3_yheight, beamstopOutofBeam_x, beamstopOutofBeam_y, detector_imagingxposition_lowLimit, beamstopOutofBeamx_lowLimit = monoimagingPositions()
         
     print "\n *** Moving to monoimagingMode \n"
@@ -155,18 +156,13 @@ def monoimagingMode():
     pos(s3.xc, s3_imagingxcentre, s3.xs, s3_imagingxsize)
     pos(s3.yc, s3_imagingycentre, s3.ys, s3_imagingysize)
     print "******* Slits now in position."
+    
     print "***** Moving beam stop."
-
     pos(t3.m4x, beamstopOutofBeam_x)       ## move module 4 out of beam
     #pos(t3.m4rx,-74)# workaround if beamstop x stops working
     print "***** Moving large detector table."
 
-    #caput("BL12I-MO-TAB-03:MOD4:X.LLM", beamstopOutofBeamx_lowLimit) ## setting low limit on t3.m4x to restrict beam stop hitting camera
-    #checkpos = caget("BL12I-MO-TAB-03:MOD2:Z.RBV")
-    #code using if statement that was here to check if module 2 in safe position not working. Needs re-writing. For time being, hard coded move inserted.
-    # if t3.m2z < 1250:
-    ## possibly needs an else statement before the t3.x move is requested.
-    pos(t3.m2z, 1250) ## moving module 2 to save position   PUT IN IF THERE IS NO ANTI-COLLISION PROTECTION
+    pos(t3.m2z, detector_SAFEdiffzposition) ## moving module 2 to save position   PUT IN IF THERE IS NO ANTI-COLLISION PROTECTION
     pos(t3.x, detector_imagingxposition)     ## move main x stage    PUT IN IF THERE IS NO ANTI-COLLISION PROTECTION
     #tomoAlignment.moveT3M1yAndT3XgivenT3M1zPos(tomoAlignment.getModule())  ## sets t3.x to specific position for current camera module
     #caput("BL12I-MO-TAB-03:X.LLM", detector_imagingxposition_lowLimit) ## setting low limit on t3.x to restrict pixium travel into beam

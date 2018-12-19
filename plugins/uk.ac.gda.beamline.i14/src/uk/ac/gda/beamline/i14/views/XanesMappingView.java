@@ -23,6 +23,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.eclipse.swt.widgets.Composite;
+
+import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBeanProvider;
 import uk.ac.diamond.daq.mapping.ui.experiment.AbstractMappingSection;
 import uk.ac.diamond.daq.mapping.ui.experiment.AbstractSectionsView;
@@ -30,6 +33,7 @@ import uk.ac.diamond.daq.mapping.ui.experiment.DetectorsSection;
 import uk.ac.diamond.daq.mapping.ui.experiment.ProcessingSection;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection;
+import uk.ac.diamond.daq.mapping.ui.experiment.StatusPanel;
 
 /**
  * Version of the Mapping view tailored to XANES scanning
@@ -61,6 +65,11 @@ public class XanesMappingView extends AbstractSectionsView {
 		return Arrays.asList(
 			// a section for submitting the scan to the queue
 			XanesSubmitScanSection.class);
+	}
+
+	@Override
+	protected StatusPanel createStatusPanelComposite(Composite parent, int style, IMappingExperimentBean mappingBean) {
+		return new XanesStatusPanel(parent, style, mappingBean);
 	}
 
 	@Override

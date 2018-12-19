@@ -30,6 +30,11 @@
 		<property name="value" value="DIAD" />
 	</bean>
 
+	<!-- Topup Mode ('Normal' or 'Low Alpha') -->
+	<bean id="topup_mode" class="gda.device.monitor.DummyEpicsMonitor">
+	    <property name="value" value="Normal" />
+	</bean>
+
 	<!-- Beam Lifetime -->
 	<bean id="beam_lifetime" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="h" />

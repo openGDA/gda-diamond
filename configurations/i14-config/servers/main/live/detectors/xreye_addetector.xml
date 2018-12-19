@@ -50,4 +50,8 @@
 		<property name="file" ref="xreye_ndfile" />
 	</bean>
 
+	<bean id="xreye_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg ref="xreye_adbase" />
+	</bean>
+
 </beans>

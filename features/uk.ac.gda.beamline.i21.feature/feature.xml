@@ -79,13 +79,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.dawnsci.spectrum.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="uk.ac.gda.beamline.synoptics"
          download-size="0"
          install-size="0"

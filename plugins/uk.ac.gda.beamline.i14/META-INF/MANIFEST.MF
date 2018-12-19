@@ -22,7 +22,9 @@ Require-Bundle: uk.ac.gda.client;bundle-version="1.0.0",
  uk.ac.diamond.jython,
  uk.ac.gda.api,
  org.eclipse.e4.ui.model.workbench,
- org.eclipse.e4.ui.di
+ org.eclipse.e4.ui.di,
+ uk.ac.gda.client.live.stream,
+ org.eclipse.dawnsci.plotting.api
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Diamond Light Source
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework

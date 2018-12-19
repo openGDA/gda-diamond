@@ -50,4 +50,8 @@
 		<property name="file" ref="xsp3_ndfile" />
 	</bean>
 
+	<bean id="xsp3_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg ref="xsp3_adbase" />
+	</bean>
+
 </beans>

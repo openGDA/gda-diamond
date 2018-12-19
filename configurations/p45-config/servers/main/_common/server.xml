@@ -21,6 +21,7 @@
 		<property name="name" value="metashop"/>
 	</bean>
 
+	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 	<import resource="file://${gda.facility.dir}/servers/_common/det.xml"/>
 	<import resource="file://${gda.facility.dir}/servers/_common/mic.xml"/>

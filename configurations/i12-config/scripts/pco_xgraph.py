@@ -211,7 +211,7 @@ class PCOXgraph():
 
     def create_nexus_scan_file(self,detector_name,exptime,scan_number,hdfpath,outdirpath=None,cmd=None):
         from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFromFactory
-        from gda.scan import ScanInformation
+        from gda.scan.ScanInformation import ScanInformationBuilder
         from gda.scan import ScanDataPoint
         from gda.device.scannable import DummyScannable
         #from dummy_utils import dum_collstrat, dum_det
@@ -228,8 +228,14 @@ class PCOXgraph():
             nxspath = os.path.join(outdirpath,"%d.nxs" %(scan_number))
         print("nxspath = %s" %(nxspath))
         npts = 1
-        si = ScanInformation([npts], scan_number, [], [], nxspath, 'i13', npts)
-        
+        si = (ScanInformationBuilder()
+                .dimensions(npts)
+                .scanNumber(scan_number)
+                .instrument('i13')
+                .filename(nxspath)
+                .numberOfPoints(npts)
+                .build())
+
         #dum_collstrat.collectionTime = exptime
         dum_det.name = detector_name
         dum_det.collectionTime = exptime
@@ -277,7 +283,7 @@ print("INFO: Finished creating pco_xgraph object in GDA!")
 
 def _create_nexus_scan_file(detector_name,exptime,scan_number,hdfpath,outdirpath=None,cmd=None, xyz_before_lst=None, xyz_after_lst=None):
     from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFromFactory
-    from gda.scan import ScanInformation
+    from gda.scan.ScanInformation import ScanInformationBuilder
     from gda.scan import ScanDataPoint
     from gda.device.scannable import DummyScannable
     from dummy_utils import dum_collstrat, dum_det
@@ -308,8 +314,14 @@ def _create_nexus_scan_file(detector_name,exptime,scan_number,hdfpath,outdirpath
     else:
         nxspath = os.path.join(outdirpath,"%d.nxs" %(scan_number))
     
-    si = ScanInformation([npts], scan_number, [], [], nxspath, 'i13', npts)
-    
+    si = (ScanInformationBuilder()
+            .dimensions(npts)
+            .scanNumber(scan_number)
+            .instrument('i13')
+            .filename(nxspath)
+            .numberOfPoints(npts)
+            .build())
+
     dum_collstrat.collectionTime = exptime
     dum_det.name = detector_name
     dum_det.hdfpath = hdfpath
