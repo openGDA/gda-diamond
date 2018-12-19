@@ -12,7 +12,11 @@
 		<property name="recordName" value="BL11I-DI-QBPM-03:MP" />
 	</bean>
 	<bean id="bpm3_amp" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
-		<property name="deviceName" value="BPM3.AMP" />
+		<property name="rangePv" value="BL11I-DI-QBPM-03:VENDOR" />
+		<property name="current1Pv" value="BL11I-DI-QBPM-03:PHD1:I"/>
+		<property name="current2Pv" value="BL11I-DI-QBPM-03:PHD2:I"/>
+		<property name="current3Pv" value="BL11I-DI-QBPM-03:PHD3:I"/>
+		<property name="current4Pv" value="BL11I-DI-QBPM-03:PHD4:I"/>
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="bpm3_bpm" class="gda.device.monitor.EpicsBpmController">
