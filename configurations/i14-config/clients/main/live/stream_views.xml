@@ -68,13 +68,13 @@
 		<property name="topUi">
 			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
 				<constructor-arg ref="sample_camera_control" />
-				<property name="cameraResetScannable">
-					<bean class="gda.device.scannable.PVScannable">
-						<property name="pvName" value="BL14I-OP-DCAM-09:CAM:RESET" />
-					</bean>
-				</property>
+				<property name="cameraResetScannable" ref="sample_reset" />
 			</bean>
 		</property>
+	</bean>
+
+	<bean id="sample_reset" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL14I-OP-DCAM-09:CAM:RESET" />
 	</bean>
 
 	<bean id="sample_dtab_stream" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
@@ -85,13 +85,13 @@
 		<property name="topUi">
 			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
 				<constructor-arg ref="sample_dtab_camera_control" />
-				<property name="cameraResetScannable">
-					<bean class="gda.device.scannable.PVScannable">
-						<property name="pvName" value="BL14I-OP-DCAM-10:CAM:RESET" />
-					</bean>
-				</property>
+				<property name="cameraResetScannable" ref="sample_dtab_reset" />
 			</bean>
 		</property>
+	</bean>
+
+	<bean id="sample_dtab_reset" class="gda.device.scannable.PVScannable">
+		<property name="pvName" value="BL14I-OP-DCAM-10:CAM:RESET" />
 	</bean>
 
 </beans>
