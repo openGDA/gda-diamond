@@ -15,10 +15,6 @@
 			</bean>
 		</property>
 	</bean>
-	
-	<!-- scannables to calibrate live stream axes -->
-	<bean id="stage1_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean id="stage1_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="xreye_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="X-ray Eye Detector" />
@@ -27,8 +23,8 @@
 		<property name="sleepTime" value="5" />
 		<property name="calibratedAxesProvider">
             <bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
-                <property name="xAxisScannable" value="stage1_x"/>
-                <property name="yAxisScannable" value="stage1_y"/>
+                <property name="xAxisScannable" ref="stage1_x"/>
+                <property name="yAxisScannable" ref="stage1_y"/>
                 <property name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis  -->
                 <property name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
                 <property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
@@ -61,8 +57,8 @@
 		<property name="sleepTime" value="5" />
 		<property name="calibratedAxesProvider">
             <bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
-                <property name="xAxisScannable" value="stage1_x"/>
-                <property name="yAxisScannable" value="stage1_y"/>
+                <property name="xAxisScannable" ref="stage1_x"/>
+                <property name="yAxisScannable" ref="stage1_y"/>
                 <property name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis  -->
                 <property name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
                 <property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
