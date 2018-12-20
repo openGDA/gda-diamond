@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	
+	<bean id="ss2x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss2x_motor"/>
+	</bean>
+	<bean id="ss2y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ss2y_motor"/>
+	</bean>
+	
+	<bean id="ss2" class="org.opengda.lde.experiments.SampleStage">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ss2x"/>
+				<ref bean="ss2y"/>
+			</list>
+		</property>
+		<property name="engagePosition" value="0.0"/>
+		<property name="parkPosition" value="-407.0"/>
+		<property name="positionTolerance" value="0.001"/>
+		<property name="zPosition" value="1660.0"/>
+	</bean>
+</beans>

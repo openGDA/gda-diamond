@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="daserver" class="gda.device.detector.DAServer">
+		<property name="local" value="true" />
+		<property name="host" value="bl11i-ea-tfg2-01" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config.cmd</value>
+				<value>macro "rs" "tfg read status"</value>
+				<value>macro "rf" "tfg read frame"</value>
+				<value>macro "rp" "tfg read progress"</value>
+				<value>macro "sg" "tfg setup-groups"</value>
+				<value>macro "c" "tfg cont"</value>
+				<value>macro "s" "tfg start"</value>
+				<value>macro "w" "tfg wait"</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+	</bean>
+</beans>

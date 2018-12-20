@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- S3 Motors (individual Motions) -->
+	<bean id="s3xminus_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s3xplus_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s3yminus_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s3yplus_motor" class="gda.device.motor.DummyMotor"/>
+	<!-- S3 Motors (Compound Motions) -->
+	<bean id="s3xpos_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s3xgap_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s3ypos_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="s3ygap_motor" class="gda.device.motor.DummyMotor"/>
+</beans>

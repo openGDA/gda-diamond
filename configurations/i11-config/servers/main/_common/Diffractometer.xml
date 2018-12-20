@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="tth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="tth_motor"/>
+	</bean>
+	<bean id="theta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="theta_motor"/>
+	</bean>
+	<bean id="delta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="delta_motor"/>
+	</bean>
+	<bean id="trans" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="trans_motor"/>
+	</bean>
+	<bean id="y1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="y1_motor"/>
+	</bean>
+	<bean id="y2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="y2_motor"/>
+	</bean>
+	<bean id="y3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="y3_motor"/>
+	</bean>
+	<bean id="spos" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="spos_motor"/>
+	</bean>
+
+	<bean id="Diff" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="tth"/>
+				<ref bean="theta"/>
+				<ref bean="delta"/>
+				<ref bean="y1"/>
+				<ref bean="y2"/>
+				<ref bean="y3"/>
+				<ref bean="spos"/>
+				<ref bean="trans"/>
+			</list>
+		</property>
+	</bean>
+</beans>

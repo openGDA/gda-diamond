@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dirListener" class="uk.ac.gda.beamline.synoptics.utils.NewFileListener">
+		<property name="fileProviderName" value="client_file_announcer" />
+		<property name="ignoredFiles" value=".*\.log, .*\.reprocessing, .*\.xye, .*\.txt, .*\.archived" />
+	</bean>
+</beans>

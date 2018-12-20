@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	
+	<bean id="resUtil" class="org.opengda.lde.utils.LDEResourceUtil">
+		<property name="fileName" value="newsamples.lde" />
+	</bean>
+	<bean id="childrenTableViewFactory" class="org.opengda.lde.ui.viewfactories.ChildrenTableViewFactory">
+		<property name="viewPartName" value="Children" />
+		<property name="resUtil" ref="resUtil" />
+	</bean>
+	<bean id="samplesViewFactory" class="org.opengda.lde.ui.viewfactories.SampleGroupViewFactory">
+		<property name="viewPartName" value="Samples (server)" />
+		<property name="resUtil" ref="resUtil" />
+		<property name="eventAdminName" value="eventadmin"/>
+	</bean>
+	<bean id="dataCollectionStatusFactory" class="org.opengda.lde.ui.viewfactories.DataCollectionStatusFactory">
+		<property name="viewPartName" value="Data Collection Status" />
+		<property name="resUtil" ref="resUtil" />
+		<property name="eventAdminName" value="eventadmin"/>
+	</bean>
+
+</beans>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- Optical table OT Motors (individual Motions) -->
+	<bean id="otx_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="oty_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="otz_motor" class="gda.device.motor.DummyMotor"/>
+	<!-- Focus Device -->
+	<bean id="otmot_yaw_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="otmot_pitch_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="otmot_posn_motor" class="gda.device.motor.DummyMotor"/>
+</beans>

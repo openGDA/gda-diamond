@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launcher>
+	<button text="Start GDA Server" command="/dls_sw/i11-1/software/gda/config/bin/gda servers" icon="sgda.png"/>
+	<button text="Start GDA Client" command="/dls_sw/i11-1/software/gda/config/bin/gda --start client" icon="cgda.png"/>
+	<button text="Start GDA Client (with reset)" command="/dls_sw/i11-1/software/gda/config/bin/gda --start client --reset" icon="cgda.png"/>
+	<button text="Start GDA Log" command="/dls_sw/i11-1/software/gda/config/bin/gda logpanel" icon="lgda.png"/>
+</launcher>

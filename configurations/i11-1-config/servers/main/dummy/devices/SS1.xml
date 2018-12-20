@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean id="ss1x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ss1y_motor" class="gda.device.motor.DummyMotor"/>
+
+
+	<bean id="ss1_1_temp" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+		<property name="unit" value="C" />
+	</bean>
+	<bean id="ss1_1_humidity" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+		<property name="unit" value="%" />
+	</bean>
+	<bean id="ss1_2_temp" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+		<property name="unit" value="C" />
+	</bean>
+	<bean id="ss1_2_humidity" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+		<property name="unit" value="%" />
+	</bean>
+	<bean id="ss1_3_temp" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+		<property name="unit" value="C" />
+	</bean>
+	<bean id="ss1_3_humidity" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+		<property name="unit" value="%" />
+	</bean>
+
+</beans>

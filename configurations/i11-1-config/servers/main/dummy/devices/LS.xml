@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	<!-- large stage translation shared -->
+	<bean id="lsx_motor" class="gda.device.motor.DummyMotor"/>
+	<!-- Large stage 1 -->
+	<bean id="ls1y1_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ls1yrot_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ls1x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ls1z_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ls1roll_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ls1pitch_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ls1y2_motor" class="gda.device.motor.DummyMotor"/>
+	<!-- Large stage 2 -->
+	<bean id="ls2y1_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ls2yrot_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ls2x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ls2z_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ls2roll_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ls2pitch_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ls2y2_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="linkam1" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+		<property name="unit" value="C" />
+	</bean>
+	<bean id="linkam2" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+		<property name="unit" value="C" />
+	</bean>
+</beans>

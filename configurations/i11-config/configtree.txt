@@ -1,0 +1,898 @@
+.
+|-- Desktop
+|   |-- DataDispenser.desktop
+|   |-- README
+|   |-- gda-beamline-manual.desktop
+|   |-- gda-client.desktop
+|   |-- gda-data-backup-2-usb.desktop
+|   |-- gda-logfile.desktop
+|   |-- gda-logpanel.desktop
+|   |-- gda-servers.desktop
+|   |-- gda-start-mythen-detector.desktop
+|   |-- gda-startup-guide.desktop
+|   |-- gda-user-guide.desktop
+|   |-- gda.directory
+|   `-- gda.menu
+|-- bin
+|   |-- GDA_RemoteStart_Lin
+|   |-- GDA_ShowLogFile
+|   |-- GDA_StartClient
+|   |-- GDA_StartLogPanel
+|   |-- GDA_StartLogServers
+|   |-- GDA_StartRCP
+|   |-- GDA_StartServers
+|   |-- GDA_Start_GTK
+|   |-- GDA_StopServers
+|   |-- README
+|   |-- backup.sh
+|   |-- backup2USB.sh
+|   |-- detector_environment.sh
+|   |-- gda
+|   |-- gda_environment.sh
+|   |-- gdaclient
+|   |-- gdalog
+|   |-- gdaservers
+|   |-- icons
+|   |   |-- cgda.png
+|   |   |-- gda.ico
+|   |   |-- gda.png
+|   |   `-- sgda.png
+|   |-- lookForFile.sh
+|   |-- remotestartupscript.sh
+|   `-- set_facl.sh
+|-- buckminster.cspec
+|-- clients
+|   |-- clients-common.xml
+|   |-- commandQueueProcessor.xml
+|   |-- ispyb.xml
+|   |-- main
+|   |   |-- dummy
+|   |   |   `-- client.xml
+|   |   |-- live
+|   |   |   `-- client.xml
+|   |   `-- main-common.xml
+|   `-- rcp
+|       |-- dummy
+|       |   `-- client.xml
+|       |-- live
+|       |   `-- client.xml
+|       `-- rcp-common.xml
+|-- configtree.txt
+|-- dictionary
+|-- doc
+|   |-- BLS-I11-MAN-001-v0.5.html
+|   |-- Starting_GDA_Help.html
+|   |-- images
+|   |   |-- gdadesktoplaunchers.png
+|   |   `-- gdamenulaunchers.png
+|   `-- mythen.doc
+|-- epics
+|   |-- dummy
+|   |   |-- BL11I-gda-interface.xml
+|   |   `-- epics.properties
+|   `-- live
+|       |-- BL11I-gda-interface.xml
+|       `-- epics.properties
+|-- etc
+|   |-- README
+|   `-- i11_profile.sh
+|-- i11ssh.key
+|-- idlobjects
+|   |-- helloworldex
+|   |   |-- helloworldex.java
+|   |   `-- helloworldex_example.java
+|   |-- helloworldex__define.pro
+|   |-- helloworldex__wrapper.sav
+|   |-- mac_arm_calibration_2009.txt
+|   |-- mac_crystal_offsets_2009.txt
+|   |-- read_ascii_spt.pro
+|   |-- rebin_idl.pro
+|   |-- rebin_idl_delta_tau.pro
+|   |-- rebin_idl_delta_tau.py
+|   |-- test_rebin_idl_pro_with_pidly.py
+|   |-- test_testpy_pro_with_pidly.py
+|   `-- testpy.pro
+|-- jacorb
+|   |-- dummy
+|   |   `-- etc
+|   |       `-- jacorb.properties
+|   `-- live
+|       `-- etc
+|           `-- jacorb.properties
+|-- jca
+|   |-- dummy
+|   |   `-- JCALibrary.properties
+|   `-- live
+|       `-- JCALibrary.properties
+|-- launcherInstaller
+|   |-- README
+|   |-- beamline.sh
+|   |-- gda_launchers.sh
+|   |-- install-gda-launchers.sh
+|   |-- install-launchers.sh
+|   `-- logout.sh
+|-- launchers
+|   |-- EventServer.launch
+|   |-- Gui.launch
+|   |-- LogPanel.launch
+|   |-- LogServer.launch
+|   |-- NameServer.launch
+|   |-- ObjectServer.launch
+|   `-- RcpPorduct.launch
+|-- logging
+|   |-- ClientLoggingConfiguration.xml
+|   |-- LoggingConfiguration.xml
+|   |-- dummy
+|   |   |-- LogServer.xml
+|   |   `-- log.properties
+|   |-- live
+|   |   |-- LogServer.xml
+|   |   `-- log.properties
+|   `-- logPanel.xml
+|-- lookupTables
+|   |-- Automated_energy_setup.txt
+|   `-- motoman_error_code.txt
+|-- passwords
+|-- permissions
+|   |-- beamlinestaff.xml
+|   `-- user_permissions.xml
+|-- properties
+|   |-- beamline.properties
+|   |-- dummy
+|   |   `-- java.properties
+|   |-- gda.properties
+|   |-- jaas.cclrc.conf
+|   `-- live
+|       `-- java.properties
+|-- pytools
+|   `-- src
+|       |-- fileappender.py
+|       |-- mergecolumns.py
+|       |-- mythenbin
+|       |-- mythenbin.py
+|       |-- mythensum
+|       |-- mythensum.py
+|       |-- rebin.py
+|       |-- rebin_idl.py
+|       `-- rebin_original.py
+|-- scripts
+|   |-- Automation_class.py
+|   |-- LookupTables.py
+|   |-- PEScan.py
+|   |-- PEScan1.py
+|   |-- WaitForBeamPDClass.py
+|   |-- dataDir.py
+|   |-- detector_control_class.py
+|   |-- detector_control_pds.py
+|   |-- diagnostics
+|   |   |-- __init__.py
+|   |   |-- diagnose.py
+|   |   `-- macDetectorDiagnostics.py
+|   |-- enableDeviceFunction.py
+|   |-- enableDirectPV.py
+|   |-- enableScaler8512DirectPV.py
+|   |-- flatfield3.py
+|   |-- loadfile.py
+|   |-- localStation.py
+|   |-- log_ratio_function.py
+|   |-- mac_calibration.py
+|   |-- mythensum2.py
+|   |-- optimise_pitch.py
+|   |-- peloop
+|   |   |-- __init__.py
+|   |   |-- adc.py
+|   |   |-- adcchannel.py
+|   |   |-- eventreceiver.py
+|   |   |-- functiongenerator.py
+|   |   |-- peloop.py
+|   |   |-- pvmonitor.py
+|   |   `-- savepedata.py
+|   |-- peloopscript.py
+|   |-- plot.py
+|   |-- plotMacData.py
+|   |-- qbpm_pd_class.py
+|   |-- rockingMotion_class.py
+|   |-- rockingMotion_pds.py
+|   |-- scan_detetor_with_derivative.py
+|   |-- setup_mythen.py
+|   `-- start_gda.py
+|-- servers
+|   |-- CommandServer.xml
+|   |-- commandQueueProcessor.xml
+|   |-- main
+|   |   |-- BPM1.xml
+|   |   |-- BPM2.xml
+|   |   |-- BPM3.xml
+|   |   |-- BeamInfo.xml
+|   |   |-- BeamMonitor.xml
+|   |   |-- BeamlineInfo.xml
+|   |   |-- CVScan.xml
+|   |   |-- CyberStarBlower.xml
+|   |   |-- DCM.xml
+|   |   |-- Diffractometer.xml
+|   |   |-- EnergyLUT.xml
+|   |   |-- ForntEndAperture.xml
+|   |   |-- GDAMetadata.xml
+|   |   |-- ID.xml
+|   |   |-- ID_OE.xml
+|   |   |-- Ie.xml
+|   |   |-- Io.xml
+|   |   |-- LakeShore.xml
+|   |   |-- LargeSampleTable.xml
+|   |   |-- M1.xml
+|   |   |-- MACDataWriter.xml
+|   |   |-- MACDetectors.xml
+|   |   |-- MACScannables.xml
+|   |   |-- MCS.xml
+|   |   |-- MRIFurnace.xml
+|   |   |-- Mar345.xml
+|   |   |-- OpticalTable.xml
+|   |   |-- OxfordCryoStream.xml
+|   |   |-- OxfordCryoStream2.xml
+|   |   |-- PhenixCryostat.xml
+|   |   |-- Robot.xml
+|   |   |-- S1.xml
+|   |   |-- S2.xml
+|   |   |-- S3.xml
+|   |   |-- S4.xml
+|   |   |-- S5.xml
+|   |   |-- SampleInfo.xml
+|   |   |-- SmallSampleTable.xml
+|   |   |-- StoeFurnace.xml
+|   |   |-- TestMotors.xml
+|   |   |-- dummy
+|   |   |   |-- BPM1.xml
+|   |   |   |-- BPM2.xml
+|   |   |   |-- BPM3.xml
+|   |   |   |-- CVScanController.xml
+|   |   |   |-- CyberStarBlower.xml
+|   |   |   |-- D1.xml
+|   |   |   |-- D2.xml
+|   |   |   |-- D3.xml
+|   |   |   |-- D4.xml
+|   |   |   |-- D5.xml
+|   |   |   |-- DCM.xml
+|   |   |   |-- DCMxtal.xml
+|   |   |   |-- Diffractometer.xml
+|   |   |   |-- DummyMotors.xml
+|   |   |   |-- ETL.xml
+|   |   |   |-- ExperimentHutchShutter.xml
+|   |   |   |-- FastShutter.xml
+|   |   |   |-- FrontEndAperture.xml
+|   |   |   |-- FrontEndShutter.xml
+|   |   |   |-- GBC.xml
+|   |   |   |-- GV1.xml
+|   |   |   |-- GV2.xml
+|   |   |   |-- GV3.xml
+|   |   |   |-- GV4.xml
+|   |   |   |-- GV5.xml
+|   |   |   |-- GV6.xml
+|   |   |   |-- ID.xml
+|   |   |   |-- Ic1.xml
+|   |   |   |-- Ic2.xml
+|   |   |   |-- Ic3.xml
+|   |   |   |-- Ic4.xml
+|   |   |   |-- Ie.xml
+|   |   |   |-- Io.xml
+|   |   |   |-- LakeShore.xml
+|   |   |   |-- LargeSampleTable.xml
+|   |   |   |-- M1.xml
+|   |   |   |-- MACMotors.xml
+|   |   |   |-- MCSSis3820.xml
+|   |   |   |-- MRIFurnace.xml
+|   |   |   |-- MachineStatus.xml
+|   |   |   |-- Mar345.xml
+|   |   |   |-- OpticalTable.xml
+|   |   |   |-- OxfordCryoStream.xml
+|   |   |   |-- OxfordCryoStream2.xml
+|   |   |   |-- PhenixCryostat.xml
+|   |   |   |-- RobotNX100.xml
+|   |   |   |-- S1.xml
+|   |   |   |-- S2.xml
+|   |   |   |-- S3.xml
+|   |   |   |-- S4.xml
+|   |   |   |-- S5.xml
+|   |   |   |-- Scaler1.xml
+|   |   |   |-- Scaler2.xml
+|   |   |   |-- SmallSampleTable.xml
+|   |   |   |-- Spinner.xml
+|   |   |   |-- StoeFurnace.xml
+|   |   |   |-- TrajectoryScan.xml
+|   |   |   `-- server.xml
+|   |   |-- ispyb_server.xml
+|   |   |-- live
+|   |   |   |-- BPM1.xml
+|   |   |   |-- BPM2.xml
+|   |   |   |-- BPM3.xml
+|   |   |   |-- CVScanController.xml
+|   |   |   |-- CyberStarBlower.xml
+|   |   |   |-- D1.xml
+|   |   |   |-- D2.xml
+|   |   |   |-- D3.xml
+|   |   |   |-- D4.xml
+|   |   |   |-- D5.xml
+|   |   |   |-- DCM.xml
+|   |   |   |-- DCMxtal.xml
+|   |   |   |-- Diffractometer.xml
+|   |   |   |-- DummyMotors.xml
+|   |   |   |-- ETL.xml
+|   |   |   |-- ExperimentHutchShutter.xml
+|   |   |   |-- FastShutter.xml
+|   |   |   |-- FrontEndAperture.xml
+|   |   |   |-- FrontEndShutter.xml
+|   |   |   |-- GBC.xml
+|   |   |   |-- GV1.xml
+|   |   |   |-- GV2.xml
+|   |   |   |-- GV3.xml
+|   |   |   |-- GV4.xml
+|   |   |   |-- GV5.xml
+|   |   |   |-- GV6.xml
+|   |   |   |-- ID.xml
+|   |   |   |-- Ic1.xml
+|   |   |   |-- Ic2.xml
+|   |   |   |-- Ic3.xml
+|   |   |   |-- Ic4.xml
+|   |   |   |-- Ie.xml
+|   |   |   |-- Io.xml
+|   |   |   |-- LakeShore.xml
+|   |   |   |-- LargeSampleTable.xml
+|   |   |   |-- M1.xml
+|   |   |   |-- MACMotors.xml
+|   |   |   |-- MCSSis3820.xml
+|   |   |   |-- MRIFurnace.xml
+|   |   |   |-- MachineStatus.xml
+|   |   |   |-- Mar345.xml
+|   |   |   |-- OpticalTable.xml
+|   |   |   |-- OxfordCryoStream.xml
+|   |   |   |-- OxfordCryoStream2.xml
+|   |   |   |-- PhenixCryostat.xml
+|   |   |   |-- RobotNX100.xml
+|   |   |   |-- S1.xml
+|   |   |   |-- S2.xml
+|   |   |   |-- S3.xml
+|   |   |   |-- S4.xml
+|   |   |   |-- S5.xml
+|   |   |   |-- Scaler1.xml
+|   |   |   |-- Scaler2.xml
+|   |   |   |-- SmallSampleTable.xml
+|   |   |   |-- Spinner.xml
+|   |   |   |-- StoeFurnace.xml
+|   |   |   |-- TrajectoryScan.xml
+|   |   |   `-- server.xml
+|   |   |-- main_common.xml
+|   |   `-- simulation
+|   |       |-- BPM1.xml
+|   |       |-- BPM2.xml
+|   |       |-- BPM3.xml
+|   |       |-- CVScanController.xml
+|   |       |-- CyberStarBlower.xml
+|   |       |-- D1.xml
+|   |       |-- D2.xml
+|   |       |-- D3.xml
+|   |       |-- D4.xml
+|   |       |-- D5.xml
+|   |       |-- DCM.xml
+|   |       |-- DCMxtal.xml
+|   |       |-- Diffractometer.xml
+|   |       |-- DummyMotors.xml
+|   |       |-- ETL.xml
+|   |       |-- ExperimentHutchShutter.xml
+|   |       |-- FastShutter.xml
+|   |       |-- FrontEndAperture.xml
+|   |       |-- FrontEndShutter.xml
+|   |       |-- GBC.xml
+|   |       |-- GV1.xml
+|   |       |-- GV2.xml
+|   |       |-- GV3.xml
+|   |       |-- GV4.xml
+|   |       |-- GV5.xml
+|   |       |-- GV6.xml
+|   |       |-- ID.xml
+|   |       |-- Ic1.xml
+|   |       |-- Ic2.xml
+|   |       |-- Ic3.xml
+|   |       |-- Ic4.xml
+|   |       |-- Ie.xml
+|   |       |-- Io.xml
+|   |       |-- LakeShore.xml
+|   |       |-- LargeSampleTable.xml
+|   |       |-- M1.xml
+|   |       |-- MACMotors.xml
+|   |       |-- MCSSis3820.xml
+|   |       |-- MRIFurnace.xml
+|   |       |-- MachineStatus.xml
+|   |       |-- Mar345.xml
+|   |       |-- OpticalTable.xml
+|   |       |-- OxfordCryoStream.xml
+|   |       |-- OxfordCryoStream2.xml
+|   |       |-- PhenixCryostat.xml
+|   |       |-- RobotNX100.xml
+|   |       |-- S1.xml
+|   |       |-- S2.xml
+|   |       |-- S3.xml
+|   |       |-- S4.xml
+|   |       |-- S5.xml
+|   |       |-- Scaler1.xml
+|   |       |-- Scaler2.xml
+|   |       |-- SmallSampleTable.xml
+|   |       |-- Spinner.xml
+|   |       |-- StoeFurnace.xml
+|   |       |-- TrajectoryScan.xml
+|   |       `-- server.xml
+|   |-- scriptControllers.xml
+|   `-- servers_common.xml
+|-- src
+|-- testing
+|   |-- DiamondFitnesse
+|   |   |-- DataAcquisitionTesting
+|   |   |   |-- BeamlineI11
+|   |   |   |   |-- SetUp
+|   |   |   |   |   |-- 10-20080416150649.zip
+|   |   |   |   |   |-- content.txt
+|   |   |   |   |   `-- properties.xml
+|   |   |   |   |-- TearDown
+|   |   |   |   |   |-- 12-20080416150649.zip
+|   |   |   |   |   |-- 17-20080428104941.zip
+|   |   |   |   |   |-- 26-20080428105852.zip
+|   |   |   |   |   |-- content.txt
+|   |   |   |   |   `-- properties.xml
+|   |   |   |   |-- Test001StartingServers
+|   |   |   |   |   |-- 0-20080416150649.zip
+|   |   |   |   |   |-- content.txt
+|   |   |   |   |   `-- properties.xml
+|   |   |   |   |-- Test002TestingDummyMotors
+|   |   |   |   |   |-- 1-20080416150649.zip
+|   |   |   |   |   |-- content.txt
+|   |   |   |   |   `-- properties.xml
+|   |   |   |   |-- Test003CheckingPositions
+|   |   |   |   |   |-- 22-20080416150649.zip
+|   |   |   |   |   |-- content.txt
+|   |   |   |   |   `-- properties.xml
+|   |   |   |   |-- Test004TestingScans
+|   |   |   |   |   |-- 1-20080425170508.zip
+|   |   |   |   |   |-- 13-20080416150649.zip
+|   |   |   |   |   |-- 13-20080424171440.zip
+|   |   |   |   |   |-- 16-20080424165355.zip
+|   |   |   |   |   |-- 18-20080424165533.zip
+|   |   |   |   |   |-- 3-20080428095855.zip
+|   |   |   |   |   |-- 5-20080428095921.zip
+|   |   |   |   |   |-- content.txt
+|   |   |   |   |   `-- properties.xml
+|   |   |   |   |-- content.txt
+|   |   |   |   `-- properties.xml
+|   |   |   |-- PageFooter
+|   |   |   |   |-- content.txt
+|   |   |   |   |-- properties.xml
+|   |   |   |   `-- properties.xmlx
+|   |   |   |-- PageHeader
+|   |   |   |   |-- properties.xml
+|   |   |   |   `-- properties.xmlx
+|   |   |   |-- SandBox
+|   |   |   |   |-- 4-20080415142349.zip
+|   |   |   |   |-- SetUp
+|   |   |   |   |   |-- 10-20080416150649.zip
+|   |   |   |   |   |-- content.txt
+|   |   |   |   |   `-- properties.xml
+|   |   |   |   |-- TearDown
+|   |   |   |   |   |-- 12-20080416150649.zip
+|   |   |   |   |   |-- 17-20080428104941.zip
+|   |   |   |   |   |-- 26-20080428105852.zip
+|   |   |   |   |   |-- content.txt
+|   |   |   |   |   `-- properties.xml
+|   |   |   |   |-- Test001StartingServers
+|   |   |   |   |   |-- 0-20080416150649.zip
+|   |   |   |   |   |-- content.txt
+|   |   |   |   |   `-- properties.xml
+|   |   |   |   |-- Test002TestingDummyMotors
+|   |   |   |   |   |-- 1-20080416150649.zip
+|   |   |   |   |   |-- content.txt
+|   |   |   |   |   `-- properties.xml
+|   |   |   |   |-- Test003CheckingPositions
+|   |   |   |   |   |-- 22-20080416150649.zip
+|   |   |   |   |   |-- content.txt
+|   |   |   |   |   `-- properties.xml
+|   |   |   |   |-- Test004TestingScans
+|   |   |   |   |   |-- 1-20080425170508.zip
+|   |   |   |   |   |-- 13-20080416150649.zip
+|   |   |   |   |   |-- 13-20080424171440.zip
+|   |   |   |   |   |-- 16-20080424165355.zip
+|   |   |   |   |   |-- 18-20080424165533.zip
+|   |   |   |   |   |-- 3-20080428095855.zip
+|   |   |   |   |   |-- 5-20080428095921.zip
+|   |   |   |   |   |-- content.txt
+|   |   |   |   |   `-- properties.xml
+|   |   |   |   |-- content.txt
+|   |   |   |   |-- content1.txt
+|   |   |   |   |-- content2.txt
+|   |   |   |   `-- properties.xml
+|   |   |   |-- content.txt
+|   |   |   |-- properties.xml
+|   |   |   `-- properties.xmlx
+|   |   |-- ErrorLogs
+|   |   |   `-- DataAcquisitionTesting
+|   |   |       `-- BaseConfig
+|   |   |           |-- 7-20080429171343.zip
+|   |   |           |-- Test001StartingServers
+|   |   |           |   |-- content.txt
+|   |   |           |   `-- properties.xml
+|   |   |           |-- Test002TestingDummyMotors
+|   |   |           |   |-- content.txt
+|   |   |           |   `-- properties.xml
+|   |   |           |-- Test003CheckingPositions
+|   |   |           |   |-- 1-20080429171134.zip
+|   |   |           |   |-- 4-20080429171305.zip
+|   |   |           |   |-- content.txt
+|   |   |           |   `-- properties.xml
+|   |   |           |-- Test004TestingScans
+|   |   |           |   |-- content.txt
+|   |   |           |   `-- properties.xml
+|   |   |           |-- content.txt
+|   |   |           `-- properties.xml
+|   |   |-- FrontPage
+|   |   |   |-- content.txt
+|   |   |   |-- properties.xml
+|   |   |   `-- properties.xmlx
+|   |   |-- RecentChanges
+|   |   |   |-- 1-20080428112124.zip
+|   |   |   |-- 11-20080428101039.zip
+|   |   |   |-- 13-20080428104915.zip
+|   |   |   |-- 14-20080421160509.zip
+|   |   |   |-- 14-20080424171440.zip
+|   |   |   |-- 17-20080424165355.zip
+|   |   |   |-- 18-20080428104941.zip
+|   |   |   |-- 19-20080424165533.zip
+|   |   |   |-- 2-20080416150649.zip
+|   |   |   |-- 2-20080425170508.zip
+|   |   |   |-- 23-20080428105852.zip
+|   |   |   |-- 27-20080428110514.zip
+|   |   |   |-- 4-20080428095855.zip
+|   |   |   |-- 5-20080415142349.zip
+|   |   |   |-- 6-20080428095921.zip
+|   |   |   |-- content.txt
+|   |   |   |-- properties.xml
+|   |   |   `-- properties.xmlx
+|   |   |-- content.txt
+|   |   |-- files
+|   |   |   |-- css
+|   |   |   |   |-- fitnesse.css
+|   |   |   |   |-- fitnesse_base.css
+|   |   |   |   |-- fitnesse_print.css
+|   |   |   |   `-- gda_base.css
+|   |   |   |-- images
+|   |   |   |   |-- FitNesseLogo.gif
+|   |   |   |   |-- FitNesseLogoMedium.jpg
+|   |   |   |   |-- collapsableClosed.gif
+|   |   |   |   |-- collapsableOpen.gif
+|   |   |   |   |-- executionStatus
+|   |   |   |   |   |-- error.gif
+|   |   |   |   |   |-- ok.gif
+|   |   |   |   |   `-- output.gif
+|   |   |   |   |-- folder.gif
+|   |   |   |   |-- gda-logo.png
+|   |   |   |   |-- gda.ico
+|   |   |   |   |-- importedPage.jpg
+|   |   |   |   `-- virtualPage.jpg
+|   |   |   |-- javascript
+|   |   |   |   |-- SpreadsheetTranslator.js
+|   |   |   |   |-- clientSideSort.js
+|   |   |   |   |-- fitnesse.js
+|   |   |   |   `-- spreadsheetSupport.js
+|   |   |   `-- samples
+|   |   |       `-- scan01.dat
+|   |   |-- properties
+|   |   |-- properties.xml
+|   |   |-- properties.xmlx
+|   |   `-- {}.x
+|   |-- TB_Client_Testing.xml
+|   `-- bin
+|       |-- GDA_StartServers
+|       |-- Test_StartServer
+|       |-- Test_StartTargetServer
+|       |-- Test_StopServer
+|       `-- test_profile.sh
+|-- var
+|   |-- 25.tmp
+|   |-- SampleInfo.xls
+|   |-- limitsAndOffset
+|   |   |-- An_AMotor
+|   |   |-- An_FAPiezo
+|   |   |-- An_FTCPiezo
+|   |   |-- An_SMotor
+|   |   |-- An_TCMotor
+|   |   |-- DS_VMotor
+|   |   |-- JT_FMotor
+|   |   |-- JT_RLMotor
+|   |   |-- JT_RRMotor
+|   |   |-- MonoBendMotor
+|   |   |-- MonoBraggMotor
+|   |   |-- MonoPitchMotor
+|   |   |-- MonoRollMotor
+|   |   |-- MonoXTransMotor
+|   |   |-- MonoYawMotor
+|   |   |-- MonoZTransMotor
+|   |   |-- Mono_FTCPiezo
+|   |   |-- Mono_SMotor
+|   |   |-- Mono_TCMotor
+|   |   |-- SS_VMotor
+|   |   |-- SS_YMotor
+|   |   |-- Und_GMotor
+|   |   |-- Und_PMotor
+|   |   |-- xMono_GMotor
+|   |   `-- xMono_MMotor
+|   |-- motorPositions
+|   |   |-- AlphaMotor
+|   |   |-- An_AMotor
+|   |   |-- An_FAPiezo
+|   |   |-- An_FTCPiezo
+|   |   |-- An_SMotor
+|   |   |-- An_TCMotor
+|   |   |-- DS_VMotor
+|   |   |-- JT_FMotor
+|   |   |-- JT_RLMotor
+|   |   |-- JT_RRMotor
+|   |   |-- MonoBendMotor
+|   |   |-- MonoBraggMotor
+|   |   |-- MonoPitchMotor
+|   |   |-- MonoRollMotor
+|   |   |-- MonoXTransMotor
+|   |   |-- MonoYawMotor
+|   |   |-- MonoZTransMotor
+|   |   |-- Mono_FTCPiezo
+|   |   |-- Mono_SMotor
+|   |   |-- Mono_TCMotor
+|   |   |-- MotorTestMotor1
+|   |   |-- MotorTestMotor2
+|   |   |-- SS_VMotor
+|   |   |-- SS_YMotor
+|   |   |-- TransMotor
+|   |   |-- TwoAlphaMotor
+|   |   |-- Und_GMotor
+|   |   |-- Und_PMotor
+|   |   |-- cass_motor
+|   |   |-- dcmbragg
+|   |   |-- dcmenergy
+|   |   |-- dcmfinepitch2
+|   |   |-- dcmoffset
+|   |   |-- dcmpitch2
+|   |   |-- dcmroll1
+|   |   |-- dcmroll2
+|   |   |-- dcmt2
+|   |   |-- delta_motor
+|   |   |-- dm_a
+|   |   |-- dm_b
+|   |   |-- dm_c
+|   |   |-- dm_x
+|   |   |-- dm_y
+|   |   |-- dm_z
+|   |   |-- gonaxis4_motor
+|   |   |-- gonaxis5_motor
+|   |   |-- gonpitch_motor
+|   |   |-- gonroll_motor
+|   |   |-- gonz_motor
+|   |   |-- idgap_motor
+|   |   |-- m1bend_motor
+|   |   |-- m1pitch_motor
+|   |   |-- m1roll_motor
+|   |   |-- m1x_motor
+|   |   |-- m1y_motor
+|   |   |-- m2x_motor
+|   |   |-- m2y_motor
+|   |   |-- mac12a_motor
+|   |   |-- mac1a_motor
+|   |   |-- mac1trans_motor
+|   |   |-- mac22a_motor
+|   |   |-- mac2a_motor
+|   |   |-- mac2trans_motor
+|   |   |-- mac32a_motor
+|   |   |-- mac3a_motor
+|   |   |-- mac3trans_motor
+|   |   |-- mac42a_motor
+|   |   |-- mac4a_motor
+|   |   |-- mac4trans_motor
+|   |   |-- mac52a_motor
+|   |   |-- mac5a_motor
+|   |   |-- mac5trans_motor
+|   |   |-- otx_motor
+|   |   |-- oty_motor
+|   |   |-- otz_motor
+|   |   |-- s1xa_motor
+|   |   |-- s1xb_motor
+|   |   |-- s1xgap_motor
+|   |   |-- s1xminus_motor
+|   |   |-- s1xplus_motor
+|   |   |-- s1xpos_motor
+|   |   |-- s1ya_motor
+|   |   |-- s1yb_motor
+|   |   |-- s1ygap_motor
+|   |   |-- s1yminus_motor
+|   |   |-- s1yplus_motor
+|   |   |-- s1ypos_motor
+|   |   |-- s2xgap_motor
+|   |   |-- s2xminus_motor
+|   |   |-- s2xplus_motor
+|   |   |-- s2xpos_motor
+|   |   |-- s2ygap_motor
+|   |   |-- s2yminus_motor
+|   |   |-- s2yplus_motor
+|   |   |-- s2ypos_motor
+|   |   |-- s3xgap_motor
+|   |   |-- s3xminus_motor
+|   |   |-- s3xplus_motor
+|   |   |-- s3xpos_motor
+|   |   |-- s3ygap_motor
+|   |   |-- s3yminus_motor
+|   |   |-- s3yplus_motor
+|   |   |-- s3ypos_motor
+|   |   |-- s4xgap_motor
+|   |   |-- s4xminus_motor
+|   |   |-- s4xplus_motor
+|   |   |-- s4xpos_motor
+|   |   |-- s4ygap_motor
+|   |   |-- s4yminus_motor
+|   |   |-- s4yplus_motor
+|   |   |-- s4ypos_motor
+|   |   |-- s5xgap_motor
+|   |   |-- s5xminus_motor
+|   |   |-- s5xplus_motor
+|   |   |-- s5xpos_motor
+|   |   |-- s5ygap_motor
+|   |   |-- s5yminus_motor
+|   |   |-- s5yplus_motor
+|   |   |-- s5ypos_motor
+|   |   |-- sample_motor
+|   |   |-- spos_motor
+|   |   |-- tec_motor
+|   |   |-- tef_motor
+|   |   |-- tey_motor
+|   |   |-- theta_motor
+|   |   |-- tlx_motor
+|   |   |-- tly_motor
+|   |   |-- tlz_motor
+|   |   |-- trans_motor
+|   |   |-- tsrollt_motor
+|   |   |-- tsx_motor
+|   |   |-- tsy_motor
+|   |   |-- tsyt_motor
+|   |   |-- tsz_motor
+|   |   |-- tth_motor
+|   |   |-- u1_mtr1
+|   |   |-- u1_mtr2
+|   |   |-- u1_mtr3
+|   |   |-- u1_mtr4
+|   |   |-- u2_mtr1
+|   |   |-- u2_mtr2
+|   |   |-- u2_mtr3
+|   |   |-- u2_mtr4
+|   |   |-- u3_mtr1
+|   |   |-- u3_mtr2
+|   |   |-- u3_mtr3
+|   |   |-- u3_mtr4
+|   |   |-- u4_mtr1
+|   |   |-- u4_mtr2
+|   |   |-- u4_mtr3
+|   |   |-- u4_mtr4
+|   |   |-- xMono_GMotor
+|   |   |-- xMono_MMotor
+|   |   |-- y1_motor
+|   |   |-- y2_motor
+|   |   `-- y3_motor
+|   `-- run
+|       `-- 30.tmp
+|-- xml
+|   |-- client
+|   |   `-- client.xml
+|   |-- epics
+|   |   `-- BL11I-gda-interface.xml
+|   |-- logging
+|   |   |-- LogServer.xml
+|   |   `-- LoggingConfiguration.xml
+|   |-- server
+|   |   |-- BPM1.xml
+|   |   |-- BPM2.xml
+|   |   |-- BPM3.xml
+|   |   |-- BeamInfo.xml
+|   |   |-- BeamMonitor.xml
+|   |   |-- BeamlineInfo.xml
+|   |   |-- CVScan.xml
+|   |   |-- CyberStarBlower.xml
+|   |   |-- DCM.xml
+|   |   |-- Diffractometer.xml
+|   |   |-- EnergyLUT.xml
+|   |   |-- ForntEndAperture.xml
+|   |   |-- GDAMetadata.xml
+|   |   |-- ID.xml
+|   |   |-- ID_OE.xml
+|   |   |-- Ie.xml
+|   |   |-- Io.xml
+|   |   |-- LakeShore.xml
+|   |   |-- LargeSampleTable.xml
+|   |   |-- M1.xml
+|   |   |-- MACDataWriter.xml
+|   |   |-- MACDetectors.xml
+|   |   |-- MACScannables.xml
+|   |   |-- MCS.xml
+|   |   |-- MRIFurnace.xml
+|   |   |-- Mar345.xml
+|   |   |-- OpticalTable.xml
+|   |   |-- OxfordCryoStream.xml
+|   |   |-- OxfordCryoStream2.xml
+|   |   |-- PhenixCryostat.xml
+|   |   |-- Robot.xml
+|   |   |-- S1.xml
+|   |   |-- S2.xml
+|   |   |-- S3.xml
+|   |   |-- S4.xml
+|   |   |-- S5.xml
+|   |   |-- SampleInfo.xml
+|   |   |-- SmallSampleTable.xml
+|   |   |-- Spinner.xml
+|   |   |-- StoeFurnace.xml
+|   |   |-- TestMotors.xml
+|   |   |-- devices
+|   |   |   |-- dummy
+|   |   |   |   `-- DummyMotors.xml
+|   |   |   `-- live
+|   |   |       |-- BPM1.xml
+|   |   |       |-- BPM2.xml
+|   |   |       |-- BPM3.xml
+|   |   |       |-- CVScanController.xml
+|   |   |       |-- CyberStarBlower.xml
+|   |   |       |-- D1.xml
+|   |   |       |-- D2.xml
+|   |   |       |-- D3.xml
+|   |   |       |-- D4.xml
+|   |   |       |-- D5.xml
+|   |   |       |-- DCM.xml
+|   |   |       |-- DCMxtal.xml
+|   |   |       |-- Diffractometer.xml
+|   |   |       |-- ETL.xml
+|   |   |       |-- ExperimentHutchShutter.xml
+|   |   |       |-- FastShutter.xml
+|   |   |       |-- FrontEndAperture.xml
+|   |   |       |-- FrontEndShutter.xml
+|   |   |       |-- GBC.xml
+|   |   |       |-- GV1.xml
+|   |   |       |-- GV2.xml
+|   |   |       |-- GV3.xml
+|   |   |       |-- GV4.xml
+|   |   |       |-- GV5.xml
+|   |   |       |-- GV6.xml
+|   |   |       |-- ID.xml
+|   |   |       |-- Ic1.xml
+|   |   |       |-- Ic2.xml
+|   |   |       |-- Ic3.xml
+|   |   |       |-- Ic4.xml
+|   |   |       |-- Ie.xml
+|   |   |       |-- Io.xml
+|   |   |       |-- LakeShore.xml
+|   |   |       |-- LargeSampleTable.xml
+|   |   |       |-- M1.xml
+|   |   |       |-- MACMotors.xml
+|   |   |       |-- MCSSis3820.xml
+|   |   |       |-- MRIFurnace.xml
+|   |   |       |-- MachineStatus.xml
+|   |   |       |-- Mar345.xml
+|   |   |       |-- OpticalTable.xml
+|   |   |       |-- OxfordCryoStream.xml
+|   |   |       |-- OxfordCryoStream2.xml
+|   |   |       |-- PhenixCryostat.xml
+|   |   |       |-- RobotNX100.xml
+|   |   |       |-- S1.xml
+|   |   |       |-- S2.xml
+|   |   |       |-- S3.xml
+|   |   |       |-- S4.xml
+|   |   |       |-- S5.xml
+|   |   |       |-- Scaler1.xml
+|   |   |       |-- Scaler2.xml
+|   |   |       |-- SmallSampleTable.xml
+|   |   |       |-- Spinner.xml
+|   |   |       |-- StoeFurnace.xml
+|   |   |       `-- TrajectoryScan.xml
+|   |   |-- ispyb_server.xml
+|   |   `-- server.xml
+|   `-- testing
+`-- xsd
+    |-- epicsgda.xsd
+    `-- genericBeamlineSchema.xsd
+
+96 directories, 799 files

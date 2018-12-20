@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=gda-data-backup-2-usb
+Type=Application
+Exec=backup2USB.sh
+Icon=/usr/share/icons/kdeclassic/16x16/apps/usb.png
+Icon[en_GB]=/usr/share/icons/kdeclassic/16x16/apps/usb.png
+Terminal=true
+Name[en_GB]=Backup data to USB 
+GenericName[en_GB]=Backup data to USB
+Comment[en_GB]=Backup data to USB
+Categories=X-opengda;
+
