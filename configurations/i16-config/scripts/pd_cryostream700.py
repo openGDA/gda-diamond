@@ -38,15 +38,21 @@ class cryostream_700(PseudoDevice):
 
 		self.phase=CAClient(pvcryostream+'PHASE')
 		self.phase.configure()
+		
+		self.runmode = CAClient(pvcryostream+'RUNMODE')
+		self.runmode.configure()
 
 	def getPosition(self):
 		return [float(self.targettemp.caget()),float(self.setpoint.caget())]
 
 
 	def asynchronousMoveTo(self,new_position):
+		sleep(.5)
 		self.writeramptargettemp.caput(new_position)
-		sleep(1)
-		self.processramp.caput(1)
+		while int(self.phase.caget()) is 3:
+			sleep(.5)
+			self.processramp.caput(1)
+			self.writeramptargettemp.caput(new_position)
 
 	def isBusy(self):
 		""" needs to be checked """
@@ -67,3 +73,5 @@ class cryostream_700(PseudoDevice):
 tgas=DisplayEpicsPVClass('tgas','BL16I-EA-TEMPC-02:TEMP','K','%6f')
 #del tset
 tset=cryostream_700('tset','BL16I-EA-TEMPC-02:','K','%6f')
+addmeta tset
+addmeta tgas
