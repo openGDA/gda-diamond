@@ -3,7 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="rga" class="gda.device.HidenRGAScannable">
+	<bean id="hidenrga_controller" class="gda.device.hidenrga.HidenRGAController">
+		<constructor-arg index="0" value="BL11I-EA-RGA-01"/>
+		<property name="numberOfMassChannels" value="21"/>
+	</bean>
+	<bean id="rga" class="gda.device.hidenrga.HidenRGAScannable">
 		<property name="controller" ref="hidenrga_controller"/>
 		<property name="useAuxiliaryInputs" value="false" />
 		<property name="local" value="true"/>
