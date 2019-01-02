@@ -21,4 +21,22 @@
 		<property name="maxOutput" value="35.0" />
 		<property name="basePVName" value="BL11I-EA-BLOW-01" />
 	</bean>
+
+	<bean id="csb2" class="gda.device.temperature.Eurotherm2K">
+		<property name="configureAtStartup" value="true" />
+		<property name="accuracy" value="1" />
+		<property name="polltime" value="1000" />
+		<property name="fileSuffix" value="temp" />
+		<property name="upperTemp" value="1000" />
+		<property name="lowerTemp" value="20" />
+		<property name="controller" ref="csb2_controller" />
+	</bean>
+	<bean id="csb2_controller" class="gda.device.temperature.EpicsEurotherm2kController">
+		<property name="local" value="true" />
+		<property name="configureAtStartup" value="true" />
+		<property name="maxRampRate" value="0.2" />
+		<property name="minRampRate" value="0.01" />
+		<property name="maxOutput" value="35.0" />
+		<property name="basePVName" value="BL11I-EA-BLOW-02:LOOP1" />
+	</bean>
 </beans>
