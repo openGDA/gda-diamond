@@ -21,10 +21,12 @@ package gda.images.camera;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.scannable.ScannableUtils;
+import uk.ac.gda.api.remoting.ServiceInterface;
 
 /**
  * Implementation of {@link SampleMovementService} that uses scannables.
  */
+@ServiceInterface(SampleMovementService.class)
 public class ScannableSampleMovementService extends SampleMovementServiceBase {
 	
 	private Scannable sampleXyz;
