@@ -20,6 +20,7 @@ package uk.ac.diamond.daq.beamline.k11.view;
 
 
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -31,11 +32,17 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+
+import gda.configuration.properties.LocalProperties;
+import gda.factory.Finder;
+import uk.ac.diamond.daq.client.gui.camera.ImagingCameraConfigurationComposite;
+import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 
 /**
  * The main Experiment configuration view visible in all k11 perspectives
@@ -49,9 +56,6 @@ public class ExperimentSetup extends ViewPart {
 	private static final int SCROLLABLE_HEIGHT = 900;
 	private static final FontData BANNER_FONT_DATA = new FontData("Impact", 20, SWT.NONE);
 	private static final int HEADING_SIZE = 14;
-	private static final String[] CONFIG_DIALOGS = {
-			"Source Adjustment", "Imaging Camera", "Sample Alignment", "Diffraction Detector", "Environment Stage"};
-
 
 	private Composite panelComposite;
 
@@ -227,9 +231,27 @@ public class ExperimentSetup extends ViewPart {
 		content.setLayout(confLayout);
 		fillGrab().applyTo(content);
 
-		for(String label : CONFIG_DIALOGS) {
-			addConfiguratioDialogButton(content, label);
-		}
+		addConfigurationDialogButton(content, "Source Adjustment");
+		Button button = addConfigurationDialogButton(content, "Imaging Camera");
+		button.addListener(SWT.Selection, event -> {
+			Shell shell = new Shell(composite.getDisplay());
+			shell.setText("Imaging Camera Configuration");
+			shell.setSize(500, 600);
+
+			GridLayoutFactory.fillDefaults().numColumns(1).applyTo(shell);
+
+			String cameraName = LocalProperties.get("imaging.camera.name");
+			CameraConfiguration cameraConfiguration = Finder.getInstance().find(cameraName);
+
+			ImagingCameraConfigurationComposite cameraConfigurationComposite = new ImagingCameraConfigurationComposite(shell,
+					cameraConfiguration, SWT.NONE);
+			GridDataFactory.fillDefaults().grab(true, true).applyTo(cameraConfigurationComposite);
+
+			shell.open();
+		});
+		addConfigurationDialogButton(content, "Sample Alignment");
+		addConfigurationDialogButton(content, "Diffraction Detector");
+		addConfigurationDialogButton(content, "Environment Stage");
 	}
 
 	/**
@@ -270,13 +292,15 @@ public class ExperimentSetup extends ViewPart {
 	 *
 	 * @param parent	The enclosing {@link Composite}
 	 * @param label		The label text for the {@link Button}
+	 * @return Button   The button on the ConfigurationMenu
 	 */
-	private void addConfiguratioDialogButton(final Composite parent, final String label) {
+	private Button addConfigurationDialogButton(final Composite parent, final String label) {
 		final Button button = new Button(parent, SWT.PUSH);
 		fillGrab().hint(SWT.DEFAULT, REDUCED_BUTTON_HEIGHT).applyTo(button);
 		button.setToolTipText(String.format("Select the %s configuration dialog", label));
 		button.setText(label);
 		button.setAlignment(SWT.LEFT);
+		return button;
 	}
 
 	private GridDataFactory fillGrab() {
