@@ -85,6 +85,84 @@
         <property name="detectors" value="#{getBeanFactory().getBeansOfType(Class.forName('uk.ac.gda.server.ncd.subdetector.INcdSubDetector')).values()}"/>
     </bean>
 
+    <bean id="defaultTFGCoreConfiguration" class="uk.ac.gda.server.ncd.timing.data.TFGCoreConfiguration">
+    	<property name="thresholds">
+    		<list value-type="java.lang.Double">
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>0.0</value>
+    		</list>
+    	</property>
+    	<property name="debounce">
+    	    <list value-type="java.lang.Double">
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>#{ T(java.lang.Double).NaN }</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    			<value>0.0</value>
+    		</list>
+    	</property>
+    	<property name="inversion" value="192" />
+		<property name="drive" value="0" />
+		<property name="startMethod" value="0" />
+		<property name="extInhibit" value="false" />
+		<property name="cycles" value="1" />
+    </bean>
+    
+    <bean id="defaultTFGGroupConfiguration" class="uk.ac.gda.server.ncd.timing.data.TFGGroupConfiguration">
+    	<property name="frameCount" value="1" />
+    	<property name="deadTime" value="0.1" />
+    	<property name="liveTime" value="0.1" />
+		<property name="deadPort" value="4" />
+		<property name="livePort" value="255" />
+		<property name="deadPause" value="0" />
+		<property name="livePause" value="0" />
+    </bean>
+
+    <alias name="tfgHardwareTimer" alias="hardwareTimer" />
+    <bean id="tfgHardwareTimer" class="uk.ac.gda.server.ncd.timing.TFGHardwareTimer">
+    	<constructor-arg name="tfg" ref="Tfg" />
+    	
+    	<constructor-arg name ="tfgCoreConfiguration" ref="defaultTFGCoreConfiguration" />
+    	<constructor-arg name ="tfgGroupConfiguration" ref="defaultTFGGroupConfiguration" />
+    	
+		<constructor-arg name="minimumExposure" value="0.003" />
+		<constructor-arg name="minimumDelay" value="0.001" />
+		<constructor-arg name="fastShutterOpeningTime" value="0.2" />
+    </bean>
+
+    <bean id="timerController" class="uk.ac.gda.server.ncd.timing.DefaultTimerController">
+    	<constructor-arg name="hardwareTimer" ref="hardwareTimer" />
+		<constructor-arg name="exposure" value="0.2" />
+		<constructor-arg name="numberOfFrames" value="10" />
+		<constructor-arg name="delay" value="true" />
+		<constructor-arg name="delayTime" value="0.4" />
+    </bean>
+
     <beans profile="saxs" >
         <bean id="saxs_mask" class="uk.ac.gda.server.ncd.meta.NcdMaskLink">
             <property name="detectorType" value="SAXS"/>
