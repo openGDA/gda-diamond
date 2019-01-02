@@ -3,44 +3,29 @@
 <!-- This file allows facilities to customise logging. e.g. if they want it all to be logged to a central server -->
 
 <included>
-	<!-- Use the central Graylog appender definition -->
-	<include file="/dls_sw/dasc/graylog/graylog_appender.xml" />
-
-	<!-- This is a bit dubious but it seems to work i.e. the Graylog appender gets added to the root logger but it
-		 kind of looks like you are redefining the root logger. If you set the level here it will override it on the
-		 core root logger as the root logger can only have one overall level. -->
-	<root>
-		<level value="TRACE" />
-		<appender-ref ref="GrayLog" />
-		<appender-ref ref="LogServer" />
-	</root>
-
-	<logger name="gda.device.motor.EpicsMotor">						<level value="INFO"/></logger>
-	<logger name="gda.device.motor.MoveEventQueue">					<level value="DEBUG"/></logger>
-	<logger name="gda.factory.corba.util.PushEventQueue">			<level value="DEBUG"/></logger>
-	<logger name="gda.observable.ObservableComponent">				<level value="DEBUG"/></logger>
-	<logger name="uk.ac.diamond.daq.concurrent.Async">				<level value="DEBUG"/></logger>
-	<logger name="I16NexusExtender">								<level value="ALL"/></logger>
-
 	<!-- Classes for which INFO messages are excessive
-	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.PlotWindowManager">			<level value="ERROR"/></logger>
 	 -->
+	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.PlotWindowManager">			<level value="ERROR"/></logger>
 
 	<!-- Classes for which DEBUG messages are excessive
-	<logger name="org.apache.activemq.transport.AbstractInactivityMonitor">				<level value="INFO"/></logger>
-	<logger name="org.eclipse.jetty.server">											<level value="INFO"/></logger>
-	<logger name="org.eclipse.jetty.servlet">											<level value="INFO"/></logger>
-	<logger name="org.eclipse.jetty.io">												<level value="INFO"/></logger>
-	<logger name="org.eclipse.jetty.http">												<level value="INFO"/></logger>
 	 -->
 
 	<!-- Classes for which TRACE messages are excessive
 	 -->
-	<logger name="uk.ac.diamond.scisoft.analysis.io.HDF5Loader">           				<level value="DEBUG"/></logger>
-	<logger name="hdf.hdf5lib.H5">														<level value="DEBUG"/></logger>
 	<logger name="gda.events.jms.JmsEventReceiver">										<level value="DEBUG"/></logger>
+	<logger name="uk.ac.diamond.scisoft.analysis.io.HDF5Loader">						<level value="DEBUG"/></logger>
+	<logger name="hdf.hdf5lib.H5">														<level value="DEBUG"/></logger>
 	<logger name="org.apache.activemq.ActiveMQMessageConsumer">							<level value="DEBUG"/></logger>
 	<logger name="org.apache.activemq.ActiveMQSession">									<level value="DEBUG"/></logger>
 	<logger name="org.apache.activemq.thread.PooledTaskRunner">							<level value="DEBUG"/></logger>
 	<logger name="org.apache.activemq.util.ClassLoadingAwareObjectInputStream">			<level value="DEBUG"/></logger>
+	<logger name="uk.ac.diamond.daq.concurrent.Async">									<level value="DEBUG"/></logger>
+
+	<!-- Classes where we want all messages
+	 -->
+	<logger name="gda.device.detector.areadetector">									<level value="ALL"/></logger>
+	<logger name="I16NexusExtender">													<level value="ALL"/></logger>
+
+	<!-- If this file exists it allows you to customise logging levels for each config -->
+	<include file="${gda.config}/properties/${gda.mode}/logging_customisation.xml" />
 </included>

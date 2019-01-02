@@ -180,6 +180,30 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 #return kmu, kdelta, kgam, eta, chi, phi
 #return phi, chi, eta, kmu, kdelta, kgam
 
+	def checkPositionValid(self, eulerPos):
+		result = ScannableMotionWithScannableFieldsBase.checkPositionValid(self, eulerPos)
+		if result:
+			return result
+		if self.diffcalc_ordering:
+			mu, delta, gam, eta, chi, phi = tuple(eulerPos)
+		else:
+			phi, chi, eta, mu, delta, gam = tuple(eulerPos)
+		if None in (phi, chi, eta):
+		        base_position = self.rawGetPosition()
+		        if self.diffcalc_ordering:
+		                _, _, _, eta_c, chi_c, phi_c = base_position
+		        else:
+		                phi_c, chi_c, eta_c, _, _, _ = base_position
+		        if phi is None: phi = phi_c
+		        if chi is None: chi = chi_c
+		        if eta is None: eta = eta_c
+		kth, kappa, kphi = self.eulerToKappa(eta, chi, phi)
+		if self.diffcalc_ordering:
+			result = self.kappa.checkPositionValid( (mu, delta, gam, kth, kappa, kphi) )
+		else:
+			result = self.kappa.checkPositionValid( (kphi, kappa, kth, mu, delta, gam) )
+		return result
+
 	def getLowerGdaLimits(self):
 		super_euler_limits = ScannableMotionWithScannableFieldsBase.getLowerGdaLimits(self)
 		if self.diffcalc_ordering:
@@ -243,7 +267,7 @@ class EulerKappa(ScannableMotionWithScannableFieldsBase):
 			self.kappa.kmu.setUpperGdaLimits(mu)
 			self.kappa.kdelta.setUpperGdaLimits(delta)
 			self.kappa.kgam.setUpperGdaLimits(gam)
-		
+
 	def setLowerGdaLimits(self,value):
 		if value==None:
 			phi=chi=eta=mu=delta=gam=None

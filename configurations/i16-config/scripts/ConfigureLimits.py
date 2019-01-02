@@ -68,22 +68,18 @@ else:
 #kgam_minus_kmu_min = -3
 
 ################################################################################
-################################################################################
-
-
-
-
 # DO NOT REMOVE THESE TWO LINES!
+################################################################################
 
 set_kth_minus_kdelta_max(kth_minus_kdelta_max)
 set_kgam_minus_kmu_min(kgam_minus_kmu_min)
 
+################################################################################
 
 # 17/04//2018 delta limit with new s6 on long nose cone is  ~ 127 
 
+setlm_kth_minus_kdelta_max=set_kth_minus_kdelta_max
+setlm_kgam_minus_kmu_min=set_kgam_minus_kmu_min
 
-
-
-
-
-
+alias('setlm_kth_minus_kdelta_max')
+alias('setlm_kgam_minus_kmu_min')
