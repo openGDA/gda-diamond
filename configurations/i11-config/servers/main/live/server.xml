@@ -36,6 +36,7 @@
 	<import resource="GV5.xml"/>
 	<import resource="GV6.xml"/>
 	<import resource="GDAMetadata.xml"/>
+	<!-- <import resource="HidenRGA.xml" /> -->
 <!-- 	<import resource="Ic1.xml"/> -->
 <!-- 	<import resource="Ic2.xml"/> -->
 	<import resource="Ic3.xml"/>
