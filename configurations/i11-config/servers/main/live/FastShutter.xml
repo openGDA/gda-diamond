@@ -6,6 +6,7 @@
 
 	<bean id="fastshutter" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="BL11I-EA-SHTR-01:SHUTTER" />
+		<property name="readOnly" value="False" />
 	</bean>
 
 </beans>
