@@ -73,6 +73,12 @@
                relationship="stack"
                relative="uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView">
          </view>
+         <view
+               id="uk.ac.gda.client.livecontrol.LiveControlsView"
+               minimized="false"
+               relationship="right"
+               relative="org.dawnsci.mapping.ui.spectrumview">
+         </view>
       </perspectiveExtension>
    </extension>
 
