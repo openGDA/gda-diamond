@@ -4,7 +4,7 @@ Defines Scannables that deal with time. Instantiates four standard Scannables:
    dt = TimeSinceLastGetPosition("dt")
    w = Wait("w") # time since last asked to move
    clock = TimeOfDay('clock')
-   
+
 Silly module name required as time is taken.
 """
 
@@ -19,13 +19,13 @@ class _Timer(object):
 	def __init__(self):
 		self.lastStartClock = 0
 		self.start()
-		
+
 	def start(self):
 		self.lastStartClock = time.time();
-		
+
 	def elapsed(self):
 		return time.time() - self.lastStartClock
-	
+
 	def hasElapsed(self, deltaTime):
 		return self.elapsed() >= deltaTime
 
@@ -39,7 +39,7 @@ class TimeSinceInstantiation(PseudoDevice):
 		self.inputNames = [name]
 		self.outputFormat = ['%6.2f']
 		self.level = 7
-		
+
 		self.timer = _Timer()
 		self.timer.start()
 		self.deltaTime = 0
@@ -56,7 +56,7 @@ class TimeSinceInstantiation(PseudoDevice):
 	def isBusy(self):
 		return not self.timer.hasElapsed(self.deltaTime)
 
-	
+
 class TimeSinceScanStart(TimeSinceInstantiation):
 	"""
 	Returns the time since the last scan started. When driven to a time will remain busy until this time has elapsed.
@@ -74,7 +74,7 @@ class TimeSinceLastGetPosition(TimeSinceScanStart):
 		deltaTime = self.timer.elapsed()
 		self.timer.start()
 		return deltaTime
-	
+
 
 class Wait(TimeSinceInstantiation):
 	"""
@@ -86,33 +86,33 @@ class Wait(TimeSinceInstantiation):
 
 
 class _Clock(object):
-	
+
 	def __init__(self):
 		self.lastClockedTimeTuple = None
-		
+
 	def currentTimeAsTuple(self):
 		t = time.time()
 		timestruct = time.localtime(t)
 		h, m, s = timestruct[3:6]
 		fractional_s = t - time.mktime(timestruct)
 		return h, m, s + fractional_s
-	
+
 	def hasPast(self, timeTuple):
 		for current, target in zip(self.currentTimeAsTuple(), timeTuple):
 			if current > target:
 				return True
 		return False
-	
+
 	def lastClock(self):
 		return self.lastClockedTimeTuple or self.currentTimeAsTuple()
 
 	def clock(self):
 		self.lastClockedTimeTuple = self.currentTimeAsTuple()
-	
+
 	def clear(self):
 		self.lastClockedTimeTuple = None
-		
-		
+
+
 
 class TimeOfDay(PseudoDevice):
 	"""
@@ -126,25 +126,25 @@ class TimeOfDay(PseudoDevice):
 		self.inputNames = ['h', 'm', 's']
 		self.outputFormat = ['%i' , '%i', '%.2f']
 		self.level = 9
-		
+
 		self.clock = _Clock()
 		self.targetTimeTuple = (0, 0, 0)
-		
+
 	def atLevelMoveStart(self):
 		self.clock.clock()
 
 	def asynchronousMoveTo(self, targetTimeTuple):
 		self.targetTimeTuple = targetTimeTuple
-	
+
 	def isBusy(self):
 		self.clock.clock()
 		return not self.clock.hasPast(self.targetTimeTuple)
-	
+
 	def getPosition(self):
 		pos = self.clock.lastClock()
 		self.clock.clear()
 		return pos
-		
+
 	def atPointEnd(self):
 		self.clock.clear()
 

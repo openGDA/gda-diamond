@@ -1,5 +1,5 @@
 from gdascripts.utils import caget, caput
-from time import sleep 
+from time import sleep
 from gda.jython.commands.ScannableCommands import pos
 from localStation import finder
 

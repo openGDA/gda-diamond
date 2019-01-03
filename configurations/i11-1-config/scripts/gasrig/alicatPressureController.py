@@ -1,11 +1,11 @@
 '''
-scannable for Alicat pressure controller to provide access to its properties, i.e. 
+scannable for Alicat pressure controller to provide access to its properties, i.e.
 get and set methods.
 Build in default flow tolerance is 0.01, and reading precision is 3 decimals.
 
 usage example:
     bpr=AlicatPressureController("bpr","BL11J-EA-GIR-01:SYSTEM:","%.3f")
-    
+
 Created on 6 Dec 2013
 updated on 16 June 2014
 
@@ -51,7 +51,7 @@ class AlicatPressureController(ScannableMotionBase):
         self.readderivativegaincli=CAClient(rootPV+READ_DERIVATIVE_GAIN)
         self.mytolerance=tolerance
         self.isConfigured=False
-        
+
     def configure(self):
         if not self.isConfigured:
             if not self.readmodecli.isConfigured():
@@ -65,7 +65,7 @@ class AlicatPressureController(ScannableMotionBase):
             if not self.readpressurecli.isConfigured():
                 self.readpressurecli.configure()
             self.isConfigured=True
-            
+
     def deconfigure(self):
         if self.isConfigured:
             if self.readmodecli.isConfigured():
@@ -79,7 +79,7 @@ class AlicatPressureController(ScannableMotionBase):
             if self.readpressurecli.isConfigured():
                 self.readpressurecli.clearup()
             self.isConfigured=False
-            
+
     def getMode(self):
         try:
             if not self.readmodecli.isConfigured():
@@ -140,7 +140,7 @@ class AlicatPressureController(ScannableMotionBase):
         except:
             print "Error returning pressure"
             return 0
-        
+
     def getProportionalGain(self):
         try:
             if not self.readproportionalgaincli.isConfigured():
@@ -188,18 +188,18 @@ class AlicatPressureController(ScannableMotionBase):
                 self.setderivativegaincli.caput(gain)
         except:
             print "error set to derivative gain"
-            
-            
+
+
     def getTolerance(self):
         return self.mytolerance
-    
+
     def setTolerance(self, value):
         self.mytolerance=value
 
-#### methods for scannable 
+#### methods for scannable
     def getPosition(self):
         return self.getPressure()
-    
+
     def asynchronousMoveTo(self, posi):
         self.setTarget(float(posi))
 
@@ -221,6 +221,6 @@ class AlicatPressureController(ScannableMotionBase):
         pass
     def atScanEnd(self):
         pass
-    
+
 
 

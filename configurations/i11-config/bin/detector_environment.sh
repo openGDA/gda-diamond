@@ -1,6 +1,6 @@
 #! /bin/sh
 
-if [ ! -n "$BEAMLINE" ]; 
+if [ ! -n "$BEAMLINE" ];
 then
   echo "Please set BEAMLINE environment variable."
   exit 1

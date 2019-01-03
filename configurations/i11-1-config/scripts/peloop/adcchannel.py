@@ -27,7 +27,7 @@ adcepv="BL11I-EA-PE-01:EL"
 adcgatepv="BL11i-ea-pe-01:TRIG"
 
 class ADCChannel(ScannableMotionBase, MonitorListener):
-    
+
     def __init__(self, name, pv):
         self.setName(name)
         self.setInputNames([])
@@ -43,37 +43,37 @@ class ADCChannel(ScannableMotionBase, MonitorListener):
         self.voltagesmonitor=None
         self.firstMonitor = True
         self.voltages = {}
-        
+
     def resetCounter(self):
         self.counter=0
-        
+
     def resetRepetition(self):
         self.collectionNumber=0
-        
+
     def setCollectionNumber(self, num):
         self.collectionNumber=num
-        
+
     def setNumberOfGates(self, num):
         self.numberofgates=num
-        
+
     def setNumberOfFrames(self, num):
         self.numberofframes=num
-        
+
     def getNumberOfGates(self):
         return self.numberofgates
-    
+
     def getNumberOfFrames(self):
         return self.numberofframes
-    
+
     def setFilename(self, filename):
         self.filename=filename
-        
+
     def getFilename(self):
         return self.filename
-    
+
     def getFilenames(self):
         return self.filenames
-    
+
     def getValues(self):
         try:
             if not self.pvcli.isConfigured():
@@ -130,7 +130,7 @@ class ADCChannel(ScannableMotionBase, MonitorListener):
             print "Unexpected error:", sys.exc_info()[0]
             raise
 
-    
+
     def removeMonitor(self):
         if not self.monitoradded:
             #monitor does not exist
@@ -149,11 +149,11 @@ class ADCChannel(ScannableMotionBase, MonitorListener):
             self.monitoradded=True
             print "Unexpected error:", sys.exc_info()[0]
             raise
-        
+
     def monitorChanged(self, mevent):
         if self.firstMonitor:
             self.firstMonitor = False
-            return        
+            return
         if self.counter < self.numberofgates:
             if self.counter not in self.voltages:
                 self.voltages[self.counter]=[]
@@ -175,7 +175,7 @@ class ADCChannel(ScannableMotionBase, MonitorListener):
             self.collectionNumber+=1
             self.resetCounter()
             self.filenames=[]
-            
+
     def save(self, args=(), kwargs={}):
         print "summing data points..."
         self.data = sum_datasets(kwargs)
@@ -185,13 +185,13 @@ class ADCChannel(ScannableMotionBase, MonitorListener):
             self.file.write("%s\n"%each)
         self.file.close()
         print "%s: save data to %s completed." % (args[2], args[0])
-            
+
     def getExtraNames(self):
         repetition=[]
         for i in range(self.collectionNumber):
             repetition.append(str(i))
         return repetition
-    
+
     def atScanStart(self):
         self.resetCounter()
         self.resetRepetition()
@@ -202,7 +202,7 @@ class ADCChannel(ScannableMotionBase, MonitorListener):
     def atPointStart(self):
         self.resetCounter()
         self.resetRepetition()
-    
+
     def atPointEnd(self):
         pass
 
@@ -211,10 +211,10 @@ class ADCChannel(ScannableMotionBase, MonitorListener):
 
     def asynchronousMoveTo(self,new_position):
         pass
-    
+
     def isBusy(self):
         return False
-    
+
 #    def toString(self):
 #        return self.name + " : " + str(self.getPosition())
 voltage=ADCChannel("voltage",adcppv)

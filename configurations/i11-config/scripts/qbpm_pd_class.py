@@ -95,7 +95,7 @@ class EPICSODQBPMClass(ScannableBase):
 	def factory_reset(self):
 		params=[A1,A2,B1,B2,C1,C2,D1,D2,GX,GY]=[1,0,1,0,1,0,1,0,1,1]
 		self.set_params(params)
-		
+
 	def dark_current(self):
 		#offsets not persistent - do dark current with beam off
 		[A1,A2,B1,B2,C1,C2,D1,D2,GX,GY]=self.get_params()
@@ -149,7 +149,7 @@ class ReadSingleValueFromVectorPDClass(ScannableBase):
 
 	def getPosition(self):
 		return self.pd()[self.index]
-	
+
 	def isBusy(self):
 		return self.pd.isBusy()
 

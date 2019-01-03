@@ -2,14 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
-	
+
 	<bean id="ss1x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ss1x_motor"/>
 	</bean>
 	<bean id="ss1y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ss1y_motor"/>
 	</bean>
-	
+
 	<bean id="ss1" class="org.opengda.lde.experiments.SampleStage">
 		<property name="groupMembers">
 			<list>

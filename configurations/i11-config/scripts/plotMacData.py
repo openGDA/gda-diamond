@@ -15,20 +15,20 @@ def representsInt(s):
 
 def plot(filename, Overlay=True):
     '''Plot collected, rebinned MAC data on "MAC" Panel.
-    
+
        syntax: plot(name,[True|False])
-       
+
           where:
                 name is the file name or file number
                 True means clear old plot data from the graph (Default)
                 False means plot over the exist data on the graph
-                Negative file number refers to the past data collected relative to the current one (0). 
-                        
+                Negative file number refers to the past data collected relative to the current one (0).
+
           e.g.  plot(0)               --> plot current data just collected
                 plot(-1)              --> plot the last data collected
                 plot(1121)            --> plot data with file number 1121
                 plot(0,False)         --> clear graph before plotting current data
-        
+
     '''
     sfh = loadMacData(filename)
     print("Data plotting, please wait ...")
@@ -36,7 +36,7 @@ def plot(filename, Overlay=True):
         Plotter.plotOver("MAC", sfh.getAxis(0), sfh.getAxis(1))
     else:
         Plotter.plot("MAC", sfh.getAxis(0), sfh.getAxis(1))
-  
+
 def loadMacData(filename):
     '''Load MAC data file into a ScanFileHolder object, supporting relative loading with respect to the current collected data (0)'''
     sfh = ScanFileHolder()
@@ -54,5 +54,5 @@ def loadMacData(filename):
         print "File loader failed. " + err
     return sfh
 
- 
+
 

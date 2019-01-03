@@ -10,7 +10,7 @@ print
 from gda.data import PathConstructor, NumTracker
 from gda.jython.commands.GeneralCommands import alias, run
 from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interrupt
-from gda.jython.commands.ScannableCommands import scan 
+from gda.jython.commands.ScannableCommands import scan
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
 print "   To set scan returns to its start positions on completion please do:"
@@ -41,7 +41,7 @@ def pwd():
     '''return the working directory'''
     cwd = PathConstructor.createFromDefaultProperty()
     return cwd
-    
+
 alias("pwd")
 
 # function to find the last working file path
@@ -50,7 +50,7 @@ def lwf():
     cwd = PathConstructor.createFromDefaultProperty()
     filenumber = i11NumTracker.getCurrentFileNumber();
     return os.path.join(cwd,str(filenumber))
-    
+
 alias("lwf")
 
 # function to find the next working file path
@@ -59,7 +59,7 @@ def nwf():
     cwd = PathConstructor.createFromDefaultProperty()
     filenumber = i11NumTracker.getCurrentFileNumber();
     return os.path.join(cwd,str(filenumber+1))
-    
+
 alias("nwf")
 
 # function to find the next scan number
@@ -67,7 +67,7 @@ def nfn():
     '''query the next file number or scan number'''
     filenumber = i11NumTracker.getCurrentFileNumber();
     return filenumber+1
-    
+
 alias("nfn")
 
 # the subdirectory parts
@@ -78,7 +78,7 @@ def setSubdirectory(dirname):
         os.mkdir(pwd())
     except :
         pass
-    
+
 def getSubdirectory():
     return finder.find("GDAMetadata").getMetadataValue("subdirectory")
 
@@ -129,8 +129,8 @@ diagnoseMAC=macDetectorDiagnostics.MACDetectorDiagnostics("diagnoseMAC", pds, 10
 print "To diagnose MAC run: " + diagnoseMAC.getName()+".run()"
 from diagnostics.diagnose import listOfDiagnoseticsObjects, rundiagnose #@UnusedImport
 listOfDiagnoseticsObjects.append(diagnoseMAC)
-print "To run all diagnose implemented for I11, use: rundiagnose() on command line." 
-print 
+print "To run all diagnose implemented for I11, use: rundiagnose() on command line."
+print
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create method for load sample information spreadsheet to GDA system."
@@ -148,10 +148,10 @@ print "To set/get MAC stage angles to specific energy, use 'mac_energy' object"
 mac_energy=Automation('mac_energy','energytable', STAGE_ANGLE, rootNameSpace=globals())
 print "To set/get ETL detector voltages to specific energy, use 'det_energy' object"
 det_energy=Automation('det_energy','energytable', DETECTOR, rootNameSpace=globals())
-pds.append(setenergy) 
-pds.append(energy_gap) 
-pds.append(mac_energy) 
-pds.append(det_energy) 
+pds.append(setenergy)
+pds.append(energy_gap)
+pds.append(mac_energy)
+pds.append(det_energy)
 print
 
 #print 'setting up PDs for QBPMs'
@@ -160,7 +160,7 @@ print
 ### set output format for scannables
 globals()['tth'].setOutputFormat(["%10.7f"])
 globals()['energy'].setOutputFormat(["%10.7f"])
-globals()['bragg'].setOutputFormat(["%10.7f"])    
+globals()['bragg'].setOutputFormat(["%10.7f"])
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "function to set wavelength >>>setwavelength(value)"
@@ -182,7 +182,7 @@ ds = DummyScannable("ds")
 def psd(t,n=1.0):
     scan(ds, 1.0, n, 1.0, mythen, t, Io, t, Ie, delta)  # @UndefinedVariable
     scaler2(1)  # @UndefinedVariable
-    
+
 
 alias("psd")
 
@@ -199,7 +199,7 @@ print "create detector collision prevention commands: 'move' and 'asynmove' "
 print "    move -- synchronous, blocking until completed, like 'pos'        "
 print "    asynmove -- asynchronous, non-blocking move                      "
 #from avoidcollision import *  # @UnusedWildImport
-run("avoidcollision.py") 
+run("avoidcollision.py")
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -253,7 +253,7 @@ def interruptable():
     enable_pause_or_interrupt()
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create 'cvscan' command"
-alias("cvscan") 
+alias("cvscan")
 print
 from timerelated import clock, t, dt, w #@UnusedImport
 print
@@ -294,7 +294,7 @@ print '-------------------------------------------------------------------------
 ##### new objects must be added above this line ###############
 #print
 #print "=================================================================================================================";
-#print "Initialisation script complete." 
+#print "Initialisation script complete."
 #print
 ###Must leave what after this line last.
 bm1=finder.find("bm")

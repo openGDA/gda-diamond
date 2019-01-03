@@ -1,7 +1,7 @@
 1. What are the files in this directory for?
 
-Files in this directory are used for desktop menu entries for "Data Acquisition" menu under "Applications" menu. 
-These files must be installed in the local workstation machine for "Data Acquisition" menu 
+Files in this directory are used for desktop menu entries for "Data Acquisition" menu under "Applications" menu.
+These files must be installed in the local workstation machine for "Data Acquisition" menu
 to appear under the system "Applications" in the main menu.
 
 Important: Both Applications -> Data Acquisition menu, and desktop "GDA_Launchers" folder depends on these.
@@ -30,12 +30,12 @@ Important: Both Applications -> Data Acquisition menu, and desktop "GDA_Launcher
 
 2. How to add more entry to the menu system?
 
-You may add more entries to the "Data acquisition" sub-menu by define additional .desktop for for your launcher. 
-For example I have added a entry for mythen detector for i11 as 
+You may add more entries to the "Data acquisition" sub-menu by define additional .desktop for for your launcher.
+For example I have added a entry for mythen detector for i11 as
 
 	gda-start-mythen-detector.desktop	: start Mythen GUI
 
-To make your .desktop entry appear under "Data Acquisition", please make sure you specify 
+To make your .desktop entry appear under "Data Acquisition", please make sure you specify
 
 	Categories=X-opengda;
 

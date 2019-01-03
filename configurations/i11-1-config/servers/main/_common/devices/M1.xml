@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
-	
+
 	<bean id="m1bend" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1bend_motor"/>
 	</bean>
@@ -24,7 +24,7 @@
 	<bean id="m2y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m2y_motor"/>
 	</bean>
-	
+
 	<bean id="M1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

@@ -16,8 +16,8 @@ if __name__=="__main__":
     parser.add_option("-o", "--offsets", action="store_true", dest="offsets", help="output separate rebinned files (x5) for each mac arms 1..5 using nominal offsets")
     parser.add_option("-a", "--additional", action="store_true", dest="additional", help="output a single rebin/summed file for all files in file list")
     parser.add_option("-A", "--Tadditional", action="store_true", dest="Tadditional", help="same as -a but without header lines and with xye extension")
-    parser.add_option("-b", "--batch", action="store_true", dest="batch", help="output separate rebin files for each file in file list (batch rebin)")  
-    parser.add_option("-B", "--Tbatch", action="store_true", dest="Tbatch", help="same as -b but without header line and with xye extension") 
+    parser.add_option("-b", "--batch", action="store_true", dest="batch", help="output separate rebin files for each file in file list (batch rebin)")
+    parser.add_option("-B", "--Tbatch", action="store_true", dest="Tbatch", help="same as -b but without header line and with xye extension")
     parser.add_option("-T", "--Tsingle", action="store_true", dest="Tsingle", help="rebins a single file in headlerless *.xye format")
     (options,args) = parser.parse_args()
     #

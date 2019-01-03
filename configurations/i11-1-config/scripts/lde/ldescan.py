@@ -51,4 +51,3 @@ def ldescan(*args):
         if MUSTADDDATAREDUCTIONATEND:
             newargs.append(dr)
         scan(newargs)
-        

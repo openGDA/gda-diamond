@@ -197,7 +197,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="pixium.multipleExposure"	class="gda.device.detector.addetector.triggering.PixiumMultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pixium.cam" />
 		<constructor-arg value="10.0" />
@@ -231,7 +231,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="pixium.adcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposureStandard">
 		<constructor-arg ref="pixium.cam" />
 		<constructor-arg value="0.143" />
@@ -239,7 +239,7 @@
 	<bean id="pixium.adarrayplugin" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayPlugin">
 		<constructor-arg ref="pixium.arr" />
 		<property name="enabled" value="true"/>
-	</bean>	
+	</bean>
 	<bean id="pixium" class ="gda.device.detector.pixium.PixiumNXDetector">
 		<property name="name" value="pixium"/>
 		<property name="prefix" value="BL11J-EA-DET-10:CAM:"/>

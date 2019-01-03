@@ -33,14 +33,14 @@ class WaitForBeamPDClass(ScannableBase):
 				self.lastcheck=0
 				print '===  Waiting for beam at: '+time.ctime()
 				sleep(120)
-	
+
 	def isBusy(self):
-		return 0	
+		return 0
 
 	def atStart(self):
 		print '===Beam checking is on: '+self.pd.getName()+' must exceed '+str(self.min)
 		self.lastcheck=1
-  
+
 
 #checkbeamcurrent=WaitForBeamPDClass('BeamOK',rc,10)
 checkbeam=WaitForBeamPDClass('BeamOK',Io,10) #@UndefinedVariable

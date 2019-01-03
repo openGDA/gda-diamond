@@ -176,7 +176,7 @@
 					<property name="imagePath" value="icons/panicstop80x80.png" />
 					<property name="actionId" value="uk.ac.gda.client.StopAll" />
 				</bean>
-				
+
 <!-- 				<bean class="gda.rcp.views.OpenViewListBoxCompositeFactory"> -->
 <!-- 					<property name="label" value="Plots"/> -->
 <!-- 					<property name="tooltipText" value="Open the live plot view for the selected detector"/> -->
@@ -202,7 +202,7 @@
 <!-- 								<constructor-arg value="Pixium" /> -->
 <!-- 								<constructor-arg value="uk.ac.gda.beamline.i11.PixiumView" /> -->
 <!-- 							</bean> -->
-							
+
 <!-- 							<bean class="gda.rcp.views.OpenViewOption"> -->
 <!-- 								<constructor-arg value="WebCams" /> -->
 <!-- 								<constructor-arg value="uk.ac.gda.video.views.cameraview" /> -->

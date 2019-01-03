@@ -12,14 +12,14 @@
 		<property name="name" value="startlistener"/>
 		<property name="pvName" value="BL11I-EA-DET-03:DET:Acquire"/>
 	</bean>
-	
+
 	<bean id="mythen" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="mythenmessagelistener" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsByteArrayAsStringDataListener">
 		<property name="name" value="mythenmessagelistener"/>
 		<property name="pvName" value="BL11I-EA-DET-03:DET:StatusMessage_RBV"/>
 	</bean>
-	
+
 	<bean id="timeremaininglistener" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataListener">
 		<property name="name" value="timeremaininglistener"/>
 		<property name="pvName" value="BL11I-EA-DET-03:DET:TimeRemaining_RBV"/>
@@ -37,7 +37,7 @@
 		<property name="epicsProcessName" value="Mythen acquiring"/> <!--essential-->
  		<property name="stopScannable" ref="mythen"/> <!--essential -->
 	</bean>
-	
+
 	<bean id="mythenliveplotfactory" class="uk.ac.gda.epics.client.mythen.viewfactories.LivePlotViewFactory">
 		<property name="plotName" value="Mythen"/>
 		<property name="xAxisMin" value="0.000"/>

@@ -18,7 +18,7 @@ evrenablepv="BL11I-EA-EVR-01:FRONT-ENABLE:SET"
 evrpolaritypv="BL11I-EA-EVR-01:FRONT-POLARITY:SET"
 
 class EventReceiver(ScannableMotionBase):
-    
+
     def __init__(self, name, delay=evrdelaypv, delayrbv=evrdelayrbv, width=evrwidthpv, widthrbv=evrwidthrbv, enable=evrenablepv, polarity=evrpolaritypv):
         self.setName(name)
         self.setInputNames(["delay", "width"])
@@ -29,7 +29,7 @@ class EventReceiver(ScannableMotionBase):
         self.widthrbv=CAClient(widthrbv)
         self._enable=CAClient(enable)
         self.polarity=CAClient(polarity)
-    
+
     # function generator controls
     def enableField(self):
         try:
@@ -138,11 +138,11 @@ class EventReceiver(ScannableMotionBase):
     def atScanStart(self):
         '''enableField event channel'''
         self.enableField()
-        
+
     def atScanEnd(self):
         '''disable event channel'''
         self.disable()
-         
+
     def getPosition(self):
         try:
             return self.getDelay(), self.getWidth()
@@ -176,7 +176,7 @@ class EventReceiver(ScannableMotionBase):
             print "Unexpected error:", sys.exc_info()[0]
             raise
         return delay,width
-       
+
     def asynchronousMoveTo(self,new_position):
         try:
             self.setDelay(new_position[0])

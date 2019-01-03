@@ -3,7 +3,7 @@
 
 # **** DO NOT EDIT THIS SCRIPT AS IT MAY BE AUTOMATICALLY OVERWRITTEN *****
 
-if [ ! -n "$BEAMLINE" ]; 
+if [ ! -n "$BEAMLINE" ];
 then
   echo "Please set BEAMLINE environment variable."
   exit 1

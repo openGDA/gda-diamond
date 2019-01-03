@@ -26,10 +26,10 @@ class StageDataCollection:
 
     def addSample(self, sample={}):
         self.samples.append(sample)
-        
+
     def removeSample(self, sample={}):
         self.samples.remove(sample)
-        
+
     def moveDetectorToPosition(self, pixium_x=None, pixium_y=None, pixium_z=None):
         if self.isDetectorAtPosition(pixium_z):
             #TODO: do I need to check X and Y positionS?
@@ -42,14 +42,14 @@ class StageDataCollection:
             if pixium_z is not None:
                 pixium_arm_z.moveTo(pixium_z)  # @UndefinedVariable
             self.calibration_required=True
-        
+
     def doCalibration(self, calibrant='Si', calibrant_x=0, calibrant_y=0, calibrant_exposure=1.0):
         if self.calibration_required:
             mycalibrant=Finder.getInstance().find("calibrant_name")
             mycalibrant.moveTo(calibrant)
-            
+
             dummyScannable=DummyScannable("dummyScannable")
-            
+
             #additional_plugin_list = pixium.getAdditionalPluginList()[0]
             #Detector calibration
             if self.calibration_required:
@@ -69,7 +69,7 @@ class StageDataCollection:
                 builder=builder.noTimeout()
                 builder.build()
                 self.calibration_required=False
-            
+
     def processSamples(self):
         if self.samples.count!=0:
             for sample in self.samples:
@@ -77,11 +77,11 @@ class StageDataCollection:
                 self.doCalibration(sample["calibrant"], sample["calibrant_x"], sample["calibrant_y"], sample["calibrant_exposure"])
                 self.doSampleDataCollection(sample["sample_x_start"], sample["sample_x_stop"], sample["sample_x_step"], sample["sample_y_start"], sample["sample_y_stop"], sample["sample_y_step"], sample["sample_exposure"])
         self.moveToEngagedPosition()
-        
+
     def doSampleDataCollection(self, sample_x_start=None, sample_x_stop=None, sample_x_step=None, sample_y_start=None, sample_y_stop=None, sample_y_step=None, sample_exposure=1.0):
         # sample diffraction data
         args=[]
-        
+
         if sample_x_start is not None or sample_x_stop is not None or sample_x_step is not None:
             args.append(self.stage_x)
         if sample_y_start is not None:
@@ -90,7 +90,7 @@ class StageDataCollection:
             args.append(sample_x_stop)
         if sample_y_step is not None:
             args.append(sample_x_step)
-        
+
         if sample_y_start is not None or sample_y_stop is not None or sample_y_step is not None:
             args.append(self.stage_y)
         if sample_y_start is not None:
@@ -114,33 +114,33 @@ class StageDataCollection:
         builder = builder.outputFilename(os.path.splitext(sample_file_name)[0]+"_output.log")
         builder=builder.noTimeout()
         builder.build()
-    
+
     def moveToEngagedPosition(self):
         self.stage_x.moveTo(float(self.lookup_table[self.name.upper()][2]))
-        
+
     def moveToSafePosition(self):
         self.stage_x.moveTo(float(self.lookup_table[self.name.upper()][0]))
         self.stage_y.moveTo(float(self.lookup_table[self.name.upper()][1]))
         #self.stage_rot.moveTo(lookup_table[stageName.upper()][2])
-            
+
     def isAtSafePosition(self):
         #TODO: require Tolerance value here
         return float(self.stage_x.getPosition())==float(self.lookup_table[self.name.upper()][0]) and float(self.stage_y.getPosition())==float(self.lookup_table[self.name.upper()][1])
-    
+
     def isDetectorAtPosition(self, pixium_z):
         #TODO: need motor Tolerance data here
         return pixium_z is not None and float(pixium_arm_z.getPosition()==float(pixium_z))  # @UndefinedVariable
-                
+
     def getName(self):
         return self.name
     def setName(self, name):
         self.name=name
-        
+
 stagedatacollection=StageDataCollection("MS1")
 collectDiffractionData=stagedatacollection.processSamples()
 moveToSafePosition=stagedatacollection.moveToSafePosition
 
-from gda.jython.commands.GeneralCommands import alias 
+from gda.jython.commands.GeneralCommands import alias
 alias("collectDiffractionData")
 alias("moveToSafePosition")
 
@@ -164,7 +164,7 @@ def createSampleDict(name, cellID, visitID, calibrant='Si', calibrant_x=0, calib
     sample["pixium_y"]=pixium_y
     sample["pixium_z"]=pixium_z
     return sample
-    
+
 def parkingAllDevices():
     '''move all stages to parking positions'''
     lookuptable=readLookupTable(LocalProperties.get("gda.function.lookupTable.dir")+os.path.sep+"lde_stages_home_positions.txt")
@@ -175,7 +175,7 @@ alias("parkingAllDevices")
 
 def dataCollection(samples=[]):
     lookuptable=readLookupTable(LocalProperties.get("gda.function.lookupTable.dir")+os.path.sep+"lde_stages_home_positions.txt")
-    
+
     for each in lookuptable.keys:
         stage=StageDataCollection(each)
         for sample in samples:

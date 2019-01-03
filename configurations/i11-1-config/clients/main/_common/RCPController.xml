@@ -8,5 +8,5 @@
 		<property name="serviceInterface" value="gda.gui.RCPController" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-	
+
 </beans>

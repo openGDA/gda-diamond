@@ -93,7 +93,7 @@
 		</property>
 		<property name="hasChannelInfo" value="false"/>
 	</bean>
-		
+
 	<bean id="smythen" class="gda.device.detector.mythen.SummingMythenDetector">
 		<property name="detectorID" value="mcs02" />
 		<property name="mythenClient">

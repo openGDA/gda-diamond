@@ -21,7 +21,7 @@
 	<bean id="c" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dm_c"/>
 	</bean>
-	
+
 	<bean id="TestMotors" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

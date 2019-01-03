@@ -4,7 +4,7 @@ source /etc/profile.d/beamline.sh
 SLEEPTIME=21600  # time in seconds between checks
 FULLVISNO=/dls/${BEAMLINE}/data/ #path to backup.
 BACKUPPATH=/dls/sci-scratch/${BEAMLINE}-data/
- 
+
 echo "===================================================================="
 echo
 echo "This program will rsync your data to $BACKUPPATH"

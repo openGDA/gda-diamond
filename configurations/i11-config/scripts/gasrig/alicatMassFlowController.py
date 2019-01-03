@@ -1,11 +1,11 @@
 '''
-scannable for Alicat mass flow controller to provide access to its properties, i.e. 
+scannable for Alicat mass flow controller to provide access to its properties, i.e.
 get and set methods.
 Build in default flow tolerance is 0.01, and reading precision is 3 decimals.
 
 usage example:
     mfc1=AlicatMassFlowController("mfc1","BL11I-EA-GIR-01:MFC1:",0.01,"%.3f")
-    
+
 Created on 6 Dec 2013
 updated on 16 June 2014
 
@@ -61,13 +61,13 @@ class AlicatMassFlowController(ScannableMotionBase):
         self.setderivativegaincli=CAClient(rootPV+SET_DERIVATIVE_GAIN)
         self.readderivativegaincli=CAClient(rootPV+READ_DERIVATIVE_GAIN)
         self.mytolerance=tolerance
-        
+
     def getTolerance(self):
         return self.mytolerance
-    
+
     def setTolerance(self, value):
         self.mytolerance=value
-    
+
     def getCurrentFlow(self):
         try:
             if not self.currentflowcli.isConfigured():
@@ -118,7 +118,7 @@ class AlicatMassFlowController(ScannableMotionBase):
         except:
             print "Error returning current gas type"
             return 0
-        
+
     def setGasType(self,name):
         key=gasTypes.keys()[(gasTypes.values()).index(name)]
         if int(key)>=0 or int(key) <16:
@@ -141,7 +141,7 @@ class AlicatMassFlowController(ScannableMotionBase):
                     self.setfgastype2cli.caput(name)
             except:
                 print "error set to gas type 2"
-            
+
     def getPressure(self):
         try:
             if not self.pressurecli.isConfigured():
@@ -154,7 +154,7 @@ class AlicatMassFlowController(ScannableMotionBase):
         except:
             print "Error returning pressure"
             return 0
-        
+
     def getTemperature(self):
         try:
             if not self.temperaturecli.isConfigured():
@@ -167,7 +167,7 @@ class AlicatMassFlowController(ScannableMotionBase):
         except:
             print "Error returning temperature"
             return 0
-   
+
     def getVolumetricFlow(self):
         try:
             if not self.volumetricflowcli.isConfigured():
@@ -228,18 +228,18 @@ class AlicatMassFlowController(ScannableMotionBase):
                 self.setderivativegaincli.caput(gain)
         except:
             print "error set to derivative gain"
-            
-            
-#### methods for scannable 
+
+
+#### methods for scannable
     def getPosition(self):
         return self.getCurrentFlow()
-    
+
     def asynchronousMoveTo(self, posi):
         self.setTarget(float(posi))
-        
+
     def isBusy(self):
         return (abs(self.getPosition()-self.getTarget())>self.getTolerance())
-    
+
     def atScanStart(self):
         pass
     def atPointStart(self):
@@ -250,5 +250,5 @@ class AlicatMassFlowController(ScannableMotionBase):
         pass
     def atScanEnd(self):
         pass
-    
+
 

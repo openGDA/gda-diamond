@@ -3,7 +3,7 @@ from math import log
 
 #####################################################################################
 #
-#The Class is for creating a device function based on two scannable devices  
+#The Class is for creating a device function based on two scannable devices
 #Usage:
 #	DeviceFunctionClass(name, refObj1, refObj2, deviceFun)
 #

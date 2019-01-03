@@ -15,4 +15,4 @@ def psdrt(t, n=1.0):
 alias psdrt
 
 #direct scan with rocking command
-#scan ds 1.0 2.0 1.0 mythen 10.0 rocktheta 
+#scan ds 1.0 2.0 1.0 mythen 10.0 rocktheta

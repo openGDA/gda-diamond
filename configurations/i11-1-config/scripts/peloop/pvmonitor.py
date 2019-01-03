@@ -21,30 +21,30 @@ class PVMonitor(ScannableMotionBase, MonitorListener):
 
     def resetCounter(self):
         self.counter=0
-        
+
     def resetRepetition(self):
         self.collectionNumber=0
-        
+
     def setNumberOfGates(self, num):
         self.numberofgates=num
-        
+
     def setFilename(self, filename):
         self.filename=filename
-        
+
     def atScanStart(self):
         self.resetCounter()
         self.resetRepetition()
-        
+
     def atScanEnd(self):
         pass
-        
+
     def atPointStart(self):
         self.resetCounter()
         self.resetRepetition()
-        
+
     def atPointEnd(self):
         pass
-    
+
     def getExtraNames(self):
         repetition=[]
         for i in range(self.collectionNumber):
@@ -53,13 +53,13 @@ class PVMonitor(ScannableMotionBase, MonitorListener):
 
     def rawGetPosition(self):
         return self.filenames
-    
+
     def rawAsynchronousMoveTo(self,position):
         pass
-    
+
     def rawIsBusy(self):
         return False
-    
+
     def monitorChanged(self, mevent):
         datasets={}
         if self.counter < self.numberofgates:
@@ -74,4 +74,3 @@ class PVMonitor(ScannableMotionBase, MonitorListener):
             savedata.start()
             self.collectionNumber+=1
             self.resetCounter()
-            

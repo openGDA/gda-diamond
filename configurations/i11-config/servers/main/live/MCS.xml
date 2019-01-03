@@ -129,7 +129,7 @@
 		<property name="scalerChannel" value="31"/>
 		<property name="detectorName" value="mac43"/>
 	</bean>
-	
+
 	<bean id="mcs1" class="gda.device.detector.multichannelscaler.EpicsMultiChannelScaler">
 		<property name="controller" ref="mcs1_controller"/>
 		<property name="mcaList">
@@ -231,7 +231,7 @@
 		</property>
 		<property name="fastshutter" ref="fastshutter"/>
 	</bean>
-			
+
 	<bean id="mca33" class="gda.device.detector.multichannelscaler.Mca">
 		<property name="scalerChannel" value="0"/>
 		<property name="detectorName" value="S2"/>
@@ -366,5 +366,5 @@
 		</property>
 		<property name="fastshutter" ref="fastshutter"/>
 	</bean>
-	
+
 </beans>

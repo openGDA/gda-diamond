@@ -15,7 +15,7 @@ def applyAngularConversion(angularCalibrationFile, detectorPosition, channeldata
         required input parameters:
             1. angular calibration file, if None raise exception
             2. detector position at which the raw data is taken, if None raise exception
-            3. flat field corrected data list of tuples (channel-number, count, error) 
+            3. flat field corrected data list of tuples (channel-number, count, error)
     '''
     if angularCalibrationFile is None:
         raise Exception("Angular calibration file is not available for converting channel numbers to angles.")

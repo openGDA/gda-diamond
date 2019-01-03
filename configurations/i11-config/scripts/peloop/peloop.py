@@ -16,7 +16,7 @@ evr=EventReceiver("evr")
 adc=ADC("adc")
 
 class PELoop(ScannableMotionBase):
-    
+
     def __init__(self, name="peloop", functiongenerator=fg, eventreceiver=evr, adc1=adc, psd=mythen):
         self.setName(name)
         self.setInputNames(["time"])
@@ -29,7 +29,7 @@ class PELoop(ScannableMotionBase):
         self.electrometersmonitor=PVMonitor()
         self.counter=0
         self.numberofgates=0
-        
+
     # function generator controls
     def getElectrometer(self):
         try:
@@ -46,7 +46,7 @@ class PELoop(ScannableMotionBase):
             raise
 
     def atScanStart(self):
-        #add voltage and electrometer monitor to get data, 
+        #add voltage and electrometer monitor to get data,
         #this may trigger an monitor event that increment the counter, so it must be reset
         self.voltagesmonitor.setNumberOfGates(self.numberofgates)
         self.electrometersmonitor.setNumberOfGates(self.numberofgates)
@@ -55,7 +55,7 @@ class PELoop(ScannableMotionBase):
         #start ramp output
         self.fg.setOutput(1)
 
-   
+
     def atScanEnd(self):
         #add voltage and electrometer monitor to get datas
         self.adc.removeVoltageMonitor(self.voltagesmonitor)
@@ -76,10 +76,10 @@ class PELoop(ScannableMotionBase):
 
     def rawAsynchronousMoveTo(self,new_position):
         self.evr.rawAsynchronousMoveTo(new_position)
-    
+
     def rawIsBusy(self):
         return self.evr.rawIsBusy()
-    
-            
+
+
 #    def toString(self):
 #        return self.name + " : " + str(self.getPosition())

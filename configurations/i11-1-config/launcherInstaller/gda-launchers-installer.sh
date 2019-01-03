@@ -19,7 +19,7 @@ if [ ! -n "$BEAMLINE" ]; then
 			. /etc/profile.d/beamline.sh
 		else
 			exit 1
-		fi 
+		fi
 	fi
 fi
 
@@ -32,14 +32,14 @@ fi
 #### xinitrc.d - install gda_launchers ####
 if [ ! -f "/etc/X11/xinit/xinitrc.d/gda_launchers.sh" ]; then
 	echo "Install GDA launchers"
-else 
+else
 	echo "Update GDA launchers"
 fi
 sudo cp -f /$SOFTWAREFOLDER/$BEAMLINE/software/gda/config/launcherInstaller/gda_launchers.sh /etc/X11/xinit/xinitrc.d/gda_launchers.sh
 sudo chmod 755 /etc/X11/xinit/xinitrc.d/gda_launchers.sh
 
 #### set up desktop files and menus ####
-# check if folder exist 
+# check if folder exist
 if [ ! -d "/var/Desktop" ]; then
 	sudo mkdir /var/Desktop
 fi
@@ -92,9 +92,9 @@ if [ ! -r "/$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key" ]; then
 fi
 ls -l /$SOFTWAREFOLDER/$BEAMLINE/software/gda_versions/var/${BEAMLINE}ssh.key
 echo "Please make sure /$SOFTWAREFOLDER/$BEAMLINE/${BEAMLINE}ssh.key file is owned by 'gda:gda'."
-echo 
+echo
 echo "Importent: You need to login to the server to change ownership and mode of files"
-echo	
+echo
 ### Message to Installer ###
 echo "Now you need to logout then login again for this to take effect, Thank You!"
 

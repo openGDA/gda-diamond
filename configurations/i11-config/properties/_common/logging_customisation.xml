@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- This is intended as an example file to show how the logging levels can 
+<!-- This is intended as an example file to show how the logging levels can
 	be customised at the instance config level -->
 
 <included>
-	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">        
-	        <layout class="ch.qos.logback.classic.PatternLayout">                   
-	            <pattern>%d %-5level [%logger{36}] - %m%n</pattern>                 
-	        </layout>                                                               
+	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+	        <layout class="ch.qos.logback.classic.PatternLayout">
+	            <pattern>%d %-5level [%logger{36}] - %m%n</pattern>
+	        </layout>
 	    </appender>
 	<!-- <logger name="uk.ac.diamond.scisoft.analysis.io.NexusTreeUtils" level="ERROR" /> -->
 	<logger name="gda.device.motor.EpicsMotor" level="INFO" />
@@ -22,7 +22,7 @@
 	<logger name="org.apache.http" level="INFO" />
 	<logger name="gda.scan.MultithreadedScanDataPointPipeline" level="INFO" />
 	<logger name="gda.scan.ScanDataPointPopulatorAndPublisher" level="INFO" />
-	<root>                                                                      
-        <level value="DEBUG"/>                                                  
+	<root>
+        <level value="DEBUG"/>
     </root>
 </included>

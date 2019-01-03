@@ -14,7 +14,7 @@
 	<bean id="pixiumModel" class="uk.ac.gda.epics.client.pixium.views.PixiumModelImpl">
 		<property name="basePVName" value="BL11J-EA-DET-10:CAM:" />
 	</bean>
-	
+
 	<bean id="pixiumFfmjpeg" class="uk.ac.gda.epics.client.views.model.impl.FFMjpegModelImpl">
 		<property name="basePVName" value="BL11J-EA-DET-10:MJPG:" />
 	</bean>
@@ -45,7 +45,7 @@
 		<property name="viewPartName" value="Pixium Status" />
 		<property name="statusViewController" ref="pixiumStatusViewController" />
 	</bean>
-	
+
 	<bean id="pixiumViewController" class="uk.ac.gda.epics.client.pixium.views.PixiumViewController">
 		<property name="adBaseModel" ref="pixiumAdBaseModel" />
 		<property name="fileSaverModel" ref="pixiumFileSaverModel" />
@@ -56,7 +56,7 @@
 		<property name="viewPartName" value="Pixium Detector" />
 		<property name="pixiumViewController" ref="pixiumViewController" />
 	</bean>
-	
+
 	<bean id="imageviewfactory" class="org.opengda.lde.ui.viewfactories.LiveImageViewFactory">
 		<property name="viewPartName" value="Image" />
 		<property name="xDimension" value="2880" />

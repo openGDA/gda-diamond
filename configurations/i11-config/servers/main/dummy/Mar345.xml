@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- Mar motors	-->	
+	<!-- Mar motors	-->
 	<bean id="tmar_base_mtr" class="gda.device.motor.DummyMotor"/>
 	<bean id="tmar_rot_mtr" class="gda.device.motor.DummyMotor"/>
 	<bean id="tmar_x_mtr" class="gda.device.motor.DummyMotor"/>

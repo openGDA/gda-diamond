@@ -6,7 +6,7 @@
 
 	<bean id="commandQueueProcessor" class="gda.commandqueue.FindableProcessorQueue">
 		<property name="queue" ref="commandQueue" />
-		<property name="logFilePath" value="${gda.logs.dir}/ProcessQueue.log"/> 		
+		<property name="logFilePath" value="${gda.logs.dir}/ProcessQueue.log"/>
 	</bean>
 
 </beans>

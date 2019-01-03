@@ -23,13 +23,13 @@ from gda.configuration.properties import LocalProperties
 bpDict={'i02':'mx0', 'i03':'mx0', 'i04':'mx0', 'i06':'si0', 'i11':'ee0', 'i15':'ee0', 'i16':'mt0', 'i18':'sp0', 'i22':'sm0'};
 
 def setDir(proposal, visit, LocalProperties=LocalProperties):
-    
+
     #get beamline name from GDA propertie
     #beamlineName = LocalProperties.get("gda.beamline.name");
     beamlineName = LocalProperties.get("gda.instrument.name");
-    
+
     commissioningProposal = bpDict.get(beamlineName, 'unknownPorposal');
-    
+
     if proposal == commissioningProposal: # the default commissioning proposal
         userDir = proposal;
     else:
@@ -46,19 +46,19 @@ def setDir(proposal, visit, LocalProperties=LocalProperties):
 
     #remove the old symbolic link
     os.system("rm -f " + symbolicLink);
-    
+
     #create the new symbolic link to point to the user data directory
     os.system("ln -s " + userDir + " " + symbolicLink);
 
 
 def getDir(proposal, visit, LocalProperties=LocalProperties):
-    
+
     #get beamline name from GDA propertie
     #beamlineName = LocalProperties.get("gda.beamline.name");
     beamlineName = LocalProperties.get("gda.instrument.name");
-    
+
     commissioningProposal = bpDict.get(beamlineName, 'unknownPorposal');
-    
+
     if proposal == commissioningProposal: # the default commissioning proposal
         userDir = proposal;
     else:

@@ -14,13 +14,13 @@ parser = OptionParser(usage % "%prog")
 if len(args) == 0:
 	print >>sys.stderr, "usage: %s" % (usage % "fileappender.py")
 	sys.exit(1)
-	
+
 filenames=[]
 if str(args[0]).find("*") != -1:
 	filenames = fnmatch.filter(os.listdir('.'), args[0])
 else:
 	filenames = args[:-1]
-	
+
 #concatenate files into one.
 fdst=open(args[-1], "w")
 for each in filenames:

@@ -1,5 +1,5 @@
 '''
-This module implements flat field calibration of PSD detector described in document 
+This module implements flat field calibration of PSD detector described in document
 S:\Science\Beamlines\Approved\I11\Beamline Manuals\PSD\PSD_Flat_Field_notes_v0.4.doc.
 It consists of two type of scans:
 1. 2 quick scans of 1 minimum duration to calculate number of scans required for a full flat field calibration;
@@ -33,9 +33,9 @@ Usage:
     >>>flatfield.setSlowScanTime(1800)
     To set the required pixel count for the flat field
     >>>flatfield.setRequiredPixelCountForFlatFieldCalibration(100000)
-    
+
 It is recommended the pixel count for a good flat field calibration must be at least 100000.
-    
+
 Created on 25 Jul 2012
 updated on 20 Jan 2014
 
@@ -85,40 +85,40 @@ class FlatFieldCalibration(ScannableMotionBase):
         self._busy=False
         self.originalflatfieldcalibrationfile=None
         self.sum_flat_field_file=None
-        
+
     def setRequiredPixelCountForFlatFieldCalibration(self, count):
         self.requiredpixelcount=count
-        
+
     def getRequiredPixelCountForFlatFieldCalibration(self):
         return self.requiredpixelcount
-    
+
     def setQuickScanTime(self, time):
         self.quickscantime=time
-    
+
     def getQuickScanTime(self):
         return self.quickscantime
-    
+
     def setSlowScanTime(self,time):
         self.slowscantime=time
-        
+
     def getSlowScanTime(self):
         return self.slowscantime
-    
+
     def setStartAngle(self, start):
         self.setLowerGdaLimits(start)
-    
+
     def getStartAngle(self):
         return self.getLowerGdaLimits()[0]
-    
+
     def setStopAngle(self, stop):
         self.setUpperGdaLimits(stop)
-        
+
     def getStopAngle(self):
         return self.getUpperGdaLimits()[0]
-    
+
     def atScanStart(self):
         pass
-    
+
     def prepareFlatFieldCollection(self):
         scanNumTracker.incrementNumber()
         self.originalsubdir=getSubdirectory()  # @UndefinedVariable
@@ -130,10 +130,10 @@ class FlatFieldCalibration(ScannableMotionBase):
         self.motor.setSpeed((float(self.getUpperGdaLimits()[0])-float(self.getLowerGdaLimits()[0]))/self.quickscantime)
         self.motor.moveTo(float(self.getLowerGdaLimits()[0]))
         print "delta motor is now at start angle: "+str(self.motor.getPosition())
-        
+
     def atScanEnd(self):
         pass
-    
+
     def stop(self):
         self.detector.stop()
         self.motor.stop()
@@ -141,12 +141,12 @@ class FlatFieldCalibration(ScannableMotionBase):
             setSubdirectory(self.originalsubdir)  # @UndefinedVariable
         if self.originaldeltavelocity is not None:
             self.motor.setSpeed(self.originaldeltavelocity)
-        
-        
+
+
     def rawAsynchronousMoveTo(self, count=None):
         t1=threading.Thread(target=self.flatFieldScan,name="FlatFieldScan", args=(count,))
         t1.start()
-        
+
     def flatFieldScan(self, count=None):
         try:
             self._busy=True
@@ -158,11 +158,11 @@ class FlatFieldCalibration(ScannableMotionBase):
             self.scanFlatField(2,self.quickscantime+10)
             averagecount=averageScanRawCount(2, self.detector)
             numberofscan=int(math.ceil(self.requiredpixelcount/averagecount*self.quickscantime/self.slowscantime))
-    
+
             print "starting %d flat field calibration scans. Total time to complete is %f seconds." % (numberofscan, (self.slowscantime+30)*numberofscan)
             self.motor.setSpeed((float(self.getUpperGdaLimits()[0])-float(self.getLowerGdaLimits()[0]))/self.slowscantime)
             self.scanFlatField(numberofscan, self.slowscantime+30)
-            
+
             print "Sum all scanned raw data into one flat field data file..."
             self.sum_flat_field_file = sumScanRawData(numberofscan)
             #plot and view flat field raw data in SWING GUI
@@ -171,7 +171,7 @@ class FlatFieldCalibration(ScannableMotionBase):
             except:
                 print "Plot flat field data from .raw data file failed."
                 print "Unexpected error:", sys.exc_info()[0], sys.exc_info()[1]  # @UndefinedVariable
-                            
+
             print "Please check the flat field file for any dead pixels, etc.and check that all the bad channels are in the bed channel list at "+BAD_CHANNEL_LIST
             #apply this flat field correction to PSD in GDA permanently
             self.applyFlatFieldCalibration()
@@ -182,16 +182,16 @@ class FlatFieldCalibration(ScannableMotionBase):
             print "Flat Field Collection Completed."
             self.stop()
             self._busy=False
-    
+
     def rawIsBusy(self):
         return self._busy
-        
+
     def rawGetPosition(self):
         if self.sum_flat_field_file is None:
             print "New flat field file not created yet."
             return 0
         return self.sum_flat_field_file
-        
+
     def scanFlatField(self, numberofscan, time):
         self.detector.setCollectionTime(time)
         scancounter=0
@@ -212,7 +212,7 @@ class FlatFieldCalibration(ScannableMotionBase):
             self.detector.atPointEnd()
             scancounter += 1
         self.detector.atScanEnd()
-        
+
     def applyFlatFieldCalibration(self):
         if self.sum_flat_field_file is not None:
             self.originalflatfieldcalibrationfile=os.readlink(CURRENT_FLAT_FIELD_FILE)
@@ -224,7 +224,7 @@ class FlatFieldCalibration(ScannableMotionBase):
             print "IMPORTANT: You must reset delta limits, theta position, and backstop now!!!"
         else:
             print "Flat field calibration file is not available."
-        
+
     def revertFlatFieldCalibration(self):
         if self.originalflatfieldcalibrationfile is not None:
             os.unlink(CURRENT_FLAT_FIELD_FILE)
@@ -238,9 +238,9 @@ class FlatFieldCalibration(ScannableMotionBase):
 
     def whichFlatFieldCalibration(self):
         return "Current Flat Field data file is " + os.readlink(CURRENT_FLAT_FIELD_FILE)
-            
+
 def read_raw_data(filename):
-    ''' Reads the lines from the specified Mythen raw data file, 
+    ''' Reads the lines from the specified Mythen raw data file,
     and returns an array of (channel, count) tuples'''
     f=open(filename,"rb")
     lines=f.readlines()
@@ -258,7 +258,7 @@ def changeFlatFieldCalibrationTo(real_flatfield_filename, detector=mythen):  # @
                 os.symlink(real_flatfield_filename, CURRENT_FLAT_FIELD_FILE)
             else:
                 os.symlink(os.path.join(PSD_FLATFIELD_DIR,real_flatfield_filename), CURRENT_FLAT_FIELD_FILE)
-                
+
             print "Current Flat Field data file is update to " + str(os.readlink(CURRENT_FLAT_FIELD_FILE))
             from gda.device.detector.mythen.data import MythenRawDataset
             from java.io import File
@@ -268,7 +268,7 @@ def changeFlatFieldCalibrationTo(real_flatfield_filename, detector=mythen):  # @
             raise(Exception("Update Flatfield Calibration Data Failed!"))
     else:
         print "Flat field calibration file "+ str(real_flatfield_filename) +" is not exist. Please ensure you provide the full path name."
-            
+
 def averageScanRawCount(numberofscan, detector=mythen): #@UndefinedVariable
     filenames = []
     for i in range(numberofscan):
@@ -287,7 +287,7 @@ def sumScanRawData(numberofscan, beamenergy=energy, detector=mythen): #@Undefine
     filenames = []
     for i in range(numberofscan):
         filenames.append(str(detector.getDataDirectory()) + str(os.sep) + str(detector.buildRawFilename(i+1)))
-    
+
     now = datetime.datetime.now()
     photonenergy = int(round(float(beamenergy.getPosition())))
     sum_flat_field_file = PSD_FLATFIELD_DIR + str(os.sep) + "Sum_Flat_Field_E" + str(photonenergy) + "keV_T" + str(photonenergy*1000/2) + "eV_" + now.strftime("%Y%m%d") + ".raw"
@@ -296,7 +296,7 @@ def sumScanRawData(numberofscan, beamenergy=energy, detector=mythen): #@Undefine
     for channel in range(len(data[0])):
         values = [data[i][channel][1] for i in range(len(data))]
         summedfile.write("%d %d\n" % (channel, sum(values)))
-    
+
     summedfile.flush()
     summedfile.close()
     print "Summation completed: Flat Field Calibration file is " + sum_flat_field_file
@@ -307,8 +307,8 @@ alias("faltfield")
 
 
 
-    
-    
-    
-    
-    
+
+
+
+
+

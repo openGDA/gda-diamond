@@ -62,7 +62,7 @@ function ra_split_csv, lineIn
   ; Since we preserved nulls above, there should always be an odd
   ; number of quote-separated tokens... If the quotes are paired correctly.
   if (n gt 2 && (n mod 2) eq 1) then begin
-  
+
     commaLoc = STRTOK(line, ',', /PRESERVE_NULL, LENGTH=length)
     line = STRMID(line, commaLoc, length)
 
@@ -71,17 +71,17 @@ function ra_split_csv, lineIn
       indx = WHERE(commaLoc gt quoteLoc[i] and commaLoc lt quoteLoc[i+1], nInside)
       if (nInside gt 0) then line[indx-1] += '\'
     endfor
-    
+
     line = STRJOIN(line, ',')
 
   endif
 
   ; Remove quotes that are just surrounding fields.
   line = STRJOIN(STRTOK(line, '"', /EXTRACT))
-  
+
   ; Put back the quotes that were in the actual field.
   line = STRJOIN(STRTOK(line, STRING(254b), /EXTRACT), '"')
-  
+
   return, STRTOK(line, ',', ESCAPE='\', /EXTRACT, /PRESERVE_NULL)
 end
 ; -----------------------------------------------------------------------------
@@ -99,7 +99,7 @@ pro ra_parse_delim_values, line, types, p_vals, rec_count, $
     toks = whitespace_delimited ? STRTOK(line, /EXTRACT) : $
       STRTRIM(STRTOK(line, delimit, /EXTRACT, /PRESERVE_NULL), 2)
   endelse
-  
+
   length = STRLEN(toks)
 
   on_ioerror, delim_cast_failed
@@ -652,7 +652,7 @@ function read_ascii_spt, $
       return, 0
     endif
   endif
-  
+
   ;  Set which records to read.
   ;
   if (N_ELEMENTS(recordStart) ne 0) then recordStartUse = recordStart $

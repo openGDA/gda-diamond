@@ -7,7 +7,7 @@ Created on 17 Mar 2014
 
 #this has 4 loops for 4 different temperature regimes, and names the binned data accordingly so that they can subsequently be summed more easily
 
- 
+
 
 from os import system
 
@@ -39,7 +39,7 @@ for n in range (0,50):
 
                 # -b 0.03 = rebinning into bins of 0.03 degrees
 
- 
+
 
 #Now repeat for the next set of scans...
 
@@ -59,7 +59,7 @@ for n in range (0,65):
 
                 system ("mythenbin.py -f mean -b 0.03 " +angle3 + angle4 + "> Cool_"+str(start2+(2*n)) +"_binned.dat")
 
- 
+
 
 start3 = 278408
 
@@ -77,7 +77,7 @@ for n in range (0,120):
 
                 system ("mythenbin.py -f mean -b 0.03 " +angle5 + angle6 + "> Lo_"+str(start3+(2*n)) +"_binned.dat")
 
- 
+
 
 start4 = 278648
 

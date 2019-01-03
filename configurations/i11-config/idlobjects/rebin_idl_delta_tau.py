@@ -7,7 +7,7 @@
 ;    (3) MAC_CRYSTAL_OFFSETS_2009.txt
 ;
 ;ONLY WORKS FOR DATA COLLECTED AFTER CVSCAN WAS UPDATED TO
-;AUTOMATICALLY START AT -7 DEG 2THETA. OTHERWISE USE OLD 
+;AUTOMATICALLY START AT -7 DEG 2THETA. OTHERWISE USE OLD
 ;PYTHON REBIN SCRIPT
 ;===========================================================
 
@@ -162,12 +162,12 @@ pro go_for_it_dectector,mac_columns,crystal_offsets,x_raw,y_raw,y_det,m_raw,ave_
   ave_mon=ave_m(0)
   ;
   m_raw(*)=ave_mon/m_raw(*)  ;normalisation scale factor for single file sum
-  ;    
+  ;
   ;normalise y-axes to monitor
   for j=0,mac_count-1 do begin
      y_det(j,*)=y_raw(j,*);*m_raw(*)
   endfor
-  ; 
+  ;
 end
 
 pro larger_rebin,x_new,y_merged,e_merged,user_step_size
@@ -216,7 +216,7 @@ pro larger_rebin,x_new,y_merged,e_merged,user_step_size
         ;
         x_calc=long(slope*(x_new(k))+intercept)
         if x_calc ge n_elements(xnew) then x_calc=n_elements(xnew)-1
-        x_calc2=long(slope*(xnew(x_calc)+1.0)+intercept)  
+        x_calc2=long(slope*(xnew(x_calc)+1.0)+intercept)
         if x_calc2 ge n_elements(xnew) then x_calc2=n_elements(xnew)-1
         xdiff=where(xnew(x_calc:x_calc2) lt x_new(k),xcount)
         xpos=x_calc+max(xdiff);xcount;-1
@@ -286,7 +286,7 @@ pro go_for_it_macs,mac_columns,x_raw,y_raw,m_raw,step_sizes,ave_mon,y_norm,sum_o
   ;-------------------------------------------
   ;set up indices for crystal-arm relationship
   ;-------------------------------------------
-  ; 
+  ;
   n=[0,9,18,27,36]     ;first crystal positions for each MAC
   m=[8,17,26,35,44]    ;last crystal positions for each MAC
   arm=intarr(45)       ;array indexed by crystal number giving which arm crystal is on
@@ -304,9 +304,9 @@ pro go_for_it_macs,mac_columns,x_raw,y_raw,m_raw,step_sizes,ave_mon,y_norm,sum_o
   ;
   for k=sum_start+skip_n_pts,sum_stop-skip_n_pts do begin
     for j=0,mac_count-1 do begin
-       case 1 of 
+       case 1 of
          ;----------------------------------------------------------
-         ;only sum those regions that are in desired summation range 
+         ;only sum those regions that are in desired summation range
          ;----------------------------------------------------------
          (x_raw(j,k) ge x_min) AND $
          (x_raw(j,k) le x_max) AND $
@@ -320,7 +320,7 @@ pro go_for_it_macs,mac_columns,x_raw,y_raw,m_raw,step_sizes,ave_mon,y_norm,sum_o
                                      ;
                                      x_calc=long(slope*(x_raw(j,k))+intercept)
                                      if x_calc ge n_elements(x_new) then x_calc=n_elements(x_new)-1
-                                     x_calc2=long(slope*(x_new(x_calc)+1.0)+intercept)  
+                                     x_calc2=long(slope*(x_new(x_calc)+1.0)+intercept)
                                      if x_calc2 ge n_elements(x_new) then x_calc2=n_elements(x_new)-1
                                      xdiff=where(x_new(x_calc-1:x_calc2+1) lt x_raw(j,k),xcount)
                                      xpos=x_calc+max(xdiff);xcount;-1
@@ -354,7 +354,7 @@ pro go_for_it_macs,mac_columns,x_raw,y_raw,m_raw,step_sizes,ave_mon,y_norm,sum_o
                                      e_m_sum(arm(j),xpos2)=e_m_sum(arm(j),xpos2)+(e_m(k)*b)*(e_m(k)*b)
                                      ;
                                      n_x(arm,xpos)=n_x(arm,xpos)+1.0*a
-                                     n_x(arm,xpos2)=n_x(arm,xpos2)+1.0*b   
+                                     n_x(arm,xpos2)=n_x(arm,xpos2)+1.0*b
                                    end
            else:;continue
         endcase
@@ -417,7 +417,7 @@ pro read_a_file,file_number,cv_tth,cv_macs,cv_n_header,cv_Io,cv_Ie,x_raw,y_raw,y
   e_y=x_raw
   m_raw=fltarr(mac_count,n_elements(temp_x))
   e_m=m_raw
-  ; 
+  ;
   ;-----------------------------------
   ;EXTRACT MONITOR COLUMN - JUST DO Io
   ;-----------------------------------
@@ -427,14 +427,14 @@ pro read_a_file,file_number,cv_tth,cv_macs,cv_n_header,cv_Io,cv_Ie,x_raw,y_raw,y
   ;NOW SET ALL 2THETA TO SAME UNCORRECTED VALUES AND EXTRACT ALL CRYSTAL & MONITOR COUNTS
   ;--------------------------------------------------------------------------------------
   ;
-  ;a small offset is added to both data & monitor to stop div by 0 when calculating 
+  ;a small offset is added to both data & monitor to stop div by 0 when calculating
   ;errors, but if offset is large relative to counts (eg in 120min scans where
   ;counts ~1, then this could introduce a higher background level making fits look
   ;unrealistically good - so make it very small (unlike ESRF!)
   for j=0,mac_count-1 do begin
      x_raw(j,*)=temp_x(0,*)
      temp_y=in_data.(0)(cv_macs(j),0:i_lines-2)
-     y_raw(j,*)=temp_y(0,*)+0.0001  
+     y_raw(j,*)=temp_y(0,*)+0.0001
      e_y(j,*)=sqrt(y_raw(j,*))
      m_raw(j,*)=temp_m(0,*)+0.0001
      e_m(j,*)=sqrt(m_raw(j,*))
@@ -504,7 +504,7 @@ pro merge_macs,x,y,merged1,err,merged2
      case 1 of
        count ge 1:begin
                     merged1(i)=total(dy)/count
-                    merged2(i)=sqrt(total(de))/count  
+                    merged2(i)=sqrt(total(de))/count
                   end
        else:;continue
      endcase
@@ -590,7 +590,7 @@ pro calculate_ave_mon, m_sum,ave_mon
   endif
   ;
   for w=0,4 do begin
-     ;only use those entries in m_sum where monitor counts are present 
+     ;only use those entries in m_sum where monitor counts are present
      m_9_or_more=where(m_sum(w,*) ge 0.0)
      ave_m=moment(m_sum(w,m_9_or_more))
      ave_mon=ave_mon+ave_m(0)
@@ -646,8 +646,8 @@ pro rebin_delta_tau,path,out_path,file_list,user_step_size,argument,user_comment
      case 1 of
        ((argument eq "-b") or $
        (argument eq "-B")):begin
-                             ;batch rebin  
-                             e=sqrt(e) 
+                             ;batch rebin
+                             e=sqrt(e)
                              larger_rebin,x,y,e,user_step_size
                              summed_file_name=file_list(i)+"_"
                              output_rebined_file,summed_file_name,out_path,header,x,y,e,user_comment,x(0),max(x),argument
@@ -821,7 +821,7 @@ pro rebin_it,path,out_path,file_list,user_step_size,argument,user_comment,offset
   endcase
   ;
   ;get crystal offsets
-  ;  
+  ;
   openr,1,offsets_path+"mac_crystal_offsets_2009.txt"
   line=""
   ;
@@ -863,7 +863,7 @@ pro rebin_it,path,out_path,file_list,user_step_size,argument,user_comment,offset
      ;line=strcompress(line,/remove_all)
      header(cv_n_header)=line
      cv_n_header=cv_n_header+1
-  endwhile 
+  endwhile
   header=header(0:cv_n_header-1)
   ;
   ;read columns header line
@@ -901,7 +901,7 @@ pro rebin_it,path,out_path,file_list,user_step_size,argument,user_comment,offset
                             ;
                             ;read in data
                             for i=0,n_files-1 do begin
-                               print,"processing file: ",string(i+1) 
+                               print,"processing file: ",string(i+1)
                                ;
                                ;-----------------
                                ;READ IN DATA FILE
@@ -943,11 +943,11 @@ pro rebin_it,path,out_path,file_list,user_step_size,argument,user_comment,offset
                                       ;ALSO SET UP y-axis, MONITOR AND ERROR ARRAYS FOR EACH MAC ARM HERE
                                       ;------------------------------------------------------------------
                                       ;
-                                      y_sum=fltarr(5,n_new_steps)  
+                                      y_sum=fltarr(5,n_new_steps)
                                       ;
-                                      m_sum=fltarr(5,n_new_steps)  
+                                      m_sum=fltarr(5,n_new_steps)
                                       ;
-                                      n_x=fltarr(5,n_new_steps)    
+                                      n_x=fltarr(5,n_new_steps)
                                       ;
                                       e_sum=fltarr(5,n_new_steps)
                                       e_y_sum=fltarr(5,n_new_steps)
@@ -960,7 +960,7 @@ pro rebin_it,path,out_path,file_list,user_step_size,argument,user_comment,offset
                                endcase
                                ;
                                ;--------------------------------
-                               ;REBIN EACH FILE IN THE FILE LIST 
+                               ;REBIN EACH FILE IN THE FILE LIST
                                ;--------------------------------
                                ;
                                ;-----------------------------------------------
@@ -971,7 +971,7 @@ pro rebin_it,path,out_path,file_list,user_step_size,argument,user_comment,offset
                                ;
                                ;-------------------------------------------------------------
                                ;NEXT TEST WHICH SORT OF REBIN IS REQUIRED AND ACT ACCORDINGLY
-                               ;------------------------------------------------------------- 
+                               ;-------------------------------------------------------------
                                ;
                                case 1 of
                                  ((argument eq "-a") OR $
@@ -989,10 +989,10 @@ pro rebin_it,path,out_path,file_list,user_step_size,argument,user_comment,offset
                                              ;
                                              calculate_ave_mon,m_sum,ave_mon
                                              ;print, "average monitor ",ave_mon
-                                             ; 
+                                             ;
                                              ;------------------------------------------
                                              ;CALCULATE TOTAL ERROR SIGNALS FOR EACH ARM
-                                             ;------------------------------------------                                    
+                                             ;------------------------------------------
                                              calculate_errors_and_normalize,e_sum,e_m_sum,m_sum,y_sum,e_y_sum,ave_mon
                                              ;
                                              ;--------------------------------------------
@@ -1026,10 +1026,10 @@ pro rebin_it,path,out_path,file_list,user_step_size,argument,user_comment,offset
                                                   ;
                                                   calculate_ave_mon, m_sum,ave_mon
                                                   ;print, "average monitor ",ave_mon
-                                                  ; 
+                                                  ;
                                                   ;==========================================
                                                   ;CALCULATE TOTAL ERROR SIGNALS FOR EACH ARM
-                                                  ;==========================================                                    
+                                                  ;==========================================
                                                   calculate_errors_and_normalize,e_sum,e_m_sum,m_sum,y_sum,e_y_sum,ave_mon
                                                   ;
                                                   ;============================================
@@ -1070,7 +1070,7 @@ pro rebin_it,path,out_path,file_list,user_step_size,argument,user_comment,offset
                                                   ;
                                               ;   window,1,title="SUMMED DATA"
                                                   ;trim off the two points either end
-                                              ;   x=x_new(1:n_elements(x_new)-2) 
+                                              ;   x=x_new(1:n_elements(x_new)-2)
                                               ;   y=y_merged(1:n_elements(x_new)-2)
                                               ;   err_y=e_merged(1:n_elements(x_new)-2)
                                               ;   n_x=n_x(1:n_elements(x_new)-2)
@@ -1086,7 +1086,7 @@ pro rebin_it,path,out_path,file_list,user_step_size,argument,user_comment,offset
                                                 ; oplot,x,n_x(4,*)
                                               ;
                                               ;   window,5,title="binned monitor"
-                                              ;   plot, x,m_sum(1:n_elements(x_new)-2)  
+                                              ;   plot, x,m_sum(1:n_elements(x_new)-2)
                                               ;
                                               ;
                                                   ;===========================
@@ -1097,8 +1097,8 @@ pro rebin_it,path,out_path,file_list,user_step_size,argument,user_comment,offset
                                                   output_rebined_file,summed_file_name,out_path,header,x_new,y_merged,e_merged,user_comment,$
                                                                       x_rw(m(0),0),x_rw(n(4),n_elements(x_rw(0,*))-1),argument
                                                   ;
-                                                end 
-                                   else:;continue                                      
+                                                end
+                                   else:;continue
                                endcase
                             endfor
                             case 1 of
@@ -1116,10 +1116,10 @@ pro rebin_it,path,out_path,file_list,user_step_size,argument,user_comment,offset
                                      ;
                                      calculate_ave_mon, m_sum,ave_mon
                                      ;print, "average monitor ",ave_mon
-                                     ; 
+                                     ;
                                      ;==========================================
                                      ;CALCULATE TOTAL ERROR SIGNALS FOR EACH ARM
-                                     ;==========================================                                    
+                                     ;==========================================
                                      calculate_errors_and_normalize,e_sum,e_m_sum,m_sum,y_sum,e_y_sum,ave_mon
                                      ;
                                      ;============================================
@@ -1229,7 +1229,7 @@ pro rebin_idl_delta_tau,arg1_string,arg2_string,arg3_string,arg4_string,arg5_str
            path=strcompress(arg3_string,/remove_all)
            step_size=float(arg4_string)
            user_comment=arg5_string
-           out_path=path+"processing/"  
+           out_path=path+"processing/"
            ;
            ;rebin_it,path,out_path,file_list,step_size,argument,user_comment,offsets_path
            rebin_delta_tau,path,out_path,file_list,step_size,argument,user_comment
@@ -1242,6 +1242,6 @@ pro rebin_idl_delta_tau,arg1_string,arg2_string,arg3_string,arg4_string,arg5_str
   endcase
   !except=0  ;turn off maths error reporting so as not to frighten users!!!!!
              ;actually a division by zero occurs when normalising because
-             ;new binning arrays are longer than data, consequently the bins 
+             ;new binning arrays are longer than data, consequently the bins
              ;at either end do not get filled and remain set to 0.
 end

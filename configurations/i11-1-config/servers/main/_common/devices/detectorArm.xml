@@ -12,7 +12,7 @@
 	<bean id="detectorZ" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="detectorZ_motor" />
 	</bean>
-	
+
 
 	<bean id="detectorArm" class="org.opengda.lde.experiments.DetectorArm">
 		<property name="parkPosition" value="2800.0" />
@@ -25,5 +25,5 @@
 			</list>
 		</property>
 	</bean>
-	
+
 </beans>

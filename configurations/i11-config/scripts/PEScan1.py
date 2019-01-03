@@ -25,14 +25,14 @@ def pescan(function=2, frequency=0.1, amplitude=10.0, shift=0.0, symmetry=50.0, 
     fg.setAmplitude(amplitude)
     fg.setShift(shift)
     fg.setSymmetry(symmetry)
-    sleep(2) 
+    sleep(2)
     #derived parameters for pescan() function inputs
     fg_frequency=fg.getFrequency()
     fg_period=1/fg_frequency
     starttime=number_of_pre_cycles * fg_period
     stoptime=starttime+fg_period
     gatewidth=fg_period/number_of_points_per_cycle
-    
+
     voltage.setNumberOfGates(ng)
     electrometer.setNumberOfGates(ng)
     voltage.addMonitor(1)

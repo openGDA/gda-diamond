@@ -3,7 +3,7 @@ file: peloop.py
 This module defines functions for collecting PSD and PE data at specified High Voltage ramp frequency during PE Loop experiments.
 At slow ramping rate (i.e. period >= 8sec, frequency <= 0.125Hz), each ramp cycle provide 40 data points;
 At fast ramping rate acquisition may need to spread over multiple ramp cycles in order to archive useful diffraction pattern by setting number of gates greater than 1.
- 
+
 Created on 15 Feb 2011
 updated on 22 june 2011
 
@@ -30,7 +30,7 @@ scanNumTracker = NumTracker("tmp");
 
 def peloop(frequency=0.125,numberofgates=1):
     '''convenient method that only permits setting of 2 args: ramp frequency and number of gates.
-    When frequency is less than 0.125Hz, only the default 1 gate required. 
+    When frequency is less than 0.125Hz, only the default 1 gate required.
     when frequency is greater than 2Hz, multiple gates (>1) will be required.
     Between 0.125 and 2 Hz, number of gates will depend on the sample diffraction properties.
     '''
@@ -54,7 +54,7 @@ def pescan(func=2,freq=0.125,amp=5.0,shift=0.0,symmetry=50.0,trig=1,bmode=0,bncy
         fg2.setBurstNCycle(1)
     fg2.setBurstMode(bmode)
     fg2.setBurstState(1)        #switch on burst mode
-    
+
     sleep(1)
 
     #setup func generator 1
@@ -67,21 +67,21 @@ def pescan(func=2,freq=0.125,amp=5.0,shift=0.0,symmetry=50.0,trig=1,bmode=0,bncy
     fg1.setBurstState(bstate)   # switch off burst mode
     fg1.setBurstMode(bmode)
     fg1.setBurstNCycle(bncycle)
-    
+
     sleep(1)
 
-    #calculate acquisition parameters 
+    #calculate acquisition parameters
     fg1_frequency=fg1.getFrequency()
     fg1_period=1/fg1_frequency
     starttime=nprecycles * fg1_period
     stoptime=starttime+fg1_period       # only one cycle
     gatewidth=fg1_period/nptspercycle    # no need to minus file writing time as FIFO can buffer 4 frames
-    
+
     #setup ADC to capture PE data
     peobject.addMonitor(1)
     peobject.setFirstData(True)
-    
-    #setup file name 
+
+    #setup file name
     directory=PathConstructor.createFromDefaultProperty()
     scanNumber=scanNumTracker.incrementNumber()
     peobject.setFilename(directory+(str(scanNumber)))
@@ -95,9 +95,9 @@ def pescan(func=2,freq=0.125,amp=5.0,shift=0.0,symmetry=50.0,trig=1,bmode=0,bncy
     print "sample pre-conditioning cycles, please wait for %s" % starttime
     while(not timer.hasElapsed(starttime)):
         sleep(0.01)
-    
+
     #collection
-    collectionNumber=0    
+    collectionNumber=0
     evr.enableField()
     try:
         if (freq<=0.125):               # 8sec period, 200ms per point
@@ -109,7 +109,7 @@ def pescan(func=2,freq=0.125,amp=5.0,shift=0.0,symmetry=50.0,trig=1,bmode=0,bncy
             pos fastshutter "OPEN"
             mythen.gated(nptspercycle, ng, scanNumber)
             pos fastshutter "CLOSE"
-            peobject.save()       
+            peobject.save()
         else:
             peobject.setFastMode(True)
             for t1 in frange(starttime, stoptime, gatewidth)[:-1]:
@@ -130,16 +130,16 @@ def pescan(func=2,freq=0.125,amp=5.0,shift=0.0,symmetry=50.0,trig=1,bmode=0,bncy
         print "collection completed at %d" % time()
         peobject.removeMonitor()        # ensure monitor removed
         pestop()
- 
+
     #stop ramp output
     fg2.setOutput(0)
     fg1.setOutput(0)
-    
+
 def pestop():
     #stop ramp output
     fg2.setOutput(0)
     fg1.setOutput(0)
-   
+
 # to support syntax: pescan 20 50 0.1 mythen ng nf
 alias("pescan")
 alias("peloop")

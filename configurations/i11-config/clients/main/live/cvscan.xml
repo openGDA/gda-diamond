@@ -71,9 +71,9 @@
 		<property name="name" value="state"/>
 		<property name="pvName" value="BL11I-EA-MAC-01:STATE"/>
 	</bean>
-	
+
 	<bean id="cvscan" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	
+
 	<bean id="messagelistener" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsStringDataListener">
 		<property name="name" value="messagelistener"/>
 		<property name="pvName" value="BL11I-EA-MAC-01:MESSAGE"/>
@@ -93,7 +93,7 @@
 		<property name="epicsProcessName" value="cvscan"/>
 		<property name="stopScannable" ref="cvscan"/>
 	</bean>
-	
+
 	<bean id="macliveplotfactory" class="uk.ac.gda.client.hrpd.viewfactories.LivePlotViewFactory">
 		<property name="plotName" value="MAC"/>
 		<property name="xAxisMin" value="0.000"/>

@@ -22,10 +22,10 @@ class SaveData(Thread):
         Thread.__init__(self, group, target, name, args, kwargs)
         self.file=None
         self.data=[]
-         
+
     def run(self):
         self.save(self._args, self._kwargs)
-        
+
     def save(self, args=(), kwargs={}):
             self.data = sum_datasets(kwargs)
             print "%s: saving data to %s" % (args[2], args[0])

@@ -1,4 +1,4 @@
-# MOTOMAN robot interpreter Message List	
+# MOTOMAN robot interpreter Message List
 Code	Contents
 0	OK
 1010	Command error

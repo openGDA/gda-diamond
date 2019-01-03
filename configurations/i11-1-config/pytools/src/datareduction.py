@@ -35,7 +35,7 @@ datareduction.setAngularCalibrationFile(options.angularConversionFile)
 if len(args) == 0:
     print >>sys.stderr, "usage: %s" % (usage % "datareduction.py")
     sys.exit(1)
-    
+
 outputDir=""
 if options.outputDirectory is None:
     outputDir='.' # current directory

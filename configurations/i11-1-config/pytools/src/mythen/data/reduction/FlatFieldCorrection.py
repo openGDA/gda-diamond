@@ -31,7 +31,7 @@ def getFlatFieldData(flatFieldFilename, badChannelFilename):
     if flatFieldFilename is None:
         return None
     return badChannelCorrection(flatFieldFilename, bad_channel_list)
-   
+
 def flatFieldCorrection(badChannelCorrectedRawData, flatFieldCorrections):
     ''' apply flat field correction to raw data list, return a list of tuples (channel-number, count, error)
         required parameters:
@@ -42,7 +42,7 @@ def flatFieldCorrection(badChannelCorrectedRawData, flatFieldCorrections):
     if flatFieldCorrections is None: #No flat field correction
         for line in badChannelCorrectedRawData:
             results.append((line[0], float(line[1]), int(math.sqrt(line[1]))))
-    else: 
+    else:
         data=zip(badChannelCorrectedRawData, flatFieldCorrections)
         for line in data:
             count=line[0][1]*float(line[1])

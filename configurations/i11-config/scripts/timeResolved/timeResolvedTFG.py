@@ -6,7 +6,7 @@ class TimeResolvedTFG():
 
 
 
-    ##############################################################################    
+    ##############################################################################
     # hatrx parts old
     ##############################################################################
     #HI     = "1 0 " +     "0.002 0 1 0 0 \n"
@@ -19,7 +19,7 @@ class TimeResolvedTFG():
 
     #SEQ_END = "-1 \n"
     #SEQ_DEF = "tfg setup-groups sequence 'collect' \n"
-    
+
     #SEQ0 = TR_HI    +GAP    +HI    +GAP    +HI     +LO    +HI           #1110100
     #SEQ1 = TR_HI    +GAP    +HI    +LO     +HI     +LLO   +HI           #1101001
     #SEQ2 = TR_HI    +LO     +HI    +LLO    +HI     +GAP   +HI           #1010011
@@ -30,7 +30,7 @@ class TimeResolvedTFG():
 
     #SEQ_FULL = SEQ0 + SEQ1 + SEQ2 + SEQ3 + SEQ4 + SEQ5 + SEQ6
     #SEQ_COMMAND = SEQ_DEF + SEQ_FULL + SEQ_END
-    
+
     ##############################################################################
     # fast hatrx 1 us
     ##############################################################################
@@ -54,7 +54,7 @@ class TimeResolvedTFG():
     #SEQ6 = TR_GAP2us  + HI3us   + GAP1us  + HI1us               #0011101   2 peaks
     #SEQ7 = TR_GAP1us  + HI3us   + GAP1us  + HI1us               #0111010   2 peaks
 
-    ##############################################################################    
+    ##############################################################################
     # original hatrx 1 us
     ##############################################################################
     HI      = "1 0 " +               "0.000002 0 1 0 0 \n"
@@ -68,7 +68,7 @@ class TimeResolvedTFG():
 
     SEQ_END = "-1 \n"
     SEQ_DEF = "tfg setup-groups sequence 'collect' \n"
-    
+
     SEQ0 = SEQ0_single = TR_HI    +GAP    +HI    +GAP    +HI     +LO    +HI                      #1110100
     SEQ1 = SEQ1_single = TR_HI    +GAP    +HI    +LO     +HI     +LLO   +HI                      #1101001
     SEQ2 = SEQ2_single = TR_HI    +LO     +HI    +LLO    +HI     +GAP   +HI                      #1010011
@@ -76,7 +76,7 @@ class TimeResolvedTFG():
     SEQ4 = SEQ4_single = TR_HI    +LLO    +HI    +GAP    +HI     +GAP   +HI                      #1001110
     SEQ5 = SEQ5_single = TR_LLO   +HI    +GAP    +HI     +GAP    +HI    +LO     +HI              #0011101
     SEQ6 = SEQ6_single = TR_LO    +HI    +GAP    +HI     +GAP    +HI    +LO     +HI              #0111010
-   
+
     numberSeq = 1
     while numberSeq < 170:
         SEQ0 = SEQ0 + SEQ0_single
@@ -125,57 +125,57 @@ class TimeResolvedTFG():
     ##############################################################################
     #single shot, single pulse waveforms
     ##############################################################################
-    
+
     # mircosecond
-    SEQ_2us_0usdelay =  "19970 0.00000 0.000002 0 1 8 0 \n" + "1 0 0.003 0 0 8 0 \n" 
+    SEQ_2us_0usdelay =  "19970 0.00000 0.000002 0 1 8 0 \n" + "1 0 0.003 0 0 8 0 \n"
     SEQ_2us_10usdelay = "19970 0.00001 0.000002 0 1 8 0 \n" + "1 0 0.003 0 0 8 0 \n"
     SEQ_2us_20usdelay = "19970 0.00002 0.000002 0 1 8 0 \n" + "1 0 0.003 0 0 8 0 \n"
     SEQ_2us_50usdelay = "19970 0.00005 0.000002 0 1 8 0 \n" + "1 0 0.003 0 0 8 0 \n"
-    SEQ_2us_90usdelay = "19970 0.00009 0.000002 0 1 8 0 \n" + "1 0 0.003 0 0 8 0 \n"    
-    
+    SEQ_2us_90usdelay = "19970 0.00009 0.000002 0 1 8 0 \n" + "1 0 0.003 0 0 8 0 \n"
+
     # nanosecond
     SEQ_100ns = "19970 0 0.0000001 0 1 8 0 \n" + "1 0 0.003 0 0 8 0 \n"
     SEQ_100ns_1usdelay = "19970 0.00001 0.0000001 0 1 8 0 \n" + "1 0 0.003 0 0 8 0 \n"
     SEQ_100ns_500usdelay = "19970 0.0005 0.0000001 0 1 8 0 \n" + "1 0 0.003 0 0 8 0 \n"
 
     #Region: Jonathan's Meddling
-    
+
     SEQ_20us_0usdelay = "19970 0 0.00002 0 1 8 0 \n" + "1 0 0.003 0 0 8 0 \n"
-    
+
     #EndRegion
-  
+
     def __init__(self):
         self.tfg = finder.find("tfg")
         self.daserver = finder.find("daserver")
         self.cyc = ""
         self._config()
-        
+
     def _config(self):
         self.daserver.sendCommand("tfg config 'etfg0' tfg2\n")
-        
+
     def _sendSequence(self,sequence=None):
         if sequence == None:
             self.cyc = self.SEQ_COMMAND
         else:
             self.cyc = self.SEQ_DEF + sequence + self.SEQ_END
         self.daserver.sendCommand(self.cyc)
-        
+
     def runSequence(self,sequence=None,numCycles=2000000):
         self._sendSequence(sequence)
         self.daserver.sendCommand("tfg setup-groups cycles %d \n1 collect\n -1 \n" % numCycles)
-        self.tfg.start()                  
+        self.tfg.start()
 
     def getLastCycle(self):
         return self.cyc
-            
+
     def run(self,numCycles=2000000):
         self.runSequence(self.SEQ_FULL,numCycles)
-        
+
     def status(self):
         return self.daserver.sendCommand("tfg read status")
-    
+
     def stop(self):
         self.tfg.stop()
         return self.status()
-        
+
 tfgen = TimeResolvedTFG()

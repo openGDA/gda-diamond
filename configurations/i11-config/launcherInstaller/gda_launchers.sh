@@ -1,7 +1,7 @@
 #!/bin/sh
 # gda_launchers.sh version 4 - more generic
 # Create GDA_Launchers link on users' Desktop on user successfully login
-# to install this script file in /etc/X11/xinit/xinitrc.d/ 
+# to install this script file in /etc/X11/xinit/xinitrc.d/
 #
 #### This file runs if and only if BEAMLINE environment variable is set and GDA software are installed in /$SOFTWAREFOLDER/$BEAMLINE/software/ ####
 #
@@ -16,7 +16,7 @@ if [ ! -n "$BEAMLINE" ]; then
 fi
 
 if [ ! -n "$SOFTWAREFOLDER" ]; then
-	SOFTWAREFOLDER=dls_sw 
+	SOFTWAREFOLDER=dls_sw
 	if [ ! -h "/$SOFTWAREFOLDER/$BEAMLINE/software/gda" ]; then
 		echo "GDA is not installed at /$SOFTWAREFOLDER/$BEAMLINE/software/gda. " >> $HOME/login.log
 		SOFTWAREFOLDER=dls_sw
@@ -40,7 +40,7 @@ else
 		if [ -d "/var/Desktop/.svn" ]; then
 			rm -rf /var/Desktop/.svn
 		fi
-		# create Desktop launcher for GDA 
+		# create Desktop launcher for GDA
 		if [ -d "/var/Desktop" ]; then
 			ln -s /var/Desktop $HOME/Desktop/GDA_Launchers
 		elif [ -d "/$SOFTWAREFOLDER/$BEAMLINE/software/gda/config/Desktop" ]; then

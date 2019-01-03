@@ -14,7 +14,7 @@
 		<property name="height" value="1" />
 		<property name="openCommand" value="tfg open-cc" />
 	</bean>
-	
+
 	<!-- <bean id="xspress2system" class="gda.device.detector.xspress.Xspress2System">
 		<property name="daServer"      ref="daserver" />
 		<property name="tfg"           ref="tfg" />
@@ -22,17 +22,17 @@
 		<property name="mcaOpenCommand"    value="xspress2 open-mca 'xsp1'" />
 		<property name="scalerOpenCommand" value="xspress2 open-scalers 'xsp1'" />
 		<property name="startupScript"     value="xspress2 format-run 'xsp1' res-none" />
-		
+
 		<property name="numberOfDetectors" value="9" />
 		<property name="configFileName"    value="${gda.config}/templates/Xspress_Parameters.xml" />
-		<property name="fullMCABits"      value="12" />				
+		<property name="fullMCABits"      value="12" />
 		<property name="outputFormat">
 			<list>
 				<value>%9.2f</value>
 			</list>
 		</property>
-		<property name="sumAllElementData"      value="true" />	
+		<property name="sumAllElementData"      value="true" />
 	</bean> -->
-	
+
 
 </beans>

@@ -1,7 +1,7 @@
 '''
-A module provides convenient or wrapper method for plot existing data on specified plot panel. 
-It supports plotting of 3 types of data: MAC, SRS, PSD, and the selection of plotting destination. 
-You may also choose to plot over existing plots on the graph or not. 
+A module provides convenient or wrapper method for plot existing data on specified plot panel.
+It supports plotting of 3 types of data: MAC, SRS, PSD, and the selection of plotting destination.
+You may also choose to plot over existing plots on the graph or not.
 
 This method is development to use Swing DataVector plotting facility in GDA.
 
@@ -56,29 +56,29 @@ def plotover(datatype, filename, panelname="DataPlot"):
     '''
     plotdata(filename, datatype, panelname, True)
 
-alias("plot")   
-alias("plotover")   
+alias("plot")
+alias("plotover")
 
 def plotdata(filename, dataType=MAC, plotPane="DataPlot", Overlay=True):
     '''Plot existing data on "MAC, PSD", or "SRS" (if any) Panel, the default is MAC data on DataPlot panel and overlay is True.
-       
+
        syntax:
                plotdata(filename,[MAC|SRS|PSD],["MAC"|"Mythen"|"DataPlot"],[True|False])
-       
+
                where:
-                    filename: the filename string in quote. 
-                
+                    filename: the filename string in quote.
+
                     dataType: the input data types or formats available
 		                MAC - plot MAC data on MAC panel
 		                PSD - plot PSD data on Mythen panel
 		                SRS - plot SRS data on SRS panel
-		            
+
 		            plotPane: the graph panel to display the plot
-		        
+
 		            Overlay:
-                        'True': plot over the exist data on the graph (Default) 
+                        'True': plot over the exist data on the graph (Default)
                         'False': clear existing plot data from the graph before plotting new data
-                         
+
     '''
     print("Data plotting to " + plotPane + " panel, please wait ...")
     if dataType == MAC:
@@ -144,7 +144,7 @@ def plotdata(filename, dataType=MAC, plotPane="DataPlot", Overlay=True):
     print "Plotting completed."
 
 def loadMacData(filename):
-    '''Load MAC data file into a ScanFileHolder object, 
+    '''Load MAC data file into a ScanFileHolder object,
     supporting relative loading with respect to the current collected data (0)'''
     sfh = ScanFileHolder()
     try:
@@ -162,7 +162,7 @@ def loadMacData(filename):
     return sfh
 
 def loadSRSData(filename):
-    '''Load SRS data file into a ScanFileHolder object, 
+    '''Load SRS data file into a ScanFileHolder object,
     supporting relative loading with respect to the current collected data (0)'''
     sfh = ScanFileHolder()
     try:
@@ -202,11 +202,11 @@ def loadMythenSRSFile(filename):
     except IOException, err:
         print "MythenSrsFileLoader failed. " , err
     return filenamelist
-  
+
 def loadMythenRawData(filename):
     '''load the mythen frame data.'''
     from gda.device.detector.mythen.data import MythenRawDataset
-    
+
     if str(filename).startswith(File.separator):
         try:
             dataset = MythenRawDataset(java.io.File(filename))
@@ -222,7 +222,7 @@ def loadMythenRawData(filename):
 def loadMythenData(filename):
     '''load the mythen frame data.'''
     from gda.device.detector.mythen.data import MythenProcessedDataset, MythenMergedDataset
-    
+
     if str(filename).startswith(File.separator):
         try:
             dataset = MythenProcessedDataset(java.io.File(filename))

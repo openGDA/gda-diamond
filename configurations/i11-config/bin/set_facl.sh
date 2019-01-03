@@ -29,7 +29,7 @@ sudo setfacl -R -m g:${BEAMLINE}_staff:rwx,d:g:${BEAMLINE}_staff:rwx /dls_sw/${B
 
 echo "ensure core gda launcher is executable"
 sudo setfacl -R -m u::rwx,g::rwx,g:dls_dasc:rwx,g:gda:rwx,o::rx,d:u::rwx,d:g::rwx,d:g:dls_dasc:rwx,d:g:gda:rwx,d:o::rx /$SOFTWAREFOLDER/$BEAMLINE/software/gda/workspace_git/gda-core.git/uk.ac.gda.core/bin/gda
-	
+
 echo "everyone permissions write to command history file ..."
 sudo setfacl -R -m o::rwx,d:o::rwx /dls_sw/${BEAMLINE}/scripts/.cmdHistory.txt
 

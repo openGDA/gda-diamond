@@ -31,7 +31,7 @@ class DeviceDerivativeClass(ScannableBase):
 		self.refObj1 = Finder.getInstance().find(scannableX)
 		self.refObj2 = Finder.getInstance().find(scannableY)
 		self.deviceFun = deviceFun
-		
+
 
 	def getPosition(self):
 		'''return the derivative value of two scannables. The first value must be discarded as zeros are used for the starting point. '''

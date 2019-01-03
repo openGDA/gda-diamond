@@ -5,9 +5,9 @@ Created on 23 Jan 2015
 @author: fy65
 '''
 # motors: height. chi, psi
-# detcetor: etl1, (based on scaler2 channel 18, and elt1detector) 
+# detcetor: etl1, (based on scaler2 channel 18, and elt1detector)
 
-#mount sample with white tag 
+#mount sample with white tag
 #doing optical alignment first - height
 #install beam stop
 #doing sample alignment with beam
@@ -18,7 +18,7 @@ Created on 23 Jan 2015
 cscan delta 0.01 0.002 etl1
 # move delta to the peak=17.444
 move delta 17.444
-# move sample back 
+# move sample back
 pos height 0
 # get through beam to detector
 pos height 0.5
@@ -55,4 +55,3 @@ pos theta 0.038+4
 
 
 
- 

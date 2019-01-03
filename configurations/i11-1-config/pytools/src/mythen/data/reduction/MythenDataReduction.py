@@ -39,7 +39,7 @@ class DataReduction(object):
         self.badChannelFile=badChannelFile
         self.flatFieldFile=flatFieldFile
         self.angularCalibrationFile=angularCalibrationFile
-        
+
     def process(self, rawDataFile, detectorPosition):
         '''
         perform data reduction processes that convert RAW data (channel versus count) to PROCESSED data (angle versus count channel)
@@ -52,12 +52,12 @@ class DataReduction(object):
         flat_field_corrected_data = flatFieldCorrection(bad_channel_corrected_data, calculate_flat_field_scaling_factors)
         data = applyAngularConversion(self.angularCalibrationFile, detectorPosition, flat_field_corrected_data)
         return data
-    
+
     def reprocess(self, rawDataFile):
         ''' redo Mythen data reduction processes that convert RAW data (channel versus count) to PROCESSED data (angle versus count)
         required parameters:
             1. the raw data file to be processed
-        Note: for this to work, you must already have corresponding reduced data files from this process can pick up detector position. 
+        Note: for this to work, you must already have corresponding reduced data files from this process can pick up detector position.
         '''
         split = str(rawDataFile).split('.')[0]
         datFile=split+".dat"
@@ -65,22 +65,22 @@ class DataReduction(object):
         detectorPos=processed_data[0][0]-BEAMLINE_OFFSET
         print "PSD detector position %f" % detectorPos
         return self.process(rawDataFile, detectorPos)
-        
+
 
     def setBadChannelFile(self, value):
         self.badChannelFile=value
-        
+
     def getBadChannelFile(self):
         return self.badChannelFile
-    
+
     def setFlatFieldFile(self,value):
         self.flatFieldFile=value
-        
+
     def getFlatFieldFile(self):
         return self.flatFieldFile
-    
+
     def setAngularCalibrationFile(self, value):
         self.angularCalibrationFile=value
-        
+
     def getAngularCalibrationFile(self):
         return self.angularCalibrationFile

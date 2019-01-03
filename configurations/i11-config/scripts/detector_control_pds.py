@@ -1,6 +1,6 @@
 from detector_control_class import DetectorControlClass
 pds=[]
-# MAc stage1 
+# MAc stage1
 llim11=DetectorControlClass('llim11', 'BL11I-EA-MAC-01:E1:LLIM', 'BL11I-EA-MAC-01:E1:LLIM:RBV', 'mv', '%4.0f'); pds.append(llim11)
 ulim11=DetectorControlClass('ulim11', 'BL11I-EA-MAC-01:E1:ULIM', 'BL11I-EA-MAC-01:E1:ULIM:RBV', 'mv', '%4.0f'); pds.append(ulim11)
 pmt11=DetectorControlClass('pmt11', 'BL11I-EA-MAC-01:E1:CTRL', 'BL11I-EA-MAC-01:E1:CTRL:RBV', 'mv', '%4.0f'); pds.append(pmt11)
@@ -14,7 +14,7 @@ llim14=DetectorControlClass('llim14', 'BL11I-EA-MAC-01:E4:LLIM', 'BL11I-EA-MAC-0
 ulim14=DetectorControlClass('ulim14', 'BL11I-EA-MAC-01:E4:ULIM', 'BL11I-EA-MAC-01:E4:ULIM:RBV', 'mv', '%4.0f'); pds.append(ulim14)
 pmt14=DetectorControlClass('pmt14', 'BL11I-EA-MAC-01:E4:CTRL', 'BL11I-EA-MAC-01:E4:CTRL:RBV', 'mv', '%4.0f'); pds.append(pmt14)
 llim15=DetectorControlClass('llim15', 'BL11I-EA-MAC-01:E5:LLIM', 'BL11I-EA-MAC-01:E5:LLIM:RBV', 'mv', '%4.0f'); pds.append(llim15)
-ulim15=DetectorControlClass('ulim15', 'BL11I-EA-MAC-01:E5:ULIM', 'BL11I-EA-MAC-01:E5:ULIM:RBV', 'mv', '%4.0f'); pds.append(ulim15) 
+ulim15=DetectorControlClass('ulim15', 'BL11I-EA-MAC-01:E5:ULIM', 'BL11I-EA-MAC-01:E5:ULIM:RBV', 'mv', '%4.0f'); pds.append(ulim15)
 pmt15=DetectorControlClass('pmt15', 'BL11I-EA-MAC-01:E5:CTRL', 'BL11I-EA-MAC-01:E5:CTRL:RBV', 'mv', '%4.0f'); pds.append(pmt15)
 llim16=DetectorControlClass('llim16', 'BL11I-EA-MAC-01:E6:LLIM', 'BL11I-EA-MAC-01:E6:LLIM:RBV', 'mv', '%4.0f'); pds.append(llim16)
 ulim16=DetectorControlClass('ulim16', 'BL11I-EA-MAC-01:E6:ULIM', 'BL11I-EA-MAC-01:E6:ULIM:RBV', 'mv', '%4.0f'); pds.append(ulim16)
@@ -140,22 +140,21 @@ pmt58=DetectorControlClass('pmt58', 'BL11I-EA-MAC-05:E8:CTRL', 'BL11I-EA-MAC-05:
 llim59=DetectorControlClass('llim59', 'BL11I-EA-MAC-05:E9:LLIM', 'BL11I-EA-MAC-05:E9:LLIM:RBV', 'mv', '%4.0f'); pds.append(llim59)
 ulim59=DetectorControlClass('ulim59', 'BL11I-EA-MAC-05:E9:ULIM', 'BL11I-EA-MAC-05:E9:ULIM:RBV', 'mv', '%4.0f'); pds.append(ulim59)
 pmt59=DetectorControlClass('pmt59', 'BL11I-EA-MAC-05:E9:CTRL', 'BL11I-EA-MAC-05:E9:CTRL:RBV', 'mv', '%4.0f'); pds.append(pmt59)
-# Io 
+# Io
 llimIo=DetectorControlClass('llimIo', 'BL11I-DI-IMON-01:E1:LLIM', 'BL11I-DI-IMON-01:E1:LLIM:RBV', 'mv', '%4.0f'); pds.append(llimIo)
 ulimIo=DetectorControlClass('ulimIo', 'BL11I-DI-IMON-01:E1:ULIM', 'BL11I-DI-IMON-01:E1:ULIM:RBV', 'mv', '%4.0f'); pds.append(ulimIo)
 pmtIo=DetectorControlClass('pmtIo', 'BL11I-DI-IMON-01:E1:CTRL', 'BL11I-DI-IMON-01:E1:CTRL:RBV', 'mv', '%4.0f'); pds.append(pmtIo)
-# Ie 
+# Ie
 llimIe=DetectorControlClass('llimIe', 'BL11I-DI-IMON-02:E1:LLIM', 'BL11I-DI-IMON-02:E1:LLIM:RBV', 'mv', '%4.0f'); pds.append(llimIe)
 ulimIe=DetectorControlClass('ulimIe', 'BL11I-DI-IMON-02:E1:ULIM', 'BL11I-DI-IMON-02:E1:ULIM:RBV', 'mv', '%4.0f'); pds.append(ulimIe)
 pmtIe=DetectorControlClass('pmtIe', 'BL11I-DI-IMON-02:E1:CTRL', 'BL11I-DI-IMON-02:E1:CTRL:RBV', 'mv', '%4.0f'); pds.append(pmtIe)
-# etl1 
+# etl1
 llimetl1=DetectorControlClass('llimetl1', 'BL11I-EA-ENV-01:E1:LLIM', 'BL11I-EA-ENV-01:E1:LLIM:RBV', 'mv', '%4.0f'); pds.append(llimetl1)
 ulimetl1=DetectorControlClass('ulimetl1', 'BL11I-EA-ENV-01:E1:ULIM', 'BL11I-EA-ENV-01:E1:ULIM:RBV', 'mv', '%4.0f'); pds.append(ulimetl1)
 pmtetl1=DetectorControlClass('pmtetl1', 'BL11I-EA-ENV-01:E1:CTRL', 'BL11I-EA-ENV-01:E1:CTRL:RBV', 'mv', '%4.0f'); pds.append(pmtetl1)
-# etl2 
+# etl2
 llimetl2=DetectorControlClass('llimetl2', 'BL11I-DI-IMON-02:E1:LLIM', 'BL11I-DI-IMON-02:E1:LLIM:RBV', 'mv', '%4.0f'); pds.append(llimetl2)
 ulimetl2=DetectorControlClass('ulimetl2', 'BL11I-DI-IMON-02:E1:ULIM', 'BL11I-DI-IMON-02:E1:ULIM:RBV', 'mv', '%4.0f'); pds.append(ulimetl2)
 pmtetl2=DetectorControlClass('pmtetl2', 'BL11I-DI-IMON-02:E1:CTRL', 'BL11I-DI-IMON-02:E1:CTRL:RBV', 'mv', '%4.0f'); pds.append(pmtetl2)
 
 print "finished ETL Detector object creation"
-    

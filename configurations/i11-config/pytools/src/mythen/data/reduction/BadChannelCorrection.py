@@ -25,4 +25,3 @@ def getBadChannelList(badChannelFilename):
     if badChannelFilename is None:
         return None
     return read_bad_cahnnel_data(badChannelFilename)
-        

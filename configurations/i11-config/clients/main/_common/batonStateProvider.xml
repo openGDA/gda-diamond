@@ -8,5 +8,5 @@
 		<property name="class" value="gda.jython.IBatonStateProvider" />
 		<property name="service" ref="batonStateProvider" />
 	</bean>
-	
+
 </beans>

@@ -2,10 +2,10 @@
 file: pedatacapturer.py
 
 Module defines a class that monitors PE data capturing in EPICS ADC during a PE Loop experiment.
-It saves the whole PE data along with the gate signal from ADC to disk files and 
+It saves the whole PE data along with the gate signal from ADC to disk files and
 plots PE-Loop in 'DataPlot' panel.
 
-This class requires the High Voltage Amplifier HV monitor being coonected to one ADC channel, 
+This class requires the High Voltage Amplifier HV monitor being coonected to one ADC channel,
 the Keithley Amplifier measurement output being connected to another ADC channel,
 and the gate signal from PSD gate out being connected to a third ADC channel.
 
@@ -43,8 +43,8 @@ adcepv="BL11I-EA-PE-01:EL"
 adcgatepv="BL11I-EA-PE-01:TRIG"
 
 class DataCapturer(ScannableMotionBase, MonitorListener):
-    
-    def __init__(self, name, adc, hv=adcppv, el=adcepv, gate=adcgatepv): 
+
+    def __init__(self, name, adc, hv=adcppv, el=adcepv, gate=adcgatepv):
         self.setName(name)
         self.setInputNames(["HV","Electrometer","gate"])
         self.hv=hv
@@ -67,7 +67,7 @@ class DataCapturer(ScannableMotionBase, MonitorListener):
         self.updatecounter=0
         self.capturecounter=0
         self.adc=adc
-    
+
     def reset(self):
         self.electrometers = []
         self.voltages = []
@@ -77,13 +77,13 @@ class DataCapturer(ScannableMotionBase, MonitorListener):
         self.firstData = True
         self.adc.disable()
         self.data={self.hv:[],self.el:[],self.gate:[]}
-        
+
     def setFilename(self, filename):
         self.filename=filename
-        
+
     def getFilename(self):
         return self.filename
-    
+
     def getElectrometer(self, num):
         ''' retrieve electrometer data from Keithley amplifier.
         '''
@@ -115,7 +115,7 @@ class DataCapturer(ScannableMotionBase, MonitorListener):
             raise
 
     def addMonitors(self):
-        '''add monitors to EPICS ADC HV, electrometer, and gate channels 
+        '''add monitors to EPICS ADC HV, electrometer, and gate channels
         '''
         if self.monitoradded:
             #monitor already added, prevent adding more than one monitor
@@ -188,7 +188,7 @@ class DataCapturer(ScannableMotionBase, MonitorListener):
             print  "%s: PE and gate data update %d" % (self.getName(), self.capturecounter)
             plotthread=Thread(target=self.plotPEdata, name="plot", args=(self.capturecounter-1,), kwargs=self.data)
             plotthread.start()
-            
+
     def plotPEdata(self, *args, **kwargs):
             xarray=scisoftpy.array(kwargs[self.hv][args[0]])
             yrarray=scisoftpy.array(kwargs[self.el][args[0]])
@@ -200,8 +200,8 @@ class DataCapturer(ScannableMotionBase, MonitorListener):
                 self.firstData=False
             else:
                 Plotter.plotOver("DataPlot", vds, eds)
-            
-            
+
+
     def save(self, filename,collectionNumber):
         voltages=[]
         electrometers=[]
@@ -228,13 +228,13 @@ class DataCapturer(ScannableMotionBase, MonitorListener):
 
     def atScanStart(self):
         self.reset()
-  
+
     def atScanEnd(self):
         pass
 
     def atPointStart(self):
         self.reset()
-    
+
     def atPointEnd(self):
         pass
 
@@ -243,15 +243,15 @@ class DataCapturer(ScannableMotionBase, MonitorListener):
 
     def rawAsynchronousMoveTo(self,new_position):
         pass
-    
+
     def rawIsBusy(self):
         return False
 
-    
+
     def setFirstData(self, value):
         self.firstData = value
-    
-    
-    
+
+
+
 #    def toString(self):
 #        return self.name + " : " + str(self.getPosition())

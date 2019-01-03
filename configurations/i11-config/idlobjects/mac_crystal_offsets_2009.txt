@@ -1,4 +1,4 @@
-# these are the individual crystal offsets for the detectors 
+# these are the individual crystal offsets for the detectors
 # old mac19 offset = +7.89538 changed 02 April 09
 # preserve spaces between entries, but not between sign and angle
 ####

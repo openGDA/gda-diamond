@@ -45,7 +45,7 @@ def sum_datasets(datasets):
 				error_data[datapoint] = []
 			error_data[datapoint] += [line[2]]
 			datapoint += 1
-	
+
 	datapoints = angle_data.keys()
 	min_point, max_point = (min(datapoints), max(datapoints))
 
@@ -67,7 +67,7 @@ def sum_datasets(datasets):
 if len(args) == 0:
 	print >>sys.stderr, "usage: %s" % (usage % "mythensum.py")
 	sys.exit(1)
-	
+
 if len(args) == 1 and str(args[0]).find("*") != -1:
 	args = fnmatch.filter(os.listdir('.'), args)
 #print args

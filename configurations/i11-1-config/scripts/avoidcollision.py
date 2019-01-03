@@ -42,13 +42,13 @@ def asynmove(motor, new_position):
             motor.asynchronousMoveTo(new_position)
             print "%s starts to move" % (motor.getName())
 
-from gda.jython.commands.GeneralCommands import alias         
+from gda.jython.commands.GeneralCommands import alias
 alias("move")
 alias("asynmove")
 #
 class UnsafeOperation(Exception):
     ''' Raised when an operation attempts to move a motor to positions that's not allowed.
-    
+
     Attributes:
         prev -- position at the beginning of motion
         next -- attempted new position
@@ -58,4 +58,4 @@ class UnsafeOperation(Exception):
         self.prev = prev
         self.next = next
         self.msg = msg
-        
+

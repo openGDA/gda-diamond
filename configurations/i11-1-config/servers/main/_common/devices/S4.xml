@@ -28,7 +28,7 @@
 	<bean id="s4ygap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s4ygap_motor"/>
 	</bean>
-	
+
 	<bean id="S4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

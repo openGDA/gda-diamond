@@ -73,7 +73,7 @@ def find_min_angle_across_all_datasets(datasets):
 
 def determine_bin(angle, min_angle, binsize):
 	return int((angle - min_angle) / binsize)
-	
+
 if len(args) == 0:
 	print >>sys.stderr, "usage: %s" % (usage % "mythenbin.py")
 	sys.exit(1)

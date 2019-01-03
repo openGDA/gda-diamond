@@ -35,7 +35,7 @@ adcsofttrig={"Done":0,"Busy":1}
 
 
 class AdcControl(ScannableMotionBase):
-    
+
     def __init__(self, name):
         self.setName(name)
         num = int(name[-1])
@@ -62,7 +62,7 @@ class AdcControl(ScannableMotionBase):
         self.adcoffset=CAClient(offset)
         self.average=CAClient(average)
         self.softtrig=CAClient(softtrig)
-        
+
     def continuousMode(self):
         try:
             if not self.mode.isConfigured():
@@ -166,7 +166,7 @@ class AdcControl(ScannableMotionBase):
         except:
             print "Unexpected error:", sys.exc_info()[0]
             raise
-        
+
     def disable(self):
         try:
             if not self.enableField.isConfigured():
@@ -179,7 +179,7 @@ class AdcControl(ScannableMotionBase):
         except:
             print "Unexpected error:", sys.exc_info()[0]
             raise
-    
+
     def setState(self, name):
         try:
             if not self.enableField.isConfigured():
@@ -205,7 +205,7 @@ class AdcControl(ScannableMotionBase):
         except:
             print "Unexpected error:", sys.exc_info()[0]
             raise
-        
+
     def getSamples(self):
         try:
             if not self.samples.isConfigured():
@@ -218,7 +218,7 @@ class AdcControl(ScannableMotionBase):
         except:
             print "Unexpected error:", sys.exc_info()[0]
             raise
-    
+
     def setSamples(self, num):
         try:
             if not self.samples.isConfigured():
@@ -244,7 +244,7 @@ class AdcControl(ScannableMotionBase):
         except:
             print "Unexpected error:", sys.exc_info()[0]
             raise
-    
+
     def setAdcOffset(self, num):
         try:
             if not self.adcoffset.isConfigured():
@@ -270,7 +270,7 @@ class AdcControl(ScannableMotionBase):
         except:
             print "Unexpected error:", sys.exc_info()[0]
             raise
-    
+
     def setAverage(self, num):
         try:
             if not self.average.isConfigured():
@@ -296,7 +296,7 @@ class AdcControl(ScannableMotionBase):
         except:
             print "Unexpected error (%s):", sys.exc_info()[0]
             raise
-        
+
     def externalClock(self):
         try:
             if not self.clock.isConfigured():
@@ -322,7 +322,7 @@ class AdcControl(ScannableMotionBase):
         except:
             print "Unexpected error (%s):", sys.exc_info()[0]
             raise
-        
+
     def auto(self):
         try:
             if not self.reenable.isConfigured():
@@ -348,15 +348,15 @@ class AdcControl(ScannableMotionBase):
         except:
             print "Unexpected error (%s):", sys.exc_info()[0]
             raise
-        
+
     def atScanStart(self):
         '''enableField ADC data collection at scan start'''
-        self.enableField() 
-    
+        self.enableField()
+
     def atScanEnd(self):
         '''disable ADC data collection at scan end'''
         self.disable()
-    
+
     def getPosition(self):
         try:
             return self.getMode(),self.getClockRate(), self.getState(),self.getSamples()
@@ -376,7 +376,7 @@ class AdcControl(ScannableMotionBase):
 
     def isBusy(self):
         return (adcenable[self.getState()] == adcenable["Enabled"])
-    
+
     def stop(self):
         '''disable ADC data collection at scan end'''
         #self.disable()

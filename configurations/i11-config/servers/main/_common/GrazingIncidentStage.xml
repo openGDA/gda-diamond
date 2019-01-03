@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	
+
 	<bean id="height" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="gis_y_motor"/>
 	</bean>
@@ -12,7 +12,7 @@
 	<bean id="psi" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="gis_psi_motor"/>
 	</bean>
-	
+
 	<bean id="gis" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

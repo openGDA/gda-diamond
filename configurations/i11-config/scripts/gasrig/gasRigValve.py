@@ -19,7 +19,7 @@ MODE_SEQUENCE={0:"Remote",1:"Local"}
 INTERLOCKS_SEQUENCE={0:"Failed",1:"Run Ilks OK",2:"OK"}
 
 
-from gda.epics import CAClient 
+from gda.epics import CAClient
 from gda.device.scannable import ScannableMotionBase
 
 class GasRigValveClass(ScannableMotionBase):
@@ -33,7 +33,7 @@ class GasRigValveClass(ScannableMotionBase):
         self.modecli=CAClient(rootPV+VALVE_MODE)
         self.interlockscli=CAClient(rootPV+VALVE_INTERLOCKS)
         self.operationscli=CAClient(rootPV+VALVE_OPERATIONS)
-        
+
     def getStatus(self):
         try:
             if not self.statecli.isConfigured():
@@ -46,7 +46,7 @@ class GasRigValveClass(ScannableMotionBase):
         except:
             print "Error returning current state"
             return 0
-        
+
     def getMode(self):
         try:
             if not self.modecli.isConfigured():
@@ -59,7 +59,7 @@ class GasRigValveClass(ScannableMotionBase):
         except:
             print "Error returning current state"
             return 0
-        
+
     def getInterlocks(self):
         try:
             if not self.interlockscli.isConfigured():
@@ -96,20 +96,20 @@ class GasRigValveClass(ScannableMotionBase):
                 self.controlcli.caput(new_position)
         except:
             print "error setting sequence"
-            
+
     def on(self):
         self.setControl(0)
-        
+
     def off(self):
         self.setControl(1)
-        
+
     def reset(self):
         self.setControl(2)
-        
-#### methods for scannable 
+
+#### methods for scannable
     def getPosition(self):
         return self.getStatus()
-    
+
     def asynchronousMoveTo(self, new_position):
         self.setControl(float(new_position))
 
@@ -126,4 +126,3 @@ class GasRigValveClass(ScannableMotionBase):
         pass
     def atScanEnd(self):
         pass
-    

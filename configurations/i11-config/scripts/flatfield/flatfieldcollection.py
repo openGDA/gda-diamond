@@ -48,4 +48,4 @@ for i in range(NUMBEROFSCANS):
         delta.moveTo(startPosition)  # @UndefinedVariable
         print "Number of scans still to do: %d, total time left: %f" % (NUMBEROFSCANS-scancount, (NUMBEROFSCANS-scancount)*EXPOSURETIME)
 print "flat field data collection completed."
-    
+

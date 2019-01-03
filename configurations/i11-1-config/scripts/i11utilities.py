@@ -23,7 +23,7 @@ ca=CAClient()
 def wd():
     dir = PathConstructor.createFromDefaultProperty()
     return dir
-    
+
 
 
 # function to find the last file path
@@ -31,7 +31,7 @@ def pwd():
     dir = PathConstructor.createFromDefaultProperty()
     filenumber = i11NumTracker.getCurrentFileNumber();
     return os.path.join(dir, str(filenumber))
-    
+
 
 
 # function to find the next file path
@@ -39,17 +39,17 @@ def nwd():
     dir = PathConstructor.createFromDefaultProperty()
     filenumber = i11NumTracker.getCurrentFileNumber();
     return os.path.join(dir, str(filenumber + 1))
-    
+
 # function to find the next scan number
 def nfn():
     filenumber = i11NumTracker.getCurrentFileNumber();
     return filenumber + 1
-    
+
 # function to find the next scan number
 def cfn():
     filenumber = i11NumTracker.getCurrentFileNumber();
     return filenumber
-    
+
 
 # the subdirectory parts
 def setSubdirectory(dirname):
@@ -59,7 +59,7 @@ def setSubdirectory(dirname):
         exceptionType, exception, traceback = sys.exc_info()
         handle_messages.log(None, "problem setting metadata value for 'subdirectory' to " + dirname, exceptionType, exception, traceback, False)
         print "Failed to set metadata value for 'subdirectory' to:", dirname, exception
-        
+
 
 def getSubdirectory():
     try:
@@ -69,7 +69,7 @@ def getSubdirectory():
         handle_messages.log(None, "problem getting metadata value for 'subdirectory' ", exceptionType, exception, traceback, False)
         print "Failed to get metadata value for 'subdirectory':", exception
         return None
-        
+
 
 from gda.data.metadata import GDAMetadataProvider
 def getVisit():
@@ -104,32 +104,32 @@ def getVisitRootPath():
     else:
         visitRootpath = workDirpath
     return visitRootpath
-    
-    
+
+
 def setDataWriterToNexus():
     oldDW = LocalProperties.get("gda.data.scan.datawriter.dataFormat")
     LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
     newDW = LocalProperties.get("gda.data.scan.datawriter.dataFormat")
     print "Old DataWriter: ", oldDW
     print "New DataWriter: ", newDW
-    
+
 def setDataWriterToSrs():
     oldDW = LocalProperties.get("gda.data.scan.datawriter.dataFormat")
     LocalProperties.set("gda.data.scan.datawriter.dataFormat", "SrsDataFile")
     newDW = LocalProperties.get("gda.data.scan.datawriter.dataFormat")
     print "Old DataWriter: ", oldDW
     print "New DataWriter: ", newDW
-    
+
 def getDataWriter():
     return LocalProperties.get("gda.data.scan.datawriter.dataFormat")
-    
+
 class DocumentationScannable(gda.device.scannable.DummyScannable):
     def __init__(self, name, mesg, url=None):
         super(DocumentationScannable, self).__init__(name)
         self.mesg = mesg
         self.url = url
         pass
-    
+
     def __doc__(self):
         hSC = finder.find("helpScriptController")
         if self.url != None and hSC != None:
@@ -143,35 +143,35 @@ class ConstantScannable(gda.device.scannable.ScannableBase):
         self.setInputNames([name])
         self.value = value
         self.unit=unit
-    
+
     def getPosition(self):
         return self.value
-    
+
     def asynchronousMoveTo(self, posi):
         pass
 
     def isBusy(self):
         return False
-    
+
 class CalibrantScannable(gda.device.scannable.ScannableBase):
     def __init__(self, name, value, unit=None):
         self.setName(name)
         self.setInputNames([name])
         self.value = value
         self.unit=unit
-    
+
     def getPosition(self):
         return self.value
-    
+
     def asynchronousMoveTo(self, posi):
         self.value=posi
 
     def isBusy(self):
         return False
-    
+
 def ls_scannables():
     ls_names(Scannable)
-    
+
 
 def setUpCopyPluginForPCO():
     print "setting up cpy plugin for PCO"
@@ -200,7 +200,7 @@ def createScannableFromPV( name, pv, addToNameSpace=True, getAsString=True, hasU
         addToNameSpace = if True, the scannable is accessible from the commandline after the call
         getAsString - If True, output value is a string (useful for enum pv, in which case set getAsString=True, and set hasUnits=False)
         hasUnits - If False, output value is not converted to units - useful for enum pv with getAsString=True
-    
+
     For example,
         createScannableFromPV("pixium10_DataType", "BL12I-EA-DET-10:CAM:DataType", True, True, False)
     creates a scannable for pv with the following enums:

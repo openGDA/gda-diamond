@@ -12,7 +12,7 @@ print
 from gda.data import PathConstructor, NumTracker
 from gda.jython.commands.GeneralCommands import alias, run
 from gda.jython.commands.GeneralCommands import pause as enable_pause_or_interrupt
-from gda.jython.commands.ScannableCommands import scan 
+from gda.jython.commands.ScannableCommands import scan
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
 print "   To set scan returns to its start positions on completion please do:"
@@ -43,7 +43,7 @@ def pwd():
     '''return the working directory'''
     cwd = PathConstructor.createFromDefaultProperty()
     return cwd
-    
+
 alias("pwd")
 
 # function to find the last working file path
@@ -52,7 +52,7 @@ def lwf():
     cwd = PathConstructor.createFromDefaultProperty()
     filenumber = i11JNumTracker.getCurrentFileNumber();
     return os.path.join(cwd,str(filenumber))
-    
+
 alias("lwf")
 
 # function to find the next working file path
@@ -61,7 +61,7 @@ def nwf():
     cwd = PathConstructor.createFromDefaultProperty()
     filenumber = i11JNumTracker.getCurrentFileNumber();
     return os.path.join(cwd,str(filenumber+1))
-    
+
 alias("nwf")
 
 # function to find the next scan number
@@ -69,7 +69,7 @@ def nfn():
     '''query the next file number or scan number'''
     filenumber = i11JNumTracker.getCurrentFileNumber();
     return filenumber+1
-    
+
 alias("nfn")
 
 # the subdirectory parts
@@ -80,7 +80,7 @@ def setSubdirectory(dirname):
         os.mkdir(pwd())
     except :
         pass
-    
+
 def getSubdirectory():
     return finder.find("GDAMetadata").getMetadataValue("subdirectory")
 
@@ -103,7 +103,7 @@ def cdd(dirname):
     else:
         eventAdmin.update(LocalProperties.GDA_DATAWRITER_DIR, dirname)
     print "Data Directory changed to "+ LocalProperties.get(LocalProperties.GDA_DATAWRITER_DIR)
-    
+
 alias("cdd")
 
 print
@@ -153,8 +153,8 @@ diagnoseMAC=macDetectorDiagnostics.MACDetectorDiagnostics("diagnoseMAC", pds, 10
 print "To diagnose MAC run: " + diagnoseMAC.getName()+".run()"
 from diagnostics.diagnose import listOfDiagnoseticsObjects, rundiagnose #@UnusedImport
 listOfDiagnoseticsObjects.append(diagnoseMAC)
-print "To run all diagnose implemented for I11, use: rundiagnose() on command line." 
-print 
+print "To run all diagnose implemented for I11, use: rundiagnose() on command line."
+print
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Create method for load sample information spreadsheet to GDA system."
@@ -167,12 +167,12 @@ print
 # from Automation_class import Automation
 # print "To set/get Mono and ID energy only, use 'energy_gap' object"
 # energy_gap=Automation('energy_gap','energytable', BEAM_ENERGY, rootNameSpace=globals())
-# pds.append(energy_gap) 
+# pds.append(energy_gap)
 # print
 
 ### set output format for scannables
 globals()['energy'].setOutputFormat(["%10.7f"])
-globals()['bragg'].setOutputFormat(["%10.7f"])    
+globals()['bragg'].setOutputFormat(["%10.7f"])
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "function to set wavelength >>>setwavelength(value)"
@@ -242,15 +242,15 @@ try:
     pixium_BaseAcquirePeriod = DisplayEpicsPVClass('pixium_BaseAcquirePeriod', 'BL11J-EA-DET-10:CAM:AcquirePeriod_RBV', 's', '%.3f')
     pixium_ExcludeEarlyFrames = createScannableFromPV("pixium_ExcludeEarlyFrames", "BL11J-EA-DET-10:CAM:MotionBlur", addToNameSpace=True, getAsString=True, hasUnits=False)
 
-    pixium_TotalCount = DisplayEpicsPVClass('pixium_TotalCount', 'BL11J-EA-DET-10:STAT:Total_RBV', 'count', '%.0f') 
+    pixium_TotalCount = DisplayEpicsPVClass('pixium_TotalCount', 'BL11J-EA-DET-10:STAT:Total_RBV', 'count', '%.0f')
     pixium_TimeStamp = DisplayEpicsPVClass('pixium_TimeStamp', 'BL11J-EA-DET-10:STAT:TimeStamp_RBV', 'time', '%.3f')
-    
+
     pixium_DataType=createScannableFromPV("pixium_DataType", "BL11J-EA-DET-10:CAM:DataType", addToNameSpace=True, getAsString=True, hasUnits=False)
     pixium_ID = DisplayEpicsPVClass('pixium_ID', 'BL11J-EA-DET-10:STAT:UniqueId_RBV', 'no', '%.0f')
     pixium_Counter = DisplayEpicsPVClass('pixium_Counter', 'BL11J-EA-DET-10:CAM:ArrayCounter_RBV', 'no', '%.0f')
     pixium_FanSpeed1 = DisplayEpicsPVClass('pixium_FanSpeed1', 'BL11J-EA-DET-10:CAM:DetectorFan1Speed', 'rpm', '%.0f')
     pixium_FanSpeed2 = DisplayEpicsPVClass('pixium_FanSpeed2', 'BL11J-EA-DET-10:CAM:DetectorFan2Speed', 'rpm', '%.0f')
-    pixium_DetectorTemperature = DisplayEpicsPVClass('pixium_DetectorTemperature', 'BL11J-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f') 
+    pixium_DetectorTemperature = DisplayEpicsPVClass('pixium_DetectorTemperature', 'BL11J-EA-DET-10:CAM:DetectorTemperature', 'degree', '%.1f')
 #     calibrant_name=CalibrantScannable("calibrant_name", "CeO2(NIST SRM 674b)")
 #     sample_name=CalibrantScannable("sample_name", "Undefined")
 except:
@@ -303,7 +303,7 @@ alias("meta_rm_allPIXIUM")
 def pad_hdf(t,n=1.0):
     scan(ds, 1.0, n, 1.0, pixium_hdf, t)  # @UndefinedVariable
     scaler2(1)  # @UndefinedVariable
-    
+
 
 alias("pad_hdf")
 from lde.ldescan import *  # @UnusedWildImport
@@ -326,11 +326,11 @@ def lde(t, collectionType=SAM, n=1.0, det=pixium_hdf):  # @UndefinedVariable
             datareduction.setCalibrant(False)  # @UndefinedVariable
         scan(datareduction, 1.0,n,1.0, det, t)  # @UndefinedVariable
 
-alias("lde")      
+alias("lde")
 ##### new objects must be added above this line ###############
 print
 print "=================================================================================================================";
-print "Initialisation script complete." 
+print "Initialisation script complete."
 print
 ###Must leave what after this line last.
 bm1=finder.find("bm")

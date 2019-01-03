@@ -17,7 +17,7 @@
 #
 #next line denotes end of header preamble and must always be present
 ####
-24 06 10 
+24 06 10
 (refined from 24679 applies from 24679 - leBail)
 m1o = 0.06352596
 m2o = 30.13675405
@@ -73,7 +73,7 @@ m3o = 60.01840974
 m4o = 89.97137100
 m5o = 119.93748664
 #
-13 10 09 
+13 10 09
 (refined from 11938 applies from 11938 - LeBail rebinspt2 data offsets)
 m1o = 0.04672217
 m2o = 30.1127242
@@ -81,7 +81,7 @@ m3o = 60.0375237
 m4o = 89.98812867
 m5o = 119.9458856
 #
-06 10 09 
+06 10 09
 (refined from 11633 applies from 11633 - LeBail rebinspt2 data offsets)
 m1o = 0.0497444
 m2o = 30.1156215
@@ -89,7 +89,7 @@ m3o = 60.04076223
 m4o = 89.9928572
 m5o = 119.9593525
 #
-09 9 09 
+09 9 09
 (refined from 11156 applies from 11156 - LeBail)
 m1o = 0.04665123
 m2o = 30.11066141
@@ -97,7 +97,7 @@ m3o = 60.03319249
 m4o = 89.98399966
 m5o = 119.9431964
 #
-15 7 09 
+15 7 09
 (refined from 10151 applies from 10151 - LeBail)
 m1o = 0.03409888
 m2o = 30.09970988
@@ -105,7 +105,7 @@ m3o = 60.02372131
 m4o = 89.98199863
 m5o = 119.9184332
 #
-24 6 09 
+24 6 09
 (refined from 9691-9702.dat applies from 9691 - leBail)
 m1o = 0.03508346
 m2o = 30.10195703
@@ -113,7 +113,7 @@ m3o = 60.02945188
 m4o = 89.99025238
 m5o = 119.9338157
 #
-07 5 09 
+07 5 09
 (refined from 8919-8931.dat applies from 8919 - leBail)
 m1o = 0.03840848
 m2o = 30.10539658
@@ -121,7 +121,7 @@ m3o = 60.03058124
 m4o = 89.99045007
 m5o = 119.9310668
 #
-02 4 09 
+02 4 09
 (refined from 8438+8457.dat applies from 8438 - leBail)
 m1o = 0.03610
 m2o = 30.09994
@@ -129,7 +129,7 @@ m3o = 60.02383
 m4o = 89.98053
 m5o = 119.91474
 #
-23 2 09 
+23 2 09
 (refined from 7779 applies from 7779 - leBail)
 m1o = 0.03409
 m2o = 30.10278
@@ -137,7 +137,7 @@ m3o = 60.01616
 m4o = 89.97549
 m5o = 119.92703
 #
-16 2 09 
+16 2 09
 (refined from 7510 applies from 7510 - leBail)
 m1o = 0.03044705
 m2o = 30.09994507
@@ -145,7 +145,7 @@ m3o = 60.01370245
 m4o = 89.97357941
 m5o = 119.9217938
 #
-04 2 09 
+04 2 09
 (refined from 7096-97.dat applies from 7096 - leBail)
 m1o = 0.03211836
 m2o = 30.10198274
@@ -153,7 +153,7 @@ m3o = 60.01478888
 m4o = 89.97304215
 m5o = 119.9245909
 #
-17 1 09 
+17 1 09
 (refined from 6293-6305.dat applies from 6293 - reitveld)
 m1o = 0.03256246
 m2o = 30.10659474
@@ -161,7 +161,7 @@ m3o = 60.01340704
 m4o = 89.97339205
 m5o = 119.9221075
 #
-1 1 09 
+1 1 09
 (refined from 5417-5430.dat applies from 5417 - new values jan 2009)
 m1o = 0.02077
 m2o = 30.09164

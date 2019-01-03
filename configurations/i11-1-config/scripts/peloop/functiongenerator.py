@@ -18,7 +18,7 @@ from gov.aps.jca import CAException
 import sys
 
 class FunctionGenerator(ScannableMotionBase):
-    
+
     def __init__(self, name):
         self.setName(name)
         num = int(name[-1])
@@ -33,7 +33,7 @@ class FunctionGenerator(ScannableMotionBase):
         offsetrbv="BL11I-EA-FGEN-0%d:OFF:RBV" % num
         sym="BL11I-EA-FGEN-0%d:SYMM" % num
         symrbv="BL11I-EA-FGEN-0%d:SYMM:RBV" % num
-        
+
         dutycyc="BL11I-EA-FGEN-0%d:DCYC" % num
         dutycycrbv="BL11I-EA-FGEN-0%d:DCYC:RBV" % num
         trigger="BL11I-EA-FGEN-0%d:TRIGSRC" % num
@@ -41,8 +41,8 @@ class FunctionGenerator(ScannableMotionBase):
         burstncyc="BL11I-EA-FGEN-0%d:BURSTNCYC" % num
         burstncycrbv="BL11I-EA-FGEN-0%d:BURSTNCYC:RBV" % num
         burststate="BL11I-EA-FGEN-0%d:BURST" % num
-        disable="BL11I-EA-FGEN-0%d:DISABLE" % num        
-        
+        disable="BL11I-EA-FGEN-0%d:DISABLE" % num
+
         self.setInputNames(["frequency","amplitude","shift","symmetry"])
         self.setExtraNames([])
         self.function=CAClient(func)
@@ -63,7 +63,7 @@ class FunctionGenerator(ScannableMotionBase):
         self.burstncycrbv=CAClient(burstncycrbv)
         self.burststate=CAClient(burststate)
         self.disable=CAClient(disable)
-        
+
     # function generator controls
     def setFunction(self, function):
         try:
@@ -168,7 +168,7 @@ class FunctionGenerator(ScannableMotionBase):
         except:
             print "Unexpected error:", sys.exc_info()[0]
             raise
-        
+
     def setShift(self, amplitude):
         try:
             if not self.shiftcli.isConfigured():
@@ -195,7 +195,7 @@ class FunctionGenerator(ScannableMotionBase):
             print "Unexpected error:", sys.exc_info()[0]
             raise
 
-       
+
     def setSymmetry(self, value):
         try:
             if not self.symmetry.isConfigured():
@@ -221,7 +221,7 @@ class FunctionGenerator(ScannableMotionBase):
         except:
             print "Unexpected error:", sys.exc_info()[0]
             raise
-   
+
     def setDutyCycle(self, value):
         try:
             if not self.dutycycle.isConfigured():
@@ -423,12 +423,12 @@ class FunctionGenerator(ScannableMotionBase):
 
     def atScanStart(self):
         '''switch on output'''
-        self.setOutput(1) 
-    
+        self.setOutput(1)
+
     def atScanEnd(self):
         '''switch off output'''
         self.setOutput(0)
-    
+
     def getPosition(self):
         try:
             return self.getFrequency(),self.getAmplitude(), self.getShift(),self.getSymmetry()
@@ -448,7 +448,7 @@ class FunctionGenerator(ScannableMotionBase):
 
     def isBusy(self):
         return (self.getPosition() != self.getTargetPosition())
-    
+
     def stop(self):
         '''switch off output'''
         #self.setOutput(0)

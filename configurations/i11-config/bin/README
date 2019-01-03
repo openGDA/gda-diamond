@@ -1,6 +1,6 @@
 Generic GDA startup commands/scripts and data backup utilities
 
-Important: 
+Important:
 1. provide GDA startup commands
 2. required by *.desktop file
 
@@ -18,7 +18,7 @@ GDA_StartRCP			: start GDA RCP client (using common .metadata, not per user)
 GDA_StartServers		: start GDA servers locally
 GDA_StopServers			: stop local GDA servers
 remotestartupscripts.sh	: internal script to be called remotely by GDA_RemoteStart_Lin to start GDA Servers. It provide gda session logs recorded in gda_output.txt.
-set_facl				: set GDA files/directories access permissions following a fresh checkout or deployment. 
+set_facl				: set GDA files/directories access permissions following a fresh checkout or deployment.
 gda						: redirect call to gda launcher at uk.ac.gda.core/bin/gda, as the later is not on the PATH
 gdarcp					: redirect call to GDA_StartRCP
 gdaclient 				: redirect call to GDA_StartClient

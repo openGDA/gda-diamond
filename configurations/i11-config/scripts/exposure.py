@@ -114,7 +114,7 @@ class RadiationExposure(ZeroInputExtraFieldsDummyPD, IObserver):
             self._last_open = _now()
         if not self._sample['exposure']:
             self._sample['exposure'] = ZERO_TIME
-    
+
     def clear_sample(self):
         LOG.debug('Clearing sample')
         if self._sample is not None:
@@ -122,10 +122,10 @@ class RadiationExposure(ZeroInputExtraFieldsDummyPD, IObserver):
             self._sample['exposure'] = self._exposure()
             self._sample = None
             self._sample_id = None
-        
+
     def _exposure(self):
         """get total exposure time of current sample
-        
+
         this is the total exposure so far plus the time since the shutter opened if
         the shutter is currently open"""
 

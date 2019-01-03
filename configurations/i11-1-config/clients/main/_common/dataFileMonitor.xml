@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
 <!-- 	<bean id="dirWatcher" class="uk.ac.gda.beamline.i11.utils.WatchDirectory"> -->
-		<!-- the following property only works for String[], not List<String> --> 
+		<!-- the following property only works for String[], not List<String> -->
 <!-- 		<property name="filenameExtensions" value="dat,tif,nxs,h5"/> -->
 <!-- 		<property name="directory" value=""/> -->
 <!-- 		<property name="recursive" value="true"/> -->

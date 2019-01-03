@@ -53,7 +53,7 @@ adcreenable={ "Manual":0,"Auto":1}
 adcsofttrig={"Done":0,"Busy":1}
 
 class ADC(ScannableMotionBase, MonitorListener):
-    
+
     def __init__(self, name, hv=adcppv, el=adcepv, gate=adcgatepv):
         self.setName(name)
         self.setInputNames([])
@@ -81,37 +81,37 @@ class ADC(ScannableMotionBase, MonitorListener):
         self.fastMode=True
         self.updatecounter=0
         self.collectionNumber=1
-               
+
     def setNumberOfGates(self, ng):
         self.numberofgate=ng
-        
+
     def getNumberOfGates(self):
         return self.numberofgate
-    
+
     def getCollectionNumber(self):
         return self.collectionNumber
-    
+
     def setCollectionNumber(self, num):
         self.collectionNumber=num
-    
+
     def isFastMode(self):
         return self.fastMode
-    
+
     def setFastMode(self, mode):
         self.fastMode=mode
-        
+
     def reset(self):
         self.electrometers = []
         self.voltages = []
         self.updatecounter=0
         self.collectionNumber=1
-        
+
     def setFilename(self, filename):
         self.filename=filename
-        
+
     def getFilename(self):
         return self.filename
-    
+
     def getElectrometer(self, num):
         try:
             if not self.electrometercli.isConfigured():
@@ -137,7 +137,7 @@ class ADC(ScannableMotionBase, MonitorListener):
         except:
             print "Unexpected error:", sys.exc_info()[0]
             raise
-        
+
     def getElectrometerNord(self):
         try:
             if not self.electrometernordcli.isConfigured():
@@ -163,7 +163,7 @@ class ADC(ScannableMotionBase, MonitorListener):
         except:
             print "Unexpected error:", sys.exc_info()[0]
             raise
-   
+
     def addMonitor(self, count):
         if self.monitoradded:
             #voltagemonitor already added, prevent adding more than one voltagemonitor
@@ -253,7 +253,7 @@ class ADC(ScannableMotionBase, MonitorListener):
             self.firstMonitor = False
             return
         self.updatecounter +=1
-        self.data[mevent.getSource().getName()].append(mevent.getDBR().getDoubleValue())      
+        self.data[mevent.getSource().getName()].append(mevent.getDBR().getDoubleValue())
         #vnord=self.getVoltageNord()
         #if not self.isFastMode():
             #print "frame number collected: ", self.framenumber
@@ -264,7 +264,7 @@ class ADC(ScannableMotionBase, MonitorListener):
             self.collectionNumber += 1
             self.updatecounter=0
             self.save3Data(self.collectionNumber)
-            
+
     def save3Data(self, collectionNumber=None):
         voltages=[]
         electrometers=[]
@@ -358,7 +358,7 @@ class ADC(ScannableMotionBase, MonitorListener):
             self.firstData=False
         else:
             Plotter.plotOver("DataPlot", vds, eds)
-        
+
     def save(self, collectionNumber=None):
         voltages=[]
         electrometers=[]
@@ -394,18 +394,18 @@ class ADC(ScannableMotionBase, MonitorListener):
             self.firstData=False
         else:
             Plotter.plotOver("DataPlot", vds, eds)
-        
 
-    
+
+
     def atScanStart(self):
         self.reset()
-  
+
     def atScanEnd(self):
         pass
 
     def atPointStart(self):
         self.reset()
-    
+
     def atPointEnd(self):
         pass
 
@@ -414,15 +414,15 @@ class ADC(ScannableMotionBase, MonitorListener):
 
     def rawAsynchronousMoveTo(self,new_position):
         pass
-    
+
     def rawIsBusy(self):
         return False
 
-    
+
     def setFirstData(self, value):
         self.firstData = value
-    
-    
-    
+
+
+
 #    def toString(self):
 #        return self.name + " : " + str(self.getPosition())

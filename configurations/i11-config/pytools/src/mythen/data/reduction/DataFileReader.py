@@ -8,7 +8,7 @@ Created on Fri Feb 21 15:16:12 2014
 """
 
 def read_raw_data(filename):
-    ''' Reads the lines from the specified Mythen raw data file, 
+    ''' Reads the lines from the specified Mythen raw data file,
     and returns an array of (channel, count) tuples'''
     lines=readlines(filename)
     return [tuple(map(int, l.strip().split(" "))) for l in lines]
@@ -45,4 +45,3 @@ def read_angular_calibration_data(filename):
         offset=float(line[11])
         moduleConversionParameters[module]=(centre, conversion, offset)
     return moduleConversionParameters
-        

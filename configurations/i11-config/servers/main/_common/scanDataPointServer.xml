@@ -12,5 +12,5 @@
 		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
 		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
 	</bean>
-	
+
 </beans>

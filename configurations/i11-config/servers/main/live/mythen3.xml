@@ -19,7 +19,7 @@
 		<property name="initialSizeX" value="23040" />
 		<property name="initialSizeY" value="1" />
 		<property name="initialBinX" value="1" />
-		<property name="initialBinY" value="1" />	
+		<property name="initialBinY" value="1" />
 	</bean>
 	<bean id="mythen" class="uk.ac.gda.devices.mythen.epics.MythenDetector">
 		<property name="detectorID" value="i11-mcs01" />
@@ -106,7 +106,7 @@
 		<property name="hasChannelInfo" value="false"/>
 		<property name="numberOfModules" value="18"/>
 	</bean>
-		
+
 	<bean id="smythen" class="uk.ac.gda.devices.mythen.epics.MythenDetector">
 		<property name="detectorID" value="i11-mcs01" />
 		<property name="mythenClient">

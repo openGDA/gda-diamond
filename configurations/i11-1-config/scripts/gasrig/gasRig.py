@@ -4,7 +4,7 @@ a scannable for controlling the gas injection rig system which are used to prepa
     2. then vacuum the sample using gasrig.vacSample();
     3. Then set the system pressure by selecting a mass flow controller, its flow, and target pressure using gdarig.gasin(mcf2,1.0,1.0);
     4. scan the sample pressure and collect data e.g. scan sampleP 0.5 0.9 0.1 w 100 cvscan 1800;
-    5. on completion, vent the system by calling gasrig.complete(). 
+    5. on completion, vent the system by calling gasrig.complete().
 
 Created on 6 Dec 2013
 updated on 16 June 2014
@@ -44,7 +44,7 @@ SystemTargetPressure = "BL11J-EA-GIR-01:SYSTEM:SETPOINT:WR"
 SampleTargetPressure = "BL11J-EA-GIR-01:SAMPLE:SETPOINT:WR"
 
 
-from gda.epics import CAClient 
+from gda.epics import CAClient
 from gda.device.scannable import ScannableMotionBase
 
 class GasRigClass(ScannableMotionBase):
@@ -57,7 +57,7 @@ class GasRigClass(ScannableMotionBase):
         self.statecli=CAClient(rootPV+SEQUENCE_STATUS)
         self.systemincli=CAClient(SystemTargetPressure)
         self.sampleincli=CAClient(SampleTargetPressure)
-        
+
     def vacSample(self, samplePressure=dvpc):
         print "Vacuum the sample ..."
         samplePressure.setMode(0)
@@ -80,7 +80,7 @@ class GasRigClass(ScannableMotionBase):
             print "error moving to position"
         samplePressure.moveTo(0.0)
         print "sample is under vacuum now."
-        
+
     def vacSystem(self, systemPressure=bpr):
         print "Vacuum the system ..."
         systemPressure.setMode(0)
@@ -90,7 +90,7 @@ class GasRigClass(ScannableMotionBase):
         try:
             if not self.systemincli.isConfigured():
                 self.systemincli.configure()
-            while target > 0:  
+            while target > 0:
 #                 interruptable()
                 self.systemincli.caput(target)
                 target = target-increment  # increments in bar
@@ -111,7 +111,7 @@ class GasRigClass(ScannableMotionBase):
         sleep(1)
         mfc.asynchronousMoveTo(0)
         print "The system reaches at target pressure %f" % (pressuretarget)
-        
+
     def complete(self,valve=ventvalve,systemPressure=bpr, samplePressure=sampleP):
         print "complete this sample, vent the system"
         self.off()
@@ -121,7 +121,7 @@ class GasRigClass(ScannableMotionBase):
         mfc1.asynchronousMoveTo(0)
         mfc2.asynchronousMoveTo(0)
         mfc3.asynchronousMoveTo(0)
-        
+
     def flushSystem(self,repeat, mfc=mfc1, flow=0.5, duration=60.0, isolation=isolationvalve, vent=ventvalve, systemPressure=bpr):
         print "flushing the system for "+str(duration)+" seconds for "+ str(repeat)+ " times ..."
         isolation.off()
@@ -160,20 +160,20 @@ class GasRigClass(ScannableMotionBase):
                 self.setsequencecli.caput(new_position)
         except:
             print "error setting sequence"
-            
+
     def on(self):
         self.setSequence(0)
-        
+
     def off(self):
         self.setSequence(1)
-        
+
     def reset(self):
         self.setSequence(2)
-        
-#### methods for scannable 
+
+#### methods for scannable
     def getPosition(self):
         return self.getState()
-    
+
     def asynchronousMoveTo(self, new_position):
         self.setSequence(float(new_position))
 
@@ -190,7 +190,7 @@ class GasRigClass(ScannableMotionBase):
         pass
     def atScanEnd(self):
         pass
-    
+
     def xgasin(self, mfc=mfc1, flow=0.1, pressuretarget=1.0, systemPressure=bpr, sleepdelta=1, sleepmove=0.5):
         '''select gas flow control and set system pressure'''
         print "xgasin: inject gas %s into the system." % (mfc.getGasType())

@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-	
+
 	<bean id="resUtil" class="org.opengda.lde.utils.LDEResourceUtil">
 		<property name="fileName" value="newsamples.lde" />
 	</bean>
-	
+
 	<bean id="datacollection" class="org.opengda.lde.experiments.DataCollection">
 		<property name="resUtil" ref="resUtil" />
 		<property name="dataDriver" value="dls"/>

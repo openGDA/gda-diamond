@@ -40,4 +40,3 @@ class HASyringePump(object):
         '''
         Constructor
         '''
-        

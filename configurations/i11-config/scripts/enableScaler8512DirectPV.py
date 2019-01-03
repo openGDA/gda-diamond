@@ -32,7 +32,7 @@ class ScalerChannelEpicsPVClass(ScannableBase):
 	#Scannable Implementations
 	def getPosition(self):
 		return self.getCount();
-	
+
 	def asynchronousMoveTo(self,newPos):
 		self.setCollectionTime(newPos);
 		self.collectData();
@@ -49,7 +49,7 @@ class ScalerChannelEpicsPVClass(ScannableBase):
 			self.chSn.clearup()
 
 
-	#Scaler 8512 implementations		
+	#Scaler 8512 implementations
 	def getTimePreset(self):
 		if self.chTP.isConfigured():
 			newtp = self.chTP.caget()
@@ -70,7 +70,7 @@ class ScalerChannelEpicsPVClass(ScannableBase):
 			self.chTP.configure()
 			tp = self.chTP.caput(newtp)
 			self.chTP.clearup()
-#		Thread.sleep(1000)	
+#		Thread.sleep(1000)
 
 	def getCount(self):
 		if self.chSn.isConfigured():
@@ -83,7 +83,7 @@ class ScalerChannelEpicsPVClass(ScannableBase):
 
 
 	#Detector implementations
-	
+
 	#Tells the detector to begin to collect a set of data, then returns immediately.
 	#public void collectData() throws DeviceException;
 	#Set the Time Preset and start counting automatically
@@ -95,13 +95,13 @@ class ScalerChannelEpicsPVClass(ScannableBase):
 			self.chCNT.configure()
 			tp = self.chCNT.caput(1)
 			self.chCNT.clearup()
-#		Thread.sleep(1000)	
+#		Thread.sleep(1000)
 
 	#Tells the detector how long to collect for during a call of the collectData() method.
 	#public void setCollectionTime(double time) throws DeviceException;
 	def setCollectionTime(self, newTime):
 		self.setTimePreset(newTime)
-		
+
 	#Returns the latest data collected.
 	#public Object readout() throws DeviceException;
 	def getCollectionTime(self):
@@ -109,8 +109,8 @@ class ScalerChannelEpicsPVClass(ScannableBase):
 		return nc
 
 	#Returns the current collecting state of the device.
-	# return ACTIVE (1) if the detector has not finished the requested operation(s), 
-	#        IDLE(0) if in an completely idle state and 
+	# return ACTIVE (1) if the detector has not finished the requested operation(s),
+	#        IDLE(0) if in an completely idle state and
 	#        STANDBY(2) if temporarily suspended.
 	#public int getStatus() throws DeviceException;
 	def getStatus(self):
@@ -119,7 +119,7 @@ class ScalerChannelEpicsPVClass(ScannableBase):
 		else:
 			self.chCNT.configure()
 			self.stauts = self.chCNT.caget()
-			self.chCNT.clearup()	
+			self.chCNT.clearup()
 		if self.stauts == '0': #still counting, Busy
 			return 0
 		else:

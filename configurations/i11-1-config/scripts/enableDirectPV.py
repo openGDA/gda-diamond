@@ -6,7 +6,7 @@ from java.lang import Thread
 from time import sleep
 
 delayTime = 1
- 
+
 class DisplayEpicsPVClass(ScannableBase):
 	'''Create PD to display single EPICS PV'''
 	def __init__(self, name, pvstring, unitstring, formatstring):
@@ -32,7 +32,7 @@ class DisplayEpicsPVClass(ScannableBase):
 
 	def isBusy(self):
 		return 0
-	
+
 	def atEnd(self):
 		if self.cli.isConfigured():
 			self.cli.clearup()
@@ -74,7 +74,7 @@ class SingleEpicsPositionerClass(ScannableBase):
 				return float(self.outcli.caget())
 			else:
 				self.outcli.configure()
-				
+
 				output = self.outcli.caget()
 				if output == None:
 					raise Exception, "null pointer exception in getPosition"
@@ -93,11 +93,11 @@ class SingleEpicsPositionerClass(ScannableBase):
 			else:
 				self.incli.configure()
 				self.incli.caput(new_position)
-				self.incli.clearup()	
+				self.incli.clearup()
 		except Exception,e :
 			print "error in moveTo", e.getMessage(), e, output_move
 			raise e
-	
+
 
 	def isBusy(self):
 		#print "calling isBusy"
@@ -107,11 +107,11 @@ class SingleEpicsPositionerClass(ScannableBase):
 			else:
 				self.statecli.configure()
 				self.status=self.statecli.caget()
-				self.statecli.clearup()	
-#		print "status: "+self.status	
+				self.statecli.clearup()
+#		print "status: "+self.status
 			if self.status ==None:
 				print  "null pointer exception in isBusy"
-				raise Exception, "null pointer exception in isBusy"	
+				raise Exception, "null pointer exception in isBusy"
 			elif self.status=='1':
 				return 0
 			elif self.status=='0':
@@ -144,7 +144,7 @@ class SingleEpicsPositionerClass(ScannableBase):
 			self.statecli.clearup()
 		if self.stopcli.isConfigured():
 			self.stopcli.clearup()
-		
+
 #s1ctrSet = SingleEpicsPositionerClass('s1ctrSet','BL16I-AL-SLITS-01:X:CENTER.VAL','BL16I-AL-SLITS-01:X:CENTER.RBV','BL16I-AL-SLITS-01:X:CENTER.DMOV','BL16I-AL-SLITS-01:X:CENTER.STOP','mm','%.2f')
 
 

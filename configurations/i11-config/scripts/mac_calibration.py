@@ -65,7 +65,7 @@ m2o = 30.13893953
 m3o = 60.05382523
 m4o = 89.99032279
 m5o = 119.95987016
-# these are the individual crystal offsets for the detectors 
+# these are the individual crystal offsets for the detectors
 # all new mac offsets refined from #56580
 #15 October 2010 (refined ZP from #58726.dat - leBail)
 m1o = 0.06945923
@@ -73,7 +73,7 @@ m2o = 30.14208770
 m3o = 60.05597875
 m4o = 89.99310680
 m5o = 119.96154212
-# these are the individual crystal offsets for the detectors 
+# these are the individual crystal offsets for the detectors
 # all new mac offsets refined from #58991
 #20 October 2010 (refined ZP from #58991.dat - leBail)
 m1o = 0.06965427
@@ -81,9 +81,9 @@ m2o = 30.14282937
 m3o = 60.05775073
 m4o = 89.99432012
 m5o = 119.96259746
-# these are the individual crystal offsets for the detectors 
+# these are the individual crystal offsets for the detectors
 # all new mac offsets refined from #58726
-offs = { 
+offs = {
 2:	m1o - 7.93073,
 3:	m1o - 6.02696,
 4:	m1o - 4.00487,
@@ -132,7 +132,7 @@ offs = {
 
 # these are the efficiencies for the detectors
 # original values
-effs = { 
+effs = {
 2:	0.964,
 3:	1.028,
 4:	0.903,

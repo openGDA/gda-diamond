@@ -20,7 +20,7 @@ DESC="da.server for TFG2"
 NAME=da.server
 
 d_start() {
-	# log to 8921 (read only, from anywhere) access on 8920 (control, localhost only), write logfile 
+	# log to 8921 (read only, from anywhere) access on 8920 (control, localhost only), write logfile
 	su -l -c 'cd tfg2 ; procServ -n daserver -l 8921 -L /var/log/daserver/daserver.log 8920 /usr/local/bin/da.server -port -log' i11detector
 }
 

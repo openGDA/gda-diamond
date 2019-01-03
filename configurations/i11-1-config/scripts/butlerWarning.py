@@ -14,5 +14,4 @@ class PositionerWarning(ZeroInputExtraFieldsDummyPD):
                 sleep(1)
             sleep(10)
             print("Continuing scan")
-                
-        
+

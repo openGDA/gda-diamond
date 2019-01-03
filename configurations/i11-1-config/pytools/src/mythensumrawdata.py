@@ -13,7 +13,7 @@ parser = OptionParser(usage % "%prog")
 (options, args) = parser.parse_args()
 
 def read_raw_data(filename):
-    ''' Reads the lines from the specified Mythen raw data file, 
+    ''' Reads the lines from the specified Mythen raw data file,
     and returns an array of (channel, count) tuples'''
     f=open(filename,"rb")
     lines=f.readlines()
@@ -31,7 +31,7 @@ def sumRawData(data):
 if len(args) == 0:
 	print >>sys.stderr, "usage: %s" % (usage % "mythensumrawdata.py")
 	sys.exit(1)
-	
+
 if len(args) == 1 and str(args[0]).find("*") != -1:
 	args = fnmatch.filter(os.listdir('.'), args)
 #print args

@@ -31,7 +31,7 @@
 	<bean id="dcm_lambda" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcmlambda" />
 	</bean>
-	
+
 	<bean id="DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

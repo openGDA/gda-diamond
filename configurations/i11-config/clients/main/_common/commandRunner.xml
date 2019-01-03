@@ -9,5 +9,5 @@
 		<property name="class" value="gda.jython.ICommandRunner" />
 		<property name="service" ref="commandRunner" />
 	</bean>
-	
+
 </beans>

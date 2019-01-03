@@ -31,7 +31,7 @@ def bin_datasets(datasets, binsize, fillgaps, function):
 			if bin not in binned_data:
 				binned_data[bin] = []
 			binned_data[bin] += [line[1]]
-	
+
 	bins = binned_data.keys()
 	min_bin, max_bin = (min(bins), max(bins))
 
@@ -61,7 +61,7 @@ def find_min_angle_across_all_datasets(datasets):
 
 def determine_bin(angle, min_angle, binsize):
 	return int((angle - min_angle) / binsize)
-	
+
 if len(args) == 0:
 	print >>sys.stderr, "usage: %s" % (usage % "mythenbin")
 	sys.exit(1)

@@ -37,7 +37,7 @@ def correct(line,opts):
     # intensity in cts/s would be IO+IE/time.
     # in reality we should multiply by 50000000 as scalar clock is 50Mhz
     # but as we multiply by imav this factor disappears
-    # also, time disappears as we need to divide by that to get vals    
+    # also, time disappears as we need to divide by that to get vals
     if opts["raw"]:
         # just normalise by time
         im = float(split[opts["S1"]])
@@ -57,14 +57,14 @@ def correct(line,opts):
     errs = []
     # and this is the error array for the monitor
     errm = []
-    # now populate and return them    
+    # now populate and return them
     for det in dets:
         # also add a constant (0.5) to the value to avoid divide by zero errors
         v = float(split[det-1+opts["S1"]])*effs[det] + 0.5
         posns.append(posn+offs[det])
         vals.append(v)
         mon.append(im)
-        errs.append(sqrt(v))        
+        errs.append(sqrt(v))
         errm.append(sqrt(im))
     return (im,posns,vals,errs,mon,errm)
 
@@ -140,7 +140,7 @@ def do_rebin(filename,opts):
             mbins = range(bina,binb+1)
             for j,binm in enumerate(mbins):
                 if len(mbins)==1:
-                    # all in one bin, so dist is distance between 2 points 
+                    # all in one bin, so dist is distance between 2 points
                     dist = posns[i] - lastposns[i]
                     ch=1
                 if j==0:
@@ -154,7 +154,7 @@ def do_rebin(filename,opts):
                 else:
                     # probably only use this if rebinning to smaller than 1mdeg
                     # distance is complete bin size
-                    dist = step 
+                    dist = step
                     ch=4
                 if (posns[i] - lastposns[i]) == 0:
                     #lastposns[i] falls exactly on posns[i] - enforce exact boundary
@@ -172,7 +172,7 @@ def do_rebin(filename,opts):
                 dC[i][binm] += vals[i] * (factor)
                 M[i][binm] += mon[i] * (factor)
                 EV[binm] += pow(errs[i] * factor,2)
-                EM[binm] += pow(errm[i] * factor,2)     
+                EM[binm] += pow(errm[i] * factor,2)
                 bins[binm] += dist / step
                 # or store the number of hits per bin
                 #bins[binm] += 1
@@ -192,7 +192,7 @@ def do_rebin(filename,opts):
     # calculate average monitor intensity
     imav = average(ims)
     l = len(ims)
-    # and the error in the average 
+    # and the error in the average
     imerr = sqrt(sum(pow(ims-imav,2))/(l*(l-1)))
     # store as (e/Im)^2
     imerr = pow(imerr / imav,2)
@@ -204,7 +204,7 @@ def do_rebin(filename,opts):
     E = E[start_pt:end_pt]
     P = P[start_pt:end_pt]
     bins = bins[start_pt:end_pt]
-    
+
     # return it
     print
     return (P,dC,M,bins,EV,EM,E,imav,imerr)
@@ -214,7 +214,7 @@ def add_traces(X,bins):
     C = zeros(len(X[0]))
     for c in X:
         C += c
-#   dont need to do C*9/bins since /bins is lost during normalization 
+#   dont need to do C*9/bins since /bins is lost during normalization
     return C
 
 def write_data(P,dC,bins,E,imav,filename,header=""):
@@ -244,7 +244,7 @@ def write_data(P,dC,bins,E,imav,filename,header=""):
         f.write("\t%f\n"%E[i])
     f.close()
     print "=========== DATA REBIN COMPLETED ============"
-    print 
+    print
 
 if __name__=="__main__":
     # first we parse the options
@@ -255,7 +255,7 @@ if __name__=="__main__":
     parser.add_option("-r", "--raw", action="store_true", dest="raw", help="Rebin the raw data, don't normalise to IO or IE")
     parser.add_option("-e", "--eff", action="store_true", dest="eff", help="Don't print out data, just work out the detector efficiencies")
     parser.add_option("-s", "--separate", action="store_true", dest="sep", help="Write out individual traces, don't sum them")
-    parser.add_option("-a", "--additional", action="store", dest="additional", help='Comma separated list of other file numbers in the same dir to add in to results, e.g "3610,3612,3700"')    
+    parser.add_option("-a", "--additional", action="store", dest="additional", help='Comma separated list of other file numbers in the same dir to add in to results, e.g "3610,3612,3700"')
     (options,args) = parser.parse_args()
     try:
         filename = args[0]
@@ -267,7 +267,7 @@ if __name__=="__main__":
             rebin_string = ""
     except IndexError:
         parser.error("Incorrect number of arguments")
-    
+
     print
     print "============== I11 DATA REBIN ==============="
     # then we rebin
@@ -298,7 +298,7 @@ if __name__=="__main__":
         end = min([ max(P) for (P,dC,M,bins,EV,EM,E,imav,imerr) in outs ]) + step
         opts["start"] = start
         pts = bin(end,opts)
-    
+
         # create the arrays for positions...
         P = arange(pts)*step+start
         # Counts...
@@ -313,7 +313,7 @@ if __name__=="__main__":
         E = zeros(pts)
         EM = zeros(pts)
         EV = zeros(pts)
-    
+
         #for nP,ndC,nbins,nE,nimav in outs:
         for nP,ndC,nM,nbins,nEV,nEM,nE,nimav,nimerr in outs:
             opts["start"] = nP[0]
@@ -326,11 +326,11 @@ if __name__=="__main__":
             #E += pow(nE[bin(start,opts):bin(end,opts)],2)
             EV = nEV[bin(start,opts):bin(end,opts)]
             EM = nEM[bin(start,opts):bin(end,opts)]
-        
+
         bins = bins / len(outs)
         imav = imav / len(outs)
         #E = sqrt(E)
-    
+
     # normalize everything
     print "  normalizing & calculating esd's..."
     # first merge counts & monitor arrays into two big ones
@@ -351,7 +351,7 @@ if __name__=="__main__":
         #and then normalise the data
         #mC[i]=(mC[i]/(mM[i]))*imav
         mC[i]=(mC[i]/(mM[i]))
-        #finally scale E by summed-&-normalized Intensity 
+        #finally scale E by summed-&-normalized Intensity
         E[i]=E[i]*mC[i]
         #but then find percentage error of unscaled summed & normed data
         percent = E[i]/mC[i]
@@ -361,21 +361,21 @@ if __name__=="__main__":
         E[i]=mC[i]*percent
 
     print "  normalization complete"
-    
+
     # then we write out the data
     new_filename = filename.replace(path,path+"/processing")
     if options.additional:
         new_filename = new_filename.replace(".dat","") + "_" + "_".join(options.additional.split(",")) + "_red%s.dat"%rebin_string
     else:
         new_filename = new_filename.replace(".dat","") + "_red%s.dat"%rebin_string
-    
+
     if options.eff:
         opts["start"] = offs[2]
         # first find the indices where each new mac comes in
         indices = [ bin(offs[d],opts) for d in dets ][4:]
         indices.append(indices[-1] + indices[-1] - indices[-2] - 100)
         for k,v in effs.items():
-            effs[k] = []        
+            effs[k] = []
         for i in range(1,len(indices)):
             for j,C in enumerate(dC):
                 if C[indices[i]-2]<1 or C[indices[i-1]+2]<1:
@@ -383,11 +383,11 @@ if __name__=="__main__":
                 else:
                     cts = sum(C[indices[i-1]+2:indices[i]-2])
                 effs[dets[j]].append(cts)
-        
+
         # now work out the efficiences iteratively
         for i in range(len(indices)-1):
             d = 4
-            ref_cts = effs[dets[d]][i]            
+            ref_cts = effs[dets[d]][i]
             # average to the mac15 if possible
             while ref_cts<0.1:
                 # otherwise use the middle of the next batch / it's previous eff
@@ -398,14 +398,14 @@ if __name__=="__main__":
             #ref_cts = average([effs[d][i] for d in dets if effs[d][i]>0.1])
             for d in dets:
                 effs[d][i] = effs[d][i]/ref_cts
-        
+
         # now display the efficiencies
         string = "effs = {\n"
         for det in dets:
             eff = average([ x for x in effs[det] if x>0.1])
             string += '%s:\t%4.3f,\n'%(det,eff)
         print string[:-2]+"}"
-        
+
     else:
         if options.sep:
 #            write_data(P,dC,bins,E,imav,new_filename)
@@ -414,11 +414,11 @@ if __name__=="__main__":
 #            write_data(P,add_traces(dC,bins),bins,E,imav,new_filename)
             write_data(P,mC,bins,E,imav,new_filename,opts["header"])
 
-        
+
         # now we might want to display it
         if options.plot:
             print "Press ctrl-c to exit."
-            os.system("/dls/i11/scripts/plot_rebinned.py %s"%new_filename)    
-    
-    
+            os.system("/dls/i11/scripts/plot_rebinned.py %s"%new_filename)
+
+
 

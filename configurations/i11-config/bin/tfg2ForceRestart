@@ -7,7 +7,7 @@ fi
 
 ssh -t -v -i /dls_sw/i11/software/gda/config/tfg2/tfg2_id_dsa -l i11detector bl11i-ea-tfg2-01 killall da.server
 cat >&2 <<EOF
-Look at the respective View window now. 
+Look at the respective View window now.
 A successful restart will produce the following lines:
 	@@@ Received a sigChild for process 3723. The process was killed by signal 15
 	@@@ Current time: Fri May 11 17:26:17 2012
@@ -28,6 +28,6 @@ Use ^C to quit scripts, wait etc, ^\ to really quit the server
 Don't worry, it will need a couple of minutes with failed attempts before it works.
 When the da.server is started successfully restart GDA server, then client.
 
-If your problem persists you have to reboot the detector server (VME rack). 
+If your problem persists you have to reboot the detector server (VME rack).
 Or call for help.
 EOF

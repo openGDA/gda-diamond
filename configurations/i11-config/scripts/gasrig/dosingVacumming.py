@@ -10,7 +10,7 @@ sleep(1)
 #setSamplePressure(self,SampleP, target, increment)
 dose.setSamplePressure(0, 0.05, 0.001)
 
-#scan 
+#scan
 cvscan(1800)  # @UndefinedVariable
 
 #setSamplePressure(self, SampleP, target, decrement)

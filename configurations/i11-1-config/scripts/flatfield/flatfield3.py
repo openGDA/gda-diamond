@@ -31,7 +31,7 @@ def moveMotorTo(angle):
         print "  waiting - motor is at %.1f" % motor.getPosition()
         time.sleep(1.0)
     print "motor has reached position " + str(angle)
-    
+
 def avg(data):
 	return sum(data) / len(data)
 

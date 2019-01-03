@@ -4,13 +4,13 @@ import sys
 
 class Automation(ScannableMotionBase):
     '''Create automation PD that encapsulates and fan-outs control to multiple scannables or pseudo devices.
-    
-        This pseudo device requies a lookup table object to provide scannable/pseudo device names to which it fans 
-        out its request. The lookup table object must be created before the instance creation of this class. The child  
-        scannables or pseudo devices must exist in jython's global namespace prior to any method call of this class 
+
+        This pseudo device requies a lookup table object to provide scannable/pseudo device names to which it fans
+        out its request. The lookup table object must be created before the instance creation of this class. The child
+        scannables or pseudo devices must exist in jython's global namespace prior to any method call of this class
         instance.
         The lookup Table object is described by gda.function.LookupTable class.'''
-        
+
     def __init__(self, name, lutObj='energytable', objType=0, rootNameSpace={}):
         '''Constructor - Only succeed if it find the lookup table, otherwise raise exception.'''
         self.finder=Finder.getInstance()
@@ -89,10 +89,10 @@ class Automation(ScannableMotionBase):
             print "Error returning extraNames", sys.exc_info()[0]
             raise
 
-        
+
     def rawAsynchronousMoveTo(self, new_position):
         '''move every scannables to their corresponding values for this energy.
-        
+
         If a child scannable can not be reached for whatever reason, it just prints out a message, then continue to next.'''
         new_position = float(new_position)
         for s in self.scannables:
@@ -105,32 +105,32 @@ class Automation(ScannableMotionBase):
             elif self.objType == 1:
                 if s.getName() == "energy" or s.getName() == "gap":
                     try:
-                       # print "move " ,s.getName(), " to ", str(self.lut.lookupValue(new_position, s.getName())) 
+                       # print "move " ,s.getName(), " to ", str(self.lut.lookupValue(new_position, s.getName()))
                         s.asynchronousMoveTo(self.lut.lookupValue(new_position, s.getName()))
                     except:
                         print "cannot set " + s.getName() + " to " + str(self.lut.lookupValue(new_position, s.getName()))
-                        raise                       
+                        raise
             elif self.objType == 2:
                 if s.getName().startswith("alp") or s.getName().startswith("talp"):
                     try:
                         s.asynchronousMoveTo(self.lut.lookupValue(new_position, s.getName()))
                     except:
                         print "cannot set " + s.getName() + " to " + str(self.lut.lookupValue(new_position, s.getName()))
-                        raise                       
+                        raise
             elif self.objType ==3:
                 if s.getName().startswith("pmt") or s.getName().startswith("llim"):
                     try:
                         s.asynchronousMoveTo(self.lut.lookupValue(new_position, s.getName()))
                     except:
                         print "cannot set " + s.getName() + " to " + str(self.lut.lookupValue(new_position, s.getName()))
-                        raise                       
+                        raise
 
-                
+
     def rawIsBusy(self):
         '''checks the busy status of all child scannable.
-        
-        If and only if all child scannable are done this will be set to False.'''  
-        self._busy=0      
+
+        If and only if all child scannable are done this will be set to False.'''
+        self._busy=0
         for s in self.scannables:
             if self.objType == 0:
                 try:
@@ -167,7 +167,7 @@ class Automation(ScannableMotionBase):
     def toString(self):
         '''formats what to print to the terminal console.'''
         return self.name + " : " + str(self.getPosition())
-    
-   
+
+
 
 

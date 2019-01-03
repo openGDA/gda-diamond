@@ -26,7 +26,7 @@ def read_data_file(filename):
 if len(args) == 0:
     print >>sys.stderr, "usage: %s" % (usage % "mergecolumns.py")
     sys.exit(1)
-    
+
 filenames=[]
 if str(args[0]).find("*") != -1:
     filenames = fnmatch.filter(os.listdir('.'), args[0])
@@ -35,7 +35,7 @@ else:
 
 datasets = map(read_data_file, filenames)
 result=zip(*tuple(datasets))
-    
+
 # format of count (integer or float) depends on merging function used
 output_format = "%s\t%s\n"
 

@@ -1,7 +1,7 @@
 ''' file: tfg_peloop.py
-This module implements PE loop experiment control and data collection logics and strategy. 
+This module implements PE loop experiment control and data collection logics and strategy.
 Experiment and data collection control are triggered use TFG2 signals acting as master.
-X-ray diffraction patterns are collected from PSD detector using gated control and 
+X-ray diffraction patterns are collected from PSD detector using gated control and
 PE data across the sample are captured continuously using EPICS ADC at 50kHz (update at about 1 second, i.e. every 50000 samples)
 along with the gate signal to identify the positions at which diffraction patterns are collected.
 It support the following requirements:
@@ -11,10 +11,10 @@ It support the following requirements:
 4. settable voltage amplitude - input - to function generator
 5. settable ramping cycle frequency - input - to function generator
 6. allow for pre-cycles to be selected
-At slow ramping rate (frequency <= 0.1Hz), only one cycle is required to produce 40 data points at 0.5 second exposure time 
+At slow ramping rate (frequency <= 0.1Hz), only one cycle is required to produce 40 data points at 0.5 second exposure time
 as there is sufficient time for both counting and data saving;
 At fast ramping rate a single diffraction pattern must be collected over multiple ramp cycles gated at exactly the same voltage level
- in the PELoop in order to produce sufficient counting (at 0.5 secodn exposure time) and 
+ in the PELoop in order to produce sufficient counting (at 0.5 secodn exposure time) and
  the diffraction pattern is saved only at end of the cycles.
 For longer exposure time multiple frames collection are required and the data are summed together post the data collection.
 Created on 27 Jan 2012 for TFG2 driven experiment
@@ -236,7 +236,7 @@ class PELoop(ScannableBase):
             self.fastshutter.moveTo("CLOSE")
             print "collection completed at %d" % time()
             self.stop()
-    def stop(self): 
+    def stop(self):
         print "%s: stop called at %d" % (self.getName(),time())
         GeneralCommands.pause()
         self.pedata.removeMonitors()        # ensure monitor removed
@@ -317,4 +317,4 @@ class PELoop(ScannableBase):
             return "20 kHz"
         else:
             raise "Frequency is out of the range supported!"
-        
+

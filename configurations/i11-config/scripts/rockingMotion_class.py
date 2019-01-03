@@ -176,6 +176,6 @@ class PmacRock(object):
 
     def __exit__(self, type_, value, traceback):
         self.stop()
-    
+
     def __repr__(self):
         return 'PmacRock: {} -> {}'.format(self.lowerLimit, self.upperLimit)

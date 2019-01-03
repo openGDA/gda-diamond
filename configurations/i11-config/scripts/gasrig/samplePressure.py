@@ -19,8 +19,8 @@ PressureControl = "BL11I-EA-GIR-01:SAMPLE:MODE:WR"
 
 class SamplePressure(ScannableBase, MonitorListener):
     '''
-    create a sannable to provide control of gas pressure in the sample. 
-    It will reports to users when the system pressure is less than the sample pressure requested. 
+    create a sannable to provide control of gas pressure in the sample.
+    It will reports to users when the system pressure is less than the sample pressure requested.
     '''
 
     def __init__(self, name, systempressure):
@@ -39,29 +39,29 @@ class SamplePressure(ScannableBase, MonitorListener):
         self.incli=CAClient(TargetPressure)
         self.sysp=systempressure
         self.initialiseTarget()
-        
+
     def atScanStart(self):
         '''intialise parameters before scan'''
-        #TODOS check requested sample pressure can be reached 
+        #TODOS check requested sample pressure can be reached
         if not self.outcli.isConfigured():
             self.outcli.configure()
         if not self.incli.isConfigured():
             self.incli.configure()
         self.target = self.getPosition()
-    
+
     def atScanEnd(self):
         '''clean up resources'''
         if self.outcli.isConfigured():
             self.outcli.clearup()
         if self.incli.isConfigured():
             self.incli.clearup()
-        
+
     def atPointStart(self):
         pass
-    
+
     def atPointEnd(self):
         pass
-        
+
     def getPosition(self):
         '''
         return the current gas pressure in sample
@@ -93,7 +93,7 @@ class SamplePressure(ScannableBase, MonitorListener):
 
     def isBusy(self):
         return (abs(self.getPosition() - self.getTarget())>self.getTolerance())
-    
+
     def stop(self):
         '''
         stop or abort pressure move in the sample.
@@ -103,7 +103,7 @@ class SamplePressure(ScannableBase, MonitorListener):
             self.outcli.clearup()
         if self.incli.isConfigured():
             self.incli.clearup()
-        
+
     def setSamplePressure(self, SampleP, target, increment):
         # SET FINAL SAMPLE PRESSURE AND INCREMENTS
         if SampleP<target:
@@ -155,17 +155,17 @@ class SamplePressure(ScannableBase, MonitorListener):
         else:
             print "already at the sample pressure."
             return
-            
+
 
     def setIncrement(self, value):
         self.increment = value
-        
+
     def getIncrement(self):
-        return self.increment 
+        return self.increment
 
     def getTarget(self):
         return self.target
-    
+
     def getLastTarget(self):
         try:
             if not self.incli.isConfigured():
@@ -178,10 +178,10 @@ class SamplePressure(ScannableBase, MonitorListener):
         except:
             print "Error returning target value"
             return 0
-    
+
     def initialiseTarget(self):
         self.lastTarget=self.getLastTarget()
-        
+
     def getTolerance(self):
         return self.pressureTolerance
     def setTolerance(self, value):

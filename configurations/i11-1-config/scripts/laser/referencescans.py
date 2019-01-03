@@ -11,7 +11,7 @@ mythen_data_converter.setFlatFieldData(None)
 for sp in frange(23.1, 31.1, 0.25):
     # move motor
     tlx.moveTo(sp)
-    # perform 1 exposure 
+    # perform 1 exposure
     psd 20
     print sp
 print "All done."
