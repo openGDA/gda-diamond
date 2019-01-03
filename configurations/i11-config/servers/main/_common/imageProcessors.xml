@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="imageFitter" class="gda.device.detector.nexusprocessor.DataSetFitter">
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imageStats" class="gda.device.detector.nexusprocessor.DatasetStats" >
+		<property name="enable" value="false" />
+		<property name="profileX" value="true"/>
+		<property name="profileY" value="true"/>
+	</bean>
+	<bean id="imagePlotter" class="gda.device.detector.nexusprocessor.DataSetPlotter">
+		<property name="plotName" value="Detector Image" />
+		<property name="enable" value="false" />
+	</bean>
+	<bean id="imageROI" class="gda.device.detector.nexusprocessor.DatasetCreatorFromROI" >
+		<property name="enable" value="false" />
+	</bean>
+	
+	<util:list id="imageProcessors" value-type="gda.device.detector.nexusprocessor.DataSetProcessor">
+		<ref bean="imageFitter" />
+		<ref bean="imageStats" />
+		<ref bean="imagePlotter" />
+	</util:list>
+
+	<bean id="cam_ad_processor" class="gda.device.detector.nexusprocessor.NexusProviderDatasetProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors"/>
+		<constructor-arg ref="imageROI"/>
+	</bean>
+
+	<bean id="cam_ad_filename_processor" class="gda.device.detector.nexusprocessor.NexusProviderFilenameProcessor">
+		<constructor-arg value="" />
+		<constructor-arg value="image_data" />
+		<constructor-arg value="SDS" />
+		<constructor-arg ref="imageProcessors"/>
+		<constructor-arg ref="imageROI"/>
+	</bean>
+
+	<bean id="cam_ad_processors" class="gda.device.detector.nexusprocessor.NexusTreeProviderProcessors">
+		<property name="processors">
+			<list>
+				<ref bean="cam_ad_processor" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

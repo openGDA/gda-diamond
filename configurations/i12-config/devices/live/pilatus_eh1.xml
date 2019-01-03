@@ -115,7 +115,7 @@
 		<property name="fileWriteMode" value="STREAM" />
 	</bean>
 	
-	<bean id="pilatus_eh1_multipleExposure"
+<!-- 	<bean id="pilatus_eh1_multipleExposure"
 		class="gda.device.detector.addetector.triggering.PilatusMultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pilatus_eh1_adbase" />
 		<constructor-arg value="10.0" />
@@ -123,9 +123,9 @@
 		<property name="readAcquireTimeFromHardware" value="true" />
 		<property name="prefix" value="BL12I-EA-PILAT-01:CAM:"/>
 		<property name="ndFile" ref="pilatus_eh1_ndfiletif" />
-		<!-- <property name="imageMode" value="CONTINUOUS"/> -->
+		<property name="imageMode" value="CONTINUOUS"/>
 		<property name="imageMode" value="SINGLE"/>
-	</bean>
+	</bean> -->
 	
 	<!-- NXDetectors -->
 
@@ -185,7 +185,7 @@
 		<!-- <property name="fileWriteMode" value="STREAM" /> -->
 	</bean>
 	
-	<bean id="pilatus_eh1_multipleExposure_cbf"
+<!-- 	<bean id="pilatus_eh1_multipleExposure_cbf"
 		class="gda.device.detector.addetector.triggering.PilatusMultipleExposureSoftwareTriggerAutoMode">
 		<constructor-arg ref="pilatus_eh1_adbase" />
 		<constructor-arg value="10.0" />
@@ -193,9 +193,9 @@
 		<property name="readAcquireTimeFromHardware" value="true" />
 		<property name="prefix" value="BL12I-EA-PILAT-01:CAM:"/>
 		<property name="ndFile" ref="pilatus_eh1_ndfile_cbf" />
-		<!-- <property name="imageMode" value="CONTINUOUS"/> -->
+		<property name="imageMode" value="CONTINUOUS"/>
 		<property name="imageMode" value="SINGLE"/>
-	</bean>
+	</bean> -->
 	
 <!-- 	<bean id="pilatus_eh1_cbf" class="gda.device.detector.NXDetector">
 		<property name="name" value="pilatus_eh1_cbf" />

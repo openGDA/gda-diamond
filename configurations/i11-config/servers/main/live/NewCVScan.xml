@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean id="dataFilenameObserver" class="gda.jython.scriptcontroller.ScriptControllerBase"/>
+	
+	<bean id="cvscan" class="uk.ac.gda.hrpd.cvscan.CVScan">
+		<property name="detectors">
+			<list>
+				<ref bean="mcs1"/>
+				<ref bean="mcs2"/>
+			</list>
+		</property>
+		<property name="dataWriter" ref="macdatawriter"/>
+		<property name="controller" ref="epicscvscan"/>
+		<property name="beamMonitor" ref="bm"/>
+		<property name="psdScannableMotor" ref="delta"/>
+		<property name="psdSafePosition" ref="psdsafeposition"/>
+		<property name="scriptController" ref="dataFilenameObserver"/>
+		<property name="local" value="false"/>
+		<property name="level" value="9"/>
+	</bean>
+	
+</beans>

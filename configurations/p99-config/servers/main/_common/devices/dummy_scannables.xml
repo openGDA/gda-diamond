@@ -1,0 +1,60 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    	http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- Dummy scannables, primarily for testing -->
+
+	<bean id="ix" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="0.0" />
+			</bean>
+		</property>
+		<property name="inputNames" value="ix" />
+	</bean>
+
+	<bean id="iy" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+			<bean class="java.lang.Double">
+				<constructor-arg value="0.0" />
+			</bean>
+		</property>
+		<property name="inputNames" value="iy" />
+	</bean>
+
+	<bean id="ix_noisy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="90" />
+		<property name="randomPositionVariation" value="true" />
+		<property name="randomPositionVariationAmount" value="0.1" />
+	</bean>
+
+	<bean id="iy_noisy_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="90" />
+		<property name="randomPositionVariation" value="true" />
+		<property name="randomPositionVariationAmount" value="0.1" />
+	</bean>
+
+	<bean id="ix_noisy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ix_noisy_motor" />
+	</bean>
+
+	<bean id="iy_noisy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="iy_noisy_motor" />
+	</bean>
+
+	<bean id="dummies" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ix" />
+				<ref bean="ix_noisy" />
+				<ref bean="iy" />
+				<ref bean="iy_noisy" />
+			</list>
+		</property>
+	</bean>	
+
+</beans>

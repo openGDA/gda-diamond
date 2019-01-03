@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=DataDispenser Client
+Type=Application
+Exec=/dls_sw/apps/DataDispenser/python/current/bin/python /dls_sw/apps/DataDispenser/current/dd_client.py
+TryExec=
+X-GNOME-DocPath=
+Terminal=false
+Name[en_GB]=DataDispenser Client
+GenericName[en_GB]=
+Comment[en_GB]=Starts the DataDispenser Client
+Icon=/dls_sw/apps/DataDispenser/current/static/images/dispenser-64x64.png
+Categories=X-opengda;

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean id="ms3x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ms3y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ms3rot_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="ms3_p1" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+		<property name="unit" value="bar" />
+	</bean>
+	<bean id="ms3_p2" class="gda.device.monitor.DummyMonitor">
+		<property name="local" value="true" />
+		<property name="unit" value="bar" />
+	</bean>
+</beans>

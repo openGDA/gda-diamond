@@ -1,0 +1,7 @@
+Files: 
+
+beamline.sh 				- defines BEAMLINE environment variable;
+gda_launchers.sh 			- setting up GDA_Launchers on desktop;
+install-launchers.sh		- install GDA launchers in application menu and install gda_launcher.sh to X11 startup script folder 
+logout.sh 					- remove GDA_Launchers from desktop
+install-gda-launchers.sh    - install GDA launchers only works for BEAMLINE workstations

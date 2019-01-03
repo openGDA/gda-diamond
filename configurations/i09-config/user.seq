@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <DocumentRoot xmlns="http://www.opengda.org/regiondefinition">
   <sequence filename="user.seq" runModeIndex="0" numIterations="1" repeatUntilStopped="false" confirmAfterEachIteration="false" elementSet="Low">
-    <region regionId="_B3wuAEkgEeicR6rakECsZA" Enabled="false" name="New_Region" lensMode="Angular56" passEnergy="10" excitationEnergy="800.0" acquisitionMode="Swept" energyMode="Kinetic" fixEnergy="9.0" lowEnergy="8.0" highEnergy="10.0" energyStep="200.0" stepTime="1.0" firstXChannel="1" lastXChannel="1000" firstYChannel="1" lastYChannel="900" slices="1" detectorMode="ADC" ADCMask="255" discriminatorLevel="10" totalSteps="15" totalTime="15.0">
+    <region regionId="_B3wuAEkgEeicR6rakECsZA" Enabled="false" name="New_Region" lensMode="Angular56" passEnergy="10" excitationEnergy="800.0" acquisitionMode="Swept" energyMode="Kinetic" fixEnergy="9.0" lowEnergy="8.0" highEnergy="10.0" energyStep="200.0" stepTime="1.0" firstXChannel="1" lastXChannel="1000" firstYChannel="101" lastYChannel="800" slices="1" detectorMode="ADC" ADCMask="255" discriminatorLevel="10" totalSteps="15" totalTime="15.0">
       <runMode mode="NORMAL" runModeIndex="0" numIterations="1" repeatUntilStopped="false" confirmAfterEachIteration="false"/>
     </region>
     <spectrum location="Diamond I09" User="i09user" sampleName="sample name" filenamePrefix="FilenamePrefix" baseDirectory="myBaseDirectory" filenameFormat="%s_%05d_%s" fileExtension=".nxs" numberOfComments="1" comments=""/>

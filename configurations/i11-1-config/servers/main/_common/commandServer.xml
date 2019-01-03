@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
+
+	<bean id="jythonServerFacade" class="gda.jython.JythonServerFacade">
+		<constructor-arg ref="command_server" />
+	</bean>
+
+	<bean id="user_script_project" class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.users.scripts.dir}" />
+		<property name="name" value="user-scripts" />
+		<property name="type" value="USER" />
+	</bean>
+
+	<bean id="configuration_script_project" class="gda.jython.ScriptProject">
+		<property name="path" value="${gda.config}/scripts" />
+		<property name="name" value="beamline-config-scripts" />
+		<property name="type" value="CONFIG" />
+	</bean>
+
+	<bean id="script_paths" class="gda.jython.ScriptPaths">
+		<property name="projects">
+			<list>
+				<ref local="user_script_project" />
+				<ref local="configuration_script_project" />
+			</list>
+		</property>
+		<property name="startupScript" value="${gda.jython.startupScript}" />
+	</bean>
+
+	<bean id="command_server" class="gda.jython.JythonServer">
+		<property name="jythonScriptPaths" ref="script_paths" />
+	</bean>
+
+	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
+		<property name="template" value="${gda.data.terminal.logger.dir}/gdaterminal.log" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
+		<constructor-arg ref="terminallog_path_provider" />
+	</bean>
+	<bean class="gda.jython.logger.OutputTerminalAdapter">
+		<constructor-arg ref="jythonServerFacade" />
+		<constructor-arg ref="terminal_logger" />
+	</bean>
+	<bean class="gda.jython.logger.InputTerminalAdapter">
+		<constructor-arg ref="command_server" />
+		<constructor-arg ref="terminal_logger" />
+	</bean>
+	<bean class="gda.jython.logger.ScanDataPointAdapter">
+		<constructor-arg ref="jythonServerFacade" />
+		<constructor-arg ref="terminal_logger" />
+	</bean>
+	<bean class="gda.jython.logger.BatonChangedAdapter">
+		<constructor-arg ref="jythonServerFacade" />
+		<constructor-arg ref="terminal_logger" />
+	</bean>
+
+</beans>

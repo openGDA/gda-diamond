@@ -1,0 +1,152 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+	<!-- Live data traces -->
+	<bean id="mac1x" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="pvName" value="BL11I-EA-MAC-01:MAC1X"/>
+		<property name="name" value="mac1x"/>
+	</bean>
+	<bean id="mac2x" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="name" value="mac2x"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:MAC2X"/>
+	</bean>
+	<bean id="mac3x" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="name" value="mac3x"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:MAC3X"/>
+	</bean>
+	<bean id="mac4x" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="name" value="mac4x"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:MAC4X"/>
+	</bean>
+	<bean id="mac5x" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="name" value="mac5x"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:MAC5X"/>
+	</bean>
+	<bean id="mac1y" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="name" value="mac1y"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:MAC1Y"/>
+	</bean>
+	<bean id="mac2y" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="name" value="mac2y"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:MAC2Y"/>
+	</bean>
+	<bean id="mac3y" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="name" value="mac3y"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:MAC3Y"/>
+	</bean>
+	<bean id="mac4y" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="name" value="mac4y"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:MAC4Y"/>
+	</bean>
+	<bean id="mac5y" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="name" value="mac1x"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:MAC5Y"/>
+	</bean>
+	<!-- live data ready or available -->
+	<bean id="pulsedone" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsIntegerDataListener">
+		<property name="name" value="pulsedone"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:GPULSES"/>
+	</bean>
+	<!-- reduced data set -->
+	<bean id="allx" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="name" value="allx"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:ALLX"/>
+	</bean>
+	<bean id="ally" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="name" value="ally"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:ALLY"/>
+	</bean>
+	<bean id="allye" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsDoubleDataArrayListener">
+		<property name="name" value="allye"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:ALLYE"/>
+	</bean>
+	<!-- detector state -->
+	<bean id="state" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsEnumDataListener">
+		<property name="name" value="state"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:STATE"/>
+	</bean>
+	
+	<bean id="cvscan" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	
+	<bean id="messagelistener" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsStringDataListener">
+		<property name="name" value="messagelistener"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:MESSAGE"/>
+	</bean>
+	<bean id="worklistener" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsIntegerDataListener">
+		<property name="name" value="worklistener"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:GPULSES"/>
+	</bean>
+	<bean id="totalworklistener" class="uk.ac.gda.client.hrpd.epicsdatamonitor.EpicsIntegerDataListener">
+		<property name="name" value="totalworklistener"/>
+		<property name="pvName" value="BL11I-EA-MAC-01:NPULSES"/>
+	</bean>
+	<bean id="epicsprogressmonitor" class="uk.ac.gda.client.hrpd.views.EpicsRunableWithProgress">
+		<property name="totalWorkListener" ref="totalworklistener"/>
+		<property name="workedSoFarListener" ref="worklistener"/>
+		<property name="messageListener" ref="messagelistener"/>
+		<property name="epicsProcessName" value="cvscan"/>
+		<property name="stopScannable" ref="cvscan"/>
+	</bean>
+	
+	<bean id="macliveplotfactory" class="uk.ac.gda.client.hrpd.viewfactories.LivePlotViewFactory">
+		<property name="plotName" value="MAC"/>
+		<property name="xAxisMin" value="0.000"/>
+		<property name="xAxisMax" value="150.000"/>
+		<property name="liveDataListeners">
+			<list>
+				<bean class="org.javatuples.Triplet">
+					<constructor-arg index="0" value="mac1"/>
+					<constructor-arg index="1" ref="mac1x"/>
+					<constructor-arg index="2" ref="mac1y"/>
+				</bean>
+				<bean class="org.javatuples.Triplet">
+					<constructor-arg index="0" value="mac2"/>
+					<constructor-arg index="1" ref="mac2x"/>
+					<constructor-arg index="2" ref="mac2y"/>
+				</bean>
+				<bean class="org.javatuples.Triplet">
+					<constructor-arg index="0" value="mac3"/>
+					<constructor-arg index="1" ref="mac3x"/>
+					<constructor-arg index="2" ref="mac3y"/>
+				</bean>
+				<bean class="org.javatuples.Triplet">
+					<constructor-arg index="0" value="mac4"/>
+					<constructor-arg index="1" ref="mac4x"/>
+					<constructor-arg index="2" ref="mac4y"/>
+				</bean>
+				<bean class="org.javatuples.Triplet">
+					<constructor-arg index="0" value="mac5"/>
+					<constructor-arg index="1" ref="mac5x"/>
+					<constructor-arg index="2" ref="mac5y"/>
+				</bean>
+			</list>
+		</property>
+		<property name="dataUpdatedListener" ref="pulsedone"/>
+		<property name="finalDataListener">
+			<bean class="org.javatuples.Triplet">
+				<constructor-arg index="0" ref="allx"/>
+				<constructor-arg index="1" ref="ally"/>
+				<constructor-arg index="2" ref="allye"/>
+			</bean>
+		</property>
+		<property name="detectorStateListener" ref="state"/>
+		<property name="detectorStateToPlotReducedData" value="Flyback"/>
+		<property name="detectorStateToRunProgressService" value="Executing"/>
+		<property name="epicsProgressMonitor" ref="epicsprogressmonitor"/>
+		<property name="dataFilenameObserverName" value="dataFilenameObserver"/>
+		<property name="lowDataBound" value="16700"/>
+		<property name="highDataBound" value="65000"/>
+		<property name="totalWorkListener" ref="totalworklistener"/>
+		<property name="workListener" ref="worklistener"/>
+		<property name="messageListener" ref="messagelistener"/>
+		<property name="taskName" value="cvscan"/>
+		<property name="stopScannable" ref="cvscan"/>
+	</bean>
+
+</beans>

@@ -24,10 +24,13 @@ import java.util.Objects;
 
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +42,8 @@ import uk.ac.gda.client.widgets.LiveStreamExposureTimeComposite;
 
 public class LiveStreamViewCameraControls extends AbstractLiveStreamViewCustomUi {
 	private static Logger logger = LoggerFactory.getLogger(LiveStreamViewCameraControls.class);
+
+	private static final String ICON_PLUGIN = "uk.ac.gda.beamline.i14";
 
 	private CameraControl cameraControl;
 
@@ -55,19 +60,38 @@ public class LiveStreamViewCameraControls extends AbstractLiveStreamViewCustomUi
 	@Override
 	public void createUi(Composite composite) {
 		final Composite mainComposite = new Composite(composite, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(mainComposite);
+		GridLayoutFactory.fillDefaults().numColumns(4).applyTo(mainComposite);
 
 		// Exposure control
 		final LiveStreamExposureTimeComposite exposureTimeComposite = new LiveStreamExposureTimeComposite(mainComposite, SWT.NONE, cameraControl);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(exposureTimeComposite);
+		GridDataFactory.swtDefaults().applyTo(exposureTimeComposite);
+
+		// Start/stop acquisition
+		final Button playButton = new Button(mainComposite, SWT.PUSH);
+		GridDataFactory.swtDefaults().applyTo(playButton);
+		playButton.setImage(createImage("play16x16.png"));
+		playButton.setToolTipText("Start acquisition");
+		playButton.addSelectionListener(widgetSelectedAdapter(this::startAcquiring));
+
+		final Button stopButton = new Button(mainComposite, SWT.PUSH);
+		GridDataFactory.swtDefaults().applyTo(stopButton);
+		stopButton.setImage(createImage("control-stop-square.png"));
+		stopButton.setToolTipText("Stop acquisition");
+		stopButton.addSelectionListener(widgetSelectedAdapter(this::stopAcquiring));
 
 		// Reset button
 		if (cameraResetScannable != null) {
 			final Button resetButton = new Button(mainComposite, SWT.PUSH);
 			GridDataFactory.swtDefaults().align(SWT.RIGHT, SWT.CENTER).applyTo(resetButton);
 			resetButton.setText("Reset camera");
+			resetButton.setToolTipText("Reconnect to camera");
 			resetButton.addSelectionListener(widgetSelectedAdapter(this::resetCamera));
 		}
+	}
+
+	private Image createImage(String fileName) {
+		final ImageDescriptor descriptor = AbstractUIPlugin.imageDescriptorFromPlugin(ICON_PLUGIN, "icons/" + fileName);
+		return descriptor.createImage();
 	}
 
 	private void resetCamera(@SuppressWarnings("unused") SelectionEvent e) {
@@ -75,6 +99,22 @@ public class LiveStreamViewCameraControls extends AbstractLiveStreamViewCustomUi
 			cameraResetScannable.asynchronousMoveTo(1);
 		} catch (DeviceException ex) {
 			logger.error("Error resetting camera {}", cameraControl.getName(), ex);
+		}
+	}
+
+	private void startAcquiring(@SuppressWarnings("unused") SelectionEvent e) {
+		try {
+			cameraControl.startAcquiring();
+		} catch (DeviceException ex) {
+			logger.error("Error starting data acquisition", ex);
+		}
+	}
+
+	private void stopAcquiring(@SuppressWarnings("unused") SelectionEvent e) {
+		try {
+			cameraControl.stopAcquiring();
+		} catch (DeviceException ex) {
+			logger.error("Error stopping data acquisition", ex);
 		}
 	}
 

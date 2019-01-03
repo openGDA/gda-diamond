@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean id="dcmtemp1" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp2" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp3" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp4" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp5" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp6" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp7" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp8" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp9" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp10" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp11" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp12" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp13" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp14" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp15" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmtemp16" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmpitch2temp" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmrool1temp" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmrool2temp" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmpitch2lvdt" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmrool1lvdt" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="dcmrool2lvdt" class="gda.device.monitor.DummyMonitor"/>
+
+	<!-- DCM Crystal selection -->
+	<bean id="dcmxtal" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="Si111,Si220"/>
+	</bean>
+
+	<!-- DCM Motors (individual Motions) -->
+	<bean id="dcmbragg" class="gda.device.motor.DummyMotor"/>
+	<bean id="dcmpitch2" class="gda.device.motor.DummyMotor"/>
+	<bean id="dcmroll1" class="gda.device.motor.DummyMotor"/>
+	<bean id="dcmroll2" class="gda.device.motor.DummyMotor"/>
+	<bean id="dcmt2" class="gda.device.motor.DummyMotor"/>
+	<bean id="dcmfinepitch2" class="gda.device.motor.DummyMotor"/>
+
+	<!-- DCM virtual Motors (Compound Motions) -->
+	<bean id="dcmenergy" class="gda.device.motor.DummyMotor"/>
+	<bean id="dcmlambda" class="gda.device.motor.DummyMotor"/>
+	<bean id="dcmoffset" class="gda.device.motor.DummyMotor"/>
+
+</beans>

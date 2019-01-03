@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean id="mac11" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e01"/>
+		<property name="scalerChannelIndex" value="1"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac12" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e02"/>
+		<property name="scalerChannelIndex" value="2"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac13" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e03"/>
+		<property name="scalerChannelIndex" value="3"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac14" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e04"/>
+		<property name="scalerChannelIndex" value="4"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac15" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e05"/>
+		<property name="scalerChannelIndex" value="5"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac16" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e06"/>
+		<property name="scalerChannelIndex" value="6"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac17" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e07"/>
+		<property name="scalerChannelIndex" value="7"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac18" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e08"/>
+		<property name="scalerChannelIndex" value="8"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac19" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e09"/>
+		<property name="scalerChannelIndex" value="9"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac21" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e10"/>
+		<property name="scalerChannelIndex" value="10"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac22" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e11"/>
+		<property name="scalerChannelIndex" value="11"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac23" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e12"/>
+		<property name="scalerChannelIndex" value="12"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac24" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e13"/>
+		<property name="scalerChannelIndex" value="13"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac25" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e14"/>
+		<property name="scalerChannelIndex" value="14"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac26" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e15"/>
+		<property name="scalerChannelIndex" value="15"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac27" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e16"/>
+		<property name="scalerChannelIndex" value="17"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac28" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e17"/>
+		<property name="scalerChannelIndex" value="18"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac29" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e18"/>
+		<property name="scalerChannelIndex" value="19"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac31" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e19"/>
+		<property name="scalerChannelIndex" value="20"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac32" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e20"/>
+		<property name="scalerChannelIndex" value="21"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac33" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e21"/>
+		<property name="scalerChannelIndex" value="22"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac34" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e22"/>
+		<property name="scalerChannelIndex" value="23"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac35" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e23"/>
+		<property name="scalerChannelIndex" value="24"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac36" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e24"/>
+		<property name="scalerChannelIndex" value="25"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac37" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e25"/>
+		<property name="scalerChannelIndex" value="26"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac38" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e26"/>
+		<property name="scalerChannelIndex" value="27"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac39" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e27"/>
+		<property name="scalerChannelIndex" value="28"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac41" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e28"/>
+		<property name="scalerChannelIndex" value="29"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac42" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e29"/>
+		<property name="scalerChannelIndex" value="30"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac43" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler1"/>
+		<property name="detector" ref="e30"/>
+		<property name="scalerChannelIndex" value="31"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac44" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e31"/>
+		<property name="scalerChannelIndex" value="1"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac45" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e32"/>
+		<property name="scalerChannelIndex" value="2"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac46" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e33"/>
+		<property name="scalerChannelIndex" value="3"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac47" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e34"/>
+		<property name="scalerChannelIndex" value="4"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac48" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e35"/>
+		<property name="scalerChannelIndex" value="5"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac49" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e36"/>
+		<property name="scalerChannelIndex" value="6"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac51" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e37"/>
+		<property name="scalerChannelIndex" value="7"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac52" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e38"/>
+		<property name="scalerChannelIndex" value="8"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac53" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e39"/>
+		<property name="scalerChannelIndex" value="9"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac54" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e40"/>
+		<property name="scalerChannelIndex" value="10"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac55" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e41"/>
+		<property name="scalerChannelIndex" value="11"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac56" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e42"/>
+		<property name="scalerChannelIndex" value="12"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac57" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e43"/>
+		<property name="scalerChannelIndex" value="13"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac58" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e44"/>
+		<property name="scalerChannelIndex" value="14"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+	<bean id="mac59" class="gda.device.detector.etldetector.ETLDetector">
+		<property name="scaler" ref="scaler2"/>
+		<property name="detector" ref="e45"/>
+		<property name="scalerChannelIndex" value="15"/>
+		<property name="fastshutter" ref="fastshutter"/>		
+	</bean>
+
+</beans>

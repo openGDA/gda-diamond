@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+
+<!-- import server objects required in GUI -->
+	<context:property-placeholder />
+
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
+
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
+
+	<bean class="uk.ac.gda.client.ServerFileListener" id="dataProjectUpdater">
+		<property name="clientFileAnnouncerName" value="client_file_announcer"/>
+	</bean>
+
+	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
+
+	<gda:rbac />
+	<import resource="spinner.xml" />
+	<import resource="statusView.xml" />
+	<import resource="batonStateProvider.xml" />
+	<import resource="detectorFileDisplayer.xml" />
+	<import resource="dataFileMonitor.xml" />
+	<import resource="commandRunner.xml" />
+	<import resource="RCPController.xml" />
+	<import resource="scanDataPointServer.xml"/>
+	<import resource="commandQueueProcessor.xml"/>
+</beans>

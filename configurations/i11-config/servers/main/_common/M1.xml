@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="m1bend" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1bend_motor"/>
+	</bean>
+	<bean id="m1pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1pitch_motor"/>
+	</bean>
+	<bean id="m1roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1roll_motor"/>
+	</bean>
+	<bean id="m1x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1x_motor"/>
+	</bean>
+	<bean id="m1y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m1y_motor"/>
+	</bean>
+	<bean id="m2x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2x_motor"/>
+	</bean>
+	<bean id="m2y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m2y_motor"/>
+	</bean>
+
+	<bean id="M1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m1bend"/>
+				<ref bean="m1pitch"/>
+				<ref bean="m1x"/>
+				<ref bean="m1y"/>
+				<ref bean="m2x"/>
+				<ref bean="m2y"/>
+				<ref bean="m1roll"/>
+			</list>
+		</property>
+	</bean>
+</beans>

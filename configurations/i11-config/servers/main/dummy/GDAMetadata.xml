@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="beamCurrent" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="beamCurrent" />
+		<property name="value" value="299.636" />
+	</bean>
+
+	<bean id="facilityMode" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="facilityMode" />
+		<property name="value" value="User" />
+	</bean>
+
+	<bean id="fillMode" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="fillMode" />
+		<property name="value" value="Standby" />
+	</bean>
+
+	<bean id="beamEnergy" class="gda.data.metadata.DummyMetadataEntry">
+		<property name="name" value="beamEnergy" />
+		<property name="value" value="3.002" />
+	</bean>
+</beans>

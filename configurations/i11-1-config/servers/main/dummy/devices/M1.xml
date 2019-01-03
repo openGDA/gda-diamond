@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- Strip selection -->
+	<bean id="m1stripe" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions" value="Rh Stripes,Si Stripes,Pt Stripes"/>
+	</bean>
+	<!-- Mirror M1 Motors (individual Motions) -->
+	<bean id="m1bend_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="m1pitch_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="m1roll_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="m1x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="m1y_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="m2x_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="m2y_motor" class="gda.device.motor.DummyMotor"/>
+</beans>

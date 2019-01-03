@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- MCA records for MCS mode of the Scaler card -->
+	<bean id="mca1" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="0"/>
+		<property name="detectorName" value="S1"/>
+	</bean>
+	<bean id="mca2" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="1"/>
+		<property name="detectorName" value="mac11"/>
+	</bean>
+	<bean id="mca3" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="2"/>
+		<property name="detectorName" value="mac12"/>
+	</bean>
+	<bean id="mca4" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="3"/>
+		<property name="detectorName" value="mac13"/>
+	</bean>
+	<bean id="mca5" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="4"/>
+		<property name="detectorName" value="mac14"/>
+	</bean>
+	<bean id="mca6" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="5"/>
+		<property name="detectorName" value="mac15"/>
+	</bean>
+	<bean id="mca7" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="6"/>
+		<property name="detectorName" value="mac16"/>
+	</bean>
+	<bean id="mca8" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="7"/>
+		<property name="detectorName" value="mac17"/>
+	</bean>
+	<bean id="mca9" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="8"/>
+		<property name="detectorName" value="mac18"/>
+	</bean>
+	<bean id="mca10" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="9"/>
+		<property name="detectorName" value="mac19"/>
+	</bean>
+	<bean id="mca11" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="10"/>
+		<property name="detectorName" value="mac21"/>
+	</bean>
+	<bean id="mca12" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="11"/>
+		<property name="detectorName" value="mac22"/>
+	</bean>
+	<bean id="mca13" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="12"/>
+		<property name="detectorName" value="mac23"/>
+	</bean>
+	<bean id="mca14" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="13"/>
+		<property name="detectorName" value="mac24"/>
+	</bean>
+	<bean id="mca15" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="14"/>
+		<property name="detectorName" value="mac25"/>
+	</bean>
+	<bean id="mca16" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="15"/>
+		<property name="detectorName" value="mac26"/>
+	</bean>
+	<!-- scaler channel 16 very noisy, so not used -->
+	<bean id="mca18" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="17"/>
+		<property name="detectorName" value="mac27"/>
+	</bean>
+	<bean id="mca19" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="18"/>
+		<property name="detectorName" value="mac28"/>
+	</bean>
+	<bean id="mca20" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="19"/>
+		<property name="detectorName" value="mac29"/>
+	</bean>
+	<bean id="mca21" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="20"/>
+		<property name="detectorName" value="mac31"/>
+	</bean>
+	<bean id="mca22" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="21"/>
+		<property name="detectorName" value="mac32"/>
+	</bean>
+	<bean id="mca23" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="22"/>
+		<property name="detectorName" value="mac33"/>
+	</bean>
+	<bean id="mca24" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="23"/>
+		<property name="detectorName" value="mac34"/>
+	</bean>
+	<bean id="mca25" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="24"/>
+		<property name="detectorName" value="mac35"/>
+	</bean>
+	<bean id="mca26" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="25"/>
+		<property name="detectorName" value="mac36"/>
+	</bean>
+	<bean id="mca27" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="26"/>
+		<property name="detectorName" value="mac37"/>
+	</bean>
+	<bean id="mca28" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="27"/>
+		<property name="detectorName" value="mac38"/>
+	</bean>
+	<bean id="mca29" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="28"/>
+		<property name="detectorName" value="mac39"/>
+	</bean>
+	<bean id="mca30" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="29"/>
+		<property name="detectorName" value="mac41"/>
+	</bean>
+	<bean id="mca31" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="30"/>
+		<property name="detectorName" value="mac42"/>
+	</bean>
+	<bean id="mca32" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="31"/>
+		<property name="detectorName" value="mac43"/>
+	</bean>
+	
+	<bean id="mcs1" class="gda.device.detector.multichannelscaler.EpicsMultiChannelScaler">
+		<property name="controller" ref="mcs1_controller"/>
+		<property name="mcaList">
+			<map>
+				<entry key="1">
+					<ref bean="mca1"/>
+				</entry>
+				<entry key="2">
+					<ref bean="mca2"/>
+				</entry>
+				<entry key="3">
+					<ref bean="mca3"/>
+				</entry>
+				<entry key="4">
+					<ref bean="mca4"/>
+				</entry>
+				<entry key="5">
+					<ref bean="mca5"/>
+				</entry>
+				<entry key="6">
+					<ref bean="mca6"/>
+				</entry>
+				<entry key="7">
+					<ref bean="mca7"/>
+				</entry>
+				<entry key="8">
+					<ref bean="mca8"/>
+				</entry>
+				<entry key="9">
+					<ref bean="mca9"/>
+				</entry>
+				<entry key="10">
+					<ref bean="mca10"/>
+				</entry>
+				<entry key="11">
+					<ref bean="mca11"/>
+				</entry>
+				<entry key="12">
+					<ref bean="mca12"/>
+				</entry>
+				<entry key="13">
+					<ref bean="mca13"/>
+				</entry>
+				<entry key="14">
+					<ref bean="mca14"/>
+				</entry>
+				<entry key="15">
+					<ref bean="mca15"/>
+				</entry>
+				<entry key="16">
+					<ref bean="mca16"/>
+				</entry>
+				<entry key="17">
+					<ref bean="mca18"/>
+				</entry>
+				<entry key="18">
+					<ref bean="mca19"/>
+				</entry>
+				<entry key="19">
+					<ref bean="mca20"/>
+				</entry>
+				<entry key="20">
+					<ref bean="mca21"/>
+				</entry>
+				<entry key="21">
+					<ref bean="mca22"/>
+				</entry>
+				<entry key="22">
+					<ref bean="mca23"/>
+				</entry>
+				<entry key="23">
+					<ref bean="mca24"/>
+				</entry>
+				<entry key="24">
+					<ref bean="mca25"/>
+				</entry>
+				<entry key="25">
+					<ref bean="mca26"/>
+				</entry>
+				<entry key="26">
+					<ref bean="mca27"/>
+				</entry>
+				<entry key="27">
+					<ref bean="mca28"/>
+				</entry>
+				<entry key="28">
+					<ref bean="mca29"/>
+				</entry>
+				<entry key="29">
+					<ref bean="mca30"/>
+				</entry>
+				<entry key="30">
+					<ref bean="mca31"/>
+				</entry>
+				<entry key="31">
+					<ref bean="mca32"/>
+				</entry>
+			</map>
+		</property>
+		<property name="fastshutter" ref="fastshutter"/>
+	</bean>
+			
+	<bean id="mca33" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="0"/>
+		<property name="detectorName" value="S2"/>
+	</bean>
+	<bean id="mca34" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="1"/>
+		<property name="detectorName" value="mac44"/>
+	</bean>
+	<bean id="mca35" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="2"/>
+		<property name="detectorName" value="mac45"/>
+	</bean>
+	<bean id="mca36" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="3"/>
+		<property name="detectorName" value="mac46"/>
+	</bean>
+	<bean id="mca37" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="4"/>
+		<property name="detectorName" value="mac47"/>
+	</bean>
+	<bean id="mca38" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="5"/>
+		<property name="detectorName" value="mac48"/>
+	</bean>
+	<bean id="mca39" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="6"/>
+		<property name="detectorName" value="mac49"/>
+	</bean>
+	<bean id="mca40" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="7"/>
+		<property name="detectorName" value="mac51"/>
+	</bean>
+	<bean id="mca41" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="8"/>
+		<property name="detectorName" value="mac52"/>
+	</bean>
+	<bean id="mca42" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="9"/>
+		<property name="detectorName" value="mac53"/>
+	</bean>
+	<bean id="mca43" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="10"/>
+		<property name="detectorName" value="mac54"/>
+	</bean>
+	<bean id="mca44" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="11"/>
+		<property name="detectorName" value="mac55"/>
+	</bean>
+	<bean id="mca45" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="12"/>
+		<property name="detectorName" value="mac56"/>
+	</bean>
+	<bean id="mca46" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="13"/>
+		<property name="detectorName" value="mac57"/>
+	</bean>
+	<bean id="mca47" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="14"/>
+		<property name="detectorName" value="mac58"/>
+	</bean>
+	<bean id="mca48" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="15"/>
+		<property name="detectorName" value="mac59"/>
+	</bean>
+	<bean id="mca49" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="16"/>
+		<property name="detectorName" value="Io"/>
+	</bean>
+	<bean id="mca50" class="gda.device.detector.multichannelscaler.Mca">
+		<property name="scalerChannel" value="17"/>
+		<property name="detectorName" value="Ie"/>
+	</bean>
+	<bean id="mcs2" class="gda.device.detector.multichannelscaler.EpicsMultiChannelScaler">
+		<property name="controller" ref="mcs2_controller"/>
+		<property name="mcaList">
+			<map>
+				<entry key="32">
+					<ref bean="mca33"/>
+				</entry>
+				<entry key="33">
+					<ref bean="mca34"/>
+				</entry>
+				<entry key="34">
+					<ref bean="mca35"/>
+				</entry>
+				<entry key="35">
+					<ref bean="mca36"/>
+				</entry>
+				<entry key="36">
+					<ref bean="mca37"/>
+				</entry>
+				<entry key="37">
+					<ref bean="mca38"/>
+				</entry>
+				<entry key="38">
+					<ref bean="mca39"/>
+				</entry>
+				<entry key="39">
+					<ref bean="mca40"/>
+				</entry>
+				<entry key="40">
+					<ref bean="mca41"/>
+				</entry>
+				<entry key="41">
+					<ref bean="mca42"/>
+				</entry>
+				<entry key="42">
+					<ref bean="mca43"/>
+				</entry>
+				<entry key="43">
+					<ref bean="mca44"/>
+				</entry>
+				<entry key="44">
+					<ref bean="mca45"/>
+				</entry>
+				<entry key="45">
+					<ref bean="mca46"/>
+				</entry>
+				<entry key="46">
+					<ref bean="mca47"/>
+				</entry>
+				<entry key="47">
+					<ref bean="mca48"/>
+				</entry>
+				<entry key="48">
+					<ref bean="mca49"/>
+				</entry>
+				<entry key="49">
+					<ref bean="mca50"/>
+				</entry>
+			</map>
+		</property>
+		<property name="fastshutter" ref="fastshutter"/>
+	</bean>
+	
+</beans>
