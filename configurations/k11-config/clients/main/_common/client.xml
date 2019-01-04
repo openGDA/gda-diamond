@@ -16,9 +16,14 @@
 
 	<!-- Provides ability to import/find remote objects over RMI -->
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
-
+	
 	<!-- =========================================================== -->
-	<!-- 	shared files -->
+	<!-- ===================== MODE SPECIFIC ======================= -->
+	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/stream_views.xml" />
+	
+	<!-- =========================================================== -->
+	<!-- ===================== SHARED FILES ======================== -->
 	<!-- =========================================================== -->
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 

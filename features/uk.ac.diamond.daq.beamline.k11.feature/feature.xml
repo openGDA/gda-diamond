@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="uk.ac.diamond.daq.beamline.k11.feature"
+      label="k11-feature"
+      version="9.11.0.qualifier"
+      provider-name="Diamond Light Source">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <includes
+         id="uk.ac.gda.diamond.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="uk.ac.diamond.daq.mapping.ui.feature"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.diamond.daq.beamline.k11"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="uk.ac.diamond.daq.client.gui.camera"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.diamond.daq.experiment.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.diamond.daq.experiment.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.eclipse.scanning.device.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
