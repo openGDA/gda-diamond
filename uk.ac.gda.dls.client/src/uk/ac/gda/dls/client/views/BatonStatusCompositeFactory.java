@@ -84,9 +84,11 @@ class BatonStatusComposite extends Composite {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BatonStatusComposite.class);
 
 	private final Color BATON_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_GREEN);
+	private final Color BATON_HELD_UDC_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
 	private final Color BATON_NOT_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_RED);
-	private final String BATON_HELD_TOOL_TIP="Baton held!\nRight click open menu\nLeft click open manager";
-	private final String BATON__NOT_HELD_TOOL_TIP="Baton not held!\nRight click open menu\nLeft click open manager";
+	private final String BATON_HELD_TOOL_TIP = "Baton held!\nRight click open menu\nLeft click open manager";
+	private final String BATON_HELD_UDC_TOOL_TIP = "Baton held by automated client!\nRight click open menu\nLeft click open manager";
+	private final String BATON_NOT_HELD_TOOL_TIP = "Baton not held!\nRight click open menu\nLeft click open manager";
 	private final String PROP_BATON_BANNER = "gda.beamline.baton.banner";
 
 	private Display display;
@@ -99,6 +101,17 @@ class BatonStatusComposite extends Composite {
 	private MenuItem requestBaton;
 	private MenuItem releaseBaton;
 	private MenuItem openChat;
+
+	private static final String BATON_REQUESTED = "Baton requested";
+	private static final String REQUESTED_BATON_FROM_UNATTENDED_CLIENT_MESSAGE =
+			"You have requested the baton from an automated client.\n\nThe automated client"
+			+ " is finishing the current instruction, after which you will be assigned the"
+			+ " baton automatically. Thank you for your patience.";
+	private static final String TAKE_MESSAGE = "You do not have enough authorisation to take the"
+			+ " baton from the current holder.\n\nThe current holder is aware of your request and"
+			+ " will normally release within two minutes.";
+	private static final String REQUEST_MESSAGE = "The current holder is aware of your request."
+			+ "\n\nNormally the baton is released within two minutes.";
 
 
 	public BatonStatusComposite(Composite parent, int style, final Display display, String label) {
@@ -117,10 +130,14 @@ class BatonStatusComposite extends Composite {
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(this);
 		GridDataFactory.fillDefaults().applyTo(this);
 
-		currentColor = BATON_NOT_HELD_COLOR;
-
-		if (batonState.amIBatonHolder())
+		// Set currentColor for baton status
+		if (batonState.amIBatonHolder()) {
 			currentColor = BATON_HELD_COLOR;
+		} else if (InterfaceProvider.getBatonStateProvider().getBatonHolder().isAutomatedUser()) {
+			currentColor = BATON_HELD_UDC_COLOR;
+		} else {
+			currentColor = BATON_NOT_HELD_COLOR;
+		}
 
 		batonCanvas = new Canvas(grp, SWT.NONE);
 		GridData gridData = new GridData(GridData.VERTICAL_ALIGN_FILL);
@@ -148,8 +165,10 @@ class BatonStatusComposite extends Composite {
 		//initialize tooltip
 		if (batonState.amIBatonHolder()) {
 			batonCanvas.setToolTipText(BATON_HELD_TOOL_TIP);
+		} else if (InterfaceProvider.getBatonStateProvider().getBatonHolder().isAutomatedUser()) {
+			batonCanvas.setToolTipText(BATON_HELD_UDC_TOOL_TIP);
 		} else {
-			batonCanvas.setToolTipText(BATON__NOT_HELD_TOOL_TIP);
+			batonCanvas.setToolTipText(BATON_NOT_HELD_TOOL_TIP);
 		}
 
 		final IObserver serverObserver = new IObserver() {
@@ -162,9 +181,13 @@ class BatonStatusComposite extends Composite {
 							if (batonState.amIBatonHolder()) {
 								currentColor = BATON_HELD_COLOR;
 								batonCanvas.setToolTipText(BATON_HELD_TOOL_TIP);
+							} else if (InterfaceProvider.getBatonStateProvider().getBatonHolder() != null
+									&& InterfaceProvider.getBatonStateProvider().getBatonHolder().isAutomatedUser()) {
+								currentColor = BATON_HELD_UDC_COLOR;
+								batonCanvas.setToolTipText(BATON_HELD_UDC_TOOL_TIP);
 							} else {
 								currentColor = BATON_NOT_HELD_COLOR;
-								batonCanvas.setToolTipText(BATON__NOT_HELD_TOOL_TIP);
+								batonCanvas.setToolTipText(BATON_NOT_HELD_TOOL_TIP);
 							}
 							updateBatonCanvas();
 						}
@@ -266,23 +289,23 @@ class BatonStatusComposite extends Composite {
 			else
 				return;
 
-			if (selected.equals(takeBaton)) {
+			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OK | SWT.ICON_WARNING);
+
+			if (selected.equals(takeBaton) || selected.equals(requestBaton)) {
 				if (!InterfaceProvider.getBatonStateProvider().requestBaton()) {
-					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OK | SWT.ICON_WARNING);
-					messageBox.setMessage("You do not have enough authorisation to take the baton from the current holder.\n\n" +
-								"The current holder is aware of your request and will normally release within two minutes.");
-					messageBox.setText("Baton requested");
+					if (InterfaceProvider.getBatonStateProvider().getBatonHolder().isAutomatedUser()) {
+						messageBox.setMessage(REQUESTED_BATON_FROM_UNATTENDED_CLIENT_MESSAGE);
+					} else {
+						if (selected.equals(takeBaton)) {
+							messageBox.setMessage(TAKE_MESSAGE);
+						} else {
+							messageBox.setMessage(REQUEST_MESSAGE);
+						}
+					}
+					messageBox.setText(BATON_REQUESTED);
 					messageBox.open();
 				}
 				RefreshBatonAction.refresh();
-			}
-			else if (selected.equals(requestBaton)) {
-				boolean gotIt = InterfaceProvider.getBatonStateProvider().requestBaton();
-				if (!gotIt) {
-					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OK | SWT.ICON_WARNING);
-					messageBox.setMessage("The current holder is aware of your request.\n\nNormally the baton is released within two minutes.");
-					messageBox.open();
-				}
 			}
 			else if (selected.equals(releaseBaton)) {
 				InterfaceProvider.getBatonStateProvider().returnBaton();
