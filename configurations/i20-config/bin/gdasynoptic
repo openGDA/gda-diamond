@@ -3,9 +3,34 @@
 
 cssbinary=/dls_sw/prod/tools/RHEL6-x86_64/cs-studio/dls-4-4-2/prefix/bin/css.sh
 
+SOURCE_ZIP="/dls_sw/i20/software/i20-css.zip"
+workstation=${HOSTNAME%%.*}
+DEST_DIR=$HOME/cs-studio/workspaces/$workstation/
+
+
+if [ "$1" == "--help" ] || [ "$1" == "-h" ] ; then
+	echo "Options : "
+	echo -e "\t --reset  copy latest CSS OPI files from $SOURCE_ZIP into workspace"
+	echo -e "\t --save   save CSS OPI files from current workspace to a zip file"
+	exit
+fi
+
+
 clean=""
 if [ "$1" == "--reset" ]; then
 	clean="y"
+elif [ "$1" == "--save" ]; then
+	currentDir=$PWD
+	echo "Creating zip file with latest opi files from workspace directory $DEST_DIR"
+	datestring=$(date +"%d%b%Y")
+	cd $DEST_DIR
+	command="zip -ry $currentDir/$workstation-css-$datestring.zip i20/"
+	echo $command 
+	echo $command | sh
+	exit
+elif [ -n "$1" ]; then
+	echo "Unrecognized option $1"
+	exit
 fi
 
 export BEAMLINE=i20
@@ -13,9 +38,6 @@ SHARE_LINK=\"/dls_sw/prod/R3.14.12.3/support/ADCore/2-4dls2/ADApp/op/opi\"=$BEAM
 SHARE_LINK+=\"/dls_sw/prod/R3.14.12.3/support/ADExample/2-0-1dls2/exampleApp/op/opi\"=$BEAMLINE/exampleApp_opi,
 SHARE_LINK+=\"/dls_sw/prod/R3.14.12.3/support/motor/6-9dls6/motorApp/opi/opi\"=$BEAMLINE/motorApp_opi
 
-workstation=${HOSTNAME%%.*}
-DEST_DIR=$HOME/cs-studio/workspaces/$workstation/
-SOURCE_ZIP="/dls_sw/i20/software/i20-css-Sept.zip"
 
 echo "OPI directory : "$DEST_DIR
 echo "Source file   : "$SOURCE_ZIP
@@ -25,8 +47,9 @@ if [ "$clean" == "y" ]; then
 	rm -rf $DEST_DIR
 fi
 
-if [ ! -d $DEST_DIR ]; then
+if [ ! -d $DEST_DIR/i20 ]; then
 	echo "Copying OPI files from $SOURCE_ZIP to $DEST_DIR"
+	mkdir -p $DEST_DIR
 	unzip $SOURCE_ZIP -d $DEST_DIR
 else
 	echo "OPI files present at $DEST_DIR"
@@ -34,5 +57,6 @@ fi
 
 OPI_FILE=$DEST_DIR/i20/i20-overview.opi
 echo "Running CSS studio using OPI file "$OPI_FILE
-
+ 
+#-s option 'should' open new instance of CSS but doesn't work properly...
 $cssbinary -l $SHARE_LINK -o $OPI_FILE

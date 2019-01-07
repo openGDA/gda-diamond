@@ -19,6 +19,7 @@
 
 	<!-- Move to dummy while mono is not live -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mono.xml" />
+<!-- 	<import resource="file:${gda.config}/servers/main/dummy/mono.xml" /> -->
 	<import resource="file:${gda.config}/servers/main/_common/mono-common.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
