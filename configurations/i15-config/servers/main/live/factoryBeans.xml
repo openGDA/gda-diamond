@@ -134,7 +134,7 @@
 					</bean>
 				</entry>
 				 -->
-				<entry key="exposure">
+				<entry key="exposureXXX">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
 						<property name="paths">
 							<list>
