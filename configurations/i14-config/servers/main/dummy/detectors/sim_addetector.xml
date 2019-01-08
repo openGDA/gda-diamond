@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
+
+
+	<!-- Beamline-specific extensions to simulated area detector -->
+
+	<!-- Python plugin for autofocus -->
+	<bean id="sim_python" class="gda.device.detector.areadetector.v17.impl.NDPythonImpl">
+		<property name="basePVName" value="#{sim_pvbase}:PY" />
+		<property name="filename" value="${gda.config}/scripts/autofocus/fft_process.py" />
+		<property name="classname" value="FftProcess" />
+		<property name="pythonParameters">
+			<map>
+				<entry key="strips" value="Int1" />
+				<entry key="output" value="Int2_RBV" />
+			</map>
+		</property>
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{sim_pvbase}:PY:" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- Create a skeleton simulated area detector for testing autofocus -->
+	<bean id="sim_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="sim_adbase" />
+		<property name="ndArray" ref="sim_array" />
+		<property name="ndStats" ref="sim_stats" />
+		<property name="ndPython" ref="sim_python" />
+	</bean>
+
+</beans>

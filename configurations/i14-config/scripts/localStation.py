@@ -75,4 +75,7 @@ run('ifs_functions.py')
 # Define functions to control shutters
 run('shutter_control.py')
 
+# Define autofocus function
+run('autofocus/autofocus.py')
+
 print("Initialisation Complete")
