@@ -12,4 +12,5 @@
 	<import resource="I15-geo2.xml"/>
 	<import resource="I15-Scaler.xml"/>
 	<import resource="I15-VCOLD.xml"/>
+	<import resource="I16-FS.xml"/>
 </beans>

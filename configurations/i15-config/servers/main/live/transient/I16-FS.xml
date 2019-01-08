@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="Fs16yMotor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-IOC-13:M5" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="Fs16transMotor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL15I-MO-IOC-13:M6" />
+		<property name="local" value="true" />
+	</bean>	
+</beans>
