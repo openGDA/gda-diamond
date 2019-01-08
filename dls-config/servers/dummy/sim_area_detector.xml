@@ -38,7 +38,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{sim_pvbase}:ROI:" />
-				<property name="initialArrayPort" value="CAM.CAM" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
 			</bean>
 		</property>
 	</bean>
@@ -48,7 +48,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{sim_pvbase}:STAT:" />
-				<property name="initialArrayPort" value="CAM.CAM" />
+				<property name="initialArrayPort" value="ADSIM.CAM" />
 			</bean>
 		</property>
 	</bean>
@@ -58,7 +58,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{sim_pvbase}:ARR:" />
-				<property name="initialArrayPort" value="CAM.roi" />
+				<property name="initialArrayPort" value="ADSIM.roi" />
 			</bean>
 		</property>
 	</bean>
@@ -77,7 +77,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{sim_pvbase}:OVER:" />
-				<property name="initialArrayPort" value="CAM.proc" />
+				<property name="initialArrayPort" value="ADSIM.proc" />
 				<property name="initialArrayAddress" value="0" />
 				<property name="initialEnableCallbacks" value="0" />
 				<property name="initialBlockingCallbacks" value="false" />
@@ -90,7 +90,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{sim_pvbase}:TIFF:" />
-				<property name="initialArrayPort" value="CAM.stat" />
+				<property name="initialArrayPort" value="ADSIM.stat" />
 			</bean>
 		</property>
 		<property name="resetToInitialValues" value="false" />
@@ -107,7 +107,7 @@
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
 				<property name="basePVName" value="#{sim_pvbase}:HDF5:" />
-				<property name="initialArrayPort" value="CAM.stat" />
+				<property name="initialArrayPort" value="ADSIM.stat" />
 			</bean>
 		</property>
 		<property name="initialAutoSave" value="Not hooked up to anything!" />
