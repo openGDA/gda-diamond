@@ -4,5 +4,39 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Include all live cameras in dummy mode, so define them in _common/CameraConfiguration.xml rather than here. -->
+	<bean id="pil1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Pilatus 1 100k" />
+		<property name="url" value="http://i16-ppu01.diamond.ac.uk:8091/pilatus1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL16I-EA-PILAT-01:ARR" />
+	</bean>
+
+	<bean id="pil2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Pailatus 2 2M" />
+		<property name="url" value="http://i16-ppu01.diamond.ac.uk:8081/pilatus2.mjpg.mjpg" />
+		<property name="arrayPv" value="BL16I-EA-PILAT-02:ARR" />
+	</bean>
+
+	<bean id="pil3_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Pilatus 3 100k" />
+		<property name="url" value="http://i16-ppu01.diamond.ac.uk:8092/pilatus2.mjpg.mjpg" />
+		<property name="arrayPv" value="BL16I-EA-PILAT-03:ARR" />
+	</bean>
+
+	<bean id="mpx1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="MPX 1" />
+		<property name="url" value="http://i16-detector01.diamond.ac.uk:8080/mpx1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL16I-EA-DET-12:ARR" />
+	</bean>
+
+	<bean id="mpx2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="MPX 2" />
+		<property name="url" value=".mjpg.mjpg" />
+		<property name="arrayPv" value="BL16I-EA-DET-13:ARR" />
+	</bean>
+
+	<bean id="andor1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="ANDOR 1" />
+		<property name="url" value="http://i16-detector01.diamond.ac.uk:8099/i16Andor1.mjpg.mjpg" />
+		<property name="arrayPv" value="BL16I-EA-ANDOR-01:ARR" />
+	</bean>
 </beans>

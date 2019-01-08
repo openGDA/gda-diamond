@@ -1,7 +1,11 @@
 --------------------------------------------------------------------------------
 Running GDA in dummy mode on i16
 --------------------------------------------------------------------------------
+To run in dummy mode from the IDE, you need to use:
 
+activemq-for-dummy
+
+--------------------------------------------------------------------------------
 In order to get localStation.py to run in dummy mode, we have to copy several
 databases of values to the gda_var_non_live directory in the root of the
 deployment:
@@ -11,4 +15,11 @@ cd /dls_sw/i16/software/gda
 cp -R /dls_sw/i16/software/gda_versions/var/oldStyleShelveIO gda_var_non_live
 cp -R /dls_sw/i16/software/gda_versions/var/nff gda_var_non_live
 cp reffilename.log /dls_sw/i16/software/gda/gda_var_non_live
+--------------------------------------------------------------------------------
+#### To run up the Simulated Area Detector ####
+
+Diamond Launcher > Utilities > GDA SWMR AreaDetector Simulation
+
+Then click on "Start IOC" (512x512 should be fine most of the time).
+
 --------------------------------------------------------------------------------
