@@ -3,11 +3,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- 
-	<import resource="I15-.xml"/>
-	 -->
+	<bean id="Fs16yMotor"
+			class="gda.device.motor.DummyMotor"/>
 
-	<import resource="I15-geo2.xml"/>
-	<import resource="I15-VCOLD.xml"/>
-	<import resource="I16-FS.xml"/>
+	<bean id="Fs16transMotor"
+			class="gda.device.motor.DummyMotor"/>
 </beans>
