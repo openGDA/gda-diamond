@@ -13,12 +13,7 @@
 		<property name="scalingAndOffset" ref="d3d1gain" />
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="D3.AMP1" />
-				<property name="fieldName" value="I" />
-			</bean>
-		</property>
+		<property name="pvName" value="BL21B-DI-PHDGN-03:PHD1:I" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="d3d1gain" class="gda.device.currentamplifier.GainWithScalingAndOffset">
@@ -103,12 +98,7 @@
 		<property name="scalingAndOffset" ref="d3d2gain" />
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="D3.AMP2" />
-				<property name="fieldName" value="I" />
-			</bean>
-		</property>
+		<property name="pvName" value="BL21B-DI-PHDGN-03:PHD2:I" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="d3d2gain" class="gda.device.currentamplifier.GainWithScalingAndOffset">

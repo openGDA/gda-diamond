@@ -9,12 +9,7 @@
 	<bean id="ion1" class="gda.device.scannable.EpicsScannable">
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="IC1.AMP" />
-				<property name="fieldName" value="I" />
-			</bean>
-		</property>
+		<property name="pvName" value="BL21B-DI-IONC-01:I" />
 		<property name="local" value="true" />
 	</bean>
 </beans>

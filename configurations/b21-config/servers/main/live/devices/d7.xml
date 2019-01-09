@@ -23,12 +23,7 @@
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="autoGain" value="false" />
-		<property name="pvProvider">
-			<bean class="gda.epics.interfaceSpec.GDAEpicsInterfacePVProvider">
-				<property name="deviceName" value="D7.AMP" />
-				<property name="fieldName" value="I" />
-			</bean>
-		</property>
+		<property name="pvName" value="BL21B-DI-PHDGN-07:PHD1:I" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="bsdiodegain" class="gda.device.currentamplifier.GainWithScalingAndOffset">
