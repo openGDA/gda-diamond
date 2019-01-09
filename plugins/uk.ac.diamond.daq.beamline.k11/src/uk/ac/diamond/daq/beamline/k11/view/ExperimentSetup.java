@@ -19,9 +19,12 @@
 package uk.ac.diamond.daq.beamline.k11.view;
 
 
+import org.eclipse.e4.core.contexts.ContextInjectionFactory;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Font;
@@ -34,6 +37,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
 import org.eclipse.ui.part.ViewPart;
@@ -42,6 +46,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import gda.configuration.properties.LocalProperties;
 import gda.factory.Finder;
 import uk.ac.diamond.daq.client.gui.camera.ImagingCameraConfigurationComposite;
+import uk.ac.diamond.daq.experiment.ui.driver.TR6ConfigurationWizard;
 import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 
 /**
@@ -251,7 +256,24 @@ public class ExperimentSetup extends ViewPart {
 		});
 		addConfigurationDialogButton(content, "Sample Alignment");
 		addConfigurationDialogButton(content, "Diffraction Detector");
-		addConfigurationDialogButton(content, "Environment Stage");
+
+		addExperimentDriverButton(content);
+	}
+
+	private void addExperimentDriverButton(Composite content) {
+		Button experimentDriverButton = addConfigurationDialogButton(content, "Environmental Experiment Driver");
+		experimentDriverButton.addListener(SWT.Selection, event -> {
+			TR6ConfigurationWizard tr6Wizard = ContextInjectionFactory.make(TR6ConfigurationWizard.class, getInjectionContext());
+			tr6Wizard.setCalibrationScannableName("tr6_y");
+			WizardDialog wizardDialog = new WizardDialog(content.getShell(), tr6Wizard);
+			wizardDialog.setPageSize(tr6Wizard.getPreferredPageSize());
+			wizardDialog.open();
+		});
+
+	}
+
+	private IEclipseContext getInjectionContext() {
+		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getService(IEclipseContext.class);
 	}
 
 	/**
