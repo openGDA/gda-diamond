@@ -73,7 +73,8 @@ public abstract class DetectorReadout implements Runnable {
 		logger.debug("Readout loop started");
 		try {
 			while (numSpectraCollected < totalNumSpectraToCollect) {
-				Thread.currentThread().sleep(pollIntervalMillis);
+
+				Thread.sleep(pollIntervalMillis);
 
 				int numAvailableFrames = getNumAvailableFrames();
 

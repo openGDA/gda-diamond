@@ -147,7 +147,7 @@ class HighlightImageLabel implements IObserver {
 			setLabelImage(busyImage);
 			do {
 				logger.debug("Wait while scannable is busy");
-				Thread.currentThread().sleep(250);
+				Thread.sleep(250);
 			} while (scannable.isBusy() );
 			logger.debug("Scannable movement finished");
 			setLabelImage(normalImage);

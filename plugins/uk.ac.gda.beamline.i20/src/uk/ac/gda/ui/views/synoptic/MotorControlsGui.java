@@ -418,7 +418,7 @@ public class MotorControlsGui implements IObserver {
 		try {
 			// Periodically get position of scannable and update the motor position label
 			do {
-				Thread.currentThread().sleep(motorPosLabelUpdateIntervalMs);
+				Thread.sleep(motorPosLabelUpdateIntervalMs);
 				updateMotorPositionTextboxFromScannable();
 			} while (scannableMotor.isBusy());
 
