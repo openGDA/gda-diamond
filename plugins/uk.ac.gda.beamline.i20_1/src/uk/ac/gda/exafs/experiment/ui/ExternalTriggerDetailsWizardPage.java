@@ -30,7 +30,6 @@ import org.eclipse.core.databinding.observable.set.IObservableSet;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.layout.TableColumnLayout;
@@ -46,6 +45,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -271,7 +271,7 @@ public class ExternalTriggerDetailsWizardPage extends WizardPage {
 				if (!selection.isEmpty()) {
 
 					InputDialog numberInput = new InputDialog(parent.getShell(), "Copy trigger parameters", "Enter start time to place copied triggers : ", "0.0", new DoubleValidator() );
-					if(numberInput.open() == Dialog.OK) {
+					if(numberInput.open() == Window.OK) {
 
 						List<TriggerableObject> newTriggers = new ArrayList<>();
 						Iterator<?> iterator = selection.iterator();
