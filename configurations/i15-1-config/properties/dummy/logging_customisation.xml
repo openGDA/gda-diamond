@@ -2,6 +2,7 @@
 
 <included>
 	<!-- Classes for which INFO messages are excessive
+	<logger name="org.apache.activemq.transport.failover.FailoverTransport">			<level value="ERROR"/></logger>
 	 -->
 
 	<!-- Classes for which DEBUG messages are excessive
