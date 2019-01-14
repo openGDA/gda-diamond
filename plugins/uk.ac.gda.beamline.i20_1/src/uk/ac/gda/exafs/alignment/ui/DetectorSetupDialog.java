@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -68,11 +70,13 @@ import org.slf4j.LoggerFactory;
 import gda.device.DeviceException;
 import gda.device.detector.DetectorData;
 import gda.device.detector.EdeDetector;
+import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.device.detector.xstrip.XhDetector;
 import gda.device.detector.xstrip.XhDetectorData;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig.UnitSetup;
 import uk.ac.gda.exafs.data.DetectorModel;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 
 public class DetectorSetupDialog extends TitleAreaDialog {
 
@@ -100,6 +104,8 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 
 	private final EdeDetector detector;
 	private final DetectorData detectorData;
+
+	private Text txtAccumulationReadoutTime;
 
 	public DetectorSetupDialog(Shell parentShell) throws Exception {
 		super(parentShell);
@@ -150,9 +156,38 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 		txtExcludedStrips.addListener(SWT.MouseUp, excludedStripsTxtListener);
 		txtExcludedStrips.addListener(SWT.KeyUp, excludedStripsTxtListener);
 
+		if (detector.getDetectorData() instanceof FrelonCcdDetectorData) {
+			addAccumulationReadoutTimeControls(selectionComposite);
+		}
+
 		createTemperatureTable(selectionComposite);
 		bindingValues();
 		return selectionComposite;
+	}
+
+	private void addAccumulationReadoutTimeControls(Composite parent) {
+		Label lblReadoutTime = new Label(parent, SWT.NONE);
+		lblReadoutTime.setText(UnitSetup.MILLI_SEC.addUnitSuffixForLabel("Accumulation readout time"));
+		lblReadoutTime.setLayoutData(new GridData(GridData.BEGINNING, GridData.BEGINNING, false, false));
+
+		txtAccumulationReadoutTime = new Text(parent, SWT.NONE);
+		txtAccumulationReadoutTime.setLayoutData(new GridData(GridData.FILL, GridData.BEGINNING, true, false));
+		double timeMs = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(DetectorModel.INSTANCE.getAccumulationReadoutTime(), ExperimentUnit.MILLI_SEC);
+		txtAccumulationReadoutTime.setText(Double.toString(timeMs));
+	}
+
+	private void updateAccumulationReadoutTime() {
+		if (txtAccumulationReadoutTime == null) {
+			return;
+		}
+		try {
+			logger.debug("Update model with accumulation readout time");
+			Number newReadoutTime = NumberFormat.getInstance().parse(txtAccumulationReadoutTime.getText());
+			double newTime = ExperimentUnit.MILLI_SEC.convertToDefaultUnit(newReadoutTime.doubleValue());
+			DetectorModel.INSTANCE.setAccumulationReadoutTime(newTime);
+		} catch (ParseException e) {
+			logger.error("Problem updating detector accumulation readout time using value {}",	txtAccumulationReadoutTime.getText(), e);
+		}
 	}
 
 	private void createTemperatureTable(Composite selectionComposite) {
@@ -326,6 +361,7 @@ public class DetectorSetupDialog extends TitleAreaDialog {
 		if (detector instanceof XhDetector) {
 			bindTxtBiasVoltage.updateTargetToModel();
 		}
+		updateAccumulationReadoutTime();
 		disposeBinding();
 		super.okPressed();
 	}

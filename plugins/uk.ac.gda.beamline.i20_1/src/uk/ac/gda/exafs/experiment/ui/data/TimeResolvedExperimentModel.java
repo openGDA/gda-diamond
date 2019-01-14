@@ -72,7 +72,6 @@ import uk.ac.gda.exafs.ui.data.TimingGroup.InputTriggerLemoNumbers;
 public class TimeResolvedExperimentModel extends ObservableModel {
 
 	private static final double INITIAL_INTEGRATION_TIME = ExperimentUnit.MILLI_SEC.convertToDefaultUnit(0.001d);
-	private static final double INITIAL_ACCUMULATION_READOUT_TIME = ExperimentUnit.MILLI_SEC.convertToDefaultUnit(0.536d);
 
 	public static final int TOP_UP_DURATION_IN_SECONDS = 10;
 
@@ -461,7 +460,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		addToInternalGroupList(newGroup);
 		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());
 		newGroup.setIntegrationTime(INITIAL_INTEGRATION_TIME);
-		newGroup.setAccumulationReadoutTime(INITIAL_ACCUMULATION_READOUT_TIME);
+		newGroup.setAccumulationReadoutTime(DetectorModel.INSTANCE.getAccumulationReadoutTime());
 		newGroup.setExternalTriggerAvailable(true);
 		newGroup.setExternalTriggerInputLemoNumber(InputTriggerLemoNumbers.ZERO);
 		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(this.getDataStoreKey(), groupList);
@@ -897,7 +896,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			// TODO set time per spectrum
 			newGroup.setTimePerSpectrum(timePerGroup); // Initially there is only 1 spectrum per group
 			newGroup.setIntegrationTime(INITIAL_INTEGRATION_TIME);
-			newGroup.setAccumulationReadoutTime(INITIAL_ACCUMULATION_READOUT_TIME);
+			newGroup.setAccumulationReadoutTime(DetectorModel.INSTANCE.getAccumulationReadoutTime());
 			addToInternalGroupList(newGroup);
 		}
 		resetInitialGroupTimes(timeIntervalData.getDuration() / groupList.size());

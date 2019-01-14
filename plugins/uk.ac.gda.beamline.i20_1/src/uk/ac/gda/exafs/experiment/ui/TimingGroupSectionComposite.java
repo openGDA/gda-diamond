@@ -266,8 +266,24 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			}
 		});
 		model.addPropertyChangeListener(unitChangeListener);
+
+		// Update timing group values if accumulation readout time changes.
+		DetectorModel.INSTANCE.addPropertyChangeListener(event -> {
+			if (event.getPropertyName().equals(TimingGroupUIModel.ACCUMULATION_READOUT_TIME_PROP_NAME)) {
+				updateTimingGroupDetails();
+			}
+		});
 	}
 
+	/** Update timing group details widgets with latest values in model.
+	 *
+	 */
+	private void updateTimingGroupDetails() {
+		IStructuredSelection structuredSelection = (IStructuredSelection) groupsTableViewer.getSelection();
+		if (!structuredSelection.isEmpty()) {
+			showGroupDetails(groupSection, structuredSelection);
+		}
+	}
 	private void selectTimingGroupTableRow( int index ) {
 		Object element = groupsTableViewer.getElementAt( index );
 		if ( element != null ) {
@@ -658,10 +674,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			if (evt.getPropertyName().equals(TimeResolvedExperimentModel.UNIT_PROP_NAME)) {
-				IStructuredSelection structuredSelection = (IStructuredSelection) groupsTableViewer.getSelection();
-				if (!structuredSelection.isEmpty()) {
-					showGroupDetails(groupSection, structuredSelection);
-				}
+				updateTimingGroupDetails();
 			}
 		}
 	};
@@ -818,7 +831,7 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 
 			if ( showAccumulationReadoutControls ) {
 				accumulationReadoutTimeValueText.setModel(group, TimingGroupUIModel.ACCUMULATION_READOUT_TIME_PROP_NAME);
-				accumulationReadoutTimeValueText.setEditable(true);
+				accumulationReadoutTimeValueText.setEditable(false);
 				accumulationReadoutTimeValueText.setConverters(new IConverter() {
 					@Override
 					public Object getFromType() {

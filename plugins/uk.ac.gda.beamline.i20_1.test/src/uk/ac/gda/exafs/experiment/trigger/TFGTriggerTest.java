@@ -18,10 +18,13 @@
 
 package uk.ac.gda.exafs.experiment.trigger;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.math3.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,8 +40,10 @@ public class TFGTriggerTest {
 	private EdeDetector detector;
 
 	private double collectionDuration = 0.50688;
-	private double startTime = 0.001;
+	private double detectorTriggerPulseLength = 0.001;
+	private double detectorTriggerStartTime = 0.1;
 	private int numberOfFrames = 5;
+	private int numberOfScansPerFrame = 66;
 
 	@Before
 	public void setup() {
@@ -47,8 +52,8 @@ public class TFGTriggerTest {
 
 	private void setupDetectorDataCollection() {
 		// Set data collection duration, number of frames
-		tfgTrigger.getDetectorDataCollection().setTriggerDelay(0.1); //start time
-		tfgTrigger.getDetectorDataCollection().setTriggerPulseLength(startTime);
+		tfgTrigger.getDetectorDataCollection().setTriggerDelay(detectorTriggerStartTime); //start time
+		tfgTrigger.getDetectorDataCollection().setTriggerPulseLength(detectorTriggerPulseLength);
 		tfgTrigger.getDetectorDataCollection().setNumberOfFrames(numberOfFrames);
 		tfgTrigger.getDetectorDataCollection().setCollectionDuration(collectionDuration);
 		tfgTrigger.setUseCountFrameScalers(false);
@@ -65,7 +70,7 @@ public class TFGTriggerTest {
 	public void setupFrelon() {
 		detector = new EdeFrelon();
 		detector.setName("frelon");
-		detector.setNumberScansInFrame( 66 ); //number of scans per frame of Frelon
+		detector.setNumberScansInFrame( numberOfScansPerFrame ); //number of scans per frame of Frelon
 		tfgTrigger.setDetector(detector);
 	}
 
@@ -489,6 +494,120 @@ public class TFGTriggerTest {
 
 		String command = tfgTrigger.getTfgSetupGroupCommandParameters(1, false);
 		System.out.print(command+"\n");
+
+	}
+
+	@Test
+	public void testScalerFramesNoTfgOutput() {
+		setupFrelon();
+		numberOfFrames = 100;
+
+		setupDetectorDataCollection();
+
+		Map<Integer, Pair<Integer, Integer>> scalerFramesForSpectra = tfgTrigger.getFramesForSpectra();
+		for(int i=0; i<numberOfFrames; i++) {
+			int firstFrame = numberOfScansPerFrame*i;
+			assertEquals(scalerFramesForSpectra.get(i), Pair.create(firstFrame, firstFrame+numberOfScansPerFrame));
+		}
+	}
+
+	@Test
+	public void testScalerFramesHalfSpectrumOverlap() {
+		setupFrelon();
+
+		setupDetectorDataCollection();
+
+		double timePerSpectrum = collectionDuration/numberOfFrames;
+		double timePerAccumulation = timePerSpectrum/numberOfScansPerFrame;
+
+		// Setup trigger to overlap with first 10 frames of 2nd spectrum
+		double pulseStart = detectorTriggerStartTime+detectorTriggerPulseLength+timePerSpectrum;
+		int numOverlapFrames = 10;
+		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry(pulseStart, timePerAccumulation*numOverlapFrames, TriggerOutputPort.USR_OUT_2);
+
+		tfgTrigger.getSampleEnvironment().add(trigger1);
+
+		Map<Integer, Pair<Integer, Integer>> scalerFramesForSpectra = tfgTrigger.getFramesForSpectra();
+		assertEquals(Pair.create(0, numberOfScansPerFrame), scalerFramesForSpectra.get(0));
+
+		// This spectrum should have full number of frames - 10
+		int expectedLastScalerFrame = 2 * numberOfScansPerFrame - numOverlapFrames + 1;
+		assertEquals(Pair.create(numberOfScansPerFrame, expectedLastScalerFrame), scalerFramesForSpectra.get(1));
+
+		// The remaining spectra should all have full number of frames
+		assertEquals(Pair.create(expectedLastScalerFrame, expectedLastScalerFrame+numberOfScansPerFrame), scalerFramesForSpectra.get(2));
+		assertEquals(Pair.create(expectedLastScalerFrame+numberOfScansPerFrame,  expectedLastScalerFrame+2*numberOfScansPerFrame), scalerFramesForSpectra.get(3));
+		assertEquals(Pair.create(expectedLastScalerFrame+numberOfScansPerFrame*2, expectedLastScalerFrame+numberOfScansPerFrame*3), scalerFramesForSpectra.get(4));
+
+	}
+
+	@Test
+	public void testScalerFramesTwoHalfSpectrumOverlap() {
+		setupFrelon();
+
+		setupDetectorDataCollection();
+
+		double timePerSpectrum = collectionDuration/numberOfFrames;
+		double timePerAccumulation = timePerSpectrum/numberOfScansPerFrame;
+
+		// Setup trigger to overlap with end of 2nd and start of 3rd spectrum
+		int halfFrame = (int) (numberOfScansPerFrame*0.5);
+		double pulseStart = detectorTriggerStartTime + detectorTriggerPulseLength + timePerSpectrum	+ timePerAccumulation * 33;
+		int numOverlapFrames = numberOfScansPerFrame;
+		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry(pulseStart, timePerAccumulation*numOverlapFrames, TriggerOutputPort.USR_OUT_2);
+
+		tfgTrigger.getSampleEnvironment().add(trigger1);
+
+		Map<Integer, Pair<Integer, Integer>> scalerFramesForSpectra = tfgTrigger.getFramesForSpectra();
+		assertEquals(Pair.create(0, numberOfScansPerFrame), scalerFramesForSpectra.get(0));
+
+		// These two spectra should have half the frames due to overlap with Tfg output :
+		int expectedLastScalerFrame = numberOfScansPerFrame + halfFrame + 1;
+		assertEquals(Pair.create(numberOfScansPerFrame, expectedLastScalerFrame), scalerFramesForSpectra.get(1));
+		assertEquals(Pair.create(expectedLastScalerFrame, expectedLastScalerFrame + halfFrame),	scalerFramesForSpectra.get(2));
+
+		// Remaining spectra should have full number of frames :
+		int fullFrameStart = expectedLastScalerFrame+halfFrame;
+		assertEquals(Pair.create(fullFrameStart, fullFrameStart+numberOfScansPerFrame), scalerFramesForSpectra.get(3));
+		assertEquals(Pair.create(fullFrameStart+numberOfScansPerFrame, fullFrameStart+2*numberOfScansPerFrame), scalerFramesForSpectra.get(4));
+
+	}
+
+	@Test
+	public void testScalerFramesSeveralSpectrumOverlap() {
+		setupFrelon();
+
+		numberOfFrames = 1000;
+
+		setupDetectorDataCollection();
+
+		double timePerSpectrum = collectionDuration/numberOfFrames;
+		double timePerAccumulation = timePerSpectrum/numberOfScansPerFrame;
+
+		// Setup triggers to overlap with end of 2nd, all of 3rd and start of 4th spectrum
+		int numOverlapFrames = 2*numberOfScansPerFrame;
+		int halfFrame = (int) (numberOfScansPerFrame*0.5);
+		double pulseStart = detectorTriggerStartTime+detectorTriggerPulseLength+timePerSpectrum + timePerAccumulation*halfFrame;
+		double pulseLength = timePerAccumulation*(numOverlapFrames - 0.5); // extra half frame to avoid rounding error
+
+		TriggerableObject trigger1 = tfgTrigger.createNewSampleEnvEntry(pulseStart, pulseLength, TriggerOutputPort.USR_OUT_2);
+
+		tfgTrigger.getSampleEnvironment().add(trigger1);
+
+		Map<Integer, Pair<Integer, Integer>> scalerFramesForSpectra = tfgTrigger.getFramesForSpectra();
+		assertEquals(scalerFramesForSpectra.get(0), Pair.create(0, numberOfScansPerFrame));
+
+		// This spectra should have half the frames due to overlap with Tfg output :
+		int expectedLastScalerFrame = numberOfScansPerFrame + halfFrame + 1;
+		assertEquals(Pair.create(numberOfScansPerFrame, expectedLastScalerFrame), scalerFramesForSpectra.get(1));
+		// No frames for this one - overlapped completely by output signal
+		assertEquals(Pair.create(expectedLastScalerFrame, expectedLastScalerFrame), scalerFramesForSpectra.get(2));
+		// This should have half the frames
+		assertEquals(Pair.create(expectedLastScalerFrame, expectedLastScalerFrame + halfFrame),	scalerFramesForSpectra.get(3));
+
+		// Remaining spectra should have full number of frames :
+		int fullFrameStart = expectedLastScalerFrame+halfFrame;
+		assertEquals(Pair.create(fullFrameStart, fullFrameStart+numberOfScansPerFrame), scalerFramesForSpectra.get(4));
 
 	}
 }

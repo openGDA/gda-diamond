@@ -18,6 +18,9 @@
 
 package uk.ac.gda.exafs.alignment.ui;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -26,18 +29,21 @@ import org.eclipse.core.databinding.beans.BeansObservables;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.device.detector.frelon.FrelonCcdDetectorData;
 import uk.ac.gda.client.ResourceComposite;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.data.ClientConfig;
@@ -46,7 +52,9 @@ import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 import uk.ac.gda.exafs.experiment.ui.data.SampleStageMotors;
+import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
 import uk.ac.gda.ui.components.NumberEditorControl;
 
 public class SingleSpectrumParametersSection extends ResourceComposite {
@@ -74,17 +82,40 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 
 	private Label lnoOfAcculabel;
 
-	//	private Composite i0NoOfaccumulationsComposite;
+	private boolean showAccumulationReadout = false;
+
+	private Text accumulationReadoutTimeValueText;
+
+	private Text realTimePerSpectrumValueText;
+
 
 	public SingleSpectrumParametersSection(Composite parent, int style) {
 		super(parent, style);
 		toolkit = new FormToolkit(parent.getDisplay());
 		try {
+			showAccumulationReadout = DetectorModel.INSTANCE.getCurrentDetector().getDetectorData() instanceof FrelonCcdDetectorData;
 			setupUI();
 			bind();
 		} catch (Exception e) {
 			logger.error("Unable to create controls", e);
 		}
+	}
+
+	private void updateAccumulationWidgets() {
+		String formatStr = "%.5f %s"; // value, unit
+
+		if (accumulationReadoutTimeValueText == null && realTimePerSpectrumValueText == null) {
+			return;
+		}
+
+		final SingleSpectrumCollectionModel collectionModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
+
+		double accumationReadoutTime = DetectorModel.INSTANCE.getAccumulationReadoutTime();
+		double accumulationReadoutTimeMs = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(accumationReadoutTime, ExperimentUnit.MILLI_SEC);
+		double realTimePerSpectrumMs = collectionModel.getItNumberOfAccumulations()*(collectionModel.getItIntegrationTime() + accumulationReadoutTimeMs);
+
+		accumulationReadoutTimeValueText.setText(String.format(formatStr, accumulationReadoutTimeMs, "ms"));
+		realTimePerSpectrumValueText.setText(String.format(formatStr, realTimePerSpectrumMs, "ms"));
 	}
 
 	private void bind() {
@@ -135,6 +166,24 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 						return result;
 					}
 				});
+
+		updateAccumulationWidgets();
+
+		// Update when accumulation readout time changes
+		DetectorModel.INSTANCE.addPropertyChangeListener( event -> {
+			if (event.getPropertyName().equals(TimingGroupUIModel.ACCUMULATION_READOUT_TIME_PROP_NAME)) {
+				updateAccumulationWidgets();
+			}
+		});
+
+		// Update when number of accumulations or accumulation time change
+		singleSpectrumDataModel.addPropertyChangeListener( event -> {
+			List<String> updateEvents = Arrays.asList(SingleSpectrumCollectionModel.IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME,
+					SingleSpectrumCollectionModel.IT_INTEGRATION_TIME_PROP_NAME);
+			if (updateEvents.contains(event.getPropertyName())) {
+				updateAccumulationWidgets();
+			}
+		});
 	}
 
 	private void createI0IRefComposites() throws Exception {
@@ -159,25 +208,26 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		gridData.horizontalSpan = 2;
 		i0NoOfAccumulationCheck.setLayoutData(gridData);
 
+		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		gridData.widthHint = BOX_WIDTH;
+		GridDataFactory fixedWidthGridData = GridDataFactory.createFrom(gridData);
+
 		Composite i0Composite = new Composite(i0AcquisitionSectionComposite,  SWT.None);
 		i0Composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		i0Composite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
 		Label label = toolkit.createLabel(i0Composite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		NumberEditorControl i0IntegrationTimeValueText = new NumberEditorControl(i0Composite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.I0_INTEGRATION_TIME_PROP_NAME, true);
-		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		gridData.widthHint = BOX_WIDTH;
+		fixedWidthGridData.applyTo(i0IntegrationTimeValueText);
+
 		i0IntegrationTimeValueText.setLayoutData(gridData);
 		i0IntegrationTimeValueText.setUnit(UnitSetup.MILLI_SEC.getText());
 		i0IntegrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
-
 		lnoOfAcculabel = toolkit.createLabel(i0Composite, "Number of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		i0NoOfAccumulationValueText = new NumberEditorControl(i0Composite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.I0_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
 		i0NoOfAccumulationValueText.setRange(1, SingleSpectrumCollectionModel.MAX_NO_OF_ACCUMULATIONS);
-		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		gridData.widthHint = BOX_WIDTH;
-		i0NoOfAccumulationValueText.setLayoutData(gridData);
+		fixedWidthGridData.applyTo(i0NoOfAccumulationValueText);
 
 		Composite sectionSeparator = toolkit.createCompositeSeparator(i0AcquisitionSection);
 		toolkit.paintBordersFor(sectionSeparator);
@@ -194,18 +244,14 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		label = toolkit.createLabel(iRefDetailsComposite, "Accumulation time", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		iRefIntegrationTimeValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.IREF_INTEGRATION_TIME_PROP_NAME, true);
-		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		gridData.widthHint = BOX_WIDTH;
-		iRefIntegrationTimeValueText.setLayoutData(gridData);
 		iRefIntegrationTimeValueText.setUnit(UnitSetup.MILLI_SEC.getText());
 		iRefIntegrationTimeValueText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
+		fixedWidthGridData.applyTo(iRefIntegrationTimeValueText);
 
 		label = toolkit.createLabel(iRefDetailsComposite, "No. of accumulations", SWT.None);
 		label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 		iRefNoOfAccumulationValueText = new NumberEditorControl(iRefDetailsComposite, SWT.None, singleSpectrumDataModel.getExperimentDataModel(), ExperimentDataModel.IREF_NO_OF_ACCUMULATION_PROP_NAME, true);
-		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		gridData.widthHint = BOX_WIDTH;
-		iRefNoOfAccumulationValueText.setLayoutData(gridData);
+		fixedWidthGridData.applyTo(iRefNoOfAccumulationValueText);
 
 		sectionSeparator = toolkit.createCompositeSeparator(sectionIRefaccumulationSection);
 		toolkit.paintBordersFor(sectionSeparator);
@@ -218,6 +264,10 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 
 		createI0IRefComposites();
+
+		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		gridData.widthHint = BOX_WIDTH;
+		GridDataFactory fixedWidthGridData = GridDataFactory.createFrom(gridData);
 
 		// It acquisition settings
 		section = toolkit.createSection(this, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
@@ -240,17 +290,31 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		NumberEditorControl itIntegrationTimeText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, singleSpectrumDataModel, SingleSpectrumCollectionModel.IT_INTEGRATION_TIME_PROP_NAME, true);
 		itIntegrationTimeText.setDigits(ClientConfig.DEFAULT_DECIMAL_PLACE);
 		itIntegrationTimeText.setUnit(ClientConfig.UnitSetup.MILLI_SEC.getText());
-		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		gridData.widthHint = BOX_WIDTH;
-		itIntegrationTimeText.setLayoutData(gridData);
+		fixedWidthGridData.applyTo(itIntegrationTimeText);
+
+		if (showAccumulationReadout) {
+			Label label = toolkit.createLabel(acquisitionSettingsComposite, "Accumulation readout time", SWT.None);
+			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			accumulationReadoutTimeValueText = toolkit.createText(acquisitionSettingsComposite, "");
+			accumulationReadoutTimeValueText.setEditable(false);
+			accumulationReadoutTimeValueText.setEnabled(false);
+			fixedWidthGridData.applyTo(accumulationReadoutTimeValueText);
+		}
 
 		Label itNoOfAccumulationLabel = toolkit.createLabel(acquisitionSettingsComposite, "Number of accumulations");
 		itNoOfAccumulationLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
 
 		NumberEditorControl itNoOfAccumulationText = new NumberEditorControl(acquisitionSettingsComposite, SWT.None, singleSpectrumDataModel, SingleSpectrumCollectionModel.IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME, true);
-		gridData = new GridData(SWT.FILL, SWT.CENTER, false, false);
-		gridData.widthHint = BOX_WIDTH;
-		itNoOfAccumulationText.setLayoutData(gridData);
+		fixedWidthGridData.applyTo(itNoOfAccumulationText);
+
+		if (showAccumulationReadout) {
+			Label label = toolkit.createLabel(acquisitionSettingsComposite, "Real time per spectrum", SWT.None);
+			label.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+			realTimePerSpectrumValueText = toolkit.createText(acquisitionSettingsComposite, "");
+			realTimePerSpectrumValueText.setEditable(false);
+			realTimePerSpectrumValueText.setEnabled(false);
+			fixedWidthGridData.applyTo(realTimePerSpectrumValueText);
+		}
 
 		Composite acquisitionSettingsFileNameComposite = new Composite(sectionComposite, SWT.NONE);
 		acquisitionSettingsFileNameComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
