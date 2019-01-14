@@ -52,3 +52,4 @@ Import-Package: org.apache.commons.io,
  org.springframework.beans.factory;version="4.0.6.RELEASE",
  uk.ac.diamond.scisoft.analysis.plotclient
 Eclipse-RegisterBuddy: uk.ac.gda.core
+Automatic-Module-Name: uk.ac.gda.beamline.b18

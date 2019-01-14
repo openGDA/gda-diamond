@@ -38,3 +38,4 @@ Export-Package: gda.device.detector,
  uk.ac.gda.server.exafs.scan,
  uk.ac.gda.server.exafs.scan.iterators,
  uk.ac.gda.server.exafs.scan.preparers
+Automatic-Module-Name: uk.ac.gda.beamline.i20.server
