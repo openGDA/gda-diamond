@@ -22,3 +22,4 @@ Import-Package: org.eclipse.core.filesystem,
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework, 
  uk.ac.gda.api,
  uk.ac.gda.core
+Automatic-Module-Name: uk.ac.gda.beamline.i05

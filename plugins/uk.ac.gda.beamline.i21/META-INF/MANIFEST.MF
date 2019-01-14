@@ -35,3 +35,4 @@ Import-Package: gda.configuration.properties,
  org.python.pydev.ui.wizards.project,
  org.slf4j;version="1.7.25",
  uk.ac.gda.client.live.stream.view
+Automatic-Module-Name: uk.ac.gda.beamline.i21
