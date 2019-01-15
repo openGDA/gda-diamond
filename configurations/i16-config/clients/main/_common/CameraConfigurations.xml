@@ -4,69 +4,38 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="pil1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="PIL1" />
-		<property name="url" value="http://i16-ppu01.diamond.ac.uk:8091/pilatus1.mjpg.mjpg" />
-		<property name="arrayPv" value="BL16I-EA-PILAT-01:ARR" />
-	</bean>
-
-	<bean id="pil2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="PIL2" />
-		<property name="url" value="http://i16-ppu01.diamond.ac.uk:8081/pilatus2.mjpg.mjpg" />
-		<property name="arrayPv" value="BL16I-EA-PILAT-02:ARR" />
-	</bean>
-
-	<bean id="pil3_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="PIL3" />
-		<property name="url" value="http://i16-ppu01.diamond.ac.uk:8092/pilatus2.mjpg.mjpg" />
-		<property name="arrayPv" value="BL16I-EA-PILAT-03:ARR" />
-	</bean>
-
-	<bean id="mpx1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="MPX1" />
-		<property name="url" value="http://i16-detector01.diamond.ac.uk:8080/mpx1.mjpg.mjpg" />
-		<property name="arrayPv" value="BL16I-EA-DET-12:ARR" />
-	</bean>
-
-	<bean id="mpx2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="MPX2" />
-		<property name="url" value=".mjpg.mjpg" />
-		<property name="arrayPv" value="BL16I-EA-DET-13:ARR" />
-	</bean>
-
-	<bean id="andor1_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="ANDOR1" />
-		<property name="url" value="http://i16-detector01.diamond.ac.uk:8099/i16Andor1.mjpg.mjpg" />
-		<property name="arrayPv" value="BL16I-EA-ANDOR-01:ARR" />
-	</bean>
-
 	<bean id="cam2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="CAM2" />
+		<property name="displayName" value="CAM 2" />
 		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8080/CAM2.mjpg.mjpg" />
 		<property name="arrayPv" value="BL16I-DI-COR-01:ARR" />
 	</bean>
 
 	<bean id="cam4_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="CAM4" />
+		<property name="displayName" value="CAM 4" />
 		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8080/CAM4.mjpg.mjpg" />
 		<property name="arrayPv" value="BL16I-DI-TMP-01:ARR" />
 	</bean>
 
 	<bean id="cam5_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="CAM5" />
+		<property name="displayName" value="CAM 5" />
 		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8080/CAM5.mjpg.mjpg" />
 		<property name="arrayPv" value="BL16I-DI-EYE-01:ARR:ArrayData" />
 	</bean>
 
 	<bean id="cam8_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="CAM8" />
+		<property name="displayName" value="CAM 8" />
 		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8080/DICAM8.mjpg.mjpg" />
 		<property name="arrayPv" value="BL16I-DI-DCAM-01:ARR" />
 	</bean>
 
 	<bean id="cam10_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="CAM10" />
+		<property name="displayName" value="CAM 10" />
 		<property name="url" value="http://bl16i-di-serv-01.diamond.ac.uk:8080/DICAM10.mjpg.mjpg" />
 		<property name="arrayPv" value="BL16I-DI-DCAM-10:ARR" />
+	</bean>
+
+	<bean id="webcam2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Webcam 2"/>
+		<property name="url" value="http://i16-webcam2/mjpg/video.mjpg" />
 	</bean>
 </beans>
