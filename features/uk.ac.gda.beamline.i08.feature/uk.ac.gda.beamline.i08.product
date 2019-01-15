@@ -22,7 +22,6 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
 -Drebel.log=true
 -Dgda.config=${project_loc:i08-config}
 -Dgda.propertiesFile=${project_loc:i08-config}/properties/dummy/dummy_instance_java.properties
--Djacorb.config.dir=${project_loc:i08-config}/properties/dummy/jacorb
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i08-config}/properties/dummy/JCALibrary.properties
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
 -Dgda.install.workspace.loc=${workspace_loc}

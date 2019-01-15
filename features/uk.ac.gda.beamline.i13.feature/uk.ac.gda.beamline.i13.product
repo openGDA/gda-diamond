@@ -17,8 +17,7 @@ Based on GDA See &lt;http://www.opengda.org/&gt;
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Djacorb.config.dir=${project_loc:i13-config}/properties/dummy/jacorb
--Dgda.install.workspace.loc=${workspace_loc}
+      <vmArgs>-Dgda.install.workspace.loc=${workspace_loc}
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
 -Dgda.config=${project_loc:i13-config}
 -Dgda.facility.dir=${project_loc:dls-config}
