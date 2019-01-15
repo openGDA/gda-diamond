@@ -18,7 +18,11 @@
 
 package gda.device.scannable.keyence;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gda.device.DeviceException;
+import gda.device.ScannableMotionUnits;
 import gda.device.scannable.DummyPersistentScannable;
 import gda.device.scannable.ScannableMotionUnitsBase;
 import gda.device.scannable.ScannablePositionChangeEvent;
@@ -26,9 +30,7 @@ import gda.device.scannable.ScannableUtils;
 import gda.factory.FactoryException;
 import gda.factory.corba.util.CorbaAdapterClass;
 import gda.factory.corba.util.CorbaImplClass;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import uk.ac.gda.api.remoting.ServiceInterface;
 
 /*
  * The class needs to implement ScannableMotionUnits for it to be used by a ConverterScannable used to link zoom to 
@@ -36,6 +38,7 @@ import org.slf4j.LoggerFactory;
  */
 @CorbaImplClass(value = gda.device.scannable.corba.impl.ScannableImpl.class)
 @CorbaAdapterClass(value = gda.device.scannable.corba.impl.ScannableAdapter.class)
+@ServiceInterface(ScannableMotionUnits.class)
 public class KeyenceLightScannable extends ScannableMotionUnitsBase {
 	private static final Logger logger = LoggerFactory.getLogger(KeyenceLightScannable.class);
 
