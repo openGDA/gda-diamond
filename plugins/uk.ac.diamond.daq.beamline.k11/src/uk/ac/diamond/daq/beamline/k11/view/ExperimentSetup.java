@@ -21,6 +21,7 @@ package uk.ac.diamond.daq.beamline.k11.view;
 
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
@@ -36,14 +37,25 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import dna.util.LocalProperties;
+import gda.factory.Finder;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
+import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;
 import uk.ac.diamond.daq.experiment.ui.driver.TR6ConfigurationWizard;
+import uk.ac.diamond.daq.stage.StageException;
+import uk.ac.diamond.daq.stage.StageGroupService;
+import uk.ac.gda.client.live.stream.LiveStreamConnection;
+import uk.ac.gda.client.live.stream.view.CameraConfiguration;
+import uk.ac.gda.client.live.stream.view.StreamType;
 
 /**
  * The main Experiment configuration view visible in all k11 perspectives
  */
 public class ExperimentSetup extends LayoutUtilities {
+	private static final Logger log = LoggerFactory.getLogger(ExperimentSetup.class);
 
 	private static final int NOTES_BOX_LINES = 7;
 	private static final int NOTES_BOX_HEIGHT = NOTES_BOX_LINES * 20;
@@ -53,10 +65,15 @@ public class ExperimentSetup extends LayoutUtilities {
 	private static final FontData BANNER_FONT_DATA = new FontData("Impact", 20, SWT.NONE);
 	private static final int HEADING_SIZE = 14;
 
+	private static final String ENVIRONMENT_STAGE = "TR6";
+	private static final String TOMOGRAPHY_STAGE = "Tomography";
+	private static final String TABEL_STAGE = "Platform";
+
 	private Composite panelComposite;
+	private StageGroupService stageGroupService;
 
 	public ExperimentSetup() {
-		// TODO Auto-generated constructor stub
+		stageGroupService = Finder.getInstance().find("diadStageGroupService");
 	}
 
 	/**
@@ -172,18 +189,38 @@ public class ExperimentSetup extends LayoutUtilities {
 		fillGrab().applyTo(stageButtonsComposite);
 
 		final Button environmentStageRadioButton = new Button(stageButtonsComposite, SWT.RADIO);
-		environmentStageRadioButton.setSelection(true);
 		environmentStageRadioButton.setToolTipText(	"Select the Environmental (e.g. TR6) stage for the experiment");
 		environmentStageRadioButton.setText("Env.");
+		environmentStageRadioButton.addListener(SWT.Selection, e -> changeStageGroup(ENVIRONMENT_STAGE));
 		fillGrab().applyTo(environmentStageRadioButton);
 		final Button tomoStageRadioButton = new Button(stageButtonsComposite, SWT.RADIO);
 		tomoStageRadioButton.setToolTipText("Select the Tomography (rotational) stage for the experiment");
 		tomoStageRadioButton.setText("Tomo.");
+		tomoStageRadioButton.addListener(SWT.Selection, e -> changeStageGroup(TOMOGRAPHY_STAGE));
 		fillGrab().applyTo(tomoStageRadioButton);
 		final Button tableStageRadioButton = new Button(stageButtonsComposite, SWT.RADIO);
 		tableStageRadioButton.setText("Table");
 		tableStageRadioButton.setToolTipText("Select the open Table stage for the experiment");
+		tableStageRadioButton.addListener(SWT.Selection, e -> changeStageGroup(TABEL_STAGE));
 		fillGrab().applyTo(tableStageRadioButton);
+
+		String stageGroup = stageGroupService.currentStageGroup();
+		if (ENVIRONMENT_STAGE.contentEquals(stageGroup)) {
+			environmentStageRadioButton.setSelection(true);
+		} else if (TOMOGRAPHY_STAGE.equals(stageGroup)) {
+			tomoStageRadioButton.setSelection(true);
+		} else if (TABEL_STAGE.equals(stageGroup)) {
+			tableStageRadioButton.setSelection(true);
+		}
+	}
+
+	private void changeStageGroup (String stageGroupName) {
+		try {
+			stageGroupService.changeStageGroup(stageGroupName);
+		} catch (StageException e) {
+			MessageDialog.openError(panelComposite.getShell(), "Error changes stage",
+					"Unknown stage of " + stageGroupName);
+		}
 	}
 
 	/**
@@ -236,10 +273,28 @@ public class ExperimentSetup extends LayoutUtilities {
 				log.error("Error opening camera configuration dialog", e);
 			}
 		});
-		addConfigurationDialogButton(content, "Sample Alignment");
+		button = addConfigurationDialogButton(content, "Sample Alignment");
+		button.addListener(SWT.Selection, event -> {
+			try {
+				SampleAlignmentDialog.show(composite.getDisplay(), getLiveStreamConnection());
+			} catch (Exception e) {
+				MessageDialog.openError(panelComposite.getShell(), "Error", "Error opening sample alignment dialog"
+						+ "see log for details");
+				log.error("Error opening sample alignment dialog", e);
+			}
+		});
 		addConfigurationDialogButton(content, "Diffraction Detector");
 
 		addExperimentDriverButton(content);
+	}
+
+	private LiveStreamConnection getLiveStreamConnection () {
+		return new LiveStreamConnection(getCameraConfiguration(), StreamType.EPICS_ARRAY);
+	}
+
+	private CameraConfiguration getCameraConfiguration () {
+		String cameraName = LocalProperties.get("imaging.camera.name");
+		return Finder.getInstance().find(cameraName);
 	}
 
 	private void addExperimentDriverButton(Composite content) {
