@@ -434,6 +434,29 @@ public class EdeScanTest extends EdeTestBase {
 	}
 
 	@Test
+	public void testBigLinearExperiment() throws Exception {
+		setup(EdeScanTest.class, "testBigLinearExperiment");
+		List<TimingGroup> groups = new ArrayList<TimingGroup>();
+
+		TimingGroup group1 = new TimingGroup();
+		group1.setLabel("group1");
+		group1.setNumberOfFrames(1000);
+		group1.setTimePerScan(0.001);
+		group1.setNumberOfScansPerFrame(1);
+		groups.add(group1);
+
+		TimeResolvedExperiment theExperiment = new TimeResolvedExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
+				xh.getName(), topupMonitor.getName(), shutter.getName());
+		theExperiment.setWriteAsciiData(false);
+		theExperiment.runExperiment();
+
+		int numberExpectedSpectra = getNumSpectra(groups);
+		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
+		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
+	}
+
+	@Test
 	public void testLinearExperimentMonitorScannables() throws Exception {
 		setup(EdeScanTest.class, "testLinearExperimentMonitorScannables");
 

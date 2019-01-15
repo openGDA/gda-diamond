@@ -340,6 +340,11 @@ public abstract class EdeExperiment implements IObserver {
 
 		edeScan.setScannablesToMonitorDuringScan(scannablesToMonitorDuringScan);
 
+		// Use NexusTreeWriter for Light It part of scan to improve data writing speed.
+		if (scanType == EdeScanType.LIGHT && scanPosition.getType() == EdePositionType.INBEAM) {
+			edeScan.setUseNexusTreeWriter(true);
+		}
+
 		return edeScan;
 	}
 	/**
