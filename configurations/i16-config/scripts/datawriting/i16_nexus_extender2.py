@@ -294,8 +294,9 @@ class I16NexusExtender(DataWriterExtenderBase):
         DataWriterExtenderBase.addData(self, dwParent, scanDataPoint)
 
     def writeTitle(self, nFile, group, title):
+        self.logger.debug("writeTitle({}, {}, {})", nFile, group, title)
         data = DF.createFromObject(title)
-        data.name = "title"
+        data.name = "title_old"
         nFile.createData(group, data)
 
     def writeDetectorModule(self, nFile, group, detName, dependsOn):
