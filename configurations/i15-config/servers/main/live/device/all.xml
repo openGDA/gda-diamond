@@ -43,6 +43,7 @@
 	<import resource="I15-S1.xml"/>
 	<import resource="I15-S2.xml"/>
 	<import resource="I15-S4.xml"/>
+	<import resource="I15-S5.xml"/>
 	<import resource="I15-S6.xml"/>
 	<import resource="I15-S7.xml"/>
 	<import resource="I15-Sample-Environments-Cyberstar-Blower.xml"/>

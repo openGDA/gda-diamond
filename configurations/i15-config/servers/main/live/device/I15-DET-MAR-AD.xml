@@ -131,6 +131,20 @@
 		</property>
 	</bean>
 
+	<bean id="marTifHWT"
+			class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="mar"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="mar_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="mar_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="mar_tiff_SingleImagePerFileWriter" />
+				<ref bean="mar_mar_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="mar"
 			class="gda.device.detector.NXDetector">
 		<property name="name" value="mar" />
@@ -141,6 +155,19 @@
 				<!-- 
 				<ref bean="mar_tiff_SingleImagePerFileWriter" />
 				 -->
+				<ref bean="mar_mar_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="marTif"
+			class="gda.device.detector.NXDetector">
+		<property name="name" value="mar" />
+		<property name="collectionStrategy" ref="mar_SingleExposureUnsynchronisedExternalShutterCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="mar_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="mar_tiff_SingleImagePerFileWriter" />
 				<ref bean="mar_mar_SingleImagePerFileWriter" />
 			</list>
 		</property>

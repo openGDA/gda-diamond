@@ -95,6 +95,8 @@ def _configureDetector(detector, exposureTime, noOfExposures, sampleSuffix, dark
 
 	supportedDetectors = {'mar':    jythonNameMap.marHWT
 						, 'marHWT': detector
+						, 'marTif': jythonNameMap.marTifHWT
+						, 'marTifHWT': detector
 						, 'pe':     detector
 						, 'mpx':    jythonNameMap.mpxHWT
 						, 'mpxHWT': detector
