@@ -224,4 +224,29 @@
 		<property name="service" ref="focus_scan_bean" />
 	</bean>
 
+	<!-- Define the initial units for the various region fields -->
+	<bean id="initialLengthUnits" class="uk.ac.diamond.daq.mapping.ui.experiment.InitialLengthUnits">
+		<constructor-arg>
+			<map>
+				<entry key="fastAxisStep" value="nm" />
+				<entry key="slowAxisStep" value="nm" />
+				<entry key="xStart" value="mm" />
+				<entry key="yStart" value="mm" />
+				<entry key="xStop" value="mm" />
+				<entry key="yStop" value="mm" />
+				<entry key="xCentre" value="mm" />
+				<entry key="yCentre" value="mm" />
+				<entry key="xRange" value="nm" />
+				<entry key="yRange" value="nm" />
+				<entry key="radius" value="nm" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<!-- Register the initial units bean as an OSGi service -->
+	<bean class="gda.util.osgi.OSGiServiceRegister">
+		<property name="class" value="uk.ac.diamond.daq.mapping.ui.experiment.InitialLengthUnits" />
+		<property name="service" ref="initialLengthUnits" />
+	</bean>
+
 </beans>
