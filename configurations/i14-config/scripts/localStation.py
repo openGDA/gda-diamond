@@ -52,8 +52,9 @@ if isLive():
         print("Exception running localStationUser")
 else:
     print("Running in dummy mode")
+    from dummy_objects.dummy_beam_monitor import DummyBeamMonitor
     from Beamline.MotionsAndDetectors.dcm_enrg import DCMpdq
-    dcm_enrg = DCMpdq("dcm_enrg", dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current)
+    dcm_enrg = DCMpdq("dcm_enrg", DummyBeamMonitor(), dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current)
     run("Beamline/Utilities/align/xanes_scan.py")
 
 # Export dcm_enrg over RMI
