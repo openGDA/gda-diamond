@@ -8,3 +8,4 @@ Require-Bundle: org.eclipse.equinox.app,
  uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
  org.eclipse.ui;bundle-version="3.107.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: uk.ac.gda.beamline.b07-1

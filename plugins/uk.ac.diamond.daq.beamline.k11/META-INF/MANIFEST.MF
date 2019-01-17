@@ -24,3 +24,4 @@ Require-Bundle: uk.ac.gda.common,
  org.eclipse.e4.core.contexts,
  org.eclipse.e4.core.di;bundle-version="1.6.100"
 Export-Package: uk.ac.diamond.daq.beamline.k11.perspective
+Automatic-Module-Name: uk.ac.diamond.daq.beamline.k11
