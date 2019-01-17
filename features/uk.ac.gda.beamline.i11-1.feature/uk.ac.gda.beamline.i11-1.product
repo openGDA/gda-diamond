@@ -21,24 +21,19 @@ Visit http://www.opengda.org
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dosgi.framework.extensions=org.eclipse.fx.osgi
+      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Declipse.pluginCustomization=${workspace_loc:i11-1-config}/plugin_customization.ini
 -Dgda.install.workspace.loc=${workspace_loc:i11-1-config}
--Dgda.install.git.loc=${workspace_loc:i11-1-config}/../../../workspace_git
+-Dgda.install.git.loc=${workspace_loc:i11-1-config}/../../../../workspace_git
 -Dgda.propertiesFile=${workspace_loc:i11-1-config}/properties/dummy/dummy_instance_java.properties
 -Dgda.config=${workspace_loc:i11-1-config}
 -Dgda.core.dir=${workspace_loc:core-config}
 -Dgda.facility.dir=${workspace_loc:dls-config}
 -Djacorb.config.dir=${workspace_loc:i11-1-config}/jacorb/dummy
 -Dgov.aps.jca.JCALibrary.properties=${workspace_loc:i11-1-config}/jca/dummy/JCALibrary.properties
--Dgda.gui.beans.xml=${workspace_loc:i11-1-config}/clients/main/dummy/client.xml
 -Dgda.mode=dummy
 -Xms256m 
 -Xmx2048m
--XX:PermSize=128m 
--XX:MaxPermSize=512m
 -XX:+UseG1GC
 -XX:+UnlockCommercialFeatures
 -XX:+FlightRecorder

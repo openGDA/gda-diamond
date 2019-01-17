@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
        xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
 		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-	<corba:import namespace="i11-1" names="Ic4, beam, fastshutter,fastshutter1, fastshutter2, ehshutter, feshutter, portshutter, es2shutter, dcm_lambda"/>
+	<bean name="Ic4" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean name="beam" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean name="fastshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean name="fastshutter1" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean name="fastshutter2" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean name="ehshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean name="feshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean name="portshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean name="es2shutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean name="dcm_lambda" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="bm" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}bm" />
