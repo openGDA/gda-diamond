@@ -18,7 +18,7 @@
 
 	<!-- Ring Mode -->
 	<bean id="ring_mode" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="SR-CS-FILL-01:MODE" />
+		<property name="pvName" value="SR-CS-RING-01:MODE" />
 	</bean>
 	
 	<!-- Topup Mode -->
