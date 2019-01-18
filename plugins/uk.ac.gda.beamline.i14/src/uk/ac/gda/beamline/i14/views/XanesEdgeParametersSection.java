@@ -187,7 +187,7 @@ public class XanesEdgeParametersSection extends AbstractMappingSection {
 	}
 
 	@Override
-	protected void saveState(Map<String, String> persistedState) {
+	public void saveState(Map<String, String> persistedState) {
 		try {
 			logger.debug("Saving XANES parameters");
 			final IMarshallerService marshaller = getService(IMarshallerService.class);
@@ -198,7 +198,7 @@ public class XanesEdgeParametersSection extends AbstractMappingSection {
 	}
 
 	@Override
-	protected void loadState(Map<String, String> persistedState) {
+	public void loadState(Map<String, String> persistedState) {
 		final String json = persistedState.get(XANES_SCAN_KEY);
 		if (json == null || json.isEmpty()) { // This happens when client is reset || if no detectors are configured.
 			logger.debug("No XANES parameters to load");

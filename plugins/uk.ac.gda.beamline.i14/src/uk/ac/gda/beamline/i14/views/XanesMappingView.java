@@ -27,9 +27,9 @@ import org.eclipse.swt.widgets.Composite;
 
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.IMappingExperimentBeanProvider;
-import uk.ac.diamond.daq.mapping.ui.experiment.AbstractMappingSection;
 import uk.ac.diamond.daq.mapping.ui.experiment.AbstractSectionsView;
 import uk.ac.diamond.daq.mapping.ui.experiment.DetectorsSection;
+import uk.ac.diamond.daq.mapping.ui.experiment.IMappingSection;
 import uk.ac.diamond.daq.mapping.ui.experiment.ProcessingSection;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection;
 import uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection;
@@ -46,7 +46,7 @@ public class XanesMappingView extends AbstractSectionsView {
 	}
 
 	@Override
-	protected List<AbstractMappingSection> getScrolledSections() {
+	protected List<IMappingSection> getScrolledSections() {
 		return Arrays.asList(
 			// a section for choosing the detectors (or malcolm device) to include in the scan
 			new DetectorsSection(),
@@ -61,7 +61,7 @@ public class XanesMappingView extends AbstractSectionsView {
 	}
 
 	@Override
-	protected List<AbstractMappingSection> getUnscrolledSections() {
+	protected List<IMappingSection> getUnscrolledSections() {
 		return Arrays.asList(
 			// a section for submitting the scan to the queue
 			new XanesSubmitScanSection());
