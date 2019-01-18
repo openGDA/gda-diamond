@@ -28,3 +28,4 @@ Export-Package: gda.device.detector,
  gda.device.scannable,
  uk.ac.gda.beamline.b18.scannable,
  uk.ac.gda.server.exafs.b18.scan.preparers
+Automatic-Module-Name: uk.ac.gda.beamline.b18.server
