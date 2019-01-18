@@ -25,7 +25,6 @@
 -Declipse.pluginCustomization=${project_loc:i06-1-config}/pluginCustomization.ini
 -Dgda.config=${project_loc:i06-1-config}
 -Dgda.propertiesFile=${project_loc:i06-1-config}/properties/dummy/dummy_instance_java.properties
--Djacorb.config.dir=${project_loc:i06-1-config}/properties/dummy/jacorb
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i06-1-config}/properties/dummy/JCALibrary.properties
 -Dgda.gui.beans.xml=${project_loc:i06-1-config}/clients/main/dummy/client.xml
 -Dgda.mode=dummy
