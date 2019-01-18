@@ -46,25 +46,25 @@ public class XanesMappingView extends AbstractSectionsView {
 	}
 
 	@Override
-	protected List<Class<? extends AbstractMappingSection>> getScrolledSectionClasses() {
+	protected List<AbstractMappingSection> getScrolledSections() {
 		return Arrays.asList(
 			// a section for choosing the detectors (or malcolm device) to include in the scan
-			DetectorsSection.class,
+			new DetectorsSection(),
 			// a section for configuring the path of the mapping scan
-			RegionAndPathSection.class,
+			new RegionAndPathSection(),
 			// a section for configuring XANES scans (I14-specific)
-			XanesEdgeParametersSection.class,
+			new XanesEdgeParametersSection(),
 			// a section for configuring metadata to add to the scan
-			ScanMetadataSection.class,
+			new ScanMetadataSection(),
 			// a section for configuring live processing to run
-			ProcessingSection.class);
+			new ProcessingSection());
 	}
 
 	@Override
-	protected List<Class<? extends AbstractMappingSection>> getUnscrolledSectionClasses() {
+	protected List<AbstractMappingSection> getUnscrolledSections() {
 		return Arrays.asList(
 			// a section for submitting the scan to the queue
-			XanesSubmitScanSection.class);
+			new XanesSubmitScanSection());
 	}
 
 	@Override
