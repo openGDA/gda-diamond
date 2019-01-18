@@ -3,5 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
 	<import resource="live_controls.xml"/>
+	
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
+
 </beans>

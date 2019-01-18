@@ -36,7 +36,6 @@ http://www.opengda.org
 -Dgda.data=/dls/i06-1/data
 -Dgda.var=/dls_sw/i06-1/software/gda_versions/var
 -Dgda.logs.dir=/dls_sw/i06-1/logs
--Djacorb.config.dir=/dls_sw/i06-1/software/gda/workspace_git/gda-diamond.git/configurations/i06-1-config/properties/live/jacorb
 -Dgda.propertiesFile=/dls_sw/i06-1/software/gda/workspace_git/gda-diamond.git/configurations/i06-1-config/properties/live/live_instance_java.properties
 -Dgda.config=/dls_sw/i06-1/software/gda/workspace_git/gda-diamond.git/configurations/i06-1-config
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i06-1/software/gda/workspace_git/gda-diamond.git/configurations/i06-1-config/properties/live/JCALibrary.properties
