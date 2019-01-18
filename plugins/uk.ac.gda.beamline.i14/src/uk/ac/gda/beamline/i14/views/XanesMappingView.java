@@ -77,14 +77,4 @@ public class XanesMappingView extends AbstractSectionsView {
 		updateControls();
 		super.handleSetFocus();
 	}
-
-	@Override
-	protected void disposeInternal() {
-		// Edge parameters section must be disposed so that any scan path editors are properly disposed
-		final AbstractMappingSection paramsSection = getSection(XanesEdgeParametersSection.class);
-		if (paramsSection != null) {
-			paramsSection.dispose();
-		}
-		super.disposeInternal();
-	}
 }
