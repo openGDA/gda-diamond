@@ -148,6 +148,8 @@ public abstract class EdeExperiment implements IObserver {
 
 	private TimeResolvedExperimentParameters timeResolvedExperimentParameters = null;
 
+	private int frameThresholdForFastDataWriting = 500;
+
 	public EdeExperiment(List<TimingGroup> itTimingGroups,
 			Map<String, Double> i0ScanableMotorPositions,
 			Map<String, Double> iTScanableMotorPositions,
@@ -341,7 +343,8 @@ public abstract class EdeExperiment implements IObserver {
 		edeScan.setScannablesToMonitorDuringScan(scannablesToMonitorDuringScan);
 
 		// Use NexusTreeWriter for Light It part of scan to improve data writing speed.
-		if (scanType == EdeScanType.LIGHT && scanPosition.getType() == EdePositionType.INBEAM) {
+		if (scanType == EdeScanType.LIGHT && scanPosition.getType() == EdePositionType.INBEAM
+				&& scanParams.getTotalNumberOfFrames() > frameThresholdForFastDataWriting) {
 			edeScan.setUseNexusTreeWriter(true);
 		}
 
@@ -881,5 +884,13 @@ public abstract class EdeExperiment implements IObserver {
 
 	public void setParameterBean(String parameterXmlString) {
 		this.timeResolvedExperimentParameters = TimeResolvedExperimentParameters.fromXML(parameterXmlString);
+	}
+
+	public int getFrameThresholdForFastDataWriting() {
+		return frameThresholdForFastDataWriting;
+	}
+
+	public void setFrameThresholdForFastDataWriting(int thresholdForFastDataWriting) {
+		this.frameThresholdForFastDataWriting = thresholdForFastDataWriting;
 	}
 }

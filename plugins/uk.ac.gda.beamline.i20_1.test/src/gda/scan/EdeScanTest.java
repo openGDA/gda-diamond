@@ -448,6 +448,7 @@ public class EdeScanTest extends EdeTestBase {
 		TimeResolvedExperiment theExperiment = new TimeResolvedExperiment(0.1, groups, inOutBeamMotors, inOutBeamMotors,
 				xh.getName(), topupMonitor.getName(), shutter.getName());
 		theExperiment.setWriteAsciiData(false);
+		theExperiment.setFrameThresholdForFastDataWriting(100); // make sure NexusTreeWriter is used for writing light It data.
 		theExperiment.runExperiment();
 
 		int numberExpectedSpectra = getNumSpectra(groups);
