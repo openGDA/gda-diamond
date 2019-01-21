@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean id="detectorMonitorDataProvider" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="xspress4DetectorRates"	class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewConfig">
+		<property name="name" value="xspress4DetectorRate" />
+		<property name="dataProvider" ref="detectorMonitorDataProvider" />
+		<property name="viewDescription" value="Detector rates view for Xspress4" />
+		<property name="collectionTime" value="1.0" />
+		<property name="detectorNames">
+			<list>
+				<value>ionchambers</value>
+				<value>xspress4</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ionchamberI1Rates"	class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewConfig">
+		<property name="name" value="ionchamberI1Rates" />
+		<property name="dataProvider" ref="detectorMonitorDataProvider" />
+		<property name="viewDescription" value="Detector rates view for I1 ionchamber" />
+		<property name="collectionTime" value="1.0" />
+		<property name="detectorNames">
+			<list>
+				<value>I1</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ionchamberRates" class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewConfig">
+		<property name="name" value="ionchamberRates" />
+		<property name="dataProvider" ref="detectorMonitorDataProvider" />
+		<property name="viewDescription" value="Detector rates view for ionchambers" />
+		<property name="collectionTime" value="1.0" />
+		<property name="detectorNames">
+			<list>
+				<value>ionchambers</value>
+			</list>
+		</property>
+	</bean>
+</beans>

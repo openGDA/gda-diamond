@@ -628,42 +628,69 @@
              </parameter>
           </command>
        </menu>
+       <menu
+             label="Detector rates">
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="Xspress4 rates"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.exafs.ui.views.detectors.xspress4DetectorRates">
+             </parameter>
+          </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="I1 rates"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.exafs.ui.views.detectors.ionchamberI1Rates">
+             </parameter>
+          </command>
+          <command
+                commandId="org.eclipse.ui.views.showView"
+                label="Ionchamber rates"
+                style="push">
+             <parameter
+                   name="org.eclipse.ui.views.showView.viewId"
+                   value="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates">
+             </parameter>
+          </command>
+       </menu>
 	   </menuContribution>
 	</extension>
  <extension
        point="org.eclipse.ui.views">
-    <view
+      <view
           allowMultiple="true"
           class="uk.ac.gda.ui.views.synoptic.SynopticView"
           id="uk.ac.gda.ui.views.synoptic.SynopticView"
           name="Synoptic View"
           restorable="true">
-    </view>
-    <view
-            allowMultiple="false"
+      </view>
+      <view
             category="uk.ac.gda.client.exafs.category"
-            id="uk.ac.gda.exafs.ui.views.xmapmonitor"
-            class="uk.ac.gda.exafs.ui.views.scalersmonitor.XmapMonitorView"
-            icon="icons/cog_go.png"
-            name="Detector Rates (XMap)"
-            restorable="true">
-     </view>
-    <view
-            allowMultiple="false"
-            category="uk.ac.gda.client.exafs.category"
-            class="uk.ac.gda.exafs.ui.views.scalersmonitor.XmapI1MonitorView"
-            icon="icons/cog_go.png"
-            id="uk.ac.gda.exafs.ui.views.xmapi1monitor"
-            name="Detector Rates (XMapI1)"
+            class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewFactory:xspress4DetectorRates"
+            icon="platform:/plugin/uk.ac.gda.client.exafs/icons/control_play_blue.png"
+            id="uk.ac.gda.exafs.ui.views.detectors.xspress4DetectorRates"
+            name="Xspress4 detector rates"
             restorable="true">
       </view>
       <view
-            allowMultiple="false"
             category="uk.ac.gda.client.exafs.category"
-            class="uk.ac.gda.exafs.ui.views.scalersmonitor.MedipixMonitorView"
-            icon="icons/cog_go.png"
-            id="uk.ac.gda.exafs.ui.views.medipixmonitor"
-            name="Detector Rates (Medipix)"
+            class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewFactory:ionchamberRates"
+            icon="platform:/plugin/uk.ac.gda.client.exafs/icons/control_play_blue.png"
+            id="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates"
+            name="Ion chamber rates"
+            restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.client.exafs.category"
+            class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewFactory:ionchamberI1Rates"
+            icon="platform:/plugin/uk.ac.gda.client.exafs/icons/control_play_blue.png"
+            id="uk.ac.gda.exafs.ui.views.detectors.ionchamberI1Rates"
+            name="I1 Ion chamber rates"
             restorable="true">
       </view>
       <view

@@ -35,13 +35,6 @@
             restorable="true">
       </view>      
       <view
-            allowMultiple="false"
-            class="uk.ac.gda.beamline.b18.SoftXRayDetectorRatesView"
-            id="uk.ac.gda.beamline.b18.softxray"
-            name="Soft X ray detector rates "
-            restorable="false">
-      </view>
-      <view
             class="uk.ac.gda.exafs.ui.dialogs.SpreadsheetView"
             id="uk.ac.gda.exafs.ui.spreadsheetview"
             name="&apos;Spreadsheet view&apos; scan generator"
@@ -59,8 +52,23 @@
             name="Xspress3 view"
             restorable="true">
       </view>
+      <view
+            category="uk.ac.gda.client.exafs.category"
+            class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewFactory:ionchamberRates"
+	        icon="platform:/plugin/uk.ac.gda.client.exafs/icons/control_play_blue.png"
+            id="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates"
+            name="Ion chamber rates"
+	        restorable="true">
+      </view>
+      <view
+            category="uk.ac.gda.client.exafs.category"
+            class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewFactory:xspress2Rates"
+	        icon="platform:/plugin/uk.ac.gda.client.exafs/icons/control_play_blue.png"
+            id="uk.ac.gda.exafs.ui.views.detectors.xspress2Rates"
+            name="Xspress2 detector rates"
+	        restorable="true">
+      </view>   
    </extension>
-
    <extension
          id="product"
          point="org.eclipse.core.runtime.products">
@@ -321,13 +329,13 @@
          <perspectiveExtension
                targetID="uk.ac.gda.client.experimentdefinition.experimentperspective">
             <view
-                  id="uk.ac.gda.exafs.ui.views.scalersmonitor"
+                  id="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates"
                   minimized="false"
-                  relationship="stack"
-                  relative="gda.gui.scriptcontroller.logging.scriptcontrollerlogview"
+                  relationship="top"
+                  relative="gda.rcp.jythonterminalview"
                   showTitle="true"
                   visible="true">
-            </view>
+			</view>
             <hiddenToolBarItem
                   id="uk.ac.gda.client.exafs.StopAllCommand">
             </hiddenToolBarItem>
@@ -367,14 +375,14 @@
          </perspectiveExtension>
          <perspectiveExtension
                targetID="org.diamond.exafs.ui.PlottingPerspective">
-            <view
-                  id="uk.ac.gda.exafs.ui.views.scalersmonitor"
+             <view
+                  id="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates"
                   minimized="false"
                   relationship="top"
                   relative="gda.rcp.jythonterminalview"
                   showTitle="true"
                   visible="true">
-            </view>
+			</view>
             <view
                   id="uk.ac.gda.client.simplescanview"
                   minimized="false"

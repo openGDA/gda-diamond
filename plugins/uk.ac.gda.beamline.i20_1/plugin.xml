@@ -181,6 +181,14 @@
             name="Xspress3 view"
             restorable="true">
       </view>
+      <view
+            category="uk.ac.gda.client.exafs.category"
+            class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewFactory:ionchamberRates"
+            icon="platform:/plugin/uk.ac.gda.client.exafs/icons/control_play_blue.png"
+            id="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates"
+            name="Ion chamber rates"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
@@ -496,7 +504,7 @@
                style="push">
             <parameter
                   name="org.eclipse.ui.views.showView.viewId"
-                  value="uk.ac.gda.exafs.ui.views.ionchambersmonitor">
+                  value="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates">
             </parameter>
          </command>
          <command

@@ -23,6 +23,7 @@
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
 	<import resource="spreadsheet-view.xml" />
+	<import resource="detector-rate-views.xml" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
@@ -40,12 +41,6 @@
 	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="gda.commandqueue.Queue" />
 		<property name="service" ref="commandQueueProcessor" />
-	</bean>
-
-	<bean id="detectorMonitorDataProvider" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}detectorMonitorDataProvider" />
-		<property name="serviceInterface" value="gda.device.detector.DetectorMonitorDataProviderInterface" />
-		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
 <!-- 	Detector element order config for 9 element xspress2 detector;  -->
