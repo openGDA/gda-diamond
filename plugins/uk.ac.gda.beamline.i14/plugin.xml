@@ -47,14 +47,6 @@
             id="uk.ac.gda.beamline.i14.views.I14StatusView"
             name="Status">
       </view>
-      <e4view
-            category="uk.ac.gda.beamline.i14"
-            class="uk.ac.gda.beamline.i14.views.XanesMappingView"
-            icon="platform:/plugin/uk.ac.gda.beamline.i14/icons/XanesParametersIcon.png"
-            id="uk.ac.gda.beamline.i14.views.XanesMappingView"
-            name="XANES mapping scan"
-            restorable="true">
-      </e4view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -66,12 +58,6 @@
                relative="org.dawnsci.mapping.ui.mappeddataview"
                relationship="bottom"
                ratio="0.55">
-         </view>
-         <view
-               id="uk.ac.gda.beamline.i14.views.XanesMappingView"
-               minimized="false"
-               relationship="stack"
-               relative="uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView">
          </view>
          <view
                id="uk.ac.gda.client.livecontrol.LiveControlsView"
