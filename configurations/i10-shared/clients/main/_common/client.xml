@@ -1,11 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.diamond.ac.uk/schema/gda/corba
-		http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd">
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="../../../../../../gda-core.git/core-config/clients/_common/plot_server.xml" />
 	<import resource="../../../../../../gda-diamond.git/dls-config/clients/_common/serverFileListener.xml"/>
@@ -17,13 +14,6 @@
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="commandRunner.xml"/>
 	<import resource="batonStateProvider.xml"/>
-
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="${gda.factory.factoryName}" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	

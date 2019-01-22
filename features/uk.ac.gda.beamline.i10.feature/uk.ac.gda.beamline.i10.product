@@ -13,9 +13,7 @@
    <launcherArgs>
       <programArgs>-debug
       </programArgs>
-      <vmArgs>-Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
--Dosgi.framework.extensions=org.eclipse.fx.osgi
+      <vmArgs>-Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Drun.in.eclipse=false 
 -Dgda.instance.dir=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config
 -Dgda.facility.dir=/dls_sw/i10/software/gda_versions/gda_9.8/workspace_git/gda-diamond.git/dls-config
@@ -24,7 +22,6 @@
 -Dgda.install.workspace.loc=/dls_sw/i10/software/gda/workspace
 -Dgda.config=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config
 -Dgda.mode=live
--Djacorb.config.dir=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config/properties/live/jacorb
 -Dgda.propertiesFile=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config/properties/live/live_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config/properties/live/JCALibrary.properties
 -Declipse.pluginCustomization=/dls_sw/i10/software/gda/workspace_git/gda-diamond.git/configurations/i10-config/pluginCustomization.ini
@@ -35,7 +32,8 @@
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=True
 -Duk.ac.diamond.scisoft.analysis.rmiserverprovider.disable=False
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true
--Xms512m -Xmx1024m -XX:PermSize=128m -XX:MaxPermSize=1024m -XX:+DisableExplicitGC
+-Xms512m
+-Xmx4g
       </vmArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>

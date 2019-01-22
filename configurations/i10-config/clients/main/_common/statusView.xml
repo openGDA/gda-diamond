@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
        xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.1.xsd
 		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd 
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 	
-	<corba:import namespace="i10" names="portshutter, ab0, frontend, opticsshutter, shtrj, shtr1, gv12, gvj6"/>
-	
-<!-- 	<bean id="bm" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean"> -->
-<!-- 		<property name="serviceUrl" value="${gda.rmi.prefix}bm" /> -->
-<!-- 		<property name="serviceInterface" value="gda.device.IBeamMonitor" /> -->
-<!-- 		<property name="refreshStubOnConnectFailure" value="true" /> -->
-<!-- 	</bean> -->
+	<bean id="portshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="ab0" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="frontend" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="opticsshutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="shtrj" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="shtr1" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="gv12" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="gvj6" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean id="statusView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
 		<property name="viewTitle" value="Synoptics" />
