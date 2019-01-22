@@ -3,6 +3,21 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<!-- 2-theta rotations -->
+	<bean id="m5tth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="m5tth" />
+		<property name="group" value="2-theta Rotations" />
+		<property name="scannableName" value="m5tth" />
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="difftth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="difftth" />
+		<property name="group" value="2-theta Rotations" />
+		<property name="scannableName" value="difftth" />
+		<property name="increment" value="1" />
+	</bean>
+
 	<!-- Translations -->
 	<bean id="sax_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="x" />
@@ -73,6 +88,8 @@
 				<ref bean="sapolar_control" />
 				<ref bean="satilt_control" />
 				<ref bean="saazimuth_control" />
+				<ref bean="m5tth_control" />
+				<ref bean="difftth_control" />
 				<ref bean="screws_position" />
 				<ref bean="transfer_position" />
 				<ref bean="rixs_position" />
@@ -80,7 +97,7 @@
 		</property>
 	</bean>
 
-	<!-- Andor Controls -->
+	<!-- Andor Controls in Live Stream Views-->
 	<bean id="andor_time_remaining" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownControl">
 		<property name="displayName" value="Time remain"/>
 		<property name="group" value="Andor" />

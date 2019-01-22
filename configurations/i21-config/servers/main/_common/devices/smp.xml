@@ -52,7 +52,7 @@
 		</property>
 		<property name="userUnits" value="deg" />
 	</bean>
-	<bean id="delta" class="gda.device.scannable.ScannableMotor">
+	<bean id="difftth" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpdeltaMotor" />
 		<property name="outputFormat">
 			<list>
@@ -80,7 +80,7 @@
 				<ref bean="y" />
 				<ref bean="z" />
 				<ref bean="phi" />
-				<ref bean="delta" />
+				<ref bean="difftth" />
 				<ref bean="chi" />
 				<ref bean="draincurrent" />
 				<ref bean="fy1" />

@@ -14,6 +14,7 @@ from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
 from gdaserver import lakeshore, b2, x
 import gdascripts
+from utils.ExceptionLogs import localStation_exception
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
@@ -183,7 +184,7 @@ s3list=[s3hsize,s3vsize,s3hcentre,s3vcentre] #@UndefinedVariable
 s4list=[s4hcentre,s4hsize,s4vcentre,s4vsize,s4offside,s4nearside,s4upper,s4lower] #@UndefinedVariable
 s5list=[s5v1gap,s5v2gap,s5hgap,s5sut,s5vdso1,s5vdso2,s5hdso] #@UndefinedVariable
 s6list=[s6hgap,s6hcentre,s6vgap,s6vcentre]  # @UndefinedVariable
-samplelist=[th,x,y,z,phi,chi,delta,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
+samplelist=[th,x,y,z,phi,chi,difftth,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
 sgmlist=[sgmx,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside,sgmGratingSelect] # @UndefinedVariable
 spectrometerlist=[specgamma,spech,specl] # @UndefinedVariable
 #andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
@@ -206,9 +207,9 @@ print "*"*80
 print "import DIFFCALC support for I21"
 try:
     from startup.i21 import *  # @UnusedWildImport
-    toolpoint_off()  # @UndefinedVariable
+#     toolpoint_off()  # @UndefinedVariable
 except:
-    print "DIFFCALC import failed !"
+    localStation_exception(sys.exc_info(), "import diffcalc error.")
 
 
 #Mapping scan
