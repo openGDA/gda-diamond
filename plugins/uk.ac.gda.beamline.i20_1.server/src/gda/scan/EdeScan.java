@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
@@ -54,6 +55,7 @@ import gda.device.detector.NXDetectorData;
 import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.xstrip.DetectorScanDataUtils;
 import gda.device.detector.xstrip.XhDetector;
+import gda.device.enumpositioner.ValvePosition;
 import gda.device.scannable.FrameIndexer;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TopupChecker;
@@ -69,6 +71,7 @@ import gda.util.NexusTreeWriter;
 import uk.ac.gda.exafs.data.DetectorSetupType;
 import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 import uk.ac.gda.exafs.ui.data.TimingGroup;
+import uk.ac.gda.server.exafs.epics.device.scannable.ShutterChecker;
 
 /**
  * Runs a single set of timing groups for EDE through the XSTRIP DAServer interface.
@@ -120,6 +123,8 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private NexusTreeWriter nexusTreeWriter;
 	private boolean useNexusTreeWriter = false;
 
+	private ShutterChecker shutterChecker = null;
+
 	/**
 	 * @param scanParameters
 	 *            - timing parameters of the data collection
@@ -155,6 +160,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		terminalPrinter = InterfaceProvider.getTerminalPrinter();
 		useFastShutter = false;
 		fastShutter = null;
+		setupShutterChecker();
 	}
 
 	@Override
@@ -215,6 +221,11 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				logger.info(message);
 				InterfaceProvider.getTerminalPrinter().print(message);
 
+				// Use shutter checker to make sure main shutter has been opened; block until opened.
+				if (shutterChecker != null && position.equals(ValvePosition.OPEN)) {
+					shutterChecker.atPointStart();
+				}
+
 				fastShutter.moveTo(position);
 
 				message = "Fast shutter move finished";
@@ -227,11 +238,75 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		}
 	}
 
+	private long moveTimeoutMs = 20000;
+
+	/**
+	 * Wait for position of scannable 'scn' to match demandPosition.
+	 * Polls the scannable every 100ms, with timeout of {@link moveTimeoutMs} ms.
+	 * @param scn
+	 * @param requiredPos
+	 * @throws DeviceException
+	 * @throws InterruptedException
+	 */
+	private void waitForValue(Scannable scn, String requiredPos) throws DeviceException, InterruptedException {
+		logger.debug("Waiting for {} to move to {}", scn.getName(), requiredPos);
+		final long pollIntervalMs = 100;
+		final long timeOut = 10000;
+		long timeUsed = 0;
+		while(timeUsed < moveTimeoutMs) {
+			String pos = scn.getPosition().toString();
+			if (pos.equals(requiredPos)) {
+				logger.debug("{} in position after {} ms", scn.getName(), timeUsed);
+				return;
+			}
+			Thread.sleep(pollIntervalMs);
+			timeUsed += pollIntervalMs;
+		}
+		String message = "Reached "+timeOut+" ms timeout waiting for "+scn.getName()+" to move to "+requiredPos;
+		logger.warn(message);
+		throw new DeviceException(message);
+	}
+
+	/**
+	 * Try to get reference to shutterchecker to use for {@link #shutter} from {@link #allScannables}.
+	 * (Default scannables are added to {{@link #allScannables} added by call to {@link #setUp()} in constructor).
+	 */
+	private void setupShutterChecker() {
+		Optional<ShutterChecker> foundShutterChecker = allScannables.stream()
+				.filter(scn -> scn instanceof ShutterChecker)
+				.map(scn -> (ShutterChecker) scn)
+				.filter(scn -> scn.getShutter().getName().equals(shutter.getName()))
+				.findFirst();
+
+		if (foundShutterChecker.isPresent()) {
+			shutterChecker = foundShutterChecker.get();
+			logger.debug("Found shutter checker {} to use for scan", shutterChecker.getName());
+		} else {
+			shutterChecker = null;
+		}
+	}
+
+	private void mainShutterMoveTo(String position) throws DeviceException, InterruptedException {
+		logger.info("Moving {} to position {}", shutter.getName(), position);
+		if (shutter.getPosition().equals(position)) {
+			logger.debug("{} is already in position", shutter.getName());
+			return;
+		}
+
+		shutter.moveTo(position);
+		waitForValue(shutter, position);
+	}
+
+	protected void moveShutter(String position) throws DeviceException, InterruptedException {
+		if (useFastShutter) {
+			fastShutterMoveTo(position);
+		} else {
+			mainShutterMoveTo(position);
+		}
+	}
+
 	@Override
 	public void doCollection() throws Exception {
-		// FIXME This is temporary solution as real data in unavailable
-		// SimulatedData.reset();
-
 		validate();
 
 		// Periodically update cache of positions of scannables being monitored
@@ -239,24 +314,17 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			scheduler.scheduleAtFixedRate(this::updatePositions, 0, 100, TimeUnit.MILLISECONDS);
 		}
 
-		// Topup checker moved to *after* motor move and shutter close have been done. imh 22/1/2016
-		//		if (topupChecker != null) {
-		//			topupChecker.atScanStart();
-		//		}
-
 		logger.debug(toString() + " loading detector parameters...");
 		theDetector.prepareDetectorwithScanParameters(scanParameters);
-		shutter.moveTo("Reset");
+
+		if (!useFastShutter) {
+			shutter.moveTo(ValvePosition.RESET);
+		}
+
 		if (scanType == EdeScanType.DARK) {
 			// close the shutter
 			terminalPrinter.print("Closing shutter");
-			shutter.moveTo("Close");
-			fastShutterMoveTo("Close");
-
-			// Topup checker not needed for Dark scan imh 22/1/2016
-			//if (topupChecker != null) {
-			//	topupChecker.atScanStart();
-			//}
+			moveShutter(ValvePosition.CLOSE);
 
 			checkThreadInterrupted();
 			waitIfPaused();
@@ -266,12 +334,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		} else {
 
 			// close shutter while moving motors and waiting for topup. imh 27/1/2016
-			fastShutterMoveTo("Close");
-
-			// close main shutter if not using fast shutter
-			if ( useFastShutter == false ) {
-				shutter.moveTo("Close");
-			}
+			moveShutter(ValvePosition.CLOSE);
 
 			// Move into position before topupchecker, so we are ready to start collecting data. imh 22/1/2016
 			moveSampleIntoPosition();
@@ -281,8 +344,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			}
 
 			terminalPrinter.print("Opening shutter");
-			shutter.moveTo("Open"); // must be open for Light scan, whether using fast shutter or not
-			fastShutterMoveTo("Open");
+			moveShutter(ValvePosition.OPEN);
 		}
 		if (!isChild()) {
 			currentPointCount = -1;
@@ -316,7 +378,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			logger.debug(toString() + " starting detector running...");
 			collectDetectorData();
 		}
-		fastShutterMoveTo("Close");
+		fastShutterMoveTo(ValvePosition.CLOSE);
 	}
 
 	protected void collectDetectorData() throws Exception {
