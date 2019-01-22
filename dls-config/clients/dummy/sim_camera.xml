@@ -9,17 +9,20 @@
 	<bean id="workstation" class="java.lang.String">
 		<constructor-arg value="#{ localhostname.hostName.split('\.')[0] }" />
 	</bean>
- 	<bean id="sim_pvbase" class="java.lang.String">
+	<bean id="sim_pvbase" class="java.lang.String">
 		<constructor-arg value="#{workstation}-AD-SIM-01" />
 	</bean>
-	
+	<bean id="sim_mjpg_url" class="java.lang.String">
+		<constructor-arg value="http://#{workstation}.diamond.ac.uk:8080/ADSIM.mjpg.mjpg" />
+	</bean>
+
 	<bean id="ix" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean id="iy" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<!-- Camera configuration for stream views -->
 	<bean id="sim_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Simulated Area Detector (with calibration)" />
-		<property name="url" value="http://#{workstation}.diamond.ac.uk:8081/CAM.mjpg.mjpg" />
+		<property name="url" ref="sim_mjpg_url" />
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
 		<property name="calibratedAxesProvider">
 			<bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
@@ -35,7 +38,7 @@
 
 	<bean id="sim_cam_no_calibration" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Simulated Area Detector (no calibration)" />
-		<property name="url" value="http://#{workstation}.diamond.ac.uk:8081/CAM.mjpg.mjpg" />
+		<property name="url" ref="sim_mjpg_url" />
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
 	</bean>
 
