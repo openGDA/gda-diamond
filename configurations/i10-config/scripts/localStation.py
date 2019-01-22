@@ -1,5 +1,6 @@
 from utils.ExceptionLogs import localStation_exceptions
 import sys
+from gdaserver import m3m5, m4, m6, m1
 try:
     from gdaserver import alpha_rasor, chi, difx, dsd, dsu, eta,\
         lgb, lgf, lgm, th, tth, sx, sy, sz
@@ -73,7 +74,11 @@ if installation.isLive():
     from high_field_magnet.scannable.intelligent_power_supply_instances import *  # @UnusedWildImport
 #     from scannable.temporaryIDControls import *  # @UnusedWildImport
     from scannable.frontEndBeamMonitors import *  # @UnusedWildImport
-    from scannable.mirrors_fine_pitch_motors import *  # @UnusedWildImport
+    from scannable.mirrors_fine_pitch_motors import m1fpitch, m3m5fpitch,m4fpitch, m6fpitch
+    m1.addGroupMember(m1fpitch)
+    m3m5.addGroupMember(m3m5fpitch)
+    m4.addGroupMember(m4fpitch)
+    m6.addGroupMember(m6fpitch)
     try:
         th_off = EpicsReadWritePVClass('th_off', 'ME01D-MO-DIFF-01:THETA.OFF', 'deg', '%.6f')
         tth_off = EpicsReadWritePVClass('tth_off', 'ME01D-MO-DIFF-01:TWOTHETA.OFF', 'deg', '%.6f')
