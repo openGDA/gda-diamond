@@ -36,15 +36,15 @@
 		<property name="name" value="RetTilt"/>
 		<property name="motor" ref="RetarderTiltMotor" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	<bean id="RetRotation" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="RetRotation"/>
 		<property name="motor" ref="RetarderRotationMotor" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	
 	<bean id="Retarder" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -63,22 +63,22 @@
 		<property name="name" value="AnaTilt"/>
 		<property name="motor" ref="AnalyserTiltMotor" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	<bean id="AnaRotation" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="AnaRotation"/>
 		<property name="motor" ref="AnalyserRotationMotor" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	<bean id="AnaDetector" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="AnaDetector"/>
 		<property name="motor" ref="AnalyserDetectorMotor" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="Deg" />
-		<property name="hardwareUnitString" value="Deg" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
 	</bean>
 	<bean id="AnaTranslation" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="AnaTranslation"/>

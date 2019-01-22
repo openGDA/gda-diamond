@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<!-- Polarimeter Epics Positioners and Motors  -->
+	<!-- FrontPinhole Positioner -->
+	<bean id="FrontPinholePositioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="name" value="FrontPinholePositioner"/>
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>PH0.05</value>
+				<value>PH0.1</value>
+				<value>PH0.2</value>
+				<value>PH0.5</value>
+				<value>PH3</value>
+				<value>DET3</value>
+				<value>DET0.05</value>
+				<value>DET0.1</value>
+				<value>DET0.2</value>
+				<value>DET0.5</value>
+			</util:list>
+		</property>
+	</bean>
+	
+	<!--  Rear Pinhole Positioner -->
+	<bean id="RearPinholePositioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="name" value="RearPinholePositioner"/>
+		<property name="positions">
+			<util:list list-class="java.util.ArrayList">
+				<value>PH0.05</value>
+				<value>PH0.1</value>
+				<value>PH0.2</value>
+				<value>PH0.5</value>
+				<value>PH3</value>
+				<value>DET3</value>
+				<value>DET0.05</value>
+				<value>DET0.1</value>
+				<value>DET0.2</value>
+				<value>DET0.5</value>
+			</util:list>
+		</property>
+	</bean>
+	
+	<!--  Front Pinhole Motor   -->
+	<bean id="FrontPinholeMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000.0000" />
+		<property name="maxPosition" value="1000.0000" />
+		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="0.625" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<!--  Rear Pinhole Motor    -->
+	<bean id="RearPinholeMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000.0000" />
+		<property name="maxPosition" value="1000.0000" />
+		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="0.625" />
+		<property name="local" value="true" />
+	</bean>
+
+	<!--  Retarder Motors    -->
+	<bean id="RetarderRotationMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-3000.0000" />
+		<property name="maxPosition" value="3000.0000" />
+		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="3.0" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="RetarderTiltMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-2000.0000" />
+		<property name="maxPosition" value="2000.0000" />
+		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="1.0" />
+		<property name="local" value="true" />
+	</bean>
+	
+	<!--  Polarimeter Analyser Motors    -->
+	<bean id="AnalyserRotationMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-3000.0000" />
+		<property name="maxPosition" value="3000.0000" />
+		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="3.0" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="AnalyserTiltMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-2000.0000" />
+		<property name="maxPosition" value="2000.0000" />
+		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="1.0" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="AnalyserTranslationMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000.0000" />
+		<property name="maxPosition" value="1000.0000" />
+		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="1.25" />
+		<property name="local" value="true" />
+	</bean>
+	<bean id="AnalyserDetectorMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-3000.0000" />
+		<property name="maxPosition" value="3000.0000" />
+		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
+		<property name="speed" value="1.0" />
+		<property name="local" value="true" />
+	</bean>
+
+	
+</beans>
