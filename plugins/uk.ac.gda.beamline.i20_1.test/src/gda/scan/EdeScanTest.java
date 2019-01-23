@@ -207,7 +207,7 @@ public class EdeScanTest extends EdeTestBase {
 
 		String filename = theExperiment.runExperiment();
 		testNumberColumnsInFile(filename, 9);
-		testNexusStructure(theExperiment.getNexusFilename(), 1, 0);
+		testProcessedData(theExperiment.getNexusFilename(), 1, 0);
 
 		// Check the sample details are set correctly in Nexus file
 		testSampleDetails(theExperiment.getNexusFilename(), sampleDetails);
@@ -356,7 +356,8 @@ public class EdeScanTest extends EdeTestBase {
 
 		theExperiment.runExperiment();
 		int numberExpectedSpectra = getNumSpectra(groups)*scanPositions.size();
-		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		testProcessedData(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		testProcessedData(theExperiment.getNexusFilename(), xScannable.getName(), numberExpectedSpectra, 1);
 
 		int numRawSpectra = numberExpectedSpectra+4; // lightIt + (darkI0, darkIt, lightI0, lightI0 after scan)
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numRawSpectra);
@@ -427,7 +428,7 @@ public class EdeScanTest extends EdeTestBase {
 
 		int numberExpectedSpectra = getNumSpectra(groups);
 
-		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		testProcessedData(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+16);
 		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+16);
 		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, groups.size(), true);
@@ -452,7 +453,7 @@ public class EdeScanTest extends EdeTestBase {
 		theExperiment.runExperiment();
 
 		int numberExpectedSpectra = getNumSpectra(groups);
-		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		testProcessedData(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 	}
@@ -509,7 +510,7 @@ public class EdeScanTest extends EdeTestBase {
 		}
 	}
 
-	private void testNexusStructure(String nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws Exception {
+	private void testProcessedData(String nexusFilename, int numberExpectedSpectra, int numberRepetitions) throws Exception {
 		boolean checkForCycles = numberRepetitions>1;
 		if (numberRepetitions > 0){
 			// Scans with I0 measured before and after It
@@ -520,6 +521,19 @@ public class EdeScanTest extends EdeTestBase {
 		} else {
 			// numberRepetitions = 0 -> single spectrum scan (no final I0 measurement)
 			assertLinearData(nexusFilename, EdeDataConstants.LN_I0_IT_COLUMN_NAME,numberExpectedSpectra, checkForCycles);
+		}
+	}
+
+	private void testProcessedData(String nexusFilename, String datasetName, int numberExpectedSpectra, int numberRepetitions) throws Exception {
+		if (numberRepetitions > 0){
+			// Scans with I0 measured before and after It
+			numberExpectedSpectra *= numberRepetitions;
+			for(String group : ALL_PROCESSED_DATA_GROUPS) {
+				assertDimensions(nexusFilename, group, datasetName, new int[] { numberExpectedSpectra });
+			}
+		} else {
+			// numberRepetitions = 0 -> single spectrum scan (no final I0 measurement)
+			assertDimensions(nexusFilename, EdeDataConstants.LN_I0_IT_COLUMN_NAME, datasetName, new int[] { numberExpectedSpectra });
 		}
 	}
 
@@ -593,7 +607,7 @@ public class EdeScanTest extends EdeTestBase {
 //		testNumberLinesInEDEFile(theExperiment.getItAveragedFilename(), (1024 * 25 * 3));
 
 
-		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, numCycles);
+		testProcessedData(theExperiment.getNexusFilename(), numberExpectedSpectra, numCycles);
 	}
 
 	private String getAsciiName(String nexusFilename, String filenameExt) {
@@ -737,10 +751,32 @@ public class EdeScanTest extends EdeTestBase {
 
 		int numberExpectedSpectra = getNumSpectra(allParams.getItTimingGroups());
 
-		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		testProcessedData(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, allParams.getItTimingGroups().size(), false);
+	}
+
+	@Test
+	public void testSingleCollectionWithMotorMoves() throws Exception {
+		setup(EdeScanTest.class, "testSingleCollectionWithMotorMoves");
+		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
+		SingleSpectrumScan theExperiment = allParams.createSingleSpectrumScan();
+		EdeScanMotorPositions motorPos = theExperiment.getItScanPositions();
+		motorPos.setScannableToMoveDuringScan(xScannable);
+		motorPos.setMotorPositionsDuringScan(10, 15, 5);
+
+		theExperiment.addScannableToMonitorDuringScan(yScannable);
+		theExperiment.runExperiment();
+
+		int numberExpectedSpectra = 5;
+
+		testProcessedData(theExperiment.getNexusFilename(), numberExpectedSpectra, 0);
+		testProcessedData(theExperiment.getNexusFilename(), xScannable.getName(), numberExpectedSpectra, 0);
+		testProcessedData(theExperiment.getNexusFilename(), yScannable.getName(), numberExpectedSpectra, 0);
+
+		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+3);
+		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+3);
 	}
 
 	@Test
@@ -752,7 +788,7 @@ public class EdeScanTest extends EdeTestBase {
 		theExperiment.runExperiment();
 
 		int numberExpectedSpectra = getNumSpectra(allParams.getItTimingGroups());
-		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		testProcessedData(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 
@@ -788,7 +824,7 @@ public class EdeScanTest extends EdeTestBase {
 		// All values should be = 1
 		checkDataValidRange(theExperiment.getNexusFilename(), xh.getName(), "is_topup_measured_from_scaler", new RangeValidator(1, 1, true, true));
 
-		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		testProcessedData(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 		testEdeAsciiFiles(theExperiment.getNexusFilename(), numberExpectedSpectra, allParams.getItTimingGroups().size(), false);
@@ -820,7 +856,7 @@ public class EdeScanTest extends EdeTestBase {
 
 		int numberExpectedSpectra = getNumSpectra(allParams.getItTimingGroups());
 
-		testNexusStructure(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
+		testProcessedData(theExperiment.getNexusFilename(), numberExpectedSpectra, 1);
 		checkDetectorData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 		checkDetectorTimeframeData(theExperiment.getNexusFilename(), xh.getName(), numberExpectedSpectra+4);
 	}

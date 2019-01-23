@@ -20,9 +20,11 @@ package gda.scan;
 
 import static gda.jython.InterfaceProvider.getJythonServerNotifer;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -109,7 +111,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 	private boolean moveMotorDuringScan;
 
 	/** List of scannables whose positions should also be recorded in the each scan data point */
-	private List<Scannable> scannablesToMonitorDuringScan;
+	private Set<Scannable> scannablesToMonitorDuringScan = new LinkedHashSet<>();
 
 	/** This is used to cache the position of scannables being monitored , to help speed up filewriting */
 	private Map<Scannable, Object> scannablePositions = new ConcurrentHashMap<>();
@@ -651,18 +653,18 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		}
 	}
 
-	public List<Scannable> getScannablesToMonitorDuringScan() {
+	public Collection<Scannable> getScannablesToMonitorDuringScan() {
 		return scannablesToMonitorDuringScan;
 	}
 
-	public void setScannablesToMonitorDuringScan(List<Scannable> scannablesToMonitorDuringScan) {
-		this.scannablesToMonitorDuringScan = scannablesToMonitorDuringScan;
+	public void setScannablesToMonitorDuringScan(Collection<Scannable> scannablesToMonitorDuringScan) {
+		if (scannablesToMonitorDuringScan != null) {
+			this.scannablesToMonitorDuringScan.clear();
+			this.scannablesToMonitorDuringScan.addAll(scannablesToMonitorDuringScan);
+		}
 	}
 
 	public void addScannableToMonitorDuringScan(Scannable scannableToMonitorDuringScan) {
-		if (scannablesToMonitorDuringScan==null) {
-			scannablesToMonitorDuringScan = new ArrayList<Scannable>();
-		}
 		scannablesToMonitorDuringScan.add(scannableToMonitorDuringScan);
 	}
 

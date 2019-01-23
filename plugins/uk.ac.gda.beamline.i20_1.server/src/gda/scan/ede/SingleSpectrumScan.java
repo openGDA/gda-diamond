@@ -103,6 +103,7 @@ public class SingleSpectrumScan extends EdeExperiment {
 		EdeSingleSpectrumAsciiFileWriter asciiWriter = new EdeSingleSpectrumAsciiFileWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan,
 				itScans, i0FinalScan, iRefFinalScan, theDetector, nexusFilename);
 		asciiWriter.setAccumulationReadoutTime(accumulationReadoutTime);
+		asciiWriter.setExtraScannables(itScans[0].getScannablesToMonitorDuringScan());
 		return asciiWriter;
 	}
 

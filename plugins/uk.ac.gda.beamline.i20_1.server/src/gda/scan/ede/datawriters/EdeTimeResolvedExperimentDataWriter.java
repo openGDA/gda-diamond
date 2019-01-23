@@ -19,7 +19,6 @@
 package gda.scan.ede.datawriters;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -27,21 +26,11 @@ import org.dawnsci.ede.DataFileHelper;
 import org.dawnsci.ede.EdeDataConstants;
 import org.dawnsci.ede.EdeDataConstants.TimingGroupMetadata;
 import org.dawnsci.ede.TimeResolvedDataFileHelper;
-import org.eclipse.dawnsci.analysis.api.tree.DataNode;
-import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
-import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
-import org.eclipse.dawnsci.nexus.NexusException;
-import org.eclipse.dawnsci.nexus.NexusFile;
-import org.eclipse.january.DatasetException;
-import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
-import org.eclipse.january.dataset.IDataset;
-import org.eclipse.january.dataset.IntegerDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.device.Scannable;
 import gda.device.detector.EdeDetector;
 import gda.scan.EdeScan;
 import gda.scan.EnergyDispersiveExafsScan;
@@ -66,7 +55,6 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	private String itAveragedFilename;
 	private String itFinalFilename;
 
-	private final String nexusfileName;
 	private boolean writeAsciiData   = true;
 	private boolean writeInNewThread = false;
 
@@ -74,7 +62,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 	public EdeTimeResolvedExperimentDataWriter(EnergyDispersiveExafsScan i0DarkScan, EnergyDispersiveExafsScan i0LightScan, EnergyDispersiveExafsScan iRefScan,
 			EnergyDispersiveExafsScan iRefDarkScan, EnergyDispersiveExafsScan itDarkScan, EnergyDispersiveExafsScan[] itScans, EnergyDispersiveExafsScan i0FinalScan, EnergyDispersiveExafsScan iRefFinalScan,
 			EdeDetector theDetector, String nexusfileName) {
-		super(i0DarkScan.extractEnergyDetectorDataSet());
+		super(i0DarkScan.extractEnergyDetectorDataSet(), nexusfileName);
 		this.i0DarkScan = i0DarkScan;
 		i0InitialLightScan = i0LightScan;
 		this.iRefScan = iRefScan;
@@ -84,7 +72,6 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		i0FinalLightScan = i0FinalScan;
 		this.iRefFinalScan = iRefFinalScan;
 		this.theDetector = theDetector;
-		this.nexusfileName = nexusfileName;
 	}
 
 	/**
@@ -123,87 +110,7 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 		return itFilename;
 	}
 
-	/**
-	 * Get Dataset from Nexus file
-	 * @param file
-	 * @param groupName name of group to read ( /entry1)
-	 * @param dataName
-	 * @return
-	 * @throws NexusException
-	 * @throws DatasetException
-	 */
-	private IDataset getDataset(NexusFile file, String groupName, String dataName) throws NexusException, DatasetException {
-		GroupNode group = file.getGroup("/entry1/" + groupName, false);
-		DataNode d = file.getData(group, dataName);
-		return d.getDataset().getSlice(null, null, null);
-	}
 
-	private void addDataset(NexusFile file, String groupName, String dataName, Dataset dataset) throws NexusException {
-		DataNode dataNode = file.createData("/entry1/"+groupName, dataName, dataset, true);
-	}
-
-	/**
-	 * Create datasets in detector group for the extra scannables.
-	 * Values corresponding to 'light It' measurements are extracted and placed in the groups.
-	 */
-	private void addDataForExtraScannables() {
-		if (extraScannables == null) {
-			return;
-		}
-
-		try(NexusFile file = NexusFileHDF5.openNexusFile(nexusfileName)) {
-
-			// Load dataset with 'beam in/out' and 'It' indices from Nexus file :
-			String detectorName = itScans[0].getDetector().getName();
-			IDataset beamInOutDataset = getDataset(file, detectorName, EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME);
-			IDataset itDataset = getDataset(file, detectorName, EdeDataConstants.IT_COLUMN_NAME);
-			if (beamInOutDataset.getShape()[0] != itDataset.getShape()[0]) {
-				logger.warn("'in beam' and 'it' index datasets do not match, not adding processed 'extra scannable' data");
-				return;
-			}
-
-			// Make dataset of which spectra correspond to 'light It' measurements (light It=1, otherwise 0)
-			int totalNumSpectra = itDataset.getShape()[0];
-			Dataset lightIt = DatasetFactory.zeros(IntegerDataset.class, totalNumSpectra);
-			for(int i=0; i<totalNumSpectra; i++) {
-				if ( beamInOutDataset.getInt(i)==1 && itDataset.getInt(i) == 1 ) {
-					lightIt.set(1, i);
-				}
-			}
-
-			// Names of all the detector groups
-			final String[] detectorGroupList = { EdeDataConstants.LN_I0_IT_COLUMN_NAME, EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME,
-					EdeDataConstants.LN_I0_IT_FINAL_I0_COLUMN_NAME, EdeDataConstants.LN_I0_IT_INTERP_I0S_COLUMN_NAME };
-
-			for(Scannable scn : extraScannables) {
-
-				logger.debug("Adding data for scannable {}", scn.getName());
-
-				// Extract values from the 'raw' dataset corresponding to the 'light It' spectra
-				String scannableName = scn.getName();
-				IDataset rawData = getDataset(file, detectorName, scannableName);
-				List<Double> values = new ArrayList<>();
-				for(int i=0; i<totalNumSpectra; i++) {
-					if (lightIt.getInt(i) == 1) {
-						values.add( rawData.getDouble(i));
-					}
-				}
-
-				// Create new dataset and add it to the first detector group ((lnI0It)
-				Dataset scannableValues = DatasetFactory.createFromList(values);
-				addDataset(file, detectorGroupList[0], scannableName, scannableValues);
-
-				// Add links to the dataset in the other groups
-				String source = "/entry1/"+detectorGroupList[0]+"/"+scannableName;
-				for(int i=1; i<detectorGroupList.length; i++) {
-					file.link(source, "/entry1/"+detectorGroupList[i]+"/"+scannableName);
-				}
-
-			}
-		} catch (NexusException | DatasetException e) {
-			logger.warn("Problem adding processed data for 'extra scannables'", e);
-		}
-	}
 
 	private void setAsciiFilenames() {
 		File nexusFile = new File(nexusfileName);
@@ -325,11 +232,6 @@ public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter
 
 	public void setWriteInNewThread(boolean writeInNewThread) {
 		this.writeInNewThread = writeInNewThread;
-	}
-
-	private List<Scannable> extraScannables = null;
-	public void setExtraScannables(List<Scannable> scannablesToMonitorDuringScan) {
-		extraScannables = scannablesToMonitorDuringScan;
 	}
 
 }
