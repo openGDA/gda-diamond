@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.annotations.Expose;
 
 import gda.device.DeviceException;
+import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -273,7 +274,17 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFileNamePrefix(\"%s\");", experimentDataModel.getFileNamePrefix()));
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setSampleDetails(\"%s\");", experimentDataModel.getSampleDetails()));
 
+		addAccumulationReadoutTimeToMethodCall(SINGLE_JYTHON_DRIVER_OBJ, builder);
+
 		return builder.toString();
+	}
+
+	private void addAccumulationReadoutTimeToMethodCall(String objectName, StringBuilder builder) {
+		if ( DetectorModel.INSTANCE.getCurrentDetector().getDetectorData() instanceof FrelonCcdDetectorData ) {
+			// Detector accumulation readout time (converted from default units[ns] to seconds)
+			double accumulationReadoutTimeSecs = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(DetectorModel.INSTANCE.getAccumulationReadoutTime(), ExperimentUnit.SEC);
+			builder.append(String.format("%s.setAccumulationReadoutTime(%g);", objectName, accumulationReadoutTimeSecs) );
+		}
 	}
 
 	private static enum ScanJobName {

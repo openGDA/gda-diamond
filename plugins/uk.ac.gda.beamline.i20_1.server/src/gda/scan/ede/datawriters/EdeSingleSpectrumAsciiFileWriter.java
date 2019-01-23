@@ -30,6 +30,7 @@ import org.eclipse.january.dataset.Dataset;
 import gda.device.detector.EdeDetector;
 import gda.scan.EnergyDispersiveExafsScan;
 import gda.scan.ScanDataPoint;
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 
@@ -42,6 +43,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 	private final EnergyDispersiveExafsScan iRefScan, iRefDarkScan, i0FinalScan, iRefFinalScan;
 	protected final EnergyDispersiveExafsScan[] itScans;
 	private final String nexusfileName;
+	private double accumulationReadoutTime = 0;
 
 	public EdeSingleSpectrumAsciiFileWriter(EnergyDispersiveExafsScan i0InitialScan, EnergyDispersiveExafsScan itScan, EnergyDispersiveExafsScan i0DarkScan,
 			EnergyDispersiveExafsScan itDarkScan, EdeDetector theDetector) {
@@ -172,6 +174,19 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		}
 		writer.close();
 		return asciiFilename;
+	}
+
+	public double getAccumulationReadoutTime() {
+		return accumulationReadoutTime;
+	}
+
+	public void setAccumulationReadoutTime(double accumulationReadoutTime) {
+		this.accumulationReadoutTime = accumulationReadoutTime;
+	}
+
+	@Override
+	protected EdeDataConstants.TimingGroupMetadata[] createTimingGroupsMetaData(EdeScanParameters scanParameters) {
+		return super.createTimingGroupsMetaData(scanParameters, accumulationReadoutTime);
 	}
 
 	@Override

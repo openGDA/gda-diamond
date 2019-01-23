@@ -95,11 +95,16 @@ public abstract class EdeExperimentDataWriter {
 	public abstract String writeDataFile(EdeDetector detector) throws Exception;
 
 	protected EdeDataConstants.TimingGroupMetadata[] createTimingGroupsMetaData(EdeScanParameters scanParameters) {
+		return createTimingGroupsMetaData(scanParameters, 0);
+	}
+
+	protected EdeDataConstants.TimingGroupMetadata[] createTimingGroupsMetaData(EdeScanParameters scanParameters, double accumulationReadoutTime) {
 		TimingGroupMetadata[] metaData = new TimingGroupMetadata[scanParameters.getGroups().size()];
 		for (int i = 0; i < scanParameters.getGroups().size(); i++) {
 			TimingGroup group = scanParameters.getGroups().get(i);
+			double realTimePerSpectrum = (group.getTimePerScan() + accumulationReadoutTime)*group.getNumberOfScansPerFrame();
 			metaData[i] = new TimingGroupMetadata(i, group.getNumberOfFrames(), group.getTimePerScan(),
-					group.getTimePerFrame(), group.getPreceedingTimeDelay(), group.getNumberOfScansPerFrame());
+					realTimePerSpectrum, group.getPreceedingTimeDelay(), group.getNumberOfScansPerFrame());
 		}
 		return metaData;
 	}
