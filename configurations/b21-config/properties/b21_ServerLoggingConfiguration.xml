@@ -9,11 +9,6 @@
 	</appender>
 	<logger name="gda" level="DEBUG" />
 	<logger name="gda.oe.dofs.DOF" level="INFO" />
-	<logger name="gda.device.corba.impl" level="INFO" />
-	<logger name="gda.device.temperature.corba.impl" level="INFO" />
-	<logger name="gda.jython.corba.impl" level="INFO" />
-	<logger name="gda.oe.corba.impl" level="INFO" />
-	<logger name="gda.device.monitor.corba.impl" level="INFO" />
 	<logger name="gda.oe.positioners.Positioner" level="INFO" />
 	<logger name="gda.data.nexus.extractor.NexusExtractor" level="DEBUG" />
 	<logger name="gda.data.nexus.NexusFileWrapper" level="DEBUG" />
