@@ -2,6 +2,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
+
 	<import resource="required_at_start.xml" />
 
     <bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">

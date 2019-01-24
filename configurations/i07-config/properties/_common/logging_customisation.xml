@@ -18,19 +18,12 @@
         <level value="INFO"/>
     </logger>
    
-       <logger name="gda.device.corba.impl">
-        <level value="INFO"/>
-    </logger>
 
     <logger name="gda.device.detector.areadetector">
         <level value="ALL"/>
     </logger>
 
     <logger name="gda.epics.connection.EpicsController">
-        <level value="INFO"/>
-    </logger>
-
-    <logger name="gda.jython.corba.impl.JythonImpl">
         <level value="INFO"/>
     </logger>
 

@@ -30,7 +30,6 @@ gdaserver.py
 .springBeans
 /bin/
 /classes/
-/src/corba/
 
 ### JUnit testing ###
 /activemq-data
