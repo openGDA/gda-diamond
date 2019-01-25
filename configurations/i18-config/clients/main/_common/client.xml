@@ -16,6 +16,7 @@
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
 	<import resource="mapping.xml"/>
+	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
 	<import resource="live_controls.xml"/>
 	<import resource="mapping_stage.xml" />
 
