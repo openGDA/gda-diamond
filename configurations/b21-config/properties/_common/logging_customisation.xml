@@ -14,14 +14,14 @@
 	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.ScriptingConnection" level="TRACE" />
 	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.BeanScriptingManagerImpl" level="TRACE" />
 	<logger name="uk.ac.diamond.scisoft.analysis.plotclient.connection.Plotting2DUI" level="TRACE" />
-	<logger name="gda.factory.corba.util.CorbaEventDispatcher" level="INFO" />
 	<logger name="org.springframework" level="INFO" />
 	<logger name="gda.device.detector.DummyDAServer" level="INFO" />
 	<logger name="gda.device.detector.DAServer" level="INFO" />
 	<logger name="uk.ac.gda.server.ncd.plotting.ListenerDispatcher" level="TRACE" />
-	<logger name="org.apache.http" level="INFO" />
+	<logger name="org.apache" level="INFO" />
 	<logger name="gda.scan.MultithreadedScanDataPointPipeline" level="INFO" />
 	<logger name="gda.scan.ScanDataPointPopulatorAndPublisher" level="INFO" />
+	<logger name="uk.ac.gda.server.ncd.subdetector" level="TRACE" />
 	<root>
 		<level value="DEBUG"/>
 	</root>
