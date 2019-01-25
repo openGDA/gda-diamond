@@ -15,7 +15,6 @@
 -Dgda.mode=dummy
 -Dgda.config=${project_loc:i05-1-config}
 -Dgda.propertiesFile=${project_loc:i05-1-config}/properties/dummy/dummy_instance_java.properties
--Djacorb.config.dir=${project_loc:i05-1-config}/properties/dummy/jacorb
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i05-1-config}/properties/dummy/JCALibrary.properties 
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Dgda.install.git.loc=${workspace_loc}/../workspace_git
