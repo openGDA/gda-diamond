@@ -58,6 +58,9 @@ public class PointAndShoot implements IPerspectiveFactory {
 		mappingParams.addView("uk.ac.diamond.daq.beamline.k11.scanSetup");
 		vLayout = layout.getViewLayout("uk.ac.diamond.daq.beamline.k11.scanSetup");
 		vLayout.setCloseable(false);
+		mappingParams.addView("uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView");
+		vLayout = layout.getViewLayout("uk.ac.diamond.daq.mapping.ui.experiment.mappingExperimentView");
+		vLayout.setCloseable(false);
 
 		final IFolderLayout dataoutLayout = layout.createFolder("spectrum", IPageLayout.BOTTOM, 0.5f, "mappeddata");
 		dataoutLayout.addView("org.dawnsci.mapping.ui.spectrumview");

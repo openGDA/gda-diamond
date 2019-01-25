@@ -46,10 +46,10 @@
             restorable="true">
       </view>
       <view
-            class="uk.ac.diamond.daq.beamline.k11.view.DiffractionScanSetup"
+            class="uk.ac.diamond.daq.beamline.k11.view.DiffractionScanSelection"
             icon="icons/scanner--pencil.png"
             id="uk.ac.diamond.daq.beamline.k11.scanSetup"
-            name="Scan Setup"
+            name="Scan Selection"
             restorable="true">
       </view>
    </extension>
