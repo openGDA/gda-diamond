@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2018 Diamond Light Source Ltd.
+ * Copyright © 2019 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -18,25 +18,34 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.ViewPart;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 
-public class DiffractionScanSetup extends ViewPart {
+public class SavedScansContentProvider implements ITreeContentProvider {
 
-	public DiffractionScanSetup() {
-		// TODO Auto-generated constructor stub
+	String[] sampleScanStrings = {"Temperature 25 to 0 with Rectangle High Density Continuous Snake 10 by 5",
+			"Pressure 0 to 6.8 with Line Low Density Stepped Random"};
+
+	@Override
+	public Object[] getElements(Object inputElement) {
+		return sampleScanStrings;
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
+	public Object[] getChildren(Object parentElement) {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 	@Override
-	public void setFocus() {
+	public Object getParent(Object element) {
 		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public boolean hasChildren(Object element) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -29,7 +29,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
@@ -40,8 +39,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
-import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import gda.configuration.properties.LocalProperties;
 import gda.factory.Finder;
@@ -52,7 +49,7 @@ import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 /**
  * The main Experiment configuration view visible in all k11 perspectives
  */
-public class ExperimentSetup extends ViewPart {
+public class ExperimentSetup extends LayoutUtilities {
 
 	private static final int NOTES_BOX_LINES = 7;
 	private static final int NOTES_BOX_HEIGHT = NOTES_BOX_LINES * 20;
@@ -297,19 +294,6 @@ public class ExperimentSetup extends ViewPart {
 	}
 
 	/**
-	 * Creates a {@link Composite with Grid Layout and Fill alignment}
-	 *
-	 * @param parent	The {@link Composite} to add the new one to
-	 * @return			The created {@link Composite}
-	 */
-	private Composite addGridComposite(final Composite parent) {
-		final Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayout(new GridLayout());
-		fillGrab().applyTo(composite);
-		return composite;
-	}
-
-	/**
 	 * Creates a formatted {@link Button} to form part of the Configuration "menu"
 	 *
 	 * @param parent	The enclosing {@link Composite}
@@ -323,22 +307,6 @@ public class ExperimentSetup extends ViewPart {
 		button.setText(label);
 		button.setAlignment(SWT.LEFT);
 		return button;
-	}
-
-	private GridDataFactory fillGrab() {
-		return GridDataFactory.fillDefaults().grab(true, true);
-	}
-
-	private GridDataFactory horizGrab() {
-		return GridDataFactory.fillDefaults().grab(true, false);
-	}
-
-	private GridDataFactory gridGrab() {
-		return GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false);
-	}
-
-	private Image getImage(final String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("uk.ac.diamond.daq.beamline.k11", path).createImage();
 	}
 
 	@Override
