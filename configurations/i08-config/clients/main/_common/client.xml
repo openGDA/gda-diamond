@@ -28,6 +28,7 @@
 	<import resource="file:${gda.config}/clients/main/_common/configure_exit_slits.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/live_controls.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
+	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/osgi_services.xml" />
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/rmi_imports.xml" />
