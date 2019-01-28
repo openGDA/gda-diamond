@@ -236,9 +236,9 @@
 				<entry key="yStop" value="mm" />
 				<entry key="xCentre" value="mm" />
 				<entry key="yCentre" value="mm" />
-				<entry key="xRange" value="nm" />
-				<entry key="yRange" value="nm" />
-				<entry key="radius" value="nm" />
+				<entry key="xRange" value="µm" />
+				<entry key="yRange" value="µm" />
+				<entry key="radius" value="µm" />
 			</map>
 		</constructor-arg>
 	</bean>
