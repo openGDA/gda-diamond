@@ -21,7 +21,6 @@ package uk.ac.gda.beamline.i14.views;
 import static uk.ac.gda.beamline.i14.views.XanesEdgeParameters.TrackingMethod.EDGE;
 import static uk.ac.gda.beamline.i14.views.XanesEdgeParameters.TrackingMethod.REFERENCE;
 
-import java.util.Arrays;
 import java.util.Map;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -33,7 +32,6 @@ import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.scanning.api.points.models.IScanPathModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -45,11 +43,7 @@ import org.slf4j.LoggerFactory;
 
 import com.swtdesigner.SWTResourceManager;
 
-import gda.observable.IObserver;
-import uk.ac.diamond.daq.mapping.api.IScanModelWrapper;
-import uk.ac.diamond.daq.mapping.impl.ScanPathModelWrapper;
 import uk.ac.diamond.daq.mapping.ui.experiment.AbstractMappingSection;
-import uk.ac.diamond.daq.mapping.ui.experiment.ScanPathEditor;
 import uk.ac.gda.beamline.i14.views.XanesEdgeParameters.TrackingMethod;
 
 /**
@@ -62,11 +56,7 @@ public class XanesEdgeParametersSection extends AbstractMappingSection {
 	private static final Logger logger = LoggerFactory.getLogger(XanesEdgeParametersSection.class);
 
 	private static final String XANES_SCAN_KEY = "XanesScan.json";
-	private static final String ENERGY_SCANNABLE = "dcm_enrg";
 	private static final int NUM_COLUMNS = 3;
-
-	private ScanPathEditor energyEditor;
-	private final IObserver scanPathObserver = this::handleScanPathUpdate;
 
 	private XanesEdgeParameters scanParameters;
 
@@ -84,25 +74,11 @@ public class XanesEdgeParametersSection extends AbstractMappingSection {
 
 		final Composite content = new Composite(parent, SWT.NONE);
 		GridDataFactory.swtDefaults().applyTo(content);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(content);
+		GridLayoutFactory.swtDefaults().applyTo(content);
 		content.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 
 		// Title
 		createLabel(content, "XANES scan parameters", 2);
-
-		// Energy parameters
-		final Group grpEnergy = createGroup(content, String.format("Energy (%s)", ENERGY_SCANNABLE), NUM_COLUMNS);
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BEGINNING).grab(true, false).applyTo(grpEnergy);
-
-		// Energy scannable
-		final IScanModelWrapper<IScanPathModel> energyScannable = new ScanPathModelWrapper(ENERGY_SCANNABLE, null, true);
-		// Set in path editor
-		energyEditor = new ScanPathEditor(grpEnergy, SWT.NONE, energyScannable);
-		energyEditor.addIObserver(scanPathObserver);
-		scanParameters.setEnergySteps(energyEditor.getAxisText());
-		// Add as outer scannable in status panel
-		final XanesStatusPanel statusPanel = (XanesStatusPanel) getMappingView().getStatusPanel();
-		statusPanel.setOuterScannables(Arrays.asList(energyScannable));
 
 		// Tracking parameters
 		final Group grpTracking = createGroup(content, "Tracking", NUM_COLUMNS);
@@ -151,12 +127,6 @@ public class XanesEdgeParametersSection extends AbstractMappingSection {
 		group.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		group.setText(name);
 		return group;
-	}
-
-	private void handleScanPathUpdate(Object source, @SuppressWarnings("unused") Object arg) {
-		final ScanPathEditor scanPathEditor = (ScanPathEditor) source;
-		scanParameters.setEnergySteps(scanPathEditor.getAxisText());
-		updateStatusLabel();
 	}
 
 	/**
@@ -216,11 +186,5 @@ public class XanesEdgeParametersSection extends AbstractMappingSection {
 
 	public XanesEdgeParameters getScanParameters() {
 		return scanParameters;
-	}
-
-	@Override
-	public void dispose() {
-		energyEditor.dispose();
-		super.dispose();
 	}
 }

@@ -63,7 +63,6 @@ public class XanesSubmitScanSection extends SubmitScanSection {
 		// XANES-specific parameters
 		public final String linesToTrack;
 		public final String trackingMethod;
-		public final String energySteps;
 
 		// Standard mscan command
 		public final String mscanCommand;
@@ -71,14 +70,13 @@ public class XanesSubmitScanSection extends SubmitScanSection {
 		XanesScanParameters(XanesEdgeParameters xanesParams) {
 			linesToTrack = xanesParams.getLinesToTrack();
 			trackingMethod = xanesParams.getTrackingMethod();
-			energySteps = xanesParams.getEnergySteps();
 			mscanCommand = createScanCommand();
 		}
 
 		@Override
 		public String toString() {
 			return "XanesScanParameters [linesToTrack=" + linesToTrack + ", trackingMethod=" + trackingMethod
-					+ ", energySteps=" + energySteps + ", mscanCommand=" + mscanCommand + "]";
+					+ ", mscanCommand=" + mscanCommand + "]";
 		}
 
 	}

@@ -32,7 +32,6 @@ public class XanesEdgeParameters {
 
 	private String linesToTrack = "";
 	private String trackingMethod = REFERENCE.toString();
-	private String energySteps = "";
 
 	public String getLinesToTrack() {
 		return linesToTrack;
@@ -50,18 +49,9 @@ public class XanesEdgeParameters {
 		this.trackingMethod = trackingMethod;
 	}
 
-	public String getEnergySteps() {
-		return energySteps;
-	}
-
-	public void setEnergySteps(String energySteps) {
-		this.energySteps = energySteps;
-	}
-
 	@Override
 	public String toString() {
-		return "XanesEdgeParameters [linesToTrack=" + linesToTrack + ", trackingMethod=" + trackingMethod
-				+ ", energySteps=" + energySteps + "]";
+		return "XanesEdgeParameters [linesToTrack=" + linesToTrack + ", trackingMethod=" + trackingMethod + "]";
 	}
 
 }
