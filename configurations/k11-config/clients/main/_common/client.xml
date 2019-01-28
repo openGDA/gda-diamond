@@ -27,6 +27,9 @@
 	<!-- =========================================================== -->
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	
+	
+	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
+	
 	<import resource="mapping.xml"/>
 
 </beans>
