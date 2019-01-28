@@ -1,6 +1,6 @@
 <JEPQuantityConverter>
-<ExpressionStoT>(X - 293.939) / 0.984484</ExpressionStoT>
-<ExpressionTtoS>0.984484 * X + 293.939</ExpressionTtoS>
+<ExpressionStoT>(X - 504.324) / 0.974167</ExpressionStoT>
+<ExpressionTtoS>0.974167 * X + 504.324</ExpressionTtoS>
 <AcceptableSourceUnits>eV</AcceptableSourceUnits>
 <AcceptableTargetUnits>eV</AcceptableTargetUnits>
 </JEPQuantityConverter>
