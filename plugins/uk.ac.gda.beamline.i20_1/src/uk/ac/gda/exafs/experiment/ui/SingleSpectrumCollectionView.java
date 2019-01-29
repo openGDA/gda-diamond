@@ -246,6 +246,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 
 	@Override
 	public void dispose() {
+		ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel().saveSettings();
 		dataBindingCtx.removeBinding(sampleStageCompositeBinding);
 		sampleStageCompositeBinding.dispose();
 		super.dispose();
