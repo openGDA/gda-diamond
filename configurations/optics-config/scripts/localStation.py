@@ -19,7 +19,7 @@ print
 
 from polarimeter.polarimeterHexapod import hpx, hpy, hpz, hpa, hpb, hpc, hexapod  # @UnusedImport
 from polarimeter.polarimeterTemperatureMonitor import anatemp,rettemp  # @UnusedImport
-from polarimeter.Scaler8512 import ca1sr,ca2sr,ca3sr,ca4sr,ca5sr,ca6sr,ca7sr,ca8sr,scaler  # @UnusedImport
+from polarimeter.Scaler8512 import ca1sr,ca2sr,ca3sr,ca4sr,ca5sr,ca6sr,ca7sr,ca8sr,scaler  # @UnusedImport @UnresolvedImport
 
 print "==================================================================="; print; 
 
