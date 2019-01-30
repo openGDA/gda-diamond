@@ -40,7 +40,7 @@ import org.eclipse.ui.dialogs.PatternFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import dna.util.LocalProperties;
+import gda.configuration.properties.LocalProperties;
 import gda.factory.Finder;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;

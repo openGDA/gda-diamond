@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="tr6_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+        <property name="displayName" value="Y" />
+        <property name="scannableName" value="tr6_y" />
+        <property name="group" value="TR6" />
+        <property name="increment" value="1.0" />
+        <property name="incrementTextWidth" value="60" />
+    </bean>
+    
+    <bean id="tr6_rot_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+        <property name="displayName" value="θ" />
+        <property name="scannableName" value="tr6_rot" />
+        <property name="group" value="TR6" />
+        <property name="increment" value="1.0" />
+        <property name="incrementTextWidth" value="60" />
+    </bean>
+    
+    <bean id="beam_x_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+        <property name="displayName" value="X" />
+        <property name="scannableName" value="beam_x" />
+        <property name="group" value="Beam" />
+        <property name="increment" value="0.1" />
+        <property name="incrementTextWidth" value="60" />
+    </bean>
+    
+        <bean id="beam_y_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+        <property name="displayName" value="Y" />
+        <property name="scannableName" value="beam_y" />
+        <property name="group" value="Beam" />
+        <property name="increment" value="0.1" />
+        <property name="incrementTextWidth" value="60" />
+    </bean> 
+    
+    <bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
+        <property name="controls">
+            <list>
+                <ref bean="beam_x_control" />
+                <ref bean="beam_y_control" />
+                <ref bean="tr6_y_control" />
+                <ref bean="tr6_rot_control" />
+            </list>
+        </property>
+    </bean>
+
+
+</beans>
