@@ -1,5 +1,5 @@
 """
-A Controller for Continuous Energy moving of both PGM and ID at Constant Velocity
+A Controller for Continuous Energy moving of both PGM grating motor and ID gap motor at Constant Velocity
 
 @author: Fajin Yuan 8 may 2018
 """
@@ -10,7 +10,7 @@ from gda.device.continuouscontroller import ConstantVelocityMoveController
 from gdascripts.scannable.epics.PvManager import PvManager
 from java.util.concurrent import Callable
 from org.slf4j import LoggerFactory
-from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating #, enecff2grating
+from pgm.pgm import angles2energy, enecff2mirror, enemirror2grating #, enecff2grating @UnresolvedImport
 import threading, time
 import installation
 from time import sleep
@@ -22,7 +22,7 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
     def __init__(self, name, pgm_grat_pitch, pgm_mirr_pitch, pgmpvroot, id_energy, idpvroot, move_pgm=True, move_id=True): # motors, maybe also detector to set the delay time
         self.logger = LoggerFactory.getLogger("ContinuousPgmGratingIDGapEnergyMoveController:%s" % name)
         self.verbose = False
-        self.name = name
+        self.setName(name)
         self._start_event = threading.Event()
         self._movelog_time = datetime.now()
         #PGM
