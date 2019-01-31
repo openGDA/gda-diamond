@@ -17,6 +17,8 @@
 	<!-- Provides ability to import/find remote objects over RMI -->
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 	
+	<bean id="live_stream_connection_manager" class="uk.ac.gda.client.live.stream.LiveStreamConnectionManager" />
+	
 	<!-- =========================================================== -->
 	<!-- ===================== MODE SPECIFIC ======================= -->
 	<!-- =========================================================== -->
