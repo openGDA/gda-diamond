@@ -55,34 +55,11 @@ else :
     # In dummy mode, set event processing times to be consistent with number of elements on detector.
     xmapMca.setEventProcessingTimes( [1.2039752e-7]*xmapController.getNumberOfElements() )
 
-# xspressConfig = XspressConfig(xspress2system, ExafsScriptObserver)
-# xspressConfig.initialize()
-# alias("xspressConfig")
-# 
-# vortexConfig = VortexConfig(xmapMca, ExafsScriptObserver)
-# vortexConfig.initialize()
-# alias("vortexConfig")
+# Create DTC_energy scannable to set, get the XSpress4 DTC energy value
+run 'xspress4_dtc_energy_scannable.py'
 
-#detectorPreparer = I20DetectorPreparer(xspress2system, XASLoggingScriptController,sensitivities, sensitivity_units ,offsets, offset_units,cryostat,ionchambers,I1,xmapMca,topupChecker,xspressConfig, vortexConfig)
-#samplePreparer = I20SamplePreparer(sample_x,sample_y,sample_z,sample_rot,sample_fine_rot,sample_roll,sample_pitch,filterwheel, cryostat, cryostick_pos, rcpController)
-#outputPreparer = I20OutputPreparer(datawriterconfig,datawriterconfig_xes)
-
-# Create mono optimiser object - this will also need sending into one of the preparers... imh 31/8/2016
-from uk.ac.gda.beamline.i20.scannable import MonoOptimisation
-if LocalProperties.get("gda.mode") == "live":
-    monoOptimiser = MonoOptimisation( braggoffset, ionchambers )
-else :
-    #Setup gaussian used to provide signal when optimising mono
-    from uk.ac.gda.beamline.i20.scannable import ScannableGaussian
-    scannableGaussian = ScannableGaussian("scannableGaussian", 0.1, 5, 1)
-    scannableGaussian.setScannableToMonitorForPosition(braggoffset) # position of braggoffset determines value returned by scannable
-    monoOptimiser = MonoOptimisation( braggoffset, scannableGaussian )
-
-monoOptimiser.setBraggScannable(bragg1WithOffset)
-monoOptimiser.setMedipix(medipix)
-monoOptimiser.setDaServer(DAServer)
-monoOptimiser.setPhotonShutter(photonshutter)
-bragg1WithOffset.setMonoOptimiser(monoOptimiser)
+# Create and setup the monoOptimiser scannable
+run "mono_optimisation.py"
 
 #### preparers ###
 detectorPreparer = I20DetectorPreparer(sensitivities, sensitivity_units, offsets, offset_units, ionchambers, I1, xmapMca, medipix, topupChecker)
@@ -178,13 +155,14 @@ else:
 #offsetsStore = offsetsStore.XESOffsets()
 #offsetsStore.removeAllOffsets()
 
+# Make sure xes offset start at zero every time
 xes_offsets.removeAll()
 
-# do nothing more so that offsets start at zero everytime
 
 if LocalProperties.get("gda.mode") == "live":
     run "adc_monitor"
-
+    #Don't include 'count_time' in medipix readout values. imh 18/1/2018 
+    medipix.getCollectionStrategy().setReadAcquisitionTime(False)
 else :
     if material() == None:
         material('Si')
@@ -202,32 +180,17 @@ else :
     detectorPreparer.setStatPvName("STAT:")
 
 
-#Set up monoOptimiser for bragg offset adjustment
-monoOptimiser.setAllowOptimisation(True)
-monoOptimiser.setOffsetStart(-2.0)
-monoOptimiser.setOffsetEnd(2.0)
-monoOptimiser.setOffsetNumPoints(21)
-monoOptimiser.setSelectNewScansInPlotView(False) # False = don't select new bragg offset scans in Plot view
-
 bragg1WithOffset.setAdjustBraggOffset(True) # True = Adjust bragg offset when moving to new energy
 
 LocalProperties.set("gda.exafs.mono.energy.rate", "0.01");
 LocalProperties.set("gda.exafs.read.out.time", "1000.0");
 add_default detectorMonitorDataProvider
 
-
-## Xspress4 settings
-# xspress4 = Finder.getInstance().find("xspress4")
-from gda.data import PathConstructor
-xspress4HdfFilePath = PathConstructor.createFromDefaultProperty()+"spool/"; # /dls/i20/data/2017/cm16762-4/spool/"
-# hdf5Values = { "FilePath" : xspress4HdfFilePath, "FileTemplate" : "%s%s%d.hdf"}
-hdf5Values = { "FileTemplate" : "%s%s%d.hdf"}
-
 cryostat.stop() # To stop the 'status' thread from running on the Lakeshore cryostat (fills logpanel with debug messages)
-
 
 from gda.epics import CAClient
 ## Set file path and filename format if using 'real' XSpress4 detector
+hdf5Values = { "FileTemplate" : "%s%s%d.hdf"}
 if xspress4.isConfigured() == True and LocalProperties.get("gda.mode") == "live" :
      xspress4.setTriggerMode(3) # set 'TTL only' trigger mode
      ## Set to empty string, so that at scan start path is set to current visit directory.
@@ -238,16 +201,13 @@ if xspress4.isConfigured() == True and LocalProperties.get("gda.mode") == "live"
         print "Setting "+pv+" to "+hdf5Values[key]
         CAClient.putStringAsWaveform(pv, hdf5Values[key])
 
-#Don't include count_time on medipix readout values. imh 18/1/2018 
-medipix.getCollectionStrategy().setReadAcquisitionTime(False)
+# Set default output format xspress4 ascii numbers
+xspress4.setOutputFormat(["%.6g"])
 
 print "Setting Tfg veto options to normal values for output 0"
 DAServer.sendCommand("tfg setup-veto veto0-inv 0")
 DAServer.sendCommand("tfg setup-veto veto0-drive 1")
 DAServer.sendCommand("tfg alternate-veto veto0-normal")
-
-# Create DTC_energy scannable to set, get the XSpress4 DTC energy value
-run 'xspress4_dtc_energy_scannable.py'
 
 print "Reconnect daserver command : reconnect_daserver() "
 def reconnect_daserver() :
@@ -260,6 +220,5 @@ def reconnect_daserver() :
     sleep(1)
     print "Ignore this error (it's 'normal'...)"
     ionchambers.getScaler().clear()
-
 
 print "****GDA startup script complete.****\n\n"

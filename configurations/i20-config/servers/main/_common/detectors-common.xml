@@ -22,7 +22,7 @@
 <!-- 	FLuorescense detector wrapper for Vortex. imh 4/11/2016 -->
 	<bean id="vortexDetector" class="gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter" >
 		<constructor-arg index="0" ref="xmapMca" />
-		<constructor-arg index="1" value="1" />
+		<constructor-arg index="1" value="4" />
 		<property name="mcaCollectionUsesTfg" value="true" />
 	</bean>
 

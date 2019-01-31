@@ -8,8 +8,8 @@
 
 	<import resource="file:${gda.config}/servers/main/live/ionchambers.xml" />
 	
-	<import resource="file:${gda.config}/servers/main/live/1-element-xmap.xml" />
-<!-- 	<import resource="file:${gda.config}/servers/main/live/4-element-xmap.xml" />  -->
+<!-- 	<import resource="file:${gda.config}/servers/main/live/1-element-xmap.xml" /> -->
+	<import resource="file:${gda.config}/servers/main/live/4-element-xmap.xml" /> 
 
 <!-- 	<bean id="xspress2controller" class="gda.device.detector.xspress.xspress2data.Xspress2DAServerController"> -->
 <!-- 		<property name="daServer" ref="DAServer" /> -->
