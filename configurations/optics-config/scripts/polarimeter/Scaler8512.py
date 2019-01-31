@@ -1,4 +1,4 @@
-from utils import installation
+import installation
 print "-"*100
 print "Create scalar objects: 'ca01sr','ca02sr','ca03sr','ca04sr','ca05sr','ca06sr','ca07sr','ca08sr'"
 
