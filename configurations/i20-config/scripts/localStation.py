@@ -221,4 +221,17 @@ def reconnect_daserver() :
     print "Ignore this error (it's 'normal'...)"
     ionchambers.getScaler().clear()
 
+
+# Function for setting exposure time and setting continuous acquisition
+# Called in ADControllerBase.setExposure(time) - see client side medipixADController bean
+# (injected using setExposureTimeCmd )
+def setMedipixExposureAndStart(exposureTime) :
+    continuousModeIndex = 2 # ImageMode.CONTINUOUS.ordinal()
+    adbase = medipix_addetector.getAdBase()
+
+    adbase.setAcquireTime(exposureTime);
+    adbase.setAcquirePeriod(0.0);
+    adbase.setImageMode(continuousModeIndex);
+    adbase.startAcquiring();
+
 print "****GDA startup script complete.****\n\n"
