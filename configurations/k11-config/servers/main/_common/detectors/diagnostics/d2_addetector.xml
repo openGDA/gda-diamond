@@ -42,6 +42,7 @@
 		<property name="ndStats" ref="d2_stats" />
 		<property name="fileWriter" ref="d2_hdf5_writer" />
 		<property name="collectionStrategy" ref="d2_collection_strategy"/>
+		<property name="computeStats" value="true" />
 	</bean>
 
 	<bean id="d2_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
