@@ -33,5 +33,6 @@
 	<import resource="mj7j8.xml" />
 
 	<import resource="mcp.xml" />
+	<import resource="keithley.xml" />
 
 </beans>
