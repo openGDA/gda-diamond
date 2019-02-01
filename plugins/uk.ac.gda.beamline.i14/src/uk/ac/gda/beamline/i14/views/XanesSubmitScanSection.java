@@ -19,6 +19,8 @@
 package uk.ac.gda.beamline.i14.views;
 
 import org.eclipse.dawnsci.analysis.api.persistence.IMarshallerService;
+import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Composite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +38,12 @@ import uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection;
 public class XanesSubmitScanSection extends SubmitScanSection {
 
 	private static final Logger logger = LoggerFactory.getLogger(XanesSubmitScanSection.class);
+
+	@Override
+	public void createControls(Composite parent) {
+		setButtonColour(new RGB(179, 204, 255));
+		super.createControls(parent);
+	}
 
 	@Override
 	protected void submitScan() {
