@@ -54,6 +54,30 @@ public class XanesSubmitScanSection extends SubmitScanSection {
 		}
 	}
 
+	@Override
+	protected void onShow() {
+		setParametersVisibility(true);
+	}
+
+	@Override
+	protected void onHide() {
+		setParametersVisibility(false);
+	}
+
+	/*
+	 * Show or hide the corresponding parameters section
+	 */
+	private void setParametersVisibility(boolean visible) {
+		final XanesEdgeParametersSection xanesParams = getMappingView().getSection(XanesEdgeParametersSection.class);
+
+		if (xanesParams == null) {
+			logger.error("No XANES parameters section found");
+		} else {
+			xanesParams.setVisible(visible);
+			relayoutMappingView();
+		}
+	}
+
 	/**
 	 * Class to hold all parameters required by the XANES scan
 	 * <p>
@@ -78,6 +102,5 @@ public class XanesSubmitScanSection extends SubmitScanSection {
 			return "XanesScanParameters [linesToTrack=" + linesToTrack + ", trackingMethod=" + trackingMethod
 					+ ", mscanCommand=" + mscanCommand + "]";
 		}
-
 	}
 }

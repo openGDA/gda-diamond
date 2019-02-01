@@ -33,9 +33,9 @@ import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.slf4j.Logger;
@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import com.swtdesigner.SWTResourceManager;
 
 import uk.ac.diamond.daq.mapping.ui.experiment.AbstractMappingSection;
+import uk.ac.diamond.daq.mapping.ui.experiment.HideableMappingSection;
 import uk.ac.gda.beamline.i14.views.XanesEdgeParameters.TrackingMethod;
 
 /**
@@ -52,17 +53,22 @@ import uk.ac.gda.beamline.i14.views.XanesEdgeParameters.TrackingMethod;
  * These will be combined with the standard parameters from the Mapping view (x & y coordinates, detector etc.) and
  * passed to the appropriate script.
  */
-public class XanesEdgeParametersSection extends AbstractMappingSection {
+public class XanesEdgeParametersSection extends AbstractMappingSection implements HideableMappingSection {
 	private static final Logger logger = LoggerFactory.getLogger(XanesEdgeParametersSection.class);
 
 	private static final String XANES_SCAN_KEY = "XanesScan.json";
-	private static final int NUM_COLUMNS = 3;
+	private static final int NUM_COLUMNS = 5;
+
+	private Composite content;
 
 	private XanesEdgeParameters scanParameters;
+
+	private boolean visible = true;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void createControls(Composite parent) {
+		super.createControls(parent);
 		parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 
 		dataBindingContext = new DataBindingContext();
@@ -72,27 +78,21 @@ public class XanesEdgeParametersSection extends AbstractMappingSection {
 			scanParameters = new XanesEdgeParameters();
 		}
 
-		final Composite content = new Composite(parent, SWT.NONE);
+		content = new Composite(parent, SWT.NONE);
 		GridDataFactory.swtDefaults().applyTo(content);
-		GridLayoutFactory.swtDefaults().applyTo(content);
+		GridLayoutFactory.swtDefaults().numColumns(NUM_COLUMNS).applyTo(content);
 		content.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 
 		// Title
-		createLabel(content, "XANES scan parameters", 2);
+		createLabel(content, "XANES scan parameters", NUM_COLUMNS);
 
 		// Tracking parameters
-		final Group grpTracking = createGroup(content, "Tracking", NUM_COLUMNS);
-		createTextInput(grpTracking, "Lines to track", "e.g. Au-La", "linesToTrack", scanParameters.getLinesToTrack());
-
-		final Composite cmpTrackingMethod = new Composite(grpTracking, SWT.NONE);
-		GridDataFactory.swtDefaults().span(NUM_COLUMNS, 1).applyTo(cmpTrackingMethod);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(cmpTrackingMethod);
-		cmpTrackingMethod.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
+		createTextInput(content, "Lines to track", "e.g. Au-La", "linesToTrack", scanParameters.getLinesToTrack());
 
 		final SelectObservableValue<String> radioButtonObservable = new SelectObservableValue<>();
-		final Button btnUseReference = createRadioButton(cmpTrackingMethod, "Use reference");
+		final Button btnUseReference = createRadioButton(content, "Use reference");
 		radioButtonObservable.addOption(REFERENCE.toString(), WidgetProperties.selection().observe(btnUseReference));
-		final Button btnUseEdge = createRadioButton(cmpTrackingMethod, "Use edge");
+		final Button btnUseEdge = createRadioButton(content, "Use edge");
 		radioButtonObservable.addOption(EDGE.toString(), WidgetProperties.selection().observe(btnUseEdge));
 
 		final IObservableValue<XanesEdgeParameters> modelObservable = PojoProperties.value(XanesEdgeParameters.class, "trackingMethod", TrackingMethod.class).observe(scanParameters);
@@ -103,6 +103,9 @@ public class XanesEdgeParametersSection extends AbstractMappingSection {
 		} else if (scanParameters.getTrackingMethod().equals(EDGE.toString())) {
 			btnUseEdge.setSelection(true);
 		}
+
+		// Set initial visibility
+		setContentVisibility();
 	}
 
 	private static Button createRadioButton(Composite parent, String text) {
@@ -112,21 +115,12 @@ public class XanesEdgeParametersSection extends AbstractMappingSection {
 		return button;
 	}
 
-	private static Label createLabel(Composite parent, String text, int numColumns) {
+	private static Label createLabel(Composite parent, String text, int span) {
 		final Label label = new Label(parent, SWT.WRAP);
-		GridDataFactory.swtDefaults().span(numColumns, 1).applyTo(label);
+		GridDataFactory.swtDefaults().span(span, 1).applyTo(label);
 		label.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
 		label.setText(text);
 		return label;
-	}
-
-	private static Group createGroup(Composite parent, String name, int columns) {
-		final Group group = new Group(parent, SWT.NONE);
-		GridDataFactory.swtDefaults().applyTo(group);
-		GridLayoutFactory.swtDefaults().numColumns(columns).applyTo(group);
-		group.setBackground(SWTResourceManager.getColor(SWT.COLOR_TRANSPARENT));
-		group.setText(name);
-		return group;
 	}
 
 	/**
@@ -186,5 +180,24 @@ public class XanesEdgeParametersSection extends AbstractMappingSection {
 
 	public XanesEdgeParameters getScanParameters() {
 		return scanParameters;
+	}
+
+	@Override
+	public boolean isVisible() {
+		return visible;
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+		setContentVisibility();
+	}
+
+	private void setContentVisibility() {
+		if (content != null) {
+			setSeparatorVisibility(visible);
+			content.setVisible(visible);
+			((GridData) content.getLayoutData()).exclude = !visible;
+		}
 	}
 }
