@@ -39,7 +39,7 @@ public class XanesSubmitScanSection extends SubmitScanSection {
 
 	@Override
 	protected void submitScan() {
-		final XanesEdgeParametersSection paramsSection = (XanesEdgeParametersSection) getMappingView().getSection(XanesEdgeParametersSection.class);
+		final XanesEdgeParametersSection paramsSection = getMappingView().getSection(XanesEdgeParametersSection.class);
 		final XanesScanParameters xanesScanParameters = new XanesScanParameters(paramsSection.getScanParameters());
 		final IMarshallerService marshaller = getService(IMarshallerService.class);
 		final ICommandRunner commandRunner = InterfaceProvider.getCommandRunner();
