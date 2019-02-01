@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="sample_dtab_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="sample_dtab_adbase" />
+		<property name="ndArray" ref="sample_dtab_array" />
+		<property name="ndOverlays">
+			<list>
+				<ref bean="sample_dtab_overlay" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

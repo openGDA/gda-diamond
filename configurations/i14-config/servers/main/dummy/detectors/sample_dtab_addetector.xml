@@ -1,0 +1,9 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<alias name="sim_adbase" alias="sample_dtab_adbase" />
+	<alias name="sim_array" alias="sample_dtab_array" />
+	<alias name="sim_overlay_simple1" alias="sample_dtab_overlay" />
+
+</beans>

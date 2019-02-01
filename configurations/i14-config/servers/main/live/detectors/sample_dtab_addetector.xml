@@ -10,4 +10,28 @@
 		<constructor-arg ref="sample_dtab_adbase" />
 	</bean>
 
+	<bean id="sample_dtab_array" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="BL14I-OP-DCAM-10:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL14I-OP-DCAM-10:ARR:" />
+				<property name="initialArrayPort" value="DTAB.tfm" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sample_dtab_overlay" class="gda.device.detector.areadetector.v17.impl.NDOverlaySimpleImpl">
+		<property name="overlayNumber" value="1" />
+		<property name="basePVName" value="BL14I-OP-DCAM-10:OVER:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL14I-OP-DCAM-10:OVER:" />
+				<property name="initialArrayPort" value="DTAB.tfm" />
+				<property name="initialArrayAddress" value="0" />
+				<property name="initialEnableCallbacks" value="0" />
+				<property name="initialBlockingCallbacks" value="false" />
+			</bean>
+		</property>
+	</bean>
+
 </beans>

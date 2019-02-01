@@ -1,5 +1,5 @@
 from java.io import FileNotFoundException
-from gdaserver import dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current
+from gdaserver import dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current, sample_dtab_addetector
 from gda.configuration.properties import LocalProperties
 from gda.jython.commands.GeneralCommands import alias, cmd, ls, ls_names, pause, reset_namespace, run
 from gdascripts.scan import gdascans
@@ -56,6 +56,7 @@ else:
     from Beamline.MotionsAndDetectors.dcm_enrg import DCMpdq
     dcm_enrg = DCMpdq("dcm_enrg", DummyBeamMonitor(), dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current)
     run("dummy_objects/xanes_scan.py")
+    run("dummy_objects/cross_hairs.py")
 
 # Export dcm_enrg over RMI
 print("Exporting dcm_enrg")
@@ -78,5 +79,8 @@ run('shutter_control.py')
 
 # Define autofocus function
 run('autofocus/autofocus.py')
+
+# Make DTAB overlay available
+dtab_overlay = sample_dtab_addetector.getNdOverlays().get(0)
 
 print("Initialisation Complete")
