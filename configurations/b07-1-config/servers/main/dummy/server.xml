@@ -27,6 +27,8 @@
 	<import resource="d9c.xml"/>
 	<import resource="d21c.xml"/>
 	<import resource="d22c.xml"/>
+	<import resource="d97c.xml"/>
+	<import resource="d98c.xml"/>
 	<import resource="femto.xml"/>
 
 	<!-- Shutters -->

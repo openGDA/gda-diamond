@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- d98c cam  -->
+	<bean id="d98c_cam1_CamBase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL07C-DI-PHDGN-98:DCAM1:CAM:" />
+	</bean>
+
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="d98c_cam1_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<bean id="d98c_cam_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats1" />
+		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source for the array view -->
+		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-98:DCAM1:ROI1:" />
+		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-98:DCAM1:STAT1:" />
+		<property name="roiInputNdArrayPort" value="D98C.DCAM1.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="d98c_cam1_roi" />
+				<property name="index" value="0" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d98c_cam_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="roistats2" />
+		<!-- Use ROI1 and STATS1 because the first ROI is used as the data source for the array view -->
+		<property name="baseRoiPVName" value="BL07C-DI-PHDGN-98:DCAM1:ROI2:" />
+		<property name="baseStatsPVName" value="BL07C-DI-PHDGN-98:DCAM1:STAT2:" />
+		<property name="roiInputNdArrayPort" value="D98C.DCAM1.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="d98c_cam1_roi" />
+				<property name="index" value="1" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d98c_cam_Hdf5Filewriter" parent="abstractHdf5FilewriternNochunking">
+		<property name="fileNameTemplate" value="d98c_cam"/>
+		<property name="ndFileHDF5">
+			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
+				<property name="ndFileImpl">
+					<bean class="gda.spring.V17NDFileFactoryBean">
+						<property name="prefix" value="BL07C-DI-PHDGN-98:DCAM1:HDF5:" />
+						<property name="resetToInitialValues" value="false" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d98c_cam1_CollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="restoreTriggerMode" value="true" />
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+						<property name="restoreAcquireTime" value="true" />
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="restoreAcquireState" value="true" />
+								<property name="adBase" ref="d98c_cam1_CamBase" />
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="d98c_cam" class="gda.device.detector.NXDetector">
+		<property name="name" value="dgncam" />
+		<property name="collectionStrategy" ref="d98c_cam1_CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="d98c_cam_RoiStats1" />
+				<ref bean="d98c_cam_RoiStats2" />
+				<ref bean="d98c_cam_Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
