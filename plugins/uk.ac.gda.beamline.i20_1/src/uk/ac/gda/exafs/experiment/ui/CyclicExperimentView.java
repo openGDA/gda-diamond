@@ -18,9 +18,7 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.layout.GridData;
 
 import uk.ac.gda.exafs.experiment.ui.data.CyclicExperimentModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
@@ -36,10 +34,7 @@ public class CyclicExperimentView extends TimeResolvedExperimentView {
 	@Override
 	protected void createSections(final SashForm parentComposite) {
 		createExperimentPropertiesComposite(parentComposite);
-		createTimeBarComposite(parentComposite);
-		CyclicExperimentTimeBarComposite cyclicExperimentTimeBarComposite = new CyclicExperimentTimeBarComposite(parentComposite, SWT.None, getModel());
-		cyclicExperimentTimeBarComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		createStartStopScanSection(parentComposite);
-		parentComposite.setWeights(new int[] {8, 2, 1, 1});
+		parentComposite.setWeights(new int[] {8, 2});
 	}
 }

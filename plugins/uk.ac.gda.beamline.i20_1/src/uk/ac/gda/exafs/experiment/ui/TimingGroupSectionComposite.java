@@ -284,7 +284,8 @@ public class TimingGroupSectionComposite extends ResourceComposite {
 			showGroupDetails(groupSection, structuredSelection);
 		}
 	}
-	private void selectTimingGroupTableRow( int index ) {
+
+	public void selectTimingGroupTableRow( int index ) {
 		Object element = groupsTableViewer.getElementAt( index );
 		if ( element != null ) {
 			groupsTableViewer.setSelection(new StructuredSelection( element ),true);
