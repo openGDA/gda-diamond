@@ -23,6 +23,7 @@ import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -45,7 +46,12 @@ import gda.factory.Finder;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.DiffractionConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;
+import uk.ac.diamond.daq.experiment.api.DummyExperimentService;
+import uk.ac.diamond.daq.experiment.api.ExperimentService;
+import uk.ac.diamond.daq.experiment.api.plan.ExperimentPlanBean;
+import uk.ac.diamond.daq.experiment.api.remote.PlanRequestHandler;
 import uk.ac.diamond.daq.experiment.ui.driver.TR6ConfigurationWizard;
+import uk.ac.diamond.daq.experiment.ui.plan.PlanSetupWizard;
 import uk.ac.diamond.daq.stage.StageException;
 import uk.ac.diamond.daq.stage.StageGroupService;
 import uk.ac.gda.client.live.stream.LiveStreamConnection;
@@ -71,10 +77,14 @@ public class ExperimentSetup extends LayoutUtilities {
 	private static final String TABEL_STAGE = "Platform";
 
 	private Composite panelComposite;
+	private Text nameText;
+
 	private StageGroupService stageGroupService;
+	private final ExperimentService experimentService;
 
 	public ExperimentSetup() {
 		stageGroupService = Finder.getInstance().find("diadStageGroupService");
+		experimentService = new DummyExperimentService(); // for runtime testing/demos
 	}
 
 	/**
@@ -127,7 +137,7 @@ public class ExperimentSetup extends LayoutUtilities {
 		final Label nameLabel = new Label(content, SWT.NONE);
 		nameLabel.setText("Name:");
 
-		final Text nameText = new Text(content, SWT.SINGLE);
+		nameText = new Text(content, SWT.SINGLE);
 		gridGrab().applyTo(nameText);
 		nameText.setToolTipText(
 				"Specify a unique name for the Experiment that can be used as an ID to link together its elements");
@@ -296,6 +306,8 @@ public class ExperimentSetup extends LayoutUtilities {
 		});
 
 		addExperimentDriverButton(content);
+
+		addPlanButton(content);
 	}
 
 	private LiveStreamConnection getLiveStreamConnection () {
@@ -316,7 +328,19 @@ public class ExperimentSetup extends LayoutUtilities {
 			wizardDialog.setPageSize(tr6Wizard.getPreferredPageSize());
 			wizardDialog.open();
 		});
+	}
 
+	private void addPlanButton(Composite parent) {
+		Button planButton = addConfigurationDialogButton(parent, "Experiment plan");
+		planButton.addListener(SWT.Selection, event -> {
+			PlanSetupWizard planWizard = new PlanSetupWizard(experimentService, nameText.getText());
+			WizardDialog wizardDialog = new WizardDialog(parent.getShell(), planWizard);
+			if (wizardDialog.open() == Window.OK) {
+				ExperimentPlanBean bean = planWizard.getExperimentPlanBean();
+				PlanRequestHandler handler = Finder.getInstance().findSingleton(PlanRequestHandler.class);
+				handler.submit(bean);
+			}
+		});
 	}
 
 	private IEclipseContext getInjectionContext() {
@@ -363,5 +387,6 @@ public class ExperimentSetup extends LayoutUtilities {
 	public void setFocus() {
 		panelComposite.setFocus();
 	}
+
 }
 
