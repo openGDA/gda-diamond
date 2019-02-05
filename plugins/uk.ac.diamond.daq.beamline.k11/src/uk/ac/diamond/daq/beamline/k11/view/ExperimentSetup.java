@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 import gda.configuration.properties.LocalProperties;
 import gda.factory.Finder;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
+import uk.ac.diamond.daq.client.gui.camera.DiffractionConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;
 import uk.ac.diamond.daq.experiment.ui.driver.TR6ConfigurationWizard;
 import uk.ac.diamond.daq.stage.StageException;
@@ -268,7 +269,8 @@ public class ExperimentSetup extends LayoutUtilities {
 		Button button = addConfigurationDialogButton(content, "Imaging Camera");
 		button.addListener(SWT.Selection, event -> {
 			try {
-				CameraConfigurationDialog.show(composite.getDisplay(), getCameraConfiguration(), getLiveStreamConnection());
+				CameraConfigurationDialog.show(composite.getDisplay(), getCameraConfiguration(),
+						getLiveStreamConnection());
 			} catch (Exception e) {
 				log.error("Error opening camera configuration dialog", e);
 			}
@@ -283,7 +285,15 @@ public class ExperimentSetup extends LayoutUtilities {
 				log.error("Error opening sample alignment dialog", e);
 			}
 		});
-		addConfigurationDialogButton(content, "Diffraction Detector");
+		button = addConfigurationDialogButton(content, "Diffraction Detector");
+		button.addListener(SWT.Selection, event -> {
+			try {
+				DiffractionConfigurationDialog.show(composite.getDisplay(), getCameraConfiguration(),
+						getLiveStreamConnection());
+			} catch (Exception e) {
+				log.error("Error opening diffrcation configuration dialog", e);
+			}
+		});
 
 		addExperimentDriverButton(content);
 	}
