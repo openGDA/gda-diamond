@@ -52,11 +52,11 @@ if isLive():
         print("Exception running localStationUser")
 else:
     print("Running in dummy mode")
-    from dummy_objects.dummy_beam_monitor import DummyBeamMonitor
+    from dummy.dummy_beam_monitor import DummyBeamMonitor
     from Beamline.MotionsAndDetectors.dcm_enrg import DCMpdq
     dcm_enrg = DCMpdq("dcm_enrg", DummyBeamMonitor(), dcm_bragg, dcm_perp, id_gap, m1_mirror_stripe, m2_mirror_stripe, ring_current)
-    run("dummy_objects/xanes_scan.py")
-    run("dummy_objects/cross_hairs.py")
+    run("dummy/xanes_scan.py")
+    run("dummy/cross_hairs.py")
 
 # Export dcm_enrg over RMI
 print("Exporting dcm_enrg")
