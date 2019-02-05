@@ -15,7 +15,7 @@
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.OuterScannablesSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.DetectorsSection" />
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathSection" />
-				<bean class="uk.ac.gda.beamline.i14.views.XanesEdgeParametersSection">
+				<bean class="uk.ac.diamond.daq.mapping.xanes.ui.XanesEdgeParametersSection">
 					<property name="visible" value="false" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.ui.experiment.ScanMetadataSection" />
@@ -31,7 +31,7 @@
 					<property name="sections">
 						<list>
 							<bean class="uk.ac.diamond.daq.mapping.ui.experiment.SubmitScanSection" />
-							<bean class="uk.ac.gda.beamline.i14.views.XanesSubmitScanSection">
+							<bean class="uk.ac.diamond.daq.mapping.xanes.ui.XanesSubmitScanSection">
 								<property name="buttonText" value="Submit XANES scan" />
 								<property name="description" value="XANES scan" />
 							</bean>
