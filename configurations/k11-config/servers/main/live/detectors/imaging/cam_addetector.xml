@@ -2,12 +2,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<import resource="file://${gda.facility.dir}/servers/dummy/sim_area_detector.xml" />
+	<!-- Using diagnostic camera until imaging camera is commissioned -->
+	<alias name="d2_adbase" alias="cam_adbase" />
+	<alias name="d2_stats" alias="cam_stats" />
+	<alias name="d2_ndarray" alias="cam_ndarray" />
+	<alias name="d2_ndfile" alias="cam_ndfile" />
+	<alias name="d2_hdf5" alias="cam_hdf5" />
 
-	<alias name="sim_adbase" alias="cam_adbase" />
-	<alias name="sim_stats" alias="cam_stats" />
-	<alias name="sim_array" alias="cam_ndarray" />
-	<alias name="sim_file_hdf5" alias="cam_ndfile" />
-	<alias name="sim_hdf5" alias="cam_hdf5" />
-
+	<bean id="imaging_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
+		<constructor-arg ref="cam_adbase" />
+	</bean>
 </beans>
