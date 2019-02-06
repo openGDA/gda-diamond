@@ -358,7 +358,7 @@ public class TurboXasParametersTest {
 			serializedXmlString.append("  </extraScannables>\n");
 		}
 		serializedXmlString.append("  <writeAsciiData>"+parameters.getWriteAsciiData()+"</writeAsciiData>\n");
-
+		serializedXmlString.append("  <fastShutterName>"+parameters.getFastShutterName()+"</fastShutterName>\n");
 		serializedXmlString.append("</TurboXasParameters>");
 
 		return serializedXmlString.toString();
