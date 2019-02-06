@@ -50,8 +50,4 @@
 		<property name="file" ref="d2_ndfile" />
 	</bean>
 
-	<bean id="imaging_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
-		<constructor-arg ref="d2_adbase" />
-	</bean>
-
 </beans>
