@@ -9,23 +9,19 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.stage.Stage">
 					<constructor-arg name="name" value="Base Y" />
-					<constructor-arg name="scannable" ref="tomo_y" />
-					<constructor-arg name="increment" value='#{ T(java.lang.Double).parseDouble("0.5")}' />
+					<constructor-arg name="scannableName" value="tomo_y" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.stage.Stage">
 					<constructor-arg name="name" value="Rotation" />
-					<constructor-arg name="scannable" ref="tomo_rot" />
-					<constructor-arg name="increment" value='#{ T(java.lang.Double).parseDouble("0.5")}' />
+					<constructor-arg name="scannableName" value="tomo_rot" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.stage.Stage">
 					<constructor-arg name="name" value="Center X" />
-					<constructor-arg name="scannable" ref="tomo_centring_x" />
-					<constructor-arg name="increment" value='#{ T(java.lang.Double).parseDouble("0.5")}' />
+					<constructor-arg name="scannableName" value="tomo_centring_x" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.stage.Stage">
 					<constructor-arg name="name" value="Center Z" />
-					<constructor-arg name="scannable" ref="tomo_centring_z" />
-					<constructor-arg name="increment" value='#{ T(java.lang.Double).parseDouble("0.5")}' />
+					<constructor-arg name="scannableName" value="tomo_centring_z" />
 				</bean>
 			</list>
 		</constructor-arg>
@@ -37,18 +33,15 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.stage.Stage">
 					<constructor-arg name="name" value="X" />
-					<constructor-arg name="scannable" ref="base_x" />
-					<constructor-arg name="increment" value='#{ T(java.lang.Double).parseDouble("0.5")}' />
+					<constructor-arg name="scannableName" value="base_x" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.stage.Stage">
 					<constructor-arg name="name" value="Y" />
-					<constructor-arg name="scannable" ref="tr6_y" />
-					<constructor-arg name="increment" value='#{ T(java.lang.Double).parseDouble("0.5")}' />
+					<constructor-arg name="scannableName" value="tr6_y" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.stage.Stage">
 					<constructor-arg name="name" value="Rotaion" />
-					<constructor-arg name="scannable" ref="tr6_rot" />
-					<constructor-arg name="increment" value='#{ T(java.lang.Double).parseDouble("0.5")}' />
+					<constructor-arg name="scannableName" value="tr6_rot" />
 				</bean>
 			</list>
 		</constructor-arg>
@@ -60,8 +53,7 @@
 			<list>
 				<bean class="uk.ac.diamond.daq.stage.Stage">
 					<constructor-arg name="name" value="X" />
-					<constructor-arg name="scannable" ref="base_x" />
-					<constructor-arg name="increment" value='#{ T(java.lang.Double).parseDouble("0.5")}' />
+					<constructor-arg name="scannableName" value="base_x" />
 				</bean>
 			</list>
 		</constructor-arg>
@@ -89,18 +81,16 @@
 	</bean>
 	
 	<bean id="cameraPositionStageGroup" class="uk.ac.diamond.daq.stage.StageGroup">
-		<constructor-arg name="name" value="Tomography" />
+		<constructor-arg name="name" value="Camera Position" />
 		<constructor-arg name="stages">
 			<list>
 				<bean class="uk.ac.diamond.daq.stage.Stage">
 					<constructor-arg name="name" value="X Axis" />
-					<constructor-arg name="scannable" ref="cam_x" />
-					<constructor-arg name="increment" value='#{ T(java.lang.Double).parseDouble("0.5")}' />
+					<constructor-arg name="scannableName" value="cam_x" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.stage.Stage">
 					<constructor-arg name="name" value="Z Axis" />
-					<constructor-arg name="scannable" ref="cam_z" />
-					<constructor-arg name="increment" value='#{ T(java.lang.Double).parseDouble("0.5")}' />
+					<constructor-arg name="scannableName" value="cam_z" />
 				</bean>
 			</list>
 		</constructor-arg>
