@@ -20,10 +20,17 @@ package uk.ac.diamond.daq.beamline.k11.view;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 
+import uk.ac.diamond.daq.beamline.k11.view.control.DiffractionPathComposite;
+
+/**
+ * Provides content for the {@link DiffractionPathComposite} scan definition loader control
+ *
+ * @since GDA 9.13
+ */
 public class SavedScansContentProvider implements ITreeContentProvider {
 
-	String[] sampleScanStrings = {"Temperature 25 to 0 with Rectangle High Density Continuous Snake 10 by 5",
-			"Pressure 0 to 6.8 with Line Low Density Stepped Random"};
+	String[] sampleScanStrings = {"Rectangle 25 points per side Continuous Snake 10 by 5",
+			"Line 6 points Stepped"};
 
 	@Override
 	public Object[] getElements(Object inputElement) {
