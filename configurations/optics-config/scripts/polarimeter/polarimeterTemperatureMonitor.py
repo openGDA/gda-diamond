@@ -5,7 +5,7 @@ Created on 08 Feb 2017
 
 @author: fy65
 '''
-from utils import installation
+import installation
 
 print "-"*100
 print "Create Temperature monitors: anatemp, rettemp"

@@ -3,7 +3,7 @@ Created on 18 Dec 2009
 
 @author: fy65
 '''
-from utils import installation
+import installation
 print "-"*100
 print "Create Hexapod objects: hpx, hpy, hpz, hpa, hpb, hpc, hexapod"
 
