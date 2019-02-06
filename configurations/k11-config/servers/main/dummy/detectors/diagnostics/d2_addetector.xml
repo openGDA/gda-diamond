@@ -3,14 +3,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
-	<alias name="sim_adbase" alias="d1_adbase" />
-	<alias name="sim_stats" alias="d1_stats" />
-	<alias name="sim_array" alias="d1_ndarray" />
-	<alias name="sim_hdf5" alias="d1_hdf5" />
+	<alias name="sim_adbase" alias="d2_adbase" />
+	<alias name="sim_stats" alias="d2_stats" />
+	<alias name="sim_array" alias="d2_ndarray" />
+	<alias name="sim_hdf5" alias="d2_hdf5" />
 
-	<bean id="d1_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_file_hdf5">
-		<property name="initialFileName" value="d1" />
+	<bean id="d2_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl" parent="sim_file_hdf5">
+		<property name="initialFileName" value="d2" />
 	</bean>
-
-
+	
 </beans>

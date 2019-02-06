@@ -86,5 +86,27 @@
 			</list>
 		</constructor-arg>
 		<constructor-arg name="stageGroupService" ref="diadStageGroupService" />
-	</bean>	
+	</bean>
+	
+	<bean id="cameraPositionStageGroup" class="uk.ac.diamond.daq.stage.StageGroup">
+		<constructor-arg name="name" value="Tomography" />
+		<constructor-arg name="stages">
+			<list>
+				<bean class="uk.ac.diamond.daq.stage.Stage">
+					<constructor-arg name="name" value="X Axis" />
+					<constructor-arg name="scannable" ref="cam_x" />
+					<constructor-arg name="increment" value='#{ T(java.lang.Double).parseDouble("0.5")}' />
+				</bean>
+				<bean class="uk.ac.diamond.daq.stage.Stage">
+					<constructor-arg name="name" value="Z Axis" />
+					<constructor-arg name="scannable" ref="cam_z" />
+					<constructor-arg name="increment" value='#{ T(java.lang.Double).parseDouble("0.5")}' />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="cameraPositionMultipleStagePositioningService" class="uk.ac.diamond.daq.stage.impl.DefaultMultipleStagePositioningService">
+		<constructor-arg name="stageGroup" ref="cameraPositionStageGroup" />
+	</bean>
 </beans>

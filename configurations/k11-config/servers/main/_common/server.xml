@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -43,6 +43,7 @@
 	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d1_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d2_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d2_motion.xml" />
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
