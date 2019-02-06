@@ -34,6 +34,20 @@
 		<property name="configureAtStartup" value="false" />
 	</bean>
 
+	<bean id="PFR_temp" class="gda.device.scannable.PVScannable">
+		<property name="name" value="PFR_temp" />
+		<property name="pvName" value="ME08G-EA-GIR-21:TCTRL1:SP" />
+		<property name="local" value="false" />
+	</bean>
+
+	<!-- readback temperature for PFR -->
+	<bean id="PFR_temp_current" class="gda.device.scannable.PVScannable">
+		<property name="name" value="PFR_temp" />
+		<property name="pvName" value="ME08G-EA-GIR-21:TCTRL1:PV:RBV" />
+		<property name="local" value="false" />
+		<property name="canMove" value="false" />
+	</bean>
+
 	<import resource="file:${gda.config}/servers/main/_common/scannables.xml" />
 
 </beans>
