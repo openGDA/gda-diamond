@@ -249,4 +249,15 @@
 		<property name="service" ref="initialLengthUnits" />
 	</bean>
 
+	<!-- Create a ProcessingSetupConfiguration & register as an OSGi service -->
+	<bean id="processingSetupConfiguration" class="uk.ac.diamond.daq.mapping.api.ProcessingSetupConfiguration">
+		<property name="defaultDetector" value="Xspress3" />
+		<property name="defaultProcessingFile" value="xrf_windows.nxs" />
+	</bean>
+
+	<bean class="gda.util.osgi.OSGiServiceRegister">
+		<property name="class" value="uk.ac.diamond.daq.mapping.api.ProcessingSetupConfiguration" />
+		<property name="service" ref="processingSetupConfiguration" />
+	</bean>
+
 </beans>
