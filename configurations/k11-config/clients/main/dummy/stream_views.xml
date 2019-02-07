@@ -3,6 +3,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
+	<!-- scannables to calibrate live stream axes -->
+	<bean id="beam_x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="beam_y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	
+	<bean id="my_calibration" class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
+                <property name="xAxisScannable" ref="beam_x"/>
+                <property name="yAxisScannable" ref="beam_y"/>
+                <property name="xAxisPixelScaling" value="0.004"/> <!-- Number of pixels per scannable unit in x axis  -->
+                <property name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
+                <property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
+                <property name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
+	</bean>
+	
 	<!-- Extract workstation name from localhost and use to construct base PV name -->
 	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost" />
 	<bean id="workstation" class="java.lang.String">
@@ -15,6 +28,7 @@
 	<bean id="sim_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="D1" />
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
+		<property name="calibratedAxesProvider" ref="my_calibration" />
 	</bean>
 
 </beans>

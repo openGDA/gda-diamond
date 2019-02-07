@@ -85,6 +85,7 @@
 		<property name="activeFastScanAxis" ref="x_axis_name" />
 		<property name="activeSlowScanAxis" ref="y_axis_name" />
 		<property name="beamSize" value="0.1" />
+	  	<property name="defaultStreamSourceConfig" value="d1_cam_config" />
 	</bean>
 	<!-- Register the mapping stage info bean as an OSGi service. Do this Twice 
 		under different interfaces to allow Jake's interface to be supported with 
