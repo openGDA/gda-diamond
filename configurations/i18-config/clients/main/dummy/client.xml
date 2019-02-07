@@ -3,6 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+
+	<import resource="stream_views.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/client.xml" />
 
 </beans>

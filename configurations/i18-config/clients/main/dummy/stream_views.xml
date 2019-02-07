@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Extract workstation name from localhost and use to construct base PV name -->
+	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost" />
+	<bean id="workstation" class="java.lang.String">
+		<constructor-arg value="#{ localhostname.hostName.split('\.')[0] }" />
+	</bean>
+ 	<bean id="sim_pvbase" class="java.lang.String">
+		<constructor-arg value="#{workstation}-AD-SIM-01" />
+	</bean>
+
+	<bean id="vma_zoom_positioner" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="t1x" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="t1y" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="zoom_dependent_calibration" class="uk.ac.gda.client.live.stream.calibration.CalibrationWithEnumZoomSupport">
+		<constructor-arg name="zoom" ref="vma_zoom_positioner" />
+		<constructor-arg name="zoomCalibrators">
+			<map>
+				<entry key="10">
+					<bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
+						<property name="xAxisScannable" ref="t1x" />
+						<property name="xAxisPixelScaling" value="0.1" />
+						<property name="yAxisScannable" ref="t1y" />
+						<property name="yAxisPixelScaling" value="0.1" />
+					</bean>
+				</entry>
+				<entry key="20">
+					<bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
+						<property name="xAxisScannable" ref="t1x" />
+						<property name="xAxisPixelScaling" value="0.2" />
+						<property name="yAxisScannable" ref="t1y" />
+						<property name="yAxisPixelScaling" value="0.2" />
+					</bean>
+				</entry>
+				<entry key="30">
+					<bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
+						<property name="xAxisScannable" ref="t1x" />
+						<property name="xAxisPixelScaling" value="0.3" />
+						<property name="yAxisScannable" ref="t1y" />
+						<property name="yAxisPixelScaling" value="0.3" />
+					</bean>
+				</entry>
+				<entry key="40">
+					<bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
+						<property name="xAxisScannable" ref="t1x" />
+						<property name="xAxisPixelScaling" value="0.4" />
+						<property name="yAxisScannable" ref="t1y" />
+						<property name="yAxisPixelScaling" value="0.4" />
+					</bean>
+				</entry>
+				<entry key="50">
+					<bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
+						<property name="xAxisScannable" ref="t1x" />
+						<property name="xAxisPixelScaling" value="0.5" />
+						<property name="yAxisScannable" ref="t1y" />
+						<property name="yAxisPixelScaling" value="0.5" />
+					</bean>
+				</entry>
+				<entry key="60">
+					<bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
+						<property name="xAxisScannable" ref="t1x" />
+						<property name="xAxisPixelScaling" value="0.6" />
+						<property name="yAxisScannable" ref="t1y" />
+						<property name="yAxisPixelScaling" value="0.6" />
+					</bean>
+				</entry>
+				<entry key="70">
+					<bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
+						<property name="xAxisScannable" ref="t1x" />
+						<property name="xAxisPixelScaling" value="0.7" />
+						<property name="yAxisScannable" ref="t1y" />
+						<property name="yAxisPixelScaling" value="0.7" />
+					</bean>
+				</entry>
+				<entry key="80">
+					<bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
+						<property name="xAxisScannable" ref="t1x" />
+						<property name="xAxisPixelScaling" value="0.8" />
+						<property name="yAxisScannable" ref="t1y" />
+						<property name="yAxisPixelScaling" value="0.8" />
+					</bean>
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="vma_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="VMA" />
+		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+		<property name="calibratedAxesProvider" ref="zoom_dependent_calibration" />
+	</bean>
+
+
+</beans>
