@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
+import org.dawnsci.ede.CalibrationDetails;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -48,6 +49,8 @@ import gda.scan.ede.TimeResolvedExperimentParameters;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.alignment.ui.SampleStageMotorsComposite;
 import uk.ac.gda.exafs.alignment.ui.SingleSpectrumParametersSection;
+import uk.ac.gda.exafs.calibration.ui.EnergyCalibrationComposite;
+import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
 
@@ -96,9 +99,10 @@ public class SingleSpectrumCollectionView extends ViewPart {
 			setupScannables();
 			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
 			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+			createEnergyCalibrationSection(formParent);
 			createStartStopScanSection(parentComposite, toolkit, prefixText, sampleDescText);
 			form.layout();
-			parentComposite.setWeights(new int[] {5, 4});
+			parentComposite.setWeights(new int[] {5, 1});
 		} catch (Exception e) {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
@@ -219,6 +223,25 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		prefixText = sampleDetailComp.getPrefixTextbox();
 		sampleDescText = sampleDetailComp.getSampleDescriptionTextbox();
 		addFastShutterControls(sampleDetailComp.getMainComposite(), toolkit);
+	}
+
+	private void createEnergyCalibrationSection(Composite parent) {
+		EnergyCalibrationComposite energyCalComposite = new EnergyCalibrationComposite(parent);
+		energyCalComposite.setShowPositions(false);
+		energyCalComposite.createSection("EDE calibration");
+
+		// Set the calibration details (if available from detector)
+		CalibrationDetails calibrationDetails = DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration();
+		if (calibrationDetails != null) {
+			energyCalComposite.setPolynomialString(calibrationDetails.getFormattedPolinormal());
+			energyCalComposite.setSampleFileName(calibrationDetails.getSampleDataFileName());
+			energyCalComposite.setReferenceFileName(calibrationDetails.getReferenceDataFileName());
+			energyCalComposite.updateGuiFromParameters();
+		}
+
+		// Update the detector after calibration has completed.
+		energyCalComposite.setAfterCalibrationRunnable(() ->
+			DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(energyCalComposite.getCalibrationDetails()) );
 	}
 
 	private static SingleSpectrumCollectionModel getModel() {
