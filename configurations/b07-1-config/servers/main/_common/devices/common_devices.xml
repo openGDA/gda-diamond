@@ -37,6 +37,9 @@
 	<!-- Endstation -->
 	<import resource="sample_manipulator.xml"/>
 
+	<!-- Stanford -->
+	<import resource="stanford.xml"/>
+
 	<!-- End Station -->
 	<!-- Commented out by default as it requires bundles which currently live in gda-incubation -->
 	<import resource="analyser.xml"/>

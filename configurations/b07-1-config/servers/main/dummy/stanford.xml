@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="SR570_sensitivity" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="SR570_input_bias" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="SR570_filter_type" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="SR570_filter_highpass" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="SR570_filter_lowpass" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="SR570_gain_mode" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="SR830_sensitivity" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="SR830_time_constant" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="SR830_channel_one" class="gda.device.scannable.DummyScannable" />
+
+	<bean id="SR830_channel_two" class="gda.device.scannable.DummyScannable" />
+
+</beans>
