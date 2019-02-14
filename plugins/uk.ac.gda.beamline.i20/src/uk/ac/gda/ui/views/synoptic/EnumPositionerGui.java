@@ -84,7 +84,7 @@ public class EnumPositionerGui implements IObserver {
 	 * Add combo box to parent composite
 	 */
 	public void createCombo(Composite parent) {
-		selectionCombo = new Combo(parent, SWT.NONE);
+		selectionCombo = new Combo(parent, SWT.READ_ONLY);
 		try {
 			selectionCombo.setItems( enumPositioner.getPositions() );
 		} catch (DeviceException e) {
