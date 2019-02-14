@@ -46,8 +46,8 @@ import gda.factory.Finder;
 import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.DiffractionConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;
-import uk.ac.diamond.daq.experiment.api.DummyExperimentService;
 import uk.ac.diamond.daq.experiment.api.ExperimentService;
+import uk.ac.diamond.daq.experiment.api.driver.ExperimentDriverModel;
 import uk.ac.diamond.daq.experiment.api.plan.ExperimentPlanBean;
 import uk.ac.diamond.daq.experiment.api.remote.PlanRequestHandler;
 import uk.ac.diamond.daq.experiment.ui.driver.TR6ConfigurationWizard;
@@ -84,7 +84,7 @@ public class ExperimentSetup extends LayoutUtilities {
 
 	public ExperimentSetup() {
 		stageGroupService = Finder.getInstance().find("diadStageGroupService");
-		experimentService = new DummyExperimentService(); // for runtime testing/demos
+		experimentService = Finder.getInstance().findSingleton(ExperimentService.class);
 	}
 
 	/**
@@ -326,7 +326,11 @@ public class ExperimentSetup extends LayoutUtilities {
 			tr6Wizard.setCalibrationScannableName("tr6_y");
 			WizardDialog wizardDialog = new WizardDialog(content.getShell(), tr6Wizard);
 			wizardDialog.setPageSize(tr6Wizard.getPreferredPageSize());
-			wizardDialog.open();
+			if (wizardDialog.open() == Window.OK) {
+				ExperimentDriverModel profile = tr6Wizard.getProfile();
+				String profileName = tr6Wizard.getName();
+				experimentService.saveDriverProfile(profile, profileName, "tr6_soft", nameText.getText());
+			}
 		});
 	}
 
