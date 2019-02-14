@@ -1,1 +1,2 @@
+export SWT_GTK3=0
 gda --start client $@

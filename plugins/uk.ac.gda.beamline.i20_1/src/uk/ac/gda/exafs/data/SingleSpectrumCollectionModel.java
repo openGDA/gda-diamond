@@ -305,6 +305,14 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 
 		addAccumulationReadoutTimeToMethodCall(SINGLE_JYTHON_DRIVER_OBJ, builder);
 
+		try {
+			TimeResolvedExperimentParameters parameters = getParametersBeanFromCurrentSettings();
+			String paramString = parameters.toXML().replace("\n", " "); // Serialized xml string of bean
+			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setParameterBean('%s'); \n", paramString));
+		} catch (DeviceException e) {
+			logger.warn("Problem adding TimeResolvedExperimentParameters to experiment object", e);
+		}
+
 		return builder.toString();
 	}
 

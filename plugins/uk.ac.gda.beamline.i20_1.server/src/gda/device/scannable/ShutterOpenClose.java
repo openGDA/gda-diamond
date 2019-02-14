@@ -37,6 +37,8 @@ public class ShutterOpenClose extends ScannableBase {
 	/** Shutter to be controlled during the scan */
 	private EnumPositioner shutter;
 
+	private long sleepTimeMs = 0;
+
 	public ShutterOpenClose() {
 		inputNames = new String[] {};
 		extraNames = new String[] {};
@@ -76,6 +78,13 @@ public class ShutterOpenClose extends ScannableBase {
 	private void moveShutter(String position) throws DeviceException {
 		logger.debug("{} moving to '{}'", shutter.getName(), position);
 		shutter.moveTo(position);
+		if (sleepTimeMs > 0) {
+			try {
+				Thread.sleep(sleepTimeMs);
+			} catch (InterruptedException e) {
+				logger.warn("Sleep interrupted when moving shutter", e);
+			}
+		}
 		logger.debug("{} move to '{}' complete", shutter.getName(), position);
 	}
 
@@ -100,5 +109,17 @@ public class ShutterOpenClose extends ScannableBase {
 
 	public void setShutter(EnumPositioner shutter) {
 		this.shutter = shutter;
+	}
+
+	public long getSleepTimeMs() {
+		return sleepTimeMs;
+	}
+
+	/**
+	 * Additional time to wait after moving shutter.
+	 * @param sleepTimeMs
+	 */
+	public void setSleepTimeMs(long sleepTimeMs) {
+		this.sleepTimeMs = sleepTimeMs;
 	}
 }
