@@ -1,9 +1,9 @@
-from org.jscience.physics.quantities import Quantity
-from org.jscience.physics.units import SI
+from org.jscience.physics.amount import Amount
+from javax.measure.unit import SI
 from gda.factory import Finder
 
 def setOffset(axis, offset):
-    offset_quantity = Quantity.valueOf(offset, SI.MILLI(SI.METER))
+    offset_quantity = Amount.valueOf(offset, SI.MILLI(SI.METER))
     Finder.getInstance().find(axis.getName()).setOffset(offset_quantity)
     
 def getOffset(axis):

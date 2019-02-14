@@ -20,8 +20,10 @@ package uk.ac.gda.beamline.i20_1.utils;
 
 import java.util.HashMap;
 
-import org.jscience.physics.quantities.Quantity;
-import org.jscience.physics.units.Unit;
+import javax.measure.quantity.Quantity;
+import javax.measure.unit.Unit;
+
+import org.jscience.physics.amount.Amount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,12 +73,12 @@ public class LookupTablesBean extends ConfigurableBase implements Findable {
 
 	public HashMap<String, Double> getPositionsForEnergy(Double energy) {
 		HashMap<String, Double> returnValues = new HashMap<String, Double>();
-		Quantity target = QuantityFactory.createFromObject(energy, userUnit);
+		Amount<? extends Quantity> target = QuantityFactory.createFromObject(energy, userUnit);
 		for (String tableName : lookupTables.keySet()) {
 			try {
 				LookupTableConverterHolder table = lookupTables.get(tableName);
-				Quantity sourceQuantity = table.toSource(target);
-				returnValues.put(tableName, sourceQuantity.getAmount());
+				Amount<? extends Quantity> sourceQuantity = table.toSource(target);
+				returnValues.put(tableName, sourceQuantity.getEstimatedValue());
 			} catch (Exception e) {
 				logger.error("Exception while looking up value for " + tableName, e);
 			}

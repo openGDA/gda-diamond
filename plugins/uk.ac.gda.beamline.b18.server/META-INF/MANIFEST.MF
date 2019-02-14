@@ -20,7 +20,7 @@ Require-Bundle: uk.ac.gda.exafs.api,
  uk.ac.gda.server.exafs;bundle-version="1.0.0",
  org.eclipse.dawnsci.nexus,
  org.eclipse.dawnsci.analysis.api;bundle-version="1.1.0",
- uk.ac.diamond.org.jscience;bundle-version="2.0.2",
+ uk.ac.diamond.org.jscience4,
  org.apache.commons.io
 Import-Package: org.slf4j;version="1.7.25",
  org.springframework.beans.factory
