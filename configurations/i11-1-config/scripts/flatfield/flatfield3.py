@@ -36,10 +36,10 @@ def avg(data):
 	return sum(data) / len(data)
 
 # calculate start/end angles
-start_angle = acquisition_start_angle - motor.getSpeed().getAmount()
-end_angle = acquisition_end_angle + motor.getSpeed().getAmount()
+start_angle = acquisition_start_angle - motor.getSpeed().getEstimatedValue()
+end_angle = acquisition_end_angle + motor.getSpeed().getEstimatedValue()
 
-print "current motor speed: %.2f %s" % (motor.getSpeed().getAmount(), motor.getSpeed().getUnit())
+print "current motor speed: %.2f %s" % (motor.getSpeed().getEstimatedValue(), motor.getSpeed().getUnit())
 print "current motor position: %.1f" % motor.getPosition()
 
 # synchronously move motor to start position
@@ -47,14 +47,14 @@ print "moving motor to start angle %.2f" % start_angle
 moveMotorTo(start_angle)
 
 # calculate required duration
-duration = (acquisition_end_angle - acquisition_start_angle) / motor.getSpeed().getAmount() + 2.0
+duration = (acquisition_end_angle - acquisition_start_angle) / motor.getSpeed().getEstimatedValue() + 2.0
 print "estimated duration: %.2f" % duration
 startAcquisition(duration)
 
 avg_count = avg(data)
 print "count stats: min %d, max %d, average %.1f" % (min(data), max(data), avg_count)
 
-required_speed = motor.getSpeed().getAmount() / (target_count / avg_count)
+required_speed = motor.getSpeed().getEstimatedValue() / (target_count / avg_count)
 print "required speed is %.5f" % required_speed
 
 caput(motor_pv+".VELO", required_speed)
