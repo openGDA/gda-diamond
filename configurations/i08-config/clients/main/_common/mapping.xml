@@ -95,7 +95,8 @@
 		<property name="focusScanDevices">
 			<list>
 				<value>Andor Detector</value>
-				<value>Malcolm focus scan</value>
+				<value>Malcolm focus scan (photodiode)</value>
+				<value>Malcolm focus scan (Andor)</value>
 			</list>
 		</property>
 		<property name="energyFocusBean">

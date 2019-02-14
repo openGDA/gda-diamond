@@ -11,9 +11,16 @@
 		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
 	</bean>
 
-	<!-- Focus scan -->
+	<!-- Focus scan (photo diode) -->
 	<bean id="malcolmInfoFocus" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm focus scan" />
+		<property name="label" value="Malcolm focus scan (photodiode)" />
+		<property name="description" value="Butterfly scan to find focus point, changing zone plate" />
+		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
+	</bean>
+
+	<!-- Focus scan (Andor) -->
+	<bean id="malcolmInfoFocusAndor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Malcolm focus scan (Andor)" />
 		<property name="description" value="Butterfly scan to find focus point, changing zone plate" />
 		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
 	</bean>

@@ -16,7 +16,7 @@
 		<property name="activated" value="false" />
 	</bean>
 
-	<!-- Focus scan -->
+	<!-- Focus scan (photodiode) -->
 	<bean id="malcolmModelFocus" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="I08-SCAN02" />
 		<property name="exposureTime" value="0.02" />
@@ -26,6 +26,19 @@
 		<property name="name" value="I08-SCAN02" />
 		<property name="model" ref="malcolmModelFocus" />
 		<property name="deviceInformation" ref="malcolmInfoFocus" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<!-- Focus scan (Andor) -->
+	<bean id="malcolmModelFocusAndor" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="I08-SCAN06" />
+		<property name="exposureTime" value="0.02" />
+	</bean>
+
+	<bean id="malcolmDeviceFocusAndor" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="I08-SCAN06" />
+		<property name="model" ref="malcolmModelFocusAndor" />
+		<property name="deviceInformation" ref="malcolmInfoFocusAndor" />
 		<property name="activated" value="false" />
 	</bean>
 
