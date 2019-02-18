@@ -901,4 +901,11 @@ public abstract class EdeExperiment implements IObserver {
 	public void setFrameThresholdForFastDataWriting(int thresholdForFastDataWriting) {
 		this.frameThresholdForFastDataWriting = thresholdForFastDataWriting;
 	}
+
+	/**
+	 * @return detector to be used for the scan
+	 */
+	public EdeDetector getDetector() {
+		return theDetector;
+	}
 }
