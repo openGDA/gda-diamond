@@ -42,6 +42,7 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diffraction/det_motion.xml" />
 	
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d1_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d1_motion.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d2_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d2_motion.xml" />
 
