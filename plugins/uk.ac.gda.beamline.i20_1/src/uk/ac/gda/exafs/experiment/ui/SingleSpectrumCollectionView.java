@@ -71,6 +71,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 	private Composite sampleStageSectionsParent;
 	private Text prefixText;
 	private Text sampleDescText;
+	private EnergyCalibrationComposite energyCalComposite;
 
 	private Binding sampleStageCompositeBinding;
 
@@ -109,7 +110,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		}
 	}
 
-	static public void createStartStopScanSection(Composite parent, FormToolkit toolkit, final Text prefixTextBox, final Text descriptionTextBox ) {
+	private void createStartStopScanSection(Composite parent, FormToolkit toolkit, final Text prefixTextBox, final Text descriptionTextBox ) {
 		final Section startStopScanSection = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
 		startStopScanSection.setText("Scan run controls");
 		startStopScanSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -123,15 +124,15 @@ public class SingleSpectrumCollectionView extends ViewPart {
 	}
 
 	/**
-	 * Static method to add start, stop buttons to composite and apply databinding to single spectrum model properties..
-	 * Added to try and reduce code duplication between SingleSpectrumCollectionView and SingleSpectrumAlignmentView.
+	 * Method to add start, stop buttons to composite and apply databinding to single spectrum model properties..
+	 *
 	 * @param parent
 	 * @param toolkit
 	 * @param prefixTextBox
 	 * @param descriptionTextBox
 	 * @26/2/2016
 	 */
-	static public void addCollectionControls( Composite parent, FormToolkit toolkit, final Text prefixTextBox, final Text descriptionTextBox ) {
+	private void addCollectionControls( Composite parent, FormToolkit toolkit, final Text prefixTextBox, final Text descriptionTextBox ) {
 		final DataBindingContext dataBindingCtx = new DataBindingContext();
 
 		Button startAcquicitionButton = toolkit.createButton(parent, "Start", SWT.PUSH);
@@ -197,7 +198,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 	 * Linear experiment specific implementation of SaveLoadButtons class
 	 * (get parameters from gui, setup gui from parameters implemented)
 	 */
-	private static class SaveLoadButtonsForSingleCollection extends SaveLoadButtonsComposite {
+	private class SaveLoadButtonsForSingleCollection extends SaveLoadButtonsComposite {
 
 		public SaveLoadButtonsForSingleCollection(Composite parent, FormToolkit toolkit) {
 			super(parent, toolkit);
@@ -213,6 +214,9 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		protected void loadParametersFromFile(String filename) throws Exception {
 			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.loadFromFile(filename);
 			getModel().setupFromParametersBean(params);
+			updateCalibrationGui(getModel().getCalibrationDetails());
+			// Update the detector with the new calibration
+			DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(getModel().getCalibrationDetails());
 		}
 	}
 
@@ -225,23 +229,32 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		addFastShutterControls(sampleDetailComp.getMainComposite(), toolkit);
 	}
 
-	private void createEnergyCalibrationSection(Composite parent) {
-		EnergyCalibrationComposite energyCalComposite = new EnergyCalibrationComposite(parent);
-		energyCalComposite.setShowPositions(false);
-		energyCalComposite.createSection("EDE calibration");
-
-		// Set the calibration details (if available from detector)
-		CalibrationDetails calibrationDetails = DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration();
+	private void updateCalibrationGui(CalibrationDetails calibrationDetails) {
 		if (calibrationDetails != null) {
 			energyCalComposite.setPolynomialString(calibrationDetails.getFormattedPolinormal());
 			energyCalComposite.setSampleFileName(calibrationDetails.getSampleDataFileName());
 			energyCalComposite.setReferenceFileName(calibrationDetails.getReferenceDataFileName());
 			energyCalComposite.updateGuiFromParameters();
 		}
+	}
 
-		// Update the detector after calibration has completed.
-		energyCalComposite.setAfterCalibrationRunnable(() ->
-			DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(energyCalComposite.getCalibrationDetails()) );
+	private void createEnergyCalibrationSection(Composite parent) {
+		energyCalComposite = new EnergyCalibrationComposite(parent);
+		energyCalComposite.setShowPositions(false);
+		energyCalComposite.createSection("EDE calibration");
+
+		// Get calibration from detector, update the model and gui
+		CalibrationDetails currentDetectorCalibration = DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration();
+		getModel().setCalibrationDetails(currentDetectorCalibration);
+		updateCalibrationGui(currentDetectorCalibration);
+
+		// Update the detector and model after calibration has completed.
+		energyCalComposite.setAfterCalibrationRunnable(() -> {
+			CalibrationDetails calibration = energyCalComposite.getCalibrationDetails();
+			DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(calibration);
+			getModel().setCalibrationDetails(calibration);
+			updateCalibrationGui(calibration);
+		});
 	}
 
 	private static SingleSpectrumCollectionModel getModel() {

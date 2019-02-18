@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import org.dawnsci.ede.CalibrationDetails;
 import org.eclipse.core.databinding.observable.list.IListChangeListener;
 import org.eclipse.core.databinding.observable.list.ListChangeEvent;
 import org.eclipse.core.databinding.observable.list.ListDiffVisitor;
@@ -249,6 +250,11 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		params.setUseFastShutter(getUseFastShutter());
 		params.setFastShutterName(DetectorModel.FAST_SHUTTER_NAME);
 		params.setScannablesToMonitorDuringScan(getScannablesToMonitor());
+
+		// Set the energy calibration using parameters from 'Single collection'
+		CalibrationDetails calibrationDetails = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel().getCalibrationDetails();
+		params.setCalibrationDetails(calibrationDetails);
+
 		return params;
 	}
 

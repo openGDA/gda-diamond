@@ -23,6 +23,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dawnsci.ede.CalibrationDetails;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -92,6 +93,8 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	public static final String USE_TOPUP_CHECKER_FOR_IT_PROP_NAME = "useTopupCheckerForIt";
 	@Expose
 	private boolean useTopupCheckerForIt;
+
+	private CalibrationDetails calibrationDetails;
 
 	private ScanJob job;
 
@@ -192,6 +195,10 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		params.setFastShutterName(DetectorModel.FAST_SHUTTER_NAME);
 		params.setFileNamePrefix(experimentDataModel.getFileNamePrefix());
 		params.setSampleDetails(experimentDataModel.getSampleDetails());
+
+		// Set the calibration details, if available
+		params.setCalibrationDetails(calibrationDetails);
+
 		return params;
 	}
 
@@ -220,6 +227,8 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		setUseFastShutter(params.getUseFastShutter());
 		experimentDataModel.setFileNamePrefix(params.getFileNamePrefix());
 		experimentDataModel.setSampleDetails(params.getSampleDetails());
+
+		calibrationDetails = params.createEnergyCalibration();
 	}
 
 	/**
@@ -245,11 +254,12 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		this.setUseFastShutter( singleSpectrumData.getUseFastShutter() );
 		this.setUseTopupCheckerForIt( singleSpectrumData.getUseTopupCheckerForIt() );
 
-		// Try to set up motors from stored xml bean
+		// Try to set up motors and energy calibration from stored xml bean
 		String xmlBean = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(SINGLE_SPECTRUM_PARAMETER_BEAN_STORE_KEY, String.class);
 		if (xmlBean != null) {
 			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.fromXML(xmlBean);
 			setupSampleStageMotors(params);
+			calibrationDetails = params.createEnergyCalibration();
 		} else {
 			// No motor parameters available, don't select anything
 			SampleStageMotors.INSTANCE.setSelectedMotors(new ExperimentMotorPostion[] {});
@@ -501,6 +511,14 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 
 	public void setUseTopupCheckerForIt(boolean useTopupCheckerForIt) {
 		this.firePropertyChange(USE_TOPUP_CHECKER_FOR_IT_PROP_NAME, this.useTopupCheckerForIt, this.useTopupCheckerForIt = useTopupCheckerForIt);
+	}
+
+	public CalibrationDetails getCalibrationDetails() {
+		return calibrationDetails;
+	}
+
+	public void setCalibrationDetails(CalibrationDetails calibrationDetails) {
+		this.calibrationDetails = calibrationDetails;
 	}
 
 	public void save() throws DetectorUnavailableException {
