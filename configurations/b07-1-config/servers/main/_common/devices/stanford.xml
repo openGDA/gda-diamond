@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="stanford" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="SR570_sensitivity" />
+				<ref bean="SR570_filter_type" />
+				<ref bean="SR570_filter_highpass" />
+				<ref bean="SR570_filter_lowpass" />
+				<ref bean="SR570_gain_mode" />
+				<ref bean="SR830_sensitivity" />
+				<ref bean="SR830_time_constant" />
+				<ref bean="SR830_channel_one" />
+				<ref bean="SR830_channel_two" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
