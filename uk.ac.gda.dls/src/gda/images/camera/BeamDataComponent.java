@@ -155,7 +155,7 @@ public class BeamDataComponent implements IObservable {
 				if (!fileExists) {
 
 					if (isDummyModeEnabled()) {
-						logger.warn(filename + " does not exist; will create dummy beam data for all zoom levels");
+						logger.info(filename + " does not exist; will create dummy beam data for all zoom levels");
 					}
 
 					else {
