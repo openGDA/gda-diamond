@@ -5,16 +5,18 @@
 
 	<!-- AD hardware -->
 
-	<bean id="pilatus3_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+	<bean id="pilatus3_adbase"
+			class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL16I-EA-PILAT-03:CAM:" />
 	</bean>
 
 	<bean id="pilatus3_driver"
-		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
+			class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
 		<property name="basePVName" value="BL16I-EA-PILAT-03:CAM:" />
 	</bean>
 
-	<bean id="pilatus3_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+	<bean id="pilatus3_camserver_ndfile"
+			class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL16I-EA-PILAT-03:CAM:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
@@ -25,7 +27,8 @@
 		</property>
 	</bean>
 
-	<bean id="pilatus3_ndfile_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+	<bean id="pilatus3_ndfile_hdf5"
+			class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
 		<property name="basePVName" value="BL16I-EA-PILAT-03:HDF5:" />
 		<property name="file">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
@@ -40,10 +43,10 @@
 		</property>
 	</bean>
 
-
 	<!-- NXDetector collection strategies -->
 
-	<bean id="pilatus3_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+	<bean id="pilatus3_nxcollectionstrategy"
+			class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
 		<constructor-arg ref="pilatus3_adbase" />
 		<constructor-arg value=".003" />
 	</bean>
@@ -56,7 +59,7 @@
 	</bean>
 
 	<bean id="pilatus3_nxcollectionstrategy_for_hardware_triggering"
-		class="gda.device.detector.addetector.triggering.HardwareTriggeredPilatus">
+			class="gda.device.detector.addetector.triggering.HardwareTriggeredPilatus">
 		<constructor-arg ref="pilatus3_adbase" />
 		<constructor-arg ref="pilatus3_driver" />
 		<constructor-arg value=".003" />
@@ -64,18 +67,17 @@
 	</bean>
 
 	<bean id="pilatus3_nxcollectionstrategy_for_multiple_exposures_per_collection_internal_triggering"
-		class="gda.device.detector.addetector.triggering.MultipleExposurePerCollectionStandard">
+			class="gda.device.detector.addetector.triggering.MultipleExposurePerCollectionStandard">
 		<constructor-arg ref="pilatus3_adbase" />
 		<constructor-arg value=".003" />
 		<property name="readAcquisitionPeriod" value="true" />
 		<property name="timeFormat" value="%.6f" />
 	</bean>
 
-
 	<!-- NXDetector file writers -->
-	
+
 	<bean id="pilatus3_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus3_100k" />
 		<property name="ndFile" ref="pilatus3_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus3_100k_path_template" />
@@ -94,7 +96,7 @@
 	</bean>
 
 	<bean id="pilatus3_hdf5filewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pilatus3_ndfile_hdf5" />
 		<property name="fileNameTemplate" value="" />
 		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus3_100k-files" />
@@ -105,7 +107,7 @@
 	</bean>
 
 	<bean id="pilatus3_nxfilewriter_for_hardware_triggering"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus3_100k" />
 		<property name="ndFile" ref="pilatus3_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus3_100k_path_template" />
@@ -118,7 +120,7 @@
 	</bean>
 
 	<bean id="pilatus3_nxfilewriter_for_snaps"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="pilatus3_100k" />
 		<property name="ndFile" ref="pilatus3_camserver_ndfile" />
 		<property name="numTrackerExtension" value="pilatus3_100ksnaps" />
@@ -128,7 +130,7 @@
 	</bean>
 	
 	<bean id="pilatus3_nxfilewriter_for_multiple_exposures_per_collection_internal_triggering"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus3_100kmulti" />
 		<property name="ndFile" ref="pilatus3_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus3_100k_path_template" />
@@ -140,13 +142,15 @@
 		<property name="alwaysPrepare" value="true" />
 	</bean>
 	
-	<bean id="pilatus3_counter_monitor" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayCounterMonitor">
+	<bean id="pilatus3_counter_monitor"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayCounterMonitor">
 		<constructor-arg ref="pilatus3_adbase" />
 	</bean>
 
 	<!-- NXDetectors -->
 
-	<bean id="pilatus3" class="gda.device.detector.NXDetector">
+	<bean id="pilatus3"
+			class="gda.device.detector.NXDetector">
 		<property name="name" value="pilatus3" />
 		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy"/>
 		<!-- <property name="collectionStrategy" ref="pilatus3_softtrigger" /> -->
@@ -159,7 +163,8 @@
 		</property>
 	</bean>
 
-	<bean id="pilatus3_multi" class="gda.device.detector.NXDetector">
+	<bean id="pilatus3_multi"
+			class="gda.device.detector.NXDetector">
 		<property name="name" value="pilatus3_multi" />
 		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_multiple_exposures_per_collection_internal_triggering"/>
 		<property name="additionalPluginList">
@@ -171,7 +176,8 @@
 
 	<bean id="pilatus3_force_callbacks" class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
 
-	<bean id="pilatus3_hardware_triggered" class="gda.device.detector.HardwareTriggeredNXDetector">
+	<bean id="pilatus3_hardware_triggered"
+			class="gda.device.detector.HardwareTriggeredNXDetector">
 		<property name="name" value="pilatus3_hardware_triggered" />
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController" />
 		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_hardware_triggering" />
@@ -182,11 +188,11 @@
 		</property>
 	</bean>
 
-	<bean id="pilatus3_for_snaps" class="gda.device.detector.NXDetector">
+	<bean id="pilatus3_for_snaps"
+			class="gda.device.detector.NXDetector">
 		<property name="name" value="pilatus3_for_snaps" />
 		<property name="collectionStrategy">
-			<bean
-				class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+			<bean class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
 				<constructor-arg ref="pilatus3_adbase" />
 				<constructor-arg value=".003" />
 			</bean>
@@ -200,7 +206,8 @@
 
 	<!-- Note most plugins are exposed via NXDetector's component system -->
 	<!-- >>>Finder.getInstance().find("pilatus3_plugins").get('pilatus3_counter_monitor') -->
-	<bean id="pilatus3_plugins" class="gda.device.FindableObjectHolder">
+	<bean id="pilatus3_plugins"
+			class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<map>
 				<entry key="pilatus3_counter_monitor" value-ref="pilatus3_counter_monitor" />
@@ -208,7 +215,8 @@
 		</property>
 	</bean>
 
-	<bean id="zebrapil3" class="gda.device.detector.HardwareTriggeredNXDetector">
+	<bean id="zebrapil3"
+			class="gda.device.detector.HardwareTriggeredNXDetector">
 		<property name="name" value="zebrapil3" />
 		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController" />
 		<property name="collectionStrategy" ref="pilatus3_nxcollectionstrategy_for_hardware_triggering" />
