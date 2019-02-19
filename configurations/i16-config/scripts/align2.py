@@ -168,19 +168,20 @@ def aligns5():
 	print "=== Make sure you move the right gaps!!"
 	print "=== Don't do anything if they look close"
 
+## was s6 - changed to s7 30/1/19 SPC
 	
-def aligns6():
+def aligns7():
 	print "=== check pin out, diode in, delta 0"
 	pos ss [3 3] ds [.05 2]
 	scancn ds.x .02 21 w .5 diode
 	go maxpos
-	scan s6xgap .1 -.05 -0.005 w .5 diode
+	scan s7xgap .1 -.05 -0.005 w .5 diode
 	pos ds [1 .01]
 	scancn ds.y .005 31 w .5 diode
 	go maxpos
-	scan s6ygap .05 -.02 -0.002 w .5 diode
+	scan s7ygap .05 -.02 -0.002 w .5 diode
 	pos ds [0 0]
-	print "=== pos s6xgap and s6ygap to values where signal goes to zero, then set all s6 values to zero in epics"
+	print "=== pos s7xgap and s7ygap to values where signal goes to zero, then set all s6 values to zero in epics"
 	print "=== Make sure you move the right gaps!!"
 	print "=== Don't do anything if they look close"
 #base-z
