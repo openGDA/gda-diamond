@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.io.FilenameUtils;
 import org.dawnsci.ede.EdeDataConstants;
@@ -43,6 +44,7 @@ import gda.device.detector.BufferedDetector;
 import gda.device.detector.DummyNXDetector;
 import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.detector.countertimer.TfgScalerWithLogValues;
+import gda.device.enumpositioner.ValvePosition;
 import gda.device.scannable.ContinuouslyScannable;
 import gda.device.scannable.MetashopDataScannable;
 import gda.device.scannable.ScannableUtils;
@@ -61,6 +63,7 @@ import uk.ac.gda.devices.detector.xspress3.TRIGGER_MODE;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
 import uk.ac.gda.devices.detector.xspress3.Xspress3Controller;
 import uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller;
+import uk.ac.gda.server.exafs.epics.device.scannable.ShutterChecker;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 /**
@@ -93,6 +96,7 @@ public class TurboXasScan extends ContinuousScan {
 	private TurboXasNexusTree nexusTree = new TurboXasNexusTree();
 	private PlotUpdater plotUpdater = new PlotUpdater();
 	private List<Scannable> scannablesToMonitor;
+	private Optional<Scannable> shutter = Optional.empty();
 
 	private AsciiWriter asciiWriter;
 	private boolean writeAsciiDataAfterScan = false;
@@ -127,6 +131,8 @@ public class TurboXasScan extends ContinuousScan {
 
 	@Override
 	public void doCollection() throws Exception {
+
+		checkMainShutterIsOpen();
 
 		logger.info("Running scan");
 
@@ -232,6 +238,8 @@ public class TurboXasScan extends ContinuousScan {
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
 
+		moveShutter(ValvePosition.OPEN);
+
 		// Adjust start time of axis to account for motor to get to start of first spectrum
 		double timeToInitialPosition = trajScanPreparer.getMaxTimePerStep();
 		double timeToScanStart = Math.abs(turboXasMotorParams.getScanStartPosition() - turboXasMotorParams.getStartPosition())/turboXasMotorParams.getScanMotorSpeed();
@@ -304,6 +312,9 @@ public class TurboXasScan extends ContinuousScan {
 			}
 		}
 
+		// Close shutter after motion and detectors have been stopped
+		moveShutter(ValvePosition.CLOSE);
+
 		try {
 			nexusTree.addDataAtEndOfScan(getDataWriter().getCurrentFileName(), getScanDetectors());
 		} catch (Exception e) {
@@ -362,6 +373,8 @@ public class TurboXasScan extends ContinuousScan {
 		DetectorReadoutRunnable detectorReadoutRunnable = getDetectorReadoutRunnable();
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan...");
+
+		moveShutter(ValvePosition.OPEN);
 
 		// Loop over timing groups...
 		List<TurboSlitTimingGroup> timingGroups = turboXasMotorParams.getScanParameters().getTimingGroups();
@@ -919,5 +932,47 @@ public class TurboXasScan extends ContinuousScan {
 	 */
 	public void setPollIntervalMillis(int pollIntervalMillis) {
 		this.pollIntervalMillis = pollIntervalMillis;
+	}
+
+	/**
+	 * Try to get shutter checker from list of all scannables; if present use it to check main shutter
+	 * is open by calling {@link ShutterChecker#atPointStart()} (i.e. wait until main shutter is open).
+	 * @throws DeviceException
+	 */
+	private void checkMainShutterIsOpen() throws DeviceException {
+		Optional<ShutterChecker> shutterChecker = allScannables.stream()
+				.filter(scn -> scn instanceof ShutterChecker)
+				.map(scn -> (ShutterChecker) scn)
+				.findFirst();
+
+		if (shutterChecker.isPresent()) {
+			logger.debug("Checking main shutter is open at start of scan using shutter checker", shutterChecker.get().getName());
+			shutterChecker.get().atPointStart();
+		}
+	}
+
+	/**
+	 *
+	 * @return Shutter scannable opened and closed at start and end of scan.
+	 */
+	public Scannable getShutter() {
+		return shutter.orElse(null);
+	}
+
+	/**
+	 * Set the shutter scannable to be opened and closed at start and end of the scan.
+	 * @param shutter
+	 */
+	public void setShutter(Scannable shutter) {
+		this.shutter = Optional.ofNullable(shutter);
+	}
+
+	private void moveShutter(String position) throws DeviceException {
+		if (shutter.isPresent()) {
+			logger.debug("Moving {} to {}", shutter.get().getName(), position);
+			InterfaceProvider.getTerminalPrinter().print("Moving "+shutter.get().getName()+" to '"+position+"' position ");
+			shutter.get().moveTo(position);
+			logger.debug("Shutter move finished");
+		}
 	}
 }

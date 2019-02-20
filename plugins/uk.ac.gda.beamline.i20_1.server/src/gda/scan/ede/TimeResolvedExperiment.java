@@ -306,7 +306,7 @@ public class TimeResolvedExperiment extends EdeExperiment {
 		EdeTimeResolvedExperimentDataWriter writer = new EdeTimeResolvedExperimentDataWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan,
 				itScans, i0FinalScan, iRefFinalScan, theDetector, nexusFilename);
 		writer.setWriteAsciiData(writeAsciiData);
-		writer.setExtraScannables(getScannablesToMonitorDuringScan());
+		writer.setExtraScannables(itScans[0].getScannablesToMonitorDuringScan());
 		return writer;
 	}
 

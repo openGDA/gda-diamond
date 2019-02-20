@@ -78,11 +78,6 @@
 				<entry key="buffered_xspress3" value="FF_sumI0" />
 			</map>
 		</property>
-		<property name="defaultExtraScannables" >
-			<list>
-				<value>openCloseShutterDuringScan</value>
-			</list>
-		</property>
 	</bean>
 
 	<bean id="xspress3elementConfig" class=" uk.ac.gda.exafs.ui.composites.detectors.internal.FluoDetectorElementConfig">

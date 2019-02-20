@@ -18,6 +18,7 @@
 		<property name="ffmpegStream" ref="medipix_ffmpeg" />
 		<property name="imageNDROI" ref="medipix_roi"/>
 		<property name="connectToPlotServer" value="true" />
+		<property name="setExposureTimeCmd" value="setMedipixExposureAndStart(%g)" />
 	</bean>
 
 	<bean id="medipixdictionary" class="java.util.Hashtable">

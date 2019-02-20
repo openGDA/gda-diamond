@@ -43,6 +43,7 @@ import gda.device.detector.countertimer.TfgScaler;
 import gda.device.detector.frelon.EdeFrelon;
 import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.device.detector.xstrip.XhDetector;
+import gda.device.enumpositioner.ValvePosition;
 import gda.device.lima.LimaCCD.AcqTriggerMode;
 import gda.device.scannable.ScannableUtils;
 import gda.device.scannable.TopupChecker;
@@ -107,9 +108,13 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		theDetector.prepareDetectorwithScanParameters(scanParameters);
 
 		triggeringParameters.setDetector(theDetector);
-		// prepareTFG(shouldWaitForTopup);
+
+		moveShutter(ValvePosition.CLOSE);
+
 		// move into the it position
 		moveSampleIntoPosition();
+
+		moveShutter(ValvePosition.OPEN);
 
 		// start the detector running (it waits for a pulse from the eTFG)
 		logger.debug(toString() + " starting detector running...");
@@ -266,6 +271,7 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		else {
 			doCollectionOld();
 		}
+		fastShutterMoveTo(ValvePosition.CLOSE);
 		addScalerFrameCountsToNexus();
 	}
 
@@ -293,8 +299,12 @@ public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveEx
 		triggeringParameters.setTriggerOnRisingEdge(triggerOnRisingEdge);
 
 		prepareTFG(shouldWaitForTopup);
+		moveShutter(ValvePosition.CLOSE);
+
 		// move into the it position
 		moveSampleIntoPosition();
+
+		moveShutter(ValvePosition.OPEN);
 
 		// start the detector running (it waits for a pulse from the eTFG)
 		logger.debug(toString() + " starting detector running...");

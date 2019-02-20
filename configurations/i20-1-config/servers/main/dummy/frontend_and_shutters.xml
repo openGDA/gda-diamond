@@ -49,4 +49,8 @@
 		</property>
 	</bean>
 
+	<bean id="shutterChecker" class="uk.ac.gda.server.exafs.epics.device.scannable.ShutterChecker">
+		<property name="shutter" ref="shutter2" />
+	</bean>
+
 </beans>

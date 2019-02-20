@@ -30,6 +30,7 @@ import org.eclipse.january.dataset.Dataset;
 import gda.device.detector.EdeDetector;
 import gda.scan.EnergyDispersiveExafsScan;
 import gda.scan.ScanDataPoint;
+import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 
@@ -41,11 +42,11 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 
 	private final EnergyDispersiveExafsScan iRefScan, iRefDarkScan, i0FinalScan, iRefFinalScan;
 	protected final EnergyDispersiveExafsScan[] itScans;
-	private final String nexusfileName;
+	private double accumulationReadoutTime = 0;
 
 	public EdeSingleSpectrumAsciiFileWriter(EnergyDispersiveExafsScan i0InitialScan, EnergyDispersiveExafsScan itScan, EnergyDispersiveExafsScan i0DarkScan,
 			EnergyDispersiveExafsScan itDarkScan, EdeDetector theDetector) {
-		super(i0DarkScan.extractEnergyDetectorDataSet());
+		super(i0DarkScan.extractEnergyDetectorDataSet(), null);
 		this.i0DarkScan = i0DarkScan;
 		this.itDarkScan = itDarkScan;
 		this.i0InitialScan = i0InitialScan;
@@ -61,7 +62,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 	public EdeSingleSpectrumAsciiFileWriter(EnergyDispersiveExafsScan i0DarkScan, EnergyDispersiveExafsScan i0LightScan, EnergyDispersiveExafsScan iRefScan,
 			EnergyDispersiveExafsScan iRefDarkScan, EnergyDispersiveExafsScan itDarkScan, EnergyDispersiveExafsScan[] itScans, EnergyDispersiveExafsScan i0FinalScan, EnergyDispersiveExafsScan iRefFinalScan,
 			EdeDetector theDetector, String nexusfileName) {
-		super(i0DarkScan.extractEnergyDetectorDataSet());
+		super(i0DarkScan.extractEnergyDetectorDataSet(), nexusfileName);
 		this.i0DarkScan = i0DarkScan;
 		this.itDarkScan = itDarkScan;
 		this.iRefScan = iRefScan;
@@ -99,6 +100,7 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		dataWriter.setWriteInNewThread( false );
 		dataWriter.setSampleDetails(getSampleDetails());
 		dataWriter.writeDataFile( theDetector );
+		addDataForExtraScannables();
 	}
 
 	private Dataset getDetectorDataset(EnergyDispersiveExafsScan scan) {
@@ -172,6 +174,19 @@ public class EdeSingleSpectrumAsciiFileWriter extends EdeExperimentDataWriter {
 		}
 		writer.close();
 		return asciiFilename;
+	}
+
+	public double getAccumulationReadoutTime() {
+		return accumulationReadoutTime;
+	}
+
+	public void setAccumulationReadoutTime(double accumulationReadoutTime) {
+		this.accumulationReadoutTime = accumulationReadoutTime;
+	}
+
+	@Override
+	protected EdeDataConstants.TimingGroupMetadata[] createTimingGroupsMetaData(EdeScanParameters scanParameters) {
+		return super.createTimingGroupsMetaData(scanParameters, accumulationReadoutTime);
 	}
 
 	@Override

@@ -24,6 +24,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -121,6 +122,8 @@ public class TurboXasParameters {
 
 	private boolean writeAsciiData;
 
+	private String fastShutterName;
+
 	public TurboXasParameters() {
 		setDefaults();
 	}
@@ -164,6 +167,7 @@ public class TurboXasParameters {
 		useTrajectoryScan = false;
 		detectors = new String[]{"scaler_for_zebra"};
 		writeAsciiData = false;
+		fastShutterName = "fast_shutter";
 	}
 
 	// Getters, setters...
@@ -352,6 +356,14 @@ public class TurboXasParameters {
 
 	public void setWriteAsciiData(boolean writeAsciiData) {
 		this.writeAsciiData = writeAsciiData;
+	}
+
+	public String getFastShutterName() {
+		return fastShutterName;
+	}
+
+	public void setFastShutterName(String fastShutterName) {
+		this.fastShutterName = fastShutterName;
 	}
 
 	/**
@@ -612,6 +624,13 @@ public class TurboXasParameters {
 		scan.setScannablesToMonitor(getScannablesToMonitor());
 		scan.getAllScannables().addAll(findScannableObjects(extraScannables));
 		scan.setWriteAsciiDataAfterScan(writeAsciiData);
+
+		// Set the fast shutter if found on server
+		List<Scannable> listWithFastShutter = findScannableObjects(Arrays.asList(fastShutterName));
+		if (!listWithFastShutter.isEmpty()) {
+			scan.setShutter(listWithFastShutter.get(0));
+		}
+
 		return scan;
 	}
 }

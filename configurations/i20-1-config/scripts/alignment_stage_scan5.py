@@ -280,7 +280,7 @@ contScannable.setDaServer(daserverForTfg)
 contScannable.setMainDetector(bufferedDetector)
 contScannable.setTriggerInputForTfg( scalerForZebra.getTtlSocket() )
 contScannable.setTriggerOutputForDetector( 1 )
-contScannable.setMaxMotorSpeed(10000.0) # motor speed used when moving to runup position for scan
+contScannable.setMaxMotorSpeed(50.0) # motor speed used when moving to runup position for scan
 contScannable.setRampDistance(0.2)
 
 #cvscan contScannable scan_start scan_end scan_num_readouts scan_time bufferedDetector

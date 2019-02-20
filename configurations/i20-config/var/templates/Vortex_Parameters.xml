@@ -17,6 +17,45 @@
         <offset>-21.0</offset>
         <excluded>false</excluded>
     </DetectorElement>
+    <DetectorElement>
+        <name>Element2</name>
+        <number>2</number>
+        <ROI>
+            <name>ROI 1</name>
+            <windowStart>690</windowStart>
+            <windowEnd>890</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element3</name>
+        <number>3</number>
+        <ROI>
+            <name>ROI 1</name>
+            <windowStart>690</windowStart>
+            <windowEnd>890</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
+    <DetectorElement>
+        <name>Element4</name>
+        <number>4</number>
+        <ROI>
+            <name>ROI 1</name>
+            <windowStart>690</windowStart>
+            <windowEnd>890</windowEnd>
+        </ROI>
+        <gain>2.0</gain>
+        <peakingTime>1.04</peakingTime>
+        <offset>-21.0</offset>
+        <excluded>false</excluded>
+    </DetectorElement>
     <saveRawSpectrum>false</saveRawSpectrum>
     <selectedRegionNumber>0</selectedRegionNumber>
 </VortexParameters>
