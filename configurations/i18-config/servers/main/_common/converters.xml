@@ -199,7 +199,7 @@
 	
 	<bean id="auto_mDeg_idGap_mm_converter" class="gda.util.converters.AutoRenameableConverter">
 		<constructor-arg value="auto_mDeg_idGap_mm_converter" />
-		<constructor-arg value="lookup_name_provider" />
+		<constructor-arg ref="lookup_name_provider" /> 
 		<constructor-arg value="true" />	
 	</bean>
 	
