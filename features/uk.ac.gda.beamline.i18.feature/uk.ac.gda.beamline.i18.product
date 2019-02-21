@@ -14,7 +14,6 @@
 -Dgda.config=/dls_sw/i18/software/gda/config
 -Djava.library.path=/dls_sw/i18/software/gda_git/gda-nexus.git/uk.ac.gda.nexus/lib/linux-x86_64
 -Dgda.propertiesFile=/dls_sw/i18/software/gda/config/properties/live/java.properties
--Djacorb.config.dir=/dls_sw/i18/software/gda/config/jacorb/live
 -Dgov.aps.jca.JCALibrary.properties=/dls_sw/i18/software/gda/config/jca/live/JCALibrary.properties
 -Dgda.mode=live
 -Dgda.client.jython.automatic.interpreter=1
