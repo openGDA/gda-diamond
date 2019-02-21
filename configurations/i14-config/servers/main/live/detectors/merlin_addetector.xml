@@ -6,6 +6,16 @@
 		<property name="basePVName" value="BL14I-EA-DET-03:DET:" />
 	</bean>
 
+	<bean id="merlin_roi" class="gda.device.detector.areadetector.v17.impl.NDROIImpl">
+		<property name="basePVName" value="BL14I-EA-DET-03:ROI:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL14I-EA-DET-03:ROI:" />
+				<property name="initialArrayPort" value="merlin1.pos" />
+			</bean>
+		</property>
+	</bean>
+
 	<bean id="merlin_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
 		<property name="basePVName" value="BL14I-EA-DET-03:STAT:" />
 		<property name="pluginBase">
@@ -50,6 +60,7 @@
 
 	<bean id="merlin_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
 		<constructor-arg ref="merlin_adbase" />
+		<constructor-arg ref="merlin_roi" />
 	</bean>
 
 </beans>

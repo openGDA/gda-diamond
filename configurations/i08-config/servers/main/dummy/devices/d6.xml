@@ -18,5 +18,5 @@
 
 	<!-- Diagnostic camera -->
 	<alias name="sim_adbase" alias="d6_adbase"/>
-
+	<alias name="sim_roi" alias="d6_roi" />
 </beans>
