@@ -35,7 +35,19 @@
         </property>
     </bean>
 
-	<bean id="d2_addetector" class="gda.device.detector.addetector.ADDetector">
+	<!-- Main area detector - does not compute stats -->
+	<bean id="d2_det" class="gda.device.detector.addetector.ADDetector">
+		<property name="adBase" ref="d2_adbase" />
+		<property name="ndFile" ref="d2_ndfile" />
+		<property name="ndArray" ref="d2_ndarray" />
+		<property name="ndStats" ref="d2_stats" />
+		<property name="fileWriter" ref="d2_hdf5_writer" />
+		<property name="collectionStrategy" ref="d2_collection_strategy"/>
+		<property name="computeStats" value="false" />
+	</bean>
+
+	<!-- Stats-computing version of d2_det -->
+	<bean id="d2_det_stat" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="d2_adbase" />
 		<property name="ndFile" ref="d2_ndfile" />
 		<property name="ndArray" ref="d2_ndarray" />
@@ -46,7 +58,7 @@
 	</bean>
 
 	<bean id="d2_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-		<property name="name" value="d2_addetector" />
+		<property name="name" value="d2_det" />
 		<property name="exposureTime" value="0.1" />
 	</bean>
 
@@ -56,7 +68,7 @@
 	</bean>
 
 	<bean id="d2_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
-		<property name="name" value="d2_addetector" />
+		<property name="name" value="d2_det" />
 		<property name="model" ref="d2_model" />
 		<property name="deviceInformation" ref="d2_info" />
 		<property name="activated" value="true" />
