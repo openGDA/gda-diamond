@@ -54,6 +54,7 @@ import gda.scan.ScanEvent;
 import gda.scan.ede.TimeResolvedExperimentParameters;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.alignment.ui.SampleStageMotorsComposite;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.composites.ScannableListEditor;
@@ -119,7 +120,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		timingGroupSectionComposite.selectTimingGroupTableRow(0);
 
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
-				BeanProperties.value(TimeResolvedExperimentModel.USE_FAST_SHUTTER).observe(getModel()) );
+				BeanProperties.value(ExperimentDataModel.USE_FAST_SHUTTER_PROP_NAME).observe(getModel().getExperimentDataModel()) );
 
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(generateAsciiDataCheckbox),
 				BeanProperties.value(TimeResolvedExperimentModel.GENERATE_ASCII_DATA).observe(getModel()) );

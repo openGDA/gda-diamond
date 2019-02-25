@@ -18,8 +18,6 @@
 
 package uk.ac.gda.exafs.data;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,10 +84,6 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
 
-	public static final String USE_FAST_SHUTTER_PROP_NAME = "useFastShutter";
-	@Expose
-	private boolean useFastShutter;
-
 	public static final String USE_TOPUP_CHECKER_FOR_IT_PROP_NAME = "useTopupCheckerForIt";
 	@Expose
 	private boolean useTopupCheckerForIt;
@@ -114,36 +108,26 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(job);
 		InterfaceProvider.getJSFObserver().addIObserver(job);
 		job.setUser(true);
-		AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.ELEMENT_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getNewValue() != null) {
-					SingleSpectrumCollectionModel.this.setCurrentElement(((Element) evt.getNewValue()).getSymbol());
-				}
+		AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.ELEMENT_PROP_NAME, evt -> {
+			if (evt.getNewValue() != null) {
+				SingleSpectrumCollectionModel.this.setCurrentElement(((Element) evt.getNewValue()).getSymbol());
 			}
 		});
+
 		if (AlignmentParametersModel.INSTANCE.getElement() != null) {
 			SingleSpectrumCollectionModel.this.setCurrentElement(AlignmentParametersModel.INSTANCE.getElement().getSymbol());
 		}
 
 		loadSingleSpectrumData();
 
-		experimentDataModel.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
+		experimentDataModel.addPropertyChangeListener(evt -> saveSettings());
+
+		this.addPropertyChangeListener(evt -> {
+			if (evt.getPropertyName().equals(ALIGNMENT_STAGE_SELECTION)
+					|| evt.getPropertyName().equals(IT_INTEGRATION_TIME_PROP_NAME)
+					|| evt.getPropertyName().equals(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME)
+					|| evt.getPropertyName().equals(USE_TOPUP_CHECKER_FOR_IT_PROP_NAME)) {
 				saveSettings();
-			}
-		});
-		this.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(ALIGNMENT_STAGE_SELECTION) ||
-						evt.getPropertyName().equals(IT_INTEGRATION_TIME_PROP_NAME) ||
-						evt.getPropertyName().equals(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME) ||
-						evt.getPropertyName().equals(USE_FAST_SHUTTER_PROP_NAME) ||
-						evt.getPropertyName().equals(USE_TOPUP_CHECKER_FOR_IT_PROP_NAME)) {
-					saveSettings();
-				}
 			}
 		});
 	}
@@ -191,7 +175,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		params.setTopupMonitorName(DetectorModel.TOPUP_CHECKER);
 		params.setBeamShutterScannableName(DetectorModel.SHUTTER_NAME);
 
-		params.setUseFastShutter(useFastShutter);
+		params.setUseFastShutter(experimentDataModel.getUseFastShutter());
 		params.setFastShutterName(DetectorModel.FAST_SHUTTER_NAME);
 		params.setFileNameSuffix(experimentDataModel.getFileNameSuffix());
 		params.setSampleDetails(experimentDataModel.getSampleDetails());
@@ -224,7 +208,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 
 		setupSampleStageMotors(params);
 
-		setUseFastShutter(params.getUseFastShutter());
+		experimentDataModel.setUseFastShutter(params.getUseFastShutter());
 		experimentDataModel.setFileNameSuffix(params.getFileNameSuffix());
 		experimentDataModel.setSampleDetails(params.getSampleDetails());
 
@@ -248,10 +232,9 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 			return;
 		}
 		experimentDataModel = singleSpectrumData.getExperimentDataModel();
+
 		this.setItIntegrationTime(singleSpectrumData.getItIntegrationTime());
 		this.setItNumberOfAccumulations(singleSpectrumData.getItNumberOfAccumulations());
-
-		this.setUseFastShutter( singleSpectrumData.getUseFastShutter() );
 		this.setUseTopupCheckerForIt( singleSpectrumData.getUseTopupCheckerForIt() );
 
 		// Try to set up motors and energy calibration from stored xml bean
@@ -305,7 +288,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 						DetectorModel.TOPUP_CHECKER,
 						DetectorModel.SHUTTER_NAME));
 
-		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setUseFastShutter(%s);", getUseFastShutter() ? "True" : "False" ) );
+		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setUseFastShutter(%s);", experimentDataModel.getUseFastShutter() ? "True" : "False" ) );
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFastShutterName(\"%s\");", DetectorModel.FAST_SHUTTER_NAME ) );
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setUseTopupChecker(%s);", getUseTopupCheckerForIt() ? "True" : "False" ) );
 
@@ -499,14 +482,6 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 
 	public AlignmentStageScannable.Location getFoilLocationForAlignment() {
 		return foilLocationForAlignment;
-	}
-
-	public boolean getUseFastShutter() {
-		return useFastShutter;
-	}
-
-	public void setUseFastShutter(boolean useFastShutter) {
-		this.firePropertyChange(USE_FAST_SHUTTER_PROP_NAME, this.useFastShutter, this.useFastShutter = useFastShutter);
 	}
 
 	public boolean getUseTopupCheckerForIt() {

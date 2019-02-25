@@ -114,9 +114,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	private static final int MAX_TOP_UP_TIMES = 10;
 	private static final int DURATION_BETWEEN_TOP_UP_IN_MINUTES = 10;
 
-	public static final String USE_FAST_SHUTTER = "useFastShutter";
-	private boolean useFastShutter;
-
 	public static final String GENERATE_ASCII_DATA = "generateAsciiData";
 	private boolean generateAsciiData;
 
@@ -195,7 +192,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 		experimentDataCollectionJob.setUser(true);
 		loadSavedGroups();
-		loadFastShutterData();
 		loadScannablesToMonitorData();
 		loadGenerateAsciiData();
 	}
@@ -247,7 +243,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		params.setFileNameSuffix(experimentDataModel.getFileNameSuffix());
 		params.setSampleDetails(experimentDataModel.getSampleDetails());
 		params.setGenerateAsciiData(getGenerateAsciiData());
-		params.setUseFastShutter(getUseFastShutter());
+		params.setUseFastShutter(experimentDataModel.getUseFastShutter());
 		params.setFastShutterName(DetectorModel.FAST_SHUTTER_NAME);
 		params.setScannablesToMonitorDuringScan(getScannablesToMonitor());
 
@@ -267,7 +263,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		experimentDataModel.setFileNameSuffix(params.getFileNameSuffix());
 		experimentDataModel.setSampleDetails(params.getSampleDetails());
 		setGenerateAsciiData(params.getGenerateAsciiData());
-		setUseFastShutter(params.getUseFastShutter());
+		experimentDataModel.setUseFastShutter(params.getUseFastShutter());
 
 		setupExternalTriggerSettings(params.getItTriggerOptions());
 
@@ -361,12 +357,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 		externalTriggerSetting = new ExternalTriggerSetting(tfgTrigger);
 
-		externalTriggerSetting.getTfgTrigger().addPropertyChangeListener(TFGTrigger.TOTAL_TIME_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				TimeResolvedExperimentModel.this.firePropertyChange(TOTAL_IT_COLLECTION_DURATION_PROP_NAME, null, getTotalItCollectionDuration());
-			}
-		});
+		externalTriggerSetting.getTfgTrigger().addPropertyChangeListener(TFGTrigger.TOTAL_TIME_PROP_NAME,
+				evt -> TimeResolvedExperimentModel.this.firePropertyChange(TOTAL_IT_COLLECTION_DURATION_PROP_NAME, null, getTotalItCollectionDuration()));
+
 	}
 
 	private void loadSavedGroups() {
@@ -381,12 +374,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		} else {
 			experimentDataModel = savedExperimentDataModel;
 		}
-		experimentDataModel.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getI0IRefDataKey(), experimentDataModel);
-			}
-		});
+		experimentDataModel.addPropertyChangeListener(
+				evt -> EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getI0IRefDataKey(), experimentDataModel));
+
 		if (savedGroups == null) {
 			timeIntervalData.setTimes(IT_COLLECTION_START_TIME, unit.convertToDefaultUnit(DEFAULT_INITIAL_EXPERIMENT_TIME));
 			createNewItGroup();
@@ -558,7 +548,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNameSuffix(\"%s\");\n", this.getExperimentDataModel().getFileNameSuffix()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setWriteAsciiData(%s);\n", getGenerateAsciiData() ? "True" : "False"));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");\n", this.getExperimentDataModel().getSampleDetails()));
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setUseFastShutter(%s);\n", getUseFastShutter() ? "True" : "False" ) );
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setUseFastShutter(%s);\n", this.getExperimentDataModel().getUseFastShutter() ? "True" : "False" ) );
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFastShutterName(\"%s\");\n", DetectorModel.FAST_SHUTTER_NAME ) );
 
 		// Add timing groups
@@ -954,10 +944,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		return getDataStoreKey() + IO_IREF_DATA_SUFFIX_KEY;
 	}
 
-	private String getFastShutterDataKey() {
-		return getDataStoreKey() + FAST_SHUTTER_KEY;
-	}
-
 	private String getGenerateAsciiDataKey() {
 		return getDataStoreKey() + GENERATE_ASCII_DATA;
 	}
@@ -974,15 +960,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		return externalTriggerSetting;
 	}
 
-	public boolean getUseFastShutter() {
-		return useFastShutter;
-	}
-
-	public void setUseFastShutter(boolean useFastShutter) {
-		this.firePropertyChange(USE_FAST_SHUTTER, this.useFastShutter, this.useFastShutter = useFastShutter);
-		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getFastShutterDataKey(), useFastShutter );
-	}
-
 	public boolean getGenerateAsciiData() {
 		return generateAsciiData;
 	}
@@ -994,22 +971,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 	private void savePreferenceData() {
 		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getDataStoreKey(), groupList);
-	}
-
-	/**
-	 * Load fast shutter value from preference store. Catch null pointer exception caused by value for key not existing - so that gui view
-	 * can still be created.
-	 * @since 24/2/2015
-	 */
-	private void loadFastShutterData() {
-		boolean useFastShutter = true;
-		try {
-			useFastShutter = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration( getFastShutterDataKey(), boolean.class );
-		}
-		catch( NullPointerException e ) {
-			logger.info("Problem loading data for use fast shutter preference : ", e );
-		}
-		this.useFastShutter = useFastShutter;
 	}
 
 	public Map<String, String> getScannablesToMonitor() {

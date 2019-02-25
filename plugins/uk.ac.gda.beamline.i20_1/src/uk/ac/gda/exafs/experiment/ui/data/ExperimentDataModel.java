@@ -51,6 +51,10 @@ public class ExperimentDataModel extends UIObservableModel {
 	@Expose
 	private String sampleDetails = "";
 
+	public static final String USE_FAST_SHUTTER_PROP_NAME = "useFastShutter";
+	@Expose
+	private boolean useFastShutter;
+
 	public double getI0IntegrationTime() {
 		return i0IntegrationTime;
 	}
@@ -109,5 +113,13 @@ public class ExperimentDataModel extends UIObservableModel {
 
 	public void setSampleDetails(String sampleDetails) {
 		this.firePropertyChange(SAMPLE_DETAILS_PROP_NAME, this.sampleDetails, this.sampleDetails = sampleDetails);
+	}
+
+	public void setUseFastShutter(boolean useFastShutter) {
+		this.firePropertyChange(USE_FAST_SHUTTER_PROP_NAME, this.useFastShutter, this.useFastShutter = useFastShutter);
+	}
+
+	public boolean getUseFastShutter() {
+		return useFastShutter;
 	}
 }

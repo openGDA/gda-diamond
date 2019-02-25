@@ -52,6 +52,7 @@ import uk.ac.gda.exafs.alignment.ui.SingleSpectrumParametersSection;
 import uk.ac.gda.exafs.calibration.ui.EnergyCalibrationComposite;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
 
 public class SingleSpectrumCollectionView extends ViewPart {
@@ -191,7 +192,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		useFastShutterCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
-				BeanProperties.value(SingleSpectrumCollectionModel.USE_FAST_SHUTTER_PROP_NAME).observe(getModel()) );
+				BeanProperties.value(ExperimentDataModel.USE_FAST_SHUTTER_PROP_NAME).observe(getModel().getExperimentDataModel()) );
 	}
 
 	/**
