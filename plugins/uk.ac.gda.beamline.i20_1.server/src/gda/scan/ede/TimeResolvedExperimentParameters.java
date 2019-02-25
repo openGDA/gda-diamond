@@ -40,7 +40,7 @@ public class TimeResolvedExperimentParameters {
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentParameters.class);
 	public static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 
-	private String fileNamePrefix = "";
+	private String fileNameSuffix = "";
 	private String sampleDetails = "";
 	private boolean useFastShutter;
 	private String fastShutterName;
@@ -166,11 +166,11 @@ public class TimeResolvedExperimentParameters {
 		this.beamShutterScannableName = beamShutterScannableName;
 	}
 
-	public String getFileNamePrefix() {
-		return fileNamePrefix;
+	public String getFileNameSuffix() {
+		return fileNameSuffix;
 	}
-	public void setFileNamePrefix(String fileNamePrefix) {
-		this.fileNamePrefix = fileNamePrefix;
+	public void setFileNameSuffix(String fileNameSuffix) {
+		this.fileNameSuffix = fileNameSuffix;
 	}
 	public String getSampleDetails() {
 		return sampleDetails;
@@ -521,7 +521,7 @@ public class TimeResolvedExperimentParameters {
 	/**
 	 * Set values common to all {@link EdeExperiment}s. (i.e. {@link SingleSpectrumScan}s and {@link TimeResolvedExperiment}s).
 	 * <li> Iref parameters
-	 * <li> Sample name and prefix
+	 * <li> Sample name and suffix
 	 * <li> Fast shutter name, use fast shutter
 	 * <li> Energy name
 	 * <li> Parameter bean
@@ -539,7 +539,7 @@ public class TimeResolvedExperimentParameters {
 
 		theExperiment.setUseFastShutter(getUseFastShutter());
 		theExperiment.setFastShutterName(getFastShutterName());
-		theExperiment.setFileNamePrefix(getFileNamePrefix());
+		theExperiment.setFileNameSuffix(getFileNameSuffix());
 		theExperiment.setSampleDetails(getSampleDetails());
 		theExperiment.getDetector().setEnergyCalibration(createEnergyCalibration());
 		theExperiment.setParameterBean(this);

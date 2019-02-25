@@ -244,7 +244,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 			params.setIrefNoOfAccumulations(experimentDataModel.getIrefNoOfAccumulations());
 		}
 
-		params.setFileNamePrefix(experimentDataModel.getFileNamePrefix());
+		params.setFileNameSuffix(experimentDataModel.getFileNameSuffix());
 		params.setSampleDetails(experimentDataModel.getSampleDetails());
 		params.setGenerateAsciiData(getGenerateAsciiData());
 		params.setUseFastShutter(getUseFastShutter());
@@ -264,7 +264,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	 * @param params
 	 */
 	public void setupFromParametersBean(TimeResolvedExperimentParameters params) {
-		experimentDataModel.setFileNamePrefix(params.getFileNamePrefix());
+		experimentDataModel.setFileNameSuffix(params.getFileNameSuffix());
 		experimentDataModel.setSampleDetails(params.getSampleDetails());
 		setGenerateAsciiData(params.getGenerateAsciiData());
 		setUseFastShutter(params.getUseFastShutter());
@@ -532,8 +532,8 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 	}
 
-	public void doCollection(String fileNamePrefix, String sampleDetails) {
-		experimentDataModel.setFileNamePrefix(fileNamePrefix);
+	public void doCollection(String fileNameSuffix, String sampleDetails) {
+		experimentDataModel.setFileNameSuffix(fileNameSuffix);
 		experimentDataModel.setSampleDetails(sampleDetails);
 		experimentDataCollectionJob.schedule();
 	}
@@ -555,7 +555,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 				DetectorModel.SHUTTER_NAME));
 
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%f);\n", this.getNoOfSecPerSpectrumToPublish()));
-		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");\n", this.getExperimentDataModel().getFileNamePrefix()));
+		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setFileNameSuffix(\"%s\");\n", this.getExperimentDataModel().getFileNameSuffix()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setWriteAsciiData(%s);\n", getGenerateAsciiData() ? "True" : "False"));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");\n", this.getExperimentDataModel().getSampleDetails()));
 		builder.append(String.format(LINEAR_EXPERIMENT_OBJ + ".setUseFastShutter(%s);\n", getUseFastShutter() ? "True" : "False" ) );

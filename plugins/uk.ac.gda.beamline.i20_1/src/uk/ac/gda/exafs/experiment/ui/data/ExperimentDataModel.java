@@ -43,9 +43,9 @@ public class ExperimentDataModel extends UIObservableModel {
 	@Expose
 	private boolean useNoOfAccumulationsForI0 = false;
 
-	public static final String FILE_NAME_PREFIX_PROP_NAME = "fileNamePrefix";
+	public static final String FILE_NAME_SUFFIX_PROP_NAME = "fileNameSuffix";
 	@Expose
-	private String fileNamePrefix;
+	private String fileNameSuffix;
 
 	public static final String SAMPLE_DETAILS_PROP_NAME = "sampleDetails";
 	@Expose
@@ -95,12 +95,12 @@ public class ExperimentDataModel extends UIObservableModel {
 	}
 
 
-	public String getFileNamePrefix() {
-		return fileNamePrefix;
+	public String getFileNameSuffix() {
+		return fileNameSuffix;
 	}
 
-	public void setFileNamePrefix(String fileNamePrefix) {
-		this.firePropertyChange(FILE_NAME_PREFIX_PROP_NAME, this.fileNamePrefix, this.fileNamePrefix = fileNamePrefix);
+	public void setFileNameSuffix(String fileNameSuffix) {
+		this.firePropertyChange(FILE_NAME_SUFFIX_PROP_NAME, this.fileNameSuffix, this.fileNameSuffix = fileNameSuffix);
 	}
 
 	public String getSampleDetails() {

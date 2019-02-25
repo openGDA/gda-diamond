@@ -193,7 +193,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 
 		params.setUseFastShutter(useFastShutter);
 		params.setFastShutterName(DetectorModel.FAST_SHUTTER_NAME);
-		params.setFileNamePrefix(experimentDataModel.getFileNamePrefix());
+		params.setFileNameSuffix(experimentDataModel.getFileNameSuffix());
 		params.setSampleDetails(experimentDataModel.getSampleDetails());
 
 		// Set the calibration details, if available
@@ -225,7 +225,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		setupSampleStageMotors(params);
 
 		setUseFastShutter(params.getUseFastShutter());
-		experimentDataModel.setFileNamePrefix(params.getFileNamePrefix());
+		experimentDataModel.setFileNameSuffix(params.getFileNameSuffix());
 		experimentDataModel.setSampleDetails(params.getSampleDetails());
 
 		calibrationDetails = params.createEnergyCalibration();
@@ -257,9 +257,13 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		// Try to set up motors and energy calibration from stored xml bean
 		String xmlBean = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(SINGLE_SPECTRUM_PARAMETER_BEAN_STORE_KEY, String.class);
 		if (xmlBean != null) {
-			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.fromXML(xmlBean);
-			setupSampleStageMotors(params);
-			calibrationDetails = params.createEnergyCalibration();
+			try {
+				TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.fromXML(xmlBean);
+				setupSampleStageMotors(params);
+				calibrationDetails = params.createEnergyCalibration();
+			}catch(Exception e) {
+				logger.warn("Problem setting up energy calibration details and sample stage motors", e);
+			}
 		} else {
 			// No motor parameters available, don't select anything
 			SampleStageMotors.INSTANCE.setSelectedMotors(new ExperimentMotorPostion[] {});
@@ -310,7 +314,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
 					ExperimentUnit.MILLI_SEC.convertTo(experimentDataModel.getIrefIntegrationTime(), ExperimentUnit.SEC), experimentDataModel.getIrefNoOfAccumulations()));
 		}
-		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFileNamePrefix(\"%s\");", experimentDataModel.getFileNamePrefix()));
+		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFileNameSuffix(\"%s\");", experimentDataModel.getFileNameSuffix()));
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setSampleDetails(\"%s\");", experimentDataModel.getSampleDetails()));
 
 		addAccumulationReadoutTimeToMethodCall(SINGLE_JYTHON_DRIVER_OBJ, builder);
@@ -429,11 +433,11 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		return experimentDataModel;
 	}
 
-	public void doCollection(boolean forExperiment, String fileNamePrefix, String sampleDetails) throws Exception {
+	public void doCollection(boolean forExperiment, String fileNameSuffix, String sampleDetails) throws Exception {
 		if (!forExperiment) {
-			experimentDataModel.setFileNamePrefix(elementSymbol + "_cal");
+			experimentDataModel.setFileNameSuffix(elementSymbol + "_cal");
 		} else {
-			experimentDataModel.setFileNamePrefix(fileNamePrefix);
+			experimentDataModel.setFileNameSuffix(fileNameSuffix);
 			experimentDataModel.setSampleDetails(sampleDetails);
 		}
 

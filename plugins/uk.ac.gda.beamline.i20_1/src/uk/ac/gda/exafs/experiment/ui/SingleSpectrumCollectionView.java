@@ -69,7 +69,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 //	private Form form;
 
 	private Composite sampleStageSectionsParent;
-	private Text prefixText;
+	private Text suffixText;
 	private Text sampleDescText;
 	private EnergyCalibrationComposite energyCalComposite;
 
@@ -101,7 +101,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
 			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 			createEnergyCalibrationSection(formParent);
-			createStartStopScanSection(parentComposite, toolkit, prefixText, sampleDescText);
+			createStartStopScanSection(parentComposite, toolkit, suffixText, sampleDescText);
 			form.layout();
 			parentComposite.setWeights(new int[] {5, 1});
 		} catch (Exception e) {
@@ -110,7 +110,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		}
 	}
 
-	private void createStartStopScanSection(Composite parent, FormToolkit toolkit, final Text prefixTextBox, final Text descriptionTextBox ) {
+	private void createStartStopScanSection(Composite parent, FormToolkit toolkit, final Text suffixTextBox, final Text descriptionTextBox ) {
 		final Section startStopScanSection = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
 		startStopScanSection.setText("Scan run controls");
 		startStopScanSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -118,7 +118,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		Composite startStopSectionComposite = toolkit.createComposite(startStopScanSection, SWT.NONE);
 		startStopSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
 		startStopScanSection.setClient(startStopSectionComposite);
-		addCollectionControls(startStopSectionComposite, toolkit, prefixTextBox, descriptionTextBox );
+		addCollectionControls(startStopSectionComposite, toolkit, suffixTextBox, descriptionTextBox );
 
 		SaveLoadButtonsForSingleCollection saveLoadButtons = new SaveLoadButtonsForSingleCollection(startStopSectionComposite, toolkit);
 	}
@@ -128,11 +128,11 @@ public class SingleSpectrumCollectionView extends ViewPart {
 	 *
 	 * @param parent
 	 * @param toolkit
-	 * @param prefixTextBox
+	 * @param suffixTextBox
 	 * @param descriptionTextBox
 	 * @26/2/2016
 	 */
-	private void addCollectionControls( Composite parent, FormToolkit toolkit, final Text prefixTextBox, final Text descriptionTextBox ) {
+	private void addCollectionControls( Composite parent, FormToolkit toolkit, final Text suffixTextBox, final Text descriptionTextBox ) {
 		final DataBindingContext dataBindingCtx = new DataBindingContext();
 
 		Button startAcquicitionButton = toolkit.createButton(parent, "Start", SWT.PUSH);
@@ -142,10 +142,10 @@ public class SingleSpectrumCollectionView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					if ( prefixTextBox == null ||  descriptionTextBox == null ) {
+					if ( suffixTextBox == null ||  descriptionTextBox == null ) {
 						getModel().doCollection(false, null, "");
 					} else {
-						getModel().doCollection(true, prefixTextBox.getText(), descriptionTextBox.getText());
+						getModel().doCollection(true, suffixTextBox.getText(), descriptionTextBox.getText());
 					}
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
@@ -224,7 +224,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		SampleDetailsSection sampleDetailComp = new SampleDetailsSection(formParent, toolkit);
 		sampleDetailComp.bindWidgetsToModel(getModel().getExperimentDataModel());
 
-		prefixText = sampleDetailComp.getPrefixTextbox();
+		suffixText = sampleDetailComp.getSuffixTextbox();
 		sampleDescText = sampleDetailComp.getSampleDescriptionTextbox();
 		addFastShutterControls(sampleDetailComp.getMainComposite(), toolkit);
 	}

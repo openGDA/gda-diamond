@@ -679,7 +679,7 @@ public class EdeScanTest extends EdeTestBase {
 		scanMotorPositions.setMotorPositionsDuringScan(0,  10,  11);
 
 		TimeResolvedExperimentParameters allParams = new TimeResolvedExperimentParameters();
-		allParams.setFileNamePrefix("filename_prefix");
+		allParams.setFileNameSuffix("filename_suffix");
 		allParams.setSampleDetails("sample_details");
 		allParams.setI0AccumulationTime(1.11);
 		allParams.setI0NumAccumulations(17);
@@ -700,14 +700,13 @@ public class EdeScanTest extends EdeTestBase {
 		setup(EdeScanTest.class, "testEdeScanIsSetCorrectlyFromParameters");
 
 		TimeResolvedExperimentParameters allParams = getTimeResolvedExperimentParameters();
-
 		TimeResolvedExperiment tre = allParams.createTimeResolvedExperiment();
 
 		// Basic checks to make sure TimeResolvedExperiment has correct settings
 		assertEquals(tre.getI0ScanPositions().getPositionMap(), allParams.getI0MotorPositions() );
 		assertEquals(tre.getItScanPositions().getPositionMap(), allParams.getItMotorPositions() );
 		assertEquals(tre.getSampleDetails(), allParams.getSampleDetails());
-		assertEquals(tre.getFileNamePrefix(), allParams.getFileNamePrefix());
+		assertEquals(tre.getFileNameSuffix(), allParams.getFileNameSuffix());
 		assertEquals(tre.getUseFastShutter(), allParams.getUseFastShutter());
 		assertEquals(tre.getFastShutterName(), allParams.getFastShutterName());
 

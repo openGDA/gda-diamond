@@ -18,7 +18,10 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
+import java.io.File;
+
 import org.apache.commons.io.FilenameUtils;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -133,19 +136,28 @@ public abstract class SaveLoadButtonsComposite {
 	 */
 	private void showLoadParametersDialog() {
 		Display display = PlatformUI.getWorkbench().getDisplay();
-		try {
-			FileDialog fileDialog = new FileDialog(display.getActiveShell(), SWT.OPEN);
-			setupFileDialog(fileDialog, lastLoadedSettingsFile);
-			fileDialog.setText("Load scan settings");
-			String filename = fileDialog.open();
-			if (filename != null && !filename.isEmpty()) {
-				logger.info("Loading settings from xml file {}", filename);
+		FileDialog fileDialog = new FileDialog(display.getActiveShell(), SWT.OPEN);
+		setupFileDialog(fileDialog, lastLoadedSettingsFile);
+		fileDialog.setText("Load scan settings");
+		String filename = fileDialog.open();
+		if (filename != null && !filename.isEmpty()) {
+			File file = new File(filename);
+			if (!file.isFile() || !file.canRead()) {
+				MessageDialog.openWarning(display.getActiveShell(), "Problem loading settings from XML file",
+						"Could not load settings from "+filename+" - file could not be accessed");
+				return;
+			}
+			logger.info("Loading settings from xml file {}", filename);
+			try {
 				loadParametersFromFile(filename);
 				lastLoadedSettingsFile = filename;
 				logger.info("Settings loaded OK");
+			} catch (Exception e) {
+				// This would normally be caused by deserialization problem
+				logger.error("Problem loading scan settings from {}", filename, e);
+				MessageDialog.openWarning(display.getActiveShell(), "Problem loading settings from XML file",
+						"Problem loading settings from XML file "+filename+". See log panel for more details.");
 			}
-		} catch (Exception e1) {
-			logger.error("Problem loading scan settings", e1);
 		}
 	}
 

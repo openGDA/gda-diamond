@@ -79,7 +79,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 	private Text sampleDescText;
 
-	private Text prefixText;
+	private Text suffixText;
 
 	private SampleStageMotorsComposite sampleMotorsComposite;
 
@@ -166,7 +166,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					getModel().doCollection(prefixText.getText(), sampleDescText.getText());
+					getModel().doCollection(suffixText.getText(), sampleDescText.getText());
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 				}
@@ -236,7 +236,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		SampleDetailsSection sampleDetailComp = new SampleDetailsSection(parent, toolkit);
 		sampleDetailComp.bindWidgetsToModel(getModel().getExperimentDataModel());
 
-		prefixText = sampleDetailComp.getPrefixTextbox();
+		suffixText = sampleDetailComp.getSuffixTextbox();
 		sampleDescText = sampleDetailComp.getSampleDescriptionTextbox();
 
 		Composite checkboxComposite = toolkit.createComposite(sampleDetailComp.getMainComposite(), SWT.NONE);
