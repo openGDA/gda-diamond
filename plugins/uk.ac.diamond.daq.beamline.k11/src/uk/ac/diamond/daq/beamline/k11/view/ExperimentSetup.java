@@ -279,8 +279,7 @@ public class ExperimentSetup extends LayoutUtilities {
 		Button button = addConfigurationDialogButton(content, "Imaging Camera");
 		button.addListener(SWT.Selection, event -> {
 			try {
-				CameraConfigurationDialog.show(composite.getDisplay(), getCameraConfiguration(),
-						getLiveStreamConnection());
+				CameraConfigurationDialog.show(composite.getDisplay(), getLiveStreamConnection());
 			} catch (Exception e) {
 				log.error("Error opening camera configuration dialog", e);
 			}
@@ -298,8 +297,7 @@ public class ExperimentSetup extends LayoutUtilities {
 		button = addConfigurationDialogButton(content, "Diffraction Detector");
 		button.addListener(SWT.Selection, event -> {
 			try {
-				DiffractionConfigurationDialog.show(composite.getDisplay(), getCameraConfiguration(),
-						getLiveStreamConnection());
+				DiffractionConfigurationDialog.show(composite.getDisplay(), getLiveStreamConnection());
 			} catch (Exception e) {
 				log.error("Error opening diffrcation configuration dialog", e);
 			}
