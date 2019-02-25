@@ -257,10 +257,10 @@ public class TimeResolvedExperimentView extends ViewPart {
 		setupScannableButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				scannableListEditor.setScannableInfoFromMap(getModel().getScannablesToMonitor());
+				scannableListEditor.setScannableInfoFromMap(getModel().getExperimentDataModel().getScannablesToMonitor());
 				scannableListEditor.open();
 				if (scannableListEditor.getReturnCode() == Window.OK) {
-					getModel().setScannablesToMonitor(scannableListEditor.getScannableMapFromList());
+					getModel().getExperimentDataModel().setScannablesToMonitor(scannableListEditor.getScannableMapFromList());
 				}
 			}
 		});

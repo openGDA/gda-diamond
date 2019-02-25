@@ -26,8 +26,11 @@ import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -54,6 +57,7 @@ import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
+import uk.ac.gda.exafs.ui.composites.ScannableListEditor;
 
 public class SingleSpectrumCollectionView extends ViewPart {
 
@@ -180,6 +184,23 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		});
 	}
 
+	private void addScannablesToMonitorControls(Composite parent) {
+		Button setupScannableButton = toolkit.createButton(parent, "Setup scannables/PVs to monitor", SWT.PUSH);
+		setupScannableButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+		ScannableListEditor scannableListEditor = new ScannableListEditor(parent.getShell());
+
+		setupScannableButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				scannableListEditor.setScannableInfoFromMap(getModel().getExperimentDataModel().getScannablesToMonitor());
+				scannableListEditor.open();
+				if (scannableListEditor.getReturnCode() == Window.OK) {
+					getModel().getExperimentDataModel().setScannablesToMonitor(scannableListEditor.getScannableMapFromList());
+				}
+			}
+		});
+	}
+
 	/**
 	 * Refactored from {@link #addCollectionControls}
 	 * @since 18/4/2017
@@ -228,6 +249,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		suffixText = sampleDetailComp.getSuffixTextbox();
 		sampleDescText = sampleDetailComp.getSampleDescriptionTextbox();
 		addFastShutterControls(sampleDetailComp.getMainComposite(), toolkit);
+		addScannablesToMonitorControls(sampleDetailComp.getMainComposite());
 	}
 
 	private void updateCalibrationGui(CalibrationDetails calibrationDetails) {

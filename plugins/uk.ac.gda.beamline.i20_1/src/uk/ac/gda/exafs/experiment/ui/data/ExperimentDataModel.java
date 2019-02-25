@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
+import java.util.Map;
+
 import com.google.gson.annotations.Expose;
 
 import uk.ac.gda.client.UIObservableModel;
@@ -54,6 +56,10 @@ public class ExperimentDataModel extends UIObservableModel {
 	public static final String USE_FAST_SHUTTER_PROP_NAME = "useFastShutter";
 	@Expose
 	private boolean useFastShutter;
+
+	public static final String SCANNABLES_TO_MONITOR_PROP_NAME = "scannablesToMonitor";
+	@Expose
+	private Map<String, String> scannablesToMonitor = null;
 
 	public double getI0IntegrationTime() {
 		return i0IntegrationTime;
@@ -122,4 +128,13 @@ public class ExperimentDataModel extends UIObservableModel {
 	public boolean getUseFastShutter() {
 		return useFastShutter;
 	}
+
+	public void setScannablesToMonitor(Map<String, String> scannablesToMonitor) {
+		this.firePropertyChange(USE_FAST_SHUTTER_PROP_NAME, this.scannablesToMonitor, this.scannablesToMonitor = scannablesToMonitor);
+	}
+
+	public Map<String, String> getScannablesToMonitor() {
+		return scannablesToMonitor;
+	}
+
 }

@@ -20,6 +20,7 @@ package uk.ac.gda.exafs.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.dawnsci.ede.CalibrationDetails;
 import org.eclipse.core.databinding.Binding;
@@ -179,6 +180,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		params.setFastShutterName(DetectorModel.FAST_SHUTTER_NAME);
 		params.setFileNameSuffix(experimentDataModel.getFileNameSuffix());
 		params.setSampleDetails(experimentDataModel.getSampleDetails());
+		params.setScannablesToMonitorDuringScan(experimentDataModel.getScannablesToMonitor());
 
 		// Set the calibration details, if available
 		params.setCalibrationDetails(calibrationDetails);
@@ -211,6 +213,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		experimentDataModel.setUseFastShutter(params.getUseFastShutter());
 		experimentDataModel.setFileNameSuffix(params.getFileNameSuffix());
 		experimentDataModel.setSampleDetails(params.getSampleDetails());
+		experimentDataModel.setScannablesToMonitor(params.getScannablesToMonitorDuringScan());
 
 		calibrationDetails = params.createEnergyCalibration();
 	}
@@ -300,6 +303,8 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFileNameSuffix(\"%s\");", experimentDataModel.getFileNameSuffix()));
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setSampleDetails(\"%s\");", experimentDataModel.getSampleDetails()));
 
+		addScannablesMethodCallToCommand(SINGLE_JYTHON_DRIVER_OBJ, builder);
+
 		addAccumulationReadoutTimeToMethodCall(SINGLE_JYTHON_DRIVER_OBJ, builder);
 
 		try {
@@ -318,6 +323,22 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 			// Detector accumulation readout time (converted from default units[ns] to seconds)
 			double accumulationReadoutTimeSecs = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(DetectorModel.INSTANCE.getAccumulationReadoutTime(), ExperimentUnit.SEC);
 			builder.append(String.format("%s.setAccumulationReadoutTime(%g);", objectName, accumulationReadoutTimeSecs) );
+		}
+	}
+
+	protected void addScannablesMethodCallToCommand(String expObject, StringBuilder builder) {
+		Map<String,String> scannablesToMonitor = experimentDataModel.getScannablesToMonitor();
+		if (scannablesToMonitor != null) {
+			for(String name : scannablesToMonitor.keySet()) {
+				String pv = scannablesToMonitor.get(name);
+				if (pv.length()==0) {
+					// add name of scannable
+					builder.append(expObject + ".addScannableToMonitorDuringScan(\'"+name+"\');\n");
+				} else {
+					// add name of scannable and pv
+					builder.append(expObject + ".addScannableToMonitorDuringScan(\'"+pv+"\', \'"+name+"\');\n");
+				}
+			}
 		}
 	}
 

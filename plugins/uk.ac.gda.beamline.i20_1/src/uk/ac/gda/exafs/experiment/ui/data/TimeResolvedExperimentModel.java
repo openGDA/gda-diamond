@@ -117,8 +117,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	public static final String GENERATE_ASCII_DATA = "generateAsciiData";
 	private boolean generateAsciiData;
 
-	private Map<String, String> scannablesToMonitor = null;
-
 	public static class Topup extends TimeBarMarkerImpl {
 		public Topup(boolean draggable, JaretDate date) {
 			super(draggable, date);
@@ -192,7 +190,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		}
 		experimentDataCollectionJob.setUser(true);
 		loadSavedGroups();
-		loadScannablesToMonitorData();
 		loadGenerateAsciiData();
 	}
 
@@ -245,7 +242,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 		params.setGenerateAsciiData(getGenerateAsciiData());
 		params.setUseFastShutter(experimentDataModel.getUseFastShutter());
 		params.setFastShutterName(DetectorModel.FAST_SHUTTER_NAME);
-		params.setScannablesToMonitorDuringScan(getScannablesToMonitor());
+		params.setScannablesToMonitorDuringScan(experimentDataModel.getScannablesToMonitor());
 
 		// Set the energy calibration using parameters from 'Single collection'
 		CalibrationDetails calibrationDetails = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel().getCalibrationDetails();
@@ -289,7 +286,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 		setTimingGroupUIModelFromList(params.getItTimingGroups());
 
-		setScannablesToMonitor(params.getScannablesToMonitorDuringScan());
+		experimentDataModel.setScannablesToMonitor(params.getScannablesToMonitorDuringScan());
 	}
 
 	/**
@@ -580,6 +577,7 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	}
 
 	protected void addScannablesMethodCallToCommand(String expObject, StringBuilder builder) {
+		Map<String,String> scannablesToMonitor = experimentDataModel.getScannablesToMonitor();
 		if (scannablesToMonitor != null) {
 			for(String name : scannablesToMonitor.keySet()) {
 				String pv = scannablesToMonitor.get(name);
@@ -972,28 +970,6 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 	private void savePreferenceData() {
 		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getDataStoreKey(), groupList);
 	}
-
-	public Map<String, String> getScannablesToMonitor() {
-		return scannablesToMonitor;
-	}
-
-	public void setScannablesToMonitor(Map<String, String> scannablesToMonitor) {
-		this.scannablesToMonitor = scannablesToMonitor;
-		saveScannablesToMonitorData();
-	}
-
-	private void loadScannablesToMonitorData() {
-		try {
-			scannablesToMonitor = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration( getScannablesToMonitorDataKey(), Map.class );
-		} catch(NullPointerException e) {
-			logger.info("Problem loading list of scannables to monitor from preference store", e );
-		}
-	}
-
-	private void saveScannablesToMonitorData() {
-		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration( getScannablesToMonitorDataKey(), scannablesToMonitor );
-	}
-
 
 	private void loadGenerateAsciiData() {
 		try {
