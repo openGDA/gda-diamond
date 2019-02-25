@@ -48,6 +48,7 @@ import gda.device.Monitor;
 import gda.device.Scannable;
 import gda.device.detector.EdeDetector;
 import gda.device.detector.EdeDummyDetector;
+import gda.device.enumpositioner.ValvePosition;
 import gda.device.scannable.PVScannable;
 import gda.device.scannable.TopupChecker;
 import gda.factory.FactoryException;
@@ -397,10 +398,10 @@ public abstract class EdeExperiment implements IObserver {
 			addScansForExperiment();
 			addMetaData();
 			nexusFilename = addToMultiScanAndRun();
-			if (beamLightShutter!= null) {
-				beamLightShutter.moveTo("Close");
+			if (!useFastShutter) {
 				logger.info("Close shutter called in EdeExperiment.runExperiment() at end of scan before writing ascii files");
 				InterfaceProvider.getTerminalPrinter().print("Close shutter at end of scan, before writing ascii files.");
+				mainShutterMoveTo(ValvePosition.CLOSE);
 			}
 			String asciiDataFile = writeToFiles();
 			return asciiDataFile;
@@ -409,11 +410,18 @@ public abstract class EdeExperiment implements IObserver {
 			throw e;
 		} finally {
 			theDetector.stop();
-			if (beamLightShutter!= null) {
+			if (!useFastShutter) {
 				//logger.warn("shutter closing being called in EdeExperiment.runExperiment()");
 				//InterfaceProvider.getTerminalPrinter().print("Close shutter at end of experiment run.");
-				beamLightShutter.moveTo("Close");
+				mainShutterMoveTo(ValvePosition.CLOSE);
 			}
+		}
+	}
+
+	private void mainShutterMoveTo(String position) throws DeviceException, InterruptedException {
+		if (beamLightShutter != null) {
+			logger.debug("Moving main shutter to {} position", beamLightShutter.getName(), position);
+			beamLightShutter.moveTo(position);
 		}
 	}
 

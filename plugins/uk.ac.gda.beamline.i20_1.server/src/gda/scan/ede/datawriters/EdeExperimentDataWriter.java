@@ -18,18 +18,30 @@
 
 package gda.scan.ede.datawriters;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.dawnsci.ede.EdeDataConstants;
 import org.dawnsci.ede.EdeDataConstants.TimingGroupMetadata;
+import org.eclipse.dawnsci.analysis.api.tree.DataNode;
+import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
+import org.eclipse.dawnsci.hdf5.nexus.NexusFileHDF5;
+import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.dawnsci.nexus.NexusFile;
+import org.eclipse.january.DatasetException;
+import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
+import org.eclipse.january.dataset.IDataset;
+import org.eclipse.january.dataset.IntegerDataset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.data.scan.datawriter.AsciiDataWriterConfiguration;
 import gda.data.scan.datawriter.AsciiMetadataConfig;
 import gda.data.scan.datawriter.FindableAsciiDataWriterConfiguration;
+import gda.device.Scannable;
 import gda.device.detector.EdeDetector;
 import gda.factory.Findable;
 import gda.factory.Finder;
@@ -49,10 +61,14 @@ public abstract class EdeExperimentDataWriter {
 
 	protected final DoubleDataset energyDataSet;
 
+	protected Collection<Scannable> extraScannables = null;
+	protected String nexusfileName;
+
 	public abstract String getAsciiFilename();
 
-	public EdeExperimentDataWriter(DoubleDataset energyDataSet) {
+	public EdeExperimentDataWriter(DoubleDataset energyDataSet, String nexusFileName) {
 		this.energyDataSet = energyDataSet;
+		this.nexusfileName = nexusFileName;
 	}
 
 	public static Double calcLnI0It(Double i0_corrected, Double it_corrected) {
@@ -95,11 +111,16 @@ public abstract class EdeExperimentDataWriter {
 	public abstract String writeDataFile(EdeDetector detector) throws Exception;
 
 	protected EdeDataConstants.TimingGroupMetadata[] createTimingGroupsMetaData(EdeScanParameters scanParameters) {
+		return createTimingGroupsMetaData(scanParameters, 0);
+	}
+
+	protected EdeDataConstants.TimingGroupMetadata[] createTimingGroupsMetaData(EdeScanParameters scanParameters, double accumulationReadoutTime) {
 		TimingGroupMetadata[] metaData = new TimingGroupMetadata[scanParameters.getGroups().size()];
 		for (int i = 0; i < scanParameters.getGroups().size(); i++) {
 			TimingGroup group = scanParameters.getGroups().get(i);
+			double realTimePerSpectrum = (group.getTimePerScan() + accumulationReadoutTime)*group.getNumberOfScansPerFrame();
 			metaData[i] = new TimingGroupMetadata(i, group.getNumberOfFrames(), group.getTimePerScan(),
-					group.getTimePerFrame(), group.getPreceedingTimeDelay(), group.getNumberOfScansPerFrame());
+					realTimePerSpectrum, group.getPreceedingTimeDelay(), group.getNumberOfScansPerFrame());
 		}
 		return metaData;
 	}
@@ -141,5 +162,94 @@ public abstract class EdeExperimentDataWriter {
 
 	public String getSampleDetails() {
 		return sampleDetails;
+	}
+
+	public void setExtraScannables(Collection<Scannable> scannablesToMonitorDuringScan) {
+		extraScannables = scannablesToMonitorDuringScan;
+	}
+
+	/**
+	 * Create datasets in detector group for the extra scannables.
+	 * Values corresponding to 'light It' measurements are extracted and placed in the groups.
+	 */
+	protected void addDataForExtraScannables() {
+		if (extraScannables == null || nexusfileName == null) {
+			return;
+		}
+
+		try(NexusFile file = NexusFileHDF5.openNexusFile(nexusfileName)) {
+
+			// Load dataset with 'beam in/out' and 'It' indices from Nexus file :
+			String detectorName = theDetector.getName();
+			IDataset beamInOutDataset = getDataset(file, detectorName, EdeDataConstants.BEAM_IN_OUT_COLUMN_NAME);
+			IDataset itDataset = getDataset(file, detectorName, EdeDataConstants.IT_COLUMN_NAME);
+			if (beamInOutDataset.getShape()[0] != itDataset.getShape()[0]) {
+				logger.warn("'in beam' and 'it' index datasets do not match, not adding processed 'extra scannable' data");
+				return;
+			}
+
+			// Make dataset of which spectra correspond to 'light It' measurements (light It=1, otherwise 0)
+			int totalNumSpectra = itDataset.getShape()[0];
+			Dataset lightIt = DatasetFactory.zeros(IntegerDataset.class, totalNumSpectra);
+			for(int i=0; i<totalNumSpectra; i++) {
+				if ( beamInOutDataset.getInt(i)==1 && itDataset.getInt(i) == 1 ) {
+					lightIt.set(1, i);
+				}
+			}
+
+			// Names of all the detector groups
+			final String[] detectorGroupList = { EdeDataConstants.LN_I0_IT_COLUMN_NAME, EdeDataConstants.LN_I0_IT_AVG_I0S_COLUMN_NAME,
+					EdeDataConstants.LN_I0_IT_FINAL_I0_COLUMN_NAME, EdeDataConstants.LN_I0_IT_INTERP_I0S_COLUMN_NAME };
+
+			for(Scannable scn : extraScannables) {
+
+				logger.debug("Adding data for scannable {}", scn.getName());
+
+				// Extract values from the 'raw' dataset corresponding to the 'light It' spectra
+				String scannableName = scn.getName();
+				IDataset rawData = getDataset(file, detectorName, scannableName);
+				List<Double> values = new ArrayList<>();
+				for(int i=0; i<totalNumSpectra; i++) {
+					if (lightIt.getInt(i) == 1) {
+						values.add( rawData.getDouble(i));
+					}
+				}
+
+				// Create new dataset and add it to the first detector group ((lnI0It)
+				Dataset scannableValues = DatasetFactory.createFromList(values);
+				addDataset(file, detectorGroupList[0], scannableName, scannableValues);
+
+				// Add links to the dataset in the other groups
+				String source = "/entry1/"+detectorGroupList[0]+"/"+scannableName;
+				for(int i=1; i<detectorGroupList.length; i++) {
+					String pathToGroup = "/entry1/"+detectorGroupList[i];
+					if (file.isPathValid(pathToGroup)) {
+						file.link(source, "/entry1/"+detectorGroupList[i]+"/"+scannableName);
+					}
+				}
+
+			}
+		} catch (NexusException | DatasetException e) {
+			logger.warn("Problem adding processed data to nexus file {} for 'extra scannables'", nexusfileName, e);
+		}
+	}
+
+	/**
+	 * Get Dataset from Nexus file
+	 * @param file
+	 * @param groupName name of group to read ( /entry1)
+	 * @param dataName
+	 * @return
+	 * @throws NexusException
+	 * @throws DatasetException
+	 */
+	private IDataset getDataset(NexusFile file, String groupName, String dataName) throws NexusException, DatasetException {
+		GroupNode group = file.getGroup("/entry1/" + groupName, false);
+		DataNode d = file.getData(group, dataName);
+		return d.getDataset().getSlice(null, null, null);
+	}
+
+	private void addDataset(NexusFile file, String groupName, String dataName, Dataset dataset) throws NexusException {
+		DataNode dataNode = file.createData("/entry1/"+groupName, dataName, dataset, true);
 	}
 }

@@ -71,15 +71,6 @@
             restorable="true">
       </view>
       <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.alignment.ui.SingleSpectrumAlignmentView"
-            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/1-star.gif"
-            id="uk.ac.gda.exafs.ui.views.alignmentSingleSpectrumView"
-            name="Single Collection"
-            restorable="true">
-      </view>
-      <view
             category="uk.ac.gda.beamline.i20_1.alignmentviews"
             class="uk.ac.gda.exafs.alignment.ui.SampleStageMotorsView"
             icon="platform:/plugin/org.dawnsci.ede.rcp/icons/brick.png"
@@ -102,24 +93,6 @@
             icon="platform:/plugin/org.dawnsci.ede.rcp/icons/chart_curve.png"
             id="uk.ac.gda.exafs.ui.views.DetectorLiveModeView"
             name="Live Mode"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.gda.beamline.i20_1.alignmentviews"
-            class="uk.ac.gda.exafs.calibration.ui.EdeManualCalibrationPlotView"
-            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/chart_curve.png"
-            id="uk.ac.gda.exafs.ui.views.calibrationreference"
-            name="Reference Spectrum"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="false"
-            category="uk.ac.diamond.scisoft.analysis.rcp"
-            class="uk.ac.gda.exafs.calibration.ui.EdeManualCalibrationPlotView"
-            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/chart_curve.png"
-            id="uk.ac.gda.exafs.ui.views.calibrationEdeData"
-            name="EDE Data Spectrum"
             restorable="true">
       </view>
       <view
@@ -316,24 +289,6 @@
    </menuContribution>
    <menuContribution
          allPopups="false"
-         locationURI="toolbar:uk.ac.gda.exafs.ui.views.calibrationEdeData">
-      <command
-            commandId="uk.ac.gda.beamline.i20_1.calibration.reset"
-            label="Reset"
-            style="push">
-      </command>
-   </menuContribution>
-   <menuContribution
-         allPopups="false"
-         locationURI="toolbar:uk.ac.gda.exafs.ui.views.calibrationreference">
-      <command
-            commandId="uk.ac.gda.beamline.i20_1.calibration.reset"
-            label="Reset"
-            style="push">
-      </command>
-   </menuContribution>
-   <menuContribution
-         allPopups="false"
          locationURI="popup:uk.ac.gda.exafs.ui.views.linearExperimentView">
       <command
             commandId="uk.ac.gda.exafs.ui.data.experiment.splitgroup"
@@ -521,11 +476,6 @@
 </extension>
    <extension
          point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="uk.ac.gda.exafs.ui.views.commandhandlers.ResetCalibrationDataPlot"
-            id="uk.ac.gda.beamline.i20_1.calibration.reset"
-            name="Reset">
-      </command>
       <command
             defaultHandler="uk.ac.gda.exafs.experiment.ui.data.SplitTimingGroupCommandHandler"
             id="uk.ac.gda.exafs.ui.data.experiment.splitgroup"

@@ -24,8 +24,6 @@ das4tfg=finder.find("daserverForTfg")
 #Set flag used by ConcurrentScan so that scannables return to their original position at end of scan. 24/2/2016
 scansReturnToOriginalPositions=1
 
-def machineMode():
-    return caget("CS-CS-MSTAT-01:MODE")
 # These scannables are checked before any scan data point
 # You may comment them out to remove the checking.
 if LocalProperties.get("gda.mode") == "live":
@@ -36,19 +34,18 @@ if LocalProperties.get("gda.mode") == "live":
     # to speed up step scans
     LocalProperties.set("gda.scan.concurrentScan.readoutConcurrently","true")
     LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
-    if (machineMode() == "No Beam"):
-        del(shutter2)
-        from gda.device.enumpositioner import DummyEnumPositioner
-        shutter2 = DummyEnumPositioner()
-        shutter2.setName("shutter2")
-        shutter2.setPositions(['In','Out'])
-        shutter2('In')
+
+    noBeam = ["Shutdown", "No Beam", "Mach. Dev."]
+    print "Machine mode = ", machineModeMonitor.getPosition()
+    
+    if machineModeMonitor.getPosition() in noBeam :
+        print "Removing absorber, shutter and topup checkers"
         remove_default([absorberChecker])
         remove_default([shutterChecker])
         remove_default([topupChecker])
     else:
         add_default([absorberChecker])
-        remove_default([shutterChecker])
+        add_default([shutterChecker])
 
 
 else:
@@ -148,4 +145,6 @@ sample_z.setAirBearingScannable(None)
 stage3_z.setAirBearingScannable(None)
 det_z.setAirBearingScannable(None)
 twotheta.setAirBearingScannable(None)
+
+openCloseShutterDuringScan.setSleepTimeMs(500)
 

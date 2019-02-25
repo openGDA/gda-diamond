@@ -86,21 +86,11 @@ public class MonoOptimisation extends FindableBase {
 	private boolean selectNewScansInPlotView;
 
 	private boolean allowOptimisation;
-	private Detector medipix = null;
 
-	private Double[] tfgTimeFrames;
 	private Double tfgDarkCurrentCollectionTime;
 	private boolean tfgDarkCurrentRequired;
 
 	private EnumPositioner photonShutter;
-
-	public Detector getMedipix() {
-		return medipix;
-	}
-
-	public void setMedipix(Detector medipix) {
-		this.medipix = medipix;
-	}
 
 	public MonoOptimisation(Scannable scannableToMove, Scannable scannableToMonitor) {
 		collectionTime = 1.0;
@@ -126,8 +116,8 @@ public class MonoOptimisation extends FindableBase {
 		}
 	}
 
-	public void optimise(Scannable bragg, double lowEnergy) throws Exception {
-		if (allowOptimisation==false) {
+	private void optimise(Scannable bragg, double lowEnergy) throws Exception {
+		if (!allowOptimisation) {
 			logger.info("allowOptimisation flag set to false - skipping optimisation.");
 			return;
 		}
@@ -135,14 +125,14 @@ public class MonoOptimisation extends FindableBase {
 		logger.info("Running optimisation for single energy "+lowEnergy);
 		Object initialPos = bragg.getPosition();
 
-		bragg.moveTo(lowEnergy);
+		moveEnergyScannable(bragg, lowEnergy);
 		String filename = doOffsetScan();
 		Dataset dataFromFile = loadDataFromNexusFile(filename);
 		fittedGaussianLowEnergy = findPeakOutput(dataFromFile);
 		this.lowEnergy = lowEnergy;
 		this.highEnergy = lowEnergy;
 
-		bragg.moveTo(initialPos);
+		moveEnergyScannable(bragg, initialPos);
 
 		// Try to setup the offset parameters for the scannable
 		if ( bragg instanceof MonoMoveWithOffsetScannable ) {
@@ -159,8 +149,8 @@ public class MonoOptimisation extends FindableBase {
 	 * @param highEnergy
 	 * @throws Exception
 	 */
-	public void optimise(Scannable bragg, double lowEnergy, double highEnergy) throws Exception {
-		if (allowOptimisation==false) {
+	private void optimise(Scannable bragg, double lowEnergy, double highEnergy) throws Exception {
+		if (!allowOptimisation) {
 			logger.info("allowOptimisation flag set to false - skipping optimisation.");
 			return;
 		}
@@ -168,23 +158,38 @@ public class MonoOptimisation extends FindableBase {
 		logger.info("Running optimisation for energies "+lowEnergy+" and "+highEnergy);
 		Object initialPos = bragg.getPosition();
 
-		bragg.moveTo(lowEnergy);
+		moveEnergyScannable(bragg, lowEnergy);
 		String filename = doOffsetScan();
 		Dataset dataFromFile = loadDataFromNexusFile(filename);
 		fittedGaussianLowEnergy = findPeakOutput(dataFromFile);
 		this.lowEnergy = lowEnergy;
 
-		bragg.moveTo(highEnergy);
+		moveEnergyScannable(bragg, highEnergy);
 		filename = doOffsetScan();
 		dataFromFile = loadDataFromNexusFile(filename);
 		fittedGaussianHighEnergy = findPeakOutput(dataFromFile);
 		this.highEnergy = highEnergy;
 
-		bragg.moveTo(initialPos);
+		moveEnergyScannable(bragg, initialPos);
 
 		// Try to setup the offset parameters for the scannable
 		if ( bragg instanceof MonoMoveWithOffsetScannable ) {
 			configureOffsetParameters((MonoMoveWithOffsetScannable) bragg);
+		}
+	}
+
+	/**
+	 * Move energy scannable. If a {@link MonoMoveWithOffsetScannable} scannable is passed in,
+	 * move just the bragg motor to avoid also changing the offset.
+	 * @param braggScannable
+	 * @param energy
+	 * @throws DeviceException
+	 */
+	private void moveEnergyScannable(Scannable energyScannable, Object energy) throws DeviceException {
+		if (energyScannable instanceof MonoMoveWithOffsetScannable) {
+			((MonoMoveWithOffsetScannable) energyScannable).getBragg().moveTo(energy);
+		} else {
+			energyScannable.moveTo(energy);
 		}
 	}
 
@@ -233,7 +238,6 @@ public class MonoOptimisation extends FindableBase {
 		logger.info("Running manual optimisation for single energy {}", braggEnergy);
 
 		if ( scannableToMonitor instanceof TFGCounterTimer) {
-//			((TFGCounterTimer) scannableToMonitor).stop();
 			((TFGCounterTimer) scannableToMonitor).clearFrameSets();
 			((TFGCounterTimer) scannableToMonitor).setCollectionTime(collectionTime);
 			// maybe set the frame times here as well ( with .setTimes( [collectionTime, collectionTime, ...] );
@@ -295,7 +299,7 @@ public class MonoOptimisation extends FindableBase {
 	 * @return return filename of nxs file produced
 	 * @throws Exception
 	 */
-	public String doOffsetScan() throws Exception {
+	private String doOffsetScan() throws Exception {
 
 		if ( scannableToMonitor instanceof TFGCounterTimer) {
 			((TFGCounterTimer) scannableToMonitor).clearFrameSets();
@@ -337,15 +341,14 @@ public class MonoOptimisation extends FindableBase {
 	 * @throws NexusException
 	 * @throws DatasetException
 	 */
-	public IDataset getDataFromFile(String filename, String dataGroupPath) throws NexusException, DatasetException {
-		NexusFile file = NexusFileHDF5.openNexusFileReadOnly(filename);
-		GroupNode groupNode = file.getGroup(dataGroupPath,false);
+	private IDataset getDataFromFile(String filename, String dataGroupPath) throws NexusException, DatasetException {
+		try(NexusFile file = NexusFileHDF5.openNexusFileReadOnly(filename)) {
+			GroupNode groupNode = file.getGroup(dataGroupPath,false);
 
-		// Return first dataset from data group
-		String nodeName = groupNode.getNodeNameIterator().next();
-		Dataset dataset = (Dataset) groupNode.getDataNode(nodeName).getDataset().getSlice(null, null, null).squeeze();
-		file.close();
-		return dataset;
+			// Return first dataset from data group
+			String nodeName = groupNode.getNodeNameIterator().next();
+			return groupNode.getDataNode(nodeName).getDataset().getSlice(null, null, null).squeeze();
+		}
 	}
 
 	/**
@@ -365,7 +368,6 @@ public class MonoOptimisation extends FindableBase {
 		int numRows = detectorData.getSize();
 		Dataset combinedData = DatasetFactory.zeros(detectorData.getSize(), 2); //  DatasetFactory.create(detectorData.getSize(), 2);
 		for(int i = 0; i<numRows; i++) {
-			int[] shape = positionData.getShape();
 			combinedData.set(positionData.getObject(i), i, 0);
 			combinedData.set(detectorData.getObject(i), i, 1);
 		}
@@ -379,15 +381,13 @@ public class MonoOptimisation extends FindableBase {
 	 * @Param peakRange number of rows either side of peak in column 2 to extract
 	 * @return Dataset with several rows of data near peak detector value
 	 */
-	public Dataset extractDataNearPeak(Dataset dataFromFile, int peakRange) {
+	private Dataset extractDataNearPeak(Dataset dataFromFile, int peakRange) {
 		int maxPosIndex = dataFromFile.maxPos()[0]; // this array seems backwards, why is max index for column 2 not in index 0?
 		int numDatapoints = dataFromFile.getShape()[0];
 		int numColumns = dataFromFile.getShape()[1];
 		int startIndex = Math.max(maxPosIndex - peakRange, 0);
 
 		int endIndex = Math.min(maxPosIndex + peakRange+1, numDatapoints);
-		// Slice slice = new Slice( startIndex, endIndex, 1);
-
 		return dataFromFile.getSlice(new int[] {startIndex, 0}, new int[]{endIndex, numColumns}, null).squeeze();
 	}
 
@@ -410,15 +410,19 @@ public class MonoOptimisation extends FindableBase {
 			dataToFit = extractDataNearPeak(dataToFit, peakPointRange);
 		}
 
-		// List<CompositeFunction> fittedGaussian = Generic1DFitter.fitPeakFunctions(positionData, normScanData, Gaussian.class, 1);
-
 		// Extract x, y data as separate datasets
 		Dataset positionData = getColumnFromDataSet(dataToFit, 0);
 		Dataset detectorData = getColumnFromDataSet(dataToFit, 1);
 
 		// Normalised detector data
 		Dataset normDetectorData = getNormalisedDataset(detectorData);
-		Gaussian fitFunc = new Gaussian(1,1,1);
+
+		// Create Gaussian to use for fitting
+		double centre = positionData.getDouble(positionData.getSize() / 2);
+		Gaussian fitFunc = new Gaussian(centre, 1, 1);
+		// restrict horizontal fit range to match range of x values
+		fitFunc.getParameter(0).setLimits(positionData.min().doubleValue(), positionData.max().doubleValue());
+
 		try {
 			Fitter.ApacheNelderMeadFit(new Dataset[] {positionData}, normDetectorData, fitFunc);
 			logger.debug("Curve fitting completed sucessfully.");
@@ -434,15 +438,18 @@ public class MonoOptimisation extends FindableBase {
 	}
 
 	/**
-	 * Normalised version of dataset
+	 * Return normalised version of dataset (i.e. rescaled to cover range  [0, 1] )
 	 * @param data
 	 * @return dataset
 	 */
-	public Dataset getNormalisedDataset(Dataset data) {
-		// Make a copy of the datasetb
+	private Dataset getNormalisedDataset(Dataset data) {
+		// Make a copy of the dataset
 		Dataset dataset = DatasetFactory.createFromObject(data);
-		double maxVal = (double) dataset.max();
-		dataset.imultiply(1.0/maxVal);
+		double maxVal = dataset.max().doubleValue();
+		double minVal = dataset.min().doubleValue();
+		double range = maxVal - minVal;
+		dataset.isubtract(minVal);
+		dataset.imultiply(1.0/range);
 		return dataset;
 	}
 
@@ -463,16 +470,9 @@ public class MonoOptimisation extends FindableBase {
 			scannableToMove.moveTo(pos);
 			Double[] detectorReadout = readoutDetector(scannableToMonitor);
 
-			// also collect and readout from medipix, so that data returned during main scan
-			// is for correct (current) collected frame of data.
-//			if (medipix!=null) {
-//				medipix.collectData();
-//				medipix.readout();
-//			}
 			dataFromScan.set(pos, i, 0);
 			dataFromScan.set(detectorReadout[1], i, 1);
 			InterfaceProvider.getTerminalPrinter().print(String.format("%15.4f\t%15.4f", dataFromScan.getDouble(i,0), dataFromScan.getDouble(i,1)));
-
 		}
 		return dataFromScan;
 	}
@@ -601,7 +601,7 @@ public class MonoOptimisation extends FindableBase {
 	 * @throws InterruptedException
 	 * @since 31/8/2016
 	 */
-	static private Double[] readoutDetector(Scannable scannable) throws DeviceException {
+	private static Double[] readoutDetector(Scannable scannable) throws DeviceException {
 		Object readout = null;
 		try {
 			if (scannable instanceof Detector) {
@@ -632,7 +632,7 @@ public class MonoOptimisation extends FindableBase {
 	 *
 	 * @since 31/8/2016
 	 */
-	static public double goldenSectionSearch(Scannable scannableToMove, Scannable scannableToMonitor, double minPos, double maxPos, double tolerance) throws DeviceException, InterruptedException {
+	public static double goldenSectionSearch(Scannable scannableToMove, Scannable scannableToMonitor, double minPos, double maxPos, double tolerance) throws DeviceException, InterruptedException {
 		final double goldenR = 0.61803399, goldenC = 1.0 - goldenR; // Golden ratios
 
 		double midPos = minPos + 0.5*(maxPos-minPos);

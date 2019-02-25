@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.annotations.Expose;
 
 import gda.device.DeviceException;
+import gda.device.detector.frelon.FrelonCcdDetectorData;
 import gda.device.scannable.AlignmentStageScannable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -102,6 +103,8 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	protected Binding binding;
 
 	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "SINGLE_SPECTRUM_DATA";
+	private static final String SINGLE_SPECTRUM_PARAMETER_BEAN_STORE_KEY = "SINGLE_SPECTRUM_PARAMETER_BEAN_DATA";
+
 
 	public void setup() {
 		job = new ScanJob("Performing Single spectrum scan");
@@ -125,7 +128,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		experimentDataModel.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				saveSingleSpectrumData();
+				saveSettings();
 			}
 		});
 		this.addPropertyChangeListener(new PropertyChangeListener() {
@@ -136,7 +139,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 						evt.getPropertyName().equals(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME) ||
 						evt.getPropertyName().equals(USE_FAST_SHUTTER_PROP_NAME) ||
 						evt.getPropertyName().equals(USE_TOPUP_CHECKER_FOR_IT_PROP_NAME)) {
-					saveSingleSpectrumData();
+					saveSettings();
 				}
 			}
 		});
@@ -192,8 +195,11 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		return params;
 	}
 
+	/**
+	 * Setup the GUI from a {@link TimeResolvedExperimentParameters} object.
+	 * @param params
+	 */
 	public void setupFromParametersBean(TimeResolvedExperimentParameters params) {
-		//experimentDataModel = new ExperimentDataModel();
 		List<TimingGroup> timingGroups = params.getItTimingGroups();
 		TimingGroup group0 = timingGroups.get(0);
 
@@ -209,13 +215,21 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		setItNumberOfAccumulations(numItAccum);
 		setUseTopupCheckerForIt(group0.getUseTopChecker());
 
-		ExperimentMotorPostion[] selectedMotors = SampleStageMotors.INSTANCE.setupExperimentMotorTargetPositions(params);
-		SampleStageMotors.INSTANCE.setSelectedMotors(selectedMotors);
-		SampleStageMotors.INSTANCE.setUseIref(params.getDoIref());
+		setupSampleStageMotors(params);
 
 		setUseFastShutter(params.getUseFastShutter());
 		experimentDataModel.setFileNamePrefix(params.getFileNamePrefix());
 		experimentDataModel.setSampleDetails(params.getSampleDetails());
+	}
+
+	/**
+	 * Setup selected sample stage motors from motor parameters stored in {@link TimeResolvedExperimentParameters} object.
+	 * @param params
+	 */
+	private void setupSampleStageMotors(TimeResolvedExperimentParameters params) {
+		ExperimentMotorPostion[] selectedMotors = SampleStageMotors.INSTANCE.setupExperimentMotorTargetPositions(params);
+		SampleStageMotors.INSTANCE.setSelectedMotors(selectedMotors);
+		SampleStageMotors.INSTANCE.setUseIref(params.getDoIref());
 	}
 
 	private void loadSingleSpectrumData() {
@@ -231,13 +245,29 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		this.setUseFastShutter( singleSpectrumData.getUseFastShutter() );
 		this.setUseTopupCheckerForIt( singleSpectrumData.getUseTopupCheckerForIt() );
 
-		// TODO For now just load sample_x and sample_y by default
-		SampleStageMotors.INSTANCE.setSelectedMotors(new ExperimentMotorPostion[] {//SampleStageMotors.scannables[0], SampleStageMotors.scannables[1]
-		});
+		// Try to set up motors from stored xml bean
+		String xmlBean = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(SINGLE_SPECTRUM_PARAMETER_BEAN_STORE_KEY, String.class);
+		if (xmlBean != null) {
+			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.fromXML(xmlBean);
+			setupSampleStageMotors(params);
+		} else {
+			// No motor parameters available, don't select anything
+			SampleStageMotors.INSTANCE.setSelectedMotors(new ExperimentMotorPostion[] {});
+		}
 	}
 
-	private void saveSingleSpectrumData() {
+	private void saveParameterBean() {
+		try {
+			TimeResolvedExperimentParameters params = getParametersBeanFromCurrentSettings();
+			EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(SINGLE_SPECTRUM_PARAMETER_BEAN_STORE_KEY, params.toXML());
+		} catch (DeviceException e) {
+			logger.error("Problem saving TimeResolvedExperimentParameters from GUI settings", e);
+		}
+	}
+
+	public void saveSettings() {
 		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, this);
+		saveParameterBean();
 	}
 
 	private String buildScanCommand() {
@@ -273,7 +303,25 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFileNamePrefix(\"%s\");", experimentDataModel.getFileNamePrefix()));
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setSampleDetails(\"%s\");", experimentDataModel.getSampleDetails()));
 
+		addAccumulationReadoutTimeToMethodCall(SINGLE_JYTHON_DRIVER_OBJ, builder);
+
+		try {
+			TimeResolvedExperimentParameters parameters = getParametersBeanFromCurrentSettings();
+			String paramString = parameters.toXML().replace("\n", " "); // Serialized xml string of bean
+			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setParameterBean('%s'); \n", paramString));
+		} catch (DeviceException e) {
+			logger.warn("Problem adding TimeResolvedExperimentParameters to experiment object", e);
+		}
+
 		return builder.toString();
+	}
+
+	private void addAccumulationReadoutTimeToMethodCall(String objectName, StringBuilder builder) {
+		if ( DetectorModel.INSTANCE.getCurrentDetector().getDetectorData() instanceof FrelonCcdDetectorData ) {
+			// Detector accumulation readout time (converted from default units[ns] to seconds)
+			double accumulationReadoutTimeSecs = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(DetectorModel.INSTANCE.getAccumulationReadoutTime(), ExperimentUnit.SEC);
+			builder.append(String.format("%s.setAccumulationReadoutTime(%g);", objectName, accumulationReadoutTimeSecs) );
+		}
 	}
 
 	private static enum ScanJobName {

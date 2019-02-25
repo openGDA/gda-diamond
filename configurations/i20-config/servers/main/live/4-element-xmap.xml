@@ -9,6 +9,9 @@
 		<property name="local" value="true" />
 		<property name="xmap" ref="xmap_dxp" />
 		<property name="elementOffset" value="1" />
+		<property name="waitAfterCaput" value="true" />
+		<property name="caputSleepTime" value="100" />
+		<property name="stopUpdatesMcaPvRecord" value="true" />
 	</bean>
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">

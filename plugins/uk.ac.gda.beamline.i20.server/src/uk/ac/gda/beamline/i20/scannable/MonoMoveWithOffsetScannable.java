@@ -284,4 +284,8 @@ public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
 	public void setOffsetStartValue(double offsetStartValue) {
 		this.offsetStartValue = offsetStartValue;
 	}
+
+	public Scannable getBragg() {
+		return bragg;
+	}
 }

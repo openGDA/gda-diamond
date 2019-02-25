@@ -22,13 +22,8 @@ package uk.ac.gda.exafs.experiment.ui;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
 import org.eclipse.core.databinding.beans.BeanProperties;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
-import org.eclipse.jface.databinding.viewers.ViewersObservables;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -52,7 +47,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.jaret.util.date.Interval;
 import gda.device.DeviceException;
 import gda.jython.IJythonServerStatusObserver;
 import gda.jython.InterfaceProvider;
@@ -61,9 +55,7 @@ import gda.scan.ede.TimeResolvedExperimentParameters;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.alignment.ui.SampleStageMotorsComposite;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
-import uk.ac.gda.exafs.experiment.ui.data.SpectrumModel;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
-import uk.ac.gda.exafs.experiment.ui.data.TimingGroupUIModel;
 import uk.ac.gda.exafs.ui.composites.ScannableListEditor;
 
 public class TimeResolvedExperimentView extends ViewPart {
@@ -91,8 +83,6 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 	private SampleStageMotorsComposite sampleMotorsComposite;
 
-	private ExperimentTimeBarComposite timebarViewerComposite;
-
 	private TimingGroupSectionComposite timingGroupSectionComposite;
 
 	private boolean hideTimeBar = true;
@@ -115,9 +105,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 	protected void createSections(final SashForm parentComposite) {
 		createExperimentPropertiesComposite(parentComposite);
-		createTimeBarComposite(parentComposite);
 		createStartStopScanSection(parentComposite);
-		int[] weights = new int[] {10, hideTimeBar ? 0 : 2 , 2};
+		int[] weights = new int[] {10, 2};
 		parentComposite.setWeights(weights);
 	}
 
@@ -126,51 +115,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 	}
 
 	private void bind() {
-		dataBindingCtx.bindValue(
-				ViewersObservables.observeSingleSelection(timingGroupSectionComposite.getGroupsTableViewer()),
-				ViewersObservables.observeSingleSelection(timebarViewerComposite.getTimeBarViewer()),
-				new UpdateValueStrategy() {
-					@Override
-					protected IStatus doSet(IObservableValue observableValue, Object value) {
-						if (value != null) {
-							timebarViewerComposite.getTimeBarViewer().scrollIntervalToVisible((Interval) value);
-						}
-						return super.doSet(observableValue, value);
-					}
-				},
-				new UpdateValueStrategy() {
-					@Override
-					public IStatus validateBeforeSet(Object value) {
-						TimingGroupUIModel object = null;
-						if (value instanceof TimingGroupUIModel) {
-							object =  (TimingGroupUIModel) value;
-						} else if (value instanceof SpectrumModel) {
-							object = ((SpectrumModel) value).getParent();
-						}
-						IStructuredSelection structuredSelection = (IStructuredSelection) timingGroupSectionComposite.getGroupsTableViewer().getSelection();
-						if(!structuredSelection.isEmpty()) {
-							if (value == null) {
-								return Status.CANCEL_STATUS;
-							}
-							TimingGroupUIModel viewerObject = (TimingGroupUIModel) structuredSelection.getFirstElement();
-							if (viewerObject.equals(object)) {
-								return Status.CANCEL_STATUS;
-							}
-						}
-						return Status.OK_STATUS;
-					}
-
-					@Override
-					public Object convert(Object value) {
-						if (value instanceof TimingGroupUIModel) {
-							return super.convert(value);
-						}
-						else if (value instanceof SpectrumModel) {
-							return super.convert(((SpectrumModel) value).getParent());
-						}
-						return null;
-					}
-				});
+		// Select first item in timing group table
+		timingGroupSectionComposite.selectTimingGroupTableRow(0);
 
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
 				BeanProperties.value(TimeResolvedExperimentModel.USE_FAST_SHUTTER).observe(getModel()) );
@@ -373,20 +319,8 @@ public class TimeResolvedExperimentView extends ViewPart {
 		getSite().setSelectionProvider(timingGroupSectionComposite.getGroupsTableViewer());
 	}
 
-	protected void createTimeBarComposite(Composite parent) {
-		timebarViewerComposite = new ExperimentTimeBarComposite(parent, SWT.None, getModel());
-		timebarViewerComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		MenuManager menuManager = new MenuManager();
-		Menu menu = menuManager.createContextMenu(timebarViewerComposite.getTimeBarViewer());
-		// Set the MenuManager
-		timebarViewerComposite.getTimeBarViewer().setMenu(menu);
-		getSite().registerContextMenu(menuManager, timebarViewerComposite.getTimeBarViewer());
-
-	}
-
 	@Override
 	public void setFocus() {
-		timebarViewerComposite.setFocus();
 	}
 
 	@Override

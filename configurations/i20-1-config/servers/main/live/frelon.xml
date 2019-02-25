@@ -33,7 +33,7 @@
 		<property name="upperChannel" value="2047"/>
 		<property name="lowerChannel" value="0"/>
 		<property name="configureAtStartup" value="false" />
-		<property name="checkForExcludedStrips" value="true" />
+		<property name="checkForExcludedStrips" value="false" />
 	</bean>
 
 	<bean id="ssfrelon" class="gda.device.detector.StepScanEdeDetector">

@@ -37,5 +37,7 @@
 		<property name="shutter" ref="shutter2" />
 	</bean>
 
+	<bean id="dummyTopup" class="gda.device.scannable.DummyTopupScannable" />
+
 	<import resource="simpleScannables.xml"/>
 </beans>

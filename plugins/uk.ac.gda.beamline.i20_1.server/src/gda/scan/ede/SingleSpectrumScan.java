@@ -44,6 +44,7 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 public class SingleSpectrumScan extends EdeExperiment {
 
 	private boolean runItDark;
+	private double accumulationReadoutTime = 0;
 
 	public SingleSpectrumScan(double i0AccumulationTime, int i0NoOfAccumulcation, double iTaccumulationTime, int iTnoOfAccumulcation,
 			Map<String, Double> i0ScanableMotorPositions,
@@ -99,10 +100,15 @@ public class SingleSpectrumScan extends EdeExperiment {
 
 	@Override
 	public EdeExperimentDataWriter createFileWritter() {
-		//return new EdeSingleSpectrumAsciiFileWriter(i0LightScan, itScans[0],
-		//		i0DarkScan, itDarkScan, theDetector);
-		return new EdeSingleSpectrumAsciiFileWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan,
+		EdeSingleSpectrumAsciiFileWriter asciiWriter = new EdeSingleSpectrumAsciiFileWriter(i0DarkScan, i0LightScan, iRefScan, iRefDarkScan, itDarkScan,
 				itScans, i0FinalScan, iRefFinalScan, theDetector, nexusFilename);
+		asciiWriter.setAccumulationReadoutTime(accumulationReadoutTime);
+		asciiWriter.setExtraScannables(itScans[0].getScannablesToMonitorDuringScan());
+		return asciiWriter;
+	}
+
+	public void setAccumulationReadoutTime(double accumulationReadoutTime) {
+		this.accumulationReadoutTime = accumulationReadoutTime;
 	}
 
 	@Override

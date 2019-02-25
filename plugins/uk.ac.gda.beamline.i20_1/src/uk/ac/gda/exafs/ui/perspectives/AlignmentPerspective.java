@@ -30,8 +30,6 @@ import uk.ac.gda.exafs.alignment.ui.BeamlineAlignmentView;
 import uk.ac.gda.exafs.alignment.ui.DetectorLiveModeView;
 import uk.ac.gda.exafs.alignment.ui.DetectorRoiView;
 import uk.ac.gda.exafs.alignment.ui.SampleStageMotorsView;
-import uk.ac.gda.exafs.alignment.ui.SingleSpectrumAlignmentView;
-import uk.ac.gda.exafs.calibration.ui.EdeManualCalibrationPlotView;
 import uk.ac.gda.exafs.plotting.ui.ExperimentDataPlotView;
 
 /**
@@ -62,7 +60,6 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 		alignmentControlsFolder.addView(BeamlineAlignmentView.ID);
 		IViewLayout propertyLayout = layout.getViewLayout(BeamlineAlignmentView.ID);
 		propertyLayout.setCloseable(false);
-		alignmentControlsFolder.addView(SingleSpectrumAlignmentView.ID);
 
 		IFolderLayout focusingControlsFolder = layout.createFolder(FOCUSING_CONTROLS_FOLDER_ID, IPageLayout.LEFT, 0.32f, editorArea);
 		focusingControlsFolder.addView(DetectorRoiView.ID);
@@ -73,8 +70,6 @@ public class AlignmentPerspective implements IPerspectiveFactory {
 
 		IFolderLayout topPlotFolder = layout.createFolder(TOPPLOT_FOLDER_ID, IPageLayout.RIGHT, 0.40f, FOCUSING_CONTROLS_FOLDER_ID);
 		topPlotFolder.addView(DetectorLiveModeView.ID);
-		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.REFERENCE_ID);
-		topPlotFolder.addPlaceholder(EdeManualCalibrationPlotView.EDE_ID);
 		topPlotFolder.addView(ExperimentDataPlotView.ID);
 		layout.addView(JythonTerminalView.ID, IPageLayout.BOTTOM, 0.6f,TOPPLOT_FOLDER_ID);
 

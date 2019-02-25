@@ -41,3 +41,14 @@ def configureFastShutter() :
     fast_shutter.setValues( { "Open":upperPos, "Close":lowerPos} )
     print fast_shutter.getName()," positions :",fast_shutter.getValues()
 
+shopen = openEHShutter
+alias shopen
+
+shclose = closeEHShutter
+alias shclose
+
+fso = openFastShutter
+alias fso
+
+fsc = closeFastShutter
+alias fsc
