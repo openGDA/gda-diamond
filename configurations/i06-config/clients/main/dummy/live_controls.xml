@@ -41,4 +41,26 @@
 		</property>	
 	</bean>
 
+	<bean id="pco_proc_reset_filter" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:ResetFilter"/>
+		<property name="useNameAsInputName" value="true"/>
+		<property name="hasUnits" value="false"/>	
+		<property name="outputFormat">
+			<list>
+				<value>%1d</value>
+			</list>
+		</property>	
+	</bean>
+	<!-- combine the last 2 scannables above -->
+	<bean id="pco_proc_num_filter" class="gda.device.scannable.BeforeAfterScannable">
+		<constructor-arg index="0" ref="pcoProcNumFilter"/>
+		<constructor-arg index="1" ref="pco_proc_reset_filter"/>
+		<constructor-arg index="2" value="1"/>
+		<constructor-arg index="3" value="1"/>
+		<property name="outputFormat">
+			<list>
+				<value>%2d</value>
+			</list>
+		</property>	
+	</bean>
 </beans>

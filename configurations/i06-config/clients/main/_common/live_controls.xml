@@ -31,11 +31,10 @@
 	<bean id="pco_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="NumFilter" />
 		<property name="group" value="PCO PROC" />
-		<property name="scannableName" value="pcoProcNumFilter" />
+		<property name="scannableName" value="pco_proc_num_filter" />
 		<property name="textWidth" value="30" />
 		<property name="userUnits" value=""/>
 	</bean>
-
 	<!-- PCO detector control -->
 	<bean id="pcoStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="pco_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); pco_addetector.collectData()" />
