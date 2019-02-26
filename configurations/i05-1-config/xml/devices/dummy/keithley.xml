@@ -9,4 +9,20 @@
 	<bean id="keithley_b" class="uk.ac.diamond.daq.devices.keithley.DummyKeithley2600Series">
 		<property name="local" value="true" />
 	</bean>
+
+	<bean id="keithley_a_source_mode" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="DCVOLTS" />
+	</bean>
+
+	<bean id="keithley_b_source_mode" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="DCAMPS" />
+	</bean>
+
+	<bean id="keithley_a_resistance_mode" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="2-wire" />
+	</bean>
+
+	<bean id="keithley_b_resistance_mode" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="value" value="4-wire" />
+	</bean>
 </beans>
