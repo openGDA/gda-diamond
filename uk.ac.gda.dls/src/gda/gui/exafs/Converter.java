@@ -18,13 +18,6 @@
 
 package gda.gui.exafs;
 
-import gda.jscience.physics.quantities.BraggAngle;
-import gda.jscience.physics.quantities.PhotonEnergy;
-import gda.jscience.physics.quantities.Vector;
-import gda.jscience.physics.quantities.WaveVector;
-import gda.jscience.physics.quantities.Wavelength;
-import gda.jscience.physics.units.NonSIext;
-
 import org.jscience.physics.quantities.Angle;
 import org.jscience.physics.quantities.Energy;
 import org.jscience.physics.quantities.Length;
@@ -34,6 +27,13 @@ import org.jscience.physics.units.SI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.jscience.physics.quantities.BraggAngle;
+import gda.jscience.physics.quantities.PhotonEnergy;
+import gda.jscience.physics.quantities.Vector;
+import gda.jscience.physics.quantities.WaveVector;
+import gda.jscience.physics.quantities.Wavelength;
+import gda.jscience.physics.units.NonSIext;
+
 /**
  * A class to convert between the various units used in XAFS
  */
@@ -42,27 +42,27 @@ public class Converter {
 	private static final Logger logger = LoggerFactory.getLogger(Converter.class);
 
 	/**
-	 * 
+	 *
 	 */
 	public static final String EV = "eV";
 
 	/**
-	 * 
+	 *
 	 */
 	public static final String KEV = "keV";
 
 	/**
-	 * 
+	 *
 	 */
 	public static final String MDEG = "mDeg";
 
 	/**
-	 * 
+	 *
 	 */
 	public static final String ANGSTROM = "\u00c5";
 
 	/**
-	 * 
+	 *
 	 */
 	public static final String PERANGSTROM = "\u00c5\u207b\u00b9";
 
@@ -87,7 +87,7 @@ public class Converter {
 
 	/**
 	 * Set the built in mono 2D spacing
-	 * 
+	 *
 	 * @param value
 	 *            new value in Angstroms
 	 */
@@ -97,7 +97,7 @@ public class Converter {
 
 	/**
 	 * Set the built in edge energy
-	 * 
+	 *
 	 * @param value
 	 *            new value in keV
 	 */
@@ -107,7 +107,7 @@ public class Converter {
 
 	/**
 	 * Converts a value using previously specified values for the edge energy and twoD.
-	 * 
+	 *
 	 * @param value
 	 *            the input value
 	 * @param convertFromUnit
@@ -117,6 +117,7 @@ public class Converter {
 	 * @return the converted value
 	 */
 	public static double convert(double value, String convertFromUnit, String convertToUnit) {
+		logger.debug("convert(value = {}, convertFromUnit = {}, convertToUnit = {})", value, convertFromUnit, convertToUnit);
 		/* Use the built in edgeEnergy and twoD Quantities to call the real */
 		/* converting method. */
 		return convert(value, convertFromUnit, convertToUnit, edgeEnergy, twoD);
@@ -124,7 +125,7 @@ public class Converter {
 
 	/**
 	 * Converts a value using temporary values for the edge energy and twoD.
-	 * 
+	 *
 	 * @param value
 	 *            the input value
 	 * @param convertFromUnit
@@ -137,8 +138,8 @@ public class Converter {
 	 *            twoD for the mono in Angstroms
 	 * @return the converted value
 	 */
-	public static double convert(double value, String convertFromUnit, String convertToUnit, double edgeEnergy,
-			double twoD) {
+	public static double convert(double value, String convertFromUnit, String convertToUnit, double edgeEnergy, double twoD) {
+		logger.debug("convert(value = {}, convertFromUnit = {}, convertToUnit = {}, edgeEnergy = {}, twoD = {})", value, convertFromUnit, convertToUnit, edgeEnergy, twoD);
 		/* Create Energy and Length Quantities from the temporary values and */
 		/* call the real converting method. */
 		return convert(value, convertFromUnit, convertToUnit, Quantity.valueOf(edgeEnergy, SI.KILO(NonSI.ELECTRON_VOLT)),
@@ -147,7 +148,7 @@ public class Converter {
 
 	/**
 	 * Converts a value
-	 * 
+	 *
 	 * @param value
 	 *            the input value
 	 * @param convertFromUnit
@@ -160,8 +161,7 @@ public class Converter {
 	 *            a Length representing twoD for the mono in Angstroms
 	 * @return the converted value
 	 */
-	private static double convert(double value, String convertFromUnit, String convertToUnit, Energy edgeEnergy,
-			Length twoD) {
+	private static double convert(double value, String convertFromUnit, String convertToUnit, Energy edgeEnergy, Length twoD) {
 		if (convertFromUnit.equals(EV)) {
 			Energy energy = Quantity.valueOf(value, NonSI.ELECTRON_VOLT);
 
@@ -179,14 +179,11 @@ public class Converter {
 			}
 		} else if (convertFromUnit.equals(KEV)) {
 			Energy energy = Quantity.valueOf(value, SI.KILO(NonSI.ELECTRON_VOLT));
-			logger.debug("energy is " + energy);
 
 			if (convertToUnit.equals(EV))
 				value = value * 1000.0;
 			else if (convertToUnit.equals(MDEG)) {
-				logger.debug("twoD is " + twoD);
 				Angle angle = BraggAngle.braggAngleOf(energy, twoD);
-				logger.debug("angle is " + angle);
 				value = angle.to(NonSIext.mDEG_ANGLE).getAmount();
 			} else if (convertToUnit.equals(ANGSTROM)) {
 				Length length = Wavelength.wavelengthOf(energy);
