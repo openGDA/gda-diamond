@@ -1,19 +1,28 @@
-import gda
+import gda, time
 print "============================================================="
 print "Running I16 specific initialisation code from localStation.py"
 print "============================================================="
 
+from org.slf4j import LoggerFactory
+localStation_logger = LoggerFactory.getLogger("localStation.py")
+
 localStation_exceptions = []
 
 def localStation_exception(msg, exception):
-	from org.slf4j import LoggerFactory
-	logger = LoggerFactory.getLogger("localStation.py")
 	localStation_exceptions.append("    %s" % msg)
 	print "! Failure %s !" % msg
-	logger.error(msg, exception)
+	localStation_logger.error(msg, exception)
 
+def localStation_print(msg, pause=0):
+	#if (pause > 0):
+	#	localStation_logger.info("Sleeping for %r seconds..." % pause)
+	#	time.sleep(pause)
+	#	localStation_logger.info("...Slept for %r seconds" % pause)
+	print msg
+	localStation_logger.info(msg)
+
+localStation_print("Import configuration booleans from user scripts localStationConfiguration.py")
 try:
-	print "Import configuration booleans from user scripts localStationConfiguration.py"
 	from localStationConfiguration import USE_CRYO_GEOMETRY, USE_DIFFCALC, USE_DUMMY_IDGAP_MOTOR # @UnresolvedImport
 	from localStationConfiguration import USE_NEXUS, USE_NEXUS_METADATA_COMMANDS, USE_XMAP # @UnresolvedImport
 except Exception as e:
@@ -31,10 +40,13 @@ except Exception as e:
 from gda.configuration.properties import LocalProperties
 LocalProperties.set('gda.scan.clearInterruptAtScanEnd', "False")
 
+localStation_print("Importing * from gdaserver.py...", 10)
 try:
 	from gdaserver import * # @UnusedWildImport
 except Exception as e:
 	localStation_exception("importing * from gdaserver.py" , e)
+
+localStation_print("... * imported from gdaserver.py", 10)
 
 global Finder, pos, finder, add_default, meta
 
@@ -71,23 +83,17 @@ global m1y_offset, m2y_offset, base_z_offset, ztable_offset, m2_coating_offset, 
 global san
 global rs,CA,EDi,az
 
+localStation_print("Importing installation", 10)
 import installation
 
 # USE_NEXUS, is now defined in the localStationConfiguration.py user script
 
 if installation.isDummy():
 	print "*"*80
-	print "DUMMY Mode!"
+	localStation_print("DUMMY Mode!")
 	print "*"*80
 	USE_DIFFCALC = True
 	#USE_CRYO_GEOMETRY = False
-	def test_excessive_logs(num):
-		from org.slf4j import LoggerFactory
-		logger = LoggerFactory.getLogger("localStation.py")
-		for i in range(num):
-			padding = "*"*1024
-			logger.trace("test_excessive_logs({}) #{}, padding {}", num, i, padding)
-	#test_excessive_logs(4096)
 
 # USE_DIFFCALC, USE_CRYO_GEOMETRY, USE_DUMMY_IDGAP_MOTOR & USE_XMAP are now
 # defined in the localStationConfiguration.py user script
@@ -97,59 +103,72 @@ import java
 from Jama import Matrix
 
 # Python
-import time
 from time import sleep
 from math import *
 from javashell import *
 
 # Gda 
+localStation_print("Importing various gda classes", 10)
 from gda.analysis.io import  PilatusTiffLoader
 from gda.configuration.properties import LocalProperties
 from gda.device.epicsdevice import ReturnType
-from gda.device.scannable import PseudoDevice
 from gda.device.scannable import PseudoDevice, ScannableBase
 from gda.epics import CAClient
-from gda.epics import CAClient
 from gda.jython.commands.GeneralCommands import alias, run
+
+localStation_print("Importing LocalJythonShelfManager", 10)
 from uk.ac.diamond.daq.persistence.jythonshelf import LocalJythonShelfManager
 
+localStation_print("Importing datasetprocessors")
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeak import TwodGaussianPeak
 from gdascripts.analysis.datasetprocessor.twod.TwodGaussianPeakWithCalibration import TwodGaussianPeakWithCalibration
 from gdascripts.analysis.datasetprocessor.twod.SumMaxPositionAndValue import SumMaxPositionAndValue
 from gdascripts.analysis.datasetprocessor.oned.scan_stitching import Lcen, Rcen
 from gdascripts.analysis.datasetprocessor.oned.GaussianEdge import GaussianEdge
+
+localStation_print("Importing concurrentScanWrapper", 10)
 import gdascripts.scan.concurrentScanWrapper
+
+localStation_print("Importing jobs", 10)
 from gdascripts.utils import jobs
+
+localStation_print("Importing gdascans", 10)
 from gdascripts.scan import gdascans
+
+localStation_print("Importing installStandardScannableMetadataCollection", 10)
 from gdascripts.scannable.installStandardScannableMetadataCollection import * #@UnusedWildImport
-print "Importing EpicsPilatus"
+
+localStation_print("Importing EpicsPilatus")
 from gdascripts.scannable.detector.epics.EpicsPilatus import EpicsPilatus
-print "Importing ProcessingDetectorWrapper..."
+
+localStation_print("Importing ProcessingDetectorWrapper...")
 from gdascripts.scannable.detector.ProcessingDetectorWrapper import ProcessingDetectorWrapper, HardwareTriggerableProcessingDetectorWrapper, SwitchableHardwareTriggerableProcessingDetectorWrapper
-print "Importing DetectorDataProcessor..."
+
+localStation_print("Importing DetectorDataProcessor...")
 from gdascripts.scannable.detector.DetectorDataProcessor import DetectorDataProcessor, DetectorDataProcessorWithRoi, HardwareTriggerableDetectorDataProcessor
-print "Importing MultiInputExtraFieldsDummy, SingleInputDummy"
+
+localStation_print("Importing MultiInputExtraFieldsDummy, SingleInputDummy")
 from gdascripts.scannable.dummy import MultiInputExtraFieldsDummy, SingleInputDummy
-print "Importing EpicsFirewireCamera"
+
+localStation_print("Importing EpicsFirewireCamera")
 from gdascripts.scannable.detector.epics.EpicsFirewireCamera import EpicsFirewireCamera
-print "Importing NxProcessingDetectorWrapper"
+
+localStation_print("Importing NxProcessingDetectorWrapper")
 from epics.detector.NxProcessingDetectorWrapper import NxProcessingDetectorWrapper
 
 # I16
-print "Importing installation"
-import installation
-print "Importing ShelveIO"
+localStation_print("Importing ShelveIO")
 import ShelveIO
-print "Importing BLobjects"
+localStation_print("Importing BLobjects")
 import beamline_objects as BLobjects
 
 ### Configure shelveIO path
-print "Configuring ShelveIO system"
+localStation_print("Configuring ShelveIO system")
 installation.setLoadOldShelf(0)
 shelveIoDir = LocalProperties.get("gda.var")
 shelveIoDir  = shelveIoDir + "/oldStyleShelveIO/"
 ShelveIO.ShelvePath = shelveIoDir
-print "  ShelveIO path = ", shelveIoDir
+localStation_print("  ShelveIO path = %r" % shelveIoDir)
 
 from constants import *
 from element_library import *
@@ -247,7 +266,7 @@ note.rootNamespaceDict=globals()
 ###                        Diffractometer axes                                #
 ###############################################################################
 ### Expose wrapped motors for Coordinated motion
-print "Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrappers supporting coordinated movement"
+localStation_print("Replacing ScannableMotors kphi, kap. kth, kmu, kdelta and kgam with wrappers supporting coordinated movement")
 if USE_CRYO_GEOMETRY:
 	sixc = sixckappa_cryo #@UndefinedVariable
 	# NOTE: To switch cryophi between a real epics motor and the dummy axis sometimes used edit:
@@ -271,17 +290,17 @@ exec("kgam=sixc.kgam")
 SIXC_MOTOR_NAMES = ['sixcKphiMotor', 'sixcKappaMotor', 'sixcKthMotor', 'sixcMuMotor', 'sixcDeltaMotor','sixcGammaMotor'] 
 SIXC_SCANNABLEMOTOR_NAMES = ['kphi', 'kap', 'kth', 'kmu', 'kdelta', 'kgam']
 
-print "Creating post_xps_restart"
+localStation_print("Creating post_xps_restart")
 def post_xps_restart():
 	for mot in [Finder.getInstance().find(n) for n in SIXC_MOTOR_NAMES]:
 		mot.forceCallback()
 
-print "Creating set_assert_sixc_home_before_moving(True|False)"
+localStation_print("Creating set_assert_sixc_home_before_moving(True|False)")
 def set_assert_sixc_homed_before_moving(b):
 	for mot in [Finder.getInstance().find(n) for n in SIXC_MOTOR_NAMES]:
 		mot.setAssertHomedBeforeMoving(b)
 
-print "Creating set_sixc_returns_demand_position(True|False)"
+localStation_print("Creating set_sixc_returns_demand_position(True|False)")
 def set_sixc_returns_demand_position(b):
 	for scnmot in [Finder.getInstance().find(n) for n in SIXC_SCANNABLEMOTOR_NAMES]:
 		scnmot.setReturnDemandPosition(b)
@@ -302,10 +321,10 @@ for objname in dir():
 	if isinstance(eval(objname),EpicsMonitor):
 		toPrint+= objname + " "
 		exec(objname + " = MonitorWrapper(" + objname + ")")
-print "Wrapped the monitors: " + toPrint
+localStation_print("Wrapped the monitors: " + toPrint)
 
 ### Create dummy Scannables
-print "Creating dummy scannables"
+localStation_print("Creating dummy scannables")
 dummy = dummyClass('Dummy')
 x=dummyClass('x')
 y=dummyClass('y')
@@ -317,7 +336,7 @@ mie = MultiInputExtraFieldsDummy('mie', ['i1', 'i2'], ['e1'])
 
 
 ### Create time Scannables
-print "Creating time scannables"
+localStation_print("Creating time scannables")
 tim = TimeScannable('Time')
 showtime=showtimeClass('Showtime')
 inctime=showincrementaltimeClass('inctime')
@@ -328,11 +347,11 @@ w=waittime	#abreviated name
 mrwolf=mrwolfClass('mrwolf')
 
 ### Create offset devices
-print "Running startup_offsets.py: Starting database system..."
+localStation_print("Running startup_offsets.py: Starting database system...")
 run("startup_offsets")
-print "...Database system started"
+localStation_print("...Database system started")
 offsetshelf=LocalJythonShelfManager.open('offsets')
-print "  use 'offsetshelf' to see summary of offsets"
+localStation_print("  use 'offsetshelf' to see summary of offsets")
 #delta_axis_offset.pil=9.5 
 #delta_axis_offset.pil=9.0 #new offset 31/01/12 (179)
 #delta_axis_offset.pil=9.2#new offset 12/09/13
@@ -344,7 +363,7 @@ do=delta_axis_offset
 ###############################################################################
 
 ### Override gda's standard help command
-print "Overriding gda's standard help command"
+localStation_print("Overriding gda's standard help command")
 _gdahelp_orig = _gdahelp #@UndefinedVariable
 def _gdahelp(o):
 	_gdahelp_orig(o)
@@ -364,8 +383,8 @@ def pos(*args):
 		pos_orig(*args)
 
 ### Create datadir functions
-print "Running startup_dataDirFunctions.py"
-print "  use 'datadir' to read the current directory or 'datadir name' to change it"
+localStation_print("Running startup_dataDirFunctions.py")
+localStation_print("  use 'datadir' to read the current directory or 'datadir name' to change it")
 run("startup_dataDirFunctions") # depends on globals pil2mdet and pil100kdet
 alias('datadir')
 
@@ -392,7 +411,7 @@ alias('configureScanPipeline')
 ###                   Configure scan data processing                        ###
 ###############################################################################
 
-print "Importing analysis commands (peak, centroid & peak optimisation)"
+localStation_print("Importing analysis commands (peak, centroid & peak optimisation)")
 #peak=FindScanPeak #@UndefinedVariable
 cen=FindScanCentroid #@UndefinedVariable
 
@@ -419,7 +438,7 @@ scan_processor.processors.append(Rcen())
 ###############################################################################
 
 # Create diffractometer base scannable
-print "Creating diffractometer base scannable base_z"
+localStation_print("Creating diffractometer base scannable base_z")
 #base_z= DiffoBaseClass(basez1, basez2, basez3, [1.52,-0.37,0.]) #measured 28/11/07
 base_z= DiffoBaseClass(basez1, basez2, basez3, [0.,0.,0.]) #jacks recal to zero in epics 8 keV direct beam 20/10/15
 
@@ -464,7 +483,7 @@ else:
 	diffcalc_root = os.path.realpath(diffcalc.__file__).split('diffcalc/__init__.py')[0]
 	diffcalc_startup_script = os.path.join(diffcalc_root, 'startup', 'i16.py')
 	try:
-		print "Starting Diffcalc by running: ", diffcalc_startup_script
+		localStation_print("Starting Diffcalc by running: %r" % diffcalc_startup_script)
 		run(diffcalc_startup_script)
 	except Exception as e:
 		localStation_exception("trying to set up difcalc via "+diffcalc_startup_script, e)
@@ -533,8 +552,8 @@ try:
 
 	###########################################
 
-except NameError:
-	print "Not creating kbm1 and kbm2 as the transient kbmbase device is not available"
+except NameError as e:
+	localStation_exception("creating kbm1 and kbm2 as the transient kbmbase device is not available", e)
 
 ###############################################################################
 ###############################################################################
@@ -544,9 +563,9 @@ except NameError:
 #                             END OF DUMMYSTARTUP
 #
 if installation.isDummy():
-	print "Running localStation.test_only.py ..."
+	localStation_print("Running localStation.test_only.py ...")
 	run("localStation.test_only")
-	print "... completed localStation.test_only.py"
+	localStation_print("... completed localStation.test_only.py")
 	print
 	setDatadirPropertyFromPersistanceDatabase()
 	raise Exception("Manually INTERRUPTING localStation.py run as this is a test installation")
@@ -560,7 +579,7 @@ if installation.isDummy():
 ###############################################################################
 ###                          Tune finepitch using QBPM                      ###
 ###############################################################################
-print "Tuning finepitch using QBPM *Use with care*"
+localStation_print("Tuning finepitch using QBPM *Use with care*")
 run("pitchup") # GLOBALS: qbpm6inserter, finepitch, ic1, atten, , vpos 
 pitchup=pitchupClass()
 
@@ -591,35 +610,34 @@ pitchup=pitchupClass()
 if installation.isLive():
 
 	### Various ###
-	print "   running startup_epics_monitors.py"      # [TODO: Replace with imports]
+	localStation_print("   running startup_epics_monitors.py")      # [TODO: Replace with imports]
 	run("startup_epics_monitors")
 
-	print "   running startup_epics_positioners.py"
+	localStation_print("   running startup_epics_positioners.py")
 	run("startup_epics_positioners")
 
-	print "   running startup_cryocooler.py"          #[NOTE: Also creates commands]
+	localStation_print("   running startup_cryocooler.py")          #[NOTE: Also creates commands]
 	run("startup_cryocooler")
 
-	print "   running pd_femto_adc_current2.py"
+	localStation_print("   running pd_femto_adc_current2.py")
 	try:
 		run("pd_femto_adc_current2.py")
 	except java.lang.IllegalStateException, e:
-		print " Could not run pd_femto_adc_current2.py "
-		print e
+		localStation_exception(" Could not run pd_femto_adc_current2.py ", e)
 
-	print "   running pd_xyslit.py"
+	localStation_print("   running pd_xyslit.py")
 	from pd_xyslit import pd_xyslit
 	ds=pd_xyslit('Detector slits (s7)','%.3f',s7xgap,s7ygap,s7xtrans,s7ytrans,help='Detector slit gaps\npos ds [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ds.x .5 to translate x centre to 0.5 mm')
 	ss=pd_xyslit('Sample slits (s5)',  '%.3f',s5xgap,s5ygap,s5xtrans,s5ytrans,help=  'Sample slit gaps\npos ss [1 2] to get 1 mm (h) x 2 mm(v) slit\npos ss.x .5 to translate x centre to 0.5 mm')
 
-	print "   creating ion pump scannables"
+	localStation_print("   creating ion pump scannables")
 	run("startup_ionpumps")
 	
-	print "   creating shutter scannable"
+	localStation_print("   creating shutter scannable")
 	shutter= Epics_Shutter('shutter','BL16I-PS-SHTR-01:CON')
 	
 	### Struck ###
-	print "   Creating struck counter/timer scannables: ct1-ct11"
+	localStation_print("   Creating struck counter/timer scannables: ct1-ct11")
 	ct1=Struck('ct1',"BL16I-EA-DET-01:SCALER",1,"%.0f")
 	ct2=Struck('ct2',"BL16I-EA-DET-01:SCALER",2,"%.0f")		
 	ct3=Struck('ct3',"BL16I-EA-DET-01:SCALER",3,"%.0f")
@@ -632,7 +650,7 @@ if installation.isLive():
 	ct9.setInputNames(['ct9'])
 	
 	### QBPM ###
-	print "   creating QBPM scannables"
+	localStation_print("   creating QBPM scannables")
 	qbpm1=EPICSODQBPMClass('QBPM1','BL16I-DI-IAMP-01',help='Current amp in optics hutch\nc1: White beam diode\nc2: broken\nc3: d3d diode\nc4: d4d diode')
 	qbpm7=EPICSODQBPMClass('QBPM7','BL16I-DI-IAMP-07',help='Current amp1 in experimental hutch\nc1: S5 diagnostic diode\nc2-4: not used')
 	qbpm6=EPICSODQBPMClass('QBPM6','BL16I-DI-IAMP-06',help='Current amp for QBPM in experimental hutch')
@@ -641,7 +659,7 @@ if installation.isLive():
 	#hpos=ReadSingleValueFromVectorPDClass(qbpm6,5,'hpos','%.4f',help='qbpm horizontal position (X)')
 	
 	### Foil inserters ###
-	print "   creating foil inserter scannables"
+	localStation_print("   creating foil inserter scannables")
 	Al10u=Foilinserter('Al10u',"BL16I-OP-ATTN-04:F1TRIGGER","BL16I-OP-ATTN-04:F1STATE",AlBulk,10)#,0.82674)
 	Al20u=Foilinserter('Al20u',"BL16I-OP-ATTN-04:F2TRIGGER","BL16I-OP-ATTN-04:F2STATE",AlBulk,20)#,0.68349)
 	Al40u=Foilinserter('Al40u',"BL16I-OP-ATTN-04:F3TRIGGER","BL16I-OP-ATTN-04:F3STATE",AlBulk,40)#,0.46716)
@@ -657,30 +675,29 @@ if installation.isLive():
 	atten.setOutputFormat(['%.0f', '%.4g'])
 	
 	### Polarization analyser ###
-	print "   creating polarisation analyser scannable: pol"
+	localStation_print("   creating polarisation analyser scannable: pol")
 #	pol=PolarizationAnalyser("Polarization Analyser",stokes,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset,      tthp_detoffset,cry_offset,ref_offset)
 	pol=PolarizationAnalyser("Polarization Analyser",stokes,thp,tthp,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,dettrans,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety)
 
 	
 	### TCA  ###
-	print "   creating TCA scanables"
+	localStation_print("   creating TCA scanables")
 	tca=TCA('BL16I-EA-DET-01:tca1')
 	tcasca1=tcasca('TCAsca1',"%4.3f",tca,"%",'1')
 	tcasca2=tcasca('TCAsca2',"%4.3f",tca,"%",'2')
 	tcasca3=tcasca('TCAsca3',"%4.3f",tca,"%",'3')  
 
 	### MCA ###
-	print "Creating MCA scannables: mca1, mca"
+	localStation_print("Creating MCA scannables: mca1, mca")
 	try:
 		mca1=Mca('MCA1','BL16I-EA-DET-01:aim_adc1')
 	except java.lang.IllegalStateException,e :
-		print "Could not initiliase mca1 scannable"
-		print e
+		localStation_exception("Could not initiliase mca1 scannable", e)
 	#mca2=Mca('MCA2','BL16I-EA-DET-02:aim_adc1') 
   	#(RobW) Removed March 21st 2011 to reflect this devices romoval from the Epics experimaental IOC
   	
   	### LS340 ###
-	print "Creating LS340 scannables"
+	localStation_print("Creating LS340 scannables")
 	try:
 		Treg=DisplayEpicsPVClassLS('T1',"BL16I-EA-LS340-01:",'K','%7f','0',7)
 		Tsam=DisplayEpicsPVClassLS('T1',"BL16I-EA-LS340-01:",'K','%7f','1',8)
@@ -707,9 +724,8 @@ if installation.isLive():
 #		Tb2=DisplayEpicsPVClassLS2('Tb2',"BL16I-EA-LS340-01:",'K','%4f','1',8); Tb2.setInputNames(['Tbs']);
 #		Tc2=DisplayEpicsPVClassLS2('Tc2',"BL16I-EA-LS340-01:",'K','%4f','2',8); Tc2.setInputNames(['Tcs']);
 #		Td2=DisplayEpicsPVClassLS2('Td2',"BL16I-EA-LS340-01:",'K','%4f','3',8); Td2.setInputNames(['Tds']);
-	except java.lang.IllegalStateException:
-		print "*** Could not connect to epics PVs for BL16I-EA-LS340-01 ***"
-		print "*** failed to create Scannables: Treg, Tsam, tset, T1, T1, Ta, Tb, Tc, Td, Ta2, Tb2, Tc2 & Td2 ***"
+	except java.lang.IllegalStateException, e:
+		localStation_exception("connecting to epics PVs for BL16I-EA-LS340-01 - failed to create Scannables: Treg, Tsam, tset, T1, T2, Ta, Tb, Tc, Td, Tas, Tbs, Tcs & Tds", e)
 	LSP=SingleEpicsPositionerSetAndGetOnlyClass('LS_P','BL16I-EA-LS340-01:P_S','BL16I-EA-LS340-01:P','P','%4f')
 	LSI=SingleEpicsPositionerSetAndGetOnlyClass('LS_I','BL16I-EA-LS340-01:I_S','BL16I-EA-LS340-01:I','I','%4f')
 	LSD=SingleEpicsPositionerSetAndGetOnlyClass('LS_D','BL16I-EA-LS340-01:D_S','BL16I-EA-LS340-01:D','D','%4f')
@@ -719,12 +735,12 @@ if installation.isLive():
 	
 	
 	### Struck ###
-	print "   creating new Stuck counter-timet object, t    Type help t"
+	localStation_print("   creating new Stuck counter-timet object, t    Type help t")
 	t=Struck2('t',"BL16I-EA-DET-01:SCALER",[3])
 	t.setname(3,'APD'); t.setname(4,'Scintillator1'); t.setname(5,'APD2'); t.setname(9,'SCA1'); t.setname(10,'SCA2'); t.setname(11,'SCA3'); t.setname(15,'IC2');
 
 	### Wait for beam ###
-	print "   creating checkbeam scannables"
+	localStation_print("   creating checkbeam scannables")
 	checkbeamcurrent=WaitForBeamPDClass('BeamOK',rc,10)
 #	checkbeam=WaitForBeamPDClass('BeamOK',ic1monitor,1); checkbeam.command_string='fill_if_needed()'	#fill cryocooler vessel while waiting for beam
 	checkbeam=WaitForBeamPDClass('BeamOK',ic1monitor,1); checkbeam.command_string='None'
@@ -732,7 +748,7 @@ if installation.isLive():
 	waitforinjection=WaitForInjectionPDClass('WaitForInjection',timetoinjection, 5, 5)
 
 	### x1trig and x2trig ###
-	print "Creating x1trig and x2trig"
+	localStation_print("Creating x1trig and x2trig")
 	x1trig = ToggleBinaryPvAndWait('x1trig', 'BL16I-EA-USER-01:BO1')
 	x1trig.triggerLength=0.1
 	x2trig = ToggleBinaryPvAndWait('x2trig', 'BL16I-EA-USER-01:BO2') 
@@ -749,22 +765,22 @@ if installation.isLive():
 
 	
 else:
-	print "NOT LIVE :SKIPPED EPICS DEVICES/MONITORS"
-	print "      Creating dummy bragg motor should be on PV:BL16I-MO-DCM-01:BRMTR:MOT.RBV"
+	localStation_print("NOT LIVE :SKIPPED EPICS DEVICES/MONITORS")
+	localStation_print("      Creating dummy bragg motor should be on PV:BL16I-MO-DCM-01:BRMTR:MOT.RBV")
 	bragg = dummyClass('bragg')
 	bragg.asynchronousMoveTo(-23.2997)
-	print "      Creating dummy perp motor should be on PV:BL16I-MO-DCM-01:FPMTR:PREAD"
+	localStation_print("      Creating dummy perp motor should be on PV:BL16I-MO-DCM-01:FPMTR:PREAD")
 	perp = dummyClass('perp')
 	bragg.asynchronousMoveTo(0.033523)
 
 
 ### Homebrew positioners
-print 'Creating positioners with preset values: mono_screens, mono_diode'
+localStation_print('Creating positioners with preset values: mono_screens, mono_diode')
 mono_screens=MoveScalarPDsToPresetValuesClass('mono_screens',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,33,20,33,20,35],[60,0,20,0,20,0]],help='0=all out; 1=fluo foils and d3a Al in, rest out')
 mono_diode=MoveScalarPDsToPresetValuesClass('mono_diodes',[d3a,d3d,d4a,d4d,d5a,d5d],[[90,33,20,33,20,35],[90,76.3,20,33,20,35],[90,33,20,75.5,20,35],[90,33,20,33,20,76.5]],help='0=all out; 1=d3d diode in, 2=d4d diode in; 3=d5diode in')
 
 ### Homebrew groups
-print "Creating OD current amplifier monitors"
+localStation_print("Creating OD current amplifier monitors")
 run("startup_currents")
 run("startup_currents2")
 sleep(1)
@@ -772,38 +788,38 @@ sleep(1)
 
 ###  Serial devices: Ace, X2000
 if installation.isLive():	
-	print "   Creating raw serial devices for x2000 and Ace cards"
+	localStation_print("   Creating raw serial devices for x2000 and Ace cards")
 	try:
 		acedict = {'reset':"RESET",'ver':"VER",'help':"HELP",'tlvl':"TLVL",'sout':"SOUT",'sca':"SCA",'alcur':"ALCURR",'alarm':"ALARM",'hcurr':"HCURR",'scaps':"OUT",'hvolt':"HVOLT",'hvmon':"HVMON",'info':"INFO",'ht':"HTEMP"}
 		ace1=ace("BL16I-EA-DET-04:asyn",acedict)		
 		ace2=ace("BL16I-EA-SPARE-05:asyn",acedict)		
 
 		if False: # Has not been used for years
-			print "Creating x2000sca & x2003 scannables"
+			localStation_print("Creating x2000sca & x2003 scannables")
 			x2000dict={'gain' : ":INP0:GAIN",'reset':"*RST0",'scaupp' : ":SENS0:SCA:UPP", 'scalow' : ":SENS0:SCA:LOW",'pkt' : ":SENS0:PKT",'volt' : ":SOUR0:VOLT",'sat' : ":SENS0:SAT",'fail' : ":SENS0:HVFAIL"}
 			x2000sca=x2000scaClass('X2000 sca1',"%4.3f",x2000,"cts")
 			x2003sca=x2000scaClass('X2003 sca1',"%4.3f",x2003,"cts")
 			x2003=x2000class("BL16I-EA-DET-03:asyn","\\006",x2000dict)
 			x2000=x2000class("BL16I-EA-DET-05:asyn","\\006",x2000dict)
 	
-		print "Creating Ace scannable: acesca"
+		localStation_print("Creating Ace scannable: acesca")
 		acesca=acesca1('APDsca',"%4.3f",ace1,"V")		
 		acesca2=acesca1('APDsca2',"%4.3f",ace2,"V")		
 
 	except java.lang.IllegalStateException, e:
-		print "*** WARNING: could not connect to Epics for x2000 and Ace cards"
-	
-	
+		localStation_exception("connecting to Epics for x2000 and Ace cards", e)
+
+
 ###############################################################################
 ###                      Monitor kth, delta, kappa                          ###
 ###############################################################################
-print "Creating more scannables to monitor kth, delta and kap."
+localStation_print("Creating more scannables to monitor kth, delta and kap.")
 kthshow=ReadPDGroupClass('kthshow',[kth]); kthshow.setLevel(8); #kthshow.setExtraNames(['kthshow']);kthshow.setOutputFormat(['%.6f'])
 delshow=ReadPDGroupClass('delshow',[delta]); delshow.setLevel(8); #delshow.setExtraNames(['delshow']);delshow.setOutputFormat(['%.6f'])
 kapshow=ReadPDGroupClass('kapshow',[kap]); kapshow.setLevel(8); #kapshow.setExtraNames(['kapshow']);kapshow.setOutputFormat(['%.6f'])
 
 if installation.isLive():
-	print "Creating kth_read and delta_read"
+	localStation_print("Creating kth_read and delta_read")
 	kth_read=EpicsMonitor()
 	kth_read.setPvName('BL16I-MO-DIFF-01:SAMPLE:KTHETA.RBV')
 	kth_read.name='kth_read'
@@ -855,13 +871,18 @@ import limits
 reload(limits)
 from limits import * #@UnusedWildImport
 limits.ROOT_NAMESPACE = globals()
-print "Setting user limits (running ConfigureLimits.py)"
-run("ConfigureLimits")
+localStation_print("Setting user limits (running ConfigureLimits.py)")
+try:
+	run("ConfigureLimits")
+except Exception as e:
+	localStation_exception("configuring limits", e)
+
 
 
 ###############################################################################
 ###                             Configure Pilatus                           ###
 ###############################################################################
+localStation_print("Configuring pilatus 2 (2m)")
 from scannable.detector.DetectorWithShutter import DetectorWithShutter
 ### 2m ###
 #pil2mdet = EpicsPilatus('pil2mdet', 'BL16I-EA-PILAT-02:','/dls/i16/detectors/im/','test','%s%s%d.tif')
@@ -887,6 +908,7 @@ pil2m.printNfsTimes = True
 pil2m.display_image = True
 pil2ms = DetectorWithShutter(pil2m, x1)
 
+localStation_print("Configuring pilatus 1 (100k)")
 ### 100k ###
 pil100kdet = pilatus1
 _pilatus1_counter_monitor = Finder.getInstance().find("pilatus1_plugins").get('pilatus1_counter_monitor')
@@ -918,6 +940,7 @@ from scannable.pilatus import PilatusThreshold, PilatusGain
 pil100kthresh = PilatusThreshold('pil100kthresh', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 pil100kgain = PilatusGain('pil100kgain', pilatus1_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 
+localStation_print("Configuring pilatus 3 (100k)")
 _pilatus3_counter_monitor = Finder.getInstance().find("pilatus3_plugins").get('pilatus3_counter_monitor')
 #pil3_100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil3_100k',
 pil3_100k = NxProcessingDetectorWrapper('pil3_100k',
@@ -942,6 +965,7 @@ pil3_100kthresh = PilatusThreshold('pil3_100kthresh', pilatus3_hardware_triggere
 pil3_100kgain =        PilatusGain('pil3_100kgain',   pilatus3_hardware_triggered.getCollectionStrategy().getAdDriverPilatus())
 
 ### cam2 ###
+localStation_print("Configuring cor (cam2)")
 cor = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor',
 							cam2,
 							None,
@@ -980,6 +1004,7 @@ from pv_scannable_utils import createPVScannable
 createPVScannable( "corExpTime", "BL16I-DI-COR-01:CAM:AcquireTime_RBV", hasUnits=False)
 corExpTime.level=10
 
+localStation_print("Configuring cor2")
 cor2 = SwitchableHardwareTriggerableProcessingDetectorWrapper('cor2',
 							c10,
 							None,
@@ -1010,6 +1035,7 @@ cor2Automax2d = DetectorDataProcessorWithRoi('cor2Automax2d', corAuto, [SumMaxPo
 createPVScannable( "cor2ExpTime", "BL16I-DI-DCAM-10:CAM:AcquireTime_RBV", hasUnits=False)
 cor2ExpTime.level=10
 
+localStation_print("Configuring xeye")
 xeye = SwitchableHardwareTriggerableProcessingDetectorWrapper('xeye',
                                                               _xeye,
                                                               None,
@@ -1030,6 +1056,7 @@ xeye.processors[0].processors[1].setScalingFactors(0.0014, 0.0014)
 
 #scan kphi -90 270 1. corAuto corAutopeak2d corExpTime
 
+localStation_print("Configuring zylar")
 zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper('zylar',
                                                                _zylar,
                                                                None,
@@ -1049,6 +1076,7 @@ zylar.processors=[DetectorDataProcessorWithRoi('peak', zylar, [SumMaxPositionAnd
 zylar.processors[0].processors[1].setScalingFactors(1, 1)
 
 ### cam1 ###
+localStation_print("Configuring bpm (cam1)")
 bpm = SwitchableHardwareTriggerableProcessingDetectorWrapper('bpm',
 							_cam1,
 							None,
@@ -1069,9 +1097,11 @@ bpmmax2d = DetectorDataProcessorWithRoi('bpmmax2d', bpm, [SumMaxPositionAndValue
 ###############################################################################
 ###                              Configure andor                            ###
 ###############################################################################
+localStation_print("Configuring andor")
 from uk.ac.diamond.scisoft.analysis.io import TIFFImageLoader
 # the andor has no hardware triggered mode configured. This class is used to hijak its DetectorSnapper implementation.
-andor = SwitchableHardwareTriggerableProcessingDetectorWrapper('andor',
+try:
+	andor = SwitchableHardwareTriggerableProcessingDetectorWrapper('andor',
 								andor1,
 								None,
 								andor1_for_snaps,
@@ -1083,19 +1113,16 @@ andor = SwitchableHardwareTriggerableProcessingDetectorWrapper('andor',
 								fileLoadTimout=15,
 								returnPathAsImageNumberOnly=True)
 
-from scannable.adbase import ADTemperature
-andortemp = ADTemperature('andortemp', andor1.getCollectionStrategy().getAdBase())
-from scannable.andor import andor_trigger_output_enable, andor_trigger_output_disable
-alias('andor_trigger_output_disable')
-alias('andor_trigger_output_enable')
-try:
+	from scannable.adbase import ADTemperature
+	andortemp = ADTemperature('andortemp', andor1.getCollectionStrategy().getAdBase())
+	from scannable.andor import andor_trigger_output_enable, andor_trigger_output_disable
+	alias('andor_trigger_output_disable')
+	alias('andor_trigger_output_enable')
 	andor_trigger_output_enable()
-except:
-	print "Error configuring andor"
-	print "Is IOC running?"
+except java.lang.Exception as e:
+	localStation_exception("configuring andor. Is IOC running?", e)
 
-
-print "-------------------------------MEDIPIX INIT---------------------------------------"
+localStation_print("-------------------------------MEDIPIX INIT---------------------------------------")
 try:
 	
 	#visit_setter.addDetectorAdapter(FileWritingDetectorAdapter(_medipix_det, create_folder=True, subfolder='medipix'))
@@ -1121,14 +1148,14 @@ try:
 	medipix.processors=[DetectorDataProcessorWithRoi('max', medipix, [SumMaxPositionAndValue()], False)]
 	'''
 	pass
-except gda.factory.FactoryException:
-	print " *** Could not connect to pilatus (FactoryException)"
-except 	java.lang.IllegalStateException:
-	print " *** Could not connect to pilatus (IllegalStateException)"
-print "-------------------------------MEDIPIX INIT COMPLETE---------------------------------------"
+except gda.factory.FactoryException as e:
+	localStation_exception("connecting to medipix (FactoryException)", e)
+except 	java.lang.IllegalStateException as e:
+	localStation_exception("connecting to medipix (IllegalStateException)", e)
+localStation_print("-------------------------------MEDIPIX INIT COMPLETE---------------------------------------")
 
 
-print "-------------------------------MERLIN INIT---------------------------------------"
+localStation_print("-------------------------------MERLIN INIT---------------------------------------")
 try:
 	
 	merlin = SwitchableHardwareTriggerableProcessingDetectorWrapper('merlin',
@@ -1144,11 +1171,11 @@ try:
 	merlin.disable_operation_outside_scans = False
 	merlin.processors=[DetectorDataProcessorWithRoi('max', merlin, [SumMaxPositionAndValue()], False)]
 
-except gda.factory.FactoryException:
-	print " *** Could not connect to merlin (FactoryException)"
-except 	java.lang.IllegalStateException:
-	print " *** Could not connect to merlin (IllegalStateException)"
-print "-------------------------------MERLIN INIT COMPLETE---------------------------------------"
+except gda.factory.FactoryException as e:
+	localStation_exception("connecting to merlin (FactoryException)", e)
+except 	java.lang.IllegalStateException as e:
+	localStation_exception("connecting to merlin (IllegalStateException)", e)
+localStation_print("-------------------------------MERLIN INIT COMPLETE---------------------------------------")
 ###############################################################################
 ###                              Configure Xmap                            ###
 ###############################################################################
@@ -1163,7 +1190,7 @@ if USE_XMAP:
 ###                           Theta with offset eta                         ###
 ###############################################################################
 
-print "Creating scannarcbles with offsets(th is eta with offset eta_offset"
+localStation_print("Creating scannarcbles with offsets(th is eta with offset eta_offset")
 from pd_offsetAxis import OffsetAxisClass
 # e.g. th is eta with eta_off as offset
 th=OffsetAxisClass('th',eta,eta_offset,help='eta device with offset given by eta_offset. Use pos eta_offset to change offset')
@@ -1195,7 +1222,7 @@ if installation.isLive():
 ###############################################################################
 ###                                Metadata                                 ###
 ###############################################################################
-print "Configuring metadata capture"
+localStation_print("Configuring metadata capture")
 
 run('Sample_perpMotion')
 
@@ -1262,19 +1289,19 @@ try:
 			meta_clear_alldynamical()
 		except:
 			pass
+		localStation_print("Adding metadata:")
 		for item in toadd:
-			print "Adding metadata:", item.name
-			print item
 			if _is_scannable(item):
 				meta_add(item)
+				localStation_print("  %s added" % item.name)
 			else:
-				print "%s was not scannable and could not be entered as metadata" % item.name
+				localStation_print("  %s was not scannable and could not be entered as metadata" % item.name)
 	else:
 		meta.add(*toadd)
 	
 	meta.prepend_keys_with_scannable_names = False
 	mds=meta
-	print "Removing frontend from metadata collection"
+	localStation_print("Removing frontend from metadata collection")
 	if USE_NEXUS_METADATA_COMMANDS:
 		meta_rm(frontend)
 	else:
@@ -1286,10 +1313,9 @@ try:
 		else:
 			addmeta(kbm1)
 			addmeta(kbmbase)
-	except NameError:
-		print "Not adding kbm1 or kbm1base metadata as these are unavailable"
+	except NameError as e:
+		localStation_exception("adding kbm1 or kbm1base metadata as these are unavailable", e)
 
-	
 except NameError, e:
 	# diffractometer_sample,xtalinfo are not yet available with diffcalc
 	print "!*"*40
@@ -1297,7 +1323,7 @@ except NameError, e:
 	print "Error trying to setup the metadata, metadata will not be properly written to files. Namespace error was: ",str(e)
 	print "!*"*40
 	print "!*"*40
-	localStation_exception("trying to set up metadata", e)
+	localStation_exception("trying to set up metadata, metadata will not be properly written to files.", e)
 
 ###Default Scannables###
 default_scannable_list = [kphi, kap, kth, kmu, kdelta, kgam, delta_axis_offset]
@@ -1328,13 +1354,13 @@ run('rePlot')
 
 run('whynobeam')
 
-print "New minimirrors function - type help minimirrors"
+localStation_print("New minimirrors function - type help minimirrors")
 run('minimirrors')
 
 if USE_DIFFCALC == False:
-	print "run possiblehkl_new"
+	localStation_print("run possiblehkl_new")
 	run('possiblehkl_new')
-	print "run Space Group Interpreter"
+	localStation_print("run Space Group Interpreter")
 	run('SGinterpreter')
 
 
@@ -1370,26 +1396,24 @@ run('FlipperClass')
 # Restore data directory
 setDatadirPropertyFromPersistanceDatabase()
 showlm()
-print "======================================================================"
 import gda.data.PathConstructor
-print "Current data directory: ", gda.data.PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir")
+print "======================================================================"
+localStation_print("Current data directory: %r" % gda.data.PathConstructor.createFromProperty("gda.data.scan.datawriter.datadir"))
 print "======================================================================"
 if USE_DUMMY_IDGAP_MOTOR or type(idgap.getMotor())==gda.device.motor.DummyMotor:
 	print "!"*80
-	print "Warning: Using a dummy idgap motor"
+	localStation_print("Warning: Using a dummy idgap motor")
 	print "!"*80
 if type(bragg.getMotor())==gda.device.motor.DummyMotor:
 	print "!"*80
-	print "WARNING: Using a dummy bragg motor"
+	localStation_print("WARNING: Using a dummy bragg motor")
 
 if USE_DIFFCALC:
-	print "WARNING: Using Diffcalc instead of Allesandro's code"
+	localStation_print("WARNING: Using Diffcalc instead of Allesandro's code")
 	
 	
 print "======================================================================"
 
-	
-	
 run('diffractometer/pid.py')
 ###############################################################################
 ###                           Diff - xpsgather                              ###
@@ -1434,9 +1458,9 @@ run('pd_function')	#to make PD's that return a variable
 #run('PDFromFunctionClass')#to make PD's that return the value of a function  - already run!
 
 print "==========================="
-print "Setting up continuous scans"
+localStation_print("Setting up continuous scans")
 run("setup_cvscan")
-print "Continuous scans setup"
+localStation_print("Continuous scans setup")
 print "==========================="
 
 if installation.isLive():
@@ -1494,7 +1518,7 @@ if SMARGON:
 	euler= EulerSmargonPseudoDevice.EulerianPseudoDevice("euler",san,kmu,kdelta,kgam)   
 	hkl = HklSmargon.HklSmargon("hkl",euler,rs,CA,EDi,az) 
 	
- 	print """ Smargon script was successful"""
+ 	localStation_print("Smargon script was successful")
 
 
 
@@ -1529,20 +1553,20 @@ def pilout():
 meta.add(dettrans) # should go in a better place
 
 print "*"*80
-print "Attempting to run localStationStaff.py from user scripts directory"
+localStation_print("Attempting to run localStationStaff.py from user scripts directory")
 try:
 	run("localStationStaff")
-	print "localStationStaff.py completed."
+	localStation_print("localStationStaff.py completed.")
 except java.io.FileNotFoundException, e:
 	print "No localStationStaff.py found in user scripts directory"
 except Exception as e:
 	localStation_exception("running localStationStaff user script", e)
 
 print "*"*80
-print "Attempting to run localStationUser.py from user scripts directory"
+localStation_print("Attempting to run localStationUser.py from user scripts directory")
 try:
 	run("localStationUser")
-	print "localStationUser.py completed."
+	localStation_print("localStationUser.py completed.")
 except java.io.FileNotFoundException, e:
 	print "No localStationUser.py found in user scripts directory"
 except Exception as e:
@@ -1555,5 +1579,5 @@ for localStationException in localStation_exceptions:
 	print localStationException
 
 print "======================================================================"
-print "Local Station Script completed"
+localStation_print("Local Station Script completed")
 print "======================================================================"
