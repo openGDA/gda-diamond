@@ -121,12 +121,14 @@ if (LocalProperties.get("gda.mode") == 'live'):
     add_default(topupMonitor)
     add_default(beamMonitor)
     add_default(detectorMonitorDataProvider)
-    run("userStartupScript")
 else :
     print "Moving dummy DCM's to useful positions..."
     energy(7000) # start the simulation with an energy in a useful range
     qexafs_energy(7000)
     print "...moves done";
+    print "Switching off Xspress3 file writing"
+    xspress3.setWriteHDF5Files(False)
+    
 
 # TODO move this to Spring config?
 from uk.ac.gda.beamline.b18.scannable import SimpleEpicsTemperatureController
@@ -149,10 +151,13 @@ except NameError:
 from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
 from gda.epics import CAClient
 if (LocalProperties.get("gda.mode") == 'live'):
-    controller=xspress3.getController()
-    controller.setPerformROICalculations(True)
-    controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
-    CAClient.put(controller.getEpicsTemplate()+":CTRL_DTC", 1)
+    try :
+        controller=xspress3.getController()
+        controller.setPerformROICalculations(True)
+        controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
+        CAClient.put(controller.getEpicsTemplate()+":CTRL_DTC", 1)
+    except Exception as exp : 
+        print "Problem setting Xspress3 PVs : ",exp
 
 #Set the path to empty so default visit directory (and subdirectory) is used for hdf files
 xspress3.setFilePath("")
@@ -168,5 +173,11 @@ def reconnect_daserver() :
 
 # Set nexusTreeWriter flag for buffered xspress2
 qexafs_xspress.setUseNexusTreeWriter(True)
+
+samplewheel_names.setPositions( samplewheel.getFilterNames() )
+
+if (LocalProperties.get("gda.mode") == 'live'):
+    print "Running user startup script"
+    run("userStartupScript")
 
 print "Initialization Complete";

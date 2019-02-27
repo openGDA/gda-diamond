@@ -27,26 +27,26 @@
 	</bean>
 
 <!--  Remove Xmap related beans - detector no longer used. imh 2/8/2016 -->
-<!-- 	<import resource="file:${gda.config}/servers/main/live/xmap_dxp.xml" /> -->
-<!-- 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController"> -->
-<!-- 		<property name="xmap" ref="xmap_dxp" /> -->
-<!-- 		<property name="elementOffset" value="1" /> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 		<property name="numberOfElements" value="4" /> -->
-<!-- 		<property name="hdf5" ref="hdf5" /> -->
-<!-- 	</bean> -->
-
-<!-- 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController"> -->
-<!-- 		<property name="edxdControllerName" value="edxdcontroller" /> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	</bean> -->
-
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
+	<import resource="file:${gda.config}/servers/main/live/xmap_dxp.xml" />
+	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
+		<property name="xmap" ref="xmap_dxp" />
+		<property name="elementOffset" value="1" />
+		<property name="local" value="true" />
 		<property name="numberOfElements" value="4" />
-		<property name="numberOfBins" value="1024" />
-		<property name="numberOfROIs" value="10" />
+		<property name="hdf5" ref="hdf5" />
+	</bean>
+
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
+		<property name="edxdController" ref="edxdcontroller" />
 		<property name="local" value="true" />
 	</bean>
+
+<!-- 	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController"> -->
+<!-- 		<property name="numberOfElements" value="4" /> -->
+<!-- 		<property name="numberOfBins" value="1024" /> -->
+<!-- 		<property name="numberOfROIs" value="10" /> -->
+<!-- 		<property name="local" value="true" /> -->
+<!-- 	</bean> -->
 
 	<bean id="struckScaler" class="gda.device.detector.EpicsScaler">
 		<property name="pvName" value="BL18B-EA-DET-01:SCALER" />

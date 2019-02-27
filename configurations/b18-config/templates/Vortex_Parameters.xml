@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VortexParameters>
-    <detectorName>xmapMca</detectorName>
+    <detectorName>vortexDetector</detectorName>
     <tfgName>tfg</tfgName>
     <countType>Static</countType>
     <collectionTime>1000.0</collectionTime>

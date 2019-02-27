@@ -148,6 +148,12 @@
 		</property>
 	</bean>
 
+	<bean id="vortexDetector" class="gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter" >
+		<constructor-arg index="0" ref="xmapMca" />
+		<constructor-arg index="1" value="4" />
+		<property name="mcaCollectionUsesTfg" value="true" />
+	</bean>
+
 	<bean id="det1" class="gda.device.detector.DummyBufferedDetector">
 		<property name="inputNames">
 			<list>

@@ -132,12 +132,15 @@
 	</bean>
 	<bean id="s1x2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="S1X2_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="s1y1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="S1Y1_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="s1y2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="S1Y2_motor" />
+		<property name="initialUserUnits" value="mm" />
 	</bean>
 	<bean id="s1xcentre" class="gda.device.scannable.TwoJawSlitPosition">
 		<property name="initialUserUnits" value="mm" />

@@ -107,7 +107,7 @@
 		<constructor-arg>
 			<ref bean="tfg" />
 		</constructor-arg>
-		
+		<property name="simulationFileName" value="simulationFileName" />
 		<property name="numberOfChannels" value="4"/>
 	</bean>
 
