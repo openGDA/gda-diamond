@@ -20,7 +20,7 @@ def ptl3cal():
 		pos d3a 12
 		scan energy ptl3-.05 ptl3+.05 .001 w .2 ic1
 #		print "Now go to edge and type: en.calibrate(11.564) "  ##
-		edgeval=eedge()
+		edgeval=eedge()	##### half way up log of intensity
 		go edgeval                     #
 		print('=== Energy calibration change: %.1f eV' % (1000*(edgeval-ptl3))) #Steve 28 Feb 2018
 		print('Going to '+str(edgeval)+' keV and calibrating')  #  Gareth 27 April 2016
@@ -159,7 +159,7 @@ def aligns5():
 	scancn ss.x .02 21 w .5 diode
 	go maxpos
 	scan s5xgap .1 -.05 -0.005 w .5 diode
-	pos ss [1 .01]
+	pos ss [1 .02]
 	scancn ss.y .005 31 w .5 diode
 	go maxpos
 	scan s5ygap .05 -.02 -0.002 w .5 diode
@@ -176,7 +176,7 @@ def aligns7():
 	scancn ds.x .02 21 w .5 diode
 	go maxpos
 	scan s7xgap .1 -.05 -0.005 w .5 diode
-	pos ds [1 .01]
+	pos ds [1 .02]
 	scancn ds.y .005 31 w .5 diode
 	go maxpos
 	scan s7ygap .05 -.02 -0.002 w .5 diode
