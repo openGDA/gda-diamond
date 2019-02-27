@@ -18,9 +18,7 @@
 	<import resource="epics/motor/dcm.xml" />
 	<import resource="epics/motor/m1.xml" />
 	<import resource="epics/motor/m2.xml" />
-	<!-- IOC off so diable or GDA start prevented
 	<import resource="epics/motor/p2.xml" />
-	 -->
 	<import resource="epics/motor/pa.xml" />
 	<import resource="epics/motor/s1.xml" />
 	<import resource="epics/motor/s2.xml" />

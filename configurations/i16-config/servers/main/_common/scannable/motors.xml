@@ -9,9 +9,7 @@
 	<import resource="motor/dcm.xml" />
 	<import resource="motor/m1.xml" />
 	<import resource="motor/m2.xml" />
-	<!-- IOC off so disable or GDA start prevented
 	<import resource="motor/p2.xml" />
-	 -->
 	<import resource="motor/pa.xml" />
 	<import resource="motor/s1.xml" />
 	<import resource="motor/s2.xml" />
