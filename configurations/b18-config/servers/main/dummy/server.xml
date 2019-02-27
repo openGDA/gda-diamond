@@ -13,6 +13,8 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/detectors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/xmap.xml" />
+
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mythen.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stanfords.xml" />

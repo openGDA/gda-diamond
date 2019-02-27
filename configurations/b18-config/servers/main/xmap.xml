@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Common Xmap configuration -->
+
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
+		<property name="controller" ref="xmapcontroller" />
+		<property name="slave" value="false" />
+		<property name="configFileName"
+			value="${gda.config}/templates/Vortex_Parameters.xml" />
+		<property name="tfg" ref="tfg" />
+		<property name="eventProcessingTimes">
+			<list>
+				<value>1.1029752060937018e-007</value>
+				<value>1.1407794527246737e-007</value>
+				<value>1.1465765791909203e-007</value>
+				<value>1.0675602460939456e-007</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="FFI0_vortex" class="gda.device.detector.xmap.TfgXMapFFoverI0">
+		<property name="xmap" ref="xmapMca" />
+		<property name="scalerName" value="counterTimer01" />
+	</bean>
+
+	<bean id="counterTimer03" class="gda.device.detector.xmap.TfgXmap">
+		<property name="xmap" ref="xmapMca" />
+		<property name="timer" ref="tfg" />
+		<property name="slave" value="true" />
+		<property name="minimumReadoutDelay" value="100" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="vortexDetector"
+		class="gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter">
+		<constructor-arg index="0" ref="xmapMca" />
+		<constructor-arg index="1" value="4" />
+		<property name="mcaCollectionUsesTfg" value="true" />
+	</bean>
+
+</beans>

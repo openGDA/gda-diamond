@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Dummy Xmap configuration -->
+
+	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
+		<property name="numberOfElements" value="4" />
+		<property name="numberOfBins" value="1024" />
+		<property name="numberOfROIs" value="10" />
+		<property name="local" value="true" />
+	</bean>
+
+	<import resource="file:${gda.config}/servers/main/xmap.xml" />
+
+	<!-- Make these last since they depend on xmapMca from main/xmap.xml -->
+
+	<bean id="qexafs_xmap" class="gda.device.detector.xmap.DummyXmapBufferedDetector">
+		<property name="xmap" ref="xmapMca" />
+		<property name="local" value="true" />
+		<property name="inputNames">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO">
+		<property name="qexafsXmap" ref="qexafs_xmap" />
+		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>

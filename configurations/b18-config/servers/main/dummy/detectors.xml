@@ -7,13 +7,6 @@
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
-	<bean id="xmapcontroller" class="gda.device.detector.xmap.DummyXmapController">
-		<property name="numberOfElements" value="4" />
-		<property name="numberOfBins" value="1024" />
-		<property name="numberOfROIs" value="10" />
-		<property name="local" value="true" />
-	</bean>
-
 	<bean id="DAServer" class="gda.device.detector.DummyDAServer">
 		<property name="local" value="True" />
 		<property name="host" value="b18-xspress0" />
