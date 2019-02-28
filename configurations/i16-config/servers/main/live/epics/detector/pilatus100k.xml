@@ -179,7 +179,7 @@
 	<bean id="pilatus1_hardware_triggered"
 			class="gda.device.detector.HardwareTriggeredNXDetector">
 		<property name="name" value="pilatus1_hardware_triggered" />
-		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController" />
+		<property name="hardwareTriggerProvider" ref="kphiZebraContinuousMoveController" />
 		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_hardware_triggering" />
 		<property name="additionalPluginList">
 			<list>
@@ -218,7 +218,7 @@
 	<bean id="zebrapil1"
 			class="gda.device.detector.HardwareTriggeredNXDetector">
 		<property name="name" value="zebrapil1" />
-		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController" />
+		<property name="hardwareTriggerProvider" ref="kphiZebraContinuousMoveController" />
 		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_hardware_triggering" />
 		<property name="additionalPluginList">
 			<list>
