@@ -1,14 +1,6 @@
-#### To run in dummy mode from the ide, you need to use ####
+#### To run in dummy mode from the IDE, you need to use ####
 
 activemq-for-dummy
-
-#### To run up the Simulated Area Detector ####
-
-Diamond Launcher > Utilities > GDA SWMR AreaDetector Simulation
-
-#### To try the new log panel ####
-
-module load gdalogpanel/snapshot ; gdalogpanel &
 
 #### Run an example scan using mandelbrot detector ####
 
@@ -20,25 +12,45 @@ Scanning Perspective
 			Fast Axis Count	5
 			Slow Axis		stage_y
 			Slow Axis Count	5
-			Snake			unckecked
+			Snake			unchecked
 	Detectors
 		Mandelbrot Example Detector		Check
 			...
 	Monitors
-		Unckeck all
+		Uncheck all
 
 mscan(path=[grid(axes=('stage_x', 'stage_y'), start=(-1.5, -1.0), stop=(0.5, 1.0), count=(5, 5), snake=False, continuous=False)], det=[detector('mandelbrot', 0.1, maxIterations=500, escapeRadius=10.0, columns=301, rows=241, points=1000, maxRealCoordinate=1.5, maxImaginaryCoordinate=1.2, realAxisName='stage_x', imaginaryAxisName='stage_y', enableNoise=False, noiseFreeExposureTime=5.0, saveImage=True, saveSpectrum=True, saveValue=True)])
 
-#### To scan a Simulated Area Detector ####
-
-
-
 #### To run up a local processing queue ####
 
+* From /dls_sw/i15-1/etc/init/start_dawn_consumer.sh
 
+module load consumer ; module load dawn/nightly
+consumer start operations_cluster -uri tcp://localhost:61616
 
 #### To run a scan with processing ####
 
+Inverted mandelbrot scan?
+
+?
+
+#### To run up the Simulated Area Detector ####
+
+Diamond Launcher > Utilities > GDA SWMR AreaDetector Simulation
+
+#### To scan a Simulated Area Detector ####
+
+?
+
+#### Run a new spec scan style mscan ####
+
+import as ssscan for solstice spec scan?
+
+?
+
+#### To try the new log panel ####
+
+module load gdalogpanel/snapshot ; gdalogpanel &
 
 =============================================================
 
