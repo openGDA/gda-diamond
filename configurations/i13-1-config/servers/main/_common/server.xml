@@ -31,23 +31,23 @@
 
 	<import resource="file:${gda.config}/devices/_common/simpleScannables.xml" />
 
-	<!-- =========================================================== --> 
+	<!-- =========================================================== -->
 	<!-- Device files with separate live and dummy versions          -->
 	<!-- =========================================================== -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/maxipix_tango.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/tfg2.xml" />
-	
+
 	<import resource="file:${gda.config}/devices/${gda.mode}/undulator.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/front_end.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/ring.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/ring_monitor.xml" />
-	
+
 	<!-- start of internal building -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/fast_shutter.xml"/>
 
 	<import resource="file:${gda.config}/devices/${gda.mode}/s1_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/filter_motors.xml"/>
-	
+
 	<import resource="file:${gda.config}/devices/${gda.mode}/gas_bremsstrahlung1.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/m1.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/d1.xml"/>
@@ -58,11 +58,11 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/s3_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/d3.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/absorbers3.xml"/>
-	
+
 	<!-- end of internal building / start of external building -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/optics_hutch4_shutter.xml"/>
 	<!-- <import resource="file:${gda.config}/devices/${gda.mode}/absorbers4.xml"/> -->
-    <import resource="file:${gda.config}/devices/${gda.mode}/qcm_motors.xml"/> 
+    <import resource="file:${gda.config}/devices/${gda.mode}/qcm_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/experiment_hutch_shutter.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/d4.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/d5.xml"/>
@@ -83,7 +83,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/float2.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/float3.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/float4.xml"/>
-	
+
 	<import resource="file:${gda.config}/devices/${gda.mode}/s7_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/scope1_motors.xml"/>
 
@@ -94,7 +94,7 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/zebra.xml" />
 	<import resource="file:${gda.config}/devices/${gda.mode}/xspress3_addetector.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/excalibur_addetector.xml"/>
-	
+
 	<import resource="file:${gda.config}/devices/${gda.mode}/afg.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t1_vac_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t2_motors.xml"/>
@@ -182,7 +182,7 @@
 	<import resource="file:${gda.config}/devices/_common/example_detectors.xml"/>
 
 	<import resource="file:${gda.config}/devices/_common/beam_watchdogs.xml"/>
-	
+
 	<import resource="file:${gda.config}/devices/_common/diffractometer.xml" />
 	<import resource="file:${gda.config}/devices/_common/afg.xml"/>
 	<import resource="file:${gda.config}/devices/_common/zebra.xml" />
