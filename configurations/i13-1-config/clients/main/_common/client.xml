@@ -10,6 +10,9 @@
 	<import resource="file:${gda.config}/clients/main/_common/osgi_services.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/adController.xml" />
 
+	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
+	<import resource="file:${gda.config}/clients/main/_common/mapping.xml" />
+
 	<import resource="file:${gda.config}/clients/rcp/statusView.xml" />
 	<import resource="file:${gda.config}/clients/rcp/alignmentView.xml" />
 	<import resource="file:${gda.config}/clients/rcp/detectorImage.xml" />

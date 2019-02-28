@@ -104,6 +104,8 @@
 	<import resource="file:${gda.config}/devices/${gda.mode}/t1_pi_motors.xml"/>
 	<import resource="file:${gda.config}/devices/${gda.mode}/t1_pi_lab_motors.xml"/>
 
+	<import resource="file:${gda.config}/devices/${gda.mode}/malcolm.xml"/>
+
 	<!-- piezo raster scan device  - must be included for maxipix -->
 	<import resource="file:${gda.config}/devices/${gda.mode}/pie725_raster.xml"/>
 
@@ -179,13 +181,14 @@
 	<import resource="file:${gda.config}/devices/_common/xspress3_addetector.xml"/>
 	<import resource="file:${gda.config}/devices/_common/excalibur_addetector.xml"/>
 	<import resource="file:${gda.config}/devices/_common/pco1_addetector.xml"/>
-	<import resource="file:${gda.config}/devices/_common/example_detectors.xml"/>
 
 	<import resource="file:${gda.config}/devices/_common/beam_watchdogs.xml"/>
 
 	<import resource="file:${gda.config}/devices/_common/diffractometer.xml" />
 	<import resource="file:${gda.config}/devices/_common/afg.xml"/>
 	<import resource="file:${gda.config}/devices/_common/zebra.xml" />
+
+	<import resource="file:${gda.config}/devices/_common/malcolm.xml" />
 
 	<!-- =========================================================== -->
 	<!-- end of device list -->
@@ -208,6 +211,14 @@
 
 	<!-- Initialise Jython late on in case scripts use Spring beans -->
 	<import resource="jythonServerFacade.xml" />
+
+	<!--
+		Mapping scans
+		IMPORTANT: this will start processing the scanning queue.
+		Detectors must be created before doing this.
+		ADVISED: do it last or towards the end, scan will now start to run!
+	 -->
+	<import resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
 
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />

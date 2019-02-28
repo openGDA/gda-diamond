@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Excalibur -->
+	<bean id="malcolmModelExcalibur" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL13J-ML-SCAN-01" />
+		<property name="exposureTime" value="0.01" />
+		<property name="axesToMove">
+			<list>
+				<value>t1_x</value>
+				<value>t1_y</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="malcolmDeviceExcalibur" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name" value="BL13J-ML-SCAN-01" />
+		<property name="model" ref="malcolmModelExcalibur" />
+		<property name="deviceInformation" ref="malcolmInfoExcalibur" />
+		<property name="activated" value="false" />
+	</bean>
+
+</beans>
