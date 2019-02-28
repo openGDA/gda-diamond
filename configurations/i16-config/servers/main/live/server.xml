@@ -66,6 +66,7 @@
 	<import resource="epics/detector/merlin.xml" />
 	<import resource="epics/detector/c10.xml" />
 	<import resource="epics/detector/xeye.xml" />
+	<import resource="epics/detector/zebra.xml" />
 	<import resource="epics/detector/zylar.xml" />
 
 	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
