@@ -3,14 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<!-- Command runner -->
-	<bean id="commandRunner" class="gda.jython.CommandRunnerBean" />
-
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="gda.jython.ICommandRunner" />
-		<property name="service" ref="commandRunner" />
-	</bean>
-
 	<!-- Tomography -->
 	<bean class="gda.util.osgi.OSGiServiceRegister">
 		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />

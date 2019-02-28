@@ -27,12 +27,4 @@
 		</property>
 	</bean>
 
-	<!-- Command runner -->
-	<bean id="commandRunner" class="gda.jython.CommandRunnerBean" />
-
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="gda.jython.ICommandRunner" />
-		<property name="service" ref="commandRunner" />
-	</bean>
-
 </beans>

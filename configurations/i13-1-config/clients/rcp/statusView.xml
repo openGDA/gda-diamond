@@ -60,7 +60,6 @@
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
 								<property name="command" value="eh_shtr_control()" />
-								<property name="commandRunner" ref="commandRunner" />
 								<property name="label" value="Open/Close" />
 								<property name="tooltip" value="Opens or closes the experiment hutch shutter" />
 								<property name="jobTitle" value="Experiment Hutch Open/Close" />
@@ -94,7 +93,6 @@
 								<property name="colourMap" ref="shutterStatusColourMap" />
 							</bean>
 							<bean class="uk.ac.gda.dls.client.views.RunCommandCompositeFactory">
-								<property name="commandRunner" ref="commandRunner" />
 								<property name="command" value="fs_control()" />
 								<property name="label" value="Open/Close" />
 								<property name="tooltip" value="Opens or closes the experiment fast shutter" />
