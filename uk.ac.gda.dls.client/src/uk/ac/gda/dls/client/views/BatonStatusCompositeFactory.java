@@ -61,9 +61,9 @@ import uk.ac.gda.views.baton.MessageView;
 import uk.ac.gda.views.baton.action.RefreshBatonAction;
 
 public class BatonStatusCompositeFactory implements CompositeFactory {
-	
+
 	static final Logger logger = LoggerFactory.getLogger(BatonStatusCompositeFactory.class);
-	
+
 	private String label;
 
 	public String getLabel() {
@@ -82,19 +82,19 @@ public class BatonStatusCompositeFactory implements CompositeFactory {
 
 class BatonStatusComposite extends Composite {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BatonStatusComposite.class);
-	
+
 	private final Color BATON_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_GREEN);
 	private final Color BATON_NOT_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_RED);
 	private final String BATON_HELD_TOOL_TIP="Baton held!\nRight click open menu\nLeft click open manager";
 	private final String BATON__NOT_HELD_TOOL_TIP="Baton not held!\nRight click open menu\nLeft click open manager";
 	private final String PROP_BATON_BANNER = "gda.beamline.baton.banner";
-	
+
 	private Display display;
 	private Color currentColor;
 	private Canvas batonCanvas;
 	private IBatonStateProvider batonState = InterfaceProvider.getBatonStateProvider();
 	private Font boldFont;
-	
+
 	private MenuItem takeBaton;
 	private MenuItem requestBaton;
 	private MenuItem releaseBaton;
@@ -106,7 +106,7 @@ class BatonStatusComposite extends Composite {
 
 		GridDataFactory.fillDefaults().applyTo(this);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(this);
-		
+
 		Group grp = new Group(this, style);
 		GridDataFactory.fillDefaults().applyTo(grp);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(grp);
@@ -116,9 +116,9 @@ class BatonStatusComposite extends Composite {
 		this.display = display;
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(this);
 		GridDataFactory.fillDefaults().applyTo(this);
-		
+
 		currentColor = BATON_NOT_HELD_COLOR;
-		
+
 		if (batonState.amIBatonHolder())
 			currentColor = BATON_HELD_COLOR;
 
@@ -142,16 +142,16 @@ class BatonStatusComposite extends Composite {
 				gc.drawOval(topLeft.x, topLeft.y, size.x, size.y);
 			}
 		});
-		
+
 		batonCanvas.setMenu(createPopup(this));
-		
+
 		//initialize tooltip
 		if (batonState.amIBatonHolder()) {
 			batonCanvas.setToolTipText(BATON_HELD_TOOL_TIP);
 		} else {
 			batonCanvas.setToolTipText(BATON__NOT_HELD_TOOL_TIP);
 		}
-		
+
 		final IObserver serverObserver = new IObserver() {
 			@Override
 			public void update(Object theObserved, final Object changeCode) {
@@ -168,7 +168,7 @@ class BatonStatusComposite extends Composite {
 							}
 							updateBatonCanvas();
 						}
-						
+
 						else if (changeCode instanceof UserMessage) {
 							// Message received - ensure "Messages" view is open
 							try {
@@ -193,7 +193,7 @@ class BatonStatusComposite extends Composite {
 				}
 			});
 		}
-		
+
 		batonCanvas.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -207,7 +207,7 @@ class BatonStatusComposite extends Composite {
 				}
 			}
 		});
-		
+
 		String banner = LocalProperties.get(PROP_BATON_BANNER, "");
 		if (!(null==banner || banner.isEmpty()) ) {
 			Label lblBanner = new Label(this, SWT.CENTER);
@@ -218,11 +218,12 @@ class BatonStatusComposite extends Composite {
 			lblBanner.setText(banner);
 			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.FILL).applyTo(lblBanner);
 		}
+
 	}
 
 	private void updateBatonCanvas() {
 		display.asyncExec(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				batonCanvas.redraw();
@@ -230,11 +231,11 @@ class BatonStatusComposite extends Composite {
 			}
 		});
 	}
-	
+
 	@SuppressWarnings("unused")
 	private Menu createPopup(Composite parent) {
 		Menu menu = new Menu(parent);
-		
+
 		takeBaton = new MenuItem(menu, SWT.NONE);
 		takeBaton.setText("Take Baton");
 		takeBaton.addSelectionListener(popupSelectionListener);
@@ -246,29 +247,29 @@ class BatonStatusComposite extends Composite {
 		requestBaton.addSelectionListener(popupSelectionListener);
 
 		new MenuItem(menu, SWT.SEPARATOR);
-		
+
 		openChat = new MenuItem(menu, SWT.NONE);
 		openChat.setText("Messaging");
 		openChat.addSelectionListener(popupSelectionListener);
-		
+
 		return menu;
 	}
-	
+
 	SelectionListener popupSelectionListener = new SelectionAdapter() {
 		@Override
 		public void widgetSelected(SelectionEvent event) {
 			MenuItem selected = null;
-			
+
 			if (event.widget instanceof MenuItem) {
 				selected = (MenuItem) event.widget;
 			}
 			else
 				return;
-			
+
 			if (selected.equals(takeBaton)) {
 				if (!InterfaceProvider.getBatonStateProvider().requestBaton()) {
 					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OK | SWT.ICON_WARNING);
-					messageBox.setMessage("You do not have enough authorisation to take the baton from the current holder.\n\n"+
+					messageBox.setMessage("You do not have enough authorisation to take the baton from the current holder.\n\n" +
 								"The current holder is aware of your request and will normally release within two minutes.");
 					messageBox.setText("Baton requested");
 					messageBox.open();
@@ -277,7 +278,6 @@ class BatonStatusComposite extends Composite {
 			}
 			else if (selected.equals(requestBaton)) {
 				boolean gotIt = InterfaceProvider.getBatonStateProvider().requestBaton();
-				
 				if (!gotIt) {
 					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.OK | SWT.ICON_WARNING);
 					messageBox.setMessage("The current holder is aware of your request.\n\nNormally the baton is released within two minutes.");
