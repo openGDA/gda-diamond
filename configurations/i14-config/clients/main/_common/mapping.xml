@@ -85,14 +85,9 @@
 		</property>
 	</bean>
 
-	<!-- Create a mapping experiment bean provider and register it as an OSGi service -->
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.api.IMappingExperimentBeanProvider" />
-		<property name="service">
-			<bean id="mapping_experiment_bean_provider" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBeanProvider">
-				<property name="mappingExperimentBean" ref="mapping_experiment_bean" />
-			</bean>
-		</property>
+	<!-- Create a mapping experiment bean provider -->
+	<bean id="mapping_experiment_bean_provider" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBeanProvider">
+		<property name="mappingExperimentBean" ref="mapping_experiment_bean" />
 	</bean>
 
 	<!-- Populate drop-down box of motors that can be used as fast & slow axis respectively -->
@@ -120,29 +115,12 @@
 		</property>
 	</bean>
 
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.impl.MappingStageOptions" />
-		<property name="service" ref="mapping_stage_options" />
-	</bean>
-
 	<!-- The mapping stage info object encapsulates the current choice of motors used for mapping experiments, and
 	     includes a beam size field which is used when showing the current beam position on the map plot -->
 	<bean id="mapping_stage_info" class="uk.ac.diamond.daq.mapping.impl.MappingStageInfo">
 		<property name="activeFastScanAxis" ref="x_axis_name" />
 		<property name="activeSlowScanAxis" ref="y_axis_name" />
 		<property name="beamSize" value="0.0001" />
-	</bean>
-
-	<!-- Register the mapping stage info bean as an OSGi service. Do this twice
-	under different interfaces to allow Jake's interface to be supported with
-	minimal changes to the surrounding code. This is messy and should be resolved. -->
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.impl.MappingStageInfo" />
-		<property name="service" ref="mapping_stage_info" />
-	</bean>
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="org.eclipse.scanning.api.ui.IStageScanConfiguration" />
-		<property name="service" ref="mapping_stage_info" />
 	</bean>
 
 	<!-- The mapping region manager lists the choice of available region types and scan paths which are presented to
@@ -198,12 +176,6 @@
 		</property>
 	</bean>
 
-	<!-- Register the mapping region manager as an OSGi service -->
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.api.IMappingRegionManager" />
-		<property name="service" ref="mapping_region_manager" />
-	</bean>
-
 	<!-- The focus scan bean provides the defaults used for a focus scan (a.k.a. butterfly scan) -->
 	<bean id="focus_scan_bean" class="uk.ac.diamond.daq.mapping.api.FocusScanBean">
 		<property name="focusScannableName" value="stage1_z" />
@@ -216,12 +188,6 @@
 				<value>XSP3/Merlin Malcolm coarse</value>
 			</list>
 		</property>
-	</bean>
-
-	<!-- Register the focus bean as an OSGi service -->
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.api.FocusScanBean" />
-		<property name="service" ref="focus_scan_bean" />
 	</bean>
 
 	<!-- Define the initial units for the various region fields -->
@@ -243,21 +209,10 @@
 		</constructor-arg>
 	</bean>
 
-	<!-- Register the initial units bean as an OSGi service -->
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.ui.experiment.InitialLengthUnits" />
-		<property name="service" ref="initialLengthUnits" />
-	</bean>
-
-	<!-- Create a ProcessingSetupConfiguration & register as an OSGi service -->
+	<!-- Create a ProcessingSetupConfiguration -->
 	<bean id="processingSetupConfiguration" class="uk.ac.diamond.daq.mapping.api.ProcessingSetupConfiguration">
 		<property name="defaultDetector" value="Xspress3" />
 		<property name="defaultProcessingFile" value="xrf_windows.nxs" />
-	</bean>
-
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.api.ProcessingSetupConfiguration" />
-		<property name="service" ref="processingSetupConfiguration" />
 	</bean>
 
 </beans>
