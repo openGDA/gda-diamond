@@ -52,7 +52,16 @@
             name="Scan Selection"
             restorable="true">
       </view>
+      <view
+      		allowMultiple="false"
+      		class="uk.ac.diamond.daq.experiment.ui.plan.PlanProgressPlotView"
+      		icon="icons/system-monitor.png"
+      		id="uk.ac.diamond.daq.experiment.ui.plan.progressPlotView"
+      		name="Plan Progress Plot View"
+      		restorable="true">
+      </view>
    </extension>
+   
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
