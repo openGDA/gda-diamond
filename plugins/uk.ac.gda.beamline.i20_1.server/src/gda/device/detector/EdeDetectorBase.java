@@ -389,7 +389,7 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 	@Override
 	public void setEnergyCalibration(CalibrationDetails energyCalibration) {
 		calibration = energyCalibration;
-		setEnergyCalibrationSet(true);
+		setEnergyCalibrationSet(calibration != null);
 		this.notifyIObservers(this, CALIBRATION_PROP_KEY);
 	}
 

@@ -22,21 +22,6 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="qexafs_xmap" class="gda.device.detector.xmap.DummyXmapBufferedDetector">
-		<property name="xmap" ref="xmapMca" />
-		<property name="local" value="true" />
-		<property name="inputNames">
-			<list>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO">
-		<property name="qexafsXmap" ref="qexafs_xmap" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-		<property name="local" value="true" />
-	</bean>
 
 	<bean id="qexafs_counterTimer01" class="gda.device.detector.countertimer.BufferedScaler">
 		<property name="extraNames">

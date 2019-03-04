@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.dawnsci.ede.CalibrationDetails;
 import org.dawnsci.ede.EdePositionType;
+import org.dawnsci.ede.PolynomialParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +40,7 @@ public class TimeResolvedExperimentParameters {
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedExperimentParameters.class);
 	public static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 
-	private String fileNamePrefix = "";
+	private String fileNameSuffix = "";
 	private String sampleDetails = "";
 	private boolean useFastShutter;
 	private String fastShutterName;
@@ -67,6 +70,13 @@ public class TimeResolvedExperimentParameters {
 	private double irefIntegrationTime;
 	private int i0ForIRefNoOfAccumulations;
 	private int irefNoOfAccumulations;
+
+	// Energy calibration parameters
+	private String energyCalibrationPolynomial;
+	/** Full path to reference data file used to perform the energy-position calibration */
+	private String energyCalibrationReferenceFile;
+	/** Full path to data file of measurement used to perform the energy-position calibration */
+	private String energyCalibrationFile;
 
 	private boolean hideLemoFields;
 
@@ -156,11 +166,11 @@ public class TimeResolvedExperimentParameters {
 		this.beamShutterScannableName = beamShutterScannableName;
 	}
 
-	public String getFileNamePrefix() {
-		return fileNamePrefix;
+	public String getFileNameSuffix() {
+		return fileNameSuffix;
 	}
-	public void setFileNamePrefix(String fileNamePrefix) {
-		this.fileNamePrefix = fileNamePrefix;
+	public void setFileNameSuffix(String fileNameSuffix) {
+		this.fileNameSuffix = fileNameSuffix;
 	}
 	public String getSampleDetails() {
 		return sampleDetails;
@@ -228,6 +238,30 @@ public class TimeResolvedExperimentParameters {
 	}
 	public boolean getHideLemoFields(boolean hideLemoFields) {
 		return this.hideLemoFields;
+	}
+
+	public String getEnergyCalibrationPolynomial() {
+		return energyCalibrationPolynomial;
+	}
+
+	public void setEnergyCalibrationPolynomial(String energyCalibrationPolynomial) {
+		this.energyCalibrationPolynomial = energyCalibrationPolynomial;
+	}
+
+	public String getEnergyCalibrationReferenceFile() {
+		return energyCalibrationReferenceFile;
+	}
+
+	public void setEnergyCalibrationReferenceFile(String energyCalibrationReferenceFile) {
+		this.energyCalibrationReferenceFile = energyCalibrationReferenceFile;
+	}
+
+	public String getEnergyCalibrationFile() {
+		return energyCalibrationFile;
+	}
+
+	public void setEnergyCalibrationFile(String energyCalibrationFile) {
+		this.energyCalibrationFile = energyCalibrationFile;
 	}
 
 	/**
@@ -372,31 +406,63 @@ public class TimeResolvedExperimentParameters {
 													params.getI0MotorPositions(), params.getItMotorPositions(),
 													params.getDetectorName(), params.getTopupMonitorName(), params.getBeamShutterScannableName());
 
-		// Set the Iref parameters
-		if (params.getDoIref()) {
-			theExperiment.setIRefParameters(params.getI0MotorPositions(), params.getiRefMotorPositions(),
-					params.getIrefIntegrationTime(), params.getI0ForIRefNoOfAccumulations(),
-					params.getIrefIntegrationTime(), params.getIrefNoOfAccumulations());
-		}
+		params.setEdeExperimentParameters(theExperiment);
 
-		theExperiment.setFileNamePrefix(params.getFileNamePrefix());
-		theExperiment.setSampleDetails(params.getSampleDetails());
-		theExperiment.setUseFastShutter(params.getUseFastShutter());
-		theExperiment.setFastShutterName(params.getFastShutterName());
+		// Time resolved specific parameters.
 		theExperiment.setWriteAsciiData(params.getGenerateAsciiData());
 		theExperiment.setItTriggerOptions(params.getItTriggerOptions());
 		if (params.getI0NumAccumulations()>0) { //I0 num accumulations != It num accumulations
 			theExperiment.setNumberI0Accumulations(params.getI0NumAccumulations());
 		}
-		params.addScannablesToMonitor(theExperiment);
 
 		if (params.getNumberOfRepetition()>1) {
 			theExperiment.setRepetitions(params.getNumberOfRepetition());
 		}
 
-		theExperiment.setParameterBean(params);
-
 		return theExperiment;
+	}
+
+	/**
+	 * Create new CalibrationDetails object from stored calibration parameters.
+	 * This is used by EdeDetectors to convert from channel to energy.
+	 * @param params
+	 * @return CalibrationDetails object if polynomial has been set; otherwise null.
+	 */
+	public CalibrationDetails createEnergyCalibration() {
+		CalibrationDetails calibDetails = null;
+
+		if (StringUtils.isNotEmpty(getEnergyCalibrationPolynomial())) {
+			calibDetails = new CalibrationDetails();
+
+			// set the sample and reference data file names
+			calibDetails.setSampleDataFileName(getEnergyCalibrationFile());
+			calibDetails.setReferenceDataFileName(getEnergyCalibrationReferenceFile());
+
+			// Set the PolynomialFunction by converting the polynomial string
+			double[] polyCoeffs = PolynomialParser.extractCoefficientsFromString(getEnergyCalibrationPolynomial());
+			PolynomialFunction polynomial = new PolynomialFunction(polyCoeffs);
+			calibDetails.setCalibrationResult(polynomial);
+		}
+
+		return calibDetails;
+	}
+
+	/**
+	 * Set the reference, sample filenames and energy calibration polynomial parameters from supplied CalibrationDetails object.
+	 * If null is passed in, these parameters are set to empty strings (i.e. settings for no energy calibration).
+	 * @param calibrationDetails
+	 */
+	public void setCalibrationDetails(CalibrationDetails calibrationDetails) {
+		if (calibrationDetails != null) {
+			setEnergyCalibrationFile(calibrationDetails.getSampleDataFileName());
+			setEnergyCalibrationReferenceFile(calibrationDetails.getReferenceDataFileName());
+			setEnergyCalibrationPolynomial(calibrationDetails.getCalibrationResult().toString());
+		} else {
+			// No calibration
+			setEnergyCalibrationFile("");
+			setEnergyCalibrationReferenceFile("");
+			setEnergyCalibrationPolynomial("");
+		}
 	}
 
 	private void addScannablesToMonitor(EdeExperiment edeExperiment) throws FactoryException {
@@ -440,15 +506,43 @@ public class TimeResolvedExperimentParameters {
 				itAccumulationTimes, itNumAccumulations, params.getI0MotorPositions(), params.getItMotorPositions(),
 				params.getDetectorName(), params.getTopupMonitorName(), params.getBeamShutterScannableName() );
 
-		theExperiment.setUseFastShutter(params.getUseFastShutter());
-		theExperiment.setFastShutterName(params.getFastShutterName());
+		params.setEdeExperimentParameters(theExperiment);
+
+		//Single spectrum specific parameters
 		theExperiment.setUseTopupChecker(useTopupChecker);
-		params.addScannablesToMonitor(theExperiment);
 
 		return theExperiment;
 	}
 
 	public SingleSpectrumScan createSingleSpectrumScan() throws DeviceException, FactoryException {
 		return createSingleSpectrumScan(this);
+	}
+
+	/**
+	 * Set values common to all {@link EdeExperiment}s. (i.e. {@link SingleSpectrumScan}s and {@link TimeResolvedExperiment}s).
+	 * <li> Iref parameters
+	 * <li> Sample name and suffix
+	 * <li> Fast shutter name, use fast shutter
+	 * <li> Energy name
+	 * <li> Parameter bean
+	 * <li> List of any scannables being monitored
+	 * @param theExperiment
+	 * @throws FactoryException
+	 * @throws DeviceException
+	 */
+	public void setEdeExperimentParameters(EdeExperiment theExperiment) throws FactoryException, DeviceException {
+		if (getDoIref()) {
+			theExperiment.setIRefParameters(getI0MotorPositions(), getiRefMotorPositions(),
+					getIrefIntegrationTime(), getI0ForIRefNoOfAccumulations(),
+					getIrefIntegrationTime(), getIrefNoOfAccumulations());
+		}
+
+		theExperiment.setUseFastShutter(getUseFastShutter());
+		theExperiment.setFastShutterName(getFastShutterName());
+		theExperiment.setFileNameSuffix(getFileNameSuffix());
+		theExperiment.setSampleDetails(getSampleDetails());
+		theExperiment.getDetector().setEnergyCalibration(createEnergyCalibration());
+		theExperiment.setParameterBean(this);
+		addScannablesToMonitor(theExperiment);
 	}
 }

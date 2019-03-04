@@ -161,7 +161,7 @@ public class CyclicExperimentModel extends TimeResolvedExperimentModel {
 				this.getNoOfRepeatedGroups()));
 
 		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setNoOfSecPerSpectrumToPublish(%f);\n", this.getNoOfSecPerSpectrumToPublish()));
-		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setFileNamePrefix(\"%s\");\n", this.getExperimentDataModel().getFileNamePrefix()));
+		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setFileNameSuffix(\"%s\");\n", this.getExperimentDataModel().getFileNameSuffix()));
 		builder.append(String.format(CYCLIC_EXPERIMENT_OBJ + ".setSampleDetails(\"%s\");\n", this.getExperimentDataModel().getSampleDetails()));
 
 		// Add timing groups

@@ -129,7 +129,7 @@ public abstract class EdeExperiment implements IObserver {
 
 	protected ScriptControllerBase controller;
 
-	private String fileNamePrefix = "";
+	private String fileNameSuffix = "";
 
 	private String sampleDetails = "";
 
@@ -459,10 +459,14 @@ public abstract class EdeExperiment implements IObserver {
 			XasAsciiNexusDataWriter dataWriter = new XasAsciiNexusDataWriter();
 			addMetaData(dataWriter);
 
-			String template = fileNamePrefix.isEmpty() ? "ascii/" + "%d.dat" : "ascii/" + fileNamePrefix + "_%d.dat";
+			String filenameTemplate = "%d";
+			if (!fileNameSuffix.isEmpty()) {
+				filenameTemplate += "_"+fileNameSuffix;
+			}
+			String template = "ascii/" + filenameTemplate+".dat";
 			dataWriter.setAsciiFileNameTemplate(template);
 
-			template = fileNamePrefix.isEmpty() ? "nexus/" + "%d.nxs" : "nexus/" + fileNamePrefix + "_%d.nxs";
+			template = "nexus/" + filenameTemplate+".nxs";
 			dataWriter.setNexusFileNameTemplate(template);
 
 			List<ScanBase> allScans = addAllScans();
@@ -567,12 +571,12 @@ public abstract class EdeExperiment implements IObserver {
 		NexusExtraMetadataDataWriter.addMetadataEntry(metadata);
 	}
 
-	public String getFileNamePrefix() {
-		return fileNamePrefix;
+	public String getFileNameSuffix() {
+		return fileNameSuffix;
 	}
 
-	public void setFileNamePrefix(String fileNamePrefix) {
-		this.fileNamePrefix = fileNamePrefix;
+	public void setFileNameSuffix(String fileNameSuffix) {
+		this.fileNameSuffix = fileNameSuffix;
 	}
 
 	public String getSampleDetails() {
@@ -900,5 +904,12 @@ public abstract class EdeExperiment implements IObserver {
 
 	public void setFrameThresholdForFastDataWriting(int thresholdForFastDataWriting) {
 		this.frameThresholdForFastDataWriting = thresholdForFastDataWriting;
+	}
+
+	/**
+	 * @return detector to be used for the scan
+	 */
+	public EdeDetector getDetector() {
+		return theDetector;
 	}
 }

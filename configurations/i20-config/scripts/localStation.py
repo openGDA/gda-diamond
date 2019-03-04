@@ -186,7 +186,7 @@ LocalProperties.set("gda.exafs.mono.energy.rate", "0.01");
 LocalProperties.set("gda.exafs.read.out.time", "1000.0");
 add_default detectorMonitorDataProvider
 
-cryostat.stop() # To stop the 'status' thread from running on the Lakeshore cryostat (fills logpanel with debug messages)
+# cryostat.stop() # To stop the 'status' thread from running on the Lakeshore cryostat (fills logpanel with debug messages)
 
 from gda.epics import CAClient
 ## Set file path and filename format if using 'real' XSpress4 detector

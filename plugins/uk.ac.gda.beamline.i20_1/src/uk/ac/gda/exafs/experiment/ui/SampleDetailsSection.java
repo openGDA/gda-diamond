@@ -34,7 +34,7 @@ import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
 
 /**
- * Create 'Sample details' section, with file prefix and sample description text boxes; also create
+ * Create 'Sample details' section, with file suffix and sample description text boxes; also create
  * binding between widget and {@link ExperimentDataModel}. </p>
  * This is common code refactored from {@link SingleSpectrumCollectionView} and {@link TimeResolvedExperimentView}
  * @since 27/4/2017
@@ -45,7 +45,7 @@ public class SampleDetailsSection {
 	private Composite experimentDetailsComposite;
 
 	final DataBindingContext dataBindingCtx = new DataBindingContext();
-	private Text prefixTextbox;
+	private Text suffixTextbox;
 	private Text sampleDescriptionTextbox;
 	private Composite parent;
 
@@ -62,14 +62,14 @@ public class SampleDetailsSection {
 		experimentDetailsComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
 		experimentDetailsSection.setClient(experimentDetailsComposite);
 
-		// File prefix and sample details
-		Composite prefixNameComposite = toolkit.createComposite(experimentDetailsComposite, SWT.NONE);
-		prefixNameComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
-		prefixNameComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
-		Label prefixLabel = toolkit.createLabel(prefixNameComposite, "File prefix", SWT.None);
-		prefixLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-		prefixTextbox = toolkit.createText(prefixNameComposite, "", SWT.BORDER);
-		prefixTextbox.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		// File suffix and sample details
+		Composite suffixNameComposite = toolkit.createComposite(experimentDetailsComposite, SWT.NONE);
+		suffixNameComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
+		suffixNameComposite.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
+		Label suffixLabel = toolkit.createLabel(suffixNameComposite, "File suffix", SWT.None);
+		suffixLabel.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		suffixTextbox = toolkit.createText(suffixNameComposite, "", SWT.BORDER);
+		suffixTextbox.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
 		Composite sampleDescComposite = toolkit.createComposite(experimentDetailsComposite, SWT.NONE);
 		sampleDescComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, false));
@@ -81,19 +81,19 @@ public class SampleDetailsSection {
 	}
 
 	/**
-	 * Create binding between 'file prefix' and 'sample description' textboxes and supplied {@link ExperimentDataModel} model.
+	 * Create binding between 'file suffix' and 'sample description' textboxes and supplied {@link ExperimentDataModel} model.
 	 * @param dataModel
 	 */
 	public void bindWidgetsToModel(ExperimentDataModel dataModel) {
-		dataBindingCtx.bindValue(WidgetProperties.text(SWT.Modify).observe(prefixTextbox),
-				BeanProperties.value(ExperimentDataModel.FILE_NAME_PREFIX_PROP_NAME).observe(dataModel));
+		dataBindingCtx.bindValue(WidgetProperties.text(SWT.Modify).observe(suffixTextbox),
+				BeanProperties.value(ExperimentDataModel.FILE_NAME_SUFFIX_PROP_NAME).observe(dataModel));
 
 		dataBindingCtx.bindValue(WidgetProperties.text(SWT.Modify).observe(sampleDescriptionTextbox),
 				BeanProperties.value(ExperimentDataModel.SAMPLE_DETAILS_PROP_NAME).observe(dataModel));
 	}
 
-	public Text getPrefixTextbox() {
-		return prefixTextbox;
+	public Text getSuffixTextbox() {
+		return suffixTextbox;
 	}
 
 	public Text getSampleDescriptionTextbox() {

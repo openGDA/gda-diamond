@@ -54,6 +54,7 @@ import gda.scan.ScanEvent;
 import gda.scan.ede.TimeResolvedExperimentParameters;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.alignment.ui.SampleStageMotorsComposite;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
 import uk.ac.gda.exafs.experiment.ui.data.TimeResolvedExperimentModel;
 import uk.ac.gda.exafs.ui.composites.ScannableListEditor;
@@ -79,7 +80,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 
 	private Text sampleDescText;
 
-	private Text prefixText;
+	private Text suffixText;
 
 	private SampleStageMotorsComposite sampleMotorsComposite;
 
@@ -119,7 +120,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		timingGroupSectionComposite.selectTimingGroupTableRow(0);
 
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
-				BeanProperties.value(TimeResolvedExperimentModel.USE_FAST_SHUTTER).observe(getModel()) );
+				BeanProperties.value(ExperimentDataModel.USE_FAST_SHUTTER_PROP_NAME).observe(getModel().getExperimentDataModel()) );
 
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(generateAsciiDataCheckbox),
 				BeanProperties.value(TimeResolvedExperimentModel.GENERATE_ASCII_DATA).observe(getModel()) );
@@ -166,7 +167,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					getModel().doCollection(prefixText.getText(), sampleDescText.getText());
+					getModel().doCollection(suffixText.getText(), sampleDescText.getText());
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
 				}
@@ -236,7 +237,7 @@ public class TimeResolvedExperimentView extends ViewPart {
 		SampleDetailsSection sampleDetailComp = new SampleDetailsSection(parent, toolkit);
 		sampleDetailComp.bindWidgetsToModel(getModel().getExperimentDataModel());
 
-		prefixText = sampleDetailComp.getPrefixTextbox();
+		suffixText = sampleDetailComp.getSuffixTextbox();
 		sampleDescText = sampleDetailComp.getSampleDescriptionTextbox();
 
 		Composite checkboxComposite = toolkit.createComposite(sampleDetailComp.getMainComposite(), SWT.NONE);
@@ -256,10 +257,10 @@ public class TimeResolvedExperimentView extends ViewPart {
 		setupScannableButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				scannableListEditor.setScannableInfoFromMap(getModel().getScannablesToMonitor());
+				scannableListEditor.setScannableInfoFromMap(getModel().getExperimentDataModel().getScannablesToMonitor());
 				scannableListEditor.open();
 				if (scannableListEditor.getReturnCode() == Window.OK) {
-					getModel().setScannablesToMonitor(scannableListEditor.getScannableMapFromList());
+					getModel().getExperimentDataModel().setScannablesToMonitor(scannableListEditor.getScannableMapFromList());
 				}
 			}
 		});

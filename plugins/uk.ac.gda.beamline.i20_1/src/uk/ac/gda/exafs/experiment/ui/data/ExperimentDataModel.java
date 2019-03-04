@@ -18,6 +18,8 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
+import java.util.Map;
+
 import com.google.gson.annotations.Expose;
 
 import uk.ac.gda.client.UIObservableModel;
@@ -43,13 +45,21 @@ public class ExperimentDataModel extends UIObservableModel {
 	@Expose
 	private boolean useNoOfAccumulationsForI0 = false;
 
-	public static final String FILE_NAME_PREFIX_PROP_NAME = "fileNamePrefix";
+	public static final String FILE_NAME_SUFFIX_PROP_NAME = "fileNameSuffix";
 	@Expose
-	private String fileNamePrefix;
+	private String fileNameSuffix;
 
 	public static final String SAMPLE_DETAILS_PROP_NAME = "sampleDetails";
 	@Expose
 	private String sampleDetails = "";
+
+	public static final String USE_FAST_SHUTTER_PROP_NAME = "useFastShutter";
+	@Expose
+	private boolean useFastShutter;
+
+	public static final String SCANNABLES_TO_MONITOR_PROP_NAME = "scannablesToMonitor";
+	@Expose
+	private Map<String, String> scannablesToMonitor = null;
 
 	public double getI0IntegrationTime() {
 		return i0IntegrationTime;
@@ -95,12 +105,12 @@ public class ExperimentDataModel extends UIObservableModel {
 	}
 
 
-	public String getFileNamePrefix() {
-		return fileNamePrefix;
+	public String getFileNameSuffix() {
+		return fileNameSuffix;
 	}
 
-	public void setFileNamePrefix(String fileNamePrefix) {
-		this.firePropertyChange(FILE_NAME_PREFIX_PROP_NAME, this.fileNamePrefix, this.fileNamePrefix = fileNamePrefix);
+	public void setFileNameSuffix(String fileNameSuffix) {
+		this.firePropertyChange(FILE_NAME_SUFFIX_PROP_NAME, this.fileNameSuffix, this.fileNameSuffix = fileNameSuffix);
 	}
 
 	public String getSampleDetails() {
@@ -110,4 +120,21 @@ public class ExperimentDataModel extends UIObservableModel {
 	public void setSampleDetails(String sampleDetails) {
 		this.firePropertyChange(SAMPLE_DETAILS_PROP_NAME, this.sampleDetails, this.sampleDetails = sampleDetails);
 	}
+
+	public void setUseFastShutter(boolean useFastShutter) {
+		this.firePropertyChange(USE_FAST_SHUTTER_PROP_NAME, this.useFastShutter, this.useFastShutter = useFastShutter);
+	}
+
+	public boolean getUseFastShutter() {
+		return useFastShutter;
+	}
+
+	public void setScannablesToMonitor(Map<String, String> scannablesToMonitor) {
+		this.firePropertyChange(USE_FAST_SHUTTER_PROP_NAME, this.scannablesToMonitor, this.scannablesToMonitor = scannablesToMonitor);
+	}
+
+	public Map<String, String> getScannablesToMonitor() {
+		return scannablesToMonitor;
+	}
+
 }

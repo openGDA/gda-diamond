@@ -26,8 +26,11 @@ import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -52,7 +55,9 @@ import uk.ac.gda.exafs.alignment.ui.SingleSpectrumParametersSection;
 import uk.ac.gda.exafs.calibration.ui.EnergyCalibrationComposite;
 import uk.ac.gda.exafs.data.DetectorModel;
 import uk.ac.gda.exafs.data.SingleSpectrumCollectionModel;
+import uk.ac.gda.exafs.experiment.ui.data.ExperimentDataModel;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
+import uk.ac.gda.exafs.ui.composites.ScannableListEditor;
 
 public class SingleSpectrumCollectionView extends ViewPart {
 
@@ -69,8 +74,9 @@ public class SingleSpectrumCollectionView extends ViewPart {
 //	private Form form;
 
 	private Composite sampleStageSectionsParent;
-	private Text prefixText;
+	private Text suffixText;
 	private Text sampleDescText;
+	private EnergyCalibrationComposite energyCalComposite;
 
 	private Binding sampleStageCompositeBinding;
 
@@ -100,7 +106,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 			SingleSpectrumParametersSection singleSpectrumParametersSection = new SingleSpectrumParametersSection(formParent, SWT.None);
 			singleSpectrumParametersSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 			createEnergyCalibrationSection(formParent);
-			createStartStopScanSection(parentComposite, toolkit, prefixText, sampleDescText);
+			createStartStopScanSection(parentComposite, toolkit, suffixText, sampleDescText);
 			form.layout();
 			parentComposite.setWeights(new int[] {5, 1});
 		} catch (Exception e) {
@@ -109,7 +115,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		}
 	}
 
-	static public void createStartStopScanSection(Composite parent, FormToolkit toolkit, final Text prefixTextBox, final Text descriptionTextBox ) {
+	private void createStartStopScanSection(Composite parent, FormToolkit toolkit, final Text suffixTextBox, final Text descriptionTextBox ) {
 		final Section startStopScanSection = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
 		startStopScanSection.setText("Scan run controls");
 		startStopScanSection.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -117,21 +123,21 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		Composite startStopSectionComposite = toolkit.createComposite(startStopScanSection, SWT.NONE);
 		startStopSectionComposite.setLayout(UIHelper.createGridLayoutWithNoMargin(2, true));
 		startStopScanSection.setClient(startStopSectionComposite);
-		addCollectionControls(startStopSectionComposite, toolkit, prefixTextBox, descriptionTextBox );
+		addCollectionControls(startStopSectionComposite, toolkit, suffixTextBox, descriptionTextBox );
 
 		SaveLoadButtonsForSingleCollection saveLoadButtons = new SaveLoadButtonsForSingleCollection(startStopSectionComposite, toolkit);
 	}
 
 	/**
-	 * Static method to add start, stop buttons to composite and apply databinding to single spectrum model properties..
-	 * Added to try and reduce code duplication between SingleSpectrumCollectionView and SingleSpectrumAlignmentView.
+	 * Method to add start, stop buttons to composite and apply databinding to single spectrum model properties..
+	 *
 	 * @param parent
 	 * @param toolkit
-	 * @param prefixTextBox
+	 * @param suffixTextBox
 	 * @param descriptionTextBox
 	 * @26/2/2016
 	 */
-	static public void addCollectionControls( Composite parent, FormToolkit toolkit, final Text prefixTextBox, final Text descriptionTextBox ) {
+	private void addCollectionControls( Composite parent, FormToolkit toolkit, final Text suffixTextBox, final Text descriptionTextBox ) {
 		final DataBindingContext dataBindingCtx = new DataBindingContext();
 
 		Button startAcquicitionButton = toolkit.createButton(parent, "Start", SWT.PUSH);
@@ -141,10 +147,10 @@ public class SingleSpectrumCollectionView extends ViewPart {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					if ( prefixTextBox == null ||  descriptionTextBox == null ) {
+					if ( suffixTextBox == null ||  descriptionTextBox == null ) {
 						getModel().doCollection(false, null, "");
 					} else {
-						getModel().doCollection(true, prefixTextBox.getText(), descriptionTextBox.getText());
+						getModel().doCollection(true, suffixTextBox.getText(), descriptionTextBox.getText());
 					}
 				} catch (Exception e) {
 					UIHelper.showError("Unable to scan", e.getMessage());
@@ -178,6 +184,23 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		});
 	}
 
+	private void addScannablesToMonitorControls(Composite parent) {
+		Button setupScannableButton = toolkit.createButton(parent, "Setup scannables/PVs to monitor", SWT.PUSH);
+		setupScannableButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+		ScannableListEditor scannableListEditor = new ScannableListEditor(parent.getShell());
+
+		setupScannableButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				scannableListEditor.setScannableInfoFromMap(getModel().getExperimentDataModel().getScannablesToMonitor());
+				scannableListEditor.open();
+				if (scannableListEditor.getReturnCode() == Window.OK) {
+					getModel().getExperimentDataModel().setScannablesToMonitor(scannableListEditor.getScannableMapFromList());
+				}
+			}
+		});
+	}
+
 	/**
 	 * Refactored from {@link #addCollectionControls}
 	 * @since 18/4/2017
@@ -190,14 +213,14 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		useFastShutterCheckbox.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 
 		dataBindingCtx.bindValue(WidgetProperties.selection().observe(useFastShutterCheckbox),
-				BeanProperties.value(SingleSpectrumCollectionModel.USE_FAST_SHUTTER_PROP_NAME).observe(getModel()) );
+				BeanProperties.value(ExperimentDataModel.USE_FAST_SHUTTER_PROP_NAME).observe(getModel().getExperimentDataModel()) );
 	}
 
 	/**
 	 * Linear experiment specific implementation of SaveLoadButtons class
 	 * (get parameters from gui, setup gui from parameters implemented)
 	 */
-	private static class SaveLoadButtonsForSingleCollection extends SaveLoadButtonsComposite {
+	private class SaveLoadButtonsForSingleCollection extends SaveLoadButtonsComposite {
 
 		public SaveLoadButtonsForSingleCollection(Composite parent, FormToolkit toolkit) {
 			super(parent, toolkit);
@@ -213,6 +236,9 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		protected void loadParametersFromFile(String filename) throws Exception {
 			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.loadFromFile(filename);
 			getModel().setupFromParametersBean(params);
+			updateCalibrationGui(getModel().getCalibrationDetails());
+			// Update the detector with the new calibration
+			DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(getModel().getCalibrationDetails());
 		}
 	}
 
@@ -220,28 +246,38 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		SampleDetailsSection sampleDetailComp = new SampleDetailsSection(formParent, toolkit);
 		sampleDetailComp.bindWidgetsToModel(getModel().getExperimentDataModel());
 
-		prefixText = sampleDetailComp.getPrefixTextbox();
+		suffixText = sampleDetailComp.getSuffixTextbox();
 		sampleDescText = sampleDetailComp.getSampleDescriptionTextbox();
 		addFastShutterControls(sampleDetailComp.getMainComposite(), toolkit);
+		addScannablesToMonitorControls(sampleDetailComp.getMainComposite());
 	}
 
-	private void createEnergyCalibrationSection(Composite parent) {
-		EnergyCalibrationComposite energyCalComposite = new EnergyCalibrationComposite(parent);
-		energyCalComposite.setShowPositions(false);
-		energyCalComposite.createSection("EDE calibration");
-
-		// Set the calibration details (if available from detector)
-		CalibrationDetails calibrationDetails = DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration();
+	private void updateCalibrationGui(CalibrationDetails calibrationDetails) {
 		if (calibrationDetails != null) {
 			energyCalComposite.setPolynomialString(calibrationDetails.getFormattedPolinormal());
 			energyCalComposite.setSampleFileName(calibrationDetails.getSampleDataFileName());
 			energyCalComposite.setReferenceFileName(calibrationDetails.getReferenceDataFileName());
 			energyCalComposite.updateGuiFromParameters();
 		}
+	}
 
-		// Update the detector after calibration has completed.
-		energyCalComposite.setAfterCalibrationRunnable(() ->
-			DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(energyCalComposite.getCalibrationDetails()) );
+	private void createEnergyCalibrationSection(Composite parent) {
+		energyCalComposite = new EnergyCalibrationComposite(parent);
+		energyCalComposite.setShowPositions(false);
+		energyCalComposite.createSection("EDE calibration");
+
+		// Get calibration from detector, update the model and gui
+		CalibrationDetails currentDetectorCalibration = DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration();
+		getModel().setCalibrationDetails(currentDetectorCalibration);
+		updateCalibrationGui(currentDetectorCalibration);
+
+		// Update the detector and model after calibration has completed.
+		energyCalComposite.setAfterCalibrationRunnable(() -> {
+			CalibrationDetails calibration = energyCalComposite.getCalibrationDetails();
+			DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(calibration);
+			getModel().setCalibrationDetails(calibration);
+			updateCalibrationGui(calibration);
+		});
 	}
 
 	private static SingleSpectrumCollectionModel getModel() {

@@ -18,11 +18,11 @@
 
 package uk.ac.gda.exafs.data;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.dawnsci.ede.CalibrationDetails;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -85,13 +85,11 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
 
-	public static final String USE_FAST_SHUTTER_PROP_NAME = "useFastShutter";
-	@Expose
-	private boolean useFastShutter;
-
 	public static final String USE_TOPUP_CHECKER_FOR_IT_PROP_NAME = "useTopupCheckerForIt";
 	@Expose
 	private boolean useTopupCheckerForIt;
+
+	private CalibrationDetails calibrationDetails;
 
 	private ScanJob job;
 
@@ -111,36 +109,26 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		((IObservable) Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME)).addIObserver(job);
 		InterfaceProvider.getJSFObserver().addIObserver(job);
 		job.setUser(true);
-		AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.ELEMENT_PROP_NAME, new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getNewValue() != null) {
-					SingleSpectrumCollectionModel.this.setCurrentElement(((Element) evt.getNewValue()).getSymbol());
-				}
+		AlignmentParametersModel.INSTANCE.addPropertyChangeListener(AlignmentParametersModel.ELEMENT_PROP_NAME, evt -> {
+			if (evt.getNewValue() != null) {
+				SingleSpectrumCollectionModel.this.setCurrentElement(((Element) evt.getNewValue()).getSymbol());
 			}
 		});
+
 		if (AlignmentParametersModel.INSTANCE.getElement() != null) {
 			SingleSpectrumCollectionModel.this.setCurrentElement(AlignmentParametersModel.INSTANCE.getElement().getSymbol());
 		}
 
 		loadSingleSpectrumData();
 
-		experimentDataModel.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
+		experimentDataModel.addPropertyChangeListener(evt -> saveSettings());
+
+		this.addPropertyChangeListener(evt -> {
+			if (evt.getPropertyName().equals(ALIGNMENT_STAGE_SELECTION)
+					|| evt.getPropertyName().equals(IT_INTEGRATION_TIME_PROP_NAME)
+					|| evt.getPropertyName().equals(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME)
+					|| evt.getPropertyName().equals(USE_TOPUP_CHECKER_FOR_IT_PROP_NAME)) {
 				saveSettings();
-			}
-		});
-		this.addPropertyChangeListener(new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				if (evt.getPropertyName().equals(ALIGNMENT_STAGE_SELECTION) ||
-						evt.getPropertyName().equals(IT_INTEGRATION_TIME_PROP_NAME) ||
-						evt.getPropertyName().equals(IT_NUMBER_OF_ACCUMULATIONS_PROP_NAME) ||
-						evt.getPropertyName().equals(USE_FAST_SHUTTER_PROP_NAME) ||
-						evt.getPropertyName().equals(USE_TOPUP_CHECKER_FOR_IT_PROP_NAME)) {
-					saveSettings();
-				}
 			}
 		});
 	}
@@ -188,10 +176,15 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		params.setTopupMonitorName(DetectorModel.TOPUP_CHECKER);
 		params.setBeamShutterScannableName(DetectorModel.SHUTTER_NAME);
 
-		params.setUseFastShutter(useFastShutter);
+		params.setUseFastShutter(experimentDataModel.getUseFastShutter());
 		params.setFastShutterName(DetectorModel.FAST_SHUTTER_NAME);
-		params.setFileNamePrefix(experimentDataModel.getFileNamePrefix());
+		params.setFileNameSuffix(experimentDataModel.getFileNameSuffix());
 		params.setSampleDetails(experimentDataModel.getSampleDetails());
+		params.setScannablesToMonitorDuringScan(experimentDataModel.getScannablesToMonitor());
+
+		// Set the calibration details, if available
+		params.setCalibrationDetails(calibrationDetails);
+
 		return params;
 	}
 
@@ -217,9 +210,12 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 
 		setupSampleStageMotors(params);
 
-		setUseFastShutter(params.getUseFastShutter());
-		experimentDataModel.setFileNamePrefix(params.getFileNamePrefix());
+		experimentDataModel.setUseFastShutter(params.getUseFastShutter());
+		experimentDataModel.setFileNameSuffix(params.getFileNameSuffix());
 		experimentDataModel.setSampleDetails(params.getSampleDetails());
+		experimentDataModel.setScannablesToMonitor(params.getScannablesToMonitorDuringScan());
+
+		calibrationDetails = params.createEnergyCalibration();
 	}
 
 	/**
@@ -239,17 +235,21 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 			return;
 		}
 		experimentDataModel = singleSpectrumData.getExperimentDataModel();
+
 		this.setItIntegrationTime(singleSpectrumData.getItIntegrationTime());
 		this.setItNumberOfAccumulations(singleSpectrumData.getItNumberOfAccumulations());
-
-		this.setUseFastShutter( singleSpectrumData.getUseFastShutter() );
 		this.setUseTopupCheckerForIt( singleSpectrumData.getUseTopupCheckerForIt() );
 
-		// Try to set up motors from stored xml bean
+		// Try to set up motors and energy calibration from stored xml bean
 		String xmlBean = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(SINGLE_SPECTRUM_PARAMETER_BEAN_STORE_KEY, String.class);
 		if (xmlBean != null) {
-			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.fromXML(xmlBean);
-			setupSampleStageMotors(params);
+			try {
+				TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.fromXML(xmlBean);
+				setupSampleStageMotors(params);
+				calibrationDetails = params.createEnergyCalibration();
+			}catch(Exception e) {
+				logger.warn("Problem setting up energy calibration details and sample stage motors", e);
+			}
 		} else {
 			// No motor parameters available, don't select anything
 			SampleStageMotors.INSTANCE.setSelectedMotors(new ExperimentMotorPostion[] {});
@@ -291,7 +291,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 						DetectorModel.TOPUP_CHECKER,
 						DetectorModel.SHUTTER_NAME));
 
-		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setUseFastShutter(%s);", getUseFastShutter() ? "True" : "False" ) );
+		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setUseFastShutter(%s);", experimentDataModel.getUseFastShutter() ? "True" : "False" ) );
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFastShutterName(\"%s\");", DetectorModel.FAST_SHUTTER_NAME ) );
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setUseTopupChecker(%s);", getUseTopupCheckerForIt() ? "True" : "False" ) );
 
@@ -300,8 +300,10 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
 					ExperimentUnit.MILLI_SEC.convertTo(experimentDataModel.getIrefIntegrationTime(), ExperimentUnit.SEC), experimentDataModel.getIrefNoOfAccumulations()));
 		}
-		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFileNamePrefix(\"%s\");", experimentDataModel.getFileNamePrefix()));
+		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFileNameSuffix(\"%s\");", experimentDataModel.getFileNameSuffix()));
 		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setSampleDetails(\"%s\");", experimentDataModel.getSampleDetails()));
+
+		addScannablesMethodCallToCommand(SINGLE_JYTHON_DRIVER_OBJ, builder);
 
 		addAccumulationReadoutTimeToMethodCall(SINGLE_JYTHON_DRIVER_OBJ, builder);
 
@@ -321,6 +323,22 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 			// Detector accumulation readout time (converted from default units[ns] to seconds)
 			double accumulationReadoutTimeSecs = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(DetectorModel.INSTANCE.getAccumulationReadoutTime(), ExperimentUnit.SEC);
 			builder.append(String.format("%s.setAccumulationReadoutTime(%g);", objectName, accumulationReadoutTimeSecs) );
+		}
+	}
+
+	protected void addScannablesMethodCallToCommand(String expObject, StringBuilder builder) {
+		Map<String,String> scannablesToMonitor = experimentDataModel.getScannablesToMonitor();
+		if (scannablesToMonitor != null) {
+			for(String name : scannablesToMonitor.keySet()) {
+				String pv = scannablesToMonitor.get(name);
+				if (pv.length()==0) {
+					// add name of scannable
+					builder.append(expObject + ".addScannableToMonitorDuringScan(\'"+name+"\');\n");
+				} else {
+					// add name of scannable and pv
+					builder.append(expObject + ".addScannableToMonitorDuringScan(\'"+pv+"\', \'"+name+"\');\n");
+				}
+			}
 		}
 	}
 
@@ -419,11 +437,11 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		return experimentDataModel;
 	}
 
-	public void doCollection(boolean forExperiment, String fileNamePrefix, String sampleDetails) throws Exception {
+	public void doCollection(boolean forExperiment, String fileNameSuffix, String sampleDetails) throws Exception {
 		if (!forExperiment) {
-			experimentDataModel.setFileNamePrefix(elementSymbol + "_cal");
+			experimentDataModel.setFileNameSuffix(elementSymbol + "_cal");
 		} else {
-			experimentDataModel.setFileNamePrefix(fileNamePrefix);
+			experimentDataModel.setFileNameSuffix(fileNameSuffix);
 			experimentDataModel.setSampleDetails(sampleDetails);
 		}
 
@@ -487,20 +505,20 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		return foilLocationForAlignment;
 	}
 
-	public boolean getUseFastShutter() {
-		return useFastShutter;
-	}
-
-	public void setUseFastShutter(boolean useFastShutter) {
-		this.firePropertyChange(USE_FAST_SHUTTER_PROP_NAME, this.useFastShutter, this.useFastShutter = useFastShutter);
-	}
-
 	public boolean getUseTopupCheckerForIt() {
 		return useTopupCheckerForIt;
 	}
 
 	public void setUseTopupCheckerForIt(boolean useTopupCheckerForIt) {
 		this.firePropertyChange(USE_TOPUP_CHECKER_FOR_IT_PROP_NAME, this.useTopupCheckerForIt, this.useTopupCheckerForIt = useTopupCheckerForIt);
+	}
+
+	public CalibrationDetails getCalibrationDetails() {
+		return calibrationDetails;
+	}
+
+	public void setCalibrationDetails(CalibrationDetails calibrationDetails) {
+		this.calibrationDetails = calibrationDetails;
 	}
 
 	public void save() throws DetectorUnavailableException {

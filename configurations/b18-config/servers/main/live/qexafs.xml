@@ -54,37 +54,8 @@
 		<property name="energySwitchPV" value="BL18B-OP-DCM-01:ENERGY_SWITCH" />
 	</bean>
 
-<!-- 	<bean id="qexafs_xmap" class="gda.device.detector.xmap.XmapBufferedDetector"> -->
-<!-- 		<property name="xmap" ref="xmapMca" /> -->
-<!-- 		<property name="controller" ref="edxdcontroller" /> -->
-<!-- 		<property name="daServer" ref="DAServer" /> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 		<property name="inputNames"> -->
-<!-- 			<list> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 		<property name="capturepv" value="BL18B-EA-DET-03:HDF:Capture" /> -->
-<!-- 		<property name="deadTimeEnabled" value = "false" /> -->
-<!-- 	</bean> -->
-
-<!-- Xmap no longer used, replace with dummy as temporary measure... imh 2/8/2016-->
-	<bean id="qexafs_xmap" class="gda.device.detector.xmap.DummyXmapBufferedDetector">
-		<property name="xmap" ref="xmapMca" />
-		<property name="local" value="true" />
-		<property name="inputNames">
-			<list>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
 		<property name="qexafsXspress" ref="qexafs_xspress" />
-		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO">
-		<property name="qexafsXmap" ref="qexafs_xmap" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
 		<property name="local" value="true" />
 	</bean>
