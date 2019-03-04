@@ -63,7 +63,11 @@
          <property
                name="windowImages"
                value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
-         </property>         
+         </property>
+         <property
+               name="lifeCycleURI"
+               value="bundleclass://uk.ac.gda.beamline.i20/uk.ac.gda.beamline.i20.I20Startup">
+         </property>
       </product>
    </extension>
    <extension
@@ -472,12 +476,6 @@
    
    -->
    
-   <extension
-         point="org.eclipse.ui.startup">
-      <startup
-          class="uk.ac.gda.beamline.i20.I20Startup">
-      </startup>
-   </extension>
    <extension
          point="org.eclipse.ui.commands">
       <command

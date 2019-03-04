@@ -39,15 +39,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.configuration.properties.LocalProperties;
-import uk.ac.gda.client.experimentdefinition.components.ExperimentPerspective;
 import uk.ac.gda.exafs.ExafsActivator;
 import uk.ac.gda.exafs.ui.data.ScanObjectManager;
 
@@ -57,7 +53,6 @@ public class I20IntroDialog extends Dialog {
 
 	protected I20IntroDialog(Shell parentShell) {
 		super(parentShell);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -155,14 +150,6 @@ public class I20IntroDialog extends Dialog {
 				store.save();
 			} catch (IOException ioException) {
 				logger.error("Problem saving XES/XAS mode preference to disk : ", ioException);
-			}
-
-			try {
-				for (IWorkbenchPage page : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPages())
-					page.close();
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().openPage(ExperimentPerspective.ID, null);
-			} catch (WorkbenchException e) {
-				e.printStackTrace();
 			}
 			close();
 		});

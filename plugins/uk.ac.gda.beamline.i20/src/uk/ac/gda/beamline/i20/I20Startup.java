@@ -19,29 +19,23 @@
 package uk.ac.gda.beamline.i20;
 
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IStartup;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.e4.ui.workbench.lifecycle.PostContextCreate;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class I20Startup implements IStartup {
+public class I20Startup {
 	private static final Logger logger = LoggerFactory.getLogger(I20Startup.class);
 	private static final String XES_PREFERENCE_IS_SET = "xes_preference_is_set";
 	private static final String SHOW_INTRO = "showIntro.Preference";
-
-	@Override
-	public void earlyStartup() {
-		PlatformUI.getWorkbench().getDisplay().asyncExec(this::startup);
-	}
 
 	/**
 	 * Display a dialog box to allow user to select XES/XAS experiment mode.
 	 * THis is displayed when client started up for the first time by a new new user.
 	 * and after workspace settings have been cleared (e.g. client started with --reset)
 	 */
+	@PostContextCreate
 	private void startup() {
 
 		// Lookup the 'show intro' preference from plugin customization -
@@ -60,8 +54,7 @@ public class I20Startup implements IStartup {
 		if (!Boolean.parseBoolean(xesPreferenceIsSet)) {
 			logger.debug("Displaying I20IntroDialog for user to select XES/XAS experiment mode");
 
-			Shell shell = PlatformUI.getWorkbench().getDisplay().getActiveShell();
-			I20IntroDialog introDialog = new I20IntroDialog(shell);
+			I20IntroDialog introDialog = new I20IntroDialog(null);
 			introDialog.setBlockOnOpen(true);
 			introDialog.open();
 
