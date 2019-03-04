@@ -1,15 +1,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Using diagnostic camera until diffraction camera is commissioned -->
 	<alias name="d2_adbase" alias="det_adbase" />
+	<alias name="d2_roi" alias="det_roi" />
 	<alias name="d2_stats" alias="det_stats" />
 	<alias name="d2_ndarray" alias="det_ndarray" />
 	<alias name="d2_ndfile" alias="det_ndfile" />
 	<alias name="d2_hdf5" alias="det_hdf5" />
 
 	<bean id="diffraction_camera_control" class="uk.ac.gda.epics.camera.EpicsCameraControl">
-		<constructor-arg ref="det_adbase" />
+		<constructor-arg name="adBase" ref="det_adbase" />
+		<constructor-arg name="ndRoi" ref="det_roi" />
 	</bean>
 </beans>
