@@ -30,6 +30,9 @@
 	
 	<!-- slits -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits/s1_motors.xml" />
+
+	<!-- mirrors -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m1_motors.xml" />
 	
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
@@ -69,6 +72,9 @@
 	
 	<!-- slits -->
 	<import resource="file:${gda.config}/servers/main/_common/slits/s1.xml" />
+
+	<!-- mirrors -->
+	<import resource="file:${gda.config}/servers/main/_common/mirrors/m1.xml" />
 	
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/_common/stages/tomography_stack.xml" />
