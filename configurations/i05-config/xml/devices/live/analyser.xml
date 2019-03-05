@@ -46,7 +46,6 @@
 	<bean id="analyser" class="uk.ac.gda.devices.vgscienta.VGScientaAnalyserCamOnly">
 		<property name="cpsRoiProvider" ref="analyser_roi_provider" />
 		<property name="pgmEnergyScannable" ref="pgm_energy" />
-		<property name="workFunction" value="4.5" />
 		<property name="controller" ref="controller" />
 		<property name="collectionStrategy" ref="analyser_collection_strategy" />
 		<property name="energyRange" ref="analyser_energy_range" />

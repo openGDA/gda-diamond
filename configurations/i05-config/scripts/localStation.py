@@ -7,6 +7,8 @@ print
 
 print "Importing generic features...";
 import java
+import array
+from WorkFunctionCalculator import WorkFunctionCalculator
 from gda.configuration.properties import LocalProperties
 from gda.device.scannable.scannablegroup import ScannableGroup
 from time import sleep, localtime
@@ -86,6 +88,24 @@ execfile(gdaScriptDir + "scan_creator.py")
 print "-" *20
 print "Adding PGM backlash scannables pgm_gtrans_bl and pgm_mtrans_bl"
 execfile(gdaScriptDir + "/beamline/pgm_with_backlash.py")
+
+print "\nLoading Work Function calculator... "
+wf_calculator = WorkFunctionCalculator()
+W_F = wf_calculator.getWorkFunction
+alias("W_F")
+# Add the work function calculator to the analyser
+analyser.setWorkFunctionProvider(wf_calculator)
+print "Added work function calculator - Usage: W_F(photon_energy)"
+binding_function = analyser.toBindingEnergy
+def B_E(photon_energy):
+    """Since analyser.toBindingEnergy(scannable) returns an array,
+    this function extracts the value from the array if that is the case"""
+    result = binding_function(photon_energy)
+    if isinstance(result, array.array):
+        return result[0]
+    return result
+alias("B_E")
+print "Added binding energy calculator - Usage: B_E(kinetic_energy)"
 
 import arpes
 execfile(gdascripts + "scan/pathscanCommand.py");
