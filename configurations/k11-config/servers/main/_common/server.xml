@@ -96,6 +96,8 @@
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
+	
+	<import resource="file:${gda.config}/servers/main/_common/experiment_driver.xml" />
 
 	<!--
 		Mapping scans

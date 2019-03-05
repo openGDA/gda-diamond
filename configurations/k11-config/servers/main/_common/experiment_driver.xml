@@ -3,16 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-	
-	<bean id="tr6_displacement" class="uk.ac.diamond.daq.experiment.plan.ScannableSignalSource">
-		<property name="scannable" ref="tr6_y" />
-	</bean>
-	
 	<bean id="tr6_driver" class="uk.ac.diamond.daq.experiment.driver.GdaScannableDriver">
 		<constructor-arg name="scannableMotor" ref="tr6_y" />
 		<property name="readouts">
 			<map>
-				<entry key="displacement" value-ref="tr6_displacement" />
+				<entry key="displacement" value-ref="tr6_y" />
 				<!-- in the future: strain -->
 			</map>
 		</property>
