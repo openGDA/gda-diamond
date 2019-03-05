@@ -34,6 +34,7 @@
 	<!-- mirrors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m1_motors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m2_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m3_motors.xml" />
 	
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stages/base_x.xml" />
@@ -77,6 +78,7 @@
 	<!-- mirrors -->
 	<import resource="file:${gda.config}/servers/main/_common/mirrors/m1.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/mirrors/m2.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/mirrors/m3.xml" />
 	
 	<!-- stages -->
 	<import resource="file:${gda.config}/servers/main/_common/stages/tomography_stack.xml" />

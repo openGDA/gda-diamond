@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<!-- COMBINED MOTION -->
+
+	<bean id="m3_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3_x_motor" />
+	</bean>
+
+	<bean id="m3_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3_y_motor" />
+	</bean>
+
+	<bean id="m3_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3_roll_motor" />
+	</bean>
+
+	<bean id="m3_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3_pitch_motor" />
+	</bean>
+
+	<bean id="m3_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3_yaw_motor" />
+	</bean>
+	
+	<bean id="m3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m3_x" />
+				<ref bean="m3_y" />
+				<ref bean="m3_roll" />
+				<ref bean="m3_pitch" />
+				<ref bean="m3_yaw" />
+			</list>
+		</property>
+	</bean>
+	
+	
+	<!-- RAW MOTION -->
+
+	<bean id="m3_x1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3_x1_motor" />
+	</bean>
+
+	<bean id="m3_x2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3_x2_motor" />
+	</bean>
+
+	<bean id="m3_y1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3_y1_motor" />
+	</bean>
+
+	<bean id="m3_y2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3_y2_motor" />
+	</bean>
+
+	<bean id="m3_y3" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="m3_y3_motor" />
+	</bean>
+
+	<bean id="m3_raw_motion" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m3_x1" />
+				<ref bean="m3_x2" />
+				<ref bean="m3_y1" />
+				<ref bean="m3_y2" />
+				<ref bean="m3_y3" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
