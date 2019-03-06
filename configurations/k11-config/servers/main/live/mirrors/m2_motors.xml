@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- COMBINED MOTION -->
+
+	<bean id="m2_x_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-MR-02:X" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-MR-02:Y" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_roll_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-MR-02:ROLL" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_pitch_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-MR-02:PITCH" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_yaw_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-MR-02:YAW" />
+		<property name="local" value="true" />
+	</bean>
+
+
+	<!-- RAW MOTION -->
+
+	<bean id="m2_x1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-MR-02:X1" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_x2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-MR-02:X2" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_y1_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-MR-02:Y1" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_y2_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-MR-02:Y2" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_y3_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-MR-02:Y3" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_bendus_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-MR-02:BENDUS" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="m2_bendds_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL11K-OP-MR-02:BENDDS" />
+		<property name="local" value="true" />
+	</bean>
+
+</beans>
