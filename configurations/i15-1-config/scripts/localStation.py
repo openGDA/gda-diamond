@@ -264,6 +264,3 @@ for localStationException in localStation_exceptions:
     simpleLog(localStationException)
 
 simpleLog("%s ================ GDA I15-1 ONLINE ================" % time.strftime("%Y-%m-%d %H:%M"))
-
-print "Note: GDA now uses JSR363 in place of JScience, see https://jira.diamond.ac.uk/browse/SCI-5822"
-print "      This means that Xpdf/calibration.py:getCalibrationStandards will need conversion"
