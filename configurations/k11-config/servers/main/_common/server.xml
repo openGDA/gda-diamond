@@ -30,6 +30,8 @@
 	
 	<!-- slits -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits/s1_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits/s2_motors.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/slits/s3_motors.xml" />
 
 	<!-- mirrors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mirrors/m1_motors.xml" />
@@ -75,6 +77,8 @@
 	
 	<!-- slits -->
 	<import resource="file:${gda.config}/servers/main/_common/slits/s1.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/slits/s2.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/slits/s3.xml" />
 
 	<!-- mirrors -->
 	<import resource="file:${gda.config}/servers/main/_common/mirrors/m1.xml" />
