@@ -261,7 +261,7 @@ public class TurboXasMotorParameters {
 		} else {
 			positionStepsize = getResolutionLimitedStepSize();
 		}
-		numReadoutsForScan = (int) Math.floor(getScanPositionRange()/positionStepsize);
+		numReadoutsForScan = Math.abs((int) Math.floor(getScanPositionRange()/positionStepsize));
 	}
 
 	/**
