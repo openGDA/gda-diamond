@@ -945,7 +945,7 @@ _pilatus3_counter_monitor = Finder.getInstance().find("pilatus3_plugins").get('p
 #pil3_100k = SwitchableHardwareTriggerableProcessingDetectorWrapper('pil3_100k',
 pil3_100k = NxProcessingDetectorWrapper('pil3_100k',
 		pilatus3,
-		kthZebraPil3,
+		kphiZebraPil3, # Switch to kthZebraPil3 if needed
 		pilatus3_for_snaps,
 		[],
 		panel_name_rcp='Pilatus',
