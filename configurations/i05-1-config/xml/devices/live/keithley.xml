@@ -12,4 +12,21 @@
 		<property name="local" value="true" />
 	</bean>
 
+	<bean id="keithley_a_source_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL05J-EA-SRCM-01:CHA:SourceRead"/>
+		<property name="poll" value="true"/>
+	</bean>
+	<bean id="keithley_b_source_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL05J-EA-SRCM-01:CHB:SourceRead" />
+		<property name="poll" value="true"/>
+	</bean>
+
+	<bean id="keithley_a_resistance_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL05J-EA-SRCM-01:CHA:ResistanceMode"/>
+		<property name="poll" value="true"/>
+	</bean>
+	<bean id="keithley_b_resistance_mode" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL05J-EA-SRCM-01:CHB:ResistanceMode" />
+		<property name="poll" value="true"/>
+	</bean>
 </beans>

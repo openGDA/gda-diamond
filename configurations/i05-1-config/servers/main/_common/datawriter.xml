@@ -99,6 +99,27 @@
 						<property name="units" value="1/mm" />
 					</bean>
 				</entry>
+				<!-- Keithley -->
+				<entry key="keithley_a_source_mode">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/keithley/keithley_a_source_mode" />
+					</bean>
+				</entry>
+				<entry key="keithley_a_resistance_mode">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/keithley/keithley_a_resistance_mode" />
+					</bean>
+				</entry>
+				<entry key="keithley_b_source_mode">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/keithley/keithley_b_source_mode" />
+					</bean>
+				</entry>
+				<entry key="keithley_b_resistance_mode">
+					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
+						<property name="paths" value="instrument:NXinstrument/keithley/keithley_b_resistance_mode" />
+					</bean>
+				</entry>
 				<!-- Sample Manipulator -->
 				<entry key="smx">
 					<bean class="gda.data.scan.datawriter.scannablewriter.SingleScannableWriter">
@@ -246,6 +267,11 @@
 				<value>s2_ysize</value>
 				<value>s2_xsize</value>
 				<value>pgm_cff</value>
+				<!-- Keithley -->
+				<value>keithley_a_source_mode</value>
+				<value>keithley_a_resistance_mode</value>
+				<value>keithley_b_source_mode</value>
+				<value>keithley_b_resistance_mode</value>
 				<!-- Manipulator -->
 				<value>smx</value>
 				<value>smy</value>
