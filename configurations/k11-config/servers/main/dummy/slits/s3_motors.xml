@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="s1_xplus_motor" class="gda.device.motor.DummyMotor">
+	<bean id="s3_xplus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-7.307" />
 		<property name="maxPosition" value="6.193" />
 		<property name="position" value="2.0" />
@@ -11,7 +11,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="s1_xminus_motor" class="gda.device.motor.DummyMotor">
+	<bean id="s3_xminus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-6.126" />
 		<property name="maxPosition" value="6.974" />
 		<property name="position" value="-2.0" />
@@ -19,7 +19,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="s1_yplus_motor" class="gda.device.motor.DummyMotor">
+	<bean id="s3_yplus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-4.8618" />
 		<property name="maxPosition" value="3.4382" />
 		<property name="position" value="0.5" />
@@ -27,7 +27,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="s1_yminus_motor" class="gda.device.motor.DummyMotor">
+	<bean id="s3_yminus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-3.4417" />
 		<property name="maxPosition" value="5.4583" />
 		<property name="position" value="-0.5" />
@@ -35,7 +35,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="s1_xsize_motor" class="gda.device.motor.DummyMotor">
+	<bean id="s3_xsize_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1.4996" />
 		<property name="maxPosition" value="15.0004" />
 		<property name="position" value="4.0014" />
@@ -43,7 +43,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="s1_xcentre_motor" class="gda.device.motor.DummyMotor">
+	<bean id="s3_xcentre_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-7.0005" />
 		<property name="maxPosition" value="6.9995" />
 		<property name="position" value="-0.001" />
@@ -51,7 +51,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="s1_ysize_motor" class="gda.device.motor.DummyMotor">
+	<bean id="s3_ysize_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-0.9314" />
 		<property name="maxPosition" value="7.0686" />
 		<property name="position" value="1.0706" />
@@ -59,7 +59,7 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="s1_ycentre_motor" class="gda.device.motor.DummyMotor">
+	<bean id="s3_ycentre_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-4.001" />
 		<property name="maxPosition" value="3.999" />
 		<property name="position" value="-0.0015" />
