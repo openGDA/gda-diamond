@@ -5,16 +5,18 @@
 
 	<!-- AD hardware -->
 
-	<bean id="pilatus1_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+	<bean id="pilatus1_adbase"
+			class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL16I-EA-PILAT-01:CAM:" />
 	</bean>
 
 	<bean id="pilatus1_driver"
-		class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
+			class="gda.device.detector.areadetector.v17.impl.ADDriverPilatusImpl">
 		<property name="basePVName" value="BL16I-EA-PILAT-01:CAM:" />
 	</bean>
 
-	<bean id="pilatus1_camserver_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+	<bean id="pilatus1_camserver_ndfile"
+			class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL16I-EA-PILAT-01:CAM:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
@@ -25,7 +27,8 @@
 		</property>
 	</bean>
 
-	<bean id="pilatus1_ndfile_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+	<bean id="pilatus1_ndfile_hdf5"
+			class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
 		<property name="basePVName" value="BL16I-EA-PILAT-01:HDF5:" />
 		<property name="file">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
@@ -40,10 +43,10 @@
 		</property>
 	</bean>
 
-
 	<!-- NXDetector collection strategies -->
 
-	<bean id="pilatus1_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+	<bean id="pilatus1_nxcollectionstrategy"
+			class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
 		<constructor-arg ref="pilatus1_adbase" />
 		<constructor-arg value=".003" />
 	</bean>
@@ -56,7 +59,7 @@
 	</bean>
 
 	<bean id="pilatus1_nxcollectionstrategy_for_hardware_triggering"
-		class="gda.device.detector.addetector.triggering.HardwareTriggeredPilatus">
+			class="gda.device.detector.addetector.triggering.HardwareTriggeredPilatus">
 		<constructor-arg ref="pilatus1_adbase" />
 		<constructor-arg ref="pilatus1_driver" />
 		<constructor-arg value=".003" />
@@ -64,18 +67,17 @@
 	</bean>
 
 	<bean id="pilatus1_nxcollectionstrategy_for_multiple_exposures_per_collection_internal_triggering"
-		class="gda.device.detector.addetector.triggering.MultipleExposurePerCollectionStandard">
+			class="gda.device.detector.addetector.triggering.MultipleExposurePerCollectionStandard">
 		<constructor-arg ref="pilatus1_adbase" />
 		<constructor-arg value=".003" />
 		<property name="readAcquisitionPeriod" value="true" />
 		<property name="timeFormat" value="%.6f" />
 	</bean>
 
-
 	<!-- NXDetector file writers -->
-	
+
 	<bean id="pilatus1_nxfilewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus100k" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
@@ -94,7 +96,7 @@
 	</bean>
 
 	<bean id="pilatus1_hdf5filewriter_for_scans"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pilatus1_ndfile_hdf5" />
 		<property name="fileNameTemplate" value="" />
 		<property name="filePathTemplate" value="$datadir$/$scan$-pilatus100k-files" />
@@ -105,7 +107,7 @@
 	</bean>
 
 	<bean id="pilatus1_nxfilewriter_for_hardware_triggering"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus100k" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
@@ -118,7 +120,7 @@
 	</bean>
 
 	<bean id="pilatus1_nxfilewriter_for_snaps"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriterWithNumTracker">
 		<constructor-arg value="pilatus100k" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="numTrackerExtension" value="pilatus100ksnaps" />
@@ -128,7 +130,7 @@
 	</bean>
 	
 	<bean id="pilatus1_nxfilewriter_for_multiple_exposures_per_collection_internal_triggering"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="pilatus100kmulti" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="keyNameForMetadataPathTemplate" value="pilatus100k_path_template" />
@@ -140,13 +142,15 @@
 		<property name="alwaysPrepare" value="true" />
 	</bean>
 	
-	<bean id="pilatus1_counter_monitor" class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayCounterMonitor">
+	<bean id="pilatus1_counter_monitor"
+			class="gda.device.detector.nxdetector.plugin.areadetector.ADArrayCounterMonitor">
 		<constructor-arg ref="pilatus1_adbase" />
 	</bean>
 
 	<!-- NXDetectors -->
 
-	<bean id="pilatus1" class="gda.device.detector.NXDetector">
+	<bean id="pilatus1"
+			class="gda.device.detector.NXDetector">
 		<property name="name" value="pilatus1" />
 		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy"/>
 		<!-- <property name="collectionStrategy" ref="pilatus1_softtrigger" /> -->
@@ -159,7 +163,8 @@
 		</property>
 	</bean>
 
-	<bean id="pilatus1_multi" class="gda.device.detector.NXDetector">
+	<bean id="pilatus1_multi"
+			class="gda.device.detector.NXDetector">
 		<property name="name" value="pilatus1_multi" />
 		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_multiple_exposures_per_collection_internal_triggering"/>
 		<property name="additionalPluginList">
@@ -171,9 +176,10 @@
 
 	<bean id="pilatus1_force_callbacks" class="gda.device.detector.nxdetector.plugin.NXForceCallbacks" />
 
-	<bean id="pilatus1_hardware_triggered" class="gda.device.detector.HardwareTriggeredNXDetector">
+	<bean id="pilatus1_hardware_triggered"
+			class="gda.device.detector.HardwareTriggeredNXDetector">
 		<property name="name" value="pilatus1_hardware_triggered" />
-		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController" />
+		<property name="hardwareTriggerProvider" ref="kphiZebraContinuousMoveController" />
 		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_hardware_triggering" />
 		<property name="additionalPluginList">
 			<list>
@@ -182,11 +188,11 @@
 		</property>
 	</bean>
 
-	<bean id="pilatus1_for_snaps" class="gda.device.detector.NXDetector">
+	<bean id="pilatus1_for_snaps"
+			class="gda.device.detector.NXDetector">
 		<property name="name" value="pilatus1_for_snaps" />
 		<property name="collectionStrategy">
-			<bean
-				class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
+			<bean class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
 				<constructor-arg ref="pilatus1_adbase" />
 				<constructor-arg value=".003" />
 			</bean>
@@ -200,7 +206,8 @@
 
 	<!-- Note most plugins are exposed via NXDetector's component system -->
 	<!-- >>>Finder.getInstance().find("pilatus1_plugins").get('pilatus1_counter_monitor') -->
-	<bean id="pilatus1_plugins" class="gda.device.FindableObjectHolder">
+	<bean id="pilatus1_plugins"
+			class="gda.device.FindableObjectHolder">
 		<property name="map">
 			<map>
 				<entry key="pilatus1_counter_monitor" value-ref="pilatus1_counter_monitor" />
@@ -208,9 +215,10 @@
 		</property>
 	</bean>
 
-	<bean id="zebrapil1" class="gda.device.detector.HardwareTriggeredNXDetector">
+	<bean id="zebrapil1"
+			class="gda.device.detector.HardwareTriggeredNXDetector">
 		<property name="name" value="zebrapil1" />
-		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController" />
+		<property name="hardwareTriggerProvider" ref="kphiZebraContinuousMoveController" />
 		<property name="collectionStrategy" ref="pilatus1_nxcollectionstrategy_for_hardware_triggering" />
 		<property name="additionalPluginList">
 			<list>
@@ -220,35 +228,8 @@
 		</property>
 	</bean>
 
-	<bean id="zebra1" class="gda.device.zebra.controller.impl.ZebraImpl">
-		<property name="zebraPrefix" value="BL16I-MO-DIFF-01:ZEB1:"/>
-		<property name="armPutNoWait" value="True" />
-	</bean>
-
-	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
-		<property name="zebra" ref="zebra1"/>
-		<property name="local" value="true" />
-		<property name="mode" value="1"/>
-		<property name="pcPulseGateNotTrigger" value="false"/>
-		<property name="minimumAccelerationDistance" value="0.008"/>
-	</bean>
-
-	<bean id="kphiZebra" class="gda.device.zebra.ZebraScannableMotor">
-		<property name="motor" ref="sixcKphiEpicsMotor" />
-		<property name="local" value="true" />
-		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
-		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
-	</bean>
-
-	<bean id="kthZebra" class="gda.device.zebra.ZebraScannableMotor">
-		<property name="motor" ref="sixcKthEpicsMotor" />
-		<property name="local" value="true" />
-		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
-		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->
-	</bean>
-
 	<bean id="zebrapil1_camserver_nxfilewriter_for_hardware_triggering"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
+			class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
 		<constructor-arg value="zebrapil1" />
 		<property name="ndFile" ref="pilatus1_camserver_ndfile" />
 		<property name="waitForFileArrival" value="false" />
@@ -260,5 +241,4 @@
 		<property name="returnPathRelativeToDatadir" value="true" />
 		<property name="alwaysPrepare" value="true" />
 	</bean>
-
 </beans>
