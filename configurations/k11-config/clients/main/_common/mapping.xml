@@ -85,18 +85,7 @@
 		<property name="activeFastScanAxis" ref="x_axis_name" />
 		<property name="activeSlowScanAxis" ref="y_axis_name" />
 		<property name="beamSize" value="0.1" />
-	  	<property name="defaultStreamSourceConfig" value="d1_cam_config" />
-	</bean>
-	<!-- Register the mapping stage info bean as an OSGi service. Do this Twice 
-		under different interfaces to allow Jake's interface to be supported with 
-		minimal changes to the surrounding code. This is messy and should be resolved. -->
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.impl.MappingStageInfo" />
-		<property name="service" ref="mapping_stage_info" />
-	</bean>
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="org.eclipse.scanning.api.ui.IStageScanConfiguration" />
-		<property name="service" ref="mapping_stage_info" />
+	  	<property name="defaultStreamSourceConfig" value="d2_cam_config" />
 	</bean>
 
 	<!-- The mapping region manager lists the choice of available region types and scan paths which are presented to
