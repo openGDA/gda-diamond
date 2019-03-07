@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- This file contains the the necessary configuration for an instance of malcolm
+	     launched from a local check-out of pymalcolm.
+	     1. Start the 'GDA AreaDetector Simulation'
+	     2. Clone malcolm using: git clone https://github.com/dls-controls/pymalcolm
+	     3. Change to the directory pymalcolm/malcolm within the cloned repository
+	          and run the demo using the command ./imalcolm.py modules/demo/DEMO-SCANNING.yaml
+	     4. Launch the gda servers and client
+	     5. Select 'Test Malcolm Device' - the fast and slow axes of the mapping stage will be updated
+	          automatically and a message dialog will confirm this.
+	     6. Select 'Queue Scan'
+	-->
+
+	<bean id="testMalcolmModel" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="SCAN"/>
+		<property name="exposureTime" value="0.01"/>
+	</bean>
+
+	<bean id="testMalcolmInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="id" value="org.eclipse.scanning.malcolm.testMalcolmDevice"/>
+		<property name="label" value="Test Malcolm Device"/>
+		<property name="description" value="A local malcolm device checked out from pymalcolm.git"/>
+	</bean>
+
+	<bean id="testMalcolmDevice" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="SCAN"/>
+		<property name="model" ref="testMalcolmModel"/>
+		<property name="deviceInformation" ref="testMalcolmInfo"/>
+		<property name="activated" value="false"/>
+	</bean>
+
+	<bean id="x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="x_motor"/>
+		<property name="initialUserUnits" value="mm"/>
+		<property name="hardwareUnitString" value="mm"/>
+	</bean>
+
+	<bean id="x_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="x_motor"/>
+		<property name="initialUserUnits" value="mm"/>
+		<property name="hardwareUnitString" value="mm"/>
+	</bean>
+
+	<bean id="y_motor" class="gda.device.motor.DummyMotor"/>
+
+</beans>
