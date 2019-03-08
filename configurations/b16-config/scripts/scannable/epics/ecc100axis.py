@@ -8,7 +8,7 @@ class Ecc100Axis(ScannableBase):
         self.name = name
         self.inputNames = [name]
         self.extraNames = []
-        self.outputFormat = ["%5.5g"]
+        self.outputFormat = ["%.6f"]
         self.pv_root = pvroot
         self.ca_freq = CAClient(self.pv_root + "CMD:FREQ")
         self.ca_freq_rbv = CAClient(self.pv_root + "CLC_FREQ")
