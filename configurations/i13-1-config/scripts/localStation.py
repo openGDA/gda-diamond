@@ -490,6 +490,7 @@ try:
 except:
 	print "Failed to create attocube axes!"
 
+excalibur_config_normal_vds.getCollectionStrategy().scriptFileName='/dls_sw/prod/common/python/RHEL6-x86_64/vds-gen/0-3-1/prefix/bin/versioned/dls-vds-gen-0.3.1.py'
 print(section_sep)
 # localStationUser.py should be run at the very end of this localStation.py
 if not LocalProperties.check("gda.dummy.mode"):
@@ -532,6 +533,6 @@ optics_zp.setName("optics_zp")
 optics_zp.configure()
 
 meta_add(optics_zp)
-
+caput("BL13J-EA-DET-04:HDF5:NDArrayPort", "merlin1.cam")
 print(section_sep)	
 print("\n Finished running localStation.py")
