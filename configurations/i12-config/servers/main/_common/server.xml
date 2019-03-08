@@ -149,7 +149,7 @@
 	<import resource="file:${gda.config}/devices/_common/t7.xml"/>
 	<import resource="file:${gda.config}/devices/_common/t8.xml"/>
 	<import resource="file:${gda.config}/devices/_common/zebra.xml"/>
-	<!-- <import resource="file:${gda.config}/devices/_common/deben_rig.xml"/> -->
+	<import resource="file:${gda.config}/devices/_common/deben_rig.xml"/>
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />

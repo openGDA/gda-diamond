@@ -9,7 +9,7 @@ print "adding deben objects and methods"
 dbn_pv_prefix = "BL12I-EA-DOF-01:RIG:"	# beamline specific
 
 dbn_rot = PositionCompareMotorClass(    "dbn_rot",\
-                                        dbn_pv_prefix+"TOP:MOTOR.VAL", dbn_pv_prefix+"TOP:MOTOR.RBV", dbn_pv_prefix+"TOP:MOTOR.STOP",\
+                                        dbn_pv_prefix+"BOT:MOTOR.VAL", dbn_pv_prefix+"BOT:MOTOR.RBV", dbn_pv_prefix+"BOT:MOTOR.STOP",\
                                         tolerance=0.002, unitstring="deg", formatstring="%.3f", wait_sec=1)
 dbn_rott = PositionCompareMotorClass(   "dbn_rott",\
                                         dbn_pv_prefix+"TOP:MOTOR.VAL", dbn_pv_prefix+"TOP:MOTOR.RBV", dbn_pv_prefix+"TOP:MOTOR.STOP",\

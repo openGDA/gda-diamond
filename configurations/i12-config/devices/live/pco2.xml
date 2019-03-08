@@ -118,4 +118,40 @@
 		</property>
 	</bean>	
 
+
+	<bean id="pco1_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+		<property name="basePVName" value="BL12I-EA-DET-02:CAM:" />
+	</bean>
+
+	<bean id="pco1_addriverpco" class = "gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
+		<property name="basePvName" value="BL12I-EA-DET-02:CAM"/>
+	</bean>
+	
+	<bean id="pco1_singleExposurePco" class="gda.device.detector.addetector.triggering.SingleExposurePco">
+		<constructor-arg ref="pco1_adbase" />
+		<constructor-arg ref="pco1_addriverpco"/>
+		<constructor-arg value="0" />
+	</bean>
+	
+	<bean id="pco1_sw_tif" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_sw_tif" />
+		<property name="collectionStrategy" ref="pco1_singleExposurePco"/>
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="pco1_sw_hdf" class="gda.device.detector.NXDetector">
+		<property name="name" value="pco1_sw_hdf"/>
+		<property name="addCollectTimeMs" value="true"/>
+		<property name="collectionStrategy" ref="pco1_singleExposurePco" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco_hdf_fileWriter" />
+			</list>
+		</property>
+	</bean>	
+	
 </beans>

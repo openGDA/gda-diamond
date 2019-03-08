@@ -20,8 +20,8 @@ except:
 def masterPositions():
     print "in masterPositions"
     detector_table = t3.m2z
-    detector_diffzposition= 1300
-    detector_SAFEdiffzposition= 1400
+    detector_diffzposition= 1000
+    detector_SAFEdiffzposition= 1400 # MUST be above 1400 - SAFE position to avoid collision with Granite block
     return detector_table , detector_diffzposition , detector_SAFEdiffzposition
     
 def monodiffractionPositions():
@@ -29,20 +29,20 @@ def monodiffractionPositions():
     detector_diffxposition= 757
     detector_diffyposition= 50
     #slitpositions
-    s2_diffxcentre= 0
-    s2_diffycentre=50
-    s2_diffxsize=0.1
-    s2_diffysize=0.1
+    s2_diffxcentre= 0.0
+    s2_diffycentre=50.0
+    s2_diffxsize=0.2 # BEAM SIZE for diffraction
+    s2_diffysize=0.2 # BEAM SIZE for diffraction
     
     s3_yheight=50
     s3_diffxcentre=0
     s3_diffycentre=0
-    s3_diffxsize=1
-    s3_diffysize=1
+    s3_diffxsize=2
+    s3_diffysize=2
     
     #beamstop positions for diffraction
-    beamstopInBeam_x = 97.1
-    beamstopInBeam_y = 5.8
+    beamstopInBeam_x = 97.04
+    beamstopInBeam_y = 8.6
     
     #calculated values
     beamstopInBeam_lowLimit = beamstopInBeam_x-10
@@ -52,7 +52,7 @@ def monodiffractionPositions():
     
 def monoimagingPositions():
     # detector positions
-    detector_imagingxposition=1351.22
+    detector_imagingxposition=1351.64
     
     #slitpositions
     s2_imagingxcentre= 0
@@ -60,14 +60,14 @@ def monoimagingPositions():
     s2_imagingxsize=4
     s2_imagingysize=4
     
-    s3_yheight= 50
+    s3_yheight= -150
     s3_imagingxcentre=0
     s3_imagingycentre=0
-    s3_imagingxsize=5
-    s3_imagingysize=5
+    s3_imagingxsize=2
+    s3_imagingysize=2
     
-    beamstopOutofBeam_x = 117.1
-    beamstopOutofBeam_y = 5.8
+    beamstopOutofBeam_x = 149.0
+    beamstopOutofBeam_y = 8.6
     
     #calculated values
     detector_imagingxposition_lowLimit = detector_imagingxposition-15   ## to restrict movement of pixium into beam when imaging
@@ -131,7 +131,9 @@ def monodiffractionMode():
 alias("monodiffractionMode")
 
 def moveToDiffractionMode():
+    
     monodiffractionMode()
+    
 alias("moveToDiffractionMode")
 
 def monoimagingMode():
@@ -148,6 +150,12 @@ def monoimagingMode():
     caput("BL12I-PS-SHTR-03:CON", 1) # 1 is closed. 0 is open
     print "******* External Shutter Closed"
     
+    #print "******* Moving tilts of Sample table for imaging mode"
+    #Sample Table 1 tilts
+    #pos(ss1_rx, 0.0194)
+    #pos(ss1_rz, 0.0067)
+    #print "******* Finished moving tilts of Sample table for imaging mode"
+
     print "***** Moving slits."
     pos(s2.xc, s2_imagingxcentre, s2.xs, s2_imagingxsize)
     pos(s2.yc, s2_imagingycentre, s2.ys, s2_imagingysize)

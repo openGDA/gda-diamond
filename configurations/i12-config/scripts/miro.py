@@ -160,16 +160,17 @@ class MiroXgraph():
 		self.download_options_dct = {-1: "PRE-trigger frames only", 0: "PRE- & POST-trigger frames", 1: "POST-trigger frames only", 2: "MANUAL selection of frames in EPICS"}
 
 	def sanity_check(self, nframes_post_trigger, exposure_time_sec, acq_period_sec, download_option):
-		overhead_sec = 20*10e-6 # Exposure time is less 20 microsecond of overhead 
+		#overhead_sec = 20*10e-6 # Exposure time is less 20 microsecond of overhead
+		overhead_sec = 2*10e-6
 		if exposure_time_sec > self.exposure_time_max_sec:
-			print "Exposure time of %.3f s is larger than the MAX exposure time: using the value of the MAX exposure time of %.3f instead!" %(exposure_time_sec, self.exposure_time_max_sec)
+			print "Exposure time of %s s is larger than the MAX exposure time: using the value of the MAX exposure time of %s instead!" %(exposure_time_sec, self.exposure_time_max_sec)
 			exposure_time_sec = self.exposure_time_max_sec
 
 		if acq_period_sec <= exposure_time_sec+overhead_sec:
 			#print "Acquisition period of %.3f s is smaller than the exposure time + overhead: using the value of the exposure time of %.3f instead!" %(acq_period_sec, exposure_time_sec)
 			#acq_period_sec = exposure_time_sec
 			exposure_time_sec = acq_period_sec - overhead_sec
-		print "Acquisition period of %.3f s is smaller or equal to the exposure time + overhead (20 us): using the exposure time of %.3f instead!" %(acq_period_sec, exposure_time_sec)
+		print "Acquisition period of %s s is smaller or equal to the exposure time + overhead (%s us): using the exposure time of %s instead!" %(acq_period_sec, overhead_sec, exposure_time_sec)
 
 		if nframes_post_trigger < 1:
 			print "Number of frames to be recorded POST trigger %d must not be less than 1: using the MIN value of 1 instead!" %(nframes_post_trigger)
@@ -218,8 +219,8 @@ class MiroXgraph():
 
 		self.set_data_collection_params(nframes_post_trigger, exposure_time_sec, acq_period_sec)
 
-		self._set_partition(1)
-		self._set_save_to_cine_partition(1)
+		#self._set_partition(1)					# commented out on advice from Robert 11 Feb 2019
+		#self._set_save_to_cine_partition(1)	# commented out on advice from Robert 11 Feb 2019
 		
 		if black_ref:
 			self._perform_black_ref()

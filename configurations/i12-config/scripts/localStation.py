@@ -34,9 +34,12 @@ from pv_scannable_utils import createPVScannable
 
 print "-------------------------------------------------"
 print "getting detectorModeSwitching"
-import detectorModeSwitching
+try:
+    import detectorModeSwitching
 #from detectorModeSwitching import moveToImagingMode, moveToDiffractionMode, moveToEndOfHutchDiagnostic
-
+except :
+    exceptionType, exception, traceback = sys.exc_info()
+    handle_messages.log(None, "Error on import detectorModeSwitching", exceptionType, exception, traceback, False)
 
 print "-------------------------------------------------"
 print "getting beamAttenuation"
@@ -1039,6 +1042,9 @@ if isLive():
         caput("BL12I-EA-DET-10:PRO1:EnableCallbacks", 1)
         caput("BL12I-EA-DET-10:CAM:Acquire", 1)
     alias("pixium_preview")
+    
+#    from deben import *
+#    deben_configure()
 
 print 
 print "==================================================="
