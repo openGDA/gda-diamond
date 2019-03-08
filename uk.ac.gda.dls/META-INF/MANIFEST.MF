@@ -32,7 +32,6 @@ Export-Package: gda.analysis.io,
  gda.gui.exafs,
  gda.images.camera,
  gda.images.camera.example,
- gda.scan,
  gda.util
 Import-Package: gda.device.detectorfilemonitor,
  org.apache.commons.math.linear;version="[2.2.0,3.0.0)",
