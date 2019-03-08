@@ -18,20 +18,15 @@
 
 package gda.gui.exafs;
 
-import org.jscience.physics.quantities.Angle;
 import org.jscience.physics.quantities.Energy;
-import org.jscience.physics.quantities.Length;
 import org.jscience.physics.quantities.Quantity;
 import org.jscience.physics.units.NonSI;
-import org.jscience.physics.units.SI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.jscience.physics.quantities.BraggAngle;
 import gda.jscience.physics.quantities.PhotonEnergy;
 import gda.jscience.physics.quantities.Vector;
 import gda.jscience.physics.quantities.WaveVector;
-import gda.jscience.physics.quantities.Wavelength;
 import gda.jscience.physics.units.NonSIext;
 
 /**
@@ -42,209 +37,42 @@ public class Converter {
 	private static final Logger logger = LoggerFactory.getLogger(Converter.class);
 
 	/**
-	 *
-	 */
-	public static final String EV = "eV";
-
-	/**
-	 *
-	 */
-	public static final String KEV = "keV";
-
-	/**
-	 *
-	 */
-	public static final String MDEG = "mDeg";
-
-	/**
-	 *
-	 */
-	public static final String ANGSTROM = "\u00c5";
-
-	/**
-	 *
-	 */
-	public static final String PERANGSTROM = "\u00c5\u207b\u00b9";
-
-	private static Length twoD = null;
-
-	private static Energy edgeEnergy = null;
-
-	private static Object[] allowedUnits = { EV, KEV, MDEG, ANGSTROM };
-
-	/**
-	 * @return allowedUnits
-	 */
-	public static Object[] getAllowedUnits() {
-		return allowedUnits;
-	}
-
-	/**
 	 * Default constructor prevents this class from being instantiated as only static methods exist.
 	 */
 	private Converter() {
 	}
 
 	/**
-	 * Set the built in mono 2D spacing
+	 * Convert electron energy to wave vector (per Angstrom)
 	 *
-	 * @param value
-	 *            new value in Angstroms
-	 */
-	public static void setTwoD(double value) {
-		twoD = Quantity.valueOf(value, NonSI.ANGSTROM);
-	}
-
-	/**
-	 * Set the built in edge energy
-	 *
-	 * @param value
-	 *            new value in keV
-	 */
-	public static void setEdgeEnergy(double value) {
-		edgeEnergy = Quantity.valueOf(value, SI.KILO(NonSI.ELECTRON_VOLT));
-	}
-
-	/**
-	 * Converts a value using previously specified values for the edge energy and twoD.
-	 *
-	 * @param value
-	 *            the input value
-	 * @param convertFromUnit
-	 *            units to convert from
-	 * @param convertToUnit
-	 *            units to convert to
-	 * @return the converted value
-	 */
-	public static double convert(double value, String convertFromUnit, String convertToUnit) {
-		logger.debug("convert(value = {}, convertFromUnit = {}, convertToUnit = {})", value, convertFromUnit, convertToUnit);
-		/* Use the built in edgeEnergy and twoD Quantities to call the real */
-		/* converting method. */
-		return convert(value, convertFromUnit, convertToUnit, edgeEnergy, twoD);
-	}
-
-	/**
-	 * Converts a value using temporary values for the edge energy and twoD.
-	 *
-	 * @param value
-	 *            the input value
-	 * @param convertFromUnit
-	 *            units to convert from
-	 * @param convertToUnit
-	 *            units to convert to
+	 * @param electronEnergy
+	 *            in eV
 	 * @param edgeEnergy
-	 *            the edge energy in keV
-	 * @param twoD
-	 *            twoD for the mono in Angstroms
-	 * @return the converted value
+	 *            in eV
+	 * @return wave vector as a double
 	 */
-	public static double convert(double value, String convertFromUnit, String convertToUnit, double edgeEnergy, double twoD) {
-		logger.debug("convert(value = {}, convertFromUnit = {}, convertToUnit = {}, edgeEnergy = {}, twoD = {})", value, convertFromUnit, convertToUnit, edgeEnergy, twoD);
-		/* Create Energy and Length Quantities from the temporary values and */
-		/* call the real converting method. */
-		return convert(value, convertFromUnit, convertToUnit, Quantity.valueOf(edgeEnergy, SI.KILO(NonSI.ELECTRON_VOLT)),
-				Quantity.valueOf(twoD, NonSI.ANGSTROM));
+	public static double convertEnergyToWaveVector(double electronEnergy, double edgeEnergy) {
+		logger.debug("convertEnergyToWaveVector(electronEnergy = {}, edgeEnergy = {}", electronEnergy, edgeEnergy);
+		final Energy edgeEnergyQuantity = Quantity.valueOf(edgeEnergy, NonSI.ELECTRON_VOLT);
+		final Energy electronEnergyQuantity = Quantity.valueOf(electronEnergy, NonSI.ELECTRON_VOLT);
+		final Vector waveVector = WaveVector.waveVectorOf(edgeEnergyQuantity, electronEnergyQuantity);
+		return waveVector.to(NonSIext.PER_ANGSTROM).getAmount();
 	}
 
 	/**
-	 * Converts a value
+	 * Convert wave vector (per Angstrom) to electron energy
 	 *
-	 * @param value
-	 *            the input value
-	 * @param convertFromUnit
-	 *            units to convert from
-	 * @param convertToUnit
-	 *            units to convert to
+	 * @param waveVectorValue
+	 *            as a double
 	 * @param edgeEnergy
-	 *            an Energy representing the edge energy in keV
-	 * @param twoD
-	 *            a Length representing twoD for the mono in Angstroms
-	 * @return the converted value
+	 *            in eV
+	 * @return electron energy in eV
 	 */
-	private static double convert(double value, String convertFromUnit, String convertToUnit, Energy edgeEnergy, Length twoD) {
-		if (convertFromUnit.equals(EV)) {
-			Energy energy = Quantity.valueOf(value, NonSI.ELECTRON_VOLT);
-
-			if (convertToUnit.equals(KEV)) {
-				value = value / 1000.0;
-			} else if (convertToUnit.equals(MDEG)) {
-				Angle angle = BraggAngle.braggAngleOf(energy, twoD);
-				value = angle.to(NonSIext.mDEG_ANGLE).getAmount();
-			} else if (convertToUnit.equals(ANGSTROM)) {
-				Length length = Wavelength.wavelengthOf(energy);
-				value = length.to(NonSI.ANGSTROM).getAmount();
-			} else if (convertToUnit.equals(PERANGSTROM)) {
-				Vector waveVector = WaveVector.waveVectorOf(edgeEnergy, energy);
-				value = waveVector.to(NonSIext.PER_ANGSTROM).getAmount();
-			}
-		} else if (convertFromUnit.equals(KEV)) {
-			Energy energy = Quantity.valueOf(value, SI.KILO(NonSI.ELECTRON_VOLT));
-
-			if (convertToUnit.equals(EV))
-				value = value * 1000.0;
-			else if (convertToUnit.equals(MDEG)) {
-				Angle angle = BraggAngle.braggAngleOf(energy, twoD);
-				value = angle.to(NonSIext.mDEG_ANGLE).getAmount();
-			} else if (convertToUnit.equals(ANGSTROM)) {
-				Length length = Wavelength.wavelengthOf(energy);
-				value = length.to(NonSI.ANGSTROM).getAmount();
-			} else if (convertToUnit.equals(PERANGSTROM)) {
-				Vector waveVector = WaveVector.waveVectorOf(edgeEnergy, energy);
-				value = waveVector.to(NonSIext.PER_ANGSTROM).getAmount();
-			}
-		} else if (convertFromUnit.equals(MDEG)) {
-			Angle angle = Quantity.valueOf(value, NonSIext.mDEG_ANGLE);
-
-			if (convertToUnit.equals(EV)) {
-				Energy energy = PhotonEnergy.photonEnergyOf(angle, twoD);
-				value = energy.to(NonSI.ELECTRON_VOLT).getAmount();
-			} else if (convertToUnit.equals(KEV)) {
-				Energy energy = PhotonEnergy.photonEnergyOf(angle, twoD);
-				value = energy.to(SI.KILO(NonSI.ELECTRON_VOLT)).getAmount();
-			} else if (convertToUnit.equals(ANGSTROM)) {
-				Length length = Wavelength.wavelengthOf(angle, twoD);
-				value = length.to(NonSI.ANGSTROM).getAmount();
-			} else if (convertToUnit.equals(PERANGSTROM)) {
-				Energy energy = PhotonEnergy.photonEnergyOf(angle, twoD);
-				Vector waveVector = WaveVector.waveVectorOf(edgeEnergy, energy);
-				value = waveVector.to(NonSIext.PER_ANGSTROM).getAmount();
-			}
-		} else if (convertFromUnit.equals(ANGSTROM)) {
-			Length length = Quantity.valueOf(value, NonSI.ANGSTROM);
-
-			if (convertToUnit.equals(EV)) {
-				Energy energy = PhotonEnergy.photonEnergyOf(length);
-				value = energy.to(NonSI.ELECTRON_VOLT).getAmount();
-			} else if (convertToUnit.equals(KEV)) {
-				Energy energy = PhotonEnergy.photonEnergyOf(length);
-				value = energy.to(SI.KILO(NonSI.ELECTRON_VOLT)).getAmount();
-			} else if (convertToUnit.equals(MDEG)) {
-				Angle angle = BraggAngle.braggAngleOf(length, twoD);
-				value = angle.to(NonSIext.mDEG_ANGLE).getAmount();
-			} else if (convertToUnit.equals(PERANGSTROM)) {
-				Energy energy = PhotonEnergy.photonEnergyOf(length);
-				Vector waveVector = WaveVector.waveVectorOf(edgeEnergy, energy);
-				value = waveVector.to(NonSIext.PER_ANGSTROM).getAmount();
-			}
-		} else if (convertFromUnit.equals(PERANGSTROM)) {
-			Vector v = Quantity.valueOf(value, NonSIext.PER_ANGSTROM);
-			Energy energy = PhotonEnergy.photonEnergyOf(edgeEnergy, v);
-			if (convertToUnit.equals(EV)) {
-				value = energy.to(NonSI.ELECTRON_VOLT).getAmount();
-			} else if (convertToUnit.equals(KEV)) {
-				value = energy.to(SI.KILO(NonSI.ELECTRON_VOLT)).getAmount();
-			} else if (convertToUnit.equals(MDEG)) {
-				Angle angle = BraggAngle.braggAngleOf(energy, twoD);
-				value = angle.to(NonSIext.mDEG_ANGLE).getAmount();
-			}
-		}
-		return value;
-	}
-
-	/**
-	 * @return twoD
-	 */
-	public static double getTwoD() {
-		return twoD.to(NonSI.ANGSTROM).getAmount();
+	public static double convertWaveVectorToEnergy(double waveVectorValue, double edgeEnergy) {
+		logger.debug("convertWaveVectorToEnergy(waveVectorValue = {}, edgeEnergy = {}", waveVectorValue, edgeEnergy);
+		final Energy edgeEnergyQuantity = Quantity.valueOf(edgeEnergy, NonSI.ELECTRON_VOLT);
+		final Vector waveVector = Quantity.valueOf(waveVectorValue, NonSIext.PER_ANGSTROM);
+		final Energy energy = PhotonEnergy.photonEnergyOf(edgeEnergyQuantity, waveVector);
+		return energy.to(NonSI.ELECTRON_VOLT).getAmount();
 	}
 }

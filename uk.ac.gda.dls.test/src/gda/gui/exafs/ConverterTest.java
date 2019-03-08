@@ -30,63 +30,26 @@ public class ConverterTest {
 	// Tolerance for imprecision of conversions
 	private static final double FP_TOLERANCE = 0.00001;
 
-	private static final String EV_STRING = "eV";
-	private static final String PERANGSTROM_STRING = "\u00c5\u207b\u00b9";
-
 	private static final double ENERGY_EV = 8932.2489387;
 	private static final double VECTOR_PER_ANGSTROM = 44.4632177;
 
-	private static final double EDGE_ENERGY_KEV = 1.4;
-
-	/**
-	 * Converts a value using temporary values for the edge energy and twoD.
-	 */
-	@Test
-	public void testConvertWithValues() {
-		double twoD = 0.0;
-		double edgeEnergy = 0.0;
-		double value = 0.0;
-		String convertFromUnit = null;
-		String convertToUnit = null;
-
-		convertFromUnit = "eV";
-		convertToUnit = "KeV";
-
-		Converter.convert(value, convertFromUnit, convertToUnit, edgeEnergy, twoD);
-
-		convertFromUnit = "eV";
-		convertToUnit = "mDeg";
-
-		Converter.convert(value, convertFromUnit, convertToUnit, edgeEnergy, twoD);
-
-		convertFromUnit = "eV";
-		convertToUnit = "Ang";
-
-		Converter.convert(value, convertFromUnit, convertToUnit, edgeEnergy, twoD);
-
-		convertFromUnit = "eV";
-		convertToUnit = "PerAngstrom";
-
-		Converter.convert(value, convertFromUnit, convertToUnit, edgeEnergy, twoD);
-	}
+	private static final double EDGE_ENERGY_EV = 1400.0;
 
 	//----------------------------------------------------------------------------------------
 	// Convert eV -> PerAngstrom
 	//----------------------------------------------------------------------------------------
 	@Test
 	public void testConvertEvToPerAngstromZero() {
-		Converter.setEdgeEnergy(0);
-		assertEquals(0.0, Converter.convert(0.0, EV_STRING, PERANGSTROM_STRING), FP_TOLERANCE);
+		assertEquals(0.0, Converter.convertEnergyToWaveVector(0.0, 0.0), FP_TOLERANCE);
 	}
 
 	@Test
 	public void testConvertEvToPerAngstrom() {
-		Converter.setEdgeEnergy(EDGE_ENERGY_KEV);
-		assertEquals(VECTOR_PER_ANGSTROM, Converter.convert(ENERGY_EV, EV_STRING, PERANGSTROM_STRING), FP_TOLERANCE);
+		assertEquals(VECTOR_PER_ANGSTROM, Converter.convertEnergyToWaveVector(ENERGY_EV, EDGE_ENERGY_EV), FP_TOLERANCE);
 	}
 
 	/*----------------------------------------------------------------------------------------------
-	 * Convert from Per-Angstrom
+	 * Convert Per-Angstrom -> eV
 	 *
 	 * testConvertPerAngstromToEvZero() is ignored because of unpredictable results
 	 *
@@ -95,19 +58,18 @@ public class ConverterTest {
 	 *
 	 * - When run as part of the whole class, Quantity.valueOf() successfully creates the
 	 * Quantity, but PhotonEnergy.photonEnergyOf() returns a null photon energy, which then
-	 * causes a NullPointerException. This should probably be fixed in Converter.
+	 * causes a NullPointerException.
+	 * This may seem wrong, but is the behaviour that the EXAFS GUI expects.
 	 * ----------------------------------------------------------------------------------------------*/
 	@Ignore("Not run because of unpredictable results")
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testConvertPerAngstromToEvZero() {
-		Converter.setEdgeEnergy(0);
-		Converter.convert(0.0, PERANGSTROM_STRING, EV_STRING);
+		Converter.convertWaveVectorToEnergy(0.0, 0.0);
 	}
 
 	@Test
 	public void testConvertPerAngstromToEv() {
-		Converter.setEdgeEnergy(EDGE_ENERGY_KEV);
-		assertEquals(ENERGY_EV, Converter.convert(VECTOR_PER_ANGSTROM, PERANGSTROM_STRING, EV_STRING), FP_TOLERANCE);
+		assertEquals(ENERGY_EV, Converter.convertWaveVectorToEnergy(VECTOR_PER_ANGSTROM, EDGE_ENERGY_EV), FP_TOLERANCE);
 	}
 
 	/*---------------------------------------------------------------------------------------------
@@ -115,17 +77,15 @@ public class ConverterTest {
 	 * ----------------------------------------------------------------------------------------------*/
 	@Test
 	public void testRoundTripConversionEv() {
-		Converter.setEdgeEnergy(EDGE_ENERGY_KEV);
-		final double perAngstrom = Converter.convert(ENERGY_EV, EV_STRING, PERANGSTROM_STRING);
-		final double eV = Converter.convert(perAngstrom, PERANGSTROM_STRING, EV_STRING);
+		final double perAngstrom = Converter.convertEnergyToWaveVector(ENERGY_EV, EDGE_ENERGY_EV);
+		final double eV = Converter.convertWaveVectorToEnergy(perAngstrom, EDGE_ENERGY_EV);
 		assertEquals(ENERGY_EV, eV, FP_TOLERANCE);
 	}
 
 	@Test
 	public void testRoundTripConversionPerAngstrom() {
-		Converter.setEdgeEnergy(EDGE_ENERGY_KEV);
-		final double eV = Converter.convert(VECTOR_PER_ANGSTROM, PERANGSTROM_STRING, EV_STRING);
-		final double perAngstrom = Converter.convert(eV, EV_STRING, PERANGSTROM_STRING);
+		final double eV = Converter.convertWaveVectorToEnergy(VECTOR_PER_ANGSTROM, EDGE_ENERGY_EV);
+		final double perAngstrom = Converter.convertEnergyToWaveVector(eV, EDGE_ENERGY_EV);
 		assertEquals(VECTOR_PER_ANGSTROM, perAngstrom, FP_TOLERANCE);
 	}
 
