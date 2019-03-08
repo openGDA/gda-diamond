@@ -8,6 +8,8 @@ The motor's positional tolerance must be set, that is the same as the retry dead
 Created on 27 Oct 2010
 
 @author: fy65
+
+Adapted for i13 by vxu947890
 '''
 from time import sleep
 from gda.epics import CAClient 

@@ -9,7 +9,7 @@ print "adding deben objects and methods"
 dbn_pv_prefix = "BL13I-EA-DOF-01:RIG:"
 
 dbn_rot = PositionCompareMotorClass(    "dbn_rot",	\
-                                        dbn_pv_prefix+"TOP:MOTOR.VAL", dbn_pv_prefix+"TOP:MOTOR.RBV", dbn_pv_prefix+"TOP:MOTOR.STOP", \
+                                        dbn_pv_prefix+"BOT:MOTOR.VAL", dbn_pv_prefix+"BOT:MOTOR.RBV", dbn_pv_prefix+"BOT:MOTOR.STOP", \
                                         tolerance=0.002, unitstring="deg", formatstring="%.3f", wait_sec=1)
 dbn_rott = PositionCompareMotorClass(   "dbn_rott", \
                                         dbn_pv_prefix+"TOP:MOTOR.VAL", dbn_pv_prefix+"TOP:MOTOR.RBV", dbn_pv_prefix+"TOP:MOTOR.STOP", \
@@ -38,15 +38,15 @@ def deben_after_ioc_restart():
     fname = deben_after_ioc_restart.__name__
     try:
         # bottom rot stage
-        caput("BL13I-EA-DOF-01:RIG:BOT:MOTOR.VBAS", 0.0)
-        caput("BL13I-EA-DOF-01:RIG:BOT:MOTOR.ERES", -0.001)
+        caput(dbn_pv_prefix+"BOT:MOTOR.VBAS", 0.0)
+        caput(dbn_pv_prefix+"BOT:MOTOR.ERES", -0.001)
         
         # top rot stage
-        caput("BL13I-EA-DOF-01:RIG:TOP:MOTOR.VBAS", 0.0)
-        caput("BL13I-EA-DOF-01:RIG:TOP:MOTOR.ERES", -0.001)
+        caput(dbn_pv_prefix+"TOP:MOTOR.VBAS", 0.0)
+        caput(dbn_pv_prefix+"TOP:MOTOR.ERES", -0.001)
     except Exception, e:
         print("Error in %s: %s" %(fname, str(e)))
     
     
-dbn_tension_rbv = createPVScannable("dbn_tension_rbv", "BL13I-EA-DOF-01:RIG:TENSIONFORCE")
-dbn_torsion_rbv = createPVScannable("dbn_torsion_rbv", "BL13I-EA-DOF-01:RIG:TORSIONFORCE")
+dbn_tension_rbv = createPVScannable("dbn_tension_rbv", dbn_pv_prefix+"TENSIONFORCE")
+dbn_torsion_rbv = createPVScannable("dbn_torsion_rbv", dbn_pv_prefix+"TORSIONFORCE")

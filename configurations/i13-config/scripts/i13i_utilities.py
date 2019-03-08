@@ -776,5 +776,6 @@ class TopupProtector(TopupChecker):
     def rawGetPosition(self):
         return [self.collectionTime, self.tolerance, self.waittime]
         
+#bm = WaitWhileScannableBelowThresholdMonitorOnly("bm", ring_current, minimumThreshold=200.0, secondsBetweenChecks=1, secondsToWaitAfterBeamBackUp=1)
 
 print "Finished running i13i_utilities.py!"
