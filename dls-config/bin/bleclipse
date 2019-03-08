@@ -12,7 +12,7 @@ module unload buckminster
 
 . $DLS_CONFIG_BIN/loadjava.sh
 
-module load eclipse/472_20180112
+module load eclipse/473a_20180903 # The last version which supports RHEL6
 
 # Add diamond specific options for Eclipse
 
