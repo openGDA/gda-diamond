@@ -18,7 +18,9 @@
 
 package gda.images.camera;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
 import java.io.File;
 
 import org.junit.Test;
@@ -29,7 +31,7 @@ import gda.device.DeviceException;
  * Tests the {@link Utilities} class.
  */
 public class UtilitiesTest extends OavTestBase {
-	
+
 	/**
 	 * Tests the Phase I calculations using an axis orientation matrix and
 	 * "right" horizontal direction.
@@ -39,7 +41,7 @@ public class UtilitiesTest extends OavTestBase {
 		setNewPropertiesForPhaseIWithLeftHorizontalDirection();
 		doCalculationsForPhaseIWithLeftHorizontalDirection();
 	}
-	
+
 	/**
 	 * Tests the I24 calculations, using an axis orientation matrix.
 	 */
@@ -62,16 +64,16 @@ public class UtilitiesTest extends OavTestBase {
 	protected double[] calculateActualMove(double[] requested, double phi) {
 		return Utilities.micronToXYZMove(requested[0], requested[1], requested[2], phi);
 	}
-	
+
 	@Test
 	public void testPixelsToMicrons() {
 		File displayConfigFile = new File("testfiles/gda/images/camera/display.configuration");
-		BeamDataComponent component = new BeamDataComponent(displayConfigFile.getAbsolutePath());
-		component.setCamera(createDummyCamera());
-		
+		BeamDataComponent component = BeamDataComponent.getTestingInstance(displayConfigFile.getAbsolutePath());
+		component.setOpticalCamera(createDummyCamera());
+
 		BeamDataComponent.setInstance(component);
 		assertSame(component, BeamDataComponent.getInstance());
-		
+
 		// (10, 20) pixel move
 		double[] actualMove = Utilities.pixelsToMicrons(10, 20);
 		// expect actual move of (20, 50) microns
@@ -82,12 +84,12 @@ public class UtilitiesTest extends OavTestBase {
 	@Test
 	public void testPixelToMicronMove() {
 		File displayConfigFile = new File("testfiles/gda/images/camera/display.configuration");
-		BeamDataComponent component = new BeamDataComponent(displayConfigFile.getAbsolutePath());
-		component.setCamera(createDummyCamera());
-		
+		BeamDataComponent component = BeamDataComponent.getTestingInstance(displayConfigFile.getAbsolutePath());
+		component.setOpticalCamera(createDummyCamera());
+
 		BeamDataComponent.setInstance(component);
 		assertSame(component, BeamDataComponent.getInstance());
-		
+
 		// (10, 20) pixel move from centre pixel position of (512, 384)
 		double[] actualMove = Utilities.pixelToMicronMove(512+10, 384+20);
 		// expect actual move of (20, 50) microns but horizontal direction is reversed, hence (-20, 50)
@@ -98,14 +100,14 @@ public class UtilitiesTest extends OavTestBase {
 	@Test
 	public void testCalculateSampleStageMove() {
 		setNewPropertiesForPhaseIWithLeftHorizontalDirection();
-		
+
 		File displayConfigFile = new File("testfiles/gda/images/camera/display.configuration");
-		BeamDataComponent component = new BeamDataComponent(displayConfigFile.getAbsolutePath());
-		component.setCamera(createDummyCamera());
-		
+		BeamDataComponent component = BeamDataComponent.getTestingInstance(displayConfigFile.getAbsolutePath());
+		component.setOpticalCamera(createDummyCamera());
+
 		BeamDataComponent.setInstance(component);
 		assertSame(component, BeamDataComponent.getInstance());
-		
+
 		// (10, 20) pixel move from centre pixel position of (512, 384)
 		double[] actualMove = Utilities.calculateSampleStageMove(512+10, 384+20, 0);
 		// expect actual move of (20, 50) microns but horizontal direction is reversed, hence (-20, 50)
@@ -113,10 +115,10 @@ public class UtilitiesTest extends OavTestBase {
 		assertEquals(-50, actualMove[1], 0.001);
 		assertEquals(0,   actualMove[2], 0.001);
 	}
-	
+
 	/**
 	 * Creates a dummy {@link Camera} that always returns a zoom level of 1, and 2/2.5 microns per X/Y pixel
-	 * respectively. 
+	 * respectively.
 	 */
 	protected static Camera createDummyCamera() {
 		return new DummyOpticalCamera() {
