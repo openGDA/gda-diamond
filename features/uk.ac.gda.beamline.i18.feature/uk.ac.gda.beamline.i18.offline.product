@@ -13,7 +13,6 @@
 -Dgda.mode=dummy
 -Dgda.config=${project_loc:i18-config}
 -Dgda.propertiesFile=${project_loc:i18-config}/properties/dummy/dummy_instance_java.properties
--Djacorb.config.dir=${project_loc:i18-config}/properties/dummy/jacorb
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i18-config}/properties/dummy/JCALibrary.properties
 -Declipse.pluginCustomization=${project_loc:i18-config}/client/pluginCustomization.ini
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
@@ -34,7 +33,6 @@
    <windowImages/>
 
    <launcher name="gda-i18-dummy">
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>

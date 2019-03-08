@@ -15,7 +15,6 @@
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}
 -Dgda.propertiesFile=${project_loc:i18-config}/properties/live/live_instance_java.properties
--Djacorb.config.dir=${project_loc:i18-config}/properties/live/jacorb
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i18-config}/properties/live/JCALibrary.properties
 -Dgda.mode=live
 -Dgda.client.jython.automatic.interpreter=1
@@ -28,7 +27,6 @@
    </launcherArgs>
 
    <launcher name="gda-i18">
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
