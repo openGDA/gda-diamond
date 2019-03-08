@@ -9,6 +9,7 @@
 	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/>
 
 	<import resource="dummy_devices.xml"/>
+	<!--  <import resource="malcolm.xml"/> -->   <!-- Uncomment this line to enable a locally checked out malcolm device, see malcolm.xml -->
 
 	<!-- Do not remove anything below here -->
 	<import resource="../../main/_common/server.xml" />
