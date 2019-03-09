@@ -313,32 +313,41 @@ perform a simple tomography scan
 def tomoXGIScan2d(inBeamPosition, outOfBeamPosition, exposureTime=1, start=-90., stop=90., step=0.1, startGratingOuter=0., stopGratingOuter=13.0, stepGratingOuter=1.0, startGratingInner=0., stopGratingInner=13.0, stepGratingInner=1.0, darkFieldInterval=0, flatFieldInterval=0,
               imagesPerDark=20, imagesPerFlat=20, min_i=-1., addNXEntry=True, autoAnalyse=False,  flatFieldAngle=None, tomography_detector=None, additionalScannables=[]):
     """
-    Function to collect 2d grating-interferometry tomogram
- 	Arguments:
-    inBeamPosition - position of X-drive to move sample into the beam to take a projection
-    outOfBeamPosition - position of X-drive to move sample out of the beam to take a flat-field image
+    Function to collect 2-dim grating-interferometry tomogram
+ 	Arg(s):
+    inBeamPosition - position of X-drive to move sample into the beam to take a projection frame
+    outOfBeamPosition - position of X-drive to move sample out of the beam to take a flat-field frame
     exposureTime - exposure time in seconds (default = 1)
     start - first rotation angle (default = 0.)
     stop  - last rotation angle (default = 180.)
-    step - rotational step size (default = 0.1)
-    startGratingOuter - first outer grating position (default = 0.)
-    stopGratingOuter  - last outer grating position (default = 13.)
-    stepGratingOuter - translational step size for displacing outer grating (default = 1.0)
-    startGratingInner - first inner grating position (default = 0.)
-    stopGratingInner  - last inner grating position (default = 13.)
-    stepGratingInner - translational step size for displacing inner grating (default = 1.0)
-    darkFieldInterval - number of projections (ie projection frames as opposed to projection series) between each dark-field collection (default = 0, for not taking any intermediate darks) 
-        Note: A single dark collection (consisting of imagesPerDark frames) is always performed both at the start and the end of scan, provided imagesPerDark > 0
-    flatFieldInterval - number of projections (ie projection frames as opposed to projection series) between each flat-field collection (default = 0, for not taking any intermediate flats))
-        Note: A single flat series (consisting of imagesPerFlat x [1 + (stopGratingOuter - startGratingOuter)/stepGratingOuter] x [1 + (stopGratingInner - startGratingInner)/stepGratingInner] frames) is always performed both at the start and the end of scan, provided imagesPerFlat > 0
-    imagesPerDark - number of dark frames to be taken for each dark collection (default = 20)
-        Note: the total number of dark frames recorded in a single dark collection is equal to imagesPerDark
-    imagesPerFlat - number of flat series to be taken for each flat collection (default = 20)
-        Note: the total number of flat frames recorded in a single flat series is equal to imagesPerFlat x [1 + (stopGratingOuter - startGratingOuter)/stepGratingOuter] x [1 + (stopGratingInner - startGratingInner)/stepGratingInner]
+    step - angular step size for moving rotation stage (default = 0.1)
+    startGratingOuter - first grating position for the outer translation loop (default = 0.)
+    stopGratingOuter  - last grating position for the outer translation loop (default = 13.)
+    stepGratingOuter - step size for moving the grating in the outer translation loop (default = 1.0)
+         Note: the outer loop is sometimes referred to as the 'slow' axis
+    startGratingInner - first grating position for the inner translation loop (default = 0.)
+    stopGratingInner  - last grating position for the inner translation loop (default = 13.)
+    stepGratingInner - step size for moving the grating in the inner translation loop (default = 1.0)
+        Note: the inner loop is sometimes referred to as the 'fast' axis
+    darkFieldInterval - number of projection frames to be collected between each dark-field series (default = 0, ie not taking any mid-scan darks) 
+        Note: a single (contiguous) dark-field series is always collected both at the start and the end of scan, provided imagesPerDark > 0
+    flatFieldInterval - number of projection frames to be collected between each flat-field series (default = 0, ie not taking any mid-scan flats))
+        Note: a single (contiguous) flat-field series is always collected both at the start and the end of scan, provided imagesPerFlat > 0
+    imagesPerDark - number of dark-field frames to be collected at every qualifying scan point (default = 20)
+        Note: All frames belonging to the same (single) dark-field series are collected at the same (current) position of the grating (and the same (current) 
+        angular position) and therefore each contiguous dark-field series is comprised of 
+            imagesPerDark 
+        frames only. 
+    imagesPerFlat - number of flat-field frames to be collected at every qualifying scan point (default = 20)
+        Note: Frames belonging to the same (single) flat-field series are collected at every position of the grating and therefore 
+        each contiguous flat-field series is comprised of
+            imagesPerFlat x [1 + (stopGratingOuter - startGratingOuter)/stepGratingOuter] x [1 + (stopGratingInner - startGratingInner)/stepGratingInner] 
+        frames.
     min_i - minimum value of ion chamber current required to take an image (default = -1). A negative value means that the value is not checked
-    flatFieldAngle - if specified to be None, flat fields will be taken at the most recent angle as the stage rotates during the scan (with the first flat field being taken at the scan start angle). 
-        If specified to be a finite number, all flat fields will be taken at this angle (this is useful if it is impossible to move the sample out of the beam for certain angles).  
-
+    flatFieldAngle - if equal to None, each flat-field frame is collected at the current angular position as the stage rotates during the scan 
+        (with the first flat-field frame being taken at the start angle). If equal to a finite number, all flat-field frames (and series) are 
+        collected at this particular angular position after rotating back to it (this option is useful if, for some reason, sample can't be moved out 
+        of the beam for some angles).
 
     """
     try:

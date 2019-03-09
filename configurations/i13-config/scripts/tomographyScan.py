@@ -199,7 +199,19 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
     scanObject.setDataWriter(dataWriter)
 
 
-def reportJythonNamespaceMapping():
+def reportJythonNamespaceMapping(modality='all'):
+    mode = modality.lower()
+    #supported_dct = {}
+    #supported_dct.update({'all': 'all beamline modalities'})
+    #supported_dct.update({'micro': 'micro-tomography (step & fly scan)'})
+    #supported_dct.update({'xgi': 'diffraction-grating interferometry (1d & 2d)'})
+    #supported_dct.update({'heli': 'hellical micro-tomography step scan'})
+    #mode_default = 'all'
+    #if not (mode in supported_tpl or mode.startswith(('a','m','x','h'))):
+    #    print("Unsupported input modality '%s' - falling back on default value '%s'!" %(modality, mode_default))
+    #    options_str='\n'.join(["'%s': %s" %(k,v) for k,v in supported_dct.iteritems()]
+    #    #print("Supported options: %s" %(supported_tpl,))
+    #    print("Supported options: \n%s" %(options_str))
     jns=beamline_parameters.JythonNameSpaceMapping()
     objectOfInterest = {}
     objectOfInterest['tomography_normalisedImage_detector']=jns.tomography_normalisedImage_detector
@@ -257,6 +269,7 @@ def reportJythonNamespaceMapping():
         idx += 1
     print "\n"
     
+    #if mode in ('all', 'micro') or mode.startswith(('a','m')): 
     print "****** TOMO STEP-SCAN PRIMARY SETTINGS ******"
     idx=1
     for key, val in objectOfInterestSTEP.iteritems():
@@ -277,6 +290,7 @@ def reportJythonNamespaceMapping():
         idx += 1
     print "\n"
 
+    #if mode in ('all', 'xgi') or mode.startswith(('a','x')): 
     print "****** 1D-XGI STEP-SCAN PRIMARY SETTINGS ******"
     idx=1
     for key, val in objectOfInterestXGI_1D.iteritems():
@@ -297,6 +311,7 @@ def reportJythonNamespaceMapping():
         idx += 1
     print "\n"   
     
+    #if mode in ('all', 'heli') or mode.startswith(('a','h')): 
     print "****** HELICAL TOMO STEP-SCAN PRIMARY SETTINGS ******"
     idx=1
     for key, val in objectOfInterestHELICAL.iteritems():
@@ -1545,14 +1560,14 @@ def tomoScanWithFrames(inBeamPosition, outOfBeamPosition, exposureTime=1, start=
             index = index + 1        
         for frm in range(frames):   # kz
             scan_points.append((theta_pos,shutterOpen, inBeamPosition, image_key_project if frm==0 else image_key_frame, index )) #first
-        index = index + 1        
+            index = index + 1        
         imageSinceDark=0
         imageSinceFlat=0
         for i in range(numberSteps):
             theta_pos = theta_points[i+1]
             for frm in range(frames):   #kz
                 scan_points.append((theta_pos, shutterOpen, inBeamPosition, image_key_project if frm==0 else image_key_frame, index ))#main image
-            index = index + 1        
+                index = index + 1        
             
             
             imageSinceFlat = imageSinceFlat + 1
