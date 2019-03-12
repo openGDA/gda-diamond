@@ -3,11 +3,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
+	<bean id="load_motor" class="gda.device.motor.DummyMotor">
+		<property name="position" value="0" />
+		<property name="unitString" value="MPa" />
+	</bean>
+	
+	<bean id="load" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="load_motor" />
+	</bean>
+	
 	<bean id="tr6_driver" class="uk.ac.diamond.daq.experiment.driver.GdaScannableDriver">
-		<constructor-arg name="scannableMotor" ref="tr6_y" />
+		<constructor-arg name="scannableMotor" ref="load" />
 		<property name="readouts">
 			<map>
-				<entry key="displacement" value-ref="tr6_y" />
+				<entry key="load" value-ref="load" />
 				<!-- in the future: strain -->
 			</map>
 		</property>
