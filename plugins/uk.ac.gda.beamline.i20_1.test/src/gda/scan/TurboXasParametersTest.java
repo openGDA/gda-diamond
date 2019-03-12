@@ -21,10 +21,10 @@ package gda.scan;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -39,6 +39,9 @@ import org.junit.Test;
 
 import com.thoughtworks.xstream.XStream;
 
+import gda.device.zebra.ZebraGatePulsePreparer;
+import gda.device.zebra.controller.Zebra;
+import gda.device.zebra.controller.impl.ZebraDummy;
 public class TurboXasParametersTest {
 
 	TurboXasParameters parameters;
@@ -363,4 +366,83 @@ public class TurboXasParametersTest {
 
 		return serializedXmlString.toString();
 	}
+
+	@Test
+	public void testPositiveDirectionZebraPositionSettings() throws Exception {
+		Zebra zebra = new ZebraDummy();
+		ZebraGatePulsePreparer zebraPreparer = new ZebraGatePulsePreparer(zebra);
+
+		parameters.setUsePositionsForScan(true);
+		TurboXasMotorParameters motorParams = parameters.getMotorParameters();
+		testZebraSettings(motorParams, zebraPreparer);
+	}
+
+	@Test
+	public void testNegativeDirectionZebraPositionSettings() throws Exception {
+		Zebra zebra = new ZebraDummy();
+		ZebraGatePulsePreparer zebraPreparer = new ZebraGatePulsePreparer(zebra);
+
+		parameters.setUsePositionsForScan(true);
+		parameters.setStartPosition(10);
+		parameters.setEndPosition(0);
+
+		TurboXasMotorParameters motorParams = parameters.getMotorParameters();
+		testZebraSettings(motorParams, zebraPreparer);
+	}
+
+	@Test
+	public void  testPositiveDirectionZebraEnergySettings() throws Exception {
+		Zebra zebra = new ZebraDummy();
+		ZebraGatePulsePreparer zebraPreparer = new ZebraGatePulsePreparer(zebra);
+
+		parameters.setUsePositionsForScan(false);
+		parameters.setStartEnergy(1000);
+		parameters.setEndEnergy(2000);
+
+		TurboXasMotorParameters motorParams = parameters.getMotorParameters();
+		testZebraSettings(motorParams, zebraPreparer);
+	}
+
+	@Test
+	public void testNegativeDirectionZebraEnergySettings() throws Exception {
+		Zebra zebra = new ZebraDummy();
+		ZebraGatePulsePreparer zebraPreparer = new ZebraGatePulsePreparer(zebra);
+
+		parameters.setUsePositionsForScan(false);
+		parameters.setStartEnergy(2000);
+		parameters.setEndEnergy(1000);
+
+		TurboXasMotorParameters motorParams = parameters.getMotorParameters();
+		testZebraSettings(motorParams, zebraPreparer);
+	}
+
+	/**
+	 * Test to make sure gate start/end +- pulse start = scan start/end positions
+	 * @param motorParams
+	 * @param zebraPreparer
+	 * @throws Exception
+	 */
+	private void testZebraSettings(TurboXasMotorParameters motorParams, ZebraGatePulsePreparer zebraPreparer) throws Exception {
+		motorParams.setMotorParametersForTimingGroup(0);
+		zebraPreparer.setFromParameters(motorParams);
+		zebraPreparer.configureZebra();
+
+		Zebra zebra = zebraPreparer.getZebraDevice();
+
+		double scanDirection = motorParams.getEndPosition() > motorParams.getScanStartPosition() ? 1 : -1;
+
+		// gate start + pulse start should = scan start position (+ve direction scan)
+		// gate start - pulse start = scan start position (-ve direction scan)
+		assertEquals(motorParams.getScanStartPosition(), zebra.getPCGateStart()+scanDirection*zebra.getPCPulseStart(), numericalTolerance);
+
+		// gate end position - 'stabilistaion distance' should = scan end position (+ve direction scan);
+		// gate end position + 'stabilistaion distance' should = scan end position (-ve direction scan);
+		double gateEnd = zebra.getPCGateStart() + scanDirection*zebra.getPCGateWidth();
+		assertEquals(motorParams.getScanEndPosition(), gateEnd - scanDirection*zebraPreparer.getMotorStabilisationDistance()*0.5, numericalTolerance);
+
+		// Gate should be wide enough to fit all the pulses
+		double spaceNeededForPulses = zebra.getPCPulseMax()*zebra.getPCPulseStep();
+		assertTrue(zebra.getPCGateWidth() > spaceNeededForPulses);
+	}
+
 }

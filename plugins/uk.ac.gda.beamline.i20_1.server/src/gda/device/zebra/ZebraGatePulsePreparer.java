@@ -105,8 +105,9 @@ public class ZebraGatePulsePreparer extends FindableBase {
 		// Pulse start needs to be slightly after gate start (to avoid triggering issues)
 		// -> adjust gate start position by small 'offset' so that pulse start is at correct position :
 		double offset = motorStabilisationDistance*0.5;
-		double gateStart = scanStartMotorPosition-offset;
-		double gateWidth = scanMotorRange + 2*offset;
+		double gateStart = scanStartMotorPosition;
+		gateStart += scanMotorRange > 0 ? -offset : offset;
+		double gateWidth = Math.abs(scanMotorRange) + 2*offset;
 		zebraDevice.setPCGateSource(Zebra.PC_GATE_SOURCE_POSITION);
 		zebraDevice.setPCGateStart(gateStart);
 		zebraDevice.setPCGateWidth(Math.abs(gateWidth));

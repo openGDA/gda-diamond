@@ -384,8 +384,8 @@ public class TurboXasNexusTree {
 				position[i] = txasScannable.calculatePosition(i);
 
 				// energy for midpoint of frame
-				double midPoint = position[i] + motorParams.getPositionStepsize()*0.5;
-				energy[i] = motorParams.getEnergyForPosition(midPoint);
+				double midPointPosition = 0.5*(position[i] + txasScannable.calculatePosition(i+1));
+				energy[i] = motorParams.getEnergyForPosition(midPointPosition);
 			}
 			frame.addAxis(detector.getName(), POSITION_COLUMN_NAME, new NexusGroupData(position), 3, 1, POSITION_UNITS, false);
 			frame.addAxis(detector.getName(), ENERGY_COLUMN_NAME, new NexusGroupData(energy), 1, 1, ENERGY_UNITS, false);
