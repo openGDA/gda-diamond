@@ -36,6 +36,7 @@
 							<bean class="uk.ac.diamond.daq.mapping.xanes.ui.XanesSubmitScanSection">
 								<property name="buttonText" value="Submit XANES scan" />
 								<property name="description" value="XANES scan" />
+								<property name="energyScannable" value="dcm_enrg" />
 							</bean>
 						</list>
 					</property>
