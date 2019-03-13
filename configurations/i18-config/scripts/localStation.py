@@ -120,21 +120,21 @@ mapFactory.setEnergyNoGapScannable(energy_nogap); # @UndefinedVariable
 mapFactory.setMetashop(Finder.getInstance().find("metashop"));
 mapFactory.setIncludeSampleNameInNexusName(True);
 mapFactory.setCounterTimer(counterTimer01); # @UndefinedVariable
-mapFactory.setxScan(sc_MicroFocusSampleX); # @UndefinedVariable
-mapFactory.setyScan(sc_MicroFocusSampleY); # @UndefinedVariable
-mapFactory.setzScan(sc_sample_z); # @UndefinedVariable
+mapFactory.setxScan(t1x); # @UndefinedVariable
+mapFactory.setyScan(t1y); # @UndefinedVariable
+mapFactory.setzScan(t1z); # @UndefinedVariable
 mapFactory.setElementListScriptController(elementListScriptController);
 mapFactory.setScanName("step map")
 
 non_raster_map = mapFactory.createStepMap()
 
 map = MapSelector(beamlinePreparer, non_raster_map) # @UndefinedVariable @ReservedAssignment
-map.setStage1X(sc_MicroFocusSampleX) # @UndefinedVariable
-map.setStage1Y(sc_MicroFocusSampleY) # @UndefinedVariable
-map.setStage1Z(sc_sample_z) # @UndefinedVariable
-map.setStage3X(table_x) # @UndefinedVariable
-map.setStage3Y(table_y) # @UndefinedVariable
-map.setStage3Z(table_z) # @UndefinedVariable
+map.setStage1X(t1x) # @UndefinedVariable
+map.setStage1Y(t1y) # @UndefinedVariable
+map.setStage1Z(t1z) # @UndefinedVariable
+map.setStage3X(t3x) # @UndefinedVariable
+map.setStage3Y(t3y) # @UndefinedVariable
+map.setStage3Z(t3z) # @UndefinedVariable
 
 map.setStage(1)
 
