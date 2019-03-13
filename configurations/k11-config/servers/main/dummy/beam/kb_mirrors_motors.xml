@@ -8,6 +8,7 @@
 		<property name="maxPosition" value="60.0" />
 		<property name="position" value="0" />
 		<property name="unitString" value="mm" />
+		<property name="speed" value="10000" />
 		<property name="local" value="true" />
 	</bean>
 
@@ -16,6 +17,7 @@
 		<property name="maxPosition" value="60.0" />
 		<property name="position" value="0" />
 		<property name="unitString" value="mm" />
+		<property name="speed" value="10000" />
 		<property name="local" value="true" />
 	</bean>
 	
