@@ -4,18 +4,9 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/live/java.properties</value>
-				<value>file:${gda.config}/properties/common/java.properties</value>
-			</list>
-		</property>
-	</bean>
-
 	<!-- EPG 22/11 uncomment out in attempt to allow Vortex Gui to connect to hw -->
 	<import resource="../../../servers/main/live/epics/detector/mca_vortex.xml" />
 
-	<import resource="../common/client.xml" />
+	<import resource="../_common/client.xml" />
 
 </beans>
