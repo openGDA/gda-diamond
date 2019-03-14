@@ -1,0 +1,110 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			    http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+
+
+	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
+		<property name="zebra" ref="zebra" />
+		<property name="mode" value="1" />
+		<property name="pcPulseGateNotTrigger" value="false"/>
+		<property name="pcPulseTriggerWidth" value="0.01" />
+		<property name="local" value="true" />
+	</bean>
+
+	<bean id="zebraSM1" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="TOMOTHETAMotor" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="local" value="true" />
+	</bean>	
+	
+<!-- 	<bean id="zebraSM2" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="hex_rot_motor" />
+		<property name="pcEnc" value="1" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="local" value="true" />
+	</bean>	
+	
+	<bean id="debenSM3" class="gda.device.zebra.ZebraScannableMotor">
+		<property name="motor" ref="deben_rot_bottom_motor" />
+		<property name="pcEnc" value="2" />
+		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
+		<property name="local" value="true" />
+	</bean>	 -->
+	
+<!-- 	<bean id="flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="flyScanDetector"/>
+		<property name="readOutTime" value=".0101"/>
+		<property name="readOutTime" value=".21"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>	 -->
+
+	<!-- detector used in flyscans to write to hdf but with no chunking for speed -->
+	<bean id="flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="flyScanDetectorNoChunking"/>
+		<property name="readOutTime" value=".0101"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>	
+	
+	<bean id="flyScanDetectorTIF" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">
+		<property name="name" value="flyScanDetectorTIF"/>
+		<property name="readOutTime" value=".0101"/>
+		<property name="hardwareTriggerProvider" ref="zebraContinuousMoveController"/>
+		<property name="collectionStrategy" ref="flyScanCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>	
+
+
+<!-- 	<bean id="flyScanFlatDarkDetector" class="gda.device.detector.NXDetector">
+		<property name="name" value="flyScanFlatDarkDetector"/>
+		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>	 -->
+
+	<bean id="flyScanFlatDarkDetector" class="gda.device.detector.NXDetector">
+		<property name="name" value="flyScanFlatDarkDetectorNoChunking"/>
+		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_hdf5_filewriter" />
+			</list>
+		</property>
+	</bean>	
+
+
+	<bean id="flyScanFlatDarkDetectorTIF" class="gda.device.detector.NXDetector">
+		<property name="name" value="flyScanFlatDarkDetectorTIF"/>
+		<property name="collectionStrategy" ref="flyScanFlatDarkCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pco1_tif_writer" />
+			</list>
+		</property>
+	</bean>	
+
+
+</beans>

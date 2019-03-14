@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="medipix4_adbase_pvProvider"
+       class="gda.device.detector.areadetector.v17.impl.SimplePVProvider">
+       <property name="prefix" value="BL16B-EA-DET-20:Merlin2:" />
+    </bean>
+
+    <bean id="medipix4_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
+        <property name="pvProvider" ref="medipix4_adbase_pvProvider" />
+    </bean>
+
+</beans>

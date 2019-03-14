@@ -7,16 +7,16 @@
 	<!-- AD hardware -->
 
 	<bean id="pcoedge_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="ME07M-EA-DET-01:CAM:" />
+		<property name="basePVName" value="BL16B-EA-DET-08:CAM:" />
 	</bean>
 
 	<bean id="pcoedge_ndfile" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="ME07M-EA-DET-01:TIFF:" />
+		<property name="prefix" value="BL16B-EA-DET-08:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/b16" />
-				<property name="windowsSubString" value="X:" />
+				<property name="windowsSubString" value="G:\\b16" />
 			</bean>
 		</property>
 	</bean>
@@ -24,7 +24,7 @@
 	<!-- NXDetector collection strategies -->
 
 	<bean id="pcoedge_addriverpco" class = "gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
-		<property name="basePvName" value="ME07M-EA-DET-01:CAM"/>
+		<property name="basePvName" value="BL16B-EA-DET-08:CAM"/>
 	</bean>
 	
 	<bean id="pcoedge_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposurePco">
@@ -41,11 +41,12 @@
 		<property name="ndProcess" ref="pcoedge_ndproc" />
 	</bean>
 
+
 	<bean id="pcoedge_ndproc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-		<property name="basePVName" value="ME07M-EA-DET-01:PROC:" />
+		<property name="basePVName" value="BL16B-EA-DET-08:PROC:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="ME07M-EA-DET-01:PROC:" />
+				<property name="basePVName" value="BL16B-EA-DET-08:PROC:" />
 			</bean>
 		</property>
 	</bean>
@@ -77,7 +78,6 @@
 		<property name="ndFile" ref="pcoedge_ndfile" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="waitForFileArrival" value="false"/>
-		<property name="ndArrayPortVal" value="pco.proc" />
 	</bean>
 
 	<bean id="pcoedge_nxfilewriter_for_snaps"
@@ -86,7 +86,6 @@
 		<property name="ndFile" ref="pcoedge_ndfile" />
 		<property name="numTrackerExtension" value="pcoedge_snaps_numtracker" />
 		<property name="writeErrorStatusSupported" value="false"/>
-		<property name="ndArrayPortVal" value="pco.cam" />
 	</bean>
 
 
@@ -94,7 +93,7 @@
 
 	<bean id="_pcoedge_multi" class="gda.device.detector.NXDetector">
 		<property name="name" value="_pcoedge_multi" />
-		<property name="collectionStrategy" ref="pcoedge_multipleimages_collectionstrategy"/>
+		<property name="collectionStrategy" ref="pcoedge_multi_strategy"/>
 		<property name="additionalPluginList">
 			<list>
 				<!--<ref bean="pcoedge_multipleimages_sum_plugin" />-->
@@ -121,6 +120,12 @@
 				<ref bean="pcoedge_nxfilewriter_for_snaps" />
 			</list>
 		</property>
+	</bean>
+
+	<bean id="pcoedge_multi_strategy"
+			class="gda.device.detector.addetector.triggering.PCOMultipleExposurePerCollection">
+		<constructor-arg ref="pcoedge_adbase" />
+		<constructor-arg ref="pcoedge_addriverpco" />
 	</bean>
 
 </beans>

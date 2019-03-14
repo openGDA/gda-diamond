@@ -1,0 +1,83 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+	<bean id="adDriverPco1"
+		class="gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
+		<property name="basePvName" value="BL16B-EA-DET-08:CAM" />
+	</bean>
+	
+	<bean id="pco1_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL16B-EA-DET-08:CAM:" />
+	</bean>
+	<bean id="pco1_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL16B-EA-DET-08:ARR:" />
+	</bean>
+
+	<bean id="pco1_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL16B-EA-DET-08:STAT:" />
+	</bean>
+	<bean id="pco1_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL16B-EA-DET-08:ROI:" />
+	</bean>
+
+	<bean id="pco1_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL16B-EA-DET-08:MJPG:" />
+	</bean>
+
+	<bean id="pco1_ndhdf5file" class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl" ref="pco1_ndfilehdf5_base" />
+	</bean>
+
+
+	<bean id="pco1_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL16B-EA-DET-08:HDF5:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/b16/data" />
+				<property name="windowsSubString" value="g:\\b16\\data" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco1_ndfiletif" class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL16B-EA-DET-08:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+		<property name="filePathConverter">
+			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
+				<property name="unixSubString" value="/dls/b16/data" />
+				<property name="windowsSubString" value="g:\\b16\\data" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pco1_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL16B-EA-DET-08:PROC:" />
+	</bean>
+
+	<bean id="pco1_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="BL16B-EA-DET-08:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="BL16B-EA-DET-08:HDF5:" />
+				<property name="initialArrayPort" value="pco1.stat" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="pco1" />
+		<property name="initialFileTemplate" value="%s%s.hdf5" />
+	</bean>
+
+	<bean id="pco1_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="BL16B-EA-DET-08:HDF5:" />
+		<property name="file" ref="pco1_ndfile" />
+	</bean>
+
+</beans>	

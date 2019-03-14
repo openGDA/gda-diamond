@@ -72,10 +72,18 @@
 	<import resource="epics/detector/mca_vortex.xml" />
 	<!-- <import resource="epics/detector/xmap_vortex.xml" /> -->
 	<import resource="epics/detector/medipix_base.xml" />
+	<import resource="epics/detector/medipix4_base.xml" />
 	<import resource="epics/detector/medipix.xml" />
+	<import resource="epics/detector/medipix4.xml" />
 	<import resource="epics/detector/pcoedge.xml" />
 	<import resource="epics/detector/pco4000.xml" />
-
+	<import resource="epics/detector/tomoscan_dummies.xml" />
+	<import resource="epics/detector/dataFileMonitor.xml" />
+	<import resource="epics/detector/pco1_ndplugins.xml" />
+	<import resource="epics/detector/pco1.xml" />
+	<import resource="zebra.xml" />
+	<import resource="epics/detector/zebra.xml" />
+	<import resource="epics/detector/zylar.xml" /> <!-- temporary, from I16 -->
 	<!--<import resource="epics/detector/xmap_new.xml" />--><!-- transient -->
 
 	<bean id="dummyxMotor" class="gda.device.motor.DummyMotor">
@@ -107,6 +115,7 @@
 	<import resource="epics/detector/pilatus300k.xml" />
 	<import resource="epics/detector/psl.xml" />
 	<import resource="epics/detector/medipix_threshold_sweep.xml" />
+	<import resource="epics/detector/medipix4_threshold_sweep.xml" />
 
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
 		<property name="template"

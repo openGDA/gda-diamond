@@ -25,7 +25,6 @@ class ToggleBinaryPvAndWait(PseudoDevice):
 		self.cli.configure()
 		self.normalLevel = normalLevel
 		self.setNormal()
-		self.triggerLength=0
 		self.lastExposureTime=0
 
 	def setNormal(self): 
@@ -40,9 +39,9 @@ class ToggleBinaryPvAndWait(PseudoDevice):
 		else:
 			self.cli.caput('on')
 			
-	def trigger(self):
+	def trigger(self, trigger_length=0):
 		self.setTrigger()
-		sleep(self.triggerLength)
+		sleep(trigger_length)
 		self.setNormal()
 
 	def atScanStart(self):
@@ -72,5 +71,5 @@ class ToggleBinaryPvAndWait(PseudoDevice):
 		self.lastExposureTime = waittime
 		self.currenttime=self.timer()
 		self.waitfortime=self.currenttime+waittime
-		self.trigger()
+		self.trigger(waittime)
 
