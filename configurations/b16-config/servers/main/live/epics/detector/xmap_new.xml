@@ -10,12 +10,14 @@
 		<property name="name" value="xmapFluorescenceDetector" />
 	</bean>
 
+<!-- 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
 		<property name="serviceName" value="gda/xmapFluorescenceDetector" />
 		<property name="service" ref="xmapFluorescenceDetector" />
 		<property name="serviceInterface"
 				value="uk.ac.gda.devices.detector.FluorescenceDetector" />
 	</bean>
+ -->
 	
 	<bean id="xmap_dxp" class="gda.device.epicsdevice.FindableEpicsDevice">
 		<property name="name" value="xmap_dxp" />
