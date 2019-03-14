@@ -4,23 +4,23 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="D3Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D3.MOT" />
+		<property name="pvName" value="BL16B-DI-PHDGN-03:POSN" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="D4Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="D4.MOT" />
+		<property name="pvName" value="BL16B-DI-QBPM-01:Y" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="A1usMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="A1.MOTOR1" />
+		<property name="pvName" value="BL16B-AL-ATTN-01:POSN:A" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="A1dsMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="A1.MOTOR2" />
+		<property name="pvName" value="BL16B-AL-ATTN-01:POSN:B" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="A2Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="A2.MOTOR" />
+		<property name="pvName" value="BL16B-AL-ATTN-02:POSN" />
 		<property name="local" value="true" />
 	</bean>
 

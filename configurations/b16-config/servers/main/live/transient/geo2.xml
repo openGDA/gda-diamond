@@ -4,42 +4,42 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="geo2mot1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="BRICK2.MOT1" />
+		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS1" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="geo2mot2Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="BRICK2.MOT2" />
+		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS2" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="geo2mot3Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="BRICK2.MOT3" />
+		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS3" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="geo2mot4Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="BRICK2.MOT4" />
+		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS4" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="geo2mot5Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="BRICK2.MOT5" />
+		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS5" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="geo2mot6Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="BRICK2.MOT6" />
+		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS6" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="geo2mot7Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="BRICK2.MOT7" />
+		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS7" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="geo2mot8Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="BRICK2.MOT8" />
+		<property name="pvName" value="BL16B-MO-BRICK-02:AXIS8" />
 		<property name="local" value="true" />
 	</bean>
 	

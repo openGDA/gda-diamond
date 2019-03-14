@@ -8,17 +8,17 @@
 	<!-- NOTE: pcocam 1 2 and 3 are cobbled up bodge motors and not included here-->
 
 	<bean id="pcocam4Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="pcom4" />
+		<property name="pvName" value="BL16B-EA-DET-02:CAM4" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pcocam5Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="pcom5" />
+		<property name="pvName" value="BL16B-EA-DET-02:CAM5" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pcocam6Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="pcom6" />
+		<property name="pvName" value="BL16B-EA-DET-02:CAM6" />
 		<property name="local" value="true" />
 	</bean>
 	

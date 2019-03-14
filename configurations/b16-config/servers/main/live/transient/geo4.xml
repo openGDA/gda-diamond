@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="geo4mot1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="BRICK4.MOT1" />
+		<property name="pvName" value="BL16B-MO-BRICK-04:AXIS1" />
 		<property name="local" value="true" />
 	</bean>
 	<!-- SURELY! -->
