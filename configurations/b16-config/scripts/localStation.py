@@ -1,3 +1,6 @@
+#### Take out if causes problem - Pete won't be happy.
+from scisoftpy import *
+####
 scannp = scan #@UndefinedVariable
 vararg_alias("scannp") #@UndefinedVariable
 print "*** Creating scan with no processing: scannp"
@@ -68,6 +71,9 @@ ENABLE_PILATUS = True
 ENABLE_PCOEDGE = True
 ENABLE_PCO4000 = True
 
+ENABLE_LAKESHORE_340 = False
+ENABLE_PIE_725 = False
+
 #USE_YOU_DIFFCALC_ENGINE = True
 USE_YOU_DIFFCALC_ENGINE = False  # Use old diffcalc
 
@@ -108,6 +114,7 @@ def disable_nexus():
 def enable_nexus():
 	LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
 
+disable_nexus()
 
 #from init.init_scan_commands_and_processing import *
 from gdascripts.scan.installStandardScansWithProcessing import * #@UnusedWildImport
@@ -230,7 +237,7 @@ sca.assign(16, ['ct16'])
 
 # there is an offical server.xml device to do this. This hack taken from i16.
 print "Creating TCA scanables"
-if installation.isLive():
+if False and installation.isLive():
 	vtca=device_tca.TCA('BL16B-EA-DET-01:tca1')
 
 	vroi1 = pd_tca.tcasca('vroi1',"%4.3f",vtca,"%",'1')
@@ -354,9 +361,21 @@ if installation.isLive():
 	print "Installing atto devices from epics BL16B-EA-ECC..."
 	try:
 		from scannable.epics.ecc100axis import createEcc100Axis
-		attol1 = createEcc100Axis("attol1", "BL16B-EA-ECC-03:ACT0:")
-		attol2 = createEcc100Axis("attol2", "BL16B-EA-ECC-03:ACT1:")
-		attol3 = createEcc100Axis("attol3", "BL16B-EA-ECC-03:ACT2:")
+		attol1 = createEcc100Axis("attol1", "BL16B-EA-ECC-04:ACT0:")
+		attol2 = createEcc100Axis("attol2", "BL16B-EA-ECC-04:ACT1:")
+		attol3 = createEcc100Axis("attol3", "BL16B-EA-ECC-04:ACT2:")
+
+		attoltilt1 = createEcc100Axis("attoltilt1", "BL16B-EA-ECC-02:ACT0:")
+		attoutilt1 = createEcc100Axis("attoutilt1", "BL16B-EA-ECC-02:ACT1:")
+		attorot1   = createEcc100Axis("attorot1",   "BL16B-EA-ECC-02:ACT2:")
+
+		attoltilt2 = createEcc100Axis("attoltilt2", "BL16B-EA-ECC-01:ACT0:")
+		attoutilt2 = createEcc100Axis("attoutilt2", "BL16B-EA-ECC-01:ACT1:")
+		attorot2   = createEcc100Axis("attorot2",   "BL16B-EA-ECC-01:ACT2:")
+
+		attol4 = createEcc100Axis("attol4", "BL16B-EA-ECC-03:ACT0:")
+		attol5 = createEcc100Axis("attol5", "BL16B-EA-ECC-03:ACT1:")
+		attol6   = createEcc100Axis("attol6",   "BL16B-EA-ECC-03:ACT2:")
 	except:
 		print "Could not initialise attocube devices"
 else:
@@ -578,6 +597,41 @@ else:
 	print "*** Pilatus disabled from localStation.py "
 
 if installation.isLive():
+	print "-------------------------------MEDIPIX QUAD INIT---------------------------------------"
+	try:
+		medipix4 = SwitchableHardwareTriggerableProcessingDetectorWrapper('medipix4',
+																		_medipix4,
+																		None,
+																		_medipix4_for_snaps,
+																		[],
+																		panel_name='Data Vector',
+																		panel_name_rcp='Plot 1',
+																		iFileLoader=PilatusTiffLoader,
+																		fileLoadTimout=60,
+																		printNfsTimes=False,
+									returnPathAsImageNumberOnly=True)
+		medipix4.disable_operation_outside_scans = True
+		medipix4_threshold0_kev = SetPvAndWaitForCallbackWithSeparateReadback('medipix4_threshold_kev', 'BL16B-EA-DET-20:Merlin2:ThresholdEnergy0', 'BL16B-EA-DET-20:Merlin2:ThresholdEnergy0_RBV', 10)
+		medipix4.processors=[DetectorDataProcessorWithRoi('max', medipix4, [SumMaxPositionAndValue()], False)]
+
+		medipix4.display_image = True
+		medipix4peak2d = DetectorDataProcessorWithRoi('medipix4peak2d', medipix4, [TwodGaussianPeak()])
+		medipix4max2d = DetectorDataProcessorWithRoi('medipix4max2d', medipix4, [SumMaxPositionAndValue()])
+		medipix4intensity2d = DetectorDataProcessorWithRoi('medipix4intensity2d', medipix4, [PixelIntensity()])
+		medipix4roi1 = DetectorDataProcessorWithRoi('medipix4roi1', medipix4, [SumMaxPositionAndValue()])
+		medipix4roi2 = DetectorDataProcessorWithRoi('medipix4roi2', medipix4, [SumMaxPositionAndValue()])
+		medipix4roi3 = DetectorDataProcessorWithRoi('medipix4roi3', medipix4, [SumMaxPositionAndValue()])
+		#medipix4roi1.setRoi(0,0,50,50)
+
+	except gda.factory.FactoryException:
+		print " *** Could not connect to medipix4 (FactoryException)"
+	except 	java.lang.IllegalStateException:
+		print " *** Could not connect to medipix4 (IllegalStateException)"
+	print "-------------------------------PILATUS INIT COMPLETE---------------------------------------"
+else:
+	print "*** medipix4 disabled from localStation.py "
+
+if installation.isLive():
 	print "-------------------------------PSL INIT---------------------------------------"
 	try:
 
@@ -636,7 +690,7 @@ if installation.isLive():
 	expuni = ExposeUniblitzShutter('expuni', 'BL16B-EA-SHTR-03')#,'BL16B-EA-DET-01:SCALER1' )
 
 	from scannable.hw.TimingSystemScannable import TimingSystemScannable
-	expunishort = TimingSystemScannable('ts', 'BL16B-EA-DIO-01:BO0','BL16B-EA-EVR-01')#, 'BL16B-EA-DET-01:SCALER1' )
+	expunishort = TimingSystemScannable('ts', 'BL16B-EA-DIO-01:BO1','BL16B-EA-EVR-01')#, 'BL16B-EA-DET-01:SCALER1' )
 
 
 ###############################################################################
@@ -689,12 +743,13 @@ if not installation.isLive():
 else:
 	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Data Vector', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
 	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], panel_name='Data Vector', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
-	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], panel_name='Data Vector', toreplace='N://', replacement='/dls/b16/', panel_name_rcp='Plot 1')
+#	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], panel_name='Data Vector', toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 1')
+	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], panel_name='Secondary Plot', toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 2')
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws4, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp, report_path = False))
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws10, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp2, report_path = False))
-	visit_setter.addDetectorAdapter(IPPAdapter(ippwsme07m, subfolder='ippimages', create_folder=True, toreplace='/dls/b16', replacement='N:/')) #@UndefinedVariable)
+	visit_setter.addDetectorAdapter(IPPAdapter(ippwsme07m, subfolder='ippimages', create_folder=True, toreplace='/dls/b16', replacement='X:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp3, report_path = False))
 
 def configureScanPipeline(length = None, simultaneousPoints = None):
@@ -963,8 +1018,9 @@ print visit_setter
 print "======================================================================"
 
 
-if installation.isLive():
-	run('femtogains')
+#femtos are gone - Igor 27-06-18
+#if installation.isLive():
+#	run('femtogains')
 
 run('setup_bimorph')
 
@@ -993,8 +1049,8 @@ from dummy_pd_bimorph import Bimorph
 dummy_bimorph = Bimorph("dummy_bimorph", 0, 8)
 
 from pd_bimorph_caenels import BimorphCaenels
-bmcaenels_g1 = BimorphCaenels("bmcaenels_g1", range(1, 9), "BL16B-OP-PSU-01:METLAB:", "GROUP0:CH%d", "GROUP0:TARGET")
-bmcaenels_g2 = BimorphCaenels("bmcaenels_g2", range(1, 9), "BL16B-OP-PSU-01:METLAB:", "GROUP1:CH%d", "GROUP1:TARGET")
+bmcaenels_g1 = BimorphCaenels("bmcaenels_g1", range(1, 9), "BL16B-OP-PSU-01:METLAB:", "BL16B-OP-PSU-01:METLAB:GROUP0:")
+bmcaenels_g2 = BimorphCaenels("bmcaenels_g2", range(1, 9), "BL16B-OP-PSU-01:METLAB:", "BL16B-OP-PSU-01:METLAB:GROUP1:")
 
 from gdascripts.pd.dummy_pds import DummyPD
 dummy_x = DummyPD("x")
@@ -1037,6 +1093,15 @@ keithley1gain = scannable.hw.keithley.KeithleyGain('keithley1gain', 'BL16B-EA-IA
 keithley2gain = scannable.hw.keithley.KeithleyGain('keithley2gain', 'BL16B-EA-IAMP-02')
 keithley3gain = scannable.hw.keithley.KeithleyGain('keithley3gain', 'BL16B-EA-IAMP-03')
 
+print "Creating stanford1sensitivity, stanford2sensitivity, stanford1unit and stanford2unit scannables"
+
+from scannable.hw.stanford_sensitivity import StanfordSensitivity
+stanford1sensitivity = StanfordSensitivity('stanford1sensitivity', "BL16B-EA-STANF-01:SENS:")
+stanford2sensitivity = StanfordSensitivity('stanford2sensitivity', "BL16B-EA-STANF-02:SENS:")
+
+from scannable.hw.stanford_unit import StanfordUnit
+stanford1unit = StanfordUnit('stanford1unit', "BL16B-EA-STANF-01:SENS:")
+stanford2unit = StanfordUnit('stanford2unit', "BL16B-EA-STANF-02:SENS:")
 
 print "creating waitForAi8 (to be less than .1)"
 import scannable.condition
@@ -1147,52 +1212,55 @@ lkts1500 = Linkam("lkts1500", "BL16B-EA-TEMPC-01:")
 
 ######################################################################################################################################
 #LakeShore Temperature controller
-print "Setting up LakeShore 340 Temperature Controller from I16"
+if ENABLE_LAKESHORE_340:
+	print "Setting up LakeShore 340 Temperature Controller from I16"
 
-run('pd_LS340control.py')
+	run('pd_LS340control.py')
 #tset = EpicsLScontrol('tset','BL16B-EA-LS340-01:','K','%5.2f','0','1')
-ls340set = EpicsLScontrol('ls340set','BL16B-EA-LS340-01:','K','%5.2f','0','1')
+	ls340set = EpicsLScontrol('ls340set','BL16B-EA-LS340-01:','K','%5.2f','0','1')
 
-from gda.device.scannable import EpicsScannable
-Tc = EpicsScannable()
-Tc.name = 'Tc'
-Tc.pvName = 'BL16B-EA-LS340-01:KRDG2'
-Tc.userUnits = 'K'
-Tc.extraNames = ['Tc']
-Tc.outputFormat = ['%6f']
-Tc.configure()
+	from gda.device.scannable import EpicsScannable
+	Tc = EpicsScannable()
+	Tc.name = 'Tc'
+	Tc.pvName = 'BL16B-EA-LS340-01:KRDG2'
+	Tc.userUnits = 'K'
+	Tc.extraNames = ['Tc']
+	Tc.outputFormat = ['%6f']
+	Tc.configure()
 
-Td = EpicsScannable()
-Td.name = 'Td'
-Td.pvName = 'BL16B-EA-LS340-01:KRDG3'
-Td.userUnits = 'K'
-Td.extraNames = ['Td']
-Td.outputFormat = ['%6f']
-Td.configure()
+	Td = EpicsScannable()
+	Td.name = 'Td'
+	Td.pvName = 'BL16B-EA-LS340-01:KRDG3'
+	Td.userUnits = 'K'
+	Td.extraNames = ['Td']
+	Td.outputFormat = ['%6f']
+	Td.configure()
 
-ls340ramp = EpicsScannable()
-ls340ramp.name = 'ls340ramp'
-ls340ramp.pvName = 'BL16B-EA-LS340-01:RAMP_S'
-ls340ramp.userUnits = 'K'
-ls340ramp.extraNames = ['ls340ramp']
-ls340ramp.outputFormat = ['%6f']
-ls340ramp.configure()
+	ls340ramp = EpicsScannable()
+	ls340ramp.name = 'ls340ramp'
+	ls340ramp.pvName = 'BL16B-EA-LS340-01:RAMP_S'
+	ls340ramp.userUnits = 'K'
+	ls340ramp.extraNames = ['ls340ramp']
+	ls340ramp.outputFormat = ['%6f']
+	ls340ramp.configure()
 
-ls340target=EpicsScannable()
-ls340target.name = 'ls340target'
-ls340target.pvName = 'BL16B-EA-LS340-01:SETP_S'
-ls340target.userUnits = 'K'
-ls340target.extraNames = ['ls340target']
+	ls340target=EpicsScannable()
+	ls340target.name = 'ls340target'
+	ls340target.pvName = 'BL16B-EA-LS340-01:SETP_S'
+	ls340target.userUnits = 'K'
+	ls340target.extraNames = ['ls340target']
 #ls340target.inputFormat = ['%6f']
-ls340target.outputFormat = ['%6f']
-ls340target.configure()
+	ls340target.outputFormat = ['%6f']
+	ls340target.configure()
 
-print "Done!"
+	print "Done!"
 ######################################################################################################################################
 
 from epics_scripts.device.scannable.pvscannables_with_logic import PVWithSeparateReadbackAndToleranceScannable
 furnace = PVWithSeparateReadbackAndToleranceScannable('furnace', pv_set='BL16B-EA-TEMPC-01:RAMP:LIMIT:SET', pv_read='BL16B-EA-TEMPC-01:TEMP', timeout=36000, tolerance = .1)
-run('startup_pie725')
+
+if ENABLE_PIE_725:
+	run('startup_pie725')
 
 
 #print "!!!! Renaming pcoedgepeak2d --> peak2d for bimorph scripts !!!!"

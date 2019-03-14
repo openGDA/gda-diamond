@@ -2,11 +2,11 @@
 tomography_theta=tomoTheta
 #tomography_theta=ss1_rot_dummy
 
-#tomography_shutter=ehshutter
-tomography_shutter=eh_shtr_dummy
+tomography_shutter=ehshutter
+#tomography_shutter=eh_shtr_dummy
 
-#tomography_translation=tomoY
-tomography_translation=ss1_X_dummy
+tomography_translation=gtbX2
+#tomography_translation=ss1_X_dummy
 
 #tomography_detector=pcoedge
 tomography_detector=pco1_sw_tif

@@ -541,11 +541,19 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
 	#sample_rotation_angle_target = "entry1:NXentry/instrument:NXinstrument/zebraSM1:NXpositioner/"
 	#sample_rotation_angle_target += tomography_theta_name + ":SDS"
 	#nxLinkCreator.setSample_rotation_angle_target(sample_rotation_angle_target);
-	#nxLinkCreator.setSample_x_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplex:SDS")
-	#nxLinkCreator.setSample_y_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_sampley:SDS")
-	#nxLinkCreator.setSample_z_translation_target("entry1:NXentry/before_scan:NXcollection/sample_stage:NXcollection/ss1_samplez:SDS")
+
+	sample_rotation_angle_target = "entry1:NXentry/instrument:NXinstrument/" + tomography_theta_name + ":NXpositioner/"
+	sample_rotation_angle_target += tomography_theta_name + ":NXdata"
+	nxLinkCreator.setSample_rotation_angle_target(sample_rotation_angle_target)
+
+	#currently no clear value for sample x,y,z so use a dummy default value
+	default_placeholder_target = "entry1:NXentry/scan_identifier:NXdata"    
+	nxLinkCreator.setSample_x_translation_target(default_placeholder_target)
+	nxLinkCreator.setSample_y_translation_target(default_placeholder_target)
+	nxLinkCreator.setSample_z_translation_target(default_placeholder_target)
 	
-	nxLinkCreator.setTitle_target("entry1:NXentry/title:SDS")
+	#nxLinkCreator.setTitle_target("entry1:NXentry/title:SDS") # entry1/title fails to be created (KW, 7 Jan 2018)
+	nxLinkCreator.setTitle_target(default_placeholder_target)
 	
 	# detector dependent items
 	if externalhdf:
@@ -696,20 +704,20 @@ def _tomoFlyScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., st
 
 		if imagesPerDark > 0:
 			darkScan=ConcurrentScan([index, 0, imagesPerDark-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
-			multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, "Close", tomography_translation, inBeamPosition, image_key, image_key_dark, tomography_theta, start)))
+			multiScanItems.append(MultiScanItem(darkScan, PreScanRunnable("Preparing for darks", 0, tomography_shutter, 0, tomography_translation, inBeamPosition, image_key, image_key_dark, tomography_theta, start)))
 		if imagesPerFlat > 0:
 			flatScan=ConcurrentScan([index, 0, imagesPerFlat-1, 1, image_key, ss1, jns.tomography_flyscan_flat_dark_det, exposureTime])
-			multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, "Open", tomography_translation, outOfBeamPosition, image_key, image_key_flat, tomography_theta, start)))
+			multiScanItems.append(MultiScanItem(flatScan, PreScanRunnable("Preparing for flats",10, tomography_shutter, 1, tomography_translation, outOfBeamPosition, image_key, image_key_flat, tomography_theta, start)))
 		
 		scanForward=ConstantVelocityScanLine([tomography_flyscan_theta, start, stop, step,image_key_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
 #		scanBackward=ConstantVelocityScanLine([tomography_flyscan_theta, stop, start, step,image_key_cont, ionc_i_cont, tomography_flyscan_theta.getContinuousMoveController(), tomography_flyscan_det, exposureTime])
-		multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections",20, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project, tomography_theta, start)))
+		multiScanItems.append(MultiScanItem(scanForward, PreScanRunnable("Preparing for projections",20, tomography_shutter, 1,tomography_translation, inBeamPosition, image_key, image_key_project, tomography_theta, start)))
 #		multiScanItems.append(MultiScanItem(scanBackward, PreScanRunnable("Preparing for projections backwards",60, tomography_shutter, "Open",tomography_translation, inBeamPosition, image_key, image_key_project)))
 		multiScanObj = MultiScanRunner(multiScanItems)
 		#must pass fist scan to be run
 		addFlyScanNXTomoSubentry(multiScanItems[0].scan, tomography_flyscan_det.name, tomography_flyscan_theta.name)
 		multiScanObj.runScan()
-		tomography_shutter.moveTo("Close")
+		tomography_shutter.moveTo(0)
 			
 #		time.sleep(2)
 		updateProgress(100, "Scan complete")
@@ -739,8 +747,9 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
 	else:
 		setTitle("undefined")
 	# set Pixel Rate for Edge only
-	#if(caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
-		#pixel_rate_bup = caget("ME07M-EA-DET-01:CAM:PIX_RATE")
+	if(caget("BL16B-EA-DET-08:CAM:Model_RBV") == "PCO.Camera Edge"):
+		pass
+		#pixel_rate_bup = caget("ME07M-EA-DET-01:CAM:PIX_RATE")	#BL16B-EA-DET-08:
 		#caput("ME07M-EA-DET-01:CAM:PIX_RATE", "286000000 Hz")
 		#pcoEdge_readout=0.011
 		#from gda.factory import Finder
@@ -755,8 +764,8 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
 	finally:
 		LocalProperties.set("gda.nexus.createSRS", createSRS)
 		setTitle(title_bup)
-		#if(caget("BL13I-EA-DET-01:CAM:Model_RBV") == "PCO.Camera Edge"):
-			#caput("ME07M-EA-DET-01:CAM:PIX_RATE", pixel_rate_bup)
+		#if(caget("BL16B-EA-DET-08:CAM:Model_RBV") == "PCO.Camera Edge"):
+		#	caput("ME07M-EA-DET-01:CAM:PIX_RATE", pixel_rate_bup)
 		
 tomoFlyScan.__doc__ = _tomoFlyScan.__doc__
 	

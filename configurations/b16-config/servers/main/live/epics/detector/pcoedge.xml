@@ -7,16 +7,16 @@
 	<!-- AD hardware -->
 
 	<bean id="pcoedge_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="ME07M-EA-DET-01:CAM:" />
+		<property name="basePVName" value="BL16B-EA-DET-08:CAM:" />
 	</bean>
 
 	<bean id="pcoedge_ndfile" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="ME07M-EA-DET-01:TIFF:" />
+		<property name="prefix" value="BL16B-EA-DET-08:TIFF:" />
 		<property name="resetToInitialValues" value="false" />
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/b16" />
-				<property name="windowsSubString" value="X:" />
+				<property name="windowsSubString" value="G:\\b16" />
 			</bean>
 		</property>
 	</bean>
@@ -24,7 +24,7 @@
 	<!-- NXDetector collection strategies -->
 
 	<bean id="pcoedge_addriverpco" class = "gda.device.detector.areadetector.v17.impl.ADDriverPcoImpl">
-		<property name="basePvName" value="ME07M-EA-DET-01:CAM"/>
+		<property name="basePvName" value="BL16B-EA-DET-08:CAM"/>
 	</bean>
 	
 	<bean id="pcoedge_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposurePco">
@@ -43,10 +43,10 @@
 
 
 	<bean id="pcoedge_ndproc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
-		<property name="basePVName" value="ME07M-EA-DET-01:PROC:" />
+		<property name="basePVName" value="BL16B-EA-DET-08:PROC:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="ME07M-EA-DET-01:PROC:" />
+				<property name="basePVName" value="BL16B-EA-DET-08:PROC:" />
 			</bean>
 		</property>
 	</bean>

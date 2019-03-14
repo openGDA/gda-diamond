@@ -44,7 +44,7 @@
     </logger>
  
     <root>
-        <level value="ALL"/>
+        <level value="DEBUG"/>
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="GDALOGPANEL"/>
         <appender-ref ref="GDADEBUGPANEL"/>

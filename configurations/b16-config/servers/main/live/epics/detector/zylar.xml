@@ -20,7 +20,7 @@
 		<property name="filePathConverter">
 			<bean class="uk.ac.gda.util.UnixToWindowsFilePathConverter">
 				<property name="unixSubString" value="/dls/b16" />
-				<property name="windowsSubString" value="X:" />
+				<property name="windowsSubString" value="M:" />
 			</bean>
 		</property>
 	</bean>
