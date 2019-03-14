@@ -3,15 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.config}/properties/dummy/java.properties</value>
-				<value>file:${gda.config}/properties/common/java.properties</value>
-			</list>
-		</property>
-	</bean>
-
-	<import resource="../common/client.xml"/>
+	<import resource="../_common/client.xml"/>
 
 </beans>

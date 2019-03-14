@@ -1,0 +1,35 @@
+#!/bin/bash
+# Expects a parameter line that can be passed on to the gda launch script
+# Also expects the BEAMLINE variable to be set
+
+#export GDA_DEBUG=TRUE #uncomment this line to turn on extra logging for the startup scripts
+
+# Set the value that the BEAMLINE environment variable should be to correctly start from this configuration
+# so it can be checked automatically to prevent accidental startup of the wrong beamline.
+
+EXPECTED_BEAMLINE_VALUE=b16
+
+# Initialise the workspace and config locations for a standard Diamond Light Source GDA 9 installation, if the 
+# config tree contains the dls-config/bin folder. This will define the required config environment variables which 
+# must all be set for the server and client to start successfully.
+
+here_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
+DLS_CONFIG_BIN_RELATIVE_PATH=${here_absolute_path}/../../../../gda-diamond.git/dls-config/bin    # adjust this path to suit your location
+
+if [[ -d ${DLS_CONFIG_BIN_RELATIVE_PATH} ]]; then
+
+	source ${DLS_CONFIG_BIN_RELATIVE_PATH}/gda_set_dls_environment_defaults.sh ${EXPECTED_BEAMLINE_VALUE}
+fi
+
+##################################################################################################################
+# If your installation does not use dls-config or you wish to override the default values set above, please
+# set the required variables below this line, also adding any environment variables specific to your installation:
+##################################################################################################################
+
+export GDA_CLIENT_VMARGS="-Declipse.pluginCustomization=${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/clients/main/_common/pluginCustomization.ini"
+
+######################################################################
+# before the gda-core script is invoked using the environment settings
+######################################################################
+
+source ${GDA_WORKSPACE_PARENT}/${GDA_CORE_CONFIG_rel}/bin/gda_core "$@"
