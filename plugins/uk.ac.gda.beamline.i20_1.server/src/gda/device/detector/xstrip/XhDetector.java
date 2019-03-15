@@ -52,6 +52,8 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 @ServiceInterface(EdeDetector.class)
 public class XhDetector extends EdeDetectorBase implements EdeDetector {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = LoggerFactory.getLogger(XhDetector.class);
 
 	// strings to use in the get/set attributes methods

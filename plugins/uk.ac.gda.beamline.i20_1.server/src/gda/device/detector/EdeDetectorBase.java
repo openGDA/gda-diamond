@@ -46,6 +46,8 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 
 public abstract class EdeDetectorBase extends DetectorBase implements EdeDetector {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = LoggerFactory.getLogger(EdeDetectorBase.class);
 
 	protected DetectorData detectorData;

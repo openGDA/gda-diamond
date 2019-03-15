@@ -85,6 +85,8 @@ import uk.ac.gda.server.exafs.epics.device.scannable.ShutterChecker;
  */
 public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExafsScan {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = LoggerFactory.getLogger(EdeScan.class);
 
 	protected final EdeDetector theDetector;

@@ -38,6 +38,9 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * @since 30/10/2017
  */
 public class BufferedEdeDetector extends DetectorBase implements BufferedDetector, NexusDetector {
+
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = LoggerFactory.getLogger(BufferedEdeDetector.class);
 	private EdeDetector detector;
 

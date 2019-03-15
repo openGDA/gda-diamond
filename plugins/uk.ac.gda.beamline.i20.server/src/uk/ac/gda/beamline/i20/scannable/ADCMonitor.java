@@ -28,6 +28,9 @@ import gda.epics.PV;
 import gda.factory.FactoryException;
 
 public class ADCMonitor extends DetectorBase {
+
+	private static final long serialVersionUID = 1L;
+
 	private final String pvPrefix;
 	private final String readoutPVName;
 	private final String columnName;

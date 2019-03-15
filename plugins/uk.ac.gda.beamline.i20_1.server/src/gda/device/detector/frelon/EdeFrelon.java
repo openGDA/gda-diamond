@@ -46,6 +46,8 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
 @ServiceInterface(EdeDetector.class)
 public class EdeFrelon extends EdeDetectorBase {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = LoggerFactory.getLogger(EdeFrelon.class);
 	//	private static final double PIXEL_RATE=10.0; // MPixel/s per channel
 	//	private static final double PIXEL_SIZE=14; // micro-meter

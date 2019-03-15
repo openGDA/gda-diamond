@@ -26,6 +26,8 @@ import gda.factory.FactoryException;
 
 public class TimeResolvedTFGDetector extends DetectorBase{
 
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = LoggerFactory.getLogger(TimeResolvedTFGDetector.class);
 
 	private DAServer daServer;

@@ -28,6 +28,8 @@ import org.dawnsci.ede.EdeScanType;
  */
 public class EdeScanProgressBean implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	private final int groupNumOfThisSDP;
 	private final int frameNumOfThisSDP;
 	private String customLabelForSDP;

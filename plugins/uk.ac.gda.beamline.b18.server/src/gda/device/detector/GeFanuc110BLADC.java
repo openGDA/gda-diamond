@@ -32,6 +32,8 @@ import gov.aps.jca.TimeoutException;
 
 public class GeFanuc110BLADC extends DetectorBase {
 
+	private static final long serialVersionUID = 1L;
+
 	double samplingRate;
 	int numberOfChannels;
 	boolean useSoftwareGate;

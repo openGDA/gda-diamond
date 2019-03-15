@@ -18,10 +18,12 @@
 
 package gda.device.detector;
 
-import gda.observable.ObservableComponent;
-
 import java.io.Serializable;
 
+import gda.observable.ObservableComponent;
+
 public class EdeObservableComponent extends ObservableComponent implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 }

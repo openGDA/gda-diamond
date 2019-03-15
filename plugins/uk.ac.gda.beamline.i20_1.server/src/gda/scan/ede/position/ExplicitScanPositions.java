@@ -30,6 +30,9 @@ import gda.factory.Finder;
  * Bean to hold the motor positions which would move the sample in or out of beam.
  */
 public class ExplicitScanPositions implements Serializable, EdeScanPosition {
+
+	private static final long serialVersionUID = 1L;
+
 	EdePositionType type;
 	Double xPosition;
 	Double yPosition;

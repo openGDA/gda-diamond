@@ -77,6 +77,8 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
  */
 public class EdeScanWithTFGTrigger extends EdeScan implements EnergyDispersiveExafsScan {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = LoggerFactory.getLogger(EdeScanWithTFGTrigger.class);
 	private final DAServer daServerForTriggeringWithTFG;
 	private final TFGTrigger triggeringParameters;

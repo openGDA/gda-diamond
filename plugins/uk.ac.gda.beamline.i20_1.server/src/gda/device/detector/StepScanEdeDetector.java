@@ -32,6 +32,9 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * / beamline alignment.
  */
 public class StepScanEdeDetector extends DetectorBase implements NexusDetector {
+
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = LoggerFactory.getLogger(StepScanEdeDetector.class);
 	private int pollTimeMilliSecs = 10;
 	private EdeDetector detector;

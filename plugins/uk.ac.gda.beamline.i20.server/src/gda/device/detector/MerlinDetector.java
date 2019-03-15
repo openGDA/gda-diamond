@@ -25,6 +25,8 @@ import gov.aps.jca.TimeoutException;
 
 public class MerlinDetector extends DetectorBase{
 
+	private static final long serialVersionUID = 1L;
+
 	private CAClient caClient;
 	private NXDetector merlinController;
 	private String totalCountsPV;

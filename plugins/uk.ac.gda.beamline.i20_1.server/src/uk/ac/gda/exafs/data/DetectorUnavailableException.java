@@ -19,6 +19,9 @@
 package uk.ac.gda.exafs.data;
 
 public class DetectorUnavailableException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+
 	public DetectorUnavailableException() {
 		super("Detector unavailable");
 	}

@@ -38,6 +38,8 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  */
 public class EdeScanParameters implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	public static final String TRIG_NONE = "none";
 	public static final String TRIG_GROUP_BEFORE = "Group start, before delay";
 	public static final String TRIG_GROUP_AFTER = "Group start, after delay";
