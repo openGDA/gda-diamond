@@ -6,7 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Diamond Light Source
-Bundle-ActivationPolicy: lazy
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Import-Package: gda.factory,
  org.eclipse.e4.core.services.events,
