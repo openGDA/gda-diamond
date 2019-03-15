@@ -154,9 +154,12 @@
 		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
 	</bean>
 
-	<bean id="Beamline" class="gda.device.epicsdevice.FindableEpicsDevice">
-		<property name="deviceName" value="Beamline" />
-		<property name="local" value="true" />
+	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="Top" value="BL16B" />
+			</map>
+		</property>
 	</bean>
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
