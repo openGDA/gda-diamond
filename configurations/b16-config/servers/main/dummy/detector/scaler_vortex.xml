@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="struck1" class="gda.device.detector.DummyDetector">
-		<property name="dataDimensions" value="8" />
 		<property name="extraNames">
 			<list>
 				<value>chn1</value>
@@ -31,7 +30,6 @@
 	</bean>
 
 	<bean id="struck2" class="gda.device.detector.DummyDetector">
-		<property name="dataDimensions" value="8" />
 		<property name="extraNames">
 			<list>
 				<value>chn1</value>
