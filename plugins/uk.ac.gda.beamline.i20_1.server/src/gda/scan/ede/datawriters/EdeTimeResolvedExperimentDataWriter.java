@@ -28,8 +28,6 @@ import org.dawnsci.ede.EdeDataConstants.TimingGroupMetadata;
 import org.dawnsci.ede.TimeResolvedDataFileHelper;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import gda.device.detector.EdeDetector;
 import gda.scan.EdeScan;
@@ -37,8 +35,6 @@ import gda.scan.EnergyDispersiveExafsScan;
 import gda.scan.ScanDataPoint;
 
 public class EdeTimeResolvedExperimentDataWriter extends EdeExperimentDataWriter {
-
-	private static final Logger logger = LoggerFactory.getLogger(EdeTimeResolvedExperimentDataWriter.class);
 
 	protected final EnergyDispersiveExafsScan i0DarkScan;
 	protected final EnergyDispersiveExafsScan i0InitialLightScan;

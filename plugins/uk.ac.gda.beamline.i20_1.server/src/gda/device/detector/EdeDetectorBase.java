@@ -29,8 +29,6 @@ import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.dawnsci.nexus.NexusFile;
 import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.DoubleDataset;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import gda.data.NumTracker;
 import gda.data.nexus.extractor.NexusGroupData;
@@ -47,8 +45,6 @@ import uk.ac.gda.exafs.ui.data.EdeScanParameters;
 public abstract class EdeDetectorBase extends DetectorBase implements EdeDetector {
 
 	private static final long serialVersionUID = 1L;
-
-	private static final Logger logger = LoggerFactory.getLogger(EdeDetectorBase.class);
 
 	protected DetectorData detectorData;
 	protected EdeScanParameters currentScanParameter;
