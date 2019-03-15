@@ -217,6 +217,15 @@
 				<ref bean="_NiB4C_X" />
 			</list>
 		</property>
+		<property name="functions">
+			<list>
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+				<bean class="gda.function.IdentityFunction" />
+			</list>
+		</property>
 	</bean>
 	<bean id="_RuB4C" class="gda.device.scannable.CoupledScannable">
 		<property name="scannables">
