@@ -3,23 +3,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="t5_y1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21B-MO-TABLE-05:Y1" />
+
+	<bean id="t5_y_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL21B-MO-TABLE-05:Y" />
 		<property name="local" value="true" />
 	</bean>
 
-	<bean id="t5_y2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21B-MO-TABLE-05:Y2" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="t5_x1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21B-MO-TABLE-05:X1" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="t5_x2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL21B-MO-TABLE-05:X2" />
+	<bean id="t5_yaw_motor" class="gda.device.motor.EpicsMotor" >
+		<property name="pvName" value="BL21B-MO-TABLE-05:YAW1" />
 		<property name="local" value="true" />
 	</bean>
 
