@@ -11,6 +11,41 @@
 
 	<bean id="mytheneventadmin" class="gda.jython.scriptcontroller.ScriptControllerBase"/>
 
+	<bean id="flatFieldCorrection" class="gda.device.detector.mythen.data.MythenRawDataset">
+		<constructor-arg>
+			<bean class="java.io.File">
+				<constructor-arg>
+					<value>/dls_sw/i11/software/var/mythen/diamond/flatfield/current_flat_field_calibration</value>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+	<bean id="angularCalibration" class="gda.device.detector.mythen.data.AngularCalibrationParametersFile">
+		<constructor-arg>
+			<bean class="java.io.File">
+				<constructor-arg>
+					<value>/dls_sw/i11/software/var/mythen/diamond/calibration/ang.off</value>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+	<bean id="badChannelProvider" class="gda.device.detector.mythen.data.FileBadChannelProvider">
+		<constructor-arg>
+			<bean class="java.io.File">
+				<constructor-arg>
+					<value>/dls_sw/i11/software/var/mythen/diamond/calibration/badchannel_detector_standard.list</value>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="dataConverter" class="gda.device.detector.mythen.data.DataConverter">
+		<property name="angularCalibrationParameters" ref="angularCalibration" />
+		<property name="badChannelProvider" ref="badChannelProvider" />
+		<property name="flatFieldData" ref="flatFieldCorrection" />
+		<property name="beamlineOffset" value="0.08208"/>
+	</bean>
+
 	<bean id="mythen.det" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
 		<property name="basePVName" value="BL11I-EA-DET-03:DET:"/>
 		<property name="initialDataType" value="Float64" />
@@ -29,45 +64,7 @@
 				<property name="adbase" ref="mythen.det"/>
 			</bean>
 		</property>
-		<property name="dataConverter">
-			<bean class="gda.device.detector.mythen.data.DataConverter">
-				<property name="angularCalibrationParameters">
-					<bean
-						class="gda.device.detector.mythen.data.AngularCalibrationParametersFile">
-						<constructor-arg>
-							<bean class="java.io.File">
-								<constructor-arg>
-									<value>/dls_sw/i11/software/var/mythen/diamond/calibration/ang.off</value>
-								</constructor-arg>
-							</bean>
-						</constructor-arg>
-					</bean>
-				</property>
-				<property name="badChannelProvider" >
-					<bean class="gda.device.detector.mythen.data.FileBadChannelProvider">
-						<constructor-arg>
-							<bean class="java.io.File">
-								<constructor-arg>
-									<value>/dls_sw/i11/software/var/mythen/diamond/calibration/badchannel_detector_standard.list</value>
-								</constructor-arg>
-							</bean>
-						</constructor-arg>
-					</bean>
-				</property>
-				<property name="flatFieldData">
-					<bean class="gda.device.detector.mythen.data.MythenRawDataset">
-						<constructor-arg>
-							<bean class="java.io.File">
-								<constructor-arg>
-									<value>/dls_sw/i11/software/var/mythen/diamond/flatfield/current_flat_field_calibration</value>
-								</constructor-arg>
-							</bean>
-						</constructor-arg>
-					</bean>
-				</property>
-				<property name="beamlineOffset" value="0.08208"/>
-			</bean>
-		</property>
+		<property name="dataConverter" ref="dataConverter" />
 		<property name="deltaScannable" ref="delta"/>
 		<property name="atScanStartTasks">
 			<list>
@@ -115,45 +112,7 @@
 				<property name="adbase" ref="mythen.det"/>
 			</bean>
 		</property>
-		<property name="dataConverter">
-			<bean class="gda.device.detector.mythen.data.DataConverter">
-				<property name="angularCalibrationParameters">
-					<bean
-						class="gda.device.detector.mythen.data.AngularCalibrationParametersFile">
-						<constructor-arg>
-							<bean class="java.io.File">
-								<constructor-arg>
-									<value>/dls_sw/i11/software/var/mythen/diamond/calibration/ang.off</value>
-								</constructor-arg>
-							</bean>
-						</constructor-arg>
-					</bean>
-				</property>
-				<property name="badChannelProvider" >
-					<bean class="gda.device.detector.mythen.data.FileBadChannelProvider">
-						<constructor-arg>
-							<bean class="java.io.File">
-								<constructor-arg>
-									<value>/dls_sw/i11/software/var/mythen/diamond/calibration/badchannel_detector_standard.list</value>
-								</constructor-arg>
-							</bean>
-						</constructor-arg>
-					</bean>
-				</property>
-				<property name="flatFieldData">
-					<bean class="gda.device.detector.mythen.data.MythenRawDataset">
-						<constructor-arg>
-							<bean class="java.io.File">
-								<constructor-arg>
-									<value>/dls_sw/i11/software/var/mythen/diamond/flatfield/current_flat_field_calibration</value>
-								</constructor-arg>
-							</bean>
-						</constructor-arg>
-					</bean>
-				</property>
-				<property name="beamlineOffset" value="0.08208"/>
-			</bean>
-		</property>
+		<property name="dataConverter" ref="dataConverter" />
 		<property name="deltaScannable" ref="delta"/>
 		<property name="atScanStartTasks">
 			<list>

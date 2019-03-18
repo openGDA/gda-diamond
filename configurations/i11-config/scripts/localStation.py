@@ -210,6 +210,9 @@ def setMythenFlatFieldFile(filename):
     mythen_flat_field = gda.device.detector.mythen.data.MythenRawDataset(java.io.File(filename))
     mythen.getDataConverter().setFlatFieldData(mythen_flat_field)  # @UndefinedVariable
 
+print 'Method to reprocess mythen files: process_mythen_scans'
+from mythen_processing import process_mythen_scans
+
 print
 print "---------------------------------------------------------numFrames--------------------------------------------------------"
 print "Create rocking theta scannable 'rocktheta'"
