@@ -1,0 +1,13 @@
+# needs args: DIRECTORY PREFIX OUTPUT_FILE DIMENSIONS
+# eg ./reshaping.sh /scratch/sample/b21/eiger_test b21_test_ b21_vds.h5 2 5
+
+DATA_DIR=$1
+shift
+PREFIX=$1
+shift
+OUTPUT=$1
+shift
+DIMS="$@"
+
+/dls_sw/prod/tools/RHEL6-x86_64/defaults/bin/dls-vds-gen.py ${DATA_DIR} -p ${PREFIX} -o ${OUTPUT} --mode reshape --new-shape ${DIMS}
+

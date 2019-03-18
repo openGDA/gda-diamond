@@ -2,15 +2,17 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
     xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
 	<import resource="bssc.xml" />
 	<import resource="datawriter.xml" />
 	<import resource="metadata.xml" />
 	<import resource="ncddetectors.xml" />
-	<import resource="pilatus2m_saxs.xml" />
 	<import resource="devices/devices.xml" />
 	<import resource="../_common/*.xml" />
+	<beans profile="pilatus" >
+		<import resource="pilatus2m_saxs.xml" />
+	</beans>
 </beans>
 
