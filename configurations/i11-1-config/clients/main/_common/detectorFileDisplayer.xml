@@ -3,11 +3,23 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-	<bean id="detectorFileDisplayer" class="uk.ac.gda.beamline.i11.lde.views.DetectorFileDisplayer">
-		<property name="viewID" value="uk.ac.gda.beamline.i11.views.DetectorFilePlotView"/>
-		<property name="viewName" value="DetectorPlot"/>
-		<property name="newPlot" value="true"/>
-		<property name="plotType" value="#{ T(org.eclipse.dawnsci.plotting.api.PlotType).XY}"/>
+	<bean id="detectorFileDisplayer" class="uk.ac.gda.beamline.synoptics.utils.DetectorFileDisplayer" >
+		<property name="viewId" value="uk.ac.gda.beamline.i11.views.DetectorFilePlotView" />
+		<property name="fileHandlers">
+			<list>
+				<bean id="hdfHandler" class="uk.ac.gda.beamline.synoptics.utils.HdfImagePlotter">
+					<property name="dataPath" value="/entry/instrument/detector/data"/>
+					<property name="filter" value="pixium.*.hdf,perkin.*.hdf" />
+				</bean>
+				<bean id="scanFileHandler" class="uk.ac.gda.beamline.synoptics.utils.NexusScanFileHandler">
+<!-- 					<property name="dataPath" value="/entry/instrument/detector/data"/> -->
+					<property name="filter" value="i11-1-.*.nxs" />
+				</bean>
+				<bean id="datFileHandler" class="uk.ac.gda.beamline.synoptics.utils.DatFileHandler">
+					<property name="filter" value="i11-1-.*.xy" />
+				</bean>
+			</list>
+		</property>
 	</bean>
 
 </beans>
