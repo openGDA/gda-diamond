@@ -518,9 +518,9 @@ cs.setName("cs")
 cs.configure()
 
 zpa = ScannableGroup()
-zpa.addGroupMember(diff_x)
-zpa.addGroupMember(diff_y)
-zpa.addGroupMember(diff_z)
+zpa.addGroupMember(mask_x)
+zpa.addGroupMember(mask_y)
+zpa.addGroupMember(mask_z)
 zpa.setName("zpa")
 zpa.configure()
 

@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="gdiff1_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="gdiff1_x_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="gdiff1_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="gdiff1_y_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="gdiff1_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="gdiff1_z_motor" />
+		<property name="userUnits" value="mm"/>
+	</bean>
+	<bean id="gdiff1_omega" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="gdiff1_omega_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="gdiff1_alpha" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="gdiff1_alpha_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="gdiff1_theta" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="gdiff1_theta_motor" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+
+</beans>
