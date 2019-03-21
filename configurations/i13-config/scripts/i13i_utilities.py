@@ -627,6 +627,9 @@ def use_storage(storage_name, notify=False, comment=''):
 
         flyScanDetectorNoChunking.getAdditionalPluginList()[0].pathErrorSuppressed=True
         flyScanFlatDarkDetectorNoChunking.getAdditionalPluginList()[0].pathErrorSuppressed=True
+        
+        caput("BL13I-EA-DET-01:HDF5:TempSuffix", ".tmp")
+        caput("BL13I-EA-DET-01:TIFF:TempSuffix", ".tmp")
     elif storage_name_ == "gpfs":
         #print "enable 'waiting for file to be created'"
         #pixium10_tif.pluginList[1].waitForFileArrival=True
@@ -643,6 +646,9 @@ def use_storage(storage_name, notify=False, comment=''):
 
         flyScanDetectorNoChunking.getAdditionalPluginList()[0].pathErrorSuppressed=False
         flyScanFlatDarkDetectorNoChunking.getAdditionalPluginList()[0].pathErrorSuppressed=False
+        
+        caput("BL13I-EA-DET-01:HDF5:TempSuffix", "")
+        caput("BL13I-EA-DET-01:TIFF:TempSuffix", "")
     else:
         msg = "Unsupported storage mode: %s!" %(storage_name_)
         print msg
