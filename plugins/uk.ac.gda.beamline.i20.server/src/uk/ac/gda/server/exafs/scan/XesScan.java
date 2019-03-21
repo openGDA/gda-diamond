@@ -22,9 +22,13 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gda.device.Detector;
+import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.scannable.ScannableBase;
 import gda.device.scannable.TwoDScanPlotter;
 import gda.exafs.xes.IXesOffsets;
 import gda.jython.scriptcontroller.logging.LoggingScriptController;
@@ -34,16 +38,20 @@ import uk.ac.gda.beans.exafs.IOutputParameters;
 import uk.ac.gda.beans.exafs.ISampleParameters;
 import uk.ac.gda.beans.exafs.IScanParameters;
 import uk.ac.gda.beans.exafs.SignalParameters;
+import uk.ac.gda.beans.exafs.XanesScanParameters;
+import uk.ac.gda.beans.exafs.XasScanParameters;
 import uk.ac.gda.beans.exafs.XesScanParameters;
 import uk.ac.gda.beans.exafs.i20.I20OutputParameters;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
 public class XesScan extends XasScanBase implements XasScan {
 
+	private static Logger logger = LoggerFactory.getLogger(XesScan.class);
+
 	private Scannable analyserAngle;
 	private Scannable xes_energy;
 	private Scannable mono_energy;
-	private XasScan xas;
+	private EnergyScan xas;
 	private XesScanParameters xesScanParameters;
 	private Object[] xes_args;
 	private TwoDScanPlotter twodplotter = new TwoDScanPlotter();
@@ -51,9 +59,6 @@ public class XesScan extends XasScanBase implements XasScan {
 	private String monoAxisLabel = "bragg1 energy [eV]";
 	private String xesAxisLabel = "XESEnergy [eV]";
 	private IXesOffsets xesOffsets;
-
-	public XesScan() {
-	}
 
 	@Override
 	public String getScanType() {
@@ -95,8 +100,10 @@ public class XesScan extends XasScanBase implements XasScan {
 		}
 
 		int innerScanType = xesScanParameters.getScanType();
-		if (innerScanType == XesScanParameters.FIXED_XES_SCAN_XAS || innerScanType == XesScanParameters.FIXED_XES_SCAN_XANES) {
-			_doXASScan();
+		if (innerScanType == XesScanParameters.FIXED_XES_SCAN_XAS ||
+			innerScanType == XesScanParameters.FIXED_XES_SCAN_XANES ||
+			innerScanType == XesScanParameters.SCAN_XES_REGION_FIXED_MONO) {
+			doXASScan();
 			return;
 		}
 
@@ -163,11 +170,87 @@ public class XesScan extends XasScanBase implements XasScan {
 		return xes_args;
 	}
 
-	private void _doXASScan() throws Exception {
 
-		double initialXESEnergy = (Double) xes_energy.getPosition();
-		xes_energy.waitWhileBusy();
-		xes_energy.moveTo(xesScanParameters.getXesEnergy());
+	/**
+	 * Set name of scannable in scan bean to match the one to be moved (not essential, but useful to have it recorded in XML)
+	 * @param scanParams
+	 * @param nameOfScannableToMove
+	 */
+	private void setXasXanesScannable(IScanParameters scanParams, String nameOfScannableToMove) {
+		String nameFromParams = scanParams.getScannableName();
+		if (StringUtils.isEmpty(nameFromParams) || !nameFromParams.equals(nameOfScannableToMove)) {
+			logger.warn("Updating name of scannable in Xas/Xanes parameter from {} to {}", nameFromParams, nameOfScannableToMove);
+
+			if (scanParams instanceof XasScanParameters) {
+				((XasScanParameters)scanParams).setScannableName(nameOfScannableToMove);
+			} else if (scanParams instanceof XanesScanParameters) {
+				((XanesScanParameters)scanParams).setScannableName(nameOfScannableToMove);
+			}
+		}
+	}
+
+	/**
+	 * Scannable that delegates moves to one scannable and returns position of another.
+	 * This is used to move spectrometer in SCAN_XES_XANES_FIXED_MONO scans, so that readout
+	 * values are returned in the same order as during FIXED_XES_SCAN_XAS/XANES scans.
+	 */
+	private static class XesXanesScannable extends ScannableBase {
+		private final Scannable scannableToMove;
+		private final Scannable scannableToGetPositionOf;
+
+		public XesXanesScannable(Scannable scannableToMove, Scannable scannableToGetPositionOf) {
+			this.scannableToMove = scannableToMove;
+			this.scannableToGetPositionOf = scannableToGetPositionOf;
+			setOutputFormat(scannableToGetPositionOf.getOutputFormat());
+			setExtraNames(scannableToGetPositionOf.getExtraNames());
+		}
+
+		@Override
+		public boolean isBusy() throws DeviceException {
+			return scannableToMove.isBusy();
+		}
+
+		@Override
+		public void asynchronousMoveTo(Object position) throws DeviceException {
+			scannableToMove.asynchronousMoveTo(position);
+		}
+
+		@Override
+		public Object getPosition() throws DeviceException {
+			return scannableToGetPositionOf.getPosition();
+		}
+	}
+
+	/**
+	 * Do Xas or Xanes scan moving either the mono or Xes energy scannable.
+	 * The non scanning energy scannable stays fixed for the duration of the scan.
+	 * @throws Exception
+	 */
+	private void doXASScan() throws Exception {
+
+		Scannable fixedScannable;
+		Scannable movingScannable;
+		double fixedEnergy;
+
+		// Set the scannable to be moved during scan, and non
+		if (xesScanParameters.getScanType() == XesScanParameters.SCAN_XES_REGION_FIXED_MONO) {
+			// Scan XES using XANES parameters, fixed mono
+			movingScannable = new XesXanesScannable(xes_energy, mono_energy);
+			movingScannable.setName(xes_energy.getName());
+			fixedScannable = mono_energy;
+			fixedEnergy = xesScanParameters.getMonoEnergy();
+		} else {
+			// Scan mono using Xanes/Xas parameters, fixed XES
+			movingScannable = mono_energy;
+			fixedScannable = xes_energy;
+			fixedEnergy = xesScanParameters.getXesEnergy();
+		}
+
+		logger.info("Starting Xas/Xanes scan : fixed scannable = {}, moving scannable = {}", fixedScannable, movingScannable);
+		logger.info("Moving {} to initial position {} eV", fixedScannable.getName(), fixedEnergy);
+		double initialEnergy = (Double) fixedScannable.getPosition();
+		fixedScannable.waitWhileBusy();
+		fixedScannable.moveTo(fixedEnergy);
 
 		SignalParameters xesEnergySignal = new SignalParameters(xes_energy.getName(), xes_energy.getName(), 2,
 				xes_energy.getName(), xes_energy.getName());
@@ -178,19 +261,25 @@ public class XesScan extends XasScanBase implements XasScan {
 		try {
 			IScanParameters xasScanParams = (IScanParameters) XMLHelpers.getBeanObject(experimentFullPath + "/",
 					xesScanParameters.getScanFileName());
+
+			logger.info("Scan parameters loaded from {}", xesScanParameters.getScanFileName());
+			setXasXanesScannable(xasScanParams, movingScannable.getName());
+
+			// Set scannable object to be moved during scan
+			xas.setEnergyScannable(movingScannable);
+
 			xas.configureCollection(sampleBean, xasScanParams, detectorBean, outputBean, detectorConfigurationBean,
 					experimentFullPath, numRepetitions);
 
 			// Set the names of the XML bean files so they get written to the 'before_scan' meta data.
-			if (xas instanceof XasScanBase) {
-				String[] filenames = getXmlFileNames();
-				((XasScanBase)xas).setXmlFileNames(filenames[0], xesScanParameters.getScanFileName(), filenames[2], filenames[3], filenames[4]);
-			}
+			String[] filenames = getXmlFileNames();
+			xas.setXmlFileNames(filenames[0], xesScanParameters.getScanFileName(), filenames[2], filenames[3], filenames[4]);
 
 			xas.doCollection();
 
 		} finally {
-			xes_energy.moveTo(initialXESEnergy);
+			// move the 'fixed' scannable back to the initial position
+			fixedScannable.moveTo(initialEnergy);
 		}
 	}
 
@@ -222,7 +311,7 @@ public class XesScan extends XasScanBase implements XasScan {
 		return xas;
 	}
 
-	public void setXas(XasScan xas) {
+	public void setXas(EnergyScan xas) {
 		this.xas = xas;
 	}
 
