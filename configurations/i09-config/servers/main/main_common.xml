@@ -55,6 +55,7 @@
 	<import resource="ChannelCutCrystal.xml" />
 	<import resource="BeamMonitor.xml"/>
 	<import resource="SMPM.xml" />
+	<import resource="analyser_energy_range.xml"/>
 	<import resource="analyser.xml"/>
 	<import resource="RegionScannable.xml"/>
 	<import resource="ES2.xml"/>

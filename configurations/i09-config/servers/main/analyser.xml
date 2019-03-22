@@ -161,13 +161,8 @@
 		<property name="readFilepath" value="true" />
 		<property name="readAcquisitionPeriod" value="false" />
 		<property name="readArray" value="true" />
-	</bean>
-
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<property name="serviceName" value="gda/analyser" />
-		<property name="service" ref="analyser" />
-		<property name="serviceInterface"
-			value="org.opengda.detector.electronanalyser.server.IVGScientaAnalyser" />
+		<property name="energyRange" ref="analyser_energy_range" />
+		<property name="energyStepPerPixel" value="0.0877" />
 	</bean>
  
 	<bean id="analyser_adarrayplugin" class="org.opengda.detector.electronanalyser.nxdetector.plugins.ADArrayPlugin">

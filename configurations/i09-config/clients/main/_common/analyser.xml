@@ -3,11 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
-		<property name="serviceInterface" value="org.opengda.detector.electronanalyser.server.IVGScientaAnalyser" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
+	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	
 	<bean id="regionDefinitionResourceUtil" class="org.opengda.detector.electronanalyser.utils.RegionDefinitionResourceUtil">
 		<!-- <property name="fileName" value="/scratch/i09/test/user.seq"/> -->
