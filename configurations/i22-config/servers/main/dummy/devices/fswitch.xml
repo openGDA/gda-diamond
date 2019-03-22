@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="fswitch_x_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="fswitch_y_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="fswitch_pitch_motor" class="gda.device.motor.DummyMotor"/>
-	<bean id="fswitch_yaw_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="fswitch_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+	<bean id="fswitch_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+	<bean id="fswitch_pitch_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+	<bean id="fswitch_yaw_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
 </beans>
 
