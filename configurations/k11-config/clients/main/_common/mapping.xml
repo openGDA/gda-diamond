@@ -17,8 +17,8 @@
 	</description>
 
 	<!-- Stage axis names defined as String beans for convenience and to avoid repetition of the same literal value -->
-	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="tomo_centring_x"/></bean>
-	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="tomo_y"/></bean>
+	<bean id="x_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="beam_x"/></bean>
+	<bean id="y_axis_name" class="java.lang.String" factory-method="valueOf"><constructor-arg value="beam_y"/></bean>
 
 	<!-- The mapping experiment bean provides the options and defaults used for setting up new mapping experiments -->
 	<bean id="mapping_experiment_bean" class="uk.ac.diamond.daq.mapping.impl.MappingExperimentBean">
@@ -41,7 +41,7 @@
 							<property name="imaginaryAxisName" ref="y_axis_name" />
 						</bean>
 					</constructor-arg>
-					<constructor-arg name="includeInScan" value="false" />
+					<constructor-arg name="includeInScan" value="true" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Diffraction Camera" />
@@ -65,6 +65,21 @@
 							<constructor-arg name="includeInScan" value="false" />
 						</bean>
 					</list>
+				</property>
+				<property name="mappingScanRegion">
+					<bean class="uk.ac.diamond.daq.mapping.impl.MappingScanRegion">
+						<property name="region">
+							<bean class="uk.ac.diamond.daq.mapping.region.PointMappingRegion" />
+						</property>
+						<property name="scanPath">
+							<bean class="org.eclipse.scanning.api.points.models.SinglePointModel">
+								<property name="x" value="0" />
+								<property name="y" value="0" />
+								<property name="fastAxisName" value="beam_x" />
+								<property name="slowAxisName" value="beam_y" />
+							</bean>
+						</property>
+					</bean>
 				</property>
 			</bean>
 		</property>
@@ -93,10 +108,7 @@
 	<bean id="mapping_region_manager" class="uk.ac.diamond.daq.mapping.region.MappingRegionManager">
 		<property name="regions">
 			<list>
-				<bean class="uk.ac.diamond.daq.mapping.region.RectangularMappingRegion" />
 				<bean class="uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion" />
-				<bean class="uk.ac.diamond.daq.mapping.region.CircularMappingRegion" />
-				<bean class="uk.ac.diamond.daq.mapping.region.PolygonMappingRegion" />
 				<bean class="uk.ac.diamond.daq.mapping.region.LineMappingRegion" />
 				<bean class="uk.ac.diamond.daq.mapping.region.PointMappingRegion" />
 			</list>
@@ -106,18 +118,12 @@
 				<bean class="org.eclipse.scanning.api.points.models.GridModel">
 					<property name="snake" value="true" />
 				</bean>
-				<bean class="org.eclipse.scanning.api.points.models.RasterModel">
-					<property name="snake" value="true" />
-				</bean>
-				<bean class="org.eclipse.scanning.api.points.models.SpiralModel" />
-				<bean class="org.eclipse.scanning.api.points.models.LissajousModel" />
 				<bean class="org.eclipse.scanning.api.points.models.RandomOffsetGridModel" />
 			</list>
 		</property>
 		<property name="oneDPaths">
 			<list>
 				<bean class="org.eclipse.scanning.api.points.models.OneDEqualSpacingModel" />
-				<bean class="org.eclipse.scanning.api.points.models.OneDStepModel" />
 			</list>
 		</property>
 		<property name="zeroDPaths">

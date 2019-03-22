@@ -25,8 +25,8 @@
 		<constructor-arg value="#{workstation}-AD-SIM-01" />
 	</bean>
 
-	<bean id="sim_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="D1" />
+	<bean id="d2_cam_config" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="D2" />
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
 		<property name="calibratedAxesProvider" ref="my_calibration" />
 	</bean>
