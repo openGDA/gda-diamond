@@ -55,6 +55,9 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d1_motion.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d2_addetector.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/diagnostics/d2_motion.xml" />
+	
+	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml"/>
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/simulation/mandelbrot_detectors.xml" />
 
 	<!-- file registration -->
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
