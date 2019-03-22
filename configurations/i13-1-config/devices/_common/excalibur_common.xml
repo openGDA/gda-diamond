@@ -185,7 +185,7 @@
 		<constructor-arg index="0" ref="readoutFems" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="mask"
+	<bean id="mask_excalibur"
 		class="uk.ac.gda.devices.excalibur.scannable.MaskScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<property name="local" value="true" />

@@ -288,8 +288,8 @@ try:
 		run("localStationUser.py")
 
 		from deben import *
-		deben_configure()
-		deben_after_ioc_restart()
+		#deben_configure()
+		#deben_after_ioc_restart()	
 		#meta_add(dbn_y)
 		#meta_add(dbn_tension_rbv)
 		#meta_add(dbn_torsion_rbv)

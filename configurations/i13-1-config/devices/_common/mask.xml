@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="mask_x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mask_x_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+	<bean id="mask_y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mask_y_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+	<bean id="mask_z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="mask_z_motor" />
+		<property name="userUnits" value="um"/>
+	</bean>
+
+	<bean id="mask_ix" class="gda.device.scannable.SimpleScannable">
+		<property name="currentPosition">
+		<bean class="java.lang.Double">
+		  <constructor-arg value="0.0"/>
+		</bean>
+		</property>
+		<property name="inputNames" value="mask_ix"/>
+	</bean>
+
+	<bean id="mask_xy" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="mask_x" />
+				<ref bean="mask_y" />
+				<ref bean="mask_ix" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mask" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="mask_x" />
+				<ref bean="mask_y" />
+				<ref bean="mask_z" />
+				<ref bean="mask_xy" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
+

@@ -149,11 +149,13 @@ class MiroXgraph():
 	def __init__(self, pv_prefix="BL12I-EA-DET-20:CAM:", exposure_time_max_sec=1.0/24.0):
 		self.pv_prefix = pv_prefix
 		self.exposure_time_max_sec = exposure_time_max_sec
+		self.frame_rate_hz = None
 		self.pvs = get_pvs(pv_prefix)
 		self.ca = CAClient()
 		self.cine_num = 1
 		self.filename_prefix_hdf = "miro_projections"
 		self.file_template_hdf = "%s%s_%05d.hdf"
+		self.hdfpath = None
 		self.outdirpath = None
 		self.scan_number = None
 		self.download_time_max_sec = 15*60
@@ -163,22 +165,23 @@ class MiroXgraph():
 		#overhead_sec = 20*10e-6 # Exposure time is less 20 microsecond of overhead
 		overhead_sec = 2*10e-6
 		if exposure_time_sec > self.exposure_time_max_sec:
-			print "Exposure time of %s s is larger than the MAX exposure time: using the value of the MAX exposure time of %s instead!" %(exposure_time_sec, self.exposure_time_max_sec)
+			print("WARNING: Requested exposure time of %s s is larger than the MAX exposure time:\n\t setting the exposure time to the MAX allowable exposure time of %s s instead!" %(exposure_time_sec, self.exposure_time_max_sec))
 			exposure_time_sec = self.exposure_time_max_sec
-
+	
+		exposure_time_sec_tmp = exposure_time_sec
 		if acq_period_sec <= exposure_time_sec+overhead_sec:
-			#print "Acquisition period of %.3f s is smaller than the exposure time + overhead: using the value of the exposure time of %.3f instead!" %(acq_period_sec, exposure_time_sec)
+			#print "Acquisition period of %.3f s is smaller than the exposure time (%s s) + overhead: using the value of the exposure time of %.3f instead!" %(acq_period_sec, exposure_time_sec)
 			#acq_period_sec = exposure_time_sec
 			exposure_time_sec = acq_period_sec - overhead_sec
-		print "Acquisition period of %s s is smaller or equal to the exposure time + overhead (%s us): using the exposure time of %s instead!" %(acq_period_sec, overhead_sec, exposure_time_sec)
-
+			print("WARNING: Computed acquisition period of %s s is smaller or equal to the exposure time (%s s) + overhead (%s us):\n\t setting the exposure time to an adjusted value of %s to allow for the requested frame rate of %s Hz!" %(acq_period_sec, exposure_time_sec_tmp, overhead_sec, exposure_time_sec, self.frame_rate_hz))
+	
 		if nframes_post_trigger < 1:
-			print "Number of frames to be recorded POST trigger %d must not be less than 1: using the MIN value of 1 instead!" %(nframes_post_trigger)
+			print("WARNING: Number of frames to be recorded POST trigger %d must not be less than 1:\n\t using the MIN value of 1 instead!" %(nframes_post_trigger))
 			nframes_post_trigger = 1
 		
 		frame_count_max = int(caget("BL12I-EA-DET-20:CAM:MaxFrameCount_RBV"))
 		if nframes_post_trigger > frame_count_max:
-			print "Number of frames to be recorded POST trigger %d must not exceed the MAX frame count: using the current MAX frame count of %d instead!" %(nframes_post_trigger, frame_count_max)
+			print("WARNING: Number of frames to be recorded POST trigger %d must not exceed the MAX allowable frame count:\n\t using the current MAX allowable frame count of %d instead!" %(nframes_post_trigger, frame_count_max))
 			nframes_post_trigger = frame_count_max
 			
 		if not download_option in (-1, 0, 1, 2):
@@ -202,8 +205,8 @@ class MiroXgraph():
 		sleep(1.0)
 		exposure_time_sec_eff = caget("BL12I-EA-DET-20:CAM:AcquireTime_RBV")
 		acq_period_sec_eff = caget("BL12I-EA-DET-20:CAM:AcquirePeriod_RBV")
-		print "Effective exposure time: %s s" %(exposure_time_sec_eff)
-		print "Effective acquisition period: %s s" %(acq_period_sec_eff)
+		print("Effective exposure time: %s s" %(exposure_time_sec_eff))
+		print("Effective acquisition period: %s s (for the requested frame rate of %s Hz)" %(acq_period_sec_eff, self.frame_rate_hz))
 		return nframes_post_trigger, exposure_time_sec_eff, acq_period_sec_eff		#order?
 		
 
@@ -225,13 +228,13 @@ class MiroXgraph():
 		if black_ref:
 			self._perform_black_ref()
 		else:
-			print("User opted for NOT performing black reference!")
+			print("User opted for NOT performing Current Session Reference (black reference)!")
 		#self._set_miro_hdf_path(savefolderpath)
 
 		
-	def collect_data(self, nframes_post_trigger, exposure_time_sec, frame_rate_hz, download_option, black_ref=True, interactive_run=False, cine_num=1, final_sleep_sec=1.0):
+	def collect_data(self, nframes_post_trigger, exposure_time_sec, frame_rate_hz, download_option, black_ref=True, interactive_run=False, cine_num=1, pre_download_sleep_sec=1.0, nxs=False):
 		"""
-		nframes_post_trigger: number of frames to be collected after the trigger
+		nframes_post_trigger: the total number of frames to be collected after the trigger is received by the camera
 		exposure_time_sec: exposure time in seconds
 		frame_rate_hz: frame rate in Hz
 		download_option: 
@@ -239,13 +242,15 @@ class MiroXgraph():
 			0 - automatic download of all PRE- and POST-trigger frames
 			1 - automatic download of all POST-trigger frames only
 			2 - manual download of hand-picked frames directly in EPICS
-		black_ref: True or False to indicate if black reference image needs to be collected; default=True
+		black_ref: True or False to indicate if a black reference image is to be collected beforehand; default=True
 		interactive_run: True or False to indicate if the Miro camera should wait for a user-provided initial trigger 
-			(generated by the user's equipment or by the user manually clicking on the Trigger button found in Miro's Cam plug-in in EPICS) 
-			to start collecting data; default=False
-		cine_num: default=1
-		final_sleep_sec: default=1.0
+			(generated by the user's equipment or by the user manually clicking on the Trigger button provided in Miro's Cam plug-in in EPICS) 
+			before starting to record images; default=False
+		cine_num: the integer identifier of the Cine partition from which the recorded images are to be downloaded
+			at the end of the entire data-acquisition process; default=1
+		pre_download_sleep_sec: default=1.0
 		"""
+		self.frame_rate_hz = frame_rate_hz
 		acq_period_sec = 1.0/frame_rate_hz
 		self.sanity_check(nframes_post_trigger, exposure_time_sec, acq_period_sec, download_option)
 		self.prepare_before_collection(nframes_post_trigger, exposure_time_sec, acq_period_sec, black_ref)
@@ -255,22 +260,29 @@ class MiroXgraph():
 		print "scan_number = %d" %(self.scan_number)
 		self.outdirpath = wd()
 		#print "outdirpath = %s" %(self.outdirpath)
-		self._set_hdf_writer(self.outdirpath, self.scan_number)	# remove args?
+		self.hdfpath = self._set_hdf_writer(self.outdirpath, self.scan_number)	# remove args?
+		if nxs:
+			try:
+				self._create_nexus_scan_file("miro_xgraph",exposure_time_sec,self.scan_number,self.hdfpath,self.outdirpath)
+			except Exception, e:
+				print("Error creating Nexus scan file: %s" %(str(e)))
+		else:
+			print("User opted for NOT creating Nexus scan file!")
 		
 		self._start_preview()
 		self._start_acquire()
-		print "Waiting for a user trigger to record %d frames after the trigger...\n" %(nframes_post_trigger)
+		print("Waiting for a user trigger to record %d frames after the trigger...\n" %(nframes_post_trigger))
 		self._wait_for_trigger(interactive_run=interactive_run)
 		self._stop_preview()
-		sleep(final_sleep_sec)
-		print "Finished recording %d frames after the trigger!\n" %(nframes_post_trigger)
+		sleep(pre_download_sleep_sec)
+		print("Finished recording the requested %d frames after the trigger!\n" %(nframes_post_trigger))
 
 		(first_frame_idx, last_frame_idx) = self._get_frames_to_download(download_option, cine_num) #cine_num
 		if first_frame_idx!=last_frame_idx:
-			print "User opted for download option %d (%s) with frame indices from %d to %d:" %(download_option,self.download_options_dct[download_option], first_frame_idx, last_frame_idx)
+			print("User opted for download option %d (%s) with frame indices from %d to %d:" %(download_option,self.download_options_dct[download_option], first_frame_idx, last_frame_idx))
 			self._download_ram_to_hdf(cine_num, first_frame_idx, last_frame_idx)
 		else:
-			print "User opted for MANUAL download of frames: this must be done before the recorded data are OVERWRITTEN by any new data!"
+			print("User opted for MANUAL download of frames: this task must be completed before the currently stored frames are OVERWRITTEN by any new data!")
 
 	def _get_frames_to_download(self, download_option, cine_num):
 		cinePVbase = "BL12I-EA-DET-20:CAM:C"+str(int(cine_num))+":"
@@ -335,7 +347,7 @@ class MiroXgraph():
 		
 		if interactive_run:
 			while 1:
-				got = requestInput("Press Enter on keyboard to send a single trigger or type q (followed by Enter) to quit...")
+				got = requestInput("Press Enter on the keyboard to send a single trigger or type q (followed by Enter) to quit...")
 				#print got, repr(got)
 				if eval(repr(got))=='':
 					caput("BL12I-EA-DET-20:CAM:SendSoftwareTrigger", 1)
@@ -369,11 +381,11 @@ class MiroXgraph():
 	def _perform_black_ref(self):
 		CSRcheck = 1
 		caput_wait("BL12I-EA-DET-20:CAM:PerformCSR", 1, timeout=10)
-		print "Performing black reference..."
+		print "Performing Current Session Reference (black reference)..."
 		while (CSRcheck !=0):
 			CSRcheck = int(caget("BL12I-EA-DET-20:CAM:CSRCount_RBV"))
 			sleep(0.5)
-		print "Finished performing black reference!"
+		print "Finished performing Current Session Reference (black reference)!"
 
 	def _make_data_folder(self,hdfpath):
 		if not (os.access (hdfpath, os.F_OK)):
@@ -390,11 +402,12 @@ class MiroXgraph():
 		caputStringAsWaveform("BL12I-EA-DET-20:HDF5:FileTemplate","%s%s_%05d.hdf") #, timeout=10)
 		caputStringAsWaveform("BL12I-EA-DET-20:HDF5:FileName", self.filename_prefix_hdf) #, timeout=10)
 		caputStringAsWaveform("BL12I-EA-DET-20:HDF5:FilePath", outdirpath) #, timeout=10)
-    
-    #caput_wait("BL12I-EA-DET-20:HDF5:FileTemplate","%s%s_%05d.hdf", datatype = DBR_CHAR_STR, wait = True)
-    #caput_wait("BL12I-EA-DET-20:HDF5:FileName", "Miro_projections", datatype = DBR_CHAR_STR, wait = True)
-    #caput_wait("BL12I-EA-DET-20:HDF5:FilePath", hdfpath, datatype = DBR_CHAR_STR, wait = True) 
-		#return
+	
+	#caput_wait("BL12I-EA-DET-20:HDF5:FileTemplate","%s%s_%05d.hdf", datatype = DBR_CHAR_STR, wait = True)
+	#caput_wait("BL12I-EA-DET-20:HDF5:FileName", "Miro_projections", datatype = DBR_CHAR_STR, wait = True)
+	#caput_wait("BL12I-EA-DET-20:HDF5:FilePath", hdfpath, datatype = DBR_CHAR_STR, wait = True) 
+		return "%s%s_%05d.hdf" %(outdirpath, self.filename_prefix_hdf, filenumber)
+		
 	def _download_ram_to_hdf(self, cine_num, first_frame_idx, last_frame_idx):
 		cinePVbase = "BL12I-EA-DET-20:CAM:C"+str(int(cine_num))+":"
 		first_frame_avail = int(caget(cinePVbase + "FirstFrame_RBV"))
@@ -414,35 +427,102 @@ class MiroXgraph():
 		caput("BL12I-EA-DET-20:HDF5:Capture", 1)
 		
 		# Download
-		print "\t Downloading desired frames and saving them to HDF5 file...\n"
-		print "\t **********************************************************"
-		print "\t WARNING: Do NOT click on Live Preview during this process!"
-		print "\t **********************************************************\n"
+		outcome = 'UNKNOWN'
+		print("\t Downloading the desired frames and saving them to HDF5 file...\n")
+		print("\t *******************************************************************************")
+		print("\t WARNING: Do NOT click on the Live Preview buttons when download is in progress!")
+		print("\t\t\t (maximum allowable download time = %s s)" %(self.download_time_max_sec))
+		print("\t *******************************************************************************\n")
 		caput("BL12I-EA-DET-20:CAM:Record", 1)
 		
 		# monitor the progress of download process
-		count = 0	
-		wait_time_sec_max = self.download_time_max_sec # maximum download time is 15 minutes
-		wait_time_sec = 1.0
-		wait_time_sec_tot = 0
-		while (wait_time_sec_tot < wait_time_sec_max):
-			download_count = int(caget("BL12I-EA-DET-20:CAM:RecordCount_RBV"))
-			nframes_captured = int(caget("BL12I-EA-DET-20:HDF5:NumCaptured_RBV"))
-			if (nframes_captured==nframes_requested) and (download_count==0):
-				print "\t Finished downloading desired frames and saving them to HDF5 file %s!" %(os.path.join(self.outdirpath, (self.filename_prefix_hdf+"_%d.hdf") %(self.scan_number)))
-				caput("BL12I-EA-DET-20:HDF5:Capture", 0) #wait = True)
-				break
-			sleep(wait_time_sec)
-			wait_time_sec_tot += wait_time_sec
-			if (wait_time_sec_tot >= wait_time_sec_max):
-				print "\t WARNING! Download timeout - check in EPICS for any mismatch of the number of frames to be downloaded!"
-				caput("BL12I-EA-DET-20:HDF5:Capture", 0) #wait = True)
-			if count % 10==0:
-				print "\t ."
+		ndots_max = 12
+		ndots = 0
+		count = 0
+		#wait_time_sec_max = self.download_time_max_sec # maximum download time is 15 minutes
+		wait_time_delta_sec = 1.0
+		wait_time_elapsed_sec = 0
+		try:
+			while (wait_time_elapsed_sec < self.download_time_max_sec):
+				download_count = int(caget("BL12I-EA-DET-20:CAM:RecordCount_RBV"))
+				nframes_captured = int(caget("BL12I-EA-DET-20:HDF5:NumCaptured_RBV"))
+				if (nframes_captured==nframes_requested) and (download_count==0):
+					print "\t Finished downloading the desired frames and saving them to HDF5 file %s!" %(os.path.join(self.outdirpath, (self.filename_prefix_hdf+"_%d.hdf") %(self.scan_number)))
+					caput("BL12I-EA-DET-20:HDF5:Capture", 0) #wait = True)
+					outcome = 'SUCCESS'
+					break
+				sleep(wait_time_delta_sec)
+				wait_time_elapsed_sec += wait_time_delta_sec
+				if (wait_time_elapsed_sec >= self.download_time_max_sec):
+					print("\n\t WARNING: Download timeout - check in EPICS for any mismatch of the number of frames expected to be downloaded!")
+					caput("BL12I-EA-DET-20:HDF5:Capture", 0) #wait = True)
+					outcome = 'FAIL (timeout)'
+				if count % 10==0:
+					if ndots % ndots_max!=0:
+						print "\t .",
+						ndots += 1
+					else:
+						print "\n"
+						ndots = 1
 				count += 1
+		except Exception, e:
+			outcome = 'FAIL (%s)' %(str(e))
+			print("Error in download: %s" %(str(e)))
+		
+		print("\t Download outcome: %s!\n" %(outcome))
 		#return
 		print "All done - bye!"
 
+	def _create_nexus_scan_file(self, detector_name, exptime, scan_number, hdfpath, outdirpath=None, cmd=None, npts=1):
+		from gda.data.scan.datawriter.DefaultDataWriterFactory import createDataWriterFromFactory
+		from gda.scan.ScanInformation import ScanInformationBuilder
+		from gda.scan import ScanDataPoint
+		from gda.device.scannable import DummyScannable
+		from dummy_utils import dum_collstrat, dum_det
+		
+		print("create_nexus_scan_file: outdirpath = %s" %(outdirpath))
+		dw = createDataWriterFromFactory()
+		
+		if outdirpath is None:
+			nxspath = os.path.join(gda.util.VisitPath.getVisitPath(),"%d.nxs" %(scan_number))
+		else:
+			nxspath = os.path.join(outdirpath,"%d.nxs" %(scan_number))
+		
+		si = (ScanInformationBuilder()
+				.dimensions(npts)
+				.scanNumber(scan_number)
+				.instrument('i12')
+				.filename(nxspath)
+				.numberOfPoints(npts)
+				.build())
+		
+		dum_collstrat.collectionTime = exptime
+		dum_det.name = detector_name
+		dum_det.hdfpath = hdfpath
+		dum_det.atScanStart()
+		
+		dw.configureScanNumber(scan_number)
+		try:
+			for i in range(npts):
+				#print "i = %d" %(i)
+				sdp_tmp = ScanDataPoint()
+				if cmd is None:
+					sdp_tmp.setCommand("undefined")
+				else:
+					sdp_tmp.setCommand(cmd)
+				sdp_tmp.setUniqueName("some-unique-name-but-not-this-one")
+				sdp_tmp.setScanInformation(si)
+				sdp_tmp.addDetector(dum_det)
+				sdp_tmp.addDataFromDetector(dum_det)
+				
+				sdp_tmp.setCurrentPointNumber(i)
+				dw.addData(sdp_tmp)
+		except Exception, e:
+			print "Error: %s" %(str(e))
+		finally:
+			dw.completeCollection()
+		return nxspath
+	
 print("Creating miro_xgraph object in GDA...")
 miro_xgraph=MiroXgraph()
 print("Finished creating miro_xgraph object in GDA!")

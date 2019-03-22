@@ -199,19 +199,89 @@ def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_th
     scanObject.setDataWriter(dataWriter)
 
 
-def reportJythonNamespaceMapping(modality='all'):
-    mode = modality.lower()
-    #supported_dct = {}
-    #supported_dct.update({'all': 'all beamline modalities'})
-    #supported_dct.update({'micro': 'micro-tomography (step & fly scan)'})
+def reportJythonNamespaceMapping(modality='micro', verbose=False):
+    """
+    Fn to report relevant tomography object mappings found in live_jythonNamespaceMapping.
+    Arg(s)
+    modality - type of scan
+        available options: 'all', 'micro', 'heli', 'xgi' or their first letters (all case insensitive)
+    verbose - if True, PV names are displayed wherever appropriate
+    """
+    def get_pv_name_raw(obj):
+        out = None
+        if isinstance(obj, gda.device.scannable.ScannableMotor):
+            try:
+                out = obj.getMotor().getPvName()
+            except Exception, e:
+                pass
+        elif isinstance(obj,(gda.device.scannable.EpicsScannable\
+                             ,gda.device.scannable.PVScannable\
+                             ,gda.device.scannable.SimplePVScannable\
+                             ,gda.epics.EpicsBase\
+                             ,gda.device.monitor.EpicsMonitor\
+                             ,gda.device.enumpositioner.EpicsPneumaticCallback)):
+            try:
+                out = obj.getPvName()
+            except Exception, e:
+                pass
+        elif 'dummy' in repr(type(obj)).lower() or 'dummy' in obj.getName().lower():
+            out = 'WARNING: dummy object - is this intentional?'
+#        else:
+#            print("None of the above: %s" %(type(obj)))
+        return out
+    
+    def get_pv_name(obj,verbose):
+        name = get_pv_name_raw(obj)
+        return '(%s)' %(name) if verbose and (not name is None) else ''
+    
+    m = modality.lower()
+    #supported_dct = {} isinstance(obj, gda.device.scannable.DummyScannableMotor
+    
+    supported_names_lst = []
+    supported_abbrevs_lst = []
+    supported_desc_lst = []
+    
+    supported_names_lst.append('all')
+    supported_desc_lst.append('all scanning modalities')
+    supported_names_lst.append('micro')
+    supported_desc_lst.append('micro-tomography (step & fly scans)')
+    supported_names_lst.append('heli')
+    supported_desc_lst.append('hellical micro-tomography step scan')
+    supported_names_lst.append('xgi')
+    supported_desc_lst.append('diffraction-grating interferometry (1d & 2d)')
+    supported_abbrevs_lst = [s[0] for s in supported_names_lst]
+    
+    #supported_dct.update({'all': 'all scanning modalities'})
+    #supported_dct.update({'micro': 'micro-tomography (step & fly scans)'})
     #supported_dct.update({'xgi': 'diffraction-grating interferometry (1d & 2d)'})
     #supported_dct.update({'heli': 'hellical micro-tomography step scan'})
-    #mode_default = 'all'
-    #if not (mode in supported_tpl or mode.startswith(('a','m','x','h'))):
-    #    print("Unsupported input modality '%s' - falling back on default value '%s'!" %(modality, mode_default))
-    #    options_str='\n'.join(["'%s': %s" %(k,v) for k,v in supported_dct.iteritems()]
-    #    #print("Supported options: %s" %(supported_tpl,))
-    #    print("Supported options: \n%s" %(options_str))
+    
+    #supported_lst = []
+    #supported_lst.append(('all', 'all scan modalities'))
+    #supported_lst.append(('micro', 'micro-tomography (step & fly scans)'))
+    #supported_lst.append(('xgi', 'diffraction-grating interferometry (1d & 2d)'))
+    #supported_lst.append(('heli', 'hellical micro-tomography step scan'))
+    
+    modality_default = 'all'
+    modality_desc_default = [kv[1] for kv in zip(supported_names_lst, supported_desc_lst) if kv[0]==modality_default][0]
+    options_str='\n'.join(["'%s': %s" %(k,v) for k,v in zip(supported_names_lst, supported_desc_lst)])
+    if not (m in supported_names_lst or m.startswith(tuple(supported_abbrevs_lst))):
+    #if not (m in supported_dct or m.startswith(('a','m','x','h'))):
+    #if not (m in supported_lst or m.startswith(('a','m','x','h'))):
+        print("Unsupported input modality '%s' - using default option '%s' instead!" %(modality, modality_default))
+        m = modality_default
+        m_desc = modality_desc_default
+        options_str='\n'.join(["'%s': %s" %(k,v) for k,v in zip(supported_names_lst, supported_desc_lst)])
+        #options_str='\n'.join(["'%s': %s" %(k,v) for k,v in supported_dct.iteritems()])
+        #options_str='\n'.join(["'%s': %s" %(kv[0],kv[1]) for kv in supported_lst])
+        #print("Supported options: %s" %(supported_tpl,))
+    else:
+        m_idx = [i for i, s in enumerate(supported_abbrevs_lst) if m.startswith(s)][0]
+        m_desc = supported_desc_lst[m_idx]
+    print("Supported options: \n%s\n" %(options_str))
+    
+    print("REPORT on JYTHON NAMESPACE MAPPINGS for OPTION '%s' (%s):\n" %(m, m_desc))
+    
     jns=beamline_parameters.JythonNameSpaceMapping()
     objectOfInterest = {}
     objectOfInterest['tomography_normalisedImage_detector']=jns.tomography_normalisedImage_detector
@@ -256,74 +326,80 @@ def reportJythonNamespaceMapping(modality='all'):
     objectOfInterestHELICAL['tomography_beammonitor'] = jns.tomography_beammonitor
     objectOfInterestHELICAL['tomography_translation_vert'] = jns.tomography_translation_vert
     
-    msg = "\n Any of these mappings can be changed by editing a file named live_jythonNamespaceMapping, "
-    msg += "\n located in i13-config/scripts (this can be done by beamline staff).\n"
+    msg = "Any of these mappings can be changed by editing a file named live_jythonNamespaceMapping, "
+    msg += "\nlocated in i13-config/scripts (this can be done by beamline staff).\n"
 
-    print "****** NORMALISED-IMAGE SETTINGS ******"
-    idx=1
-    for key, val in objectOfInterest.iteritems():
-        name = "object undefined!"
-        if val is not None:
-            name = str(val.getName())
-        print `idx` + "."+ key + ' = ' + name
-        idx += 1
-    print "\n"
+    verbose_template = ""
+    header_template = "****** %s ******"
+    if m in supported_names_lst or m.startswith(tuple(supported_abbrevs_lst)):
+        print(header_template %("NORMALISED-IMAGE SETTINGS"))
+        for idx, (key, val) in enumerate(objectOfInterest.iteritems()):
+            name = "object undefined!"
+            if val is not None:
+                name = str(val.getName())
+            #print("%d. %s = %s" %(idx+1, key, name))
+            #print("%d. %s = %s %s" %(idx+1, key, name, '%s' %('('+get_pv_name(val)+')' if verbose and (not get_pv_name(val) is None) else '')))
+            print("%d. %s = %s %s" %(idx+1, key, name, '%s' %(get_pv_name(val,verbose))))
+        print("\n")
     
-    #if mode in ('all', 'micro') or mode.startswith(('a','m')): 
-    print "****** TOMO STEP-SCAN PRIMARY SETTINGS ******"
-    idx=1
-    for key, val in objectOfInterestSTEP.iteritems():
-        name = "object undefined!"
-        if val is not None:
-            name = str(val.getName())
-        print `idx` + "."+ key + ' = ' + name
-        idx += 1
-    print "\n"
+    if m in ('all', 'micro') or m.startswith(('a','m')): 
+        print(header_template %("TOMO STEP-SCAN PRIMARY SETTINGS"))
+        for idx, (key, val) in enumerate(objectOfInterestSTEP.iteritems()):
+            name = "object undefined!"
+            if val is not None:
+                name = str(val.getName())
+            #print("%d. %s = %s" %(idx+1, key, name))
+            #print("%d. %s = %s %s" %(idx+1, key, name, '%s' %('('+get_pv_name(val)+')' if verbose and (not get_pv_name(val) is None) else '')))
+            print("%d. %s = %s %s" %(idx+1, key, name, '%s' %(get_pv_name(val,verbose))))
+        print("\n")
 
-    print "****** TOMO FLY-SCAN PRIMARY SETTINGS ******"
-    idx=1
-    for key, val in objectOfInterestFLY.iteritems():
-        name = "object undefined!"
-        if val is not None:
-            name = str(val.getName())
-        print `idx` + "."+ key + ' = ' + name
-        idx += 1
-    print "\n"
+        print(header_template %("TOMO FLY-SCAN PRIMARY SETTINGS"))
+        for idx, (key, val) in enumerate(objectOfInterestFLY.iteritems()):
+            name = "object undefined!"
+            if val is not None:
+                name = str(val.getName())
+            #print("%d. %s = %s" %(idx+1, key, name))
+            #print("%d. %s = %s %s" %(idx+1, key, name, '(%s)' %(get_pv_name(val) if verbose and (not get_pv_name(val) is None) else '')))
+            print("%d. %s = %s %s" %(idx+1, key, name, '%s' %(get_pv_name(val,verbose))))
+        print("\n")
 
-    #if mode in ('all', 'xgi') or mode.startswith(('a','x')): 
-    print "****** 1D-XGI STEP-SCAN PRIMARY SETTINGS ******"
-    idx=1
-    for key, val in objectOfInterestXGI_1D.iteritems():
-        name = "object undefined!"
-        if val is not None:
-            name = str(val.getName())
-        print `idx` + "."+ key + ' = ' + name
-        idx += 1
-    print "\n"   
+    if m in ('all', 'heli') or m.startswith(('a','h')): 
+        print(header_template %("HELICAL TOMO STEP-SCAN PRIMARY SETTINGS"))
+        for idx, (key, val) in enumerate(objectOfInterestHELICAL.iteritems()):
+            name = "object undefined!"
+            if val is not None:
+                name = str(val.getName())
+            #print("%d. %s = %s" %(idx+1, key, name))
+            #print("%d. %s = %s %s" %(idx+1, key, name, '(%s)' %(get_pv_name(val) if verbose and (not get_pv_name(val) is None) else '')))
+            print("%d. %s = %s %s" %(idx+1, key, name, '%s' %(get_pv_name(val,verbose))))
+        print("\n")
     
-    print "****** 2D-XGI STEP-SCAN PRIMARY SETTINGS ******"
-    idx=1
-    for key, val in objectOfInterestXGI_2D.iteritems():
-        name = "object undefined!"
-        if val is not None:
-            name = str(val.getName())
-        print `idx` + "."+ key + ' = ' + name
-        idx += 1
-    print "\n"   
+    if m in ('all', 'xgi') or m.startswith(('a','x')): 
+        print(header_template %("1D-XGI STEP-SCAN PRIMARY SETTINGS"))
+        for idx, (key, val) in enumerate(objectOfInterestXGI_1D.iteritems()):
+            name = "object undefined!"
+            if val is not None:
+                name = str(val.getName())
+            #print("%d. %s = %s" %(idx+1, key, name))
+            #print("%d. %s = %s %s" %(idx+1, key, name, '%s' %('('+get_pv_name(val)+')' if verbose and (not get_pv_name(val) is None) else '')))
+            print("%d. %s = %s %s" %(idx+1, key, name, '%s' %(get_pv_name(val,verbose))))
+        print("\n")   
+        
+        print(header_template %("2D-XGI STEP-SCAN PRIMARY SETTINGS"))
+        for idx, (key, val) in enumerate(objectOfInterestXGI_2D.iteritems()):
+            name = "object undefined!"
+            if val is not None:
+                name = str(val.getName())
+            #print("%d. %s = %s" %(idx+1, key, name))
+            #print("%d. %s = %s %s" %(idx+1, key, name, '%s' %('('+get_pv_name(val)+')' if verbose and (not get_pv_name(val) is None) else '')))
+            print("%d. %s = %s %s" %(idx+1, key, name, '%s' %(get_pv_name(val,verbose))))
+        print("\n")   
+    print(msg)
     
-    #if mode in ('all', 'heli') or mode.startswith(('a','h')): 
-    print "****** HELICAL TOMO STEP-SCAN PRIMARY SETTINGS ******"
-    idx=1
-    for key, val in objectOfInterestHELICAL.iteritems():
-        name = "object undefined!"
-        if val is not None:
-            name = str(val.getName())
-        print `idx` + "."+ key + ' = ' + name
-        idx += 1
-    print msg
-    
-def reportTomo():
-    return reportJythonNamespaceMapping()
+def reportTomo(modality='micro', verbose=False):
+    return reportJythonNamespaceMapping(modality, verbose)
+
+reportTomo.__doc__ = reportJythonNamespaceMapping.__doc__
 
 from gda.device.scannable import SimpleScannable
 image_key_dark=2

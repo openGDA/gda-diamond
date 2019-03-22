@@ -1015,8 +1015,12 @@ if isLive():
     except:
         print "unable to set ports on file-writing plug-ins for PCO - is PCO IOC running?"
     
-    setup_pixium_postprocessing() 
-    i12utilities._make_subdir(dirname="rawdata")
+    try:
+        setup_pixium_postprocessing() 
+        i12utilities._make_subdir(dirname="rawdata")
+    except Exception, e:
+        msg = "Error setting up pixium post-processing: %s" %(str(e))
+        print msg + str(e)
     
     #make ScanPointProvider
     import position_provider
@@ -1045,6 +1049,9 @@ if isLive():
     
 #    from deben import *
 #    deben_configure()
+    from miro import miro_xgraph
+    from pilatus_utilities import pilatus_dawn
+
 
 print 
 print "==================================================="

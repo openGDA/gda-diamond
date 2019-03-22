@@ -4,7 +4,7 @@ from epics_scripts.pv_scannable_utils import createPVScannable
 
 #def __init__(self, name, pvinstring, pvoutstring, pvstopstring, tolerance, unitstring, formatstring):
 
-print "adding deben objects and methods"
+print("\t Adding Deben objects and methods...")
 
 dbn_pv_prefix = "BL13I-EA-DOF-01:RIG:"
 
@@ -47,6 +47,7 @@ def deben_after_ioc_restart():
     except Exception, e:
         print("Error in %s: %s" %(fname, str(e)))
     
-    
-dbn_tension_rbv = createPVScannable("dbn_tension_rbv", dbn_pv_prefix+"TENSIONFORCE")
-dbn_torsion_rbv = createPVScannable("dbn_torsion_rbv", dbn_pv_prefix+"TORSIONFORCE")
+
+    dbn_tension_rbv = createPVScannable("dbn_tension_rbv", dbn_pv_prefix+"TENSIONFORCE")
+    dbn_torsion_rbv = createPVScannable("dbn_torsion_rbv", dbn_pv_prefix+"TORSIONFORCE")
+
