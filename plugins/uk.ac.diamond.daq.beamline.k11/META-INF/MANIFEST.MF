@@ -37,6 +37,14 @@ Require-Bundle: uk.ac.gda.common,
  org.eclipse.e4.ui.workbench;bundle-version="1.5.1",
  com.google.guava;bundle-version="26.0.0",
  uk.ac.gda.client.live.stream,
- uk.ac.diamond.daq.experiment.api
+ uk.ac.diamond.daq.experiment.api,
+ org.eclipse.core.databinding,
+ org.eclipse.jface.databinding,
+ ch.qos.logback.classic;bundle-version="1.2.3",
+ org.eclipse.core.databinding.property;bundle-version="1.6.100",
+ org.eclipse.core.databinding.beans,
+ org.eclipse.dawnsci.analysis.api,
+ org.eclipse.dawnsci.plotting.api
 Export-Package: uk.ac.diamond.daq.beamline.k11.perspective
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.k11
+Service-Component: OSGI-INF/*.xml
