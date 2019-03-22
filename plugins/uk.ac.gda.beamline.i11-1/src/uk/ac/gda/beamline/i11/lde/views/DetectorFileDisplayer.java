@@ -24,6 +24,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.plotting.api.PlotType;
 import org.eclipse.january.dataset.IDataset;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -75,18 +76,20 @@ public class DetectorFileDisplayer extends ConfigurableBase implements PlottingF
 	}
 
 	void openView() {
-		if (plotView == null) {
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			IViewPart showView = null;
-			try {
-				showView = page.showView(viewID);
-			} catch (PartInitException e) {
-				logger.error("Unable to show view plot view " +viewID, e);
-			}
-			if (showView != null && showView instanceof DetectorFilePlotView) {
-				plotView = (DetectorFilePlotView) showView;
-			}
-			page.activate(plotView);
+		if (plotView == null || plotView.isDisposed()) {
+			Display.getDefault().syncExec(() -> { // sync to ensure view is opened
+					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+					IViewPart showView = null;
+					try {
+						showView = page.showView(viewID);
+					} catch (PartInitException e) {
+						logger.error("Unable to show view plot view " +viewID, e);
+					}
+					if (showView != null && showView instanceof DetectorFilePlotView) {
+						plotView = (DetectorFilePlotView) showView;
+					}
+					page.activate(plotView);
+			});
 		}
 	}
 
