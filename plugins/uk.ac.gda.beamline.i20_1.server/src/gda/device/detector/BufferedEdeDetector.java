@@ -18,9 +18,6 @@
 
 package gda.device.detector;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import fr.esrf.Tango.DevFailed;
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.device.ContinuousParameters;
@@ -38,7 +35,9 @@ import uk.ac.gda.exafs.ui.data.TimingGroup;
  * @since 30/10/2017
  */
 public class BufferedEdeDetector extends DetectorBase implements BufferedDetector, NexusDetector {
-	private static final Logger logger = LoggerFactory.getLogger(BufferedEdeDetector.class);
+
+	private static final long serialVersionUID = 1L;
+
 	private EdeDetector detector;
 
 	private int numberScansPerFrame = 1;

@@ -26,6 +26,8 @@ import gda.util.exafs.AbsorptionEdge;
 
 public class AlignmentParametersBean implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	public static String[] CrystalType = new String[] { "BRAGG", "LAUE" };
 
 	public static String[] ME1Stripe = new String[] { "Rhodium", "Platinum", "Zero" };

@@ -27,6 +27,8 @@ import gov.aps.jca.TimeoutException;
 
 public class PulseTube extends DetectorBase {
 
+	private static final long serialVersionUID = 1L;
+
 	private CAClient ca_client = new CAClient();
 
 	private String t1_pv;

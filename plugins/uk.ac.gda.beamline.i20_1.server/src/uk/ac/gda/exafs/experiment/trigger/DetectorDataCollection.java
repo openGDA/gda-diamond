@@ -22,6 +22,8 @@ import java.io.Serializable;
 
 public class DetectorDataCollection extends TriggerableObject implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final double XCHIP_START_PULSE_WIDTH_IN_SEC = 0.001;
 
 	private int numberOfFrames;

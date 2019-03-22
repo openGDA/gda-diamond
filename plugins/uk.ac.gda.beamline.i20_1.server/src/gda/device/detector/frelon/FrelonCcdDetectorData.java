@@ -45,6 +45,9 @@ import gda.device.lima.impl.LimaROIIntImpl;
  * using {@link Gson} and {@link PropertiesConfiguration} from client to the server.
  */
 public class FrelonCcdDetectorData extends DetectorData {
+
+	private static final long serialVersionUID = 1L;
+
 	public static final int MAX_PIXEL = 2048;
 	public static final int VERTICAL_BIN_SIZE_LIMIT = 1024;
 	public static final int HORIZONRAL_BIN_SIZE_LIMIT = 8;

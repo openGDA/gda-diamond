@@ -23,6 +23,8 @@ import gda.jython.scriptcontroller.logging.ScriptControllerLoggingMessage;
 
 public class EDEScanLoggingMessage implements ScriptControllerLoggingMessage {
 
+	private static final long serialVersionUID = 1L;
+
 	private final String visitID;
 	private final String statusMessage;
 	private final String id;

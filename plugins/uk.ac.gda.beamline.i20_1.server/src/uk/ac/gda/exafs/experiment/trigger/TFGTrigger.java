@@ -47,6 +47,9 @@ import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentUnit;
 
 public class TFGTrigger extends ObservableModel implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger=LoggerFactory.getLogger(TFGTrigger.class);
 	// The first 2 is reserved for photonShutter and detector
 	private static final int MAX_PORTS_FOR_SAMPLE_ENV = TriggerableObject.TriggerOutputPort.values().length - 2;

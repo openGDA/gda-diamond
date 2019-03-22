@@ -26,6 +26,8 @@ import java.io.Serializable;
  */
 public class TimingGroup implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	// basic info
 	private String label; // to uniquely identify each frame in the UI
 	private double timePerScan; // in s

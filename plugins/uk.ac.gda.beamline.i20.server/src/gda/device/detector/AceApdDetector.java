@@ -31,6 +31,8 @@ import gda.factory.FactoryException;
  */
 public class AceApdDetector extends TfgScalerWithFrames {
 
+	private static final long serialVersionUID = 1L;
+
 	private static String STARTCOUNT = "STARTCOUNT";
 	private static String STOPCOUNT = "STOPCOUNT";
 

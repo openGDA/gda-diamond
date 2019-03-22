@@ -20,9 +20,6 @@ package uk.ac.gda.beamline.i20.scannable;
 
 import java.util.Arrays;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.countertimer.TfgScalerWithFrames;
@@ -37,8 +34,6 @@ import uk.ac.gda.beans.exafs.XesScanParameters;
  */
 
 public class MonoMoveWithOffsetScannable extends ScannableMotionBase {
-
-	private static final Logger logger = LoggerFactory.getLogger(MonoMoveWithOffsetScannable.class);
 
 	private Scannable bragg;
 	private Scannable braggOffset;

@@ -81,6 +81,9 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
  *  <li>Spectra are sent to Ede scan plot view in the client as they are collected.
  */
 public class TurboXasScan extends ContinuousScan {
+
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger logger = LoggerFactory.getLogger(TurboXasScan.class);
 	private TurboXasMotorParameters turboXasMotorParams;
 

@@ -26,6 +26,8 @@ import uk.ac.gda.beans.ObservableModel;
 
 public class TriggerableObject extends ObservableModel implements Serializable, Comparable<TriggerableObject>{
 
+	private static final long serialVersionUID = 1L;
+
 	public enum TriggerOutputPort {
 		USR_OUT_0(0, "USR OUT 0"),
 		USR_OUT_1(1, "USR OUT 1"),

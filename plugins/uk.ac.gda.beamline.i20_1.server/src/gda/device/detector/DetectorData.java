@@ -24,6 +24,8 @@ import uk.ac.gda.beans.ObservableModel;
 
 public class DetectorData extends ObservableModel implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	private String name;
 
 	public void setName(String name) {

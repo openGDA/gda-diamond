@@ -22,6 +22,7 @@ import gda.device.detector.DetectorData;
 
 public class XhDetectorData extends DetectorData {
 
+	private static final long serialVersionUID = 1L;
 
 	private static final double MIN_BIAS_VOLTAGE = 1.0;
 	private static final double MAX_BIAS_VOLTAGE = 137.0;
