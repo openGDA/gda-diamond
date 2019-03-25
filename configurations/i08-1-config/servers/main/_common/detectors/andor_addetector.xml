@@ -4,9 +4,7 @@
 	http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.0.xsd">
 
 
-	<!-- This seems a bit redundant in the new scanning but keeping it for now
-		to fit with the current ADDectector framework -->
-	<bean id="andor_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+<!-- 	<bean id="andor_hdf5_writer"	class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="andor_hdf5" />
 		<property name="fileTemplate" value="%s%s.hdf5" />
 		<property name="filePathTemplate" value="$datadir$" />
@@ -58,6 +56,6 @@
 		<property name="model" ref="andor_model" />
 		<property name="deviceInformation" ref="andor_info" />
 		<property name="activated" value="true" />
-	</bean>
+	</bean> -->
 
 </beans>

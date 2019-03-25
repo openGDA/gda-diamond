@@ -22,8 +22,13 @@
 	<!-- =========================================================== -->
 	<!-- 	mode specific files -->
 	<!-- =========================================================== -->
+
+	<!-- Detectors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor_addetector.xml" />
 
+	<!-- Devices -->
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d7.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m6.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/zone_plate.xml" />
 
@@ -33,8 +38,13 @@
 	<!-- =========================================================== -->
 	<!-- 	shared files -->
 	<!-- =========================================================== -->
+
+	<!-- Detectors -->
 	<import resource="file:${gda.config}/servers/main/_common/detectors/andor_addetector.xml" />
 
+	<!-- Devices -->
+	<import resource="file:${gda.config}/servers/main/_common/devices/d7.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/m6.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/zone_plate.xml" />
 
