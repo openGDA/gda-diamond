@@ -32,7 +32,13 @@
             class="uk.ac.diamond.daq.beamline.k11.perspective.PointAndShoot"
             icon="icons/target.png"
             id="uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective"
-            name="Point and Shoot">
+            name="DIAD Point and Shoot">
+      </perspective>
+      <perspective
+            class="uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomated"
+            icon="icons/node-select.png"
+            id="uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomatedPerspective"
+            name="DIAD Fully Automated">
       </perspective>
    </extension>
    <extension
@@ -59,6 +65,13 @@
       		id="uk.ac.diamond.daq.experiment.ui.plan.progressPlotView"
       		name="Plan Progress Plot View"
       		restorable="true">
+      </view>
+      <view
+            class="uk.ac.diamond.daq.experiment.ui.plan.PlanOverview"
+            icon="icons/node-insert-previous.png"
+            id="uk.ac.diamond.daq.experiment.ui.plan.overview"
+            name="Plan Overview"
+            restorable="true">
       </view>
    </extension>
    
