@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="tangoMotorMotor1" class="gda.device.motor.DummyMotor">
+    <bean id="tangoMotorMotor1" class="gda.device.motor.ThreadlessDummyMotor">
         <property name="local" value="true" />
     </bean>
 </beans>

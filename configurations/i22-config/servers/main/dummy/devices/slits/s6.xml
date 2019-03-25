@@ -3,28 +3,28 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="s6_xcentre_motor" class="gda.device.motor.DummyMotor">
+    <bean id="s6_xcentre_motor" class="gda.device.motor.ThreadlessDummyMotor">
         <property name="local" value="true" />
     </bean>
-    <bean id="s6_ycentre_motor" class="gda.device.motor.DummyMotor">
+    <bean id="s6_ycentre_motor" class="gda.device.motor.ThreadlessDummyMotor">
         <property name="local" value="true" />
     </bean>
-    <bean id="s6_xgap_motor" class="gda.device.motor.DummyMotor">
+    <bean id="s6_xgap_motor" class="gda.device.motor.ThreadlessDummyMotor">
         <property name="local" value="true" />
     </bean>
-    <bean id="s6_xplus_motor" class="gda.device.motor.DummyMotor">
+    <bean id="s6_xplus_motor" class="gda.device.motor.ThreadlessDummyMotor">
         <property name="local" value="true" />
     </bean>
-    <bean id="s6_xminus_motor" class="gda.device.motor.DummyMotor">
+    <bean id="s6_xminus_motor" class="gda.device.motor.ThreadlessDummyMotor">
         <property name="local" value="true" />
     </bean>
-    <bean id="s6_yplus_motor" class="gda.device.motor.DummyMotor">
+    <bean id="s6_yplus_motor" class="gda.device.motor.ThreadlessDummyMotor">
         <property name="local" value="true" />
     </bean>
-    <bean id="s6_yminus_motor" class="gda.device.motor.DummyMotor">
+    <bean id="s6_yminus_motor" class="gda.device.motor.ThreadlessDummyMotor">
         <property name="local" value="true" />
     </bean>
-    <bean id="s6_ygap_motor" class="gda.device.motor.DummyMotor">
+    <bean id="s6_ygap_motor" class="gda.device.motor.ThreadlessDummyMotor">
         <property name="local" value="true" />
     </bean>
 </beans>
