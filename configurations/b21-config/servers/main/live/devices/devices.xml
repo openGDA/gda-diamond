@@ -23,6 +23,7 @@
 	<import resource="d6.xml" />
 	<import resource="d7.xml" />
 	<import resource="d8.xml" />
+	<import resource="eiger.xml" />
 
 	<import resource="t5.xml" />
 

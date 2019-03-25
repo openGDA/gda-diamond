@@ -1,6 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
 	<!--*************************************** -->
 	<!-- *** NCD devices section *** -->
@@ -45,7 +45,6 @@
 		<property name="timer" ref="Tfg" />
 		<property name="detectors">
 			<list>
-				<ref bean="Pilatus2M" />
 				<ref bean="It" />
 				<ref bean="Scalers" />
 				<ref bean="TfgTimes" />
@@ -66,16 +65,39 @@
 	<bean id="saxs_cal" class="uk.ac.gda.server.ncd.meta.NcdCalibration">
 		<property name="detectorType" value="SAXS"/>
 		<property name="visitMeta" ref="visit"/>
-		<property name="configFileName" value="saxs_masks" />
+		<property name="configFileName" value="saxs_mask" />
 	</bean>
 	<bean id="waxs_mask" class="uk.ac.gda.server.ncd.meta.NcdMaskLink">
 		<property name="detectorType" value="WAXS"/>
 		<property name="visitMeta" ref="visit"/>
-		<property name="configFileName" value="saxs_masks" />
+		<property name="configFileName" value="saxs_mask" />
 	</bean>
 	<bean id="waxs_cal" class="uk.ac.gda.server.ncd.meta.NcdCalibration">
 		<property name="detectorType" value="WAXS"/>
 		<property name="visitMeta" ref="visit"/>
-		<property name="configFileName" value="saxs_masks" />
+		<property name="configFileName" value="saxs_mask" />
 	</bean>
+
+	<beans profile="eiger" >
+		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+			<property name="targetObject" ref="ncddetectors" />
+			<property name="targetMethod" value="addDetector" />
+			<property name="arguments">
+				<list>
+					<ref bean="eiger" />
+				</list>
+			</property>
+		</bean>
+	</beans>
+	<beans profile="pilatus" >
+		<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean" >
+			<property name="targetObject" ref="ncddetectors" />
+			<property name="targetMethod" value="addDetector" />
+			<property name="arguments">
+				<list>
+					<ref bean="Pilatus2M" />
+				</list>
+			</property>
+		</bean>
+	</beans>
 </beans>
