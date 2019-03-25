@@ -19,8 +19,14 @@
 package uk.ac.diamond.daq.beamline.k11.view;
 
 
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
@@ -35,11 +41,19 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.IPerspectiveListener;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.ImmutableMap;
 
 import gda.configuration.properties.LocalProperties;
 import gda.factory.Finder;
@@ -62,7 +76,13 @@ import uk.ac.gda.client.live.stream.view.StreamType;
  * The main Experiment configuration view visible in all k11 perspectives
  */
 public class ExperimentSetup extends LayoutUtilities {
-	private static final Logger log = LoggerFactory.getLogger(ExperimentSetup.class);
+	private static final Logger logger = LoggerFactory.getLogger(ExperimentSetup.class);
+
+	private static final Map<String, String> PERSPECTIVES_MAP = ImmutableMap.of(
+			"Point and Shoot", "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective",
+			"Particle Tracking", "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective",
+			"Fully Automated", "uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomatedPerspective",
+			"Plain Tomography", "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective");
 
 	private static final int NOTES_BOX_LINES = 7;
 	private static final int NOTES_BOX_HEIGHT = NOTES_BOX_LINES * 20;
@@ -76,11 +96,16 @@ public class ExperimentSetup extends LayoutUtilities {
 	private static final String TOMOGRAPHY_STAGE = "Tomography";
 	private static final String TABEL_STAGE = "Platform";
 
+	private final StageGroupService stageGroupService;
+	private final ExperimentService experimentService;
+	private final DataBindingContext dbc = new DataBindingContext();
+	private final IWorkbench workbench = PlatformUI.getWorkbench();
+	private final IWorkbenchWindow activeWindow = workbench.getActiveWorkbenchWindow();
+
 	private Composite panelComposite;
 	private Text nameText;
-
-	private StageGroupService stageGroupService;
-	private final ExperimentService experimentService;
+	private String mode = "Point and Shoot";
+	private Button planButton;
 
 	public ExperimentSetup() {
 		stageGroupService = Finder.getInstance().find("diadStageGroupService");
@@ -93,7 +118,6 @@ public class ExperimentSetup extends LayoutUtilities {
 	@Override
 	public void createPartControl(Composite parent) {
 		parent.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WIDGET_LIGHT_SHADOW));
-
 		panelComposite = addGridComposite(parent);
 
 		final Label bannerLabel = new Label(panelComposite, SWT.NONE);
@@ -117,7 +141,6 @@ public class ExperimentSetup extends LayoutUtilities {
 	 * @return			The created content container within the scrolling panel
 	 */
 	private Composite buildExperimentComposite(final Composite parent) {
-
 		final ScrolledComposite container = new ScrolledComposite(parent, SWT.H_SCROLL| SWT.V_SCROLL | SWT.BORDER);
 		fillGrab().applyTo(container);
 
@@ -180,6 +203,51 @@ public class ExperimentSetup extends LayoutUtilities {
 		modeCombo.setItems("Point and Shoot", "Particle Tracking", "Fully Automated", "Plain Tomography");
 		modeCombo.select(0);
 		fillGrab().indent(5, 0).applyTo(modeCombo);
+
+		bindModeCombo(modeCombo);
+
+		String perspectiveID = activeWindow.getActivePage().getPerspective().getId();
+		setModeComboSelection(perspectiveID, modeCombo);
+
+		activeWindow.addPerspectiveListener(new IPerspectiveListener() {
+			@Override
+			public void perspectiveChanged(IWorkbenchPage page, IPerspectiveDescriptor perspective, String changeId) {
+				// Do nothing
+			}
+
+			/**
+			 * Updates the Mode combo box when a perspective switch is triggered by another control
+			 */
+			@Override
+			public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective) {
+				if (!PERSPECTIVES_MAP.get(mode).equals(perspective.getId())) {
+					setModeComboSelection(perspective.getId(), modeCombo);
+					togglePlanButtonVisibility();
+				}
+			}
+		});
+	}
+
+	@SuppressWarnings("unchecked")
+	private void bindModeCombo(final Combo modeCombo) {
+		dbc.bindValue(WidgetProperties.selection().observe(modeCombo), BeanProperties.value("mode").observe(this));
+	}
+
+	/**
+	 * Updates the mode selector combo with the new perspective Id provided is its a DIAD one
+	 *
+	 * @param perspectiveId	The id of the newly activated perspective
+	 */
+	private void setModeComboSelection(final String perspectiveId, final Combo modeCombo) {
+		if (PERSPECTIVES_MAP.containsValue(perspectiveId)) {
+			for (Entry<String, String> entry : PERSPECTIVES_MAP.entrySet()) {
+				if (perspectiveId.equals(entry.getValue())) {
+					mode = entry.getKey();
+					modeCombo.setText(mode);
+					break;
+				}
+			}
+		}
 	}
 
 	/**
@@ -281,7 +349,7 @@ public class ExperimentSetup extends LayoutUtilities {
 			try {
 				CameraConfigurationDialog.show(composite.getDisplay(), getLiveStreamConnection());
 			} catch (Exception e) {
-				log.error("Error opening camera configuration dialog", e);
+				logger.error("Error opening camera configuration dialog", e);
 			}
 		});
 		button = addConfigurationDialogButton(content, "Sample Alignment");
@@ -291,7 +359,7 @@ public class ExperimentSetup extends LayoutUtilities {
 			} catch (Exception e) {
 				MessageDialog.openError(panelComposite.getShell(), "Error", "Error opening sample alignment dialog"
 						+ "see log for details");
-				log.error("Error opening sample alignment dialog", e);
+				logger.error("Error opening sample alignment dialog", e);
 			}
 		});
 		button = addConfigurationDialogButton(content, "Diffraction Detector");
@@ -299,7 +367,7 @@ public class ExperimentSetup extends LayoutUtilities {
 			try {
 				DiffractionConfigurationDialog.show(composite.getDisplay(), getLiveStreamConnection());
 			} catch (Exception e) {
-				log.error("Error opening diffrcation configuration dialog", e);
+				logger.error("Error opening diffrcation configuration dialog", e);
 			}
 		});
 
@@ -333,7 +401,7 @@ public class ExperimentSetup extends LayoutUtilities {
 	}
 
 	private void addPlanButton(Composite parent) {
-		Button planButton = addConfigurationDialogButton(parent, "Experiment plan");
+		planButton = addConfigurationDialogButton(parent, "Experiment plan");
 		planButton.addListener(SWT.Selection, event -> {
 			PlanSetupWizard planWizard = new PlanSetupWizard(experimentService, nameText.getText());
 			WizardDialog wizardDialog = new WizardDialog(parent.getShell(), planWizard);
@@ -343,10 +411,18 @@ public class ExperimentSetup extends LayoutUtilities {
 				handler.submit(bean);
 			}
 		});
+		togglePlanButtonVisibility();
+	}
+
+	/**
+	 * Shows the Experiment Plan button only when in Fully Automated mode
+	 */
+	private void togglePlanButtonVisibility() {
+		planButton.setVisible(mode.equals("Fully Automated"));
 	}
 
 	private IEclipseContext getInjectionContext() {
-		return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getService(IEclipseContext.class);
+		return activeWindow.getService(IEclipseContext.class);
 	}
 
 	/**
@@ -390,5 +466,19 @@ public class ExperimentSetup extends LayoutUtilities {
 		panelComposite.setFocus();
 	}
 
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+		try {
+			String id = PERSPECTIVES_MAP.get(mode);
+			togglePlanButtonVisibility();
+			workbench.showPerspective(id, activeWindow);
+		} catch (WorkbenchException e) {
+			logger.error("Could get get perspective for mode {} ", mode, e);
+		}
+	}
 }
 
