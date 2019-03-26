@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Stick motor scannable -->
+	<bean id="d7_y" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="d7_y_motor" />
+	</bean>
+
+	<!-- Scannable group -->
+	<bean id="d7" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="d7_y" />
+				<ref bean="d7_y_position" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

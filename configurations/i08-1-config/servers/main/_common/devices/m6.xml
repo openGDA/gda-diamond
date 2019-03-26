@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="m6_yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m6_yaw_motor" />
+	</bean>
+
+	<bean id="m6_pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m6_pitch_motor" />
+	</bean>
+
+	<bean id="m6_roll" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m6_roll_motor" />
+	</bean>
+
+	<bean id="m6_curvature" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m6_curvature_motor" />
+	</bean>
+
+	<bean id="m6_ellipsticity" class="gda.device.scannable.ScannableMotor">
+		<property name="protectionLevel" value="3" />
+		<property name="motor" ref="m6_ellipsticity_motor" />
+	</bean>
+
+	<bean id="m6" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m6_yaw" />
+				<ref bean="m6_pitch" />
+				<ref bean="m6_roll" />
+				<ref bean="m6_curvature" />
+				<ref bean="m6_ellipsticity" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
