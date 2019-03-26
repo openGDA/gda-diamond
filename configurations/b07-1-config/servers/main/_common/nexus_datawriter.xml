@@ -100,7 +100,7 @@
 				<value>bl07c_space_09</value>
 				<value>bl07c_space_10</value>
 				<value>bl07c_space_11</value>
-				<!-- stanford -->
+				<!-- stanford 
 				<value>SR570_sensitivity</value>
 				<value>SR570_filter_type</value>
 				<value>SR570_filter_highpass</value>
@@ -109,6 +109,7 @@
 				<value>SR830_time_constant</value>
 				<value>SR830_channel_one</value>
 				<value>SR830_channel_two</value>
+				-->
 			</set>
 		</property>
 	</bean>
