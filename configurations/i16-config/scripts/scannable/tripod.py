@@ -8,7 +8,7 @@ from tripod_class import tripod_class
 reload(scisoftpy.external)
 
 
-GDA_EXTERNAL_PATH = "/dls_sw/i16/software/gda/workspace_git/gda-mt.git/configurations/i16-config/pythonscripts/gda_external"
+GDA_EXTERNAL_PATH = "/dls_sw/i16/software/gda/config/pythonscripts/gda_external"
 
 print "Importing scannable.tripod. This calls the python code: '%s/tripod.p'y" % GDA_EXTERNAL_PATH
 
