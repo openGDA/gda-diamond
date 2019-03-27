@@ -98,6 +98,34 @@
 		<property name="initialUserUnits" value="mm" />
 	</bean>
 
+<!-- Dummy enumpositioners to control whether each of the analyser crystals is allowed to move or not  -->
+	<bean id="minusCrystalAllowedToMove" class="gda.device.scannable.DummyPersistentEnumScannable">
+		<property name="positions">
+			<list>
+				<value>true</value>
+				<value>false</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="centreCrystalAllowedToMove" class="gda.device.scannable.DummyPersistentEnumScannable">
+		<property name="positions">
+			<list>
+				<value>true</value>
+				<value>false</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="plusCrystalAllowedToMove" class="gda.device.scannable.DummyPersistentEnumScannable">
+		<property name="positions">
+			<list>
+				<value>true</value>
+				<value>false</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -141,8 +169,12 @@
 		<property name="xtal_plus1_y" ref="xtal_plus1_y" />
 		<property name="xtal_plus1_pitch" ref="xtal_plus1_pitch" />
 		<property name="xtal_plus1_rot" ref="xtal_plus1_rot" />
-		
-		<property name="trajectoryStepSize" value="0.1" /> 
+
+		<property name="minusCrystalAllowedToMove" ref="minusCrystalAllowedToMove" />
+		<property name="centreCrystalAllowedToMove" ref="centreCrystalAllowedToMove" />
+		<property name="plusCrystalAllowedToMove" ref="plusCrystalAllowedToMove" />
+
+		<property name="trajectoryStepSize" value="0.1" />
 	</bean>
 
 	<bean id="XESEnergy" class="uk.ac.gda.beamline.i20.scannable.XESEnergyScannable">
@@ -432,4 +464,3 @@
 	</bean>
 
 </beans>
-	
