@@ -34,7 +34,7 @@
         </property>
     </bean>
 
-	<bean id="andor_addetector" class="gda.device.detector.addetector.ADDetector">
+	<bean id="andor2" class="gda.device.detector.addetector.ADDetector">
 		<property name="adBase" ref="andor_adbase" />
 		<property name="ndFile" ref="andor_ndfile" />
 		<property name="ndArray" ref="andor_ndarray" />
@@ -44,7 +44,7 @@
 	</bean>
 
 	<bean id="andor_model" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-		<property name="name" value="andor_addetector" />
+		<property name="name" value="andor2" />
 		<property name="exposureTime" value="0.1" />
 	</bean>
 
@@ -54,7 +54,7 @@
 	</bean>
 
 	<bean id="andor_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
-		<property name="name" value="andor_addetector" />
+		<property name="name" value="andor2" />
 		<property name="model" ref="andor_model" />
 		<property name="deviceInformation" ref="andor_info" />
 		<property name="activated" value="true" />
