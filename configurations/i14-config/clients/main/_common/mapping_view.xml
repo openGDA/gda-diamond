@@ -5,6 +5,8 @@
 
 	<!-- Mapping view for I14 including XANES -->
 
+	<bean id="regionAndPathController" class="uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController" />
+
 	<bean id="mappingViewConfiguration" class="uk.ac.diamond.daq.mapping.ui.experiment.MappingViewConfiguration">
 		<property name="scrolledSections">
 			<list>
@@ -40,12 +42,6 @@
 				</bean>
 			</list>
 		</property>
-	</bean>
-
-	<!-- Register as an OSGi service -->
-	<bean class="gda.util.osgi.OSGiServiceRegister">
-		<property name="class" value="uk.ac.diamond.daq.mapping.ui.experiment.MappingViewConfiguration" />
-		<property name="service" ref="mappingViewConfiguration" />
 	</bean>
 
 </beans>
