@@ -9,14 +9,6 @@
 		<level value="INFO"/>
 	</logger>
 
-	<logger name="gda.factory.corba.util.CorbaEventDispatcher">
-		<level value="DEBUG"/>
-	</logger>
-
-	<logger name="gda.factory.corba.util.MyEventChannelImpl">
-		<level value="DEBUG"/>
-	</logger>
-
 	<logger name="gda.jython.GDAInteractiveConsole">
 		<level value="INFO"/>
 	</logger>
