@@ -10,7 +10,7 @@ if [[ -n "${DISPLAY:-}" && "${GDA_NO_PROMPT:-}" != true ]]; then
         icon_type="question"
     fi
     RESPONSE=yes
-    zenity --title "Are you sure?" --question --text "Are you sure you want to ${GDA_OPERATION-restart} the ${GDA_INSTANCE_NAME} GDA servers in ${GDA_MODE} mode?" --window-icon=${icon_type} || RESPONSE=no
+    zenity --width 300 --title "Are you sure?" --question --text "Are you sure you want to ${GDA_OPERATION-restart} the ${GDA_INSTANCE_NAME} GDA servers in ${GDA_MODE} mode?" --window-icon=${icon_type} || RESPONSE=no
     if [[ $RESPONSE == "no" ]]; then
         bashlog INFO "gda_servers_pre_facility" "User cancelled the ${GDA_OPERATION-restart}"
         exit
