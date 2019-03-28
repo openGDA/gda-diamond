@@ -24,7 +24,7 @@
 	<!-- =========================================================== -->
 
 	<!-- Detectors -->
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/andor_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/d7_addetector.xml" />
 
 	<!-- Devices -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d7.xml" />
@@ -40,7 +40,7 @@
 	<!-- =========================================================== -->
 
 	<!-- Detectors -->
-	<import resource="file:${gda.config}/servers/main/_common/detectors/andor_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/d7_addetector.xml" />
 
 	<!-- Devices -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/d7.xml" />
