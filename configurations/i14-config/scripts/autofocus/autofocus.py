@@ -1,18 +1,16 @@
-from gdaserver import sim_addetector
 from gda.device.detector.areadetector.v17 import ImageMode
 from gov.aps.jca.dbr import DBRType
-from time import sleep
 
-def run_autofocus():
+def run_autofocus(detector):
     # Set number of strips to divide the image into
     num_strips = 10
 
     # Save current settings
     print('Setting up detector & Python plugin')
-    detector_ad_base = sim_addetector.getAdBase()
+    detector_ad_base = detector.getAdBase()
     save_image_mode = detector_ad_base.getImageMode()
 
-    python_plugin = sim_addetector.getNdPython()
+    python_plugin = detector.getNdPython()
     python_plugin_base = python_plugin.getPluginBase()
     save_callbacks_enabled = python_plugin_base.isCallbacksEnabled_RBV()
 

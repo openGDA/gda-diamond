@@ -18,6 +18,9 @@
 
 package uk.ac.diamond.daq.beamline.i151.server;
 
+import static org.eclipse.scanning.api.event.EventConstants.STATUS_SET;
+import static org.eclipse.scanning.api.event.EventConstants.STATUS_TOPIC;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
@@ -54,7 +57,7 @@ public class XpdfTaskConsumer {
 	}
 
 	public void startConsumer() {
-		logger.info("Starting consumer...");
+		logger.info("Starting XPDF Task Runner consumer...");
 
 		// Validate we have the required objects to work.
 		Objects.requireNonNull(taskRunner, "Task runner is not set check Spring configuration");
@@ -64,15 +67,15 @@ public class XpdfTaskConsumer {
 		try {
 			final URI uri = new URI(LocalProperties.getActiveMQBrokerURI());
 
-			IConsumer<TaskBean> consumer = eventService.createConsumer(uri);
-			consumer.setSubmitQueueName(QueueConstants.XPDF_TASK_QUEUE);
+			IConsumer<TaskBean> consumer = eventService.createConsumer(uri, QueueConstants.XPDF_TASK_QUEUE,
+					STATUS_SET, STATUS_TOPIC);
 			consumer.setRunner(new ProcessCreator());
-			consumer.setName("Task Consmer");
+			consumer.setName("XPDF Task Runner consumer");
 			consumer.start();
 		} catch (EventException | URISyntaxException e) {
-			logger.error("Failed tosetup consumer", e);
+			logger.error("Failed to setup XPDF Task Runner consumer", e);
 		}
-		logger.info("Started XPDF consumer");
+		logger.info("Started XPDF Task Runner consumer");
 	}
 
 	private class ProcessCreator implements IProcessCreator<TaskBean> {

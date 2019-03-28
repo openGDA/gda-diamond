@@ -28,7 +28,7 @@
 					<constructor-arg name="name" value="Andor Detector" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
-							<property name="name" value="andor_addetector" />
+							<property name="name" value="andor2" />
 							<property name="exposureTime" value="0.1" />
 						</bean>
 					</constructor-arg>
