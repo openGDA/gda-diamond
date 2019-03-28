@@ -6,9 +6,10 @@
 <included>
 
 	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
-		<layout class="ch.qos.logback.classic.PatternLayout">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+		<encoder>
 			<pattern>%date %-5level %logger - %m [%t]%n%rEx</pattern>
-		</layout>
+		</encoder>
 	</appender>
 
 	<!-- This is a bit dubious but it seems to work i.e. the Console appender
