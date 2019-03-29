@@ -122,6 +122,8 @@ public class TurboXasExperimentView extends ViewPart {
 
 	private Button useTrajectoryScanButton;
 
+	private Button useTwoWayScanButton;
+
 	private Button startScanButton;
 
 	private Shell shell;
@@ -217,7 +219,10 @@ public class TurboXasExperimentView extends ViewPart {
 		useTrajectoryScanButton = new Button(mainComposite, SWT.CHECK);
 		useTrajectoryScanButton.setText("Use trajectory scan ");
 		useTrajectoryScanButton.setSelection(false);
-		addEmptyLabels(mainComposite, 1);
+
+		useTwoWayScanButton = new Button(mainComposite, SWT.CHECK);
+		useTwoWayScanButton.setText("Do bi-drectional scan ");
+		useTwoWayScanButton.setSelection(false);
 
 		addDetectorSelectionControls(mainComposite);
 	}
@@ -433,7 +438,7 @@ public class TurboXasExperimentView extends ViewPart {
 		createAsciiFileButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
 		usePositionsForScanButton = toolkit.createButton(buttonsComp, "Use positions for scan", SWT.CHECK);
-		usePositionsForScanButton.setToolTipText("Create ascii file at end of scan. Relevant data from all detectors will be included");
+		usePositionsForScanButton.setToolTipText("Select to have scan parameters set using start, end positions directly rather than positions calculated from the start, end energies");
 		usePositionsForScanButton.setSelection(false);
 		usePositionsForScanButton.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false));
 
@@ -682,6 +687,8 @@ public class TurboXasExperimentView extends ViewPart {
 		motorCombo.select(Math.max(selectionIndex, 0));
 
 		useTrajectoryScanButton.setSelection(turboXasParameters.getUseTrajectoryScan());
+		useTwoWayScanButton.setSelection(turboXasParameters.isTwoWayScan());
+
 		List<String> selectedDetectors = Arrays.asList(turboXasParameters.getDetectors());
 		for(Button box : detectorCheckboxes) {
 			boolean selected = selectedDetectors.contains(box.getData());
@@ -728,6 +735,7 @@ public class TurboXasExperimentView extends ViewPart {
 		turboXasParameters.setEnergyCalibrationReferenceFile(calibrationComposite.getReferenceFileName());
 
 		turboXasParameters.setUseTrajectoryScan(useTrajectoryScanButton.getSelection());
+		turboXasParameters.setTwoWayScan(useTwoWayScanButton.getSelection());
 		turboXasParameters.setDetectors(getSelectedDetectors());
 		turboXasParameters.setMotorToMove(motorCombo.getText());
 

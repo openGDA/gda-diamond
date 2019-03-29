@@ -54,15 +54,15 @@ public class TrajectoryScanPreparerTest {
 		double endPos = 1;
 
 		TrajectoryScanPreparer trajScanPrep = getTrajectoryScanPreparer();
-		trajScanPrep.addSpectrumToTrajectory(startPos, endPos, delta, delta, 1, 2, 2);
+		trajScanPrep.addSpectrumToTrajectorySubdivide(startPos, endPos, delta, delta, 2, 2);
 		Double[] times = trajScanPrep.getTrajectoryTimesList().toArray(new Double[0]);
 		Double[] positions = trajScanPrep.getTrajectoryPositionsList().toArray(new Double[0]);
 
-		assertEquals(times.length, 8);
-		assertEquals(positions.length, 8);
-		Double[] expectedPositions = { startPos - delta, startPos, endPos, endPos + delta };
+		assertEquals(4, times.length);
+		assertEquals(4, positions.length, 8);
+		Double[] expectedPositions = { startPos, endPos, endPos + delta, startPos - delta };
 		for (int i = 0; i < positions.length; i++) {
-			assertEquals(positions[i], expectedPositions[i % 4], 1e-6);
+			assertEquals(expectedPositions[i], positions[i], 1e-6);
 		}
 	}
 

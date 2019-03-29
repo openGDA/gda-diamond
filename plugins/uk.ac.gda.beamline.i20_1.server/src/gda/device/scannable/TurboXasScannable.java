@@ -39,7 +39,11 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 	private static final Logger logger = LoggerFactory.getLogger(TurboXasScannable.class);
 
-	private Zebra zebraDevice;
+	private Zebra zebraDevice1;
+	private Zebra zebraDevice2;
+
+	private boolean twoWayScan;
+	private int sweepNumber = 0;
 
 	private ContinuousParameters continuousParameters;
 	private TurboXasMotorParameters motorParameters;
@@ -64,8 +68,8 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	@Override
 	public void configure() throws FactoryException {
 		super.configure();
-		if (zebraGatePulsePreparer==null && zebraDevice!=null) {
-			zebraGatePulsePreparer=new ZebraGatePulsePreparer(zebraDevice);
+		if (zebraGatePulsePreparer==null && zebraDevice1!=null) {
+			zebraGatePulsePreparer=new ZebraGatePulsePreparer(zebraDevice1);
 		}
 	}
 
@@ -94,11 +98,27 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	}
 
 	public Zebra getZebraDevice() {
-		return zebraDevice;
+		return zebraDevice1;
 	}
 
 	public void setZebraDevice(Zebra zebraDevice) {
-		this.zebraDevice = zebraDevice;
+		this.zebraDevice1 = zebraDevice;
+	}
+
+	public Zebra getZebraDevice2() {
+		return zebraDevice2;
+	}
+
+	public void setZebraDevice2(Zebra zebraDevice2) {
+		this.zebraDevice2 = zebraDevice2;
+	}
+
+	public boolean isTwoWayScan() {
+		return twoWayScan;
+	}
+
+	public void setTwoWayScan(boolean twoWayScan) {
+		this.twoWayScan = twoWayScan;
 	}
 
 	/** Make TurboXasMotorParameters object from ContinousParameters.
@@ -118,9 +138,34 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	 * @throws Exception
 	 */
 	public void configureZebra() throws Exception {
-		zebraGatePulsePreparer.setZebraDevice(zebraDevice);
-		zebraGatePulsePreparer.setFromParameters(motorParameters);
-		zebraGatePulsePreparer.configureZebra();
+		if (twoWayScan && zebraDevice2 != null) {
+			// Setup the zebras for bi-directional scan
+
+			// Calculate number of gates for each zebra :
+			int numSpectra = motorParameters.getScanParameters().getTotalNumSpectra();
+			int numGatesZebra1 = (int) Math.floor(numSpectra/2.0) + numSpectra%2;
+			int numGatesZebra2 = numSpectra - numGatesZebra1;
+
+			// Set up zebra1 - like normal scan, exception with reduced number of gates
+			zebraGatePulsePreparer.setZebraDevice(zebraDevice1);
+			zebraGatePulsePreparer.setFromParameters(motorParameters);
+			zebraGatePulsePreparer.setNumGates(numGatesZebra1);
+			zebraGatePulsePreparer.configureZebra();
+
+			// Set up zebra2 - like zebra1, except scan start position is scan end position, and scan direction is reversed.
+			zebraGatePulsePreparer.setZebraDevice(zebraDevice2);
+			// start position for reverse direction is end position of last captured pulse in forwards direction :
+			double encoderPositionRange = motorParameters.getNumReadoutsForScan()*motorParameters.getPositionStepsize();
+			double reverseStartPosition = motorParameters.getScanStartPosition() + encoderPositionRange;
+			zebraGatePulsePreparer.setScanStartMotorPosition(reverseStartPosition);
+			zebraGatePulsePreparer.setScanMotorRange(-1.0*encoderPositionRange);
+			zebraGatePulsePreparer.setNumGates(numGatesZebra2);
+			zebraGatePulsePreparer.configureZebra();
+		} else {
+			zebraGatePulsePreparer.setZebraDevice(zebraDevice1);
+			zebraGatePulsePreparer.setFromParameters(motorParameters);
+			zebraGatePulsePreparer.configureZebra();
+		}
 
 		// Configure the area detector settings
 		if (useAreaDetector && zebraAreaDetectorPreparer != null) {
@@ -141,12 +186,28 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		this.disarmZebraAtScanEnd = disarmZebraAtScanEnd;
 	}
 
+	private double getEndPositionForSweep() {
+		double position = sweepNumber%2 == 0 ? motorParameters.getStartPosition() : motorParameters.getEndPosition();
+		logger.debug("End position for sweep {} = {}", sweepNumber, position);
+		return position;
+	}
+
 	@Override
 	public void prepareForContinuousMove() {
 		try {
-			logger.info("Moving motor to initial run-up position ("+motorParameters.getStartPosition()+")");
-			this.setSpeed(motorParameters.getReturnMotorSpeed());
-			asynchronousMoveTo(motorParameters.getStartPosition());
+			if (twoWayScan) {
+				if (sweepNumber==0) {
+					logger.info("Moving motor to initial run-up position for two way scan : {}", getEndPositionForSweep());
+					this.setSpeed(motorParameters.getScanMotorSpeed());
+					asynchronousMoveTo(getEndPositionForSweep());
+					sweepNumber++;
+				}
+			} else {
+				logger.info("Moving motor to initial run-up position : {}", motorParameters.getStartPosition());
+				this.setSpeed(motorParameters.getReturnMotorSpeed());
+				asynchronousMoveTo(motorParameters.getStartPosition());
+			}
+
 			// to help reduce 'dead time', set motor speed just before starting move to final position
 			// instead of setting it here after waiting for motor to move to initial position.
 
@@ -170,14 +231,34 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		return zebraGatePulsePreparer.getNumReadoutsForScan();
 	}
 
+	public void armZebra() throws Exception {
+		logger.info("Arming Zebra1");
+		zebraDevice1.reset();
+		zebraDevice1.pcArm();
+
+		if (twoWayScan && zebraDevice2 != null) {
+			logger.info("Arming Zebra2");
+			zebraDevice2.reset();
+			zebraDevice2.pcArm();
+		}
+	}
+
+	public void disarmZebra() throws Exception {
+		logger.info("Disarming Zebra1");
+		zebraDevice1.pcDisarm();
+
+		if (twoWayScan && zebraDevice2 != null) {
+			logger.info("Disarming Zebra2");
+			zebraDevice2.pcDisarm();
+		}
+	}
 
 	@Override
 	public void performContinuousMove() throws DeviceException {
 		try {
 			if ( armZebraAtScanStart ) {
-				logger.info("Arming Zebra");
-				zebraDevice.reset();
-				zebraDevice.pcArm(); // should wait until armed, but seems to wait for ever
+				logger.info("Arming Zebra(s) at start of scan");
+				armZebra();
 
 				// Arm the area detector
 				if (useAreaDetector && zebraAreaDetectorPreparer != null) {
@@ -192,9 +273,17 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 				Thread.sleep(20);
 			}
 
-			logger.info("Turbo slit move started (final position = "+motorParameters.getEndPosition()+")");
+
+			double finalPosition = motorParameters.getEndPosition();
+			if (twoWayScan) {
+				logger.info("Using final motor position for two way scan (sweep number = {})", sweepNumber);
+				finalPosition = getEndPositionForSweep();
+				sweepNumber++;
+			}
+
 			this.setSpeed(motorParameters.getScanMotorSpeed());
-			asynchronousMoveTo(motorParameters.getEndPosition() );
+			logger.info("Turbo slit move started : final position = {}", finalPosition);
+			asynchronousMoveTo(finalPosition);
 
 		} catch (Exception e) {
 			logger.error("Exception in performContinuousMove", e);
@@ -221,8 +310,8 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 		if ( disarmZebraAtScanEnd ) {
 			try {
-				logger.info("Disarming Zebra at end of scan");
-				zebraDevice.pcDisarm();
+				logger.info("Disarming Zebra(s) at end of scan");
+				disarmZebra();
 			} catch (Exception e) {
 				logger.error("Exception while trying to disarm Zebra at end of scan", e);
 				throw new DeviceException(e.getMessage(), e);
@@ -254,7 +343,7 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	}
 
 	public ZebraGatePulsePreparer makeDefaultZebraGatePulsePreparer() {
-		ZebraGatePulsePreparer preparer = new ZebraGatePulsePreparer(zebraDevice);
+		ZebraGatePulsePreparer preparer = new ZebraGatePulsePreparer(zebraDevice1);
 		preparer.setMotorStabilisationDistance(0.1);
 		preparer.setPositionTriggerEncoder(Zebra.PC_ENC_ENC3);
 		preparer.setTtlOutputPort(31); // set TTL output 1 to 'PC_PULSE'
@@ -263,10 +352,11 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		return preparer;
 	}
 
+
 	@Override
 	public void atScanStart() {
 		resetZebraArmConfigFlags();
-
+		sweepNumber = 0;
 		try {
 			motorSpeedBeforeScan = this.getSpeed();
 		} catch (DeviceException e) {
@@ -276,15 +366,15 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		// Create default zebra gate/pulse settings preparer if one has not already been set.
 		if (zebraGatePulsePreparer==null) {
 			logger.info("Creating default ZebraGatePulsePreparer");
-			zebraGatePulsePreparer = new ZebraGatePulsePreparer(zebraDevice);
+			zebraGatePulsePreparer = new ZebraGatePulsePreparer(zebraDevice1);
 		}
 	}
 
 	@Override
 	public void atScanEnd() {
 		try {
-			logger.info("Disarming Zebra at end of scan");
-			zebraDevice.pcDisarm();
+			logger.info("Disarming Zebra(s) at end of scan");
+			disarmZebra();
 		} catch (Exception e) {
 			logger.error("Problem disarming zebra at scan end", e);
 		}
@@ -338,7 +428,7 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	 * a new ZebraAreaDector object and pass it in via. {@link #setAreaDetectorPreparer(ZebraAreaDetectorPreparer)}.
 	 */
 	private ZebraAreaDetectorPreparer makeZebraAreaDetectorPreparer() throws Exception {
-		String zebraPv = zebraDevice.getZebraPrefix();
+		String zebraPv = zebraDevice1.getZebraPrefix();
 		String dataDir = "/dls/i20-1/data/2016/cm14479-4/tmp/";
 		String fileName = "test";
 		ZebraAreaDetectorPreparer preparer = new ZebraAreaDetectorPreparer(zebraPv);

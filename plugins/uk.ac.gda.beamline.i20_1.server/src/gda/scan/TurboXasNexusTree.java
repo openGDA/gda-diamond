@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.eclipse.dawnsci.analysis.tree.TreeFactory;
@@ -45,6 +46,7 @@ import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.IntegerDataset;
 import org.eclipse.january.dataset.LongDataset;
+import org.eclipse.january.dataset.Slice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,7 +87,7 @@ public class TurboXasNexusTree {
 	public static final String POSITION_UNITS = "cm";
 	public static final String I0_LABEL = "I0";
 	public static final String FF_SUM_IO_NAME = "FF_sumI0";
-
+	private boolean reverseDetectorReadout = false;
 
 	// Dataset names for spectrum and timing group index (to match Ede scan data names...)
 	public static final String SPECTRUM_INDEX = EdeDataConstants.FRAME_COLUMN_NAME;
@@ -138,7 +140,7 @@ public class TurboXasNexusTree {
 		for (int i = 0; i < numSpectra - 1; i++) {
 			// Take slice along time for current spectrum, find sum and add to time-between-spectra
 			Dataset row = DatasetUtils.convertToDataset(times.getSlice(new int[] { i, 0 }, new int[] { i + 1, numReadouts }, null));
-			double rowSum = ((Number) row.sum()).doubleValue();
+			double rowSum = ((Number) row.sum(true)).doubleValue();
 			double timeForSpectra = rowSum + timeBetweenSpectraVals.get(i);
 			timeAtSpectrumStart += timeForSpectra;
 			absoluteTime.set(timeAtSpectrumStart, i + 1);
@@ -357,14 +359,11 @@ public class TurboXasNexusTree {
 			logger.info("Expected {} frames for spectrum, {} frames available - padding with zeros...", numReadoutsPerSpectrum, numFramesRead );
 		}
 
-		// Number of frames to be stored in Nexus file
-		// Don't record last frame of data (this corresponds to the long timeframe when
-		// the motor moves back to start position)
-		int numFramesToStore = numFramesRead-1;
+		int numAxisPoints = numFramesRead;
 
 		// Setup arrays of frame index and energy of each frame
-		int[] frameIndex = new int[numFramesToStore];
-		for(int i=0; i<numFramesToStore; i++) {
+		int[] frameIndex = new int[numAxisPoints];
+		for(int i=0; i<numAxisPoints; i++) {
 			frameIndex[i] = i;
 		}
 
@@ -374,13 +373,13 @@ public class TurboXasNexusTree {
 
 		// Add position axis data if using TurboXasScannable
 		if (scanAxis instanceof TurboXasScannable) {
-			double[] position = new double[numFramesToStore];
-			double[] energy = new double[numFramesToStore];
+			double[] position = new double[numAxisPoints];
+			double[] energy = new double[numAxisPoints];
 
 			TurboXasScannable txasScannable = (TurboXasScannable)scanAxis;
 			TurboXasMotorParameters motorParams = txasScannable.getMotorParameters();
 			// size of each frame (constant for scan)
-			for(int i=0; i<numFramesToStore; i++) {
+			for(int i=0; i<numAxisPoints; i++) {
 				position[i] = txasScannable.calculatePosition(i);
 
 				// energy for midpoint of frame
@@ -390,13 +389,50 @@ public class TurboXasNexusTree {
 			frame.addAxis(detector.getName(), POSITION_COLUMN_NAME, new NexusGroupData(position), 3, 1, POSITION_UNITS, false);
 			frame.addAxis(detector.getName(), ENERGY_COLUMN_NAME, new NexusGroupData(energy), 1, 1, ENERGY_UNITS, false);
 		} else {
-			double[] energy = new double[numFramesToStore];
-			for(int i=0; i<numFramesToStore; i++) {
+			double[] energy = new double[numAxisPoints];
+			for(int i=0; i<numAxisPoints; i++) {
 				energy[i] = scanAxis.calculateEnergy(i);
 			}
 			frame.addAxis(detector.getName(), ENERGY_COLUMN_NAME, new NexusGroupData(energy), 1, 1, ENERGY_UNITS, false);
 		}
 		return frame;
+	}
+
+	private NexusGroupData createDetectorNexusGroupData(double[] detData) {
+		// Copy the original data, add extra element with NaN at the end.
+		double[] arrayCopy = Arrays.copyOf(detData, detData.length+1);
+		arrayCopy[arrayCopy.length-1] = Double.NaN;
+
+		if (!reverseDetectorReadout) {
+			return new NexusGroupData(arrayCopy);
+		}
+		// Reverse the dataset
+		ArrayUtils.reverse(arrayCopy);
+		return new NexusGroupData(arrayCopy);
+	}
+
+	private NexusGroupData createDetectorNexusGroupData(Dataset detData) {
+		// Create copy of the original dataset with extra element at the end set to NaN.
+		int numElements = detData.getShape()[0]+1;
+		Dataset datasetCopy = detData.clone();
+		datasetCopy.resize(numElements);
+		datasetCopy.set(Double.NaN, numElements-1);
+
+		if (!reverseDetectorReadout) {
+			return NexusGroupData.createFromDataset(datasetCopy);
+		}
+
+		// Reverse the dataset by taking a slice
+		Dataset reversedDataset = datasetCopy.getSlice(new Slice(null, null, -1));
+		return NexusGroupData.createFromDataset(reversedDataset);
+	}
+
+	public boolean isReverseDetectorReadout() {
+		return reverseDetectorReadout;
+	}
+
+	public void setReverseDetectorReadout(boolean reverseDetectorReadout) {
+		this.reverseDetectorReadout = reverseDetectorReadout;
 	}
 
 	/**
@@ -444,7 +480,7 @@ public class TurboXasNexusTree {
 				ffSum = DatasetFactory.zeros(highFrame - lowFrame -1);
 				ffSum.setName("FF_sum");
 				for (Dataset dataset : xspress3FileReader.readDatasets(start, shape, step)) {
-					NXDetectorData.addData(detTree, dataset.getName(), NexusGroupData.createFromDataset(dataset), "counts", 1);
+					NXDetectorData.addData(detTree, dataset.getName(), createDetectorNexusGroupData(dataset), "counts", 1);
 					if (dataset.getName().startsWith("FF")) {
 						boolean excludeInSum = exludedElementSuffixList.stream()
 							.filter(elementSuffix -> dataset.getName().endsWith(elementSuffix))
@@ -455,7 +491,7 @@ public class TurboXasNexusTree {
 						}
 					}
 				}
-				NXDetectorData.addData(detTree, ffSum.getName(), NexusGroupData.createFromDataset(ffSum), "counts", 1);
+				NXDetectorData.addData(detTree, ffSum.getName(), createDetectorNexusGroupData(ffSum), "counts", 1);
 			} catch (NexusException e) {
 				logger.error("Problem reading data from hdf file", e);
 			}
@@ -472,7 +508,7 @@ public class TurboXasNexusTree {
 					double val = detData[frameIndex].getDoubleVals()[i];
 					dataset.set(val, frameIndex);
 				}
-				NXDetectorData.addData(detTree, dataset.getName(), NexusGroupData.createFromDataset(dataset), "counts", 1);
+				NXDetectorData.addData(detTree, dataset.getName(), createDetectorNexusGroupData(dataset), "counts", 1);
 
 				// last dataset from readFrames is total FF (i.e. sum over all detector elements)
 				if (i==names.length-1) {
@@ -487,7 +523,7 @@ public class TurboXasNexusTree {
 			Dataset ffSumSlice = ffSum.getSlice(null, new int[]{numI0Values}, null).squeeze();
 			Dataset ffi0 = ffSumSlice.idivide(i0Data);
 			ffi0.setName(FF_SUM_IO_NAME);
-			NXDetectorData.addData(detTree, ffi0.getName(), NexusGroupData.createFromDataset(ffi0), "counts", 1);
+			NXDetectorData.addData(detTree, ffi0.getName(), createDetectorNexusGroupData(ffi0), "counts", 1);
 		}
 		return frame;
 	}
@@ -547,7 +583,7 @@ public class TurboXasNexusTree {
 			}
 			String fieldName = fieldNames[fieldIndex];
 			String units = fieldName.equals(frameTimeName) ? TIME_UNITS : COUNT_UNITS;
-			NXDetectorData.addData(detTree, fieldName, new NexusGroupData(detData), units, 1);
+			NXDetectorData.addData(detTree, fieldName, createDetectorNexusGroupData(detData), units, 1);
 
 			// Save the I0 dataset, so can calculate (and plot) FF/I0 after xspress3 data has been collected
 			if (fieldName.equals(I0_LABEL)){
