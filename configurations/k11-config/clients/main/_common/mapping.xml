@@ -99,7 +99,7 @@
 	<bean id="mapping_stage_info" class="uk.ac.diamond.daq.mapping.impl.MappingStageInfo">
 		<property name="activeFastScanAxis" ref="x_axis_name" />
 		<property name="activeSlowScanAxis" ref="y_axis_name" />
-		<property name="beamSize" value="0.1" />
+		<property name="beamSize" value="beam" />
 	  	<property name="defaultStreamSourceConfig" value="d2_cam_config" />
 	</bean>
 

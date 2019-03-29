@@ -62,7 +62,7 @@
 	<bean id="mapping_stage_info" class="uk.ac.diamond.daq.mapping.impl.MappingStageInfo">
 		<property name="activeFastScanAxis" ref="x_axis_name" />
 		<property name="activeSlowScanAxis" ref="y_axis_name" />
-		<property name="beamSize" value="0.001" />
+		<property name="beam" ref="beam" />
 	</bean>
 
 	<!-- Register the mapping stage info bean as an OSGi service. Do this twice

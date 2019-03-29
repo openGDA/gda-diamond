@@ -56,5 +56,17 @@
 			</list>
 		</property>
 	</bean>	
-
+	
+	<bean id="beam" class="gda.device.scannable.DummyScannable">
+		<constructor-arg index="0" value="beam" />
+		<constructor-arg index="1" value="0.001" />
+		<property name="inputNames" value="extent" />
+		<property name="scanMetadataAttributes">
+			<map>
+				<entry key="NXclass" value="NXbeam" />
+				<entry key="nexusCategory" value="NXsample" />
+			</map>
+		</property>
+	</bean>
+	
 </beans>

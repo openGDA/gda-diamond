@@ -45,5 +45,11 @@
 		<property name="pathTemplate"
 			value="${gda.data}/$year$/$visit$/gda-console-$visit$.log" />
 	</bean>
+	
+	<!-- A scannable holding the beam size so that it can be written to Nexus. -->
+	<bean id="beam" class="uk.ac.diamond.daq.scanning.BeamScannable" init-method="register">
+		<property name="name" value="beam" />
+		<property name="beamSize" value="0.1"/>
+	</bean>
 
 </beans>

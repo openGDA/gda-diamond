@@ -90,9 +90,9 @@
 	<bean id="mapping_stage_info" class="uk.ac.diamond.daq.mapping.impl.MappingStageInfo">
 		<property name="activeFastScanAxis" ref="x_axis_name" />
 		<property name="activeSlowScanAxis" ref="y_axis_name" />
-		<property name="beamSize" value="0.1" />
+		<property name="beamSize" value="beam" />
 	</bean>
-
+	
 	<!-- The mapping region manager lists the choice of available region types and scan paths which are presented to
 	     the user in the mapping experiment view -->
 	<bean id="mapping_region_manager" class="uk.ac.diamond.daq.mapping.region.MappingRegionManager">

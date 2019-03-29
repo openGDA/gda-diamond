@@ -7,5 +7,10 @@
 		<property name="x" value="1e-4" />
 		<property name="y" value="1e-4" />
 	</bean>
+	
+	<bean id="beam" class="uk.ac.diamond.daq.scanning.BeamScannable" init-method="register">
+		<property name="name" value="beam" />
+		<property name="beamSize" value="0.0001"/>
+	</bean>
 
 </beans>

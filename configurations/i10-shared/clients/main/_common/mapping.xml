@@ -36,7 +36,7 @@
 		<property name="activeFastScanAxis" ref="x_axis_name" />
 		<property name="activeSlowScanAxis" ref="y_axis_name" />
 		<property name="associatedAxis" ref="z_axis_name" />
-		<property name="beamSize" value="0.1" />
+		<property name="beamSize" value="beam" />
 	</bean>
 	<!-- Register the mapping stage info bean as an OSGi service -->
 	<bean class="gda.util.osgi.OSGiServiceRegister">

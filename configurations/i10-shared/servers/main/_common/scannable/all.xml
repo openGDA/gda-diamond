@@ -15,4 +15,5 @@
 	<import resource="D3.xml"/>
 	<import resource="M3M5.xml"/>
 	<import resource="CA1.xml"/>
+	<import resource="beam.xml"/>
 </beans>
