@@ -161,6 +161,7 @@
 		ADVISED: do it last or towards the end, scan will now start to run!
 	 -->
 	<import resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
+	<import resource="file:${gda.config}/servers/main/_common/processing.xml" />
 
 	<import resource="file:${gda.config}/servers/main/_common/nexus_datawriter.xml"/>
 
