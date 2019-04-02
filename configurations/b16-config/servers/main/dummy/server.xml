@@ -24,6 +24,8 @@
 	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
  -->
 
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
+
 	<import resource="motor/dcm.xml" />
 	<!-- <import resource="motor/dif.xml" /> -->
 	<import resource="motor/fc.xml" />
