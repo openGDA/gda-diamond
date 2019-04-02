@@ -24,14 +24,11 @@
 		</property>
 	</bean>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
-	<!--  ${gda.factory.factoryName} -->
-
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 
-	<!-- Provides ability to import/find remote objects over RMI -->
-	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
+
+	<!--  ${gda.factory.factoryName} -->
 
 <!-- 
 	<bean id="Message" class="gda.util.LogPanel">
@@ -104,4 +101,8 @@
 	</bean>
  -->
 
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 </beans>
