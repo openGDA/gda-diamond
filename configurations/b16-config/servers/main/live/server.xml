@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -154,15 +154,16 @@
 		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
 	</bean>
 
-	<bean id="Beamline" class="gda.device.epicsdevice.FindableEpicsDevice">
-		<property name="deviceName" value="Beamline" />
-		<property name="local" value="true" />
+	<bean id="Beamline" class="gda.spring.FindableEpicsDeviceFactoryBean">
+		<property name="recordPvs">
+			<map>
+				<entry key="Top" value="BL16B" />
+			</map>
+		</property>
 	</bean>
-
-
-	<corba:export namespace="b16server" />
 
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>

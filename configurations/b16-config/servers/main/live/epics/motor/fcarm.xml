@@ -4,11 +4,11 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="DR1ARMThetaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DR1ARM.THETA" />
+		<property name="pvName" value="BL16B-MO-DIFF-01:A:THETA:A" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="DR1ARMTthetaMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DR1ARM.TTHETA" />
+		<property name="pvName" value="BL16B-MO-DIFF-01:A:2THETA:A" />
 		<property name="local" value="true" />
 	</bean>
 

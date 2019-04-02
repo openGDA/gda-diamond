@@ -4,42 +4,42 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="mtYaw_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TW.YAW" />
+		<property name="pvName" value="BL16B-MO-TAB-02:YAW" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mtY_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TW.Y" />
+		<property name="pvName" value="BL16B-MO-TAB-02:Y" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mtPitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TW.PITCH" />
+		<property name="pvName" value="BL16B-MO-TAB-02:PITCH" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mtRoll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TW.ROLL" />
+		<property name="pvName" value="BL16B-MO-TAB-02:ROLL" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mtX_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TW.X" />
+		<property name="pvName" value="BL16B-MO-TAB-02:X" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mtZ_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TW.Z" />
+		<property name="pvName" value="BL16B-MO-TAB-02:Z" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mtXcoarse_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TW.XCOARSE" />
+		<property name="pvName" value="BL16B-MO-TAB-02:X:COARSE" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mtYcoarse_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TW.YCOARSE" />
+		<property name="pvName" value="BL16B-MO-TAB-02:Y:COARSE" />
 		<property name="local" value="true" />
 	</bean>
 

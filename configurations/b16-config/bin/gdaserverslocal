@@ -1,7 +1,0 @@
-#!/bin/bash
-unset BEAMLINE
-`dirname $0`/gda logserver --mode=live $@
-`dirname $0`/gda nameserver --mode=live $@
-`dirname $0`/gda eventserver --mode=live $@
-JAVA_OPTS="-Xms128m -Xmx1024m" `dirname $0`/gda objectserver --mode=live --debug $@
-

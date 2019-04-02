@@ -9,17 +9,14 @@
 	</bean>
 	<bean id="S9XSizeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-OP-SLITS-09:X:SIZE" />
-		<property name="deviceName" value="S9.XGAP" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="S9YCentreMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-OP-SLITS-09:Y:CENTER" />
-		<property name="deviceName" value="S9.YCENTRE" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="S9YSizeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-OP-SLITS-09:Y:SIZE" />
-		<property name="deviceName" value="S9.YGAP" />
 		<property name="local" value="true" />
 	</bean>
 	

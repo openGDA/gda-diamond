@@ -4,23 +4,23 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="DR1BASEY1Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DR1BASE.Y1" />
+		<property name="pvName" value="BL16B-MO-DIFF-01:B:Y1" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="DR1BASEY2Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DR1BASE.Y2" />
+		<property name="pvName" value="BL16B-MO-DIFF-01:B:Y2" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="DR1BASEXMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DR1BASE.X" />
+		<property name="pvName" value="BL16B-MO-DIFF-01:B:X" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="DR1BASEPitchMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DR1BASE.PITCH" />
+		<property name="pvName" value="BL16B-MO-DIFF-01:B:PITCH" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="DR1BASEHeightMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DR1BASE.HEIGHT" />
+		<property name="pvName" value="BL16B-MO-DIFF-01:B:HEIGHT" />
 		<property name="local" value="true" />
 	</bean>
 

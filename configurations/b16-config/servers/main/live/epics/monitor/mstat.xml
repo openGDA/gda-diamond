@@ -3,15 +3,15 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
 	<bean id="re" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="MSTAT.ENERGY" />
+		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="rc" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="MSTAT.CURRENT" />
+		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="rlt" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="MSTAT.LIFETIME" />
+		<property name="pvName" value="SR-DI-DCCT-01:LIFE120" />
 		<property name="local" value="true" />
 	</bean>
 
