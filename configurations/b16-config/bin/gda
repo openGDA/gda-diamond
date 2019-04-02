@@ -2,7 +2,7 @@
 # Expects a parameter line that can be passed on to the gda launch script
 # Also expects the BEAMLINE variable to be set
 
-#export GDA_DEBUG=TRUE #uncomment this line to turn on extra logging for the startup scripts
+export GDA_DEBUG=TRUE #uncomment this line to turn on extra logging for the startup scripts
 
 # Set the value that the BEAMLINE environment variable should be to correctly start from this configuration
 # so it can be checked automatically to prevent accidental startup of the wrong beamline.
@@ -26,7 +26,8 @@ fi
 # set the required variables below this line, also adding any environment variables specific to your installation:
 ##################################################################################################################
 
-export GDA_CLIENT_VMARGS="-Declipse.pluginCustomization=${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/clients/main/_common/pluginCustomization.ini"
+export GDA_GROUP_CONFIG_rel=${GDA_WORKSPACE_GIT_NAME}/gda-mt.git/configurations/mt-config
+export GDA_CLIENT_VMARGS="-Declipse.pluginCustomization=${GDA_WORKSPACE_PARENT}/${GDA_INSTANCE_CONFIG_rel}/clients/main/_common/plugin_customization.ini"
 
 ######################################################################
 # before the gda-core script is invoked using the environment settings
