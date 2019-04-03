@@ -77,6 +77,8 @@
 
 	<!-- <import resource="devices_KB2.xml" /> -->
 
+	<import resource="ebe.xml" />
+
 	<import resource="fleacamera3_08.xml" />
 	<import resource="fleacamera5_09.xml" />
 	<import resource="fleacamera4_06.xml" />

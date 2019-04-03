@@ -1,17 +1,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-        http://www.springframework.org/schema/util
-http://www.springframework.org/schema/util/spring-util-2.5.xsd
-        http://www.springframework.org/schema/tx
-http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-        http://www.springframework.org/schema/aop
-http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-        http://www.diamond.ac.uk/schema/gda/corba
-http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -25,18 +24,11 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 		</property>
 	</bean>
 
-	<bean class="gda.spring.FindableNameSetterPostProcessor" />
-
-	<!--  ${gda.factory.factoryName} -->
-
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 
-	<bean class="gda.factory.corba.util.AdapterFactory">
-		<constructor-arg index="0" value="b16server" />
-		<constructor-arg index="1">
-			<bean class="gda.spring.NetServiceFactoryBean" />
-		</constructor-arg>
-	</bean>
+
+	<!--  ${gda.factory.factoryName} -->
 
 <!-- 
 	<bean id="Message" class="gda.util.LogPanel">
@@ -109,4 +101,8 @@ http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
 	</bean>
  -->
 
+	<!-- Provides ability to import/find remote objects over RMI -->
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
+
+	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 </beans>

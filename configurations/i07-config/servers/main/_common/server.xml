@@ -30,6 +30,8 @@
         <property name="disableBatonControlOverVisitMetadataEntry" value="false" />
     </bean>
 
+	<import resource="ebe.xml" />
+
     <bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry" />
 
     <bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">

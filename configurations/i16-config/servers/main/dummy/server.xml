@@ -12,7 +12,7 @@
 
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata"/>
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/required_at_start.xml"/>
+	<import resource="../_common/required_at_start.xml"/>
 
 	<import resource="motor/atten.xml" />
 	<import resource="motor/diag.xml" />
@@ -48,20 +48,13 @@
 	
 	<bean id="beamline_test_suite" class="gda.jython.ScriptProject">
 		<property name="path" value="${gda.config}/scripts/livetest/startUp"/>
-		<property name="name" value="Scripts: Tests" />
+		<property name="name" value="Scripts: I16 Tests" />
 		<property name="type" value="CONFIG" />
 	</bean>
 	
-	<!-- We don't like duplicating stuff in common_script_paths_with_diffcalc but need a way to extend the list inside the gda.jython.ScriptPaths class -->
-	<bean id="common_script_paths_with_diffcalc_and_epics" class="gda.jython.ScriptPaths">
+	<bean id="common_script_paths_with_diffcalc_and_epics" class="gda.jython.ScriptPaths" parent="common_script_paths_with_diffcalc">
 		<property name="projects">
-			<list>
-				<ref bean="user_script_project" />
-				<ref bean="diffcalc_script_project" />
-				<ref bean="beamline_config_script_project" />
-				<ref bean="mt_config_script_project" />
-				<ref bean="gda_core_script_project" />
-				<ref bean="gda_epics_script_project" />
+			<list merge="true">
 				<ref bean ="beamline_test_suite" />
 			</list>
 		</property>
@@ -78,10 +71,10 @@
 		<property name="local" value="true" />
 	</bean>
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/terminal_logger.xml" />
+	<import resource="../_common/terminal_logger.xml" />
 
 
-	<import resource="file:${gda.install.git.loc}/gda-mt.git/configurations/mt-config/servers/main/common/abstract_command_server.xml"/>
+	<import resource="../_common/abstract_command_server.xml"/>
 
 	<!-- dummy only -->
 

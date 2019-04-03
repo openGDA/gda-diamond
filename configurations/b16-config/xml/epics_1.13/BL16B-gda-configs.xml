@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<configs PV="BL16B-CS-MODE-01:CONFIG">
-  <branch description="Normal beamline 1" name="BL16BN">
-    <config index="0" name="mode1">
-      <sect name="Common"/>
-      <sect name="Main"/>
-    </config>
-  </branch>
-</configs>

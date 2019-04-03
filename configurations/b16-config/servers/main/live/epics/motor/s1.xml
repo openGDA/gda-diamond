@@ -4,35 +4,35 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="S1YPlusMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.YPLUS" />
+		<property name="pvName" value="BL16B-AL-SLITS-01:Y:PLUS" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="S1YMinusMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.YMINUS" />
+		<property name="pvName" value="BL16B-AL-SLITS-01:Y:MINUS" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="S1XPlusMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.XPLUS" />
+		<property name="pvName" value="BL16B-AL-SLITS-01:X:PLUS" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="S1XMinusMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.XMINUS" />
+		<property name="pvName" value="BL16B-AL-SLITS-01:X:MINUS" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="S1XCentreMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.XCENTRE" />
+		<property name="pvName" value="BL16B-AL-SLITS-01:X:CENTER" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="S1XSizeMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.XSIZE" />
+		<property name="pvName" value="BL16B-AL-SLITS-01:X:SIZE" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="S1YCentreMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.YCENTRE" />
+		<property name="pvName" value="BL16B-AL-SLITS-01:Y:CENTER" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="S1YSizeMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="S1.YSIZE" />
+		<property name="pvName" value="BL16B-AL-SLITS-01:Y:SIZE" />
 		<property name="local" value="true" />
 	</bean>
 

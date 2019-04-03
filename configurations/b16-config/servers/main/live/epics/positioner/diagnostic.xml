@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="diag3" class ="gda.device.enumpositioner.EpicsPositioner">
-		<property name="deviceName" value="D3.POSN"/>
+		<property name="recordName" value="BL16B-DI-PHDGN-03:MP" />
 		<property name="local" value="true"/>
 	</bean>
 

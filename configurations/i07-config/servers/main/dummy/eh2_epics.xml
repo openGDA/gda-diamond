@@ -240,4 +240,29 @@
         <property name="local" value="true" />
     </bean>
 
+    <bean id="llimg" class="gda.device.monitor.DummyEpicsMonitor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="llpirg" class="gda.device.monitor.DummyEpicsMonitor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bcimg" class="gda.device.monitor.DummyEpicsMonitor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bcpirg" class="gda.device.monitor.DummyEpicsMonitor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="bcionp" class="gda.device.monitor.DummyEpicsMonitor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="xrdimg" class="gda.device.monitor.DummyEpicsMonitor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="xrdpirg" class="gda.device.monitor.DummyEpicsMonitor">
+        <property name="local" value="true" />
+    </bean>
+    <bean id="xrdionp" class="gda.device.monitor.DummyEpicsMonitor">
+        <property name="local" value="true" />
+    </bean>
+
 </beans>

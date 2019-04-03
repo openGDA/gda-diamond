@@ -6,8 +6,8 @@
 	<!-- DO NOT USE THIs YET, AS IT DOES NOT WAIT FOR CALLBACK! -->
 
 	<bean id="piezo2" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="deviceNameSetPoint" value="piezo2.val" />
-		<property name="deviceNameGetPoint" value="piezo2.rbv" />
+		<property name="pvNameSetPoint" value="BL16B-EA-PIEZO-02:E625:MOV:WR" />
+		<property name="pvNameGetPoint" value="BL16B-EA-PIEZO-02:E625:POS:RD" />
 		<property name="local" value="true" />
 	</bean>
 

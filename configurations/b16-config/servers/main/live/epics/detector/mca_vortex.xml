@@ -2,52 +2,35 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="VortexMcaRecord" class="gda.epics.xml.EpicsRecord">
-		<property name="deviceName" value="MCA1"/>
-		<property name="subsystemName" value="AIM1"/>
-	</bean>
-	
-	<bean id="VortexMcaRecord2" class="gda.epics.xml.EpicsRecord">
-		<property name="deviceName" value="MCA2"/>
-		<property name="subsystemName" value="AIM2"/>
-	</bean>
-	
-	<bean id="VortexAdcRecord" class="gda.epics.xml.EpicsRecord">
-		<property name="deviceName" value="MCA1"/>
-		<property name="subsystemName" value="ADC1"/>
-	</bean>
-
-	<bean id="VortexTcaRecord" class="gda.epics.xml.EpicsRecord">
-		<property name="deviceName" value="MCA1"/>
-		<property name="subsystemName" value="TCA1"/>
-	</bean>
-	
-	<!-- devices -->
-	
 	<bean id="vortexMca" class="gda.device.detector.analyser.EpicsMCA">
 		<property name="name" value="vortexMca" />
-		<property name="epicsMcaRecordName" value="VortexMcaRecord" />
+		<property name="pvName" value="BL16B-EA-DET-01:aim_adc1" />
 		<property name="numberOfRegions" value="32" />
 		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="vortexMca2" class="gda.device.detector.analyser.EpicsMCA">
-		<property name="name" value="vortexMca2" />
-		<property name="epicsMcaRecordName" value="VortexMcaRecord2" />
+		<property name="name" value="vortexMca2" /> 
+		<property name="pvName" value="BL16B-EA-DET-01:aim_adc2" />
 		<property name="numberOfRegions" value="32" />
 		<property name="local" value="true" />
 	</bean>
-	
+
+	<!-- Only referenced by a GUI bean disabled due to the removal of gda.gui.mca.McaGUI
+		Referenced a deprecated gda.epics.xml.EpicsRecord with deviceName MCA1 & subsystemName ADC1
 	<bean id="vortexAdc" class="gda.device.adc.EpicsADC">
 		<property name="name" value="vortexAdc" />
-		<property name="epicsAdcRecordName" value="VortexAdcRecord" />
+		 <property name="pvName" value="BL16B-EA-DET-01:adc1" /> ?
 		<property name="local" value="true" />
 	</bean>
-	
+	 -->
+
+	<!-- Only referenced by a GUI bean disabled due to the removal of gda.gui.mca.McaGUI
+		Referenced a deprecated gda.epics.xml.EpicsRecord with deviceName MCA1 & subsystemName TCA1
 	<bean id="vortexTca" class="gda.device.EpicsTca">
 		<property name="name" value="vortexTca" />
-		<property name="epicsTcaRecordName" value="VortexTcaRecord" />
+		<property name="pvName" value="BL16B-EA-DET-01:tca1" /> ?
 		<property name="local" value="true" />
 	</bean>
-	
+	 -->
 </beans>

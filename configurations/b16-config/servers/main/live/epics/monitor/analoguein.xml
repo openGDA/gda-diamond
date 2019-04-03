@@ -3,88 +3,88 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
 	<bean id="ai1" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL1" />
+		<property name="pvName" value="BL16B-EA-RIM-01:AI1" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 		
 	</bean>
 	<bean id="ai2" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL2" />
+		<property name="pvName" value="BL16B-EA-RIM-01:AI2" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai3" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL3" />
+		<property name="pvName" value="BL16B-EA-RIM-01:AI3" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai4" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL4" />
+		<property name="pvName" value="BL16B-EA-RIM-01:AI4" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai5" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL5" />
+		<property name="pvName" value="BL16B-EA-RIM-01:AI5" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ic0" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL5" />
+		<property name="pvName" value="BL16B-EA-RIM-01:AI5" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai6" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL6" />
+		<property name="pvName" value="BL16B-EA-RIM-01:AI6" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai7" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL7" />
+		<property name="pvName" value="BL16B-EA-RIM-01:AI7" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai8" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL8" />
+		<property name="pvName" value="BL16B-EA-RIM-01:AI8" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai9" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL9" />
+		<property name="pvName" value="BL16B-EA-RIM-02:AI1" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai10" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL10" />
+		<property name="pvName" value="BL16B-EA-RIM-02:AI2" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai11" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL11" />
+		<property name="pvName" value="BL16B-EA-RIM-02:AI3" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai12" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL12" />
+		<property name="pvName" value="BL16B-EA-RIM-02:AI4" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai13" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL13" />
+		<property name="pvName" value="BL16B-EA-RIM-02:AI5" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai14" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL14" />
+		<property name="pvName" value="BL16B-EA-RIM-02:AI6" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai15" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL15" />
+		<property name="pvName" value="BL16B-EA-RIM-02:AI7" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="ai16" class="gda.device.monitor.EpicsMonitor">
-		<property name="deviceName" value="AI.VAL16" />
+		<property name="pvName" value="BL16B-EA-RIM-02:AI8" />
 		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>

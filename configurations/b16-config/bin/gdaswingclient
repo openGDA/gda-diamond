@@ -1,11 +1,3 @@
 #!/bin/bash
 
-. gda_setup_env gda_swingclient_output
-
-echo Starting GDA Swing Panel...
-notify-send -t 10000 "GDA swing client is starting..."
-
-echo GDA_CONFIG = $GDA_CONFIG , BEAMLINE = $BEAMLINE
-echo  $GDA_CORE_SCRIPT --foreground client --start
-echo  $GDA_CORE_SCRIPT --foreground client --start >> $GDA_CONSOLE_LOG
-      $GDA_CORE_SCRIPT --foreground client --start >> $GDA_CONSOLE_LOG 2>&1
+zenity --warning --width 300 --text="GDA 9 no longer supports the swing GUI\n\nTo switch to GDA 8 run 'gda8activate' in a terminal window,\nthen restart the GDA servers and clients"

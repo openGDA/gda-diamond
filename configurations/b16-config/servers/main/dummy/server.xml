@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:corba="http://www.diamond.ac.uk/schema/gda/corba"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-		http://www.diamond.ac.uk/schema/gda/corba http://www.diamond.ac.uk/schema/gda/corba/gda-corba-1.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -23,6 +23,8 @@
 <!-- Needed for Swing? Not available now for some reason
 	<bean id="Plot_Manager" class="gda.analysis.plotmanager.PlotManager" />
  -->
+
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
 
 	<import resource="motor/dcm.xml" />
 	<!-- <import resource="motor/dif.xml" /> -->
@@ -89,8 +91,6 @@
 	
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 
-	<corba:export namespace="b16server" />
-
 	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
 		<property name="path" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
 		<property name="local" value="true" />
@@ -133,4 +133,6 @@
 		<property name="level" value="100" />
 	</bean>
 
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>

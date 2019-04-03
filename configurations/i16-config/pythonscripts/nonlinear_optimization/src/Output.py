@@ -16,7 +16,7 @@ import os
 #os.chdir("G:\optimisation")
 #os.chdir("/media/sf_Dropbox/workspace/nonlinear_optimization/spreadsheets")
 #os.chdir("C:\Users\James\Documents\Oxford\optimisation")
-os.chdir("/dls_sw/i16/software/gda_versions/gda_8.42a/workspace_git/gda-mt.git/configurations/i16-config/pythonscripts/nonlinear_optimization/spreadsheets")
+os.chdir("/dls_sw/i16/software/gda/config/pythonscripts/nonlinear_optimization/spreadsheets")
 center=easyxf('alignment: horizontal centre;')
 
 

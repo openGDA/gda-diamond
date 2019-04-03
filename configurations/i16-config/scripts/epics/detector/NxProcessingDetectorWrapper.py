@@ -76,6 +76,8 @@ class NxProcessingDetectorWrapper(SwitchableHardwareTriggerableProcessingDetecto
         #this is perhaps really terrible and could hide problems
         try:
             out = SwitchableHardwareTriggerableProcessingDetectorWrapper._readout(self)
+            # MBB Should ^^^ be vvv ?
+            #out = SwitchableHardwareTriggerableProcessingDetectorWrapper.getPositionCallable(self).call()
             self.lastReadout = out
             return out
         except DeviceException:

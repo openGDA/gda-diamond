@@ -20,7 +20,6 @@ cachedir/
 ### Build output ###
 .springBeans
 /classes/
-/src/corba/
 
 ### JUnit testing ###
 /activemq-data

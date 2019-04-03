@@ -4,12 +4,12 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="TEST2Mot5Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TEST2.MOT5" />
+		<property name="pvName" value="BL16B-MO-USER-02:AXIS5" />
 		<property name="local" value="true" />
 		
 	</bean>
 	<bean id="TEST2Mot6Motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TEST2.MOT6" />
+		<property name="pvName" value="BL16B-MO-USER-02:AXIS6" />
 		<property name="local" value="true" />
 	</bean>
 	

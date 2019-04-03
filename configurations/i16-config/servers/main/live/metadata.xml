@@ -1,125 +1,11 @@
-<!--<beans xmlns="http://www.springframework.org/schema/beans"-->
-<!--	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
-<!--	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">-->
-<!---->
-<!--	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
-<!--		<property name="locations">-->
-<!--			<list value-type="java.lang.String">-->
-<!--				<value>file:${gda.config}/properties/live/live_instance_java.properties</value>-->
-<!--				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>-->
-<!--			</list>-->
-<!--		</property>-->
-<!--	</bean>-->
-<!---->
-<!--	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">-->
-<!---->
-<!--		 property name="icat">-->
-<!--			<bean class="gda.data.metadata.icat.IcatConnectionDetails">-->
-<!--				<property name="name" value="icat" />-->
-<!--				<property name="url"-->
-<!--					value="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(HOST=i16-control.diamond.ac.uk)(PROTOCOL=tcp)(PORT=1521))(CONNECT_DATA=(-->
-<!--				SID=xe)))" />-->
-<!--				<property name="user" value="ikiti16" />-->
-<!--				<property name="password" value="d24sb4k" />-->
-<!--				<property name="shiftTolerance" value="60" />-->
-<!--				<property name="icatClassName" value="gda.data.metadata.icat.XMLIcat"/>-->
-<!--			</bean>-->
-<!--		</property-->
-<!---->
-<!--		<property name="metadataEntries">-->
-<!--			<list>-->
-<!---->
-<!--				 Intstrument / Beamline -->
-<!--				<bean class="gda.data.metadata.PropertyMetadataEntry">-->
-<!--					<property name="name" value="instrument" />-->
-<!--					<property name="propertyName" value="gda.instrument" />-->
-<!--				</bean>-->
-<!---->
-<!--				 Visit / Proposal / Title -->
-<!--				<bean class="gda.data.metadata.PropertyMetadataEntry">-->
-<!--					<property name="name" value="defaultVisit" />-->
-<!--					<property name="propertyName" value="gda.defaultVisit" />-->
-<!--				</bean>-->
-<!--				<bean class="gda.data.metadata.IcatMetadataEntry">-->
-<!--					<property name="name" value="visit" />-->
-<!--					<property name="query" value="lower(visit_id)visit_id:investigation:id" />-->
-<!--					<property name="defEntryName" value="defaultVisit" />-->
-<!--				</bean>-->
-<!--				<bean class="gda.data.metadata.PropertyMetadataEntry">-->
-<!--					<property name="name" value="proposal" />-->
-<!--					<property name="propertyName" value="gda.icat.proposal" />-->
-<!--				</bean>-->
-<!--				<bean class="gda.data.metadata.PropertyMetadataEntry">-->
-<!--					<property name="name" value="title" />-->
-<!--					<property name="propertyName" value="gda.icat.title" />-->
-<!--				</bean>-->
-<!---->
-<!--				 Facility: name / type / probe -->
-<!--				<bean class="gda.data.metadata.PropertyMetadataEntry">-->
-<!--					<property name="name" value="facility" />-->
-<!--					<property name="propertyName" value="gda.facility" />-->
-<!--				</bean>-->
-<!--				<bean class="gda.data.metadata.PropertyMetadataEntry">-->
-<!--					<property name="name" value="instrument.source.type" />-->
-<!--					<property name="propertyName" value="gda.facility.type" />-->
-<!--				</bean>-->
-<!--				<bean class="gda.data.metadata.PropertyMetadataEntry">-->
-<!--					<property name="name" value="instrument.source.probe" />-->
-<!--					<property name="propertyName" value="gda.facility.probe" />-->
-<!--				</bean>-->
-<!---->
-<!--				 Other -->
-<!--				<bean class="gda.data.metadata.StoredMetadataEntry">-->
-<!--					<property name="name" value="subdirectory" />-->
-<!--				</bean>-->
-<!---->
-<!--				 Epics -->
-<!--				<bean class="gda.data.metadata.EpicsMetadataEntry">-->
-<!--					<property name="name" value="facility.mode" />-->
-<!--					<property name="pvName" value="CS-CS-MSTAT-01:MODE"/>-->
-<!--				</bean>-->
-<!--				<bean class="gda.data.metadata.EpicsMetadataEntry">-->
-<!--					<property name="name" value="instrument.source.current" />-->
-<!--					<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />-->
-<!--				</bean>-->
-<!--				<bean class="gda.data.metadata.EpicsMetadataEntry">-->
-<!--					<property name="name" value="source.fillMode" />-->
-<!--					<property name="pvName" value="LI-TI-MTGEN-01:MODE" />-->
-<!--				</bean>-->
-<!--				<bean class="gda.data.metadata.EpicsMetadataEntry">-->
-<!--					<property name="name" value="instrument.source.energy" />-->
-<!--					<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />-->
-<!--				</bean>-->
-<!--			</list>-->
-<!--		</property>-->
-<!--	</bean>-->
-<!--</beans>-->
-
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="GDAMetadata" class="gda.data.metadata.GdaMetadata">
-
 		<property name="metadataEntries">
 			<list>
-
-				<bean class="gda.data.metadata.StoredMetadataEntry">
-					<property name="name" value="visit" />
-					<property name="value" value="DEFAULT"/>
-				</bean>
-				
-				<bean class="gda.data.metadata.StoredMetadataEntry">
-					<property name="name" value="defaultVisit" />
-					<property name="value" value="DEFAULT_VISIT" />
-				</bean>
-
-				<!-- bean class="gda.data.metadata.PersistantMetadataEntry">
-					<property name="name" value="subdirectory" />
-					<property name="defaultValue" value=""/>
-				</bean-->
-
-								
 				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="instrument" />
 					<property name="value" value="i16" />
@@ -162,8 +48,4 @@
 			</list>
 		</property>
 	</bean>
-
 </beans>
-
-
-

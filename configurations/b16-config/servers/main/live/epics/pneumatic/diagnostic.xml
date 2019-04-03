@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="diag1" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="d1"/>
+		<property name="pvBase" value="BL16B-DI-PHDGN-01" />
 		<property name="local" value="true"/>
 	</bean>
 	<bean id="diag2" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="deviceName" value="d2"/>
+		<property name="pvBase" value="BL16B-DI-PHDGN-02" />
 		<property name="local" value="true"/>
 	</bean>
 

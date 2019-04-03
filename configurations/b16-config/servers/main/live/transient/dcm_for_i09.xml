@@ -4,37 +4,37 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="testdcmBragg_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TESTDCM.BRAGG" />
+		<property name="pvName" value="BL16B-MO-TESTDCM-01:BRAGG" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="testdcmPitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TESTDCM.PITCH" />
+		<property name="pvName" value="BL16B-MO-TESTDCM-01:PITCH" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="testdcmRoll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TESTDCM.ROLL" />
+		<property name="pvName" value="BL16B-MO-TESTDCM-01:ROLL" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="testdcmY_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TESTDCM.Y" />
+		<property name="pvName" value="BL16B-MO-TESTDCM-01:Y" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="testdcmEnergy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TESTDCM.ENERGY" />
+		<property name="pvName" value="BL16B-MO-TESTDCM-01:ENERGY" />
 		<property name="local" value="true" />
 	</bean>
 
 	<bean id="testdcmOffset_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TESTDCM.OFFSET" />
+		<property name="pvName" value="BL16B-MO-TESTDCM-01:OFFSET" />
 		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="testdcmLambda_motor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="TESTDCM.LAMBDA" />
+		<property name="pvName" value="BL16B-MO-TESTDCM-01:LAMBDA" />
 		<property name="local" value="true" />
 	</bean>
 	

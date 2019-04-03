@@ -4,11 +4,11 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="PIEZO1XMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PIEZO1.X" />
+		<property name="pvName" value="BL16B-EA-PIEZO-01:X" />
 		<property name="local" value="true" />
 	</bean>
 	<bean id="PIEZO1YMotor" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="PIEZO1.Y" />
+		<property name="pvName" value="BL16B-EA-PIEZO-01:Y" />
 		<property name="local" value="true" />
 	</bean>
 
