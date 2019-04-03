@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -569,10 +570,11 @@ public class TurboXasParameters {
 		final List<Scannable> scannableList = new ArrayList<>();
 		if (scannableNames != null) {
 			scannableNames.forEach(name -> {
-				Scannable scn = Finder.getInstance().findLocalNoWarn(name);
-				if (scn != null) {
-					scannableList.add(scn);
-					logger.debug("Adding scannable {}", scn.getName());
+				Optional<Scannable> optionalScannable = Finder.getInstance().findOptional(name);
+				if (optionalScannable.isPresent()) {
+					Scannable scannable = optionalScannable.get();
+					scannableList.add(scannable);
+					logger.debug("Adding scannable {}", scannable.getName());
 				} else {
 					logger.warn("Unable to find scannable called {} on server", name);
 				}

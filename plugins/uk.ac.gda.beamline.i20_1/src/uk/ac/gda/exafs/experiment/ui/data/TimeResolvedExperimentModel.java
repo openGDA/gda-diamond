@@ -23,6 +23,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Vector;
 
 import org.dawnsci.ede.CalibrationDetails;
@@ -48,7 +49,6 @@ import de.jaret.util.ui.timebars.TimeBarMarkerImpl;
 import de.jaret.util.ui.timebars.model.DefaultRowHeader;
 import de.jaret.util.ui.timebars.model.DefaultTimeBarModel;
 import gda.device.DeviceException;
-import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerStatus;
@@ -184,9 +184,9 @@ public class TimeResolvedExperimentModel extends ObservableModel {
 
 		experimentDataCollectionJob = new ScanJob("Linear experiment scan");
 		InterfaceProvider.getJSFObserver().addIObserver(experimentDataCollectionJob);
-		Findable controller = Finder.getInstance().findNoWarn(EdeExperiment.PROGRESS_UPDATER_NAME);
-		if (controller != null) {
-			((Scriptcontroller) controller).addIObserver(experimentDataCollectionJob);
+		Optional<Scriptcontroller> controller = Finder.getInstance().findOptional(EdeExperiment.PROGRESS_UPDATER_NAME);
+		if (controller.isPresent()) {
+			controller.get().addIObserver(experimentDataCollectionJob);
 		}
 		experimentDataCollectionJob.setUser(true);
 		loadSavedGroups();

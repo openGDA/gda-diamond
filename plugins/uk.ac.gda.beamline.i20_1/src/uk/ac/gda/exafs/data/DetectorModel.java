@@ -99,9 +99,9 @@ public class DetectorModel extends ObservableModel {
 	private void setupDetectors() {
 		for (DetectorSetupType detectorSetup : DetectorSetupType.values()) {
 
-			Findable detector = Finder.getInstance().findNoWarn(detectorSetup.getDetectorName());
-			if (detector != null && detector instanceof EdeDetector) {
-				EdeDetector ededetector = (EdeDetector) detector;
+			Optional<Findable> detector = Finder.getInstance().findOptional(detectorSetup.getDetectorName());
+			if (detector.isPresent() && detector.get() instanceof EdeDetector) {
+				EdeDetector ededetector = (EdeDetector) detector.get();
 				ededetector.setDetectorSetupType(detectorSetup);
 				availableDetectors.add(ededetector);
 			}
