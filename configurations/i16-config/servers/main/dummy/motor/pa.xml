@@ -3,19 +3,28 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!-- Chamber Rotate -->
 	<bean id="PAEtaMotor"
 		class="gda.device.motor.DummyMotor">
 	</bean>
 
+	<!-- Crystal Rotary -->
 	<bean id="PAThetaMotor"
 		class="gda.device.motor.DummyMotor">
 	</bean>
 
+	<!-- Detector Carriage Rotate -->
 	<bean id="PADet12thetaMotor"
 		class="gda.device.motor.DummyMotor">
 	</bean>
 
+	<!-- Detector Select -->
 	<bean id="PADet22thetaMotor"
+		class="gda.device.motor.DummyMotor">
+	</bean>
+
+	<!-- Detector Rotate -->
+	<bean id="PAChiMotor"
 		class="gda.device.motor.DummyMotor">
 	</bean>
 </beans>
