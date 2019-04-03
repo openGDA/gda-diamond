@@ -64,7 +64,7 @@ class MFDWSetupScannable(ScanDataListenerScannable):
             dims = self.getScanDimensions(scanDataPoint )
             self.mfd = self.createMFD(dims, LocalProperties.getVarDir() + "/vortex_parameters.xml", self.initialSelectedElement)
             if self.mfd == None:
-                raise "Unable to create MFD"
+                raise IOError("Unable to create MFD")
             jns=InterfaceProvider.getJythonNamespace()
             jns.placeInJythonNamespace("microfocusScanWriter", self.mfd)
         self.mfd.addData(None, scanDataPoint)

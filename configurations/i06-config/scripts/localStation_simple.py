@@ -23,7 +23,7 @@ try:
 except:
 	exceptionType, exception, traceback=sys.exc_info();
 	print "XXXXXXXXXX:  beamline.py script error"
-	raise "Basic beamline script error";
+	raise RuntimeError("Basic beamline script error");
 
 
 try:

@@ -16,7 +16,7 @@ def readfile(filepath, n=2):
             parts=l.split()
             #print parts
             if len(parts) != n:
-                raise "File contents is invalid - line %d has more than %d parts :' %s" %(lineno, n, l)
+                raise ValueError("File contents is invalid - line %d has more than %d parts :' %s" %(lineno, n, l))
             pos_tuple = (float(parts[0].strip()),)
             for i in range(1,n):
                 pos_tuple += (float(parts[i].strip()),)

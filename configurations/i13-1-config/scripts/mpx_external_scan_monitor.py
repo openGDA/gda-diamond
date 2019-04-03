@@ -14,9 +14,9 @@ def run(xPixels=100, yPixels=0, scannablesToRecord=[], fast=False, title=""):
     """
     
     if not xPixels > 0:
-        raise "xPixels must be > 0"
+        raise ValueError("xPixels must be > 0")
     if not yPixels >= 0:
-        raise "yPixels must be >= 0"
+        raise ValueError("yPixels must be >= 0")
     jms=beamline_parameters.JythonNameSpaceMapping()    
 
     jms.setTitle(title)
@@ -24,7 +24,7 @@ def run(xPixels=100, yPixels=0, scannablesToRecord=[], fast=False, title=""):
     mpx=jms.mpx
     if fast :
         if len(scannablesToRecord) > 0 :
-            raise "Unable to record extra scannables in fast mode"
+            raise ValueError("Unable to record extra scannables in fast mode")
         mpx = jms.mpx_hardwareTrigger
         
     mpx_limaCCD = jms.mpx_limaCCD

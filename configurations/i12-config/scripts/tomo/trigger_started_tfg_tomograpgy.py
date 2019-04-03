@@ -122,7 +122,7 @@ def doscan(nsteps=1800,exposure=0.3,readout=0.4):
 
     armed = cac.caget("BL12I-EA-DET-02:CAM:ARM_MODE")
     if not (int(armed) == 1):
-        raise "PCO not armed yet!!!"
+        raise RuntimeError("PCO not armed yet!!!")
 
     #call the TFG
     print "Arm tfg2"

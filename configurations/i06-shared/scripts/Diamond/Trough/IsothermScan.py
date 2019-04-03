@@ -99,7 +99,7 @@ class DummyTriggeringDevice(DetectorBase):
 		currenttime = time.time();
 		
 		if currenttime>self.timeoutStart + self.timeout:
-			raise "Timeout Error";
+			raise RuntimeError("Timeout Error");
 		else:
 			return;
 		

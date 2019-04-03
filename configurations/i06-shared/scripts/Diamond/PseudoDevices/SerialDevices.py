@@ -178,7 +178,7 @@ class EpicsAsynRS232DeviceClass(object):
 			return True;
 		else:
 			errorString = self.chErrorString.caget();
-			raise "Severity Error:" + errorString
+			raise RuntimeError("Severity Error:" + errorString)
 
 	def setPort(self, portName, baudRate, dataBits, parity, flowControl, timeout):
 		self.chPort.caput(portName);
@@ -285,9 +285,9 @@ class NimaLangmuirBlodgettTroughDeviceClass(object):
 		try:
 			reply=self.port.writeAndRead(command);
 			if reply != "OK":
-				raise "Wrong reply received!"
+				raise IOError("Wrong reply received!")
 		except:
-			raise "Communication Error!"
+			raise IOError("Communication Error!")
 		
 		print "---> " + command;
 		print "<---" + reply;
@@ -297,9 +297,9 @@ class NimaLangmuirBlodgettTroughDeviceClass(object):
 		try:
 			reply=self.port.writeAndRead(command);
 			if reply != "OK":
-				raise "Wrong reply received!"
+				raise IOError("Wrong reply received!")
 		except:
-			raise "Communication Error!"
+			raise IOError("Communication Error!")
 
 		print "---> " + command;
 		print "<---" + reply;
@@ -309,9 +309,9 @@ class NimaLangmuirBlodgettTroughDeviceClass(object):
 		try:
 			reply=self.port.writeAndRead(command);
 			if reply != "OK":
-				raise "Wrong reply received!"
+				raise IOError("Wrong reply received!")
 		except:
-			raise "Communication Error!"
+			raise IOError("Communication Error!")
 
 		print "---> " + command;
 		print "<---" + reply;
@@ -321,9 +321,9 @@ class NimaLangmuirBlodgettTroughDeviceClass(object):
 		try:
 			reply=self.port.writeAndRead(command);
 			if reply != "OK":
-				raise "Wrong reply received!"
+				raise IOError("Wrong reply received!")
 		except:
-			raise "Communication Error!"
+			raise IOError("Communication Error!")
 		
 		print "---> " + command;
 		print "<---" + reply;
@@ -342,7 +342,7 @@ class NimaLangmuirBlodgettTroughDeviceClass(object):
 			self.temperature=float(values[4])
 			self.time=float(values[5]);
 		except:
-			raise "Communication Error!"
+			raise IOError("Communication Error!")
 
 		print "---> " + command;
 		print "<---" + reply;
@@ -355,7 +355,7 @@ class NimaLangmuirBlodgettTroughDeviceClass(object):
 			self.statevalue=int(values[0])
 			self.attarget=int(values[1])
 		except:
-			raise "Communication Error!"
+			raise IOError("Communication Error!")
 		print "---> " + command;
 		print "<---" + reply;
 		if self.statevalue ==1 & self.attarget == 1: #Under Remote control and at target 
@@ -372,9 +372,9 @@ class NimaLangmuirBlodgettTroughDeviceClass(object):
 		try:
 			reply=self.port.writeAndRead(command);
 			if reply != "OK":
-				raise "Wrong reply received!"
+				raise IOError("Wrong reply received!")
 		except:
-			raise "Communication Error!"
+			raise IOError("Communication Error!")
 
 		self.running = True;
 		
@@ -386,9 +386,9 @@ class NimaLangmuirBlodgettTroughDeviceClass(object):
 		try:
 			reply=self.port.writeAndRead(command);
 			if reply != "OK":
-				raise "Wrong reply received!"
+				raise IOError("Wrong reply received!")
 		except:
-			raise "Communication Error!"
+			raise IOError("Communication Error!")
 
 		self.running = False;
 		

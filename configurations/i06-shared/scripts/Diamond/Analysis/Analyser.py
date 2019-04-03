@@ -84,7 +84,7 @@ class AnalyserDetectorClass(DetectorBase):
 		try:
 			self.dataholder=dnp.io.load(fileName);
 		except IllegalArgumentException:
-			raise "Oh Dear. How to load this image file?";
+			raise ValueError("Oh Dear. How to load this image file?");
 
 		return self.dataholder;
 

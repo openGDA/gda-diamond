@@ -284,7 +284,7 @@ class BeamlineFunctionClass(object):
 			exceptionType, exception, traceback=sys.exc_info();
 			print "eLog post failed."
 			logger.dump("---> ", exceptionType, exception, traceback)
-#			raise "eLog post failed"
+#			raise IOError("eLog post failed")
 			return False;
 
 		return True;

@@ -53,7 +53,7 @@ class FastScanControlClass(object):
 		try:
 			self.motor= scannableDevice.getMotor();
 		except:
-			raise "No device found Error";
+			raise ValueError("No device found Error");
 		
 		self.scannableDevice = scannableDevice;
 		self.backupMotor();

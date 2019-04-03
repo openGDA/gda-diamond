@@ -100,7 +100,7 @@ class DoubleCrystalDeflectorClass(ScannableMotionBase):
             
         if w < 0.01 or w > 100.0:
             print "Extreme Energy Range Warning: the energy for should be in the range of (100eV to 1000 KeV) ";
-            raise "Energy Out Of Range Error";
+            raise ValueError("Energy Out Of Range Error");
         return w;
         
     def setThetaDevice(self, motorTheta):

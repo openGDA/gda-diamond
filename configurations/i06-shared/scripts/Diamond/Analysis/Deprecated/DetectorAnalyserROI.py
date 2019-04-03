@@ -96,7 +96,7 @@ class DetectorAnalyserWithRectangularROIClass(DetectorAnalyserClass):
 			self.roiList = roiList;
 			
 		if self.roiList is None:
-			raise "No ROI Defined Error";
+			raise RuntimeError("No ROI Defined Error");
 
 	def getRoiTable(self):
 		self.updateRoiList();

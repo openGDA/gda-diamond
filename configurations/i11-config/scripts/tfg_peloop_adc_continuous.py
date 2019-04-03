@@ -285,7 +285,7 @@ class PELoop(ScannableBase):
         try:
             self.tfg.start()
         except:
-            raise "PELoop error (%s): %f" % (sys.exc_info()[0], new_position)
+            raise IOError("PELoop error (%s): %f" % (sys.exc_info()[0], new_position))
     def isBusy(self):
         return (self.adc.getState()== "Enabled" or self.tfg.status() != "IDLE")
     def adcClockRate(self, frequency):
@@ -316,5 +316,5 @@ class PELoop(ScannableBase):
         elif frequency >62.0 and frequency <=100.0:
             return "20 kHz"
         else:
-            raise "Frequency is out of the range supported!"
+            raise ValueError("Frequency is out of the range supported!")
 

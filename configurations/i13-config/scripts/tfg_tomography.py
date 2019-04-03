@@ -132,7 +132,7 @@ def doscan(nsteps=1800,exposure=0.3,readout=0.4):
 
     armed = cac.caget("BL12I-EA-DET-02:CAM:ARM_MODE")
     if not (int(armed) == 1):
-        raise "PCO not armed yet!!!"
+        raise RuntimeError("PCO not armed yet!!!")
 
     #call the TFG
     print "start tfg control"
@@ -188,18 +188,18 @@ def tfgscan(nproj, exposure):
     else:
         print("Directory %s already exists!" % linbasefolder)
         print("Please use a different folder or move the folder away")
-        raise "Please use a different folder or move the folder away"
+        raise ValueError("Please use a different folder or move the folder away")
     
     if not (os.access (linbasefolder, os.F_OK)):
         print ("COULD NOT CREATE %s",linbasefolder)
-        raise "COULD NOT CREATE LINUX BASE FOLDER"
+        raise IOError("COULD NOT CREATE LINUX BASE FOLDER")
     
     if not (os.access (linprojfolder, os.F_OK)):
         os.mkdir(linprojfolder)
     
     if not (os.access (linprojfolder, os.F_OK)):
         print ("COULD NOT CREATE %s",linprojfolder)
-        raise "COULD NOT CREATE PROJECTION FOLDER"
+        raise IOError("COULD NOT CREATE PROJECTION FOLDER")
     
     
     #stop the camera
@@ -237,7 +237,7 @@ def tfgscan(nproj, exposure):
     
     if not (float(testexp) == float(exposure)):
         print("Exposure time didn't get set properly! requested %f got %f " % (float(exposure),float(testexp) ))
-        raise "Exposure time didn't get set properly!"
+        raise IOError("Exposure time didn't get set properly!")
     
 
     #setup the TFG with the number of steps and exposure time
