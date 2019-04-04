@@ -92,7 +92,6 @@
 	<!--  New plugin added to calculation roi counts over I0 from ionchambers. imh 4/2/2015 -->
 	<bean id="medipix_FFI0" 
 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiCountsI0">
-		<property name="roiName"    value="roistats1" />
 		<property name="counterTimer" ref="I1" />
 		<property name="nxDetector" ref="medipix" />
 	</bean>

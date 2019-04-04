@@ -123,7 +123,7 @@ alias("meta_clear_alldynamical")
 
 current_store_tracker = "none"
 
-scansReturnToOriginalPositions = 1
+scansReturnToOriginalPositions = 0
 
 print "Creating some scannables useful for recording time during scans..."
 print "Creating scannable 'w' which will delay scan points until a time has been reached during a scan."\
@@ -132,14 +132,25 @@ print "Creating scannable 'w' which will delay scan points until a time has been
 w = showtimeClass("w")
 w.setLevel(10)
 
+def machineMode() :
+    try :
+        return machineMode()
+    except Exception :
+        # in case the machine mode monitor is missing
+        return "Shutdown"
+    
+
 if LocalProperties.get("gda.mode") == "live":
     # to speed up step scans
     LocalProperties.set("gda.scan.concurrentScan.readoutConcurrently","true")
     LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
-    if (machineMode() == "No Beam"):
+    noBeam = ["No Beam", "Shutdown" ] 
+    if machineMode() in noBeam :        
+        print "Removing absorber, shutter and topup checkers"        
         remove_default([topupChecker])
         remove_default([absorberChecker])
         remove_default([shutterChecker])
+        cryostat.stop()
     else:
         add_default([topupChecker])
         add_default([absorberChecker])
@@ -191,7 +202,7 @@ add_default detectorMonitorDataProvider
 from gda.epics import CAClient
 ## Set file path and filename format if using 'real' XSpress4 detector
 hdf5Values = { "FileTemplate" : "%s%s%d.hdf"}
-if xspress4.isConfigured() == True and LocalProperties.get("gda.mode") == "live" :
+if xspress4.isConfigured() == True and xspress4.getXspress3Controller().isConfigured() and LocalProperties.get("gda.mode") == "live" :
      xspress4.setTriggerMode(3) # set 'TTL only' trigger mode
      ## Set to empty string, so that at scan start path is set to current visit directory.
      xspress4.setFilePath("");
@@ -234,4 +245,11 @@ def setMedipixExposureAndStart(exposureTime) :
     adbase.setImageMode(continuousModeIndex);
     adbase.startAcquiring();
 
+# Set initial values of allowedToMove scannables for XES spectrometer crystals
+for scn in [ minusCrystalAllowedToMove, centreCrystalAllowedToMove, plusCrystalAllowedToMove ] :
+    if scn.getPosition() == None :
+        print "Setting initial value of {0} to true".format(scn.getName())
+        scn.moveTo("true")
+        
+    
 print "****GDA startup script complete.****\n\n"
