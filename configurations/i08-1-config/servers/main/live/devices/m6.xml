@@ -6,27 +6,22 @@
 
 	<bean id="m6_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08J-OP-HFM-06:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m6_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08J-OP-HFM-06:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m6_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08J-OP-HFM-06:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m6_curvature_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08J-OP-HFM-06:CURVE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m6_ellipsticity_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08J-OP-HFM-06:ELIP" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

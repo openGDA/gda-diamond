@@ -6,7 +6,6 @@
 	<!-- Stick motor -->
 	<bean id="d7_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08J-DI-PHDGN-07:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Stick positioner -->
