@@ -10,28 +10,23 @@
 		<property name="current2Pv" value="BL06I-DI-IAMP-03:PHD2:I"/>
 		<property name="current3Pv" value="BL06I-DI-IAMP-03:PHD3:I"/>
 		<property name="current4Pv" value="BL06I-DI-IAMP-03:PHD4:I"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- CA3 Epics Monitor -->
 	<bean id="ca31" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-IAMP-03:PHD1:I" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ca32" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-IAMP-03:PHD2:I" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ca33" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-IAMP-03:PHD3:I" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ca34" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-IAMP-03:PHD4:I" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

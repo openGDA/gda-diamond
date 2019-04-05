@@ -9,7 +9,6 @@
 		<property name="maxPosition" value="20.100000" />
 		<property name="speed" value="0.1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorXNeg_S3" class="gda.device.motor.DummyMotor">
@@ -17,7 +16,6 @@
 		<property name="maxPosition" value="1.000000" />
 		<property name="speed" value="0.1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorYPos_S3" class="gda.device.motor.DummyMotor">
@@ -25,7 +23,6 @@
 		<property name="maxPosition" value="20.000000" />
 		<property name="speed" value="0.1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorYNeg_S3" class="gda.device.motor.DummyMotor">
@@ -33,7 +30,6 @@
 		<property name="maxPosition" value="2.300000" />
 		<property name="speed" value="0.1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorXSize_S3" class="gda.device.motor.DummyMotor">
@@ -41,7 +37,6 @@
 		<property name="maxPosition" value="40.181000" />
 		<property name="speed" value="0.1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorXCentre_S3" class="gda.device.motor.DummyMotor">
@@ -49,7 +44,6 @@
 		<property name="maxPosition" value="10.124500" />
 		<property name="speed" value="0.1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorYSize_S3" class="gda.device.motor.DummyMotor">
@@ -57,7 +51,6 @@
 		<property name="maxPosition" value="39.966000" />
 		<property name="speed" value="0.1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorYCentre_S3" class="gda.device.motor.DummyMotor">
@@ -65,7 +58,6 @@
 		<property name="maxPosition" value="10.019000" />
 		<property name="speed" value="0.1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

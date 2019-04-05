@@ -3,7 +3,6 @@
 
 	<!-- M6 Hexapod Legs Control Point -->
 	<bean id="m6leg1" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -12,7 +11,6 @@
 	<property name="pvName" value="BL06I-OP-SWMIR-01:MR13:EGUPS" /></bean>
 
 	<bean id="m6leg2" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -21,7 +19,6 @@
 	<property name="pvName" value="BL06I-OP-SWMIR-01:MR14:EGUPS" /></bean>
 
 	<bean id="m6leg3" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -30,7 +27,6 @@
 	<property name="pvName" value="BL06I-OP-SWMIR-01:MR15:EGUPS" /></bean>
 
 	<bean id="m6leg4" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -39,7 +35,6 @@
 	<property name="pvName" value="BL06I-OP-SWMIR-01:MR16:EGUPS" /></bean>
 
 	<bean id="m6leg5" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -48,7 +43,6 @@
 	<property name="pvName" value="BL06I-OP-SWMIR-01:MR17:EGUPS" /></bean>
 
 	<bean id="m6leg6" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -58,31 +52,31 @@
 
 	<!-- Switching Mirrow M6 Motors -->
 	<bean id="MotorX_M6" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-SWMIR-01:S:X" /></bean>
+		<property name="pvName" value="BL06I-OP-SWMIR-01:S:X" />
+	</bean>
 
 	<bean id="MotorY_M6" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-SWMIR-01:S:Y" /></bean>
+		<property name="pvName" value="BL06I-OP-SWMIR-01:S:Y" />
+	</bean>
 
 	<bean id="MotorZ_M6" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-SWMIR-01:S:Z" /></bean>
+		<property name="pvName" value="BL06I-OP-SWMIR-01:S:Z" />
+	</bean>
 
 	<bean id="MotorYaw_M6" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-SWMIR-01:S:YAW" /></bean>
+		<property name="pvName" value="BL06I-OP-SWMIR-01:S:YAW" />
+	</bean>
 
 	<bean id="MotorPitch_M6" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-SWMIR-01:S:PITCH" /></bean>
+		<property name="pvName" value="BL06I-OP-SWMIR-01:S:PITCH" />
+	</bean>
 
 	<bean id="MotorRoll_M6" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-SWMIR-01:S:ROLL" /></bean>
+		<property name="pvName" value="BL06I-OP-SWMIR-01:S:ROLL" />
+	</bean>
 
 	<bean id="MotorFinePitch_M6" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-SWMIR-01:FPITCH" /></bean>
+		<property name="pvName" value="BL06I-OP-SWMIR-01:FPITCH" />
+	</bean>
 
 </beans>

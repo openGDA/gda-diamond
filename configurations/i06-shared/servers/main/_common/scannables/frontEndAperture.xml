@@ -29,7 +29,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

@@ -6,7 +6,6 @@
 	<!-- M6 Hexapod Legs Control Point -->
 	<bean id="m6leg1" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="738.300" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -16,7 +15,6 @@
 
 	<bean id="m6leg2" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="738.300" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -26,7 +24,6 @@
 
 	<bean id="m6leg3" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="738.300" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -36,7 +33,6 @@
 
 	<bean id="m6leg4" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="738.300" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -46,7 +42,6 @@
 
 	<bean id="m6leg5" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="738.300" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -56,7 +51,6 @@
 
 	<bean id="m6leg6" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="738.300" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -70,7 +64,6 @@
 		<property name="maxPosition" value="10" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorY_M6" class="gda.device.motor.DummyMotor">
@@ -78,7 +71,6 @@
 		<property name="maxPosition" value="10" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorZ_M6" class="gda.device.motor.DummyMotor">
@@ -86,7 +78,6 @@
 		<property name="maxPosition" value="10" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorYaw_M6" class="gda.device.motor.DummyMotor">
@@ -94,7 +85,6 @@
 		<property name="maxPosition" value="35000.0" />
 		<property name="speed" value="10" />
 		<property name="unitString" value="urad"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorPitch_M6" class="gda.device.motor.DummyMotor">
@@ -102,7 +92,6 @@
 		<property name="maxPosition" value="35000.0" />
 		<property name="speed" value="10" />
 		<property name="unitString" value="urad"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorRoll_M6" class="gda.device.motor.DummyMotor">
@@ -110,7 +99,6 @@
 		<property name="maxPosition" value="10000.0" />
 		<property name="speed" value="10" />
 		<property name="unitString" value="urad"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorFinePitch_M6" class="gda.device.motor.DummyMotor">
@@ -118,7 +106,6 @@
 		<property name="maxPosition" value="10.0" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="V"/>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

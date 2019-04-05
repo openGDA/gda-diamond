@@ -15,7 +15,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 	<!-- Collimation Mirror M1 -->
 	<bean id="m1x" class="gda.device.scannable.ScannableMotor">
@@ -81,7 +80,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

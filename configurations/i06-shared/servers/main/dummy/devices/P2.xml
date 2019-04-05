@@ -8,7 +8,6 @@
 		<property name="minPosition" value="-0.100" />
 		<property name="maxPosition" value="38.000" />
 		<property name="speed" value="2.500" />
-		<property name="local" value="true" />
 	</bean>
 	
 </beans>

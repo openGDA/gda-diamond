@@ -4,8 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Gate Valve 2  -->
-	<bean id="gv2" class="gda.device.enumpositioner.DummyValve">
-		<property name="local" value="true"/>
-	</bean>
+	<bean id="gv2" class="gda.device.enumpositioner.DummyValve"/>
 
 </beans>

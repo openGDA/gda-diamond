@@ -11,59 +11,58 @@
 	<!-- ===== Front End: Downstream Insertion Device (IDd or ID1) Motors -->
 	<bean id="MotorGap_ID1" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id1" />
-		<property name="local" value="true" />
-	<property name="pvName" value="SR06I-MO-SERVC-01:BLGAPMTR" /></bean>
+		<property name="pvName" value="SR06I-MO-SERVC-01:BLGAPMTR" />
+	</bean>
 	<bean id="MotorUpperPhase_ID1" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id1" />
-		<property name="local" value="true" />
-	<property name="pvName" value="SR06I-MO-SERVC-01:BLPUMTR" /></bean>
+		<property name="pvName" value="SR06I-MO-SERVC-01:BLPUMTR" />
+	</bean>
 	<bean id="MotorLowerPhase_ID1" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id1" />
-		<property name="local" value="true" />
-	<property name="pvName" value="SR06I-MO-SERVC-01:BLPLMTR" /></bean>
+		<property name="pvName" value="SR06I-MO-SERVC-01:BLPLMTR" />
+	</bean>
 
 	<!-- Epics softmotor that move the ID1 gap in energy term -->
 	<bean id="MotorEnergy_ID1" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id1" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-IDD-01:ENERGY" /></bean>
+		<property name="pvName" value="BL06I-OP-IDD-01:ENERGY" />
+	</bean>
 
 	<!-- Epics softmotor that move the ID1 gap and row phase together in energy term -->
 	<bean id="MotorEnergy_IDDRP" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id1" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-IDD-01:RP:ENERGY" /></bean>
+		<property name="pvName" value="BL06I-OP-IDD-01:RP:ENERGY" />
+	</bean>
 
 	<!-- Epics softmotor that move the ID1 gap and PGM in energy term -->
 	<bean id="MotorEnergy_IDDPGM" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id1" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-MO-GLBL-01:ENERGY" /></bean>
+		<property name="pvName" value="BL06I-MO-GLBL-01:ENERGY" />
+	</bean>
 
 	<!-- Epics softmotor that move the ID1 gap, rowphase and PGM in energy term -->
 	<bean id="MotorEnergy_IDDRPPGM" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id1" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-MO-GLBL-01:RP:ENERGY" /></bean>
-	
+		<property name="pvName" value="BL06I-MO-GLBL-01:RP:ENERGY" />
+	</bean>
+
 	<!-- Epics softmotors that changes the IDd polarisation angle in the Linear Arbitrary/Angle (LA) mode (Energy stays constant)-->
 	<bean id="MotorLA_Angle_ID1" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id1" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-IDD-01:LA:ANGLE" /></bean>
-	
+		<property name="pvName" value="BL06I-OP-IDD-01:LA:ANGLE" />
+	</bean>
+
 	<!-- Epics softmotors that changes IDd gap (and rowphase of course) in energy term in the Linear Arbitrary/Angle (LA) mode -->
 	<bean id="MotorLA_Energy_IDD" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id1" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-IDD-01:LA:ENERGY" /></bean>
+		<property name="pvName" value="BL06I-OP-IDD-01:LA:ENERGY" />
+	</bean>
 
 	<!-- Epics softmotors that changes pgm, IDd gap (and rowphase of course) together in energy term in the Linear Arbitrary/Angle (LA) mode -->
 	<bean id="MotorLA_Energy_IDDPGM" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id1" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-MO-GLBL-01:LA:ENERGY" /></bean>
-
+		<property name="pvName" value="BL06I-MO-GLBL-01:LA:ENERGY" />
+	</bean>
 
 	<!--   ============================== Access control for ID2   ==============================  -->
 	<bean id="idblena_id2" class="gda.epics.AccessControl">
@@ -75,61 +74,60 @@
 	<!-- ===== Front End: Uptream Insertion Device (IDu or ID2) Motors -->
 	<bean id="MotorGap_ID2" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id2" />
-		<property name="local" value="true" />
-	<property name="pvName" value="SR06I-MO-SERVC-21:BLGAPMTR" /></bean>
+		<property name="pvName" value="SR06I-MO-SERVC-21:BLGAPMTR" />
+	</bean>
 
 	<bean id="MotorUpperPhase_ID2" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id2" />
-		<property name="local" value="true" />
-	<property name="pvName" value="SR06I-MO-SERVC-21:BLPUMTR" /></bean>
+		<property name="pvName" value="SR06I-MO-SERVC-21:BLPUMTR" />
+	</bean>
 
 	<bean id="MotorLowerPhase_ID2" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id2" />
-		<property name="local" value="true" />
-	<property name="pvName" value="SR06I-MO-SERVC-21:BLPLMTR" /></bean>
+		<property name="pvName" value="SR06I-MO-SERVC-21:BLPLMTR" />
+	</bean>
 
-	
 	<!-- Epics softmotor that move the ID2 gap in energy term -->
 	<bean id="MotorEnergy_ID2" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id2" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-IDU-01:ENERGY" /></bean>
+		<property name="pvName" value="BL06I-OP-IDU-01:ENERGY" />
+	</bean>
 
 	<!-- Epics softmotor that move the ID2 gap and row phase together in energy term -->
 	<bean id="MotorEnergy_IDURP" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id2" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-IDU-01:RP:ENERGY" /></bean>
+		<property name="pvName" value="BL06I-OP-IDU-01:RP:ENERGY" />
+	</bean>
 
 	<!-- Epics softmotor that move the ID2 gap and PGM in energy term -->
 	<bean id="MotorEnergy_IDUPGM" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id2" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-MO-GLBL-02:ENERGY" /></bean>
+		<property name="pvName" value="BL06I-MO-GLBL-02:ENERGY" />
+	</bean>
 
 	<!-- Epics softmotor that move the ID2 gap, rowphase and PGM in energy term -->
 	<bean id="MotorEnergy_IDURPPGM" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id2" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-MO-GLBL-02:RP:ENERGY" /></bean>
+		<property name="pvName" value="BL06I-MO-GLBL-02:RP:ENERGY" />
+	</bean>
 
 	<!-- Epics softmotors that changes the IDd polarisation angle in the Linear Arbitrary/Angle (LA) mode (Energy stays constant)-->
 	<bean id="MotorLA_Angle_ID2" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id2" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-IDU-01:LA:ANGLE" /></bean>
+		<property name="pvName" value="BL06I-OP-IDU-01:LA:ANGLE" />
+	</bean>
 
 	<!-- Epics softmotors that changes IDu gap (and rowphase of course) in energy term in the Linear Arbitrary/Angle (LA) mode -->
 	<bean id="MotorLA_Energy_IDU" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id2" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-IDU-01:LA:ENERGY" /></bean>
+		<property name="pvName" value="BL06I-OP-IDU-01:LA:ENERGY" />
+	</bean>
 
 	<!-- Epics softmotors that changes pgm, IDu gap (and rowphase of course) together in energy term in the Linear Arbitrary/Angle (LA) mode -->
 	<bean id="MotorLA_Energy_IDUPGM" class="gda.device.motor.EpicsMotor">
 		<property name="accessControl" ref="idblena_id2" />
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-MO-GLBL-02:LA:ENERGY" /></bean>
+		<property name="pvName" value="BL06I-MO-GLBL-02:LA:ENERGY" />
+	</bean>
 	
 	<!-- ID Phasing Unit Gap softmotor -->
 	<bean id="MotorPHU_GAP" class="gda.device.motor.EpicsMotor">
@@ -140,5 +138,5 @@
 		<property name="pvNameGetPoint" value="SR06I-MO-SERVC-41:BLGSETVEL" />
 		<property name="pvNameSetPoint" value="SR06I-MO-SERVC-41:BLGSETVEL" />
 	</bean>
-	
+
 </beans>

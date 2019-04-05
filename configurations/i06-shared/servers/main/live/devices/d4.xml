@@ -3,8 +3,8 @@
 
 	<!-- D4 Fluorescent Screen Pneumatic Valve -->
 	<bean id="d4valve" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
-	<property name="pvBase" value="BL06I-DI-PHDGN-02" /></bean>
+		<property name="pvBase" value="BL06I-DI-PHDGN-02" />
+	</bean>
 	<!-- Fluorescent Screen and Diode D4 Motors -->
 	<bean id="MotorD_D4" class="gda.device.motor.EpicsMotor">
 		<!--		<property name="accessControlName" value="ace1" />-->

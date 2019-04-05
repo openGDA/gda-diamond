@@ -3,7 +3,7 @@
 
 	<!-- Front End Shutter 2 (Optics Shutter) -->
 	<bean id="shtr2" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
-	<property name="pvBase" value="FE06I-PS-SHTR-02" /></bean>
+		<property name="pvBase" value="FE06I-PS-SHTR-02" />
+	</bean>
 
 </beans>
