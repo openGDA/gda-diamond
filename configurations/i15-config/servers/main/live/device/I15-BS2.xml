@@ -5,11 +5,9 @@
 
 	<bean id="bs2x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-RS-ABSB-08:X" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="bs2y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-RS-ABSB-08:Y" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

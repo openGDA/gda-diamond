@@ -5,11 +5,9 @@
 
 	<bean id="Ab4xMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-RS-ABSB-04:X" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Ab4yMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-RS-ABSB-04:Y" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

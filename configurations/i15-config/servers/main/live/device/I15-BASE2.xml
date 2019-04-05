@@ -7,26 +7,21 @@
 
 	<bean id="tab2jack1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-TABLE-03:BASE:Y1" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="tab2jack2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-TABLE-03:BASE:Y2" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="tab2jack3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-TABLE-03:BASE:Y3" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="tab2x2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-TABLE-03:BASE:X" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="tab2rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-TABLE-03:BASE:Ry" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

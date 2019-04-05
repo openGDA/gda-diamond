@@ -5,16 +5,13 @@
 
 	<bean id="bs3x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-RS-ABSB-09:X" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="bs3y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-RS-ABSB-09:Y" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="bs3z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-RS-ABSB-09:Z" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

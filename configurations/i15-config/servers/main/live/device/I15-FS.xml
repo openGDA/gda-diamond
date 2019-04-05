@@ -5,19 +5,16 @@
 
 	<bean id="FsxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-EA-SHTR-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="FsyMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-EA-SHTR-01:Y" />
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 
 	<!-- This zero input scannable can be added to a scan to read back the actual shutter open time.
 	     It assumes that DIV3 INP=AND3, AND3 INP1=IN3_TTL INP2=58 and shutter feedback comes in on IN3_TTL. -->
 	<bean id="fastShutterFeedbackScannableMonitor" class="gda.device.zebra.ZebraScannableMonitor">
 		<property name="name" value="fastShutterFeedbackScannableMonitor" />
-		<property name="local" value="true" />
 		<property name="zebraMonitorController" ref="zebra2ZebraMonitorController"/>
 		<property name="pcCapture" value="8"/> <?ignore Default 0=Enc1, 6=Div1 ?>
 	</bean>

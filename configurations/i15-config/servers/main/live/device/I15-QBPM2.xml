@@ -5,11 +5,9 @@
 
 	<bean id="Qbpm2XMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-DI-QBPM-02:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="Qbpm2YMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-DI-QBPM-02:Y" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

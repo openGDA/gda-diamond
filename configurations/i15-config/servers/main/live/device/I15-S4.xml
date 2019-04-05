@@ -5,31 +5,25 @@
 
 	<bean id="S4xposMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-04:X:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S4xgapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-04:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S4yposMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-04:Y:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S4ygapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-04:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S4pitchMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-04:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S4yawMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-04:YAW" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

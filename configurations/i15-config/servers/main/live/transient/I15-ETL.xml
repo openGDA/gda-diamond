@@ -6,7 +6,6 @@
 
 	<bean id="etl1" class="gda.device.detector.etldetector.EpicsETLController">
 		<property name="pvRoot" value="BL15I-EA-DET-01:M1:D0"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="etl" class="gda.device.detector.etldetector.ETLDetector">

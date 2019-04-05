@@ -5,31 +5,25 @@
 
 	<bean id="VFMpitchMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-VFM-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="VFMyMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-VFM-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="VFMyawMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-VFM-01:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="VFMxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-VFM-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="VFMcurveMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-VFM-01:CURVE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="VFMellipticityMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-VFM-01:ELLIP" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

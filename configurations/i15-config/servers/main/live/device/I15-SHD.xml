@@ -5,16 +5,13 @@
 
 	<bean id="shdx_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SHEAD-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="shdy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SHEAD-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="shdz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SHEAD-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 </beans>
