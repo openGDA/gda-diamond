@@ -58,7 +58,6 @@
 	<bean id="QexafsFFI0" class="gda.device.detector.QexafsFFoverIO">
 		<property name="qexafsXspress" ref="qexafs_xspress" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-		<property name="local" value="true" />
 	</bean>
 	
 </beans>

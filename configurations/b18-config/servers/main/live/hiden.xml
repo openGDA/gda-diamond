@@ -14,7 +14,6 @@
 		<property name="controller" ref="hidenrga_controller" />
 		<property name="useAuxiliaryInputs" value="true" />
 		<property name="collectionRate" value="1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">

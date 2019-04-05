@@ -5,7 +5,6 @@
 
 <!--  DAServer for 36 element moved here from live/detectors.xml -->
 	<bean id="DAServer" class="gda.device.detector.DAServer">
-		<property name="local" value="True" />
 		<property name="host" value="b18-xspress1" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">

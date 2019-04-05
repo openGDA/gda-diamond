@@ -5,7 +5,6 @@
 
  	<bean id="Cryojet" class="gda.device.monitor.EpicsMonitor">
  		<property name="pvName" value="BL18B-EA-TEMPC-03:STEMP" />
- 		<property name="local" value="true" />
  	</bean>
 
 	<bean id="pulsetube" class="gda.device.scannable.PulseTube">

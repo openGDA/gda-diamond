@@ -31,14 +31,12 @@
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="xmap" ref="xmap_dxp" />
 		<property name="elementOffset" value="1" />
-		<property name="local" value="true" />
 		<property name="numberOfElements" value="4" />
 		<property name="hdf5" ref="hdf5_writer_plugin" />
 	</bean>
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="edxdController" ref="edxdcontroller" />
-		<property name="local" value="true" />
 	</bean>
 
 	<import resource="file:${gda.config}/servers/main/xmap.xml" />
@@ -49,7 +47,6 @@
 		<property name="xmap" ref="xmapMca" />
 		<property name="controller" ref="edxdcontroller" />
 		<property name="daServer" ref="DAServer" />
-		<property name="local" value="true" />
 		<property name="inputNames">
 			<list>
 			</list>
@@ -61,6 +58,5 @@
 	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO">
 		<property name="qexafsXmap" ref="qexafs_xmap" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

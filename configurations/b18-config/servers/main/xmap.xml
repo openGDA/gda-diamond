@@ -31,7 +31,6 @@
 		<property name="timer" ref="tfg" />
 		<property name="slave" value="true" />
 		<property name="minimumReadoutDelay" value="100" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="vortexDetector"
