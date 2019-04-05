@@ -9,7 +9,6 @@
 		<property name="mode" value="1"/>
 		<property name="pcPulseGateNotTrigger" value="false"/>
 		<property name="pcPulseTriggerWidth" value="0.01" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="p2r_flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">

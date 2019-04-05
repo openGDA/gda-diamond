@@ -5,12 +5,9 @@
 
 	<bean id="central_stop_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-RS-ABSB-05:X"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="central_stop_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-RS-ABSB-05:Y"/>
-		<property name="local" value="true" />
 	</bean>
-
 
 </beans>	

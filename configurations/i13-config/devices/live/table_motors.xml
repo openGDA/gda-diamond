@@ -6,22 +6,18 @@
 
 	<bean id="t1_upstream_outboard_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-TABLE-01:J1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_upstream_inboard_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-TABLE-01:J2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_downstream_outboard_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-TABLE-01:J3" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_downstream_inboard_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-TABLE-01:J4" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

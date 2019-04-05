@@ -6,49 +6,40 @@
 
 	<bean id="ss1_rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-STAGE-01:THETA" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ss1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-STAGE-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ss1_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-STAGE-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ss1_X_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-STAGE-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ss1_Y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-STAGE-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ss1_Z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-STAGE-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Use SS1.SAMPLE2 motors if using Smaract motors - before that we used stage1.sample -->
 
 	<bean id="ss1_samplex_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-STAGE-01:SAMPLE2X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ss1_sampley_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-STAGE-01:SAMPLE2Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ss1_samplez_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-STAGE-01:SAMPLE2Z" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

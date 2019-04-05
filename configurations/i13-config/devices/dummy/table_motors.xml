@@ -8,7 +8,6 @@
 		<property name="maxPosition" value="28.605" />
 		<property name="position" value="0.039400" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_upstream_inboard_motor" class="gda.device.motor.DummyMotor">
@@ -16,7 +15,6 @@
 		<property name="maxPosition" value="29.759" />
 		<property name="position" value="-0.0078000" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_downstream_outboard_motor" class="gda.device.motor.DummyMotor">
@@ -24,7 +22,6 @@
 		<property name="maxPosition" value="29.850" />
 		<property name="position" value="0.0021000" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_downstream_inboard_motor" class="gda.device.motor.DummyMotor">
@@ -32,7 +29,6 @@
 		<property name="maxPosition" value="29.323" />
 		<property name="position" value="-0.47420" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>	

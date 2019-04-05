@@ -14,7 +14,6 @@
 				<ref bean="cam04_focus" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

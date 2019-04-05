@@ -6,52 +6,42 @@
 
 	<bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-DCM-01:BRAGG" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcm_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-DCM-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcm_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-DCM-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcm_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-DCM-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcm_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-DCM-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcm_downstream_jack_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-DCM-01:J1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcm_upstream_jack_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-DCM-01:J2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcm_inboard_jack_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-DCM-01:J3" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcm_beamline_energy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-BEAM-01:ENERGY" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcm_id_detune_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-BEAM-01:IDDETUNE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcm_fine_pitch_demand" class="gda.device.scannable.EpicsScannable">
@@ -72,7 +62,6 @@
 		<property name="pvName" value="BL13I-OP-DCM-01:MODE:RBV" />
 		<property name="hasUnits" value="false" />
 		<property name="getAsString" value="true" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

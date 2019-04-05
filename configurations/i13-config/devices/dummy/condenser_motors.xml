@@ -3,15 +3,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="condenser_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
-	<bean id="condenser_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
-	<bean id="condenser_z_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="condenser_x_motor" class="gda.device.motor.DummyMotor"/>
 
+	<bean id="condenser_y_motor" class="gda.device.motor.DummyMotor"/>
+
+	<bean id="condenser_z_motor" class="gda.device.motor.DummyMotor"/>
 
 </beans>	

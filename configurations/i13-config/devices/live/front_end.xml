@@ -6,22 +6,18 @@
 
 	<bean id="fes1_xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE13I-AL-SLITS-01:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="fes1_xcenter_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE13I-AL-SLITS-01:X:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="fes1_ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE13I-AL-SLITS-01:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="fes1_ycenter_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE13I-AL-SLITS-01:Y:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="fshtr1" class="gda.device.enumpositioner.EpicsSimpleMbbinary">

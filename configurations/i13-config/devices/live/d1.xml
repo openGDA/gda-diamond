@@ -6,7 +6,6 @@
 
 	<bean id="d1_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-DI-PHDGN-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="d1_pos" class="gda.device.enumpositioner.EpicsPositionerCallback">

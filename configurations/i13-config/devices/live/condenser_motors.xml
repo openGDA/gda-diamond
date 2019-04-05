@@ -5,16 +5,12 @@
 
 	<bean id="condenser_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-COND-01:X"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="condenser_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-COND-01:Y"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="condenser_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-COND-01:Z"/>
-		<property name="local" value="true" />
 	</bean>
-
 
 </beans>	

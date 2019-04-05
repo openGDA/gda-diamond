@@ -8,7 +8,6 @@
 	</bean>
 	<bean id="zebraTestMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="TESTZEBRA:M1"/>
-		<property name="local" value="true" />
 	</bean>
 
 <!-- 	<bean id="zebraTestScannableMotor" class="gda.device.scannable.ScannableMotor">

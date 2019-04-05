@@ -10,7 +10,6 @@
 
 	<bean id="d2_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-DI-PHDGN-02:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="d2_i" class="gda.device.scannable.EpicsScannable">

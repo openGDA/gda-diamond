@@ -6,32 +6,26 @@
 
 	<bean id="filter1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-ATTN-01:STICK1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="filter2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-ATTN-01:STICK2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="filter3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-ATTN-01:STICK3" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="filter4_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-ATTN-01:STICK4" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="filter5_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-ATTN-01:STICK5" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="filter_aperture_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-ATTN-01:APER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="f1_Aperture" class="gda.device.enumpositioner.EpicsPositionerCallback">

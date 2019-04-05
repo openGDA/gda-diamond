@@ -6,41 +6,33 @@
 
 	<bean id="kb_hroll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-MIRR-02:HORZ:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kb_hbend1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-MIRR-02:HORZ:BEND1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kb_hbend2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-MIRR-02:HORZ:BEND2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kb_htrans_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-MIRR-02:HORZ:TRANS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kb_vtrans_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-MIRR-02:VERT:TRANS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kb_vroll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-MIRR-02:VERT:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kb_vbend1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-OP-MIRR-02:VERT:BEND1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kb_vbend2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL13I-OP-MIRR-02:VERT:BEND2" />
 	</bean>
 
