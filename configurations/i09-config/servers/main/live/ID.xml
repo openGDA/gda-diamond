@@ -29,7 +29,6 @@
 	<!-- Phase control for j ID -->
 	<bean id="jidphase" class="gda.device.insertiondevice.IDPhaseController">
 		<property name="basePVName" value="SR09J-MO-SERVC-01" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

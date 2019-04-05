@@ -4,7 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="beamline" class="gda.beamline.beamline.Beamline">
-		<property name="local" value="false" />
 		<property name="configureAtStartup" value="true" />
 	</bean>
 
