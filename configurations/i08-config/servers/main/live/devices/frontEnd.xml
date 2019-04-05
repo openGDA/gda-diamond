@@ -9,7 +9,6 @@
  	<bean id="fe_shutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="FE08I-CS-BEAM-01" />
 		<property name="controlPv" value="FE08I-CS-BEAM-01:BLCON" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
@@ -20,7 +19,6 @@
 
 	<bean id="absorber" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE08I-RS-ABSB-01:STA" />
-		<property name="local" value="true" />
 		<property name="poll" value="true" />
 		<property name="outputFormat" value="%s" />
 	</bean>
