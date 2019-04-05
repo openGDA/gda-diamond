@@ -259,6 +259,5 @@
 				<ref bean="mac131" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
  </beans>

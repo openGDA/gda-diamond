@@ -76,6 +76,5 @@
 				<ref bean="user1_axis6" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
  </beans>

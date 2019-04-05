@@ -5,116 +5,93 @@
 	<!-- pin hole motors -->
 	<bean id="pinh_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-EA-PINH-01:X" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="pinh_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-EA-PINH-01:Y" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="aptr2_trans_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-APTR-02:TRANS" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="aptr1_trans_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-APTR-01:TRANS" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="cryo_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-CRYO-01:X" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="cryo_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-CRYO-01:Y" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="cryo_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-CRYO-01:Z" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="table_leg1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-TABLE-01:LEG1" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="table_leg2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-TABLE-01:LEG2" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="table_leg3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-TABLE-01:LEG3" />
-		<property name="local" value="true"/>
 	</bean>
 
   	<bean id="diff_twotheta_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-DIFF-01:TWOTHETA" />
-		<property name="local" value="true"/>
 	</bean>
   	
   	<bean id="diff_theta_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-DIFF-01:THETA" />
-		<property name="local" value="true"/>
 	</bean>
 
   	<bean id="diff_chi_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-DIFF-01:CHI" />
-		<property name="local" value="true"/>
 	</bean>
   	
   	<bean id="diff_alpha_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-DIFF-01:ALPHA" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="emec_y1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-EA-EMEC-01:Y1" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="emec_y2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-EA-EMEC-01:Y2" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="emec_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-EA-EMEC-01:PITCH" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="diff_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-DIFF-01:X" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="polan_twotheta_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-POLAN-01:TWOTHETA" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="polan_theta_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-POLAN-01:THETA" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="polan_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-POLAN-01:Y" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="polan_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-POLAN-01:Z" />
-		<property name="local" value="true"/>
 	</bean>
 
   	<bean id="polan_eta_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME01D-MO-POLAN-01:ETA" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

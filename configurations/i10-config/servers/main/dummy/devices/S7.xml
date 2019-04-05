@@ -10,34 +10,29 @@
 		<property name="maxPosition" value="11.01" />
 		<property name="speed" value="0.1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s7z_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-9.9991e+06" />
 		<property name="maxPosition" value="60.0" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s7ygap_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-0.1" />
 		<property name="maxPosition" value="7000.15" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s7xsize_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-0.11" />
 		<property name="maxPosition" value="2.62" />
 		<property name="speed" value="0.05" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s7ysize_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-99990.1" />
 		<property name="maxPosition" value="99991.1" />
 		<property name="speed" value="0.05" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 </beans>

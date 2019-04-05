@@ -7,31 +7,25 @@
 
 	<bean id="user2_axis1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-MO-USER-01:AXIS1" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="user2_axis2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-MO-USER-01:AXIS2" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="user2_axis3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-MO-USER-01:AXIS3" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="user2_axis4_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-MO-USER-01:AXIS4" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="user2_axis5_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-MO-USER-01:AXIS5" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="user2_axis6_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-MO-USER-01:AXIS6" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

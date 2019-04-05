@@ -23,7 +23,6 @@
 				<ref bean="d6_pos" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	<!-- Detector objects used in new scanning -->
 	<bean id="d6camModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">

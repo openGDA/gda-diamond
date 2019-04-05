@@ -5,43 +5,35 @@
 
 	<!-- Tertiary Slits / S5 Optical Element -->
 
-  	<bean id="s5xring_motor" class="gda.device.motor.EpicsMotor">
+	<bean id="s5xring_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-05:XRING" />
-		<property name="local" value="true"/>
 	</bean>
-  	
-  	<bean id="s5xhall_motor" class="gda.device.motor.EpicsMotor">
+
+	<bean id="s5xhall_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-05:XHALL" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="s5yplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-05:YPLUS" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="s5yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-05:YMINUS" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s5xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-05:XSIZE" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="s5xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-05:XCENTRE" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="s5ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-05:YSIZE" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="s5ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-05:YCENTRE" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

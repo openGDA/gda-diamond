@@ -2,42 +2,37 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-           
+
 	<!-- Slits / S4 -->
-	
+
 	<bean id="s4xgap_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="0.175" />
 		<property name="maxPosition" value="9.95" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>		
+	</bean>
 	<bean id="s4z_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-100" />
 		<property name="maxPosition" value="60" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 	<bean id="s4ygap_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-0.4105" />
 		<property name="maxPosition" value="8.9895" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 	<bean id="s4xsize_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-0.5" />
 		<property name="maxPosition" value="2.5" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 	<bean id="s4ysize_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-0.5" />
 		<property name="maxPosition" value="2.5" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 </beans>

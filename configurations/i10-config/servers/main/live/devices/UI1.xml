@@ -6,81 +6,65 @@
 	<!-- UI1 User Input/Output --> 
 	<bean id="ui1ai1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-EA-USER-01:AI1" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ai2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-EA-USER-01:AI2" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ai3" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-EA-USER-01:AI3" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ai4" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-EA-USER-01:AI4" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ai5" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-EA-USER-01:AI5" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ai6" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-EA-USER-01:AI6" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ai7" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-EA-USER-01:AI7" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ai8" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-EA-USER-01:AI8" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ui1ao1" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL10I-EA-USER-01:AO1" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ao2" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL10I-EA-USER-01:AO2" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ao3" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL10I-EA-USER-01:AO3" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ao4" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL10I-EA-USER-01:AO4" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ao5" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL10I-EA-USER-01:AO5" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ao6" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL10I-EA-USER-01:AO6" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ao7" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL10I-EA-USER-01:AO7" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="ui1ao8" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL10I-EA-USER-01:AO8" />
-		<property name="local" value="true"/>
 	</bean>
  </beans>

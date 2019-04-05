@@ -7,26 +7,21 @@
 
 	<bean id="s7xgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-AL-SLITS-01:XGAP" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="s7z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-AL-SLITS-01:Z" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="s7ygap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-AL-SLITS-01:YGAP" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s7xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-AL-SLITS-01:XSIZE" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="s7ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-AL-SLITS-01:YSIZE" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

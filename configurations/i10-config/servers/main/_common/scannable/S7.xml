@@ -64,6 +64,5 @@
 				<ref bean="s7ysize" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

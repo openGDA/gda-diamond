@@ -10,41 +10,35 @@
 		<property name="maxPosition" value="10.0" />
 		<property name="speed" value="0.5" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="user1_axis2_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-9.0" />
 		<property name="maxPosition" value="36.0" />
 		<property name="speed" value="0.5" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="user1_axis3_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-80.4999" />
 		<property name="maxPosition" value="49.5001" />
 		<property name="speed" value="0.5" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="user1_axis4_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-14.0" />
 		<property name="maxPosition" value="30.0" />
 		<property name="speed" value="0.78125" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="user1_axis5_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="34.34" />
 		<property name="maxPosition" value="170.0" />
 		<property name="speed" value="0.635" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="user1_axis6_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-200.0" />
 		<property name="maxPosition" value="130.0" />
 		<property name="speed" value="9.79686" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 </beans>

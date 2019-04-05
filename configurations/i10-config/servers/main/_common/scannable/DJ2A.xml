@@ -19,7 +19,6 @@
 				<ref bean="dj2a_det" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>	
 
 </beans>

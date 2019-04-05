@@ -7,7 +7,6 @@
 	<bean id="dj1_scrn" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="controlPv" value="BL10J-DI-PHDGN-01:CON"/>
 		<property name="statusPv" value="BL10J-DI-PHDGN-01:STA"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Area detector camera -->

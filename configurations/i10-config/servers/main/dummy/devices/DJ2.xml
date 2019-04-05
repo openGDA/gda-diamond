@@ -12,7 +12,6 @@
 		<property name="maxPosition" value="0.5" />
 		<property name="speed" value="0.4" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dj2_pos" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
@@ -21,6 +20,5 @@
 				<value>Cell In</value>
 			</util:list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

@@ -64,6 +64,5 @@
 				<ref bean="m4_roll" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

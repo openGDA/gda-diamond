@@ -7,31 +7,25 @@
 
 	<bean id="m4x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-OP-FOCS-01:X" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="m4y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-OP-FOCS-01:Y" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="m4z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-OP-FOCS-01:Z" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="m4yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-OP-FOCS-01:YAW" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="m4pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-OP-FOCS-01:PITCH" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="m4roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-OP-FOCS-01:ROLL" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

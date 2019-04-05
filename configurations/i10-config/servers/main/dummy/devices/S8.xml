@@ -10,55 +10,47 @@
 		<property name="maxPosition" value="18.0" />
 		<property name="speed" value="2.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>	
 	<bean id="s8xhall_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-16.5" />
 		<property name="maxPosition" value="4.0" />
 		<property name="speed" value="2.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>	
 	<bean id="s8yplus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-18.0" />
 		<property name="maxPosition" value="3.0" />
 		<property name="speed" value="2.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>	
 	<bean id="s8yminus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-3.5" />
 		<property name="maxPosition" value="17.0" />
 		<property name="speed" value="2.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>	
 	<bean id="s8xsize_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000.0" />
 		<property name="maxPosition" value="1000.0" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>	
 	<bean id="s8xcentre_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000.0" />
 		<property name="maxPosition" value="1000.0" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>	
 	<bean id="s8ysize_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000.0" />
 		<property name="maxPosition" value="1000.0" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>	
 	<bean id="s8ycentre_motor" class="gda.device.motor.DummyMotor" >
 		<property name="minPosition" value="-1000.0" />
 		<property name="maxPosition" value="1000.0" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>	
 </beans>

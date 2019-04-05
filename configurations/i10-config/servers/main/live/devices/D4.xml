@@ -8,7 +8,6 @@
 	<bean id="d4_scrn" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="controlPv" value="BL10I-DI-PHDGN-04:CON"/>
 		<property name="statusPv" value="BL10I-DI-PHDGN-04:STA"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Area detector camera -->

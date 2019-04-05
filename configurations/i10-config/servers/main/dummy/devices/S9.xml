@@ -10,27 +10,23 @@
 		<property name="maxPosition" value="18.0" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>		
+	</bean>
 	<bean id="s9xhall_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-17.0" />
 		<property name="maxPosition" value="1.0" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 	<bean id="s9yplus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-16.0" />
 		<property name="maxPosition" value="2.5" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 	<bean id="s9yminus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-2.5" />
 		<property name="maxPosition" value="17.5" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 </beans>
