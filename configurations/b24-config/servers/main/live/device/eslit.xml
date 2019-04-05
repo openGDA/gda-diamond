@@ -5,27 +5,22 @@
 
 	<bean id="eslit_a" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL24B-DI-IAMP-05:CHA:PEAK" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="eslit_b" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL24B-DI-IAMP-05:CHB:PEAK" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="eslit_c" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL24B-DI-IAMP-05:CHC:PEAK" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="eslit_d" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL24B-DI-IAMP-05:CHD:PEAK" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="eslit_vx" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL24B-AL-SLITS-02:XGAP" />
-		<property name="local" value="true" /> <!-- what does this do? -->
 	</bean>
 
 	<bean id="eslit_xgap" class="gda.device.scannable.ScannableMotor">
@@ -34,7 +29,6 @@
 
 	<bean id="eslit_vy" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL24B-AL-SLITS-02:YGAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="eslit_ygap" class="gda.device.scannable.ScannableMotor">
@@ -43,7 +37,6 @@
 
 	<bean id="eslit_rz" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL24B-AL-SLITS-02:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="eslit_z" class="gda.device.scannable.ScannableMotor">

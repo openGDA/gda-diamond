@@ -5,7 +5,6 @@
 
 	<bean id="PGMENERGY" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL24B-MO-PGM-01:ENERGY" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm_energy" class="gda.device.scannable.ScannableMotor">
@@ -14,7 +13,6 @@
 
 	<bean id="PGMCFF" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL24B-MO-PGM-01:CFF" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm_cff" class="gda.device.scannable.ScannableMotor">
@@ -23,7 +21,6 @@
 
 	<bean id="PGMGPITCH" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL24B-MO-PGM-01:GRATING:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm_gpitch" class="gda.device.scannable.ScannableMotor">
@@ -32,7 +29,6 @@
 
 	<bean id="PGMPPITCH" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL24B-MO-PGM-01:MIRROR:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm_mpitch" class="gda.device.scannable.ScannableMotor">
@@ -41,7 +37,6 @@
 
 	<bean id="PGMMTRANS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL24B-MO-PGM-01:SOFT:MIRROR:TRANS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm_mtrans" class="gda.device.scannable.ScannableMotor">
@@ -50,7 +45,6 @@
 
 	<bean id="PGMGTRANS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL24B-MO-PGM-01:SOFT:GRATING:TRANS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm_gtrans" class="gda.device.scannable.ScannableMotor">

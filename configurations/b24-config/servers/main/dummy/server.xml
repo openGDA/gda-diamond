@@ -14,9 +14,7 @@
 
 	<context:property-placeholder/>
 
-	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider"/>
 
 	<import resource="device/all.xml"/>
 	<import resource="../_common/server.xml"/>
