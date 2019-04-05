@@ -184,7 +184,6 @@
 	</bean>
 
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
-		<property name="local" value="true" />
 		<property name="xmap" ref="xmap_dxp" />
 		<property name="elementOffset" value="1" />
 		<property name="aquisitionTimeOn" value="true" />
@@ -193,7 +192,6 @@
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapControllerROI">
 		<property name="edxdController" ref="edxdcontroller" />
 		<property name="numberOfElements" value="1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">

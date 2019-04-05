@@ -9,24 +9,20 @@
 	<bean id="PAEtaMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-EA-POLAN-01:ETA" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="PAThetaMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-EA-POLAN-01:THETAp" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="PADet12thetaMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-EA-POLAN-01:DET1:2THETAp" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="PADet22thetaMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-EA-POLAN-01:DET2:2THETAp" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

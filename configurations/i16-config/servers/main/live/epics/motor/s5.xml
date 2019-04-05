@@ -5,20 +5,15 @@
 
 	<bean id="S5YSizeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-05:Y:GAP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S5YTransMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-05:Y:TRANSLATION" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S5XSizeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-05:X:GAP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S5XTransMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-05:X:TRANSLATION" />
-		<property name="local" value="true" />
 	</bean>
-
 
 </beans>

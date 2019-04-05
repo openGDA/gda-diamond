@@ -67,9 +67,7 @@
 		<property name="disableBatonControlOverVisitMetadataEntry" value="true" />
 	</bean>
 
-	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider"/>
 
 	<import resource="../_common/terminal_logger.xml" />
 

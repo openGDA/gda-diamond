@@ -6,7 +6,6 @@
 	<bean id="GapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="SR16I-MO-SERVC-01:BLGAPMTR" />
 		<!-- SR16I-MO-SERVC-01:BLGAPMTR -->
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

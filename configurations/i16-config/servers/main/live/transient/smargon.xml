@@ -5,27 +5,21 @@
 
 	<bean id="SGxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="SGyMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="SGzMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="SGomegaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:OMEGA" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="SGphiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:PHI" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="SGchiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-SGON-01:CHI" />
-		<property name="local" value="true" />
 	</bean>
 
 

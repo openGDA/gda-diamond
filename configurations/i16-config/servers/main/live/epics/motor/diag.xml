@@ -5,36 +5,27 @@
 
 	<bean id="D1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-DI-PHDGN-01:POSN" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="D3AMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-DI-PHDGN-03:ATTN:POSN" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="D3DMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-DI-PHDGN-03:DIAG:POSN" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="D4AMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-DI-PHDGN-04:ATTN:POSN" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="D4DMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-DI-PHDGN-04:DIAG:POSN" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="D5AMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-DI-PHDGN-05:ATTN:POSN" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="D5DMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-DI-PHDGN-05:DIAG:POSN" />
-		<property name="local" value="true" />
 	</bean>
-
-
 
 </beans>
