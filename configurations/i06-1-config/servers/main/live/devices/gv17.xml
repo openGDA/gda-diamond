@@ -3,7 +3,7 @@
 
 	<!-- Branch line Gate Valve 4 ( Valve 17)  -->
 	<bean id="gv4j" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
-	<property name="pvBase" value="BL06J-VA-VALVE-04" /></bean>
+		<property name="pvBase" value="BL06J-VA-VALVE-04" />
+	</bean>
 
 </beans>

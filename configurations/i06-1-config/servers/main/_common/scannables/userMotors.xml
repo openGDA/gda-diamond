@@ -15,28 +15,23 @@
 	<bean id="u2j" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorMTR2_U2" />
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="u3j" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorMTR3_U2" />
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="u4j" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorMTR4_U2" />
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 <!--  MTR5 is removed in EPICS -->
 <!-- 	<bean id="u5j" class="gda.device.scannable.ScannableMotor"> -->
 <!-- 		<property name="motor" ref="MotorMTR5_U2" /> -->
 <!-- 		<property name="protectionLevel" value="0" /> -->
-<!-- 		<property name="local" value="true"/> -->
 <!-- 	</bean> -->
 	<bean id="u6j" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorMTR6_U2" />
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="U2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -50,7 +45,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

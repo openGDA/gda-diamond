@@ -6,15 +6,12 @@
 	<!-- Branchline Fluorescent Screen and Diode D12 Motors -->
 	<bean id="D12_X_Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-DI-PHDGN-04:X" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="D12_Y_Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-DI-PHDGN-04:Y" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="D12_TH_Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-DI-PHDGN-04:THETA" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="d12posn" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL06J-DI-PHDGN-04:MP" />

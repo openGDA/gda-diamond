@@ -9,7 +9,6 @@
 		<property name="maxPosition" value="21.000000" />
 		<property name="speed" value="0.5" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorXNeg_S7" class="gda.device.motor.DummyMotor">
@@ -17,7 +16,6 @@
 		<property name="maxPosition" value="9.976000" />
 		<property name="speed" value="0.5" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorYPos_S7" class="gda.device.motor.DummyMotor">
@@ -25,7 +23,6 @@
 		<property name="maxPosition" value="22.000000" />
 		<property name="speed" value="0.5" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorYNeg_S7" class="gda.device.motor.DummyMotor">
@@ -33,7 +30,6 @@
 		<property name="maxPosition" value="10.000000" />
 		<property name="speed" value="0.01" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />	
 	</bean>
 
 	<bean id="MotorXSize_S7" class="gda.device.motor.DummyMotor">
@@ -41,7 +37,6 @@
 		<property name="maxPosition" value="39.975000" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />	
 	</bean>
 
 	<bean id="MotorXCentre_S7" class="gda.device.motor.DummyMotor">
@@ -49,7 +44,6 @@
 		<property name="maxPosition" value="11.011500" />
 		<property name="speed" value="0.5" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />	
 	</bean>
 
 	<bean id="MotorYSize_S7" class="gda.device.motor.DummyMotor">
@@ -57,7 +51,6 @@
 		<property name="maxPosition" value="39.977000" />
 		<property name="speed" value="0.01999" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />	
 	</bean>
 
 	<bean id="MotorYCentre_S7" class="gda.device.motor.DummyMotor">
@@ -65,7 +58,6 @@
 		<property name="maxPosition" value="11.988500" />
 		<property name="speed" value="0.01" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />	
 	</bean>
 
 </beans>

@@ -22,7 +22,6 @@
 	</bean>	
 	<bean id="magnetModeControl" class="gda.device.enumpositioner.EpicsSimplePneumatic">
 		<property name="pvName" value="BL06J-EA-MAG-01:MODE"/>
-		<property name="local" value="false"/>
 	</bean>	
 	<gda:rmi-export
 		service="magnetX"
@@ -52,7 +51,6 @@
 	</bean>	
 	<bean id="magnetHeaterControl" class="gda.device.enumpositioner.EpicsSimplePneumatic">
 		<property name="pvName" value="BL06J-EA-TCTRL-01:DMD:LOOP1:LOOPTYPE"/>
-		<property name="local" value="false"/>
 	</bean>	
 	<bean id="magnetManualOutput" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06J-EA-TCTRL-01:DMD:LOOP1:MANUAL"/>
@@ -65,7 +63,6 @@
 	</bean>	
 	<bean id="magnetNeedleValve" class="gda.device.enumpositioner.EpicsSimplePneumatic">
 		<property name="pvName" value="BL06J-EA-TCTRL-01:DMD:LOOP2:LOOPTYPE"/>
-		<property name="local" value="false"/>
 	</bean>	
 	<gda:rmi-export
 		service="magnetSampleTemp"
@@ -104,11 +101,9 @@
 	</bean>	
 	<bean id="magnetHeliumMode" class="gda.device.enumpositioner.EpicsSimplePneumatic">
 		<property name="pvName" value="BL06J-EA-HDI-01:MODE"/>
-		<property name="local" value="false"/>
 	</bean>	
 	<bean id="magnetDiaphragmPump" class="gda.device.enumpositioner.EpicsSimplePneumatic">
 		<property name="pvName" value="BL06J-EA-HDI-01:PUMP"/>
-		<property name="local" value="false"/>
 	</bean>
 	<gda:rmi-export
 		service="magnetNitrogenLevel"

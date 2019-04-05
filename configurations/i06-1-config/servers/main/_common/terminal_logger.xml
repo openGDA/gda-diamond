@@ -14,7 +14,6 @@
   	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
  		<property name="template" value="/dls/i06-1/data/$year$/$visit$/spool/gdaterminal.log" />
  		<property name="gdaMetadata" ref="GDAMetadata" />
- 		<property name="local" value="true" />
  	</bean>
 
 	
