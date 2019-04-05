@@ -4,52 +4,40 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="sax_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sax_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="sax" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sax_motor" />
-		<property name="local" value="false" />
 	</bean>
 
-	<bean id="say_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="say_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="say" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="say_motor" />
-		<property name="local" value="false" />
 	</bean>
 
-	<bean id="saz_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="saz_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="saz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="saz_motor" />
-		<property name="local" value="false" />
 	</bean>
 
-	<bean id="satilt_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="satilt_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="satilt" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="satilt_motor" />
-		<property name="local" value="false" />
 	</bean>
 
-	<bean id="sapolar_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sapolar_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="sapolar" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sapolar_motor" />
-		<property name="local" value="false" />
 	</bean>
 
-	<bean id="saazimuth_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="saazimuth_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="saazimuth" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="saazimuth_motor" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="sa" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -65,7 +53,6 @@
 				<ref bean="saperp" />
 			</list>
 		</property>
-		<property name="local" value="false" />
 	</bean>
 
 </beans>

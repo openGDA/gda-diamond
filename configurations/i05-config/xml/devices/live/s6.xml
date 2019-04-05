@@ -5,50 +5,40 @@
 
 	<bean id="s6_xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-AL-SLITS-06:XGAP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s6_xcentre" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s6_xcentre_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s6_ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-AL-SLITS-06:YGAP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s6_ycentre" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s6_ycentre_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s6_xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-AL-SLITS-06:XSIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s6_xsize" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s6_xsize_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="exit_slit_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-AL-SLITS-06:YSIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="exit_slit" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="exit_slit_motor" />
 		<property name="upperGdaLimits" value="5.0" />
 		<property name="lowerGdaLimits" value="0.001" />
 		<property name="outputFormat" value="%5.5f" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="s6_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-AL-SLITS-06:Z" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s6_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s6_z_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s6" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -61,7 +51,6 @@
 				<ref bean="s6_z" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

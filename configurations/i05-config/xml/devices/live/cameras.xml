@@ -21,7 +21,6 @@
 		<property name="basePVName" value="BL05I-DI-PHDGN-10:DCAM:" />
 		<property name="areaDetector" ref="esi1_ad" />
 		<property name="array" ref="esi1_array" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="esi2_ad" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
@@ -42,7 +41,6 @@
 		<property name="basePVName" value="BL05I-DI-PHDGN-11:DCAM:" />
 		<property name="areaDetector" ref="esi2_ad" />
 		<property name="array" ref="esi2_array" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

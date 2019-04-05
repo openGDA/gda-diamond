@@ -5,16 +5,13 @@
 
 	<bean id="d7_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-DI-PHDGN-07:IONC:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="d7y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d7_y_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="d7filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL05I-DI-PHDGN-07:IONC:Y:MP" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

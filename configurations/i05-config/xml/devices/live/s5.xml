@@ -5,38 +5,30 @@
 
 	<bean id="s5_xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-AL-SLITS-05:XCENTRE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5_xcentre" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s5_xcentre_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5_xgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-AL-SLITS-05:XSIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5_xgap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s5_xgap_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5_xring_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-AL-SLITS-05:XRING" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5_xring" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s5_xring_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5_xhall_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-AL-SLITS-05:XHALL" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5_xhall" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s5_xhall_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 
@@ -49,7 +41,6 @@
 				<ref bean="s5_xhall" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

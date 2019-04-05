@@ -45,7 +45,6 @@
 		<property name="collectionStrategy" ref="analyser_collection_strategy" />
 		<property name="energyRange" ref="analyser_energy_range" />
 		<property name="adBase" ref="area" />
-		<property name="local" value="true" />
 		<property name="readArray" value="false" />
 		<property name="fixedModeConfiguration" ref="fixedConfiguration" />
 		<property name="sweptModeConfiguration" ref="sweptConfiguration" />
@@ -114,7 +113,6 @@
 		<property name="maxSweepPV" value="BL05J-EA-DET-01:CAM:TOTAL_POINTS_ITERATION_RBV" />
 		<property name="percentagePV" value="BL05J-EA-DET-01:CAM:PROGRESS_RBV" />
 		<property name="currentIterationPV" value="BL05J-EA-DET-01:CAM:NumExposuresCounter_RBV"/>
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="psu_mode" class="gda.device.monitor.EpicsMonitor">

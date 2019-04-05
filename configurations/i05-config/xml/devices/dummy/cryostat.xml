@@ -5,7 +5,6 @@
 
 	<bean id="cryostat" class="gda.device.temperature.DummyEpicsLakeshore336" >
 		<property name="tolerance" value="0.1" />
-		<property name="local" value="true" />
 		<property name="inputNames">
 			<list>
 				<value>demand</value>
