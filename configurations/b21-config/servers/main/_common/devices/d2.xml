@@ -9,7 +9,6 @@
 
 	<bean id="d2motor" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="d2motor_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

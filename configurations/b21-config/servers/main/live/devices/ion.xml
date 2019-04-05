@@ -10,6 +10,5 @@
 		<property name="useNameAsExtraName" value="true" />
 		<property name="hasUnits" value="false" />
 		<property name="pvName" value="BL21B-DI-IONC-01:I" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

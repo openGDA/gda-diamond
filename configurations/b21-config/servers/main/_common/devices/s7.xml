@@ -5,22 +5,18 @@
 
 	<bean id="s7_xcentre" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s7_xcentre_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s7_xgap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s7_xgap_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s7_ycentre" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s7_ycentre_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s7_ygap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s7_ygap_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s7" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -32,6 +28,5 @@
 				<ref bean="s7_ygap" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 </beans>

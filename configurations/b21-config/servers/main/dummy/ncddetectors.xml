@@ -6,7 +6,5 @@
 	<!-- *** NCD devices section *** -->
 	<!--*************************************** -->
 
-	<bean id="DAServer" class="gda.device.detector.DummyDAServer">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="DAServer" class="gda.device.detector.DummyDAServer"/>
 </beans>

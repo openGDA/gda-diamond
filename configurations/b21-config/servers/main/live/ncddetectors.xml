@@ -9,7 +9,6 @@
 	<bean id="DAServer" class="gda.device.detector.DAServer">
 		<property name="host" value="bl21b-ea-tfg2-01" />
 		<property name="port" value="1972" />
-		<property name="local" value="true" />
 		<property name="dataPort" value="20030" />
 		<property name="startupCommands">
 			<list>

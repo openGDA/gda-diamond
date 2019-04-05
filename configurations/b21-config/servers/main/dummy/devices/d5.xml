@@ -6,12 +6,9 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-	<bean id="d5motor_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="d5motor_motor" class="gda.device.motor.DummyMotor"/>
 
 	<bean id="d5filter" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="local" value="true" />
 		<property name="positions">
 			<list>
 				<value>Clear</value>

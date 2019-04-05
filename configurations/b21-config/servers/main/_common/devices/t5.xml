@@ -5,11 +5,9 @@
 
 	<bean id="t5_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="t5_y_motor" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="t5_yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="t5_yaw_motor" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="t5" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -18,6 +16,5 @@
 				<ref bean="t5_yaw" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 </beans>

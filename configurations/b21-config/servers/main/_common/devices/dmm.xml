@@ -5,17 +5,14 @@
 
 	<bean id="dmm_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dmm_z_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dmm_y1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dmm_y1_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dmm_y2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dmm_y2_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dmm_energy" class="gda.device.scannable.DummyUnitsScannable">
@@ -27,17 +24,14 @@
 
 	<bean id="dmm_pitch1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dmm_pitch1_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dmm_pitch2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dmm_pitch2_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dmm_roll2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dmm_roll2_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dmm" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -52,6 +46,5 @@
 				<ref bean="dmm_roll2" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 </beans>

@@ -7,7 +7,6 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<bean id="fs1" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="local" value="true" />
 		<property name="positions">
 			<list>
 				<value>Out</value>
@@ -16,7 +15,6 @@
 		</property>
 	</bean>
 	<bean id="fs2" class="gda.device.enumpositioner.DummyEnumPositioner">
-		<property name="local" value="true" />
 		<property name="positions">
 			<list>
 				<value>Out</value>
