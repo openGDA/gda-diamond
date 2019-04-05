@@ -5,10 +5,8 @@
 
 	<bean id="tz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11J-EA-TABLE-01:Z"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="tbase_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11J-EA-TABLE-01:BASE"/>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

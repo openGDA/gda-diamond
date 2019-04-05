@@ -6,7 +6,6 @@
 
 	<bean id="operationmode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="fillmode" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
 		<property name="recordName" value="LI-TI-MTGEN-01:MODE" />
@@ -28,7 +27,6 @@
 	</bean>
 	<bean id="countdown" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

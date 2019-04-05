@@ -21,11 +21,9 @@
 	<bean id="ls2pitch_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="ls2y2_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="linkam1" class="gda.device.monitor.DummyMonitor">
-		<property name="local" value="true" />
 		<property name="unit" value="C" />
 	</bean>
 	<bean id="linkam2" class="gda.device.monitor.DummyMonitor">
-		<property name="local" value="true" />
 		<property name="unit" value="C" />
 	</bean>
 </beans>
