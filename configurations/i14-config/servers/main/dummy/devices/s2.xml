@@ -9,7 +9,6 @@
 		<property name="maxPosition" value="1000.0" />
 		<property name="position" value="0.003" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_x_size_motor" class="gda.device.motor.DummyMotor">
@@ -17,7 +16,6 @@
 		<property name="maxPosition" value="998.65" />
 		<property name="position" value="38.6505" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- S2 (white beam slits) real motors -->
@@ -26,7 +24,6 @@
 		<property name="maxPosition" value="20.0" />
 		<property name="position" value="18.76" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_inboard_motor" class="gda.device.motor.DummyMotor">
@@ -34,7 +31,6 @@
 		<property name="maxPosition" value="10.0" />
 		<property name="position" value="-15.3" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

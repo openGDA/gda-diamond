@@ -6,22 +6,18 @@
 	<!-- S3 (white beam slits) coordinate system motors -->
 	<bean id="s3_x_centre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-03:X:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_x_size_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-03:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_y_centre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-03:Y:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_y_size_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-03:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

@@ -7,86 +7,68 @@
 	<!-- EH1 -->
 	<bean id="radpanl_eh1w1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="16.7201" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_eh1w2" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="16.8863" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_eh1w3" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="16.8564" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_eh1w4" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="16.6134" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_eh1c1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="17.1489" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_eh1c2" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="17.6677" />
-		<property name="local" value="true" />
 	</bean>
-
 
 	<!-- EH2 -->
 	<bean id="radpanl_eh2w1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="17.4557" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_eh2w2" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="16.6122" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_eh2w3" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="16.7637" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_eh2w4" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="17.156" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_eh2c1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="17.8963" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_eh2c2" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="17.4082" />
-		<property name="local" value="true" />
 	</bean>
-
 
 	<!-- OH3 -->
 	<bean id="radpanl_oh3w1" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="16.4995" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_oh3w2" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="16.2829" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_oh3w3" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="16.3482" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="radpanl_oh3c" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value" value="17.0698" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

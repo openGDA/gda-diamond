@@ -6,27 +6,22 @@
 	<!-- M1 (mirror): -->
 	<bean id="m1_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-OP-MIRR-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-OP-MIRR-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-OP-MIRR-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_up_bender_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-OP-MIRR-01:UBEND" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_down_bender_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-OP-MIRR-01:DBEND" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_mirror_stripe" class="gda.device.enumpositioner.EpicsPositioner">

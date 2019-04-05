@@ -9,34 +9,29 @@
 		<property name="maxPosition" value="1001.3" />
 		<property name="position" value="1.1883" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dcm_roll_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000.3" />
 		<property name="maxPosition" value="999.75" />
 		<property name="position" value="0.7687" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dcm_perp_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-980.08" />
 		<property name="maxPosition" value="1019.9" />
 		<property name="position" value="17.742" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dcm_bragg_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-999.80" />
 		<property name="maxPosition" value="1000.2" />
 		<property name="position" value="9.4848" />
 		<property name="unitString" value="deg" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dcm_energy_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="0" />
 		<property name="maxPosition" value="100" />
 		<property name="position" value="11.9975" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>
