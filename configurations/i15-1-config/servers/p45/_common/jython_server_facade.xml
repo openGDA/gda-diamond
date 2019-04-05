@@ -32,7 +32,6 @@
 		<property name="template"
 			value="${gda.data}/gdaterminal.log" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
