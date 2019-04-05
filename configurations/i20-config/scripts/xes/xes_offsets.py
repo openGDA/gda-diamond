@@ -112,7 +112,7 @@ class XESOffsets(IXesOffsets):
     def _calcOffset(self, name,expectedReadback):
         scannable = self.spectrometer.getGroupMember(name)
         if scannable == None:
-            raise "scannable",name,"could not be found. Will not apply offsets"
+            raise ValueError("scannable '{}' could not be found. Will not apply offsets".format(name))
         readback = scannable()
         currentOffset = scannable.getOffset()
         if currentOffset == None:

@@ -168,7 +168,7 @@ def _calcBenders(parametersBean):
     
     q = parametersBean.getQ() # set in UI
     if q == None:
-        raise "Q value not set, so cannot calculate bender values"
+        raise RuntimeError("Q value not set, so cannot calculate bender values")
     
     offset1 = -0.31833 # mm, fixed at the moment
     offset2 =  0.90130 # mm, fixed at the moment
@@ -194,7 +194,7 @@ def _calcBenders(parametersBean):
         parametersBean.setPolyBend2(bend2)
         return parametersBean
     
-    raise "Q value not valid!. Must be 0.8, 1.0 or 1.2"
+    raise ValueError("Q value not valid!. Must be 0.8, 1.0 or 1.2")
     
 def _calcPrimarySlits(parametersBean):
     

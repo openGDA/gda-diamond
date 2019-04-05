@@ -63,8 +63,8 @@ def _calcOffset(name,expectedReadback):
     scannable = spectrometer.getGroupMember(name)
     
     if scannable == None:
-        raise "scannable",name,"could not be found. Will not apply offsets"
-    
+        raise ValueError("scannable '{}' could not be found. Will not apply offsets".format(name))
+
     readback = scannable()
     
     currentOffset = scannable.getOffset()
