@@ -4,7 +4,6 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="daserver" class="gda.device.detector.DummyDAServer">
-		<property name="local" value="True" />
 		<property name="host" value="b18-xspress0" /> <!-- check this! -->
 		<property name="port" value="1972" />
 		<property name="startupCommands">

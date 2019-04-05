@@ -7,9 +7,7 @@
 	<!-- *** DUMMY MONITOR SECTION *** -->
 	<!-- ***************************** -->
 	<!-- (No dummy equivalents for most of the EPICS monitors) -->
-	<bean id="bragg_speed" class="gda.device.monitor.DummyMonitor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="bragg_speed" class="gda.device.monitor.DummyMonitor"/>
 
 	<bean id="machineModeMonitor" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value" value="Shutdown" />
