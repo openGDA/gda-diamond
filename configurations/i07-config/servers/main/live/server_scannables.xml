@@ -17,8 +17,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
     
     <!-- FrontEnd Aperture -->
@@ -107,8 +105,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
     <bean id="S1TEMP" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
@@ -124,8 +120,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
 
     <!-- Filter D1 -->
@@ -143,8 +137,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
 
     <!-- Double Crystal Monochromator (DCM) -->
@@ -251,8 +243,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
     
     <bean id="DCM1TEMP" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -280,8 +270,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
     
     <!-- Beam Poistion Monitor QBPM1 (D2)-->
@@ -303,8 +291,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
 
     <!-- Mono Beam Slits MBS1 -->
@@ -373,8 +359,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
     
     <!--Horizontal Focusing Mirror HFM -->
@@ -448,8 +432,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
 
     <!--Vertical Focusing Mirror VFM -->
@@ -505,8 +487,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
     
 
@@ -576,8 +556,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
     
     <!-- Beam Poistion Monitor QBPM2 (D3) -->
@@ -613,8 +591,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
 
     <!-- Screen Diode D4 Positioner and Motors -->
@@ -642,8 +618,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
     
     <!-- Mono Beam Slits MBS3 Positioner and Motors -->
@@ -712,8 +686,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
-
     </bean>
     
     <!-- Beam Poistion Monitor QBPM3 (D5)-->
@@ -735,7 +707,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
 
 
@@ -760,7 +731,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
 
     <!-- Diffractometer 1 (DIFF1) -->
@@ -954,7 +924,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
     
     <bean id="CDIFF1" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -974,7 +943,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
     
 
@@ -1021,7 +989,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
     
     <!-- Detector Slits DETS1  -->
@@ -1087,7 +1054,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
     
     <!-- Detector Slits DETS2 -->
@@ -1153,7 +1119,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
     
     <!-- Hexapod 1 -->
@@ -1211,7 +1176,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
 
     <!-- Patch Panel User Motors U1 -->
@@ -1242,7 +1206,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
     
     <bean id="PATCHPANEL" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -1274,7 +1237,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
     
     <!-- DCD Motors -->
@@ -1358,7 +1320,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
 
 
@@ -1388,7 +1349,6 @@
                 <ref bean="dcdxtilt" />
             </list>
         </property>
-        <property name="local" value="true"/>
     </bean>
 
     <bean id="dcdxrotreal" class="gda.device.scannable.ScannableMotor">
@@ -1438,7 +1398,6 @@
                 <ref bean="syringerightvalve" />
             </list>
         </property>
-        <property name="local" value="true" />
     </bean>
 
     <bean id="gwxsize" class="gda.device.scannable.ScannableMotor">
@@ -1744,7 +1703,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
     
     <!-- Beam Poistion Monitors -->
@@ -1771,7 +1729,6 @@
             </list>
         </property>
         <property name="protectionLevel" value="0" />
-        <property name="local" value="true"/>
     </bean>
     
 </beans>

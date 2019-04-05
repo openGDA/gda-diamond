@@ -5,264 +5,134 @@
     <!--  ============================== EH 2 EPICS Devices ============== -->
 
     <!-- Mono Beam Slits MBS4 Motors -->
-    <bean id="MotorXPos_MBS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXPos_MBS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXNeg_MBS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXNeg_MBS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYPos_MBS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYPos_MBS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYNeg_MBS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYNeg_MBS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXSize_MBS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXSize_MBS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXCentre_MBS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXCentre_MBS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYSize_MBS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYSize_MBS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYCentre_MBS4" class="gda.device.motor.DummyMotor">
-
-        <property name="local" value="true" />
-    </bean>
-
+    <bean id="MotorYCentre_MBS4" class="gda.device.motor.DummyMotor"/>
 
     <!-- Tube Slits 2 (TS2)  Motors -->
-    <bean id="MotorXPos_TS2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXPos_TS2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXNeg_TS2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXNeg_TS2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYPos_TS2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYPos_TS2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYNeg_TS2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYNeg_TS2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXSize_TS2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXSize_TS2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXCentre_TS2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXCentre_TS2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYSize_TS2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYSize_TS2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYCentre_TS2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYCentre_TS2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    
     <!-- Diffractometer 2 (DIFF2) Motors -->
-    <bean id="MotorBASEX_DIFF2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorBASEX_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorBASEY_DIFF2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorBASEY_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
+    <bean id="MotorBASEY1_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="MotorBASEY1_DIFF2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorBASEY2_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
+    <bean id="MotorOMEGA_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="MotorBASEY2_DIFF2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorALPHA_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
+    <bean id="MotorDELTA_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-    <bean id="MotorOMEGA_DIFF2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorGAMMA_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorALPHA_DIFF2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorDROT_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorDELTA_DIFF2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorDETROT_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorGAMMA_DIFF2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorNU2_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
+    <bean id="MotorNU1_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-
-    <bean id="MotorDROT_DIFF2" class="gda.device.motor.DummyMotor">
-
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorDETROT_DIFF2" class="gda.device.motor.DummyMotor">
-
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorNU2_DIFF2" class="gda.device.motor.DummyMotor">
-
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorNU1_DIFF2" class="gda.device.motor.DummyMotor">
-
-        <property name="local" value="true" />
-    </bean>
 <!--
-    <bean id="MotorSLIT_DIFF2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorSLIT_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorSLITVR_DIFF2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorSLITVR_DIFF2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
 -->
-    
-    <bean id="MotorBASEPITCH_DIFF2" class="gda.device.motor.DummyMotor">
 
-        <property name="local" value="true" />
-    </bean>
-
-
+    <bean id="MotorBASEPITCH_DIFF2" class="gda.device.motor.DummyMotor"/>
 
     <!-- Detector Slits DETS3 Motors -->
-    <bean id="MotorXPos_DETS3" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXPos_DETS3" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXNeg_DETS3" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXNeg_DETS3" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYPos_DETS3" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYPos_DETS3" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYNeg_DETS3" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYNeg_DETS3" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXSize_DETS3" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXSize_DETS3" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXCentre_DETS3" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXCentre_DETS3" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYSize_DETS3" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYSize_DETS3" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYCentre_DETS3" class="gda.device.motor.DummyMotor">
-
-        <property name="local" value="true" />
-    </bean>
+    <bean id="MotorYCentre_DETS3" class="gda.device.motor.DummyMotor"/>
 
     <!-- Detector Slits DETS4 Motors -->
-    <bean id="MotorXPos_DETS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXPos_DETS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXNeg_DETS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXNeg_DETS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYPos_DETS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYPos_DETS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYNeg_DETS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYNeg_DETS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXSize_DETS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXSize_DETS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorXCentre_DETS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorXCentre_DETS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYSize_DETS4" class="gda.device.motor.DummyMotor">
+    <bean id="MotorYSize_DETS4" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorYCentre_DETS4" class="gda.device.motor.DummyMotor">
-
-        <property name="local" value="true" />
-    </bean>
-
+    <bean id="MotorYCentre_DETS4" class="gda.device.motor.DummyMotor"/>
 
     <!-- Hexapod2 Motors -->
-    <bean id="MotorX_HEX2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorX_HEX2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorY_HEX2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorY_HEX2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorZ_HEX2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorZ_HEX2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorRX_HEX2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorRX_HEX2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorRY_HEX2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorRY_HEX2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
-    <bean id="MotorRZ_HEX2" class="gda.device.motor.DummyMotor">
+    <bean id="MotorRZ_HEX2" class="gda.device.motor.DummyMotor"/>
 
-        <property name="local" value="true" />
-    </bean>
+    <bean id="llimg" class="gda.device.monitor.DummyEpicsMonitor"/>
 
-    <bean id="llimg" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="llpirg" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bcimg" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bcpirg" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bcionp" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="xrdimg" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="xrdpirg" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="xrdionp" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="local" value="true" />
-    </bean>
+    <bean id="llpirg" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+    <bean id="bcimg" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+    <bean id="bcpirg" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+    <bean id="bcionp" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+    <bean id="xrdimg" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+    <bean id="xrdpirg" class="gda.device.monitor.DummyEpicsMonitor"/>
+
+    <bean id="xrdionp" class="gda.device.monitor.DummyEpicsMonitor"/>
 
 </beans>

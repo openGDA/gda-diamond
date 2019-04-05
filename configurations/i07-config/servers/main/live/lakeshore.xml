@@ -4,7 +4,6 @@
 
 	<bean id="lakeshore_controller" class="gda.device.temperature.EpicsLakeshore340Controller">
 		<property name="pvName" value="BL07I-EA-LS-01:" />
-		<property name="local" value="true"/>
 		<property name="configureAtStartup" value="true"/>
 		<property name="readbackChannel" value="2" />
 	</bean>

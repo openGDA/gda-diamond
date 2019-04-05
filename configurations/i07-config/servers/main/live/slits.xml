@@ -4,42 +4,34 @@
 
 	<bean id="JJ1_XSIZE" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-05:X:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="JJ1_XPOS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-05:X:POS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="JJ1_YSIZE" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-05:Y:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="JJ1_YPOS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-05:Y:POS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="JJ2_XSIZE" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-09:X:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="JJ2_XPOS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-09:X:POS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="JJ2_YSIZE" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-09:Y:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="JJ2_YPOS" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-09:Y:POS" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

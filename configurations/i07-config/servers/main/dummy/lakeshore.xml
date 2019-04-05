@@ -4,7 +4,6 @@
 
 	<!-- <bean id="lakeshore_controller" class="gda.device.temperature.EpicsLakeshore340Controller">
 		<property name="deviceName" value="CRYO.TCTRL" />
-		<property name="local" value="true"/>
 		<property name="configureAtStartup" value="true"/>
 		<property name="readbackChannel" value="2" />
 	</bean> -->

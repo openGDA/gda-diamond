@@ -10,7 +10,6 @@
 		<property name="template"
 			value="${gda.data.scan.datawriter.datadir}/gda_terminal.log" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
-		<property name="local" value="true" />
 	</bean>
 
 	<import resource="terminal_logger.xml" />

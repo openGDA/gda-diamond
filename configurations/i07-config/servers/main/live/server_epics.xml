@@ -6,7 +6,6 @@
 	<!-- ============================== Epics Eurotherm Devices ============== -->
 	<!-- Controller 1 Three loops -->
 	<bean id="etcontroller11" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="basePVName" value="BL07I-EA-TCTRL-01:LOOP1" />
 		<property name="maxRampRate" value="10" />
@@ -15,7 +14,6 @@
 	</bean>
 
 	<bean id="temp11" class="gda.device.temperature.Eurotherm2K">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="accuracy" value="5" />
 		<property name="polltime" value="1000" />
@@ -27,7 +25,6 @@
 	</bean>
 
 	<bean id="etcontroller12" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="basePVName" value="BL07I-EA-TCTRL-01:LOOP2" />
 		<property name="maxRampRate" value="10" />
@@ -36,7 +33,6 @@
 	</bean>
 
 	<bean id="temp12" class="gda.device.temperature.Eurotherm2K">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="accuracy" value="5" />
 		<property name="polltime" value="1000" />
@@ -47,7 +43,6 @@
 	</bean>
 
 	<bean id="etcontroller13" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="basePVName" value="BL07I-EA-TCTRL-01:LOOP3" />
 		<property name="maxRampRate" value="10" />
@@ -56,7 +51,6 @@
 	</bean>
 
 	<bean id="temp13" class="gda.device.temperature.Eurotherm2K">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="accuracy" value="5" />
 		<property name="polltime" value="1000" />
@@ -70,7 +64,6 @@
 
 	<!-- Controller 2, Three loops -->
 	<bean id="etcontroller21" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="basePVName" value="BL07I-EA-TCTRL-02:LOOP1" />
 		<property name="maxRampRate" value="10" />
@@ -79,7 +72,6 @@
 	</bean>
 
 	<bean id="temp21" class="gda.device.temperature.Eurotherm2K">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="accuracy" value="5" />
 		<property name="polltime" value="1000" />
@@ -90,7 +82,6 @@
 	</bean>
 
 	<bean id="etcontroller22" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="basePVName" value="BL07I-EA-TCTRL-02:LOOP2" />
 		<property name="maxRampRate" value="10" />
@@ -99,7 +90,6 @@
 	</bean>
 
 	<bean id="temp22" class="gda.device.temperature.Eurotherm2K">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="accuracy" value="5" />
 		<property name="polltime" value="1000" />
@@ -110,7 +100,6 @@
 	</bean>
 
 	<bean id="etcontroller23" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="basePVName" value="BL07I-EA-TCTRL-02:LOOP3" />
 		<property name="maxRampRate" value="10" />
@@ -119,7 +108,6 @@
 	</bean>
 
 	<bean id="temp23" class="gda.device.temperature.Eurotherm2K">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="accuracy" value="5" />
 		<property name="polltime" value="1000" />
@@ -133,13 +121,11 @@
 	<bean id="mca1"
 		class="gda.device.detector.multichannelscaler.EpicsDlsMcsSis3820Controller">
 		<property name="deviceName" value="MCA1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- ============================== Epics Scaler ============== -->
 	<bean id="struck1" class="gda.device.detector.EpicsScaler">
 		<property name="pvName" value="BL07I-EA-DET-01:SCALER" />
-		<property name="local" value="true" />
 		<property name="frequency" value="50000000" />
 	</bean>
 
@@ -148,31 +134,25 @@
 	<!-- QBPM1 (D2) Current Amplifier Controller, BPM Controller and BPM -->
 	<bean id="bpm1qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
 		<property name="deviceName" value="D2.AMP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="bpm1" class="gda.device.monitor.EpicsBpmController">
 		<property name="deviceName" value="D2.BPM" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="qbpm1" class="gda.device.qbpm.EpicsQbpm">
 		<property name="currAmpController" ref="bpm1qca" />
-		<property name="local" value="true" />
 		<property name="bpmController" ref="bpm1" />
 	</bean>
 
 	<!-- QBPM2 (D3) Current Amplifier Controller, BPM Controller and BPM -->
 	<bean id="bpm2qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
 		<property name="deviceName" value="D3.AMP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="bpm2" class="gda.device.monitor.EpicsBpmController">
 		<property name="deviceName" value="D3.BPM" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="qbpm2" class="gda.device.qbpm.EpicsQbpm">
-		<property name="local" value="true" />
 		<property name="currAmpController" ref="bpm2qca" />
 		<property name="bpmController" ref="bpm2" />
 	</bean>
@@ -180,15 +160,12 @@
 	<!-- QBPM3 D5 Current Amplifier Controller, BPM Controller and BPM -->
 	<bean id="bpm3qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
 		<property name="deviceName" value="D5.AMP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="bpm3" class="gda.device.monitor.EpicsBpmController">
 		<property name="deviceName" value="D5.BPM" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="qbpm3" class="gda.device.qbpm.EpicsQbpm">
-		<property name="local" value="true" />
 		<property name="currAmpController" ref="bpm3qca" />
 		<property name="bpmController" ref="bpm3" />
 	</bean>
@@ -196,15 +173,12 @@
 	<!-- MBS1 Current Amplifier Controller, BPM Controller and BPM -->
 	<bean id="mbs1qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
 		<property name="deviceName" value="MBS1.AMP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="mbs1bpm" class="gda.device.monitor.EpicsBpmController">
 		<property name="deviceName" value="MBS1.BPM" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="mbs1qbpm" class="gda.device.qbpm.EpicsQbpm">
-		<property name="local" value="true" />
 		<property name="currAmpController" ref="mbs1qca" />
 		<property name="bpmController" ref="mbs1bpm" />
 	</bean>
@@ -212,15 +186,12 @@
 	<!-- MBS2 Current Amplifier Controller, BPM Controller and BPM -->
 	<bean id="mbs2qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
 		<property name="deviceName" value="MBS2.AMP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="mbs2bpm" class="gda.device.monitor.EpicsBpmController">
 		<property name="deviceName" value="MBS2.BPM" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="mbs2qbpm" class="gda.device.qbpm.EpicsQbpm">
-		<property name="local" value="true" />
 		<property name="currAmpController" ref="mbs2qca" />
 		<property name="bpmController" ref="mbs2bpm" />
 	</bean>
@@ -228,17 +199,14 @@
 	<!-- MBS3 Current Amplifier Controller, BPM Controller and BPM -->
 	<bean id="mbs3qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
 		<property name="deviceName" value="MBS3.AMP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="mbs3bpm" class="gda.device.monitor.EpicsBpmController">
 		<property name="deviceName" value="MBS3.BPM" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="mbs3qbpm" class="gda.device.qbpm.EpicsQbpm">
 		<property name="currAmpController" ref="mbs3qca" />
 		<property name="bpmController" ref="mbs3bpm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- ==================== Single Channel Current Amplifier definition section 
@@ -258,16 +226,13 @@
 	<!-- Ion Chamber Quadra Current Amplifier -->
 	<bean id="adcqca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
 		<property name="deviceName" value="IONC1.AMP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="adcbpm" class="gda.device.monitor.EpicsBpmController">
 		<property name="deviceName" value="IONC1.BPM" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="adcqbpm" class="gda.device.qbpm.EpicsQbpm">
-		<property name="local" value="true" />
 		<property name="currAmpController" ref="adcqca" />
 		<property name="bpmController" ref="adcbpm" />
 	</bean>
@@ -276,60 +241,50 @@
 		============== -->
 	<!-- DCM crystal selection Positioner -->
 	<bean id="dcmxtal" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="local" value="true" />
 		<property name="recordName" value="BL07I-OP-DCM-01:MP" />
 	</bean>
 
 	<!-- White beam attenuators A1 Positioner -->
 	<bean id="a1" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="local" value="true" />
 		<property name="recordName" value="BL07I-OP-ATTN-01:MP" />
 	</bean>
 
 
 	<!-- Fluorescence Screen D1 Positioner -->
 	<bean id="d1screen" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="local" value="true" />
 		<property name="recordName" value="BL07I-DI-PHDGN-01:MP" />
 	</bean>
 
 	<!-- Beam Poistion Monitor QBPM1 (D2) Positioner -->
 	<bean id="qbpm1screen" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="local" value="true" />
 		<property name="recordName" value="BL07I-DI-PHDGN-02:MP" />
 	</bean>
 
 	<!-- Beam Poistion Monitor QBPM2 (D3) Positioners -->
 	<bean id="qbpm2screen" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="local" value="true" />
 		<property name="recordName" value="BL07I-DI-PHDGN-03:MP1" />
 	</bean>
 
 	<!-- Beam Poistion Monitor (BPM) D4 Positioners -->
 	<bean id="d4screenfoil" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="local" value="true" />
 		<property name="recordName" value="BL07I-DI-PHDGN-04:MP1" />
 	</bean>
 	<bean id="d4screendiode" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="local" value="true" />
 		<property name="recordName" value="BL07I-DI-PHDGN-04:MP2" />
 	</bean>
 
 	<!-- Beam Position Monitor (BPM) D5 Positioner -->
 	<bean id="qbpm3screen" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="local" value="true" />
 		<property name="recordName" value="BL07I-DI-PHDGN-05:MP" />
 	</bean>
 
 	<!-- Horizontal Focusing Mirror HFM stripe positioner -->
 	<bean id="hfmstripe" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="local" value="true" />
 		<property name="recordName" value="BL07I-OP-HFM-01:MP" />
 	</bean>
 
 	<!-- Vertical Focusing Mirror VFM stripe positioner -->
 	<bean id="vfmstripe" class="gda.device.enumpositioner.EpicsPositioner">
-		<property name="local" value="true" />
 		<property name="recordName" value="BL07I-OP-VFM-01:MP" />
 	</bean>
 
@@ -346,35 +301,27 @@
 	<!-- Patch Panel U1 Analog Output ControlPoint EpicsControlPoint -->
 	<bean id="dac1" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL07I-EA-USER-01:AO1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dac2" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL07I-EA-USER-01:AO2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dac3" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL07I-EA-USER-01:AO3" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dac4" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL07I-EA-USER-01:AO4" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dac5" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL07I-EA-USER-01:AO5" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dac6" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL07I-EA-USER-01:AO6" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dac7" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL07I-EA-USER-01:AO7" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dac8" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL07I-EA-USER-01:AO8" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="DAC" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -397,60 +344,50 @@
 	<!-- Beam Energy Epics Monitor -->
 	<bean id="beamenergy" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Ring Currrent Epics Monitor -->
 	<bean id="ringcurrent" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR21C-DI-DCCT-01:SIGNAL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Fast shutter temp monitor -->
 	<bean id="temp3" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07I-EA-TCTRL-01:THERMO:RBV" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- D4 inline diode" name="D4.INLINE" -->
 	<bean id="d4i" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-DI-PHDGN-04:INLINE:I" />
 	</bean>
 
 	<!-- D4 scatter diode" name="D4.SCATTER" -->
 	<bean id="d4s" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-DI-PHDGN-04:SCATTER:I" />
 	</bean>
 
 
 	<!-- "DCD Diode 1 and 2 current" name="DCD.DIODE1" -->
 	<bean id="dcdc1" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCD-01:DIODE1" />
 	</bean>
 
 	<bean id="dcdc2" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCD-01:DIODE2" />
 	</bean>
 
 	<!--DCM1 Absolute roll1 value -->
 	<bean id="dcm1xtal1roll_lvdt" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:ROLL1:LVDT" />
 	</bean>
 
 	<!--DCM1 Absolute pitch value -->
 	<bean id="dcm1xtal2pitch_lvdt" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:PITCH2:LVDT" />
 	</bean>
 
 	<!--DCM1 Absolute roll2 value -->
 	<bean id="dcm1xtal2roll_lvdt" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:ROLL2:LVDT" />
 	</bean>
 
@@ -462,157 +399,121 @@
 		/> </bean> -->
 	<!-- GB1 Temperature 1 -->
 	<bean id="gb1t1" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-RS-GBC-01:TEMP1" />
 	</bean>
 
 	<!-- S1 Temperature -->
 	<bean id="s1t1" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:TEMP1" />
 	</bean>
 	<bean id="s1t2" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:TEMP2" />
 	</bean>
 	<bean id="s1t3" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:TEMP3" />
 	</bean>
 	<bean id="s1t4" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:TEMP4" />
 	</bean>
 	<bean id="s1t5" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:TEMP5" />
 	</bean>
 	<bean id="s1t6" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:TEMP6" />
 	</bean>
 	<bean id="s1t7" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:TEMP7" />
 	</bean>
 	<bean id="s1t8" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:TEMP8" />
 	</bean>
 
 
 	<!-- DCM1 Temperatures -->
 	<bean id="dcm1t1" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP13" />
 	</bean>
 	<bean id="dcm1t2" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP14" />
 	</bean>
 	<bean id="dcm1t3" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP15" />
 	</bean>
 	<bean id="dcm1t4" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP16" />
 	</bean>
 	<bean id="dcm1t5" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP1" />
 	</bean>
 	<bean id="dcm1t6" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP2" />
 	</bean>
 	<bean id="dcm1t7" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP3" />
 	</bean>
 	<bean id="dcm1t8" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP4" />
 	</bean>
 	<bean id="dcm1t9" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP5" />
 	</bean>
 	<bean id="dcm1t10" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP6" />
 	</bean>
 	<bean id="dcm1t11" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP7" />
 	</bean>
 	<bean id="dcm1t12" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP8" />
 	</bean>
 	<bean id="dcm1t13" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP9" />
 	</bean>
 	<bean id="dcm1t14" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP10" />
 	</bean>
 	<bean id="dcm1t15" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP11" />
 	</bean>
 	<bean id="dcm1t16" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP12" />
 	</bean>
 	<bean id="dcm1t17" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP17" />
 	</bean>
 	<bean id="dcm1t18" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP18" />
 	</bean>
 	<bean id="dcm1t19" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:TEMP19" />
 	</bean>
 
 
 	<!-- Patch Panel U1 Analog Input Monitor -->
 	<bean id="adc11" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-USER-01:AI1" />
 	</bean>
 	<bean id="adc12" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-USER-01:AI2" />
 	</bean>
 	<bean id="adc13" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-USER-01:AI3" />
 	</bean>
 	<bean id="adc14" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-USER-01:AI4" />
 	</bean>
 
 	<!-- Patch Panel U2 Analog Input Monitor -->
 	<bean id="adc21" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-USER-02:AI5" />
 	</bean>
 	<bean id="adc22" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-USER-02:AI6" />
 	</bean>
 	<bean id="adc23" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-USER-02:AI7" />
 	</bean>
 	<bean id="adc24" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-USER-02:AI8" />
 	</bean>
 
@@ -637,79 +538,66 @@
 		============================== -->
 	<!-- Front End Shutter 1, the Port Shutter -->
 	<bean id="portshutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="FE07I-PS-SHTR-01" />
 	</bean>
 
 	<!-- Front End Shutter 2, the Optics Shutter -->
 	<bean id="feshutter2" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="FE07I-PS-SHTR-02" />
 	</bean>
 
 	<!-- Front End Permit Beam -->
 	<bean id="febeam" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="FE07I-CS-BEAM-01" />
 	</bean>
 
 	<!-- Front End Absorber 02 -->
 	<bean id="feabsb2" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="FE07I-RS-ABSB-02" />
 	</bean>
 
 	<!-- Valve 01 -->
 	<bean id="gv1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="BL07I-VA-VALVE-01" />
 	</bean>
 
 	<!-- Valve 02 -->
 	<bean id="gv2" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="BL07I-VA-VALVE-02" />
 	</bean>
 
 	<!-- Valve 04 -->
 	<bean id="gv4" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="BL07I-VA-VALVE-04" />
 	</bean>
 
 	<!-- Valve 05 -->
 	<bean id="gv5" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="BL07I-VA-VALVE-05" />
 	</bean>
 
 	<!-- Valve 06 -->
 	<bean id="gv6" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="BL07I-VA-VALVE-06" />
 	</bean>
 
 	<!-- Valve 07 -->
 	<bean id="gv7" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="BL07I-VA-VALVE-07" />
 	</bean>
 
 	<!-- Valve 08 -->
 	<bean id="gv8" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="BL07I-VA-VALVE-08" />
 	</bean>
 
 	<!-- Valve 09 -->
 	<bean id="gv9" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="BL07I-VA-VALVE-09" />
 	</bean>
 
 	<!-- Experimental Hutch 1 shutter -->
 	<bean id="shutter1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="BL07I-PS-SHTR-01" />
 	</bean>
 
@@ -747,20 +635,17 @@
 	<!-- ID Motors -->
 	<!-- ID Gap -->
 	<bean id="MotorGap_ID" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="SR07I-MO-SERVC-01:BLGAPMTR" />
 	</bean>
 
 	<!-- FrontEnd Motors -->
 	<!-- FrontEnd Aperture X Axis -->
 	<bean id="MotorX_FEAP" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="FE07I-AL-APTR-02:X" />
 	</bean>
 
 	<!-- FrontEnd Aperture Y Axis -->
 	<bean id="MotorY_FEAP" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="FE07I-AL-APTR-02:Y" />
 	</bean>
 
@@ -768,106 +653,86 @@
 	<!-- White Beam Slits S1 Motors -->
 	<!-- S1 upstream X -->
 	<bean id="MotorXPos_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:XA" />
 	</bean>
 	<!-- S1 downstream X -->
 	<bean id="MotorXNeg_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:XB" />
 	</bean>
 	<!-- S1 upstream Y -->
 	<bean id="MotorYPos_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:YA" />
 	</bean>
 	<!-- S1 downstream Y -->
 	<bean id="MotorYNeg_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:YB" />
 	</bean>
 	<!-- S1 X size -->
 	<bean id="MotorXSize_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:X:SIZE" />
 	</bean>
 	<!-- S1 X cnetre -->
 	<bean id="MotorXCentre_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:X:CENTER" />
 	</bean>
 	<!-- S1 Y size -->
 	<bean id="MotorYSize_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:Y:SIZE" />
 	</bean>
 	<!-- S1 Y cnetre -->
 	<bean id="MotorYCentre_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-01:Y:CENTER" />
 	</bean>
 
 	<!-- Filter D1 Motors -->
 	<!--Screen change motor -->
 	<bean id="MotorFoil_D1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-DI-PHDGN-01:FOIL" />
 	</bean>
 
 	<!-- Double Crystal Monochromator (DCM) Motors -->
 	<!--Bragg Angle -->
 	<bean id="MotorBraggAngle_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:BRAGG" />
 	</bean>
 	<!--Bragg Energy -->
 	<bean id="MotorBraggEnergy_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:ENERGY" />
 	</bean>
 	<!--Lambda (Wavelength) -->
 	<bean id="MotorLambda_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:LAMBDA" />
 	</bean>
 	<!--Offset -->
 	<bean id="MotorOffset_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:OFFSET" />
 	</bean>
 	<!--Crystal change -->
 	<bean id="MotorChange1_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:X" />
 	</bean>
 	<!--First crystal roll -->
 	<bean id="MotorRoll1_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:XTAL1:ROLL" />
 	</bean>
 	<!--Second crystal roll -->
 	<bean id="MotorRoll2_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:XTAL2:ROLL" />
 	</bean>
 	<!--Second crystal pitch -->
 	<bean id="MotorPitch2_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:XTAL2:PITCH" />
 	</bean>
 	<!--Second crystal perpendicular -->
 	<bean id="MotorPerpendicular2_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:T2" />
 	</bean>
 
 	<!-- Fine Pitch and Fine Roll -->
 	<bean id="MotorFinePitch_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:FPITCH" />
 	</bean>
 	<bean id="MotorFineRoll_DCM1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCM-01:FROLL" />
 	</bean>
 
@@ -875,578 +740,453 @@
 	<!-- Beam Position Monitor QBPM1 (D2) Motors -->
 	<!--Screen change motor -->
 	<bean id="MotorFoil_D2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-DI-PHDGN-02:FOIL" />
 	</bean>
 
 	<!-- Mono Beam Slits MBS1 Motors -->
 	<bean id="MotorXPos_MBS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-02:X:PLUS" />
 	</bean>
 	<bean id="MotorXNeg_MBS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-02:X:MINUS" />
 	</bean>
 	<bean id="MotorYPos_MBS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-02:Y:PLUS" />
 	</bean>
 	<bean id="MotorYNeg_MBS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-02:Y:MINUS" />
 	</bean>
 	<bean id="MotorXSize_MBS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-02:X:SIZE" />
 	</bean>
 	<bean id="MotorXCentre_MBS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-02:X:CENTER" />
 	</bean>
 	<bean id="MotorYSize_MBS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-02:Y:SIZE" />
 	</bean>
 	<bean id="MotorYCentre_MBS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-02:Y:CENTER" />
 	</bean>
 
 	<!--Horizontal Focusing Mirror HFM motors -->
 	<!-- pitch -->
 	<bean id="MotorPitch_HFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-HFM-01:PITCH" />
 	</bean>
 	<!-- fine pitch -->
 	<bean id="MotorFinePitch_HFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-HFM-01:FPITCH" />
 	</bean>
 	<!-- yaw -->
 	<bean id="MotorYaw_HFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-HFM-01:YAW" />
 	</bean>
 	<!-- x -->
 	<bean id="MotorX_HFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-HFM-01:X" />
 	</bean>
 	<!-- stripe motor -->
 	<bean id="MotorStripe_HFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-HFM-01:STRIPE" />
 	</bean>
 	<!-- virtical jack 1 -->
 	<bean id="MotorJack1_HFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-HFM-01:Y1" />
 	</bean>
 	<!-- virtical jack 2 -->
 	<bean id="MotorJack2_HFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-HFM-01:Y2" />
 	</bean>
 	<!-- horizontal translation 1 -->
 	<bean id="MotorTranslation1_HFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-HFM-01:X1" />
 	</bean>
 	<!-- horizontal translation 2 -->
 	<bean id="MotorTranslation2_HFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-HFM-01:X2" />
 	</bean>
 
 	<!--Vertical Focusing Mirror VFM motors -->
 	<!-- pitch -->
 	<bean id="MotorPitch_VFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-VFM-01:PITCH" />
 	</bean>
 	<!-- Fine pitch -->
 	<bean id="MotorFinePitch_VFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-VFM-01:FPITCH" />
 	</bean>
 	<!-- y -->
 	<bean id="MotorY_VFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-VFM-01:Y" />
 	</bean>
 	<!-- stripe -->
 	<bean id="MotorStripe_VFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-VFM-01:X" />
 	</bean>
 	<!-- Sownstream Y (virtical jack) 1 -->
 	<bean id="MotorJack1_VFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-VFM-01:Y1" />
 	</bean>
 	<!-- Sownstream Y (virtical jack) 2 -->
 	<bean id="MotorJack2_VFM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-VFM-01:Y2" />
 	</bean>
 
 
 	<!-- Mono Beam Slits MBS2 Motors -->
 	<bean id="MotorXPos_MBS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-03:X:PLUS" />
 	</bean>
 	<bean id="MotorXNeg_MBS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-03:X:MINUS" />
 	</bean>
 	<bean id="MotorYPos_MBS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-03:Y:PLUS" />
 	</bean>
 	<bean id="MotorYNeg_MBS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-03:Y:MINUS" />
 	</bean>
 	<bean id="MotorXSize_MBS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-03:X:SIZE" />
 	</bean>
 	<bean id="MotorXCentre_MBS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-03:X:CENTER" />
 	</bean>
 	<bean id="MotorYSize_MBS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-03:Y:SIZE" />
 	</bean>
 	<bean id="MotorYCentre_MBS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-03:Y:CENTER" />
 	</bean>
 
 	<!-- Beam Position Monitor QBPM2 (D3) Motors -->
 	<!--Vertial Foil motor -->
 	<bean id="MotorFoil_D3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-DI-PHDGN-03:FOIL" />
 	</bean>
 	<!--Vertical Diode motor -->
 	<bean id="MotorDiode_D3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-DI-PHDGN-03:DIODE" />
 	</bean>
 	<!--Horizental Foil and Diode motor -->
 	<bean id="MotorX_D3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-DI-PHDGN-03:X" />
 	</bean>
 
 	<!-- Screen Diode D4 diode motor Diode and Foil Motor -->
 	<bean id="MotorFoil_D4" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-DI-PHDGN-04:FOIL" />
 	</bean>
 	<bean id="MotorDiode_D4" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-DI-PHDGN-04:DIODE" />
 	</bean>
 
 	<!-- Mono Beam Slits MBS3 Motors -->
 	<bean id="MotorXGap_MBS3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-04:X:GAP" />
 	</bean>
 	<bean id="MotorXPos_MBS3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-04:X:INBOARD" />
 	</bean>
 	<bean id="MotorYGap_MBS3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-04:Y:GAP" />
 	</bean>
 	<bean id="MotorYPos_MBS3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-04:Y:TOP" />
 	</bean>
 	<bean id="MotorXSize_MBS3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-04:X:SIZE" />
 	</bean>
 	<bean id="MotorXCentre_MBS3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-04:X:CENTER" />
 	</bean>
 	<bean id="MotorYSize_MBS3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-04:Y:SIZE" />
 	</bean>
 	<bean id="MotorYCentre_MBS3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-04:Y:CENTER" />
 	</bean>
 
 	<!-- Beam Poistion Monitor QBPM 3 (D5) Motors -->
 	<!--Screen change motor -->
 	<bean id="MotorFoil_D5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-DI-PHDGN-05:FOIL" />
 	</bean>
 
 	<!-- Filter Set Table (TAB1) Motors -->
 	<bean id="MotorX_TAB1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-TABLE-01:X" />
 	</bean>
 	<bean id="MotorY_TAB1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-TABLE-01:Y" />
 	</bean>
 
 	<!-- Tube Slits 1 (TS1) Motors -->
 	<bean id="MotorXPos_TS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-05:X:PLUS" />
 	</bean>
 	<bean id="MotorXNeg_TS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-05:X:MINUS" />
 	</bean>
 	<bean id="MotorYPos_TS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-05:Y:PLUS" />
 	</bean>
 	<bean id="MotorYNeg_TS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-05:Y:MINUS" />
 	</bean>
 	<bean id="MotorXSize_TS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-05:X:SIZE" />
 	</bean>
 	<bean id="MotorXCentre_TS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-05:X:CENTER" />
 	</bean>
 	<bean id="MotorYSize_TS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-05:Y:SIZE" />
 	</bean>
 	<bean id="MotorYCentre_TS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-05:Y:CENTER" />
 	</bean>
 	<bean id="MotorHeight_TS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-05:HEIGHT" />
 	</bean>
 
 	<!-- Diffractometer 1 (DIFF1) Motors -->
 	<bean id="MotorX_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:X" />
 	</bean>
 	<bean id="MotorY_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:Y" />
 	</bean>
 	<bean id="MotorZ_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:Z" />
 	</bean>
 	<bean id="MotorOMEGA_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:OMEGA" />
 	</bean>
 	<bean id="MotorALPHA_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:ALPHA" />
 	</bean>
 	<bean id="MotorTHETA_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:THETA" />
 	</bean>
 	<bean id="MotorCHI_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:CHI" />
 	</bean>
 	<bean id="MotorCHI2_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:CHI2" />
 	</bean>
 	<bean id="MotorPHI_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:PHI" />
 	</bean>
 	<bean id="MotorDELTA_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:DELTA" />
 	</bean>
 	<bean id="MotorGAMMA_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:GAMMA" />
 	</bean>
 	<bean id="MotorDROT_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:D_ROT" />
 	</bean>
 	<bean id="MotorDTRANS_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:D_TRANS" />
 	</bean>
 	<bean id="MotorDETROT_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:NU_PIL" />
 	</bean>
 	<bean id="MotorNU2_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:VAC_ROT" />
 	</bean>
 	<bean id="MotorNU1_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:NU_DET" />
 	</bean>
 	<bean id="MotorBASEX_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:BASE:X" />
 	</bean>
 	<bean id="MotorBASEY_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:BASE:Y" />
 	</bean>
 	<bean id="MotorBASEY1_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:BASE:Y1" />
 	</bean>
 	<bean id="MotorBASEY2_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:BASE:Y2" />
 	</bean>
 	<bean id="MotorBASEPITCH_DIFF1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-DIFF-01:BASE:PITCH" />
 	</bean>
 
 	<!-- Detector Positioner System (DPS) Motors -->
 	<bean id="MotorX_DPS" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-DET-01:X" />
 	</bean>
 	<bean id="MotorY_DPS" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-DET-01:Y" />
 	</bean>
 	<bean id="MotorZ_DPS" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-DET-01:Z" />
 	</bean>
 
 	<!-- Flight Tube X -->
 	<bean id="MotorFTX_DPS" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-DET-01:FLIGHT:X" />
 	</bean>
 	<!-- Flight Tube Y -->
 	<bean id="MotorFTY_DPS" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-DET-01:FLIGHT:Y" />
 	</bean>
 
 	<!-- Detector Slits DETS1 Motors -->
 	<bean id="MotorXPos_DETS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-06:X:PLUS" />
 	</bean>
 	<bean id="MotorXNeg_DETS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-06:X:MINUS" />
 	</bean>
 	<bean id="MotorYPos_DETS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-06:Y:PLUS" />
 	</bean>
 	<bean id="MotorYNeg_DETS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-06:Y:MINUS" />
 	</bean>
 	<bean id="MotorXSize_DETS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-06:X:SIZE" />
 	</bean>
 	<bean id="MotorXCentre_DETS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-06:X:CENTER" />
 	</bean>
 	<bean id="MotorYSize_DETS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-06:Y:SIZE" />
 	</bean>
 	<bean id="MotorYCentre_DETS1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-06:Y:CENTER" />
 	</bean>
 
 	<!-- Detector Slits DETS2 Motors -->
 	<bean id="MotorXPos_DETS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-07:X:PLUS" />
 	</bean>
 	<bean id="MotorXNeg_DETS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-07:X:MINUS" />
 	</bean>
 	<bean id="MotorYPos_DETS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-07:Y:PLUS" />
 	</bean>
 	<bean id="MotorYNeg_DETS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-07:Y:MINUS" />
 	</bean>
 	<bean id="MotorXSize_DETS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-07:X:SIZE" />
 	</bean>
 	<bean id="MotorXCentre_DETS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-07:X:CENTER" />
 	</bean>
 	<bean id="MotorYSize_DETS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-07:Y:SIZE" />
 	</bean>
 	<bean id="MotorYCentre_DETS2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-AL-SLITS-07:Y:CENTER" />
 	</bean>
 
 	<!-- Hexapod1 Motors -->
 	<bean id="MotorX_HEX1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-HEX-01:X" />
 	</bean>
 	<bean id="MotorY_HEX1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-HEX-01:Y" />
 	</bean>
 	<bean id="MotorZ_HEX1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-HEX-01:Z" />
 	</bean>
 	<bean id="MotorRX_HEX1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-HEX-01:RX" />
 	</bean>
 	<bean id="MotorRY_HEX1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-HEX-01:RY" />
 	</bean>
 	<bean id="MotorRZ_HEX1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-HEX-01:RZ" />
 	</bean>
 
 	<!-- Patch Panel User Motors U1 -->
 	<bean id="MotorMTR1_U1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-USER-01:MTR1" />
 	</bean>
 	<bean id="MotorMTR2_U1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-USER-01:MTR2" />
 	</bean>
 	<bean id="MotorMTR3_U1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-USER-01:MTR3" />
 	</bean>
 	<bean id="MotorMTR4_U1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-EA-USER-01:MTR4" />
 	</bean>
 
 	<!-- DCD Motors -->
 	<!-- "DCD Main Rotation" name="DCD.ROT" -->
 	<bean id="MotorRotation_DCD" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCD-01:ROT" />
 	</bean>
 	<!-- "DCD C1 Pitch" name="DCD.PITCH1" -->
 	<bean id="MotorPitch1_DCD" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCD-01:PITCH1" />
 	</bean>
 	<!-- "DCD C1 Roll" name="DCD.ROLL1" -->
 	<bean id="MotorRoll1_DCD" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCD-01:ROLL1" />
 	</bean>
 	<!-- "DCD C1 Radial" name="DCD.TRANS" -->
 	<bean id="MotorRadial1_DCD" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCD-01:RADIAL1" />
 	</bean>
 	<!-- "DCD C2 Pitch" name="DCD.PITCH2" -->
 	<bean id="MotorPitch2_DCD" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCD-01:PITCH2" />
 	</bean>
 	<!-- "DCD C2 Roll" name="DCD.ROLL2" -->
 	<bean id="MotorRoll2_DCD" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCD-01:ROLL2" />
 	</bean>
 	<!-- "DCD C2 Radial" name="DCD.RADIAL2" -->
 	<bean id="MotorRadial2_DCD" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCD-01:RADIAL2" />
 	</bean>
 	<!-- "DCD Diagnostic Radial" name="DCD.RADIAL3" -->
 	<bean id="MotorRadial3_DCD" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCD-01:RADIAL3" />
 	</bean>
 	<!-- "DCD Yaw" name="DCD.YAW" -->
 	<bean id="MotorYaw_DCD" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCD-01:YAW" />
 	</bean>
 	<!-- DCD External Jack -->
 	<bean id="MotorJack_DCD" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-OP-DCD-01:JACK" />
 	</bean>
 
 	<!-- Yogurt Pot -->
 	<bean id="MotorYogurt" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-OP-DCD-02:YOGX" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcdx_rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-OP-DCD-02:ARCANGLE" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="dcdx_gap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-OP-DCD-02:GAP" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="dcdx_center_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-OP-DCD-02:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="dcdx_rot_offset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-OP-DCD-02:ARCOFFSET" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="dcdx_tilt_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-OP-DCD-02:TILT" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcdx_filter" class="gda.device.enumpositioner.EpicsPositionerCallback">
@@ -1455,111 +1195,89 @@
 
 	<bean id="dcdx_rot_real_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-OP-DCD-02:ROT2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcdx_slit_rot_real_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-OP-DCD-02:ROTSLIT" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dcdx_filter_wheel_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-OP-DCD-02:FILTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorSyringe_left" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-EA-SYRG-01:P1:LEFT:MOTOR" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorSyringe_right" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-EA-SYRG-01:P1:RIGHT:MOTOR" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="gsax_horiz_gap" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-GSAX-01:SLITH:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="gsax_horiz_pos" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-GSAX-01:SLITH:POS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="gsax_vert_gap" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-GSAX-01:SLITV:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="gsax_vert_pos" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-GSAX-01:SLITV:POS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="gsax_blade_y" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-GSAX-01:BLADE:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="gsax_beamstop_y" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-GSAX-01:BEAMSTOP:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="gsax_beamstop_x" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-GSAX-01:BEAMSTOP:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s20_motor_yplus" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-20:Y:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s20_motor_yminus" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-20:Y:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s20_motor_xplus" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-20:X:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s20_motor_xminus" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-20:X:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s20_motor_beamstoph" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-20:BEAMSTOP:H" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s20_motor_beamstopv" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-20:BEAMSTOP:V" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s20_motor_xcentre" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-20:X:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s20_motor_xsize" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-20:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s20_motor_ycentre" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-20:Y:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s20_motor_ysize" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-AL-SLITS-20:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

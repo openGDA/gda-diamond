@@ -4,38 +4,30 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="ftbsx_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-FLITE-01:BEAMSTOP:X" />
 	</bean>
 	<bean id="ftbsy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-FLITE-01:BEAMSTOP:Y" />
 	</bean>
 	<bean id="ftrbsx_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-FLITE-01:RBEAMSTOP:X" />
 	</bean>
 	<bean id="ftrbsy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL07I-MO-FLITE-01:RBEAMSTOP:Y" />
 	</bean>
 
 	<bean id="ftbsx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ftbsx_motor" />
-		<property name="local" value="true" />
 
 	</bean>
 	<bean id="ftbsy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ftbsy_motor" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ftrbsx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ftrbsx_motor" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ftrbsy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ftrbsy_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="FT" class="gda.device.scannable.scannablegroup.ScannableGroup">
