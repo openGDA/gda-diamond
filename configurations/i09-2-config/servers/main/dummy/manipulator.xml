@@ -3,28 +3,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="hsmpmx_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="hsmpmx_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="hsmpmy_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="hsmpmy_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="hsmpmz_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="hsmpmz_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="hsmpmpolar_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="hsmpmpolar_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="hsmpmazi_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="hsmpmazi_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="hsmpmtilt_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="hsmpmtilt_motor" class="gda.device.motor.DummyMotor"/>
 
 </beans>

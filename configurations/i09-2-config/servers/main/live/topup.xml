@@ -5,7 +5,6 @@
 
 	<bean id="epicsTopupMonitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"></property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

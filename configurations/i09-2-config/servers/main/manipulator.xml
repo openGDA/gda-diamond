@@ -5,35 +5,28 @@
 
 	<bean id="hsmpmx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="hsmpmx_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="hsmpmy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="hsmpmy_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="hsmpmz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="hsmpmz_motor" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="hsmpmpolar" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="hsmpmpolar_motor" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="hsmpmazi" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="hsmpmazi_motor" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="hsmpmtilt" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="hsmpmtilt_motor" />
-		<property name="local" value="true" />
 	</bean>
-	
-	
+
 	<bean id="hsmpm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>

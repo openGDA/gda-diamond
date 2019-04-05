@@ -8,7 +8,6 @@
 		<property name="pvName" value="SR09J-MO-SERVC-01:BLGAPMTR" />
 	</bean>
 	<bean id="idcontrol" class="gda.device.insertiondevice.Apple2IDEpics">
-		<property name="local" value="true" />
 		<property name="basePVName" value="SR09J-MO-SERVC-01" />
 		<property name="maxPhaseMotorPos" value="30.0" />
 		<property name="motorPosDelay" value="200" />

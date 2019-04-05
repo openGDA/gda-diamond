@@ -9,7 +9,6 @@
 		<property name="slowSpeed" value="100" />
 	</bean>
 	<bean id="idcontrol" class="gda.device.insertiondevice.Apple2IDDummy">
-		<property name="local" value="true" />
 		<property name="maxPhaseMotorPos" value="30.0" />
 		<property name="minGapPos" value="16.0" />
 		<property name="maxGapPos" value="60.0"/>

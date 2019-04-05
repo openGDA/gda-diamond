@@ -6,7 +6,6 @@
 
 	<bean id="sd10_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09K-MO-SD-10:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

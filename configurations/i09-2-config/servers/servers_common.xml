@@ -88,7 +88,6 @@
 	<bean id="visitPathConstructor" class="gda.data.ObservablePathConstructor">
 		<property name="template" value="${gda.data.scan.datawriter.datadir}" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- ScriptControllers must be after command_server -->
