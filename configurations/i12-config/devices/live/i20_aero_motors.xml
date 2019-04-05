@@ -6,22 +6,18 @@
 
 	<bean id="analyser_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-EA-TAB-20:X"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="analyser_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-EA-TAB-20:Y"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="aero_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-EA-TAB-20:PITCH"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="aero_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-EA-TAB-20:ROLL"/>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

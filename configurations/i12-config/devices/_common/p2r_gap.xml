@@ -46,14 +46,12 @@
 		<property name="mode" value="1" />
 		<property name="pcPulseGateNotTrigger" value="false"/>
 		<property name="pcPulseTriggerWidth" value="0.01" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="p2rSM1_gap" class="gda.device.zebra.ZebraScannableMotor">
 		<property name="motor" ref="p2r_rot_motor_gap" />
 		<property name="zebraConstantVelocityMoveController" ref="p2rcvmc_gap" />
 		<property name="scurveTimeToVelocity" value="3.0" />
-		<property name="local" value="true" />
 	</bean>
 
 <!-- 	<bean id="p2r_flyScanCollectionStrategy" class="gda.device.detector.addetector.triggering.PCOHWTriggerBase">

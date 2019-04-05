@@ -18,7 +18,6 @@
 		<property name="controller" ref="xmapcontroller" />
 		<property name="slave" value="false" />
 		<property name="configFileName"	value="${gda.config}/templates/VortexParameters.xml" />
-		<property name="local" value="true" />
 		<property name="eventProcessingTimes">
 			<list>
 				<value>1.1029752060937018e-007</value>
@@ -31,14 +30,12 @@
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="edxdController" ref="edxdMappingController" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<!-- edxd1 -->
 	<bean id="edxd1" class="gda.device.detector.xmap.edxd.EDXDControllerQMap">
 		<property name="xmap" ref="xmap_dxp" />
 		<property name="numberOfElements" value="24" />
-		<property name="local" value="true" />
 		<property name="extraNames">
 			<list>
 				<value>edxd_total_counts</value>
@@ -59,7 +56,6 @@
 	<bean id="edxd2" class="gda.device.detector.xmap.edxd.EDXDControllerQMap">
 		<property name="xmap" ref="xmap_dxp" />
 		<property name="numberOfElements" value="24" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- EDXD controllers scannable group -->

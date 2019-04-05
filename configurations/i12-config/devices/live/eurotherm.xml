@@ -5,7 +5,6 @@
 
 
 	<bean id="csb_controller" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="basePVName" value="BL12I-EA-FURN-01" />
 		<property name="maxRampRate" value="60.0" />

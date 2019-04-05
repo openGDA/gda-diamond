@@ -6,9 +6,8 @@
 
 	<bean id="lin_stage_eh1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-MO-USER2-01:AXIS3"/>
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="lin_stage_eh1" class="gda.device.scannable.ScannableMotor">
 		<property name="name" value="lin_stage_eh1" />
 		<property name="motor" ref="lin_stage_eh1_motor" />

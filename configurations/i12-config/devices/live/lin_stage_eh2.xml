@@ -6,7 +6,6 @@
 
 	<bean id="lin_stage_eh2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-MO-LNMOT-01:LNMOT"/>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

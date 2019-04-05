@@ -9,7 +9,6 @@
 		<property name="maxPosition" value="12.5" />
 		<property name="position" value="6.3" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="analyser_y_motor" class="gda.device.motor.DummyMotor">
@@ -17,7 +16,6 @@
 		<property name="maxPosition" value="15" />
 		<property name="position" value="-1" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="aero_pitch_motor" class="gda.device.motor.DummyMotor">
@@ -25,7 +23,6 @@
 		<property name="maxPosition" value="20" />
 		<property name="position" value="7.2" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="aero_roll_motor" class="gda.device.motor.DummyMotor">
@@ -33,7 +30,6 @@
 		<property name="maxPosition" value="12.5" />
 		<property name="position" value="3.8" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

@@ -15,7 +15,6 @@
 	
 <!--	<bean id="oh1_i0" class="gda.device.detector.etldetector.EpicsETLController">-->
 <!--		<property name="name" value="oh1_i0" />-->
-<!--		<property name="local" value="true" />-->
 <!--		<property name="deviceName" value="izero.oh1" />-->
 <!--	</bean>-->
 	
