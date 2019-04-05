@@ -4,16 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- D7 Fluorescent Screen Pneumatic Valve -->
-	<bean id="d7valve" class="gda.device.enumpositioner.DummyValve">
-		<property name="local" value="true"/>
-	</bean>
+	<bean id="d7valve" class="gda.device.enumpositioner.DummyValve"/>
 	<!-- Fluorescent Screen and Diode D7 Motors -->
 	<bean id="MotorD_D7" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1.000000" />
 		<property name="maxPosition" value="87.259612" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 </beans>

@@ -4,7 +4,6 @@
 
 	<bean id="pes_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-MO-PEEM-01:ES:TRANS" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

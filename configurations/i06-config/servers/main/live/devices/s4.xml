@@ -5,27 +5,22 @@
 	<!-- Exit Slits S4 Motors -->
 	<bean id="MotorXGap_S4" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-AL-SLITS-04:X:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorYGap_S4" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-AL-SLITS-04:Y:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorZ_S4" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-AL-SLITS-04:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorXSize_S4" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-AL-SLITS-04:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorYSize_S4" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-AL-SLITS-04:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 

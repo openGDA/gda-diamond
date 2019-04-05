@@ -4,7 +4,6 @@
 
 	<!-- Fluorescent Screen and Diode D5 Motors -->
 	<bean id="MotorD_D5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-DI-PHDGN-03:X" />
 	</bean>
 

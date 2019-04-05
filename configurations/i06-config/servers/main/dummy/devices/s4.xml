@@ -9,7 +9,6 @@
 		<property name="maxPosition" value="15.1214" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorYGap_S4" class="gda.device.motor.DummyMotor">
@@ -17,7 +16,6 @@
 		<property name="maxPosition" value="-1.4570" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorZ_S4" class="gda.device.motor.DummyMotor">
@@ -25,7 +23,6 @@
 		<property name="maxPosition" value="175.010000" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorXSize_S4" class="gda.device.motor.DummyMotor">
@@ -33,7 +30,6 @@
 		<property name="maxPosition" value="3.6982" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorYSize_S4" class="gda.device.motor.DummyMotor">
@@ -41,7 +37,6 @@
 		<property name="maxPosition" value="3.9408" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 

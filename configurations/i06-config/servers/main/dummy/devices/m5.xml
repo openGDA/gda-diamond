@@ -25,7 +25,6 @@
 		<property name="maxPosition" value="3.0000000" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mrad"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorVFMBender1_M5" class="gda.device.motor.DummyMotor">
@@ -33,7 +32,6 @@
 		<property name="maxPosition" value="10318.15400" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="N"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorVFMBender2_M5" class="gda.device.motor.DummyMotor">
@@ -41,7 +39,6 @@
 		<property name="maxPosition" value="1422.68950" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="N"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorVFMFinePitch_M5" class="gda.device.motor.DummyMotor">
@@ -49,7 +46,6 @@
 		<property name="maxPosition" value="10" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="V"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- AD hardware -->
