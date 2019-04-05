@@ -7,7 +7,6 @@
 	<!-- pneumaticCallback, "Experimental port shutter pneumatic", shtr1, BL16B-PS-SHTR-01:CON, BL16B-PS-SHTR-01:STA -->
 	<bean id="shtr1" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL16B-PS-SHTR-01" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- 
@@ -19,7 +18,6 @@
 
 	<bean id="frontend" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="FE16B-CS-BEAM-01" />
-		<property name="local" value="true"/>
 		<property name="readOnly" value="true"/>
 
 	</bean>
@@ -34,7 +32,6 @@
 	 -->
 	<bean id="ab0" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="FE16B-RS-ABSB-02" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

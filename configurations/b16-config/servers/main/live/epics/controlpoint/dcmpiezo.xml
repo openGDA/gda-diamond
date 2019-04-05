@@ -5,7 +5,6 @@
 	<bean id="dcmPiezo" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameSetPoint" value="BL16B-OP-DCM-01:FB:DAC:02" />
 		<property name="pvNameGetPoint" value="BL16B-OP-DCM-01:FB:DAC:02" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

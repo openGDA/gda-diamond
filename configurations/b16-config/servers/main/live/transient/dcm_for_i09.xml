@@ -5,37 +5,30 @@
 
 	<bean id="testdcmBragg_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TESTDCM-01:BRAGG" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="testdcmPitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TESTDCM-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="testdcmRoll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TESTDCM-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="testdcmY_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TESTDCM-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="testdcmEnergy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TESTDCM-01:ENERGY" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="testdcmOffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TESTDCM-01:OFFSET" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="testdcmLambda_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TESTDCM-01:LAMBDA" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="testdcmBragg" class="gda.device.scannable.ScannableMotor">

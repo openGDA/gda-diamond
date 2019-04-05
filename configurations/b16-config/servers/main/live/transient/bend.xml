@@ -6,37 +6,30 @@
 
 	<bean id="bend1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-CS-BEND-01:BEND1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="bend2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-CS-BEND-01:BEND2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="bend1enc_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-CS-BEND-01:BEND1ENC" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="bend2enc_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-CS-BEND-01:BEND2ENC" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="bendYaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-CS-BEND-01:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="bendRadius_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-CS-BEND-01:RADIUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="bendOffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-CS-BEND-01:OFFSET" />
-		<property name="local" value="true" />
 	</bean>
 
 

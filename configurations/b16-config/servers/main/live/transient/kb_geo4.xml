@@ -5,42 +5,34 @@
 
 	<bean id="kohzuTiltMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-04:AXIS1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kbvfmTiltMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-04:AXIS2" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="kbhfmTiltMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-04:AXIS3" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="kbphYMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-04:AXIS4" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="kbphXMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-04:AXIS5" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="kbwireXMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-04:AXIS6" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="kbwireYMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-04:AXIS7" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="aerotech_tiltMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-04:AXIS8" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kohzu_tilt" class="gda.device.scannable.ScannableMotor">

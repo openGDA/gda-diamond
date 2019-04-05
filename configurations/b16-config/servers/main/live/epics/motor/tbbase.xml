@@ -5,19 +5,15 @@
 
 	<bean id="TBBASEY1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:B:Y1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TBBASEY2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:B:Y2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TBBASEPitchMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:B:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TBBASEHeightMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:B:HEIGHT" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

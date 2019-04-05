@@ -4,7 +4,6 @@
 
 	<bean id="diag3" class ="gda.device.enumpositioner.EpicsPositioner">
 		<property name="recordName" value="BL16B-DI-PHDGN-03:MP" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

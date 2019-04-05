@@ -7,11 +7,9 @@
           
 	<bean id="pinx_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME04T-MO-PSTEP-01:X" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="piny_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME04T-MO-PSTEP-01:Y" />
-		<property name="local" value="true"/>
 	</bean>	
 	
 	<bean id="pinx" class="gda.device.scannable.ScannableMotor">

@@ -47,27 +47,22 @@
 
 	<bean id="brick3mot1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-03:AXIS1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="brick3mot2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-03:AXIS2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="brick3mot3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-03:AXIS3" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="brick3mot4_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-03:AXIS4" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="brick3mot5_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-03:AXIS5" />
-		<property name="local" value="true" />
 	</bean>
 
 

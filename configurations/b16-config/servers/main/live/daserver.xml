@@ -4,7 +4,6 @@
 
 
 <!-- 	<bean id="daserver" class="gda.device.detector.DAServer"> -->
-<!-- 		<property name="local" value="True" /> -->
 <!-- 		<property name="host" value="bl16b-ea-tfg2-01" /> -->
 <!-- 		<property name="port" value="1972" /> -->
 <!-- 		<property name="startupCommands"> -->
@@ -16,7 +15,6 @@
 <!-- 		<property name="replyTimeOut" value="5000" /> -->
 <!-- 	</bean> -->
 	<bean id="daserver" class="gda.device.detector.DAServer">
-		<property name="local" value="True" />
 		<property name="host" value="b16-xh0" />
 		<property name="port" value="1972" />
 		<property name="dataPort" value="20030" />

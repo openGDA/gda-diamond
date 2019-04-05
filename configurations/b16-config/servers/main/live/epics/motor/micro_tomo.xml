@@ -5,22 +5,18 @@
 
 	<bean id="TOMOHEIGHTMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-GTLIN-01:Y4" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="TOMOROLLMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TOMO-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="TOMOPITCHMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TOMO-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="TOMOTHETAMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TOMO-01:THETA" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

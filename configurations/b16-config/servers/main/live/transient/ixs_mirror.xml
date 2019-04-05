@@ -8,27 +8,21 @@
          
 	<bean id="ixsx_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME05M-MO-MIRR-01:X" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="ixsy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME05M-MO-MIRR-01:Y" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="ixsz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME05M-MO-MIRR-01:Z" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="ixsroll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME05M-MO-MIRR-01:ROLL" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="ixspitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME05M-MO-MIRR-01:PITCH" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="ixsyaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="ME05M-MO-MIRR-01:YAW" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="ixsx" class="gda.device.scannable.ScannableMotor">

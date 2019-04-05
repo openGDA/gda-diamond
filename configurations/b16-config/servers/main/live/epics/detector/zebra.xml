@@ -15,27 +15,23 @@
 		<property name="mode" value="1" />
 		<property name="pcPulseGateNotTrigger" value="false"/>
 		<property name="pcPulseTriggerWidth" value="0.01" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="zebraSM1" class="gda.device.zebra.ZebraScannableMotor">
 		<property name="motor" ref="TOMOTHETAMotor" />
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
-		<property name="local" value="true" />
 	</bean>	
 	
 <!-- 	<bean id="zebraSM2" class="gda.device.zebra.ZebraScannableMotor">
 		<property name="motor" ref="hex_rot_motor" />
 		<property name="pcEnc" value="1" />
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
-		<property name="local" value="true" />
 	</bean>	
 	
 	<bean id="debenSM3" class="gda.device.zebra.ZebraScannableMotor">
 		<property name="motor" ref="deben_rot_bottom_motor" />
 		<property name="pcEnc" value="2" />
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
-		<property name="local" value="true" />
 	</bean>	 -->
 	
 <!-- 	<bean id="flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">

@@ -5,35 +5,27 @@
 
 	<bean id="DR1ThetaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-DIFF-01:A:THETA" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="DR1TthetaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-DIFF-01:A:2THETA" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="DR1AlphaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-DIFF-01:A:ALPHA" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="DR1ChiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-DIFF-01:A:CHI" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="DR1PhiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-DIFF-01:A:PHI" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="DR1SAMPXMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-DIFF-01:S:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="DR1SAMPYMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-DIFF-01:S:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="DR1SAMPZMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-DIFF-01:S:Z" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

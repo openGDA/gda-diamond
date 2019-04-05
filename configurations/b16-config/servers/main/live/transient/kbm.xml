@@ -6,38 +6,30 @@
 	
 	<bean id="kbmPitch1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-KBM-01:ROLL1" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="kbmPitch2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-KBM-01:ROLL2" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="kbmT1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-KBM-01:T1" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="kbmT2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-KBM-01:T2" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="kbmT3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-KBM-01:T3" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="kbmT4_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-KBM-01:T4" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="kbmT5_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-KBM-01:T5" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="kbmT6_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-KBM-01:T6" />
-		<property name="local" value="true"/>
 	</bean>
-	
-		<bean id="kbmPitch1" class="gda.device.scannable.ScannableMotor">
+
+	<bean id="kbmPitch1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="kbmPitch1_motor" />
 	</bean>
 	<bean id="kbmPitch2" class="gda.device.scannable.ScannableMotor">
