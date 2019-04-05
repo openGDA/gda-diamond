@@ -6,43 +6,35 @@
 	<!-- Size and centre motors -->
 	<bean id="s1b_xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE07B-AL-SLITS-01:X:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1b_xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE07B-AL-SLITS-01:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1b_ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE07B-AL-SLITS-01:Y:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1b_ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE07B-AL-SLITS-01:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Individual blade motors -->
 	<bean id="s1b_xneg_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE07B-AL-SLITS-01:X:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1b_xpos_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE07B-AL-SLITS-01:X:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1b_yneg_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE07B-AL-SLITS-01:Y:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1b_ypos_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE07B-AL-SLITS-01:Y:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

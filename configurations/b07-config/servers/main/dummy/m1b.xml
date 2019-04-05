@@ -3,25 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="m1b_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="m1b_x_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="m1b_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="m1b_y_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="m1b_pitch_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="m1b_pitch_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="m1b_roll_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="m1b_roll_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="m1b_yaw_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="m1b_yaw_motor" class="gda.device.motor.DummyMotor"/>
 
 	<bean id="m1b_pressure" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="mbar"/>
