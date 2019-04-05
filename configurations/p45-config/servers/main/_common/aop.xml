@@ -8,7 +8,6 @@
 	<bean id="testAopProxiedBeanFromJython" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="target">
 			<bean id="interceptedScannable" class="gda.device.scannable.DummyScannable">
-				<property name="local" value="true"/>
 			</bean>
 		</property>
 		<property name="interceptorNames">

@@ -65,7 +65,6 @@
 		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:" />
 		<property name="areaDetector" ref="simAD_base" />
 		<property name="array" ref="simAD_array" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>
