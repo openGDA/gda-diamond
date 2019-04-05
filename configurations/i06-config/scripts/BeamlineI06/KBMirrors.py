@@ -111,7 +111,7 @@ class KBMirrorRasteringClass(ScannableBase):
 			self.mode = nm;
 		else:
 			print "Please chose 'Vertical' or 'Horizontal' for VFM or HFM rastering";
-			raise 'Raster mode setting Error!'
+			raise ValueError('Raster mode setting Error!')
 		
 		if self.mode == 'vertical':
 			self.mirror=self.vfm;

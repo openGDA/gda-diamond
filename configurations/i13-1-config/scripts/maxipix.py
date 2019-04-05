@@ -29,7 +29,7 @@ def mpx_set_folder(folder, prefix, nextFrameNumber=0):
     sets saving next number to nextFrameNumber def = 0
     """
     if nextFrameNumber > 9999:
-        raise "nextFrameNumber is too big. Must be less than 9999"
+        raise ValueError("nextFrameNumber is too big. Must be less than 9999")
     jms=beamline_parameters.JythonNameSpaceMapping()
     mpx_controller = jms.mpx_controller
     mpx_limaCCD = jms.mpx_limaCCD
@@ -64,11 +64,11 @@ def mpx_set_folder(folder, prefix, nextFrameNumber=0):
             mpx_limaCCD.setSavingNextNumber(nextFrameNumber)
             mpx_limaCCD.setSavingMode( LimaCCD.SavingMode.AUTO_FRAME)
             if( mpx_limaCCD.getSavingNextNumber() != nextFrameNumber):
-                raise "Error setting nextFrameNumber"
+                raise IOError("Error setting nextFrameNumber")
             if( mpx_limaCCD.getSavingPrefix() != prefix):
-                raise "Error setting prefix"
+                raise IOError("Error setting prefix")
             if( mpx_limaCCD.getSavingDirectory() != required_saving_directory):
-                raise "Error setting directory"
+                raise IOError("Error setting directory")
         except :
             exceptionType, exception, traceback = sys.exc_info()
             handle_messages.log(None, "Problem setting prefix to '" + prefix +"'",exceptionType, exception, traceback,True)

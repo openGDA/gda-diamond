@@ -64,7 +64,7 @@ class filter_array(ScannableMotionBase):
                     break
             
             if filter == len(self.elements):
-                raise "Position requested is inavalid:'" + new_position + "'"
+                raise ValueError("Position requested is inavalid:'" + new_position + "'")
         
         for f in self.fTriggerScannable:
             f.moveTo(0)

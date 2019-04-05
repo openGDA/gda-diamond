@@ -85,7 +85,7 @@ class LeemFieldOfViewClass(ScannableBase):
 		elif int(new_position) in [10]:
 			labelInUnicode='10um';
 		else:
-			raise "Wrong preset value"
+			raise ValueError("Wrong preset value")
 		
 		groupNumber=65;
 		if self.defaultGroup == 'B':
@@ -97,11 +97,11 @@ class LeemFieldOfViewClass(ScannableBase):
 			sleep(5);
 			return;
 		if result == -2:
-			raise "No such group found.";
+			raise ValueError("No such group found.");
 		if result == -3:
-			raise "No such name for preset found.";
+			raise ValueError("No such name for preset found.");
 		else:
-			raise "Unknown error!";
+			raise RuntimeError("Unknown error!");
 		return;
 	
 	def toFormattedString(self):

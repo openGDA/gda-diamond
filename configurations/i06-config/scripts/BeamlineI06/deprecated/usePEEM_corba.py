@@ -20,7 +20,7 @@ except:
 if not peemBridge.isConnected():
     print "Connection to the CORBA Bridge failed. Please check!"
     logger.dump("Connection to the CORBA Bridge failed. Please check!");
-    raise "CORBA Bridge Error";
+    raise IOError("CORBA Bridge Error");
 #    return;
 
 fov = LeemFieldOfViewClass("fov", msImpl);

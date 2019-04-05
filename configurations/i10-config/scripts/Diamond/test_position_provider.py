@@ -32,7 +32,7 @@ def readfile(filepath):
         if not l.startswith("#") and not len(l) == 0:
             parts=l.split()
             if len(parts) != 2:
-                raise "File contents is invalid line " + `lineno` +" has more than 2 parts :'" + l
+                raise ValueError("File contents is invalid line " + `lineno` +" has more than 2 parts :'" + l)
             values.append( ( float(parts[0]), float(parts[1]) ) )
     return values
 
@@ -58,7 +58,7 @@ class ScanPositionProviderFromFile(ScanPositionProvider):
             self.scale = scale
         
         if self.filepath == None:
-            raise "Filepath must be specified at least once!"
+            raise ValueError("Filepath must be specified at least once!")
         
         self.values = readfile(self.filepath)
 

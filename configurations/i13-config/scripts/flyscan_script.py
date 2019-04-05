@@ -150,7 +150,7 @@ class fly_scannable(ScannableBase):
         
     def rawAsynchronousMoveTo(self,new_position):
         if  not  isinstance( new_position,  flyscan_position):
-            raise "I only support positions of type flyscan_position_provider"
+            raise TypeError("I only support positions of type flyscan_position_provider")
         self.scannable_position = new_position.position
         self.requiredPosVal = ScannableUtils.positionToArray(self.scannable_position, self.scannable)[0]
         self.stepVal = ScannableUtils.positionToArray(new_position.step, self.scannable)[0]

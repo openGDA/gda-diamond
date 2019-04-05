@@ -74,7 +74,7 @@ class FastScanControlClass(object):
 		if dof in MOTORS.keys():
 			self.motor= Finder.getInstance().find( MOTORS[dof] );
 		else:
-			raise "No Motor found Error";
+			raise ValueError("No Motor found Error");
 		self.dof = dof;
 		self.backupMotor();
 

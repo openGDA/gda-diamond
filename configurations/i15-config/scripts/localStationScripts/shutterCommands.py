@@ -17,7 +17,7 @@ def configure(jythonNameMap, beamlineParameters):
 
 def checkConfigured():
 	if not configured:
-		raise "shutterCommands not configured"
+		raise RuntimeError("shutterCommands not configured")
 	
 def sh(cmd):
 	"""

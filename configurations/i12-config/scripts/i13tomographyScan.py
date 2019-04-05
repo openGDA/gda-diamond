@@ -99,7 +99,7 @@ class   tomoScan_positions(ScanPositionProvider):
 
 def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_name):
     if scanObject is None:
-        raise "Input scanObject must not be None"
+        raise ValueError("Input scanObject must not be None")
    
     nxLinkCreator = NXTomoEntryLinkCreator()
    
@@ -140,7 +140,7 @@ def addNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_nam
 
 def addFlyScanNXTomoSubentry(scanObject, tomography_detector_name, tomography_theta_name, externalhdf=True):
     if scanObject is None:
-        raise "Input scanObject must not be None"
+        raise ValueError("Input scanObject must not be None")
    
     nxLinkCreator = NXTomoEntryLinkCreator()
    
@@ -230,7 +230,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     jns=beamline_parameters.JythonNameSpaceMapping()
 #    tomodet=jns.tomodet
 #    if tomodet is None:
-#	    raise "tomodet is not defined in Jython namespace"
+#	    raise NameError("tomodet is not defined in Jython namespace")
 #    if exposureTime is not None:
 #        exposureTime = float(exposureTime)
 #    else:
@@ -239,14 +239,14 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
     import scisoftpy as dnp
     tomography_theta=jns.tomography_theta
     if tomography_theta is None:
-            raise "tomography_theta is not defined in Jython namespace"    
+            raise NameError("tomography_theta is not defined in Jython namespace")
     tomography_translation=jns.tomography_translation
     if tomography_translation is None:
-        raise "tomography_translation is not defined in Jython namespace"        
+        raise NameError("tomography_translation is not defined in Jython namespace")
 
     tomography_detector=jns.tomography_normalisedImage_detector
     if tomography_detector is None:
-        raise "tomography_detector is not defined in Jython namespace"    
+        raise NameError("tomography_detector is not defined in Jython namespace")
     currentTheta=tomography_theta()
     tomoScan(tomography_translation(), outOfBeamPosition, exposureTime, start=currentTheta, stop=currentTheta, step=1., imagesPerDark=imagesPerDark, imagesPerFlat=imagesPerFlat, addNXEntry=False,autoAnalyse=False,tomography_detector=tomography_detector)
 
@@ -273,7 +273,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
                     dataKey=key
                     break
             if dataKey is None:
-                raise "Unable to find data in file"
+                raise IOError("Unable to find data in file")
             dataset=nxdata[dataKey]
             dark=dnp.array(dataset[0,:,:]).astype(dnp.float64)
             flat=dnp.array(dataset[imagesPerDark,:,:]).astype(dnp.float64)
@@ -288,7 +288,7 @@ def showNormalisedImageEx(outOfBeamPosition, exposureTime=None, imagesPerDark=1,
 
     
     if not found:
-        raise "Unable to analyse data as it has not arrived from detector in time"
+        raise IOError("Unable to analyse data as it has not arrived from detector in time")
 
     imageD=image-dark
     flatD=flat-dark
@@ -380,43 +380,43 @@ def tomoFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1, 
         tomodet=jns.tomodet
         if tomodet is None:
             if beamline == "I13":
-                raise "tomodet is not defined in Jython namespace"
+                raise NameError("tomodet is not defined in Jython namespace")
         tomography_flyscan_theta=jns.tomography_flyscan_theta
         if tomography_flyscan_theta is None:
-            raise "tomography_flyscan_theta is not defined in Jython namespace"
+            raise NameError("tomography_flyscan_theta is not defined in Jython namespace")
 
         tomography_flyscan_det=jns.tomography_flyscan_det
         if tomography_flyscan_det is None:
-            raise "tomography_flyscan_det is not defined in Jython namespace"
+            raise NameError("tomography_flyscan_det is not defined in Jython namespace")
         
         tomography_translation=jns.tomography_translation
         if tomography_translation is None:
-            raise "tomography_translation is not defined in Jython namespace"
+            raise NameError("tomography_translation is not defined in Jython namespace")
         
 
         tomography_shutter=jns.tomography_shutter
         if tomography_shutter is None:
-            raise "tomography_shutter is not defined in Jython namespace"
+            raise NameError("tomography_shutter is not defined in Jython namespace")
         
         meta_add = jns.meta_add
         if meta_add is None:
-            raise "meta_add is not defined in Jython namespace"
+            raise NameError("meta_add is not defined in Jython namespace")
 
         if beamline == "I13":
             camera_stage = jns.cs1
             if camera_stage is None:
-                raise "camera_stage is not defined in Jython namespace"
+                raise NameError("camera_stage is not defined in Jython namespace")
     
             sample_stage = jns.sample_stage
             if sample_stage is None:
-                raise "sample_stage is not defined in Jython namespace"        
+                raise NameError("sample_stage is not defined in Jython namespace")
             
             meta_add( camera_stage)
             meta_add( sample_stage)
 
             ionc_i = jns.ionc_i
             if ionc_i is None:
-                raise "ionc_i is not defined in Jython namespace"
+                raise NameError("ionc_i is not defined in Jython namespace")
             ionc_i_cont=tomography_flyscan_theta.getContinuousMoveController().createScannable(ionc_i)
 
 
@@ -588,48 +588,48 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
         jns=beamline_parameters.JythonNameSpaceMapping()
         tomodet=jns.tomodet
         if tomodet is None:
-	        raise "tomodet is not defined in Jython namespace"
+	        raise NameError("tomodet is not defined in Jython namespace")
 
         tomography_theta=jns.tomography_theta
         if tomography_theta is None:
-            raise "tomography_theta is not defined in Jython namespace"
+            raise NameError("tomography_theta is not defined in Jython namespace")
         tomography_shutter=jns.tomography_shutter
         if tomography_shutter is None:
-            raise "tomography_shutter is not defined in Jython namespace"
+            raise NameError("tomography_shutter is not defined in Jython namespace")
         tomography_translation=jns.tomography_translation
         if tomography_translation is None:
-            raise "tomography_translation is not defined in Jython namespace"
+            raise NameError("tomography_translation is not defined in Jython namespace")
         
 
         if tomography_detector is None:
 	        tomography_detector=jns.tomography_detector
         if tomography_detector is None:
-            raise "tomography_detector is not defined in Jython namespace"
+            raise NameError("tomography_detector is not defined in Jython namespace")
 
 #        tomography_optimizer=jns.tomography_optimizer
 #        if tomography_optimizer is None:
-#            raise "tomography_optimizer is not defined in Jython namespace"
+#            raise NameError("tomography_optimizer is not defined in Jython namespace")
 
         tomography_time=jns.tomography_time
         if tomography_time is None:
-            raise "tomography_time is not defined in Jython namespace"
+            raise NameError("tomography_time is not defined in Jython namespace")
         
         tomography_beammonitor=jns.tomography_beammonitor
         if tomography_beammonitor is None:
-            raise "tomography_beammonitor is not defined in Jython namespace"
+            raise NameError("tomography_beammonitor is not defined in Jython namespace")
 
         meta_add = jns.meta_add
         if meta_add is None:
-            raise "meta_add is not defined in Jython namespace"
+            raise NameError("meta_add is not defined in Jython namespace")
 
 
         camera_stage = jns.cs1
         if camera_stage is None:
-            raise "camera_stage is not defined in Jython namespace"
+            raise NameError("camera_stage is not defined in Jython namespace")
 
         sample_stage = jns.sample_stage
         if sample_stage is None:
-            raise "sample_stage is not defined in Jython namespace"
+            raise NameError("sample_stage is not defined in Jython namespace")
 
         meta_add( camera_stage)
         meta_add( sample_stage)
@@ -715,7 +715,7 @@ def tomoScan(inBeamPosition, outOfBeamPosition, exposureTime=1, start=0., stop=1
             import gdascripts.scannable.beamokay
             ionc_i = jns.ionc_i
             if ionc_i is None:
-                raise "ionc_i is not defined in Jython namespace"
+                raise NameError("ionc_i is not defined in Jython namespace")
             beamok=gdascripts.scannable.beamokay.WaitWhileScannableBelowThresholdMonitorOnly("beamok", ionc_i, min_i)
             scan_args.append(beamok)
             
@@ -892,41 +892,41 @@ def tomoScanX(description, inBeamPosition, outOfBeamPosition, exposureTimeDark=3
         jns = beamline_parameters.JythonNameSpaceMapping(InterfaceProvider.getJythonNamespace())
         tomography_theta = jns.tomography_theta
         if tomography_theta is None:
-            raise "tomography_theta is not defined in Jython namespace"
+            raise NameError("tomography_theta is not defined in Jython namespace")
         tomography_shutter = jns.tomography_shutter
         if tomography_shutter is None:
-            raise "tomography_shutter is not defined in Jython namespace"
+            raise NameError("tomography_shutter is not defined in Jython namespace")
         tomography_translation = jns.tomography_translation
         if tomography_translation is None:
-            raise "tomography_translation is not defined in Jython namespace"
+            raise NameError("tomography_translation is not defined in Jython namespace")
         
         tomography_detector = jns.tomography_detector
         if tomography_detector is None:
-            raise "tomography_detector is not defined in Jython namespace"
+            raise NameError("tomography_detector is not defined in Jython namespace")
 
         tomography_optimizer = jns.tomography_optimizer
         if tomography_optimizer is None:
-            raise "tomography_optimizer is not defined in Jython namespace"
+            raise NameError("tomography_optimizer is not defined in Jython namespace")
 
         tomography_time = jns.tomography_time
         if tomography_time is None:
-            raise "tomography_time is not defined in Jython namespace"
+            raise NameError("tomography_time is not defined in Jython namespace")
         
         tomography_beammonitor = jns.tomography_beammonitor
         if tomography_beammonitor is None:
-            raise "tomography_beammonitor is not defined in Jython namespace"
+            raise NameError("tomography_beammonitor is not defined in Jython namespace")
         
         tomography_camera_stage = jns.tomography_camera_stage
         if tomography_camera_stage is None:
-            raise "tomography_camera_stage is not defined in Jython namespace"
+            raise NameError("tomography_camera_stage is not defined in Jython namespace")
         
         tomography_sample_stage = jns.tomography_sample_stage
         if tomography_sample_stage is None:
-            raise "tomography_sample_stage is not defined in Jython namespace"
+            raise NameError("tomography_sample_stage is not defined in Jython namespace")
         
         tomo_additional_scannables = jns.tomography_additional_scannables
         if tomo_additional_scannables is None:
-            raise "tomo_additional_scannables is not defined in Jython namespace"
+            raise NameError("tomo_additional_scannables is not defined in Jython namespace")
         
         index = SimpleScannable()
         index.setCurrentPosition(0.0)

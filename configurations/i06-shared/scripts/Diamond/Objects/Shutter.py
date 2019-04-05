@@ -16,7 +16,7 @@ class ShutterDeviceClass(object):
         elif shutterName in vars(gdamain).values():
             self.shutter = shutterName;
         else:
-            raise "Shutter does not exist!"
+            raise ValueError("Shutter does not exist!")
         
     def removeShutter(self):
         self.shutter=None;

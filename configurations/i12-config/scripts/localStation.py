@@ -194,7 +194,7 @@ try :
     #epg 8 March 2011 Force changes to allow edxd to work on the trunk
     LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
     if LocalProperties.get("gda.data.scan.datawriter.dataFormat") != "NexusDataWriter":
-        raise "Format not set to Nexus"
+        raise RuntimeError("Format not set to Nexus")
     edxd.setOutputFormat(["%5.5g", "%5.5g", "%5.5g", "%5.5g", "%5.5g"])
 except :
     exceptionType, exception, traceback = sys.exc_info()

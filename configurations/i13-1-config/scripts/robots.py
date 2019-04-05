@@ -634,7 +634,7 @@ class Motoman(object):
             reply += morereply
             now = time.clock()
             if now-start_time > self.timeout:
-                raise "Reply timeout reply so far %s" %(reply)
+                raise IOError("Reply timeout reply so far %s" %(reply))
         return reply
 
     def readCurrentPositionInJointSpace(self):

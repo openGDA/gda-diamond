@@ -46,7 +46,7 @@ class RegionalScanClass(BasicScanClass):
 			elif isinstance(stp, list):
 				result.append(stp);
 			else:
-				raise "Error on the regional tuple"
+				raise TyoeError("Error on the regional tuple")
 
 		return result;
 		
