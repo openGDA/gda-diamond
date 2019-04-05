@@ -51,7 +51,7 @@ class ScanAborter(PseudoDevice):
 		self.minValue=minValue
 	def rawIsBusy(self):
 		if not self.isOK():
-			raise "qbpm is < " + `self.minValue`
+			raise RuntimeError("qbpm is < " + `self.minValue`)
 		return False
 	def getPosition(self):
 		return self.qbpm()
