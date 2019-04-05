@@ -28,7 +28,6 @@
 				<ref bean="do4" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Temperatures -->
@@ -36,25 +35,21 @@
 		<property name="pvName" value="BL05J-EA-USER-01:TEMP1" />
 		<property name="unit" value="C" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="t2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05J-EA-USER-01:TEMP2" />
 		<property name="unit" value="C" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="t3" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05J-EA-USER-01:TEMP3" />
 		<property name="unit" value="C" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="t4" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05J-EA-USER-01:TEMP4" />
 		<property name="unit" value="C" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Analogue Inputs -->
@@ -62,25 +57,21 @@
 		<property name="pvName" value="BL05J-EA-USER-01:AI1" />
 		<property name="unit" value="V" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ai2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05J-EA-USER-01:AI2" />
 		<property name="unit" value="V" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ai3" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05J-EA-USER-01:AI3" />
 		<property name="unit" value="V" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ai4" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05J-EA-USER-01:AI4" />
 		<property name="unit" value="V" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Analogue Outputs -->
@@ -88,47 +79,39 @@
 		<property name="pvName" value="BL05J-EA-USER-01:AO1" />
 		<property name="useNameAsInputName" value="true" />
 		<property name="userUnits" value="V" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao2" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL05J-EA-USER-01:AO2" />
 		<property name="useNameAsInputName" value="true" />
 		<property name="userUnits" value="V" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao3" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL05J-EA-USER-01:AO3" />
 		<property name="useNameAsInputName" value="true" />
 		<property name="userUnits" value="V" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao4" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL05J-EA-USER-01:AO4" />
 		<property name="useNameAsInputName" value="true" />
 		<property name="userUnits" value="V" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Digital Input -->
 	<bean id="di1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05J-EA-USER-01:DI1" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="di2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05J-EA-USER-01:DI2" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="di3" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05J-EA-USER-01:DI3" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="di4" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL05J-EA-USER-01:DI4" />
 		<property name="poll" value="true" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Digital Output -->

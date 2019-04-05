@@ -12,7 +12,6 @@
 		<property name="settletime" value="500" />
 		<property name="upperThreshold" value="9.5" />
 		<property name="autoGain" value="false" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="femto_nano_es_average" class="gda.device.currentamplifier.CalibratedAmplifier">
@@ -23,7 +22,6 @@
 		<property name="settletime" value="500" />
 		<property name="upperThreshold" value="9.5" />
 		<property name="autoGain" value="false" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="femto_nano_es_gain" class="gda.device.currentamplifier.GainWithScalingAndOffset">

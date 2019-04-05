@@ -6,32 +6,26 @@
 
 	<bean id="mj7j8_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mj7j8_x_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mj7j8_y_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mj7j8_z_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mj7j8_yaw_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mj7j8_pitch_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mj7j8_roll_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -46,7 +40,6 @@
 				<ref bean="mj7j8_fpitch" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

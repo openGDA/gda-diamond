@@ -6,31 +6,25 @@
 
 	<bean id="osax_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-OSA-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="osay_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-OSA-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="osaz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-OSA-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="osax_lut_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-OSA-01:LUT:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="osay_lut_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-OSA-01:LUT:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="osaz_lut_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-OSA-01:LUT:Z" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

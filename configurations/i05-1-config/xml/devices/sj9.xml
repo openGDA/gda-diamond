@@ -6,42 +6,34 @@
 
 	<bean id="sj9_xcentre" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sj9_xcentre_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="sj9_xgap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sj9_xgap_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="sj9_ycentre" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sj9_ycentre_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="sj9_ygap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sj9_ygap_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="sj9_xring" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sj9_xring_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="sj9_xhall" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sj9_xhall_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="sj9_ytop" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sj9_ytop_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="sj9_ybottom" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sj9_ybottom_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="sj9" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -57,7 +49,6 @@
 				<ref bean="sj9_ybottom" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

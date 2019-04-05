@@ -4,36 +4,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="sj9_xcentre_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj9_xcentre_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sj9_xgap_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj9_xgap_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sj9_ycentre_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj9_ycentre_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sj9_ygap_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj9_ygap_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sj9_xring_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj9_xring_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sj9_xhall_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj9_xhall_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sj9_ytop_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj9_ytop_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sj9_ybottom_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj9_ybottom_motor" class="gda.device.motor.DummyMotor"/>
 
 </beans>

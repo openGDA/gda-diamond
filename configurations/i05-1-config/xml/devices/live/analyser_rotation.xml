@@ -6,7 +6,6 @@
 
 	<bean id="anapolar_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-ANAL-01:POLAR" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

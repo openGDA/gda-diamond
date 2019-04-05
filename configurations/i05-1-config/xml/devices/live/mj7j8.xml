@@ -6,39 +6,32 @@
 
 	<bean id="mj7j8_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-OP-RFM-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-OP-RFM-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-OP-RFM-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-OP-RFM-01:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-OP-RFM-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-OP-RFM-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_fpitch" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL05J-OP-RFM-01:FPITCH:DMD" />
 		<property name="useNameAsInputName" value="true" />
 		<property name="userUnits" value="V" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

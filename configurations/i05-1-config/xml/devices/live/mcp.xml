@@ -13,7 +13,6 @@
 	<bean id="mcp_gain" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL05J-DI-PHDGN-10:DCAM:CAM:Gain" />
 		<property name="useNameAsInputName" value="true" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mcpCamBase" class="gda.spring.V17ADBaseFactoryBean">

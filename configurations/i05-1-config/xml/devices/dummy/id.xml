@@ -8,7 +8,6 @@
 		<property name="gapScannable" ref="rawid_gap" />
 		<property name="upperPhaseScannable" ref="rawid_upperphase" />
 		<property name="lowerPhaseScannable" ref="rawid_lowerphase" />
-		<property name="local" value="true" />
 		<property name="exclusionZone">
 			<list>
 				<bean class="java.awt.geom.Rectangle2D.Double">

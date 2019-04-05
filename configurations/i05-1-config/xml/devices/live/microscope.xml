@@ -22,13 +22,11 @@
 		<property name="basePVName" value="BL05I-DI-PHDGN-11:DCAM:" />
 		<property name="areaDetector" ref="mic_ad" />
 		<property name="array" ref="mic_array" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mic_total" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL05J-DI-PHDGN-11:DCAM:STAT:Total_RBV" />
 		<property name="useNameAsExtraName" value="true" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

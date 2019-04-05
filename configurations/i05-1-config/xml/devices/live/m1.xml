@@ -6,56 +6,44 @@
 
 	<bean id="m1_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-OP-COL-01:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_x_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-OP-COL-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_y_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-OP-COL-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_z_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-OP-COL-01:YAW" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_yaw_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-OP-COL-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_pitch_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-OP-COL-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_roll_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -69,7 +57,6 @@
 				<ref bean="m1_roll" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

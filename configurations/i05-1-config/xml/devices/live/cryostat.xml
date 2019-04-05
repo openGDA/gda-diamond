@@ -7,7 +7,6 @@
 	<bean id="cryostat" class="gda.device.temperature.EpicsLakeshore336">
 		<property name="tolerance" value="0.1" />
 		<property name="basePVName" value="BL05J-EA-TCTRL-01:" />
-		<property name="local" value="true" />
 		<property name="inputNames">
 			<list>
 				<value>demand</value>

@@ -4,16 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="ssx_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="ssx_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="ssy_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="ssy_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="ssz_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="ssz_motor" class="gda.device.motor.DummyMotor"/>
 
 </beans>

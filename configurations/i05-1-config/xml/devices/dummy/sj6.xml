@@ -4,24 +4,14 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="sj6_xcentre_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj6_xcentre_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sj6_ycentre_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj6_ycentre_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sj6_xsize_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj6_xsize_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sj6_ysize_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj6_ysize_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sj6_z_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sj6_z_motor" class="gda.device.motor.DummyMotor"/>
 
 </beans>

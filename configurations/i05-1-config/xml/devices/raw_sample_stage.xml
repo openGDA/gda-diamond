@@ -10,7 +10,6 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="lowerGdaLimits" value="-7000" />
 		<property name="upperGdaLimits" value="6500" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ssy" class="gda.device.scannable.ScannableMotor">
@@ -19,7 +18,6 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="lowerGdaLimits" value="-7000" />
 		<property name="upperGdaLimits" value="6500" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ssz" class="gda.device.scannable.ScannableMotor">
@@ -28,7 +26,6 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="lowerGdaLimits" value="-7500" />
 		<property name="upperGdaLimits" value="7000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ss" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -39,7 +36,6 @@
 				<ref bean="ssz" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

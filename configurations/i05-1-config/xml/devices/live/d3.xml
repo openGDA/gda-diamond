@@ -12,7 +12,6 @@
 		<property name="upperThreshold" value="9.5" />
 		<property name="autoGain" value="false" />
 		<property name="settletime" value="500" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="d3average" class="gda.device.currentamplifier.CalibratedAmplifier">
@@ -23,7 +22,6 @@
 		<property name="upperThreshold" value="9.5" />
 		<property name="autoGain" value="false" />
 		<property name="settletime" value="500" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="d3gain" class="gda.device.currentamplifier.GainWithScalingAndOffset">
