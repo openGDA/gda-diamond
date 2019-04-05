@@ -65,6 +65,5 @@
 				
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

@@ -16,14 +16,12 @@
 				<value>Reset</value>
 			</util:list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="d2d4_det_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-5" />
 		<property name="maxPosition" value="5" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<!-- Area detector camera -->
 	<!-- To use this, you will have to start an area detector simulator -->

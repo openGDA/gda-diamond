@@ -7,41 +7,33 @@
 
 	<bean id="s3xring_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-03:XRING" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s3xhall_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-03:XHALL" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s3yplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-03:YPLUS" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s3yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-03:YMINUS" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s3xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-03:XSIZE" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="s3xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-03:XCENTRE" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="s3ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-03:YSIZE" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="s3ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-03:YCENTRE" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

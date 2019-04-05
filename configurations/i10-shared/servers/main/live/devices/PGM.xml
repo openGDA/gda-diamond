@@ -7,22 +7,18 @@
 	
 	<bean id="pgmenergy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-OP-PGM-01:ENERGY" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="pgm_grat_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-OP-PGM-01:GRT:PITCH" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="pgm_grat_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-OP-PGM-01:GRT:X" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="pgm_m2_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-OP-PGM-01:MIR:PITCH" />
-		<property name="local" value="true"/>
 	</bean>
 
     <bean id="pgm_pos" class="gda.device.enumpositioner.EpicsPositioner">
@@ -31,7 +27,6 @@
 
 	<bean id="pgm_m2_plane_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-OP-PGM-01:MIR:X" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="cff" class="gda.device.controlpoint.EpicsControlPoint">
@@ -52,36 +47,29 @@
 
 	<bean id="pgmmenc1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-OP-PGM-01:MIR:ENC1" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="pgmmenc2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-OP-PGM-01:MIR:ENC2" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="pgmmenc3" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-OP-PGM-01:MIR:ENC3" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="pgmmenc4" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-OP-PGM-01:MIR:ENC4" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="pgmgenc1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-OP-PGM-01:GRT:ENC1" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="pgmgenc2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-OP-PGM-01:GRT:ENC2" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="pgmgenc3" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-OP-PGM-01:GRT:ENC3" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

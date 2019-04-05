@@ -13,43 +13,36 @@
 	<!-- IDD - Downstream ID or ID1 -->
 	<bean id="idd_gap_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-01:BLGAPMTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id1" />
 	</bean>
 
 	<bean id="idd_rowphase1_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-01:BLRPQ1MTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id1" />
 	</bean>
 
 	<bean id="idd_rowphase2_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-01:BLRPQ2MTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id1" />
 	</bean>
 
 	<bean id="idd_rowphase3_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-01:BLRPQ3MTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id1" />
 	</bean>
 
 	<bean id="idd_rowphase4_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-01:BLRPQ4MTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id1" />
 	</bean>
 
 	<bean id="idd_jawphase_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-01:BLJAWMTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id1" />
 	</bean>
 	
 	<bean id="idd_sepphase_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-01:BLSEPMTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id1" />
 	</bean>
 	
@@ -63,43 +56,36 @@
 	
 	<bean id="idu_gap_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-21:BLGAPMTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id2" />
 	</bean>
 	
 	<bean id="idu_rowphase1_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-21:BLRPQ1MTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id2" />
 	</bean>
 
 	<bean id="idu_rowphase2_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-21:BLRPQ2MTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id2" />
 	</bean>
 
 	<bean id="idu_rowphase3_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-21:BLRPQ3MTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id2" />
 	</bean>
 
 	<bean id="idu_rowphase4_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-21:BLRPQ4MTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id2" />
 	</bean>
 
 	<bean id="idu_jawphase_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-21:BLJAWMTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id2" />
 	</bean>
 	
 	<bean id="idu_sepphase_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="SR10I-MO-SERVC-21:BLSEPMTR" />
-		<property name="local" value="true"/>
 		<property name="accessControl" ref="idblena_id2" />
 	</bean>
 </beans>

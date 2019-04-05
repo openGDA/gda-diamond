@@ -7,64 +7,52 @@
 
 	<bean id="s2xring_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-02:XRING" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s2xhall_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-02:XHALL"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s2yplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-02:YPLUS"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s2yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-02:YMINUS"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s2xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-02:XSIZE"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s2xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-02:XCENTRE"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s2ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-02:YSIZE"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s2ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-AL-SLITS-02:YSIZE"/>
-		<property name="local" value="true"/>
 	</bean>
 	
 	<!-- CAS Epics Monitor -->
 	
 	<bean id="s2xring_current" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-AL-SLITS-02:XRING:I"/>
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="s2xhall_current" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-AL-SLITS-02:XHALL:I"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="s2yplus_current" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-AL-SLITS-02:YMINUS:I"/>
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="s2yminus_current" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-AL-SLITS-02:YPLUS:I"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- CAS Current Amplifier Controller, BPM Controller and BPM -->
@@ -76,12 +64,10 @@
 		<property name="current2Pv" value="BL10I-AL-SLITS-02:XHALL:I"/>
 		<property name="current3Pv" value="BL10I-AL-SLITS-02:YMINUS:I"/>
 		<property name="current4Pv" value="BL10I-AL-SLITS-02:YPLUS:I"/>
-		<property name="local" value="true"/>
 	</bean> 
 	
 	<bean id="s2_inten" class="gda.device.monitor.EpicsBpmController">
 		<property name="pvName" value="BL10I-AL-SLITS-02:IAMP:"/>
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="s2_qbpm" class="gda.device.qbpm.EpicsQbpm">

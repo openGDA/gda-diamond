@@ -22,7 +22,6 @@
 				<ref bean="d2_det" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	
 	<!-- Detector objects used in new scanning -->

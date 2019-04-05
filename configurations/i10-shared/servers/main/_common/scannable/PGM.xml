@@ -46,7 +46,6 @@
 				<ref bean="pgm_pos" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="PGMSETTINGS" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -57,7 +56,6 @@
 				<ref bean="pgmgo" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="PGMENCODERS" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -72,6 +70,5 @@
 				<ref bean="pgmgenc3" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

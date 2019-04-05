@@ -7,11 +7,9 @@
 	<bean id="d3_scrn" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="controlPv" value="BL10I-DI-PHDGN-03:CON"/>
 		<property name="statusPv" value="BL10I-DI-PHDGN-03:STA"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="d3d5_det_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-DI-PHDGN-03:DET:X" />
-		<property name="local" value="true"/>
 	</bean>
 
     <bean id="d3_pos" class="gda.device.enumpositioner.EpicsPositioner">
