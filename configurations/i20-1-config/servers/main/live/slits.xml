@@ -4,51 +4,39 @@
 
 	<bean id="s1_hgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-01:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_hoffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-01:X:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_vgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-01:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_voffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-01:Y:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_xplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-01:X:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_xminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-01:X:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_yplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-01:Y:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-01:Y:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_xplus_motor_mm" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-01:X:PLUS:MM" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_xminus_motor_mm" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-01:X:MINUS:MM" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_yplus_motor_mm" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-01:Y:PLUS:MM" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_yminus_motor_mm" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-01:Y:MINUS:MM" />
-		<property name="local" value="true" />
 	</bean>
 
 
@@ -61,47 +49,37 @@
 		/> -->
 	<bean id="s2_hgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-02:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_hoffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-02:X:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_vgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-02:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_voffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-02:Y:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_xplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-02:X:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_xminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-02:X:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_yplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-02:Y:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-02:Y:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 
 	<!-- Alignment stage x slit motors  -->
 	<bean id="as_hgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-04:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="as_hoffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-AL-SLITS-04:X" />
-		<property name="local" value="true" />
 	</bean>
 
 
@@ -109,17 +87,14 @@
 
 	<bean id="ts_theta_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:TS:ARC" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ts_hgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:TS:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ts_hoffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-PCHRO-01:TS:XFINE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<import resource="file:${gda.config}/servers/main/_common/slits.xml" />

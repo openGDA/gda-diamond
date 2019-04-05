@@ -17,7 +17,6 @@
 		<property name="waittime" value="5" />
 		<property name="level" value="0" />
 		<property name="pauseBeforePoint" value="true" />
-		<property name="local" value="true"/>
 		<property name="machineModeMonitor" ref="machineModeMonitor" />
 	</bean>
 
@@ -26,7 +25,6 @@
 		<property name="value" value="Open" />
 		<property name="level" value="0" />
 		<property name="pauseBeforePoint" value="true" />
-		<property name="local" value="true" />
 		<property name="machineModeMonitor" ref="machineModeMonitor" />
 
 	</bean>

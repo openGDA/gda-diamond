@@ -4,7 +4,6 @@
 
 	<bean id="atn1" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20J-OP-ATTN-01:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn1motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-ATTN-01:POSN" />
@@ -15,7 +14,6 @@
 
 	<bean id="atn2" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20J-OP-ATTN-02:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn2motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-ATTN-02:POSN" />
@@ -26,7 +24,6 @@
 
 	<bean id="atn3" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20J-OP-ATTN-03:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn3motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-ATTN-03:POSN" />
@@ -37,7 +34,6 @@
 
 	<bean id="atn4" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20J-OP-ATTN-04:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn4motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-ATTN-04:POSN" />
@@ -48,7 +44,6 @@
 
 	<bean id="atn5" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20J-OP-ATTN-05:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn5motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-OP-ATTN-05:POSN" />

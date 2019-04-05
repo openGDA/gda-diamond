@@ -62,7 +62,6 @@
 <!-- Added 5/10/2016 -->
 	<bean id="d10_current" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20J-DI-ADC-01:CH7" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="d10_diode_gain"

@@ -4,7 +4,6 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 <!-- for XH uncomment the following element -->
 	<bean id="daserverForTfg" class="gda.device.detector.DAServer">
-		<property name="local" value="True" />
 		<property name="host" value="bl20j-ea-tfg2-01.diamond.ac.uk" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">
@@ -18,7 +17,6 @@
 
 <!-- for Frelon detector using dummy -->
 <!-- 	<bean id="daserverForTfg" class="gda.device.detector.DummyDAServer"> -->
-<!-- 		<property name="local" value="True" /> -->
 <!-- 		<property name="host" value="localhost" /> -->
 <!-- 		<property name="port" value="1972" /> -->
 <!-- 		<property name="startupCommands"> -->

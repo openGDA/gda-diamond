@@ -4,15 +4,12 @@
 
 	<bean id="frelon_focus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-EA-DET-02:FOCUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="frelon_iris_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-EA-DET-02:IRIS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="frelon_rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20J-EA-DET-02:ROT" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>
