@@ -20,7 +20,6 @@
 				<ref bean="topup_period" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>
