@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="daserver" class="gda.device.detector.DAServer">
-		<property name="local" value="true" />
 		<property name="host" value="bl11i-ea-tfg2-01" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">

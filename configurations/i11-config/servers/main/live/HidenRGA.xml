@@ -10,6 +10,5 @@
 	<bean id="rga" class="gda.device.hidenrga.HidenRGAScannable">
 		<property name="controller" ref="hidenrga_controller"/>
 		<property name="useAuxiliaryInputs" value="false" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>
