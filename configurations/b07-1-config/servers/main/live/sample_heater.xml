@@ -4,7 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="sample_eurotherm_controller" class="gda.device.temperature.EpicsEurotherm2kController">
-        <property name="local" value="true"/>
         <property name="configureAtStartup" value="true"/>
         <property name="basePVName" value = "BL07C-EA-TCTRL-01"/>
         <property name="maxRampRate" value = "10"/>
@@ -13,7 +12,6 @@
      </bean>
 
     <bean id="sample_temperature" class="gda.device.temperature.Eurotherm2K">
-        <property name="local" value="true"/>
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "1"/>
         <property name="polltime" value = "1000"/>

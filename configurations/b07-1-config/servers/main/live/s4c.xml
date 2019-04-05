@@ -6,27 +6,22 @@
 	<!-- Size and centre motors -->
 	<bean id="s4c_xgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-04:XGAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s4c_xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-04:XSIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s4c_ygap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-04:YGAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s4c_ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-04:YSIZE" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="s4c_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-04:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

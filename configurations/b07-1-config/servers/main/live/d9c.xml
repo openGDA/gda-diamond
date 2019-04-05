@@ -9,7 +9,6 @@
 
 	<bean id="d9c_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-DI-PHDGN-09:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- femto_19 used to be called d9c_foil -->
@@ -19,7 +18,6 @@
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- d9c cam 1 -->

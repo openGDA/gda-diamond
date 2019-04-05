@@ -5,27 +5,22 @@
 
 	<bean id="m5c_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-OP-HRFM-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5c_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-OP-HRFM-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5c_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-OP-HRFM-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5c_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-OP-HRFM-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5c_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-OP-HRFM-01:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- femto_20 used to be called m5c_current1 -->
@@ -35,7 +30,6 @@
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="m5c_current2" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -44,7 +38,6 @@
 		<property name="lowerVoltageBound" value="0.5"/>
 		<property name="upperVoltageBound" value="9.5"/>
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

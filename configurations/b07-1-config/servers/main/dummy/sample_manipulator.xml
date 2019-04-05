@@ -3,20 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="sm_xp_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sm_xp_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sm_yp_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sm_yp_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sm_zp_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sm_zp_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="sm_rotation_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="sm_rotation_motor" class="gda.device.motor.DummyMotor"/>
 
 </beans>

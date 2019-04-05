@@ -5,32 +5,26 @@
 
 	<bean id="pgm_energy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-OP-PGM-01:ENERGY" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="pgm_cff_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-OP-PGM-01:CFF" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="pgm_mirror_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-OP-PGM-01:MIR:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="pgm_mirror_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-OP-PGM-01:MIR:X" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="pgm_grating_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-OP-PGM-01:GRT:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm_grating_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-OP-PGM-01:GRT:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm_grating" class="gda.device.enumpositioner.EpicsPositionerCallback">

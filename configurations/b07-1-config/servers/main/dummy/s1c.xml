@@ -4,36 +4,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Size and centre motors -->
-	<bean id="s1c_xcentre_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s1c_xcentre_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="s1c_xsize_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s1c_xsize_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="s1c_ycentre_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s1c_ycentre_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="s1c_ysize_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s1c_ysize_motor" class="gda.device.motor.DummyMotor"/>
 
 	<!-- Individual blade motors -->
-	<bean id="s1c_xneg_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s1c_xneg_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="s1c_xpos_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s1c_xpos_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="s1c_yneg_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s1c_yneg_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="s1c_ypos_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s1c_ypos_motor" class="gda.device.motor.DummyMotor"/>
 </beans>
