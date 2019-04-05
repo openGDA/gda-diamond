@@ -5,35 +5,27 @@
 
 	<bean id="crl_axis1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-EA-BRICK-01:MOTOR1"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="crl_axis2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-EA-BRICK-01:MOTOR2"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="crl_axis3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-EA-BRICK-01:MOTOR3"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="crl_axis4_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-EA-BRICK-01:MOTOR4"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="crl_axis5_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-EA-BRICK-01:MOTOR5"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="crl_axis6_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-EA-BRICK-01:MOTOR6"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="crl_axis7_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-EA-BRICK-01:MOTOR7"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="crl_axis8_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-EA-BRICK-01:MOTOR8"/>
-		<property name="local" value="true" />
 	</bean>
 
 

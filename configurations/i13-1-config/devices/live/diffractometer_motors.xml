@@ -8,38 +8,32 @@
 
 	<bean id="rcellKthetaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-RCELL-01:KTHETA" />
-		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="false" />
 	</bean>
 
 	<bean id="rcellKphiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-RCELL-01:KPHI" />
-		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="false" />
 	</bean>
 
 	<bean id="diffSthetaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-DIFF-01:STHETA" />
-		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="false" />
 	</bean>
 
 	<bean id="diffSkappaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-DIFF-01:SKAPPA" />
-		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="false" />
 	</bean>
 
 	<bean id="diffSphiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-DIFF-01:SPHI" />
-		<property name="local" value="true" />
 		<property name="assertHomedBeforeMoving" value="false" />
 	</bean>
 
 	<bean id="rcellDeferFlag" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameSetPoint" value="BL13J-MO-RCELL-01:DEFERRED" />
 		<property name="pvNameGetPoint" value="BL13J-MO-RCELL-01:DEFERRED" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>	

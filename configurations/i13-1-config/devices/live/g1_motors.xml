@@ -6,12 +6,10 @@
 
 	<bean id="g1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-GONI-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="g1_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-GONI-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

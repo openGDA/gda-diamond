@@ -5,19 +5,15 @@
 
 	<bean id="qcm_bragg1_comb_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG1:COMBPITCH"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="qcm_bragg1_comb_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG1:COMBROLL"/>
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="qcm_bragg2_comb_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG2:COMBPITCH"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="qcm_bragg2_comb_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG2:COMBROLL"/>
-		<property name="local" value="true" />
 	</bean>
 </beans>	

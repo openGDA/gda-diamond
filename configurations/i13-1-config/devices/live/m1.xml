@@ -6,22 +6,18 @@
 
 	<bean id="m1_coarsepitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-01:PITCH:COARSE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-01:PITCH:COMB" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_mask_temp" class="gda.device.scannable.EpicsScannable">

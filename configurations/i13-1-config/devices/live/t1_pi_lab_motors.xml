@@ -5,14 +5,11 @@
 
 	<bean id="t1_pi_lx_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-PI-02:LAB:X"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="t1_pi_ly_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-PI-02:LAB:Y"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="t1_pi_lz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-PI-02:LAB:Z"/>
-		<property name="local" value="true" />
 	</bean>
 </beans>	

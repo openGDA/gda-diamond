@@ -6,47 +6,38 @@
 
 	<bean id="qcm_bragg1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_bragg2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_bragg1_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG1:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_bragg2_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG2:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_bragg1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG1:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_bragg1_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG1:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_bragg2_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG2:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_bragg2_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:BRAGG2:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-QCM-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qcm_bragg1_finepitch" class="gda.device.controlpoint.EpicsControlPoint">
@@ -75,7 +66,6 @@
 
 	<bean id="qcm_energy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-BEAM-01:ENERGY" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

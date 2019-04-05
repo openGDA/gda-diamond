@@ -46,13 +46,11 @@
 
 
 
-	<!-- <bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider"> 
-		<property name="local" value="true" /> </bean> -->
-	
+	<!-- <bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider"/> -->
+
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
 		<property name="template" value="${gda.data}/gdaterminal.log" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">

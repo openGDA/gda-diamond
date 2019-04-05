@@ -6,47 +6,38 @@
 
 	<bean id="t1_sx_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-STAGE-01:SX" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_sy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-STAGE-01:SY" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_sz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-STAGE-01:SZ" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-STAGE-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-STAGE-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-STAGE-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-STAGE-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-STAGE-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_theta_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-STAGE-01:THETA" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

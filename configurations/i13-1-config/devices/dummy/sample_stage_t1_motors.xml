@@ -9,7 +9,6 @@
 		<property name="position" value="-1770.0" />
 		<property name="speed" value="100" />
 		<property name="unitString" value="um" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_sy_motor" class="gda.device.motor.DummyMotor">
@@ -18,7 +17,6 @@
 		<property name="position" value="-2500.0" />
 		<property name="speed" value="100" />
 		<property name="unitString" value="um" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_sz_motor" class="gda.device.motor.DummyMotor">
@@ -27,7 +25,6 @@
 		<property name="position" value="452.0" />
 		<property name="speed" value="100" />
 		<property name="unitString" value="um" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_x_motor" class="gda.device.motor.DummyMotor">
@@ -36,7 +33,6 @@
 		<property name="position" value="3.8444" />
 		<property name="speed" value="100" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_y_motor" class="gda.device.motor.DummyMotor">
@@ -45,7 +41,6 @@
 		<property name="position" value="-1.9043" />
 		<property name="speed" value="100" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_z_motor" class="gda.device.motor.DummyMotor">
@@ -54,7 +49,6 @@
 		<property name="position" value="-0.0003" />
 		<property name="speed" value="100" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_pitch_motor" class="gda.device.motor.DummyMotor">
@@ -63,7 +57,6 @@
 		<property name="position" value="0.060055" />
 		<property name="speed" value="100" />
 		<property name="unitString" value="deg" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_roll_motor" class="gda.device.motor.DummyMotor">
@@ -72,7 +65,6 @@
 		<property name="position" value="0.16509" />
 		<property name="speed" value="100" />
 		<property name="unitString" value="deg" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="t1_theta_motor" class="gda.device.motor.DummyMotor">
@@ -81,7 +73,6 @@
 		<property name="position" value="-286.3" />
 		<property name="speed" value="100" />
 		<property name="unitString" value="deg" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

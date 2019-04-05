@@ -39,8 +39,6 @@
 		<property name="position" value="0" />
 	</bean>
 
-	<bean id="rcellDeferFlag" class="gda.device.controlpoint.DummyControlPoint">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="rcellDeferFlag" class="gda.device.controlpoint.DummyControlPoint"/>
 
 </beans>
