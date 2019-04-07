@@ -34,7 +34,7 @@ EXAMPLES:
 
     gdaclient
 
-        This will start the client using the preference and projects stored in
+        This will start the client using the preferences and projects stored in
         the default workspace.
 
     gdaclient --reset
@@ -44,13 +44,13 @@ EXAMPLES:
 
     gdaclient -data /scratch/myworkspace
 
-        This will start the client using the preference and projects stored in
-        /scratch/myworkspace
+        This will start the client using the preferences and projects stored in
+        /scratch/myworkspace.
 
     gdaclient -data /scratch/myworkspace -reset
 
-        This will delete /scratch/myworkspace and and start the client with
-        workspace set to /scratch/myworkspace
+        This will delete /scratch/myworkspace and start the client with
+        workspace set to /scratch/myworkspace.
 
     gdaclient --reset -- -debug
 
