@@ -6,13 +6,11 @@
 
     <bean id="sd_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="sd_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="sp_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="sp_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
@@ -23,7 +21,6 @@
                 <ref bean="sd_y"/>
             </list>
         </property>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
@@ -34,19 +31,16 @@
                 <ref bean="sp_y"/>
             </list>
         </property>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="sp_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="sp_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="sd_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="sd_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 </beans>

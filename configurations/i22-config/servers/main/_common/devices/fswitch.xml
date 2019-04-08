@@ -13,32 +13,26 @@
                 <ref bean="fswitch_yaw"/>
             </list>
         </property>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="fswitch_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="fswitch_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="fswitch_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="fswitch_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="fswitch_pitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="fswitch_pitch_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="fswitch_yaw" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="fswitch_yaw_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 </beans>
-

@@ -5,7 +5,6 @@
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="ltwee" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="ltwee_x"/>
@@ -17,16 +16,13 @@
 
 	<bean id="ltwee_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ltwee_z_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ltwee_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ltwee_x_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ltwee_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ltwee_y_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

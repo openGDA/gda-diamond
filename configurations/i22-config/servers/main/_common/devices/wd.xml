@@ -11,19 +11,16 @@
                 <ref bean="wd_y"/>
             </list>
         </property>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="wd_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="wd_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="wd_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="wd_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 </beans>

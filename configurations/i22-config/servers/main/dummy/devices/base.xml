@@ -3,16 +3,9 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="base_x_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="base_y_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="base_pitch_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="base_yaw_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
+    <bean id="base_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="base_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="base_pitch_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="base_yaw_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+
 </beans>

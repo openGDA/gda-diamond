@@ -3,69 +3,27 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="bs2_cs_x_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs2_abs_x_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs1_abs_y_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs1_x_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs3_x_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs2_abs_y_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs1_cs_y_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs3_cs_y_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs1_cs_x_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs3_y_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs2_pitch_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs2_yaw_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs3_yaw_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs2_cs_y_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs3_pitch_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs2_y_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs1_abs_x_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs3_roll_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs3_cs_x_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs2_x_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="bs1_y_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
+    <bean id="bs2_cs_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs2_abs_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs1_abs_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs1_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs3_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs2_abs_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs1_cs_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs3_cs_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs1_cs_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs3_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs2_pitch_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs2_yaw_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs3_yaw_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs2_cs_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs3_pitch_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs2_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs1_abs_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs3_roll_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs3_cs_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs2_x_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="bs1_y_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
 
 
     <bean class="gda.device.monitor.DummyMonitor" id="bs2_y_temp" />

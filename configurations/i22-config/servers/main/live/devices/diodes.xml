@@ -9,7 +9,6 @@
 		<property name="useNameAsExtraName" value="true"/>
 		<property name="hasUnits" value="false"/>
 		<property name="pvName" value="BL22I-DI-PHDGN-10:DIODE1:I"/>
-		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
 		<property name="upperThreshold" value="8.5"/>
 	</bean>
@@ -187,7 +186,6 @@
 		<property name="useNameAsExtraName" value="true"/>
 		<property name="hasUnits" value="false"/>
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS3:I"/>
-		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
 		<property name="upperThreshold" value="8.5"/>
 	</bean>
@@ -197,7 +195,6 @@
 		<property name="useNameAsExtraName" value="true"/>
 		<property name="hasUnits" value="false"/>
 		<property name="pvName" value="BL22I-DI-PHDGN-10:DIODE2:I"/>
-		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
 		<property name="upperThreshold" value="8.5"/>
 	</bean>
@@ -207,7 +204,6 @@
 		<property name="useNameAsExtraName" value="true"/>
 		<property name="hasUnits" value="false"/>
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS2:I"/>
-		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
 		<property name="upperThreshold" value="8.5"/>
 	</bean>
@@ -301,7 +297,6 @@
 		<property name="useNameAsExtraName" value="true"/>
 		<property name="hasUnits" value="false"/>
 		<property name="pvName" value="BL22I-EA-SAXSP-01:BS1:I"/>
-		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
 		<property name="upperThreshold" value="8.5"/>
 	</bean>

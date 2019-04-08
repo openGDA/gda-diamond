@@ -6,67 +6,56 @@
 
     <bean id="vfm_pitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="vfm_pitch_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="vfm_yaw" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="vfm_yaw_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="vfm_y1" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="vfm_y1_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="vfm_roll" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="vfm_roll_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="vfm_x1" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="vfm_x1_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="vfm_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="vfm_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="vfm_y3" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="vfm_y3_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="vfm_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="vfm_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="vfm_x2" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="vfm_x2_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="vfm_y2" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="vfm_y2_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="vfm_yfine" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="vfm_yfine_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
@@ -86,7 +75,6 @@
                 <ref bean="vfm_yfine"/>
             </list>
         </property>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 </beans>

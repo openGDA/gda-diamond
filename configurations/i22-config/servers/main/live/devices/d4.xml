@@ -9,7 +9,6 @@
 		<property name="useNameAsExtraName" value="true"/>
 		<property name="hasUnits" value="false"/>
 		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE1:I"/>
-		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
 		<property name="upperThreshold" value="8.5"/>
 	</bean>
@@ -19,7 +18,6 @@
 		<property name="useNameAsExtraName" value="true"/>
 		<property name="hasUnits" value="false"/>
 		<property name="pvName" value="BL22I-DI-PHDGN-04:DIODE2:I"/>
-		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
 		<property name="upperThreshold" value="8.5"/>
 	</bean>
@@ -184,12 +182,10 @@
 
 	<bean id="d4filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL22I-DI-PHDGN-04:MP"/>
-		<property name="local" value="true"/>
 		<property name="protectionLevel" value="2"/>
 	</bean>
 
 	<bean id="d4motor_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-DI-PHDGN-04:POSN"/>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

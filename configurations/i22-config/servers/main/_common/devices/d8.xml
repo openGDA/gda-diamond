@@ -6,19 +6,16 @@
 
     <bean id="d8_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="d8_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="d8_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="d8_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="d8_z" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="d8_z_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
@@ -32,4 +29,3 @@
         </property>
     </bean>
 </beans>
-

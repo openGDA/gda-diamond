@@ -5,7 +5,6 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="linearDrive" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="linearDrive_x"/>
@@ -19,6 +18,5 @@
 
 	<bean id="linearDrive_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="linearDrive_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

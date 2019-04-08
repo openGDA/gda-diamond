@@ -5,7 +5,6 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="roi5" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="roi5_minx"/>
@@ -17,7 +16,6 @@
 	</bean>
 
 	<bean id="roi1" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="roi1_minx"/>
@@ -45,7 +43,6 @@
 	</bean>
 
 	<bean id="roi3" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="roi3_minx"/>
@@ -57,7 +54,6 @@
 	</bean>
 
 	<bean id="roi4" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="roi4_minx"/>
@@ -69,7 +65,6 @@
 	</bean>
 
 	<bean id="roi6" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="roi6_minx"/>
@@ -81,7 +76,6 @@
 	</bean>
 
 	<bean id="roi2" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="roi2_minx"/>

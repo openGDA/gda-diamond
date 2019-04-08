@@ -6,16 +6,13 @@
 
     <bean id="user_four" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="user_four_motor"/>
-        <property name="local" value="true"/>
     </bean>
 
     <bean id="user_three" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="user_three_motor"/>
-        <property name="local" value="true"/>
     </bean>
 
     <bean id="user" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="local" value="true"/>
         <property name="groupMembers">
             <list>
                 <ref bean="user_three"/>

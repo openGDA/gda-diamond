@@ -6,11 +6,10 @@
 
 	<bean id="feaptr_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE22I-AL-APTR-02:Y"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="feaptr_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE22I-AL-APTR-02:X"/>
-		<property name="local" value="true"/>
 	</bean>
+
 </beans>

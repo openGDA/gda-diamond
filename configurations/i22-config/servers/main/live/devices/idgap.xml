@@ -6,6 +6,6 @@
 
 	<bean id="idgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="SR22I-MO-SERVC-01:BLGAPMTR"/>
-		<property name="local" value="true"/>
 	</bean>
+
 </beans>

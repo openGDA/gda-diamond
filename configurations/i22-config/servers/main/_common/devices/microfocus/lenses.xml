@@ -6,7 +6,6 @@
 
 	<bean id="mflensz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mflens_z_motor"/>
-		<property name="local" value="true"/>
 		<property name="protectionLevel" value="3"/>
 	</bean>
 </beans>

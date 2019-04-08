@@ -21,7 +21,6 @@
 
 	<bean id="linearDrive_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-MO-HEX-01:LINEAR"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="linearDrive_topTemp" class="gda.device.monitor.EpicsMonitor">

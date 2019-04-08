@@ -6,6 +6,5 @@
 
     <bean id="d6motor" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="d6motor_motor"/>
-        <property name="local" value="true"/>
     </bean>
 </beans>

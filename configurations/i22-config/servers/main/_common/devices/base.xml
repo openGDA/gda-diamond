@@ -6,17 +6,14 @@
 
     <bean id="base_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="base_x_motor"/>
-        <property name="local" value="true"/>
     </bean>
 
     <bean id="base_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="base_y_motor"/>
-        <property name="local" value="true"/>
     </bean>
 
     <bean id="base_pitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="base_pitch_motor"/>
-        <property name="local" value="true"/>
     </bean>
 
     <bean id="base" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -28,11 +25,9 @@
                 <ref bean="base_yaw"/>
             </list>
         </property>
-        <property name="local" value="true"/>
     </bean>
 
     <bean id="base_yaw" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="base_yaw_motor"/>
-        <property name="local" value="true"/>
     </bean>
 </beans>

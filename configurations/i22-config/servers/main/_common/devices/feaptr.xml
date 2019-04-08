@@ -6,13 +6,11 @@
 
     <bean id="feaptr_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="feaptr_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="feaptr_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="feaptr_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
@@ -23,7 +21,6 @@
                 <ref bean="feaptr_y"/>
             </list>
         </property>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 </beans>
