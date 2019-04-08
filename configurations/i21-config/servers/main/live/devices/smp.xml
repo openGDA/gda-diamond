@@ -7,69 +7,55 @@
 	<!-- motors -->
 	<bean id="smpthMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:RZ" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="smpxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="smpyMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="smpzMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="smpphiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:AZIMUTH" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="smpdeltaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:DRING" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="smpchiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-EA-SMPL-01:TILT" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Femto -->
 	<bean id="draincurrent" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="fy1" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="straightdiode" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO3" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="rotatingdiode" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO4" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="fixdiode1" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO5" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="extradiode" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO7" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="tthdiode" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-EA-SMPL-01:FEMTO6" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<import resource="smpcam1.xml"/>
 	<import resource="smpcam2.xml"/>
 	<import resource="smpcam3.xml"/>
 	<import resource="smpcam4.xml"/>
 	<import resource="smpcam5.xml"/>
-	
+
 	<bean id="smplXPositioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL21I-EA-SMPL-01:MP:X:SELECT" />
 	</bean>

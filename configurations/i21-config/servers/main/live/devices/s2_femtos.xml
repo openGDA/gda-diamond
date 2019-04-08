@@ -10,22 +10,18 @@
 
 	<bean id="s2femto1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO1:I" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2femto2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO2:I" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2femto3" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO3:I" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2femto4" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO4:I" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2femtoupper" class="gda.device.currentamplifier.EpicsCurrAmpSingle">

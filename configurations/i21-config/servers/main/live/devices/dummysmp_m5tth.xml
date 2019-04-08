@@ -12,49 +12,41 @@
 		<property name="minPosition" value="0.000" />
 		<property name="maxPosition" value="150.000" />
 		<property name="speed" value="0.8" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="smpxDummyMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-5.000000" />
 		<property name="maxPosition" value="5.000000" />
 		<property name="speed" value="2.000000" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="smpyDummyMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-4.898979" />
 		<property name="maxPosition" value="4.898979" />
 		<property name="speed" value="2.000000" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="smpzDummyMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-994.900000" />
 		<property name="maxPosition" value="1005.100000" />
 		<property name="speed" value="0.500000" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="smpphiDummyMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-100.000000" />
 		<property name="maxPosition" value="100.000000" />
 		<property name="speed" value="0.500000" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="smpdeltaDummyMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-170.000" />
 		<property name="maxPosition" value="170.000" />
 		<property name="speed" value="4.000000" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="smpchiDummyMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-45.000000" />
 		<property name="maxPosition" value="32.000000" />
 		<property name="speed" value="1.000000" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="m5tthDummyMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-45.00000" />
 		<property name="maxPosition" value="215.00000" />
 		<property name="speed" value="0.32000" />
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 </beans>

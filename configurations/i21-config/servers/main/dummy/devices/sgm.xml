@@ -11,44 +11,37 @@
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="sgmrollMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sgmgratingtranslationMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sgmgratingpitchMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sgmlongxMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sgmwedgeoffsideMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sgmwedgenearsideMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Air control for SGM -->
@@ -60,7 +53,6 @@
 			</util:map>
 		</property>
 		<property name="startPositionName" value="Off"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="sgmGratingSelect" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">

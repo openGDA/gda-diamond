@@ -13,7 +13,6 @@
 	<!-- Stick motor -->
 	<bean id="d2motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-DI-PHDGN-02:POS" />
-		<property name="local" value="true" />
 	</bean>
 
 

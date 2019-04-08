@@ -95,8 +95,7 @@
 				<ref bean="m5tth" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
-	
+
 
 </beans>

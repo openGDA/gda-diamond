@@ -11,11 +11,9 @@
 		<property name="fastSpeed" value="400" />
 		<property name="mediumSpeed" value="200" />
 		<property name="slowSpeed" value="100" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="idcontrol" class="gda.device.insertiondevice.Apple2IDDummy">
-		<property name="local" value="true" />
 		<property name="maxPhaseMotorPos" value="30.0" />
 		<property name="minGapPos" value="25.0" />
 		<property name="speed" value="6.0" />

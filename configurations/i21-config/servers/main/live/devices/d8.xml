@@ -8,12 +8,10 @@
 	<!-- Stick motor -->
 	<bean id="d8motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-DI-PHDGN-08:POS" />
-		<property name="local" value="true" />
 	</bean>
 	<!-- Femto -->
 	<bean id="d8femto1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-DI-PHDGN-08:FEMTO1:I" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="d8CamBase" class="gda.spring.V17ADBaseFactoryBean">

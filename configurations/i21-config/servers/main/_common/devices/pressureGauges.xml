@@ -4,7 +4,7 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 
- 	<bean id="gauges" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="gauges" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="gauge01" />
@@ -17,8 +17,6 @@
 				<ref bean="gauge08" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
- </beans>
- 
+</beans>

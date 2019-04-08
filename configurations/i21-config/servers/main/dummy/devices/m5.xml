@@ -9,42 +9,36 @@
 		<property name="minPosition" value="-80000000.000" />
 		<property name="maxPosition" value="80000000.000" />
 		<property name="speed" value="600.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5hqyt" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-80000000.000" />
 		<property name="maxPosition" value="80000000.000" />
 		<property name="speed" value="600.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5hqzt" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-80000000.000" />
 		<property name="maxPosition" value="80000000.000" />
 		<property name="speed" value="600.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5hqrxMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-80000000.000" />
 		<property name="maxPosition" value="80000000.000" />
 		<property name="speed" value="1.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5hqryMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-80000000.000" />
 		<property name="maxPosition" value="80000000.000" />
 		<property name="speed" value="1.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5hqrzMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-80000000.000" />
 		<property name="maxPosition" value="80000000.000" />
 		<property name="speed" value="1.000" />
-		<property name="local" value="true" />
 	</bean>
 
 <!-- Right Mirror -->
@@ -52,42 +46,36 @@
 		<property name="minPosition" value="-80000000.000" />
 		<property name="maxPosition" value="80000000.000" />
 		<property name="speed" value="600.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5lqyt" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-80000000.000" />
 		<property name="maxPosition" value="80000000.000" />
 		<property name="speed" value="600.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5lqzt" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-80000000.000" />
 		<property name="maxPosition" value="80000000.000" />
 		<property name="speed" value="600.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5lqrxMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-80000000.000" />
 		<property name="maxPosition" value="80000000.000" />
 		<property name="speed" value="1.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5lqryMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-80000000.000" />
 		<property name="maxPosition" value="80000000.000" />
 		<property name="speed" value="1.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5lqrzMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-80000000.000" />
 		<property name="maxPosition" value="80000000.000" />
 		<property name="speed" value="1.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- M5 stage -->
@@ -95,13 +83,11 @@
 		<property name="minPosition" value="-54.10000" />
 		<property name="maxPosition" value="43.10000" />
 		<property name="speed" value="0.14000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m5rstageMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-46.00000" />
 		<property name="maxPosition" value="214.00000" />
 		<property name="speed" value="0.32000" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

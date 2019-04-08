@@ -10,8 +10,8 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<!-- Group d3a-related objects -->	
- 	<bean id="d3a" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<!-- Group d3a-related objects -->
+	<bean id="d3a" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="d3apos" />
@@ -20,7 +20,6 @@
 				<ref bean="d3afemto" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
- </beans>
+</beans>

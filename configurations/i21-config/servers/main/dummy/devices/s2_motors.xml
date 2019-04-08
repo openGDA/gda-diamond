@@ -8,56 +8,48 @@
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2hsizeMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2vcentreMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2vsizeMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2offsideMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2nearsideMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2upperMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2lowerMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

@@ -2,28 +2,23 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-		
+
 	<bean id="specgammaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-ARM-01:GAMMA"/>
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="speczMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-ARM-01:VERT"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="specxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-ARM-01:HORZ"/>
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="andorEffectiveHorizontal" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-MO-ARM-01:HORZ_ANDOR_RBV.VAL" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="andorEffectiveVertical" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-MO-ARM-01:VERT_ANDOR_RBV.VAL" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

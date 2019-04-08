@@ -57,7 +57,6 @@
 				<ref bean="s1lower" />
 			</list>
 		</property>
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 
 </beans>

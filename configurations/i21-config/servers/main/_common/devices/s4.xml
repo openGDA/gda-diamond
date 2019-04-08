@@ -61,7 +61,6 @@
 <!-- 				<ref bean="s4femto4" /> -->
 			</list>
 		</property>
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 
 </beans>

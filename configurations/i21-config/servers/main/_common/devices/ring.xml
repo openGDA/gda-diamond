@@ -4,7 +4,7 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 
- 	<bean id="ring" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="ring" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="ringCurrent" />
@@ -12,8 +12,6 @@
 				<ref bean="timeToRefill" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
- </beans>
- 
+</beans>

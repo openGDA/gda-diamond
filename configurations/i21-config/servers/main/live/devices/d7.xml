@@ -7,18 +7,15 @@
 	<!-- Stick motor -->
 	<bean id="d7motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-DI-GAS-01:GAS" />
-		<property name="local" value="true" />
 	</bean>
 	<!-- Femto -->
 	<bean id="d7femto1" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-DI-GAS-01:FEMTO1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="d7femto2" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-DI-GAS-01:FEMTO2" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 <!-- 	<bean id="d7femto1" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc"> -->
 <!-- 		<property name="basePVName" value="BL21I-DI-GAS-01:FEMTO2:"/> -->
 <!-- 		<property name="adcChannel" value="1" /> -->
@@ -27,7 +24,6 @@
 <!-- 		<property name="modeToGainToGainStringMap" ref="gainMap"/> -->
 <!-- 		<property name="hasIAVinPV" value="false"/> -->
 <!-- 		<property name="hasIinPV" value="false"/> -->
-<!-- 		<property name="local" value="true"/> -->
 <!-- 		<property name="instantaneousVoltage" value="true"/>'true' returns instantaneous Voltage value, 'false' returns averaged value -->
 <!-- 	</bean> -->
 <!-- 	<bean id="d7femto2" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc"> -->
@@ -38,7 +34,6 @@
 <!-- 		<property name="modeToGainToGainStringMap" ref="gainMap"/> -->
 <!-- 		<property name="hasIAVinPV" value="false"/> -->
 <!-- 		<property name="hasIinPV" value="false"/> -->
-<!-- 		<property name="local" value="true"/> -->
 <!-- 		<property name="instantaneousVoltage" value="true"/>'true' returns instantaneous Voltage value, 'false' returns averaged value -->
 <!-- 	</bean> -->
 </beans>

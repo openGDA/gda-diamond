@@ -8,7 +8,6 @@
 	</bean>
 	<bean id="zebraContinuousMoveController" class="gda.device.zebra.ZebraConstantVelocityMoveController">
 		<property name="zebra" ref="zebra"/>
-		<property name="local" value="true" />
 		<property name="mode" value="1"/><!-- 0=Position, 1=Time, 2=External -->
 		<property name="pcPulseGateNotTrigger" value="true"/>
 		<property name="minimumAccelerationDistance" value="0.008"/>
@@ -20,18 +19,15 @@
 	</bean>
 	<bean id="zebraZebraMonitorController" class="gda.device.zebra.ZebraMonitorController">
 		<property name="zebra" ref="zebra"/>
-		<property name="local" value="true" />
 		<property name="zebraCVMoveController" ref="zebraContinuousMoveController"/>
 	</bean>
 	<bean id="gratingZebraScannableMonitor" class="gda.device.zebra.ZebraScannableMonitor">
 		<property name="name" value="gratingZebraScannableMonitor" />
-		<property name="local" value="true" />
 		<property name="zebraMonitorController" ref="zebraZebraMonitorController"/>
 		<property name="pcCapture" value="2"/> <?ignore Default 0=Enc1, 6=Div1 ?>
 	</bean>
 	<bean id="mirrorZebraScannableMonitor" class="gda.device.zebra.ZebraScannableMonitor">
 		<property name="name" value="mirrorZebraScannableMonitor" />
-		<property name="local" value="true" />
 		<property name="zebraMonitorController" ref="zebraZebraMonitorController"/>
 		<property name="pcCapture" value="3"/> <?ignore Default 0=Enc1, 6=Div1 ?>
 	</bean>
