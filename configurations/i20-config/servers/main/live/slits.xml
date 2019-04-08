@@ -5,116 +5,92 @@
 
 <!--s1 motors-->
 	<bean id="s1_hgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="FE20I-AL-SLITS-01:X:SIZE" />
 	</bean>
 	<bean id="s1_hoffset_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="FE20I-AL-SLITS-01:X:CENTRE" />
 	</bean>
 	<bean id="s1_vgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="FE20I-AL-SLITS-01:Y:SIZE" />
 	</bean>
 	<bean id="s1_voffset_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="FE20I-AL-SLITS-01:Y:CENTRE" />
 	</bean>
 	<bean id="s1_xa_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE20I-AL-SLITS-01:XA" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_xb_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE20I-AL-SLITS-01:XB" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_ya_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE20I-AL-SLITS-01:YA" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_yb_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE20I-AL-SLITS-01:YB" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_xa_motor_mm" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE20I-AL-SLITS-01:XA:MM" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_xb_motor_mm" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE20I-AL-SLITS-01:XB:MM" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_ya_motor_mm" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE20I-AL-SLITS-01:YA:MM" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_yb_motor_mm" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE20I-AL-SLITS-01:YB:MM" />
-		<property name="local" value="true" />
 	</bean>
 
 <!--s2 motors-->
 	<bean id="s2_hgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-02:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_hoffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-02:X:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_vgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-02:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_voffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-02:Y:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_xplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-02:X:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_xminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-02:X:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_yplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-02:Y:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s2_yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-02:Y:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 	
 <!--s3 motors-->
 	<bean id="s3_hgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-03:X:SIZE" />
-		</bean>
+	</bean>
 	<bean id="s3_hoffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-03:X:CENTRE" />
-		</bean>
+	</bean>
 	<bean id="s3_vgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-03:Y:SIZE" />
-		</bean>
+	</bean>
 	<bean id="s3_voffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-03:Y:CENTRE" />
-		</bean>
+	</bean>
 	<bean id="s3_xplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-03:X:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s3_xminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-03:X:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s3_yplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-03:Y:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s3_yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-AL-SLITS-03:Y:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 <!-- 	<bean id="photonshutter" class="gda.device.enumpositioner.EpicsSimplePositioner"> -->

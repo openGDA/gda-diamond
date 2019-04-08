@@ -8,84 +8,72 @@
 		<property name="initialUserUnits" value="mrad" />
 		<property name="motor" ref="s1_hgap_motor" />
 		<property name="hardwareUnitString" value="mrad" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s1_vgap" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
 		<property name="motor" ref="s1_vgap_motor" />
 		<property name="hardwareUnitString" value="mrad" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s1_hoffset" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
 		<property name="motor" ref="s1_hoffset_motor" />
 		<property name="hardwareUnitString" value="mrad" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s1_voffset" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
 		<property name="motor" ref="s1_voffset_motor" />
 		<property name="hardwareUnitString" value="mrad" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s1_xa" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
 		<property name="motor" ref="s1_xa_motor" />
 		<property name="hardwareUnitString" value="mrad" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s1_xb" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
 		<property name="motor" ref="s1_xb_motor" />
 		<property name="hardwareUnitString" value="mrad" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s1_ya" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
 		<property name="motor" ref="s1_ya_motor" />
 		<property name="hardwareUnitString" value="mrad" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s1_yb" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mrad" />
 		<property name="motor" ref="s1_yb_motor" />
 		<property name="hardwareUnitString" value="mrad" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s1_xa_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s1_xa_motor_mm" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s1_xb_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s1_xb_motor_mm" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s1_ya_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s1_ya_motor_mm" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s1_yb_mm" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s1_yb_motor_mm" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -110,41 +98,33 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s2_hgap_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s2_vgap" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s2_vgap_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s2_hoffset" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s2_hoffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s2_voffset" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s2_voffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false"/>
 	</bean>	
 	<bean id="s2_xplus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s2_xplus_motor" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s2_xminus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s2_xminus_motor" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s2_yplus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s2_yplus_motor" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s2_yminus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s2_yminus_motor" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -165,42 +145,34 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s3_hgap_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s3_vgap" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s3_vgap_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s3_hoffset" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s3_hoffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s3_voffset" class="gda.device.scannable.ScannableMotor">
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="s3_voffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="s3_xplus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_xplus_motor" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s3_xminus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_xminus_motor" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s3_yplus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_yplus_motor" />
-		<property name="local" value="false"/>
 	</bean>
 	<bean id="s3_yminus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_yminus_motor" />
-		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">

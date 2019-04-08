@@ -93,11 +93,10 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
 		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 </beans>

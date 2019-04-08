@@ -23,7 +23,6 @@
 		</property>
 	</bean>
 	<bean id="d1_screen_pos" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d1_motor" />
@@ -44,35 +43,30 @@
 	<bean id="d3_up_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="d3_down_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="d3_vgap" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d3_vgap_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="d3_screen_pos" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d3_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="d3_voffset" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d3_voffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="d3_up" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d3_up_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="d3_down" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d3_down_motor" />
@@ -131,7 +125,6 @@
 	<bean id="d8_motor" class="gda.device.motor.DummyMotor">
 	</bean>
 	<bean id="d8_screen_pos" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d8_motor" />
 		<property name="hardwareUnitString" value="mm" />

@@ -7,37 +7,29 @@
 	<!--attenuators -->
 	<bean id="atn1" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20I-OP-ATTN-01:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-ATTN-01:POSN" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="atn2" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20I-OP-ATTN-02:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-ATTN-02:POSN" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="atn3" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20I-OP-ATTN-03:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-ATTN-03:POSN" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn4" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20I-OP-ATTN-04:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn4_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-ATTN-04:POSN" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="atn1_pos" class="gda.device.scannable.ScannableMotor">
@@ -45,28 +37,24 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="atn1_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn2_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="atn2_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn3_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="atn3_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="atn4_pos" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="atn4_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="atn5_filter1_name" class="gda.device.scannable.PVStringScannable">

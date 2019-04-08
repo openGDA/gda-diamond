@@ -5,76 +5,58 @@
 
 	<bean id="m1_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VCM-01:YAW" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VCM-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_elip_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VCM-01:ELLIP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VCM-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VCM-01:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_curvature_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VCM-01:CURVE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_bend1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VCM-01:BEND1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_bend2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VCM-01:BEND2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1_sag_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VCM-01:SAG" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-PM-02:YAW" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m2_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-PM-02:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m2_elip_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-PM-02:ELLIP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m2_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-PM-02:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m2_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-PM-02:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m2_curvature_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-PM-02:CURVE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m2_bend1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-PM-02:BEND1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m2_bend2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VCM-01:BEND2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m2_sag_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-PM-02:SAG" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m3_stripe" class="gda.device.enumpositioner.EpicsPositionerCallback">
@@ -94,11 +76,9 @@
 	</bean>
 	<bean id="m3_sag_pt_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-HFM-03:SAG1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m3_sag_rh_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-HFM-03:SAG2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_stripe" class="gda.device.enumpositioner.EpicsPositionerCallback">
@@ -109,35 +89,27 @@
 	</bean>
 	<bean id="m4_elip_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VFM-04:ELLIP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m4_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VFM-04:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m4_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VFM-04:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m4_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VFM-04:YAW" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m4_curvature_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VFM-04:CURVE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m4_bend1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VFM-04:BEND1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m4_bend2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VFM-04:BEND2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m4_sag_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-OP-VFM-04:SAG" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_yaw" class="gda.device.scannable.ScannableMotor">

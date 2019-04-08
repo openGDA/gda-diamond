@@ -4,7 +4,6 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="DAServer" class="gda.device.detector.DAServer">
-		<property name="local" value="True" />
 		<property name="host" value="i20-xspress0" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">

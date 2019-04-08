@@ -6,52 +6,41 @@
 	<bean id="table1_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="table1_x_motor" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="table1_y" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="table1_y_motor" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="table2_x" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="table2_x_motor" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="table2_y" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="motor" ref="table2_y_motor" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="sample_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_x_motor" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="sample_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_y_motor" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="sample_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_z_motor" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="sample_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_pitch_motor" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="sample_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_roll_motor" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="sample_rot" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_rot_motor" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="sample_fine_rot" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sample_fine_rot_motor" />
-		<property name="local" value="false" />
 	</bean>
 
 </beans>
