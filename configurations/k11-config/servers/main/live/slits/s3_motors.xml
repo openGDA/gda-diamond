@@ -5,41 +5,33 @@
 	
 	<bean id="s3_xplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-03:IMGX:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_xminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-03:IMGX:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_yplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-03:IMGY:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-03:IMGY:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-03:X:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-03:X:CEN" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-03:Y:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-03:Y:CEN" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

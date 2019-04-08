@@ -7,27 +7,22 @@
 
 	<bean id="m4_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-OP-MR-04:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-OP-MR-04:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-OP-MR-04:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-OP-MR-04:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-OP-MR-04:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 
@@ -35,37 +30,30 @@
 
 	<bean id="m4_x1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-OP-MR-04:X1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_x2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-OP-MR-04:X2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_y1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-OP-MR-04:Y1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_y2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-OP-MR-04:Y2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_y3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-OP-MR-04:Y3" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_bendus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-OP-MR-04:BENDUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_bendds_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-OP-MR-04:BENDDS" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>
