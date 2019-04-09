@@ -7,7 +7,7 @@ GDA_INSTALL_GIT_LOC=$(readlink -f $(dirname $0)/../../../)
 
 function gdaclienthelp {
 	cat 1>&2 <<EOF
-Usage: gdaclient [OPTION]... [-- CLIENT_OPTION [CLIENT_OPTION]... ]
+Usage: gdaclient [OPTION]... [-- CLIENT_OPTION [CLIENT_OPTION]...]
 
 Start the GDA client with the default workspace: ${WORKSPACE}
 
