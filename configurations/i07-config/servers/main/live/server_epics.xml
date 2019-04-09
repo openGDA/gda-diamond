@@ -120,7 +120,7 @@
 	<!-- ============================== Epics MCA ============== -->
 	<bean id="mca1"
 		class="gda.device.detector.multichannelscaler.EpicsDlsMcsSis3820Controller">
-		<property name="deviceName" value="MCA1" />
+		<property name="recordName" value="BL07I-EA-DET-01:MCA-01" />
 	</bean>
 
 	<!-- ============================== Epics Scaler ============== -->
@@ -133,10 +133,17 @@
 		definition section ============ -->
 	<!-- QBPM1 (D2) Current Amplifier Controller, BPM Controller and BPM -->
 	<bean id="bpm1qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
-		<property name="deviceName" value="D2.AMP" />
+		<property name="rangePv" value="BL07I-DI-PHDGN-02:SETRANGE" />
+		<property name="rangeRbvPv" value="BL07I-DI-PHDGN-02:MRREADBACK" />
+		<property name="current1Pv" value="BL07I-DI-PHDGN-02:BPMI1" />
+		<property name="current2Pv" value="BL07I-DI-PHDGN-02:BPMI2" />
+		<property name="current3Pv" value="BL07I-DI-PHDGN-02:BPMI3" />
+		<property name="current4Pv" value="BL07I-DI-PHDGN-02:BPMI4" />
 	</bean>
 	<bean id="bpm1" class="gda.device.monitor.EpicsBpmController">
-		<property name="deviceName" value="D2.BPM" />
+		<property name="intensityPvName" value="BL07I-DI-PHDGN-02:INTEN" />
+		<property name="xposPvName" value="BL07I-DI-PHDGN-02:XPOS" />
+		<property name="yposPvName" value="BL07I-DI-PHDGN-02:YPOS" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="qbpm1" class="gda.device.qbpm.EpicsQbpm">
@@ -146,10 +153,17 @@
 
 	<!-- QBPM2 (D3) Current Amplifier Controller, BPM Controller and BPM -->
 	<bean id="bpm2qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
-		<property name="deviceName" value="D3.AMP" />
+		<property name="rangePv" value="BL07I-DI-PHDGN-03:SETRANGE" />
+		<property name="rangeRbvPv" value="BL07I-DI-PHDGN-03:MRREADBACK" />
+		<property name="current1Pv" value="BL07I-DI-PHDGN-03:BPMI1" />
+		<property name="current2Pv" value="BL07I-DI-PHDGN-03:BPMI2" />
+		<property name="current3Pv" value="BL07I-DI-PHDGN-03:BPMI3" />
+		<property name="current4Pv" value="BL07I-DI-PHDGN-03:BPMI4" />
 	</bean>
 	<bean id="bpm2" class="gda.device.monitor.EpicsBpmController">
-		<property name="deviceName" value="D3.BPM" />
+		<property name="intensityPvName" value="BL07I-DI-PHDGN-03:INTEN" />
+		<property name="xposPvName" value="BL07I-DI-PHDGN-03:XPOS" />
+		<property name="yposPvName" value="BL07I-DI-PHDGN-03:YPOS" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="qbpm2" class="gda.device.qbpm.EpicsQbpm">
@@ -159,10 +173,17 @@
 
 	<!-- QBPM3 D5 Current Amplifier Controller, BPM Controller and BPM -->
 	<bean id="bpm3qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
-		<property name="deviceName" value="D5.AMP" />
+		<property name="rangePv" value="BL07I-DI-PHDGN-05:SETRANGE" />
+		<property name="rangeRbvPv" value="BL07I-DI-PHDGN-05:MRREADBACK" />
+		<property name="current1Pv" value="BL07I-DI-PHDGN-05:BPMI1" />
+		<property name="current2Pv" value="BL07I-DI-PHDGN-05:BPMI2" />
+		<property name="current3Pv" value="BL07I-DI-PHDGN-05:BPMI3" />
+		<property name="current4Pv" value="BL07I-DI-PHDGN-05:BPMI4" />
 	</bean>
 	<bean id="bpm3" class="gda.device.monitor.EpicsBpmController">
-		<property name="deviceName" value="D5.BPM" />
+		<property name="intensityPvName" value="BL07I-DI-PHDGN-05:INTEN" />
+		<property name="xposPvName" value="BL07I-DI-PHDGN-05:XPOS" />
+		<property name="yposPvName" value="BL07I-DI-PHDGN-05:YPOS" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="qbpm3" class="gda.device.qbpm.EpicsQbpm">
@@ -172,10 +193,17 @@
 
 	<!-- MBS1 Current Amplifier Controller, BPM Controller and BPM -->
 	<bean id="mbs1qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
-		<property name="deviceName" value="MBS1.AMP" />
+		<property name="rangePv" value="BL07I-AL-SLITS-02:SETRANGE" />
+		<property name="rangeRbvPv" value="BL07I-AL-SLITS-02:MRREADBACK" />
+		<property name="current1Pv" value="BL07I-AL-SLITS-02:BPMI1" />
+		<property name="current2Pv" value="BL07I-AL-SLITS-02:BPMI2" />
+		<property name="current3Pv" value="BL07I-AL-SLITS-02:BPMI3" />
+		<property name="current4Pv" value="BL07I-AL-SLITS-02:BPMI4" />
 	</bean>
 	<bean id="mbs1bpm" class="gda.device.monitor.EpicsBpmController">
-		<property name="deviceName" value="MBS1.BPM" />
+		<property name="intensityPvName" value="BL07I-AL-SLITS-02:INTEN" />
+		<property name="xposPvName" value="BL07I-AL-SLITS-02:XPOS" />
+		<property name="yposPvName" value="BL07I-AL-SLITS-02:YPOS" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="mbs1qbpm" class="gda.device.qbpm.EpicsQbpm">
@@ -185,10 +213,17 @@
 
 	<!-- MBS2 Current Amplifier Controller, BPM Controller and BPM -->
 	<bean id="mbs2qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
-		<property name="deviceName" value="MBS2.AMP" />
+		<property name="rangePv" value="BL07I-AL-SLITS-03:SETRANGE" />
+		<property name="rangeRbvPv" value="BL07I-AL-SLITS-03:MRREADBACK" />
+		<property name="current1Pv" value="BL07I-AL-SLITS-03:BPMI1" />
+		<property name="current2Pv" value="BL07I-AL-SLITS-03:BPMI2" />
+		<property name="current3Pv" value="BL07I-AL-SLITS-03:BPMI3" />
+		<property name="current4Pv" value="BL07I-AL-SLITS-03:BPMI4" />
 	</bean>
 	<bean id="mbs2bpm" class="gda.device.monitor.EpicsBpmController">
-		<property name="deviceName" value="MBS2.BPM" />
+		<property name="intensityPvName" value="BL07I-AL-SLITS-03:INTEN" />
+		<property name="xposPvName" value="BL07I-AL-SLITS-03:XPOS" />
+		<property name="yposPvName" value="BL07I-AL-SLITS-03:YPOS" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="mbs2qbpm" class="gda.device.qbpm.EpicsQbpm">
@@ -198,10 +233,17 @@
 
 	<!-- MBS3 Current Amplifier Controller, BPM Controller and BPM -->
 	<bean id="mbs3qca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
-		<property name="deviceName" value="MBS3.AMP" />
+		<property name="rangePv" value="BL07I-AL-SLITS-04:SETRANGE" />
+		<property name="rangeRbvPv" value="BL07I-AL-SLITS-04:MRREADBACK" />
+		<property name="current1Pv" value="BL07I-AL-SLITS-04:BPMI1" />
+		<property name="current2Pv" value="BL07I-AL-SLITS-04:BPMI2" />
+		<property name="current3Pv" value="BL07I-AL-SLITS-04:BPMI3" />
+		<property name="current4Pv" value="BL07I-AL-SLITS-04:BPMI4" />
 	</bean>
 	<bean id="mbs3bpm" class="gda.device.monitor.EpicsBpmController">
-		<property name="deviceName" value="MBS3.BPM" />
+		<property name="intensityPvName" value="BL07I-AL-SLITS-04:INTEN" />
+		<property name="xposPvName" value="BL07I-AL-SLITS-04:XPOS" />
+		<property name="yposPvName" value="BL07I-AL-SLITS-04:YPOS" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="mbs3qbpm" class="gda.device.qbpm.EpicsQbpm">
@@ -213,23 +255,38 @@
 		===================== -->
 	<!-- D1 Current Amplifier -->
 	<!-- <bean id="d1ca" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> 
-		<property name="deviceName" value="D1.AMP"/> </bean> -->
+		<property name="pvName" value="BL07I-DI-PHDGN-01"/>
+		<property name="acdcAvailable" value="false"/>
+		</bean> -->
+
 
 	<!-- D4 Inline Current Amplifier -->
 	<!-- <bean id="d4ca1" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> 
-		<property name="deviceName" value="D4.AMP1"/> </bean> -->
+		<property name="pvName" value="BL07I-DI-PHDGN-04:INLINE"/>
+		<property name="acdcAvailable" value="false"/>
+		</bean> -->
 
 	<!-- D4 Scatter Current Amplifier -->
 	<!-- <bean id="d4ca2" class="gda.device.currentamplifier.EpicsCurrAmpSingle"> 
-		<property name="deviceName" value="D4.AMP2"/> </bean> -->
+		<property name="pvName" value="BL07I-DI-PHDGN-04:SCATTER"/>
+		<property name="acdcAvailable" value="false"/>
+		</bean> -->
 	<!-- ==================== Quadra Current Amplifier definition section ===================== -->
 	<!-- Ion Chamber Quadra Current Amplifier -->
 	<bean id="adcqca" class="gda.device.enumpositioner.EpicsCurrAmpQuadController">
-		<property name="deviceName" value="IONC1.AMP" />
+		<property name="rangePv" value="BL07I-OP-IONC-01:SETRANGE" />
+		<property name="rangeRbvPv" value="BL07I-OP-IONC-01:MRREADBACK" />
+		<property name="current1Pv" value="BL07I-OP-IONC-01:I1" />
+		<property name="current2Pv" value="BL07I-OP-IONC-01:I1" />
+		<property name="current3Pv" value="BL07I-OP-IONC-01:I1" />
+		<property name="current4Pv" value="BL07I-OP-IONC-01:I1" />
 	</bean>
 
+	<!-- TODO Why is this the same pvs as bpm1? In the interface xml there is comment referring to this as fake -->
 	<bean id="adcbpm" class="gda.device.monitor.EpicsBpmController">
-		<property name="deviceName" value="IONC1.BPM" />
+		<property name="intensityPvName" value="BL07I-DI-PHDGN-02:INTEN" />
+		<property name="xposPvName" value="BL07I-DI-PHDGN-02:XPOS" />
+		<property name="yposPvName" value="BL07I-DI-PHDGN-02:YPOS" />
 		<property name="poll" value="true" />
 	</bean>
 	<bean id="adcqbpm" class="gda.device.qbpm.EpicsQbpm">
@@ -392,11 +449,16 @@
 	</bean>
 
 	<!--Hexapod 1 Pivot values -->
-	<!-- <bean id="hex1pivotx" class="gda.device.monitor.EpicsMonitor"> <property 
-		name="deviceName" value="HEX1.PIVOTX" /> </bean> <bean id="hex1pivoty" class="gda.device.monitor.EpicsMonitor"> 
-		<property name="deviceName" value="HEX1.PIVOTY" /> </bean> <bean id="hex1pivotz" 
-		class="gda.device.monitor.EpicsMonitor"> <property name="deviceName" value="HEX1.PIVOTZ" 
-		/> </bean> -->
+	<!-- <bean id="hex1pivotx" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-MO-HEX-01:PIVOT:X" />
+		</bean>
+		<bean id="hex1pivoty" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-MO-HEX-01:PIVOT:Y" />
+		</bean>
+		<bean id="hex1pivotz" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-MO-HEX-01:PIVOT:Z"/>
+		</bean> -->
+
 	<!-- GB1 Temperature 1 -->
 	<bean id="gb1t1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL07I-RS-GBC-01:TEMP1" />

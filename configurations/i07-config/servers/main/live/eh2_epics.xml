@@ -100,12 +100,10 @@
 	<bean id="MotorNU1_DIFF2" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-02:VAC_ROT" />
 	</bean>
-<!-- 	<bean id="MotorSLIT_DIFF2" class="gda.device.motor.EpicsMotor">
-		<property name="deviceName" value="DIFF2.SL-DET1" />
-	</bean>
-	<bean id="MotorSLITVR_DIFF2" class="gda.device.motor.EpicsMotor"> 
-		<property name="deviceName" value="DIFF2.SL-VR" />
-	</bean> -->
+	<!-- <bean id="MotorSLIT_DIFF2" class="gda.device.motor.EpicsMotor"> <property
+		name="pvName" value="BL07I-MO-DIFF-02:SL-DET1" /> </bean> <bean
+	id="MotorSLITVR_DIFF2" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL07I-MO-DIFF-02:SL-VR" /> </bean> -->
 
 	<bean id="MotorBASEPITCH_DIFF2" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07I-MO-DIFF-02:BASE:PITCH" />

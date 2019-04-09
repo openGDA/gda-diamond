@@ -7,7 +7,6 @@
        <!-- Controller 1 Three loops -->
         <!-- <bean id="etcontroller11" class="gda.device.temperature.EpicsEurotherm2kController">  comment out these devices 
         <property name="configureAtStartup" value="true"/>
-        <property name="deviceName" value = "EURO1.LP1"/>
         <property name="maxRampRate" value = "10"/>
         <property name="minRampRate" value = "0.01"/>
         <property name="maxOutput" value = "100"/>
@@ -26,7 +25,6 @@
 
     <!-- <bean id="etcontroller12" class="gda.device.temperature.EpicsEurotherm2kController">
         <property name="configureAtStartup" value="true"/>
-        <property name="deviceName" value = "EURO1.LP2"/>
         <property name="maxRampRate" value = "10"/>
         <property name="minRampRate" value = "0.01"/>
         <property name="maxOutput" value = "100"/>
@@ -44,7 +42,6 @@
 
    <!--  <bean id="etcontroller13" class="gda.device.temperature.EpicsEurotherm2kController">
         <property name="configureAtStartup" value="true"/>
-        <property name="deviceName" value = "EURO1.LP3"/>
         <property name="maxRampRate" value = "10"/>
         <property name="minRampRate" value = "0.01"/>
         <property name="maxOutput" value = "100"/>
@@ -65,7 +62,6 @@
     <!-- Controller 2, Three loops -->
    <!--  <bean id="etcontroller21" class="gda.device.temperature.EpicsEurotherm2kController">
         <property name="configureAtStartup" value="true"/>
-        <property name="deviceName" value = "EURO2.LP1"/>
         <property name="maxRampRate" value = "10"/>
         <property name="minRampRate" value = "0.01"/>
         <property name="maxOutput" value = "100"/>
@@ -83,7 +79,6 @@
 
     <!-- <bean id="etcontroller22" class="gda.device.temperature.EpicsEurotherm2kController">
         <property name="configureAtStartup" value="true"/>
-        <property name="deviceName" value = "EURO2.LP2"/>
         <property name="maxRampRate" value = "10"/>
         <property name="minRampRate" value = "0.01"/>
         <property name="maxOutput" value = "100"/>
@@ -101,7 +96,6 @@
 
     <!-- <bean id="etcontroller23" class="gda.device.temperature.EpicsEurotherm2kController">
         <property name="configureAtStartup" value="true"/>
-        <property name="deviceName" value = "EURO2.LP3"/>
         <property name="maxRampRate" value = "10"/>
         <property name="minRampRate" value = "0.01"/>
         <property name="maxOutput" value = "100"/>
@@ -121,12 +115,10 @@
 
     <!--  ============================== Epics MCA ============== -->
     <bean id="mca1" class="gda.device.detector.DummyDetector">
-        <!-- <property name="deviceName" value="MCA1"/>-->
     </bean>
     
     <!--  ============================== Epics Scaler ============== -->
     <bean id="struck1" class="gda.device.detector.DummyDetector">
-        <!-- <property name="deviceName" value="SCALER1"/>-->
         <!-- <property name="frequency" value="50000000"/>-->
     </bean>
 
@@ -195,21 +187,18 @@
     <!-- D1 Current Amplifier-->
 <!--    
     <bean id="d1ca" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-        <property name="deviceName" value="D1.AMP"/>
     </bean>
 -->
     
     <!-- D4 Inline Current Amplifier-->
 <!--    
     <bean id="d4ca1" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-        <property name="deviceName" value="D4.AMP1"/>
     </bean>
 -->    
     
     <!-- D4 Scatter Current Amplifier-->
 <!--    
     <bean id="d4ca2" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
-        <property name="deviceName" value="D4.AMP2"/>
     </bean>
 -->    
     <!--  ==================== Quadra Current Amplifier definition section ===================== -->
@@ -257,13 +246,9 @@
     <!-- DCM fine pitch and roll Control Point, should be replaced by motor now -->
 <!--    
     <bean id="dcm1froll" class="gda.device.controlpoint.EpicsControlPoint">
-        <property name="deviceNameSetPoint" value="DCM.FROLL" />
-        <property name="deviceNameGetPoint" value="DCM.FROLL-RBV" />
     </bean>
     
     <bean id="dcm1fpitch" class="gda.device.controlpoint.EpicsControlPoint">
-        <property name="deviceNameSetPoint" value="DCM.FPITCH" />
-        <property name="deviceNameGetPoint" value="DCM.FPITCH-RBV" />
     </bean>
 -->
     
@@ -334,13 +319,10 @@
     <!--Hexapod 1 Pivot values-->
 <!--    
     <bean id="hex1pivotx" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="HEX1.PIVOTX" />
     </bean>
     <bean id="hex1pivoty" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="HEX1.PIVOTY" />
     </bean>
     <bean id="hex1pivotz" class="gda.device.monitor.DummyEpicsMonitor">
-        <property name="deviceName" value="HEX1.PIVOTZ" />
     </bean>
 -->    
     <!-- GB1 Temperature 1 -->

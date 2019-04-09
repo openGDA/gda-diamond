@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- <bean id="lakeshore_controller" class="gda.device.temperature.EpicsLakeshore340Controller">
-		<property name="deviceName" value="CRYO.TCTRL" />
 		<property name="configureAtStartup" value="true"/>
 		<property name="readbackChannel" value="2" />
 	</bean> -->
