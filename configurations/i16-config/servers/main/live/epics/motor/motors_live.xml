@@ -5,166 +5,113 @@
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-
-
-
-
-
-
-
-
 	<bean id="KBRoll1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-01:ROLL1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="KBT1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-01:T1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="KBT2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-01:T2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="KBT3Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-01:T3" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="KBT4Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-01:T4" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="KBRoll2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-01:ROLL2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="KBT5Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-01:T5" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="KBT6Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-01:T6" />
-		<property name="local" value="true" />
 	</bean>
-
-
-
 
 	<bean id="M3XMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-MFM-01:M3:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="M3YawMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-MFM-01:M3:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="M4XMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-MFM-01:M4:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="M4YawMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-MFM-01:M4:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="P2TABY1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-P2TAB-01:Y1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="P2TABY2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-P2TAB-01:Y2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="P2TABY3Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-P2TAB-01:Y3" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="P2TABX1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-P2TAB-01:X1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="P2TABX2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-P2TAB-01:X2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="P2TABZ1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-P2TAB-01:Z1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="PPRTMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-PPR-01:THETA" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="PPRYMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-PPR-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="PPRXMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-PPR-01:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="PPRCMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-PPR-01:CHI" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="PXXMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-EA-POLAN-01:X" />
-		<property name="local" value="true" />
 	</bean>
-
-
-
-
-
-
-
-
 
 
 	<bean id="TABYMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-TABLE-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TABXMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-TABLE-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="USER11Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-USER-01:AXIS1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="USER12Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-USER-01:AXIS2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="USER13Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-USER-01:AXIS3" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="USER14Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-USER-01:AXIS4" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="USER21Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-USER-02:AXIS1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="USER22Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-USER-02:AXIS2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="USER23Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-USER-02:AXIS3" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="USER24Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-USER-02:AXIS4" />
-		<property name="local" value="true" />
 	</bean>
 
-	
 </beans>

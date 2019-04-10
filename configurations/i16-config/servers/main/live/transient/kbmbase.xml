@@ -6,32 +6,26 @@
 <!--
 	<bean id="kbmbaseX1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-02:X1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kbmbaseX2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-02:X2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kbmbaseX3Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-02:X3" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kbmbaseY1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-02:Y1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kbmbaseY2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-02:Y2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kbmbaseY3Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-02:Y3" />
-		<property name="local" value="true" />
 	</bean>
 -->
 
@@ -41,7 +35,6 @@
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
 				<property name="pvName" value="BL16I-MO-KBM-02:X1" />
-				<property name="local" value="true" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -51,7 +44,6 @@
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
 				<property name="pvName" value="BL16I-MO-KBM-02:X2" />
-				<property name="local" value="true" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -61,7 +53,6 @@
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
 				<property name="pvName" value="BL16I-MO-KBM-02:X3" />
-				<property name="local" value="true" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -71,7 +62,6 @@
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
 				<property name="pvName" value="BL16I-MO-KBM-02:Y1" />
-				<property name="local" value="true" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -81,7 +71,6 @@
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
 				<property name="pvName" value="BL16I-MO-KBM-02:Y2" />
-				<property name="local" value="true" />
 			</bean>
 		</constructor-arg>
 	</bean>
@@ -91,7 +80,6 @@
 		<constructor-arg>
 			<bean class="gda.device.motor.EpicsMotor">
 				<property name="pvName" value="BL16I-MO-KBM-02:Y3" />
-				<property name="local" value="true" />
 			</bean>
 		</constructor-arg>
 	</bean>

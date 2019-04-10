@@ -6,24 +6,20 @@
 	<bean id="S7YSizeMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-07:Y:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S7YTransMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-07:Y:TRANSLATION" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S7XSizeMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-07:X:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S7XTransMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-07:X:TRANSLATION" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

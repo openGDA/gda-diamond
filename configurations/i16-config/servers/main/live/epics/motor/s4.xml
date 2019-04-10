@@ -5,35 +5,27 @@
 
 	<bean id="S4XCentreMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-04:X:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S4XSizeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-04:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S4XNegMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-04:X:NEG" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S4XPosMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-04:X:POS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S4YCentreMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-04:Y:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S4YSizeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-04:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S4YNegMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-04:Y:NEG" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S4YPosMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-AL-SLITS-04:Y:POS" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

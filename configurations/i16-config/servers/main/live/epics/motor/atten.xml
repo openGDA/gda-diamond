@@ -5,7 +5,6 @@
 
 	<bean id="A2AMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-ATTN-02:POSN" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

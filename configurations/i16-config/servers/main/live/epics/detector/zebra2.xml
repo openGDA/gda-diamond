@@ -12,7 +12,6 @@
 	<bean id="kthZebraContinuousMoveController"
 			class="gda.device.zebra.ZebraConstantVelocityMoveController">
 		<property name="zebra" ref="zebra2"/>
-		<property name="local" value="true" />
 		<property name="mode" value="1"/>
 		<property name="pcPulseGateNotTrigger" value="false"/>
 		<property name="minimumAccelerationDistance" value="0.008"/>
@@ -21,7 +20,6 @@
 	<bean id="kthZebra"
 			class="gda.device.zebra.ZebraScannableMotor">
 		<property name="motor" ref="sixcKthEpicsMotor" />
-		<property name="local" value="true" />
 		<property name="zebraConstantVelocityMoveController" ref="kthZebraContinuousMoveController"/>
 		<property name="pcEnc" value="0"/>
 		<property name="scurveTimeToVelocity" value=".05"/> <!-- From ACCL -->

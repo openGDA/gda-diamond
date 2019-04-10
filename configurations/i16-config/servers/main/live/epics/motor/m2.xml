@@ -5,47 +5,36 @@
 
 	<bean id="M2BMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-HFM-01:BEND" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="M2PitchMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-HFM-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="M2XMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-HFM-01:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="M2YMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-HFM-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="M2YawMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-HFM-01:YAW" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="M2RollMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-HFM-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="M2UTransMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-HFM-01:X1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="M2DTransMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-HFM-01:X2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="M2UJackMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-HFM-01:Y1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="M2DIJackMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-HFM-01:Y2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="M2DOJackMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-HFM-01:Y3" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

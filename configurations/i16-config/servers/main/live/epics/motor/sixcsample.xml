@@ -2,18 +2,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	
+
 	<bean id="DSxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-DIFF-01:SAMPLE:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="DSyMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-DIFF-01:SAMPLE:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="DSzMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-DIFF-01:SAMPLE:Z" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 </beans>
