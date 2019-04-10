@@ -347,13 +347,6 @@
 
 	<!-- ============================== Epics Control Point definition section 
 		============== -->
-	<!-- DCM fine pitch and roll Control Point, should be replaced by motor 
-		now -->
-	<!-- <bean id="dcm1froll" class="gda.device.controlpoint.EpicsControlPoint"> 
-		<property name="deviceNameSetPoint" value="DCM.FROLL" /> <property name="deviceNameGetPoint" 
-		value="DCM.FROLL-RBV" /> </bean> <bean id="dcm1fpitch" class="gda.device.controlpoint.EpicsControlPoint"> 
-		<property name="deviceNameSetPoint" value="DCM.FPITCH" /> <property name="deviceNameGetPoint" 
-		value="DCM.FPITCH-RBV" /> </bean> -->
 
 	<!-- Patch Panel U1 Analog Output ControlPoint EpicsControlPoint -->
 	<bean id="dac1" class="gda.device.controlpoint.EpicsControlPoint">
