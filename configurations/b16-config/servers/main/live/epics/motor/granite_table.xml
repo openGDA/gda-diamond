@@ -5,22 +5,18 @@
 
 	<bean id="GTLINX1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-GTLIN-01:X1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="GTLINX2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-GTLIN-01:Y3" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="GTLINY1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-GTLIN-01:Y1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="GTLINY2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-GTLIN-01:Y2" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

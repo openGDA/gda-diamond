@@ -5,19 +5,15 @@
 
 	<bean id="TB3XcoarseMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:B:X3" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TB3ZcoarseMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:B:Z3" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TB3XMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:DET:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TB3YMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:DET:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

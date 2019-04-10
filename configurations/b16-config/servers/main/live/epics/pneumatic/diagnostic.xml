@@ -4,11 +4,9 @@
 
 	<bean id="diag1" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL16B-DI-PHDGN-01" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="diag2" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL16B-DI-PHDGN-02" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

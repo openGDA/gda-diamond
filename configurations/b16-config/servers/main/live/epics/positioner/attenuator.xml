@@ -5,15 +5,12 @@
 	
 	<bean id="att1us" class ="gda.device.enumpositioner.EpicsPositioner">
 		<property name="recordName" value="BL16B-AL-ATTN-01:MP1" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="att1ds" class ="gda.device.enumpositioner.EpicsPositioner">
 		<property name="recordName" value="BL16B-AL-ATTN-01:MP2" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="att2" class ="gda.device.enumpositioner.EpicsPositioner">
 		<property name="recordName" value="BL16B-AL-ATTN-02:MP" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

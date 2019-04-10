@@ -5,19 +5,15 @@
 
 	<bean id="S8XCentreMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-OP-SLITS-08:X:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S8XGapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-OP-SLITS-08:X:GAP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S8YCentreMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-OP-SLITS-08:Y:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="S8YGapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-OP-SLITS-08:Y:GAP" />
-		<property name="local" value="true" />
 	</bean>
 	
 </beans>

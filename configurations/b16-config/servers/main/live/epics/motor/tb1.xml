@@ -5,31 +5,24 @@
 
 	<bean id="TB1XcoarseMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:B:X1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TB1ZcoarseMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:B:Z1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TB1XMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:OPT:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TB1YMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:OPT:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TB1ThetaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:OPT:THETA" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TB1PhiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:OPT:PHI" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="TB1ChiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-TAB-01:OPT:CHI" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

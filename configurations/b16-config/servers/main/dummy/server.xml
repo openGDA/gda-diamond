@@ -93,7 +93,6 @@
 
 	<bean id="terminallog_path_provider" class="gda.data.SimpleObservablePathProvider">
 		<property name="path" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="testMover" class="gda.device.scannable.DummyScannable">

@@ -5,23 +5,18 @@
 
 	<bean id="D3Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-DI-PHDGN-03:POSN" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="D4Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-DI-QBPM-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="A1usMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-AL-ATTN-01:POSN:A" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="A1dsMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-AL-ATTN-01:POSN:B" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="A2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-AL-ATTN-02:POSN" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

@@ -5,7 +5,6 @@
 
 	<bean id="geo4mot1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-BRICK-04:AXIS1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="geo4mot1" class="gda.device.scannable.ScannableMotor">

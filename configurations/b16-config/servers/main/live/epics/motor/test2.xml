@@ -5,12 +5,9 @@
 
 	<bean id="TEST2Mot5Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-USER-02:AXIS5" />
-		<property name="local" value="true" />
-		
 	</bean>
 	<bean id="TEST2Mot6Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16B-MO-USER-02:AXIS6" />
-		<property name="local" value="true" />
 	</bean>
 	
 </beans>

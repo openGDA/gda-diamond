@@ -4,67 +4,51 @@
 
 	<bean id="ao1" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao2" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO2" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao3" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO3" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao4" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO4" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao5" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO5" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao6" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO6" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao7" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO7" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao8" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO8" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao9" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO9" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao10" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO10" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao11" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO11" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao12" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO12" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao13" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO13" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao14" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO14" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao15" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO15" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ao16" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvName" value="BL16B-EA-RIM-03:AO16" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

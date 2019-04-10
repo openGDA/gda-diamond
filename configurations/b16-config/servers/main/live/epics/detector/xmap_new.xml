@@ -198,7 +198,6 @@
 	</bean>
 
 	<bean id="edxdcontrollerStepScan" class="gda.device.detector.xmap.edxd.EDXDMappingController">
-		<property name="local" value="true" />
 		<property name="xmap" ref="xmap_dxp" />
 		<property name="elementOffset" value="1" />
 		<property name="numberOfElements" value="1" />
@@ -207,7 +206,6 @@
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="edxdController" ref="edxdcontrollerStepScan" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">

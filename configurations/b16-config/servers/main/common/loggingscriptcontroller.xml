@@ -27,7 +27,6 @@
 		<property name="messageClassToLog"
 			value="gda.jython.scriptcontroller.logging.XasLoggingMessage" />
 		<property name="directory" value="${gda.var}/" />
-		<property name="local" value="true" />
 	</bean>
 
 <!-- 

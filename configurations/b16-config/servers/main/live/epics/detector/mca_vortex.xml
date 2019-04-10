@@ -6,14 +6,12 @@
 		<property name="name" value="vortexMca" />
 		<property name="pvName" value="BL16B-EA-DET-01:aim_adc1" />
 		<property name="numberOfRegions" value="32" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="vortexMca2" class="gda.device.detector.analyser.EpicsMCA">
 		<property name="name" value="vortexMca2" /> 
 		<property name="pvName" value="BL16B-EA-DET-01:aim_adc2" />
 		<property name="numberOfRegions" value="32" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Only referenced by a GUI bean disabled due to the removal of gda.gui.mca.McaGUI
@@ -21,7 +19,6 @@
 	<bean id="vortexAdc" class="gda.device.adc.EpicsADC">
 		<property name="name" value="vortexAdc" />
 		 <property name="pvName" value="BL16B-EA-DET-01:adc1" /> ?
-		<property name="local" value="true" />
 	</bean>
 	 -->
 
@@ -30,7 +27,6 @@
 	<bean id="vortexTca" class="gda.device.EpicsTca">
 		<property name="name" value="vortexTca" />
 		<property name="pvName" value="BL16B-EA-DET-01:tca1" /> ?
-		<property name="local" value="true" />
 	</bean>
 	 -->
 </beans>
