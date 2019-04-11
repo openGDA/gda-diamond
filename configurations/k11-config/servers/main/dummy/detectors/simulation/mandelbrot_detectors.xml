@@ -3,7 +3,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" >
 
-	<bean id="dummyMandelbrotMappingDetector1D" class="gda.device.detector.DummyMandelbrotMappingDetector">
+<!--	<bean id="dummyMandelbrotMappingDetector1D" class="gda.device.detector.DummyMandelbrotMappingDetector"> -->
+	<bean id="mandelbrot" class="gda.device.detector.DummyMandelbrotMappingDetector">
 		<property name="realAxisPositioner" ref="beam_x" />
 		<property name="imaginaryAxisPositioner" ref="beam_y" />
 		<property name="outputDimensions" value="ONE_D" />
