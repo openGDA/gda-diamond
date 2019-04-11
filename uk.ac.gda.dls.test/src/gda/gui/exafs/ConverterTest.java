@@ -30,8 +30,8 @@ public class ConverterTest {
 	// Tolerance for imprecision of conversions
 	private static final double FP_TOLERANCE = 0.00001;
 
-	private static final double ENERGY_EV = 8932.2489387;
-	private static final double VECTOR_PER_ANGSTROM = 44.4632177;
+	private static final double ENERGY_EV = 8932.248306344547;
+	private static final double VECTOR_PER_ANGSTROM = 44.46321582035057;
 
 	private static final double EDGE_ENERGY_EV = 1400.0;
 
