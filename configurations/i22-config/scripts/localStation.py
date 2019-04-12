@@ -110,6 +110,13 @@ except Exception as e:
 	print '    ' + str(e)
 
 try:
+	from ncdutils import DetectorMeta
+	saxs_abs_cal = DetectorMeta('saxs_abs_cal', ncddetectors, 'SAXS', 'scaling_factor')
+except Exception as e:
+	print "Couldn't create saxs_abs_cal"
+	print '    ' + str(e)
+
+try:
 	from setup import metadatatweaks
 	getTitle = metadatatweaks.getTitle
 	alias("getTitle")
@@ -123,6 +130,10 @@ try:
 	alias("getVisit")
 	setVisit = metadatatweaks.setVisit
 	alias("setVisit")
+	setSampleBackground = metadatatweaks.setSampleBackground
+	alias("setSampleBackground")
+	getSampleBackground = metadatatweaks.getSampleBackground
+	alias("getSampleBackground")
 	sample_name=metadatatweaks.SampleNameScannable("sample_name","samplename")
 except:
 	print "Could not set up metadatatweaks"

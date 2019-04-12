@@ -50,6 +50,10 @@
 
 #xrayeye_centroid_x = DisplayEpicsPVClass("xrayeye_centroid_x","BL22I-DI-PHDGN-12:STAT:CentroidX_RBV","px","%.6f")
 #xrayeye_centroid_y = DisplayEpicsPVClass("xrayeye_centroid_y","BL22I-DI-PHDGN-12:STAT:CentroidY_RBV","px","%.6f")
+# 
+# D4_centroid_x = DisplayEpicsPVClass("D4_centroid_x","BL22I-DI-PHDGN-04:STAT:CentroidX_RBV","px","%.6f")
+# D4_centroid_y = DisplayEpicsPVClass("D4_centroid_y","BL22I-DI-PHDGN-04:STAT:CentroidY_RBV","px","%.6f")
+
 
 #EPICS_energy = DisplayEpicsPVClass("EPICS_energy", "BL22I-OP-DCM-01:ENERGY.RBV", "keV", "%.4f")
 
@@ -100,6 +104,11 @@
 #qbpmyminus = DisplayEpicsPVClass("qbpmyminus","BL22I-DI-PHDGN-07:Y:MINUS:I","V","%.4e")
 #qbpmxplus = DisplayEpicsPVClass("qbpmxplus","BL22I-DI-PHDGN-07:X:PLUS:I","V","%.4e")
 #qbpmxminus = DisplayEpicsPVClass("qbpmxminus","BL22I-DI-PHDGN-07:X:MINUS:I","V","%.
-piezo_vfm=DisplayEpicsPVClass("piezo_vfm","BL22I-OP-KBM-01:VFM:FY3:RBV","V","%5.4f")
-piezo_hfm=DisplayEpicsPVClass("piezo_hfm","BL22I-OP-KBM-01:HFM:FY3:RBV","V","%5.4f")
-
+#piezo_vfm=DisplayEpicsPVClass("piezo_vfm","BL22I-OP-KBM-01:VFM:FY3:RBV","V","%5.4f")
+#piezo_hfm=DisplayEpicsPVClass("piezo_hfm","BL22I-OP-KBM-01:HFM:FY3:RBV","V","%5.4f")
+xbpm_1=DisplayEpicsPVClass("xbpm_1","BL22I-EA-XBPM-01:Current1:MeanValue_RBV", "A","%5.4e")
+xbpm_2=DisplayEpicsPVClass("xbpm_2","BL22I-EA-XBPM-01:Current2:MeanValue_RBV", "A","%5.4e")
+xbpm_3=DisplayEpicsPVClass("xbpm_3","BL22I-EA-XBPM-01:Current3:MeanValue_RBV", "A","%5.4e")
+xbpm_4=DisplayEpicsPVClass("xbpm_4","BL22I-EA-XBPM-01:Current4:MeanValue_RBV", "A","%5.4e")
+xbpm_x=DisplayEpicsPVClass("xbpm_x","BL22I-EA-XBPM-01:PosX:MeanValue_RBV", "um","%6.4e")
+xbpm_y=DisplayEpicsPVClass("xbpm_y","BL22I-EA-XBPM-01:PosY:MeanValue_RBV", "um","%6.4e")

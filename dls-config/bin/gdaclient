@@ -7,7 +7,7 @@ GDA_INSTALL_GIT_LOC=$(readlink -f $(dirname $0)/../../../)
 
 function gdaclienthelp {
 	cat 1>&2 <<EOF
-Usage: gdaclient [OPTION]... [-- CLIENT_OPTION [CLIENT_OPTION]... ]
+Usage: gdaclient [OPTION]... [-- CLIENT_OPTION [CLIENT_OPTION]...]
 
 Start the GDA client with the default workspace: ${WORKSPACE}
 
@@ -34,7 +34,7 @@ EXAMPLES:
 
     gdaclient
 
-        This will start the client using the preference and projects stored in
+        This will start the client using the preferences and projects stored in
         the default workspace.
 
     gdaclient --reset
@@ -42,15 +42,15 @@ EXAMPLES:
         This will reset the client preferences and projects back to the initial
         state.
 
-    gdaclient -data /scratch/myworkspace
+    gdaclient --data /scratch/myworkspace
 
-        This will start the client using the preference and projects stored in
-        /scratch/myworkspace
+        This will start the client using the preferences and projects stored in
+        /scratch/myworkspace.
 
-    gdaclient -data /scratch/myworkspace -reset
+    gdaclient --data /scratch/myworkspace --reset
 
-        This will delete /scratch/myworkspace and and start the client with
-        workspace set to /scratch/myworkspace
+        This will delete /scratch/myworkspace and start the client with
+        workspace set to /scratch/myworkspace.
 
     gdaclient --reset -- -debug
 
