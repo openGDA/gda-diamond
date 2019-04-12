@@ -8,7 +8,6 @@
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
 	<bean id="DAServer" class="gda.device.detector.DummyDAServer">
-		<property name="local" value="True" />
 		<property name="host" value="b18-xspress0" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">

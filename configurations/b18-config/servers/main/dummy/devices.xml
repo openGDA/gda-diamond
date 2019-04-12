@@ -6,26 +6,16 @@
 	<bean id="oh_shutter" class="gda.device.enumpositioner.DummyValve" />
 	<bean id="expt_shutter" class="gda.device.enumpositioner.DummyValve" />
 
-	<bean id="ringCurrent" class="gda.device.monitor.DummyMonitor">
-		<property name="local" value="true" />
-	</bean>
-	<bean id="ringEnergy" class="gda.device.monitor.DummyMonitor">
-		<property name="local" value="true" />
-	</bean>
-	<bean id="fillMode" class="gda.device.monitor.DummyMonitor">
-		<property name="local" value="true" />
-	</bean>
-	<bean id="topup" class="gda.device.monitor.DummyMonitor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="ringCurrent" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="ringEnergy" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="fillMode" class="gda.device.monitor.DummyMonitor"/>
+	<bean id="topup" class="gda.device.monitor.DummyMonitor"/>
 	<bean id="machineModeMonitor" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="value" value="Shutdown" />
 	</bean>
 
 
-	<bean id="bragg_speed" class="gda.device.monitor.DummyMonitor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="bragg_speed" class="gda.device.monitor.DummyMonitor"/>
 
 	<bean id="S1X1_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="S1X2_motor" class="gda.device.motor.DummyMotor" />

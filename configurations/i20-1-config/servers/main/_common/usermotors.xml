@@ -7,42 +7,36 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="um1_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="um2" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="um2_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="um3" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="um3_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="um6" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="um6_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="um7" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="um7_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="um8" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="um8_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="um9" class="gda.device.scannable.ScannableMotor">
@@ -50,14 +44,12 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="um9_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="um10" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="um10_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="um" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -80,7 +72,6 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="frelon_focus_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="freloniris" class="gda.device.scannable.ScannableMotor">
@@ -88,7 +79,6 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="frelon_iris_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="frelonrot" class="gda.device.scannable.ScannableMotor">
@@ -96,7 +86,6 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="motor" ref="frelon_rot_motor" />
 		<property name="hardwareUnitString" value="deg" />
-		<property name="local" value="false" />
 	</bean>
 
 </beans>

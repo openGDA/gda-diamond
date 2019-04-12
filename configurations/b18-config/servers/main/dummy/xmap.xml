@@ -9,7 +9,6 @@
 		<property name="numberOfElements" value="4" />
 		<property name="numberOfBins" value="1024" />
 		<property name="numberOfROIs" value="10" />
-		<property name="local" value="true" />
 	</bean>
 
 	<import resource="file:${gda.config}/servers/main/xmap.xml" />
@@ -18,7 +17,6 @@
 
 	<bean id="qexafs_xmap" class="gda.device.detector.xmap.DummyXmapBufferedDetector">
 		<property name="xmap" ref="xmapMca" />
-		<property name="local" value="true" />
 		<property name="inputNames">
 			<list>
 			</list>
@@ -28,7 +26,6 @@
 	<bean id="VortexQexafsFFI0" class="gda.device.detector.xmap.VortexQexafsFFIO">
 		<property name="qexafsXmap" ref="qexafs_xmap" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

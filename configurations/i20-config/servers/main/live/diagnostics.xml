@@ -5,21 +5,17 @@
 
 	<bean id="d1_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL20I-DI-PHDGN-01:DIODE" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d1_screen" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20I-DI-PHDGN-01:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-DI-PHDGN-01:POSN" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d1_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
 		<property name="pvName" value="BL20I-DI-IAMP-01:GAIN" />
 	</bean>
 	<bean id="d1_screen_pos" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d1_motor" />
@@ -28,66 +24,53 @@
 
 	<bean id="d3_screen" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20I-DI-PHDGN-03:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-DI-PHDGN-03:POSN" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d3_updrain" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:PLUS:I" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d3_lowdrain" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:MINUS:I" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d3_vgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:SIZE" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d3_voffset_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:CENTRE" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d3_up_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:PLUS" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d3_down_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:MINUS" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d3_vgap" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d3_vgap_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="d3_screen_pos" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d3_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="d3_voffset" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d3_voffset_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="d3_up" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d3_up_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="d3_down" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d3_down_motor" />
@@ -96,21 +79,17 @@
 
 	<bean id="d4_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL20I-DI-PHDGN-04:DIODE1" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d4_screen" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20I-DI-PHDGN-04:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d4_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-DI-PHDGN-04:POSN" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d4_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
 		<property name="pvName" value="BL20I-DI-IAMP-02:GAIN" />
 	</bean>
 	<bean id="d4_screen_pos" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d4_motor" />
@@ -119,22 +98,17 @@
 
 	<bean id="d5_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL20I-DI-PHDGN-05:DIODE" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d5_screen" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20I-DI-PHDGN-05:MP" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d5_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-DI-PHDGN-05:POSN" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d5_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
 		<property name="pvName" value="BL20I-DI-IAMP-04:GAIN" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d5_screen_pos" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d5_motor" />
@@ -142,7 +116,6 @@
 	</bean>
 
 	<bean id="d6_screen" class="gda.device.enumpositioner.NameMappedEpicsPneumaticCallback">
-		<property name="local" value="false" />
 		<property name="pvBase" value="BL20I-DI-PHDGN-06" />
 		<property name="controlValues">
 			<map>
@@ -159,7 +132,6 @@
 	</bean>
 
 	<bean id="d7_screen" class="gda.device.enumpositioner.NameMappedEpicsPneumaticCallback">
-		<property name="local" value="false" />
 		<property name="pvBase" value="BL20I-DI-PHDGN-07" />
 		<property name="controlValues">
 			<map>
@@ -177,21 +149,17 @@
 
 	<bean id="d8_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-DI-PHDGN-08:POSN" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d8_screen_pos" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="false" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="d8_motor" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	<bean id="d8_screen" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL20I-DI-PHDGN-08:MP" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="d9_diode" class="gda.device.enumpositioner.NameMappedEpicsPneumaticCallback">
-		<property name="local" value="false" />
 		<property name="pvBase" value="BL20I-DI-PHDGN-09" />
 		<property name="controlValues">
 			<map>
@@ -208,20 +176,16 @@
 	</bean>
 	<bean id="d9_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL20I-DI-PHDGN-09:DIODE" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d9_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
 		<property name="pvName" value="BL20I-DI-IAMP-05:GAIN" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="d10_current" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL20I-DI-PHDGN-10:DIODE" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="d10_gain" class="gda.device.currentamplifier.EpicsCurrAmpGain">
 		<property name="pvName" value="BL20I-DI-IAMP-06:GAIN" />
-		<property name="local" value="false" />
 	</bean>
 
 </beans>

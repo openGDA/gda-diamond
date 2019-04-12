@@ -81,7 +81,6 @@
 		<property name="messageClassToLog"
 			value="gda.jython.scriptcontroller.logging.XasLoggingMessage" />
 		<property name="directory" value="${gda.var}/" />
-		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="RCPController" class="gda.gui.RCPControllerImpl"/>

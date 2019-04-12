@@ -9,20 +9,16 @@
 	<!--machine and front end -->
 	<bean id="ringCurrent" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="ringEnergy" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="fillMode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="machineModeMonitor" class="gda.device.monitor.EpicsTypedMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
 		<property name="type" value="0"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="wiggler_gap" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
@@ -38,7 +34,6 @@
 	</bean>
 	<bean id="absorber" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE20I-RS-ABSB-01:STA" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

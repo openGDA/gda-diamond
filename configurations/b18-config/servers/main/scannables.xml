@@ -9,7 +9,6 @@
 		<property name="protectionLevel" value="3" />
 	</bean>
 	<bean id="xtal1x" class="gda.device.scannable.ScannableMotor">
-		<property name="local" value="true" />
 		<property name="name" value="xtal1x" />
 		<property name="motor" ref="XTAL1X_motor" />
 		<property name="protectionLevel" value="3" />
@@ -30,7 +29,6 @@
 		<property name="protectionLevel" value="3" />
 	</bean>
 	<bean id="dcm" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true" />
 		<property name="groupMembers">
 			<list>
 				<ref bean="bragg" />
@@ -54,11 +52,9 @@
 	</bean>
 	<bean id="m1pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="M1pitch_motor" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="M1Y_motor" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -542,7 +538,6 @@
 
 	<bean id="userstage" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="configureAtStartup" value="true"/>
-		<property name="local" value="true" />
 		<property name="groupMembers">
 			<list>
 				<ref bean="user1" />

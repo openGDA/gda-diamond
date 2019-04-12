@@ -12,25 +12,21 @@
 		<property name="xspress3" ref="xspress3" />
 		<property name="counterTimer" ref="counterTimer01" />
 		<property name="i0_channel" value="1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- BufferedDetector classes for use in ContinuousScans (Qexafs and raster maps) -->
 	<bean id="raster_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3FullCalculationsBufferedDetector">
 		<property name="xspress3Detector" ref="xspress3" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="raster_FFI0_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3FFoverI0BufferedDetector">
 		<property name="qexafsXspress" ref="raster_xspress3" />
 		<property name="qexafsScaler" ref="raster_counterTimer01" />
 		<property name="i0_channel" value="1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qexafs_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3FullCalculationsBufferedDetector">
 		<property name="xspress3Detector" ref="xspress3" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="xspress3CollectionStrategy" class="gda.device.detector.nxdetector.BufferedDetectorToAsyncNXCollectionStrategyAdapter">
@@ -46,7 +42,6 @@
 	<bean id="qexafs_FFI0_xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3QexafsDetector">
 		<property name="qexafsXspress" ref="qexafs_xspress3" />
 		<property name="qexafsScaler" ref="qexafs_counterTimer01" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

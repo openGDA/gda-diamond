@@ -7,7 +7,6 @@
 	http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<bean id="DAServer" class="gda.device.detector.DummyDAServer">
-		<property name="local" value="True" />
 		<property name="host" value="i20-xspress0" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">
@@ -32,7 +31,6 @@
 		<property name="numberOfElements" value="4" />
 		<property name="numberOfBins" value="1024" />
 		<!-- <property name="numberOfROIs" value="5" /> -->
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">

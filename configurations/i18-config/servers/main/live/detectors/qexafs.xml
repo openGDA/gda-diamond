@@ -14,7 +14,6 @@
 		<property name="PcPulseGateNotTrigger" value="true" />
 		<!-- <property name="zebraMotorInfoProvider" ref="zebraSM1"/> -->
 		<property name="minimumAccelerationDistance" value="0.001" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

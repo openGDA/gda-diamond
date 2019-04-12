@@ -11,7 +11,6 @@
 		<property name="waittime" value="10" />
 		<property name="level" value="0" />
 		<property name="pauseBeforePoint" value="true" />
-		<property name="local" value="true" />
 		<property name="machineModeMonitor" ref="machineModeMonitor" />
 	</bean>
 
@@ -20,7 +19,6 @@
 		<property name="value" value="Open" />
 		<property name="level" value="0" />
 		<property name="pauseBeforePoint" value="true" />
-		<property name="local" value="true" />
 		<property name="machineModeMonitor" ref="machineModeMonitor" />
 	</bean>
 
@@ -32,7 +30,6 @@
 
 	<bean id="test_motor" class="gda.device.motor.DummyMotor">
 		<property name="speed" value="500" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="test" class="gda.device.scannable.ScannableMotor">
@@ -40,17 +37,14 @@
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="test_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="d3_drain_yplus" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:PLUS:I" />
-		<property name="local" value="false"/>
 	</bean>
-	
+
 	<bean id="d3_drain_yminus" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-DI-PHDGN-03:Y:MINUS:I" />
-		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="sr_x_offset" class="gda.device.controlpoint.EpicsControlPoint">

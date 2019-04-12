@@ -14,7 +14,6 @@
 
 	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="shutterChecker" class="uk.ac.gda.server.exafs.epics.device.scannable.ShutterChecker">
@@ -37,14 +36,12 @@
 	<bean id="PFR_temp" class="gda.device.scannable.PVScannable">
 		<property name="name" value="PFR_temp" />
 		<property name="pvName" value="ME08G-EA-GIR-21:TCTRL1:SP" />
-		<property name="local" value="false" />
 	</bean>
 
 	<!-- readback temperature for PFR -->
 	<bean id="PFR_temp_current" class="gda.device.scannable.PVScannable">
 		<property name="name" value="PFR_temp" />
 		<property name="pvName" value="ME08G-EA-GIR-21:TCTRL1:PV:RBV" />
-		<property name="local" value="false" />
 		<property name="canMove" value="false" />
 	</bean>
 

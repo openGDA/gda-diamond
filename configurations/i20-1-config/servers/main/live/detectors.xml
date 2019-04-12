@@ -9,7 +9,6 @@
 <!--  XStrip detector -->
 <!-- Replace with dummy while detector is away -->
 	<bean id="DAServer" class="gda.device.detector.DAServer">
-		<property name="local" value="True" />
 <!-- IP address = 172.23.90.205 -->
 		<property name="host" value="i20-1-xh1.diamond.ac.uk" />
 		<property name="port" value="1972" />
@@ -26,7 +25,6 @@
 
 <!--  XH detector -->
 <!-- 	<bean id="DAServer" class="gda.device.detector.DAServer"> -->
-<!-- 		<property name="local" value="True" /> -->
 <!-- 		IP address = 172.23.90.205 -->
 <!-- 		<property name="host" value="i20-1-xh1.diamond.ac.uk" />   -->
 <!-- 		<property name="port" value="1972" /> -->

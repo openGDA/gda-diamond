@@ -5,7 +5,6 @@
 
 	<bean id="cryostick_pos_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL20I-CG-CRYO-02:POSN" />
-		<property name="local" value="true" />
 	</bean>
 
 <!-- 	<bean id="cryostick_pos_motor" class="gda.device.motor.DummyMotor"/> -->
@@ -43,22 +42,18 @@
 
 	<bean id="Hecryo_ch0" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG0" />
-		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="Hecryo_ch1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG1" />
-		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="Hecryo_ch2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG2" />
-		<property name="local" value="false"/>
 	</bean>
 
 	<bean id="Hecryo_ch3" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG3" />
-		<property name="local" value="false"/>
 	</bean>
 
 <!-- 	New scannables for setting temperatures of various equipment -->
@@ -66,34 +61,29 @@
 	<bean id="Linkam_temp" class="gda.device.scannable.PVScannable">
 		<property name="name" value="Linkam_temp" />
 		<property name="pvName" value="BL20I-EA-TEMPC-07:FTIR600:RAMP:LIMIT:SET" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- readback temperature of Linkam -->
 	<bean id="Linkam_temp_current" class="gda.device.scannable.PVScannable">
 		<property name="name" value="Linkam_temp_current" />
 		<property name="pvName" value="BL20I-EA-TEMPC-07:FTIR600:TEMP" />
-		<property name="local" value="false" />
 		<property name="canMove" value="false" />
 	</bean>
 
 	<bean id="LN2_temp" class="gda.device.scannable.PVScannable">
 		<property name="name" value="LN2_temp" />
 		<property name="pvName" value="BL20I-EA-ITC-01:READ_TEMP_LOOP_TSET" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="PFR_temp" class="gda.device.scannable.PVScannable">
 		<property name="name" value="PFR_temp" />
 		<property name="pvName" value="ME08G-EA-GIR-21:TCTRL1:SP" />
-		<property name="local" value="false" />
 	</bean>
 
 	<!-- readback temperature for PFR -->
 	<bean id="PFR_temp_current" class="gda.device.scannable.PVScannable">
 		<property name="name" value="PFR_temp" />
 		<property name="pvName" value="ME08G-EA-GIR-21:TCTRL1:PV:RBV" />
-		<property name="local" value="false" />
 		<property name="canMove" value="false" />
 	</bean>
 

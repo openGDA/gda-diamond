@@ -5,22 +5,18 @@
 
 	<bean id="table_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-MO-TABLE-03:X"></property>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="table_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-MO-TABLE-03:Y"></property>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="table_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-MO-TABLE-03:Z"></property>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="table_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-MO-TABLE-03:PITCH"></property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

@@ -7,151 +7,119 @@
 	<!-- *** EPICS MONITOR SECTION *** -->
 	<!-- ***************************** -->
 	<bean id="d1diode" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-01:DIODE:I" />
 	</bean>
 	<bean id="d2diode" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-02:DIODE:I" />
 	</bean>
 	<bean id="d3diode" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-03:DIODE:I" />
 	</bean>
 	<bean id="d5bdiode" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-05:B:DIODE:I" />
 	</bean>
 	<bean id="d6bdiode" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-06:B:DIODE:I" />
 	</bean>
 	<bean id="d7bdiode" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-07:B:DIODE:I" />
 	</bean>
 
 	<!-- Primary (Aperture) Slits / S1 Temperature Epics Monitors -->
 	<bean id="s1atemp1" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-01:A:TEMP1" />
 	</bean>
 	<bean id="s1atemp2" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-01:A:TEMP2" />
 	</bean>
 	<bean id="s1atemp3" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-01:A:TEMP3" />
 	</bean>
 	<bean id="s1atemp4" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-01:A:TEMP4" />
 	</bean>
 	<bean id="s1btemp1" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-01:B:TEMP1" />
 	</bean>
 	<bean id="s1btemp2" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-01:B:TEMP2" />
 	</bean>
 	<bean id="s1btemp3" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-01:B:TEMP3" />
 	</bean>
 	<bean id="s1btemp4" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-01:B:TEMP4" />
 	</bean>
 
 	<!-- Toroid / HFM Epics Monitors -->
 	<bean id="toroid_temp1" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:TEMP1" />
 	</bean>
 	<bean id="toroid_temp2" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:TEMP2" />
 	</bean>
 	<bean id="toroid_bendtemp1" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:BEND1:TEMP" />
 	</bean>
 	<bean id="toroid_bendtemp2" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:BEND2:TEMP" />
 	</bean>
 
 	<!-- Aperture / AP Epics Monitors -->
 	<bean id="aperture_temp1" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-APTR-01:TEMP1" />
 	</bean>
 	<bean id="aperture_temp2" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-APTR-01:TEMP2" />
 	</bean>
 
 	<!-- White Beam Stop / WBS Epics Monitors -->
 	<bean id="wbs_temp1" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-RS-ABSB-03:TEMP1" />
 	</bean>
 	<bean id="wbs_temp2" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-RS-ABSB-03:TEMP2" />
 	</bean>
 
 	<!-- Harmonic Rejection Mirror / HRM Epics Monitors -->
 	<bean id="hrm_temp" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HRM-01:Y:TEMP" />
 	</bean>
 	<bean id="kb_vfm_temp" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-KBM-01:VFM:Y:TEMP" />
 	</bean>
 	<bean id="kb_hfm_temp" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-KBM-01:HFM:Y:TEMP" />
 	</bean>
 
 	<bean id="collision" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-MP-DET-04:ILK" />
 	</bean>
 
 	<bean id="bragg_speed" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL18I-OP-DCM-01:BRAGG.VMAX" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Countdown in seconds until the start of the next topup -->
 	<bean id="machineTopupMonitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Period between topups in minutes -->
 	<bean id="machineTopupPeriod" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:FILLPERIOD" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="machineModeMonitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="ringModeMonitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:TOPUPMODE" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="ringcurrent" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="portshutter" class="gda.device.monitor.EpicsMonitor">
@@ -172,240 +140,186 @@
 	</bean>
 
 	<bean id="d1motor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-01:POSN" />
 	</bean>
 	<bean id="d2motor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-02:POSN" />
 	</bean>
 	<bean id="d3motor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-03:POSN" />
 	</bean>
 	<bean id="d5amotor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-05:A:POSN" />
 	</bean>
 	<bean id="d5bmotor_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-DI-PHDGN-05:B:POSN" />
 	</bean>
 	<bean id="d6amotor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-06:A:POSN" />
 	</bean>
 	<bean id="d6bmotor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-06:B:POSN" />
 	</bean>
 	<bean id="d7amotor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-07:A:POSN" />
 	</bean>
 	<bean id="d7bmotor_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-PHDGN-07:B:POSN" />
 	</bean>
 
 	<!-- S1 Motors (Compound Motions) -->
 	<bean id="s1xpos_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-01:X:CENTER" />
 	</bean>
 	<bean id="s1xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-01:X:SIZE" />
 	</bean>
 	<bean id="s1ypos_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-01:Y:CENTER" />
 	</bean>
 	<bean id="s1ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-01:Y:SIZE" />
 	</bean>
 
 	<!-- Toriod Mirror / HFM Motors -->
 	<bean id="toroid_sag_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:SAG" />
 	</bean>
 	<bean id="toroid_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:PITCH" />
 	</bean>
 	<bean id="toroid_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:X" />
 	</bean>
 	<bean id="toroid_curve_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:CURVE" />
 	</bean>
 	<bean id="toroid_ellipticity_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:ELLIP" />
 	</bean>
 	<bean id="toroid_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:Y" />
 	</bean>
 	<bean id="toroid_yaw_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:YAW" />
 	</bean>
 	<bean id="toroid_roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:ROLL" />
 	</bean>
 
 	<!-- Monochromator / DCM Motors -->
 	<bean id="dcm_bragg_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-DCM-01:BRAGG" />
 	</bean>
 	<bean id="dcm_energy_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-DCM-01:ENERGY" />
 	</bean>
 	<bean id="dcm_crystal1_roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-DCM-01:XTAL1:ROLL" />
 	</bean>
 	<bean id="dcm_crystal2_roll_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-DCM-01:XTAL2:ROLL" />
 	</bean>
 	<bean id="dcm_crystal2_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-DCM-01:XTAL2:PITCH" />
 	</bean>
 	<bean id="dcm_perp_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-DCM-01:XTAL2:YPRIME" />
 	</bean>
 
 	<bean id="s2xpos_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-02:X:DISP" />
 	</bean>
 	<bean id="s2xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-02:X:SIZE" />
 	</bean>
 	<bean id="s2ypos_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-02:Y:DISP" />
 	</bean>
 	<bean id="s2ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-02:Y:SIZE" />
 	</bean>
 
 	<bean id="s3xpos_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-03:X:CENTER" />
 	</bean>
 	<bean id="s3xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-03:X:SIZE" />
 	</bean>
 	<bean id="s3ypos_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-03:Y:CENTER" />
 	</bean>
 	<bean id="s3ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-03:Y:SIZE" />
 	</bean>
 
 	<bean id="s3xplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-03:X:POS" />
 	</bean>
 	<bean id="s3xminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-03:X:NEG" />
 	</bean>
 	<bean id="s3yplus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-03:Y:POS" />
 	</bean>
 	<bean id="s3yminus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-SLITS-03:Y:NEG" />
 	</bean>
 
 	<!-- KB Mirrors Motors -->
 	<bean id="kb_vfm_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-KBM-01:VFM:Y" />
 	</bean>
 	<bean id="kb_vfm_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-KBM-01:VFM:X" />
 	</bean>
 	<bean id="kb_vfm_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-KBM-01:VFM:PITCH" />
 	</bean>
 	<bean id="kb_vfm_bend1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-KBM-01:VFM:BEND1" />
 	</bean>
 	<bean id="kb_vfm_bend2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-KBM-01:VFM:BEND2" />
 	</bean>
 	<bean id="kb_hfm_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-KBM-01:HFM:Y" />
 	</bean>
 	<bean id="kb_hfm_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-OP-KBM-01:HFM:X" />
 	</bean>
 	<bean id="kb_hfm_pitch_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-HFM-01:PITCH" />
 	</bean>
 	<bean id="kb_hfm_bend1_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-KBM-01:HFM:BEND1" />
 	</bean>
 	<bean id="kb_hfm_bend2_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-OP-KBM-01:HFM:BEND2" />
 	</bean>
 
 	<!-- Pin Hole Motors -->
 	<bean id="pinx_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-APTR-02:X" />
 	</bean>
 	<bean id="piny_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-AL-APTR-02:Y" />
 	</bean>
 
 	<bean id="vma_zoom_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-DCAM-01:ZOOM" />
 	</bean>
 	<bean id="vma_focus_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-DI-DCAM-01:FOCUS" />
 	</bean>
 
 	<bean id="ml_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-EA-DET-02:X" />
 	</bean>
 	<bean id="ml_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-EA-DET-02:Y" />
 	</bean>
 	<bean id="ml_z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL18I-EA-DET-02:Z" />
 	</bean>
 
@@ -418,13 +332,11 @@
 
 	<bean id="thor_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-MO-TABLE-02:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="thor_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-MO-TABLE-02:Y" />
-		<property name="local" value="true" />
 	</bean>
-		
+	
 	<bean id="sample_shutter" class="gda.device.enumpositioner.EpicsValve">
 		<property name="epicsRecordName" value="BL18I-EA-SHTR-01" />
 	</bean>

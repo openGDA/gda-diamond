@@ -8,7 +8,6 @@
 <!--  Dummy XSpress2 detector. from dummy/detectors.xml, modified to more closely match live/xspress2_36element.xml -->
 
 	<bean id="DAServer36" class="gda.device.detector.DummyDAServer">
-		<property name="local" value="True" />
 		<property name="host" value="b18-xspress1" />
 		<property name="port" value="1972" />
 		<property name="startupCommands">

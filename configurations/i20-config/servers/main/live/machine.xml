@@ -28,43 +28,34 @@
 	
 	<bean id="ringCurrent" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="ringEnergy" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="fillMode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="LI-TI-MTGEN-01:MODE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="machineMode" class="gda.device.monitor.EpicsTypedMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
 		<property name="type" value="0"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="machineModeMonitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="wigglerGap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="SR20I-MO-SERVC-01:BLGAPMTR" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="wigglerGap" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="3" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="motor" ref="wigglerGap_motor" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="absorber" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE20I-RS-ABSB-01:STA" />
-		<property name="local" value="false" />
 	</bean>
 
 
