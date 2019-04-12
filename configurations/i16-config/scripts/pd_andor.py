@@ -133,7 +133,7 @@ class AndorAsciiLoader:
 		''' Loads the file and returns its contents as a gda.analysis.io.LoadDataHolder object
 		'''
 		if not os.path.exists(self.filename):
-			raise "File does not exist",self.filename
+                    raise IOError("File does not exist: " + self.filename)
 		
 		f= open(self.filename)
 		rawData = array.array('d')

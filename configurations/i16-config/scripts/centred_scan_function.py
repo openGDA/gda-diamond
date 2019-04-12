@@ -22,13 +22,13 @@ def scancn(*params):
 		elif isinstance(token, (int, float, list)):		#paramemer is a number
 			currentlist+=[token];				#add parameter to current parameter list
 		else:
-			raise '=== Parameter must be a PseudoDevice, number or list'
+			raise TypeError('=== Parameter must be a PseudoDevice, number or list. Found {}'.format(type(token)))
 	paramlist+=[currentlist];					#append last one to list	
 
 
 	dim=len(paramlist[0])/2					#dimension of scan
 	if 2*dim!=len(paramlist[0]):					#wrong number of params
-		raise "=== Wrong number of parameters for first pd"
+		raise ValueError("=== Wrong number of parameters for first pd")
 
 	p0old=paramlist[0]						#params for first PD (the only one to modify)
 	pd0=devlist[0]							#first PD (only one ised for centring)
