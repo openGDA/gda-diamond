@@ -20,8 +20,11 @@ package gda.gui.exafs;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import gda.jscience.physics.units.NonSIext;
 
 /**
  * Test suite for Exafs quantity converter class
@@ -34,6 +37,11 @@ public class ConverterTest {
 	private static final double VECTOR_PER_ANGSTROM = 44.46321582035057;
 
 	private static final double EDGE_ENERGY_EV = 1400.0;
+
+	@BeforeClass
+	public static void setUpClass() {
+		NonSIext.initializeClass();
+	}
 
 	//----------------------------------------------------------------------------------------
 	// Convert eV -> PerAngstrom
