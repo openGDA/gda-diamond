@@ -45,11 +45,5 @@
 	<import resource="topup.xml" />
 	<import resource="shutters.xml" />
 
-	<!-- End station -->
-	<import resource="manipulator.xml" />
-	<import resource="es1.xml" />
-	<import resource="analyser.xml" />
-	<import resource="lakeshore.xml" />
-
 	<import resource="../main_common.xml" />
 </beans>

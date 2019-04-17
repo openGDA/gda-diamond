@@ -22,9 +22,6 @@
 	<import resource="HD3.xml"/>
 	<import resource="HD4.xml"/>
 
-	<!-- End Station -->
-	<import resource="ES3.xml"/>
-
 	<!-- Monochromator -->
 	<import resource="DCM.xml"/>
 	<import resource="ChannelCutCrystal.xml"/>
@@ -32,4 +29,8 @@
 	<!-- Dummy Devices -->
 	<import resource="DummyMotors.xml"/>
 	<import resource="DummyScannables.xml"/>
+	
+	<!--  End Station -->
+	<import resource="analyser.xml" />
+	<import resource="manipulator.xml" />
 </beans>

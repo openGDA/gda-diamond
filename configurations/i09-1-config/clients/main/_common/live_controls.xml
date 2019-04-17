@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="photon_energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Photon Energy " />
+		<property name="group" value="DCM Control" />
+		<property name="scannableName" value="dcmenergy" />
+		<property name="incrementTextWidth" value="60"/>
+		<property name="increment" value="50" />
+	</bean>
+
+	<bean id="pgm_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+				<ref bean="photon_energy_control" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

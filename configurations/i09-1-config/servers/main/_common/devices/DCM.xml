@@ -24,6 +24,11 @@
 	<bean id="dcmenergy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcm_energy" />
 	</bean>
+	<bean id="dcmenergyEv" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="dcm_energy" />
+		<property name="initialUserUnits" value="eV"/>
+		<property name="hardwareUnitString" value="keV"/>
+	</bean>
 	<bean id="dcmlambda" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="dcm_lambda" />
 	</bean>

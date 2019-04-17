@@ -6,5 +6,4 @@
 	<bean id="analyser_controller" class="uk.ac.diamond.daq.devices.specs.phoibos.SpecsPhoibosController" >
 		<property name="basePVName" value="TEST-SPECS-01:" />
 	</bean>
-
 </beans>
