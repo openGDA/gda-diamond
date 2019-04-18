@@ -12,39 +12,31 @@
 	<!--  s1 slit real motors -->
 	<bean id="s1_xminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE24B-AL-SLITS-01:X:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_xplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE24B-AL-SLITS-01:X:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1_yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE24B-AL-SLITS-01:Y:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_yplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE24B-AL-SLITS-01:Y:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!--  s1 slit virtual motors (centre and size) -->
 	<bean id="s1_xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE24B-AL-SLITS-01:X:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE24B-AL-SLITS-01:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1_ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE24B-AL-SLITS-01:Y:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE24B-AL-SLITS-01:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 	
 	
