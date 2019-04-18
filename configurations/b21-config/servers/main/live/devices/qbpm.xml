@@ -5,12 +5,10 @@
 
 	<bean id="qbpm_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21B-DI-QBPM-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qbpm_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21B-DI-QBPM-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

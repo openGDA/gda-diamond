@@ -2,37 +2,30 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-		
+
 	<bean id="sgmheightMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-SGM-01:HEIGHT"/>
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="sgmrollMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-SGM-01:ROLL"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sgmgratingtranslationMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-SGM-01:X"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sgmgratingpitchMotor" class="gda.device.motor.FeedbackControlledEpicsMotor">
 		<property name="pvName" value="BL21I-OP-SGM-01:PITCH"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sgmlongxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-SGM-01:TVLR"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sgmwedgeoffsideMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-SGM-01:WDGO"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sgmwedgenearsideMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-SGM-01:WDGN"/>
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<!-- Air control for SGM -->
 	<bean id="sgm_traveler_air" class="gda.device.enumpositioner.EpicsAirBearingControl">
 		<property name="readPV" value="BL21I-OP-SGM-01:TRAVELLER:AIR"/>
@@ -42,5 +35,5 @@
 	<bean id="sgmGratingSelect" class="gda.device.enumpositioner.EpicsPositionerCallback">
 		<property name="recordName" value="BL21I-OP-SGM-01:MP" />
 	</bean>
-	
+
 </beans>

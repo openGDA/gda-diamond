@@ -6,7 +6,6 @@
 
 	<bean id="ss1_rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="TESTZEBRA:M1"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ss1_pitch_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="ss1_roll_motor" class="gda.device.motor.DummyMotor"/>

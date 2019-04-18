@@ -13,7 +13,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Scannable motors that control the Laser Stabilisation System -->
@@ -41,7 +40,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- delay stage and interferrometer motors in Table 2-->

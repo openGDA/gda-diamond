@@ -3,7 +3,7 @@
 
 	<!-- D3 Fluorescent Screen Pneumatic Valve -->
 	<bean id="d3valve" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
-	<property name="pvBase" value="BL06I-DI-PHDGN-99" /></bean>
+		<property name="pvBase" value="BL06I-DI-PHDGN-99" />
+	</bean>
 
 </beans>

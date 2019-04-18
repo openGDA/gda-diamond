@@ -6,62 +6,50 @@
 
 	<bean id="m2_hsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-02:HORZ:CURV" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2_hcenter_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-02:HORZ:ELLIP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2_vsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-02:VERT:CURV" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2_vcenter_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-02:VERT:ELLIP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2v_benda_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-02:VERT:BENDA" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2v_bendb_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-02:VERT:BENDB" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2v_tilt_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-02:VERT:TILT" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2v_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-02:VERT:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2h_benda_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-02:HORZ:BENDA" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2h_bendb_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-02:HORZ:BENDB" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2h_tilt_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-02:HORZ:TILT" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2h_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-MIRR-02:HORZ:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

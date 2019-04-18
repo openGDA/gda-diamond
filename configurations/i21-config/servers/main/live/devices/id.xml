@@ -7,11 +7,9 @@
 
 	<bean id="idgapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="SR21I-MO-SERVC-01:BLGAPMTR" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="idcontrol" class="gda.device.insertiondevice.Apple2IDEpics">
-		<property name="local" value="true" />
 		<property name="basePVName" value="SR21I-MO-SERVC-01" />
 		<property name="maxPhaseMotorPos" value="28.0" />
 		<property name="motorPosDelay" value="200" />

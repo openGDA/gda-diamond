@@ -45,7 +45,6 @@
 	<bean id="visitPathConstructor" class="gda.data.ObservablePathConstructor">
 		<property name="template" value="${gda.data.scan.datawriter.datadir}" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="metashop" class="gda.data.metadata.NXMetaDataProvider">

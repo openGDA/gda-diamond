@@ -5,7 +5,6 @@
 
 	<bean id="epicscvscan" class="uk.ac.gda.hrpd.cvscan.EpicsCVScan">
 		<property name="pv_root" value="BL11I-EA-MAC-01"/>
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

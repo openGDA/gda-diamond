@@ -6,11 +6,9 @@
 
 	<bean id="mfbs_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mfbs_x_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="mfbs" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="mfbs_x"/>
@@ -21,6 +19,5 @@
 
 	<bean id="mfbs_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mfbs_y_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

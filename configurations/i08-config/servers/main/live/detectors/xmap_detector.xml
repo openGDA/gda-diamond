@@ -72,14 +72,12 @@
 	<bean id="edxd_mapping_controller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="xmap" ref="xmap_dxp" />
 		<property name="elementOffset" value="1" />
-		<property name="local" value="true" />
 		<property name="numberOfElements" value="1" />
 		<property name="aquisitionTimeOn" value="true" />
 	</bean>
 
 	<bean id="xmap_controller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="edxdController" ref="edxd_mapping_controller" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Configuration for XMAP Area Detector part  -->

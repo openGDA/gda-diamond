@@ -6,37 +6,30 @@
 
 	<bean id="mj7j8_x_motor" class="gda.device.motor.DummyMotor">
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_y_motor" class="gda.device.motor.DummyMotor">
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_z_motor" class="gda.device.motor.DummyMotor">
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_yaw_motor" class="gda.device.motor.DummyMotor">
 		<property name="unitString" value="urad" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_pitch_motor" class="gda.device.motor.DummyMotor">
 		<property name="unitString" value="urad" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="mj7j8_roll_motor" class="gda.device.motor.DummyMotor">
 		<property name="unitString" value="urad" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="mj7j8_fpitch" class="gda.device.scannable.DummyUnitsScannable">
 		<property name="userUnits" value="V" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

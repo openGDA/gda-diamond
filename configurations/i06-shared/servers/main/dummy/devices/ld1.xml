@@ -10,7 +10,6 @@
 		<property name="minPosition" value="-0.09960" />
 		<property name="maxPosition" value="45.00040" />
 		<property name="speed" value="2.2" />
-		<property name="local" value="true" />
 	</bean>
 	<!-- NXDetector -->
  	<!-- Area detector camera -->

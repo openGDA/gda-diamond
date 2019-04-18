@@ -9,37 +9,30 @@
 
 	<bean id="SampleX_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-EA-TABLE-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="SampleY_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-EA-TABLE-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="SampleX_coarse_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-EA-TABLE-01:XC" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="SampleY_coarse_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-EA-TABLE-01:YC" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="SampleZ_coarse_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-EA-TABLE-01:ZC" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="SampleX_fine_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-EA-TABLE-01:XF" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="SampleY_fine_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-EA-TABLE-01:YF" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

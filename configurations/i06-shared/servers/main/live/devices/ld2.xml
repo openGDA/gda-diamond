@@ -6,7 +6,6 @@
 	<!-- LD1 motor-->
 	<bean id="ld2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-DI-LDGN-02:MTR" />
-		<property name="local" value="true"/>
 	</bean>
 	<!-- Area detector camera -->
 	<bean id="ld2cam_adbase" class="gda.spring.V17ADBaseFactoryBean">

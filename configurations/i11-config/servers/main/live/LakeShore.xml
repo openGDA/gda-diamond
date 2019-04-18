@@ -14,7 +14,6 @@
 		<property name="controller" ref="lakeshore_controller" />
 	</bean>
 	<bean id="lakeshore_controller" class="gda.device.temperature.EpicsLakeshore340Controller">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="pvName" value="BL11I-CG-CSTAT-02:" />
 	</bean>

@@ -7,37 +7,30 @@
 
 	<bean id="s5v1gapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-05:V1GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5v2gapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-05:V2GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5hgapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-05:HGAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5sutMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-05:SUT" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5vdso1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-05:VDSO1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5vdso2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-05:VDSO2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5hdsoMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-05:HDSO" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

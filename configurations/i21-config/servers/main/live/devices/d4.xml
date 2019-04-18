@@ -13,13 +13,11 @@
 	<!-- Stick motor -->
 	<bean id="d4motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-DI-PHDGN-04:POS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Femto -->
 	<bean id="d4femto" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-DI-PHDGN-04:FEMTO1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="d4CamBase" class="gda.spring.V17ADBaseFactoryBean">

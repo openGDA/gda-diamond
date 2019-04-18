@@ -6,19 +6,16 @@
 
     <bean id="bco_pitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bco_pitch_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bco_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bco_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bco_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bco_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
@@ -30,7 +27,6 @@
                 <ref bean="bco_pitch"/>
             </list>
         </property>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 </beans>

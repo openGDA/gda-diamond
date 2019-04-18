@@ -7,57 +7,48 @@
 		<property name="minPosition" value="-250.00" />
 		<property name="maxPosition" value="250.00" />
 		<property name="position" value="20.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_xcenter_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000.0" />
 		<property name="maxPosition" value="1000.0" />
 		<property name="position" value="0.0020000" />
-		<property name="local" value="true" />
-
 	</bean>
 
 	<bean id="s2_ysize_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-250.00" />
 		<property name="maxPosition" value="250.00" />
 		<property name="position" value="18.000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_ycenter_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-250.00" />
 		<property name="maxPosition" value="250.00" />
 		<property name="position" value="-0.00050000" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_xplus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-216.70" />
 		<property name="maxPosition" value="283.30" />
 		<property name="position" value="10.002" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_xminus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-243.70" />
 		<property name="maxPosition" value="256.30" />
 		<property name="position" value="-9.9980" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_yplus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-250.00" />
 		<property name="maxPosition" value="250.00" />
 		<property name="position" value="8.9995" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_yminus_motor" class="gda.device.motor.DummyMotor">	
 		<property name="minPosition" value="-250.00" />
 		<property name="maxPosition" value="250.00" />
 		<property name="position" value="-9.0005" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>	

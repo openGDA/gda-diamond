@@ -13,7 +13,6 @@
 		<property name="controller" ref="batteryheater_controller"/>
 	</bean>
 	<bean id="batteryheater_controller" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true"/>
 		<property name="configureAtStartup" value="true"/>
 		<property name="basePVName" value="BL11I-EA-TEMPC-01"/>
 		<property name="maxRampRate" value="100"/>

@@ -107,7 +107,6 @@
 				<ref bean="experiment_id" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="experiment_samples" class="gda.device.scannable.SimpleScannable"/>
 	<bean id="experiment_id" class="gda.device.scannable.SimpleScannable"/>

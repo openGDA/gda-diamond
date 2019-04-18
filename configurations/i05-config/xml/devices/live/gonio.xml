@@ -5,56 +5,44 @@
 
 	<bean id="sax_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-EA-SM-01:SAX" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sax" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sax_motor" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="say_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-EA-SM-01:SAY" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="say" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="say_motor" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="saz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-EA-SM-01:SAZ" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="saz" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="saz_motor" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="sapolar_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-EA-SM-01:POLAR" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sapolar" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="sapolar_motor" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="satilt_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-EA-SM-01:TILT" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="satilt" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="satilt_motor" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="saazimuth_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-EA-SM-01:AZIMUTH" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="saazimuth" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="saazimuth_motor" />
-		<property name="local" value="false" />
 	</bean>
 
 	<bean id="sa" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -70,7 +58,6 @@
 				<ref bean="saperp" />
 			</list>
 		</property>
-		<property name="local" value="false" />
 	</bean>
 
 </beans>

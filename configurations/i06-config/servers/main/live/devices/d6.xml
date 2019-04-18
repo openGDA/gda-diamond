@@ -4,7 +4,6 @@
 
 	<!-- Fluorescent Screen and Diode D6 Motors -->
 	<bean id="MotorD_D6" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-DI-IONC-01:Y" />
 	</bean>
 

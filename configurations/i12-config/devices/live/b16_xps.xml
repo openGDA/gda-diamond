@@ -6,7 +6,6 @@
 
 	<bean id="b16_xps_stage_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-MO-XPS3-01:P1"/>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

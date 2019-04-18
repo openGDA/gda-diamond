@@ -52,7 +52,6 @@
 		<property name="maxPosition" value="1000.0000" />
 		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
 		<property name="speed" value="0.625" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<!--  Rear Pinhole Motor    -->
@@ -61,7 +60,6 @@
 		<property name="maxPosition" value="1000.0000" />
 		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
 		<property name="speed" value="0.625" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!--  Retarder Motors    -->
@@ -70,14 +68,12 @@
 		<property name="maxPosition" value="3000.0000" />
 		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
 		<property name="speed" value="3.0" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="RetarderTiltMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-2000.0000" />
 		<property name="maxPosition" value="2000.0000" />
 		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
 		<property name="speed" value="1.0" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<!--  Polarimeter Analyser Motors    -->
@@ -86,29 +82,24 @@
 		<property name="maxPosition" value="3000.0000" />
 		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
 		<property name="speed" value="3.0" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="AnalyserTiltMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-2000.0000" />
 		<property name="maxPosition" value="2000.0000" />
 		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
 		<property name="speed" value="1.0" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="AnalyserTranslationMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000.0000" />
 		<property name="maxPosition" value="1000.0000" />
 		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
 		<property name="speed" value="1.25" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="AnalyserDetectorMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-3000.0000" />
 		<property name="maxPosition" value="3000.0000" />
 		<property name="position" value="0.0" /> <!-- Start at a position inside the calibration -->
 		<property name="speed" value="1.0" />
-		<property name="local" value="true" />
 	</bean>
 
-	
 </beans>

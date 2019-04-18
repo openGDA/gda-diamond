@@ -39,8 +39,8 @@
 	</bean>
 
 
-	<!-- Group pgm-related objects -->	
- 	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<!-- Group pgm-related objects -->
+	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="pgmEnergy" />
@@ -58,8 +58,8 @@
 				<ref bean="m_pgm" />
 			</list>
 		</property>
-		<property name="local" value="true" />
+
 	</bean>
 
 
- </beans>
+</beans>

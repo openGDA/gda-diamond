@@ -10,7 +10,6 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="lowerGdaLimits" value="-7000" />
 		<property name="upperGdaLimits" value="6500" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="smy" class="gda.device.scannable.ScannableMotor">
@@ -19,7 +18,6 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="lowerGdaLimits" value="-7000" />
 		<property name="upperGdaLimits" value="6500" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="smz" class="gda.device.scannable.ScannableMotor">
@@ -28,24 +26,20 @@
 		<property name="hardwareUnitString" value="mm" />
 		<property name="lowerGdaLimits" value="-7500" />
 		<property name="upperGdaLimits" value="7000" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="smdefocus" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smdefocus_motor" />
 		<property name="initialUserUnits" value="micron" />
 		<property name="hardwareUnitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="smpolar" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpolar_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="smazimuth" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smazimuth_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="sm" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -59,7 +53,6 @@
 				<ref bean="smdefocus" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

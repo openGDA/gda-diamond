@@ -4,12 +4,10 @@
 	<!-- I: Downstream ID, U1 Scaler -->
 	<bean id="iddFastScanElementCounter" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-MO-FSCAN-01:ELEMENTCOUNTER" />
-		<property name="local" value="true" />
 	</bean>
 	<!-- I:Upstream ID, U1 Scaler -->
 	<bean id="iduFastScanElementCounter" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-MO-FSCAN-02:ELEMENTCOUNTER" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

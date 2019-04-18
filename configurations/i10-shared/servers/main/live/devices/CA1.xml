@@ -7,22 +7,18 @@
 	
 	<bean id="ca11" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-DI-IAMP-01:SIG1" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="ca12" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-DI-IAMP-01:SIG2" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="ca13" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-DI-IAMP-01:SIG3" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="ca14" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10I-DI-IAMP-01:SIG4" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

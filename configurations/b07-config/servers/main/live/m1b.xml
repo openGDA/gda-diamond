@@ -6,27 +6,22 @@
 
 	<bean id="m1b_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07B-OP-MIR-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1b_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07B-OP-MIR-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1b_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07B-OP-MIR-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1b_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07B-OP-MIR-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1b_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07B-OP-MIR-01:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1b_pressure" class="gda.device.monitor.EpicsMonitor">

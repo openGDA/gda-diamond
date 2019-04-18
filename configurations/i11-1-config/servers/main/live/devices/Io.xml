@@ -5,7 +5,6 @@
 
 	<bean id="Io" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL11I-EA-ZEBRA-01:PC_DIV1_DIFF" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

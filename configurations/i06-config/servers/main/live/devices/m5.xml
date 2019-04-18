@@ -5,31 +5,25 @@
 	<!-- KB Mirror (M5) Strain Gauges -->
 	<bean id="m5bend1g" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-OP-KBM-01:VFM:USG:POLLVALUE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m5bend2g" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-OP-KBM-01:VFM:DSG:POLLVALUE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- KB Mirrors M5 (VFM) Positioner and DOFs -->
 	<bean id="MotorVFMPitch_M5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-OP-KBM-01:VFM:PITCH" />
 	</bean>
 
 	<bean id="MotorVFMBender1_M5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-OP-KBM-01:VFM:BEND1" />
 	</bean>
 
 	<bean id="MotorVFMBender2_M5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-OP-KBM-01:VFM:BEND2" />
 	</bean>
 
 	<bean id="MotorVFMFinePitch_M5" class="gda.device.motor.FeedbackControlledEpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-OP-KBM-01:VFM:FPITCH" />
 	</bean>
 

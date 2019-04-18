@@ -9,11 +9,9 @@
 	<bean id="d2_scrn" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="controlPv" value="BL10I-DI-PHDGN-02:CON"/>
 		<property name="statusPv" value="BL10I-DI-PHDGN-02:STA"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="d2d4_det_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-DI-PHDGN-02:DET:X" />
-		<property name="local" value="true"/>
 	</bean>
 		<!-- Area detector camera -->
 	<bean id="d2CamBase" class="gda.spring.V17ADBaseFactoryBean">

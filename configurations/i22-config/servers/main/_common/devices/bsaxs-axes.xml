@@ -6,11 +6,9 @@
 
     <bean id="bsaxs_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bsaxs_y_motor"/>
-        <property name="local" value="true"/>
     </bean>
 
     <bean id="bsaxs" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="local" value="true"/>
         <property name="groupMembers">
             <list>
                 <ref bean="bsaxs_x"/>
@@ -21,6 +19,5 @@
 
     <bean id="bsaxs_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bsaxs_x_motor"/>
-        <property name="local" value="true"/>
     </bean>
 </beans>

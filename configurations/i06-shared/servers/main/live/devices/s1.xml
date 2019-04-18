@@ -3,35 +3,35 @@
 
 	<!-- Primary Slits S1 Motors -->
 	<bean id="MotorXPos_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-01:X:POS" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-01:X:POS" />
+	</bean>
 
 	<bean id="MotorXNeg_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-01:X:NEG" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-01:X:NEG" />
+	</bean>
 
 	<bean id="MotorYPos_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-01:Y:POS" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-01:Y:POS" />
+	</bean>
 
 	<bean id="MotorYNeg_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-01:Y:NEG" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-01:Y:NEG" />
+	</bean>
 
 	<bean id="MotorXSize_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-01:X:SIZE" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-01:X:SIZE" />
+	</bean>
 
 	<bean id="MotorXCentre_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-01:X:CENTER" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-01:X:CENTER" />
+	</bean>
 
 	<bean id="MotorYSize_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-01:Y:SIZE" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-01:Y:SIZE" />
+	</bean>
 
 	<bean id="MotorYCentre_S1" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-01:Y:CENTER" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-01:Y:CENTER" />
+	</bean>
 
 </beans>

@@ -12,42 +12,35 @@
 		<property name="current4Pv" value="BL06I-DI-IAMP-01:PHD4:I"/>
 		<property name="rangePv" value="BL06I-DI-IAMP-01:RANGE_MENU"/>
 		<property name="poll" value="true"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="bpm1" class="gda.device.monitor.EpicsBpmController">
 		<property name="xposPvName" value="BL06I-AL-SLITS-02:XPOS"/>
 		<property name="yposPvName" value="BL06I-AL-SLITS-02:YPOS"/>
 		<property name="intensityPvName" value="BL06I-AL-SLITS-02:INTEN"/>
 		<property name="poll" value="true"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="qbpm1" class="gda.device.qbpm.EpicsQbpm">
 		<property name="currAmpController" ref="qca1"/>
 		<property name="bpmController" ref="bpm1"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Drain current Monitor definition -->
 	<!-- CA1 Epics Monitor -->
 	<bean id="ca11" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-IAMP-01:PHD1:I" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ca12" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-IAMP-01:PHD2:I" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ca13" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-IAMP-01:PHD3:I" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ca14" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-IAMP-01:PHD4:I" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

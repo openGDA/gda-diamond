@@ -10,7 +10,6 @@
 		<property name="maxPosition" value="5" />
 		<property name="speed" value="0.4" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="feapy_motor" class="gda.device.motor.DummyMotor" >
@@ -18,7 +17,6 @@
 		<property name="maxPosition" value="5" />
 		<property name="speed" value="0.06" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
     <!-- Front End Beam Permit -->

@@ -71,8 +71,8 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 
-	<!-- Group d4-related objects -->	
- 	<bean id="smp" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<!-- Group d4-related objects -->
+	<bean id="smp" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="th" />
@@ -91,7 +91,6 @@
 				<ref bean="tthdiode" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
- </beans>
+</beans>

@@ -26,7 +26,6 @@
 		<property name="maxPosition" value="4.9000000" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorHFMPitch_M4" class="gda.device.motor.DummyMotor">
@@ -34,7 +33,6 @@
 		<property name="maxPosition" value="3.2800000" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mrad"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorHFMFinePitch_M4" class="gda.device.motor.DummyMotor">
@@ -42,7 +40,6 @@
 		<property name="maxPosition" value="10" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="V"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorHFMBender1_M4" class="gda.device.motor.DummyMotor">
@@ -50,7 +47,6 @@
 		<property name="maxPosition" value="3576.9487000" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="N"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorHFMBender2_M4" class="gda.device.motor.DummyMotor">
@@ -58,7 +54,6 @@
 		<property name="maxPosition" value="2160.37984" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="N"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorHFMRoll_M4" class="gda.device.motor.DummyMotor">
@@ -66,7 +61,6 @@
 		<property name="maxPosition" value="10.000000" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mrad"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- AD hardware -->

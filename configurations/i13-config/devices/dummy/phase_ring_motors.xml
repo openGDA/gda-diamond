@@ -8,7 +8,6 @@
 		<property name="maxPosition" value="8.0000e+05" />
 		<property name="position" value="2179.7" />
 		<property name="unitString" value="um" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="phase_ring_y_motor" class="gda.device.motor.DummyMotor">
@@ -16,7 +15,6 @@
 		<property name="maxPosition" value="8.0000e+05" />
 		<property name="position" value="-6000.0" />
 		<property name="unitString" value="um" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="phase_ring_z_motor" class="gda.device.motor.DummyMotor">
@@ -24,7 +22,6 @@
 		<property name="maxPosition" value="8.0000e+05" />
 		<property name="position" value="-550.00" />
 		<property name="unitString" value="um" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>	

@@ -10,180 +10,146 @@
 	<!-- ID gap -->
 	<bean id="idgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="SR08I-MO-SERVC-01:BLGAPMTR" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- ID Energy including lookup with calibration of plane grating monochromator/ID gap -->
 	<bean id="idenergy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-MO-GLBL-01:ENERGY" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Frontend: Customized Aperture -->
 	<bean id="bda_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE08I-AL-APTR-02:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="bda_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="FE08I-AL-APTR-02:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Mirror1 -->
 	<bean id="m1_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-COLM-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-COLM-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-COLM-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-COLM-01:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Slit1: White Beam filter -->
 	<bean id="s1_xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-01:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1_xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-01:X:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1_xminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-01:X:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1_xplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-01:X:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1_ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-01:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1_ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-01:Y:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1_yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-01:Y:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s1_yplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-01:Y:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Monochromator: PGM -->
 	<bean id="pgm_energy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-PGM-01:ENERGY" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm_cff_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-PGM-01:CFF" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="grating_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-PGM-01:GRT:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="grating_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-PGM-01:GRT:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Mirror2 (included in PGM) -->
 	<bean id="m2_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-PGM-01:MIR:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-PGM-01:MIR:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Mirror3 -->
 	<bean id="m3_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-VFM-03:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m3_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-VFM-03:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m3_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-VFM-03:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m3_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-VFM-03:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m3_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-VFM-03:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Mirror4 -->
 	<bean id="m4_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-HFM-04:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-HFM-04:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-HFM-04:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-HFM-04:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-HFM-04:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_ellipticity_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-HFM-04:ELLIP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m4_curvature_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-OP-HFM-04:CURVE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Slit2: Secondary slit -->
@@ -192,22 +158,18 @@
 	<!-- The two plates can be moved independently. -->
 	<bean id="s2_ap_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-02:AP:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_ap_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-02:AP:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_ss_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-02:SS:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_ss_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-02:SS:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_ss_presets" class="gda.device.enumpositioner.EpicsPositionerCallback">
@@ -220,7 +182,6 @@
 
 	<bean id="s2_ztranslation_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-AL-SLITS-02:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

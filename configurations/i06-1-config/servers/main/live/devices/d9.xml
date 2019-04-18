@@ -3,7 +3,7 @@
 
 	<!-- Branchline Fluorescent Screen and Diode D9 Motors -->
 	<bean id="MotorD_D9" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-DI-IONC-01:Y" /></bean>
+		<property name="pvName" value="BL06J-DI-IONC-01:Y" />
+	</bean>
 
 </beans>

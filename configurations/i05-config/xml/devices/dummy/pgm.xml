@@ -4,12 +4,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="pgm_energy_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="pgm_energy_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="pgm_energy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_energy_motor" />
-		<property name="local" value="false" />
 		<property name="outputFormat">
 			<list>
 				<value>%8.8g</value>
@@ -17,52 +15,40 @@
 		</property>
 	</bean>
 
-	<bean id="pgm_cff_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="pgm_cff_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="pgm_cff" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_cff_motor" />
-		<property name="local" value="false" />
 	</bean>
 
-	<bean id="pgm_mpitch_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="pgm_mpitch_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="pgm_mpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_mpitch_motor" />
-		<property name="local" value="true" />
 	</bean>
 
-	<bean id="pgm_mtrans_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="pgm_mtrans_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="pgm_mtrans" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_mtrans_motor" />
-		<property name="local" value="true" />
 	</bean>
 
-	<bean id="pgm_gpitch_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="pgm_gpitch_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="pgm_gpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_gpitch_motor" />
-		<property name="local" value="true" />
 	</bean>
 
-	<bean id="pgm_gtrans_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="pgm_gtrans_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="pgm_gtrans" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_gtrans_motor" />
-		<property name="local" value="true" />
 	</bean>
 
-	<bean id="pgm_linedensity_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="pgm_linedensity_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="pgm_linedensity" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_linedensity_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- PGM Grating Select -->
@@ -88,7 +74,6 @@
 				<ref bean="pgm_grating" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

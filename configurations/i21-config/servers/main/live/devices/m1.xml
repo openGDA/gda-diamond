@@ -7,59 +7,48 @@
 
 	<bean id="m1yawMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-01:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1rollMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1pitchMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1finepitchMotor" class="gda.device.motor.FeedbackControlledEpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-01:FP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1heightMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-01:HEIGHT" />
-		<property name="local" value="true" />
 	</bean>
 
 
 	<bean id="m1xMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1x1ConeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-01:X1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1x2flatVeeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-01:X2" />
-		<property name="local" value="true" />
 	</bean>
 
 
 	<bean id="m1y1ConeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-01:Y1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1y2VeeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-01:Y2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1y3flatMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-MIRR-01:Y3" />
-		<property name="local" value="true" />
 	</bean>
 
 

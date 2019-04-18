@@ -98,7 +98,6 @@
 				<ref bean="s2ycentre" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- CAS Epics Monitor -->
@@ -112,6 +111,5 @@
 				<ref bean="s2yminus_current" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

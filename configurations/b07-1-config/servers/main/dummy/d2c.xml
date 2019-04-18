@@ -4,9 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="d2c_y_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="d2c_y_motor" class="gda.device.motor.DummyMotor"/>
 
 	<!-- Area detector camera -->
 	<!-- To use this, you will have to start an area detector simulator -->

@@ -6,7 +6,6 @@
 	<!-- Patch Panel U1 Analog Output ControlPoint EpicsControlPoint -->
 	<bean id="dac11" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="0" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -16,7 +15,6 @@
 
 	<bean id="dac12" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="1" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -26,7 +24,6 @@
 
 	<bean id="dac13" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="0" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -36,7 +33,6 @@
 
 	<bean id="dac14" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="0" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -46,7 +42,6 @@
 
 	<bean id="dac15" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="0" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -56,7 +51,6 @@
 
 	<bean id="dac16" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="0" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -66,7 +60,6 @@
 
 	<bean id="dac17" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="0" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>
@@ -76,7 +69,6 @@
 
 	<bean id="dac18" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="0" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array>
 				<value>%10.6f</value>

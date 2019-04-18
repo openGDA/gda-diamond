@@ -5,12 +5,10 @@
 
 	<bean id="qbpm_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="qbpm_x_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qbpm_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="qbpm_y_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="qbpm" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -20,6 +18,5 @@
 				<ref bean="qbpm_y" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 </beans>

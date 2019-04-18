@@ -7,6 +7,6 @@
 
 	<bean id="rot_rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-MO-TABLE-02:ROT"/>
-		<property name="local" value="true"/>
 	</bean>
+
 </beans>

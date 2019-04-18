@@ -31,8 +31,6 @@
 	</bean>
 
 	<!-- This is to move the motor underneath the positioner to make scans. Maybe can be removed after commissioning-->
-	<bean id="d21c_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="d21c_x_motor" class="gda.device.motor.DummyMotor"/>
 
 </beans>

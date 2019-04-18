@@ -9,7 +9,6 @@
 		<property name="maxPosition" value="100" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorMTR2_U1" class="gda.device.motor.DummyMotor">
@@ -17,7 +16,6 @@
 		<property name="maxPosition" value="100" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorMTR3_U1" class="gda.device.motor.DummyMotor">
@@ -25,7 +23,6 @@
 		<property name="maxPosition" value="100" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorMTR4_U1" class="gda.device.motor.DummyMotor">
@@ -33,7 +30,6 @@
 		<property name="maxPosition" value="100" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorMTR5_U1" class="gda.device.motor.DummyMotor">
@@ -41,7 +37,6 @@
 		<property name="maxPosition" value="100" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorMTR6_U1" class="gda.device.motor.DummyMotor">
@@ -49,7 +44,6 @@
 		<property name="maxPosition" value="100" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

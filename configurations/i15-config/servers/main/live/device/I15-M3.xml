@@ -7,43 +7,35 @@
 
 	<bean id="svfmcurve_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:VFM:CURVE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="svfmellip_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:VFM:ELLIP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="svfmy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:VFM:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="svfmpitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:VFM:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Horizontal Small KB mirror motors -->
 
 	<bean id="shfmcurve_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:HFM:CURVE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="shfmellip_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:HFM:ELLIP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="shfmx_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:HFM:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="shfmpitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:HFM:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

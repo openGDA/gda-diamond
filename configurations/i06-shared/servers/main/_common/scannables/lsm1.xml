@@ -17,7 +17,6 @@
 				<ref bean="lsm1" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	<!-- Detector objects used in new scanning -->
 	<bean id="lsm1camModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">

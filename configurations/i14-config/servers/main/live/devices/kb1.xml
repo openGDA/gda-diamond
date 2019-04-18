@@ -6,17 +6,14 @@
 	<!-- KB mirrors -->
 	<bean id="kbv1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-OP-KBV-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kbv1_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-OP-KBV-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kbh1_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-OP-KBH-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

@@ -7,7 +7,6 @@
 		<property name="sampleInfoFile" value="SampleInfo.xls"/>
 		<property name="rowOffset" value="1"/>
 		<property name="saveExperimentSummary" value="false"/>
-		<property name="local" value="false"/>
 		<property name="configureAtStartup" value="true"/>
 	</bean>
 

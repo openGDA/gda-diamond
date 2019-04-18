@@ -10,7 +10,6 @@
 	<bean id="edxdMappingController" class="gda.device.detector.xmap.edxd.DummyXmapEDXDMappingController">
 		<property name="xmap" ref="xmap_dxp" />
 		<property name="elementOffset" value="1" />
-		<property name="local" value="true" />
 		<property name="numberOfElements" value="24" />
 		<property name="numberOfChannels" value="10000" />
 		<property name="aquisitionTimeOn" value="true" />

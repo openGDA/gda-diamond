@@ -6,7 +6,6 @@
 	<!--  now in EPICS it is called DJ2A -->
 	<bean id="dj2a_det_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10J-DI-PHDGN-03:DET:X" />
-		<property name="local" value="true"/>
 	</bean>
 
     <bean id="dj2a_pos" class="gda.device.enumpositioner.EpicsPositioner">

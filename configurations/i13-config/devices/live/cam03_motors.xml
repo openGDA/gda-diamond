@@ -5,7 +5,6 @@
 
 	<bean id="cam03_focus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-CAM-03:FOCUS"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="cam03_focus_pos" class="gda.device.enumpositioner.EpicsPositioner">
@@ -14,11 +13,10 @@
 
 	<bean id="cam03_rotation_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-CAM-03:ROT"/>
-		<property name="local" value="true" />
 	</bean>
 
- 	<bean id="cam03_objective" class="gda.device.enumpositioner.EpicsPneumaticCallback">
- 		<property name="name" value="cam02_objective" />
+	<bean id="cam03_objective" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="name" value="cam02_objective" />
 		<property name="controlPv" value="BL13I-MO-CAM-03:TURRET:DEMAND"/>
 		<property name="statusPv" value="BL13I-MO-CAM-03:TURRET:CURRENTPOS"/>
 		<property name="statusPvIndicatesPositionOnly" value="true"/>

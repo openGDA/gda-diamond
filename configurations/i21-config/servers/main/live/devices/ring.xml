@@ -6,17 +6,14 @@
 
 	<bean id="ringCurrent" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-DI-DCCT-01:SIGNAL" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ringEnergy" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:BEAMENERGY" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="timeToRefill" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:STACOUNTDN" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

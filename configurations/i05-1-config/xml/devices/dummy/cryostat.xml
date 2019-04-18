@@ -5,7 +5,6 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="cryostat" class="gda.device.temperature.DummyEpicsLakeshore336" >
-		<property name="local" value="true" />
 		<property name="inputNames">
 			<list>
 				<value>demand</value>

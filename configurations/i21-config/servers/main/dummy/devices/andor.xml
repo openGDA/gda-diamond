@@ -18,7 +18,6 @@
 		<property name="lowerLimit" value="0.01" />
 		<property name="upperLimit" value="180.0" />
 		<property name="increment" value="1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="andorShutterMode" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
@@ -29,7 +28,6 @@
 			</util:map>
 		</property>
 		<property name="startPositionName" value="auto"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="andorExtShutterTrigger" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
@@ -39,7 +37,6 @@
 			</util:map>
 		</property>
 		<property name="startPositionName" value="High to open"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="andorPreampGain" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
@@ -50,7 +47,6 @@
 			</util:map>
 		</property>
 		<property name="startPositionName" value="1.00"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="andorADCSpeed" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
@@ -62,7 +58,6 @@
 			</util:map>
 		</property>
 		<property name="startPositionName" value="1.00 MHz"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="andorVerticalShiftSpeed" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
@@ -72,7 +67,6 @@
 			</util:map>
 		</property>
 		<property name="startPositionName" value="76.95 uS"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="andorVerticalShiftAmplitude" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
@@ -84,14 +78,12 @@
 			</util:map>
 		</property>
 		<property name="startPositionName" value="0"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="andorEMCCDGain" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value">
 			<value type="double">0</value>
 		</property>
 		<property name="increment" value="1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="andorCoolerTemperature" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="unit" value="C"/>
@@ -101,7 +93,6 @@
 		<property name="lowerLimit" value="0" />
 		<property name="upperLimit" value="-90" />
 		<property name="increment" value="1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="andorCoolerControl" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
@@ -111,7 +102,6 @@
 			</util:map>
 		</property>
 		<property name="startPositionName" value="Off"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="andorBinningSizeX" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value">
@@ -120,7 +110,6 @@
 		<property name="lowerLimit" value="1" />
 		<property name="upperLimit" value="8" />
 		<property name="increment" value="1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="andorBinningSizeY" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value">
@@ -129,7 +118,6 @@
 		<property name="lowerLimit" value="1" />
 		<property name="upperLimit" value="8" />
 		<property name="increment" value="1" />
-		<property name="local" value="true" />
 	</bean>
 
 <!-- Andor Area Detector EPICS Plugins -->

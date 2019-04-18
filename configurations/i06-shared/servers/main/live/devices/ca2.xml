@@ -10,29 +10,24 @@
 		<property name="current2Pv" value="BL06I-DI-IAMP-02:PHD2:I"/>
 		<property name="current3Pv" value="BL06I-DI-IAMP-02:PHD3:I"/>
 		<property name="current4Pv" value="BL06I-DI-IAMP-02:PHD4:I"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Drain current Monitor definition -->
 	<!-- CA2 Epics Monitor -->
 	<bean id="ca21" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-IAMP-02:PHD1:I" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ca22" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-IAMP-02:PHD2:I" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ca23" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-IAMP-02:PHD3:I" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="ca24" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-IAMP-02:PHD4:I" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

@@ -3,52 +3,52 @@
 
 	<!-- Patch Panel U2 Analog Output ControlPoint EpicsControlPoint -->
 	<bean id="dac21" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:AO1" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:AO1" />
+	</bean>
 
 	<bean id="dac22" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:AO2" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:AO2" />
+	</bean>
 
 	<bean id="dac23" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:AO3" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:AO3" />
+	</bean>
 
 	<bean id="dac24" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:AO4" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:AO4" />
+	</bean>
 
 	<bean id="dac25" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:AO5" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:AO5" />
+	</bean>
 
 	<bean id="dac26" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:AO6" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:AO6" />
+	</bean>
 
 	<bean id="dac27" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:AO7" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:AO7" />
+	</bean>
 
 	<bean id="dac28" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:AO8" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:AO8" />
+	</bean>
 
 	<!-- Patch Panel U2 Analog Input Monitor -->
 	<bean id="adc21" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:AI1" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:AI1" />
+	</bean>
 
 	<bean id="adc22" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:AI2" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:AI2" />
+	</bean>
 
 	<bean id="adc23" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:AI3" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:AI3" />
+	</bean>
 
 	<bean id="adc24" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:AI4" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:AI4" />
+	</bean>
 
 </beans>

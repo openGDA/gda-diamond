@@ -5,41 +5,33 @@
 	
 	<bean id="s2_xplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-02:DIFX:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_xminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-02:DIFX:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_yplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-02:DIFY:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-02:DIFX:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-02:X:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-02:X:CEN" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-02:Y:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2_ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL11K-MO-SLITS-02:Y:CEN" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

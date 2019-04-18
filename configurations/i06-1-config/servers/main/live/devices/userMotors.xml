@@ -3,28 +3,28 @@
 
 	<!-- Branchline User Motors U2 Motors -->
 	<bean id="MotorMTR1_U2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:MTR1" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:MTR1" />
+	</bean>
 
 	<bean id="MotorMTR2_U2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:MTR2" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:MTR2" />
+	</bean>
 
 	<bean id="MotorMTR3_U2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:MTR3" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:MTR3" />
+	</bean>
 
 	<bean id="MotorMTR4_U2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:MTR4" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:MTR4" />
+	</bean>
 
 <!--  MTR5 is removed in EPICS -->
 <!-- 	<bean id="MotorMTR5_U2" class="gda.device.motor.EpicsMotor"> -->
-<!-- 		<property name="local" value="true" /> -->
-<!-- 	<property name="pvName" value="BL06J-EA-USER-01:MTR5" /></bean> -->
+<!-- 		<property name="pvName" value="BL06J-EA-USER-01:MTR5" /> -->
+<!-- 	</bean> -->
 
 	<bean id="MotorMTR6_U2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06J-EA-USER-01:MTR6" /></bean>
+		<property name="pvName" value="BL06J-EA-USER-01:MTR6" />
+	</bean>
 
 </beans>

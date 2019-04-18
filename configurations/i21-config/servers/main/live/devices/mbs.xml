@@ -5,19 +5,15 @@
 
 	<bean id="eax" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-ELAN-01:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="eay" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-ELAN-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="eaz" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-ELAN-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="eapolar" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-ELAN-01:POLAR" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

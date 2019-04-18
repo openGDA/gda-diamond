@@ -8,7 +8,6 @@
 
 	<bean id="photoDiode1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL08I-EA-PATCH-01:AI1" />
-		<property name="local" value="true" />
 		<property name="poll" value="true" />
 	</bean>
 </beans> 

@@ -12,7 +12,6 @@
 		<property name="maxPosition" value="2500.0" />
 		<property name="speed" value="20" />
 		<property name="unitString" value="eV"/>
-		<property name="local" value="true" />
 		<property name="position" value="800"/>
 	</bean>
 
@@ -21,7 +20,6 @@
 		<property name="maxPosition" value="90.501" />
 		<property name="speed" value="0.018" />
 		<property name="unitString" value="deg"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="pgm_grat_x_motor" class="gda.device.motor.DummyMotor">
@@ -29,21 +27,18 @@
 		<property name="maxPosition" value="75.000" />
 		<property name="speed" value="2.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>	
 	<bean id="pgm_m2_pitch_motor" class="gda.device.motor.DummyMotor" >
 		<property name="minPosition" value="82.9866" />
 		<property name="maxPosition" value="92.0" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="deg"/>
-		<property name="local" value="true" />
 	</bean>	
 	<bean id="pgm_m2_plane_motor" class="gda.device.motor.DummyMotor" >
 		<property name="minPosition" value="15.000" />
 		<property name="maxPosition" value="120.000" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>	
 
 	<bean id="pgm_pos" class="gda.device.enumpositioner.DummyEnumPositioner">
@@ -53,12 +48,10 @@
 				<value>SiC</value>
 			</util:list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="cff" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="2.25" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array value-type="java.lang.String">
 				<value>%5.2f</value>
@@ -69,7 +62,6 @@
 	<!-- Plane Grating Monochromator grating offset -->
 	<bean id="pgmgo" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="-0.0509115" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array value-type="java.lang.String">
 				<value>%10.6f</value>
@@ -80,7 +72,6 @@
 	<!-- Plane Grating Monochromator mirror offset -->
 	<bean id="pgmmo" class="gda.device.controlpoint.DummyControlPoint">
 		<property name="value" value="0.0038318" />
-		<property name="local" value="true"/>
 		<property name="outputFormat">
 			<array value-type="java.lang.String">
 				<value>%10.6f</value>

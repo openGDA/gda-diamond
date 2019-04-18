@@ -4,56 +4,51 @@
 	<!-- X-Ray Beam Position Monitor in the Ring -->
 	<bean id="xbpm1x" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE06I-DI-PBPM-01:BEAMX" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="xbpm1y" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE06I-DI-PBPM-01:BEAMY" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="xbpm1anglex" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE06I-DI-BEAM-01:RM:ANGLEX" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="xbpm1angley" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="FE06I-DI-BEAM-01:RM:ANGLEY" />
-		<property name="local" value="true" />
 	</bean>
-	
-	
+
 	<!-- FE Photon Beam Position Monitor XPBM1 -->
 	<bean id="pm1a" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="FE06I-DI-PBPM-01:BLADEA" /></bean>
+		<property name="pvName" value="FE06I-DI-PBPM-01:BLADEA" />
+	</bean>
 
 	<bean id="pm1b" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="FE06I-DI-PBPM-01:BLADEB" /></bean>
+		<property name="pvName" value="FE06I-DI-PBPM-01:BLADEB" />
+	</bean>
 
 	<bean id="pm1c" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="FE06I-DI-PBPM-01:BLADEC" /></bean>
+		<property name="pvName" value="FE06I-DI-PBPM-01:BLADEC" />
+	</bean>
 
 	<bean id="pm1d" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="FE06I-DI-PBPM-01:BLADED" /></bean>
+		<property name="pvName" value="FE06I-DI-PBPM-01:BLADED" />
+	</bean>
 
 	<bean id="pm1x" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="FE06I-DI-PBPM-01:BEAMX" /></bean>
+		<property name="pvName" value="FE06I-DI-PBPM-01:BEAMX" />
+	</bean>
 
 	<bean id="pm1y" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="FE06I-DI-PBPM-01:BEAMY" /></bean>
+		<property name="pvName" value="FE06I-DI-PBPM-01:BEAMY" />
+	</bean>
 
 	<bean id="pm1xabs" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="FE06I-DI-PBPM-01:X:ABS" /></bean>
+		<property name="pvName" value="FE06I-DI-PBPM-01:X:ABS" />
+	</bean>
 
 	<bean id="pm1yabs" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="FE06I-DI-PBPM-01:Y:ABS" /></bean>
-	
+		<property name="pvName" value="FE06I-DI-PBPM-01:Y:ABS" />
+	</bean>
+
 </beans>

@@ -14,22 +14,18 @@
 
 	<bean id="pgm_mirror_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_mirror_pitch_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm_mirror_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_mirror_x_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm_grating_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_grating_pitch_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm_grating_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgm_grating_x_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgm" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -52,7 +48,6 @@
 				<ref bean="pgm_t5" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

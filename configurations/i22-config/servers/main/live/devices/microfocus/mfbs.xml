@@ -6,11 +6,9 @@
 
 	<bean id="mfbs_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-RS-ABSB-03:Y"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="mfbs_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-RS-ABSB-03:X"/>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

@@ -5,6 +5,5 @@
 
 	<bean id="d6x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-DI-PHDGN-06:X" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

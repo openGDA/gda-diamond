@@ -6,24 +6,19 @@
 	<!-- Beam Positioning Monitors -->
 	<bean id="bpm23x" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-BPM-23:X:POS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="bpm23y" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-BPM-23:Y:POS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="bpm23pow" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-BPM-23:POWER" />
-		<property name="local" value="true" />
 	</bean>
 	<!-- Fast Steering Mirror 23 -->
 	<bean id="MotorX_LFSM23" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-FSM-23:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="MotorY_LFSM23" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-FSM-23:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Control Points that control the Laser Stabilisation System Motor's Set Point -->
@@ -41,13 +36,11 @@
 		<property name="controlPv" value="BL06I-EA-LSHTR-01:CON" />
 		<property name="statusPv" value="BL06I-EA-LSHTR-01:STA" />
 		<property name="statusPvIndicatesPositionOnly" value="true" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Waveplate 33 -->
 	<bean id="wp33_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-WAVE-33:MTR" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

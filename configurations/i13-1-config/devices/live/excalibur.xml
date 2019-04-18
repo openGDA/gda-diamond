@@ -246,14 +246,9 @@
 		</property>
 		<property name="inputNames" value="ix"/>	
 		<property name="cmc" ref="tfg2CVMoveController"/>
-		<property name="local" value="true" />
 	</bean>
 
-	<bean id="tfg2CVMoveController" class="gda.device.detector.addetector.triggering.TFG2CVmoveController">
-		<property name="local" value="true" />
-	</bean>
-
-
+	<bean id="tfg2CVMoveController" class="gda.device.detector.addetector.triggering.TFG2CVmoveController"/>
 
 	<bean id="tfgCollectionStrategy" class="gda.device.detector.addetector.triggering.TFG2NXCollectionStrategy">
 	<constructor-arg ref="excalibur_config_base"/>

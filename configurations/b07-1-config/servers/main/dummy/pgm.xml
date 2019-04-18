@@ -6,32 +6,24 @@
 	<bean id="pgm_energy_motor" class="gda.device.motor.DummyMotor">
 		<property name="position" value="500" />
 		<property name="unitString" value="eV" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="pgm_cff_motor" class="gda.device.motor.DummyMotor">
 		<property name="position" value="2.3" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="pgm_mirror_pitch_motor" class="gda.device.motor.DummyMotor">
 		<property name="position" value="83.3" />
-		<property name="local" value="true" />
 	</bean>
 	
-	<bean id="pgm_mirror_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="pgm_mirror_x_motor" class="gda.device.motor.DummyMotor"/>
 	
 	<bean id="pgm_grating_pitch_motor" class="gda.device.motor.DummyMotor">
 		<property name="position" value="58.9" />
-		<property name="local" value="true" />
 	</bean>
 
-	<bean id="pgm_grating_x_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
-	
+	<bean id="pgm_grating_x_motor" class="gda.device.motor.DummyMotor"/>
+
 	<bean id="pgm_grating" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>

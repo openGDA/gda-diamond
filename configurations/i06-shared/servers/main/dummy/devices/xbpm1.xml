@@ -10,7 +10,6 @@
 			<value type="double">-0.0303253</value>
 		</property>
 		<property name="increment" value="0.01" />	
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="xbpm1y" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -19,7 +18,6 @@
 			<value type="double">0.0289596</value>
 		</property>
 		<property name="increment" value="0.01" />	
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="xbpm1anglex" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -28,7 +26,6 @@
 			<value type="double">0.0874031</value>
 		</property>
 		<property name="increment" value="0.01" />	
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="xbpm1angley" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -37,7 +34,6 @@
 			<value type="double">0.508445</value>
 		</property>
 		<property name="increment" value="0.01" />	
-		<property name="local" value="true"/>
 	</bean>
 	
 	
@@ -48,7 +44,6 @@
 			<value type="double">0.0469583</value>
 		</property>
 		<property name="increment" value="0.01" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="pm1b" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -57,7 +52,6 @@
 			<value type="double">0.0488017</value>
 		</property>
 		<property name="increment" value="0.01" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="pm1c" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -66,7 +60,6 @@
 			<value type="double">0.045502</value>
 		</property>
 		<property name="increment" value="0.01" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="pm1d" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -75,7 +68,6 @@
 			<value type="double">0.0467916</value>
 		</property>
 		<property name="increment" value="0.01" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="pm1x" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -84,7 +76,6 @@
 			<value type="double">-0.0296335</value>
 		</property>
 		<property name="increment" value="0.01" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="pm1y" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -93,7 +84,6 @@
 			<value type="double">0.0289193</value>
 		</property>
 		<property name="increment" value="0.01" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="pm1xabs" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -102,7 +92,6 @@
 			<value type="double">0.669042</value>
 		</property>
 		<property name="increment" value="0.01" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="pm1yabs" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -111,7 +100,6 @@
 			<value type="double">-0.375019</value>
 		</property>
 		<property name="increment" value="0.01" />
-		<property name="local" value="true"/>
 	</bean>
 	
 </beans>

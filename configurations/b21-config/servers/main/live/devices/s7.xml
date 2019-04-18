@@ -5,21 +5,17 @@
 
 	<bean id="s7_xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21B-AL-SLITS-07:X:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s7_xgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21B-AL-SLITS-07:X:GAP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s7_ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21B-AL-SLITS-07:Y:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s7_ygap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21B-AL-SLITS-07:Y:GAP" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

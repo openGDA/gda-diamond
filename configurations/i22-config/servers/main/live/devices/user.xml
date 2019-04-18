@@ -6,11 +6,10 @@
 
 	<bean id="user_four_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-MO-USER-01:MTR4"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="user_three_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-MO-USER-01:MTR3"/>
-		<property name="local" value="true"/>
 	</bean>
+
 </beans>

@@ -6,7 +6,6 @@
 	<bean id="lakeshore" class="gda.device.temperature.EpicsLakeshore336">
 		<property name="tolerance" value="0.1" />
 		<property name="basePVName" value="BL09L-VA-LAKE-01:" />
-		<property name="local" value="true" />
 		<property name="inputNames" value="demand"></property>
 		<property name="extraNames">
 			<list>

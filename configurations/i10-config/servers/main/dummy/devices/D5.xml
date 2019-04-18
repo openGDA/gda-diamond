@@ -12,7 +12,6 @@
 		<property name="maxPosition" value="0.5" />
 		<property name="speed" value="0.4" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>		
 
 	<bean id="d5_pos" class="gda.device.enumpositioner.DummyEnumPositioner">
@@ -22,7 +21,6 @@
 				<value>Cell In</value>
 			</util:list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="d5a_pos" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
@@ -36,13 +34,11 @@
 				<value>Grid</value>
 			</util:list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="d5d7_det_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-0.5" />
 		<property name="maxPosition" value="45.5" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 </beans>

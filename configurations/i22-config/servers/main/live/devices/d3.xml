@@ -7,13 +7,11 @@
 
 	<bean id="d3filter" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL22I-DI-PHDGN-03:MP"/>
-		<property name="local" value="true"/>
 		<property name="protectionLevel" value="2"/>
 	</bean>
 
 	<bean id="d3motor_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-DI-PHDGN-03:POSN"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="d3d1" class="gda.device.currentamplifier.CalibratedAmplifier">
@@ -21,7 +19,6 @@
 		<property name="useNameAsExtraName" value="true"/>
 		<property name="hasUnits" value="false"/>
 		<property name="pvName" value="BL22I-DI-PHDGN-03:DIODE1:I"/>
-		<property name="local" value="true"/>
 		<property name="settletime" value="500"/>
 		<property name="upperThreshold" value="8.5"/>
 	</bean>

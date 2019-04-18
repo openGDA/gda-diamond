@@ -88,112 +88,93 @@
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="threshold0" />
 		<constructor-arg index="2" value="0" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="threshold1" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="threshold1" />
 		<constructor-arg index="2" value="1" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="preamp" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="preamp" />
 		<constructor-arg index="2" value="7" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="ikrum" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="ikrum" />
 		<constructor-arg index="2" value="8" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="shaper" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="shaper" />
 		<constructor-arg index="2" value="9" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="delay" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="delay" />
 		<constructor-arg index="2" value="15" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="rpz" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="rpz" />
 		<constructor-arg index="2" value="18" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="gnd" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="gnd" />
 		<constructor-arg index="2" value="19" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="tpRef" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="tpRef" />
 		<constructor-arg index="2" value="20" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="fbk" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="fbk" />
 		<constructor-arg index="2" value="21" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="tpRefA" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="tpRefA" />
 		<constructor-arg index="2" value="23" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="tpRefB" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="tpRefB" />
 		<constructor-arg index="2" value="24" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="dacPixel" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="dacPixel" />
 		<constructor-arg index="2" value="14" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="thresholdN" class="uk.ac.gda.devices.excalibur.scannable.ChipRegAnperScannable">
 		<constructor-arg index="0" ref="readoutFems" />
 		<constructor-arg index="1" value="thresholdn" />
 		<constructor-arg index="2" value="13" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="thresholdA"
 		class="uk.ac.gda.devices.excalibur.scannable.ThresholdAScannable">
 		<constructor-arg index="0" ref="readoutFems" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="thresholdB"
 		class="uk.ac.gda.devices.excalibur.scannable.ThresholdBScannable">
 		<constructor-arg index="0" ref="readoutFems" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="gainMode" class="uk.ac.gda.devices.excalibur.scannable.GainModeScannable">
 		<constructor-arg index="0" ref="readoutFems" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="mask_excalibur"
 		class="uk.ac.gda.devices.excalibur.scannable.MaskScannable">
 		<constructor-arg index="0" ref="readoutFems" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="test"
 		class="uk.ac.gda.devices.excalibur.scannable.TestScannable">
-		<property name="local" value="true" />
 		<constructor-arg index="0" ref="readoutFems" />
 	</bean>
  

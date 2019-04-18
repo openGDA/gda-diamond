@@ -12,14 +12,12 @@
 		<property name="maxPosition" value="-1000.0" />
 		<property name="position" value="1.6" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="attn1_stick2_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000.0" />
 		<property name="maxPosition" value="-1000.0" />
 		<property name="position" value="-0.85" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="attn1_stick1_position" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">

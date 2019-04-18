@@ -7,22 +7,18 @@
 
 	<bean id="s4femto1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-AL-SLITS-04:FEMTO1:I" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s4femto2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-AL-SLITS-04:FEMTO2:I" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s4femto3" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-AL-SLITS-04:FEMTO3:I" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s4femto4" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-AL-SLITS-04:FEMTO4:I" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

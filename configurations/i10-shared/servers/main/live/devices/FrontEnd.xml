@@ -7,12 +7,10 @@
 
 	<bean id="feapx_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="FE10I-AL-APTR-02:X" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="feapy_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="FE10I-AL-APTR-02:Y" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="frontend" class ="gda.device.enumpositioner.EpicsPneumaticCallback">

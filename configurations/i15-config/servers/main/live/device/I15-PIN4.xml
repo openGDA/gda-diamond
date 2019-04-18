@@ -5,26 +5,21 @@
 
 	<bean id="Pin4XMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-APTR-04:X" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Pin4YMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-APTR-04:Y" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Pin4ZMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-APTR-04:Z" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Pin4PitchMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-APTR-04:PITCH" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Pin4YawMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-APTR-04:YAW" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

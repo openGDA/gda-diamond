@@ -92,7 +92,6 @@
 	<bean id="edxdcontroller" class="gda.device.detector.xmap.edxd.EDXDMappingController">
 		<property name="xmap" ref="xmap_dxp" />
 		<property name="elementOffset" value="1" />
-		<property name="local" value="true" />
 		<property name="numberOfElements" value="1" />
 		<property name="hdf5" ref="edxdcontroller_hdf5" />
 		<property name="aquisitionTimeOn" value="true" />
@@ -100,7 +99,6 @@
 
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="edxdController" ref="edxdcontroller" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
@@ -115,7 +113,6 @@
 		<property name="slave" value="false" />
 		<property name="configFileName"	value="${gda.config}/templates/Vortex_Parameters.xml" />
 		<property name="sumAllElementData" value="true" />
-		<property name="local" value="true" />
 	</bean>
 </beans>
 

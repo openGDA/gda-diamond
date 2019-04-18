@@ -5,9 +5,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="DAServer" class="gda.device.detector.DummyDAServer">
-        <property name="local" value="true" />
-    </bean>
+    <bean id="DAServer" class="gda.device.detector.DummyDAServer"/>
 
     <beans profile="saxs">
         <bean id="SaxsMemory" class="gda.device.memory.Gdscaler">

@@ -3,32 +3,35 @@
 
 	<!-- Mobile Rack Motors U3 Motors -->
 	<bean id="MotorMTR1_U3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-EA-USER-03:MTR1" /></bean>
+		<property name="pvName" value="BL06I-EA-USER-03:MTR1" />
+	</bean>
 
 	<bean id="MotorMTR2_U3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-EA-USER-03:MTR2" /></bean>
+		<property name="pvName" value="BL06I-EA-USER-03:MTR2" />
+	</bean>
 
 	<bean id="MotorMTR3_U3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-EA-USER-03:MTR3" /></bean>
+		<property name="pvName" value="BL06I-EA-USER-03:MTR3" />
+	</bean>
 
 	<bean id="MotorMTR4_U3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-EA-USER-03:MTR4" /></bean>
-	
+		<property name="pvName" value="BL06I-EA-USER-03:MTR4" />
+	</bean>
+
 	<bean id="MotorMTR5_U3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-EA-USER-03:MTR5" /></bean>
+		<property name="pvName" value="BL06I-EA-USER-03:MTR5" />
+	</bean>
+
 	<bean id="MotorMTR6_U3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-EA-USER-03:MTR6" /></bean>
+		<property name="pvName" value="BL06I-EA-USER-03:MTR6" />
+	</bean>
+
 	<bean id="MotorMTR7_U3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-EA-USER-03:MTR7" /></bean>
+		<property name="pvName" value="BL06I-EA-USER-03:MTR7" />
+	</bean>
+
 	<bean id="MotorMTR8_U3" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-EA-USER-03:MTR8" /></bean>
+		<property name="pvName" value="BL06I-EA-USER-03:MTR8" />
+	</bean>
 
 </beans>

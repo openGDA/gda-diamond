@@ -4,14 +4,12 @@
 
 	<bean id="machCountdownMonitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN"></property>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="machModeMonitor" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="CS-CS-MSTAT-01:MODE" />
-		<property name="local" value="false" />
 	</bean>
-	
+
 	<bean id="topup" class="gda.device.scannable.TopupChecker" >
 		<property name="tolerance" value="10.0"/>
 		<property name="waittime" value="2.0"/>

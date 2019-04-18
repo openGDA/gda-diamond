@@ -9,7 +9,6 @@
 		<property name="maxPosition" value="0.0000000" />
 		<property name="speed" value="0.01" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />	
 	</bean>
 	<bean id="d12posn" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
@@ -22,7 +21,6 @@
 				<value>Gd</value>
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

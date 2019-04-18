@@ -10,8 +10,7 @@
 		<property name="scalerChannelIndex" value="16" />
 	</bean>
 	<bean id="Ie0" class="gda.device.detector.etldetector.EpicsETLController">
-		<property name="local" value="true" />
-	<property name="pvRoot" value="BL11I-DI-IMON-01:E1" />
+		<property name="pvRoot" value="BL11I-DI-IMON-01:E1" />
 	</bean>
 
 </beans>

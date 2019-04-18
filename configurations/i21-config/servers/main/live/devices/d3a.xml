@@ -13,7 +13,6 @@
 	<!-- Stick motor -->
 	<bean id="d3amotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-DI-PHDGA-03:POS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="d3aCamBase" class="gda.spring.V17ADBaseFactoryBean">
@@ -173,7 +172,6 @@
 	<!-- Femto -->
 	<bean id="d3afemto" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-DI-PHGDA-03:FEMTO1:I" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 </beans>

@@ -5,12 +5,10 @@
 
 
 	<bean id="opticsShutter" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="false"/>
 		<property name="pvBase" value="FE08I-PS-SHTR-02"/>
 	</bean>
 
 	<bean id="shutter1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="false"/>
 		<property name="pvBase" value="BL08I-PS-SHTR-01"/>
 	</bean>
 

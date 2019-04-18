@@ -6,24 +6,20 @@
 
     <bean id="bs2_cs_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs2_cs_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bs2_abs_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs2_abs_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bs1_abs_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs1_abs_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bs1" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="local" value="true"/>
         <property name="groupMembers">
             <list>
                 <ref bean="bs1diode"/>
@@ -42,36 +38,30 @@
 
     <bean id="bs1_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs1_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bs3_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs3_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="bs2_abs_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs2_abs_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bs1_cs_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs1_cs_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="bs3_cs_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs3_cs_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bs2" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="local" value="true"/>
         <property name="groupMembers">
             <list>
                 <ref bean="bs2diode"/>
@@ -92,24 +82,20 @@
 
     <bean id="bs1_cs_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs1_cs_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="bs3_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs3_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="bs2_pitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs2_pitch_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="bs" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="local" value="true"/>
         <property name="groupMembers">
             <list>
                 <ref bean="bs1_x"/>
@@ -131,72 +117,60 @@
 
     <bean id="bs2_yaw" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs2_yaw_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="bs3_roll" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs3_roll_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="bs3_yaw" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs3_yaw_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="bs2_cs_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs2_cs_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bs3_pitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs3_pitch_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="bs2_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs2_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="bs1_abs_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs1_abs_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bs3_cs_roll" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs3_roll_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bs3_cs_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs3_cs_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bs2_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs2_x_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="bs1_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="bs1_y_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="3"/>
     </bean>
 
     <bean id="bs3" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="local" value="true"/>
         <property name="groupMembers">
             <list>
                 <ref bean="bs3diode"/>

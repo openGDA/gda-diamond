@@ -4,7 +4,6 @@
 
 	<!-- PEEM Line shutter -->
 	<bean id="shtr1i" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="BL06I-PS-SHTR-01" />
 	</bean>
 

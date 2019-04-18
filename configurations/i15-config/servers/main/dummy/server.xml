@@ -22,9 +22,7 @@
 	</bean>
 
 	<bean id="terminallog_path_provider"
-			class="gda.data.SimpleObservablePathProvider">
-		<property name="local" value="true" />
-	</bean>
+			class="gda.data.SimpleObservablePathProvider"/>
 
 	<import resource="../_common/server.xml"/>
 	<import resource="device/all.xml"/>

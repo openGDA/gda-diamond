@@ -34,7 +34,6 @@
 
 	<bean id="_fivec" class="gda.device.scannable.scannablegroup.MotomanRobotScannableGroup">
 		<property name="name" value="_fivec" />
-        <property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="delta" />

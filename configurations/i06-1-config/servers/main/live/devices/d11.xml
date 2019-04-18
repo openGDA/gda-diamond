@@ -6,11 +6,9 @@
 	<!-- Branchline Fluorescent Screen and Diode D11 Motors -->
 	<bean id="MotorD_D11_Y" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-DI-PHDGN-03:Y" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="MotorD_D11_X" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-DI-PHDGN-03:X" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

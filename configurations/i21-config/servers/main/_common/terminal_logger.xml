@@ -4,14 +4,13 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans 
     http://www.springframework.org/schema/beans/spring-beans.xsd">
 
- 
-  	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
- 		<property name="template" value="/dls/i21/data/$year$/$visit$/spool/gdaterminal.log" />
- 		<property name="gdaMetadata" ref="GDAMetadata" />
- 		<property name="local" value="true" />
- 	</bean>
 
-	
+	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
+		<property name="template" value="/dls/i21/data/$year$/$visit$/spool/gdaterminal.log" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+	</bean>
+
+
 	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">
 		<constructor-arg ref="terminallog_path_provider" />
 	</bean>

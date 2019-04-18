@@ -6,17 +6,14 @@
 
 	<bean id="ssx_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-SM-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ssy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-SM-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ssz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05J-EA-SM-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

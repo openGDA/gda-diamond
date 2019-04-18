@@ -8,15 +8,13 @@
 		<property name="maxPosition" value="140.077" />
 		<property name="position" value="40.0" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="sample_beamstop_y_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-12.0287" />
 		<property name="maxPosition" value="0.271332" />
 		<property name="position" value="-3.8" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

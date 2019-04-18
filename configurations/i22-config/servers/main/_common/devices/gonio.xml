@@ -6,18 +6,15 @@
 
     <bean id="gonio_pitch" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="gonio_pitch_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="gonio_roll" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="gonio_roll_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 
     <bean id="gonio" class="gda.device.scannable.scannablegroup.ScannableGroup">
-        <property name="local" value="true"/>
         <property name="groupMembers">
             <list>
                 <ref bean="gonio_roll"/>
@@ -29,7 +26,6 @@
 
     <bean id="gonio_yaw" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="gonio_yaw_motor"/>
-        <property name="local" value="true"/>
         <property name="protectionLevel" value="2"/>
     </bean>
 </beans>

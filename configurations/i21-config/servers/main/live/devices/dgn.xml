@@ -13,7 +13,6 @@
 	<!-- Stick motor -->
 	<bean id="dgnmotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-DI-DIAGO-01:POS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dgnCamBase" class="gda.spring.V17ADBaseFactoryBean">

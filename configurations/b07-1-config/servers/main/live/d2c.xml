@@ -6,7 +6,6 @@
 
 	<bean id="d2c_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-DI-PHDGN-02:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- D2C cam 1 -->

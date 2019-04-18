@@ -21,21 +21,17 @@
 
 	<bean id="S1xposMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-01:X:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S1xgapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-01:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S1yposMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-01:Y:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="S1ygapMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-AL-SLITS-01:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

@@ -5,14 +5,11 @@
 
 	<bean id="t2_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-STAGE-02:CAMERA:X"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="t2_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-STAGE-02:CAMERA:Y"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="t2_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-STAGE-02:CAMERA:Z"/>
-		<property name="local" value="true" />
 	</bean>
 </beans>	

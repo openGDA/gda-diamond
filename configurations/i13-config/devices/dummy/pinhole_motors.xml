@@ -8,7 +8,6 @@
 		<property name="maxPosition" value="8.0000e+05" />
 		<property name="position" value="3290.0" />
 		<property name="unitString" value="um" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pinhole_y_motor" class="gda.device.motor.DummyMotor">
@@ -16,7 +15,6 @@
 		<property name="maxPosition" value="8.0000e+05" />
 		<property name="position" value="-670.00" />
 		<property name="unitString" value="um" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pinhole_z_motor" class="gda.device.motor.DummyMotor">
@@ -24,7 +22,6 @@
 		<property name="maxPosition" value="8.0000e+05" />
 		<property name="position" value="200.00" />
 		<property name="unitString" value="um" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>	

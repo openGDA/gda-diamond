@@ -7,51 +7,42 @@
 
 	<bean id="DcmenergyMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-DCM-01:ENERGY" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Mixture -->
 
 	<bean id="Dcmxtl1rollMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:ROLL" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Dcmx1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-DCM-01:X1" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- 
 	<bean id="DcmpiezoMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-DCM-01:PIEZO" />
-		<property name="local" value="true"/>
 	</bean>
 	 -->
 
 	<bean id="Dcmxtl1yMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:Y" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Dcmxtl2yMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:Y" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Bragg1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:THETA" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Bragg2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-DCM-01:XTAL2:THETA" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="Dcmxtl1zMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-DCM-01:XTAL1:Z" />
-		<property name="local" value="true"/>
 	</bean>
 
 

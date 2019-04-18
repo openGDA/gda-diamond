@@ -6,36 +6,29 @@
 
 	<bean id="mfplatform_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mfplatform_x_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="mfplatform_y1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mfplatform_y1_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="mfplatform_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mfplatform_y_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="mfplatform_yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mfplatform_yaw_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="mfplatform_y2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mfplatform_y2_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="mfplatform_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="mfplatform_pitch_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="mfplatform" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="mfplatform_x"/>

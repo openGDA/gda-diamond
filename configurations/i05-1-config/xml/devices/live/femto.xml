@@ -12,7 +12,6 @@
 		<property name="lowerVoltageBound" value="0.5" />
 		<property name="upperVoltageBound" value="9.5" />
 		<property name="modeToGainToGainStringMap" ref="gainMap" />
-		<property name="local" value="true" />
 		<property name="hasIinPV" value="false" />
 		<property name="supportsCoupling" value="false" />
 	</bean>
@@ -23,7 +22,6 @@
 		<property name="lowerVoltageBound" value="0.5" />
 		<property name="upperVoltageBound" value="9.5" />
 		<property name="modeToGainToGainStringMap" ref="gainMap" />
-		<property name="local" value="true" />
 		<property name="hasIinPV" value="false" />
 		<property name="supportsCoupling" value="false" />
 	</bean>
@@ -34,7 +32,6 @@
 		<property name="lowerVoltageBound" value="0.5" />
 		<property name="upperVoltageBound" value="9.5" />
 		<property name="modeToGainToGainStringMap" ref="gainMap" />
-		<property name="local" value="true" />
 		<property name="hasIinPV" value="false" />
 		<property name="supportsCoupling" value="false" />
 	</bean>
@@ -45,7 +42,6 @@
 		<property name="lowerVoltageBound" value="0.5" />
 		<property name="upperVoltageBound" value="9.5" />
 		<property name="modeToGainToGainStringMap" ref="gainMap" />
-		<property name="local" value="true" />
 		<property name="hasIinPV" value="false" />
 		<property name="supportsCoupling" value="false" />
 	</bean>

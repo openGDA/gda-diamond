@@ -25,7 +25,6 @@
 
 	<bean id="blower_controller"
 			class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true"/>
 		<property name="configureAtStartup" value="true"/>
 		<property name="basePVName" value = "BL15J-EA-BLOW-01"/>
 		<property name="maxRampRate" value = "10"/>
@@ -35,7 +34,6 @@
 
 	<bean id="blower"
 			class="gda.device.temperature.Eurotherm2K">
-		<property name="local" value="true"/>
 		<property name="configureAtStartup" value="true"/>
 		<property name="accuracy" value = "5"/>
 		<property name="polltime" value = "1000"/>
@@ -88,7 +86,6 @@
 	<!-- 
 	<bean id="helios_controller"
 			class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true"/>
 		<property name="configureAtStartup" value="true"/>
 		<property name="basePVName" value = "BL15J-EA-HELIOS-01"/>
 		<property name="maxRampRate" value = "60"/>
@@ -98,7 +95,6 @@
 
 	<bean id="helios"
 			class="gda.device.temperature.Eurotherm2K">
-		<property name="local" value="true"/>
 		<property name="configureAtStartup" value="true"/>
 		<property name="accuracy" value = "0.5"/>
 		<property name="polltime" value = "1000"/>

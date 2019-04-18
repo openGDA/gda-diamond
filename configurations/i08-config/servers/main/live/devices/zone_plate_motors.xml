@@ -6,7 +6,6 @@
 
 	<bean id="ZPZ_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL08I-EA-ZP-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

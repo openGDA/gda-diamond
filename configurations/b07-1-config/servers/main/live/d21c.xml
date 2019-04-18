@@ -7,7 +7,6 @@
 	</bean>
 	<bean id="d21c_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-DI-PHDGN-21:X" />
-		<property name="local" value="true" />
 	</bean>
 	<!-- d21c cam 1 -->
 	<bean id="d21c_cam1_CamBase" class="gda.spring.V17ADBaseFactoryBean">

@@ -14,7 +14,6 @@
 		<property name="controller" ref="csb_controller" />
 	</bean>
 	<bean id="csb_controller" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="maxRampRate" value="0.2" />
 		<property name="minRampRate" value="0.01" />
@@ -32,7 +31,6 @@
 		<property name="controller" ref="csb2_controller" />
 	</bean>
 	<bean id="csb2_controller" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="maxRampRate" value="0.2" />
 		<property name="minRampRate" value="0.01" />

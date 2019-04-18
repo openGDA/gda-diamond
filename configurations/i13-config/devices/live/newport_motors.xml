@@ -5,17 +5,14 @@
 
 <!-- 	<bean id="newport_1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-CAM-04:FOCUS"/>
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="${use.newport}"/>
 	</bean> -->
 	<bean id="newport_2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-GNRIC-01:NEWPORTMFA:2"/>
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="${use.newport}"/>
 	</bean>
 	<bean id="newport_3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-GNRIC-01:NEWPORTMFA:3"/>
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="${use.newport}"/>
 	</bean>
 

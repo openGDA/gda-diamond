@@ -7,26 +7,21 @@
 	<!-- BPM3 -->
 	<bean id="bpm3x" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-BPM-03:X:POS" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="bpm3y" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-BPM-03:Y:POS" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="bpm3pow" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-BPM-03:POWER" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Fast Steering mirror 3 -->
 	<bean id="MotorX_LFSM3" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-FSM-03:X" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="MotorY_LFSM3" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-FSM-03:Y" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="fsm3xfsp" class="gda.device.controlpoint.EpicsControlPoint">
@@ -42,22 +37,18 @@
 	<!-- delay stage and interferometer motors in Laser 2-->
 	<bean id="mi1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-INTF-01:MTR" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="llds2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-DELAY-02:MTR" />
-		<property name="local" value="true"/>
 	</bean>
 	<!-- Waveplate 1 -->
 	<bean id="wp1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-WAVE-01:MTR" />
-		<property name="local" value="true"/>
 	</bean>
 	<!-- Waveplate 2 -->
 	<bean id="wp2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-WAVE-02:MTR" />
-		<property name="local" value="true"/>
 	</bean>
 	
 </beans>

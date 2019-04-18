@@ -232,5 +232,5 @@
 				<ref bean="macr31" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
-	</bean> </beans>
+	</bean>
+</beans>

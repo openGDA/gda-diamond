@@ -189,7 +189,6 @@
 				 -->
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="id_by_id" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -217,7 +216,6 @@
 				 -->
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="id_by_para" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -243,6 +241,5 @@
 				 -->
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

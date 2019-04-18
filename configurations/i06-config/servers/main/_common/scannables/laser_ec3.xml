@@ -13,7 +13,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Scannable motors that control the Laser Stabilisation System -->
@@ -42,7 +41,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="wp23" class="gda.device.scannable.ScannableMotor">

@@ -14,7 +14,6 @@
 	<bean id="visitPathConstructor" class="gda.data.ObservablePathConstructor">
 		<property name="template" value="${gda.data.scan.datawriter.datadir}" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
-		<property name="local" value="true" />
 	</bean>
 
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />

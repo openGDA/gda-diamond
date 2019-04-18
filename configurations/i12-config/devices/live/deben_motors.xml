@@ -6,16 +6,13 @@
 
 	<bean id="deben_rot_top_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-EA-DOF-01:RIG:TOP:MOTOR"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="deben_rot_bottom_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-EA-DOF-01:RIG:BOT:MOTOR"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="deben_lin_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-EA-DOF-01:RIG:LIN:MOTOR"/>
-		<property name="local" value="true" />
 	</bean>
 
 
-</beans>	
+</beans>

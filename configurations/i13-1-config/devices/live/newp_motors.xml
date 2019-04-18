@@ -5,15 +5,12 @@
 	
 	<bean id="newp_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-NEWP-01:X"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="newp_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-NEWP-01:Y"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="newp_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-MO-NEWP-01:Z"/>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

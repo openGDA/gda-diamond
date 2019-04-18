@@ -87,7 +87,6 @@
 		<property name="target">
 			<bean class="gda.device.controlpoint.DummyControlPoint">
 				<property name="value" value="2.250" />
-				<property name="local" value="true"/>
 			</bean>
 		</property>
 		<property name="proxyTargetClass" value="true"/>
@@ -102,7 +101,6 @@
 		<property name="target">
 			<bean class="gda.device.controlpoint.DummyControlPoint">
 				<property name="value" value="-0.05238000" />
-				<property name="local" value="true"/>
 			</bean>
 		</property>
 		<property name="proxyTargetClass" value="true"/>
@@ -118,7 +116,6 @@
 		<property name="target">
 			<bean class="gda.device.controlpoint.DummyControlPoint">
 				<property name="value" value="-0.02410000" />
-				<property name="local" value="true"/>
 			</bean>
 		</property>
 		<property name="proxyTargetClass" value="true"/>
@@ -133,35 +130,30 @@
 		<property name="maxPosition" value="75.0" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="MotorXGrating_PGM" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="8.5000" />
 		<property name="maxPosition" value="114.5000" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="MotorPitchMirror_PGM" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="80.000" />
 		<property name="maxPosition" value="90.000" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="deg"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="MotorPitchGrating_PGM" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="80.000" />
 		<property name="maxPosition" value="90.000" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="deg"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="MotorEnergy_PGM" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="300" />
 		<property name="maxPosition" value="1200" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="eV"/>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

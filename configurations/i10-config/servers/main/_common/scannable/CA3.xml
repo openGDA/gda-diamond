@@ -14,6 +14,5 @@
 				<ref bean="ca34" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

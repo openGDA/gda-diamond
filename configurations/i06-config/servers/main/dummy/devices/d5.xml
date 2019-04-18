@@ -9,7 +9,6 @@
 		<property name="maxPosition" value="45.0" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

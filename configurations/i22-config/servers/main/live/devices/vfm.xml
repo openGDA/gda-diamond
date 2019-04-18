@@ -6,56 +6,46 @@
 
 	<bean id="vfm_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-KBM-01:VFM:ROLL"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="vfm_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-KBM-01:VFM:PITCH"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="vfm_y2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-KBM-01:VFM:Y2"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="vfm_x2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-KBM-01:VFM:X2"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="vfm_y3_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-KBM-01:VFM:Y3"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="vfm_y1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-KBM-01:VFM:Y1"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="vfm_x1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-KBM-01:VFM:X1"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="vfm_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-KBM-01:VFM:X"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="vfm_yfine_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-KBM-01:VFM:FY3"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="vfm_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-KBM-01:VFM:YAW"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="vfm_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-OP-KBM-01:VFM:Y"/>
-		<property name="local" value="true"/>
 	</bean>
+
 </beans>

@@ -14,7 +14,6 @@
 		<property name="controller" ref="stoefurnace_controller" />
 	</bean>
 	<bean id="stoefurnace_controller" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="true" />
 		<property name="maxRampRate" value="50.0" />
 		<property name="minRampRate" value="0.01" />

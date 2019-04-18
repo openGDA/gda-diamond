@@ -6,27 +6,22 @@
 
 	<bean id="scope1_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-SCOPE-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="scope1_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-SCOPE-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="scope1_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-SCOPE-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="scope1_focus_rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-SCOPE-01:ROT" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="scope1_focus_translation_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13J-OP-SCOPE-01:FOCUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="scope1_turret" class="gda.device.enumpositioner.EpicsPneumaticCallback">

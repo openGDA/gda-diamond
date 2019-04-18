@@ -22,7 +22,6 @@
 				<ref bean="cam01_objective" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

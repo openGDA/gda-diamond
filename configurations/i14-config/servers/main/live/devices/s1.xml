@@ -6,37 +6,29 @@
 	<!-- S1 (white beam slits) coordinate system motors: -->
 	<bean id="s1_x_centre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-01:X:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_x_size_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-01:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_y_centre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-01:Y:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_y_size_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-01:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- S1 (white beam slits) real motors: -->
 	<bean id="s1_x_up_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-01:XUP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_y_up_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-01:YUP" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_x_down_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-01:XDOWN" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s1_y_down_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-01:YDOWN" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

@@ -9,12 +9,10 @@
 
 	<bean id="analyser_prelens_valve" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="pvBase" value="BL07C-VA-VALVE-25" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="analyser_sledge_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-EA-ANAL-01:TRANS" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

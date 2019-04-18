@@ -3,7 +3,7 @@
 
 	<!-- Front End Absorber 2 -->
 	<bean id="feabsb2" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
-	<property name="pvBase" value="FE06I-RS-ABSB-02" /></bean>
-	
+		<property name="pvBase" value="FE06I-RS-ABSB-02" />
+	</bean>
+
 </beans>

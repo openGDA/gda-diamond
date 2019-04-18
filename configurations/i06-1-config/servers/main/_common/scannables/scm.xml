@@ -5,11 +5,9 @@
 
 	<bean id="scmth" class="gda.device.scannable.ScannableMotor" >
 		<property name="motor" ref="scmth_motor" />
-		<property name="local" value="false" />
 	</bean>
 	<bean id="scmy" class="gda.device.scannable.ScannableMotor" >
 		<property name="motor" ref="scmy_motor" />
-		<property name="local" value="false" />
 	</bean>
 </beans>
 

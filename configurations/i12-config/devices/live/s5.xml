@@ -8,43 +8,34 @@
 	<!--  s5 slit real motors -->
 	<bean id="s5_xminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-AL-SLITS-05:X:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5_xplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-AL-SLITS-05:X:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5_yminus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-AL-SLITS-05:Y:MINUS" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5_yplus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-AL-SLITS-05:Y:PLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!--  s5 slit virtual motors (centre and size) -->
 	<bean id="s5_xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-AL-SLITS-05:X:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5_xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-AL-SLITS-05:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s5_ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-AL-SLITS-05:Y:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5_ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-AL-SLITS-05:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="s5_ytrans_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL12I-AL-SLITS-05:Y" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

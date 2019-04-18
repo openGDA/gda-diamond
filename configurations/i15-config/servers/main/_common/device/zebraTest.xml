@@ -11,7 +11,6 @@
 	<bean id="zebraTestMotor"
 			class="gda.device.motor.DummyMotor">
 		<property name="name" value="zebraTestMotor"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- We need a zebraTestScannableMotor as well as a zebraTestZebraScannableMotor since you can't pos the latter. -->

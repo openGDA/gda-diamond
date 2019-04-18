@@ -9,7 +9,6 @@
 		<property name="maxPosition" value="0.275" />
 		<property name="position" value="-9.58" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2_y_motor" class="gda.device.motor.DummyMotor">
@@ -17,7 +16,6 @@
 		<property name="maxPosition" value="30.0" />
 		<property name="position" value="0.75" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2_pitch_motor" class="gda.device.motor.DummyMotor">
@@ -25,7 +23,6 @@
 		<property name="maxPosition" value="12.715" />
 		<property name="position" value="2.8791" />
 		<property name="unitString" value="mrad" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2_roll_motor" class="gda.device.motor.DummyMotor">
@@ -33,7 +30,6 @@
 		<property name="maxPosition" value="9.9000" />
 		<property name="position" value="1.5" />
 		<property name="unitString" value="mrad" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m2_mirror_stripe" class="gda.device.enumpositioner.DummyEnumPositioner">

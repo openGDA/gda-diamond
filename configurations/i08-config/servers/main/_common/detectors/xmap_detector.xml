@@ -17,7 +17,6 @@
 		<property name="slave" value="false" />
 		<property name="configFileName"	value="${gda.config}/templates/Xia_parameters.xml" />
 		<property name="sumAllElementData" value="true" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Configuration for using the (partial) Area Detector plugin to write files  -->

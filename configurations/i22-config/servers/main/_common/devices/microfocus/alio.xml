@@ -6,21 +6,17 @@
 
 	<bean id="alio_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="alio_roll_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="alio_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="alio_x_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="alio_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="alio_z_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="alio" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="local" value="true"/>
 		<property name="groupMembers">
 			<list>
 				<ref bean="alio_x"/>
@@ -35,16 +31,13 @@
 
 	<bean id="alio_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="alio_pitch_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="alio_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="alio_y_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="alio_rot" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="alio_rot_motor"/>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

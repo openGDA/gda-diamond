@@ -56,7 +56,6 @@
 			</bean>
 		</property>
 		<property name="plotName" value="PCOPlot" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

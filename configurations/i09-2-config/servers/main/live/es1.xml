@@ -5,11 +5,9 @@
 
 	<bean id="es1x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09I-MO-ES1-01:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="es1x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="es1x_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

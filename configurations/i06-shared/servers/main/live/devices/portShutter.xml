@@ -4,7 +4,7 @@
 	
 	<!-- Front End Shutter 1 (Port Shutter) -->
 	<bean id="shtr1" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
-	<property name="pvBase" value="FE06I-PS-SHTR-01" /></bean>
+		<property name="pvBase" value="FE06I-PS-SHTR-01" />
+	</bean>
 
 </beans>

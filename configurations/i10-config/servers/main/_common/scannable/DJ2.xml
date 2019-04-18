@@ -22,6 +22,5 @@
 				<ref bean="dj2_pos" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
  </beans>

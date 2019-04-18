@@ -6,16 +6,14 @@
 
 	<bean id="gonio_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-EA-GONIO-01:YAW"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="gonio_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-EA-GONIO-01:ROLL"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="gonio_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-EA-GONIO-01:PITCH"/>
-		<property name="local" value="true"/>
 	</bean>
+
 </beans>

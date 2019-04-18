@@ -73,7 +73,6 @@
 				<ref bean="pixium10_hdf_fileWriter"/>
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pixium10_ndfiletif_pvProvider"
@@ -166,7 +165,6 @@
 				<ref bean="pixium10_singleImageFileWriter"/>
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pixium10_arr" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">

@@ -7,63 +7,51 @@
 <!-- Andor driver specific information for metadata -->
 	<bean id="andor2AccumulatePeriod" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorAccumulatePeriod_RBV"/>
-		<property name="local" value="true"/>
 		 <property name="poll" value="true" />
 	</bean>
 	<bean id="andor2ShutterMode" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorShutterMode"/>
-		<property name="local" value="true"/>
 		 <property name="poll" value="true" />
 	</bean>
 	<bean id="andor2ExtShutterTrigger" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorShutterExTTL"/>
-		<property name="local" value="true"/>
 		 <property name="poll" value="true" />
 	</bean>
 	<bean id="andor2PreampGain" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorPreAmpGain_RBV"/>
-		<property name="local" value="true"/>
 		 <property name="poll" value="true" />
 	</bean>
 	<bean id="andor2ADCSpeed" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorADCSpeed_RBV"/>
-		<property name="local" value="true"/>
 		 <property name="poll" value="true" />
 	</bean>
 	<bean id="andor2VerticalShiftSpeed" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorVSSpeed_RBV"/>
-		<property name="local" value="true"/>
 		 <property name="poll" value="true" />
 	</bean>
 	<bean id="andor2VerticalShiftAmplitude" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorVSAmplitude_RBV"/>
-		<property name="local" value="true"/>
 		 <property name="poll" value="true" />
 	</bean>
 	<bean id="andor2EMCCDGain" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorEMGain_RBV"/>
-		<property name="local" value="true"/>
 		 <property name="poll" value="true" />
 	</bean>
 	<bean id="andor2CoolerTemperature" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:Temperature_RBV"/>
-		<property name="local" value="true"/>
 		 <property name="poll" value="true" />
 	</bean>
 	<bean id="andor2CoolerControl" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:AndorCooler"/>
-		<property name="local" value="true"/>
 		 <property name="poll" value="true" />
 	</bean>
 	<bean id="andor2BinningSizeX" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:BinX_RBV"/>
-		<property name="local" value="true"/>
 		<property name="poll" value="true" />
 		<!-- <property name="outputFormat" value="%5.5g" />  -->
 	</bean>
 	<bean id="andor2BinningSizeY" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-EA-DET-02:CAM:BinY_RBV"/>
-		<property name="local" value="true"/>
 		<property name="poll" value="true" />
 		<!-- <property name="outputFormat" value="%5.5g" />  -->
 	</bean>

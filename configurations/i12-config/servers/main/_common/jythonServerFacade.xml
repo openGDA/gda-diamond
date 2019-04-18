@@ -50,7 +50,6 @@
 	<bean id="terminallog_path_provider" class="gda.data.ObservablePathConstructor">
 		<property name="template" value="${gda.paths.visitdirectory}/$subdirectory$/gdaterminal.log" />
 		<property name="gdaMetadata" ref="GDAMetadata" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="terminal_logger" class="gda.jython.logger.RedirectableFileLogger">

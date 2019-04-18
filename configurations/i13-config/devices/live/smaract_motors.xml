@@ -5,35 +5,28 @@
 
 	<bean id="smar_rx_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-SMAR-02:RX"/>
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="${use.smaract}"/>
 	</bean>
 <!-- 	<bean id="smar_ry_motor" class="gda.device.motor.EpicsMotor"> -->
 		<bean id="smar_rot_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-SMAR-02:RY"/>
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="${use.smaract}"/>
 	</bean>
 	<bean id="smar_rz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-SMAR-02:RZ"/>
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="${use.smaract}"/>
 	</bean>
 	<bean id="smar_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-SMAR-02:X"/>
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="${use.smaract}"/>
 	</bean>
 	<bean id="smar_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-SMAR-02:Y"/>
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="${use.smaract}"/>
 	</bean>
 	<bean id="smar_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL13I-MO-SMAR-02:Z"/>
-		<property name="local" value="true" />
 		<property name="configureAtStartup" value="${use.smaract}"/>
 	</bean>
 
-
-</beans>	
+</beans>

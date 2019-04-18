@@ -7,25 +7,20 @@
 	<!-- Beam Positioning Monitors -->
 	<bean id="bpm1x" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-LBPM-01:X:POS" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="bpm1y" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-LBPM-01:Y:POS" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="bpm1pow" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-LBPM-01:POWER" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<!-- Fast Steering Mirror 1 (LT1) -->
 	<bean id="MotorX_LFSM1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-FSM-01:X" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="MotorY_LFSM1" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-FSM-01:Y" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Control Points that control the Laser Stabilisation System Motor's Set Point -->
@@ -43,7 +38,6 @@
 	<!-- delay stage -->
 	<bean id="llds1_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-DELAY-01:MTR" />
-		<property name="local" value="true"/>
 	</bean>
 	
 </beans>

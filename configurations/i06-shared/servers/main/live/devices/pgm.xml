@@ -3,33 +3,33 @@
 
 	<!-- PGM Mirror and Grating encoders -->
 	<bean id="pgmmenc1" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-PGM-01:MIR:ENC1" /></bean>
+		<property name="pvName" value="BL06I-OP-PGM-01:MIR:ENC1" />
+	</bean>
 
 	<bean id="pgmmenc2" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-PGM-01:MIR:ENC2" /></bean>
+		<property name="pvName" value="BL06I-OP-PGM-01:MIR:ENC2" />
+	</bean>
 
 	<bean id="pgmmenc3" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-PGM-01:MIR:ENC3" /></bean>
+		<property name="pvName" value="BL06I-OP-PGM-01:MIR:ENC3" />
+	</bean>
 
 	<bean id="pgmmenc4" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-PGM-01:MIR:ENC4" /></bean>
+		<property name="pvName" value="BL06I-OP-PGM-01:MIR:ENC4" />
+	</bean>
 
 	<bean id="pgmgenc1" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-PGM-01:GRT:ENC1" /></bean>
+		<property name="pvName" value="BL06I-OP-PGM-01:GRT:ENC1" />
+	</bean>
 
 	<bean id="pgmgenc2" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-PGM-01:GRT:ENC2" /></bean>
+		<property name="pvName" value="BL06I-OP-PGM-01:GRT:ENC2" />
+	</bean>
 
 	<bean id="pgmgenc3" class="gda.device.monitor.EpicsMonitor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-PGM-01:GRT:ENC3" /></bean>
-	
+		<property name="pvName" value="BL06I-OP-PGM-01:GRT:ENC3" />
+	</bean>
+
 	<!-- do access check method intercepter -->
 	<bean id="accessCheckAdvice" class="gda.aop.CheckAccessBeforeMethod">
 		<property name="accessControl" ref="accessControl" />
@@ -44,7 +44,6 @@
 			<bean class="gda.device.controlpoint.EpicsControlPoint">
 				<property name="pvNameGetPoint" value="BL06I-OP-PGM-01:CFF" />
 				<property name="pvNameSetPoint" value="BL06I-OP-PGM-01:CFF" />
-				<property name="local" value="true" />
 			</bean>
 		</property>
 		<property name="proxyTargetClass" value="true" />
@@ -59,7 +58,6 @@
 		<property name="target">
 			<bean class="gda.device.controlpoint.EpicsControlPoint">
 				<property name="pvName" value="BL06I-OP-PGM-01:GRTOFFSET" />
-				<property name="local" value="true" />
 			</bean>
 		</property>
 		<property name="proxyTargetClass" value="true" />
@@ -75,7 +73,6 @@
 		<property name="target">
 			<bean class="gda.device.controlpoint.EpicsControlPoint">
 				<property name="pvName" value="BL06I-OP-PGM-01:MIROFFSET" />
-				<property name="local" value="true" />
 			</bean>
 		</property>
 		<property name="proxyTargetClass" value="true" />
@@ -87,23 +84,23 @@
 	</bean>
 	
 	<bean id="MotorXMirror_PGM" class="gda.device.motor.EpicsMotor">
-				<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-PGM-01:X:MIR" /></bean>
+		<property name="pvName" value="BL06I-OP-PGM-01:X:MIR" />
+	</bean>
 
 	<bean id="MotorXGrating_PGM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-PGM-01:X:GRT" /></bean>
+		<property name="pvName" value="BL06I-OP-PGM-01:X:GRT" />
+	</bean>
 
 	<bean id="MotorPitchMirror_PGM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-PGM-01:PITCH:MIR" /></bean>
+		<property name="pvName" value="BL06I-OP-PGM-01:PITCH:MIR" />
+	</bean>
 
 	<bean id="MotorPitchGrating_PGM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-PGM-01:PITCH:GRT" /></bean>
+		<property name="pvName" value="BL06I-OP-PGM-01:PITCH:GRT" />
+	</bean>
 
 	<bean id="MotorEnergy_PGM" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-OP-PGM-01:ENERGY" /></bean>
+		<property name="pvName" value="BL06I-OP-PGM-01:ENERGY" />
+	</bean>
 
 </beans>

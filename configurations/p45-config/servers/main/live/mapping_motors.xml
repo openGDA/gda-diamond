@@ -10,19 +10,16 @@
 	<bean id="stage_x_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL45P-MO-MAP-01:STAGE:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="stage_y_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL45P-MO-MAP-01:STAGE:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="stage_z_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL45P-MO-MAP-01:STAGE:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 <!-- Other PVs to be added to the config:

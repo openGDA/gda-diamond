@@ -2,9 +2,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="d4motor_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
+
+    <bean id="d4motor_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+
     <bean id="d4d2" class="gda.device.monitor.DummyMonitor" />
 
     <bean id="d4d2gain" class="uk.ac.gda.server.ncd.subdetector.ConstantScalingAndOffset">

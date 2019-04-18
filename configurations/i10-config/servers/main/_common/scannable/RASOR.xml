@@ -24,7 +24,6 @@
 				<ref bean="dsd" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="dsu" class="gda.device.scannable.ScannableMotor">
@@ -89,7 +88,6 @@
 				<ref bean="sz" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="lgf" class="gda.device.scannable.ScannableMotor">
@@ -135,7 +133,6 @@
 				<ref bean="lgm" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="tth" class="gda.device.scannable.ScannableMotor">
@@ -230,7 +227,6 @@
 				<ref bean="pinhy" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="emecy1" class="gda.device.scannable.ScannableMotor">
@@ -263,7 +259,6 @@
 				<ref bean="emecpitch" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="eta" class="gda.device.scannable.ScannableMotor">
@@ -336,7 +331,6 @@
 				<ref bean="pz" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	
 </beans>

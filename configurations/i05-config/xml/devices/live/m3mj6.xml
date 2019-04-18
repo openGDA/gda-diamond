@@ -5,63 +5,50 @@
 
 	<bean id="m3mj6_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-OP-SWTCH-01:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m3mj6_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m3mj6_x_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m3mj6_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-OP-SWTCH-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m3mj6_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m3mj6_y_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m3mj6_z_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-OP-SWTCH-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m3mj6_z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m3mj6_z_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m3mj6_yaw_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-OP-SWTCH-01:YAW" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m3mj6_yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m3mj6_yaw_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m3mj6_pitch_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-OP-SWTCH-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m3mj6_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m3mj6_pitch_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m3mj6_roll_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL05I-OP-SWTCH-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m3mj6_roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m3mj6_roll_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m3mj6_fpitch" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL05I-OP-SWTCH-01:FPITCH:DMD" />
 		<property name="useNameAsInputName" value="true" />
 		<property name="userUnits" value="V" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m3mj6" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -76,7 +63,6 @@
 				<ref bean="m3mj6_fpitch" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

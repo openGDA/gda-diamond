@@ -4,42 +4,34 @@
 
 	<!-- Cleanup Slits S5 Motors -->
 	<bean id="MotorXPos_S5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-AL-SLITS-05:X:POS" />
 	</bean>
 
 	<bean id="MotorXNeg_S5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-AL-SLITS-05:X:NEG" />
 	</bean>
 
 	<bean id="MotorYPos_S5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-AL-SLITS-05:Y:POS" />
 	</bean>
 
 	<bean id="MotorYNeg_S5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-AL-SLITS-05:Y:NEG" />
 	</bean>
 
 	<bean id="MotorXSize_S5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-AL-SLITS-05:X:SIZE" />
 	</bean>
 
 	<bean id="MotorXCentre_S5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-AL-SLITS-05:X:CENTER" />
 	</bean>
 
 	<bean id="MotorYSize_S5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-AL-SLITS-05:Y:SIZE" />
 	</bean>
 
 	<bean id="MotorYCentre_S5" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL06I-AL-SLITS-05:Y:CENTER" />
 	</bean>
 

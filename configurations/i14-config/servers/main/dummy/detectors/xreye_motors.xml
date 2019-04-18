@@ -12,7 +12,6 @@
 		<property name="maxPosition" value="102.0" />
 		<property name="position" value="7.22" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="xreye_y_motor" class="gda.device.motor.DummyMotor">
@@ -20,7 +19,6 @@
 		<property name="maxPosition" value="35.0" />
 		<property name="position" value="-3.78" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="xreye_z_motor" class="gda.device.motor.DummyMotor">
@@ -28,7 +26,6 @@
 		<property name="maxPosition" value="0.0" />
 		<property name="position" value="-8.792" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="xreye_lens_focus_motor" class="gda.device.motor.DummyMotor">
@@ -36,7 +33,6 @@
 		<property name="maxPosition" value="45.6" />
 		<property name="position" value="44.92" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="xreye_lens_sel_motor" class="gda.device.motor.DummyMotor">
@@ -44,7 +40,6 @@
 		<property name="maxPosition" value="1e+08" />
 		<property name="position" value="141.444" />
 		<property name="unitString" value="deg" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="xreye_lens_selector" class="gda.device.enumpositioner.DummyEnumPositioner">

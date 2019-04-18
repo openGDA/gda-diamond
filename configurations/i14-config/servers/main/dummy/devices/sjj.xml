@@ -8,28 +8,24 @@
 		<property name="maxPosition" value="1000.0" />
 		<property name="position" value="-0.07" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sjj_x_size_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000.0" />
 		<property name="maxPosition" value="1000.0" />
 		<property name="position" value="1.4985" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sjj_y_centre_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000.0" />
 		<property name="maxPosition" value="1000.0" />
 		<property name="position" value="0.0093" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sjj_y_size_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000.0" />
 		<property name="maxPosition" value="1000.0" />
 		<property name="position" value="1.2013" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 </beans>

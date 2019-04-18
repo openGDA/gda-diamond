@@ -7,7 +7,6 @@
 
 	<bean id="d5d7_gcell_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-DI-IONC-01:Y" />
-		<property name="local" value="true"/>
 	</bean>
 
     <bean id="d5_pos" class="gda.device.enumpositioner.EpicsPositioner">
@@ -20,6 +19,5 @@
 
 	<bean id="d5d7_det_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL10I-DI-PHDGN-06:DET:X" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

@@ -7,6 +7,5 @@
 
     <bean id="rot" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="rot_rot_motor"/>
-        <property name="local" value="true"/>
     </bean>
 </beans>

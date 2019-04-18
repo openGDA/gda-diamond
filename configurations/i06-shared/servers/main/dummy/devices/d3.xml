@@ -4,8 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- D3 Fluorescent Screen Pneumatic Valve -->
-	<bean id="d3valve" class="gda.device.enumpositioner.DummyValve">
-		<property name="local" value="true"/>
-	</bean>
+	<bean id="d3valve" class="gda.device.enumpositioner.DummyValve"/>
 
 </beans>

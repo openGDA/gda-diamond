@@ -4,75 +4,59 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="s3_xcentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL05I-AL-SLITS-03:XCENTRE" />
 	</bean>
 	<bean id="s3_xcentre" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_xcentre_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_xgap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL05I-AL-SLITS-03:XSIZE" />
 	</bean>
 	<bean id="s3_xgap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_xgap_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_ycentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL05I-AL-SLITS-03:YCENTRE" />
 	</bean>
 	<bean id="s3_ycentre" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_ycentre_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_ygap_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL05I-AL-SLITS-03:YSIZE" />
 	</bean>
 	<bean id="s3_ygap" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_ygap_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_xring_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL05I-AL-SLITS-03:XRING" />
 	</bean>
 	<bean id="s3_xring" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_xring_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_xhall_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL05I-AL-SLITS-03:XHALL" />
 	</bean>
 	<bean id="s3_xhall" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_xhall_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_ytop_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL05I-AL-SLITS-03:YPLUS" />
 	</bean>
 	<bean id="s3_ytop" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_ytop_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3_ybottom_motor" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL05I-AL-SLITS-03:YMINUS" />
 	</bean>
 	<bean id="s3_ybottom" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="s3_ybottom_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -88,7 +72,6 @@
 				<ref bean="s3_ybottom" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

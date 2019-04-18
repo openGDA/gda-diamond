@@ -7,7 +7,6 @@
 	<bean id="d1_scrn" class="gda.device.enumpositioner.EpicsPneumaticCallback">
 		<property name="controlPv" value="BL10I-DI-PHDGN-01:CON"/>
 		<property name="statusPv" value="BL10I-DI-PHDGN-01:STA"/>
-		<property name="local" value="true"/>
 	</bean>
 	<!-- Area detector camera -->
 	<bean id="d1CamBase" class="gda.spring.V17ADBaseFactoryBean">

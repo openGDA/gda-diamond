@@ -76,8 +76,8 @@
 		<property name="userUnits" value="deg"/>
 	</bean>
 	
-	<!-- Group d4-related objects -->	
- 	<bean id="simsmp" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<!-- Group d4-related objects -->
+	<bean id="simsmp" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="simth" />
@@ -90,7 +90,6 @@
 				<ref bean="simm5tth" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
- </beans>
+</beans>

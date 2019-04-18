@@ -25,14 +25,12 @@
 		<property name="mode" value="1" />
 		<property name="scannableMotor" ref="ss1_theta" />
 		<property name="zebraMotorInfoProvider" ref="zebraSM1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="zebraSM1" class="gda.device.zebra.ZebraScannableMotor">
 		<property name="motor" ref="ss1_theta_motor" />
 		<property name="zebraConstantVelocityMoveController" ref="zebraContinuousMoveController"/>
 		<property name="scurveTimeToVelocity" value="5"/> <!--  read from weight system -->
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="zebra_group" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -180,7 +178,6 @@
 		<property name="zebra" ref="zebra3" />
 		<property name="mode" value="1" />
 		<property name="pcPulseTriggerWidth" value="0.01" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<!-- Deben rig --> 
@@ -189,7 +186,6 @@
 		<property name="pcEnc" value="0" />
 		<property name="zebraConstantVelocityMoveController" ref="zebra3ContinuousMoveController"/>
 		<!-- <property name="scurveTimeToVelocity" value="5"/> --> <!--  read from weight system -->
-		<property name="local" value="true" />
 	</bean>
 	
 		<bean id="deben_flyScanDetector" class="gda.device.detector.HardwareTriggeredNXDetectorWithReadoutTime">

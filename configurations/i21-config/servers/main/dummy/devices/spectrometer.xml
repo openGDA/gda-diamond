@@ -7,20 +7,17 @@
 		<property name="minPosition" value="-180" />
 		<property name="maxPosition" value="180" />
 		<property name="speed" value="10" />
-		<property name="local" value="true" />
 	</bean>
-	
+
 	<bean id="speczMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="specxMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="andorEffectiveHorizontal" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -29,7 +26,6 @@
 		</property>
 		<property name="lowerLimit" value="11000" />
 		<property name="upperLimit" value="12000" />
-		<property name="local" value="true" />
 		<property name="increment" value="1" />
 	</bean>
 	<bean id="andorEffectiveVertical" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -39,7 +35,6 @@
 		<property name="lowerLimit" value="1000" />
 		<property name="upperLimit" value="1800" />
 		<property name="increment" value="1" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

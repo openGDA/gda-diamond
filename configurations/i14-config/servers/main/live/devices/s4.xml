@@ -6,12 +6,10 @@
 	<!-- S4 coordinate system motors -->
 	<bean id="s4_x_size_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-04:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s4_y_size_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SLITS-04:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

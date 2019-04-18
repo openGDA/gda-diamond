@@ -5,6 +5,5 @@
 
 	<bean id="Eht2dtxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-TABLE-03:DETECTOR2:Z" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

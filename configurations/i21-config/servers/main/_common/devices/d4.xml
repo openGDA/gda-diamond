@@ -10,8 +10,8 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<!-- Group d4-related objects -->	
- 	<bean id="d4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<!-- Group d4-related objects -->
+	<bean id="d4" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="d4pos" />
@@ -20,7 +20,6 @@
 <!-- 				<ref bean="d4cam" /> -->
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
- </beans>
+</beans>

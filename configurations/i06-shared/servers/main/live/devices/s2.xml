@@ -3,38 +3,35 @@
 
 	<!-- Secondary Slits S2 Motors -->
 	<bean id="MotorXPos_S2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-02:X:POS" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-02:X:POS" />
+	</bean>
 
 	<bean id="MotorXNeg_S2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-02:X:NEG" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-02:X:NEG" />
+	</bean>
 
 	<bean id="MotorYPos_S2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-02:Y:POS" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-02:Y:POS" />
+	</bean>
 
 	<bean id="MotorYNeg_S2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-02:Y:NEG" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-02:Y:NEG" />
+	</bean>
 
 	<bean id="MotorXSize_S2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-02:X:SIZE" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-02:X:SIZE" />
+	</bean>
 
 	<bean id="MotorXCentre_S2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-02:X:CENTER" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-02:X:CENTER" />
+	</bean>
 
 	<bean id="MotorYSize_S2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-02:Y:SIZE" /></bean>
+		<property name="pvName" value="BL06I-AL-SLITS-02:Y:SIZE" />
+	</bean>
 
 	<bean id="MotorYCentre_S2" class="gda.device.motor.EpicsMotor">
-		<property name="local" value="true" />
-	<property name="pvName" value="BL06I-AL-SLITS-02:Y:CENTER" /></bean>
-
-
-
+		<property name="pvName" value="BL06I-AL-SLITS-02:Y:CENTER" />
+	</bean>
 
 </beans>

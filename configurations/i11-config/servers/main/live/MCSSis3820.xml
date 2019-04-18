@@ -6,12 +6,10 @@
 
 	<bean id="mcs1_controller" class="gda.device.detector.multichannelscaler.EpicsDlsMcsSis3820Controller">
 		<property name="pollElapsedRealTime" value="true" />
-		<property name="local" value="true" />
 		<property name="recordName" value="BL11I-EA-COUNT-01:MCA-01" />
 	</bean>
 	<bean id="mcs2_controller" class="gda.device.detector.multichannelscaler.EpicsDlsMcsSis3820Controller">
 		<property name="pollElapsedRealTime" value="true" />
-		<property name="local" value="true" />
 		<property name="recordName" value="BL11I-EA-COUNT-02:MCA-01" />
 	</bean>
 

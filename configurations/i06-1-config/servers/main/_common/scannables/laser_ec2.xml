@@ -13,7 +13,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Scannable motors that control the Laser Stabilisation System -->
@@ -41,7 +40,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Waveplate 32 -->
@@ -62,7 +60,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 	<!-- Fast Steering Mirror 4 -->
 	<bean id="fsm4x" class="gda.device.scannable.ScannableMotor">
@@ -88,7 +85,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

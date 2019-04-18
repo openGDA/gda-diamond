@@ -5,19 +5,15 @@
 
 	<bean id="sjj_x_centre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SJJ-01:X:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sjj_x_size_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SJJ-01:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sjj_y_centre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SJJ-01:Y:CENTRE" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="sjj_y_size_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-AL-SJJ-01:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

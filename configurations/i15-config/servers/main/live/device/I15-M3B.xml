@@ -5,31 +5,25 @@
 
 	<bean id="SKBjack1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:BASE:J1" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="SKBjack2Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:BASE:J2" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="SKBjack3Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:BASE:J3" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="SKByposMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:BASE:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="SKBpitchMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:BASE:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="SKBrollMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-OP-MIRR-03:BASE:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

@@ -5,29 +5,24 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="robot_controller" class="gda.device.robot.RobotNX100Controller">
-		<property name="local" value="true" />
 		<!-- TODO use explicit path to file -->
 		<property name="errorCodeFilename" value="motoman_error_code.txt" />
 		<property name="pvName" value="BL11I-EA-ROBOT-01" />
 	</bean>
 
 	<bean id="samplechange_controller" class="gda.device.robot.RobotSampleState">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL11I-EA-ROBOT-01:D010:RBV" />
 	</bean>
 
 	<bean id="doorLatch_controller" class="gda.device.robot.DoorLatchState">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL11I-EA-ROBOT-01:NEEDRECOVER" />
 	</bean>
 
 	<bean id="nextsampleposition_controller" class="gda.device.robot.NextSamplePosition">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL11I-EA-ROBOT-01:D011" />
 	</bean>
 
 	<bean id="currentsampleposition_controller" class="gda.device.robot.CurrentSamplePosition">
-		<property name="local" value="true" />
 		<property name="pvName" value="BL11I-EA-ROBOT-01:D012:RBV" />
 	</bean>
 

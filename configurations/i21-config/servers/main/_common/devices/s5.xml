@@ -52,7 +52,6 @@
 				<ref bean="s5hdso" />
 			</list>
 		</property>
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 
 </beans>

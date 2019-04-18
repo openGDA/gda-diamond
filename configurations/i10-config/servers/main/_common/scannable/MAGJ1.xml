@@ -25,6 +25,5 @@
 				<ref bean="magj1x" />
 			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

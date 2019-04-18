@@ -16,7 +16,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="PGMSETTINGS" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -28,7 +27,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Plane Grating Monochromator Energy is Guarded -->
@@ -152,7 +150,6 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

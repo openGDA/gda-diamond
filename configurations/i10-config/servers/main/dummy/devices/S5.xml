@@ -10,55 +10,47 @@
 		<property name="maxPosition" value="0.0" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5xhall_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-0.1" />
 		<property name="maxPosition" value="22.01" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5yplus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-0.1" />
 		<property name="maxPosition" value="22.7" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5yminus_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-22.5" />
 		<property name="maxPosition" value="0.13" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5xsize_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1017.21" />
 		<property name="maxPosition" value="982.79" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5xcentre_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1006.57" />
 		<property name="maxPosition" value="993.429" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5ysize_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1017" />
 		<property name="maxPosition" value="983" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="s5ycentre_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1001.94" />
 		<property name="maxPosition" value="998.057" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 </beans>

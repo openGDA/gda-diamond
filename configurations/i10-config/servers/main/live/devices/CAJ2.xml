@@ -4,25 +4,21 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<!-- CAJ2 Epics Monitor -->
-	
+
 	<bean id="caj21" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10J-DI-IAMP-02:SIG1" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="caj22" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10J-DI-IAMP-02:SIG2" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="caj23" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10J-DI-IAMP-02:SIG3" />
-		<property name="local" value="true"/>
 	</bean>
-	
+
 	<bean id="caj24" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL10J-DI-IAMP-02:SIG4" />
-		<property name="local" value="true"/>
 	</bean>
 
 </beans>

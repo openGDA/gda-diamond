@@ -8,7 +8,6 @@
 		<property name="maxPosition" value="50.0" />
 		<property name="position" value="9.1" />
 		<property name="unitString" value="mm" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="tr6_rot_motor" class="gda.device.motor.DummyMotor">
@@ -16,7 +15,6 @@
 		<property name="maxPosition" value="360" />
 		<property name="position" value="65" />
 		<property name="unitString" value="deg" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

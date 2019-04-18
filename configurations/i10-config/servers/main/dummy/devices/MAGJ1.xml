@@ -10,20 +10,17 @@
 		<property name="maxPosition" value="23.1" />
 		<property name="speed" value="0.4" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>	
 	<bean id="magj1yrot_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-109" />
 		<property name="maxPosition" value="67" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="deg"/>
-		<property name="local" value="true" />
 	</bean>	
 	<bean id="magj1x_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-0.1" />
 		<property name="maxPosition" value="17.01" />
 		<property name="speed" value="0.3125" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>	
 </beans>

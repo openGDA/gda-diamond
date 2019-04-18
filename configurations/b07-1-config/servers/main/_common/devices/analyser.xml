@@ -17,7 +17,6 @@
 		<property name="workFunction" value="0.0" /> <!-- Set to zero, work function correction applied in SPECS -->
 		<!-- detectorEnergyWidth can be found by (analyser.endEnergy - analyser.startEnergy)/analyser.passEnergy -->
 		<property name="detectorEnergyWidth" value="0.06531314413818123" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">

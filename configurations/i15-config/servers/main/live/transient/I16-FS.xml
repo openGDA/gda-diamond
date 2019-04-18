@@ -6,12 +6,10 @@
 	<bean id="Fs16yMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-IOC-13:M5" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="Fs16transMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-IOC-13:M6" />
-		<property name="local" value="true" />
-	</bean>	
+	</bean>
 </beans>

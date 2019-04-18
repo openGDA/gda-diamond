@@ -7,42 +7,34 @@
 
 	<bean id="s3hcentreMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-03:X:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3hsizeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-03:X:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3vcentreMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-03:Y:CENTER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3vsizeMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-03:Y:SIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3offsideMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-03:OFFSIDE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3nearsideMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-03:NEARSIDE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3upperMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-03:UPPER" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s3lowerMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-AL-SLITS-03:LOWER" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

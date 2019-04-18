@@ -53,8 +53,7 @@
 				<ref bean="m4femto2" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
-	
+
 
 </beans>

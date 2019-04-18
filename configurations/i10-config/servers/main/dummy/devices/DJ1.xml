@@ -16,7 +16,6 @@
 				<value>Reset</value>
 			</util:list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 	<!-- NXDetector -->
  	<!-- Area detector camera -->

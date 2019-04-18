@@ -6,13 +6,11 @@
 	<bean id="chopx" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ChopXMotor" />
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="choprot" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="ChopRotMotor" />
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 
 
@@ -25,6 +23,5 @@
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

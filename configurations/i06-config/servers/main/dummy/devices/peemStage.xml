@@ -9,7 +9,6 @@
 		<property name="maxPosition" value="4.30000" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="MotorPEEMStage_Y" class="gda.device.motor.DummyMotor">
@@ -17,14 +16,12 @@
 		<property name="maxPosition" value="4.600000" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="MotorPEEMStage_phi" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-35.75000" />
 		<property name="maxPosition" value="178.7500" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="deg"/>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

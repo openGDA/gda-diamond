@@ -8,7 +8,6 @@
 		<property name="maxPosition" value="38" />
 		<property name="position" value="7" />
 		<property name="unitString" value="keV" />
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="img_beam_type" class="gda.device.enumpositioner.DummyEnumPositioner">

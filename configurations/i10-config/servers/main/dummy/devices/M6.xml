@@ -10,41 +10,35 @@
 		<property name="maxPosition" value="10.0" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m6y_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-45.0" />
 		<property name="maxPosition" value="45.0" />
 		<property name="speed" value="0.25" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m6z_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-10.0" />
 		<property name="maxPosition" value="10.0" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m6yaw_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-35000.0" />
 		<property name="maxPosition" value="35000.0" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="urad"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m6pitch_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-35000.0" />
 		<property name="maxPosition" value="35000.0" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="urad"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m6roll_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-9000.0" />
 		<property name="maxPosition" value="9000.0" />
 		<property name="speed" value="1.0" />
 		<property name="unitString" value="urad"/>
-		<property name="local" value="true" />
 	</bean>
 </beans>

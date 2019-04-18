@@ -6,7 +6,6 @@
  <bean class="gda.device.detector.DAServer" id="DAServer">
   <property name="host" value="i22-rapid-mem-gig"/>
   <property name="port" value="1972"/>
-  <property name="local" value="true"/>
   <property name="dataPort" value="20030"/>
   <property name="startupCommands">
    <list>

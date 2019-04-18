@@ -6,18 +6,14 @@
 
 	<bean id="s4_xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-AL-SLITS-04:X"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="s4_ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-AL-SLITS-04:Y"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="s4_xgap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-AL-SLITS-04:HDSO"/>
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="s4_ygap_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-AL-SLITS-04:VDSO"/>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

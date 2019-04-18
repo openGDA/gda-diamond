@@ -6,25 +6,20 @@
 	<!-- Branchline Exit Slits S6 Motors -->
 	<bean id="MotorXGap_S6" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-AL-SLITS-01:X:GAP" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="MotorYGap_S6" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-AL-SLITS-01:Y:GAP" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="MotorZ_S6" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-AL-SLITS-01:Z" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<bean id="MotorXSize_S6" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-AL-SLITS-01:X:SIZE" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="MotorYSize_S6" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-AL-SLITS-01:Y:SIZE" />
-		<property name="local" value="true"/>
 	</bean>
 </beans>

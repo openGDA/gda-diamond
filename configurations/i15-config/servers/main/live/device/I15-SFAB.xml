@@ -7,47 +7,38 @@
 	
 	<bean id="sxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SFAB-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="syMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SFAB-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="szMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SFAB-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="spitchMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SFAB-01:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="syawMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SFAB-01:YAW" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="srollMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SFAB-01:ROLL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="sphiMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SFAB-01:SAMPLE:PHI" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="ssxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SFAB-01:SAMPLE:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="sszMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15I-MO-SFAB-01:SAMPLE:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

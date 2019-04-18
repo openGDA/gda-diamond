@@ -9,7 +9,6 @@
 		<property name="maxPosition" value="22.86" />
 		<property name="position" value="-17.4487" />
 		<property name="unitString" value="mrad" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kbv1_roll_motor" class="gda.device.motor.DummyMotor">
@@ -17,7 +16,6 @@
 		<property name="maxPosition" value="6.46" />
 		<property name="position" value="-43.6337" />
 		<property name="unitString" value="mrad" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="kbh1_pitch_motor" class="gda.device.motor.DummyMotor">
@@ -25,7 +23,6 @@
 		<property name="maxPosition" value="39.62" />
 		<property name="position" value="39.609" />
 		<property name="unitString" value="mrad" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

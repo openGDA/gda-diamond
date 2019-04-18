@@ -6,43 +6,35 @@
 	<!-- Size and centre motors -->
 	<bean id="s2c_xcentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-02:XCENTRE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2c_xsize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-02:XSIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2c_ycentre_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-02:YCENTRE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2c_ysize_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-02:YSIZE" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Individual blade motors -->
 	<bean id="s2c_xring_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-02:XRING" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2c_xhall_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-02:XHALL" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2c_ytop_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-02:YPLUS" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="s2c_ybottom_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL07C-AL-SLITS-02:YMINUS" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

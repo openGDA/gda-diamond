@@ -8,7 +8,6 @@
 	<!-- Stick motor -->
 	<bean id="d5_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL14I-DI-PHDGN-05:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<!-- Stick positioner -->
@@ -20,21 +19,18 @@
 	<!-- Scatter diode -->
 	<bean id="d5_diode1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL14I-DI-PHDGN-05:FEMTO1:I"/>
-		<property name="local" value="true"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 
 	<!-- Inline diode -->
 	<bean id="d5_diode2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL14I-DI-PHDGN-05:FEMTO2:I"/>
-		<property name="local" value="true"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 
 	<bean id="d5_adc" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL14I-DI-PHDGN-05:FEMTO2:ADC2_VALUE"/>
-		<property name="local" value="true"/>
-		 <property name="poll" value="true" />
+		<property name="poll" value="true" />
 	</bean>
 
 	<!-- HDF5 file -->

@@ -7,25 +7,20 @@
 	<!-- Beam Positioning Monitors 22-->
 	<bean id="bpm22x" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-BPM-22:X:POS" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="bpm22y" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-BPM-22:Y:POS" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="bpm22pow" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-BPM-22:POWER" />
-		<property name="local" value="true"/>
 	</bean>
 	<!-- Fast Steering Mirror 22 -->
 	<bean id="MotorX_LFSM22" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-FSM-22:X" />
-		<property name="local" value="true"/>
 	</bean>
 	
 	<bean id="MotorY_LFSM22" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-FSM-22:Y" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Control Points that control the Laser Stabilisation System Motor's Set Point -->
@@ -43,36 +38,29 @@
 	    <property name="controlPv" value="BL06I-EA-LSHTR-02:CON" />
 	    <property name="statusPv" value="BL06I-EA-LSHTR-02:STA"/>
 	    <property name="statusPvIndicatesPositionOnly" value="true"/>
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- Waveplate 32 -->
 	<bean id="wp32_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-WAVE-32:MTR" />
-		<property name="local" value="true"/>
 	</bean>
 
 	<!-- TOPAS Table -->
 	<bean id="bpm4x" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-BPM-04:X:POS" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="bpm4y" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-BPM-04:Y:POS" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="bpm4pow" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL06I-DI-BPM-04:POWER" />
-		<property name="local" value="true"/>
 	</bean>
 	<!-- Fast Steering Mirror 4 -->
 	<bean id="MotorX_LFSM4" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-FSM-04:X" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="MotorY_LFSM4" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-FSM-04:Y" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="fsm4xfsp" class="gda.device.controlpoint.EpicsControlPoint">
 		<property name="pvNameSetPoint" value="BL06I-OP-FSM-04:X:FFB:SETPOINT" />

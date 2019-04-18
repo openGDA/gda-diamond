@@ -6,7 +6,6 @@
 
 	<bean id="lakeshore" class="gda.device.temperature.DummyEpicsLakeshore336">
 		<property name="tolerance" value="0.1" />
-		<property name="local" value="true" />
 		<property name="inputNames" value="demand"></property>
 		<property name="extraNames">
 			<list>

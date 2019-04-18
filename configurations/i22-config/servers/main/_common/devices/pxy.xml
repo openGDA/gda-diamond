@@ -6,7 +6,6 @@
 
     <bean id="pxy_x" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="pxy_x_motor"/>
-        <property name="local" value="true"/>
     </bean>
 
     <bean id="pxy" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -16,11 +15,9 @@
                 <ref bean="pxy_y"/>
             </list>
         </property>
-        <property name="local" value="true"/>
     </bean>
 
     <bean id="pxy_y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="pxy_y_motor"/>
-        <property name="local" value="true"/>
     </bean>
 </beans>

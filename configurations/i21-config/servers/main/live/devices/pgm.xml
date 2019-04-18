@@ -8,12 +8,10 @@
 	<!-- PGM control -->
 	<bean id="pgmEnergyMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-PGM-01:ENERGY" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgmB2ShadowMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-PGM-01:B2S" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgmMirrorSelect" class="gda.device.enumpositioner.EpicsPositionerCallback">
@@ -28,42 +26,33 @@
 	<!-- real motors -->
 	<bean id="pgmMirrorPitchMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-PGM-01:MIR:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgmGratingPitchMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-PGM-01:GRT:PITCH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgmMirrorSelectMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-PGM-01:MIR:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="pgmGratingSelectMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-OP-PGM-01:GRT:X" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="b2" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-OP-PGM-01:B2SHADOW" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="cff" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL21I-OP-PGM-01:CFF" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="n_pgm" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL21I-OP-PGM-01:N" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="eref" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL21I-OP-PGM-01:EREF" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="m_pgm" class="gda.device.scannable.PVScannable">
 		<property name="pvName" value="BL21I-OP-PGM-01:M" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

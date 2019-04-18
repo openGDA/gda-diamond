@@ -97,6 +97,5 @@
 				<ref bean="s6ysize" />
 				<ref bean="s6ycentre" />			</list>
 		</property>
-		<property name="local" value="true"/>
 	</bean>
 </beans>

@@ -3,37 +3,21 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="s2c_xcentre_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s2c_xcentre_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="s2c_xsize_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s2c_xsize_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="s2c_ycentre_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s2c_ycentre_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="s2c_ysize_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s2c_ysize_motor" class="gda.device.motor.DummyMotor"/>
 
 	<!-- Individual blade motors -->
-	<bean id="s2c_xring_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s2c_xring_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="s2c_xhall_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s2c_xhall_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="s2c_ytop_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s2c_ytop_motor" class="gda.device.motor.DummyMotor"/>
 
-	<bean id="s2c_ybottom_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="s2c_ybottom_motor" class="gda.device.motor.DummyMotor"/>
 
 </beans>

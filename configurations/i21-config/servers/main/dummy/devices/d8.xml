@@ -10,7 +10,6 @@
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
-		<property name="local" value="true" />
 	</bean>	
 	<!-- Femto -->
 	<bean id="d8femto1" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>

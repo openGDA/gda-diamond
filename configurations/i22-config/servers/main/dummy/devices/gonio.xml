@@ -3,13 +3,8 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="gonio_pitch_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="gonio_roll_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
-    <bean id="gonio_yaw_motor" class="gda.device.motor.ThreadlessDummyMotor">
-        <property name="local" value="true" />
-    </bean>
+    <bean id="gonio_pitch_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="gonio_roll_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+    <bean id="gonio_yaw_motor" class="gda.device.motor.ThreadlessDummyMotor"/>
+
 </beans>

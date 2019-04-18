@@ -6,7 +6,6 @@
 
 	<bean id="dj9positioner" class="gda.spring.EpicsEnumPositionerFactoryBean">
 		<property name="pvBase" value="BL05J-DI-PHDGN-03:DET:Y:MP" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dj9current" class="gda.device.currentamplifier.CalibratedAmplifier">
@@ -17,7 +16,6 @@
 		<property name="settletime" value="500" />
 		<property name="upperThreshold" value="9.5" />
 		<property name="autoGain" value="false" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dj9average" class="gda.device.currentamplifier.CalibratedAmplifier">
@@ -28,7 +26,6 @@
 		<property name="settletime" value="500" />
 		<property name="upperThreshold" value="9.5" />
 		<property name="autoGain" value="false" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="dj9gain" class="gda.device.currentamplifier.GainWithScalingAndOffset">

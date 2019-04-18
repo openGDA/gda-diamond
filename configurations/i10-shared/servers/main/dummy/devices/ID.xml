@@ -10,7 +10,6 @@
 		<property name="maxPosition" value="270.2" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 		<property name="position" value="28.881859"/><!-- default position in dummy mode for lh polarisation at energy 800eV -->
 	</bean>
 
@@ -19,7 +18,6 @@
 		<property name="maxPosition" value="270.2" />
 		<property name="speed" value="1" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 		<property name="position" value="28.881859"/><!-- default position in dummy mode for lh polarisation at energy 800eV -->
 	</bean>
 	
@@ -28,7 +26,6 @@
 		<property name="maxPosition" value="103" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="idd_rowphase2_motor" class="gda.device.motor.DummyMotor" >
@@ -36,7 +33,6 @@
 		<property name="maxPosition" value="103" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="idd_rowphase3_motor" class="gda.device.motor.DummyMotor" >
@@ -44,7 +40,6 @@
 		<property name="maxPosition" value="103" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="idd_rowphase4_motor" class="gda.device.motor.DummyMotor" >
@@ -52,7 +47,6 @@
 		<property name="maxPosition" value="103" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="idd_jawphase_motor" class="gda.device.motor.DummyMotor" >
@@ -60,7 +54,6 @@
 		<property name="maxPosition" value="79.05" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="idd_sepphase_motor" class="gda.device.motor.DummyMotor" >
@@ -68,7 +61,6 @@
 		<property name="maxPosition" value="79.05" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="idu_rowphase1_motor" class="gda.device.motor.DummyMotor" >
@@ -76,7 +68,6 @@
 		<property name="maxPosition" value="103" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="idu_rowphase2_motor" class="gda.device.motor.DummyMotor" >
@@ -84,7 +75,6 @@
 		<property name="maxPosition" value="103" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="idu_rowphase3_motor" class="gda.device.motor.DummyMotor" >
@@ -92,7 +82,6 @@
 		<property name="maxPosition" value="103" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="idu_rowphase4_motor" class="gda.device.motor.DummyMotor" >
@@ -100,7 +89,6 @@
 		<property name="maxPosition" value="103" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="idu_jawphase_motor" class="gda.device.motor.DummyMotor" >
@@ -108,7 +96,6 @@
 		<property name="maxPosition" value="79.05" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="idu_sepphase_motor" class="gda.device.motor.DummyMotor" >
@@ -116,6 +103,5 @@
 		<property name="maxPosition" value="79.05" />
 		<property name="speed" value="2" />
 		<property name="unitString" value="mm"/>
-		<property name="local" value="true" />
 	</bean>
 </beans>

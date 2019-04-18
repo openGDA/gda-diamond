@@ -4,10 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="scmy_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="BL06J-EA-MAG-01:SMPL:Y" />
-		<property name="local" value="true" />
 	</bean>
 	<bean id="scmth_motor" class="gda.device.motor.EpicsMotor" >
 		<property name="pvName" value="BL06J-EA-MAG-01:SMPL:THETA" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

@@ -15,11 +15,8 @@
 				<value>Reset</value>
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
-	<bean id="analyser_sledge_motor" class="gda.device.motor.DummyMotor">
-		<property name="local" value="true" />
-	</bean>
+	<bean id="analyser_sledge_motor" class="gda.device.motor.DummyMotor"/>
 
 </beans>

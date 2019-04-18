@@ -14,7 +14,6 @@
 		<property name="motor" ref="p2r_rot_motor" />
 		<property name="zebraConstantVelocityMoveController" ref="p2rcvmc" />
 		<property name="scurveTimeToVelocity" value="3.0" />
-		<property name="local" value="true" />
 	</bean>	
-	
-</beans>	
+
+</beans>

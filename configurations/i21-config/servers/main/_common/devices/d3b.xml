@@ -10,7 +10,7 @@
 		<property name="userUnits" value="mm" />
 	</bean>
 
-	<!-- Group d3b-related objects -->	
+	<!-- Group d3b-related objects -->
 	<bean id="d3b" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
@@ -19,7 +19,6 @@
 				<ref bean="d3bfemto" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

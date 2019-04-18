@@ -6,11 +6,10 @@
 
 	<bean id="qbpm1_x_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-DI-PHDGN-07:X"/>
-		<property name="local" value="true"/>
 	</bean>
+
 	<bean id="qbpm1_y_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL22I-DI-PHDGN-07:Y"/>
-		<property name="local" value="true"/>
 	</bean>
-</beans>
 
+</beans>

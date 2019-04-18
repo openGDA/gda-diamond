@@ -5,37 +5,30 @@
 
 	<bean id="m1_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_x_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_yaw" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_x_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_y_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_pitch_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_y1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_y1_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_y2" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_y2_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1_bend" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_bend_motor" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -50,6 +43,5 @@
 				<ref bean="m1_bend" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 </beans>

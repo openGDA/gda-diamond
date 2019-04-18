@@ -6,7 +6,6 @@
 	<!-- Laser Periscope Mirror 2 -->
 	<bean id="p2_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06I-OP-PERI-02:MTR" />
-		<property name="local" value="true"/>
-	</bean>
-	
+	</bean>	
+
 </beans>

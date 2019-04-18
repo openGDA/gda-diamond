@@ -5,32 +5,26 @@
 
 	<bean id="hsmpmx_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09I-MO-HSMPM-01:X" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="hsmpmy_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09I-MO-HSMPM-01:Y" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="hsmpmz_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09I-MO-HSMPM-01:Z" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="hsmpmpolar_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09I-MO-HSMPM-01:POLAR" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="hsmpmazi_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09I-MO-HSMPM-01:AZIMUTH" />
-		<property name="local" value="true" />
 	</bean>
 
 	<bean id="hsmpmtilt_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL09I-MO-HSMPM-01:TILT" />
-		<property name="local" value="true" />
 	</bean>
 
 </beans>

@@ -61,7 +61,7 @@
 		<property name="motor" ref="m2y3flatMotor" />
 		<property name="userUnits" value="mm"/>
 	</bean>
-	
+
 
 	<bean id="m2" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
@@ -83,8 +83,7 @@
 				<ref bean="m2feedback" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
-	
+
 
 </beans>
