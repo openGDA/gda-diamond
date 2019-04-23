@@ -3,11 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="edxdDxpModel" class="uk.ac.gda.epics.dxp.client.views.model.DXPModel">
-		<property name="statusViewController" ref="edxdStatusViewController" />
-		<property name="basePVName" value="BL12I-EA-DET-03:" />
-	</bean>
-
 	<bean id="edxdStatusViewController" class="uk.ac.gda.epics.dxp.client.views.StatusViewController">
 		<property name="dxpModel" ref="edxdDxpModel" />
 	</bean>

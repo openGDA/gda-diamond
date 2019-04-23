@@ -17,6 +17,7 @@
 	<!-- =========================================================== -->
 	<!-- Files with separate live and dummy versions                 -->
 	<!-- =========================================================== -->
+	<import resource="file:${gda.config}/clients/main/${gda.mode}/edxd.xml" />
 	<import resource="file:${gda.config}/clients/main/${gda.mode}/pco.xml" />
 	<import resource="file:${gda.config}/clients/main/${gda.mode}/pixium.xml" />
 
@@ -24,7 +25,7 @@
 	<!-- Shared files                                                -->
 	<!-- =========================================================== -->
 
-	<!-- The tomoAlignment.xml must follow the pco.xml since the tomoAlignment 
+	<!-- The tomoAlignment.xml must follow the pco.xml since the tomoAlignment
 		depend on PCO objects and cam1.xml and ss1.xml. -->
 	<import resource="file:${gda.config}/clients/main/_common/devices/simpleScannables.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/devices/pco.xml" />
