@@ -22,13 +22,6 @@
 	<!-- This must be included early on, as configuration of ROI/Stats modules requires plot service  -->
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
 
-	<!-- Replaces ScanDataStore -->
-	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-		<property name="serviceName" value="gda/ScanDataPointServer" />
-		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
-	</bean>
-
 	<import resource="file:${gda.config}/devices/_common/simpleScannables.xml" />
 
 	<!-- =========================================================== -->
