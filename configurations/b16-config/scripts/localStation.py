@@ -6,7 +6,6 @@ vararg_alias("scannp") #@UndefinedVariable
 print "*** Creating scan with no processing: scannp"
 from gda.analysis import ScanFileHolder
 from gda.analysis.io import PilatusTiffLoader, SRSLoader
-from uk.ac.diamond.scisoft.analysis.io.emulated import FileSystemEmulatingTIFFImageLoader
 from gda.configuration.properties import LocalProperties
 from gda.device.monitor import EpicsMonitor
 from gda.device.scannable import PseudoDevice
@@ -724,16 +723,6 @@ if not installation.isLive():
 	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name_rcp="Plot 1")
 	#setIPPWrapperDir( '/scratch/ws/trunk/plugins/uk.ac.gda.core/scripts/gdascripts/scannable/detector/dummy/focused_beam_dataset//') #@UndefinedVariable
 	ipp.returnPathAsImageNumberOnly = True
-	def emulateSlowFileSystem(makeSlow = True):
-		if makeSlow:
-			ipp.iFileLoader = FileSystemEmulatingTIFFImageLoader
-			FileSystemEmulatingTIFFImageLoader.setEmulatedFileAvailabilityLatencyMillis(2000)
-			FileSystemEmulatingTIFFImageLoader.setEmulatedFileLoadTimeMillis(1000)
-			print "Emulating file system for ipp:"
-			print "   File availability latency is 2s"
-			print "   File load time is 1s"
-		else:
-			print "*Not* emulating file system for ipp"
 
 else:
 	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
