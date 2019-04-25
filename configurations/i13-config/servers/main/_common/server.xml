@@ -25,13 +25,6 @@
 
 	<bean id="GDAHashtable" class="gda.util.findableHashtable.FindableHashtable" />
 
-	<!-- Replaces ScanDataStore -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ScanDataPointServer" />
-		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
-	</bean>
-
 	<!-- =========================================================== -->
 	<!-- Device files with separate live and dummy versions          -->
 	<!-- =========================================================== -->

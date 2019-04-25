@@ -1232,7 +1232,7 @@ def tomoTRFlyScan(description, inBeamPosition, outOfBeamPosition, exposureTime=1
 
         sample_stage = jns.sample_stage
         if sample_stage is None:
-            raise  NameError(sample_stage is not defined in Jython namespace")
+            raise NameError("sample_stage is not defined in Jython namespace")
 
         ionc_i = jns.ionc_i
         if ionc_i is None:
