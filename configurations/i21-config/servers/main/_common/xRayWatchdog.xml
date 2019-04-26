@@ -7,7 +7,7 @@
 	<bean id="xrayModel" class="org.eclipse.scanning.api.device.models.DeviceWatchdogModel">
 	    <!-- In the expression:   & is &amp;   and   " is &quot; -->
 	    <!-- So the expression is really:   beamcurrent >= 1.0 && !portshutter.equalsIgnoreCase("Closed")  -->
-		<property name="expression"   value="m4femto1 >= 0.1"/>
+		<property name="expression"   value="s2femto3 >= 0.001"/>
 		<property name="message"      value="X-ray beam has been lost"/>
 	</bean>
 	<bean id="XRayWatchdog" class="org.eclipse.scanning.sequencer.watchdog.ExpressionWatchdog" init-method="activate">

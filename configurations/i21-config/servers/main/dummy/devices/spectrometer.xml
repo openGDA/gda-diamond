@@ -1,31 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd"> 
 		
 	<bean id="specgammaMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-180" />
 		<property name="maxPosition" value="180" />
 		<property name="speed" value="10" />
+		<property name="local" value="true" />
 	</bean>
-
+	
 	<bean id="speczMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="specxMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="speed" value="90" />
+		<property name="local" value="true" />
 	</bean>
-
+	<bean id="spectthMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="0" />
+		<property name="maxPosition" value="150" />
+		<property name="speed" value="1" />
+		<property name="local" value="true" />
+	</bean>
 	<bean id="andorEffectiveHorizontal" class="gda.device.monitor.DummyEpicsMonitorDouble">
 		<property name="value">
 			<value type="double">11000</value>
 		</property>
 		<property name="lowerLimit" value="11000" />
 		<property name="upperLimit" value="12000" />
+		<property name="local" value="true" />
 		<property name="increment" value="1" />
 	</bean>
 	<bean id="andorEffectiveVertical" class="gda.device.monitor.DummyEpicsMonitorDouble">
@@ -35,6 +48,17 @@
 		<property name="lowerLimit" value="1000" />
 		<property name="upperLimit" value="1800" />
 		<property name="increment" value="1" />
+		<property name="local" value="true" />
 	</bean>
-
+	<!-- Air control for ARM -->
+	<bean id="arm_air_valve" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+		<property name="values">
+			<util:map>
+				<entry key="Off" value="Off"/> 
+				<entry key="On" value="On"/>
+			</util:map>
+		</property>
+		<property name="startPositionName" value="Off"/>
+		<property name="local" value="true"/>
+	</bean>
 </beans>

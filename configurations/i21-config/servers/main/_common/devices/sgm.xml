@@ -90,6 +90,7 @@
 				<ref bean="sgmwedgenearside" />
 			</list>
 		</property>
-	</bean>
+		<property name="local" value="true" />
+	</bean>	
 
 </beans>

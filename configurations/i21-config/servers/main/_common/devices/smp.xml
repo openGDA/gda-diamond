@@ -54,6 +54,11 @@
 	</bean>
 	<bean id="difftth" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="smpdeltaMotor" />
+		<property name="inputNames">
+			<list>
+				<value>difftth</value>
+			</list>		
+		</property>
 		<property name="outputFormat">
 			<list>
 				<value>%10.6f</value>
@@ -71,26 +76,27 @@
 		<property name="userUnits" value="deg" />
 	</bean>
 
-	<!-- Group d4-related objects -->
-	<bean id="smp" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<!-- Group d4-related objects -->	
+ 	<bean id="smp" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="th" />
 				<ref bean="x" />
 				<ref bean="y" />
 				<ref bean="z" />
+				<ref bean="th" />
+				<ref bean="chi" />
 				<ref bean="phi" />
 				<ref bean="difftth" />
-				<ref bean="chi" />
 				<ref bean="draincurrent" />
 				<ref bean="fy1" />
-				<ref bean="straightdiode" />
-				<ref bean="rotatingdiode" />
-				<ref bean="fixdiode1" />
-				<ref bean="extradiode" />
-				<ref bean="tthdiode" />
+				<ref bean="fy2" />
+				<ref bean="fy3" />
+				<ref bean="diff1" />
+				<ref bean="diff2" />
+				<ref bean="diff3" />
 			</list>
 		</property>
+		<property name="local" value="true" />
 	</bean>
 
-</beans>
+ </beans>

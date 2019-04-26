@@ -12,46 +12,53 @@
 		<property name="minPosition" value="0.0000" />
 		<property name="maxPosition" value="150.000" />
 		<property name="speed" value="90" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="smpxMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-5.00000" />
 		<property name="maxPosition" value="5.00000" />
 		<property name="speed" value="2.00000" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="smpyMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-5.00000" />
 		<property name="maxPosition" value="5.00000" />
 		<property name="speed" value="2.000000" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="smpzMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-994.900000" />
 		<property name="maxPosition" value="1005.100000" />
 		<property name="speed" value="0.500000" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="smpphiMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-100.000000" />
 		<property name="maxPosition" value="100.000000" />
 		<property name="speed" value="0.500000" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="smpdeltaMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-170.000" />
 		<property name="maxPosition" value="170.000" />
 		<property name="speed" value="4.000000" />
+		<property name="local" value="true" />
 	</bean>
 	<bean id="smpchiMotor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-45.000000" />
 		<property name="maxPosition" value="32.000000" />
 		<property name="speed" value="1.000000" />
+		<property name="local" value="true" />
 	</bean>
 	<!-- Femto -->
 	<bean id="draincurrent" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 
 	<bean id="fy1" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
-	<bean id="straightdiode" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
-	<bean id="rotatingdiode" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
-	<bean id="fixdiode1" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
-	<bean id="extradiode" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
-	<bean id="tthdiode" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="fy2" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="fy3" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="diff1" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="diff2" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
+	<bean id="diff3" class="gda.device.currentamplifier.DummyEpicsCurrAmpSingle"/>
 	
 	<import resource="smpcam1.xml"/>
 	<import resource="smpcam2.xml"/>

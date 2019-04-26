@@ -8,7 +8,7 @@ def idgap_calc(Ep, polarisation):
     gap=19.9
     # Linear Horizontal
     if (polarisation=="LH"):
-        if (Ep>915 and Ep < 1020):
+        if (Ep>915 and Ep <= 1050):
             if pgmGratingSelect.getPosition()=="VPG1":
                 gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15: SHOULD BE CHECKED: MAY NEED CORRECTING
                 #gap = 23.271 + 0.01748*Ep #Corrected for VPG1 on 2016/10/06
@@ -20,7 +20,7 @@ def idgap_calc(Ep, polarisation):
                 gap = 18.5611846 + 0.02369966*Ep #Corrected for VPG3 on 2017/09/20
             else:
                 raise ValueError("Unknown Grating select in LH polarisationMode")
-        elif (Ep>500 and Ep<600):
+        elif (Ep>500 and Ep<=600):
             if pgmGratingSelect.getPosition()=="VPG1":
                 #gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15
                 gap = 18.0359889 + 0.02485902*Ep #Corrected for VPG1 on 2018/04/19
@@ -28,13 +28,15 @@ def idgap_calc(Ep, polarisation):
                 #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
                 #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
                 #gap = 18.669193 + 0.02350180*Ep  #Corrected for VPG2 at 930 eV on 2017/08/08
-                gap = 18.0444241 + 0.02478207*Ep  #Corrected for VPG2 around 550 eV on 2018/01/16
+                #gap = 18.0444241 + 0.02478207*Ep  #Corrected for VPG2 around 550 eV on 2018/01/16
+                gap = 18.0784061 + 0.02466737*Ep  #Corrected for VPG2 on 2019/02/11
             elif pgmGratingSelect.getPosition()=="VPG3":
-                gap = 18.0112254 + 0.02490918*Ep #Corrected for VPG3 on 2018/01/20
+                #gap = 18.0112254 + 0.02490918*Ep #Corrected for VPG3 on 2018/01/20
+                gap = 18.0365707 + 0.02483224*Ep  #Corrected for VPG3 on 2019/02/11
                 
             else:
                 raise ValueError("Unknown Grating select in LH polarisationMode")
-        elif (Ep>600 and Ep<700):
+        elif (Ep>600 and Ep<=700):
             if pgmGratingSelect.getPosition()=="VPG1":
                 #gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15
                 gap = 18.9610065 + 0.02329706*Ep #Corrected for VPG1 on 2018/06/22
@@ -47,22 +49,24 @@ def idgap_calc(Ep, polarisation):
                 gap = 18.9464110 + 0.02331950*Ep #Corrected for VPG3 on 2018/06/22                
             else:
                 raise ValueError("Unknown Grating select in LH polarisationMode")
-        elif (Ep>690 and Ep<820):
+        elif (Ep>700 and Ep<=820):
             if pgmGratingSelect.getPosition()=="VPG1":
                 #gap = 19.2998231 + 0.02285595*Ep #Corrected for VPG1 on 2017/12/01
                 gap = 19.2309878 + 0.02296267*Ep #Corrected for VPG1 on 2018/4/23
             elif pgmGratingSelect.getPosition()=="VPG2":
                 #gap = 18.7769565 + 0.02352715*Ep  #Corrected for VPG2 on 2018/03/07
-                gap = 19.2185231 + 0.02287568*Ep  #Corrected for VPG2 on 2018/04/23
+                #gap = 19.2185231 + 0.02287568*Ep  #Corrected for VPG2 on 2018/04/23
+                gap = 19.5776100 + 0.02231282*Ep  #Corrected for VPG2 on 2019/02/27
             elif pgmGratingSelect.getPosition()=="VPG3":
                 #gap = 19.0918751 + 0.02313526*Ep #Corrected for VPG3 on 2018/03/07
                 gap = 18.5124072 + 0.02393300*Ep #Corrected for VPG3 on 2018/04/23
+                
             else:
-                raise ValueError("Unknown Grating select in LH polarisationMode")    
-        elif (Ep>=820 and Ep<=915):
+                raise ValueError("Unknown Grating select in LH polarisationMode")
+        elif (Ep>820 and Ep<=915):
             if pgmGratingSelect.getPosition()=="VPG1":
-                #gap = 19.2998231 + 0.02285595*Ep #Corrected for VPG1 on 2017/02/15
-                raise Exception("No calibration available for VPG1 in LH mode")
+                gap = 18.8476189 + 0.02339853*Ep #Corrected for VPG3 on 2018/01/11
+#                 raise Exception("No calibration available for VPG1 in LH mode")
             elif pgmGratingSelect.getPosition()=="VPG2":
                 gap = 18.9330761 + 0.02318578*Ep  #Corrected for VPG2 on 2018/01/10
             elif pgmGratingSelect.getPosition()=="VPG3":
@@ -78,8 +82,12 @@ def idgap_calc(Ep, polarisation):
                 gap = 15.1190608 + 0.03150392*Ep #Corrected for VPG3 on 2018/04/16
             else:
                 raise ValueError("Unknown Grating select in LH polarisationMode")
-        elif (Ep>450 and Ep<500):
-            if pgmGratingSelect.getPosition()=="VPG2":
+        elif (Ep>=450 and Ep<=500):
+            if pgmGratingSelect.getPosition()=="VPG1":
+                gap = 17.1120838 + 0.02661410*Ep #Corrected for VPG2 on 2018/08/03
+            elif pgmGratingSelect.getPosition()=="VPG2":
+                gap = 17.1120838 + 0.02661410*Ep #Corrected for VPG2 on 2018/08/03
+            elif pgmGratingSelect.getPosition()=="VPG3":
                 gap = 17.1120838 + 0.02661410*Ep #Corrected for VPG2 on 2018/08/03
             else:
                 raise ValueError("Unknown Grating select in LH polarisationMode")
@@ -91,7 +99,7 @@ def idgap_calc(Ep, polarisation):
             elif pgmGratingSelect.getPosition()=="VPG3":
                 gap = 8.90762510 + 0.03261594*Ep #Corrected for VPG3 on 2018/06/19
             else:
-                raise ValueError("Unknown Grating select in LH polarisationMode")    
+                raise ValueError("Unknown Grating select in LH polarisationMode")
         elif (Ep>=1380 and Ep<=1430):
             if pgmGratingSelect.getPosition()=="VPG1":
                 gap =-46.1543877 + 0.07416048*Ep  #Corrected for VPG1 on 2018/06/21
@@ -100,12 +108,28 @@ def idgap_calc(Ep, polarisation):
             elif pgmGratingSelect.getPosition()=="VPG3":
                 gap =-48.2489975 + 0.07562796*Ep #Corrected for VPG3 on 2018/06/19
             else:
-                raise ValueError("Unknown Grating select in LH polarisationMode")    
+                raise ValueError("Unknown Grating select in LH polarisationMode")
+        elif (Ep>1430 and Ep<=1680):
+            if pgmGratingSelect.getPosition()=="VPG1":
+                gap =17.25681236 + 0.00867844*Ep  #Corrected for VPG1 on 2019/03/05
+            elif pgmGratingSelect.getPosition()=="VPG2":
+                gap =17.60728471 + 0.00842455*Ep  #Corrected for VPG2 on 2019/03/05
+            elif pgmGratingSelect.getPosition()=="VPG3":
+                gap =17.75147390 + 0.00840392*Ep  #Corrected for VPG3 on 2019/03/05
+            else:
+                raise ValueError("Unknown Grating select in LH polarisationMode")
+        elif (Ep>=1990 and Ep<=2010):
+            if pgmGratingSelect.getPosition()=="VPG1":
+                gap = 34.45  #Corrected for VPG1 at 2000 eV on 2019/03/05
+            elif pgmGratingSelect.getPosition()=="VPG2":
+                gap = 34.30  #Corrected for VPG2 at 2000 eV on 2019/03/05
+            elif pgmGratingSelect.getPosition()=="VPG3":
+                gap = 34.35  #Corrected for VPG3 at 2000 eV on 2019/03/05
         else:
             raise ValueError("Energy demand %feV is outside calibrated ranges") % (Ep)
     # Linear Vertical
     elif polarisation=="LV":
-        if (Ep>915 and Ep < 1020):
+        if (Ep>915 and Ep <= 1050):
             if pgmGratingSelect.getPosition()=="VPG1":
                 # gap = 11.1441137 + 0.01881376*Ep #Corrected for VPG1 on 2017/07/31 ---> Linear Vertical
                 # gap = 11.6401974 + 0.01819208*Ep #Corrected for VPG1 on 2017/07/07 ---> Linear Vertical
@@ -114,26 +138,29 @@ def idgap_calc(Ep, polarisation):
             elif pgmGratingSelect.getPosition()=="VPG2":
                 # gap = 11.3014613 + 0.01856236*Ep #Corrected for VPG2 on 2017/08/02 ---> Linear Vertical
 #                 gap = 11.2363888 + 0.01864200*Ep #Corrected for VPG2 at 930 eV on 2017/08/03 ---> Linear Vertical
-                gap = 11.3838749 + 0.01844212*Ep #Corrected for VPG2 at 930 eV on 2017/10/08 ---> Linear Vertical
+#                 gap = 11.3838749 + 0.01844212*Ep #Corrected for VPG2 at 930 eV on 2017/10/08 ---> Linear Vertical
+                gap = 10.9848979 + 0.01883657*Ep #Corrected for VPG2 at 930 eV on 2018/12/0 ---> Linear Vertical
             elif pgmGratingSelect.getPosition()=="VPG3":
                 # gap = 11.2972185 + 0.01862358*Ep #Corrected for VPG3 on 2017/07/27 ---> Linear Vertical
                 gap = 11.3218637 + 0.01860144*Ep #Corrected for VPG3 at 930 eV on 2017/08/03 ---> Linear Vertical
             else:
                 raise ValueError("Unknown Grating select in LV polarisationMode")
-        elif (Ep>500 and Ep<600):
+        elif (Ep>500 and Ep<=600):
             if pgmGratingSelect.getPosition()=="VPG1":
                 #gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15
                 gap = 11.4929059 +  0.01866740*Ep #Corrected for VPG1 on 2018/04/19
             elif pgmGratingSelect.getPosition()=="VPG2":
                 #gap = 17.3845068 + 0.02555917*Ep #Corrected for VPG2 on 2017/02/15
                 #gap = 12.338 + 0.03074*Ep  #Corrected for VPG2 on 2016/10/06
-                gap = 11.5139582 + 0.01858746*Ep  #Corrected for VPG2 around 550 eV on 2018/01/15
+                #gap = 11.5139582 + 0.01858746*Ep  #Corrected for VPG2 around 550 eV on 2018/01/15
+                gap = 11.5248060 + 0.01849955*Ep  #Corrected for VPG2 on 2019/02/11
             elif pgmGratingSelect.getPosition()=="VPG3":
                 #gap = 11.4731251 + 0.01873832*Ep #Corrected for VPG3 on 2017/10/09
-                gap = 11.4922997 + 0.01867722*Ep #Corrected for VPG3 on 2018/01/20
+                #gap = 11.4922997 + 0.01867722*Ep #Corrected for VPG3 on 2018/01/20
+                gap = 11.4819971 + 0.01864219*Ep  #Corrected for VPG3 on 2019/02/11
             else:
                 raise ValueError("Unknown Grating select in LV polarisationMode")
-        elif (Ep>600 and Ep<700):
+        elif (Ep>600 and Ep<=700):
             if pgmGratingSelect.getPosition()=="VPG1":
                 #gap = 19.086332 + 0.02336597*Ep #Corrected for VPG1 on 2017/02/15
                 gap = 12.0417084 + 0.01768560*Ep #Corrected for VPG1 on 2018/06/22
@@ -147,23 +174,24 @@ def idgap_calc(Ep, polarisation):
                 
             else:
                 raise ValueError("Unknown Grating select in LV polarisationMode")
-        elif (Ep>690 and Ep<820):
+        elif (Ep>700 and Ep<=820):
             if pgmGratingSelect.getPosition()=="VPG1":
                 #gap = 12.1996757 + 0.01755656*Ep #Corrected for VPG1 on 2017/12/01
                 gap = 12.1751464 + 0.01759710*Ep #Corrected for VPG1 on 2018/04/23
             elif pgmGratingSelect.getPosition()=="VPG2":
                 #gap = 12.2144937 + 0.01746779*Ep  #Corrected for VPG2 on 2017/11/30
-                gap = 12.1515345 + 0.01754967*Ep  #Corrected for VPG2 on 2017/04/23
+                #gap = 12.1515345 + 0.01754967*Ep  #Corrected for VPG2 on 2017/04/23
+                gap = 12.30554589 + 0.017280755*Ep  #Corrected for VPG2 on 2019/02/27
             elif pgmGratingSelect.getPosition()=="VPG3":
                 #gap = 12.1109048 + 0.01766378*Ep #Corrected for VPG3 on 2018/03/07
                 gap = 12.0099896 + 0.01781198*Ep #Corrected for VPG3 on 2018/04/23
                 #raise Exception("No calibration available for VPG1 in LV mode")
             else:
                 raise ValueError("Unknown Grating select in LV polarisationMode")
-        elif (Ep>=820 and Ep<=915):
+        elif (Ep>820 and Ep<=915):
             if pgmGratingSelect.getPosition()=="VPG1":
-                #gap = 12.1996757 + 0.01755656*Ep #Corrected for VPG1 on 2017/02/15
-                raise Exception("No calibration available for VPG1 in LV mode")
+                gap = 11.7160683 + 0.01814283*Ep #Corrected for VPG3 on 2018/01/11
+#                 raise Exception("No calibration available for VPG1 in LV mode")
             elif pgmGratingSelect.getPosition()=="VPG2":
                 gap = 11.8230212 + 0.01793526*Ep  #Corrected for VPG2 on 2018/01/10
             elif pgmGratingSelect.getPosition()=="VPG3":
@@ -178,12 +206,16 @@ def idgap_calc(Ep, polarisation):
             elif pgmGratingSelect.getPosition()=="VPG3":
                 gap = 2.82442703 + 0.02637886*Ep #Corrected for VPG3 on 2018/06/19
             else:
-                raise ValueError("Unknown Grating select in LH polarisationMode")    
-        elif (Ep>=460 and Ep<500):
-            if pgmGratingSelect.getPosition()=="VPG2":
+                raise ValueError("Unknown Grating select in LV polarisationMode")    
+        elif (Ep>=450 and Ep<=500):
+            if pgmGratingSelect.getPosition()=="VPG1":
+                gap = 11.0197952 + 0.01953697*Ep #Corrected for VPG2 on 2018/08/03
+            elif pgmGratingSelect.getPosition()=="VPG2":
+                gap = 11.0197952 + 0.01953697*Ep #Corrected for VPG2 on 2018/08/03
+            elif pgmGratingSelect.getPosition()=="VPG3":
                 gap = 11.0197952 + 0.01953697*Ep #Corrected for VPG2 on 2018/08/03
             else:
-                raise ValueError("Unknown Grating select in LH polarisationMode")
+                raise ValueError("Unknown Grating select in LV polarisationMode")
         elif (Ep>=1380 and Ep<=1430):
             if pgmGratingSelect.getPosition()=="VPG1":
                 gap =-40.0707586 + 0.05886600*Ep  #Corrected for VPG1 on 2018/06/21
@@ -192,17 +224,71 @@ def idgap_calc(Ep, polarisation):
             elif pgmGratingSelect.getPosition()=="VPG3":
                 gap =-43.8399100 + 0.06151759*Ep #Corrected for VPG3 on 2018/06/19
             else:
-                raise ValueError("Unknown Grating select in LH polarisationMode")    
+                raise ValueError("Unknown Grating select in LV polarisationMode")
+        elif (Ep>1430 and Ep<=1680):
+            if pgmGratingSelect.getPosition()=="VPG1":
+                gap =10.92236351 + 0.00650547*Ep  #Corrected for VPG1 on 2019/03/05
+            elif pgmGratingSelect.getPosition()=="VPG2":
+                gap =11.19292000 + 0.00630086*Ep  #Corrected for VPG2 on 2019/03/05
+            elif pgmGratingSelect.getPosition()=="VPG3":
+                gap =11.45065675 + 0.00618820*Ep  #Corrected for VPG3 on 2019/03/05
+            else:
+                raise ValueError("Unknown Grating select in LV polarisationMode")
+        elif (Ep>=1990 and Ep<=2010):
+            if pgmGratingSelect.getPosition()=="VPG1":
+                gap = 23.82  #Corrected for VPG1 at 2000 eV on 2019/03/05
+            elif pgmGratingSelect.getPosition()=="VPG2":
+                gap = 23.72  #Corrected for VPG2 at 2000 eV on 2019/03/05
+            elif pgmGratingSelect.getPosition()=="VPG3":
+                gap = 23.74  #Corrected for VPG3 at 2000 eV on 2019/03/05
+            else:
+                raise ValueError("Unknown Grating select in LV polarisationMode")    
         else:
             raise ValueError("Energy demand %feV is outside calibrated ranges") % (Ep)
     # Circular left
     elif polarisation=="CL":
-        raise ValueError("CL polarisationMode is not yet implemented")
-    
+        if (Ep>700 and Ep<=720):
+            if pgmGratingSelect.getPosition()=="VPG1":
+                raise Exception("No calibration available for VPG1 in CL mode")
+            elif pgmGratingSelect.getPosition()=="VPG2":
+                gap = 13.4952116 + 0.0200068*Ep #Corrected for VPG2 on 2019/02/28 with a phase of -19.36
+            elif pgmGratingSelect.getPosition()=="VPG3":
+                raise Exception("No calibration available for VPG3 in CL mode")
+            else:
+                raise ValueError("Unknown Grating select in CL polarisationMode")
+        elif (Ep>720 and Ep<=740):
+            if pgmGratingSelect.getPosition()=="VPG1":
+                raise Exception("No calibration available for VPG1 in CL mode")
+            elif pgmGratingSelect.getPosition()=="VPG2":
+                gap = 13.9018119 + 0.0194255*Ep #Corrected for VPG2 on 2019/02/28 with a phase of -19.39
+            elif pgmGratingSelect.getPosition()=="VPG3":
+                raise Exception("No calibration available for VPG3 in CL mode")
+            else:
+                raise ValueError("Unknown Grating select in CL polarisationMode")
+        else:
+            raise ValueError("CL polarisationMode is not yet implemented for this energy")
     # Circular right
     elif polarisation=="CR":
-        raise ValueError("CR polarisationMode is not yet implemented")
-    
+        if (Ep>700 and Ep<=720):
+            if pgmGratingSelect.getPosition()=="VPG1":
+                raise Exception("No calibration available for VPG1 in CR mode")
+            elif pgmGratingSelect.getPosition()=="VPG2":
+                gap = 13.4790812+ 0.0200014*Ep #Corrected for VPG2 on 2019/02/28 with a phase of +19.36
+            elif pgmGratingSelect.getPosition()=="VPG3":
+                raise Exception("No calibration available for VPG3 in CR mode")
+            else:
+                raise ValueError("Unknown Grating select in CR polarisationMode")
+        elif (Ep>720 and Ep<=740):
+            if pgmGratingSelect.getPosition()=="VPG1":
+                raise Exception("No calibration available for VPG1 in CR mode")
+            elif pgmGratingSelect.getPosition()=="VPG2":
+                gap = 13.4572041 + 0.0200039*Ep #Corrected for VPG2 on 2019/02/28 with a phase of +19.39
+            elif pgmGratingSelect.getPosition()=="VPG3":
+                raise Exception("No calibration available for VPG3 in CR mode")
+            else:
+                raise ValueError("Unknown Grating select in CR polarisationMode")
+        else:
+            raise ValueError("CR polarisationMode is not yet implemented for this energy")
     # Linear 
     elif polarisation=="L1":
         raise ValueError("L1 polarisationMode is not yet implemented")

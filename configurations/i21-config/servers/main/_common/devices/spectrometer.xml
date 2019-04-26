@@ -33,15 +33,27 @@
 		</property>
 		<property name="userUnits" value="mm" />
 	</bean>
-
+	<bean id="epics_armtth" class="gda.device.scannable.AirBearingScannableMotor">
+		<property name="motor" ref="spectthMotor" />
+		<property name="outputFormat">
+			<list>
+				<value>%7.4f</value>
+			</list>
+		</property>
+		<property name="userUnits" value="deg" />
+		<property name="airBearingScannable" ref="arm_air_valve"/>
+		<property name="onPositionValue" value="Air On"/>
+		<property name="offPositionValue" value="Air Off"/>
+	</bean>
 	<bean id="spectrometer" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="specgamma" />
 				<ref bean="spech" />
 				<ref bean="specl" />
+				<ref bean="epics_armtth" />
 			</list>
 		</property>
-	</bean>
+	</bean>	
 
 </beans>

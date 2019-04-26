@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Sample Chamber Exit Gate Valve 17 -->
+	<bean id="gv17" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="local" value="true" />
+		<property name="pvBase" value="BL21I-VA-VALVE-17" />
+	</bean>
+
+</beans>

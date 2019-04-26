@@ -27,5 +27,8 @@
 	<bean id="s2femtoupper" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
 		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO1" />
 	</bean>
+	<bean id="s2femto34bm" class="gda.device.currentamplifier.EpicsCurrAmpSingle">
+		<property name="pvName" value="BL21I-AL-SLITS-02:FEMTO3" />
+	</bean>
 
 </beans>

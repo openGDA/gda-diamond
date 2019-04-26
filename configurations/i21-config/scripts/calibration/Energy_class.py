@@ -46,10 +46,15 @@ class BeamEnergy(ScannableMotionBase):
         elif value == "LV":
             self.idscannable.moveTo([float(self.idgap.getPosition()), "LV", 28]) 
             self.polarisationMode=value
-        elif value == "C":
+        elif value == "CR":
             if rowPhase is None:
-                raise Exception("Motor position for Row Phase is not provided for Circular mode as 2nd parameter.") 
-            self.idscannable.moveTo([float(self.idgap.getPosition()), "C", rowPhase]) 
+                raise Exception("Motor position for Row Phase is not provided for Circular Right mode as 2nd parameter.") 
+            self.idscannable.moveTo([float(self.idgap.getPosition()), "CR", rowPhase]) 
+            self.polarisationMode=value
+        elif value == "CL":
+            if rowPhase is None:
+                raise Exception("Motor position for Row Phase is not provided for Circular Left mode as 2nd parameter.") 
+            self.idscannable.moveTo([float(self.idgap.getPosition()), "CL", rowPhase]) 
             self.polarisationMode=value
         elif value == "L1":
             if rowPhase is None:
@@ -62,7 +67,7 @@ class BeamEnergy(ScannableMotionBase):
             self.idscannable.moveTo([float(self.idgap.getPosition()), "L2", rowPhase]) 
             self.polarisationMode=value
         else:
-            raise ValueError("Input "+str(value)+" invalid. Valid values are 'LH', 'LV', 'C', 'L1' and 'L2'.")
+            raise ValueError("Input "+str(value)+" invalid. Valid values are 'LH', 'LV', 'CR','CL', 'L1' and 'L2'.")
 
     def getPolarisationMode(self):
         if self.getName() == "dummyenergy":
@@ -96,9 +101,12 @@ class BeamEnergy(ScannableMotionBase):
         elif self.getPolarisationMode()=="LV":
             gap=idgap_calc(Ep, "LV")
         # Circular left
-        elif self.getPolarisationMode()=="C":
-            gap=idgap_calc(Ep, "C")
+        elif self.getPolarisationMode()=="CL":
+            gap=idgap_calc(Ep, "CL")
         # Circular right
+        elif self.getPolarisationMode()=="CR":
+            gap=idgap_calc(Ep, "CR")
+        #linear arbitrary
         elif self.getPolarisationMode()=="L1":
             gap=idgap_calc(Ep, "L1")
         return gap

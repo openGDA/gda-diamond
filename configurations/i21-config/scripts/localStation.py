@@ -12,7 +12,7 @@ from time import sleep  # @UnusedImport
 
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
-from gdaserver import lakeshore, b2, x
+from gdaserver import lakeshore, b2, x, sgmpitch
 import gdascripts
 from utils.ExceptionLogs import localStation_exception
 
@@ -83,6 +83,8 @@ if installation.isLive():
     smpcam4total=DisplayEpicsPVClass('smpcam4total', 'BL21I-DI-DCAM-23:STAT1:Total_RBV', 'counts', '%10d')
     s5camtotal=DisplayEpicsPVClass('s5camtotal', 'BL21I-DI-DCAM-55:STAT:Total_RBV', 'counts', '%10d')
     andortotal=DisplayEpicsPVClass('andortotal', 'BL21I-EA-DET-01:STAT:Total_RBV', 'counts', '%10d')
+    m1fpsetpoint=DisplayEpicsPVClass('m1fpsetpoint', 'BL21I-OP-MIRR-01:FP:FB.CVAL', 'unitless', '%.10f')
+    m2fpsetpoint=DisplayEpicsPVClass('m2fpsetpoint', 'BL21I-OP-MIRR-02:FP:FB.CVAL', 'px', '%.10f')
 
     from epics_scripts.pv_scannable_utils import createPVScannable
     pgmMirrorPitch_UserOffset = createPVScannable('pgmMirrorPitch_UserOffset', 'BL21I-OP-PGM-01:MIR:PITCH.OFF')
@@ -114,11 +116,11 @@ d7femto1_neg = DisplayEpicsPVClass_neg('d7femto1_neg', d7femto1)  # @UndefinedVa
 d7femto2_pos = DisplayEpicsPVClass_pos('d7femto2_pos', d7femto2)  # @UndefinedVariable
 
 from scannabledevices.cleverAmplifier import CleverAmplifier
-cleverd7femto1=CleverAmplifier("cleverd7femto1", d7femto1_neg, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
-cleverd7femto2=CleverAmplifier("cleverd7femto2", d7femto2_pos, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
+cleverd7femto1=CleverAmplifier("cleverd7femto1", d7femto1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
+cleverd7femto2=CleverAmplifier("cleverd7femto2", d7femto2, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 cleverm4femto1=CleverAmplifier("cleverm4femto1", m4femto1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 cleverm4femto2=CleverAmplifier("cleverm4femto2", m4femto2, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
-clevertthdiode=CleverAmplifier("clevertthdiode", tthdiode, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
+clevertdiff1=CleverAmplifier("clevertdiff1", diff1, 0.5, 9.0, "%.4f", "%.4e")  # @UndefinedVariable
 
 print
 print "-----------------------------------------------------------------------------------------------------------------"
@@ -146,11 +148,7 @@ from scannabledevices.coupledSampleStageMotion import CoupledSampleStageMotion
 sapara=CoupledSampleStageMotion("sapara", x, y, th) # @UndefinedVariable
 saperp=CoupledSampleStageMotion("saperp", x, y, th) # @UndefinedVariable
 
-print "-"*80
-print "Creating sample temperature aliases: tsample, tshield, tcryostat"
-tsample=lakeshore.getTemperature(0)  # @UndefinedVariable
-tshield=lakeshore.getTemperature(1)
-tcryostat=lakeshore.getTemperature(2)
+from feedbacks.warmup_instance import tsample  # @UnusedImport
 
 def input_tsample():
     lakeshore.setInput(1)
@@ -172,7 +170,7 @@ import metashop  # @UnusedImport
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Add meta data items to be captured in data files."
-metadatalist=[idgap, idscannable, energy] #@UndefinedVariable
+metadatalist=[ringCurrent, idgap, idscannable, energy, fastshutter_x, m1fpsetpoint, m2fpsetpoint] #@UndefinedVariable
 m1list=[m1x,m1pitch,m1finepitch,m1height,m1yaw,m1roll,m1feedback] #@UndefinedVariable
 m2list=[m2x,m2pitch,m2finepitch,m2height,m2feedback]# @UndefinedVariable
 m4list=[m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2]  # @UndefinedVariable
@@ -186,7 +184,7 @@ s5list=[s5v1gap,s5v2gap,s5hgap,s5sut,s5vdso1,s5vdso2,s5hdso] #@UndefinedVariable
 s6list=[s6hgap,s6hcentre,s6vgap,s6vcentre]  # @UndefinedVariable
 samplelist=[th,x,y,z,phi,chi,difftth,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
 sgmlist=[sgmx,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside,sgmGratingSelect] # @UndefinedVariable
-spectrometerlist=[specgamma,spech,specl] # @UndefinedVariable
+spectrometerlist=[specgamma,spech,specl,epics_armtth] # @UndefinedVariable
 #andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
 
 meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist#+andorlist
@@ -207,38 +205,78 @@ print "*"*80
 print "import DIFFCALC support for I21"
 try:
     from startup.i21 import *  # @UnusedWildImport
-#     toolpoint_off()  # @UndefinedVariable
+    toolpoint_off()  # @UndefinedVariable
 except:
     localStation_exception(sys.exc_info(), "import diffcalc error.")
 
+# Import toolpoint scannables into namespace
+from scannabledevices.ToolpointMotion import tp, u, v, w, ps_chi, ps_phi
 
 #Mapping scan
-from mapping_scan_commands import *
+#from mapping_scan_commands import *
+from gdascripts.mscanHandler import *
 
 from scannabledevices.xrayBeamMonitor import XRayBeamMonitor
 xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
 
 from scannabledevices.samplePoistioner_instance import smp_positioner  # @UnusedImport
 
+ENABLE_ENCODER_LIGHT_CONTROL=False
+# ENCODER_POSITION_AFTER_LIGHT_OFF=None
 # repeat acquire at a fixed point
 def acquireRIXS(n, det, exposure_time, *args):
-    newargs=[tm,1,n,1,det,exposure_time] # @UndefinedVariable
-    for arg in args:
-        newargs.append(arg)
-    scan([e for e in newargs])  
+    try:
+        newargs=[tm,1,n,1,det,exposure_time] # @UndefinedVariable
+        for arg in args:
+            newargs.append(arg)
+        if ENABLE_ENCODER_LIGHT_CONTROL:
+            # last recorded position of sgmpitch when the light was switched off
+            ENCODER_POSITION_BEFORE_LIGHT_OFF=float(sgmpitch.getPosition())
+            sleep(0.1)
+            # kill sgmpitch
+            caput("BL21I-OP-SGM-01:PITCH:KILL.PROC",1)
+            sleep(0.1)
+            # switch off encoder power
+            caput("BL21I-OP-SGM-01:TVLR:ENC_POWER",1)
+        scan([e for e in newargs])
+    finally:
+        if ENABLE_ENCODER_LIGHT_CONTROL: 
+            # switch on encoder power
+            caput("BL21I-OP-SGM-01:TVLR:ENC_POWER",0)
+            sleep(0.1)
+            clearEncoderLoss()
+            sleep(0.1)
+            if ENCODER_POSITION_BEFORE_LIGHT_OFF is not None:
+                sgmpitch.moveTo(ENCODER_POSITION_BEFORE_LIGHT_OFF)
     
 alias("acquireRIXS")
 
-# if not installation.isLive():
-#     print "Testing scan in hkl using DiffCalc ...."
-#     newub('test_i21')  # @UndefinedVariable
-#     setlat('test_i21', 3.78, 3.78, 20.1, 90, 90, 90)  # @UndefinedVariable
-#     setub([[0.00000, 0.00000, 0.31260], [1.17537, -1.17537, 0.00000], [1.17537, 1.17537, 0.00000]])  # @UndefinedVariable
-#     con(a_eq_b)  # @UndefinedVariable
-#     setnhkl([0, 0, 1])  # @UndefinedVariable
-# #     scan(h, .1, .2, .1, k, .1, .2, .1, l, .1, .2, .1, fourc, ct, 1)  # @UndefinedVariable
-#     print "scan in hkl test completed."
-    
+def clearEncoderLoss():
+    # sleep(0.1)
+    # clear encoder loss on sgmpitch
+    caput("BL21I-OP-SGM-01:PITCH:ELOSSRC.A", 0)
+    sleep(2.0)
+    # clear encoder loss on sgmr1
+    # caput("BL21I-OP-SGM-01:TVLR:ELOSSRC.A", 0)
+    # sleep(0.1)
+    # clear encoder loss on sgmx
+    # caput("BL21I-OP-SGM-01:X:ELOSSRC.A", 0)
+    # sleep(0.1)
+    # clear encoder loss on one of the wedge levellers
+    # caput("BL21I-OP-SGM-01:WDGO:ELOSSRC.A", 0)
+    # sleep(0.1)
+    # clear encoder loss on the other wedge leveller
+    # caput("BL21I-OP-SGM-01:WDGN:ELOSSRC.A", 0)
+    # sleep(0.1)
+    # Find last recorded position of sgmpitch when the light was switched off
+#     ENCODER_POSITION_AFTER_LIGHT_OFF=float(sgmpitch.getPosition())
+#     sleep(0.1)
+# Move to last recorded position of sgmpitch when the light was switched off
+#     if ENABLE_ENCODER_LIGHT_CONTROL and ENCODER_POSITION_AFTER_LIGHT_OFF is not None:
+#         sgmpitch.moveTo(ENCODER_POSITION_AFTER_LIGHT_OFF)
+        
+alias("clearEncoderLoss")
+
     
 from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
 scan_processor.rootNamespaceDict=globals()
@@ -256,6 +294,9 @@ print "Switch off scan processor by default !!!"
 print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
 print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
 scan_processing_off()
+
+#check beam scannables
+from scannabledevices.checkbeanscannables import checkbeam, checkrc, checkfe, checktopup_time  # @UnusedImport
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport

@@ -59,6 +59,7 @@
 	<import resource="fastshutter.xml" />
 	<import resource="AndorShutters.xml" />
 	<import resource="spectrometer.xml"/>
+	<import resource="gv17.xml"/>
 
 <!-- objects that access an area detector simulator ADSIM Top-->
 	<import resource="adSimulator.xml"/> <!-- diagnostic cameras -->

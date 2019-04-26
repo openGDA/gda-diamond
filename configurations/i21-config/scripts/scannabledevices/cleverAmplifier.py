@@ -91,9 +91,12 @@ class CleverAmplifier(ScannableMotionBase):
     
     def atScanEnd(self):
         self.amp.setGain(self.gainAtScanStart)
+        
+    def atCommandFailure(self):
+        self.amp.setGain(self.gainAtScanStart)
             
     def stop(self):
-        pass
+        self.amp.setGain(self.gainAtScanStart)
 
     def toFormattedString(self):
         return self.name + " : " + self.getInputNames()[0] +" : " + str(self.getPosition()[0]) + ", " + self.getExtraNames()[0] +" : "+ str(self.getPosition()[1])

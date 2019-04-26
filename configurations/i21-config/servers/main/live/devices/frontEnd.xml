@@ -29,4 +29,9 @@
 		<property name="statusPvIndicatesPositionOnly" value="true"/>
 		<property name="readOnly" value="true"/>
 	</bean>
+	<bean id="feabsorber" class="gda.device.enumpositioner.EpicsPneumaticCallback">
+		<property name="controlPv" value="FE21I-RS-ABSB-01:BLCON" />
+		<property name="statusPv" value="FE21I-RS-ABSB-01:STA" />
+		<property name="statusPvIndicatesPositionOnly" value="true"/>
+	</bean>
 </beans>

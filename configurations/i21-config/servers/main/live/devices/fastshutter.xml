@@ -10,4 +10,8 @@
 		<property name="level" value="6" />
 	</bean>
 
+	<bean id="fs1lateralMotor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL21I-MO-SHTR-01:LAT" />
+	</bean>
+
 </beans>

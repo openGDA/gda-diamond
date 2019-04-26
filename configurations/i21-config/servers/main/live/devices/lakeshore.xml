@@ -27,6 +27,7 @@
 				<value>%d</value>
 			</list>
 		</property>
+		<property name="input" value="3"/>
 	</bean>
 
 </beans>

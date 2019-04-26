@@ -11,4 +11,9 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="fs1lateralMotor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="19.6" />
+		<property name="maxPosition" value="360.1" />
+		<property name="speed" value="4.0" />
+	</bean>
 </beans>

@@ -59,6 +59,7 @@
 	<import resource="spectrometer.xml"/>
 	<import resource="fastshutter.xml" />
 	<import resource="AndorShutters.xml" />
+	<import resource="gv17.xml"/>
 	<import resource="andor.xml" />
 	<import resource="andor2.xml" />
 	<import resource="polariser.xml"/>

@@ -11,5 +11,6 @@
 </pydev_variables_property>
 <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
 <path>${GDA_WORKSPACE_PARENT}/workspace/tp/plugins/org.apache.commons.logging_1.1.1.v201101211721.jar</path>
+<path>${GDA_WORKSPACE_PARENT}/workspace/tp/plugins/org.epics.jca_2.4.2.jar</path>
 </pydev_pathproperty>
 </pydev_project>

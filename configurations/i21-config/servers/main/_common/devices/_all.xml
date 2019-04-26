@@ -44,6 +44,7 @@
 	<import resource="id.xml" />
 	<import resource="smp.xml" />
 	<import resource="sgm.xml" />
+	<import resource="fastshutter.xml" />
 	<import resource="spectrometer.xml"/>
 	<import resource="andor.xml"/>
 	<import resource="andor2.xml"/>
@@ -51,5 +52,6 @@
 <!-- 	<import resource="andor_nx.xml"/> -->
 	<import resource="dummysmp_m5tth.xml" />
 	<import resource="TestMotors.xml"/>
+	<import resource="i21_detector.xml"/>
 
 </beans>
