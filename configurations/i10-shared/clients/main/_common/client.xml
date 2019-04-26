@@ -12,7 +12,6 @@
 	<import resource="mapping.xml"/>
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
-	<import resource="commandRunner.xml"/>
 	<import resource="batonStateProvider.xml"/>
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />

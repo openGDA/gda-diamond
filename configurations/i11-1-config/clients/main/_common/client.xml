@@ -33,7 +33,6 @@
 
 	<import resource="commandQueueProcessor.xml" />
 	<import resource="batonStateProvider.xml" />
-	<import resource="commandRunner.xml" />
 	<import resource="pixium.xml" />
 	<import resource="samplesView.xml" />
 	<import resource="statusView.xml" />

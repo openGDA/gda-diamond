@@ -7,7 +7,6 @@
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="serverFileListener.xml"/>
-	<import resource="commandRunner.xml"/>
 	<import resource="batonStateProvider.xml"/>
 	<!-- sample stage control -->
 	<import resource="live_controls.xml"/>

@@ -32,7 +32,6 @@
 	<import resource="batonStateProvider.xml" />
 	<import resource="detectorFileDisplayer.xml" />
 	<import resource="dataFileMonitor.xml" />
-	<import resource="commandRunner.xml" />
 	<import resource="RCPController.xml" />
 	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
