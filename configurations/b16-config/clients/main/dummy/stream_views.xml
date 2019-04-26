@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="sim_det_1" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Sim Detector 1" />
+		<property name="url" value="http://ws020.diamond.ac.uk:8080/ADSIM.mjpg.mjpg" />
+		<property name="arrayPv" value="ws020-AD-SIM-01:ARR" />
+	</bean>
+	
+	<bean id="sim_det_2" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Sim Detector 2" />
+		<property name="url" value="http://ws020.diamond.ac.uk:8080/ADSIM.mjpg.mjpg" />
+		<property name="arrayPv" value="ws020-AD-SIM-01:ARR" />
+		<property name="withHistogram" value="true" />
+	</bean>
+	
+	<import resource="file://${gda.facility.dir}/clients/dummy/sim_camera.xml" />
+
+	
+	<bean id="sim_cam_with_controls" parent="sim_cam_no_calibration">
+		<property name="displayName" value="Simulated Area Detector (with controls)" />
+		<property name="withHistogram" value="true" />
+		<property name="topUi">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
+				<constructor-arg ref="sim_camera_control" />
+				<property name="cameraResetScannable" ref="sim_camera_reset" />
+			</bean>
+		</property>
+	</bean>
+		 		 
+</beans>

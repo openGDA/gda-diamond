@@ -74,6 +74,7 @@
 	<import resource="detector/simad.xml" />
 <!-- 	<import resource="detector/xmap_vortex.xml" /> -->
 	<!-- import resource="detector/mca_vortex.xml" EMPTY-->
+	<import resource="file://${gda.facility.dir}/servers/dummy/sim_area_detector.xml" />
 	
 
 	<import resource="metadata.xml" />
