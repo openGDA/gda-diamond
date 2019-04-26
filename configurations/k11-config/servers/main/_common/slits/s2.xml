@@ -42,13 +42,6 @@
 				<ref bean="s2_xcentre" />
 				<ref bean="s2_ysize" />
 				<ref bean="s2_ycentre" />
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="s2_raw_motion" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
 				<ref bean="s2_xplus" />
 				<ref bean="s2_xminus" />
 				<ref bean="s2_yplus" />
