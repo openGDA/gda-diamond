@@ -66,11 +66,7 @@
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//PCO//BL16B-EA-DET-03@">
+                     value="uk.ac.gda.epics.adviewer.mpegview:pv//PCO//BL16B-EA-DET-03@">
                </parameter>
             </command>
             <command
@@ -79,11 +75,7 @@
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.twodArrayView">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//PCO//BL16B-EA-DET-03@">
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL16B-EA-DET-03@">
                </parameter>
             </command>
             <command
@@ -92,11 +84,7 @@
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.epics.adviewer.mpegview">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="pv//PSL//BL16B-EA-DET-07@">
+                     value="uk.ac.gda.epics.adviewer.mpegview:pv//PSL//BL16B-EA-DET-07@">
                </parameter>
             </command>
          </menu>
@@ -108,11 +96,7 @@
                   style="push">
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
-                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView">
-               </parameter>
-               <parameter
-                     name="org.eclipse.ui.views.showView.secondaryId"
-                     value="xmapFluorescenceDetector">
+                     value="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector">
                </parameter>
             </command>
          </menu>
@@ -128,8 +112,32 @@
          point="org.eclipse.ui.views">
       <view
             class="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView"
-            id="uk.ac.gda.beamline.b16.FluorescenceDetector"
+            id="uk.ac.gda.exafs.ui.views.detectors.FluorescenceDetectorConfigurationView:xmapFluorescenceDetector"
             name="Xmap Fluorescence Detector"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            category="uk.ac.gda.epics.adviewer.view.category"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//PCO//BL16B-EA-DET-03@"
+            name="MJPeg View"
+            restorable="true">
+      </view>
+            <view
+            allowMultiple="true"
+            category="uk.ac.gda.epics.adviewer.view.category"
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:pv//PCO//BL16B-EA-DET-03@"
+            name="Two 2 Array View"
+            restorable="true">
+      </view>
+            <view
+            allowMultiple="true"
+            category="uk.ac.gda.epics.adviewer.view.category"
+            class="uk.ac.gda.epics.adviewer.views.MJPegView"
+            id="uk.ac.gda.epics.adviewer.mpegview:pv//PSL//BL16B-EA-DET-07@"
+            name="MJPeg View"
             restorable="true">
       </view>
    </extension>
