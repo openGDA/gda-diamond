@@ -18,6 +18,7 @@
 
 package uk.ac.diamond.daq.beamline.k11.view.control;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.eclipse.core.databinding.Binding;
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.UpdateValueStrategy;
@@ -73,10 +75,13 @@ import com.google.common.primitives.Ints;
 import uk.ac.diamond.daq.beamline.k11.Activator;
 import uk.ac.diamond.daq.beamline.k11.handler.CtrlClickToScanHandler;
 import uk.ac.diamond.daq.beamline.k11.view.control.PathSummary.Shape;
+import uk.ac.diamond.daq.mapping.api.IMappingExperimentBean;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegion;
 import uk.ac.diamond.daq.mapping.api.IMappingScanRegionShape;
+import uk.ac.diamond.daq.mapping.region.CentredRectangleMappingRegion;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController;
 import uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController.RegionPathState;
+import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
 
 /**
  * Composite holding the region and path controls for the DIAD Point and Shoot DiffractionScanSelection view
@@ -126,6 +131,7 @@ public class DiffractionPathComposite extends Composite {
 	// the IMappingScanRegionShape type. The latter is used for the controller's region select listener only
 	private SelectObservableValue<Shape> selectedShapeObservable ;
 	private SelectObservableValue<IMappingScanRegionShape> selectedMSRSObservable;
+	private List<MutablePair<Button, IMappingScanRegionShape>> buttonToRegionShape = new ArrayList<>();
 
 	private IObservableValue<Integer> scaleObservableValue;				// Points per side
 	private IObservableValue<String> readoutObservableValue;
@@ -135,8 +141,6 @@ public class DiffractionPathComposite extends Composite {
 	private DataBindingContext viewDBC;		// for bindings valid for the view's lifetime
 	private DataBindingContext regionDBC;	// For bindings that refresh with the region
 
-	private int gridModelIndex = 0;
-
 	private ControlDecoration readoutTextDecoration;
 
 	private LocalResourceManager resManager;
@@ -144,10 +148,22 @@ public class DiffractionPathComposite extends Composite {
 	private final Color invalidEntryColor;
 	private final Image invalidEntryImage;
 
-	private RegionAndPathController controller;
+	private RegionAndPathController rapController;
+	private ScanManagementController smController;
 	private Converters converters;
 	private Composite parent;
 	private final Consumer<RegionPathState> viewUpdater;
+	private final IValueChangeListener<Boolean> randomOffsetListener = new IValueChangeListener<Boolean>() {
+		@Override
+		public void handleValueChange(ValueChangeEvent<? extends Boolean> event) {
+			if (rapController.getScanRegionShape().getClass().equals(CentredRectangleMappingRegion.class)) {
+				smController.updateGridModelIndex((boolean)event.getObservableValue().getValue());
+
+				// Manually trigger the switch between GridModels
+				rapController.triggerRegionUpdate(selectedMSRSObservable);
+			}
+		}
+	};
 
 	public DiffractionPathComposite(Composite parent, int style) {
 		super(parent, style);
@@ -170,9 +186,11 @@ public class DiffractionPathComposite extends Composite {
 
 		// create and initialise the controller to manage updates to the selected region and path
 		viewUpdater = this::updateView;
-		controller = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
-		controller.initialise(Optional.of(viewUpdater), Optional.empty());
-		converters = new Converters(controller, armedColor);
+		rapController = PlatformUI.getWorkbench().getService(RegionAndPathController.class);
+		rapController.initialise(Optional.of(viewUpdater), Optional.empty());
+		converters = new Converters(rapController, armedColor);
+		smController = PlatformUI.getWorkbench().getService(ScanManagementController.class);
+		smController.initialise();
 	}
 
 	/**
@@ -204,10 +222,94 @@ public class DiffractionPathComposite extends Composite {
 		final StyledText summaryText = summaryHolder.getControl(selectionComposite);
 		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(summaryText);
 
-		updateScanPathBindings(controller.getScanRegionShape(), controller.getScanPathModel());
+		updateScanPathBindings(rapController.getScanRegionShape(), rapController.getScanPathModel());
 
-		controller.updatePlotRegion();		// Plot the initial region and path
+		rapController.updatePlotRegion();		// Plot the initial region and path
 		return summaryHolder;
+	}
+
+	/**
+	 * Saves the current mapping bean state using the supplied {@link String} to build a filename which decribes the
+	 * scan content.
+	 *
+	 * @param body	The base name to be used for the reulting filename
+	 */
+	public void save(final String body) {
+		smController.saveScan(smController.buildDescriptiveFilename(body));
+	}
+
+	/**
+	 * Loads the content of the file identified by the fully qualified filename parameter into the mapping bean and
+	 * refreshes the UI to dispay the changes. An update of any linked UIs will also be triggered by the controllers
+	 *
+	 * @param filename	The fully qualified filename of the file to be loaded
+	 */
+	public void load(final String filename) {
+		// When load is called, the existing mapping bean has bindings from
+		// 1. its region shape to selectedShapeObservable
+		// 2. its scanpath to the corresponding mutator checkboxes and the summary text
+		// 3. its fastaxis points count to the readout, scale and summary text
+		// all under regionDBC which will need to be released along with the associated observable values.
+		// This happens automatically in updateView i.e. when the RegionAndPathController's RegionSelector Listener is
+		// triggered which in turn happens as a result of setting the value of selectedMSRSObservable. When this happens,
+		// the new mapping bean needs to be in place as the observable values are regenerated then. Also,
+		// updateRegionShapeBindings (which is called by updateView) uses the controller cached version of ScanRegion
+		// Shape so this too must be up to date by then
+
+		Optional<IMappingExperimentBean> bean = smController.loadScan(filename);
+		if (bean.isPresent()) {
+
+			// after this point we have now received a newly loaded mapping bean which will need to be substituted for
+			// the existing one so that all the configured bindings (that don't belong to regionDBC) can be used
+
+			// First we must update the values of the regions referenced by the selectedMSRSObservable to include the
+			// one from the newly loaded bean. These objects will be the beans that were created by Spring at startup
+			// (until the first load takes place). Because you cannot change the options within a SelectObservable, the
+			// update must be done by creating a new instance of the observable having already replaced the
+			//  corresponding region shape object in the list of those created at startup with the new one.
+
+			IMappingScanRegionShape loadedShape = bean.get().getScanDefinition().getMappingScanRegion().getRegion();
+			boolean noShapeChange = selectedMSRSObservable.getValue().getClass().equals(loadedShape.getClass());
+
+			// make a new observable using the new shape
+			refreshSelectedMSRSObservable(Optional.of(loadedShape));
+
+			// Now refresh the mapping bean provider and trigger the refreshed observable to propagate the update. For
+			// the time being also need to update the grid model index.
+			rapController.setMappingBean(bean.get());
+			rapController.refreshFromMappingBean();
+			smController.updateGridModelIndex();
+			selectedMSRSObservable.setValue(loadedShape);
+
+			// if the shape has not changed, the observable will not propagate the change automatically, so have to do
+			// it manually. It does however update its selection state and selected index which is why we always have
+			// to call it.
+			if (noShapeChange) {
+				rapController.triggerRegionUpdate(selectedMSRSObservable);
+			}
+			rapController.updatePlotRegion();
+		}
+	}
+
+	/**
+	 * Sets the state of the composite radio button observable used to set the region shape when this has happened by
+	 * other means than clicking on of the buttons
+	 *
+	 * @param loadedShape	The new {@link IMappingScanRegionShape} to be reflected by the control
+	 */
+	private void refreshSelectedMSRSObservable(Optional<IMappingScanRegionShape> loadedShape) {
+		if (selectedMSRSObservable != null) {
+			selectedMSRSObservable.removeValueChangeListener(rapController.getRegionSelectorListener());
+			selectedMSRSObservable.dispose();
+		}
+		selectedMSRSObservable = new SelectObservableValue<>();
+		for (MutablePair<Button, IMappingScanRegionShape> pair : buttonToRegionShape) {
+			if (loadedShape.isPresent() && pair.right.getClass().equals(loadedShape.get().getClass())) {
+				pair.setRight(loadedShape.get());
+			}
+			selectedMSRSObservable.addOption(pair.right, getRadioButtonSelectionObservableValue(pair.left));
+		}
+		selectedMSRSObservable.addValueChangeListener(rapController.getRegionSelectorListener());
 	}
 
 	/***
@@ -235,8 +337,7 @@ public class DiffractionPathComposite extends Composite {
 				button.setImage(img);
 				selectedShapeObservable.addOption(
 						Shape.fromRegionName(widgetName), getRadioButtonSelectionObservableValue(button));
-				selectedMSRSObservable.addOption(
-						converters.regionShapeForName(widgetName), getRadioButtonSelectionObservableValue(button));
+				buttonToRegionShape.add(MutablePair.of(button, converters.regionShapeForName(widgetName)));
 			} else {
 				button.setText(widgetName);
 				bindMutatorCheckboxWidget(button, widgetName);
@@ -247,10 +348,10 @@ public class DiffractionPathComposite extends Composite {
 			updateRegionShapeBindings();
 
 			// set up the trigger for the path re-ralculation process to update all affected views
-			selectedMSRSObservable.addValueChangeListener(controller.getRegionSelectorListener());
+			refreshSelectedMSRSObservable(Optional.empty());
 		}
 		else {
-			doRandomOffsetSpecialHandling();	// until the random offset mutator is implemented properly
+			viewDBC.bindValue(mutatorObservableValues.get("Random"), summaryHolder.getRandomOffsetObservableValue());
 		}
 	}
 
@@ -303,13 +404,13 @@ public class DiffractionPathComposite extends Composite {
 	 * and path. This is done whilst the controllers region selector listener is not linked.
 	 */
 	private final void updateView(RegionPathState updated) {
-		selectedMSRSObservable.removeValueChangeListener(controller.getRegionSelectorListener());
+		selectedMSRSObservable.removeValueChangeListener(rapController.getRegionSelectorListener());
 		int index = updated.scanRegionShape().getName().equals(Shape.CENTRED_RECTANGLE.getMappingScanRegionName())
-				? gridModelIndex
+				? smController.getGridModelIndex()
 				: 0;
 		updateScanPathBindings(updated.scanRegionShape(), updated.scanPathList().get(index));
 		updateRegionShapeBindings();
-		selectedMSRSObservable.addValueChangeListener(controller.getRegionSelectorListener());
+		selectedMSRSObservable.addValueChangeListener(rapController.getRegionSelectorListener());
 	}
 
 	/**
@@ -323,8 +424,9 @@ public class DiffractionPathComposite extends Composite {
 	private void updateScanPathBindings(final IMappingScanRegionShape newRegionValue, final IScanPathModel newPathValue) {
 		regionDBC.dispose();
 
-		controller.changePath(newPathValue);
+		rapController.changePath(newPathValue);
 		updatePathMutatorBindings(newPathValue);
+		doRandomOffsetSpecialHandling();
 		boolean alreadyBound = false;
 
 		for (String propertyName : PROPERTIES_FOR_SHAPE.get(Shape.fromRegionName(newRegionValue.getName()))) {
@@ -363,11 +465,11 @@ public class DiffractionPathComposite extends Composite {
 
 		List<IObservableValue<Double>> summaryObservableValues = summaryHolder.getShapeCoordinateObservableValues();
 
-		List<String> fields = FIELDS_MAP.get(controller.getScanRegionShape().getName());
+		List<String> fields = FIELDS_MAP.get(rapController.getScanRegionShape().getName());
 		for (int index = 0; index < summaryObservableValues.size(); index++) {
 			if (index < fields.size()) {
 				bindFromModelToTarget(regionDBC, summaryObservableValues.get(index),
-						BeanProperties.value(fields.get(index)).observe(controller.getScanRegionShape()));
+						BeanProperties.value(fields.get(index)).observe(rapController.getScanRegionShape()));
 			}
 		}
 	}
@@ -396,7 +498,7 @@ public class DiffractionPathComposite extends Composite {
 	}
 
 	/** This handling needs to exist in this form whilst the Random offset grid is not GridModel with a Random
-	 *  Offset mutator appled but a separate RandomOffsetGridModel class.
+	 *  Offset mutator applied but a separate RandomOffsetGridModel class.
 	 */
 	@SuppressWarnings("unchecked")
 	private void doRandomOffsetSpecialHandling() {
@@ -406,26 +508,12 @@ public class DiffractionPathComposite extends Composite {
 		IObservableValue<IScanPathModel> mbPathObservableValue = getMappingBeanPathObservableValue();
 		UpdateValueStrategy strategy = UpdateValueStrategy.create(converters.scanPathToRandomised)
 				.setAfterGetValidator(this::changeGridModelValidator);
-		viewDBC.bindValue(mutatorObservableValues.get("Random"), mbPathObservableValue,
+		regionDBC.bindValue(mutatorObservableValues.get("Random"), mbPathObservableValue,
 				POLICY_NEVER, strategy);
-		viewDBC.bindValue(summaryHolder.getRandomOffsetObservableValue(), mbPathObservableValue,
-				POLICY_NEVER, strategy);
-
 
 		// In addition selection of the Random Offset checkbox needs to manually trigger a RegionSelectorListener
 		// update without changing the actual shape, hence this nasty bit of code.
-		mutatorObservableValues.get("Random").addValueChangeListener(new IValueChangeListener<Boolean>() {
-			@Override
-			public void handleValueChange(ValueChangeEvent<? extends Boolean> event) {
-				if (controller.getScanRegionShape().getName().equalsIgnoreCase(Shape.CENTRED_RECTANGLE.getMappingScanRegionName())) {
-					gridModelIndex = (boolean)event.getObservableValue().getValue() ? 1 : 0;
-
-					// Cruft up an event to trigger the switch between GridModels
-					controller.getRegionSelectorListener().handleValueChange(
-							new ValueChangeEvent<IMappingScanRegionShape>(selectedMSRSObservable, null));
-				}
-			}
-		});
+		mutatorObservableValues.get("Random").addValueChangeListener(randomOffsetListener);
 	}
 
 	/**
@@ -507,9 +595,9 @@ public class DiffractionPathComposite extends Composite {
 	@SuppressWarnings("unchecked")
 	private void bindArmedCheckboxWidget(final Button armedButton) {
 		viewDBC.bindValue(WidgetProperties.selection().observe(armedButton),
-				controller.getMappingBeanClickToScanArmedObservableValue());
+				smController.getClickToScanArmedObservableValue());
 
-		IPlottingService plottingService = controller.getService(IPlottingService.class);
+		IPlottingService plottingService = rapController.getService(IPlottingService.class);
 		IPlottingSystem<Object> mapPlottingSystem = plottingService.getPlottingSystem("Map");
 		Map<Object, String> sourceToColourBoundField = ImmutableMap.of(
 				mapPlottingSystem, "titleColor",
@@ -543,7 +631,7 @@ public class DiffractionPathComposite extends Composite {
 	}
 
 	private IStatus changeGridModelValidator(Object stringContent) {
-		return controller.getScanRegionShape().getName().equalsIgnoreCase(Shape.CENTRED_RECTANGLE.getMappingScanRegionName())
+		return rapController.getScanRegionShape().getName().equalsIgnoreCase(Shape.CENTRED_RECTANGLE.getMappingScanRegionName())
 				? ValidationStatus.ok()
 				: ValidationStatus.error("");
 	}
@@ -606,12 +694,12 @@ public class DiffractionPathComposite extends Composite {
 
 	@SuppressWarnings("unchecked")
 	private IObservableValue<IMappingScanRegionShape> getMappingBeanRegionShapeObservableValue() {
-		return BeanProperties.value("region").observe(controller.getScanRegionFromBean());
+		return BeanProperties.value("region").observe(rapController.getScanRegionFromBean());
 	}
 
 	@SuppressWarnings("unchecked")
 	private IObservableValue<IScanPathModel> getMappingBeanPathObservableValue() {
-		return BeanProperties.value("scanPath").observe(controller.getScanRegionFromBean());
+		return BeanProperties.value("scanPath").observe(rapController.getScanRegionFromBean());
 	}
 
 	private Binding bindFromTargetToModel(final DataBindingContext dbc, final IObservableValue<?> target, final IObservableValue<?> model) {
@@ -625,7 +713,7 @@ public class DiffractionPathComposite extends Composite {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void dispose() {
-		controller.detachViewUpdater(viewUpdater);
+		rapController.detachViewUpdater(viewUpdater);
 		regionDBC.dispose();
 		regionDBC.getBindings().forEach(o -> regionDBC.removeBinding((Binding)o));
 		regionDBC = null;
@@ -641,7 +729,7 @@ public class DiffractionPathComposite extends Composite {
 		mutatorObservableValues.values().forEach(o -> {o.dispose(); o = null;});
 		mutatorObservableValues.clear();
 		mutatorObservableValues = null;
-		selectedMSRSObservable.removeValueChangeListener(controller.getRegionSelectorListener());
+		selectedMSRSObservable.removeValueChangeListener(rapController.getRegionSelectorListener());
 		selectedMSRSObservable.dispose();
 		selectedMSRSObservable = null;
 		selectedShapeObservable.dispose();
@@ -651,4 +739,5 @@ public class DiffractionPathComposite extends Composite {
 		readoutTextDecoration.dispose();
 		readoutTextDecoration = null;
 	}
+
 }

@@ -19,7 +19,7 @@
 package uk.ac.diamond.daq.beamline.k11.view;
 
 import org.dawnsci.mapping.ui.MappedDataView;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.scanning.api.scan.IFilePathService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -27,12 +27,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.dialogs.FilteredTree;
-import org.eclipse.ui.dialogs.PatternFilter;
+import org.eclipse.ui.PlatformUI;
 
 import uk.ac.diamond.daq.beamline.k11.view.control.DiffractionPathComposite;
 import uk.ac.diamond.daq.beamline.k11.view.control.PathSummary;
 import uk.ac.diamond.daq.mapping.ui.experiment.MappingExperimentView;
+import uk.ac.diamond.daq.mapping.ui.experiment.ScanManagementController;
+import uk.ac.diamond.daq.mapping.ui.experiment.file.DescriptiveFilenameBrowserComposite;
 
 
 /**
@@ -47,8 +48,11 @@ public class DiffractionScanSelection extends LayoutUtilities {
 
 	private DiffractionPathComposite diffractionPathComposite;
 	private PathSummary summaryHolder;
+	private ScanManagementController smController;
 
 	public DiffractionScanSelection() {
+		smController = PlatformUI.getWorkbench().getService(ScanManagementController.class);
+		smController.initialise();
 	}
 
 	@Override
@@ -58,7 +62,6 @@ public class DiffractionScanSelection extends LayoutUtilities {
 		buildHeaderComposite(panelComposite);
 		buildDiffractionPathComposite(panelComposite);
 		buildSavedComposite(panelComposite);
-		buildScanButtonsComposite(panelComposite);
 
 		horizGrab().applyTo(new Label(panelComposite, SWT.SEPARATOR | SWT.HORIZONTAL));
 		buildStatusComposite(panelComposite);
@@ -89,26 +92,12 @@ public class DiffractionScanSelection extends LayoutUtilities {
 	private void buildSavedComposite(final Composite parent) {
 		new Label(parent, SWT.NONE).setText("Saved Scan Definitions");
 
-		final Composite savedComposite = addGridComposite(parent, SWT.BORDER);
-
-		final PatternFilter filter = new PatternFilter();
-		final FilteredTree tree = new FilteredTree(savedComposite, SWT.V_SCROLL, filter, true);
-		fillGrab().applyTo(tree);
-
-		final TreeViewer viewer = tree.getViewer();
-		viewer.setContentProvider(new SavedScansContentProvider());
-		viewer.setLabelProvider(new SavedScansLabelProvider());
-		viewer.setInput(getViewSite());
-	}
-
-	private void buildScanButtonsComposite(final Composite parent) {
-		final Composite buttonsComposite = addGridComposite(parent);
-		buttonsComposite.setLayout(new GridLayout(3, false));
-
-		fillGrab().applyTo(new Label(buttonsComposite,SWT.NONE));
-
-		final Button saveButton = new Button(buttonsComposite, SWT.PUSH);
-		saveButton.setImage(getImage("icons/save.png"));
+		final DescriptiveFilenameBrowserComposite savedComposite = new DescriptiveFilenameBrowserComposite(parent, SWT.BORDER);
+		savedComposite.setLayout(new GridLayout());
+		fillGrab().applyTo(savedComposite);
+		savedComposite.populate(smController.getService(IFilePathService.class).getVisitConfigDir(),
+														diffractionPathComposite::load,
+														diffractionPathComposite::save);
 	}
 
 	private void buildStatusComposite(final Composite parent) {
