@@ -1,6 +1,7 @@
 from gdascripts.scan.installStandardScansWithProcessing import *  # @UnusedWildImport
 from gdascripts.watchdogs.watchdogs import enable_watchdogs, disable_watchdogs, list_watchdogs  # @UnusedImport
 from gda.jython.commands.GeneralCommands import run
+from gdascripts.scannable.timerelated import TimeSinceScanStart
 
 print("Initialisation Started");
 
@@ -18,5 +19,10 @@ print("Adding watchdog commands: enable_watchdogs, disable_watchdogs, list_watch
 alias("enable_watchdogs")
 alias("disable_watchdogs")
 alias("list_watchdogs")
+
+# timer scannable
+# e.g. expose d1_det for 1 second every 5 seconds for 1 minute from now:
+# scan timerScannable 0 60 5 d1_det 1
+timerScannable = TimeSinceScanStart("timerScannable")
 
 print("Initialisation Complete")
