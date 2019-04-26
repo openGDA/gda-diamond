@@ -93,7 +93,7 @@ laserxray = LaserShutterPulseController('laserxray', daserver)
 ###############################################################################
 ###                          Print environmental info                       ###
 ###############################################################################
-printJythonEnvironment()
+#printJythonEnvironment()
 
 ###############################################################################
 ###                  Add useful functions and scan commands                 ###
@@ -709,11 +709,13 @@ if installation.isLive():
 ###############################################################################
 
 if USE_YOU_DIFFCALC_ENGINE:
-	run('example/startup/b16fourcircle_you_engine.py')
+	#run('example/startup/b16fourcircle_you_engine.py')
+	print("Diffcalc scripts have been deleted")
 else:
-	run('example/startup/b16fivecircle.py')
-energy.setLevel(4)
-hkl.setLevel(5) #@UndefinedVariable
+	#run('example/startup/b16fivecircle.py')
+	print("Diffcalc scripts have been deleted")
+energy.setLevel(4) # Not sure if need this when there is no diffcalc
+#hkl.setLevel(5) #@UndefinedVariable
 
 
 ###############################################################################
@@ -755,19 +757,20 @@ ipppeak2d = DetectorDataProcessorWithRoi('peak2d', ipp, [TwodGaussianPeak()])
 ippmax2d = DetectorDataProcessorWithRoi('max2d', ipp, [SumMaxPositionAndValue()])
 ippintensity2d = DetectorDataProcessorWithRoi('intensity2d', ipp, [PixelIntensity()])
 
-ipp2peak2d = DetectorDataProcessorWithRoi('ipp2peak2d', ipp2, [TwodGaussianPeak()])
-ipp2max2d = DetectorDataProcessorWithRoi('ipp2max2d', ipp2, [SumMaxPositionAndValue()])
-ipp2intensity2d = DetectorDataProcessorWithRoi('ipp2intensity2d', ipp2, [PixelIntensity()])
-
-ipp2roi1 = DetectorDataProcessorWithRoi('ipp2roi1', ipp2, [SumMaxPositionAndValue()])
-ipp2roi2 = DetectorDataProcessorWithRoi('ipp2roi2', ipp2, [SumMaxPositionAndValue()])
-ipp2roi3 = DetectorDataProcessorWithRoi('ipp2roi3', ipp2, [SumMaxPositionAndValue()])
-#ipp2roi1.setRoi(0,0,50,50)
-
-
-ipp3peak2d = DetectorDataProcessorWithRoi('ipp3peak2d', ipp3, [TwodGaussianPeak()])
-ipp3max2d = DetectorDataProcessorWithRoi('ipp3max2d', ipp3, [SumMaxPositionAndValue()])
-ipp3intensity2d = DetectorDataProcessorWithRoi('ipp3intensity2d', ipp3, [PixelIntensity()])
+if installation.isLive():
+	ipp2peak2d = DetectorDataProcessorWithRoi('ipp2peak2d', ipp2, [TwodGaussianPeak()])
+	ipp2max2d = DetectorDataProcessorWithRoi('ipp2max2d', ipp2, [SumMaxPositionAndValue()])
+	ipp2intensity2d = DetectorDataProcessorWithRoi('ipp2intensity2d', ipp2, [PixelIntensity()])
+	
+	ipp2roi1 = DetectorDataProcessorWithRoi('ipp2roi1', ipp2, [SumMaxPositionAndValue()])
+	ipp2roi2 = DetectorDataProcessorWithRoi('ipp2roi2', ipp2, [SumMaxPositionAndValue()])
+	ipp2roi3 = DetectorDataProcessorWithRoi('ipp2roi3', ipp2, [SumMaxPositionAndValue()])
+	#ipp2roi1.setRoi(0,0,50,50)
+	
+	
+	ipp3peak2d = DetectorDataProcessorWithRoi('ipp3peak2d', ipp3, [TwodGaussianPeak()])
+	ipp3max2d = DetectorDataProcessorWithRoi('ipp3max2d', ipp3, [SumMaxPositionAndValue()])
+	ipp3intensity2d = DetectorDataProcessorWithRoi('ipp3intensity2d', ipp3, [PixelIntensity()])
 
 
 
@@ -1154,32 +1157,33 @@ ai2stop = ScanStopper('ai2stop', ai2thresh)
 #medipix.returnPathAsImageNumberOnly = True
 #LocalProperties.set("gda.data.scan.datawriter.dataFormat", "NexusDataWriter")
 
-print "Setting up Zylar detector from I16"
-zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper(
-		'zylar',
-		_zylar,
-		None,
-		_zylar_for_snaps,
-		[],
-		panel_name_rcp='Plot 2',
-		fileLoadTimout=60,
-		printNfsTimes=False,
-		returnPathAsImageNumberOnly=True)
-
-zylar.display_image = True
-zylarmax2d = DetectorDataProcessorWithRoi('zylarmax2d', zylar, [SumMaxPositionAndValue()])
-zylarpeak2d = DetectorDataProcessorWithRoi('zylarpeak2d', zylar, [TwodGaussianPeak()])
-
-#zylar.processors=[DetectorDataProcessorWithRoi('peak', zylar, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
-#zylar needs scaling factors?
-#zylar.processors[0].processors[1].setScalingFactors(1, 1)
-
-zylarroi1 = DetectorDataProcessorWithRoi('zylarroi1', zylar, [SumMaxPositionAndValue()])
-zylarroi2 = DetectorDataProcessorWithRoi('zylarroi2', zylar, [SumMaxPositionAndValue()])
-zylarroi3 = DetectorDataProcessorWithRoi('zylarroi3', zylar, [SumMaxPositionAndValue()])
-#zylarroi1.setRoi(0,0,50,50)
-
-print "zylar setup"
+if installation.isLive():
+	print "Setting up Zylar detector from I16"
+	zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper(
+			'zylar',
+			_zylar,
+			None,
+			_zylar_for_snaps,
+			[],
+			panel_name_rcp='Plot 2',
+			fileLoadTimout=60,
+			printNfsTimes=False,
+			returnPathAsImageNumberOnly=True)
+	
+	zylar.display_image = True
+	zylarmax2d = DetectorDataProcessorWithRoi('zylarmax2d', zylar, [SumMaxPositionAndValue()])
+	zylarpeak2d = DetectorDataProcessorWithRoi('zylarpeak2d', zylar, [TwodGaussianPeak()])
+	
+	#zylar.processors=[DetectorDataProcessorWithRoi('peak', zylar, [SumMaxPositionAndValue(), TwodGaussianPeakWithCalibration()], False)]
+	#zylar needs scaling factors?
+	#zylar.processors[0].processors[1].setScalingFactors(1, 1)
+	
+	zylarroi1 = DetectorDataProcessorWithRoi('zylarroi1', zylar, [SumMaxPositionAndValue()])
+	zylarroi2 = DetectorDataProcessorWithRoi('zylarroi2', zylar, [SumMaxPositionAndValue()])
+	zylarroi3 = DetectorDataProcessorWithRoi('zylarroi3', zylar, [SumMaxPositionAndValue()])
+	#zylarroi1.setRoi(0,0,50,50)
+	
+	print "zylar setup"
 
 
 ######################################################################################################################################
