@@ -20,8 +20,8 @@
 	</bean>
 
 	<bean id="ab0" class ="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="controlPv" value="FE10I-RS-ABSB-02:BLCON"/>
-		<property name="statusPv" value="FE10I-RS-ABSB-02:STA"/>
+		<property name="controlPv" value="FE10I-RS-ABSB-01:BLCON"/>
+		<property name="statusPv" value="FE10I-RS-ABSB-01:STA"/>
 		<property name="statusPvIndicatesPositionOnly" value="true"/>
 	</bean>
 	<!-- Note: we use EpicsMonitor rather than EpicsPneumaticCallback as we
