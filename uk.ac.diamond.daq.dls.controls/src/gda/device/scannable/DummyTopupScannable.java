@@ -23,9 +23,11 @@ import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.ac.gda.api.remoting.ServiceInterface;
+
 import gda.device.DeviceException;
 import gda.device.Monitor;
+import gda.factory.FactoryException;
+import uk.ac.gda.api.remoting.ServiceInterface;
 
 /**
  * Provides a simulation for the time until topup PV from the machine.
@@ -43,6 +45,14 @@ public class DummyTopupScannable extends ScannableBase implements Monitor {
 	public DummyTopupScannable() {
 		topupTimer = new Timer();
 		topupTimer.schedule(new CountDownTask(), 100, 100);
+	}
+
+	@Override
+	public void configure() throws FactoryException {
+		super.configure();
+
+		this.setInputNames(new String[0]);
+		this.setExtraNames(new String[] { getName() });
 	}
 
 	@Override
