@@ -10,7 +10,7 @@
 		<property name="arrayPv" value="BL14I-EA-DET-03:ARR" />
 		<property name="sleepTime" value="5" />
 		<property name="topUi">
-			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg ref="merlin_camera_control" />
 			</bean>
 		</property>
@@ -32,7 +32,7 @@
             </bean>
         </property>
 		<property name="topUi">
-			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg ref="xreye_camera_control" />
 			</bean>
 		</property>
@@ -44,7 +44,7 @@
 		<property name="arrayPv" value="BL14I-EA-XSP3-01:ARR" />
 		<property name="sleepTime" value="5" />
 		<property name="topUi">
-			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg ref="xsp3_camera_control" />
 			</bean>
 		</property>
@@ -66,7 +66,7 @@
             </bean>
         </property>
 		<property name="topUi">
-			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg ref="sample_camera_control" />
 				<property name="cameraResetScannable" ref="sample_reset" />
 			</bean>
@@ -83,7 +83,7 @@
 		<property name="arrayPv" value="BL14I-OP-DCAM-10:ARR" />
 		<property name="sleepTime" value="5" />
 		<property name="topUi">
-			<bean class="uk.ac.gda.beamline.i14.views.LiveStreamViewCameraControls">
+			<bean class="uk.ac.gda.client.live.stream.view.customui.LiveStreamViewCameraControls">
 				<constructor-arg ref="sample_dtab_camera_control" />
 				<property name="cameraResetScannable" ref="sample_dtab_reset" />
 			</bean>
