@@ -121,7 +121,7 @@
 		Detectors must be created before doing this.
 		ADVISED: do it last or towards the end, scan will now start to run!
 	 -->
-	<import resource="file:${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
+	<import resource="file:${gda.config}/servers/main/_common/solstice_scanning.xml"/>
 
  	<!-- Initialise Jython late on, as localStation refers to beans -->
 	<import resource="jythonServerFacade.xml" />

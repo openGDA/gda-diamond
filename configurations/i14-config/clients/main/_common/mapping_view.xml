@@ -5,7 +5,7 @@
 
 	<!-- Mapping view for I14 including XANES -->
 
-	<bean id="regionAndPathController" class="uk.ac.diamond.daq.mapping.ui.experiment.RegionAndPathController" />
+	<import resource="file://${gda.core.dir}/clients/_common/mapping_controllers.xml" />
 
 	<bean id="mappingViewConfiguration" class="uk.ac.diamond.daq.mapping.ui.experiment.MappingViewConfiguration">
 		<property name="scrolledSections">
