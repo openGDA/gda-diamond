@@ -5,7 +5,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd ">
 
-	<!-- Translations -->
 	<bean id="pco_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="Exposure" />
 		<property name="group" value="PCO Acquire Time" />
@@ -28,13 +27,22 @@
 		<property name="textWidth" value="30" />
 		<property name="userUnits" value="deg"/>
 	</bean>
-	<bean id="pco_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+	<bean id="pco_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableControlWithPrePostActions">
 		<property name="displayName" value="NumFilter" />
 		<property name="group" value="PCO PROC" />
-		<property name="scannableName" value="pco_proc_num_filter" />
+		<property name="scannableName" value="pcoProcNumFilter" />
+		<property name="preActions">
+		 <list>
+		 	<bean class="uk.ac.gda.client.livecontrol.ExtraAction">
+		 		<property name="scannableName" value="pco_proc_reset_filter"/>
+		 		<property name="value" value="1"/>
+		 	</bean>
+		 </list>
+		</property>
 		<property name="textWidth" value="30" />
 		<property name="userUnits" value=""/>
 	</bean>
+
 	<!-- PCO detector control -->
 	<bean id="pcoStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="pco_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); pco_addetector.collectData()" />

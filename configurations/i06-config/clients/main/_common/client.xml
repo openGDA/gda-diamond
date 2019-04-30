@@ -4,7 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-	<import resource="live_controls.xml"/>
+	<import resource="pco_live_controls.xml"/>
+	<import resource="medipix_live_controls.xml"/>
 	
 	<!-- Provides ability to import/find remote objects over RMI -->
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />

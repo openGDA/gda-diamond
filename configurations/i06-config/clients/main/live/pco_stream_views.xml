@@ -3,10 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<description>
-		define all cameras and detectors Live Stream views
-	</description>
-
 	<bean id="pco_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}pcoRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
@@ -20,5 +16,4 @@
 		<property name="roiProvider" ref="pco_roi" />
 		<property name="withHistogram" value="true"/>
 	</bean>
-
 </beans>

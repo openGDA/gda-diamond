@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd ">
+
+	<!-- medipix camera control -->
+	<bean id="medipix_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure" />
+		<property name="group" value="medipix Acquire Time" />
+		<property name="scannableName" value="medipixExposureTime" />
+		<property name="textWidth" value="35"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="medipix_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Period" />
+		<property name="group" value="medipix Acquire Time" />
+		<property name="scannableName" value="medipixAcquirePeriod" />
+		<property name="textWidth" value="35"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="medipix_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableControlWithPrePostActions">
+		<property name="displayName" value="NumFilter" />
+		<property name="group" value="medipix PROC" />
+		<property name="scannableName" value="medipixProcNumFilter" />
+		<property name="preActions">
+		 <list>
+		 	<bean class="uk.ac.gda.client.livecontrol.ExtraAction">
+		 		<property name="scannableName" value="medipix_proc_reset_filter"/>
+		 		<property name="value" value="1"/>
+		 	</bean>
+		 </list>
+		</property>
+		<property name="textWidth" value="30" />
+		<property name="userUnits" value=""/>
+	</bean>
+
+	<!-- medipix mode control -->
+	<bean id="medipixpreview" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="medipixpreview.stop();sleep(1);medipixpreview.getCollectionStrategy().prepareForCollection(0.1, 3, None); medipixpreview.collectData()" />
+		<property name="buttonText" value="Preview" />
+		<property name="group" value="medipix Mode" />
+	</bean>
+	<bean id="medipiximaging" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="medipiximaging.stop();sleep(1);medipiximaging.getCollectionStrategy().prepareForCollection(0.1, 1, None); medipiximaging.collectData()" />
+		<property name="buttonText" value="Imaging" />
+		<property name="group" value="medipix Mode" />
+	</bean>
+
+	<!-- medipix image rotation control -->
+	<bean id="medipix_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Rot.Ang" />
+		<property name="group" value="medipix Rotation" />
+		<property name="scannableName" value="medipixRotationAngle" />
+		<property name="textWidth" value="30" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="medipixunrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="medipix_unrotate()" />
+		<property name="buttonText" value="Unrotate" />
+		<property name="group" value="medipix Rotation" />
+	</bean>
+	<bean id="medipixrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="medipix_rotate()" />
+		<property name="buttonText" value="Rotate" />
+		<property name="group" value="medipix Rotation" />
+	</bean>
+
+	<bean id="medipixCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+		<property name="cameraConfig" ref="medipix_cam"/>
+		<property name="stateVariableName" value="i06.medipix.live.stream.active"/>
+	</bean>
+	<bean id="medipixControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
+		<property name="customWidget">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
+				<property name="liveControls">
+					<list>
+						<ref bean="medipix_expsure_time_control" />
+						<ref bean="medipix_acquire_period_control"/>
+						<ref bean="medipixpreview" />
+						<ref bean="medipiximaging" />
+						<ref bean="medipix_proc_num_filter_control" />
+						<ref bean="medipix_image_rotation_angle_control" />
+						<ref bean="medipixunrotate"/>
+						<ref bean="medipixrotate"/>
+					</list>
+				</property>
+				<property name="cameraState" ref="medipixCameraState"/>
+			</bean>
+		</property>
+	</bean>
+</beans>
