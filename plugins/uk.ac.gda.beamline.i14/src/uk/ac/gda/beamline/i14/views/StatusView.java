@@ -205,9 +205,9 @@ public class StatusView extends ViewPart {
 	 * Used to indicate falling ring current or imminent refill.
 	 */
 	private static class ReadonlyScannableCompositeWithAlarm extends ReadonlyScannableComposite {
-		private Double alarmValue;
-		private Color alarmBackgroundColour = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
-		private Color normalBackgroundColour = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
+		private final Double alarmValue;
+		private static final Color ALARM_BACKGROUND_COLOUR = Display.getCurrent().getSystemColor(SWT.COLOR_RED);
+		private static final Color NORMAL_BACKGROUND_COLOUR = Display.getCurrent().getSystemColor(SWT.COLOR_WHITE);
 
 		public ReadonlyScannableCompositeWithAlarm(Composite parent, int style, Scannable scannable, String label,
 				String units, Integer decimalPlaces, Double alarmValue) {
@@ -222,9 +222,9 @@ public class StatusView extends ViewPart {
 				try {
 					final Double val = Double.valueOf(value);
 					if (val < alarmValue) {
-						text.setBackground(alarmBackgroundColour);
+						text.setBackground(ALARM_BACKGROUND_COLOUR);
 					} else {
-						text.setBackground(normalBackgroundColour);
+						text.setBackground(NORMAL_BACKGROUND_COLOUR);
 					}
 				} catch (NumberFormatException ex) {
 					logger.warn("Non-numeric value in status view", ex);
