@@ -507,7 +507,6 @@ if installation.isLive() and ENABLE_PILATUS:
 									None,
 									_pilatus_for_snaps,
 									[],
-									panel_name='Detector Plot',
 									panel_name_rcp='Plot 1',
 									iFileLoader=PilatusTiffLoader,
 									fileLoadTimout=60,
@@ -515,7 +514,7 @@ if installation.isLive() and ENABLE_PILATUS:
 									returnPathAsImageNumberOnly=True)
 
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
-		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
 		#pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
 		#pil100k.printNfsTimes = True
 
@@ -561,7 +560,6 @@ if installation.isLive():
 																		None,
 																		_medipix_for_snaps,
 																		[],
-																		panel_name='Data Vector',
 																		panel_name_rcp='Plot 1',
 																		iFileLoader=PilatusTiffLoader,
 																		fileLoadTimout=60,
@@ -570,7 +568,7 @@ if installation.isLive():
 		medipix.disable_operation_outside_scans = True
 		medipix_threshold0_kev = SetPvAndWaitForCallbackWithSeparateReadback('medipix_threshold_kev', 'BL16B-EA-DET-06:MPX:ThresholdEnergy0', 'BL16B-EA-DET-06:MPX:ThresholdEnergy0_RBV', 10)
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
-		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], panel_name='Pilatus100k', toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
+		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
 		#pil100k.processors=[DetectorDataProcessorWithRoi('max', pil100k, [SumMaxPositionAndValue()], False)]
 		#pil100k.printNfsTimes = True
 
@@ -604,7 +602,6 @@ if installation.isLive():
 																		None,
 																		_medipix4_for_snaps,
 																		[],
-																		panel_name='Data Vector',
 																		panel_name_rcp='Plot 1',
 																		iFileLoader=PilatusTiffLoader,
 																		fileLoadTimout=60,
@@ -642,7 +639,6 @@ if installation.isLive():
 			                                                             None,
 			                                                             _psl_for_snaps,
 			                                                             [],
-			                                                             panel_name='Data Vector',
 			                                                             panel_name_rcp='Plot 1',
 			                                                             fileLoadTimout=60,
 			                                                             printNfsTimes=False,
@@ -655,7 +651,6 @@ if installation.isLive():
 			                                                       _psl_for_snaps,
 			                                                       "BL16B-EA-DET-07:CAM:RESET.PROC",
 			                                                       [],
-			                                                       panel_name='Data Vector',
 			                                                       panel_name_rcp='Plot 1',
 			                                                       fileLoadTimout=60,
 			                                                       printNfsTimes=False,
@@ -726,7 +721,7 @@ hkl.setLevel(5) #@UndefinedVariable
 ###                          IPP image processor                            ###
 ###############################################################################
 if not installation.isLive():
-	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Data Vector', panel_name_rcp="Plot 1")
+	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name_rcp="Plot 1")
 	#setIPPWrapperDir( '/scratch/ws/trunk/plugins/uk.ac.gda.core/scripts/gdascripts/scannable/detector/dummy/focused_beam_dataset//') #@UndefinedVariable
 	ipp.returnPathAsImageNumberOnly = True
 	def emulateSlowFileSystem(makeSlow = True):
@@ -741,10 +736,10 @@ if not installation.isLive():
 			print "*Not* emulating file system for ipp"
 
 else:
-	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='Data Vector', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
-	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], panel_name='Data Vector', toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
-#	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], panel_name='Data Vector', toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 1')
-	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], panel_name='Secondary Plot', toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 2')
+	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
+	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
+#	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 1')
+	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 2')
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws4, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp, report_path = False))
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws10, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
@@ -787,8 +782,8 @@ ipp3intensity2d = DetectorDataProcessorWithRoi('ipp3intensity2d', ipp3, [PixelIn
 
 
 
-#ipp = ProcessingDetectorWrapper('ipp', ippws4, [p_peak], panel_name='ImageProPlus Plot', toreplace='N:/', replacement='/dls/b16/data/', iFileLoader=ConvertedTIFFImageLoader)
-#ipp_plot_only = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name='ImageProPlus Plot', toreplace='N:/', replacement='/dls/b16/data/', iFileLoader=ConvertedTIFFImageLoader)
+#ipp = ProcessingDetectorWrapper('ipp', ippws4, [p_peak], toreplace='N:/', replacement='/dls/b16/data/', iFileLoader=ConvertedTIFFImageLoader)
+#ipp_plot_only = ProcessingDetectorWrapper('ipp', ippws4, [], toreplace='N:/', replacement='/dls/b16/data/', iFileLoader=ConvertedTIFFImageLoader)
 #p_peak.det = ipp_plot_only
 #p_max.det = ipp_plot_only
 #p_peak.det = ipp_plot_only
@@ -822,7 +817,6 @@ if installation.isLive() and ENABLE_PCOEDGE:
 		None,
 		_pcoedge_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name='Detector Plot',
 		panel_name_rcp='Plot 1',
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
@@ -839,7 +833,6 @@ if installation.isLive() and ENABLE_PCOEDGE:
 		None,
 		_pcoedge_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name='Detector Plot',
 		panel_name_rcp='Plot 1',
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
@@ -857,7 +850,6 @@ if installation.isLive() and ENABLE_PCO4000:
 		None,
 		_pco4000_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name='Detector Plot',
 		panel_name_rcp='Plot 1',
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
@@ -927,7 +919,7 @@ if installation.isLive():
 	ai7prompt=pd_readPvAfterWaiting.ReadPvAfterWaiting("ai7prompt","BL16B-EA-RIM-01:AI7")
 	Braggtemp=pd_readPvAfterWaiting.ReadPvAfterWaiting("Braggtemp","BL16B-OP-DCM-01:TEMP:BRAGG")
 
-	bo1trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo1trig','BL16B-EA-DIO-01:BO1',True )
+	bo1trigBasic = pd_toggleBinaryPvAndWait.ToggleBinaryPvAndWait('bo1trig','BL16B-EA-DIO-01:BO1',False )
 	bo1trigFancy = pd_toggleBinaryPvAndWaitFancy.ToggleBinaryPvAndWaitFancy('bo1trig','BL16B-EA-DIO-01:BO1',True )
 	bo1trig = bo1trigBasic
 
@@ -1057,7 +1049,7 @@ dummy_x = DummyPD("x")
 dummy_x.asynchronousMoveTo(430)
 
 dummy_rawDet = CreateImageReadingDummyDetector.create(dummy_x)
-dummy_det = ProcessingDetectorWrapper('dummy_det', dummy_rawDet, [], panel_name='Detector Plot')
+dummy_det = ProcessingDetectorWrapper('dummy_det', dummy_rawDet, [])
 dummy_det.display_image=False
 dummy_peak2d = DetectorDataProcessor('dummy_peak2d', dummy_det, [TwodGaussianPeak()])
 
@@ -1180,7 +1172,6 @@ zylar = SwitchableHardwareTriggerableProcessingDetectorWrapper(
 		None,
 		_zylar_for_snaps,
 		[],
-		panel_name='Secondary Plot', #no idea?
 		panel_name_rcp='Plot 2',
 		fileLoadTimout=60,
 		printNfsTimes=False,

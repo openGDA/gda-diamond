@@ -6,23 +6,36 @@
 		http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
+	<!-- Chamber Rotate -->
 	<bean id="PAEtaMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-EA-POLAN-01:ETA" />
 	</bean>
 
+	<!-- Crystal Rotary -->
 	<bean id="PAThetaMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-EA-POLAN-01:THETAp" />
 	</bean>
 
+	<!-- Crystal Linear (BL16I-EA-POLAN-01:X) not used -->
+
+	<!-- Detector Carriage Rotate -->
 	<bean id="PADet12thetaMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-EA-POLAN-01:DET1:2THETAp" />
 	</bean>
 
+	<!-- Detector Select -->
 	<bean id="PADet22thetaMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-EA-POLAN-01:DET2:2THETAp" />
+	</bean>
+
+	<!-- Detector Rotate -->
+	<bean id="PAChiMotor"
+			class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL16I-EA-POLAN-01:DET2:CHI" />
+		<property name="local" value="true" />
 	</bean>
 </beans>
