@@ -26,19 +26,6 @@
 		<property name="motor" ref="m1_yaw_motor" />
 	</bean>
 	
-	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
-		<property name="groupMembers">
-			<list>
-				<ref bean="m1_x" />
-				<ref bean="m1_y" />
-				<ref bean="m1_roll" />
-				<ref bean="m1_pitch" />
-				<ref bean="m1_yaw" />
-			</list>
-		</property>
-	</bean>
-	
-	
 	<!-- RAW MOTION -->
 
 	<bean id="m1_x1" class="gda.device.scannable.ScannableMotor">
@@ -60,10 +47,15 @@
 	<bean id="m1_y3" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="m1_y3_motor" />
 	</bean>
-
-	<bean id="m1_raw_motion" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	
+	<bean id="m1" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
+				<ref bean="m1_x" />
+				<ref bean="m1_y" />
+				<ref bean="m1_roll" />
+				<ref bean="m1_pitch" />
+				<ref bean="m1_yaw" />
 				<ref bean="m1_x1" />
 				<ref bean="m1_x2" />
 				<ref bean="m1_y1" />
