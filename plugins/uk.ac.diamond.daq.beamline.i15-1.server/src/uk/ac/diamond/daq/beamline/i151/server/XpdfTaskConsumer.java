@@ -18,7 +18,6 @@
 
 package uk.ac.diamond.daq.beamline.i151.server;
 
-import static org.eclipse.scanning.api.event.EventConstants.STATUS_SET;
 import static org.eclipse.scanning.api.event.EventConstants.STATUS_TOPIC;
 
 import java.net.URI;
@@ -67,8 +66,7 @@ public class XpdfTaskConsumer {
 		try {
 			final URI uri = new URI(LocalProperties.getActiveMQBrokerURI());
 
-			IConsumer<TaskBean> consumer = eventService.createConsumer(uri, QueueConstants.XPDF_TASK_QUEUE,
-					STATUS_SET, STATUS_TOPIC);
+			IConsumer<TaskBean> consumer = eventService.createConsumer(uri, QueueConstants.XPDF_TASK_QUEUE, STATUS_TOPIC);
 			consumer.setRunner(new ProcessCreator());
 			consumer.setName("XPDF Task Runner consumer");
 			consumer.start();

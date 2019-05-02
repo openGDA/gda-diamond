@@ -72,7 +72,6 @@ public class PointAndShoot implements IPerspectiveFactory {
 		String queueViewId = StatusQueueView.createId(LocalProperties.get(LocalProperties.GDA_ACTIVEMQ_BROKER_URI, ""),
 				"org.eclipse.scanning.api",
 				"org.eclipse.scanning.api.event.status.StatusBean",
-				EventConstants.STATUS_SET,
 				EventConstants.STATUS_TOPIC,
 				EventConstants.SUBMISSION_QUEUE);
 
