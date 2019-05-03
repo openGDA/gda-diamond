@@ -1,5 +1,7 @@
 # Scripts for running XANES scanning in dummy mode
 
+from time import sleep
+
 def run_xanes_scan_request(scanRequest, xanesEdgeParams):
     print("Running XANES scan")
     print("scanRequest = {0}".format(scanRequest))
@@ -37,6 +39,7 @@ def run_xanes_scan_request(scanRequest, xanesEdgeParams):
         scan_name = "XANES scan {0} of {1}".format(i, num_scans)
         print("{0} = {1}".format(scan_name, scanRequest))
         submit(scanRequest, block=False, name=scan_name)
+        sleep(2)
 
         # Set up for next scan
         dcm_start = dcm_start + dcm_step
