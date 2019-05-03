@@ -33,10 +33,15 @@ def setTurboSlitShutterPositions(openPos, closePos) :
 
 from gda.epics import CAClient
 def configureFastShutter() :
+    # format of the readback position from epics
+    posRbvFormat = "%.5f"
     upperDemandPv="BL20J-EA-FSHTR-01:P3201"
     lowerDemandPv="BL20J-EA-FSHTR-01:P3202"
-    upperPos = str(CAClient.get(upperDemandPv))
-    lowerPos = str(CAClient.get(lowerDemandPv))
+    # make sure upper and lower positions match format of readback value 
+    # or position lookup in EpicsSimplePostioner will fail.... 19/2/2019
+    upperPos = posRbvFormat%float(CAClient.get(upperDemandPv))
+    lowerPos = posRbvFormat%float(CAClient.get(lowerDemandPv))
+
     # fast_shutter.setPositions({})
     fast_shutter.setValues( { "Open":upperPos, "Close":lowerPos} )
     print fast_shutter.getName()," positions :",fast_shutter.getValues()

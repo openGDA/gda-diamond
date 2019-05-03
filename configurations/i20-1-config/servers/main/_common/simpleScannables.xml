@@ -39,5 +39,25 @@
 	<bean id="iy_noisy" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="iy_noisy_motor" />
 	</bean>			
+
+	<bean id="dummy_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="run_scan_end_processing" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>true</value>
+				<value>false</value>
+			</list>
+		</property>
+		<property name="timeToMove" value="0" />
+		<property name="position" value="false" />
+	</bean>
 </beans>
 

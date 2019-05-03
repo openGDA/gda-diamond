@@ -62,14 +62,16 @@ metashop = Finder.getInstance().find("metashop")
 # Misc. TurboXAS related beans
 zebra_gatePulsePreparer=finder.find("zebra_gatePulsePreparer")
 zebra_device=finder.find("zebra_device")
+zebra_device2=finder.find("zebra_device2")
 trajscan_preparer=finder.find("trajscan_preparer")
 
 #Copy encoder positions to zebra (in case any motors have been re-homed)
-print "Copying encoder motor positions to Zebra"
-zebra_device.encCopyMotorPosToZebra(1)
-zebra_device.encCopyMotorPosToZebra(2)
-zebra_device.encCopyMotorPosToZebra(3)
-zebra_device.encCopyMotorPosToZebra(4)
+print "Copying encoder motor positions in Zebras"
+for zebra in [ zebra_device , zebra_device2 ]:
+    zebra.encCopyMotorPosToZebra(1)
+    zebra.encCopyMotorPosToZebra(2)
+    zebra.encCopyMotorPosToZebra(3)
+    zebra.encCopyMotorPosToZebra(4)
 
 print "Stopping tfg and setting it to use scaler64 collection mode"
 das4tfg.sendCommand("tfg stop")
@@ -148,3 +150,9 @@ twotheta.setAirBearingScannable(None)
 
 openCloseShutterDuringScan.setSleepTimeMs(500)
 
+print "Setting up 'scan_end_processor' to process data at end of scans"
+run "ScanEndScriptRunner.py"
+scan_end_processor=ScanEndScriptRunner("scan_end_processor", '/dls_sw/apps/dawn_autoprocessing/autoprocess' )
+scan_end_processor.setProcessingOnOffPositioner(run_scan_end_processing)
+add_default scan_end_processor
+    
