@@ -72,7 +72,6 @@
 	<!-- =========================================================== -->
 	
 	<!-- beam -->
-	<import resource="file:${gda.config}/servers/main/_common/beam/beam_scannable.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/beam/energy.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/beam/kb_mirrors.xml" />
 	
@@ -115,7 +114,7 @@
 	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 	
 	<import resource="file:${gda.config}/servers/main/_common/experiment_driver.xml" />
-	
+
 	<!--
 		Mapping scans
 		IMPORTANT: this will start processing the scanning queue.
