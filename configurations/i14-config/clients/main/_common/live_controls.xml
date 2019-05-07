@@ -99,6 +99,8 @@
 				<entry key="On-axis sample camera out" value="Beamline/EndstationConfigurations/out_camera2.py"/>
 				<entry key="Diffraction position 1" value="Beamline/EndstationConfigurations/in_xrd1.py"/>
 				<entry key="Diffraction position 2" value="Beamline/EndstationConfigurations/in_xrd2.py"/>
+				<entry key="Run after restart" value="Beamline/EndstationConfigurations/run_after_restart.py"/>
+				<entry key="Clear common faults" value="Beamline/EndstationConfigurations/clear_common_faults.py"/>
 			</map>
 		</property>
 	</bean>
