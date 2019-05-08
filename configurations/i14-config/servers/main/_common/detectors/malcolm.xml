@@ -46,6 +46,12 @@
 		<property name="description" value="Xspress III fine motors Malcolm scan" />
 	</bean>
 
+	<!-- Xspress3 combined coarse/fine scan -->
+	<bean id="malcolmInfoXsp3CoarseFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XSP3 coarse/fine Malcolm" />
+		<property name="description" value="Xspress III combined coarse and fine motors Malcolm scan" />
+	</bean>
+
 	<!-- Merlin -->
 	<bean id="malcolmInfoMerlinCoarse" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Merlin Malcolm coarse" />

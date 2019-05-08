@@ -131,6 +131,25 @@
 		<property name="activated" value="false" />
 	</bean>
 
+	<!--  Xspress3 coarse/fine scan -->
+	<bean id="malcolmModelXsp3CoarseFine" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL14I-ML-SCAN-11" />
+		<property name="exposureTime" value="0.01" />
+		<property name="axesToMove">
+			<list>
+				<value>SampleX</value>
+				<value>SampleY</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="malcolmDeviceXsp3CoarseFine" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name" value="BL14I-ML-SCAN-11" />
+		<property name="model" ref="malcolmModelXsp3CoarseFine" />
+		<property name="deviceInformation" ref="malcolmInfoXsp3CoarseFine" />
+		<property name="activated" value="false" />
+	</bean>
+
 	<!-- Merlin -->
 	<bean id="malcolmModelMerlinCoarse" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
 		<property name="name" value="BL14I-ML-SCAN-02" />
