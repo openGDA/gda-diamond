@@ -18,12 +18,8 @@
 
 package uk.ac.gda.dls.client.feedback;
 
-import java.io.File;
+import java.util.Arrays;
 
-import javax.activation.CommandMap;
-import javax.activation.MailcapCommandMap;
-import javax.mail.internet.MimeMessage;
-import gda.configuration.properties.LocalProperties;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -55,10 +51,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
 
+import gda.configuration.properties.LocalProperties;
+import gda.util.Email;
 import uk.ac.gda.dls.client.Activator;
 
 public class FeedbackDialog extends TitleAreaDialog {
@@ -162,66 +157,33 @@ public class FeedbackDialog extends TitleAreaDialog {
 					protected IStatus run(IProgressMonitor monitor) {
 
 						try{
-							final String recipientsProperty = LocalProperties.get("gda.feedback.recipients","dag-group@diamond.ac.uk");
-							final String[] recipients = recipientsProperty.split(" ");
-							for (int i=0; i<recipients.length; i++) {
-								recipients[i] = recipients[i].trim();
-							}
+							final String recipientsProperty = LocalProperties.get("gda.feedback.recipients", "dag-group@diamond.ac.uk");
+							final String[] recipients = Arrays.stream(recipientsProperty.split(" "))
+									.map(String::trim)
+									.toArray(String[]::new);
 
-							final String from = String.format("%s <%s>", name, email);
-
-							final String beamlineName = LocalProperties.get("gda.beamline.name","Beamline Unknown");
+							final String beamlineName = LocalProperties.get("gda.beamline.name", "Beamline Unknown");
 							final String mailSubject = String.format("[GDA feedback - %s] %s", beamlineName.toUpperCase(), subject);
 
-							final String smtpHost = LocalProperties.get("gda.feedback.smtp.host","localhost");
-
-							JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-							mailSender.setHost(smtpHost);
-
-							MimeMessage message = mailSender.createMimeMessage();
-							final MimeMessageHelper helper = new MimeMessageHelper(message, (FeedbackDialog.this.hasFiles && fileList.length > 0) || FeedbackDialog.this.screenshot);
-							helper.setFrom(from);
-							helper.setTo(recipients);
-							helper.setSubject(mailSubject);
-							helper.setText(description);
+							Email emailMessage = new Email().subject(mailSubject)
+									.to(recipients)
+									.from(name, email)
+									.message(description)
+									.attach(fileList);
 
 							if (FeedbackDialog.this.screenshot) {
-								PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-
-									@Override
-									public void run() {
+								PlatformUI.getWorkbench().getDisplay().syncExec(() -> {
 										String fileName = "/tmp/feedbackScreenshot.png";
-										try {
-											captureScreen(fileName);
-											FileSystemResource file = new FileSystemResource(new File(fileName));
-											helper.addAttachment(file.getFilename(), file);
-										} catch (Exception e) {
-											logger.error("Could not attach screenshot to feedback", e);
-										}
-									}
+										captureScreen(fileName);
+										emailMessage.attach(fileName);
 								});
 							}
-
-							if (FeedbackDialog.this.hasFiles) {
-								for (String fileName : fileList) {
-									FileSystemResource file = new FileSystemResource(new File(fileName));
-									helper.addAttachment(file.getFilename(), file);
-								}
-							}
-
-							{//required to workaround class loader issue with "no object DCH..." error
-								MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
-								mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
-								mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
-								CommandMap.setDefaultCommandMap(mc);
-							}
-							mailSender.send(message);
+							emailMessage.send();
 							return Status.OK_STATUS;
 						} catch(Exception ex){
 							logger.error("Could not send feedback", ex);
 							return new Status(IStatus.ERROR, Activator.PLUGIN_ID, 1, "Error sending email", ex);
 						}
-
 					}
 				};
 
