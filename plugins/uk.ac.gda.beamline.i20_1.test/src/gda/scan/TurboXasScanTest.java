@@ -51,6 +51,8 @@ import gda.device.motor.DummyMotor;
 import gda.device.scannable.ScannableMotor;
 import gda.device.scannable.TurboXasScannable;
 import gda.device.timer.Etfg;
+import gda.device.trajectoryscancontroller.DummyTrajectoryScanController;
+import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteStatus;
 import gda.device.zebra.controller.Zebra;
 import gda.device.zebra.controller.impl.ZebraDummy;
 import gda.factory.Factory;
@@ -133,16 +135,32 @@ public class TurboXasScanTest extends EdeTestBase {
 		dummyMotor.setPosition(0);
 		dummyMotor.configure();
 
+		TrajectoryScanPreparer trajectoryScanPreparer = new TrajectoryPreparerForTest();
+		trajectoryScanPreparer.setTrajectoryScanController(new DummyTrajectoryScanController());
+
 		turboXasScannable = new TurboXasScannableForTesting();
 		turboXasScannable.setName("turboXasScannable");
 		turboXasScannable.setMotor(dummyMotor);
 		turboXasScannable.setZebraDevice(dummyZebra);
+		turboXasScannable.setTrajectoryScanPreparer(trajectoryScanPreparer);
 
 		setupXSpress3();
 
 		testMotor = createMotor("testMotor", 4.20);
 
 		setupFinder();
+	}
+
+	/**
+	 * Version of trajectory preparer that doesn't run the scan (dummy controller setExecuteProfile always takes 5 seconds to run),
+	 * and just sets the execute status to 'SUCCESS'.
+	 */
+	private class TrajectoryPreparerForTest extends TrajectoryScanPreparer{
+		@Override
+		public void setExecuteProfile() {
+			DummyTrajectoryScanController controller = (DummyTrajectoryScanController) getTrajectoryScanController();
+			controller.setExecuteStatus(ExecuteStatus.SUCCESS);
+		}
 	}
 
 	public void setupXSpress3() throws FactoryException {

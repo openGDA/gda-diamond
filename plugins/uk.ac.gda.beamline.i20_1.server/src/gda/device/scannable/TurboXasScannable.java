@@ -455,4 +455,19 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	public void setTrajectoryScanPreparer(TrajectoryScanPreparer trajectoryScanPrepaper) {
 		this.trajectoryScanPreparer = trajectoryScanPrepaper;
 	}
+
+	/**
+	 * Move motor to a position by doing a trajectory scan with a single point in the profile.
+	 * @param position
+	 * @param timeForMove
+	 * @throws Exception
+	 */
+	public void moveWithTrajectoryScan(double position, double timeForMove) throws Exception {
+		trajectoryScanPreparer.setDefaults();
+		trajectoryScanPreparer.clearTrajectoryLists();
+		trajectoryScanPreparer.addPointToTrajectory(position, timeForMove, 3);
+		trajectoryScanPreparer.sendProfileValues();
+		trajectoryScanPreparer.setBuildProfile();
+		trajectoryScanPreparer.setExecuteProfile();
+	}
 }

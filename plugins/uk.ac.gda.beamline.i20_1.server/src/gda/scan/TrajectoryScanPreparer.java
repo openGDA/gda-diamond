@@ -479,7 +479,7 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 		trajectoryVelocityModes = velocityModeProfileValues;
 	}
 
-	private void clearTrajectoryLists() {
+	public void clearTrajectoryLists() {
 		trajectoryPositions.clear();
 		trajectoryTimes.clear();
 		trajectoryVelocityModes.clear();
