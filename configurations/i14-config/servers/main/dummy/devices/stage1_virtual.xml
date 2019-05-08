@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="SampleX_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="position" value="10.519" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+	<bean id="SampleY_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000" />
+		<property name="maxPosition" value="1000" />
+		<property name="position" value="1.175" />
+		<property name="unitString" value="mm" />
+	</bean>
+
+</beans>
