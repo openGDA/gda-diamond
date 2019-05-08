@@ -29,6 +29,12 @@
 		<property name="armPutNoWait" value="true" />
 	</bean>
 
+	<bean id="zebra_device2" class="gda.device.zebra.controller.impl.ZebraImpl">
+		<property name="name" value="zebra_device2" />
+		<property name="zebraPrefix" value="BL20J-EA-ZEBRA-02:"/>
+		<property name="armPutNoWait" value="true" />
+	</bean>
+
 <!-- Zebra gate and pulse preparer bean. 12/1/2017 -->
 	<bean id="zebra_gatePulsePreparer" class="gda.device.zebra.ZebraGatePulsePreparer">
 		<property name="name" value="zebra_gatePulsePreparer" />
@@ -56,6 +62,7 @@
 	<bean id="turbo_xas_slit" class="gda.device.scannable.TurboXasScannable">
 		<property name="motor" ref="turbo_slit_x_motor" />
 		<property name="zebraDevice" ref="zebra_device" />
+		<property name="zebraDevice2" ref="zebra_device2" />
 		<property name="zebraGatePulsePreparer" ref="zebra_gatePulsePreparer" />
 		<property name="trajectoryScanPreparer" ref="trajscan_preparer" />
 	</bean>

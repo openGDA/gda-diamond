@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 			<bean id = "_limaTangoDevice" class="gda.device.impl.TangoDeviceImpl">
-				<constructor-arg value="tango://172.23.90.197:20000/dls/limaccds/frelon1" />
+				<constructor-arg value="tango://10.90.0.5:20000/dls/limaccds/frelon1" />
 			</bean>
 			
 			<bean id = "limaTangoDevice" class="gda.device.impl.TangoDeviceLogger">
@@ -12,7 +12,7 @@
 			</bean>		
 
 			<bean id = "_frelonTangoDevice" class="gda.device.impl.TangoDeviceImpl">
-				<constructor-arg value="tango://172.23.90.197:20000/dls/frelon/frelon1" />
+				<constructor-arg value="tango://10.90.0.5:20000/dls/frelon/frelon1" />
 			</bean>
 			<bean id = "frelonTangoDevice" class="gda.device.impl.TangoDeviceLogger">
 				<constructor-arg ref="_frelonTangoDevice" />	

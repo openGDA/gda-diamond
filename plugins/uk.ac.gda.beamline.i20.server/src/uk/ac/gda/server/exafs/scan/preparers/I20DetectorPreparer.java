@@ -672,7 +672,12 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		return new MonoEnergyRange(bean.getInitialEnergy(), bean.getFinalEnergy());
 	}
 
-	private MonoEnergyRange getMonoRange(XanesScanParameters bean) {
+	private MonoEnergyRange getMonoRange(XanesScanParameters bean) throws DeviceException {
+		if (xesMode) {
+			// Xes mode with Xanes scan for spectrometer energy : mono is already in correct position
+			double braggEnergy = (double) monoOptimiser.getBraggScannable().getPosition();
+			return new MonoEnergyRange(braggEnergy, braggEnergy);
+		}
 		return new MonoEnergyRange(bean.getInitialEnergy(), bean.getFinalEnergy());
 	}
 
@@ -682,14 +687,14 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			monoScanBean = XMLHelpers.getBean(new File(bean.getScanFileName()));
 		} catch (Exception e) {
 			logger.error("Problem loading XML file {} for XesScan : {}", bean.getScanFileName(),e.getMessage(), e);
-			throw new Exception(e);
+			throw e;
 		}
 		return monoScanBean;
 	}
 
 	private MonoEnergyRange getMonoRange(XesScanParameters bean) throws Exception {
 		int scanType = bean.getScanType();
-		if (scanType == XesScanParameters.SCAN_XES_FIXED_MONO) {
+		if (scanType == XesScanParameters.SCAN_XES_FIXED_MONO || scanType == XesScanParameters.SCAN_XES_REGION_FIXED_MONO) {
 			return new MonoEnergyRange(bean.getMonoEnergy(), bean.getMonoEnergy());
 		}else if (scanType == XesScanParameters.SCAN_XES_SCAN_MONO) {
 			return new MonoEnergyRange(bean.getMonoInitialEnergy(), bean.getMonoFinalEnergy());

@@ -337,6 +337,7 @@ public class TurboXasParametersTest {
 		serializedXmlString.append("  </detectors>\n");
 
 		serializedXmlString.append("  <useTrajectoryScan>"+parameters.getUseTrajectoryScan()+"</useTrajectoryScan>\n");
+		serializedXmlString.append("  <twoWayScan>"+parameters.isTwoWayScan()+"</twoWayScan>\n");
 
 		if (parameters.getTimingGroups() != null) {
 			parameters.getTimingGroups().forEach( timingGroup -> {

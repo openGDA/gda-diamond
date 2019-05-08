@@ -21,6 +21,7 @@ package gda.scan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,6 +31,7 @@ import java.util.Map;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.nexus.NexusException;
+import org.eclipse.january.dataset.Dataset;
 import org.eclipse.january.dataset.IDataset;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -73,6 +75,8 @@ public class TurboXasScanTest extends EdeTestBase {
 	private Xspress3Detector xspress3detector;
 	private Xspress3BufferedDetector xspress3bufferedDetector;
 	private ScannableMotor testMotor;
+	private boolean twoWayScan;
+
 	public static final String BUFFERED_SCALER_NAME = "bufferedScaler";
 	public static final String[] BUFFERED_SCALER_FIELDS = { "frame_time", "I0", "It", "Iref" };
 
@@ -216,15 +220,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		runScan(scan);
 
 		String nxsFile = scan.getDataWriter().getCurrentFileName();
-		int numPointsPerSpectrum = numReadouts-1;
-		int[] expectedDims = new int[]{1, numPointsPerSpectrum};
-		for(String name : bufferedScaler.getExtraNames()) {
-			assertDimensions(nxsFile, bufferedScaler.getName(), name, expectedDims);
-			checkDataValidRange(nxsFile, bufferedScaler.getName(), name, new RangeValidator(0, 1, true, false) );
-		}
-		assertDimensions(nxsFile, bufferedScaler.getName(), TurboXasNexusTree.FRAME_INDEX, new int[]{numPointsPerSpectrum});
-		assertDimensions(nxsFile, bufferedScaler.getName(), TurboXasNexusTree.ENERGY_COLUMN_NAME, new int[]{numPointsPerSpectrum});
-		assertDimensions(nxsFile, bufferedScaler.getName(), TurboXasNexusTree.POSITION_COLUMN_NAME, new int[]{numPointsPerSpectrum});
+		checkDetectorNexusData(nxsFile, bufferedScaler.getName(), 1, numReadouts);
 	}
 
 	private TurboXasParameters getTurboXasParameters() {
@@ -249,6 +245,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	/** Run TurboXasScan, first setting poll interval to small value so tests run quicker */
 	private void runScan(TurboXasScan scan) throws InterruptedException, Exception {
 		scan.setPollIntervalMillis(0);
+		twoWayScan = scan.isTwoWayScan();
 		scan.runScan();
 	}
 
@@ -261,7 +258,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	}
 
 	public int getNumPointsPerSpectrum(TurboXasParameters params) {
-		return (int) ((params.getEndPosition()-params.getStartPosition())/params.getPositionStepSize()) - 1;
+		return (int) ((params.getEndPosition()-params.getStartPosition())/params.getPositionStepSize());
 	}
 
 
@@ -279,6 +276,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		motorParameters.setMotorParametersForTimingGroup(0);
 		turboXasScannable.setMotorParameters(motorParameters);
 		TurboXasScan scan = new TurboXasScan(turboXasScannable, motorParameters, new BufferedDetector[]{bufferedScaler});
+		scan.setTwoWayScan(true);
 		runScan(scan);
 
 		String nexusFilename = scan.getDataWriter().getCurrentFileName();
@@ -400,7 +398,7 @@ public class TurboXasScanTest extends EdeTestBase {
 
 		int numEnergies = getNumPointsPerSpectrum(parameters);
 		int numSpectra = parameters.getTotalNumSpectra();
-		int numFields = bufferedScaler.getExtraNames().length + 2; // 2 fields for Xspress3 - FF and FF_sum/I0
+		int numFields = bufferedScaler.getExtraNames().length + xspress3bufferedDetector.getExtraNames().length + 1; // Xspress3 has extra value : FF_sum/I0
 		int numAxisColumns = 3; // index, position, energy
 
 		String asciiFileName = scan.getAsciiDataWriter().getAsciiFilename();
@@ -442,7 +440,27 @@ public class TurboXasScanTest extends EdeTestBase {
 
 	private void checkScanData(String nexusFilename, String detectorGroup, String name, int[] expectedDims) throws NexusException {
 		assertDimensions(nexusFilename, detectorGroup, name, expectedDims);
-		checkDataValidRange(nexusFilename, detectorGroup, name, new RangeValidator(0, 1, true, false) );
+		RangeValidator rangeValidator = new RangeValidator(0, 1, true, false);
+
+		// Check all values in a Dataset to make sure they are all within expected range
+		Dataset dataset = (Dataset) getDataset(nexusFilename, detectorGroup, name);
+		for(int i=0; i<expectedDims[0]; i++) {
+			// Set index in row where NaN is expected (last value for single directional scans)
+			int nanIndex = expectedDims[1]-1;
+			// Two way scan alternates NaN values at start/end of the row
+			if (twoWayScan && i%2==1) {
+				nanIndex=0;
+			}
+			for(int j=0; j<expectedDims[1]; j++) {
+				Double datasetVal = dataset.getDouble(i, j);
+				if (j==nanIndex) {
+					assertTrue("Value "+datasetVal+" at index "+nanIndex+" is not NaN", datasetVal.isNaN());
+				} else {
+					assertTrue("Value "+datasetVal+" is not >=0 ", rangeValidator.valueOk(datasetVal));
+				}
+			}
+		}
+		logger.info("Data in {}/{} is ok", detectorGroup, name);
 	}
 
 	private void checkScalerNexusData(String nexusFilename, int numSpectra, int numPointsPerSpectrum) throws NexusException {

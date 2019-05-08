@@ -9,6 +9,7 @@
     <xesStepSize>1.0</xesStepSize>
     <xesIntegrationTime>1.0</xesIntegrationTime>
     <monoEnergy>15000.0</monoEnergy>
+    <loopChoice>Ef outer, E0 inner</loopChoice>
     <monoInitialEnergy>2000.0</monoInitialEnergy>
     <monoFinalEnergy>15000.0</monoFinalEnergy>
     <monoStepSize>0.01</monoStepSize>

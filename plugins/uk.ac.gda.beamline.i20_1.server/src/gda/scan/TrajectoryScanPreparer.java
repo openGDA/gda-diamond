@@ -65,6 +65,11 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 
 	private List<Integer> trajectoryVelocityModes = new ArrayList<>();
 
+	private boolean twoWayScan = false;
+
+	/** Rundown time at end of spectrum when doing two way scans */
+	private double timeForRundown = 0.0025;
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if( getName() == null || getName().isEmpty())
@@ -150,22 +155,93 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 	 */
 	public void addPointsForTimingGroups(TurboXasMotorParameters motorParameters) {
 		List<TurboSlitTimingGroup> timingGroups = motorParameters.getScanParameters().getTimingGroups();
-		int numTimingGroups = timingGroups.size();
 
 		// Calculate motor parameters (positions and velocities) for first timing group only
 		// (positions are same for each group, and times used to set trajectory scan come directly from timing group list)
 		motorParameters.setMotorParametersForTimingGroup(0);
-		double startDelta = motorParameters.getScanStartPosition()-motorParameters.getStartPosition();
-		double endDelta = motorParameters.getEndPosition() - motorParameters.getScanEndPosition();
 
 		clearTrajectoryLists();
-		for(int i=0; i<numTimingGroups; i++) {
-			TurboSlitTimingGroup timingGroup = timingGroups.get(i);
-
-			addSpectrumToTrajectorySubdivide(motorParameters.getScanStartPosition(), motorParameters.getScanEndPosition(), startDelta, endDelta,
-				timingGroup.getTimePerSpectrum(), timingGroup.getTimeBetweenSpectra(), timingGroup.getNumSpectra(), i == 0);
-
+		if (twoWayScan) {
+			List<TurnaroundParameters> turnParams = createTurnaroundParameters(motorParameters, timingGroups);
+			addSpectraBiDirectional(motorParameters, timingGroups, turnParams);
+		} else {
+			addSpectraMonoDirectional(motorParameters, timingGroups);
 		}
+	}
+
+	/**
+	 * Calculate the runup/down distances and times for each spectrum in bi-directional scan.
+	 * The rundown distance is adjusted to match the runup of next spectrum, to make sure
+	 * end/start positions between timing groups match up.
+	 * @param motorParams
+	 * @return
+	 */
+	public List<TurnaroundParameters> createTurnaroundParameters(TurboXasMotorParameters motorParams, List<TurboSlitTimingGroup> timingGroups) {
+
+		// Create a list of turnaround parameters for each spectrum in each timing group.
+		List<TurnaroundParameters> turnaroundParams = new ArrayList<>();
+		timingGroups.forEach( timingGroup -> {
+			for(int i=0; i<timingGroup.getNumSpectra(); i++) {
+				turnaroundParams.add(new TurnaroundParameters(motorParams, timingGroup));
+			}
+		});
+
+		// Adjust rundown distances so they match runup distance of next spectrum
+		// This is because final rundown distance of a group != runup distance of next group if time per spectrum is different
+		for(int i=0; i<turnaroundParams.size()-1; i++) {
+			double nextRunup = turnaroundParams.get(i+1).getRunupDistance();
+			turnaroundParams.get(i).setRundownDistance(nextRunup);
+			turnaroundParams.get(i).showParameters();
+		}
+		return turnaroundParams;
+	}
+
+	public void addSpectraBiDirectional(TurboXasMotorParameters motorParameters, List<TurboSlitTimingGroup> timingGroups, List<TurnaroundParameters> turnaroundParams) {
+
+		double userStart = motorParameters.getScanStartPosition();
+		double userEnd = motorParameters.getScanEndPosition();
+
+		// Move to initial position, use fixed time (should be slow enough to not cause trouble with the motor)
+		double sweepDirection = userStart < userEnd ? 1 : -1;
+		addPointToTrajectory(userStart - sweepDirection * turnaroundParams.get(0).getRunupDistance(), maxTimePerStep, 3);
+
+		int spectrumNumber = 0;
+		for(TurboSlitTimingGroup timingGroup : timingGroups) {
+			double timeForSpectrum = timingGroup.getTimePerSpectrum();
+			int numRepetitions = timingGroup.getNumSpectra();
+
+			// Add the spectra,
+			for (int i = 0; i < numRepetitions; i++) {
+				double startPos = userStart;
+				double endPos = userEnd;
+				// flip start and end positions on 'reverse' sweep.
+				if (spectrumNumber % 2 == 1) {
+					startPos = userEnd;
+					endPos = userStart;
+				}
+				addSpectrumToTrajectoryRunupDown(startPos, endPos, timeForSpectrum, turnaroundParams.get(spectrumNumber));
+				spectrumNumber++;
+			}
+		}
+	}
+
+	public void addSpectrumToTrajectoryRunupDown(double spectrumStart, double spectrumEnd, double timeForSpectrum, TurnaroundParameters turnparams) {
+
+		double sweepDirection = spectrumStart < spectrumEnd ? 1 : -1;
+		Double[] positions = {spectrumStart-sweepDirection*turnparams.getRunupDistance(), spectrumStart, spectrumEnd, spectrumEnd+sweepDirection*turnparams.getRundownDistance() };
+
+		// Move to start of spectrum sweep
+		addPointToTrajectory(positions[1], turnparams.getRunupTime(), 1);
+
+		// Spectrum sweep (subdivide if necessary)
+		int numStepsForSpectrum = numStepsForSpectrumSweep;
+		if (useMaxTimePerStep && maxTimePerStep>0) {
+			numStepsForSpectrum = (int) Math.ceil(timeForSpectrum / maxTimePerStep);
+		}
+		addSubdividedStep(positions[1], positions[2], timeForSpectrum, numStepsForSpectrum, 1);
+
+		// Move to the turnaround position
+		addPointToTrajectory(positions[3], turnparams.getRundownTime(), 3);
 	}
 
 	/**
@@ -178,18 +254,28 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 	 * @param timeBetweenSpectra
 	 * @param numRepetitions
 	 */
-	public void addSpectrumToTrajectorySubdivide(double userStart, double userEnd, double startDelta, double endDelta,
-			double timeForSpectrum, double timeBetweenSpectra, int numRepetitions, boolean firstGroup) {
+	public void addSpectraMonoDirectional(TurboXasMotorParameters motorParameters, List<TurboSlitTimingGroup> timingGroups) {
 
-		int startIndex = 0;
-		if (firstGroup) {
-			// First spectrum of first group includes move to initial position
-			addSpectrumToTrajectorySubdivide(userStart, userEnd, startDelta, endDelta, timeForSpectrum, timeBetweenSpectra, true);
-			startIndex = 1;
-		}
+		double userStart = motorParameters.getScanStartPosition();
+		double userEnd = motorParameters.getScanEndPosition();
+		double startDelta = motorParameters.getScanStartPosition() - motorParameters.getStartPosition();
+		double endDelta = motorParameters.getEndPosition() - motorParameters.getScanEndPosition();
 
-		for(int i=startIndex; i<numRepetitions; i++) {
-			addSpectrumToTrajectorySubdivide(userStart, userEnd, startDelta, endDelta, timeForSpectrum, timeBetweenSpectra, false);
+		// Move to initial position, use fixed time (should be slow enough to not cause
+		// trouble with the motor)
+		double sweepDirection = userStart < userEnd ? 1 : -1;
+		addPointToTrajectory(userStart - sweepDirection * startDelta, maxTimePerStep, 3);
+
+		for(TurboSlitTimingGroup timingGroup : timingGroups) {
+			double timeForSpectrum = timingGroup.getTimePerSpectrum();
+			int numRepetitions = timingGroup.getNumSpectra();
+
+			double timeBetweenSpectra = timingGroup.getTimeBetweenSpectra();
+
+			// Add the spectra, include motor return back to start position
+			for (int i = 0; i < numRepetitions; i++) {
+				addSpectrumToTrajectorySubdivide(userStart, userEnd, startDelta, endDelta, timeForSpectrum, timeBetweenSpectra);
+			}
 		}
 	}
 
@@ -207,7 +293,7 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 	 * since move back to start is added at end of each spectrum sweep)
 	 */
 	public void addSpectrumToTrajectorySubdivide(double userStart, double userEnd, double startDelta, double endDelta,
-			double timeForSpectrum, double timeBetweenSpectra, boolean includeMoveToInitialPosition) {
+			double timeForSpectrum, double timeBetweenSpectra) {
 
 		Double[] positions = {userStart-startDelta, userStart, userEnd, userEnd+endDelta};
 		double vSweep = (userEnd - userStart)/timeForSpectrum;
@@ -217,11 +303,6 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 
 		Double[] times= {timeForReturn, timeToUserStart, timeForSpectrum, timeForEnd};
 		Integer[] velocityModes = {3, 1, 1, 1};
-
-		// Move to initial position, use fixed time (should be slow enough to not cause trouble with the motor)
-		if (includeMoveToInitialPosition) {
-			addPointToTrajectory(positions[0], maxTimePerStep, velocityModes[0]);
-		}
 
 		int numStepsForSpectrum = numStepsForSpectrumSweep;
 		int numStepsForReturn = numStepsForReturnSweep;
@@ -261,65 +342,6 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 		for(int i=0; i<numSteps; i++) {
 			pos += posStep;
 			addPointToTrajectory(pos, timePerstep, velocityMode);
-		}
-	}
-
-	/**
-	 * Add linear profile to trajectory (velocity based).
-	 * Trajectory runs from userStart-startDelta to userEnd+endDelta and is broken into 3 segments;
-	 * times for each point are computed from velocities vSweep (for + direction move) and and vReturn
-	 * for move (back) to first position.
-	 * @param userStart
-	 * @param userEnd
-	 * @param startDelta
-	 * @param endDelta
-	 * @param vSweep
-	 * @param vReturn
-	 * @param numRepetitions
-	 */
-	public void addSpectrumToTrajectory(double userStart, double userEnd, double startDelta, double endDelta,
-			double vSweep, double vReturn, int numRepetitions) {
-
-		Double[] positions = {userStart-startDelta, userStart, userEnd, userEnd+endDelta};
-
-		double timeToUserStart = (positions[1]-positions[0])/vSweep;
-		double timeForSpectrum = (positions[2]-positions[1])/vSweep;
-		double timeForEnd = (positions[3]-positions[2])/vSweep;
-		double timeForReturn = (positions[3]-positions[0])/vReturn;
-
-		Double[] times= {timeForReturn, timeToUserStart, timeForSpectrum, timeForEnd};
-		Integer[] velocityModes = {3, 1, 1, 1};
-
-		for(int i=0; i<numRepetitions; i++) {
-			addPointsToTrajectory(positions, times, velocityModes);
-		}
-	}
-
-	/**
-	 * Add linear profile to trajectory (time based).
-	 * Trajectory runs from userStart-startDelta to userEnd+endDelta and is broken into 3 segments;
-	 * times for each point are calculated from timeForSpectrum, timeBetween parameters.
-	 * @param userStart
-	 * @param userEnd
-	 * @param startDelta
-	 * @param endDelta
-	 * @param timeForSpectrum
-	 * @param timeBetweenSpectra
-	 * @param numRepetitions
-	 */
-	public void addSpectrumToTrajectoryTimes(double userStart, double userEnd, double startDelta, double endDelta,
-			double timeForSpectrum, double timeBetweenSpectra,	int numRepetitions) {
-
-		Double[] positions = {userStart-startDelta, userStart, userEnd, userEnd+endDelta};
-		double vSweep = (userEnd - userStart)/timeForSpectrum;
-		double timeToUserStart = (positions[1]-positions[0])/vSweep;
-		double timeForEnd = (positions[3]-positions[2])/vSweep;
-		double timeForReturn = timeBetweenSpectra - (timeToUserStart + timeForEnd);
-
-		Double[] times= {timeForReturn, timeToUserStart, timeForSpectrum, timeForEnd};
-		Integer[] velocityModes = {3, 1, 1, 1};
-		for(int i=0; i<numRepetitions; i++) {
-			addPointsToTrajectory(positions, times, velocityModes);
 		}
 	}
 
@@ -503,4 +525,80 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 		this.trajScanController = trajScanController;
 	}
 
+	public boolean isTwoWayScan() {
+		return twoWayScan;
+	}
+
+	public void setTwoWayScan(boolean twoWayScan) {
+		this.twoWayScan = twoWayScan;
+	}
+
+	public double getTimeForRundown() {
+		return timeForRundown;
+	}
+
+	public void setTimeForRundown(double minTimeForRundown) {
+		this.timeForRundown = minTimeForRundown;
+	}
+
+	private class TurnaroundParameters {
+		private double runupDistance;
+		private double rundownDistance;
+		private double runupTime;
+		private double frameTime;
+		private double spectrumVelocity;
+		private double spectrumTime;
+		private double rundownTime = timeForRundown;
+
+		public TurnaroundParameters(TurboXasMotorParameters motorParameters, TurboSlitTimingGroup timingGroup) {
+			calculateParameters(motorParameters, timingGroup);
+		}
+
+		/**
+		 * Calculate the runup/down times and positions.
+		 * Rundown time is fixed, runup distance and time are calculated based on time between spectra and spectrum velocity. i.e.
+		 * <li> runupTime = timePerSpectrum - rundownTIme - frameTime;
+		 * <li> runupDistance = spectrumVelocity * runupTime;
+		 * @param motorParameters
+		 * @param timingGroup
+		 */
+		public void calculateParameters(TurboXasMotorParameters motorParameters, TurboSlitTimingGroup timingGroup) {
+			spectrumVelocity = Math.abs(motorParameters.getScanEndPosition() - motorParameters.getScanStartPosition()) / timingGroup.getTimePerSpectrum();
+			frameTime = motorParameters.getPositionStepsize() / spectrumVelocity; // time take to travel across 1 zebra encoder pulse
+			runupTime = timingGroup.getTimeBetweenSpectra() - timeForRundown - frameTime;
+			runupDistance = spectrumVelocity * runupTime;
+			rundownDistance = runupDistance;
+		}
+
+		public void showParameters() {
+			logger.debug("Runup/down distances : {} , {} mm", runupDistance, runupDistance);
+			logger.debug("Times  : frame {}, runup = {}, rundown = {} sec", frameTime, runupTime, rundownTime);
+			logger.debug("Spectrum velocity : {} mm/sec", spectrumVelocity);
+			logger.debug("Accels : runup = {}, rundown = {} mm/sec^2", spectrumVelocity / runupTime, spectrumVelocity / rundownTime);
+		}
+
+		public void setRundownDistance(double rundownDistance) {
+			this.rundownDistance = rundownDistance;
+		}
+
+		public double getTimePerSpectrum() {
+			return spectrumTime;
+		}
+
+		public double getRundownDistance() {
+			return rundownDistance;
+		}
+
+		public double getRunupDistance() {
+			return runupDistance;
+		}
+
+		public double getRunupTime() {
+			return runupTime;
+		}
+
+		public double getRundownTime() {
+			return rundownTime;
+		}
+	}
 }

@@ -1,3 +1,5 @@
+import sys
+
 limaCcd = frelon.getLimaCcd()
 
 def showInfo(infoString, command) :
@@ -22,5 +24,5 @@ def resetFrelonToInternalTriggerMode() :
         frelon.getDetectorData().setTriggerMode(triggerMode)
         limaCcd.setAcqTriggerMode(triggerMode)
         print "Done"
-    except DeviceException as err :
-        print "Problem resetting frelon trigger mode : ",err
+    except :
+        print "Problem resetting frelon trigger mode : ",sys.exc_info()[0]

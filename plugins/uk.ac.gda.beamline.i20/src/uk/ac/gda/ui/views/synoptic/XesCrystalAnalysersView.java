@@ -75,6 +75,7 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 		createMotorControls(parent);
 		createRadiusControls(parent);
 		createCrystalCutControls(parent);
+		createCrystalSelectControls(parent);
 		createArrows(parent);
 		createLabels(parent);
 
@@ -175,6 +176,19 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 		createEnumControl(group, "   l", "cut3");
 
 		setWidgetPosition(group, 0, 52, 150);
+	}
+
+	private void createCrystalSelectControls(Composite parent) {
+		Group group = new Group(parent, SWT.NONE);
+		group.setLayout(new GridLayout(2, false));
+		group.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1));
+		group.setText("Analyser crystals to move");
+
+		createEnumControl(group, "Crystal -1", "minusCrystalAllowedToMove");
+		createEnumControl(group, "Crystal  0", "centreCrystalAllowedToMove");
+		createEnumControl(group, "Crystal  1", "plusCrystalAllowedToMove");
+
+		setWidgetPosition(group, 100, 25);
 	}
 
 	private void createArrows(Composite parent) throws IOException {

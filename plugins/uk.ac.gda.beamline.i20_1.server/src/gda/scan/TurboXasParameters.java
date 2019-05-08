@@ -113,6 +113,8 @@ public class TurboXasParameters {
 
 	private boolean useTrajectoryScan;
 
+	private boolean twoWayScan;
+
 	private List<TurboSlitTimingGroup> timingGroups;
 
 	/** Scannables to be monitored during scan : key = name of scannable, value = PV with value to record (optional) */
@@ -169,6 +171,7 @@ public class TurboXasParameters {
 		detectors = new String[]{"scaler_for_zebra"};
 		writeAsciiData = false;
 		fastShutterName = "fast_shutter";
+		twoWayScan = false;
 	}
 
 	// Getters, setters...
@@ -309,6 +312,14 @@ public class TurboXasParameters {
 
 	public void setUseTrajectoryScan(boolean useTrajectoryScan) {
 		this.useTrajectoryScan = useTrajectoryScan;
+	}
+
+	public boolean isTwoWayScan() {
+		return twoWayScan;
+	}
+
+	public void setTwoWayScan(boolean twoWayScan) {
+		this.twoWayScan = twoWayScan;
 	}
 
 	/**
@@ -632,6 +643,8 @@ public class TurboXasParameters {
 		if (!listWithFastShutter.isEmpty()) {
 			scan.setShutter(listWithFastShutter.get(0));
 		}
+
+		scan.setTwoWayScan(twoWayScan);
 
 		return scan;
 	}

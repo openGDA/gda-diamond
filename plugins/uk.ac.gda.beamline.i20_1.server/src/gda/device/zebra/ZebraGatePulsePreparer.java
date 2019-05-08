@@ -184,6 +184,22 @@ public class ZebraGatePulsePreparer extends FindableBase {
 		this.numReadoutsForScan = numReadoutsForScan;
 	}
 
+	public double getScanStartMotorPosition() {
+		return scanStartMotorPosition;
+	}
+
+	public void setScanStartMotorPosition(double scanStartMotorPosition) {
+		this.scanStartMotorPosition = scanStartMotorPosition;
+	}
+
+	public void setScanMotorRange(double scanMotorRange) {
+		this.scanMotorRange = scanMotorRange;
+	}
+
+	public double getScanMotorRange() {
+		return scanMotorRange;
+	}
+
 	public void setZebraDevice(Zebra zebraDevice) {
 		this.zebraDevice = zebraDevice;
 	}

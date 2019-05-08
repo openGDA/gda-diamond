@@ -185,8 +185,6 @@ public class TurboXasMotorParameters {
 
 		setMotorParametersForTimingGroup(scanParameters.getTimingGroups().get(timingGroupIndex));
 
-		calculateSetPositionStepSize();
-
 	}
 
 	/**
@@ -234,11 +232,17 @@ public class TurboXasMotorParameters {
 			scanEndPosition = getPositionForEnergy(scanParameters.getEndEnergy());
 		}
 
-		scanMotorSpeed =  getScanSpeed(timeForSpectrum);
-		// determine direction of motor move
+		calculateSetPositionStepSize();
+
 		double scanMotorDirection = 1.0;
 		if ( scanEndPosition - scanStartPosition < 0 )
 			scanMotorDirection = -1.0;
+
+		// update end position so it can accommodate a whole number of steps
+		scanEndPosition = scanStartPosition + scanMotorDirection*numReadoutsForScan*positionStepsize;
+
+		scanMotorSpeed =  getScanSpeed(timeForSpectrum);
+		// determine direction of motor move
 
 		// ramp up distance and initial motor position
 		double timeToVelocity = getMotorTimeToVelocity();
@@ -261,7 +265,11 @@ public class TurboXasMotorParameters {
 		} else {
 			positionStepsize = getResolutionLimitedStepSize();
 		}
-		numReadoutsForScan = Math.abs((int) Math.floor(getScanPositionRange()/positionStepsize));
+		if (Math.abs(positionStepsize) < stepsizeResolution) {
+			numReadoutsForScan = 0;
+		} else {
+			numReadoutsForScan = Math.abs((int) Math.floor(getScanPositionRange()/positionStepsize));
+		}
 	}
 
 	/**
@@ -271,6 +279,9 @@ public class TurboXasMotorParameters {
 	 */
 	public double getResolutionLimitedStepSize() {
 		double numStepsFromEnergy = Math.floor(scanParameters.getEndEnergy() - scanParameters.getStartEnergy())/scanParameters.getEnergyStep();
+		if (numStepsFromEnergy==0) {
+			return 0;
+		}
 		double nonRoundedPositionStepsize = getScanPositionRange()/numStepsFromEnergy;
 		return Math.floor(nonRoundedPositionStepsize/stepsizeResolution)*stepsizeResolution;
 	}
