@@ -19,6 +19,7 @@
 	</bean>
 
 	<!-- Excalibur software: using Malcolm to collect data; GDA moves all devices -->
+	<!--
 	<bean id="malcolmModelExcaliburSoftware" class="org.eclipse.scanning.api.device.models.MalcolmModel">
 		<property name="name" value="BL14I-ML-EXCBR-01" />
 		<property name="exposureTime" value="0.01" />
@@ -30,6 +31,7 @@
 		<property name="deviceInformation" ref="malcolmInfoExcaliburSoftware" />
 		<property name="activated" value="false" />
 	</bean>
+	-->
 
 	<!-- Excalibur hardware (coarse motors) -->
 	<bean id="malcolmModelExcaliburHardwareCoarse" class="org.eclipse.scanning.api.device.models.MalcolmModel">

@@ -6,72 +6,74 @@
 
 	<!-- Xspress3 coarse -->
 	<bean id="malcolmInfoXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XSP3 coarse Malcolm" />
-		<property name="description" value="Xspress III coarse Malcolm scan" />
+		<property name="label" value="XSP3 coarse" />
+		<property name="description" value="Xspress III coarse scan" />
 	</bean>
 
 	<!-- Excalibur software: using Malcolm to collect data; GDA moves all devices -->
+	<!--
 	<bean id="malcolmInfoExcaliburSoftware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Excalibur Malcolm software" />
 		<property name="description" value="Malcolm Excalibur for software scanning" />
 	</bean>
+	-->
 
 	<!-- Excalibur hardware (coarse motors) -->
 	<bean id="malcolmInfoExcaliburHardwareCoarse" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Excalibur Malcolm hardware coarse" />
-		<property name="description" value="Malcolm Excalibur for true hardware scanning (coarse motors)" />
+		<property name="label" value="Excalibur coarse" />
+		<property name="description" value="Excalibur for true hardware scanning (coarse motors)" />
 	</bean>
 
 	<!-- Excalibur hardware (fine motors) -->
 	<bean id="malcolmInfoExcaliburHardwareFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Excalibur Malcolm hardware fine" />
-		<property name="description" value="Malcolm Excalibur for true hardware scanning (fine motors)" />
+		<property name="label" value="Excalibur fine" />
+		<property name="description" value="Excalibur for true hardware scanning (fine motors)" />
 	</bean>
 
-	<!-- Combined Excalibur/Xspress3 Malcolm hardware scanning -->
+	<!-- Combined Excalibur/Xspress3 hardware scanning -->
 	<bean id="malcolmInfoExcaliburXsp3" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Excalibur/XSP3 Malcolm hardware" />
-		<property name="description" value="Malcolm combined Excalibur and Xspress3 hardware scanning" />
+		<property name="label" value="Excalibur/XSP3" />
+		<property name="description" value="Combined Excalibur and Xspress3 hardware scanning" />
 	</bean>
 
 	<!-- XRF TetrAMM scan -->
 	<bean id="malcolmInfoXrfTetrAMM" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XRF TetrAMM Malcolm" />
-		<property name="description" value="Malcolm XRF TetrAMM scanning" />
+		<property name="label" value="XRF TetrAMM" />
+		<property name="description" value="XRF TetrAMM scanning" />
 	</bean>
 
 	<!-- Xspress3 fine scan -->
 	<bean id="malcolmInfoXsp3Fine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XSP3 fine Malcolm" />
-		<property name="description" value="Xspress III fine motors Malcolm scan" />
+		<property name="label" value="XSP3 fine" />
+		<property name="description" value="Xspress III fine motors scan" />
 	</bean>
 
 	<!-- Xspress3 combined coarse/fine scan -->
 	<bean id="malcolmInfoXsp3CoarseFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XSP3 coarse/fine Malcolm" />
-		<property name="description" value="Xspress III combined coarse and fine motors Malcolm scan" />
+		<property name="label" value="XSP3 coarse/fine" />
+		<property name="description" value="Xspress III combined coarse and fine motors scan" />
 	</bean>
 
 	<!-- Merlin -->
 	<bean id="malcolmInfoMerlinCoarse" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Merlin Malcolm coarse" />
-		<property name="description" value="Merlin Malcolm coarse scan" />
+		<property name="label" value="Merlin coarse" />
+		<property name="description" value="Merlin coarse scan" />
 	</bean>
 
 	<bean id="malcolmInfoMerlinFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Merlin Malcolm fine" />
-		<property name="description" value="Merlin Malcolm fine scan" />
+		<property name="label" value="Merlin fine" />
+		<property name="description" value="Merlin fine scan" />
 	</bean>
 
 	<!-- Xspress3/Merlin -->
 	<bean id="malcolmInfoXsp3MerlinCoarse" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XSP3/Merlin Malcolm coarse" />
-		<property name="description" value="Combined XSP3 and Merlin Malcolm coarse scan" />
+		<property name="label" value="XSP3/Merlin coarse/fine" />
+		<property name="description" value="Combined XSP3 and Merlin coarse/fine scan" />
 	</bean>
 
 	<bean id="malcolmInfoXsp3MerlinFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="XSP3/Merlin Malcolm fine" />
-		<property name="description" value="Combined XSP3 and Merlin Malcolm fine scan" />
+		<property name="label" value="XSP3/Merlin fine" />
+		<property name="description" value="Combined XSP3 and Merlin fine scan" />
 	</bean>
 
 </beans>

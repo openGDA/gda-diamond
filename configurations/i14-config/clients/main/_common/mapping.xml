@@ -38,6 +38,7 @@
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
 				 -->
+				 <!--
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="Excalibur GDA" />
 					<constructor-arg name="model">
@@ -58,8 +59,9 @@
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
+				-->
  				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Xspress3" />
+					<constructor-arg name="name" value="Xspress3 software" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 							<property name="name" value="xsp3_addetector" />
@@ -68,6 +70,7 @@
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
+				<!--
  				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
 					<constructor-arg name="name" value="X-ray Eye" />
 					<constructor-arg name="model">
@@ -78,6 +81,7 @@
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
 				</bean>
+				-->
 			</list>
 		</property>
 		<property name="scriptFiles">
