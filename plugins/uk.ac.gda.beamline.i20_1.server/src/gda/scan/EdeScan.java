@@ -354,7 +354,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		moveMotorDuringScan = false;
 		if (motorPositions instanceof EdeScanMotorPositions) {
 			EdeScanMotorPositions scanMotorPositions = (EdeScanMotorPositions)motorPositions;
-			List<Double> motorPositionsToScan = scanMotorPositions.getMotorPositionsDuringScan();
+			List<Object> motorPositionsToScan = scanMotorPositions.getMotorPositionsDuringScan();
 			motorToMoveDuringScan = scanMotorPositions.getScannableToMoveDuringScan();
 
 			// Record position of the motor in Nexus file
@@ -366,7 +366,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			if (lightItScan && motorToMoveDuringScan !=null && motorPositionsToScan != null && motorPositionsToScan.size()>0) {
 				int count = 1;
 				moveMotorDuringScan = true;
-				for(Double pos : motorPositionsToScan) {
+				for(Object pos : motorPositionsToScan) {
 					logger.info("Moving motor {} to position {} (step {} of {})...", motorToMoveDuringScan.getName(), pos, count++, motorPositionsToScan.size());
 					motorToMoveDuringScan.moveTo(pos);
 					collectDetectorData();

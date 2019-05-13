@@ -203,28 +203,31 @@ public abstract class EdeExperimentDataWriter {
 
 			for(Scannable scn : extraScannables) {
 
-				logger.debug("Adding data for scannable {}", scn.getName());
+				logger.debug("Adding data for scannable {}...", scn.getName());
 
 				// Extract values from the 'raw' dataset corresponding to the 'light It' spectra
-				String scannableName = scn.getName();
-				IDataset rawData = getDataset(file, detectorName, scannableName);
-				List<Double> values = new ArrayList<>();
-				for(int i=0; i<totalNumSpectra; i++) {
-					if (lightIt.getInt(i) == 1) {
-						values.add( rawData.getDouble(i));
+				for(String datasetName : scn.getInputNames()) {
+					logger.debug("   Adding dataset {}", datasetName);
+
+					IDataset rawData = getDataset(file, detectorName, datasetName);
+					List<Double> values = new ArrayList<>();
+					for(int i=0; i<totalNumSpectra; i++) {
+						if (lightIt.getInt(i) == 1) {
+							values.add( rawData.getDouble(i));
+						}
 					}
-				}
 
-				// Create new dataset and add it to the first detector group ((lnI0It)
-				Dataset scannableValues = DatasetFactory.createFromList(values);
-				addDataset(file, detectorGroupList[0], scannableName, scannableValues);
+					// Create new dataset and add it to the first detector group ((lnI0It)
+					Dataset scannableValues = DatasetFactory.createFromList(values);
+					addDataset(file, detectorGroupList[0], datasetName, scannableValues);
 
-				// Add links to the dataset in the other groups
-				String source = "/entry1/"+detectorGroupList[0]+"/"+scannableName;
-				for(int i=1; i<detectorGroupList.length; i++) {
-					String pathToGroup = "/entry1/"+detectorGroupList[i];
-					if (file.isPathValid(pathToGroup)) {
-						file.link(source, "/entry1/"+detectorGroupList[i]+"/"+scannableName);
+					// Add links to the dataset in the other groups
+					String source = "/entry1/"+detectorGroupList[0]+"/"+datasetName;
+					for(int i=1; i<detectorGroupList.length; i++) {
+						String pathToGroup = "/entry1/"+detectorGroupList[i];
+						if (file.isPathValid(pathToGroup)) {
+							file.link(source, "/entry1/"+detectorGroupList[i]+"/"+datasetName);
+						}
 					}
 				}
 

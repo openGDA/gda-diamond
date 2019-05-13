@@ -835,6 +835,12 @@ public abstract class EdeExperiment implements IObserver {
 		return itScanParameters;
 	}
 
+	public void setItScannnablePositions(Scannable scn, List<Object> positions) {
+		EdeScanMotorPositions motorPos = getItScanPositions();
+		motorPos.setScannableToMoveDuringScan(scn);
+		motorPos.setMotorPositionsDuringScan(positions);
+	}
+
 	public void setItTriggerOptions(String itTriggerOptionsString) {
 		this.itTriggerOptions = gson.fromJson(itTriggerOptionsString, TFGTrigger.class);
 	}

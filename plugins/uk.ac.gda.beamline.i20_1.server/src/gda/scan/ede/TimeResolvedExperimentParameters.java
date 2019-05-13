@@ -1,12 +1,15 @@
 package gda.scan.ede;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.InputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
@@ -21,6 +24,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import gda.device.DeviceException;
 import gda.factory.FactoryException;
+import gda.factory.Finder;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.EdeScanPosition;
 import gda.scan.ede.position.ExplicitScanPositions;
@@ -81,6 +85,10 @@ public class TimeResolvedExperimentParameters {
 	private boolean hideLemoFields;
 
 	private Map<String, String> scannablesToMonitorDuringScan;
+
+	private boolean collectMultipleItSpectra;
+	private String scannableToMoveForItScan;
+	private List<List<Double>> positionsForItScan;
 
 	public Map<String, String> getScannablesToMonitorDuringScan() {
 		return scannablesToMonitorDuringScan;
@@ -270,8 +278,34 @@ public class TimeResolvedExperimentParameters {
 	 * @return
 	 */
 	public static TimeResolvedExperimentParameters fromXML(String xmlString) {
+		logger.debug("Creating parameters from XML string {}", xmlString);
+
 		XStream xstream = getXStream();
-		return (TimeResolvedExperimentParameters) xstream.fromXML(xmlString);
+		TimeResolvedExperimentParameters parameters = (TimeResolvedExperimentParameters) xstream.fromXML(xmlString);
+
+		//Setup the I0, It scan position (maps with scannable motor as key and and position as the value)
+		// and copy over to parameters.
+		EdeScanMotorPositions motorPos = new EdeScanMotorPositions();
+		try {
+			motorPos = (EdeScanMotorPositions) parameters.getI0ScanPosition();
+			if (motorPos != null) {
+				motorPos.setupScannablePositionMap();
+				parameters.setI0MotorPositions(motorPos.getPositionMap());
+			}
+			motorPos = (EdeScanMotorPositions) parameters.getItScanPosition();
+			if (motorPos != null) {
+				motorPos.setupScannablePositionMap();
+				parameters.setItMotorPositions(motorPos.getPositionMap());
+			}
+			motorPos = (EdeScanMotorPositions) parameters.getiRefScanPosition();
+			if (motorPos != null) {
+				motorPos.setupScannablePositionMap();
+				parameters.setiRefMotorPositions(motorPos.getPositionMap());
+			}
+		} catch (DeviceException e) {
+			logger.warn("Problem setting up {} scannable position map.", motorPos.getType(), e);
+		}
+		return parameters;
 	}
 
 	public String toXML() {
@@ -283,35 +317,21 @@ public class TimeResolvedExperimentParameters {
 		return xstream.toXML(this);
 	}
 
-	public static TimeResolvedExperimentParameters loadFromFile(String fname) throws FileNotFoundException {
-		InputStream in = new FileInputStream(fname);
-		XStream xstream = getXStream();
-		TimeResolvedExperimentParameters newParams = (TimeResolvedExperimentParameters)xstream.fromXML(in);
+	public static TimeResolvedExperimentParameters loadFromFile(String fname) throws IOException {
+		logger.debug("Loading parameters from file {}", fname);
 
-		//Setup the I0, It scan position (maps with scannable motor as key and and position as the value)
-		// and copy over to parameters.
-		EdeScanMotorPositions motorPos = new EdeScanMotorPositions();
-		try {
-			motorPos = (EdeScanMotorPositions) newParams.getI0ScanPosition();
-			if (motorPos!=null) {
-				motorPos.setupScannablePositionMap();
-				newParams.setI0MotorPositions( motorPos.getPositionMap() );
+		StringBuilder xmlString = new StringBuilder();
+		try(BufferedReader bufferedReader = new BufferedReader(new FileReader(fname))) {
+			String line;
+			while( (line = bufferedReader.readLine()) != null ) {
+				xmlString.append(line);
 			}
-			motorPos = (EdeScanMotorPositions) newParams.getItScanPosition();
-			if (motorPos!=null) {
-				motorPos.setupScannablePositionMap();
-				newParams.setItMotorPositions( motorPos.getPositionMap() );
-			}
-			motorPos = (EdeScanMotorPositions) newParams.getiRefScanPosition();
-			if (motorPos!=null) {
-				motorPos.setupScannablePositionMap();
-				newParams.setiRefMotorPositions( motorPos.getPositionMap() );
-			}
-		} catch (DeviceException e) {
-				logger.warn("Problem setting up {} scannable position map.", motorPos.getType(), e);
+		} catch (IOException e) {
+			logger.error("Problem loading parameters from {}", fname, e);
+			throw e;
 		}
 
-		return newParams;
+		return TimeResolvedExperimentParameters.fromXML(xmlString.toString());
 	}
 
 	/**
@@ -320,6 +340,7 @@ public class TimeResolvedExperimentParameters {
 	 */
 	public void saveToFile(String filePath) {
 		try {
+			logger.debug("Saving current parameters to file {}", filePath);
 			XStream xstream = getXStream();
 			// Remove lemo trigger fields if using frelon detector (only needed for Xh, Xstrip)
 			if (hideLemoFields || detectorName.equals(DetectorSetupType.FRELON.getDetectorName())) {
@@ -401,6 +422,8 @@ public class TimeResolvedExperimentParameters {
 	 * @throws FactoryException
 	 */
 	static public TimeResolvedExperiment createTimeResolvedExperiment(TimeResolvedExperimentParameters params) throws DeviceException, FactoryException {
+
+		logger.debug("Creating TimeResolvedExperiment from parameter bean");
 
 		TimeResolvedExperiment theExperiment = 	new TimeResolvedExperiment(params.getI0AccumulationTime(), params.getItTimingGroups(),
 													params.getI0MotorPositions(), params.getItMotorPositions(),
@@ -492,6 +515,9 @@ public class TimeResolvedExperimentParameters {
 	 * @throws FactoryException
 	 */
 	static public SingleSpectrumScan createSingleSpectrumScan(TimeResolvedExperimentParameters params) throws DeviceException, FactoryException {
+
+		logger.debug("Creating SingleSpectrumScan from parameter bean");
+
 		List<TimingGroup> timingGroups = params.getItTimingGroups();
 		if (timingGroups==null || timingGroups.size()==0) {
 			return null;
@@ -544,5 +570,67 @@ public class TimeResolvedExperimentParameters {
 		theExperiment.getDetector().setEnergyCalibration(createEnergyCalibration());
 		theExperiment.setParameterBean(this);
 		addScannablesToMonitor(theExperiment);
+		if (collectMultipleItSpectra && positionsForItScan != null) {
+			EdeScanMotorPositions motorPos = theExperiment.getItScanPositions();
+			List<Object> positionValues = getPositionArray(positionsForItScan);
+			motorPos.setMotorPositionsDuringScan(positionValues);
+			motorPos.setScannableToMoveDuringScan(Finder.getInstance().find(scannableToMoveForItScan));
+		}
+	}
+
+	/**
+	 * Make a {@code List<Object>} from {@code List<List<Double>>}. The i'th element in the Object list is an
+	 * array with i'th element from each List of doubles
+	 *
+	 * @param list
+	 * @return
+	 */
+	private List<Object> getPositionArray(List<List<Double>> list) {
+		if (list == null || list.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		// Return list of positions
+		if (list.size()==1) {
+			return list.get(0).stream()
+					.map(val -> (Object)val)
+					.collect(Collectors.toList());
+		}
+
+		// return list of arrays with positions
+		List<Object> positions = new ArrayList<>();
+		int numValues = list.size();
+		for(int index=0; index<list.get(0).size(); index++) {
+			double[] vals = new double[numValues];
+			for(int i=0; i<numValues; i++) {
+				vals[i] = list.get(i).get(index);
+			}
+			positions.add(vals);
+		}
+		return positions;
+	}
+
+	public boolean isCollectMultipleItSpectra() {
+		return collectMultipleItSpectra;
+	}
+
+	public void setCollectMultipleItSpectra(boolean collectMultipleItSpectra) {
+		this.collectMultipleItSpectra = collectMultipleItSpectra;
+	}
+
+	public String getScannableToMoveForItScan() {
+		return scannableToMoveForItScan;
+	}
+
+	public void setScannableToMoveForItScan(String scannableToMoveForItScan) {
+		this.scannableToMoveForItScan = scannableToMoveForItScan;
+	}
+
+	public List<List<Double>> getPositionsForItScan() {
+		return positionsForItScan;
+	}
+
+	public void setPositionsForItScan(List<List<Double>> positionsForItScan) {
+		this.positionsForItScan = positionsForItScan;
 	}
 }

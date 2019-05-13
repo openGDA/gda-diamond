@@ -39,7 +39,7 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 
 	private Scannable scannableToMoveDuringScan;
 	private String nameOfScannableToMoveDuringScan;
-	private List<Double> motorPositionsDuringScan = new ArrayList<Double>();
+	private List<Object> motorPositionsDuringScan = new ArrayList<>();
 
 	/**
 	 * No-args constructor (added for serialisation)
@@ -79,11 +79,11 @@ public class EdeScanMotorPositions implements EdeScanPosition {
 		return scannableToMoveDuringScan;
 	}
 
-	public void setMotorPositionsDuringScan(List<Double> motorPositionsDuringScan) {
+	public void setMotorPositionsDuringScan(List<Object> motorPositionsDuringScan) {
 		this.motorPositionsDuringScan = motorPositionsDuringScan;
 	}
 
-	public List<Double> getMotorPositionsDuringScan() {
+	public List<Object> getMotorPositionsDuringScan() {
 		return motorPositionsDuringScan;
 	}
 
