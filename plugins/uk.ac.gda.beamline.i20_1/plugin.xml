@@ -6,10 +6,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA I20 EDE">
+            name="GDA I20 EDE offline">
          <property
                name="appName"
-               value="GDA I20 EDE">
+               value="GDA I20 EDE offline">
          </property>
          <property
                name="aboutImage"
@@ -111,6 +111,14 @@
             name="Single Collection"
             restorable="true">
       </view>
+      <view
+            category="uk.ac.gda.beamline.i20_1.alignmentviews"
+            class="uk.ac.gda.exafs.experiment.ui.SingleSpectrumCollectionViewWithMapping"
+            icon="platform:/plugin/org.dawnsci.ede.rcp/icons/1-star.gif"
+            id="uk.ac.gda.exafs.ui.views.experimentSingleSpectrumViewWithMapping"
+            name="Single Collection Mapping"
+            restorable="true">
+      </view>  
       <view
             category="uk.ac.gda.beamline.i20_1.edeexperimentviews"
             class="uk.ac.gda.exafs.experiment.ui.TimeResolvedExperimentView"

@@ -18,6 +18,7 @@
 
 package uk.ac.gda.exafs.experiment.ui.data;
 
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.annotations.Expose;
@@ -60,6 +61,13 @@ public class ExperimentDataModel extends UIObservableModel {
 	public static final String SCANNABLES_TO_MONITOR_PROP_NAME = "scannablesToMonitor";
 	@Expose
 	private Map<String, String> scannablesToMonitor = null;
+
+
+	private boolean collectMultipleItSpectra = false;
+
+	private String scannableToMove = "";
+
+	private List<List<Double>> motorPositionsDuringScan = null;
 
 	public double getI0IntegrationTime() {
 		return i0IntegrationTime;
@@ -135,6 +143,42 @@ public class ExperimentDataModel extends UIObservableModel {
 
 	public Map<String, String> getScannablesToMonitor() {
 		return scannablesToMonitor;
+	}
+
+	public boolean isCollectMultipleItSpectra() {
+		return collectMultipleItSpectra;
+	}
+
+	/**
+	 * Whether to collect multiple It spectrum during scan.
+	 * @param collectMultipleItSpectra
+	 */
+	public void setCollectMultipleItSpectra(boolean collectMultipleItSpectra) {
+		this.collectMultipleItSpectra = collectMultipleItSpectra;
+	}
+
+	public String getScannableToMoveForItScan() {
+		return scannableToMove;
+	}
+
+	/**
+	 * Name of scannable to move during It collection
+	 * @param scannableToMove
+	 */
+	public void setScannableToMoveForItScan(String scannableToMove) {
+		this.scannableToMove = scannableToMove;
+	}
+
+	public List<List<Double>> getPositionsForItScan() {
+		return motorPositionsDuringScan;
+	}
+
+	/**
+	 * Positions motor should be moved to for It collection.
+	 * @param motorPositionsDuringScan
+	 */
+	public void setPositionsForItScan(List<List<Double>> motorPositionsDuringScan) {
+		this.motorPositionsDuringScan = motorPositionsDuringScan;
 	}
 
 }

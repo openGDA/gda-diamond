@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2013 Diamond Light Source Ltd.
+ * Copyright © 2019 Diamond Light Source Ltd.
  *
  * This file is part of GDA.
  *
@@ -26,24 +26,24 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.experiment.ui.data.ExperimentModelHolder;
 
-public class SingleSpectrumCollectionView extends ViewPart {
-
-	public static final String ID = "uk.ac.gda.exafs.ui.views.experimentSingleSpectrumView";
-
-	private static Logger logger = LoggerFactory.getLogger(SingleSpectrumCollectionView.class);
+/**
+ * Same as SingleSpectrumCollectionView apart from
+ * <li> Has its own copy of SingleSpectrumCollectionModel
+ * <li> Has Gui controls for setting scannable positions for multiple spectra collections.
+ */
+public class SingleSpectrumCollectionViewWithMapping extends SingleSpectrumCollectionView {
+	private static Logger logger = LoggerFactory.getLogger(SingleSpectrumCollectionViewWithMapping.class);
+	public static final String ID = "uk.ac.gda.exafs.ui.views.experimentSingleSpectrumViewWithMapping";
 
 	private FormToolkit toolkit;
-
 	private ScrolledForm scrolledform;
-	SingleSpectrumCollectionWidgets singleSpectrumWidgets;
-
+	private SingleSpectrumCollectionWidgets singleSpectrumWidgets;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -61,17 +61,18 @@ public class SingleSpectrumCollectionView extends ViewPart {
 		form.getBody().setLayout(new GridLayout(1, true));
 
 		toolkit.decorateFormHeading(form);
-		form.setText("Single spectrum");
+		form.setText("Single spectrum with Mapping");
 		Composite formParent = form.getBody();
 
 		singleSpectrumWidgets = new SingleSpectrumCollectionWidgets();
-		singleSpectrumWidgets.setModel(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel());
+		singleSpectrumWidgets.setModel(ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentMappingModel());
 		singleSpectrumWidgets.setToolkit(toolkit);
 		try {
 			singleSpectrumWidgets.createSampleDetailsSection(formParent);
 			singleSpectrumWidgets.createSampleStageSections(formParent);
 			singleSpectrumWidgets.createSpectrumParametersSection(formParent);
 			singleSpectrumWidgets.createEnergyCalibrationSection(formParent);
+			singleSpectrumWidgets.createScannablePositionsSection(formParent);
 			singleSpectrumWidgets.createStartStopScanSection(formParent);
 			form.layout();
 		} catch (Exception e) {

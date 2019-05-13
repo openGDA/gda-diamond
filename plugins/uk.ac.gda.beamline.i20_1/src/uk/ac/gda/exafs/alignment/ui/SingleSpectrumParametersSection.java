@@ -88,9 +88,11 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 
 	private Text realTimePerSpectrumValueText;
 
+	private final SingleSpectrumCollectionModel singleSpectrumDataModel;
 
-	public SingleSpectrumParametersSection(Composite parent, int style) {
+	public SingleSpectrumParametersSection(Composite parent, int style, SingleSpectrumCollectionModel singleSpectrumDataModel) {
 		super(parent, style);
+		this.singleSpectrumDataModel = singleSpectrumDataModel;
 		toolkit = new FormToolkit(parent.getDisplay());
 		try {
 			showAccumulationReadout = DetectorModel.INSTANCE.getCurrentDetector().getDetectorData() instanceof FrelonCcdDetectorData;
@@ -101,6 +103,10 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 		}
 	}
 
+	public SingleSpectrumParametersSection(Composite parent, int style) {
+		this(parent, style, ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel());
+	}
+
 	private void updateAccumulationWidgets() {
 		String formatStr = "%.5f %s"; // value, unit
 
@@ -108,19 +114,17 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 			return;
 		}
 
-		final SingleSpectrumCollectionModel collectionModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
-
 		double accumationReadoutTime = DetectorModel.INSTANCE.getAccumulationReadoutTime();
 		double accumulationReadoutTimeMs = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(accumationReadoutTime, ExperimentUnit.MILLI_SEC);
-		double realTimePerSpectrumMs = collectionModel.getItNumberOfAccumulations()*(collectionModel.getItIntegrationTime() + accumulationReadoutTimeMs);
+		double realTimePerSpectrumMs = singleSpectrumDataModel.getItNumberOfAccumulations()*(singleSpectrumDataModel.getItIntegrationTime() + accumulationReadoutTimeMs);
 
 		accumulationReadoutTimeValueText.setText(String.format(formatStr, accumulationReadoutTimeMs, "ms"));
 		realTimePerSpectrumValueText.setText(String.format(formatStr, realTimePerSpectrumMs, "ms"));
 	}
 
-	private void bind() {
-		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 
+
+	private void bind() {
 
 		Binding i0NoOfAccumulationCheckBinding = dataBindingCtx.bindValue(
 				WidgetProperties.selection().observe(i0NoOfAccumulationCheck),
@@ -187,7 +191,6 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 	}
 
 	private void createI0IRefComposites() throws Exception {
-		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 
 		// I0 and IRef accumulation times
 		Composite composite = toolkit.createComposite(this);
@@ -260,7 +263,6 @@ public class SingleSpectrumParametersSection extends ResourceComposite {
 
 	private void setupUI() throws Exception {
 
-		final SingleSpectrumCollectionModel singleSpectrumDataModel = ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel();
 		this.setLayout(UIHelper.createGridLayoutWithNoMargin(1, false));
 
 		createI0IRefComposites();

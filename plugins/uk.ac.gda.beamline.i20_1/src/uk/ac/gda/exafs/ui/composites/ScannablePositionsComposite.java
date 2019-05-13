@@ -181,7 +181,11 @@ public class ScannablePositionsComposite implements IObservable {
 	}
 
 	public void setScannablePositions(List<List<Double>> scannablePositions) {
-		this.scannablePositions = new ArrayList<>(scannablePositions);
+		if (scannablePositions == null) {
+			this.scannablePositions = new ArrayList<>();
+		} else {
+			this.scannablePositions = new ArrayList<>(scannablePositions);
+		}
 	}
 
 	public void setScannablePositionsFromList(List<Double> scannableList) {
