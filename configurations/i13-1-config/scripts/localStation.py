@@ -399,7 +399,7 @@ for s in _default_scannables_in_gda:
 print(section_sep)
 
 try:
-	ionc_A_over_V_gain = createScannableFromPV("ionc_A_over_V_gain", "BL13J-DI-FEMTO-06:GAINHIGHSPEED", addToNameSpace=True, getAsString=True, hasUnits=False)
+	ionc_A_over_V_gain = createScannableFromPV("ionc_A_over_V_gain", "BL13J-DI-FEMTO-06:GAIN", addToNameSpace=True, getAsString=True, hasUnits=False)
 	ionc_gainmode = createScannableFromPV("ionc_gainmode", "BL13J-DI-FEMTO-06:GAINMODE", addToNameSpace=True, getAsString=True, hasUnits=False)
 	ionc_acdc = createScannableFromPV("ionc_acdc", "BL13J-DI-FEMTO-06:ACDC", addToNameSpace=True, getAsString=True, hasUnits=False)
 	mirror_stripe = createScannableFromPV("mirror_stripe", "BL13J-OP-MIRR-01:CURSTRIP", addToNameSpace=True, getAsString=True, hasUnits=False)
@@ -510,7 +510,7 @@ osa.addGroupMember(osa_z)
 osa.setName("osa")
 osa.configure()
 
-cs = ScannableGroup()
+cs = ScannableGroup()	#central stop
 cs.addGroupMember(cs_x)
 cs.addGroupMember(cs_y)
 cs.addGroupMember(cs_z)
@@ -534,5 +534,9 @@ optics_zp.configure()
 
 meta_add(optics_zp)
 caput("BL13J-EA-DET-04:HDF5:NDArrayPort", "merlin1.cam")
+
+import excalibur_odin
+from excalibur_odin import excalibur_odin_xgraph
+
 print(section_sep)	
 print("\n Finished running localStation.py")
