@@ -16,4 +16,17 @@
 		<property name="activated" value="false" />
 	</bean>
 
+	<!-- Eiger -->
+	<bean id="malcolmModelEiger" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL13J-ML-SCAN-02" />
+		<property name="exposureTime" value="0.01" />
+	</bean>
+
+	<bean id="malcolmDeviceEiger" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL13J-ML-SCAN-02" />
+		<property name="model" ref="malcolmModelEiger" />
+		<property name="deviceInformation" ref="malcolmInfoEiger" />
+		<property name="activated" value="false" />
+	</bean>
+
 </beans>
