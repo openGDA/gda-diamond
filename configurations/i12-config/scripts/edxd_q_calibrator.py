@@ -167,7 +167,7 @@ class q_refinement() :
         qAxis = fit.getFunction().makeDataSet([binAxis])
         
         # finally push this to the right location
-        edxd.getSubDetector(channel).setQ(qAxis.doubleArray())    #@UndefinedVariable
+        edxd.getSubDetector(channel).setQMapping(qAxis.doubleArray())    #@UndefinedVariable
             
         return fit
     
@@ -277,7 +277,7 @@ class q_refinement() :
                 #print "Chisquared", self.chisquared, len(self.usedpeaks) 
             
             
-            edxd.getSubDetector(channel).setQ(qAxis.doubleArray())                #@UndefinedVariable
+            edxd.getSubDetector(channel).setQMapping(qAxis.doubleArray())                #@UndefinedVariable
             
             readback = plotNPeaks(qAxis,self.ds[channel],Gaussian,20,5)
     
@@ -301,7 +301,7 @@ class q_refinement() :
             print "%2i %7.4f,%7.4f,%7.4f,%7.4f,%7.4f,%7.4f,%7.4f,%7.4f,%7.4f , %e" % tuple([channel+1]+qpositions+[self.chisquared])        
                 
             # set the zero channel 
-            edxd.getSubDetector(0).setQ(qAxis.doubleArray()) #@UndefinedVariable
+            edxd.getSubDetector(0).setQMapping(qAxis.doubleArray()) #@UndefinedVariable
                 
             #print fit.disp()
             #print fit.chiSquared
@@ -327,7 +327,7 @@ class q_refinement() :
                     
             except :
                 print "Element %i unsucsessfull" % i
-                edxd.getSubDetector(i).setQ(DatasetFactory.createRange(edxd.getBins()).getData())    #@UndefinedVariable
+                edxd.getSubDetector(i).setQMapping(DatasetFactory.createRange(edxd.getBins()).getData())    #@UndefinedVariable
                 
             sleep(2)
             
@@ -335,7 +335,7 @@ class q_refinement() :
     def initialiseQAxis(self):
         for i in range(24):
             energys = DataSet(edxd.getSubDetector(i).getEnergyBins()) #@UndefinedVariable
-            edxd.getSubDetector(i).setQ(energys.doubleArray()) #@UndefinedVariable
+            edxd.getSubDetector(i).setQMapping(energys.doubleArray()) #@UndefinedVariable
             
     def setCalibrants(self, calibrants=[]):
         self.calibrants=calibrants

@@ -46,11 +46,11 @@ def set_edxd_q_calibration(filename, detector):
     vals = load_edxd_q_calibration_file(filename)
     for i in range(0,23):
         q = dnp.array(generate_element_q_axis(vals, i+1, 4096))
-        detector.getSubDetector(i).setQ(q.data)
+        detector.getSubDetector(i).setQMapping(q.data)
     print "setting detector element ", i
     # Set a fake data for the 24th element
     q = dnp.array(generate_element_q_axis(vals, 1, 4096))
-    detector.getSubDetector(23).setQ(q.data)
+    detector.getSubDetector(23).setQMapping(q.data)
     print "finished calibration"
 
 if __name__ == "__main__" :
