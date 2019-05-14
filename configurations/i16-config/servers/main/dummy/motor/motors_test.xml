@@ -1,14 +1,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="BaseZ1Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="BaseZ2Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="BaseZ3Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="BaseZMotor" class="gda.device.motor.DummyMotor" />
-	
+
 	<bean id="KBRoll1Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="KBT1Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="KBT2Motor" class="gda.device.motor.DummyMotor" />
@@ -17,7 +16,6 @@
 	<bean id="KBRoll2Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="KBT5Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="KBT6Motor" class="gda.device.motor.DummyMotor" />
-
 
 	<bean id="M3XMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="M3YawMotor" class="gda.device.motor.DummyMotor" />
@@ -53,7 +51,6 @@
 	<bean id="XPS3P7Motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="XPS3P8Motor" class="gda.device.motor.DummyMotor"/>
 
-
 	<bean id="KphiMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="KappaMotor" class="gda.device.motor.DummyMotor" />
 	<bean id="MuMotor" class="gda.device.motor.DummyMotor" />
@@ -69,5 +66,4 @@
 	<bean id="C7Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="C8Motor" class="gda.device.motor.DummyMotor" />
 	<bean id="RCMotor" class="gda.device.motor.DummyMotor" />
-	
 </beans>

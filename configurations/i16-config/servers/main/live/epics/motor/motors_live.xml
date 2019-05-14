@@ -1,17 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
-
-
-
-
-
-
-
-
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="KBRoll1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-KBM-01:ROLL1" />
@@ -45,9 +35,6 @@
 		<property name="pvName" value="BL16I-MO-KBM-01:T6" />
 		<property name="local" value="true" />
 	</bean>
-
-
-
 
 	<bean id="M3XMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-OP-MFM-01:M3:X" />
@@ -114,15 +101,6 @@
 		<property name="local" value="true" />
 	</bean>
 
-
-
-
-
-
-
-
-
-
 	<bean id="TABYMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-TABLE-01:Y" />
 		<property name="local" value="true" />
@@ -165,6 +143,4 @@
 		<property name="pvName" value="BL16I-MO-USER-02:AXIS4" />
 		<property name="local" value="true" />
 	</bean>
-
-	
 </beans>

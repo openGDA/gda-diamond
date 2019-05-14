@@ -15,9 +15,9 @@
 	<import resource="../_common/required_at_start.xml"/>
 
 	<import resource="motor/atten.xml" />
+	<import resource="motor/dcm.xml" />
 	<import resource="motor/diag.xml" />
 	<import resource="motor/id.xml" />
-	<import resource="motor/dcm.xml" />
 	<import resource="motor/m1.xml" />
 	<import resource="motor/m2.xml" />
 	<import resource="motor/p2.xml" />
@@ -32,6 +32,7 @@
 	<import resource="motor/sixc.xml" />
 	<import resource="motor/sixcbase.xml" />
 	<import resource="motor/sixcsample.xml" />
+
 	<import resource="transient/kbmbase.xml" />
 
 	<import resource="../_common/scannable/motors.xml" />
@@ -43,15 +44,15 @@
 	<import resource="monitor/sixc.xml" />
 
 	<import resource="detector/vortex.xml" />
-	
+
 	<bean id="script_paths" parent="common_script_paths_with_diffcalc_and_epics"/>
-	
+
 	<bean id="beamline_test_suite" class="gda.jython.ScriptProject">
 		<property name="path" value="${gda.config}/scripts/livetest/startUp"/>
 		<property name="name" value="Scripts: I16 Tests" />
 		<property name="type" value="CONFIG" />
 	</bean>
-	
+
 	<bean id="common_script_paths_with_diffcalc_and_epics" class="gda.jython.ScriptPaths" parent="common_script_paths_with_diffcalc">
 		<property name="projects">
 			<list merge="true">
@@ -72,8 +73,6 @@
 	</bean>
 
 	<import resource="../_common/terminal_logger.xml" />
-
-
 	<import resource="../_common/abstract_command_server.xml"/>
 
 	<!-- dummy only -->

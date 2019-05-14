@@ -1,8 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-           
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
 	<bean id="kbRoll1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="KBRoll1Motor" />
 	</bean>
@@ -73,12 +73,6 @@
 		<property name="motor" ref="PXXMotor" />
 	</bean>
 
-
-
-
-
-
-
 	<bean id="ztable" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="TABYMotor" />
 	</bean>
@@ -133,7 +127,7 @@
 	<bean id="xps3mot8" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="XPS3P8Motor" />
 	</bean>
-	
+
 	<bean id="base_z1" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="BaseZ1Motor" />
 	</bean>
@@ -194,5 +188,4 @@
 	<bean id="rc" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="RCMotor" />
 	</bean>
-	
 </beans>

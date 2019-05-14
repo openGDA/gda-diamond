@@ -13,9 +13,9 @@
 	<import resource="../_common/required_at_start.xml"/>
 
 	<import resource="epics/motor/atten.xml" />
+	<import resource="epics/motor/dcm.xml" />
 	<import resource="epics/motor/diag.xml" />
 	<import resource="epics/motor/id.xml" />
-	<import resource="epics/motor/dcm.xml" />
 	<import resource="epics/motor/m1.xml" />
 	<import resource="epics/motor/m2.xml" />
 	<import resource="epics/motor/p2.xml" />
@@ -29,10 +29,10 @@
 	<import resource="epics/motor/s7.xml" />
 	<import resource="epics/motor/sixc.xml" />
 	<import resource="epics/motor/sixcbase.xml" />
+	<import resource="epics/motor/sixcsample.xml" />
+
 	<!--<import resource="transient/kbmbase.xml" /-->
 	<!--<import resource="transient/smargon.xml" />-->
-	
-	<import resource="epics/motor/sixcsample.xml" />
 
 	<import resource="../_common/scannable/motors.xml" />
 	<import resource="../live/epics/pie725_raster.xml" />
@@ -73,13 +73,13 @@
 	<import resource="../_common/abstract_command_server.xml"/>
 
 	<bean id="script_paths" parent="common_script_paths_with_diffcalc_and_epics"/>
-	
+
 	<bean id="beamline_test_suite" class="gda.jython.ScriptProject">
 		<property name="path" value="${gda.config}/scripts/livetest/startUp"/>
 		<property name="name" value="Scripts: Tests" />
 		<property name="type" value="CONFIG" />
 	</bean>
-	
+
 	<bean id="common_script_paths_with_diffcalc_and_epics" class="gda.jython.ScriptPaths" parent="common_script_paths_with_diffcalc">
 		<property name="projects">
 			<list merge="true">
