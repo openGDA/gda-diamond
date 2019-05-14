@@ -187,7 +187,7 @@ try :
     edxdout = edxd2ascii("edxdout")
     ## removing binned for the moment
     from edxd_binned_counter import EdxdBinned
-    edxd_binned = EdxdBinned("edxd_binned", edxd) #@UndefinedVariable
+    edxd_binned = EdxdBinned("edxd_binned", edxd1) #@UndefinedVariable
 
     from edxd_q_calibration_reader import set_edxd_q_calibration
     print("After set_edxd_q_calibration")

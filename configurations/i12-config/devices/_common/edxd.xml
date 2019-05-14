@@ -14,7 +14,7 @@
 		<property name="fileLocation" value="${gda.var}/edxdcalibration.ec" />
 	</bean>
 
-	<bean id="edxd" class="gda.device.detector.xmap.NexusXmap">
+	<bean id="xmapMca" class="gda.device.detector.xmap.NexusXmap">
 		<property name="controller" ref="xmapcontroller" />
 		<property name="slave" value="false" />
 		<property name="configFileName"	value="${gda.config}/templates/VortexParameters.xml" />
@@ -31,7 +31,12 @@
 	<bean id="xmapcontroller" class="gda.device.detector.xmap.EpicsXmapController">
 		<property name="edxdController" ref="edxdMappingController" />
 	</bean>
-	
+
+	<bean id="edxd" class="gda.device.detector.xmap.edxd.EDXDControllerQMap">
+		<property name="xmap" ref="xmap_dxp" />
+		<property name="numberOfElements" value="24" />
+	</bean>
+
 	<!-- edxd1 -->
 	<bean id="edxd1" class="gda.device.detector.xmap.edxd.EDXDControllerQMap">
 		<property name="xmap" ref="xmap_dxp" />
@@ -62,10 +67,10 @@
 	<bean id="edxd_controllers" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="edxd" />
 				<ref bean="edxd1" />
 				<ref bean="edxd2" />
 				<ref bean="edxdMappingController" />
+				<ref bean="xmapMca" />
 			</list>
 		</property>
 	</bean>

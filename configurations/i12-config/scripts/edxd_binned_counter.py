@@ -18,7 +18,7 @@ class EdxdBinned(PseudoDevice):
     def rawGetPosition(self):
         values = [self.count, self.start, self.end]
         for i in range(24) :
-            values += [ self.data[i][self.start:self.end].sum() ]
+            values += [ sum(self.data[i].getData()[self.start:self.end]) ]
         return values
 
     # Does the operation this Scannable represents
@@ -32,4 +32,4 @@ class EdxdBinned(PseudoDevice):
 
     # Returns the status of this Scannable
     def rawIsBusy(self):
-         return self.detector.isBusy()
+        return self.detector.isBusy()
