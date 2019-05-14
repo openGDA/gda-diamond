@@ -18,7 +18,7 @@ from gda.factory import Finder;
 
 from Diamond.PseudoDevices.FileFilter import SrsFileFilterClass;
 from Diamond.Utility.ScriptLogger import ScriptLoggerClass;
-from i06shared.commands.dirFileCommands import finder
+from i06shared.commands.dirFileCommands import finder, nfn
 from gda.device.detector.nxdetector.roi import ImutableRectangularIntegerROI
 from gda.device.detector import NXDetector
 from gda.device.detector.nxdetector.plugin.areadetector import ADRoiStatsPair
@@ -30,6 +30,8 @@ from gda.jython import ScriptBase
 
 import scisoftpy as dnp
 from gda.configuration.properties import LocalProperties
+from gda.data import PathConstructor
+from java.io import File
 
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
 logger=ScriptLoggerClass();
@@ -91,6 +93,7 @@ class FastEnergyScanControlClass(object):
 		self.isCalled = True;
 		self.areaDetector=None
 		self.adbase=None
+		self.pvName=None
 		self.existingCameraParametersCaptured=False
 
 	def __del__(self):
@@ -211,7 +214,7 @@ class FastEnergyScanControlClass(object):
 			self.trigger_mode=self.adbase.getTriggerMode()
 			self.adc_mode=self.pcocontroller.getADCMode()
 			self.pixel_rate=self.pcocontroller.getPixRate()
-			self.arm_mode=self.pcocontroller.getArmMode()
+# 			self.arm_mode=self.pcocontroller.getArmMode()
 			self.existingCameraParametersCaptured=True
 			#stop camera before change settings
 			self.adbase.stopAcquiring()
@@ -223,17 +226,29 @@ class FastEnergyScanControlClass(object):
 			self.adbase.setTriggerMode(0) # Auto
 			self.pcocontroller.setADCMode(0) # OneADC
 			self.pcocontroller.setPixRate(0) # 10MHz
-			self.pcocontroller.setArmMode(1) # arm detector
+# 			self.pcocontroller.setArmMode(1) # arm detector
 			self.prepareKBMirrorRastering(expotime)
 		else:
 			raise RuntimeError("self.adbase is not defined!")
+	
+	def setKBRasteringControlPV(self, pvname):
+		self.pvName=pvname
+	
+	def getKBRasteringControlPV(self):
+		return self.pvName
+		
 	def prepareKBMirrorRastering(self, expotime):
-		self.chFreq=CAClient("BL06I-OP-KBM-01:VFM:FPITCH:FREQ");  self.configChannel(self.chFreq);
-		self.cachedFreq=float(self.chFreq.caget())
-		self.chFreq.caput(1.0/expotime)
+		if self.pvName:
+			self.ch=CAClient(self.pvName);  self.configChannel(self.ch);
+			self.cachedCh=float(self.ch.caget())
+			if "FREQ" in self.pvName:
+				self.ch.caput(1.0/expotime)
+			elif "PERIOD" in self.pvName:
+				self.ch.caput(expotime)
 	
 	def restoreKBMirrorRastering(self):
-		self.chFreq.caput(self.cachedFreq)
+		if self.pvName:
+			self.ch.caput(self.cachedCh)
 			
 	def restoreAreaDetectorParametersAfterCollection(self):
 		if not self.existingCameraParametersCaptured:
@@ -249,7 +264,7 @@ class FastEnergyScanControlClass(object):
 			self.adbase.setTriggerMode(self.trigger_mode) # Auto
 			self.pcocontroller.setADCMode(self.adc_mode) # OneADC
 			self.pcocontroller.setPixRate(self.pixel_rate) # 10MHz
-			self.pcocontroller.setArmMode(self.arm_mode) # arm detector
+# 			self.pcocontroller.setArmMode(self.arm_mode) # arm detector
 			if self.aquire_state == 1:
 				self.adbase.startAcquiring()
 			self.restoreKBMirrorRastering()
@@ -261,14 +276,73 @@ class FastEnergyScanControlClass(object):
 			raise Exception("'%s' detector is not a NXDetector! " % (areadet.getName()))
 		additional_plugin_list = areadet.getAdditionalPluginList()
 		datawriter=None
+		scanNumber=nfn()
 		for each in additional_plugin_list:
 			if isinstance(each, MultipleImagesPerHDF5FileWriter):
 				datawriter=each
+				datawriter.getNdFile().getPluginBase().disableCallbacks()
+				datawriter.getNdFile().getPluginBase().setBlockingCallbacks(0)
+				filePathUsed = PathConstructor.createFromDefaultProperty() + "/"
+				f=File(filePathUsed)
+				if not f.exists():
+					if not f.mkdirs():
+						raise Exception("Folder does not exist and cannot be made: " + str(filePathUsed))
+				datawriter.getNdFile().setFilePath(filePathUsed)
+				if not datawriter.getNdFile().filePathExists():
+					raise Exception("Path does not exist on IOC '" + filePathUsed + "'")
+				datawriter.getNdFile().setFileName("pco")
+				datawriter.getNdFile().setFileNumber(scanNumber)
+				datawriter.getNdFile().setAutoIncrement(0)
+				datawriter.getNdFile().setAutoSave(0)
+				datawriter.getNdFile().setFileWriteMode(2);
+				datawriter.getNdFileHDF5().setStoreAttr(0)
+				datawriter.getNdFileHDF5().setStorePerform(0)
+				datawriter.getNdFileHDF5().setLazyOpen(True);
+				datawriter.getNdFileHDF5().setBoundaryAlign(0);
+				datawriter.getNdFileHDF5().setNumCapture(numImages);
+				datawriter.getNdFileHDF5().setNumRowChunks(0);
+				datawriter.getNdFileHDF5().setNumColChunks(0);
+				datawriter.getNdFileHDF5().setNumFramesChunks(0);
+				datawriter.getNdFileHDF5().setNumFramesFlush(0);
+				datawriter.getNdFileHDF5().startCapture();
+				datawriter.getNdFile().getPluginBase().enableCallbacks()
+
 			elif isinstance(each, SingleImagePerFileWriter):
 				datawriter=each
+				datawriter.getNdFile().getPluginBase().disableCallbacks()
+				filePathUsed = PathConstructor.createFromDefaultProperty() + "/" + str(scanNumber) + "_PCOImage/"
+				f=File(filePathUsed)
+				if not f.exists():
+					if not f.mkdirs():
+						raise Exception("Folder does not exist and cannot be made: " + str(filePathUsed))
+				datawriter.getNdFile().setFilePath(filePathUsed)
+				if not datawriter.getNdFile().filePathExists():
+					raise Exception("Path does not exist on IOC '" + filePathUsed + "'")
+				datawriter.getNdFile().setFileName("pco")
+				datawriter.getNdFile().setFileNumber(1)
+				datawriter.getNdFile().setAutoIncrement(1)
+				datawriter.getNdFile().setAutoSave(1)
+				datawriter.getNdFile().setFileWriteMode(0)
+				datawriter.getNdFile().getPluginBase().enableCallbacks()
 		if datawriter is None:
 			raise Exception("Cannot find EPICS File Writer Plugin for detector %s" % (areadet.getName()))	
-		datawriter.prepareForCollection(numImages, ScanInformation.EMPTY)
+# 		datawriter.prepareForCollection(numImages, ScanInformation.EMPTY)
+		
+	def disableFileWritingPlugin(self, areadet):
+		if not isinstance(areadet, NXDetector):
+			raise Exception("'%s' detector is not a NXDetector! " % (areadet.getName()))
+		additional_plugin_list = areadet.getAdditionalPluginList()
+		datawriter=None
+		for each in additional_plugin_list:
+			if isinstance(each, MultipleImagesPerHDF5FileWriter):
+				datawriter=each
+				datawriter.getNdFile().getPluginBase().disableCallbacks()
+				datawriter.getNdFileHDF5().stopCapture();
+			elif isinstance(each, SingleImagePerFileWriter):
+				datawriter=each
+				datawriter.getNdFile().getPluginBase().disableCallbacks()
+		if datawriter is None:
+			raise Exception("Cannot find EPICS File Writer Plugin for detector %s" % (areadet.getName()))	
 		
 	def setupAreaDetectorROIs(self, rois, roi_provider_name='pco_roi'):
 		'''update ROIs list in GDA but not yet set to EPICS
@@ -633,6 +707,7 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 			else:
 				self.fesController.getAreaDetector().stop()
 			self.fesController.stopROIStatsPair(self.fesController.getAreaDetector())
+			self.fesController.disableFileWritingPlugin(self.fesController.getAreaDetector())
 			self.fesController.restoreAreaDetectorParametersAfterCollection()
 		self.fesController.existingCameraParametersCaptured=False
 
@@ -676,21 +751,17 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 			print "Number of scan points is set to ZERO. Please check your command carefully!"
 			return;
 		
-# 		if beamline_name == "i06":
-# 			self.fesController.enableAreaDetector() #using PCO area detector
-# 			self.fesController.prepareAreaDetectorForCollection(self.fesController.getAreaDetector(), pointTime, numPoint)
-# 			self.fesController.configureFileWriterPlugin(self.fesController.getAreaDetector(), numPoint)
-# 			self.fesController.prepareAreaDetectorROIsForCollection(self.fesController.getAreaDetector(), numPoint)
+		if beamline_name == "i06":
+			self.fesController.enableAreaDetector() #using PCO area detector
+			self.fesController.prepareAreaDetectorForCollection(self.fesController.getAreaDetector(), pointTime, numPoint)
+			self.fesController.configureFileWriterPlugin(self.fesController.getAreaDetector(), numPoint)
+			self.fesController.prepareAreaDetectorROIsForCollection(self.fesController.getAreaDetector(), numPoint)
 				
 		#pscan fastEnergy 0 1 numPoint fesData 0 1;
 		fesData = self.fesDetector;
 		
 		try:
-			if beamline_name == "i06":
-				self.fesController.enableAreaDetector() #using PCO area detector
-				theScan = PointsScan([self,0,1,numPoint,fesData,0,1,self.fesController.getAreaDetector(),pointTime]);
-			else:
-				theScan = PointsScan([self,0,1,numPoint,fesData,0,1]);
+			theScan = PointsScan([self,0,1,numPoint,fesData,0,1]);
 			theScan.runScan();
 		except:
 			exceptionType, exception, traceback=sys.exc_info();
@@ -712,6 +783,7 @@ class FastEnergyDeviceClass(ScannableMotionBase):
 				# restore ADRoiStatsPair state in GDA
 # 				self.fesController.completeCollectionFromROIStatsPair(self.fesController.getAreaDetector())
 				self.fesController.stopROIStatsPair(self.fesController.getAreaDetector())
+				self.fesController.disableFileWritingPlugin(self.fesController.getAreaDetector())
 				#restore area detector settings	
 				self.fesController.restoreAreaDetectorParametersAfterCollection()
 				self.fesController.existingCameraParametersCaptured=False
@@ -1013,7 +1085,8 @@ class EpicsWaveformDeviceClass(ScannableMotionBase):
 		self.data=[[None]]*self.numberOfChannels;
 		self.dataset = None;
 		self.readPointer = -1;
-		self.resetHead();
+		#according to Pete leicester GDA should not reset Element Counter
+# 		self.resetHead();
 		
 	def setFilter(self, low, high, keyChannel):
 		self.low = low;
