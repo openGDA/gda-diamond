@@ -20,6 +20,8 @@
 	<import resource="epics/motor/m2.xml" />
 	<import resource="epics/motor/p2.xml" />
 	<import resource="epics/motor/pa.xml" />
+	<import resource="epics/motor/ppr.xml" />
+	<import resource="epics/motor/qsys.xml" />
 	<import resource="epics/motor/s1.xml" />
 	<import resource="epics/motor/s2.xml" />
 	<import resource="epics/motor/s3.xml" />

@@ -58,7 +58,7 @@
 		<property name="pvName" value="BL16I-MO-P2TAB-01:Y1" />
 		<property name="local" value="true" />
 	</bean>
-	<bean id="P2TABY2Motor" class="gda.device.motor.EpicsMotor">
+	<bean id="P2TABY2Motor" class="gda.deviPPRCMotorce.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-P2TAB-01:Y2" />
 		<property name="local" value="true" />
 	</bean>
@@ -76,23 +76,6 @@
 	</bean>
 	<bean id="P2TABZ1Motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-MO-P2TAB-01:Z1" />
-		<property name="local" value="true" />
-	</bean>
-
-	<bean id="PPRTMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16I-OP-PPR-01:THETA" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="PPRYMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16I-OP-PPR-01:Y" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="PPRXMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16I-OP-PPR-01:X" />
-		<property name="local" value="true" />
-	</bean>
-	<bean id="PPRCMotor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16I-OP-PPR-01:CHI" />
 		<property name="local" value="true" />
 	</bean>
 

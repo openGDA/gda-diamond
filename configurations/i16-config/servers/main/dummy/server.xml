@@ -22,6 +22,8 @@
 	<import resource="motor/m2.xml" />
 	<import resource="motor/p2.xml" />
 	<import resource="motor/pa.xml" />
+	<import resource="motor/ppr.xml" />
+	<import resource="motor/qsys.xml" />
 	<import resource="motor/s1.xml" />
 	<import resource="motor/s2.xml" />
 	<import resource="motor/s3.xml" />
