@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.9.5.201807030714-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.9.8.201903260659-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
@@ -48,11 +48,8 @@
 		<config>clients/main/live/client.xml</config>
 		<config>clients/main/_common/client.xml</config>
 		<config>clients/main/dummy/client.xml</config>
-		<config>clients/main/live/Endstations-PCO-2000-cam.xml</config>
-		<config>clients/main/live/client_peem.xml</config>
 		<config>servers/main/_common/scannables/pco.xml</config>
 		<config>servers/main/live/devices/pco.xml</config>
-		<config>clients/main/live/live_controls.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

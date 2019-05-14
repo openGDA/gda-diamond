@@ -3,12 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<description>
-		define all cameras and detectors Live Stream views
-	</description>
-	
-	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
-
 	<bean id="pco_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}pcoRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
@@ -17,13 +11,8 @@
 	<bean id="pco_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="PCO" />
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
-		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+		<property name="arrayPv" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="pco_roi" />
 		<property name="withHistogram" value="true"/>
 	</bean>
-	<bean id="sim_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="SIM" />
-		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
-	</bean>
-
 </beans>

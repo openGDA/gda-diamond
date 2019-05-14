@@ -25,5 +25,6 @@
 	<!-- Cannot simulate LEEM2000 yet -->
 <!-- 	<import resource="uview.xml"/> -->
 	<import resource="pco.xml"/>
+	<import resource="medipix2.xml"/>
 	
 </beans>
