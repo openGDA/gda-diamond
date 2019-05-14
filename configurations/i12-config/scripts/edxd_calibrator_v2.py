@@ -16,12 +16,12 @@ class refinement() :
 		# collect the data
 		self.ds = edxd.acquire(time) #@UndefinedVariable
 
-	def calibrateElement(self,time, channel, min, max, value, toll) :
+	def calibrateElement(self,time, channel, minv, maxv, value, toll) :
 		chan = channel-1
 		count = 0
 		self.ppos = -10.0
-		self.min = min
-		self.max = max
+		self.min = minv
+		self.max = maxv
 		while (math.fabs(self.ppos-value)) > toll:
 			print (math.fabs(self.ppos-value)), count
 			self.ds = edxd.acquire(time) #@UndefinedVariable
@@ -31,12 +31,12 @@ class refinement() :
 				break
 				
 
-	def refine(self,chan, min, max, value) : 
+	def refine(self,chan, minv, maxv, value) : 
 
 		print "getting preamp"
 		preamp = edxd.getSubDetector(chan).getPreampGain() #@UndefinedVariable
 		print "peakpos"
-		peakpos = self.getPeakPos(chan, min, max)
+		peakpos = self.getPeakPos(chan, minv, maxv)
 		# adjust the min and max values to track to the peak
 		diff = value-peakpos
 		self.min = self.min + diff
@@ -48,20 +48,22 @@ class refinement() :
 		return newPreamp
 
 
-	def getPeakPos(self,chan, min, max) :
+	def getPeakPos(self,chan, minv, maxv) :
 
 		print chan
 		self.be = edxd.getSubDetector(chan).getEnergyBins() #@UndefinedVariable
 
-		minval = math.fabs(min-self.be[0])
-		maxval = math.fabs(max-self.be[0])
+		minval = math.fabs(minv-self.be[0])
+		maxval = math.fabs(maxv-self.be[0])
+		print('minval = {0}, maxval = {1}'.format(minval, maxval))
+		print('tmp[0] = {0}'.format(minv-self.be[0]))
 
 		for i in range(len(self.be)):
-			tmp = math.fabs(min-self.be[i])
+			tmp = math.fabs(minv-self.be[i])
 			if tmp < minval:
 				start = i
 				minval = tmp
-			tmp = math.fabs(max-self.be[i])
+			tmp = math.fabs(maxv-self.be[i])
 			if tmp < maxval:
 				stop = i
 				maxval = tmp
@@ -69,14 +71,15 @@ class refinement() :
 		print start
 		print stop
 	
+		print("Creating datasets")
 		xds=DatasetFactory.createFromObject(self.be).getSlice([start], [stop], [1])
-
-		print "here"
-		yds=self.ds[chan][start:stop]
+		yds=DatasetFactory.createFromObject(self.ds[chan].getData()[start:stop])
 
 		print "fitting the data"
 		# Fit the data using a GA
-		fit = Fitter.fit(xds, yds, GeneticAlg(0.01), [StraightLine(-yds.max(),yds.max(),yds.min(),yds.max()), Gaussian(min,max,2*(max-min),1000)])
+		max_yds = max(yds.getData())
+		min_yds = min(yds.getData())
+		fit = Fitter.fit(xds, yds, GeneticAlg(0.01), [StraightLine(-max_yds, max_yds, min_yds, max_yds), Gaussian(minv, maxv, 2 * (maxv - minv), 1000)])
 
 		RCPPlotter.plot("Plot 1", xds ,[yds, fit.getFunction().makeDataSet([xds])])
 	
@@ -87,6 +90,3 @@ class refinement() :
 		print "peak position = %f with width %f " % (peak1, fwhm1)
 
 		return peak1
-
-
-
