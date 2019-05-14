@@ -349,3 +349,6 @@ butler_position_warning = butlerWarning.PositionerWarning('butlerWarning', butle
 add_default butler_position_warning
 
 from lde.stageManagement import *
+from lde.lde_robot import LdeRobot
+sample = LdeRobot('sample', 'BL11J-EA-ROBOT-01:', robot_stage=((rsx, -239.934), (rsy, 0)))
+
