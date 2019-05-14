@@ -82,6 +82,7 @@
 				<entry key="ENERGYBINS22" value="BL12I-EA-DET-03:MCA22:XAXIS" />
 				<entry key="ENERGYBINS23" value="BL12I-EA-DET-03:MCA23:XAXIS" />
 				<entry key="ENERGYBINS24" value="BL12I-EA-DET-03:MCA24:XAXIS" />
+				<entry key="ERASEALL" value="BL12I-EA-DET-03:EraseAll" />
 				<entry key="EVENTS1" value="BL12I-EA-DET-03:DXP1:Events" />
 				<entry key="EVENTS2" value="BL12I-EA-DET-03:DXP2:Events" />
 				<entry key="EVENTS3" value="BL12I-EA-DET-03:DXP3:Events" />
