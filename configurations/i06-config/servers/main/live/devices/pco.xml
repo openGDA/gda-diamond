@@ -193,8 +193,10 @@
 		</property>
 	</bean>
 	<bean id="kbRasteringFreq" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
-		<property name="pvName" value="BL06I-OP-KBM-01:VFM:FPITCH:FREQ" />
+		<property name="pvName" value="BL06I-OP-KBM-01:VFM:FPITCH:FREQ" /> <!-- Hytec  -->
    		<property name="expression" value="1/#acquireTime lt 10.0 ? 1/#acquireTime : 10.0"/>
+<!-- 		<property name="pvName" value="BL06I-EA-SGEN-01:PERIOD" /> --><!-- Keysight33500B Channel2 -->
+<!--    		<property name="expression" value="#acquireTime gt 0.1 ? #acquireTime : 0.1"/> -->
 		<property name="enabled" value="true" />
 		<property name="restorePvValue" value="true" />
 		<property name="decoratee" ref="pcoArm" />
@@ -204,8 +206,7 @@
 		<property name="triggerMode" value="AUTO" /> <!-- possible values: AUTO, SOFT, EXTSOFT, EXTPULSE, EXTONLY -->
 		<property name="decoratee" ref="kbRasteringFreq" />
 	</bean>
-	<bean id="pcoacquireperiod"
-		class="gda.device.detector.pco.collectionstrategy.PCOConfigureAcquireTimeAcquirePeriodDecorator">
+	<bean id="pcoacquireperiod"	class="gda.device.detector.pco.collectionstrategy.PCOConfigureAcquireTimeAcquirePeriodDecorator">
 		<property name="restoreAcquireTime" value="true" />
 		<property name="restoreAcquirePeriod" value="true" />
 		<property name="acquirePeriod" value="0.1" />
