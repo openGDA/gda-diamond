@@ -2,14 +2,14 @@ from gda.scan import ScanPositionProviderFactory
 from Diamond.Scans.BasicScan import BasicScanClass;
 
 class RegionalScanClass(BasicScanClass):
-	'''Use rscan motor (R1, R2, ... R3) for multiple-region scan
+	'''Use mrscan motor (R1, R2, ... R3) for multiple-region scan
 	where the region Rx is defined by a [start, stop, step] list and all regions are grouped in a tuple
 	For example:
-		rscan testMotor1 ([0, 5, 1], [6,10,0.1], [10,15,1]) dummyCounter1 0.1'''
+		mrscan testMotor1 ([0, 5, 1], [6,10,0.1], [10,15,1]) dummyCounter1 0.1'''
 
 	def __init__(self):
 		BasicScanClass.__init__(self);
-		self.scanType='rscan';
+		self.scanType='mrscan';
 		
 	def __call__(self, *args):
 		BasicScanClass.__call__(self, *args);
@@ -46,7 +46,7 @@ class RegionalScanClass(BasicScanClass):
 			elif isinstance(stp, list):
 				result.append(stp);
 			else:
-				raise TyoeError("Error on the regional tuple")
+				raise "Error on the regional tuple"
 
 		return result;
 		
