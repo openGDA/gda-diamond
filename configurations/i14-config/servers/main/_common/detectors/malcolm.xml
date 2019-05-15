@@ -11,12 +11,10 @@
 	</bean>
 
 	<!-- Excalibur software: using Malcolm to collect data; GDA moves all devices -->
-	<!--
 	<bean id="malcolmInfoExcaliburSoftware" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
 		<property name="label" value="Excalibur Malcolm software" />
 		<property name="description" value="Malcolm Excalibur for software scanning" />
 	</bean>
-	-->
 
 	<!-- Excalibur hardware (coarse motors) -->
 	<bean id="malcolmInfoExcaliburHardwareCoarse" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
