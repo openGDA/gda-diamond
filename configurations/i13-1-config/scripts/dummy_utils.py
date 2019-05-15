@@ -40,13 +40,14 @@ class DummyADTriggerringStrategy(AbstractADTriggeringStrategy):
         return self.collectionTime
     
 class DummyDet(NXDetector):
-    def __init__(self, name, collectionStrategy):
+    def __init__(self, name, collectionStrategy, dset="entry/instrument/detector/data"):
         self.setName(name)
         self.setCollectionStrategy(collectionStrategy)
         self.afterPropertiesSet()
         #self.setExtraNames("count_time")
         self.getExtraNames()
         self.hdfpath = None
+        self.dset = dset
     
     def _readout(self):
         lastReadoutValue = super(DummyDet, self).readout()
@@ -55,7 +56,7 @@ class DummyDet(NXDetector):
         #print dataTree
         #output = '/dls/i13/data/2017/cm16786-5/tmp/12345.hdf'
         output = self.hdfpath
-        dataTree.addScanFileLink(self.getName(), "nxfile://" + output + "#entry/instrument/detector/data"); #addExternaLfileLink
+        dataTree.addScanFileLink(self.getName(), "nxfile://" + output + "#%s" %(self.dset)); #addExternaLfileLink
         #print "from readout: %s" %(output)
         #return output
         return dataTree
@@ -67,7 +68,7 @@ class DummyDet(NXDetector):
         #print dataTree
         #output = '/dls/i13/data/2017/cm16786-5/tmp/12345.hdf'
         output = self.hdfpath
-        dataTree.addScanFileLink(self.getName(), "nxfile://" + output + "#entry/instrument/detector/data"); #addExternaLfileLink
+        dataTree.addScanFileLink(self.getName(), "nxfile://" + output + "#%s" %(self.dset)); #addExternaLfileLink
         #print "from readout: %s" %(output)
         #return output
         return dataTree
@@ -110,14 +111,15 @@ class DummyADTriggerringStrategy(AbstractADTriggeringStrategy):
         return None             #java.lang.Exception: during scan collection: DeviceException: TypeError: None required for void return
     
     def getAcquireTime(self):
-        print "@getAcquireTime!"
+        #print "@getAcquireTime!"
         print "getAcquireTime = %.3f" %(self.collectionTime)
         #print "getAcquireTime = %.3f" %(0.11)
         return self.collectionTime
     
 
 dum_collstrat=DummyADTriggerringStrategy()
-dum_det=DummyDet("dum_det", dum_collstrat)
+dum_det=DummyDet("dum_det", dum_collstrat, dset="data")
+dum_det_zeb=DummyDet("dum_det_zeb", dum_collstrat)
 
 
 

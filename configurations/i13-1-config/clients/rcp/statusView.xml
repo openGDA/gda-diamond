@@ -182,6 +182,12 @@
 								<constructor-arg value="BL13J-OP-FLOAT-04:"/>
 								<constructor-arg value="diagnosticCameraType"/>
 							</bean>
+							<bean class="uk.ac.gda.epics.adviewer.views.ADOpenViewOption">
+								<constructor-arg value="Excalibur - Odin" />
+								<constructor-arg value="Excalibur - Odin" />
+								<constructor-arg value="MPEG"/>
+								<constructor-arg value="BL13J-EA-EXCBR-02:"/>
+							</bean>
 							<bean class="gda.rcp.views.OpenViewOptionImpl">
 								<constructor-arg value="excalibur" />
 								<constructor-arg value="uk.ac.gda.epics.adviewer.mpegview" />
