@@ -22,9 +22,7 @@
 	
 	<import resource="peemStage.xml"/>
 	<import resource="peemExitSlit.xml"/>
-	<!-- Cannot simulate LEEM2000 yet -->
-<!-- 	<import resource="uview.xml"/> -->
 	<import resource="pco.xml"/>
-	<import resource="medipix2.xml"/>
+	<import resource="medipix.xml"/>
 	
 </beans>

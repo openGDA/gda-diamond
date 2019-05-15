@@ -24,7 +24,6 @@
 	<!-- Only one of the element below should be active at any one time -->
 	<import resource="uview.xml" />
 	<import resource="pco.xml" />
-	<import resource="medipix2.xml" />
-	<!-- <import resource="pco_nx.xml"/> -->
+	<import resource="medipix.xml" />
 
 </beans>
