@@ -3,6 +3,8 @@
 	<name>i06-shared</name>
 	<comment></comment>
 	<projects>
+		<project>uk.ac.diamond.daq.detectors.addetector</project>
+		<project>uk.ac.diamond.daq.detectors.addetector.api</project>
 		<project>uk.ac.diamond.scisoft.python</project>
 		<project>uk.ac.gda.client</project>
 		<project>uk.ac.gda.core</project>
