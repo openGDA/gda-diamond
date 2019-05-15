@@ -91,10 +91,10 @@ public class Geometry {
 		// movement will rotate clockwise when looking at the viewed down the microglide z-axis. This is standard in
 		// crystallography.
 
-		double θ = Math.toRadians(omega);
+		double angle = Math.toRadians(omega);
 
 		if (omegaDirection == OmegaDirection.ANTICLOCKWISE) {
-			θ = -θ;
+			angle = -angle;
 		}
 
 		if (!allowBeamAxisMovement) {
@@ -106,8 +106,8 @@ public class Geometry {
 		// mathematical convention that X +ve goes right, Y +ve goes vertically
 		// up. Z +ve is away from the gonio (away from you). This is NOT the
 		// standard phase I convention.
-		final double x = b * cos(θ) - v * sin(θ);
-		final double y = b * sin(θ) + v * cos(θ);
+		final double x = b * cos(angle) - v * sin(angle);
+		final double y = b * sin(angle) + v * cos(angle);
 		double z = h;
 
 		if (!gonioOnLeftOfImage) {

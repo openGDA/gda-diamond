@@ -6,8 +6,14 @@
 
 	<!-- Excalibur -->
 	<bean id="malcolmInfoExcalibur" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Excalibur Malcolm" />
-		<property name="description" value="Excaibur Malcolm scan" />
+		<property name="label" value="Excalibur" />
+		<property name="description" value="Excalibur Malcolm scan" />
+	</bean>
+
+	<!-- Eiger -->
+	<bean id="malcolmInfoEiger" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Eiger" />
+		<property name="description" value="Eiger Malcolm scan" />
 	</bean>
 
 </beans>
