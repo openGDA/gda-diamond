@@ -55,6 +55,10 @@ class Polarisation(ScannableBase):
         iddpolarisation=""
         idupolarisation=""
         errmsg=None
+        #fix I06-656
+        if self.polarisation == "UNAVAILABLE": #forget to set beam polarisation
+            raise RuntimeError("error, the ID polarisation is 'Unavailable' - did you forget to set beam polarisation first?")
+                    
         if mode == SourceMode.SOURCE_MODES[0]:
             iddpolarisation=str(self.dpol.getPosition())
             if iddpolarisation!=Polarisation.POLARISATIONS_EPICS[self.polarisation]:
@@ -93,7 +97,7 @@ class Polarisation(ScannableBase):
                 message="Linear Angular Polarisation is not supported in '%s' source mode" % (mode)
                 raise RuntimeError(message)
         if errmsg is not None:
-            raise errmsg
+            raise RuntimeError(errmsg)
         return self.polarisation
     
     def asynchronousMoveTo(self, newpos):
