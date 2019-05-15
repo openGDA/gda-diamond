@@ -53,4 +53,12 @@
 			</list>
 		</property>	
 	</bean>
+	
+	<bean id="pcoProcNumFilterWithResetBefore" class="gda.device.scannable.BeforeAfterScannable">
+		<property name="delegate" ref="pcoProcNumFilter"/>
+		<property name="beforeAfter" ref="pco_proc_reset_filter"/>
+		<property name="before" value="1"/>
+		<property name="after"><null/></property>
+		<property name="delayBeforeMovingDelegate" value="200"/>
+	</bean>
 </beans>

@@ -20,18 +20,10 @@
 		<property name="textWidth" value="35"/>
 		<property name="userUnits" value="s" />
 	</bean>
-	<bean id="medipix_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableControlWithPrePostActions">
+	<bean id="medipix_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
 		<property name="displayName" value="NumFilter" />
 		<property name="group" value="medipix PROC" />
-		<property name="scannableName" value="medipixProcNumFilter" />
-		<property name="preActions">
-		 <list>
-		 	<bean class="uk.ac.gda.client.livecontrol.ExtraAction">
-		 		<property name="scannableName" value="medipix_proc_reset_filter"/>
-		 		<property name="value" value="1"/>
-		 	</bean>
-		 </list>
-		</property>
+		<property name="scannableName" value="medipixProcNumFilterWithResetBefore" />
 		<property name="textWidth" value="30" />
 		<property name="userUnits" value=""/>
 	</bean>
