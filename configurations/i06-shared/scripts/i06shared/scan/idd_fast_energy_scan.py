@@ -22,6 +22,7 @@ from Diamond.Utility.UtilFun import UtilFunctions
 from Diamond.Utility.BeamlineFunctions import BeamlineFunctionClass, logger
 
 from gda.configuration.properties import LocalProperties
+from __main__ import zacpcotif, roi1, roi2, roi3, roi4  # @UnresolvedImport
 
 uuu=UtilFunctions();
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
@@ -42,6 +43,20 @@ zacmode = FastEnergyScanIDModeClass("zacmode", fesController);
 fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'iddenergy', 'pgmenergy', 'C5', 'C6'], ['idio', 'ifio', 'ifioft', 'ifiofb'],elementCounter=fastScanElementCounter);
 fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData);
 fastEnergy.filterByEnergy = False
+ROI_DEFINED_IN_GUI=True
+
+#configure KB Mirror rastering
+HYTEC_KB_Rastering_Control_PV="BL06I-OP-KBM-01:VFM:FPITCH:FREQ"
+KEYSIGHT_KB_Rastering_Control_PV="BL06I-EA-SGEN-01:PERIOD"
+fesController.setKBRasteringControlPV(HYTEC_KB_Rastering_Control_PV)
+#fesController.setKBRasteringControlPV(KEYSIGHT_KB_Rastering_Control_PV) 
+
+### configure which area detector to use in zacscan           
+### use 'zacpcotif' for zacscan with pco to produce TIFF image files
+### use 'zacpco' for zacscan with pco to produce Nexus and HDF files
+### use 'zacmedipixtif' for zacscan with Medipix to produce TIFF image files
+### use 'zacmedipix' for zacscan with Medipix to produce Nexus and HDF files
+fesController.setAreaDetector(zacpcotif)
 
 def zacscan(startEnergy, endEnergy, scanTime, pointTime):
     try:
@@ -49,7 +64,13 @@ def zacscan(startEnergy, endEnergy, scanTime, pointTime):
         if beamline_name=="i06-1":
             #TODO ask Sarnjeet for an update
             uuu.removeDefaults(['ca61sr', 'ca62sr','ca63sr','ca64sr','ca65sr','ca66sr']);
-
+        
+        if beamline_name=="i06":
+            if not ROI_DEFINED_IN_GUI:
+                if not roi1 or not roi2 or not roi3 or not roi4:
+                    raise Exception("4 ROIs are required.")
+                #setup ROIs
+                fesController.setupAreaDetectorROIs([roi1, roi2, roi3, roi4])
         beamlineutil.stopArchiving();
         fastEnergy.cvscan(startEnergy, endEnergy, scanTime, pointTime);
         beamlineutil.registerFileForArchiving( beamlineutil.getLastScanFile() );

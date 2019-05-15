@@ -10,25 +10,16 @@ import __main__  # @UnresolvedImport
 
 #import correct fast energy scan controller based on which ID source is used.
 if str(__main__.smode.getPosition())=='idd':
-    from i06shared.scan.idd_fast_energy_scan import fesController, zacscan  # @UnusedImport
+    from i06shared.scan.idd_fast_energy_scan import zacscan  # @UnusedImport
 elif str(__main__.smode.getPosition())=='idu':
-    from i06shared.scan.idu_fast_energy_scan import fesController, zacscan  # @Reimport
+    from i06shared.scan.idu_fast_energy_scan import zacscan  # @Reimport
 
 #define ROIs
 roi1=[0,0,100,100]
 roi2=[200,300,500,865]
 roi3=[650,378,350,468]
 roi4=[1000,1000,150,200]
-rois=[roi1,roi2,roi3,roi4]
-
-#use 'zacpcotif' for zacscan with pco to produce TIFF image files
-#use 'zacpco' for zacscan with pco to produce Nexus and HDF files
-fesController.setAreaDetector(__main__.zacpcotif)
-#setup ROIs
-fesController.setupAreaDetectorROIs(rois)
 
 #run zacscan
 zacscan 600 700 180 0.5
 
-#to clear rois - only required if you want to clear explicitly otherwise the later ROIs will override the earlier ones.
-fesController.clearAreaDetectorROIs()
