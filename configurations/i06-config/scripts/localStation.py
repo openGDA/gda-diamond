@@ -4,6 +4,7 @@
 print "===================================================================";
 print "Performing Beamline I06 specific initialisation code (localStation.py).";
 print
+from Diamond.Utility.Functions import logger
 print "-"*100
 print "Set scan returns to the start positions on completion"
 print "   To set scan returns to its start positions on completion please do:"
@@ -56,8 +57,8 @@ m3legs = [m3leg1, m3leg2, m3leg3, m3leg4, m3leg5, m3leg6];  # @UndefinedVariable
 
 #PEEM End Station
 if installation.isLive():
-    from peem.leem_instances import leem2000, leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx, mcpPlate,mcpScreen  # @UnusedImport
-    fileHeader.add([leem_fov, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, mcpPlate])
+    from peem.leem_instances import leem2000, FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, leem_p2alignx, mcpPlate,mcpScreen  # @UnusedImport
+    fileHeader.add([FOV, leem_obj, leem_stv, leem_objStigmA, leem_objStigmB, mcpPlate])
     from peem.stv_obj_instance import stvobj  # @UnusedImport
     from peem.LEEM2000_scannables_init import leem_rot,leem_temp,objAlignY,objAlignX  # @UnusedImport
     fileHeader.add([leem_rot])
@@ -70,6 +71,15 @@ from gda.jython.commands.GeneralCommands import alias
 alias("picture")
 #
 if installation.isLive():
+    def medipix_unrotate():
+        caput("BL06I-EA-DET-02:ROT:Angle",0)
+    alias("medipix_unrotate")
+    
+    def medipix_rotate():
+        rot=caget("BL06I-EA-LEEM-01:CALC:ROT:ANGLE")
+        caput("BL06I-EA-DET-02:ROT:Angle",rot)
+    alias("medipix_rotate")
+        
     def unrotate():
         caput("BL06I-EA-DET-01:ROT:Angle",0)
     alias("unrotate")
@@ -78,13 +88,21 @@ if installation.isLive():
         rot=caget("BL06I-EA-LEEM-01:CALC:ROT:ANGLE")
         caput("BL06I-EA-DET-01:ROT:Angle",rot)
     alias("rotate")
-        
+    
     # I06-406   
     temp1_EC3=DisplayEpicsPVClass('temp1_EC3','BL06I-EA-EC3-01:TEMP1','C','%f')
     temp2_EC3=DisplayEpicsPVClass('temp2_EC3','BL06I-EA-EC3-01:TEMP2','C','%f')
     temp3_EC3=DisplayEpicsPVClass('temp3_EC3','BL06I-EA-EC3-01:TEMP3','C','%f')
     temp4_EC3=DisplayEpicsPVClass('temp4_EC3','BL06I-EA-EC3-01:TEMP4','C','%f')
 else:
+    def medipix_unrotate():
+        raise RuntimeError("EPICS PV and IOC required!")
+    alias("medipix_unrotate")
+    
+    def medipix_rotate():
+        raise RuntimeError("EPICS PV and IOC required!")
+    alias("medipix_rotate")
+    
     def unrotate():
         raise RuntimeError("EPICS PV and IOC required!")
     alias("unrotate")
