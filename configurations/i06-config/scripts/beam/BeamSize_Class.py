@@ -3,6 +3,7 @@ A module defines a Scannable class for beam size. It contains definition of coef
 beam size required, and the slit y-gap size and raster amplitude, respectively.
 
 Once calibrated, these coefficients must be updated accordingly.
+fixed I06-546
   
 Created on 28 Nov 2018
 
