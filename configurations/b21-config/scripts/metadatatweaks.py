@@ -1,6 +1,12 @@
+import os
 import gda
 from gda.util import ElogEntry
 from gda.data.metadata import GDAMetadataProvider
+from gda.data.PathConstructor import createFromProperty, getDefaultPropertyName
+
+def _valid_visit(visit):
+    visit_drectory = createFromProperty(getDefaultPropertyName(), {"visit": visit})
+    return os.path.exists(visit_drectory) and os.path.isdir(visit_drectory)
 
 def setTitle(title):
     GDAMetadataProvider.getInstance().setMetadataValue("title", title)
@@ -10,6 +16,8 @@ def getTitle():
 
 def setVisit(visit):
     user=GDAMetadataProvider.getInstance().getMetadataValue("federalid")
+    if not _valid_visit(visit):
+        raise ValueError(visit + " is not a valid visit")
     if user != "b21user":
         oldvisit = GDAMetadataProvider.getInstance().getMetadataValue("visit")
         try:
