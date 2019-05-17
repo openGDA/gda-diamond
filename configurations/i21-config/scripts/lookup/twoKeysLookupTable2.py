@@ -12,7 +12,6 @@ def loadLookupTable(filename):
     lines = map(string.split, map(string.strip, lines))
     lookuptable={}
     for line in lines[2:]:
-        print line
         lookuptable[(float(line[0]),float(line[1]))]=[float(item) for item in line[2:]]
     return lookuptable    
 

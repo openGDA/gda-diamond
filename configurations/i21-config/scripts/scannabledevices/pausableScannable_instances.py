@@ -31,15 +31,16 @@ class LaserScannerMonitorListener(MonitorListener):
         '''
         self.newLaserStatus = int(mevent.getDBR().getEnumValue()[0])
         self.logger.debug("Laser Scanner Status is updated to {}", LASER_STATUS[self.newLaserStatus])
-        self.lastLaserStatusUpdated=self.newLaserStatus
         if self.scannable is None:
             raise ValueError("scannable is not set!")
-        if self.newLaserStatus == 2 or self.newLaserStatus == 3: #Yellow zone and Red zone
-            print "Pause %s motion: Object in %s zone !" % (self.scannable.getName(), LASER_STATUS[self.newLaserStatus])
-            self.scannable.pause()
-        elif self.newLaserStatus == 1 or self.newLaserStatus == 0: #Blue zone or None zone
-            print "Resume %s motion: Laser scanner status is %s zone" % (self.scannable.getName(), LASER_STATUS[self.newLaserStatus])
-            self.scannable.resume()
+        if self.newLaserStatus != self.lastLaserStatusUpdated:
+            if self.newLaserStatus == 2 or self.newLaserStatus == 3: #Yellow zone and Red zone
+                print "Pause %s motion: Laser Scanner status is %s zone !" % (self.scannable.getName(), LASER_STATUS[self.newLaserStatus])
+                self.scannable.pause()
+            elif self.newLaserStatus == 1 or self.newLaserStatus == 0: #Blue zone or None zone
+                print "Resume %s motion: Laser Scanner status is %s zone" % (self.scannable.getName(), LASER_STATUS[self.newLaserStatus])
+                self.scannable.resume()
+        self.lastLaserStatusUpdated=self.newLaserStatus
 
 #I21 cinel-seal nitrogen flow listener          
 FLOW_STATUS={0:'Off', 1:'On'}
@@ -62,19 +63,19 @@ class FlowStatusMonitorListener(MonitorListener):
         '''
         self.newFlowStatus = int(mevent.getDBR().getEnumValue()[0])
         self.logger.debug("Sliding Seal Nitrogen flow status is updated to {}", FLOW_STATUS[self.newFlowStatus])
-        self.lastFlowStatusUpdated=self.newFlowStatus
         if self.scannable is None:
             raise ValueError("scannable is not set!")
-        if self.newFlowStatus == 0: # flow too low
-            print "Pause %s motion: Nitrogen flow status is %s !" % (self.scannable.getName(), FLOW_STATUS[self.newFlowStatus])
-            self.scannable.pause()
-        else: 
-            print "Resume %s motion: Nitrogen flow status is %s " % (self.scannable.getName(), FLOW_STATUS[self.newFlowStatus])
-            self.scannable.resume()
+        if self.newFlowStatus != self.lastFlowStatusUpdated:
+            if self.newFlowStatus == 0: # flow too low
+                print "Pause %s motion: Nitrogen flow status is %s !" % (self.scannable.getName(), FLOW_STATUS[self.newFlowStatus])
+                self.scannable.pause()
+            else: 
+                print "Resume %s motion: Nitrogen flow status is %s " % (self.scannable.getName(), FLOW_STATUS[self.newFlowStatus])
+                self.scannable.resume()
+        self.lastFlowStatusUpdated=self.newFlowStatus
 
-PV_MonitorListener_Dictionary={'laser' : ("BL21I-MO-ARM-01:TTH:LASER:STATUS",LaserScannerMonitorListener())}
-#                                 ,
-#                                 'flow'  : ("BL21I-MO-ARM-01:TTH:SSEAL:NTRGN:STATUS",FlowStatusMonitorListener())}
+PV_MonitorListener_Dictionary={'laser' : ("BL21I-MO-ARM-01:TTH:LASER:STATUS",LaserScannerMonitorListener()),
+                               'flow'  : ("BL21I-MO-ARM-01:TTH:SSEAL:NTRGN:STATUS",FlowStatusMonitorListener())}
 
 armtth = PauseableScannable("armtth", epics_armtth, 0.01, PV_MonitorListener_Dictionary)
 

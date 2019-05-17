@@ -104,9 +104,18 @@ if installation.isLive():
     def polarimeter():
         caput("BL21I-OP-SHTR-01:SRC", 2)
         
+    def lightOn():
+        caput('BL21I-EA-SMPL-01:BOLED1', 1)
+        
+    def lightOff():
+        caput('BL21I-EA-SMPL-01:BOLED1', 0)
+        
     alias("erio")
     alias("primary")
     alias("polarimeter")
+    alias("lightOn")
+    alias("lightOff")
+
 else:
     print "Running in dummy mode"
 
@@ -297,6 +306,12 @@ scan_processing_off()
 
 #check beam scannables
 from scannabledevices.checkbeanscannables import checkbeam, checkrc, checkfe, checktopup_time  # @UnusedImport
+
+from scannabledevices.pausableScannable_instances import *  # @UnusedImport
+run("/dls_sw/i21/software/gda/config/scripts/i21commands/checkedMotion.py")
+# from i21commands.checkedMotion import lookuptable, move, asynmove, SGMR1_TOLERANCE, SPECL_TOLERANCE, moveWithinLimits, findRange, UnsafeOperationException, IllegalMoveException, checkIfMoveLegal
+# alias("move")
+# alias("asynmove")
 
 #Please leave Panic stop customisation last - specify scannables to be excluded from Panic stop
 from i21commands.stopJythonScannables import stopJythonScannablesExceptExcluded  # @UnusedImport

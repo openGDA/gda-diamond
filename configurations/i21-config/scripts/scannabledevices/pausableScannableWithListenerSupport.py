@@ -13,6 +13,8 @@ from org.slf4j import LoggerFactory
 import math
 from utils.ExceptionLogs import localStation_exception
 import sys
+from time import sleep
+import weakref
 
 
 class PauseableScannable(ScannableMotionBase):
@@ -32,6 +34,7 @@ class PauseableScannable(ScannableMotionBase):
         @param tolerance:    the tolerance within which motor is regarded as reached its position
         @param monitoredPvs: a dictionary defining a named tuple specifying (PV_name, MonitorListener) pair
         @param observers:    a dictionary defining a named tuple specifying (IObservable, IObserver) pair
+        @param parent:       the caller of this object - used to ensure monitors or observers are removed when this object is deleted.
         '''
         self.logger=LoggerFactory.getLogger("PauseableScannable")
         self.setName(name)
@@ -62,6 +65,7 @@ class PauseableScannable(ScannableMotionBase):
         self.pausedByMe=False
         self.movedByme=False
         self.monitorsAddedAtScanStart=False
+        self.parent=weakref.ref(self)
         
     def pause(self):
         '''pause the motion by calling EPICS motor to stop without stop this object
@@ -107,6 +111,7 @@ class PauseableScannable(ScannableMotionBase):
                     if not self.cacli[key].isConfigured():
                         #create channels
                         self.cacli[key].configure()
+                        sleep(1.0) #need to wait channel creation to complete
                     #add monitors to the channel
                     print "add monitors for %s" % key
                     self.monitors[key] = self.cacli[key].camonitor(self.ml[key])
@@ -170,6 +175,7 @@ class PauseableScannable(ScannableMotionBase):
             if not self.monitorsAddedAtScanStart:
                 self.addMonitorToPVs()
                 self.addObservers()
+            sleep(1.0) #give time for monitor value to update
             self.movedByme=True
             #handling nitrogen is off or lase at Yellow zone at start of motion! 
             if self.pausedByMe: return
@@ -184,14 +190,24 @@ class PauseableScannable(ScannableMotionBase):
                 self.removeObservers()
             self.movedByme=False
 
+    def moveTo(self, new_position):
+        self.asynchronousMoveTo(new_position)
+        self.waitWhileBusy()
+        if not self.monitorsAddedAtScanStart:
+            self.removeMonitorFromPVs()
+            self.removeObservers()
+        self.movedByme=False
+        
     def isBusy(self):
         if self.movedByme:
             if not self.pausedByMe and math.fabs(self.scannable.getMotor().getTargetPosition() - self.getDemandPosition()) > self._tolerance :
                 if not self.stoppedByMe:
-                    print "%s is stopped from outside GDA." % self.getName()
+                    print "%s is stopped from outside GDA. remove monitors also." % self.getName()
+                    self.removeMonitorFromPVs()
+                    self.removeObservers()
                 return False #someone changed motor position request in EPICS
             else:
-                return not (math.fabs(self.scannable.getPosition() - self.getDemandPosition()) <= self._tolerance)
+                return (not (math.fabs(self.scannable.getPosition() - self.getDemandPosition()) <= self._tolerance)) or self.scannable.isBusy()
         else:
             return self.scannable.isBusy()
     
@@ -216,4 +232,17 @@ class PauseableScannable(ScannableMotionBase):
         
     def toFormattedString(self):
         return self.name + " : " + str(self.getPosition())
+    
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        print "remove monitors and observer if any"
+        self.removeMonitorFromPVs()
+        self.removeObservers()
+        
+    def __del__(self):
+        print "remove monitors or observer if any on delete this object."
+        self.removeMonitorFromPVs()
+        self.removeObservers()
 

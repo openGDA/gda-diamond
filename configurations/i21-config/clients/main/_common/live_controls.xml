@@ -18,6 +18,13 @@
 		<property name="increment" value="1" />
 	</bean>
 
+	<bean id="epics_armtth_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="epics_armtth" />
+		<property name="group" value="2-theta Rotations" />
+		<property name="scannableName" value="epics_armtth" />
+		<property name="increment" value="1" />
+	</bean>
+	
 	<!-- Translations -->
 	<bean id="sax_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="x" />
@@ -90,6 +97,7 @@
 				<ref bean="saazimuth_control" />
 				<ref bean="m5tth_control" />
 				<ref bean="difftth_control" />
+				<ref bean="epics_armtth_control"/>
 				<ref bean="screws_position" />
 				<ref bean="transfer_position" />
 				<ref bean="rixs_position" />
