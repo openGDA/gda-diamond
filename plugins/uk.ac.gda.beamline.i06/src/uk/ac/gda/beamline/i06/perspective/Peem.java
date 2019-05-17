@@ -65,7 +65,6 @@ public class Peem implements IPerspectiveFactory {
 		bottomLeftfolder.addPlaceholder(IPageLayout.ID_OUTLINE);
 
 		IFolderLayout topRightFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.53, IPageLayout.ID_EDITOR_AREA); //$NON-NLS-1$
-		topRightFolder.addView("uk.ac.gda.beamline.i06.pco.live.stream.view.LiveStreamViewWithHistogram:pco_cam#EPICS_ARRAY");
 		topRightFolder.addView("uk.ac.gda.beamline.i06.medipix.live.stream.view.LiveStreamViewWithHistogram:medipix_cam#EPICS_ARRAY");
 		topRightFolder.addPlaceholder(LiveStreamViewWithHistogram.ID+":*");
 		topRightFolder.addPlaceholder(LiveStreamView.ID);

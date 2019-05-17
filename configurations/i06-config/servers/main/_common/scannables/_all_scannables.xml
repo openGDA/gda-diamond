@@ -20,7 +20,6 @@
 	<import resource="laser_ec3.xml"/>
 	<import resource="peemStage.xml"/>
 	<import resource="peemExitSlit.xml"/>
-	<import resource="pco.xml"/>
 	<import resource="medipix.xml"/>
 	
 </beans>

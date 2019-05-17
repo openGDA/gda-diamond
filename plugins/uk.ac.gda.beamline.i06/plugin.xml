@@ -131,12 +131,6 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="gda.rcp.views.ViewFactoryFinder:pcoControlWidgetFactory"
-            id="uk.ac.gda.beamline.i06.pco.live.stream.view.LiveStreamViewWithHistogram"
-            name="PCO Array"
-            restorable="true">
-      </view>
-      <view
             class="gda.rcp.views.ViewFactoryFinder:medipixControlWidgetFactory"
             id="uk.ac.gda.beamline.i06.medipix.live.stream.view.LiveStreamViewWithHistogram"
             name="MediPix"
@@ -144,73 +138,6 @@
       </view>
    </extension>
    <extension point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="toolbar:uk.ac.gda.beamline.i06.pco.live.stream.view.LiveStreamViewWithHistogram">
-         <command
-               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
-               label="Sanpshot"
-               style="push">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="activePartId">
-                  <equals
-                        value="uk.ac.gda.beamline.i06.pco.live.stream.view.LiveStreamViewWithHistogram">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
-               label="Start"
-               style="push"
-               tooltip="Start camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.pco.live.stream.active">
-                  <equals
-                        value="STOPPED">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
-               label="Stop"
-               style="push"
-               tooltip="Stop camera acquisition">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.pco.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-         <command
-               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
-               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
-               label="Freeze"
-               style="toggle"
-               tooltip="Enable/disable image update">
-            <visibleWhen
-                  checkEnabled="false">
-               <with
-                     variable="i06.pco.live.stream.active">
-                  <equals
-                        value="RUNNING">
-                  </equals>
-               </with>
-            </visibleWhen>
-         </command>
-      </menuContribution>
       <menuContribution
             allPopups="false"
             locationURI="toolbar:uk.ac.gda.beamline.i06.medipix.live.stream.view.LiveStreamViewWithHistogram">
@@ -283,10 +210,6 @@
          point="org.eclipse.ui.services">
       <sourceProvider
             provider="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-         <variable
-               name="i06.pco.live.stream.active"
-               priorityLevel="workbench">
-         </variable>
          <variable
                name="i06.medipix.live.stream.active"
                priorityLevel="workbench">

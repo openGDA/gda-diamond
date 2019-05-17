@@ -5,8 +5,6 @@
 
 	<import resource="../../../../i06-shared/clients/main/dummy/client.xml"/>
 	<bean id="localhostInetAddress" class="java.net.InetAddress" factory-method="getLocalHost"/>
-	<import resource="pco_live_controls.xml"/>
-	<import resource="pco_stream_views.xml"/>
 	<import resource="medipix_live_controls.xml"/>
 	<import resource="medipix_stream_views.xml"/>
 	<import resource="sim_stream_views.xml"/>

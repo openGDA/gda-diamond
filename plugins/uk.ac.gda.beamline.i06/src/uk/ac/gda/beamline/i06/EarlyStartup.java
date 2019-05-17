@@ -42,7 +42,6 @@ public class EarlyStartup implements IStartup {
 					// make sure 'Region editor' view Title is shown at start without making the view either in focus or visible
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ToolPageView.FIXED_VIEW_ID, "org.dawb.workbench.plotting.tools.region.editor",IWorkbenchPage.VIEW_CREATE);
 					// ensure the PCO Stream View has focus so the 'Region Editor' above is linked to this image
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.gda.beamline.i06.pco.live.stream.view.LiveStreamViewWithHistogram","pco_cam#EPICS_ARRAY",IWorkbenchPage.VIEW_ACTIVATE);
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("uk.ac.gda.beamline.i06.medipix.live.stream.view.LiveStreamViewWithHistogram","medipix_cam#EPICS_ARRAY",IWorkbenchPage.VIEW_ACTIVATE);
 					//make the dynamic toolbar items visible, not just inside drop-down menu.
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().resetPerspective();
