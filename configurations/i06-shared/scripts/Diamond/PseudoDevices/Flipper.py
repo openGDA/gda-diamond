@@ -33,6 +33,7 @@ class FlipperClass(ScannableMotionBase):
 		
 		self.countsA = [0, 0, 0];
 		self.countsB = [0, 0, 0];
+		self.waitTime=0.0
 
 	def ratioFunction(self, counts):
 		Id, I0, If = counts[0], counts[1], counts[2];
@@ -110,6 +111,8 @@ class FlipperClass(ScannableMotionBase):
 	def asynchronousMoveTo(self,newPos):
 		print 'move magnet...';
 		self.magnet.moveTo(newPos);
+		print "waiting for %f seconds ... " % (self.waitTime)
+		sleep(self.waitTime)
 
 		print 'move energy to starting point';
 		self.energy.moveTo(self.startEnergy);
