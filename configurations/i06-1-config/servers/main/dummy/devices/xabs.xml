@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Branchline Cleanup Slits S7 Motors -->
+	<bean id="xabsx_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.1" />
+		<property name="maxPosition" value="28.0" />
+		<property name="speed" value="1.0" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="xabsy_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-96.000000" />
+		<property name="maxPosition" value="2.5000" />
+		<property name="speed" value="1.5" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="xabsth_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1000000.000" />
+		<property name="maxPosition" value="1000000.000" />
+		<property name="speed" value="4.0" />
+		<property name="unitString" value="deg"/>
+	</bean>
+
+</beans>

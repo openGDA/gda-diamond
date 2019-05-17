@@ -3,50 +3,36 @@
 
 	<!-- Dichorism and Diffraction Motors -->
 	<bean id="MotorTheta_DD" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06J-EA-USER-01:MTR4" />
+		<property name="pvName" value="BL06J-EA-DDIFF-01:THETA" />
 	</bean>
-
 	<bean id="Motor2Theta_DD" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-EA-DDIFF-01:DET:2THETA" />
 	</bean>
-
-	<bean id="Motor2Chi_DD" class="gda.device.motor.DummyMotor">
+	<bean id="MotorChi_DD" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06J-EA-DDIFF-01:CHI" />
+	</bean>
+	<bean id="MotorPhi_DD" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL06J-EA-DDIFF-01:PHI" />
+	</bean>
+	<bean id="MotorDummyChi_DD" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="89.999999" />
 		<property name="maxPosition" value="90.000001" />
-		<property name="speed" value="1" />
+		<property name="position" value="90.0000"/>
+		<property name="speed" value="50" />
 		<property name="unitString" value="deg"/>
 	</bean>
 
 	<bean id="MotorXSample_DD" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06J-EA-USER-01:MTR1" />
+		<property name="pvName" value="BL06J-EA-DDIFF-01:SMPL:X" />
 	</bean>
-
 	<bean id="MotorYSample_DD" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06J-EA-USER-01:MTR2" />
+		<property name="pvName" value="BL06J-EA-DDIFF-01:SMPL:Y" />
 	</bean>
-
 	<bean id="MotorZSample_DD" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06J-EA-USER-01:MTR3" />
+		<property name="pvName" value="BL06J-EA-DDIFF-01:SMPL:Z" />
 	</bean>
-
 	<bean id="MotorYDetector_DD" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL06J-EA-DDIFF-01:DET:Y" />
-	</bean>
-
-	<bean id="MotorXTable_DD" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-EA-DDIFF-01:X" />
-	</bean>
-
-	<bean id="MotorXTrans_DD" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-EA-DDIFF-01:PINHOLE:X" />
-	</bean>
-
-	<bean id="MotorYTrans_DD" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-EA-DDIFF-01:PINHOLE:Y" />
-	</bean>
-
-	<bean id="MotorZTrans_DD" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL06I-EA-DDIFF-01:PINHOLE:Z" />
 	</bean>
 
 </beans>

@@ -18,7 +18,6 @@
 		<property name="pvName" value="BL06J-EA-USER-01:MTR4" />
 	</bean>
 
-<!--  MTR5 is removed in EPICS -->
 <!-- 	<bean id="MotorMTR5_U2" class="gda.device.motor.EpicsMotor"> -->
 <!-- 		<property name="pvName" value="BL06J-EA-USER-01:MTR5" /> -->
 <!-- 	</bean> -->

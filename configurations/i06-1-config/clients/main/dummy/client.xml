@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<import resource="../../../../i06-shared/clients/main/live/client.xml"/>
+	<import resource="stream_views.xml"/>
 	<import resource="mjpegViewers.xml"/>
 	<import resource="magnet.xml"/>
 	<import resource="../_common/client.xml" />

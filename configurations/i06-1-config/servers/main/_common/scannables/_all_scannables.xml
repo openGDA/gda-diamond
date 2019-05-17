@@ -16,13 +16,15 @@
 	<import resource="HM.xml"/>
 	<import resource="d12.xml"/>
 	<import resource="u2.xml"/>
-	<import resource="userMotors.xml"/>
 	<import resource="scm.xml"/>
-	<import resource="laser_ec2.xml"/>
+	<import resource="xabs.xml"/>
+	<import resource="userMotors.xml"/>
 	
 	<!-- mobile end station devices below -->
 	<import resource="endStationDD.xml"/>
+	<import resource="laser_ec2.xml"/>
+<!-- 	<import resource="magnet.xml"/> -->
 <!-- 	<import resource="mobilerack.xml"/> -->
-	<import resource="pixis.xml"/>
+<!-- 	<import resource="polarimeter.xml"/> -->
 	
 </beans>

@@ -4,21 +4,21 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="HM_X_Motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-2.00" />
-		<property name="maxPosition" value="0.100" />
-		<property name="speed" value="1.0" />
+		<property name="minPosition" value="-90.000000" />
+		<property name="maxPosition" value="0.0000000" />
+		<property name="speed" value="0.01" />
 		<property name="unitString" value="mm"/>
 	</bean>
 	<bean id="HM_Y_Motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-50.000" />
-		<property name="maxPosition" value="0.000" />
-		<property name="speed" value="1.0" />
+		<property name="minPosition" value="-90.000000" />
+		<property name="maxPosition" value="0.0000000" />
+		<property name="speed" value="0.01" />
 		<property name="unitString" value="mm"/>
 	</bean>
 	<bean id="HM_TH_Motor" class="gda.device.motor.DummyMotor">
-		<property name="minPosition" value="-9980.000" />
-		<property name="maxPosition" value="10020.000" />
-		<property name="speed" value="2.0" />
+		<property name="minPosition" value="-90.000000" />
+		<property name="maxPosition" value="0.0000000" />
+		<property name="speed" value="0.01" />
 		<property name="unitString" value="deg"/>
 	</bean>
 </beans>

@@ -31,15 +31,40 @@
 		<property name="initialUserUnits" value="deg" />
 		<property name="hardwareUnitString" value="deg" />
 	</bean>
-	<!-- Dummy chi to satisfy DIFFCALC -->
-	<bean id="chi" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="chi" />
+
+	<bean id="ddchi" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ddchi" />
 		<property name="inputNames">
 			<list>
-				<value>chi</value>
+				<value>ddchi</value>
 			</list>
 		</property>
-		<property name="motor" ref="Motor2Chi_DD" />
+		<property name="motor" ref="MotorChi_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	<bean id="ddphi" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="ddphi" />
+		<property name="inputNames">
+			<list>
+				<value>ddphi</value>
+			</list>
+		</property>
+		<property name="motor" ref="MotorPhi_DD" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="deg" />
+		<property name="hardwareUnitString" value="deg" />
+	</bean>
+	<!-- Dummy chi to satisfy DIFFCALC -->
+	<bean id="dummychi" class="gda.device.scannable.ScannableMotor">
+		<property name="name" value="dummychi" />
+		<property name="inputNames">
+			<list>
+				<value>dummychi</value>
+			</list>
+		</property>
+		<property name="motor" ref="MotorDummyChi_DD" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="deg" />
 		<property name="hardwareUnitString" value="deg" />
@@ -74,46 +99,17 @@
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
 	
-	<!-- Detector Table X: -->
-	<bean id="ddtx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorXTable_DD" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	
-	
-	<bean id="ddpinx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorXTrans_DD" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	<bean id="ddpiny" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorYTrans_DD" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
-	<bean id="ddpinz" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="MotorZTrans_DD" />
-		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mm" />
-		<property name="hardwareUnitString" value="mm" />
-	</bean>
 	<bean id="DD" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
 				<ref bean="ddth" />
 				<ref bean="dd2th" />
+				<ref bean="ddchi" />
+				<ref bean="ddphi" />
 				<ref bean="ddsx" />
 				<ref bean="ddsy" />
 				<ref bean="ddsz" />
 				<ref bean="dddy" />
-				<ref bean="ddtx" />
-				<ref bean="ddpinx" />
-				<ref bean="ddpiny" />
-				<ref bean="ddpinz" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />
