@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Area detector camera -->
+	<bean id="peemCam3Base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL06I-EA-PHDGN-05:CAM:" />
+	</bean>
+	<bean id="peemcam3CollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+						<property name="triggerMode" value="0"/>
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="peemCam3Base" />
+								<property name="restoreAcquireState" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="peemcam3Hdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="1292" />
+		<property name="framesFlush" value="0" />
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="pathErrorSuppressed" value="true" />
+		<property name="fileNameTemplate" value="peemcam3"/>
+		<property name="ndFileHDF5">
+			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
+				<property name="ndFileImpl">
+					<bean class="gda.spring.V17NDFileFactoryBean">
+						<property name="prefix" value="BL06I-EA-PHDGN-05:HDF5:" />
+						<property name="resetToInitialValues" value="false" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- The Object which gets the ROIs from the client over RMI -->
+	<bean id="peemcam3_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" /> <!-- Make one per camera -->
+	<!-- Export it over RMI so the client can use it -->
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+	    <property name="serviceName" value="gda/peemcam3Roi" />
+	    <property name="service" ref="peemcam3_roi" />
+	    <property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>	
+	<bean id="peemcam3_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="peemcam3_RoiStats1" />
+		<property name="baseRoiPVName" value="BL06I-EA-PHDGN-05:ROI1:" />
+		<property name="baseStatsPVName" value="BL06I-EA-PHDGN-05:STAT1:" />
+		<property name="roiInputNdArrayPort" value="PEEM.CAM3.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="peemcam3_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+		</property>
+	</bean>
+	<bean id="peemcam3_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="peemcam3_RoiStats2" />
+		<property name="baseRoiPVName" value="BL06I-EA-PHDGN-05:ROI2:" />
+		<property name="baseStatsPVName" value="BL06I-EA-PHDGN-05:STAT2:" />
+		<property name="roiInputNdArrayPort" value="PEEM.CAM3.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="peemcam3_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="peemcam3_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="peemcam3_RoiStats3" />
+		<property name="baseRoiPVName" value="BL06I-EA-PHDGN-05:ROI3:" />
+		<property name="baseStatsPVName" value="BL06I-EA-PHDGN-05:STAT3:" />
+		<property name="roiInputNdArrayPort" value="PEEM.CAM3.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="peemcam3_roi" />
+	            <property name="index" value="2" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="peemcam3_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="peemcam3_RoiStats4" />
+		<property name="baseRoiPVName" value="BL06I-EA-PHDGN-05:ROI4:" />
+		<property name="baseStatsPVName" value="BL06I-EA-PHDGN-05:STAT4:" />
+		<property name="roiInputNdArrayPort" value="PEEM.CAM3.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="peemcam3_roi" />
+	            <property name="index" value="3" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="peemcam3_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="peemcam3_RoiStats5" />
+		<property name="baseRoiPVName" value="BL06I-EA-PHDGN-05:ROI5:" />
+		<property name="baseStatsPVName" value="BL06I-EA-PHDGN-05:STAT5:" />
+		<property name="roiInputNdArrayPort" value="PEEM.CAM3.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="peemcam3_roi" />
+	            <property name="index" value="4" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="peemcam3_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="peemcam3_RoiStats6" />
+		<property name="baseRoiPVName" value="BL06I-EA-PHDGN-05:ROI6:" />
+		<property name="baseStatsPVName" value="BL06I-EA-PHDGN-05:STAT6:" />
+		<property name="roiInputNdArrayPort" value="PEEM.CAM3.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="peemcam3_roi" />
+	            <property name="index" value="5" /> 
+	        </bean>
+		</property>
+	</bean>
+
+	<!-- NXDetector -->
+ 	<bean id="peemcam3" class="gda.device.detector.NXDetector">
+		<property name="name" value="peemcam3" />
+		<property name="collectionStrategy" ref="peemcam3CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="peemcam3_RoiStats1" />
+				<ref bean="peemcam3_RoiStats2" />
+				<ref bean="peemcam3_RoiStats3" />
+				<ref bean="peemcam3_RoiStats4" />
+				<ref bean="peemcam3_RoiStats5" />
+				<ref bean="peemcam3_RoiStats6" />
+				<ref bean="peemcam3Hdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>

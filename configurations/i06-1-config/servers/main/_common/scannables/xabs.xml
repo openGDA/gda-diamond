@@ -3,32 +3,31 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
-	<!-- Branch Line Exit Slits S6 -->
-	<bean id="hmx" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="HM_X_Motor" />
+	<!-- Branchline Cleanup Slits S7 Motors -->
+	<bean id="xabsx" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xabsx_motor" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
-	<bean id="hmy" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="HM_Y_Motor" />
+	<bean id="xabsy" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xabsy_motor" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="mm" />
 		<property name="hardwareUnitString" value="mm" />
 	</bean>
-	<bean id="hmth" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="HM_TH_Motor" />
+	<bean id="xabsth" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="xabsth_motor" />
 		<property name="protectionLevel" value="0" />
 		<property name="initialUserUnits" value="deg" />
 		<property name="hardwareUnitString" value="deg" />
 	</bean>
-	<bean id="HM" class="gda.device.scannable.scannablegroup.ScannableGroup">
+	<bean id="XABS" class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="hmx" />
-				<ref bean="hmy" />
-				<ref bean="hmth" />
+				<ref bean="xabsx" />
+				<ref bean="xabsy" />
+				<ref bean="xabsth" />
 			</list>
 		</property>
 		<property name="protectionLevel" value="0" />

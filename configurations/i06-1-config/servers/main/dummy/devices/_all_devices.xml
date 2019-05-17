@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	<import resource="adSimulator.xml"/>
+
 	<import resource="accessControl.xml"/>
 	<import resource="d8.xml"/>
 	<import resource="branchShutter.xml"/>
@@ -17,17 +17,20 @@
 	<import resource="HM.xml"/>
 	<import resource="d12.xml"/>
 	<import resource="u2.xml"/>
+	<import resource="scm.xml"/>
+	<import resource="xabs.xml"/>
 	<import resource="userMotors.xml"/>
 	<import resource="fastScan.xml"/>
-	<import resource="scm.xml"/>
 	<import resource="laser_ec2.xml"/>
 
 	<!-- mobile end station devices below -->
 	<import resource="endStationDD.xml"/>
 	<import resource="dd_cam6.xml"/>
-	<import resource="magnet.xml"/>
-<!-- 	<import resource="mobilerack.xml"/> -->
-	<import resource="DiffractionDichroism.xml"/>
+	<import resource="peem_cam3.xml"/>
+<!-- 	<import resource="laser.xml"/> -->
+<!-- 	<import resource="mobilerack_cam1.xml"/> -->
 	<import resource="pixis.xml"/>
+	<import resource="DiffractionDichroism.xml"/>
+	<import resource="magnet.xml"/>
 	
 </beans>

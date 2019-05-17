@@ -4,11 +4,23 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Branchline Fluorescent Screen and Diode D12 Motors -->
-	<bean id="MotorD_D12" class="gda.device.motor.DummyMotor">
+	<bean id="D12_X_Motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-90.000000" />
 		<property name="maxPosition" value="0.0000000" />
 		<property name="speed" value="0.01" />
 		<property name="unitString" value="mm"/>
+	</bean>
+	<bean id="D12_Y_Motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-90.000000" />
+		<property name="maxPosition" value="0.0000000" />
+		<property name="speed" value="0.01" />
+		<property name="unitString" value="mm"/>
+	</bean>
+	<bean id="D12_TH_Motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-90.000000" />
+		<property name="maxPosition" value="0.0000000" />
+		<property name="speed" value="0.01" />
+		<property name="unitString" value="deg"/>
 	</bean>
 	<bean id="d12posn" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">

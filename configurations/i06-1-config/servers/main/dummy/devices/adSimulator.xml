@@ -37,7 +37,7 @@
 		</property>
 	</bean>
 	<bean id="simHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
-		<property name="fileNameTemplate" value="dgn"/>
+		<property name="fileNameTemplate" value="simCam"/>
 		<property name="ndFileHDF5">
 			<bean class="gda.spring.V17NDFileHDF5FactoryBean">
 				<property name="ndFileImpl">
