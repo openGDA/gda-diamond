@@ -15,10 +15,10 @@ class Polarisation(ScannableBase):
     Scannable to control the polarisation of ID. It provides new simple polarisation names that map onto
     EPICS polarisation names for the ID. 
     '''
-    POLARISATIONS=['pc','nc', 'lh', 'lv', 'la']
+    POLARISATIONS=['pc','nc', 'lh', 'lv', 'la','unknown']
     POLARISATIONS_EPICS={'pc':'PosCirc', 'nc':'NegCirc','lh':'Horizontal','lv':'Vertical','la':'LinArb'}
     
-    def __init__(self, name, dpol, drpenergy, dgap, upol, urpenergy, ugap, pgmenergy, smode, offhar, detune=100.0, opengap=100.0, defaultPolarisation='pc'):
+    def __init__(self, name, dpol, drpenergy, dgap, upol, urpenergy, ugap, pgmenergy, smode, offhar, detune=100.0, opengap=100.0, defaultPolarisation='unknown'):
         '''
         Constructor - default polarisation mode is 'pc'
         '''
@@ -55,10 +55,8 @@ class Polarisation(ScannableBase):
         iddpolarisation=""
         idupolarisation=""
         errmsg=None
-        #fix I06-656
-        if self.polarisation == "UNAVAILABLE": #forget to set beam polarisation
-            raise RuntimeError("error, the ID polarisation is 'Unavailable' - did you forget to set beam polarisation first?")
-                    
+        if self.polarisation == Polarisation.POLARISATIONS[5]: #EPICS does not support 'unknown' in polarisation
+            return self.polarisation
         if mode == SourceMode.SOURCE_MODES[0]:
             iddpolarisation=str(self.dpol.getPosition())
             if iddpolarisation!=Polarisation.POLARISATIONS_EPICS[self.polarisation]:
@@ -123,7 +121,7 @@ class Polarisation(ScannableBase):
             self.upol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS[newpos])
             position = float(self.pgmenergy.getPosition())
             self.urpenergy.asynchronousMoveTo(position+offhar)
-            self.drpenergy.asynchronousMoveTo(position+self.detune)
+            self.drpenergy.asynchronousMoveTo(position+offhar)
         elif mode == SourceMode.SOURCE_MODES[3]:
             if newpos == Polarisation.POLARISATIONS[0]:
                 self.dpol.asynchronousMoveTo(Polarisation.POLARISATIONS_EPICS['pc'])

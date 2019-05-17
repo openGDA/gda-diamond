@@ -44,6 +44,7 @@ if installation.isLive():
     from i06shared.devices.usePGM import *  # @UnusedImport @UnusedWildImport
     from i06shared.devices.useID import *  # @UnusedImport @UnusedWildImport
     from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1locking  # @UnusedImport
+    from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2locking  # @UnusedImport
 
     CC1temp=DisplayEpicsPVClass('CC1temp','SV06I-BM-CC-01:TEMP','C','%f')
     CC3temp=DisplayEpicsPVClass('CC3temp','SV06I-BM-CC-03:TEMP','C','%f')
@@ -59,26 +60,16 @@ if installation.isLive():
 from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
 from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
 from i06shared.setSrsDataFileHeader import fileHeader  # @UnusedImport
-from i06shared.lasers.useSlap1 import laser1, laser1phase,laser1delay,laser1locking  # @UnusedImport
-from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2locking  # @UnusedImport
 #Group the hexapod legs into list
 m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
 m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
-
-#create 4 ROIs as default for PCO detector
-roi1=[0,0,100,100]
-roi2=[200,300,500,865]
-roi3=[650,378,350,468]
-roi4=[1000,1000,150,200]
-
 from i06shared.scannables.mode_polarisation_energy_instances import *  # @UnusedWildImport
-idd,idu,dpu,dmu=SourceMode.SOURCE_MODES
-pc,nc,lh,lv,la=Polarisation.POLARISATIONS
+idd,idu,dpu,dmu,unknown=SourceMode.SOURCE_MODES
+pc,nc,lh,lv,la,unknown=Polarisation.POLARISATIONS
 
 from i06shared.scan.miscan import miscan
 from gda.jython.commands.GeneralCommands import alias 
 alias('miscan')
-
 
 print "*"*80; 
 print "I06 shared localStation.py completed successfully!"
