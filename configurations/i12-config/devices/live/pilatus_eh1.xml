@@ -2,25 +2,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	<description>
-		There are 3 ways of configure EPICS access:
-		1. use Java content objects
-		provided by epics-x.x.x.jar to specify
-		'deviceName' property;
-		e.g. <!-- property 
-			name="deviceName" value="pixium.cam_ADBase"/ -->
-		2. set pvProvider property which in turn uses XMLPVProvider bean to
-		specify 'deviceName' property;
-		e.g. <!-- property name="pvProvider"> <bean 
-			class="uk.ac.gda.devices.excalibur.impl.XMLPVProvider"> <property name="deviceName" 
-			value="pixium.cam_ADBase" /> </bean> </property -->
-		3. set base PV name property with field or sub-element being coded in
-		Java classes.
-		e.g. <!-- property name="basePVName" value="BL12I-EA-DET-05:PIX:" 
-			/ -->
-	</description>
-
-
 
 	<!-- AD hardware -->
 
@@ -36,14 +17,13 @@
 		<constructor-arg value=".003" />
 		<property name="sleepMillis" value="1000" />
 	</bean>
-	
+
 	<!-- NXDetector file writers -->
 
 	<bean id="pilatus_eh1_hdf_file" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
 		<property name="basePVName" value="BL12I-EA-PILAT-01:HDF5:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<!-- <property name="deviceName" value="pco.hdf_NDPluginBase" /> -->
 				<property name="basePVName" value="BL12I-EA-PILAT-01:HDF5:" />
 				<property name="initialArrayPort" value="pilatus.cam" />
 				<property name="initialArrayAddress" value="0" />

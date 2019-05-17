@@ -2,21 +2,14 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	
 
-	
+
 	<bean id="flow_diamond_filter" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL12I-AL-ATTN-01:WFS:STATUS" />
 	</bean>
-	
+
 	<bean id="flow_shutter1" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL12I-PS-SHTR-01:WFS:STATUS" />
 	</bean>
-	
-<!--	<bean id="oh1_i0" class="gda.device.detector.etldetector.EpicsETLController">-->
-<!--		<property name="name" value="oh1_i0" />-->
-<!--		<property name="deviceName" value="izero.oh1" />-->
-<!--	</bean>-->
-	
 
 </beans>
