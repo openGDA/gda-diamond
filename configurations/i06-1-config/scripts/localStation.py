@@ -29,7 +29,6 @@ import sys
 if installation.isLive():
     from Beamline.U2Scaler8513 import ca61sr,ca62sr,ca63sr,ca64sr,ca65sr,ca66sr,ca67sr,ca68sr,scaler2  # @UnusedImport
     from laserCabin.TOPASScaler8512 import ca81sr,ca82sr,ca83sr,ca84sr,ca85sr,ca86sr,ca87sr,ca88sr,topas_scaler  # @UnusedImport
-    from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2locking  # @UnusedImport
     ##Magnet
     #from magnet.useMagnet import scm,magmode,magcartesian,magspherical,magx,magy,magz,magrho,magth,magphi,magdelay,magtolerance,hyst2,dhyst,logValues,negLogValues,negPosLogValues,cw,cwAsymptote # @UnusedImport
     try:
@@ -89,22 +88,18 @@ print "Switch off scan processor by default at Sarnjeet's request on 11 May 2016
 print " To manually switch on scan processor, run 'scan_processing_on()' function on Jython Terminal."
 print " To manually switch off scan processor, run 'scan_processing_off()' function on Jython Terminal."
 
-try:
-    from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
-    scan_processor.rootNamespaceDict=globals() 
-    import gdascripts 
-    gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
-    scan_processor_normal_processes = scan_processor.processors
-    scan_processor_empty_processes  = []
-     
-    def scan_processing_on():
-        scan_processor.processors = scan_processor_normal_processes
-     
-    def scan_processing_off():
-        scan_processor.processors = scan_processor_empty_processes
-except:
-    localStation_exception(sys.exc_info(), "import scan processor error.")
-    
+from gdascripts.scan.installStandardScansWithProcessing import * # @UnusedWildImport
+scan_processor.rootNamespaceDict=globals()  
+import gdascripts
+gdascripts.scan.concurrentScanWrapper.ROOT_NAMESPACE_DICT = globals()  # @UndefinedVariable
+scan_processor_normal_processes = scan_processor.processors
+scan_processor_empty_processes  = []
+ 
+def scan_processing_on():
+    scan_processor.processors = scan_processor_normal_processes
+ 
+def scan_processing_off():
+    scan_processor.processors = scan_processor_empty_processes
 print
 print "*"*80
 #DiffCalc

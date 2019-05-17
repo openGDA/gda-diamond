@@ -26,9 +26,9 @@ class SourceMode(ScannableBase):
         - enables 'zacscan' for the single source modes - 'idd' and 'idu'
         - disables 'zacscan' for combined source modes - 'dpu' and 'dmu'
     '''
-    SOURCE_MODES=['idd','idu','dpu','dmu']
+    SOURCE_MODES=['idd','idu','dpu','dmu','unknown']
     
-    def __init__(self, name, defaultmode='idd'):
+    def __init__(self, name, defaultmode='unknown'):
         '''
         Constructor - default source mode is 'idd'
         '''
@@ -65,7 +65,8 @@ class SourceMode(ScannableBase):
             InterfaceProvider.getCommandRunner().runScript(scriptfile)
             sleep(1)
         else:
-            print "Input mode is wrong: legal values %s or [SourceModeScannable.d, SourceModeScannable.u, SourceModeScannable.dpu, SourceModeScannable.dmu]. Operation cancelled." % (SourceMode.SOURCE_MODES)
+            print "Input mode is wrong: legal values %s or [SourceModeScannable.idd, SourceModeScannable.idu, SourceModeScannable.dpu, SourceModeScannable.dmu]." % (SourceMode.SOURCE_MODES)
+            self.mode=SourceMode.SOURCE_MODES[4]
             raise ValueError("Input mode %s is not supported." % (str(mode)))
         self.mode=mode
         self.amIBusy=False
