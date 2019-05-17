@@ -3,6 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-	<bean id="tz_motor" class="gda.device.motor.DummyMotor"/>
 	<bean id="tbase_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="tx_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="ty_motor" class="gda.device.motor.DummyMotor" />
+	<bean id="tz_motor" class="gda.device.motor.DummyMotor"/>
+	<bean id="trot_motor" class="gda.device.motor.DummyMotor" />
+
 </beans>
