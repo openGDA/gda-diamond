@@ -2,6 +2,7 @@
 #For beamline specific initialisation code.
 from i06shared import installation
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
+from gda.device.scannable import DummyScannable
 print
 print "*"*80
 print "Performing Beamline I06-shared initialisation code (localStation.py).";
@@ -25,6 +26,7 @@ print "load common physical constants"
 from gdascripts.constants import * #@UnusedWildImport
 print
 
+ds=DummyScannable('ds')
 from i06shared.commands.dirFileCommands import pwd, lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
 from i06shared.functions.aliasFunctions import setAlias, setGdaAlias  # @UnusedImport
 from i06shared.constant import *  # @UnusedWildImport
@@ -62,9 +64,20 @@ from i06shared.lasers.useSlap2 import laser2, laser2phase,laser2delay,laser2lock
 #Group the hexapod legs into list
 m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
 m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
+
+#create 4 ROIs as default for PCO detector
+roi1=[0,0,100,100]
+roi2=[200,300,500,865]
+roi3=[650,378,350,468]
+roi4=[1000,1000,150,200]
+
 from i06shared.scannables.mode_polarisation_energy_instances import *  # @UnusedWildImport
 idd,idu,dpu,dmu=SourceMode.SOURCE_MODES
 pc,nc,lh,lv,la=Polarisation.POLARISATIONS
+
+from i06shared.scan.miscan import miscan
+from gda.jython.commands.GeneralCommands import alias 
+alias('miscan')
 
 
 print "*"*80; 
