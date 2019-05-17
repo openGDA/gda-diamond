@@ -19,7 +19,9 @@ Require-Bundle: uk.ac.diamond.org.springframework;bundle-version="1.0.0",
  uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
  uk.ac.gda.client;bundle-version="9.2.0",
  uk.ac.gda.dls;bundle-version="1.0.0",
- uk.ac.gda.dls.client;bundle-version="1.0.0"
+ uk.ac.gda.dls.client;bundle-version="1.0.0",
+ uk.ac.gda.client.live.stream;bundle-version="1.0.0",
+ uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Diamond Light Source
