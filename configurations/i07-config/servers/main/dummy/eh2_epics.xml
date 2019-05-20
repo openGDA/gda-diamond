@@ -138,7 +138,7 @@
 
     <!-- EH2 Eurotherm Devices -->
 
-    <bean id="eh2temp11" class="gda.device.temperature.DummyTemp">
+    <bean id="evap1temp" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
         <property name="polltime" value = "1000"/>
@@ -147,7 +147,7 @@
         <property name="lowerTemp" value = "0"/>
     </bean>
 
-    <bean id="eh2temp12" class="gda.device.temperature.DummyTemp">
+    <bean id="evap2temp" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
         <property name="polltime" value = "1000"/>
@@ -156,7 +156,7 @@
         <property name="lowerTemp" value = "0"/>
     </bean>
 
-    <bean id="eh2temp21" class="gda.device.temperature.DummyTemp">
+    <bean id="xrdtemp" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
         <property name="polltime" value = "1000"/>
@@ -165,7 +165,7 @@
         <property name="lowerTemp" value = "0"/>
     </bean>
 
-    <bean id="eh2temp22" class="gda.device.temperature.DummyTemp">
+    <bean id="bctemp" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
         <property name="polltime" value = "1000"/>
@@ -174,52 +174,7 @@
         <property name="lowerTemp" value = "0"/>
     </bean>
 
-    <bean id="eh2temp31" class="gda.device.temperature.DummyTemp">
-        <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
-        <property name="polltime" value = "1000"/>
-        <property name="fileSuffix" value = "temp"/>
-        <property name="upperTemp" value = "1400"/>
-        <property name="lowerTemp" value = "0"/>
-    </bean>
-
-    <bean id="eh2temp32" class="gda.device.temperature.DummyTemp">
-        <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
-        <property name="polltime" value = "1000"/>
-        <property name="fileSuffix" value = "temp"/>
-        <property name="upperTemp" value = "1400"/>
-        <property name="lowerTemp" value = "0"/>
-    </bean>
-
-    <bean id="eh2temp41" class="gda.device.temperature.DummyTemp">
-        <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
-        <property name="polltime" value = "1000"/>
-        <property name="fileSuffix" value = "temp"/>
-        <property name="upperTemp" value = "1400"/>
-        <property name="lowerTemp" value = "0"/>
-    </bean>
-
-    <bean id="eh2temp42" class="gda.device.temperature.DummyTemp">
-        <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
-        <property name="polltime" value = "1000"/>
-        <property name="fileSuffix" value = "temp"/>
-        <property name="upperTemp" value = "1400"/>
-        <property name="lowerTemp" value = "0"/>
-    </bean>
-
-    <bean id="eh2temp51" class="gda.device.temperature.DummyTemp">
-        <property name="configureAtStartup" value="true"/>
-        <property name="accuracy" value = "5"/>
-        <property name="polltime" value = "1000"/>
-        <property name="fileSuffix" value = "temp"/>
-        <property name="upperTemp" value = "1400"/>
-        <property name="lowerTemp" value = "0"/>
-    </bean>
-
-    <bean id="eh2temp52" class="gda.device.temperature.DummyTemp">
+    <bean id="evap3temp" class="gda.device.temperature.DummyTemp">
         <property name="configureAtStartup" value="true"/>
         <property name="accuracy" value = "5"/>
         <property name="polltime" value = "1000"/>

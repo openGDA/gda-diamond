@@ -212,7 +212,7 @@
 
 	<!-- EH2 Eurotherm Devices -->
 
-	<bean id="eh2temp11controller" class="gda.device.temperature.EpicsEurotherm2kController">
+	<bean id="evap1temp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
 		<property name="configureAtStartup" value="true" />
 		<property name="basePVName" value="BL07I-EA-EVAP-01:LOOP1" />
 		<property name="maxRampRate" value="10" />
@@ -220,35 +220,17 @@
 		<property name="maxOutput" value="100" />
 	</bean>
 
-	<bean id="eh2temp11" class="gda.device.temperature.Eurotherm2K">
+	<bean id="evap1temp" class="gda.device.temperature.Eurotherm2K">
 		<property name="configureAtStartup" value="true" />
 		<property name="accuracy" value="5" />
 		<property name="polltime" value="1000" />
 		<property name="fileSuffix" value="temp" />
 		<property name="upperTemp" value="1400" />
 		<property name="lowerTemp" value="0" />
-		<property name="controller" ref="eh2temp11controller" />
+		<property name="controller" ref="evap1temp_controller" />
 	</bean>
 
-	<bean id="eh2temp12controller" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="configureAtStartup" value="true" />
-		<property name="basePVName" value="BL07I-EA-EVAP-01:LOOP2" />
-		<property name="maxRampRate" value="10" />
-		<property name="minRampRate" value="0.01" />
-		<property name="maxOutput" value="100" />
-	</bean>
-
-	<bean id="eh2temp12" class="gda.device.temperature.Eurotherm2K">
-		<property name="configureAtStartup" value="true" />
-		<property name="accuracy" value="5" />
-		<property name="polltime" value="1000" />
-		<property name="fileSuffix" value="temp" />
-		<property name="upperTemp" value="1400" />
-		<property name="lowerTemp" value="0" />
-		<property name="controller" ref="eh2temp12controller" />
-	</bean>
-
-	<bean id="eh2temp21controller" class="gda.device.temperature.EpicsEurotherm2kController">
+	<bean id="evap2temp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
 		<property name="configureAtStartup" value="true" />
 		<property name="basePVName" value="BL07I-EA-EVAP-02:LOOP1" />
 		<property name="maxRampRate" value="10" />
@@ -256,35 +238,17 @@
 		<property name="maxOutput" value="100" />
 	</bean>
 
-	<bean id="eh2temp21" class="gda.device.temperature.Eurotherm2K">
+	<bean id="evap2temp" class="gda.device.temperature.Eurotherm2K">
 		<property name="configureAtStartup" value="true" />
 		<property name="accuracy" value="5" />
 		<property name="polltime" value="1000" />
 		<property name="fileSuffix" value="temp" />
 		<property name="upperTemp" value="1400" />
 		<property name="lowerTemp" value="0" />
-		<property name="controller" ref="eh2temp21controller" />
+		<property name="controller" ref="evap2temp_controller" />
 	</bean>
 
-	<bean id="eh2temp22controller" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="configureAtStartup" value="true" />
-		<property name="basePVName" value="BL07I-EA-EVAP-02:LOOP2" />
-		<property name="maxRampRate" value="10" />
-		<property name="minRampRate" value="0.01" />
-		<property name="maxOutput" value="100" />
-	</bean>
-
-	<bean id="eh2temp22" class="gda.device.temperature.Eurotherm2K">
-		<property name="configureAtStartup" value="true" />
-		<property name="accuracy" value="5" />
-		<property name="polltime" value="1000" />
-		<property name="fileSuffix" value="temp" />
-		<property name="upperTemp" value="1400" />
-		<property name="lowerTemp" value="0" />
-		<property name="controller" ref="eh2temp22controller" />
-	</bean>
-
-	<bean id="eh2temp31controller" class="gda.device.temperature.EpicsEurotherm2kController">
+	<bean id="xrdtemp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
 		<property name="configureAtStartup" value="true" />
 		<property name="basePVName" value="BL07I-EA-EVAP-03:LOOP1" />
 		<property name="maxRampRate" value="10" />
@@ -292,35 +256,17 @@
 		<property name="maxOutput" value="100" />
 	</bean>
 
-	<bean id="eh2temp31" class="gda.device.temperature.Eurotherm2K">
+	<bean id="xrdtemp" class="gda.device.temperature.Eurotherm2K">
 		<property name="configureAtStartup" value="true" />
 		<property name="accuracy" value="5" />
 		<property name="polltime" value="1000" />
 		<property name="fileSuffix" value="temp" />
 		<property name="upperTemp" value="1400" />
 		<property name="lowerTemp" value="0" />
-		<property name="controller" ref="eh2temp31controller" />
+		<property name="controller" ref="xrdtemp_controller" />
 	</bean>
 
-	<bean id="eh2temp32controller" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="configureAtStartup" value="true" />
-		<property name="basePVName" value="BL07I-EA-EVAP-03:LOOP2" />
-		<property name="maxRampRate" value="10" />
-		<property name="minRampRate" value="0.01" />
-		<property name="maxOutput" value="100" />
-	</bean>
-
-	<bean id="eh2temp32" class="gda.device.temperature.Eurotherm2K">
-		<property name="configureAtStartup" value="true" />
-		<property name="accuracy" value="5" />
-		<property name="polltime" value="1000" />
-		<property name="fileSuffix" value="temp" />
-		<property name="upperTemp" value="1400" />
-		<property name="lowerTemp" value="0" />
-		<property name="controller" ref="eh2temp32controller" />
-	</bean>
-
-	<bean id="eh2temp41controller" class="gda.device.temperature.EpicsEurotherm2kController">
+	<bean id="bctemp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
 		<property name="configureAtStartup" value="true" />
 		<property name="basePVName" value="BL07I-EA-EVAP-04:LOOP1" />
 		<property name="maxRampRate" value="10" />
@@ -328,35 +274,17 @@
 		<property name="maxOutput" value="100" />
 	</bean>
 
-	<bean id="eh2temp41" class="gda.device.temperature.Eurotherm2K">
+	<bean id="bctemp" class="gda.device.temperature.Eurotherm2K">
 		<property name="configureAtStartup" value="true" />
 		<property name="accuracy" value="5" />
 		<property name="polltime" value="1000" />
 		<property name="fileSuffix" value="temp" />
 		<property name="upperTemp" value="1400" />
 		<property name="lowerTemp" value="0" />
-		<property name="controller" ref="eh2temp41controller" />
+		<property name="controller" ref="bctemp_controller" />
 	</bean>
 
-	<bean id="eh2temp42controller" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="configureAtStartup" value="true" />
-		<property name="basePVName" value="BL07I-EA-EVAP-04:LOOP2" />
-		<property name="maxRampRate" value="10" />
-		<property name="minRampRate" value="0.01" />
-		<property name="maxOutput" value="100" />
-	</bean>
-
-	<bean id="eh2temp42" class="gda.device.temperature.Eurotherm2K">
-		<property name="configureAtStartup" value="true" />
-		<property name="accuracy" value="5" />
-		<property name="polltime" value="1000" />
-		<property name="fileSuffix" value="temp" />
-		<property name="upperTemp" value="1400" />
-		<property name="lowerTemp" value="0" />
-		<property name="controller" ref="eh2temp42controller" />
-	</bean>
-
-	<bean id="eh2temp51controller" class="gda.device.temperature.EpicsEurotherm2kController">
+	<bean id="evap3temp_controller" class="gda.device.temperature.EpicsEurotherm2kController">
 		<property name="configureAtStartup" value="true" />
 		<property name="basePVName" value="BL07I-EA-EVAP-05:LOOP1" />
 		<property name="maxRampRate" value="10" />
@@ -364,32 +292,14 @@
 		<property name="maxOutput" value="100" />
 	</bean>
 
-	<bean id="eh2temp51" class="gda.device.temperature.Eurotherm2K">
+	<bean id="evap3temp" class="gda.device.temperature.Eurotherm2K">
 		<property name="configureAtStartup" value="true" />
 		<property name="accuracy" value="5" />
 		<property name="polltime" value="1000" />
 		<property name="fileSuffix" value="temp" />
 		<property name="upperTemp" value="1400" />
 		<property name="lowerTemp" value="0" />
-		<property name="controller" ref="eh2temp51controller" />
-	</bean>
-
-	<bean id="eh2temp52controller" class="gda.device.temperature.EpicsEurotherm2kController">
-		<property name="configureAtStartup" value="true" />
-		<property name="basePVName" value="BL07I-EA-EVAP-05:LOOP2" />
-		<property name="maxRampRate" value="10" />
-		<property name="minRampRate" value="0.01" />
-		<property name="maxOutput" value="100" />
-	</bean>
-
-	<bean id="eh2temp52" class="gda.device.temperature.Eurotherm2K">
-		<property name="configureAtStartup" value="true" />
-		<property name="accuracy" value="5" />
-		<property name="polltime" value="1000" />
-		<property name="fileSuffix" value="temp" />
-		<property name="upperTemp" value="1400" />
-		<property name="lowerTemp" value="0" />
-		<property name="controller" ref="eh2temp52controller" />
+		<property name="controller" ref="evap3temp_controller" />
 	</bean>
 
 </beans>
