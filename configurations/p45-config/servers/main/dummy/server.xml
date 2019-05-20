@@ -8,7 +8,10 @@
 	<import resource="file://${gda.facility.dir}/servers/dummy/mic.xml" />
 	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/>
 
+	<import resource="file://${gda.facility.dir}/servers/dummy/malcolmsims.xml"/> <!-- Contains all configuration for the malcolm simulations -->
+
 	<import resource="dummy_devices.xml"/>
+
 	<!--  <import resource="malcolm.xml"/> -->   <!-- Uncomment this line to enable a locally checked out malcolm device, see malcolm.xml -->
 
 	<!-- Do not remove anything below here -->
