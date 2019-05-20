@@ -16,4 +16,13 @@
 		<property name="pvName" value="SR-CS-FILL-01:STACOUNTDN" />
 	</bean>
 
+
+	<bean id="topup_time" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
+	</bean>
+
+	<bean id="topupstate" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:TOPUPSTATE" />
+	</bean>
+
 </beans>

@@ -71,6 +71,9 @@ from i06shared.scan.miscan import miscan
 from gda.jython.commands.GeneralCommands import alias 
 alias('miscan')
 
+#add checkbeam scannable
+from i06shared.scannables.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam  # @UnusedImport
+
 print "*"*80; 
 print "I06 shared localStation.py completed successfully!"
 print;print
