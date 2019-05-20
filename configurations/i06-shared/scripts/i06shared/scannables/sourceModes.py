@@ -11,6 +11,7 @@ from gda.jython import InterfaceProvider
 from gda.configuration.properties import LocalProperties
 from java.io import File
 from time import sleep
+from gda.jython.commands import GeneralCommands
 
 gda_git_loc = LocalProperties.get(LocalProperties.GDA_GIT_LOC)
 
@@ -38,7 +39,7 @@ class SourceMode(ScannableBase):
         self.idd_fast_energy_scan_script=str(gda_git_loc+"/gda-diamond.git/configurations/i06-shared/scripts/i06shared/scan/idd_fast_energy_scan.py")
         self.idu_fast_energy_scan_script=str(gda_git_loc+"/gda-diamond.git/configurations/i06-shared/scripts/i06shared/scan/idu_fast_energy_scan.py")
         self.remove_zacscan_script=str(gda_git_loc+"/gda-diamond.git/configurations/i06-shared/scripts/i06shared/scan/remove_zacscan.py")
-        InterfaceProvider.getCommandRunner().runScript(File(self.idd_fast_energy_scan_script))
+        GeneralCommands.run(self.idd_fast_energy_scan_script)
         
     def getPosition(self):
         return self.mode
