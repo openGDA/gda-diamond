@@ -174,7 +174,7 @@
 	</bean>
 	
 	<!-- Sample Femtos -->
-	<bean id="smpcdrain" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="draincurrent_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO1:"/>
 		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -185,7 +185,7 @@
 		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
-	<bean id="smpcfy1" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="fy1_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO2:"/>
 		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -196,7 +196,7 @@
 		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
-	<bean id="smpcfy3" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="fy3_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO3:"/>
 		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -207,7 +207,7 @@
 		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
-	<bean id="smpcdiff3" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="diff3_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO4:"/>
 		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -218,7 +218,7 @@
 		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
-	<bean id="smpcfy2" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="fy2_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO5:"/>
 		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -229,7 +229,7 @@
 		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
-	<bean id="smpcdiff1" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="diff1_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO6:"/>
 		<property name="adcChannel" value="1" />
 		<property name="lowerVoltageBound" value="0.5"/>
@@ -240,7 +240,7 @@
 		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
-	<bean id="smpcdiff2" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+	<bean id="diff2_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO7:"/>
 		<property name="adcChannel" value="2" />
 		<property name="lowerVoltageBound" value="0.5"/>
