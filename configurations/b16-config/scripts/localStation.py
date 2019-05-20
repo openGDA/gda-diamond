@@ -413,10 +413,15 @@ if installation.isLive():
 ###                                 A3 XIA Filters                          ###
 ###############################################################################
 if installation.isLive():
-	att3a = XiaFilter('att3a', 'BL16B-OP-ATTN-03', 1, timeout=5)
-	att3b = XiaFilter('att3b', 'BL16B-OP-ATTN-03', 2, timeout=5)
-	att3c = XiaFilter('att3c', 'BL16B-OP-ATTN-03', 3, timeout=5)
-	att3d = XiaFilter('att3d', 'BL16B-OP-ATTN-03', 4, timeout=5)
+	print("Creating XIA Filter objects")
+	try:
+		att3a = XiaFilter('att3a', 'BL16B-OP-ATTN-03', 1, timeout=5)
+		att3b = XiaFilter('att3b', 'BL16B-OP-ATTN-03', 2, timeout=5)
+		att3c = XiaFilter('att3c', 'BL16B-OP-ATTN-03', 3, timeout=5)
+		att3d = XiaFilter('att3d', 'BL16B-OP-ATTN-03', 4, timeout=5)
+	except Exception as e:
+		print("ERROR: Could not initialise XIA Filters")
+		print(e)
 
 ###############################################################################
 ###                      Setting device levels and formats                  ###
