@@ -219,4 +219,9 @@
 		<property name="defaultProcessingFile" value="xrf_windows.nxs" />
 	</bean>
 
+	<!-- Configuration for standards scan -->
+	<bean id="standards_scan_config" class="uk.ac.diamond.daq.mapping.standards.ui.StandardsScanConfig">
+		<property name="scannableName" value="dcm_enrg" />
+	</bean>
+
 </beans>
