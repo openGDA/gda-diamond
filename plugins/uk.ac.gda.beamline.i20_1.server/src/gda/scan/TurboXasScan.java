@@ -18,32 +18,27 @@
 
 package gda.scan;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
 import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
-import org.eclipse.dawnsci.nexus.NexusException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.data.nexus.tree.NexusTreeProvider;
 import gda.data.scan.datawriter.XasNexusDataWriter;
-import gda.data.swmr.SwmrFileReader;
 import gda.device.ContinuousParameters;
 import gda.device.DeviceException;
 import gda.device.Scannable;
 import gda.device.detector.BufferedDetector;
 import gda.device.detector.DummyNXDetector;
-import gda.device.detector.countertimer.BufferedScaler;
 import gda.device.detector.countertimer.TfgScalerWithLogValues;
 import gda.device.enumpositioner.ValvePosition;
 import gda.device.scannable.ContinuouslyScannable;
@@ -53,17 +48,13 @@ import gda.device.scannable.TurboXasScannable;
 import gda.device.trajectoryscancontroller.TrajectoryScanController;
 import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteState;
 import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteStatus;
-import gda.device.zebra.controller.impl.ZebraDummy;
 import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
 import gda.scan.ede.datawriters.AsciiWriter;
 import gov.aps.jca.CAException;
 import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.gda.beans.vortex.Xspress3Parameters;
-import uk.ac.gda.devices.detector.xspress3.TRIGGER_MODE;
 import uk.ac.gda.devices.detector.xspress3.Xspress3BufferedDetector;
-import uk.ac.gda.devices.detector.xspress3.Xspress3Controller;
-import uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller;
 import uk.ac.gda.server.exafs.epics.device.scannable.ShutterChecker;
 import uk.ac.gda.util.beans.xml.XMLHelpers;
 
@@ -91,15 +82,11 @@ public class TurboXasScan extends ContinuousScan {
 	private boolean useXspress3SwmrReadout = true;
 	private boolean twoWayScan = false;
 
-	private Map<String, String> xspressAttributeMap = new HashMap<String, String>();
-	private String pathToAttributeData = "/entry/instrument/NDAttributes/";
-
-	private Xspress3BufferedDetector xspress3BufferedDetector;
-	private SwmrFileReader xspress3FileReader;
 	private TurboXasNexusTree nexusTree = new TurboXasNexusTree();
 	private PlotUpdater plotUpdater = new PlotUpdater();
 	private List<Scannable> scannablesToMonitor;
 	private Optional<Scannable> shutter = Optional.empty();
+	private DetectorFunctions detectorFunctions = new DetectorFunctions();
 
 	private AsciiWriter asciiWriter;
 	private boolean writeAsciiDataAfterScan = false;
@@ -110,13 +97,13 @@ public class TurboXasScan extends ContinuousScan {
 	private int numCycles;
 	private int maxNumScalerFramesPerCycle = 250000;
 	private String dataNameToSelectInPlot = EdeDataConstants.LN_I0_IT_COLUMN_NAME;
-
 	private volatile int lastFrameRead;
 	private int pollIntervalMillis = 500;
 
 	public TurboXasScan(ContinuouslyScannable energyScannable, Double start, Double stop, Integer numberPoints,
 			Double time, BufferedDetector[] detectors) {
 		super(energyScannable, start, stop, numberPoints, time, detectors);
+		detectorFunctions.setDetectors(detectors);
 	}
 
 	public TurboXasScan(ContinuouslyScannable energyScannable, TurboXasMotorParameters motorParams, BufferedDetector[] detectors) {
@@ -125,11 +112,30 @@ public class TurboXasScan extends ContinuousScan {
 				motorParams.getNumReadoutsForScan(), 0.0, detectors);
 		turboXasMotorParams = motorParams;
 		doTrajectoryScan = turboXasMotorParams.getScanParameters().getUseTrajectoryScan();
+		detectorFunctions.setDetectors(detectors);
 		addMetaDataScannable();
 
 		// Set the datawriter
-		XasNexusDataWriter dataWriter = new XasNexusDataWriter();
+		XasNexusDataWriter dataWriter = createDataWriter();
 		setDataWriter(dataWriter);
+	}
+
+	/**
+	 * Create Nexus datawriter, set output template to include sample name after the scan number if it's been set.
+	 * @return XasNexusDataWriter
+	 */
+	private XasNexusDataWriter createDataWriter() {
+		XasNexusDataWriter dataWriter = new XasNexusDataWriter();
+		String filenameTemplate = "nexus/%d";
+		String sampleName = turboXasMotorParams.getScanParameters().getSampleName();
+		if (StringUtils.isNotEmpty(sampleName)) {
+			// Replace any whitespace characters with '-'s :
+			String name = sampleName.trim().replaceAll("\\s+", "-");
+			filenameTemplate += "_"+name;
+		}
+		filenameTemplate += ".nxs";
+		dataWriter.setNexusFileNameTemplate(filenameTemplate);
+		return dataWriter;
 	}
 
 	@Override
@@ -168,10 +174,8 @@ public class TurboXasScan extends ContinuousScan {
 			}
 		} else {
 			logger.info("Setting up scan using ContinuousParameters");
-			lastFrameRead = 0;
 			numReadoutsPerSpectrum = getTotalNumberOfPoints();
 			prepareDetectors(numReadoutsPerSpectrum, 1);
-			prepareNexusTreeProvider(numReadoutsPerSpectrum);
 			collectOneSpectrum(true);
 		}
 
@@ -197,36 +201,28 @@ public class TurboXasScan extends ContinuousScan {
 		prepareDetectors();
 
 		// Create the trajectory scan profile
-		TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
-		trajScanPreparer.setDefaults();
-		trajScanPreparer.setTwoWayScan(twoWayScan);
-		trajScanPreparer.addPointsForTimingGroups(turboXasMotorParams);
-
-		// send profile points to Epics trajectory scan, building and appending as necessary
-		TrajectoryScanController controller = trajScanPreparer.getTrajectoryScanController();
-		if (controller.getExecuteState() != ExecuteState.DONE) {
-			throw new Exception("Problem building trajectory scan profile - scan is already runninng!");
-		}
-		trajScanPreparer.sendAppendProfileValues();
+		turboXasScannable.prepareTrajectoryScan();
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
 
 		moveShutter(ValvePosition.OPEN);
 
 		// Adjust start time of axis to account for motor to get to start of first spectrum
+		TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
+		TrajectoryScanController controller = trajScanPreparer.getTrajectoryScanController();
 		double timeToInitialPosition = trajScanPreparer.getMaxTimePerStep();
 		double timeToScanStart = Math.abs(turboXasMotorParams.getScanStartPosition() - turboXasMotorParams.getStartPosition())/turboXasMotorParams.getScanMotorSpeed();
 		long delay = (long)(1000*(timeToInitialPosition + timeToScanStart));
 		nexusTree.setStartTime(System.currentTimeMillis() + delay);
 
-		trajScanPreparer.setExecuteProfile();
+		turboXasScannable.executeTrajectoryScan();
 
 		if (controller.getExecuteStatus() == ExecuteStatus.FAILURE){
 			throw new Exception("Failure when executing trajectory scan - check Epics EDM screen.");
 		}
 
 		// Wait until some points have been captured by zebra (i.e. motor has started moving)
-		while(getNumCapturedZebraPulses()==0) {
+		while(detectorFunctions.getNumCapturedZebraPulses()==0) {
 			logger.info("Waiting for points to be captured by Zebra before starting data collection");
 			Thread.sleep(100);
 		}
@@ -235,7 +231,7 @@ public class TurboXasScan extends ContinuousScan {
 		DetectorReadoutRunnable detectorReadoutRunnable = getDetectorReadoutRunnable();
 		Async.execute(detectorReadoutRunnable);
 
-		waitForTrajectoryScan(controller);
+		turboXasScannable.waitForTrajectoryScan();
 
 		if (controller.getExecuteStatus() == ExecuteStatus.SUCCESS) {
 			// Wait at end for data collection thread to finish
@@ -342,36 +338,6 @@ public class TurboXasScan extends ContinuousScan {
 	}
 
 	/**
-	 * Wait for trajectory scan to execute.
-	 * @return false if trajectory scan failed to execute successfully (i.e. if execute status != 'success' after scan finishes)
-	 * @param controller
-	 * @throws IOException
-	 * @throws InterruptedException
-	 */
-	private boolean waitForTrajectoryScan(TrajectoryScanController controller) throws IOException, InterruptedException {
-		logger.debug("Waiting for trajectory scan to execute");
-
-		// Give it at least a second (in case trajectory hasn't quite started yet)...
-		Thread.sleep(1000);
-
-		// Wait while trajectory scan runs...
-		while (controller.getExecuteState() == ExecuteState.EXECUTING) {
-			Thread.sleep(500);
-		}
-
-		// Output some info on trajectory scan final execution state
-		logger.debug("Trajectory scan finished. Execute state = {}, percent complete = {}", controller.getExecuteState(), controller.getScanPercentComplete());
-
-		if (controller.getScanPercentComplete()<100 && controller.getExecuteStatus() != ExecuteStatus.SUCCESS) {
-			String message = "\nTrajectory scan failed to execute correctly. Check Edm screen for more information";
-			logger.warn(message);
-			InterfaceProvider.getTerminalPrinter().print(message);
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Move the motor to the initial scan position using 1-point trajectory scan.
 	 * (Initial position is close to actual start position for bi-directional trajectory scan)
 	 *
@@ -379,12 +345,17 @@ public class TurboXasScan extends ContinuousScan {
 	 * @throws Exception
 	 */
 	private void moveToIntialPosition(TurboXasScannable turboXasScannable) throws Exception {
-		TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
-		TrajectoryScanController controller = trajScanPreparer.getTrajectoryScanController();
-		// Move the motor to the start position before arming zebras. Initial position is close to actual start position
-		// and outside of the zebra gate.
-		turboXasScannable.moveWithTrajectoryScan(turboXasMotorParams.getStartPosition(), trajScanPreparer.getMaxTimePerStep());
-		waitForTrajectoryScan(controller);
+		try {
+			TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
+			// Move the motor to the start position before arming zebras. Initial position is close to actual start position
+			// and outside of the zebra gate.
+			turboXasScannable.moveWithTrajectoryScan(turboXasMotorParams.getStartPosition(), trajScanPreparer.getMaxTimePerStep());
+			turboXasScannable.waitForTrajectoryScan();
+		} catch(Exception e) {
+			logger.warn("Problem moving turbo slit to {} at start of scan using trajectory scan.", turboXasMotorParams.getStartPosition(), e);
+			logger.info("Trying to move motor using Epics motor record instead");
+			turboXasScannable.moveTo(turboXasMotorParams.getStartPosition());
+		}
 	}
 
 	@Override
@@ -458,34 +429,17 @@ public class TurboXasScan extends ContinuousScan {
 		}
 	}
 
-	private void waitForReadoutToFinish(DetectorReadoutRunnable detectorReadoutRunnable, double maxWaitTimeSecs) throws ScanFileHolderException, DeviceException, InterruptedException {
+	private void waitForReadoutToFinish(DetectorReadout detectorReadoutRunnable, double maxWaitTimeSecs) throws ScanFileHolderException, DeviceException, InterruptedException {
 		try {
 			// Wait while XSpress3 hdf writing is still active; then close the file so final frames are
 			// flushed to disk and available for reading.
 			double timeWaited = 0.0;
-			if (xspress3FileReader!=null && xspress3BufferedDetector!=null) {
-				logger.info("Waiting for Xspress3 hdf writer to finish...");
-				int lastFrame = 0;
-				int currentFrame = -1;
-				while (lastFrame!=currentFrame && timeWaited<maxWaitTimeSecs) {
-					Thread.sleep(pollIntervalMillis);
-					lastFrame = currentFrame;
-					currentFrame = xspress3BufferedDetector.getController().getTotalHDFFramesAvailable();
-					timeWaited += pollIntervalMillis * 0.001;
-				}
-				//stop the file writer
-				xspress3BufferedDetector.getController().doStopSavingFiles();
-			}
+			timeWaited = detectorFunctions.waitForXspress3(maxWaitTimeSecs);
 
+			// Wait for detector collection thread to finish
 			logger.info("Waiting for detector collection thread to finish...");
-			int expectedTotalNumFrames = getTotalNumSpectra()*numReadoutsPerSpectrum;
-			int lastFrame = detectorReadoutRunnable.getLastFrameRead();
-			while (lastFrame<expectedTotalNumFrames && timeWaited<maxWaitTimeSecs) {
-				logger.info("Last frame read = {}", lastFrame);
-				Thread.sleep(1000);
-				timeWaited += 1.0;
-				lastFrame = detectorReadoutRunnable.getLastFrameRead();
-			}
+			detectorReadoutRunnable.waitForFrame(getTotalNumSpectra()*numReadoutsPerSpectrum, maxWaitTimeSecs-timeWaited);
+
 		} catch (InterruptedException e) {
 			logger.error("Sleep interrupted while waiting for readout to finish", e);
 		} finally {
@@ -494,17 +448,6 @@ public class TurboXasScan extends ContinuousScan {
 				logger.warn("Detector collection not finished after {} secs. {} spectra collected.", maxWaitTimeSecs, numSpectraCollected);
 			} else {
 				logger.warn("Detector collection finished. {} spectra collected.", numSpectraCollected);
-			}
-		}
-	}
-
-	public void setScalerMode() throws DeviceException {
-		// Try to set scalert64 mode first, otherwise Scalers seem to return junk. imh 14/9/2016
-		BufferedDetector det = getScanDetectors()[0];
-		if ( det instanceof BufferedScaler ) {
-			Object result = ((BufferedScaler)det).getDaserver().sendCommand("tfg setup-cc-mode scaler64");
-			if (!result.toString().equals("0")) {
-				logger.info("Problem setting Tfg to use scaler64 mode - scaler readout may not work correctly...");
 			}
 		}
 	}
@@ -518,10 +461,8 @@ public class TurboXasScan extends ContinuousScan {
 	 */
 	public void prepareDetectors() throws Exception {
 		int totNumSpectra = getTotalNumSpectra();
-		lastFrameRead = 0;
 		numReadoutsPerSpectrum = turboXasMotorParams.getNumReadoutsForScan();
 		prepareDetectors(numReadoutsPerSpectrum, totNumSpectra); //also arms it
-		prepareNexusTreeProvider(numReadoutsPerSpectrum);
 	}
 
 	/**
@@ -537,104 +478,33 @@ public class TurboXasScan extends ContinuousScan {
 	 * @throws CAException
 	 */
 	public void prepareDetectors(int numReadoutsPerSpectra, int numSpectra) throws Exception {
-		setScalerMode();
+		lastFrameRead = 0;
 		int maxNumSpectraPerCycle = (int) Math.floor(maxNumScalerFramesPerCycle/numReadoutsPerSpectra);
 		numSpectraPerCycle = Math.min(numSpectra,  maxNumSpectraPerCycle);
 		numReadoutsPerCycle = numSpectraPerCycle*numReadoutsPerSpectra;
 
-		// Setup scaler memory to record all frames of data for all spectra across all timing groups
 		ContinuousParameters params = createContinuousParameters();
 		params.setNumberDataPoints(numReadoutsPerCycle);
 		numCycles = (int) Math.ceil((double)numSpectra*numReadoutsPerSpectra/numReadoutsPerCycle);
 
-		for (BufferedDetector detector : getScanDetectors() ) {
-			detector.clearMemory();
-			if (detector instanceof BufferedScaler) {
-				((BufferedScaler)detector).setNumCycles(numCycles);
-			}
-			detector.setContinuousParameters(params);
-			detector.setContinuousMode(true);
-			checkThreadInterrupted();
-			if (detector instanceof Xspress3BufferedDetector) {
-				xspress3BufferedDetector = (Xspress3BufferedDetector)detector;
-				prepareXSpress3(numSpectra, numReadoutsPerSpectra);
-			}
-		}
+		detectorFunctions.setUseTwoZebras(twoWayScan);
+		detectorFunctions.setZebra1(turboSlit.getZebraDevice());
+		detectorFunctions.setZebra2(turboSlit.getZebraDevice2());
+		detectorFunctions.prepareDetectors(params, numSpectra, maxNumSpectraPerCycle, numReadoutsPerSpectra);
+		prepareNexusTreeProvider(numReadoutsPerSpectrum);
 	}
 
 	public void prepareNexusTreeProvider(int numReadoutsPerSpectrum) {
 		nexusTree.setFrameTimeFieldName(getFrameTimeFieldName());
 		nexusTree.setScanAxis(getScanAxis());
-		nexusTree.setXspress3FileReader(xspress3FileReader);
+		nexusTree.setXspress3FileReader(detectorFunctions.getXspress3FileReader());
 		nexusTree.setNumReadoutsPerSpectrum(numReadoutsPerSpectrum);
 		nexusTree.setExtraScannables(scannablesToMonitor);
 		nexusTree.setStartTime(System.currentTimeMillis());
 	}
 
-	public Xspress3BufferedDetector getXspress3Detector() {
-		for (BufferedDetector detector : getScanDetectors() ) {
-			if (detector instanceof Xspress3BufferedDetector) {
-				return (Xspress3BufferedDetector) detector;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Prepeare XPress3 for collection:
-	 * set number of frames to collect (for both the detector and hdf plugin),
-	 * set trigger mode and next file number.
-	 * @param numReadouts
-	 * @throws Exception
-	 */
-	public void prepareXSpress3(int numSpectra, int numReadoutsPerSpectrum) throws Exception{
-		if (xspress3BufferedDetector != null) {
-			Xspress3Controller controller = xspress3BufferedDetector.getController();
-
-			int totNumReadouts = numSpectra*numReadoutsPerSpectrum;
-
-			controller.doStopSavingFiles();
-			controller.doStop();
-			controller.doReset();
-			controller.setNumFramesToAcquire(totNumReadouts);
-			controller.setHDFNumFramesToAcquire(totNumReadouts);
-			controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only);
-
-			// set the HDF writer extra dimensions, so that MCA data has outer dimensions = [numSpectra, numReadoutsPerSpectrum]
-			controller.configureHDFDimensions(new int[] { numReadoutsPerSpectrum, numSpectra });
-
-			// controller.doReset();
-			controller.setNextFileNumber(0);
-			controller.setSavingFiles(true);
-			controller.doStart();
-
-			// create reader for loading data from Swmr file - only if using real hardware
-			if (useXspress3SwmrReadout && controller instanceof EpicsXspress3Controller) {
-				xspress3FileReader = new SwmrFileReader();
-				if (xspressAttributeMap.isEmpty()) {
-					setupXspressAttributeMap(xspress3BufferedDetector);
-				}
-				xspressAttributeMap.keySet().forEach((key) -> xspress3FileReader.addDatasetToRead(key, pathToAttributeData + xspressAttributeMap.get(key)));
-			}
-		}
-	}
-
-	/**
-	 * Set the ContinuousParameters (and TurboXasMotorParameters) to be used on the scan axis.
-	 */
-	private void prepareScanAxis() {
-		ContinuousParameters params = createContinuousParameters();
-		ContinuouslyScannable scanAxis = getScanAxis();
-		scanAxis.setContinuousParameters(params);
-
-		// TurboXasScannable is configured using TurboXasMotorParameters rather than ContinuousParameters.
-		// However, still need to store continuousParameters as well, since they are used to configure BufferedDetectors
-		if (scanAxis instanceof TurboXasScannable && turboXasMotorParams != null) {
-			((TurboXasScannable) scanAxis).setMotorParameters(turboXasMotorParams);
-			// total time is set by createContinuousParameters() but doesn't seem to be used -
-			// adjust the value to calculated scan time based on motor moves just in case... :-/
-			params.setTotalTime( turboXasMotorParams.getTotalTimeForScan() );
-		}
+	private String getFrameTimeFieldName() {
+		return getScanDetectors()[0].getExtraNames()[0];
 	}
 
 	/**
@@ -650,8 +520,8 @@ public class TurboXasScan extends ContinuousScan {
 		// Still need to create ContinuousParameters even if scan is setup using TurboXasMotorParams -
 		// - it is passed to BufferedDetector so it can set the number of data points...
 		prepareScanAxis();
+		ContinuousParameters params = createContinuousParameters();
 		ContinuouslyScannable scanAxis = getScanAxis();
-		ContinuousParameters params = scanAxis.getContinuousParameters();
 
 		// Get motor parameters, return motor to initial run-up position, arm the zebra with gate and pulse parameters (if 'arm at scan start' = true)
 		scanAxis.waitWhileBusy(); // to make sure motor is not still moving from last repetition/scan
@@ -677,33 +547,27 @@ public class TurboXasScan extends ContinuousScan {
 		}
 	}
 
-	private String getFrameTimeFieldName() {
-		return getScanDetectors()[0].getExtraNames()[0];
-	}
+	/**
+	 * Set the ContinuousParameters (and TurboXasMotorParameters) to be used on the scan axis.
+	 */
+	private void prepareScanAxis() {
+		ContinuousParameters params = createContinuousParameters();
+		ContinuouslyScannable scanAxis = getScanAxis();
+		scanAxis.setContinuousParameters(params);
 
-	public void addXspressDatasetToRecord(String label, String attribute) {
-		xspressAttributeMap.put(label, attribute);
-	}
-
-	private void setupXspressAttributeMap(Xspress3BufferedDetector detector) {
-		for(int channel=0; channel<detector.getNumberOfElements(); channel++) {
-			xspressAttributeMap.put(String.format("FF_%d", channel+1), String.format("Chan%dSca%d", channel+1, 5));
+		// TurboXasScannable is configured using TurboXasMotorParameters rather than ContinuousParameters.
+		// However, still need to store continuousParameters as well, since they are used to configure BufferedDetectors
+		if (scanAxis instanceof TurboXasScannable && turboXasMotorParams != null) {
+			((TurboXasScannable) scanAxis).setMotorParameters(turboXasMotorParams);
+			// total time is set by createContinuousParameters() but doesn't seem to be used -
+			// adjust the value to calculated scan time based on motor moves just in case... :-/
+			params.setTotalTime( turboXasMotorParams.getTotalTimeForScan() );
 		}
 	}
 
 	@Override
 	public int getDimension() {
 		return 1;
-	}
-
-	private void clearFrames(BufferedDetector detector, int lowFrame, int highFrame) throws DeviceException {
-		// Clear scaler memory multiple cycles are being used.
-		if (numCycles>1) {
-			if (detector instanceof BufferedScaler) {
-				logger.debug("Clearing scaler memory frames {} to {}", lowFrame, highFrame);
-				((BufferedScaler)detector).clearMemoryFrames(lowFrame, highFrame);
-			}
-		}
 	}
 
 	protected Object[][] readDetector(BufferedDetector detector, int lowFrame, int highFrame) throws Exception, DeviceException {
@@ -715,7 +579,8 @@ public class TurboXasScan extends ContinuousScan {
 		logger.info("Reading data from detectors for spectrum {} (frames {} to {}, reverse readout direction = {} ", spectrumNumber, lowFrame, highFrame, nexusTree.isReverseDetectorReadout());
 
 		detData[0] = nexusTree.readFrames(detector, lowFrame, highFrame);
-		clearFrames(detector, lowFrame, highFrame-1);
+		// ScalerFrames are already cleared in nexusTree.readFrames by createNXDetectorData
+		// detectorFunctions.clearScalerFrames(detector, lowFrame, highFrame-1);
 
 		logger.info("data read successfully");
 		return detData;
@@ -724,8 +589,8 @@ public class TurboXasScan extends ContinuousScan {
 	private class DetectorReadoutRunnable extends DetectorReadout {
 
 		@Override
-		public int getNumAvailableFrames() throws DeviceException, NexusException, ScanFileHolderException {
-			return TurboXasScan.this.getNumAvailableFrames();
+		public int getNumAvailableFrames() throws Exception {
+			return detectorFunctions.getNumAvailableFrames();
 		}
 
 		@Override
@@ -739,97 +604,6 @@ public class TurboXasScan extends ContinuousScan {
 		public boolean detectorsAreBusy() throws DeviceException {
 			return getScanDetectors()[0].isBusy();
 		}
-	}
-
-	/**
-	 *
-	 * @return Total number of captured pulses by zebra(s) used from scan
-	 * @throws DeviceException
-	 */
-	private int getNumCapturedZebraPulses() throws DeviceException {
-		if (turboSlit != null) {
-			// In dummy mode, just return total number of points that should have been captured
-			if (turboSlit.getZebraDevice() instanceof ZebraDummy) {
-				return numReadoutsPerCycle*numCycles;
-			}
-
-			try {
-				int numPulsesZebra1 = turboSlit.getZebraDevice().getPCNumberOfPointsCaptured();
-				int numPulsesZebra2 = 0;
-				if (twoWayScan && turboSlit.getZebraDevice2() != null) {
-					numPulsesZebra2 = turboSlit.getZebraDevice2().getPCNumberOfPointsCaptured();
-				}
-				logger.debug("Number of pulses captured by zebras : zebra1 = {}, zebra2 = {}", numPulsesZebra1, numPulsesZebra2);
-				return numPulsesZebra1 + numPulsesZebra2;
-			} catch (Exception e) {
-				throw new DeviceException("Problem getting number of captured pulses from zebra(s)", e);
-			}
-		}
-		return 0;
-	}
-
-	/**
-	 *
-	 * @param detector
-	 * @return Number of scaler frames available on Tfg
-	 * @throws DeviceException
-	 */
-	private int getNumTfgScalerFrames(BufferedScaler detector) throws DeviceException {
-		// For Tfg scalers, convert to absolute frame number in whole experiment if using cycles.
-		// (scaler readout will convert back to 'frame within cycle' as necessary)
-		int numFramesAvailable = detector.getNumberFrames();
-		if (detector.getNumCycles() > 1) {
-			int currentCycle = detector.getCurrentCycle(); // cycle counting starts from 0
-			int readoutsPerCycle = detector.getContinuousParameters().getNumberDataPoints();
-			if (currentCycle > 0) {
-				numFramesAvailable += readoutsPerCycle * currentCycle;
-			}
-		}
-		return numFramesAvailable;
-	}
-
-	/**
-	 *
-	 * @param detector
-	 * @return Number of frames of Hdf data available from Xspress3 (based on frame ounter PV, or number of frames in hdf file if xspress3FileReader is set).
-	 * @throws DeviceException
-	 * @throws ScanFileHolderException
-	 * @throws NexusException
-	 */
-	private int getNumXspress3Frames(Xspress3BufferedDetector detector) throws DeviceException, ScanFileHolderException, NexusException {
-		int numFramesAvailable = detector.getController().getTotalHDFFramesAvailable();
-		if (xspress3FileReader != null) {
-			if (xspress3FileReader.getFilename().isEmpty()) {
-				String hdfFilename = detector.getController().getFullFileName();
-				xspress3FileReader.openFile(hdfFilename);
-			}
-			numFramesAvailable = xspress3FileReader.getNumAvailableFrames();
-		}
-		return numFramesAvailable;
-	}
-
-	/**
-	 * @return Maximum available frame that can be read from all detectors (BufferedScaler and Xspress3Detector)
-	 * @throws DeviceException
-	 * @throws ScanFileHolderException
-	 * @throws NexusException
-	 */
-	private int getNumAvailableFrames() throws DeviceException, NexusException, ScanFileHolderException {
-		int minNumFrames = getNumCapturedZebraPulses();
-		logger.debug("Number of frames of data available on zebra(s) : {}", minNumFrames);
-		for(BufferedDetector detector : getScanDetectors()){
-			int numFramesAvailable = detector.getNumberFrames();
-			if (detector instanceof BufferedScaler) {
-				numFramesAvailable = getNumTfgScalerFrames((BufferedScaler) detector);
-			} else if (detector instanceof Xspress3BufferedDetector) {
-				numFramesAvailable = getNumXspress3Frames((Xspress3BufferedDetector) detector);
-			}
-
-			logger.debug("Number of frames of data available for {} : {}", detector.getName(), numFramesAvailable);
-			minNumFrames = Math.min(minNumFrames,  numFramesAvailable);
-		}
-		logger.debug("Number of frames of data available to readout : {}", minNumFrames);
-		return minNumFrames;
 	}
 
 	/**
@@ -860,7 +634,7 @@ public class TurboXasScan extends ContinuousScan {
 		}
 
 		int lastFrameToRead = lastFrameRead + numReadoutsPerSpectrum;
-		int totalNumFramesAvailable = getNumAvailableFrames();
+		int totalNumFramesAvailable = detectorFunctions.getNumAvailableFrames();
 		if (lastFrameToRead > totalNumFramesAvailable) {
 			logger.warn("Possible problem reading out data : Last frame of scaler data is {}, but need to read up to {}", totalNumFramesAvailable, lastFrameToRead);
 		}
@@ -913,7 +687,7 @@ public class TurboXasScan extends ContinuousScan {
 		MetashopDataScannable scannableToManageMetadata = new MetashopDataScannable();
 
 		scannableToManageMetadata.addData("TurboXasParameters", turboXasMotorParams.getScanParameters().toXML());
-		Xspress3BufferedDetector xspress3Detector = getXspress3Detector();
+		Xspress3BufferedDetector xspress3Detector = detectorFunctions.getXspress3Detector();
 		if (xspress3Detector != null) {
 			try {
 				scannableToManageMetadata.addData("Xspress3", XMLHelpers.toXMLString(Xspress3Parameters.mappingURL, xspress3Detector.getConfigurationParameters()));
