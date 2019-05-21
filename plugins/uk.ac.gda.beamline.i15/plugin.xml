@@ -29,6 +29,24 @@
             id="uk.ac.gda.beamline.I15ScanPerspective"
             name="I15 Scan Perspective">
       </perspective>
+      <perspective
+            class="gda.rcp.EmptyPerspective"
+            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
+            id="uk.ac.gda.beamline.I15LaserHeatingPerspective"
+            name="I15 Scanning Perspective">
+      </perspective>
+      <perspective
+            class="gda.rcp.EmptyPerspective"
+            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
+            id="uk.ac.gda.beamline.I15MappingPerspective"
+            name="I15 Mapping Perspective">
+      </perspective>
+      <perspective
+            class="gda.rcp.EmptyPerspective"
+            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
+            id="uk.ac.gda.beamline.I15LaserHeatingPerspective"
+            name="I15 Laser Heating Perspective">
+      </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.views">
