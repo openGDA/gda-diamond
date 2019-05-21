@@ -71,7 +71,7 @@ public class Converter {
 	public static double convertWaveVectorToEnergy(double waveVectorValue, double edgeEnergy) {
 		logger.debug("convertWaveVectorToEnergy(waveVectorValue = {}, edgeEnergy = {}", waveVectorValue, edgeEnergy);
 		final Energy edgeEnergyQuantity = Quantity.valueOf(edgeEnergy, NonSI.ELECTRON_VOLT);
-		final Vector waveVector = Quantity.valueOf(waveVectorValue, NonSIext.PER_ANGSTROM);
+		final Quantity waveVector = Quantity.valueOf(waveVectorValue, NonSIext.PER_ANGSTROM);
 		final Energy energy = PhotonEnergy.photonEnergyOf(edgeEnergyQuantity, waveVector);
 		return energy.to(NonSI.ELECTRON_VOLT).getAmount();
 	}
