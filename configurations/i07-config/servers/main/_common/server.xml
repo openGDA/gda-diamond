@@ -1,7 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
+
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 
 	<import resource="required_at_start.xml" />
@@ -13,7 +13,7 @@
 	</bean>
 
 	<import resource="terminal_logger.xml" />
- 
+
     <import resource="abstract_command_server.xml" />
 
     <bean id="script_paths" parent="common_script_paths">
@@ -31,6 +31,7 @@
 
 	<import resource="ebe.xml" />
 	<import resource="dcm.xml" />
+	<import resource="detectors/excalibur.xml"/>
 
     <bean id="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry" />
 

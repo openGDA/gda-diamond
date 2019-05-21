@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<bean id="excalibur_controller" class="uk.ac.gda.devices.odin.ExcaliburEpicsOdin" >
+		<property name="basePv" value="BL07I-EA-EXCBR-01:"/>
+	</bean>
+
+
+</beans>
+

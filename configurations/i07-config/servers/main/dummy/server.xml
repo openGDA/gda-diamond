@@ -51,20 +51,20 @@
 		</property>
 		<property name="level" value="100" />
 	</bean>
-	
-	
+
+
 	<import resource="sim_addetector.xml" />
 	<import resource="slits.xml" />
 	<import resource="server_dummies.xml" />
 
 
-	<import resource="server_epics.xml" /> 
+	<import resource="server_epics.xml" />
 	<import resource="eh2_epics.xml" />
 
 
 	<import resource="flight_tube.xml" />
-	
-	
+
+
 	<import resource="fastpil1.xml" />
 	<import resource="fastpil2.xml" />
 	<import resource="fastpil3.xml" />
@@ -86,9 +86,11 @@
 
 	<import resource="server_core.xml" />
 	<import resource="../_common/server.xml" />
-	
+
 	<import resource="lakeshore.xml" />
-	
+
+	<import resource="detectors/excalibur.xml" />
+
 	<import resource="commandQueueProcessor.xml" />
 
 </beans>
