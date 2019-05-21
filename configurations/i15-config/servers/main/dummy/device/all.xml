@@ -14,6 +14,7 @@
 	<import resource="I15-BS2.xml"/>
 	<import resource="I15-BS3.xml"/>
 	<import resource="I15-CAM-PSL-AD.xml"/>
+	<import resource="I15-CAM-XEYE-AD.xml"/>
 	<import resource="I15-D3.xml"/>
 	<import resource="I15-D4.xml"/>
 	<import resource="I15-D6.xml"/>
