@@ -188,8 +188,8 @@
 		<property name="numberOfLinePoints" value="40" />
 		<property name="focusScanDevices">
 			<list>
-				<value>X-ray Eye</value>
-				<value>XSP3/Merlin Malcolm coarse</value>
+				<value>X-ray Eye software</value>
+				<value>XSP3/Merlin coarse/fine</value>
 			</list>
 		</property>
 	</bean>
