@@ -35,8 +35,7 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Diamond Light Source
-Export-Package: uk.ac.gda.beamline.i11.lde,
- uk.ac.gda.beamline.i11.lde.views
+Export-Package: uk.ac.gda.beamline.i11.lde
 Eclipse-RegisterBuddy: uk.ac.diamond.org.springframework
 Import-Package: org.dawnsci.plotting.jreality,
  org.eclipse.core.filesystem,
