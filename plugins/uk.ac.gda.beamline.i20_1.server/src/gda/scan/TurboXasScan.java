@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,6 +100,7 @@ public class TurboXasScan extends ContinuousScan {
 	private String dataNameToSelectInPlot = EdeDataConstants.LN_I0_IT_COLUMN_NAME;
 	private volatile int lastFrameRead;
 	private int pollIntervalMillis = 500;
+	private List<String> datasetNamesToAverage = Collections.emptyList();
 
 	public TurboXasScan(ContinuouslyScannable energyScannable, Double start, Double stop, Integer numberPoints,
 			Double time, BufferedDetector[] detectors) {
@@ -501,6 +503,8 @@ public class TurboXasScan extends ContinuousScan {
 		nexusTree.setNumReadoutsPerSpectrum(numReadoutsPerSpectrum);
 		nexusTree.setExtraScannables(scannablesToMonitor);
 		nexusTree.setStartTime(System.currentTimeMillis());
+		nexusTree.setDatasetsToAverage(datasetNamesToAverage);
+		nexusTree.clearRunningAverages();
 	}
 
 	private String getFrameTimeFieldName() {
@@ -856,5 +860,13 @@ public class TurboXasScan extends ContinuousScan {
 			shutter.get().moveTo(position);
 			logger.debug("Shutter move finished");
 		}
+	}
+
+	public List<String> getDatasetNamesToAverage() {
+		return datasetNamesToAverage;
+	}
+
+	public void setDatasetNamesToAverage(List<String> datasetNamesToAverage) {
+		this.datasetNamesToAverage = datasetNamesToAverage;
 	}
 }

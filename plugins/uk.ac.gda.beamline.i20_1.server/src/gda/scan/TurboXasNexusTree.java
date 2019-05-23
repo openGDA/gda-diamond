@@ -22,10 +22,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.dawnsci.ede.EdeDataConstants;
 import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
@@ -46,6 +49,7 @@ import org.eclipse.january.dataset.DoubleDataset;
 import org.eclipse.january.dataset.ILazyDataset;
 import org.eclipse.january.dataset.IntegerDataset;
 import org.eclipse.january.dataset.LongDataset;
+import org.eclipse.january.dataset.RunningAverage;
 import org.eclipse.january.dataset.Slice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,6 +106,9 @@ public class TurboXasNexusTree {
 	private long startTimeUtcMillis = System.currentTimeMillis();
 	private List<String> extraScannables = new ArrayList<>();
 	private List<String> namesForDefaultNXData = Arrays.asList("FF", "It", "lnI0It");
+
+	private List<String> datasetsNamesToAverage = Collections.emptyList();
+	private Map<String, RunningAverage> runningAverageDatasets = new HashMap<>();
 
 	/**
 	 * Add time axis dataset to Nexus file (after scan has finished).
@@ -606,12 +613,53 @@ public class TurboXasNexusTree {
 		return frame;
 	}
 
+	private void addAverages(INexusTree detectorTree) {
+		for(String datasetPath : datasetsNamesToAverage) {
+
+			// Check to see if required dataset is available in detector nexus tree
+			String datasetName = FilenameUtils.getName(datasetPath);
+			INexusTree datasetNexusTree = detectorTree.getNode(datasetName);
+			if (datasetNexusTree == null) {
+				continue;
+			}
+
+			// Get dataset from Nexus tree
+			Dataset dataToAverage = datasetNexusTree.getData().toDataset();
+			Dataset averageDataset = null;
+
+			if (!runningAverageDatasets.containsKey(datasetPath)) {
+				// Create new running average, add to the map
+				RunningAverage runningAverage = new RunningAverage(dataToAverage);
+				runningAverageDatasets.put(datasetPath, runningAverage);
+				String avgName = datasetName + "_avg";
+				averageDataset = runningAverage.getCurrentAverage();
+				averageDataset.setName(avgName);
+			} else {
+				// Compute the new running average value
+				RunningAverage runningAverage = runningAverageDatasets.get(datasetPath);
+				runningAverage.update(dataToAverage);
+				averageDataset = runningAverage.getCurrentAverage();
+			}
+
+			// Add the new running average dataset to Nexus tree
+			NXDetectorData.addData(detectorTree, averageDataset.getName(), new NexusGroupData(averageDataset), "counts", 1);
+		}
+	}
+
 	public NexusTreeProvider[] readFrames(BufferedDetector detector, int lowFrame, int highFrame) throws Exception, DeviceException {
 		NexusTreeProvider[] results = new NexusTreeProvider[1];
 		if (detector instanceof BufferedScaler) {
 			results[0] = createNXDetectorData( (BufferedScaler)detector, lowFrame, highFrame);
 		} else if (detector instanceof Xspress3BufferedDetector) {
 			results[0] = createNXDetectorData( (Xspress3BufferedDetector)detector, lowFrame, highFrame);
+		}
+		if (datasetsNamesToAverage != null && !datasetsNamesToAverage.isEmpty()) {
+			if (lowFrame==0) {
+				// remove average datasets for this detector on first readout
+				runningAverageDatasets.entrySet().removeIf(entry -> entry.getKey().contains(detector.getName()));
+			}
+			INexusTree detectorTree = ((NXDetectorData)results[0]).getDetTree(detector.getName());
+			addAverages(detectorTree);
 		}
 		return results;
 	}
@@ -681,5 +729,18 @@ public class TurboXasNexusTree {
 
 	public void setNamesForDefaultNXData(List<String> namesForDefaultNXData) {
 		this.namesForDefaultNXData = namesForDefaultNXData;
+	}
+
+	public List<String> getDatasetsToAverage() {
+		return datasetsNamesToAverage;
+	}
+
+	public void setDatasetsToAverage(List<String> datasetsToAverage) {
+		this.datasetsNamesToAverage = datasetsToAverage;
+	}
+
+
+	public void clearRunningAverages() {
+		runningAverageDatasets.clear();
 	}
 }
