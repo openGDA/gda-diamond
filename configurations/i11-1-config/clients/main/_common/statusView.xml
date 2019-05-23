@@ -185,6 +185,7 @@
 							<entry key="All Data" value=".*" />
 							<entry key="Pixium" value="pixium_.*" />
 							<entry key="PerkinElmer" value="perkin_.*" />
+							<entry key="Processed" value=".*\.xy" />
 						</map>
 					</property>
 					<property name="plotter" ref="detectorFileDisplayer" />
