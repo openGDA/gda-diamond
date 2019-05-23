@@ -65,5 +65,18 @@
 		<property name="arrayEnablePV" value="BL11J-EA-DET-10:ARR:EnableCallbacks"/>
 		<property name="xSizePV" value="BL11J-EA-DET-10:ARR:ArraySize0_RBV"/>
 		<property name="ySizePV" value="BL11J-EA-DET-10:ARR:ArraySize1_RBV"/>
+		<property name="titleProvider" ref="pixiumTitleProvider" />
 	</bean>
+
+	<bean id="pixiumTitleProvider" class="org.opengda.lde.ui.providers.LivePlotTitleProvider" >
+		<property name="defaultTitle" value="Live Pixium Image" />
+		<property name="fullFilenamePV" value="BL11J-EA-DET-10:HDF5:FullFileName_RBV"/>
+		<property name="filepathPV" value="BL11J-EA-DET-10:HDF5:FilePath_RBV"/>
+		<property name="filenamePV" value="BL11J-EA-DET-10:HDF5:FileName_RBV"/>
+		<property name="fileformatPV" value="BL11J-EA-DET-10:HDF5:FileTemplate_RBV"/>
+		<property name="nextNumberPV" value="BL11J-EA-DET-10:HDF5:FileNumber_RBV"/>
+		<property name="capturePV" value="BL11J-EA-DET-10:HDF5:Capture_RBV" />
+		<property name="arrayIdPV" value="BL11J-EA-DET-10:ARR:ArrayCounter_RBV" />
+	</bean>
+
 </beans>
