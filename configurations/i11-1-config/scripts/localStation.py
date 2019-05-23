@@ -256,6 +256,7 @@ try:
 except:
     print "cannot create extra pixium scannables"
 
+from pixium_utils import checkPixiumMode
 print "-----------------------------------------------------------------------------------------------------------------"
 print "setup meta-data provider commands:meta_add, meta_ll, meta_ls, meta_rm "
 from metashop import *  # @UnusedWildImport
