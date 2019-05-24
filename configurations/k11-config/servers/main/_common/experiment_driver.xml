@@ -14,6 +14,8 @@
 	
 	<bean id="tr6_driver" class="uk.ac.diamond.daq.experiment.driver.GdaScannableDriver">
 		<constructor-arg name="scannableMotor" ref="load" />
+		<constructor-arg name="quantityName" value="Load" />
+		<constructor-arg name="quantityUnits" value="MPa" />
 		<property name="readouts">
 			<map>
 				<entry key="load" value-ref="load" />
