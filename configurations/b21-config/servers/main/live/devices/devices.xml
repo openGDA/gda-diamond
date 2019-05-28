@@ -28,7 +28,6 @@
 
 	<import resource="m1.xml" />
 
-	<import resource="fs.xml" />
 	<import resource="base.xml" />
 	<import resource="ion.xml" />
 
