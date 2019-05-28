@@ -511,7 +511,7 @@ if installation.isLive() and ENABLE_PILATUS:
 									None,
 									_pilatus_for_snaps,
 									[],
-									panel_name_rcp='Plot 1',
+									panel_name_rcp='pil',
 									iFileLoader=PilatusTiffLoader,
 									fileLoadTimout=60,
 									printNfsTimes=False,
@@ -564,7 +564,7 @@ if installation.isLive():
 																		None,
 																		_medipix_for_snaps,
 																		[],
-																		panel_name_rcp='Plot 1',
+																		panel_name_rcp='medipix',
 																		iFileLoader=PilatusTiffLoader,
 																		fileLoadTimout=60,
 																		printNfsTimes=False,
@@ -606,7 +606,7 @@ if installation.isLive():
 																		None,
 																		_medipix4_for_snaps,
 																		[],
-																		panel_name_rcp='Plot 1',
+																		panel_name_rcp='medipix4',
 																		iFileLoader=PilatusTiffLoader,
 																		fileLoadTimout=60,
 																		printNfsTimes=False,
@@ -643,7 +643,7 @@ if installation.isLive():
 			                                                             None,
 			                                                             _psl_for_snaps,
 			                                                             [],
-			                                                             panel_name_rcp='Plot 1',
+			                                                             panel_name_rcp='psl',
 			                                                             fileLoadTimout=60,
 			                                                             printNfsTimes=False,
 			                                                             returnPathAsImageNumberOnly=True)
@@ -655,7 +655,7 @@ if installation.isLive():
 			                                                       _psl_for_snaps,
 			                                                       "BL16B-EA-DET-07:CAM:RESET.PROC",
 			                                                       [],
-			                                                       panel_name_rcp='Plot 1',
+			                                                       panel_name_rcp='psl',
 			                                                       fileLoadTimout=60,
 			                                                       printNfsTimes=False,
 			                                                       returnPathAsImageNumberOnly=True)
@@ -727,15 +727,15 @@ energy.setLevel(4) # Not sure if need this when there is no diffcalc
 ###                          IPP image processor                            ###
 ###############################################################################
 if not installation.isLive():
-	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name_rcp="Plot 1")
+	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], panel_name_rcp="ipp")
 	#setIPPWrapperDir( '/scratch/ws/trunk/plugins/uk.ac.gda.core/scripts/gdascripts/scannable/detector/dummy/focused_beam_dataset//') #@UndefinedVariable
 	ipp.returnPathAsImageNumberOnly = True
 
 else:
-	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
-	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='Plot 1')
+	ipp = ProcessingDetectorWrapper('ipp', ippws4, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='ipp')
+	ipp2 = ProcessingDetectorWrapper('ipp2', ippws10, [], toreplace='N://', replacement='/dls/b16/data/', panel_name_rcp='ipp2')
 #	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 1')
-	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace='X://', replacement='/dls/b16/', panel_name_rcp='Plot 2')
+	ipp3 = ProcessingDetectorWrapper('ipp3', ippwsme07m, [], toreplace='X://', replacement='/dls/b16/', panel_name_rcp='ipp3')
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws4, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
 	visit_setter.addDetectorAdapter(ProcessingDetectorWrapperAdapter(ipp, report_path = False))
 	visit_setter.addDetectorAdapter(IPPAdapter(ippws10, subfolder='ippimages', create_folder=True, toreplace='/dls/b16/data', replacement='N:/')) #@UndefinedVariable)
@@ -814,7 +814,7 @@ if installation.isLive() and ENABLE_PCOEDGE:
 		None,
 		_pcoedge_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name_rcp='Plot 1',
+		panel_name_rcp='pcoedge',
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
@@ -830,7 +830,7 @@ if installation.isLive() and ENABLE_PCOEDGE:
 		None,
 		_pcoedge_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name_rcp='Plot 1',
+		panel_name_rcp='pcoedge',
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
@@ -847,7 +847,7 @@ if installation.isLive() and ENABLE_PCO4000:
 		None,
 		_pco4000_for_snaps,  # @UndefinedVariable
 		[],
-		panel_name_rcp='Plot 1',
+		panel_name_rcp='pco4000',
 		returnPathAsImageNumberOnly=True,
 		fileLoadTimout=60)
 
