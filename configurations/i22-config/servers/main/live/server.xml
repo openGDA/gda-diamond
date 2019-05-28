@@ -11,7 +11,7 @@
     <import resource="i22_server_ncd.xml"/>
 
     <import resource="devices/devices.xml" />
-	<import resource="cameras/i22_d13gige.xml" />
+	<import resource="cameras/i22_d12gige.xml" />
 	<import resource="mapping/*.xml" />
 
 <!-- Do not remove anything below here -->
