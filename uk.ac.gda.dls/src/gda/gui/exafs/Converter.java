@@ -37,6 +37,11 @@ import gda.jscience.physics.units.NonSIext;
 public class Converter {
 	private static final Logger logger = LoggerFactory.getLogger(Converter.class);
 
+	static {
+		// Ensure GDA-specific units are initialised
+		NonSIext.initializeClass();
+	}
+
 	/**
 	 * Default constructor prevents this class from being instantiated as only static methods exist.
 	 */
