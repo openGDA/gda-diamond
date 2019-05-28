@@ -1,0 +1,185 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- AD hardware -->
+
+	<!-- Standard Area Detector plugins -->
+
+	<bean id="xeyeAD_cam"
+			class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:CAM:" />
+	</bean>
+
+	<bean id="xeyeAD_arr"
+			class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:ARR:" />
+	</bean>
+
+	<bean id="xeyeAD_stat"
+			class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:STAT:" />
+	</bean>
+
+	<bean id="xeyeAD_roi"
+			class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:ROI:" />
+	</bean>
+
+	<bean id="xeyeAD_mjpg"
+			class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:MJPG:" />
+	</bean>
+
+	<bean id="xeyeAD_proc"
+			class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:PROC:" />
+	</bean>
+
+	<!-- Extended Area Detector plugins -->
+
+	<bean id="xeyeAD_roi1"
+			class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:ROI1:" />
+	</bean>
+
+	<bean id="xeyeAD__roi2"
+			class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:ROI2:" />
+	</bean>
+
+	<bean id="xeyeAD__roi3"
+			class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:ROI3:" />
+	</bean>
+
+	<bean id="xeyeAD__roi4"
+			class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:ROI4:" />
+	</bean>
+
+	<bean id="xeyeAD_roi5"
+			class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:ROI5:" />
+	</bean>
+
+	<bean id="xeyeAD_roi6"
+			class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:ROI6:" />
+	</bean>
+
+	<bean id="xeyeAD_stat1"
+			class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:STAT1:" />
+	</bean>
+
+	<bean id="xeyeAD_stat2"
+			class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:STAT2:" />
+	</bean>
+
+	<bean id="xeyeAD_stat3"
+			class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:STAT3:" />
+	</bean>
+
+	<bean id="xeyeAD_stat4"
+			class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:STAT4:" />
+	</bean>
+
+	<bean id="xeyeAD_stat5"
+			class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:STAT5:" />
+	</bean>
+
+	<bean id="xeyeAD_stat6"
+			class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:STAT6:" />
+	</bean>
+
+	<bean id="xeye_NDFileTiff"
+			class="gda.spring.V17NDFileFactoryBean">
+		<property name="prefix" value="BL15I-DI-GIGE-05:TIFF:" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<bean id="xeye_NDFileHDF5"
+			class="gda.spring.V17NDFileHDF5FactoryBean">
+		<property name="ndFileImpl">
+			<bean class="gda.spring.V17NDFileFactoryBean">
+				<property name="prefix" value="BL15I-DI-GIGE-05:HDF5:" />
+				<property name="resetToInitialValues" value="false" />
+			</bean>
+		</property>
+		<property name="initialCompression" value="zlib" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+
+	<bean id="xeye_CollectionStrategy"
+			class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="xeyeAD_cam" />
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- NXDetector file writers -->
+
+	<bean id="xeye_hdf5_MultipleImagesPerHDF5FileWriter"
+			class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="xeye_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="$scan$-xeye" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setChunking" value="false" />
+		<property name="lazyOpen" value="true" />
+	</bean>
+
+	<!-- SingleImagePerFileWriter(String detectorName)
+	 -->
+	<bean id="xeye_tiff_SingleImagePerFileWriter"
+			class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="xeye" />
+		<property name="ndFile" ref="xeye_NDFileTiff" />
+		<property name="keyNameForMetadataPathTemplate" value="xeye_path_template" />
+	</bean>
+
+	<!-- NXDetectors -->
+
+	<bean id="xeye"
+			class="gda.device.detector.NXDetector">
+		<property name="name" value="xeye" />
+		<property name="collectionStrategy" ref="xeye_CollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="xeye_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="xeye_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- EPICS scannables -->
+
+	<bean id="xeye_centroid_x" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL15I-DI-GIGE-05:STAT:CentroidX_RBV" />
+		<property name="useNameAsExtraName" value="true"/>
+	</bean>
+
+	<bean id="xeye_centroid_y" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL15I-DI-GIGE-05:STAT:CentroidY_RBV" />
+		<property name="useNameAsExtraName" value="true"/>
+	</bean>
+</beans>
