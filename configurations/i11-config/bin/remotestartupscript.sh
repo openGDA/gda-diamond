@@ -13,4 +13,4 @@
 
 # If you want any special behaviour add it above this line
 here_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
-source ${here_absolute_path}/../../../gda-diamond.git/dls-config/live/gda-servers-startup-script.sh  # Derive dls-config relative path as appropriate
+source ${here_absolute_path}/../../../dls-config/live/gda-servers-startup-script.sh  # Derive dls-config relative path as appropriate
