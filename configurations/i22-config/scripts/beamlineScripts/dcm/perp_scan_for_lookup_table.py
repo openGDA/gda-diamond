@@ -20,13 +20,17 @@ dcm_pitch scans done on D3 inline diode
 dcm_perp scans done on D4 Inline Diode HFM position
 '''
 
+# Do this before running the script. 
+#     pitchResult = i22_scans.absolutePeakScan("dcm_pitch",-300,300,5,"d4d1")
+#     sleep(2)
+#     i22_common.moveToPosition("dcm_pitch",pitchResult)
+
 filePath = (PathConstructor.createFromDefaultProperty()+"/perp_parameters_"+time.strftime("%Y-%m-%d-%H_%M")+".csv")
 outfile = open(filePath,"a")
 outfile.write("File, Energy , bragg, 1/cos(bragg), dcm_perp1, dcm_perp2, dcm_perp3, pitch1, pitch2\n")
-outfile.close()
 
-for x in dnp.linspace(1.14992,1.004898,20,True):
-    energyPos = (12.3985/6.2695)/sin(acos((1/x)))
+for x in dnp.linspace(1.05919,1.004924,10,True):
+    energyPos = (12.39842/6.2695)/sin(acos((1/x)))
     print energyPos
     pos energy energyPos
     braggAngle = dcm_bragg.getPosition()
@@ -34,26 +38,26 @@ for x in dnp.linspace(1.14992,1.004898,20,True):
     oneOverCosBragg = 1 / cos(braggInRad)
 
     pos d4filter "IL Diode HFM"
-    pos d3filter "Inline Diode"
     pos dcm_finepitch 0
-    pos dcm_pitch 0
     
-    pitchResult = i22_scans.absolutePeakScan("dcm_finepitch",-140,150,1,"d3d1")
+    pitchResult = i22_scans.absolutePeakScan("dcm_finepitch",-150,150,1,"d4d1")
     sleep(2)
     i22_common.moveToPosition("dcm_finepitch",pitchResult)
     
-    perpResult = i22_scans.absolutePeakScan("dcm_perp",12.1,15.0,0.05,"d3d1")
+    perpResult = i22_scans.absolutePeakScan("dcm_perp",12.5,16.0,0.05,"d4d1")
     sleep(2)
     i22_common.moveToPosition("dcm_perp",perpResult)
     
-    pitchResult = i22_scans.absolutePeakScan("dcm_finepitch",-140,150,1,"d3d1")
+    pitchResult = i22_scans.absolutePeakScan("dcm_finepitch",-150,150,1,"d4d1")
     sleep(2)
     i22_common.moveToPosition("dcm_finepitch",pitchResult)
     
     pitchPos_start = dcm_pitch.getPosition()
-    pos d3filter "Clear"
     
-    results = i22_scans.absoluteScan("dcm_perp",12.1,15.0,0.02,"d4d1")
+    results = i22_scans.absoluteScan("dcm_perp",12.5,16.0,0.02,"d4d1")
+    sleep(2)
+    i22_common.moveToPosition("dcm_perp",results.peak.pos)
+    
     dcm_perp1 = results.peak.pos
     dcm_perp2 = results.maxval.maxpos
     dcm_perp3 = results.edges.centre
@@ -62,8 +66,9 @@ for x in dnp.linspace(1.14992,1.004898,20,True):
     fileNumber = int(i22NumTracker.getCurrentFileNumber())
 
     # save the data back out
-    file = open(filePath,"a")
-    file.write("%f, %f , %f, %f, %f, %f, %f, %f, %f\n" % (fileNumber, energyPos,braggAngle,oneOverCosBragg,dcm_perp1, dcm_perp2, dcm_perp3, pitchPos_start, pitchPos_end))
-    file.close()
+    # file = open(filePath,"a")
+    outfile.write("%f, %f , %f, %f, %f, %f, %f, %f, %f\n" % (fileNumber, energyPos,braggAngle,oneOverCosBragg,dcm_perp1, dcm_perp2, dcm_perp3, pitchPos_start, pitchPos_end))
+    outfile.flush()
 
+outfile.close()
 print "All done"

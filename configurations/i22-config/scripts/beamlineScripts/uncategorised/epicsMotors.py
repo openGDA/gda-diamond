@@ -19,4 +19,6 @@ d13_motor=SingleEpicsPositionerClass('d13_motor', 'BL22I-DI-PHDGN-13:P:SETVALUE2
 # For epics device without status nor stop. It also set a tolerance
 # In the example above, if the temperature is 0.5C around the set temperature, GDA considers the position is reached. 
 # laudabath=SingleEpicsPositionerNoStatusClassDeadband('laudabath','BL22I-EA-TEMPC-03:SET_TEMP','BL22I-EA-TEMPC-03:TEMP','dummystring','dummystring','C','%.3f',0.5)
-# integral=SingleEpicsPositionerNoStatusClassDeadband('integral','BL22I-EA-TEMPC-04:SET_TEMP','BL22I-EA-TEMPC-04:TEMP','dummystring','dummystring','C','%.3f',0.5)  
+# integral=SingleEpicsPositionerNoStatusClassDeadband('integral','BL22I-EA-TEMPC-04:SET_TEMP','BL22I-EA-TEMPC-04:TEMP','dummystring','dummystring','C','%.3f',0.5)
+# s4_x=SingleEpicsPositionerClass('s4_x', 'BL22I-AL-SLITS-04:X', 'BL22I-AL-SLITS-04:X.RBV' , 'BL22I-AL-SLITS-04:X.DMOV' , 'BL22I-AL-SLITS-04:X.STOP','mm', '%.3f')
+# s4_y=SingleEpicsPositionerClass('s4_y', 'BL22I-AL-SLITS-04:Y', 'BL22I-AL-SLITS-04:Y.RBV' , 'BL22I-AL-SLITS-04:Y.DMOV' , 'BL22I-AL-SLITS-04:Y.STOP','mm', '%.3f')
