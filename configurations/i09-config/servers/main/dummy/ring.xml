@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="timeToRefill" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="s" />
+		<property name="value">
+			<value type="double">500</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="500" />
+		<property name="increment" value="-10" />
+	</bean>
+
+	<bean id="rc" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="mA" />
+		<property name="value">
+			<value type="double">250</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="300" />
+		<property name="increment" value="0" />
+	</bean>
+
+	<bean id="beamenergy" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="GeV" />
+		<property name="value">
+			<value type="double">3</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="5" />
+		<property name="increment" value="0" />
+	</bean>
+
+	<bean id="topup_time" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="s" />
+		<property name="value">
+			<value type="double">500</value>
+		</property>
+		<property name="lowerLimit" value="0" />
+		<property name="upperLimit" value="500" />
+		<property name="increment" value="-10" />
+	</bean>
+
+	<bean id="topupstate" class="gda.device.monitor.DummyEpicsMonitor">
+		<property name="pvName" value="SR-CS-FILL-01:TOPUPSTATE" /><!-- not used here -->
+		<property name="local" value="true" />
+		<property name="value" value="Running"/> <!-- return fixed value -->
+	</bean>
+
+</beans>

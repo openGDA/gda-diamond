@@ -22,6 +22,7 @@ from gda.util import PropertyUtils
 import sys
 from java.lang import System
 from org.opengda.detector.electronanalyser.utils import FilenameUtil
+from gdaserver import sd1_cam, sd3_cam
 
 print "=================================================================================================================";
 print "Performing beamline specific initialisation code (i09).";
@@ -222,6 +223,11 @@ functionClassFor2Scannables.ROOT_NAMESPACE_DICT=globals()
 
 # I09-70 Create a empty string to hold detectors to be used with the GUI
 extraDetectors = ""
+
+#check beam scannables
+from pseudodevices.checkbeamscannables import checkbeam, checkrc, checkfe, checktopup_time, checkbeamdetector, detectorpausecontrol, checkdetector 
+#create 'move' command
+run("/dls_sw/i09/software/gda/config/scripts/command/checkedMotion.py")
 
 print
 print "=================================================================================================================";
