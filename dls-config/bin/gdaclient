@@ -73,7 +73,8 @@ WORKSPACE_PARENT=/scratch/gda_workspaces
 CONFIG_PARENT=/scratch/gda_configs
 [ -d $CONFIG_PARENT ] || mkdir -m 777 $CONFIG_PARENT
 
-WORKSPACE=$WORKSPACE_PARENT/$(whoami)
+# eg /scratch/gda_workspaces/abc12345_gda-9.12
+WORKSPACE=$WORKSPACE_PARENT/$(whoami)_$(basename ${GDA_WORKSPACE_PARENT})
 
 ARGS=$(getopt -a -o \? -l help,data:,reset,log,start,keep,nohup:,client: -n "gdaclient" -- "$@")
 
