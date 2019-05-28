@@ -12,44 +12,44 @@ erange = range_eV/1000.0
 pos d6filter 'IL Diode VFM'
 pos d4filter 'Scatter Diode'
 
-# #V
-# pos d5motor 27.8
-# pos energy 5.465
-# 
-# pos dcm_finepitch 0
-# pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
-# i22_common.moveToPosition("dcm_finepitch",pitchResult)
-# 
-# e1 = 5.465 - erange
-# e2 = 5.465 + erange
-# setTitle("Vanadium K EXAFS")
-# scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
-# 
-# #Fe
-# pos d5motor 49.5
-# pos energy 7.112
-# 
-# pos dcm_finepitch 0
-# pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
-# i22_common.moveToPosition("dcm_finepitch",pitchResult)
-# 
-# e1 = 7.112 -erange
-# e2 = 7.112 + erange
-# setTitle("Iron K EXAFS")
-# scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
-# 
-# #Cu
-# pos d5motor 70.8
-# pos energy 8.9789
-# 
-# pos dcm_finepitch 0
-# pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
-# i22_common.moveToPosition("dcm_finepitch",pitchResult)
-# 
-# e1 = 8.9789 -erange
-# e2 = 8.9789 + erange
-# setTitle("Copper K EXAFS")
-# scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
+#V
+pos d5motor 27.8
+pos energy 5.465
+ 
+pos dcm_finepitch 0
+pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
+i22_common.moveToPosition("dcm_finepitch",pitchResult)
+ 
+e1 = 5.465 - erange
+e2 = 5.465 + erange
+setTitle("Vanadium K EXAFS")
+scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
+ 
+#Fe
+pos d5motor 49.5
+pos energy 7.112
+ 
+pos dcm_finepitch 0
+pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
+i22_common.moveToPosition("dcm_finepitch",pitchResult)
+ 
+e1 = 7.112 -erange
+e2 = 7.112 + erange
+setTitle("Iron K EXAFS")
+scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
+ 
+#Cu
+pos d5motor 70.8
+pos energy 8.9789
+ 
+pos dcm_finepitch 0
+pitchResult = i22_scans.relativePeakScan("dcm_finepitch",-100,100,1,"d4d2")
+i22_common.moveToPosition("dcm_finepitch",pitchResult)
+ 
+e1 = 8.9789 -erange
+e2 = 8.9789 + erange
+setTitle("Copper K EXAFS")
+scan energy e1 e2 step topup dcm_bragg d4d2 d6d1 exafs
 
 #Zn
 pos d5motor 60.5

@@ -70,23 +70,30 @@ class Valves():
 		print "All valves closed"
 
 	def open(self):
+		print "Opening valve 5"
+		caput("BL22I-VA-VALVE-05:CON", 2)
+		sleep(1)
+		caput("BL22I-VA-VALVE-05:CON", 0)
+		
+		print "Arming fast valve"
+		caput("BL22I-VA-FVALV-01:CON",3)
+		sleep(1)
+		print "Fast valve armed"
+		
 		print "Opening all valves"
-		n = 5
-		nValves = len(self.valves)
-		for i in range (nValves):
-			# reset the valves
-			caput(self.valves[i],2)
+		print "Arming fast valve"
+		caput("BL22I-VA-FVALV-01:CON",3)
+		sleep(1)
+		print "Fast valve armed"
+		
+		for valve in (6,4,3,2,1):
+			print "Resetting valve "+valve.__str__()
+			caput("BL22I-VA-VALVE-0"+valve.__str__()+":CON", 2)
 			sleep(1)
-			# open the valve
-			caput(self.valves[i],0)
-			sleep(1)
-			print "Valve "+str(n)+" open"
-			
-			if ( i == 0):
-				caput("BL22I-VA-FVALV-01:CON",3)
-				sleep(1)
-				print "Fast valve armed"
-			n = n-1
+			print "Opening valve "+valve.__str__()
+			caput("BL22I-VA-VALVE-0"+valve.__str__()+":CON", 2)
+			print "Valve "+valve.__str__()+" Open"
+		
 		print "All valves open"
 
 	def isAwake(self):
