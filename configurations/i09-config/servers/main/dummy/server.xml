@@ -61,6 +61,8 @@
 	<import resource="SMPM.xml" />
 	<import resource="shutters.xml"/>
 	<import resource="adSimulator.xml"/>
+	<import resource="ring.xml"/>
+	<import resource="frontEnd.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>

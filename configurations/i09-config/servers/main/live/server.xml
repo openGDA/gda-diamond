@@ -59,6 +59,8 @@
 	<import resource="RFDMotors.xml" />
 	<import resource="Scaler2.xml" />
 	<import resource="Lakeshore.xml" />
+	<import resource="ring.xml"/>
+	<import resource="frontEnd.xml"/>
 
 	<import resource="../main_common.xml" />
 </beans>
