@@ -176,16 +176,6 @@ ztable=SingleEpicsPositionerClass('table_vert','BL16I-MO-TABLE-01:Y.VAL','BL16I-
 
 ytable=SingleEpicsPositionerClass('table_horiz','BL16I-MO-TABLE-01:X.VAL','BL16I-MO-TABLE-01:X.RBV','BL16I-MO-TABLE-01:X.DMOV','BL16I-MO-TABLE-01:X.STOP','mm','%.3f')
 
-#####################
-# Phase plate
-#####################
-
-
-ppth=SingleEpicsPositionerClass('ppth','BL16I-OP-PPR-01:THETA.VAL','BL16I-OP-PPR-01:THETA.RBV','BL16I-OP-PPR-01:THETA.DMOV','BL16I-OP-PPR-01:THETA.STOP','deg','%.5f')
-ppy=SingleEpicsPositionerClass('ppy','BL16I-OP-PPR-01:Y.VAL','BL16I-OP-PPR-01:Y.RBV','BL16I-OP-PPR-01:Y.DMOV','BL16I-OP-PPR-01:Y.STOP','mm','%.3f')
-ppx=SingleEpicsPositionerClass('ppx','BL16I-OP-PPR-01:X.VAL','BL16I-OP-PPR-01:X.RBV','BL16I-OP-PPR-01:X.DMOV','BL16I-OP-PPR-01:X.STOP','mm','%.3f')
-ppchi=SingleEpicsPositionerClass('ppchi','BL16I-OP-PPR-01:CHI.VAL','BL16I-OP-PPR-01:CHI.RBV','BL16I-OP-PPR-01:CHI.DMOV','BL16I-OP-PPR-01:CHI.STOP','deg','%.3f')
-
 ################
 # XIA inserters
 ################

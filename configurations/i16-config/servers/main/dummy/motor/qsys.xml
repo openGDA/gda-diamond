@@ -1,0 +1,21 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="ppxMotor"
+		class="gda.device.motor.DummyMotor">
+	</bean>
+
+	<bean id="ppyMotor"
+		class="gda.device.motor.DummyMotor">
+	</bean>
+
+	<bean id="ppyawMotor"
+		class="gda.device.motor.DummyMotor">
+	</bean>
+
+	<bean id="pppitchMotor"
+		class="gda.device.motor.DummyMotor">
+	</bean>
+</beans>
