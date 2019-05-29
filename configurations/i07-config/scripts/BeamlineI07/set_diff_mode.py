@@ -54,7 +54,7 @@ if diffmode in ['eh1v', 'eh1h', 'eh2']:
         reset_script_name,
         'Switching diffractometer mappings to {} mode'.format(diffmode),
         False, True)
-    theta = {'eh1v' : mu, 'eh1h' : eta, 'eh2' : mu}.get(diffmode)
+    alpha = {'eh1v' : mu, 'eh1h' : eta, 'eh2' : mu}.get(diffmode)
     gamma = gam
     omega = phi
 
