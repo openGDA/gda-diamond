@@ -30,14 +30,17 @@
 	<import resource="ChannelCutCrystal.xml" />
 
 	<!-- End Station -->
-	<import resource="ES3.xml"/>
+	<import resource="ES1.xml"/>
+	<import resource="analyser.xml" />
+	<import resource="manipulator.xml" />
+	<import resource="lakeshore.xml" />
 
 	<!-- Shutters -->
 	<import resource="shutters.xml"/>
 
 	<!-- Dummy Devices -->
 	<import resource="DummyMotors.xml"/>
-
+	
 	<!-- do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 </beans>

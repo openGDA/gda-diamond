@@ -59,6 +59,7 @@
 		<property name="fastSpeed" value="400" />
 		<property name="mediumSpeed" value="200" />
 		<property name="slowSpeed" value="100" />
+		<property name="unitString" value="keV"/>
 	</bean>
 	<bean id="dcm_lambda" class="gda.device.motor.DummyMotor">
 		<property name="fastSpeed" value="400" />

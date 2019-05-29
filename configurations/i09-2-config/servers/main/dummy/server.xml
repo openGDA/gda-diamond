@@ -45,10 +45,6 @@
 	<import resource="SS4.xml" />
 	<import resource="SS7.xml" />
 	
-	<!-- End station -->
-	<import resource="analyser.xml"/>
-	<import resource="manipulator.xml"/>
-	<import resource="lakeshore.xml"/>
 	<import resource="shutters.xml"/>
 
 	<import resource="../main_common.xml" />

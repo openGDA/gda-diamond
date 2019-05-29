@@ -30,4 +30,12 @@
 	<bean class="uk.ac.gda.client.ServerFileListener">
 		<property name="clientFileAnnouncerName" value="client_file_announcer" />
 	</bean>
+	
+	<bean id="analyser" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+ 		<property name="serviceUrl" value="${gda.rmi.prefix}analyser" />
+ 		<property name="serviceInterface" value="uk.ac.diamond.daq.devices.specs.phoibos.api.ISpecsPhoibosAnalyser" />
+ 		<property name="refreshStubOnConnectFailure" value="true" />
+ 	</bean>
+ 	
+ 	<import resource="live_controls.xml" />
 </beans>

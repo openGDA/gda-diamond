@@ -28,14 +28,16 @@
 	<!-- Simulated Area Detector -->
 	<import resource="adSimulator.xml"/>
 
-	<!-- End Station -->
-	<import resource="ES3.xml"/>
+	<!-- End station -->
+	<import resource="analyser.xml"/>
+	<import resource="manipulator.xml"/>
+	<import resource="lakeshore.xml"/>
 
 	<!-- Shutters -->
 	<import resource="shutters.xml"/>
 
 	<!-- Dummy Devices -->
-	<import resource="DummyMotors.xml"/>
+	<import resource="DummyMotors.xml"/>	
 
 	<!-- Do not remove anything below here -->
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
