@@ -28,13 +28,6 @@
 		<property name="name" value="metashop"/>
 	</bean>
 
-	<!-- This can't be replaced with gda:rmi-export as it doesn't yet handle plain objects retrieved via SpEL -->
-	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
-		<property name="serviceName" value="gda/ScanDataPointServer" />
-		<property name="service" value="#{ T(gda.scan.ScanDataPointServer).getInstance() }" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
-	</bean>
-
 	<!-- Machine Status Scannables -->
 	<import resource="file://${gda.facility.dir}/servers/_common/machine_status.xml" />
 
