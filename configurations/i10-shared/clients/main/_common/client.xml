@@ -4,6 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory"/>
 	<import resource="../../../../../../gda-core.git/core-config/clients/_common/plot_server.xml" />
 	<import resource="../../../../../../gda-diamond.git/dls-config/clients/_common/serverFileListener.xml"/>
 	<!-- new solstice scanning sourced from dls-config -->
