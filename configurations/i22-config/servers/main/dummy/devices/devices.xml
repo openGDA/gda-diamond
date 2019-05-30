@@ -30,7 +30,9 @@
     <import resource='user.xml'/>
     <import resource='vfm.xml'/>
     <import resource='wd.xml'/>
-    
+
+    <import resource="valves.xml" />
+
     <import resource="fswitch.xml" />
 
 	<import resource="xmap_dxp.xml" />
