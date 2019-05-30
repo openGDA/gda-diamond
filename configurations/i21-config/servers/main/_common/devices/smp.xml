@@ -96,7 +96,6 @@
 				<ref bean="diff3" />
 			</list>
 		</property>
-		<property name="local" value="true" />
 	</bean>
 
  </beans>

@@ -4,7 +4,6 @@
 
 	<!-- Sample Chamber Exit Gate Valve 17 -->
 	<bean id="gv17" class="gda.device.enumpositioner.EpicsPneumaticCallback">
-		<property name="local" value="true" />
 		<property name="pvBase" value="BL21I-VA-VALVE-17" />
 	</bean>
 

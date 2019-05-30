@@ -5,29 +5,23 @@
 		
 	<bean id="specgammaMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-ARM-01:GAMMA"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="speczMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-ARM-01:VERT"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="specxMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-ARM-01:HORZ"/>
-		<property name="local" value="true" />
 	</bean>
 	<bean id="spectthMotor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL21I-MO-ARM-01:TTH:WHEEL"/>
-		<property name="local" value="true" />
 	</bean>
 	
 	<bean id="andorEffectiveHorizontal" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-MO-ARM-01:HORZ_ANDOR_RBV.VAL" />
-		<property name="local" value="true"/>
 	</bean>
 	<bean id="andorEffectiveVertical" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="BL21I-MO-ARM-01:VERT_ANDOR_RBV.VAL" />
-		<property name="local" value="true"/>
 	</bean>
 	<!-- Air control for ARM -->
 	<bean id="arm_air_valve" class="gda.device.enumpositioner.EpicsAirBearingControl">

@@ -67,7 +67,6 @@
 
 	<bean id="topupstate" class="gda.device.monitor.DummyEpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:TOPUPSTATE" /><!-- not used here -->
-		<property name="local" value="true" />
 		<property name="value" value="Running"/> <!-- return fixed value -->
 	</bean>
 

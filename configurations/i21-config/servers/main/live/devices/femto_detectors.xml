@@ -15,7 +15,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="s2clower" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -26,7 +25,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="s2coffside" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -37,7 +35,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="s2cnearside" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -48,7 +45,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	
@@ -60,7 +56,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="s3clower" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -71,7 +66,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="s3coffside" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -82,7 +76,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="s3cnearside" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -93,7 +86,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	
@@ -106,7 +98,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	
@@ -119,7 +110,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="d7cdiode" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -130,7 +120,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	
@@ -143,8 +132,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
-<!-- 		<property name="startProc" value="true"/> -->
 		<property name="integrated" value="true"/><!--I21-429 'true' returns integrated value, 'false' returns averaged value-->
 		<property name="autoGain" value="false"/>
 	</bean>
@@ -156,7 +143,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	
@@ -169,7 +155,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	
@@ -182,7 +167,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="fy1_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -193,7 +177,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="fy3_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -204,7 +187,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="diff3_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -215,7 +197,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="fy2_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -226,7 +207,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="diff1_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -237,7 +217,6 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 	<bean id="diff2_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
@@ -248,7 +227,17 @@
 		<property name="modeToGainToGainStringMap" ref="gainMap"/>
 		<property name="hasIAVinPV" value="false"/>
 		<property name="hasIinPV" value="false"/>
-		<property name="local" value="true"/>
+		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
+	</bean>
+
+	<bean id="extradrain_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
+		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO8:"/>
+		<property name="adcChannel" value="2" />
+		<property name="lowerVoltageBound" value="0.5"/>
+		<property name="upperVoltageBound" value="9.5"/>
+		<property name="modeToGainToGainStringMap" ref="gainMap"/>
+		<property name="hasIAVinPV" value="false"/>
+		<property name="hasIinPV" value="false"/>
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 

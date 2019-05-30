@@ -4,6 +4,5 @@
 
 	<!-- Sample Chamber Exit Gate Valve 17 -->
 	<bean id="gv17" class="gda.device.enumpositioner.DummyValve">
-		<property name="local" value="true"/>
 	</bean>
 </beans>
