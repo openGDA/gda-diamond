@@ -12,7 +12,7 @@
 		<property name="displayName" value="SIM" />
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
-		<property name="roiProvider" ref="pco_roi" />
+		<property name="roiProvider" ref="sim_roi" />
 		<property name="withHistogram" value="true"/>
 	</bean>
 

@@ -4,6 +4,8 @@
 	<comment></comment>
 	<projects>
 		<project>i06-shared</project>
+		<project>uk.ac.diamond.daq.detectors.addetector</project>
+		<project>uk.ac.diamond.daq.detectors.addetector.api</project>
 		<project>uk.ac.diamond.scisoft.python</project>
 		<project>uk.ac.gda.beamline.i06</project>
 		<project>uk.ac.gda.client.live.stream</project>
