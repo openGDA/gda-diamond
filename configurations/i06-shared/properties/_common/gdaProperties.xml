@@ -15,17 +15,5 @@
 		file:${gda.config}/properties/_common/common_instance_java.properties,
 		file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties
 	"/>
-	 <!-- 	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
-		<property name="locations">
-			<list value-type="java.lang.String">
-				<value>file:${gda.core.dir}/properties/core_java.properties</value>
-				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
-				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
-				<value>file:${gda.group.dir}/properties/_common/common_family_java.properties</value>
-				<value>file:${gda.group.dir}/properties/${gda.mode}/${gda.mode}_family_java.properties</value>
-				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
-				<value>file:${gda.config}/properties/${gda.mode}/${gda.mode}_instance_java.properties</value>
-			</list>
-		</property>
-	</bean>  -->
+
 </beans>
