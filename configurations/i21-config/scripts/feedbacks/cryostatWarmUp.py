@@ -37,7 +37,7 @@ Constructor arguments:
 
 import sys
 from exceptions import KeyboardInterrupt
-from time import sleep, gmtime, strftime
+from time import sleep, strftime, localtime, time
 from gda.device.scannable import ScannableBase
 import math
 from java.lang import Runnable, Thread
@@ -65,6 +65,7 @@ class CryostatWarmUp(ScannableBase, Runnable):
         self.sleepTime = sleepTime
         self.finished=False
         self.firstTime=False
+        self.temperatutePrintIntervalInSeconds=10.0
         
     def setSleepTime(self, t):
         self.sleepTime=t
@@ -105,6 +106,7 @@ class CryostatWarmUp(ScannableBase, Runnable):
     def run(self):
         self.report()
         self.finished = False
+        lastprinttime=0.0
         # 3. Initialisation - When the loop starts, the ramp rate should always start at the minimum ramp rate;
         self.cryostat.setRampRate(self.minRampRate)
         sleep(0.5) #sleep required to give time for lakeshore to react
@@ -114,6 +116,11 @@ class CryostatWarmUp(ScannableBase, Runnable):
                 tsample=self.cryostat.getTemperature(0)  # @UndefinedVariable
                 tshield=self.cryostat.getTemperature(1)
                 tcryostat=self.cryostat.getTemperature(2)
+
+                if time() - lastprinttime >= self.temperatutePrintIntervalInSeconds:
+                    self.printMessage("Current sample temperature is %.1f" % (tsample))
+                    lastprinttime=time()
+                
                 if (tsample>self.lowThreshold and tsample<self.highThreshold) or (tshield>self.lowThreshold and tshield<self.highThreshold) or (tcryostat>self.lowThreshold and tcryostat<self.highThreshold):
                     self.maxRampRate=self.MAX_RAMP_RATE_130_160
                 else:
@@ -125,17 +132,17 @@ class CryostatWarmUp(ScannableBase, Runnable):
                 if (pressure > self.maxPressure/self.pressureFactor):
                     #5. Decrement - pressure exceeds half of <maxPressure>, set ramp rate to <minRampRate>
                     self.cryostat.setRampRate(self.minRampRate)
-                    self.printMessage("pressure %E is greater than 1/%f of maximum pressure %E, reduce ramp rate to minimum %f" % (pressure, self.pressureFactor, self.maxPressure, self.minRampRate))
+                    self.printMessage("pressure %.3E is greater than 1/%.0f of maximum pressure %.3E, reduce ramp rate to minimum %.1f" % (pressure, self.pressureFactor, self.maxPressure, self.minRampRate))
                        
                 elif (pressure < self.maxPressure/self.pressureFactor):
                     #4. Increment - pressure does not exceed half of <maxPressure>, ramp rate should be doubled
                     ramp_rate = self.cryostat.getRampRate()
                     if ramp_rate*2 <= self.maxRampRate:
                         self.cryostat.setRampRate(ramp_rate*2)
-                        self.printMessage("pressure %E is below 1/%f of maximum pressure %E, double the ramp rate to %f" % (pressure, self.pressureFactor, self.maxPressure, ramp_rate*2))
+                        self.printMessage("pressure %.3E is below 1/%.0f of maximum pressure %.3E, double the ramp rate to %.1f" % (pressure, self.pressureFactor, self.maxPressure, ramp_rate*2))
                     else:
                         self.cryostat.setRampRate(self.maxRampRate)
-                        self.printMessage("pressure %E is below 1/%f of maximum pressure %E, set the ramp rate to maximum %f" % (pressure, self.pressureFactor, self.maxPressure, self.maxRampRate))
+                        self.printMessage("pressure %.3E is below 1/%.0f of maximum pressure %.3E, set the ramp rate to maximum %.1f" % (pressure, self.pressureFactor, self.maxPressure, self.maxRampRate))
                 #6. Delay - Since pressure reacts on the time scale of seconds below 120 K, a sleep time is required in the loop so that the speed of adjustments of ramp rate are matched to the speed of the changes in pressure    
                 sleep(self.sleepTime)
                 if math.fabs(self.cryostat.getTargetDemandTemperature() - self.cryostat.getCurrentDemandTemperature()) <= self.tolerance_demand:
@@ -158,7 +165,7 @@ class CryostatWarmUp(ScannableBase, Runnable):
 
 
     def printMessage(self, message):
-        print strftime("%Y-%m-%d %H:%M:%S", gmtime()), message
+        print strftime("%Y-%m-%d %H:%M:%S", localtime()), message
 
 
     def report(self):
