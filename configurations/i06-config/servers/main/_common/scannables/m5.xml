@@ -7,8 +7,6 @@
 	<bean id="m5pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorVFMPitch_M5" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="uRad" />
-		<property name="hardwareUnitString" value="uRad" />
 	</bean>
 		<bean id="m5fpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorVFMFinePitch_M5" />

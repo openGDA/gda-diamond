@@ -29,21 +29,18 @@
 		<property name="minPosition" value="-35000.0" />
 		<property name="maxPosition" value="35000.0" />
 		<property name="speed" value="10" />
-		<property name="unitString" value="urad"/>
 	</bean>
 
 	<bean id="MotorPitch_M1" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-35000.0" />
 		<property name="maxPosition" value="35000.0" />
 		<property name="speed" value="10" />
-		<property name="unitString" value="urad"/>
 	</bean>
 
 	<bean id="MotorRoll_M1" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-10000.0" />
 		<property name="maxPosition" value="10000.0" />
 		<property name="speed" value="10" />
-		<property name="unitString" value="urad"/>
 	</bean>
 
 	<bean id="MotorFinePitch_M1" class="gda.device.motor.DummyMotor">

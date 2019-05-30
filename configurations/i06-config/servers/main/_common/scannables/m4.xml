@@ -13,8 +13,6 @@
 	<bean id="m4pitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorHFMPitch_M4" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="uRad" />
-		<property name="hardwareUnitString" value="uRad" />
 	</bean>
 	<bean id="m4fpitch" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorHFMFinePitch_M4" />
@@ -37,8 +35,6 @@
 	<bean id="m4roll" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="MotorHFMRoll_M4" />
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="uRad" />
-		<property name="hardwareUnitString" value="uRad" />
 	</bean>
 	
 	<bean id="M4" class="gda.device.scannable.scannablegroup.ScannableGroup">
