@@ -26,7 +26,7 @@ fi
 # set the required variables below this line, also adding any environment variables specific to your installation:
 ##################################################################################################################
 
-
+export SWT_GTK3=0
 
 ######################################################################
 # before the gda-core script is invoked using the environment settings
