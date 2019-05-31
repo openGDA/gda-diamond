@@ -11,11 +11,9 @@
 		class="gda.device.motor.DummyMotor">
 	</bean>
 
-	<!-- 
 	<bean id="pppiezo1Motor"
 		class="gda.device.motor.DummyMotor">
 	</bean>
-	 -->
 
 	<bean id="ppz1Motor"
 		class="gda.device.motor.DummyMotor">
@@ -25,11 +23,9 @@
 		class="gda.device.motor.DummyMotor">
 	</bean>
 
-	<!-- 
 	<bean id="pppiezo2Motor"
 		class="gda.device.motor.DummyMotor">
 	</bean>
-	 -->
 
 	<bean id="ppz2Motor"
 		class="gda.device.motor.DummyMotor">
