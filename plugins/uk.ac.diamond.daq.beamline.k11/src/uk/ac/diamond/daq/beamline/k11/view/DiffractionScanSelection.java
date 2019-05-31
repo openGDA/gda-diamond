@@ -18,6 +18,8 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
+import java.util.Optional;
+
 import org.dawnsci.mapping.ui.MappedDataView;
 import org.eclipse.scanning.api.scan.IFilePathService;
 import org.eclipse.swt.SWT;
@@ -96,8 +98,8 @@ public class DiffractionScanSelection extends LayoutUtilities {
 		savedComposite.setLayout(new GridLayout());
 		fillGrab().applyTo(savedComposite);
 		savedComposite.populate(smController.getService(IFilePathService.class).getVisitConfigDir(),
-														diffractionPathComposite::load,
-														diffractionPathComposite::save);
+														Optional.of(diffractionPathComposite::load),
+														Optional.of(diffractionPathComposite::save));
 	}
 
 	private void buildStatusComposite(final Composite parent) {
