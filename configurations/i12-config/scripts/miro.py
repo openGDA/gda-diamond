@@ -5,6 +5,8 @@ from gda.device import Detector
 from gda.device.detector import DetectorBase
 from gda.epics import CAClient
 from gda.jython import InterfaceProvider
+from gdascripts.utils import caput, caget, caput_wait
+from epics_scripts.pv_scannable_utils import caputStringAsWaveform
 
 from i12utilities import wd
 from gda.data import NumTracker
@@ -163,7 +165,7 @@ class MiroXgraph():
 
 	def sanity_check(self, nframes_post_trigger, exposure_time_sec, acq_period_sec, download_option):
 		#overhead_sec = 20*10e-6 # Exposure time is less 20 microsecond of overhead
-		overhead_sec = 2*10e-6
+		overhead_sec = 2e-6 	#2*10e-6
 		if exposure_time_sec > self.exposure_time_max_sec:
 			print("WARNING: Requested exposure time of %s s is larger than the MAX exposure time:\n\t setting the exposure time to the MAX allowable exposure time of %s s instead!" %(exposure_time_sec, self.exposure_time_max_sec))
 			exposure_time_sec = self.exposure_time_max_sec
@@ -232,7 +234,7 @@ class MiroXgraph():
 		#self._set_miro_hdf_path(savefolderpath)
 
 		
-	def collect_data(self, nframes_post_trigger, exposure_time_sec, frame_rate_hz, download_option, black_ref=True, interactive_run=False, cine_num=1, pre_download_sleep_sec=1.0, nxs=False):
+	def collect_data(self, nframes_post_trigger, exposure_time_sec, frame_rate_hz, download_option, black_ref=True, interactive_run=False, cine_num=1, pre_download_sleep_sec=1.0, nxs=True):
 		"""
 		nframes_post_trigger: the total number of frames to be collected after the trigger is received by the camera
 		exposure_time_sec: exposure time in seconds
@@ -249,7 +251,19 @@ class MiroXgraph():
 		cine_num: the integer identifier of the Cine partition from which the recorded images are to be downloaded
 			at the end of the entire data-acquisition process; default=1
 		pre_download_sleep_sec: default=1.0
+		nxs: True or False to indicate if Nexus scan file should be created to accompany HDF5 data file; default=True
 		"""
+		import inspect
+		frame = inspect.currentframe()
+		args, _, _, vals = inspect.getargvalues(frame)
+		cmd = inspect.getframeinfo(frame)[2]
+		cmd += "("
+		#args_vals = [(a, vals[a]) for a in args]
+		for a in args: 
+			cmd += "%s=%s," %(a,vals[a])
+		cmd = cmd.rstrip(",")
+		cmd += ")"
+		
 		self.frame_rate_hz = frame_rate_hz
 		acq_period_sec = 1.0/frame_rate_hz
 		self.sanity_check(nframes_post_trigger, exposure_time_sec, acq_period_sec, download_option)
@@ -263,7 +277,7 @@ class MiroXgraph():
 		self.hdfpath = self._set_hdf_writer(self.outdirpath, self.scan_number)	# remove args?
 		if nxs:
 			try:
-				self._create_nexus_scan_file("miro_xgraph",exposure_time_sec,self.scan_number,self.hdfpath,self.outdirpath)
+				self._create_nexus_scan_file("miro_xgraph",exposure_time_sec,self.scan_number,self.hdfpath,self.outdirpath,cmd=cmd)
 			except Exception, e:
 				print("Error creating Nexus scan file: %s" %(str(e)))
 		else:
@@ -406,7 +420,7 @@ class MiroXgraph():
 	#caput_wait("BL12I-EA-DET-20:HDF5:FileTemplate","%s%s_%05d.hdf", datatype = DBR_CHAR_STR, wait = True)
 	#caput_wait("BL12I-EA-DET-20:HDF5:FileName", "Miro_projections", datatype = DBR_CHAR_STR, wait = True)
 	#caput_wait("BL12I-EA-DET-20:HDF5:FilePath", hdfpath, datatype = DBR_CHAR_STR, wait = True) 
-		return "%s%s_%05d.hdf" %(outdirpath, self.filename_prefix_hdf, filenumber)
+		return "%s/%s_%05d.hdf" %(outdirpath, self.filename_prefix_hdf, filenumber)
 		
 	def _download_ram_to_hdf(self, cine_num, first_frame_idx, last_frame_idx):
 		cinePVbase = "BL12I-EA-DET-20:CAM:C"+str(int(cine_num))+":"

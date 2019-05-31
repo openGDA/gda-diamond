@@ -6,7 +6,7 @@ import csv
 from gdascripts.messages import handle_messages
 from gda.jython import Jython
 from gda.jython.commands import GeneralCommands
-from gdascripts.utils import caput, caget
+from gdascripts.utils import caput, caget, caput_wait
 from gda.device.scannable import ScannableMotionBase
 from gda.jython.commands import ScannableCommands
 
@@ -49,7 +49,7 @@ from beamAttenuation import moveToAttenuation
 
 print "-------------------------------------------------"
 print "getting pixium10_changeExposure"
-from pixium10_utilities import pixium10_changeExposure, pixium10_changeExposureAndAcquirePeriod, pixium10_preview, earlyFramesIncluded, pixium_redux, setup_pixium_postprocessing, pixium10_acquire_time_handler
+from pixium10_utilities import pixium10_changeExposure, pixium10_changeExposureAndAcquirePeriod, pixium10_preview, earlyFramesIncluded, difract_redux, setup_pixium_postprocessing, pixium10_acquire_time_handler
 earlyFramesOFF=earlyFramesIncluded
 print "-------------------------------------------------"
 print "create commands for folder operations: wd, pwd, nwd, nfn, cfn, setSubdirectory('subdir-name')"
@@ -823,7 +823,7 @@ def stressfly12(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
     """
     _fn = stressfly12.__name__
     setSubdirectory("tmp")
-    windowsSubString_dct = {"na": "d:\\i12\\data\\", "gpfs": "t:\\i12\\data\\"}
+    windowsSubString_dct = {"na": "d:\\i12\\data\\", "gpfs": "g:\\i12\\data\\"}     # was t: for GPFS01
     #flyScanDetector = finder.find("flyScanDetector")        # probably not needed here on i12? Prob not coz got this: Exception: Trying to overwrite a Scannable: flyScanDetector
     #windowsSubString_saved = flyScanDetectorNoChunking.pluginList[1].ndFileHDF5.file.filePathConverter.getWindowsSubString()
     #print "windowsSubString_saved = %s" %(windowsSubString_saved)
@@ -842,7 +842,7 @@ def stressfly12(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
             msg="Failed to create sub-directory %s: " %(log_dir_path)
             raise Exception(msg + str(e))
     log_file_name = _fn
-    timestr_template = "%d-%m-%Y-%H-%M-%S"
+    timestr_template = "%Y-%m-%dT%H-%M-%S"
     timestr = time.strftime(timestr_template)
     log_file_name += ("_%s_" %(filesys))
     log_file_name += timestr
@@ -863,6 +863,7 @@ def stressfly12(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
         #msg = "scan iter \t scan number \t start time \t end time \t elapsed (min) \t HDF5:IOSpeed \t HDF5:RunTime \t HDF5:Dropped"
         #fh.write(msg+"\n")
         csv_writer.writerow(('scan iter', 'scan number', 'start time', 'end time', 'elapsed (min)', 'HDF5:IOSpeed', 'HDF5:RunTime', 'HDF5:Dropped'))
+        fh.flush()
         for i in range(nscans):
             interruptable()             # for breaking this loop when GDA Abort button is pressed
             title_tmp = title
@@ -883,6 +884,7 @@ def stressfly12(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
             #msg = "%d/%d \t %d \t %s \t %s \t %f \t %s \t %s \t %s" %((i+1), nscans, cfn(), timestr_start, timestr_end, elapsed_min, str(caget(pv_after_scan["HDF5:IOSpeed"])), str(caget(pv_after_scan["HDF5:RunTime"])), str(caget(pv_after_scan["HDF5:DroppedArrays"])))
             #fh.write(msg+"\n")
             csv_writer.writerow(("%d/%d" %((i+1), nscans), cfn(), timestr_start, timestr_end, elapsed_min, str(caget(pv_after_scan["HDF5:IOSpeed"])), str(caget(pv_after_scan["HDF5:RunTime"])), str(caget(pv_after_scan["HDF5:DroppedArrays"]))))
+            fh.flush()
             print "Finished scan iter %d (of %d), end time: %s." %(i+1, nscans, timestr_end)
             interruptable()             # for breaking this loop when GDA Abort button is pressed
     except Exception, e:
@@ -891,6 +893,7 @@ def stressfly12(nscans, exposureTime, start, stop, step, pathToVisitDir="/dls/i1
     finally:
         fh.close()
         setTitle(title_saved)
+        setSubdirectory("rawdata")
     print "\n Finished executing %s - bye!" %(_fn)
 
 
@@ -1055,4 +1058,4 @@ if isLive():
 
 print 
 print "==================================================="
-print "local station initialisation completed."
+print "local station initialisation completed - GDA is now ready for use!"
