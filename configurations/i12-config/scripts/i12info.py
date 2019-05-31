@@ -57,10 +57,14 @@ http://confluence.diamond.ac.uk/display/I12Tech/I12+GDA+Help
 10. To close down the telnet connection for P2R, please use the following Jython console command:
     p2r_rot.motor.smc.bidiAsciiCommunicator.closeConnection()
 
-11. To run a fly scan using zebra, please use the following Jython command:
+11. To run a fly scan using Zebra box, please use the following Jython command:
     i12tomoFlyScan(description="Hello World", inBeamPosition=0.0,outOfBeamPosition=1.0, exposureTime=.05, start=0.0, stop=180.0, step=0.1, imagesPerDark=20.0, imagesPerFlat=20.0, extraFlatsAtEnd=True, closeShutterAfterScan=False)
 
-    (If the time/angle curve is not a straight line, then adjust zebraSM1.scurveTimeToVelocity)
+    Notes:
+    (a) To display the readout time (sec) used by GDA, execute: flyScanDetector.readOutTime
+        (0.011s is routinely used for PCO Edge) 
+    (b) To modify the readout time used by GDA, execute: flyScanDetector.readOutTime=<new read-out time in sec>
+    (c) If the time/angle curve is not a straight line, then adjust zebraSM1.scurveTimeToVelocity
 
 12. To start GDA log panel, please execute the following Jython console command: 
     gda_start_logpanel

@@ -16,7 +16,7 @@
 	<!-- TIFF -->
 	
 	<bean id="pco2_nxfilewriter_tif" class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
-		<constructor-arg value="pco" />
+		<constructor-arg value="pco2" />
 		<property name="ndFile" ref="pco2_ndfile_tif" />
 		<property name="writeErrorStatusSupported" value="false"/>
 		<property name="fileNameTemplate" value="p_" />
@@ -28,7 +28,7 @@
 
 	<bean id="pco2_nxfilewriter_hdf5_nochunking" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
 		<property name="ndFileHDF5" ref="pco2_ndhdf5file" />
-		<property name="fileNameTemplate" value="projections"/>
+		<property name="fileNameTemplate" value="pco2"/>
 		<property name="filePathTemplate" value="$datadir$"/>
 		<property name="fileTemplate" value="%s%s-%d.hdf"/>
 		<property name="fileNumberAtScanStart" value="-1"/>
