@@ -24,7 +24,6 @@ import java.util.Map.Entry;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeanProperties;
-import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -61,10 +60,9 @@ import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.DiffractionConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;
 import uk.ac.diamond.daq.experiment.api.ExperimentService;
-import uk.ac.diamond.daq.experiment.api.driver.ExperimentDriverModel;
 import uk.ac.diamond.daq.experiment.api.plan.ExperimentPlanBean;
 import uk.ac.diamond.daq.experiment.api.remote.PlanRequestHandler;
-import uk.ac.diamond.daq.experiment.ui.driver.TR6ConfigurationWizard;
+import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
 import uk.ac.diamond.daq.experiment.ui.plan.PlanSetupWizard;
 import uk.ac.diamond.daq.stage.StageException;
 import uk.ac.diamond.daq.stage.StageGroupService;
@@ -388,15 +386,10 @@ public class ExperimentSetup extends LayoutUtilities {
 	private void addExperimentDriverButton(Composite content) {
 		Button experimentDriverButton = addConfigurationDialogButton(content, "Environmental Experiment Driver");
 		experimentDriverButton.addListener(SWT.Selection, event -> {
-			TR6ConfigurationWizard tr6Wizard = ContextInjectionFactory.make(TR6ConfigurationWizard.class, getInjectionContext());
-			tr6Wizard.setCalibrationScannableName("tr6_y");
-			WizardDialog wizardDialog = new WizardDialog(content.getShell(), tr6Wizard);
-			wizardDialog.setPageSize(tr6Wizard.getPreferredPageSize());
-			if (wizardDialog.open() == Window.OK) {
-				ExperimentDriverModel profile = tr6Wizard.getProfile();
-				String profileName = tr6Wizard.getName();
-				experimentService.saveDriverProfile(profile, profileName, "tr6_soft", nameText.getText());
-			}
+			ExperimentDriverWizard driverWizard = new ExperimentDriverWizard(experimentService, nameText.getText());
+			WizardDialog wizardDialog = new WizardDialog(content.getShell(), driverWizard);
+			wizardDialog.setPageSize(driverWizard.getPreferredPageSize());
+			wizardDialog.open();
 		});
 	}
 
@@ -408,7 +401,11 @@ public class ExperimentSetup extends LayoutUtilities {
 			if (wizardDialog.open() == Window.OK) {
 				ExperimentPlanBean bean = planWizard.getExperimentPlanBean();
 				PlanRequestHandler handler = Finder.getInstance().findSingleton(PlanRequestHandler.class);
-				handler.submit(bean);
+				try {
+					handler.submit(bean);
+				} catch (Exception e) {
+					logger.error("Could not submit plan", e);
+				}
 			}
 		});
 		togglePlanButtonVisibility();
