@@ -269,7 +269,7 @@ class ScanEndScriptRunner(ScannableBase):
     def run_exe(self, filepath=None):
         """
         To run post-processing on demand (as opposed to it being run automatically), eg
-        pixium_redux.run_exe("/dls/i12/data/2017/cm1234-5/rawdata/6789.nxs")
+        difract_redux.run_exe("/dls/i12/data/2017/cm1234-5/rawdata/6789.nxs")
         """
         #jns=beamline_parameters.JythonNameSpaceMapping()
         #lsdp=jns.lastScanDataPoint()
@@ -299,7 +299,7 @@ class ScanEndScriptRunner(ScannableBase):
         setup_pixium_postprocessing()
         
 
-pixium_redux=ScanEndScriptRunner('pixium_redux', '/dls_sw/apps/dawn_autoprocessing/autoprocess')
+difract_redux=ScanEndScriptRunner('difract_redux', '/dls_sw/apps/dawn_autoprocessing/autoprocess')
 
 
 def setup_pixium_postprocessing(dst_dir=None):
