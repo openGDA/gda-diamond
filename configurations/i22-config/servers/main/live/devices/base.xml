@@ -5,7 +5,7 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="base_x_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-FLYTABLE-01:X"/>
+		<property name="pvName" value="BL22I-MO-FLY-01:X"/>
 	</bean>
 
 	<bean id="base_pitch_motor" class="gda.device.motor.EpicsMotor">
@@ -17,6 +17,6 @@
 	</bean>
 
 	<bean id="base_y_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL22I-MO-FLYTABLE-01:Y"/>
+		<property name="pvName" value="BL22I-MO-FLY-01:Y"/>
 	</bean>
 </beans>
