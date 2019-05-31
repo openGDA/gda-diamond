@@ -15,7 +15,7 @@
 	<bean id="pilatus_eh1_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
 		<constructor-arg ref="pilatus_eh1_adbase" />
 		<constructor-arg value=".003" />
-		<property name="sleepMillis" value="1000" />
+		<property name="sleepMillis" value="3000" />
 	</bean>
 
 	<!-- NXDetector file writers -->
@@ -217,7 +217,7 @@
 	<bean id="pilatus2_eh1_nxcollectionstrategy" class="gda.device.detector.addetector.triggering.SingleExposurePilatus">
 		<constructor-arg ref="pilatus2_eh1_adbase" />
 		<constructor-arg value=".003" />
-		<property name="sleepMillis" value="1000" />
+		<property name="sleepMillis" value="3000" />
 	</bean>
 	
 	<!-- NXDetector file writers -->

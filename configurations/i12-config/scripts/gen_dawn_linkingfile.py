@@ -33,13 +33,14 @@ if __name__ == "__main__" :
 
     usage = "%prog [options] input_dir output_dir"
     parser = optparse.OptionParser(usage=usage, version="%prog 1.0")
-    parser.add_option("-b", "--begin", dest="begin", help="projection to begin from", default=0, type='int')
-    parser.add_option("-n", "--nfiles", dest="nfiles", help="total number of files to select", default=-1, type='int')
-    parser.add_option("-d", "--dset", dest="dset", help="Nexus path to the dataset to link to", default='image-01')
-    parser.add_option("-s", "--step", dest="step", help="select every s-th file from the input directory", default=1, type='int')
-    parser.add_option("-f", "--fmt", dest="fmt", help="filename format for the input files", default="*.cbf")
-    parser.add_option("-x", "--ext", dest="ext", help="filename extension for the output file", default='dawn')
-    parser.add_option("-a", "--all", dest="all", help="if supplied, all matching files in the input directory are selected, otherwise the (alphanumerically) last file is omitted (as it may be still being written to)", default=False, action="store_true")
+    parser.add_option("-b", "--begin", dest="begin", help="(zero-based) index from which to begin selection of files; default=0", default=0, type='int')
+    parser.add_option("-n", "--nfiles", dest="nfiles", help="total number of files to select; default=-1 (ie all)", default=-1, type='int')
+    parser.add_option("-d", "--dset", dest="dset", help="Nexus path to the dataset to link to; default='image-01'", default='image-01')
+    parser.add_option("-s", "--step", dest="step", help="select every s-th file from the input directory; default=1", default=1, type='int')
+    parser.add_option("-f", "--fmt", dest="fmt", help="filename format for the input files; default='*.cbf'", default='*.cbf')
+    parser.add_option("-x", "--ext", dest="ext", help="filename extension for the output file; default='dawn'", default='dawn')
+    parser.add_option("-a", "--all", dest="all", help="if supplied, all matching files in the input directory are selected, otherwise the (alphanumerically) last file is omitted (as it may still be in use for writing)", default=False, action="store_true")
+    parser.add_option("-t", "--timestamp", dest="timestamp", help="if supplied, the output filename contains some additional stats and timestamp", default=False, action="store_true")
     parser.add_option("--dbg", dest="dbg", help=optparse.SUPPRESS_HELP, default=False, action="store_true")
     
     (options, args) = parser.parse_args()
@@ -56,6 +57,7 @@ if __name__ == "__main__" :
     print("step = %s" %(options.step))
     print("input fname format = %s" %(options.fmt))
     print("all = %s" %(options.all))
+    print("timestamp = %s" %(options.timestamp))
 
     out_fname_ext = options.ext
     out_fname_ext.lstrip('.')
@@ -107,9 +109,11 @@ if __name__ == "__main__" :
         for t in reversed(range(dbg_n)):			# range(dbg_n-1,-1,-1)
             print("@%d: %s" %(-t-1+fnames_out_len,fnames_out_lst[-t-1]))
 
-    out_fname_fmt = "%s-%s-#%d-of-%d.%s" 			# 82497-pilatus2M-files-2019-01-09T19-44-47-#869of8687.dawn 
-    out_fname = out_fname_fmt %(in_dir_name, timestr, fnames_out_len, fnames_sorted_len, out_fname_ext)
-    out_fname = "%s.%s" %(in_dir_name, out_fname_ext)
+    out_fname_fmt = "%s-%s-#%d-of-%d.%s" 			# 82497-pilatus2M-files-2019-01-09T19-44-47-#869of8687.dawn
+    if options.timestamp: 
+        out_fname = out_fname_fmt %(in_dir_name, timestr, fnames_out_len, fnames_sorted_len, out_fname_ext)
+    else:
+        out_fname = "%s.%s" %(in_dir_name, out_fname_ext)	# allow overwriting of the same output file
     print("output fname = %s" %(out_fname))
     out_fpath = os.path.join(out_dir_path, out_fname)
     print("output fpath = %s" %(out_fpath))

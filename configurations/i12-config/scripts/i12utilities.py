@@ -149,7 +149,7 @@ def setUpCopyPluginForPCO():
     print "setting up cpy plugin for PCO"
     ca.caput( "BL12I-EA-DET-02:COPY:Run", 0)
     ca.caputStringAsWaveform( "BL12I-EA-DET-02:COPY:SourceFilePath", "d:\\i12\\data\\2014")
-    ca.caputStringAsWaveform( "BL12I-EA-DET-02:COPY:DestFilePath", "t:\\i12\\data\\2014")
+    ca.caputStringAsWaveform( "BL12I-EA-DET-02:COPY:DestFilePath", "g:\\i12\\data\\2014")
     ca.caput ("BL12I-EA-DET-02:COPY:Run", 1)
 
 
@@ -157,7 +157,7 @@ def setUpCopyPluginForPIXIUM():
     print "setting up cpy plugin for PIXIUM"
     ca.caput( "BL12I-EA-DET-10:FILECOPY:Run", 0)
     ca.caputStringAsWaveform( "BL12I-EA-DET-10:FILECOPY:SourceFilePath", "d:\\i12\\data\\2014")
-    ca.caputStringAsWaveform( "BL12I-EA-DET-10:FILECOPY:DestFilePath", "t:\\i12\\data\\2014")
+    ca.caputStringAsWaveform( "BL12I-EA-DET-10:FILECOPY:DestFilePath", "g:\\i12\\data\\2014")
     ca.caput ("BL12I-EA-DET-10:FILECOPY:Run", 1)
 
 from gda.jython import InterfaceProvider
@@ -959,13 +959,13 @@ def setZebra1And2ForP2RGapScan(z1config="/dls_sw/i12/epics/zebra/count_opulse_p2
 
 
 class BeamlineStorage:
-    def __init__(self, name, ixx='i12', windowsSubString = {"na": "d:\\i12\\data\\", "gpfs": "t:\\i12\\data\\"}, windowsSubString_rvr = {"d": "NetApp", "t": "GPFS01"}, emails=[]):
+    def __init__(self, name, ixx='i12', windowsSubString = {"na": "d:\\i12\\data\\", "gpfs": "g:\\i12\\data\\"}, windowsSubString_rvr = {"d": "NetApp", "t": "GPFS03"}, emails=[]):
         self.name = name
         self.ixx = ixx
         self.emails = emails # lst, eg ['kaz.wanelik@diamond.ac.uk', 'frederik.ferner@diamond.ac.uk', 'andy.wilson@diamond.ac.uk']
         self.emails_enabled = False
-        self.windowsSubString_dct = windowsSubString #dct, eg {"na": "d:\\i12\\data\\", "gpfs": "t:\\i12\\data\\"}
-        self. windowsSubString_rvr = windowsSubString_rvr #dct, eg {"d": "NetApp", "t": "GPFS01"}
+        self.windowsSubString_dct = windowsSubString #dct, eg {"na": "d:\\i12\\data\\", "gpfs": "g:\\i12\\data\\"}
+        self. windowsSubString_rvr = windowsSubString_rvr #dct, eg {"d": "NetApp", "t": "GPFS03"}
         self.verbose = False
 
     def use(self, storage_name):
@@ -981,15 +981,15 @@ def use_storage(storage_name):
     Fn to select storage for saving scan files on the beamline. Note: this command needs to be executed each time GDA servers get restarted.
     
     Arg(s):
-    storage_name (str) - name of storage to be used for saving any subsequent scan files: NetApp (local) or GPFS01 (central):
+    storage_name (str) - name of storage to be used for saving any subsequent scan files: NetApp (local) or GPFS03 (central):
         "na" - NetApp local storage 
         "gpfs" - GPFS central storage
     """
     #assert na or gpfs
     storage_name_ = storage_name.lower()
     print "\n * Configuring beamline storage to %s...\n" %(storage_name_)
-    windowsSubString_dct = {"na": "d:\\i12\\data\\", "gpfs": "t:\\i12\\data\\"}
-    windowsSubString_rvr_dct = {"d": "NetApp", "t": "GPFS01"}
+    windowsSubString_dct = {"na": "d:\\i12\\data\\", "gpfs": "g:\\i12\\data\\"}
+    windowsSubString_rvr_dct = {"d": "NetApp", "g": "GPFS03"}
 
     storage = windowsSubString_dct[storage_name_]
     curr_out_str = "Current windowsSubString for %s is %s (%s).\n"
@@ -1113,7 +1113,7 @@ def report_storage():
     Desc:
     Fn to report current storage configuration for saving scan files on the beamline.
     """
-    windowsSubString_rvr_dct = {"d": "NetApp", "t": "GPFS01"}
+    windowsSubString_rvr_dct = {"d": "NetApp", "g": "GPFS03"}
     
     #curr_out_str = "Current windowsSubString for %s is %s (%s)."
     curr_out_str = " %s is currently configured to use the %s storage (on %s)."

@@ -200,12 +200,8 @@
 		<property name="initialExtraDimSizeN" value="1" />
 		<property name="initialExtraDimSizeX" value="0" />
 		<property name="initialExtraDimSizeY" value="0" />
-		<property name="initialNumRowChunks" value="360" />
-		<property name="initialCompression" value="zlib" />
-		<property name="initialNumBitOffset" value="0" />
-		<property name="initialNumBitPrecision" value="8" />
-		<property name="initialSzipNumPixels" value="16" />
-		<property name="initialZCompressLevel" value="6" />
+		<property name="initialNumRowChunks" value="2160" />
+		<property name="initialCompression" value="None" />
 	</bean>
 
 	<bean id="pco.mpeg1"

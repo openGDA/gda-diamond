@@ -20,29 +20,29 @@ except:
 def masterPositions():
     print "in masterPositions"
     detector_table = t3.m2z
-    detector_diffzposition= 1000
-    detector_SAFEdiffzposition= 1400 # MUST be above 1400 - SAFE position to avoid collision with Granite block
+    detector_diffzposition= 700
+    detector_SAFEdiffzposition= 1500 # MUST be above 1700 - SAFE position to avoid collision with Granite block
     return detector_table , detector_diffzposition , detector_SAFEdiffzposition
     
 def monodiffractionPositions():
      # detector positions
-    detector_diffxposition= 757
+    detector_diffxposition= 747
     detector_diffyposition= 50
     #slitpositions
     s2_diffxcentre= 0.0
     s2_diffycentre=50.0
-    s2_diffxsize=0.2 # BEAM SIZE for diffraction
-    s2_diffysize=0.2 # BEAM SIZE for diffraction
+    s2_diffxsize=0.25 # BEAM SIZE for diffraction
+    s2_diffysize=0.25 # BEAM SIZE for diffraction
     
-    s3_yheight=50
+    s3_yheight=50 # for MONO-beam: s3_yheight = 50 always
     s3_diffxcentre=0
     s3_diffycentre=0
-    s3_diffxsize=2
-    s3_diffysize=2
+    s3_diffxsize=2 # s3_diffxsize > s2_diffxsize
+    s3_diffysize=2 # s3_diffysize > s2_diffysize
     
     #beamstop positions for diffraction
-    beamstopInBeam_x = 97.04
-    beamstopInBeam_y = 8.6
+    beamstopInBeam_x = 96.9
+    beamstopInBeam_y = 7.1
     
     #calculated values
     beamstopInBeam_lowLimit = beamstopInBeam_x-10
@@ -52,7 +52,7 @@ def monodiffractionPositions():
     
 def monoimagingPositions():
     # detector positions
-    detector_imagingxposition=1351.64
+    detector_imagingxposition=1350.82
     
     #slitpositions
     s2_imagingxcentre= 0
@@ -60,14 +60,14 @@ def monoimagingPositions():
     s2_imagingxsize=4
     s2_imagingysize=4
     
-    s3_yheight= -150
+    s3_yheight= 50 # ' For MONO-beam: s3_yheight = 50 for M4 & M3; s3_yheight = -150 for M2 & M1
     s3_imagingxcentre=0
     s3_imagingycentre=0
-    s3_imagingxsize=2
-    s3_imagingysize=2
+    s3_imagingxsize=4.5 # s3_imagingxsize > s2_imagingxsize
+    s3_imagingysize=4.5 # s3_imagingysize > s2_imagingysize
     
-    beamstopOutofBeam_x = 149.0
-    beamstopOutofBeam_y = 8.6
+    beamstopOutofBeam_x = 116.6
+    beamstopOutofBeam_y = 7.1
     
     #calculated values
     detector_imagingxposition_lowLimit = detector_imagingxposition-15   ## to restrict movement of pixium into beam when imaging
@@ -117,8 +117,11 @@ def monodiffractionMode():
     #pos(t3.m4y, beamstopInBeam_y)
 
     print "***** Moving large detector table. "     
+    print "***** Moving large detector table to SAFE position to avoid collision with BEAMSTOP module. "     
     pos(t3.m2z, detector_SAFEdiffzposition)
+    print "***** Moving large detector table to diffraction position. "     
     pos(t3.x, detector_diffxposition)
+    print "***** Moving large detector table to requested position. "     
     pos(t3.m2z, detector_diffzposition)
     #pos(detector_table) do not understand meaning of this command
     #pos(detector_diffzposition) do not understand meaning of this command
