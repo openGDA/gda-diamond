@@ -100,11 +100,16 @@ def miscan(*args):
         if isinstance( arg,  NXDetector ):
             decoratee = arg.getCollectionStrategy().getDecoratee()
             if isinstance(decoratee, ImageModeDecorator):
-                if i<len(args)-1 and type(args[i])==IntType and (type(args[i+1])==IntType or type(args[i+1])== FloatType):
-                    #support the miscan command - first input after detector is number of images per data point
-                    decoratee.setNumberOfImagesPerCollection(args[i])
-                elif type(args[i])==FloatType:
-                    raise TypeError, "Number of images to collect per scan data point must be Int type."
+                if i<len(args)-1: # more than 2 arguments following detector
+                    if type(args[i])==IntType and (type(args[i+1])==IntType or type(args[i+1])== FloatType):
+                        #support the miscan command - first input after detector is number of images per data point
+                        decoratee.setNumberOfImagesPerCollection(args[i])
+                    elif type(args[i])==FloatType and (type(args[i+1])==IntType or type(args[i+1])== FloatType):
+                        raise TypeError, "Number of images to collect per scan data point must be Int type."
+                    elif type(args[i])==FloatType and not (type(args[i+1])==IntType or type(args[i+1])== FloatType):
+                        decoratee.setNumberOfImagesPerCollection(1)
+                elif i==len(args)-1: #followed by only one argument - must be exposure time
+                    decoratee.setNumberOfImagesPerCollection(1)
                    
             else: #exposure time is the last one in the scan command
                 newargs.append(args[i]) #single image per data point
