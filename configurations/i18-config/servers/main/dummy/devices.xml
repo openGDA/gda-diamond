@@ -116,8 +116,7 @@
 	<bean id="pinx_motor" class="gda.device.motor.DummyMotor" />
 	<bean id="piny_motor" class="gda.device.motor.DummyMotor" />
 
-	<bean id="vma_zoom_motor" class="gda.device.motor.DummyMotor" />
-	<bean id="vma_zoom_positioner" class="gda.device.enumpositioner.DummyEnumPositioner">
+	<bean id="vma_zoom" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="positions">
 			<list>
 				<value>10</value>
@@ -131,6 +130,7 @@
 			</list>
 		</property>
 	</bean>
+	
 	<bean id="vma_focus_motor" class="gda.device.motor.DummyMotor" />
 
 	<bean id="ml_x_motor" class="gda.device.motor.DummyMotor" />

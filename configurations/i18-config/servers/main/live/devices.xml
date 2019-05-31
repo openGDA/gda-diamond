@@ -306,9 +306,10 @@
 		<property name="pvName" value="BL18I-AL-APTR-02:Y" />
 	</bean>
 
-	<bean id="vma_zoom_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL18I-DI-DCAM-01:ZOOM" />
+	<bean id="vma_zoom" class="gda.device.enumpositioner.EpicsEnumPositioner">
+		<property name="pvBase" value="BL18I-DI-DCAM-01:MP:SELECT" />
 	</bean>
+	
 	<bean id="vma_focus_motor" class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL18I-DI-DCAM-01:FOCUS" />
 	</bean>

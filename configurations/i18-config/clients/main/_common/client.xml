@@ -18,6 +18,7 @@
 	<import resource="mapping.xml"/>
 	<import resource="file://${gda.core.dir}/clients/_common/mapping_view.xml" />
 	<import resource="live_controls.xml"/>
+	<import resource="stream_views.xml" />
 	<import resource="mapping_stage.xml" />
 
 </beans>

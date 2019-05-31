@@ -75,6 +75,12 @@
 		<property name="increment" value="10" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
+	
+	<bean id="zoom_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
+		<property name="displayName" value="Zoom" />
+		<property name="scannableName" value="vma_zoom" />
+		<property name="group" value="VMA" />
+	</bean>
 
 	<!-- Overall control set -->
 	<bean name="liveControlSet" class="uk.ac.gda.client.livecontrol.ControlSet">
@@ -89,6 +95,7 @@
 				<ref bean="t3y_control" />
 				<ref bean="t3z_control" />
 				<ref bean="t3pitch_control" />
+				<ref bean="zoom_control" />
 			</list>
 		</property>
 	</bean>
