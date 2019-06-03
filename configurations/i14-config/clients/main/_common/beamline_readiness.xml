@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean class="uk.ac.gda.beamline.i14.views.BeamlineReadinessParameters">
+		<property name="shutters">
+			<list>
+				<value>oh1_shutter_status</value>
+				<value>oh2_shutter_status</value>
+				<value>oh3_shutter_status</value>
+				<value>eh2_nano_shutter_status</value>
+			</list>
+		</property>
+		<property name="ringCurrent" value="ring_current" />
+		<property name="xPosition" value="eh2_bpm_x" />
+		<property name="yPosition" value="eh2_bpm_y" />
+		<property name="xSetpoint" value="eh2_fb_setpoint_x" />
+		<property name="ySetpoint" value="eh2_fb_setpoint_y" />
+		<property name="xTolerance" value="5" />
+		<property name="yTolerance" value="5" />
+		<property name="intensity" value="eh2_bpm_intensity" />
+		<property name="intensityTolerance" value="20" />
+		<property name="energy" value="dcm_enrg" />
+		<property name="targetIntensities">
+			<map>
+				<entry key="5.0" value="0.0001489194912158528" />
+				<entry key="6.0" value="0.0001463725068261742" />
+				<entry key="7.0" value="8.51431250451668e-05" />
+				<entry key="8.0" value="6.287626507812587e-05" />
+				<entry key="9.0" value="4.539339903418581e-05" />
+				<entry key="10.0" value="1.773211623081225e-05" />
+				<entry key="11.0" value="9.903961991262586e-06" />
+				<entry key="12.0" value="7.055760792470417e-06" />
+				<entry key="13.0" value="4.474498704522121e-06" />
+				<entry key="14.0" value="3.007763316533322e-06" />
+				<entry key="15.0" value="1.750333021266483e-06" />
+				<entry key="16.0" value="9.972657109793629e-07" />
+				<entry key="17.0" value="5.356436006181115e-07" />
+				<entry key="18.0" value="2.56621296097376e-07" />
+				<entry key="19.0" value="1.662611906047604e-07" />
+				<entry key="20.0" value="9.623872323385694e-08" />
+				<entry key="21.0" value="5.999999999999999e-08" />
+			</map>
+		</property>
+	</bean>
+
+</beans>

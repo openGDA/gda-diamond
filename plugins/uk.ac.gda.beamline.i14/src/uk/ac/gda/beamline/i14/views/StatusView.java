@@ -90,6 +90,7 @@ public class StatusView extends ViewPart {
 		createNumericComposite(grpBeamline, "id_gap_monitor", "ID Gap", "mm", 2, 1000);
 		createNumericComposite(grpBeamline, "dcm_bragg", "Bragg", "degrees", 4, 1000);
 		createNumericComposite(grpBeamline, "dcm_enrg", "Energy", "KeV", 4, 1000);
+		new BeamlineReadinessDisplay(grpBeamline);
 
 		// OH1 shutter
 		final Group grpOH1 = createGroup(parent, "OH1 Shutter", 1);
