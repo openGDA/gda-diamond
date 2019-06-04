@@ -170,7 +170,7 @@
 		<property name="roiProvider">
 			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
 				<property name="liveStreamRoiProvider" ref="medipix_roi" />
-				<property name="index" value="6" />
+				<property name="index" value="5" />
 			</bean>
 		</property>
 	</bean>
