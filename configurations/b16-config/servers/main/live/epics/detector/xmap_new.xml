@@ -39,7 +39,7 @@
 				<entry key="PIXELSPERBUFFER" value="ME13C-EA-DET-01:PixelsPerBuffer" />
 				<entry key="PIXELSPERRUN" value="ME13C-EA-DET-01:PixelsPerRun" />
 				<entry key="ACQUIRING" value="ME13C-EA-DET-01:Acquiring" />
-				<entry key="SETPEAKTIME1" val\ue="ME13C-EA-DET-01:DXP1:PeakingTime" />
+				<entry key="SETPEAKTIME1" value="ME13C-EA-DET-01:DXP1:PeakingTime" />
 				<entry key="GETPEAKTIME1" value="ME13C-EA-DET-01:DXP1:PeakingTime_RBV" />
 				<entry key="GETDYNRANGE1" value="ME13C-EA-DET-01:DXP1:DynamicRange_RBV" />
 				<entry key="SETTRIGTHRESH1" value="ME13C-EA-DET-01:DXP1:TriggerThreshold" />
