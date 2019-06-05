@@ -1,7 +1,8 @@
 # Scripts for running XANES scanning in dummy mode
 
 import sys
-from time import sleep
+from org.eclipse.scanning.api.points.models import StepModel, MultiStepModel
+from org.eclipse.scanning.api.device.models import ClusterProcessingModel
 
 def run_xanes_scan_request(scanRequest, xanesEdgeParams):
     try:
@@ -9,48 +10,88 @@ def run_xanes_scan_request(scanRequest, xanesEdgeParams):
     except (KeyboardInterrupt):
         print("XANES scan interrupted by user")
     except:
-        print("XANES scan terminated abnormally: {0}".format(sys.exc_info()[0]))
+        print("XANES scan terminated abnormally: {}".format(sys.exc_info()[0]))
 
 def run_scan_request(scanRequest, xanesEdgeParams):
     print("Running XANES scan")
-    print("scanRequest = {0}".format(scanRequest))
-    print("xanesEdgeParams = {0}".format(xanesEdgeParams))
+    print("scanRequest = {}".format(scanRequest))
+    print("xanesEdgeParams = {}".format(xanesEdgeParams))
 
-    models = scanRequest.getCompoundModel().getModels()
+    compound_model = scanRequest.getCompoundModel()
+    print("Original compound model: {}".format(compound_model))
+
+    models = compound_model.getModels()
     if not models.size() > 1:
         print("Only one scan model found: have you forgotten to define dcm_enrg as an outer scannable?")
         return;
 
-    dcm_enrg_model = scanRequest.getCompoundModel().getModels().get(0)
-    print("Model for dcm_enrg: {0}".format(dcm_enrg_model))
-    dcm_start = dcm_enrg_model.getStart()
-    dcm_stop = dcm_enrg_model.getStop()
-    dcm_step = dcm_enrg_model.getStep()
-    num_scans = int(round((dcm_stop - dcm_start) / dcm_step)) + 1
+    # Extract step model(s) for dcm_enrg
+    dcm_enrg_model = models.get(0)
+    if isinstance(dcm_enrg_model, StepModel):
+        step_models = [dcm_enrg_model]
+    elif isinstance(dcm_enrg_model, MultiStepModel):
+        step_models = dcm_enrg_model.getStepModels()
 
-    map_box = scanRequest.getCompoundModel().getModels().get(1).getBoundingBox()
-    print("Bounding box for map: {0}".format(map_box))
-    fast_axis_start = map_box.getFastAxisStart()
-    slow_axis_start = map_box.getSlowAxisStart()
+    # Extract bounding box for map
+    map_box = models.get(1).getBoundingBox()
+    print("Bounding box for map: {}".format(map_box))
+
+    # Extract processing file name.
+    # Processing is treated as a detector described by a ClusterProcessingModel
+    detectors = scanRequest.getDetectors()
+    for d in detectors:
+        detector = detectors[d]
+        if isinstance(detector, ClusterProcessingModel):
+            processing_file_path = detector.getProcessingFilePath()
+            print("Processing file: {}".format(processing_file_path))
+            break
 
     # Set ROIs to null, as they will interfere with the bounding box of the map
-    scanRequest.getCompoundModel().setRegions(None)
+    compound_model.setRegions(None)
 
-    # Submit all scans
-    for i in range(1, num_scans + 1):
-        map_box = scanRequest.getCompoundModel().getModels().get(1).getBoundingBox()
-        map_box.setFastAxisStart(fast_axis_start)
-        map_box.setSlowAxisStart(slow_axis_start)
+    # Remove dcm_enrg model from ScanRequest, as we are going to control it ourselves
+    models.pop(0)
+    print("New compound model: {}".format(compound_model))
+    print("Step models: {}".format(step_models))
 
-        dcm_enrg_model.setStart(dcm_start)
-        dcm_enrg_model.setStop(dcm_start)
+    # Calculate total number of scans
+    total_scans = 0;
+    for step_model in step_models:
+        dcm_start = step_model.getStart()
+        dcm_stop = step_model.getStop()
+        dcm_step = step_model.getStep()
+        total_scans = total_scans +  int(round((dcm_stop - dcm_start) / dcm_step)) + 1
+    print("Total scans: {}".format(total_scans))
 
-        scan_name = "XANES scan {0} of {1}".format(i, num_scans)
-        print("{0} = {1}".format(scan_name, scanRequest))
-        submit(scanRequest, block=False, name=scan_name)
-        sleep(5)
+    # Now loop round for each step model
+    scan_number = 0
+    for step_model in step_models:
+        dcm_start = step_model.getStart()
+        dcm_stop = step_model.getStop()
+        dcm_step = step_model.getStep()
 
-        # Set up for next scan
-        dcm_start = dcm_start + dcm_step
-        fast_axis_start = fast_axis_start + 0.002
-        slow_axis_start = slow_axis_start + 0.001
+        print("Step model: dcm_start: {}, dcm_stop: {}, dcm_step: {}".format(dcm_start, dcm_stop, dcm_step))
+
+        # Simulate drift correction by changing start points for each axis
+        fast_axis_start = map_box.getFastAxisStart()
+        slow_axis_start = map_box.getSlowAxisStart()
+
+        # Submit scans for this start/step/step combination
+        dcm_value = dcm_start
+        while dcm_value <= (dcm_stop + 0.00001): # allow for inaccuracies in floating-point comparisons
+            map_box.setFastAxisStart(fast_axis_start)
+            map_box.setSlowAxisStart(slow_axis_start)
+
+            scan_number = scan_number + 1
+            scan_name = "XANES scan {} of {}".format(scan_number, total_scans)
+
+            print("{}, dcm_value: {}, fast_axis_start: {}, slow_axis_start: {}".format(scan_name, dcm_value, fast_axis_start, slow_axis_start))
+            #print("scan request: {}".format(scanRequest))
+
+            dcm_enrg.moveTo(dcm_value)
+            submit(scanRequest, block=True, name=scan_name)
+
+            # Set up for next scan
+            dcm_value = dcm_value + dcm_step
+            fast_axis_start = fast_axis_start + 0.002
+            slow_axis_start = slow_axis_start + 0.001
