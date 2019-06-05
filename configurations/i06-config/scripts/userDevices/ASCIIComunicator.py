@@ -3,8 +3,9 @@ Created on 9 Nov 2017
 
 @author: fy65
 '''
-from gda.device import DeviceBase, DeviceException
+from gda.device import DeviceBase
 from gda.io.socket import SocketBidiAsciiCommunicator
+import weakref
 
 class ASCIIComunicator(DeviceBase):
     '''
@@ -17,18 +18,23 @@ class ASCIIComunicator(DeviceBase):
     '''
 
 
-    def __init__(self, name, ipaddress, port, terminator):
+    def __init__(self, name, ipaddress, port, terminator, parent=None):
         '''
         Constructor
         @param name: the name of this object.
         @param ipaddress: the IP Address to talk to.
         @param port: the port number over which communicate with device is done.
         @param terminator: the command and reply terminator used by this device.
+        @param parent: the caller of this object - used to ensure socket is closed when this object is deleted.
         '''
         self.setName(name)
         self.ipaddress=ipaddress
         self.port=port
         self.terminator=terminator
+        if parent is None:
+            self.parent=parent
+        else:
+            self.parent=weakref.ref(parent)
         self.communicator=SocketBidiAsciiCommunicator()
         self.terminatorRequired=True
         
@@ -98,3 +104,17 @@ class ASCIIComunicator(DeviceBase):
     def close(self):
         '''close connection'''
         self.communicator.closeConnection()
+        
+    def isClosed(self):
+        self.communicator.isClosed()
+    
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        print "close socket connection on exit with-statement"
+        self.close()
+        
+    def __del__(self):
+        print "close socket connection on delete this object."
+        self.close()
