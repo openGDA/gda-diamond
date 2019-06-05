@@ -84,7 +84,6 @@
 				<config>/i06-shared/servers/main/_common/commandServer.xml</config>
 				<config>/i06-shared/servers/main/_common/dataWriter.xml</config>
 				<config>/i06-shared/servers/main/_common/GDAMetadata.xml</config>
-				<config>/i06-shared/servers/main/_common/scanDataPointServer.xml</config>
 				<config>/i06-shared/servers/main/_common/scannables/_all_scannables.xml</config>
 				<config>/i06-shared/servers/main/_common/scannables/beam.xml</config>
 				<config>/i06-shared/servers/main/_common/scannables/ca1.xml</config>

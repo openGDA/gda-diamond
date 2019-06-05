@@ -49,7 +49,6 @@
 		<config>servers/main/_common/scannables/s2.xml</config>
 		<config>servers/main/live/devices/s3.xml</config>
 		<config>servers/main/_common/scannables/s3.xml</config>
-		<config>servers/main/_common/scanDataPointServer.xml</config>
 		<config>servers/main/live/server.xml</config>
 		<config>servers/main/_common/server.xml</config>
 		<config>servers/main/live/devices/testMotors.xml</config>
