@@ -11,7 +11,6 @@
 	<import resource="../../../../../../gda-diamond.git/dls-config/clients/_common/stage_controls_tree.xml"/>
 	<!-- mapping perspective -->
 	<import resource="mapping.xml"/>
-	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="batonStateProvider.xml"/>
 

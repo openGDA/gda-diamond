@@ -11,7 +11,6 @@
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	<import resource="GDAMetadata.xml"/>
 	<import resource="file://${gda.core.dir}/servers/_common/plot_server.xml" />
-	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="commandServer.xml"/>
 	<import resource="beanAdder.xml"/>
