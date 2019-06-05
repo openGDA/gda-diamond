@@ -33,6 +33,5 @@
 	<import resource="detectorFileDisplayer.xml" />
 	<import resource="dataFileMonitor.xml" />
 	<import resource="RCPController.xml" />
-	<import resource="scanDataPointServer.xml"/>
 	<import resource="commandQueueProcessor.xml"/>
 </beans>

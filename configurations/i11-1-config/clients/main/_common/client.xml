@@ -12,20 +12,12 @@
 	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
 
 	<bean name="command_server" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean name="ScanDataStore" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
-	<bean name="SimpleServlet" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 	<bean name="GDAMetadata" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 	<bean class="gda.spring.SingletonRegistrationPostProcessor" />
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 	<gda:rbac />
-
-	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
 
 	<bean class="uk.ac.gda.client.ServerFileListener" id="dataProjectUpdater">
 		<property name="clientFileAnnouncerName" value="client_file_announcer"/>
