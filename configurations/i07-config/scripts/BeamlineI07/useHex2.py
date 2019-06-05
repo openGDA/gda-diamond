@@ -6,9 +6,9 @@ from Diamond.PseudoDevices.EpicsDevices import EpicsDeviceClass
 from Diamond.PseudoDevices.HexapodPivot import HexapodPivotDeviceClass;
 
 
-deviceNamePivotX="HEX2.PIVOTX";
-deviceNamePivotY="HEX2.PIVOTY";
-deviceNamePivotZ="HEX2.PIVOTZ";
+pvNamePivotX = "BL07I-MO-HEX-02:PIVOT:X"
+pvNamePivotY = "BL07I-MO-HEX-02:PIVOT:Y"
+pvNamePivotZ = "BL07I-MO-HEX-02:PIVOT:Z"
 
 synchronizeDemaondButtonPV='BL07I-MO-HEX-01:SYNCDEMANDS.PROC';
 HomeAndCalibrateButtonPV='BL07I-MO-HEX-01:INIT.PROC';
@@ -16,9 +16,9 @@ HomeAndCalibrateButtonPV='BL07I-MO-HEX-01:INIT.PROC';
 syncButton = EpicsButtonClass(synchronizeDemaondButtonPV);
 homeButton = EpicsButtonClass(HomeAndCalibrateButtonPV);
 
-hex2pivotx=HexapodPivotDeviceClass('hex2pivotx', deviceNamePivotX, syncButton, homeButton)
-hex2pivoty=HexapodPivotDeviceClass('hex2pivoty', deviceNamePivotY, syncButton, homeButton)
-hex2pivotz=HexapodPivotDeviceClass('hex2pivotz', deviceNamePivotZ, syncButton, homeButton)
+hex2pivotx=HexapodPivotDeviceClass('hex2pivotx', pvNamePivotX, syncButton, homeButton)
+hex2pivoty=HexapodPivotDeviceClass('hex2pivoty', pvNamePivotY, syncButton, homeButton)
+hex2pivotz=HexapodPivotDeviceClass('hex2pivotz', pvNamePivotZ, syncButton, homeButton)
 
 HEX2.addGroupMember(hex2pivotx);
 HEX2.addGroupMember(hex2pivoty);
