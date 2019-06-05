@@ -15,12 +15,6 @@
 
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 
-	<bean id="ScanDataPointServer" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
-		<property name="serviceUrl" value="${gda.rmi.prefix}ScanDataPointServer" />
-		<property name="serviceInterface" value="gda.scan.IScanDataPointServer" />
-		<property name="refreshStubOnConnectFailure" value="true" />
-	</bean>
-
 	<bean class="uk.ac.gda.client.ServerFileListener">
 		<property name="clientFileAnnouncerName" value="client_file_announcer" />
 	</bean>
