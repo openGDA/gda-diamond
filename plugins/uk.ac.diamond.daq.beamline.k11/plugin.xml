@@ -40,6 +40,12 @@
             id="uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomatedPerspective"
             name="DIAD Fully Automated">
       </perspective>
+      <perspective
+            class="uk.ac.diamond.daq.beamline.k11.perspective.Tomography"
+            icon="icons/node-select.png"
+            id="uk.ac.diamond.daq.beamline.k11.perspective.TomographyPerspective"
+            name="Tomography">
+      </perspective>      
    </extension>
    <extension
          point="org.eclipse.ui.views">

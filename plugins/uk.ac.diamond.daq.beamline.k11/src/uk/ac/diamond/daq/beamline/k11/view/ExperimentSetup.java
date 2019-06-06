@@ -18,7 +18,6 @@
 
 package uk.ac.diamond.daq.beamline.k11.view;
 
-
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -64,6 +63,13 @@ import uk.ac.diamond.daq.stage.StageGroupService;
 import uk.ac.gda.client.live.stream.LiveStreamConnection;
 import uk.ac.gda.client.live.stream.view.CameraConfiguration;
 import uk.ac.gda.client.live.stream.view.StreamType;
+import uk.ac.gda.tomography.controller.TomographyControllerException;
+import uk.ac.gda.tomography.model.TomographyScanParameters;
+import uk.ac.gda.tomography.scan.editor.ITomographyEditorController;
+import uk.ac.gda.tomography.scan.editor.TomographyConfigurationController;
+import uk.ac.gda.tomography.scan.editor.TomographySWTElements;
+import uk.ac.gda.tomography.scan.editor.view.TomographyMessages;
+import uk.ac.gda.tomography.service.TomographyServiceException;
 
 /**
  * The main Experiment configuration view visible in all k11 perspectives
@@ -71,11 +77,13 @@ import uk.ac.gda.client.live.stream.view.StreamType;
 public class ExperimentSetup extends LayoutUtilities {
 	private static final Logger logger = LoggerFactory.getLogger(ExperimentSetup.class);
 
-	private static final Map<String, String> PERSPECTIVES_MAP = ImmutableMap.of(
-			"Point and Shoot", "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective",
-			"Particle Tracking", "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective",
-			"Fully Automated", "uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomatedPerspective",
-			"Plain Tomography", "uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective");
+	private TomographyConfigurationController tomographyConfigurationController;
+
+	private static final Map<String, String> PERSPECTIVES_MAP = ImmutableMap.of("Point and Shoot",
+			"uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective", "Particle Tracking",
+			"uk.ac.diamond.daq.beamline.k11.perspective.PointAndShootPerspective", "Fully Automated",
+			"uk.ac.diamond.daq.beamline.k11.perspective.FullyAutomatedPerspective", "Plain Tomography",
+			"uk.ac.diamond.daq.beamline.k11.perspective.TomographyPerspective");
 
 	private static final int NOTES_BOX_LINES = 7;
 	private static final int NOTES_BOX_HEIGHT = NOTES_BOX_LINES * 20;
@@ -122,25 +130,26 @@ public class ExperimentSetup extends LayoutUtilities {
 		buildStageComposite(experimentComposite);
 		buildConfigurationComposite(experimentComposite);
 		buildPreviousExperimentsComposite(experimentComposite);
-		buildFileComposite(experimentComposite);
+		buildFileComposite(TomographySWTElements.createComposite(experimentComposite, SWT.NONE, 3));
 	}
 
 	/**
 	 * Build the main scrolling container that holds the {@link Composite} that holds all the other {@link Composite}s
 	 * that control the elements of the experiment
 	 *
-	 * @param parent	The panel {@link Composite} that covers the whole tab
-	 * @return			The created content container within the scrolling panel
+	 * @param parent
+	 *            The panel {@link Composite} that covers the whole tab
+	 * @return The created content container within the scrolling panel
 	 */
 	private Composite buildExperimentComposite(final Composite parent) {
-		final ScrolledComposite container = new ScrolledComposite(parent, SWT.H_SCROLL| SWT.V_SCROLL | SWT.BORDER);
+		final ScrolledComposite container = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		fillGrab().applyTo(container);
 
 		final Composite composite = addGridComposite(container);
 		container.setContent(composite);
 		container.setExpandHorizontal(true);
 		container.setExpandVertical(true);
-		container.setMinSize(SCROLLABLE_WIDTH, SCROLLABLE_HEIGHT);                      // When the scroll bars appear
+		container.setMinSize(SCROLLABLE_WIDTH, SCROLLABLE_HEIGHT); // When the scroll bars appear
 
 		final Label exptLabel = new Label(composite, SWT.NONE);
 		exptLabel.setText("Experiment:");
@@ -179,7 +188,8 @@ public class ExperimentSetup extends LayoutUtilities {
 	/**
 	 * Build the {@link Composite} containing controls for selecting the experiment mode
 	 *
-	 * @param parent	The Experiment {@link Composite}
+	 * @param parent
+	 *            The Experiment {@link Composite}
 	 */
 	private void buildModeComposite(final Composite parent) {
 		final Composite composite = new Composite(parent, SWT.NONE);
@@ -227,7 +237,8 @@ public class ExperimentSetup extends LayoutUtilities {
 	/**
 	 * Updates the mode selector combo with the new perspective Id provided is its a DIAD one
 	 *
-	 * @param perspectiveId	The id of the newly activated perspective
+	 * @param perspectiveId
+	 *            The id of the newly activated perspective
 	 */
 	private void setModeComboSelection(final String perspectiveId, final Combo modeCombo) {
 		if (PERSPECTIVES_MAP.containsValue(perspectiveId)) {
@@ -244,7 +255,8 @@ public class ExperimentSetup extends LayoutUtilities {
 	/**
 	 * Build the {@link Composite} containing controls for selecting the experimental stage
 	 *
-	 * @param parent	The Experiment {@link Composite}
+	 * @param parent
+	 *            The Experiment {@link Composite}
 	 */
 	private void buildStageComposite(final Composite parent) {
 		final Composite composite = addGridComposite(parent);
@@ -259,7 +271,7 @@ public class ExperimentSetup extends LayoutUtilities {
 		fillGrab().applyTo(stageButtonsComposite);
 
 		final Button environmentStageRadioButton = new Button(stageButtonsComposite, SWT.RADIO);
-		environmentStageRadioButton.setToolTipText(	"Select the Environmental (e.g. TR6) stage for the experiment");
+		environmentStageRadioButton.setToolTipText("Select the Environmental (e.g. TR6) stage for the experiment");
 		environmentStageRadioButton.setText("Env.");
 		environmentStageRadioButton.addListener(SWT.Selection, e -> changeStageGroup(ENVIRONMENT_STAGE));
 		fillGrab().applyTo(environmentStageRadioButton);
@@ -284,7 +296,7 @@ public class ExperimentSetup extends LayoutUtilities {
 		}
 	}
 
-	private void changeStageGroup (String stageGroupName) {
+	private void changeStageGroup(String stageGroupName) {
 		try {
 			stageGroupService.changeStageGroup(stageGroupName);
 		} catch (StageException e) {
@@ -296,7 +308,8 @@ public class ExperimentSetup extends LayoutUtilities {
 	/**
 	 * Build the {@link Composite} containing controls for selecting previous experiment configurations
 	 *
-	 * @param parent	The Experiment {@link Composite}
+	 * @param parent
+	 *            The Experiment {@link Composite}
 	 */
 	private void buildPreviousExperimentsComposite(final Composite parent) {
 		final Composite composite = addGridComposite(parent);
@@ -319,7 +332,8 @@ public class ExperimentSetup extends LayoutUtilities {
 	/**
 	 * Build the {@link Composite} containing controls for selecting the experiment configuration dialogs
 	 *
-	 * @param parent	The Experiment {@link Composite}
+	 * @param parent
+	 *            The Experiment {@link Composite}
 	 */
 	private void buildConfigurationComposite(final Composite parent) {
 		final Composite composite = addGridComposite(parent);
@@ -348,8 +362,8 @@ public class ExperimentSetup extends LayoutUtilities {
 			try {
 				SampleAlignmentDialog.show(composite.getDisplay(), getLiveStreamConnection());
 			} catch (Exception e) {
-				MessageDialog.openError(panelComposite.getShell(), "Error", "Error opening sample alignment dialog"
-						+ "see log for details");
+				MessageDialog.openError(panelComposite.getShell(), "Error",
+						"Error opening sample alignment dialog" + "see log for details");
 				logger.error("Error opening sample alignment dialog", e);
 			}
 		});
@@ -363,13 +377,46 @@ public class ExperimentSetup extends LayoutUtilities {
 		});
 
 		addExperimentDriverButton(content);
+		buildTomographyConfigurationDialog(content, composite);
 	}
 
-	private LiveStreamConnection getLiveStreamConnection () {
+	private void buildTomographyConfigurationDialog(Composite content, Composite composite) {
+		Button button = addConfigurationDialogButton(content, "Tomography Setup");
+		button.addListener(SWT.Selection, event -> {
+			try {
+				if (getTomographyConfigurationController().getData() == null) {
+					getTomographyConfigurationController().createNewData();
+				}
+				getTomographyConfigurationController().showConfigurationDialog(composite.getDisplay());
+			} catch (Exception e) {
+				logger.error("TODO put description of error here", e);
+			}
+		});
+	}
+
+	/**
+	 * Returns, or instantiates if <code>null</code>, the controller associated with the tomography configuration
+	 *
+	 * @return
+	 * @throws TomographyServiceException
+	 */
+	private ITomographyEditorController<TomographyScanParameters> getTomographyConfigurationController()
+			throws TomographyServiceException {
+		if (tomographyConfigurationController == null) {
+			synchronized (BANNER_FONT_DATA) {
+				if (tomographyConfigurationController == null) {
+					tomographyConfigurationController = new TomographyConfigurationController();
+				}
+			}
+		}
+		return tomographyConfigurationController;
+	}
+
+	private LiveStreamConnection getLiveStreamConnection() {
 		return new LiveStreamConnection(getCameraConfiguration(), StreamType.EPICS_ARRAY);
 	}
 
-	private CameraConfiguration getCameraConfiguration () {
+	private CameraConfiguration getCameraConfiguration() {
 		String cameraName = LocalProperties.get("imaging.camera.name");
 		return Finder.getInstance().find(cameraName);
 	}
@@ -387,29 +434,35 @@ public class ExperimentSetup extends LayoutUtilities {
 	/**
 	 * Build the {@link Composite} containing controls for loading and saving experiment configurations
 	 *
-	 * @param parent	The Experiment {@link Composite}
+	 * @param parent
+	 *            The Experiment {@link Composite}
 	 */
 	private void buildFileComposite(final Composite parent) {
+		Button load = TomographySWTElements.createButton(parent, TomographyMessages.LOAD, SWT.PUSH);
+		load.setImage(getImage("icons/open.png"));
+		Button save = TomographySWTElements.createButton(parent, TomographyMessages.SAVE, SWT.PUSH);
+		save.setImage(getImage("icons/save.png"));
+		Button run = TomographySWTElements.createButton(parent, TomographyMessages.RUN, SWT.PUSH);
+		run.setImage(getImage("icons/run_small.png"));
 
-		final Composite composite =  new Composite(parent, SWT.NONE);
-		composite.setLayout(new GridLayout(2, true));
-		horizGrab().applyTo(composite);
-		final Button loadButton = new Button(composite, SWT.PUSH);
-		loadButton.setText("Load");
-		loadButton.setImage(getImage("icons/open.png"));
-		fillGrab().applyTo(loadButton);
-		final Button saveButton = new Button(composite, SWT.PUSH);
-		saveButton.setText("Save");
-		saveButton.setImage(getImage("icons/save.png"));
-		fillGrab().applyTo(saveButton);
+		// THIS IS JUST A STUB UNTIL ARE AVAILABLE OTHER CONTRLLLERS (DIFFRACTION/IMAGING/OTHER...)
+		run.addListener(SWT.Selection, event -> {
+			try {
+				getTomographyConfigurationController().runAcquisition();
+			} catch (TomographyControllerException | TomographyServiceException e) {
+				logger.error("TODO put description of error here", e);
+			}
+		});
 	}
 
 	/**
 	 * Creates a formatted {@link Button} to form part of the Configuration "menu"
 	 *
-	 * @param parent	The enclosing {@link Composite}
-	 * @param label		The label text for the {@link Button}
-	 * @return Button   The button on the ConfigurationMenu
+	 * @param parent
+	 *            The enclosing {@link Composite}
+	 * @param label
+	 *            The label text for the {@link Button}
+	 * @return Button The button on the ConfigurationMenu
 	 */
 	private Button addConfigurationDialogButton(final Composite parent, final String label) {
 		final Button button = new Button(parent, SWT.PUSH);
@@ -439,4 +492,3 @@ public class ExperimentSetup extends LayoutUtilities {
 		}
 	}
 }
-
