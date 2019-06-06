@@ -236,7 +236,6 @@
 		<property name="initialUserUnits" value="mDeg" />
 		<property name="motor" ref="dcm_bragg_motor" />
 		<property name="hardwareUnitString" value="Deg" />
-		<property name="scalingFactor" value="-1" />
 	</bean>
 
 	<bean id="sc_energy_motor" class="gda.device.scannable.ScannableMotor">
