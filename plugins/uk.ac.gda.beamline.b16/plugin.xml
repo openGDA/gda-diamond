@@ -44,13 +44,19 @@
             id="uk.ac.gda.beamline.b16.B16PcoPerspective"
             name="PCO Perspective">
       </perspective>
+      <perspective
+            class="uk.ac.gda.beamline.b16.B16ScanPerspective"
+            icon="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png"
+            id="uk.ac.gda.beamline.b16.B16ScanPerspective"
+            name="B16 Scan Perspective">
+      </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
             targetID="*">
          <perspectiveShortcut
-               id="uk.ac.gda.beamline.b16.B16PcoPerspective">
+               id="uk.ac.gda.beamline.b16.B16ScanPerspective">
          </perspectiveShortcut>
       </perspectiveExtension>
    </extension>
