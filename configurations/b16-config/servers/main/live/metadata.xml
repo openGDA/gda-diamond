@@ -9,7 +9,7 @@
 
 				<bean class="gda.data.metadata.PersistantMetadataEntry">
 					<property name="name" value="visit" />
-<!--					<property name="value" value="DEFAULT"/>-->
+					<property name="defEntryName" value="defaultVisit" />
 				</bean>
 				
 				<bean class="gda.data.metadata.PersistantMetadataEntry">
