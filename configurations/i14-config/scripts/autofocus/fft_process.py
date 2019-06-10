@@ -18,14 +18,14 @@ class FftProcess(AdPythonPlugin):
 
 	Parameter usage:
 		int1 (input): number of strips to divide the array into
-		int2 (output): FFT value for the first strip (pending a way to return all values)
+		intArray1 (output): FFT value for each strip
 
 	"""
 
 	def __init__(self):
 		self.log.setLevel(logging.DEBUG)
-		params = dict(int1 = 1,      int1Name = "Strips",
-                      int2 = 2,      int2Name = "Output",
+		params = dict(int1 = 1, int1Name = "Strips",
+                      intArray1 = np.zeros(10), intArray1Name = "Output",
                       double1 = 1.0, double1Name = "-1",
                       double2 = 2.0, double2Name = "-1")
 		AdPythonPlugin.__init__(self, params)
@@ -48,7 +48,7 @@ class FftProcess(AdPythonPlugin):
 		self.log.debug("Output: %s" % output)
 
 		# Pending a parameter that can handle multiple values being added to the AD template, return the first element of output
-		self["int2"] = int(output[0])
+		self["intArray1"] = output
 
 		# Return the original array in case another plugin wants to read it.
 		return arr
