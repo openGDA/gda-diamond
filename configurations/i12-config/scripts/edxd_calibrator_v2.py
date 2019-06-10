@@ -81,11 +81,12 @@ class refinement() :
 		min_yds = min(yds.getData())
 		fit = Fitter.fit(xds, yds, GeneticAlg(0.01), [StraightLine(-max_yds, max_yds, min_yds, max_yds), Gaussian(minv, maxv, 2 * (maxv - minv), 1000)])
 
-		RCPPlotter.plot("Plot 1", xds ,[yds, fit.getFunction().makeDataSet([xds])])
+		gaussian_function = fit.getFunction(1)
+		RCPPlotter.plot("Plot 1", xds ,[yds, gaussian_function.calculateValues([xds])])
 	
 		# get out the 2 peak values
-		peak1 = fit[2].getValue()
-		fwhm1 = fit[3].getValue()
+		peak1 = gaussian_function.getPosition()
+		fwhm1 = gaussian_function.getFWHM()
 
 		print "peak position = %f with width %f " % (peak1, fwhm1)
 
