@@ -93,6 +93,10 @@ public class ReadonlyScannableComposite extends Composite {
 		EclipseWidgetUtils.forceLayoutOfTopParent(ReadonlyScannableComposite.this);
 
 		setTextRunnable = () -> {
+			if (text.isDisposed()) {
+				logger.warn("Attempting to update text for disposed widget {}", scannableName);
+				return;
+			}
 			beforeUpdateText(text, val);
 			final int currentLength = text.getText().length();
 			final String valPlusUnits = val + suffix;
