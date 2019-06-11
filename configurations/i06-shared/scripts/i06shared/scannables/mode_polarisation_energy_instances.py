@@ -95,4 +95,5 @@ else:
     print "IMPORTANT Warning:"
     print "    There are no 'smode', 'pol', 'energy', 'laa', 'offhar' and 'zacscan' scannables in DUMMY mode."
     print "    These scannables require EPICS soft motors, and zacscan to work"
+    __main__.energy=__main__.pgmenergy
     

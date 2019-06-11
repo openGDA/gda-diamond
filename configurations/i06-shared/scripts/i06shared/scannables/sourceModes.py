@@ -12,6 +12,7 @@ from gda.configuration.properties import LocalProperties
 from java.io import File
 from time import sleep
 from gda.jython.commands import GeneralCommands
+from i06shared import installation
 
 gda_git_loc = LocalProperties.get(LocalProperties.GDA_GIT_LOC)
 
@@ -39,7 +40,8 @@ class SourceMode(ScannableBase):
         self.idd_fast_energy_scan_script=str(gda_git_loc+"/gda-diamond.git/configurations/i06-shared/scripts/i06shared/scan/idd_fast_energy_scan.py")
         self.idu_fast_energy_scan_script=str(gda_git_loc+"/gda-diamond.git/configurations/i06-shared/scripts/i06shared/scan/idu_fast_energy_scan.py")
         self.remove_zacscan_script=str(gda_git_loc+"/gda-diamond.git/configurations/i06-shared/scripts/i06shared/scan/remove_zacscan.py")
-        GeneralCommands.run(self.idd_fast_energy_scan_script)
+        if installation.isLive():
+            GeneralCommands.run(self.idd_fast_energy_scan_script)
         
     def getPosition(self):
         return self.mode
@@ -50,20 +52,21 @@ class SourceMode(ScannableBase):
             return 
         self.amIBusy=True # need to block to ensure script run complete before any other actions
         if mode == SourceMode.SOURCE_MODES[0]:
-            scriptfile=File(self.remove_zacscan_script)
-            InterfaceProvider.getCommandRunner().runScript(scriptfile)
+            GeneralCommands.run(self.remove_zacscan_script)
             sleep(1)
-            scriptfile=File(self.idd_fast_energy_scan_script)
-            InterfaceProvider.getCommandRunner().runScript(scriptfile)
+            if installation.isLive():
+                GeneralCommands.run(self.idd_fast_energy_scan_script)
+            else:
+                print ("zacscan is not available in DUMMY mode")
         elif mode == SourceMode.SOURCE_MODES[1]:
-            scriptfile=File(self.remove_zacscan_script)
-            InterfaceProvider.getCommandRunner().runScript(scriptfile)
+            GeneralCommands.run(self.remove_zacscan_script)
             sleep(1)
-            scriptfile=File(self.idu_fast_energy_scan_script)
-            InterfaceProvider.getCommandRunner().runScript(scriptfile)
+            if installation.isLive():
+                GeneralCommands.run(self.idu_fast_energy_scan_script)
+            else:
+                print ("zacscan is not available in DUMMY mode")
         elif mode == SourceMode.SOURCE_MODES[2] or mode == SourceMode.SOURCE_MODES[3]:
-            scriptfile=File(self.remove_zacscan_script)
-            InterfaceProvider.getCommandRunner().runScript(scriptfile)
+            GeneralCommands.run(self.remove_zacscan_script)
             sleep(1)
         else:
             print "Input mode is wrong: legal values %s or [SourceModeScannable.idd, SourceModeScannable.idu, SourceModeScannable.dpu, SourceModeScannable.dmu]." % (SourceMode.SOURCE_MODES)

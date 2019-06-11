@@ -27,7 +27,6 @@
 	<import resource="endStationDD.xml"/>
 	<import resource="dd_cam6.xml"/>
 	<import resource="peem_cam3.xml"/>
-<!-- 	<import resource="laser.xml"/> -->
 <!-- 	<import resource="mobilerack_cam1.xml"/> -->
 	<import resource="pixis.xml"/>
 	<import resource="DiffractionDichroism.xml"/>

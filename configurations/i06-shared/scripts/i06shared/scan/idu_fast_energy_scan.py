@@ -22,7 +22,6 @@ from Diamond.Utility.UtilFun import UtilFunctions
 from Diamond.Utility.BeamlineFunctions import BeamlineFunctionClass, logger
 
 from gda.configuration.properties import LocalProperties
-from __main__ import zacmedipixtif, roi1, roi2, roi3, roi4  # @UnresolvedImport
 
 uuu=UtilFunctions();
 beamline_name = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME, "i06")
@@ -45,18 +44,19 @@ fesData = EpicsWaveformDeviceClass("fesData", rootPV, ['C1','C2', 'C3', 'C4', 'i
 fastEnergy = FastEnergyDeviceClass("fastEnergy", fesController, fesData);
 fastEnergy.filterByEnergy = False
 
-#configure KB Mirror rastering
-HYTEC_KB_Rastering_Control_PV="BL06I-OP-KBM-01:VFM:FPITCH:FREQ"
-KEYSIGHT_KB_Rastering_Control_PV="BL06I-EA-SGEN-01:PERIOD"
-fesController.setKBRasteringControlPV(HYTEC_KB_Rastering_Control_PV)
-#fesController.setKBRasteringControlPV(KEYSIGHT_KB_Rastering_Control_PV) 
-
-### configure which area detector to use in zacscan           
-### use 'zacpcotif' for zacscan with pco to produce TIFF image files
-### use 'zacpco' for zacscan with pco to produce Nexus and HDF files
-### use 'zacmedipixtif' for zacscan with Medipix to produce TIFF image files
-### use 'zacmedipix' for zacscan with Medipix to produce Nexus and HDF files
-fesController.setAreaDetector(zacmedipixtif)
+if beamline_name == "i06":
+    #configure KB Mirror rastering
+    HYTEC_KB_Rastering_Control_PV="BL06I-OP-KBM-01:VFM:FPITCH:FREQ"
+    KEYSIGHT_KB_Rastering_Control_PV="BL06I-EA-SGEN-01:PERIOD"
+    fesController.setKBRasteringControlPV(HYTEC_KB_Rastering_Control_PV)
+    #fesController.setKBRasteringControlPV(KEYSIGHT_KB_Rastering_Control_PV) 
+    from __main__ import zacmedipixtif  # @UnresolvedImport
+    ### configure which area detector to use in zacscan           
+    ### use 'zacpcotif' for zacscan with pco to produce TIFF image files
+    ### use 'zacpco' for zacscan with pco to produce Nexus and HDF files
+    ### use 'zacmedipixtif' for zacscan with Medipix to produce TIFF image files
+    ### use 'zacmedipix' for zacscan with Medipix to produce Nexus and HDF files
+    fesController.setAreaDetector(zacmedipixtif)
 
 def zacscan(startEnergy, endEnergy, scanTime, pointTime):
     try:

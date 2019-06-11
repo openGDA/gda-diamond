@@ -12,17 +12,5 @@
  	<bean id="light3" class="gda.device.scannable.DummyScannable">
 		<property name="name" value="light3"/>
 	</bean>	
-	<gda:rmi-export
-		service="light1"
-		serviceName="gda/light1"
-		serviceInterface="gda.device.ScannableMotion" />
-	<gda:rmi-export
-		service="light2"
-		serviceName="gda/light2"
-		serviceInterface="gda.device.ScannableMotion" />
-	<gda:rmi-export
-		service="light3"
-		serviceName="gda/light3"
-		serviceInterface="gda.device.ScannableMotion" />
 		
 </beans>

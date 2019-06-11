@@ -9,8 +9,6 @@
 	<import resource="commandServer.xml"/>
 	<import resource="terminal_logger.xml"/>
 	<import resource="beanAdder.xml"/>
-
-	<!-- Provides ability to import/find remote objects over RMI -->
-	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
-
+	<!-- Exports objects over RMI -->
+	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />
 </beans>

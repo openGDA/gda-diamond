@@ -152,7 +152,8 @@
 	<bean id="MotorEnergy_PGM" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="300" />
 		<property name="maxPosition" value="1200" />
-		<property name="speed" value="1" />
+		<property name="position" value="800.0"/>
+		<property name="speed" value="10" />
 		<property name="unitString" value="eV"/>
 	</bean>
 

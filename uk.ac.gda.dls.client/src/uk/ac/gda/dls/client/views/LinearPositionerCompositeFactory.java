@@ -36,7 +36,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
 import gda.device.DeviceException;
-import gda.device.ScannableMotion;
+import gda.device.Scannable;
 import gda.device.scannable.DummyScannable;
 import gda.factory.FactoryException;
 import gda.jython.InterfaceProvider;
@@ -50,7 +50,7 @@ import uk.ac.gda.ui.utils.SWTUtils;
 public class LinearPositionerCompositeFactory implements CompositeFactory, InitializingBean {
 
 	private String label;
-	private ScannableMotion positioner;
+	private Scannable positioner;
 	private Integer labelWidth;
 	private Integer contentWidth;
 	private Integer lowScale;
@@ -64,11 +64,11 @@ public class LinearPositionerCompositeFactory implements CompositeFactory, Initi
 		this.label = label;
 	}
 
-	public ScannableMotion getPositioner() {
+	public Scannable getPositioner() {
 		return positioner;
 	}
 
-	public void setPositioner(ScannableMotion positioner) {
+	public void setPositioner(Scannable positioner) {
 		this.positioner = positioner;
 	}
 
@@ -150,7 +150,7 @@ class LinearPositionerComposite extends Composite {
 	private static final Logger logger = LoggerFactory.getLogger(LinearPositionerComposite.class);
 //	private Combo pcom;
 	private Scale scale;
-	ScannableMotion positioner;
+	Scannable positioner;
 	IObserver observer;
 	int selectionValue=-1;
 	Integer labelWidth;
@@ -162,7 +162,7 @@ class LinearPositionerComposite extends Composite {
 	private Runnable setSlideRunnable;
 	String [] formats;
 
-	LinearPositionerComposite(Composite parent, int style, ScannableMotion positioner, String label, Integer labelWidth, Integer contentWidth, Integer lowScale, Integer highScale) {
+	LinearPositionerComposite(Composite parent, int style, Scannable positioner, String label, Integer labelWidth, Integer contentWidth, Integer lowScale, Integer highScale) {
 		super(parent, style);
 		this.display = parent.getDisplay();
 		this.positioner = positioner;

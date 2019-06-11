@@ -32,8 +32,6 @@
 -Dgda.var=/scratch/gda_versions/var
 -Dgda.logs.dir=/scratch/i06-1/logs
 -Dpython.cachedir=/scratch/gda_versions/var/python.cachedir
--Dorg.eclipse.swt.internal.gtk.cairoGraphics=false
--Dorg.eclipse.swt.internal.gtk.useCairo=false
 -Dosgi.framework.extensions=org.eclipse.fx.osgi
 -Duk.ac.diamond.scisoft.analysis.analysisrpcserverprovider.disable=true
 -Duk.ac.diamond.analysis.rcp.plotting.useSoftware1=true

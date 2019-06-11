@@ -4,26 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
 		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd">
 
-	<gda:rmi-import
-		id="magnetX"
-		serviceUrl="${gda.rmi.prefix}magnetX"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-import
-		id="magnetY"
-		serviceUrl="${gda.rmi.prefix}magnetY"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-import
-		id="magnetZ"
-		serviceUrl="${gda.rmi.prefix}magnetZ"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-import
-		id="magnetSum"
-		serviceUrl="${gda.rmi.prefix}magnetSum"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-import
-		id="magnetModeControl"
-		serviceUrl="${gda.rmi.prefix}magnetModeControl"
-		serviceInterface="gda.device.EnumPositioner" />
+	<bean id="magnetX" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="magnetY" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="magnetZ" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="magnetSum" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="magnetModeControl" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
 
 <!-- The magnet control GUI -->
 	<bean id="magnetField" class="gda.rcp.views.FindableGroupCompositeFactory">
@@ -70,26 +55,11 @@
 	</bean>
 
 <!-- The temperature control GUI -->
-	<gda:rmi-import
-		id="magnetSampleTemp"
-		serviceUrl="${gda.rmi.prefix}magnetSampleTemp"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-import
-		id="magnetHeaterControl"
-		serviceUrl="${gda.rmi.prefix}magnetHeaterControl"
-		serviceInterface="gda.device.EnumPositioner" />
-	<gda:rmi-import
-		id="magnetManualOutput"
-		serviceUrl="${gda.rmi.prefix}magnetManualOutput"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-import
-		id="magnetTargetTemp"
-		serviceUrl="${gda.rmi.prefix}magnetTargetTemp"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-import
-		id="magnetNeedleValve"
-		serviceUrl="${gda.rmi.prefix}magnetNeedleValve"
-		serviceInterface="gda.device.EnumPositioner" />
+	<bean id="magnetSampleTemp" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="magnetHeaterControl" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="magnetManualOutput" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="magnetTargetTemp" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="magnetNeedleValve" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
 
 	<bean id="magnetTemp" class="gda.rcp.views.FindableGroupCompositeFactory">
 		<property name="label" value="Temperature"/>
@@ -135,26 +105,11 @@
 
 
 <!-- The cooling control GUI -->
-	<gda:rmi-import
-		id="magnetNitrogenLevel"
-		serviceUrl="${gda.rmi.prefix}magnetNitrogenLevel"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-import
-		id="magnetHeliumLevel"
-		serviceUrl="${gda.rmi.prefix}magnetHeliumLevel"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-import
-		id="magnetPotHeliumLevel"
-		serviceUrl="${gda.rmi.prefix}magnetPotHeliumLevel"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-import
-		id="magnetHeliumMode"
-		serviceUrl="${gda.rmi.prefix}magnetHeliumMode"
-		serviceInterface="gda.device.EnumPositioner" />
-	<gda:rmi-import
-		id="magnetDiaphragmPump"
-		serviceUrl="${gda.rmi.prefix}magnetDiaphragmPump"
-		serviceInterface="gda.device.EnumPositioner" />
+	<bean id="magnetNitrogenLevel" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="magnetHeliumLevel" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="magnetPotHeliumLevel" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="magnetHeliumMode" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
+	<bean id="magnetDiaphragmPump" class="uk.ac.gda.remoting.client.GdaRmiProxy"/>
 
 	<bean id="magnetCool" class="gda.rcp.views.FindableGroupCompositeFactory">
 		<property name="label" value="Cooling"/>

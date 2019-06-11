@@ -8,42 +8,27 @@
 	<bean id="magnetX" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06J-EA-MAG-01:X:RBV"/>
 		<property name="useNameAsExtraName" value="true"/>
+		<property name="hasUnits" value="false"/>
 	</bean>	
 	<bean id="magnetY" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06J-EA-MAG-01:Y:RBV"/>
 		<property name="useNameAsExtraName" value="true"/>
+		<property name="hasUnits" value="false"/>
 	</bean>	
 	<bean id="magnetZ" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06J-EA-MAG-01:Z:RBV"/>
 		<property name="useNameAsExtraName" value="true"/>
+		<property name="hasUnits" value="false"/>
 	</bean>	
 	<bean id="magnetSum" class="gda.device.scannable.EpicsScannable">
 		<property name="pvName" value="BL06J-EA-MAG-01:VECTORSUM:RBV"/>
 		<property name="useNameAsExtraName" value="true"/>
+		<property name="hasUnits" value="false"/>
 	</bean>	
 	<bean id="magnetModeControl" class="gda.device.enumpositioner.EpicsSimplePneumatic">
 		<property name="pvName" value="BL06J-EA-MAG-01:MODE"/>
 	</bean>	
-	<gda:rmi-export
-		service="magnetX"
-		serviceName="gda/magnetX"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-export
-		service="magnetY"
-		serviceName="gda/magnetY"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-export
-		service="magnetZ"
-		serviceName="gda/magnetZ"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-export
-		service="magnetSum"
-		serviceName="gda/magnetSum"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-export
-		service="magnetModeControl"
-		serviceName="gda/magnetModeControl"
-		serviceInterface="gda.device.EnumPositioner" />
+
 
 <!-- The temperature control part -->
 	<bean id="magnetSampleTemp" class="gda.device.scannable.EpicsScannable">
@@ -65,26 +50,7 @@
 	<bean id="magnetNeedleValve" class="gda.device.enumpositioner.EpicsSimplePneumatic">
 		<property name="pvName" value="BL06J-EA-TCTRL-01:DMD:LOOP2:LOOPTYPE"/>
 	</bean>	
-	<gda:rmi-export
-		service="magnetSampleTemp"
-		serviceName="gda/magnetSampleTemp"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-export
-		service="magnetHeaterControl"
-		serviceName="gda/magnetHeaterControl"
-		serviceInterface="gda.device.EnumPositioner" />
-	<gda:rmi-export
-		service="magnetManualOutput"
-		serviceName="gda/magnetManualOutput"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-export
-		service="magnetTargetTemp"
-		serviceName="gda/magnetTargetTemp"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-export
-		service="magnetNeedleValve"
-		serviceName="gda/magnetNeedleValve"
-		serviceInterface="gda.device.EnumPositioner" />
+
 		
 <!-- The cooling control part -->
 	<bean id="magnetNitrogenLevel" class="gda.device.scannable.EpicsScannable">
@@ -106,25 +72,6 @@
 	<bean id="magnetDiaphragmPump" class="gda.device.enumpositioner.EpicsSimplePneumatic">
 		<property name="pvName" value="BL06J-EA-HDI-01:PUMP"/>
 	</bean>
-	<gda:rmi-export
-		service="magnetNitrogenLevel"
-		serviceName="gda/magnetNitrogenLevel"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-export
-		service="magnetHeliumLevel"
-		serviceName="gda/magnetHeliumLevel"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-export
-		service="magnetPotHeliumLevel"
-		serviceName="gda/magnetPotHeliumLevel"
-		serviceInterface="gda.device.ScannableMotionUnits" />
-	<gda:rmi-export
-		service="magnetHeliumMode"
-		serviceName="gda/magnetHeliumMode"
-		serviceInterface="gda.device.EnumPositioner" />
-	<gda:rmi-export
-		service="magnetDiaphragmPump"
-		serviceName="gda/magnetDiaphragmPump"
-		serviceInterface="gda.device.EnumPositioner" />
+
 
 </beans>
