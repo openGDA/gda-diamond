@@ -732,7 +732,6 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		scannablesToMonitorDuringScan.add(scannableToMonitorDuringScan);
 	}
 
-	@SuppressWarnings("unused")
 	protected void addDetectorsToScanDataPoint(int lowFrame, Object[] detData, int thisFrame,
 			ScanDataPoint thisPoint) throws DeviceException {
 

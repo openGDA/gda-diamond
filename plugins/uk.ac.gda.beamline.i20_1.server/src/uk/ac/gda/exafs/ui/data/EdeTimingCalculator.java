@@ -175,7 +175,7 @@ public class EdeTimingCalculator {
 		}
 	}
 
-	private static void markInputTrig(@SuppressWarnings("unused") int type) {
+	private static void markInputTrig(int type) {
 		inputTrigPoints = ArrayUtils.add(inputTrigPoints, timeTracker);
 	}
 

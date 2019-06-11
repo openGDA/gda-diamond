@@ -82,7 +82,6 @@ public abstract class TimeEstimatorBase implements EdeTimeEstimate {
 	 * @param endPosition
 	 * @return time in seconds
 	 */
-	@SuppressWarnings("unused")
 	protected Double estimateMovementDuration(EdeScanPosition startPosition, EdeScanPosition endPosition) {
 		// for the moment simply have a fixed value. Need to make some pratical measurements to see if making a more
 		// accurate guess is of value.

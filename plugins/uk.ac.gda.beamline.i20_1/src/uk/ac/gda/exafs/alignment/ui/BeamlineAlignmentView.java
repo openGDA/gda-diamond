@@ -516,7 +516,6 @@ public class BeamlineAlignmentView extends ViewPart implements ITabbedPropertySh
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void createMotorControls(Form form) throws Exception {
 
 		final Section motorSection = toolkit.createSection(form.getBody(), ExpandableComposite.TITLE_BAR
