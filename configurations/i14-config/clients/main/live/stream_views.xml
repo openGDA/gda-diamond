@@ -22,13 +22,13 @@
 		<property name="arrayPv" value="BL14I-EA-XREYE-01:DET:ARR" />
 		<property name="sleepTime" value="5" />
 		<property name="calibratedAxesProvider">
-            <bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
-                <property name="xAxisScannable" ref="stage1_x"/>
-                <property name="yAxisScannable" ref="stage1_y"/>
-                <property name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis  -->
-                <property name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
-                <property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
-                <property name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
+            <bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
+                <constructor-arg name="xAxisScannable" ref="stage1_x"/>
+                <constructor-arg name="yAxisScannable" ref="stage1_y"/>
+                <constructor-arg name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis  -->
+                <constructor-arg name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
+                <constructor-arg name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
+                <constructor-arg name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
             </bean>
         </property>
 		<property name="topUi">
@@ -56,13 +56,13 @@
 		<property name="arrayPv" value="BL14I-OP-DCAM-09:ARR" />
 		<property name="sleepTime" value="5" />
 		<property name="calibratedAxesProvider">
-            <bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
-                <property name="xAxisScannable" ref="stage1_x"/>
-                <property name="yAxisScannable" ref="stage1_y"/>
-                <property name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis  -->
-                <property name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
-                <property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
-                <property name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
+            <bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
+                <constructor-arg name="xAxisScannable" ref="stage1_x"/>
+                <constructor-arg name="yAxisScannable" ref="stage1_y"/>
+                <constructor-arg name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis  -->
+                <constructor-arg name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis  -->
+                <constructor-arg name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
+                <constructor-arg name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis  -->
             </bean>
         </property>
 		<property name="topUi">
