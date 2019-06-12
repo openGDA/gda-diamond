@@ -1,3 +1,3 @@
 #!/bin/bash
 
-zenity --warning --width 300 --text="GDA 9 no longer supports the swing GUI\n\nTo switch to GDA 8 run 'gda8activate' in a terminal window,\nthen restart the GDA servers and clients"
+zenity --warning --width 300 --text="GDA 9 no longer supports the swing GUI"
