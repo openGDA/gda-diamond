@@ -99,6 +99,7 @@
 			<bean class="uk.ac.diamond.daq.mapping.api.EnergyFocusBean">
 				<property name="energyFocusConfigPath" value="${gda.var}/energyFocusFunction.json" />
 				<property name="energyFocusFunction" ref="energyFocusFunction" />
+				<property name="changeInterceptionDecimalPlaces" value="1" />
 			</bean>
 		</property>
 	</bean>
