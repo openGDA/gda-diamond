@@ -10,9 +10,6 @@
 		http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
-	<!-- Provides ability to import/find remote objects over RMI -->
-	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory" />
-
 	<import resource="live_controls.xml" />
 	<import resource="statusView.xml"/>
 
