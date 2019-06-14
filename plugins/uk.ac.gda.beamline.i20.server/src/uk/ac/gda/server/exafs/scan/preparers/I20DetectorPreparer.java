@@ -674,9 +674,13 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 	private MonoEnergyRange getMonoRange(XanesScanParameters bean) throws DeviceException {
 		if (xesMode) {
-			// Xes mode with Xanes scan for spectrometer energy : mono is already in correct position
-			double braggEnergy = (double) monoOptimiser.getBraggScannable().getPosition();
-			return new MonoEnergyRange(braggEnergy, braggEnergy);
+			if (bean.getScannableName().equals(monoOptimiser.getBraggScannable().getName())) {
+				return new MonoEnergyRange(bean.getInitialEnergy(), bean.getFinalEnergy());
+			} else {
+				// Xes mode with Energy region scan for spectrometer energy : mono is already in correct position
+				double braggEnergy = (double) monoOptimiser.getBraggScannable().getPosition();
+				return new MonoEnergyRange(braggEnergy, braggEnergy);
+			}
 		}
 		return new MonoEnergyRange(bean.getInitialEnergy(), bean.getFinalEnergy());
 	}
@@ -855,6 +859,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 								monoEnergyRange.getLowEnergy(), monoEnergyRange.getHighEnergy());
 						monoOptimiser.optimise(monoEnergyRange.getLowEnergy(), monoEnergyRange.getHighEnergy());
 					}
+					// move to low energy again, with optimised bragg offset
+					monoOptimiser.getBraggScannable().moveTo(monoEnergyRange.getLowEnergy());
 				}
 				else {
 					// move to near low energy, so that first moveTo also calls optimisation
