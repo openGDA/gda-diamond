@@ -1,0 +1,1 @@
+print("Running 'before scan' script")
