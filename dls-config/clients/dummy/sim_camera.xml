@@ -25,13 +25,13 @@
 		<property name="url" ref="sim_mjpg_url" />
 		<property name="arrayPv" value="#{sim_pvbase}:ARR" />
 		<property name="calibratedAxesProvider">
-			<bean class="uk.ac.gda.client.live.stream.calibration.SimpleCalibration" init-method="createAxesUpdaters">
-				<property name="xAxisScannable" ref="ix"/>
-				<property name="yAxisScannable" ref="iy"/>
-				<property name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis-->
-				<property name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis -->
-				<property name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
-				<property name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis -->
+			<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
+				<constructor-arg name="xAxisScannable" ref="ix"/>
+				<constructor-arg name="yAxisScannable" ref="iy"/>
+				<constructor-arg name="xAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in x axis-->
+				<constructor-arg name="yAxisPixelScaling" value="0.002"/> <!-- Number of pixels per scannable unit in y axis -->
+				<constructor-arg name="xAxisOffset" value="0"/> <!-- Offset of camera in x axis -->
+				<constructor-arg name="yAxisOffset" value="0"/> <!-- Offset of camera in y axis -->
 			</bean>
 		</property>
 	</bean>
