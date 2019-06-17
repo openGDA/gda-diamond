@@ -55,7 +55,7 @@ global delta_axis_offset
 global azir, psi, psic, hkl
 global kbmbase, setDatadirPropertyFromPersistanceDatabase, pitchupClass
 global stokes,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
-global ic1monitor, ppth, ppp_xtal1_111_offset, ppp_xtal1_m220_offset, ppp_xtal1_220_offset, ppp_xtal1_440_offset, ppp_xtal2_111_offset
+global ic1monitor, ppp_xtal1_111_offset, ppp_xtal1_m220_offset, ppp_xtal1_220_offset, ppp_xtal1_440_offset, ppp_xtal2_111_offset
 global x2000, x2003
 global delta
 global energy, simple_energy, gam
@@ -755,15 +755,14 @@ if installation.isLive():
 	x2trig.triggerLength=0.2
 	
 	### Phase Plates ###
-	ppa111=PPPClass('ppa111',3.559/sqrt(3),ppth, ppp_xtal1_111_offset,help='Phase plate device for 111 reflection from crystal A (0.4 mm diamond)')
-	ppa220=PPPClass('ppa220',3.559/sqrt(8),ppth, ppp_xtal1_220_offset,help='Phase plate device for 220 reflection from crystal A (0.4 mm diamond)')
-	ppam220=PPPClass('ppam220',-3.559/sqrt(8),ppth, ppp_xtal1_m220_offset,help='Phase plate device for -2-20 reflection from crystal A (0.4 mm diamond)') #experimental
-	ppa440=PPPClass('ppa440',3.559/sqrt(8)/2,ppth, ppp_xtal1_440_offset,help='Phase plate device for 440 reflection from crystal A (0.4 mm diamond)')
-	ppb111=PPPClass('ppb111',3.559/sqrt(3),ppth, ppp_xtal2_111_offset,help='Phase plate device for 111 reflection from crystal B (0.1 mm diamond)')
-	#ppb220=PPPClass('ppb220',3.559/sqrt(8),ppth, ppp_xtal2_220_offset,help='Phase plate device for 220 reflection from crystal B (0.1 mm diamond)')
+	#ppa111=PPPClass('ppa111',3.559/sqrt(3),ppth, ppp_xtal1_111_offset,help='Phase plate device for 111 reflection from crystal A (0.4 mm diamond)')
+	#ppa220=PPPClass('ppa220',3.559/sqrt(8),ppth, ppp_xtal1_220_offset,help='Phase plate device for 220 reflection from crystal A (0.4 mm diamond)')
+	#ppam220=PPPClass('ppam220',-3.559/sqrt(8),ppth, ppp_xtal1_m220_offset,help='Phase plate device for -2-20 reflection from crystal A (0.4 mm diamond)') #experimental
+	#ppa440=PPPClass('ppa440',3.559/sqrt(8)/2,ppth, ppp_xtal1_440_offset,help='Phase plate device for 440 reflection from crystal A (0.4 mm diamond)')
+	#ppb111=PPPClass('ppb111',3.559/sqrt(3),ppth, ppp_xtal2_111_offset,help='Phase plate device for 111 reflection from crystal B (0.1 mm diamond)')
+	##ppb220=PPPClass('ppb220',3.559/sqrt(8),ppth, ppp_xtal2_220_offset,help='Phase plate device for 220 reflection from crystal B (0.1 mm diamond)')
+	localStation_exception("initialising phase plate reflection scannables (ppa111 ppa220 ppam220 ppa440 ppb111), ppth now ppth1 & ppth2", None)
 
-
-	
 else:
 	localStation_print("NOT LIVE :SKIPPED EPICS DEVICES/MONITORS")
 	localStation_print("      Creating dummy bragg motor should be on PV:BL16I-MO-DCM-01:BRMTR:MOT.RBV")
@@ -1245,7 +1244,7 @@ if installation.isLive():
 	mono=ReadPDGroupClass('mono',[en,bragg,dcmpitch, dcmfinepitch, perp, dcmlat,dcmroll1, dcmroll2,T1dcm, T2dcm])
 	###
 	pa=ReadPDGroupClass('pa',[stokes, tthp, thp, zp])
-	pp=ReadPDGroupClass('pp',[ppth, ppx, ppy, ppchi])
+	#pp=ReadPDGroupClass('pp',[ppth, ppx, ppy, ppchi])
 	#positions=ReadPDGroupClass('positions',[sx,sy,sz,base_y,base_z,ytable, ztable])
 	positions=ReadPDGroupClass('positions',[sx,sy,sz,sperp, spara, base_y,base_z,ytable, ztable])# sperp spara added SPC 3/2/12
 	xps2=ReadPDGroupClass('xps2',[gam,delta,mu,kth,kap,kphi])
@@ -1272,11 +1271,11 @@ if installation.isLive():
 	#fzp=ReadPDGroupClass('FZP_motors',[zp1x, zp1y, zp1z, zp2x, zp2y, zp2z, xps3m1, xps3m2, micosx, micosy])
 try:
 	if not USE_DIFFCALC:
-		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo, source, jjslits, pa, pp,
+		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo, source, jjslits, pa, PPR,
 				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
 				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
 	else:
-		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa,           source, jjslits, pa, pp,
+		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa,           source, jjslits, pa, PPR,
 				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
 				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
 

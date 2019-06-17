@@ -1,16 +1,17 @@
  <beans xmlns="http://www.springframework.org/schema/beans"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	
+
 	<import resource="motor/atten.xml" />
+	<import resource="motor/dcm.xml" />
 	<import resource="motor/diag.xml" />
 	<import resource="motor/id.xml" />
-	<import resource="motor/dcm.xml" />
 	<import resource="motor/m1.xml" />
 	<import resource="motor/m2.xml" />
 	<import resource="motor/p2.xml" />
 	<import resource="motor/pa.xml" />
+	<import resource="motor/ppr.xml" />
 	<import resource="motor/s1.xml" />
 	<import resource="motor/s2.xml" />
 	<import resource="motor/s3.xml" />
@@ -18,9 +19,7 @@
 	<import resource="motor/s5.xml" />
 	<import resource="motor/s6.xml" />
 	<import resource="motor/s7.xml" />
-	<import resource="motor/sixckappa.xml" />
-<!-- 	<import resource="motor/sixckappaDC.xml" /> -->
 	<import resource="motor/sixcbase.xml" />
+	<import resource="motor/sixckappa.xml" />
 	<import resource="motor/sixcsample.xml" />
-
 </beans>

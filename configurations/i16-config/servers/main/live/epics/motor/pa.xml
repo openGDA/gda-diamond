@@ -36,6 +36,5 @@
 	<bean id="PAChiMotor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL16I-EA-POLAN-01:DET2:CHI" />
-		<property name="local" value="true" />
 	</bean>
 </beans>

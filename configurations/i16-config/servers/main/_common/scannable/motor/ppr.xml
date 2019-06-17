@@ -1,0 +1,54 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="ppchi"
+			class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ppchiMotor" />
+	</bean>
+
+	<bean id="ppth1"
+			class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ppth1Motor" />
+	</bean>
+
+	<bean id="pppiezo1"
+			class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pppiezo1Motor" />
+	</bean>
+
+	<bean id="ppz1"
+			class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ppz1Motor" />
+	</bean>
+
+	<bean id="ppth2"
+			class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ppth2Motor" />
+	</bean>
+
+	<bean id="pppiezo2"
+			class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="pppiezo2Motor" />
+	</bean>
+
+	<bean id="ppz2"
+			class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="ppz2Motor" />
+	</bean>
+
+	<bean id="PPR" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="ppchi" />
+				<ref bean="ppth1" />
+				<ref bean="pppiezo1" />
+				<ref bean="ppz1" />
+				<ref bean="ppth2" />
+				<ref bean="pppiezo2" />
+				<ref bean="ppz2" />
+			</list>
+		</property>
+	</bean>
+</beans>
