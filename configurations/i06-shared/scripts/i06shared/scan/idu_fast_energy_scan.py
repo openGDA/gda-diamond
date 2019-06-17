@@ -66,10 +66,10 @@ def zacscan(startEnergy, endEnergy, scanTime, pointTime):
             uuu.removeDefaults(['ca61sr', 'ca62sr','ca63sr','ca64sr','ca65sr','ca66sr']);
 
         if beamline_name=="i06":
-            if not roi1 or not roi2 or not roi3 or not roi4:
+            if not roi1 or not roi2 or not roi3 or not roi4:  # @UndefinedVariable
                 raise Exception("4 ROIs are required.")
             #setup ROIs
-            fesController.setupAreaDetectorROIs([roi1, roi2, roi3, roi4])
+            fesController.setupAreaDetectorROIs([roi1, roi2, roi3, roi4])  # @UndefinedVariable
         beamlineutil.stopArchiving();
         fastEnergy.cvscan(startEnergy, endEnergy, scanTime, pointTime);
         beamlineutil.registerFileForArchiving( beamlineutil.getLastScanFile() );
