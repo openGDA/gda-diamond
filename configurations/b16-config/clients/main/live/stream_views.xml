@@ -4,7 +4,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="pilatus_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI" />
+	<bean id="pilatus_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
+	<constructor-arg ref="pilatus_camera_control" />
+	</bean>
 	<bean id="pilatus_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="pilatus_histogramTopUI" />
 	</bean>
@@ -20,7 +22,9 @@
 	
 	
 	
-	<bean id="pcoedge_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI" />
+	<bean id="pcoedge_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
+	<constructor-arg ref="pcoedge_camera_control" />
+	</bean>
 	<bean id="pcoedge_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="pcoedge_histogramTopUI" />
 	</bean>
@@ -34,7 +38,9 @@
 		<property name="bottomUi" ref="pcoedge_histogramBottomUI" />
 	</bean>
 	
-	<bean id="pco4000_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI" />
+	<bean id="pco4000_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
+	<constructor-arg ref="pco4000_camera_control" />
+	</bean>
 	<bean id="pco4000_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="pco4000_histogramTopUI" />
 	</bean>
@@ -48,7 +54,9 @@
 		<property name="bottomUi" ref="pco4000_histogramBottomUI" />
 	</bean>
 	
-	<bean id="psl_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI" />
+	<bean id="psl_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
+	<constructor-arg ref="psl_camera_control" />
+	</bean>
 	<bean id="psl_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="psl_histogramTopUI" />
 	</bean>
@@ -62,7 +70,9 @@
 		<property name="bottomUi" ref="psl_histogramBottomUI" />
 	</bean>
 	
-	<bean id="medipix_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI" />
+	<bean id="medipix_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
+	<constructor-arg ref="medipix_camera_control" />
+	</bean>
 	<bean id="medipix_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="medipix_histogramTopUI" />
 	</bean>
@@ -76,7 +86,9 @@
 		<property name="bottomUi" ref="medipix_histogramBottomUI" />
 	</bean>
 	
-	<bean id="medipix4_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramTopUI" />
+	<bean id="medipix4_histogramTopUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramControlsTopUI" >
+	<constructor-arg ref="medipix4_camera_control" />
+	</bean>
 	<bean id="medipix4_histogramBottomUI" class="uk.ac.gda.client.live.stream.view.customui.histogram.LiveStreamWithHistogramBottomUI">
 		<property name="topUI" ref="medipix4_histogramTopUI" />
 	</bean>
