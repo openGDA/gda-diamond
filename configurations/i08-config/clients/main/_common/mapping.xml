@@ -39,7 +39,7 @@
 				</bean>
 				 -->
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Andor Detector" />
+					<constructor-arg name="name" value="Andor software" />
 					<constructor-arg name="model">
 						<bean class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
 							<property name="name" value="andor_addetector" />
@@ -47,9 +47,10 @@
 						</bean>
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
+					<property name="shownByDefault" value="false" />
 				</bean>
 				<bean class="uk.ac.diamond.daq.mapping.impl.DetectorModelWrapper">
-					<constructor-arg name="name" value="Xmap Detector" />
+					<constructor-arg name="name" value="XMAP software" />
 					<constructor-arg name="model">
 						<bean class="gda.device.detector.xmap.api.XmapWritingFilesRunnableDeviceModel">
 							<property name="name" value="xmap_runnable" />
@@ -59,6 +60,7 @@
 						</bean>
 					</constructor-arg>
 					<constructor-arg name="includeInScan" value="false" />
+					<property name="shownByDefault" value="false" />
 				</bean>
 			</list>
 		</property>
@@ -89,9 +91,9 @@
 		<property name="numberOfLinePoints" value="40"/>
 		<property name="focusScanDevices">
 			<list>
-				<value>Andor Detector</value>
-				<value>Malcolm focus scan (photodiode)</value>
-				<value>Malcolm focus scan (Andor)</value>
+				<value>Andor software</value>
+				<value>Photodiode</value>
+				<value>Andor</value>
 			</list>
 		</property>
 		<property name="energyFocusBean">
@@ -156,12 +158,12 @@
 			<map>
 				<entry key="fastAxisStep" value="µm" />
 				<entry key="slowAxisStep" value="µm" />
-				<entry key="xStart" value="µm" />
-				<entry key="yStart" value="µm" />
-				<entry key="xStop" value="µm" />
-				<entry key="yStop" value="µm" />
-				<entry key="xCentre" value="µm" />
-				<entry key="yCentre" value="µm" />
+				<entry key="xStart" value="mm" />
+				<entry key="yStart" value="mm" />
+				<entry key="xStop" value="mm" />
+				<entry key="yStop" value="mm" />
+				<entry key="xCentre" value="mm" />
+				<entry key="yCentre" value="mm" />
 				<entry key="xRange" value="µm" />
 				<entry key="yRange" value="µm" />
 				<entry key="radius" value="µm" />
