@@ -81,5 +81,16 @@
 			</list>
 		</property>
 	</bean>
+	
+		<!-- Create a ProcessingSetupConfiguration -->
+	<bean id="processingSetupConfiguration" class="uk.ac.diamond.daq.mapping.api.ProcessingSetupConfiguration">
+		<property name="defaultDetector" value="Xspress3A" />
+		<property name="defaultProcessingFile" value="xrf_window_40.nxs" />
+	</bean>
+
+	<bean class="gda.util.osgi.OSGiServiceRegister">
+		<property name="class" value="uk.ac.diamond.daq.mapping.api.ProcessingSetupConfiguration" />
+		<property name="service" ref="processingSetupConfiguration" />
+	</bean>
 
 </beans>
