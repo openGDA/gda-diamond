@@ -3,29 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- Sample scan -->
-	<bean id="malcolmModelSample" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
-		<property name="name" value="I08-SCAN01"/>
-		<property name="exposureTime" value="0.1"/>
-		<property name="timeout" value="300"/>
-		<property name="axesToMove">
-			<list>
-				<value>SampleX</value>
-				<value>SampleY</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="malcolmDeviceSample" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
-		<property name="name" value="I08-SCAN01"/>
-		<property name="model" ref="malcolmModelSample"/>
-		<property name="deviceInformation" ref="malcolmInfoSample"/>
-		<property name="activated" value="false"/>
-	</bean>
-
-	<!-- Focus scan (photo diode) -->
-	<bean id="malcolmModelFocus" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
-		<property name="name" value="I08-SCAN02"/>
+	<!-- Photodiode (regular and focus) -->
+	<bean id="malcolmModelPhotodiode" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL08I-ML-SCAN-01"/>
 		<property name="exposureTime" value="0.1"/>
 		<property name="timeout" value="300"/>
 		<property name="axesToMove">
@@ -37,16 +17,16 @@
 		</property>
 	</bean>
 
-	<bean id="malcolmDeviceFocus" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
-		<property name="name" value="I08-SCAN02"/>
-		<property name="model" ref="malcolmModelFocus"/>
-		<property name="deviceInformation" ref="malcolmInfoFocus"/>
+	<bean id="malcolmDevicePhotodiode" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name" value="BL08I-ML-SCAN-01"/>
+		<property name="model" ref="malcolmModelPhotodiode"/>
+		<property name="deviceInformation" ref="malcolmInfoPhotodiode"/>
 		<property name="activated" value="false"/>
 	</bean>
 
-	<!-- Focus scan (Andor) -->
-	<bean id="malcolmModelFocusAndor" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
-		<property name="name" value="I08-SCAN06"/>
+	<!-- XMAP -->
+	<bean id="malcolmModelXmap" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL08I-ML-SCAN-02"/>
 		<property name="exposureTime" value="0.1"/>
 		<property name="timeout" value="300"/>
 		<property name="axesToMove">
@@ -58,16 +38,37 @@
 		</property>
 	</bean>
 
-	<bean id="malcolmDeviceFocusAndor" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
-		<property name="name" value="I08-SCAN06"/>
-		<property name="model" ref="malcolmModelFocusAndor"/>
-		<property name="deviceInformation" ref="malcolmInfoFocusAndor"/>
+	<bean id="malcolmDeviceXmap" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name" value="BL08I-ML-SCAN-02"/>
+		<property name="model" ref="malcolmModelXmap"/>
+		<property name="deviceInformation" ref="malcolmInfoXmap"/>
 		<property name="activated" value="false"/>
 	</bean>
 
-	<!-- Sample scan (Xmap) -->
-	<bean id="malcolmModelSampleXmap" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
-		<property name="name" value="I08-SCAN03-XMAP"/>
+	<!-- Andor (regular and focus) -->
+	<bean id="malcolmModelAndor" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL08I-ML-SCAN-03"/>
+		<property name="exposureTime" value="0.1"/>
+		<property name="timeout" value="300"/>
+		<property name="axesToMove">
+			<list>
+				<value>SampleX</value>
+				<value>SampleY</value>
+				<value>ZonePlateZ</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="malcolmDeviceAndor" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name" value="BL08I-ML-SCAN-03"/>
+		<property name="model" ref="malcolmModelAndor"/>
+		<property name="deviceInformation" ref="malcolmInfoAndor"/>
+		<property name="activated" value="false"/>
+	</bean>
+
+	<!-- Andor & XMAP -->
+	<bean id="malcolmModelAndorXmap" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
+		<property name="name" value="BL08I-ML-SCAN-04"/>
 		<property name="exposureTime" value="0.1"/>
 		<property name="timeout" value="300"/>
 		<property name="axesToMove">
@@ -78,50 +79,10 @@
 		</property>
 	</bean>
 
-	<bean id="malcolmDeviceSampleXmap" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
-		<property name="name" value="I08-SCAN03-XMAP"/>
-		<property name="model" ref="malcolmModelSampleXmap"/>
-		<property name="deviceInformation" ref="malcolmInfoSampleXmap"/>
-		<property name="activated" value="false"/>
-	</bean>
-
-	<!-- Sample scan (Andor) -->
-	<bean id="malcolmModelSampleAndor" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
-		<property name="name" value="I08-SCAN04-ANDOR"/>
-		<property name="exposureTime" value="0.1"/>
-		<property name="timeout" value="300"/>
-		<property name="axesToMove">
-			<list>
-				<value>SampleX</value>
-				<value>SampleY</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="malcolmDeviceSampleAndor" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
-		<property name="name" value="I08-SCAN04-ANDOR"/>
-		<property name="model" ref="malcolmModelSampleAndor"/>
-		<property name="deviceInformation" ref="malcolmInfoSampleAndor"/>
-		<property name="activated" value="false"/>
-	</bean>
-
-	<!-- Sample scan (Andor/Xmap) -->
-	<bean id="malcolmModelSampleAndorXmap" class="org.eclipse.scanning.example.malcolm.DummyMalcolmModel">
-		<property name="name" value="I08-SCAN05-ANDOR-XMAP"/>
-		<property name="exposureTime" value="0.1"/>
-		<property name="timeout" value="300"/> <!-- 5 minute timeout for testing -->
-		<property name="axesToMove">
-			<list>
-				<value>SampleX</value>
-				<value>SampleY</value>
-			</list>
-		</property>
-	</bean>
-
-	<bean id="malcolmDeviceSampleAndorXmap" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
-		<property name="name" value="I08-SCAN05-ANDOR-XMAP"/>
-		<property name="model" ref="malcolmModelSampleAndorXmap"/>
-		<property name="deviceInformation" ref="malcolmInfoSampleAndorXmap"/>
+	<bean id="malcolmDeviceAndorXmap" class="org.eclipse.scanning.example.malcolm.DummyMalcolmDevice" init-method="register">
+		<property name="name" value="BL08I-ML-SCAN-04"/>
+		<property name="model" ref="malcolmModelAndorXmap"/>
+		<property name="deviceInformation" ref="malcolmInfoAndorXmap"/>
 		<property name="activated" value="false"/>
 	</bean>
 

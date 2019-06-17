@@ -4,46 +4,28 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<!-- Sample scan -->
-	<bean id="malcolmInfoSample" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm sample scan" />
-		<property name="description" value="X/Y sample scan using Malcolm" />
-		<!-- <property name="icon" value=""/> TODO: we need an icon for malcolm -->
+	<!-- Photodiode (regular and focus) -->
+	<bean id="malcolmInfoPhotodiode" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Photodiode" />
+		<property name="description" value="Photodiode (regular and focus)" />
 	</bean>
 
-	<!-- Focus scan (photo diode) -->
-	<bean id="malcolmInfoFocus" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm focus scan (photodiode)" />
-		<property name="description" value="Butterfly scan to find focus point, changing zone plate" />
-		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
+	<!-- XMAP -->
+	<bean id="malcolmInfoXmap" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="XMAP" />
+		<property name="description" value="XMAP scan" />
 	</bean>
 
-	<!-- Focus scan (Andor) -->
-	<bean id="malcolmInfoFocusAndor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm focus scan (Andor)" />
-		<property name="description" value="Butterfly scan to find focus point, changing zone plate" />
-		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
+	<!-- Andor (regular and focus) -->
+	<bean id="malcolmInfoAndor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Andor" />
+		<property name="description" value="Andor (regular and focus)" />
 	</bean>
 
-	<!-- Sample scan (Xmap) -->
-	<bean id="malcolmInfoSampleXmap" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm sample scan (Xmap)" />
-		<property name="description" value="Malcolm sample scan with Xmap detector" />
-		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
-	</bean>
-
-	<!-- Sample scan (Andor) -->
-	<bean id="malcolmInfoSampleAndor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm sample scan (Andor)" />
-		<property name="description" value="Malcolm sample scan with Andor detector" />
-		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
-	</bean>
-
-	<!-- Sample scan (Andor/Xmap) -->
-	<bean id="malcolmInfoSampleAndorXmap" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Malcolm sample scan (Andor/Xmap)" />
-		<property name="description" value="Malcolm sample scan with Andor and Xmap detectors" />
-		<property name="icon" value=""/> <!-- TODO: we need an icon for malcolm -->
+	<!-- Andor & XMAP -->
+	<bean id="malcolmInfoAndorXmap" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Andor and XMAP" />
+		<property name="description" value="Andor and XMAP" />
 	</bean>
 
 </beans>
