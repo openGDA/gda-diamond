@@ -25,6 +25,7 @@ import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -32,6 +33,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
@@ -163,8 +165,12 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 			energyCalComposite.setPolynomialString(calibrationDetails.getFormattedPolinormal());
 			energyCalComposite.setSampleFileName(calibrationDetails.getSampleDataFileName());
 			energyCalComposite.setReferenceFileName(calibrationDetails.getReferenceDataFileName());
-			energyCalComposite.updateGuiFromParameters();
+		} else {
+			energyCalComposite.setPolynomialString("");
+			energyCalComposite.setSampleFileName("");
+			energyCalComposite.setReferenceFileName("");
 		}
+		energyCalComposite.updateGuiFromParameters();
 	}
 
 	public void createScannablePositionsSection(Composite parent) {
@@ -295,11 +301,31 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 		@Override
 		protected void loadParametersFromFile(String filename) throws Exception {
 			TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.loadFromFile(filename);
+
+			CalibrationDetails currentCalibration = DetectorModel.INSTANCE.getCurrentDetector().getEnergyCalibration();
+			String currentPoly = currentCalibration == null ? "" : currentCalibration.getFormattedPolinormal();
+
+			CalibrationDetails newCalibration = params.createEnergyCalibration();
+			String newPoly = newCalibration == null ? "" : newCalibration.getFormattedPolinormal();
+
+			boolean updateDetectorCalibration = true;
+			if (!currentPoly.isEmpty() && !newPoly.equals(currentPoly)){
+				String message = "Replace current energy calibration polynomial : \n\t '"+currentPoly+"'\n "+
+								 "with the one from the file : \n\t'"+newPoly+"' ?";
+				updateDetectorCalibration = MessageDialog.openQuestion(Display.getDefault().getActiveShell(), "Replace detector energy polynomial", message);
+			}
+
 			getModel().setupFromParametersBean(params);
+
+			// Update the detector with the new calibration if required
+			if (updateDetectorCalibration) {
+				DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(newCalibration);
+			} else {
+				// set the model back to the old calibration
+				getModel().setCalibrationDetails(currentCalibration);
+			}
 			updateCalibrationGui(getModel().getCalibrationDetails());
 			updateScannablePositionsGui();
-			// Update the detector with the new calibration
-			DetectorModel.INSTANCE.getCurrentDetector().setEnergyCalibration(getModel().getCalibrationDetails());
 		}
 	}
 
