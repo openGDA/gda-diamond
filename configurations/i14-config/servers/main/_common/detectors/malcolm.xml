@@ -24,8 +24,8 @@
 
 	<!-- Excalibur hardware (fine motors) -->
 	<bean id="malcolmInfoExcaliburHardwareFine" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
-		<property name="label" value="Excalibur fine" />
-		<property name="description" value="Excalibur for true hardware scanning (fine motors)" />
+		<property name="label" value="Excalibur/XRF coarse/fine" />
+		<property name="description" value="Excalibur/XRF combined scan with coarse and fine motors" />
 	</bean>
 
 	<!-- Combined Excalibur/Xspress3 hardware scanning -->
