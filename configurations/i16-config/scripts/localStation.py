@@ -55,7 +55,7 @@ global delta_axis_offset
 global azir, psi, psic, hkl
 global kbmbase, setDatadirPropertyFromPersistanceDatabase, pitchupClass
 global stokes,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
-global ic1monitor, ppp_xtal1_111_offset, ppp_xtal1_m220_offset, ppp_xtal1_220_offset, ppp_xtal1_440_offset, ppp_xtal2_111_offset
+global ic1monitor
 global x2000, x2003
 global delta
 global energy, simple_energy, gam
@@ -202,7 +202,6 @@ from pd_LS340setpoint import EpicsLSsetpoint
 from pd_LakeshorePID import EpicsLakeshorePID
 from pd_WaitForBeam import WaitForBeamPDClass, TimeToMachineInjectionClass, WaitForInjectionPDClass, WaitForInjectionPDClass2 
 from pd_metadata_group import ReadPDGroupClass
-from PhasePlateClass import PPPClass
 from pd_diffractometerbase import DiffoBaseClass
 from pd_x2000 import x2000scaClass
 from pd_acescaler import acesca1
@@ -753,15 +752,7 @@ if installation.isLive():
 	x1trig.triggerLength=0.1
 	x2trig = ToggleBinaryPvAndWait('x2trig', 'BL16I-EA-USER-01:BO2') 
 	x2trig.triggerLength=0.2
-	
-	### Phase Plates ###
-	#ppa111=PPPClass('ppa111',3.559/sqrt(3),ppth, ppp_xtal1_111_offset,help='Phase plate device for 111 reflection from crystal A (0.4 mm diamond)')
-	#ppa220=PPPClass('ppa220',3.559/sqrt(8),ppth, ppp_xtal1_220_offset,help='Phase plate device for 220 reflection from crystal A (0.4 mm diamond)')
-	#ppam220=PPPClass('ppam220',-3.559/sqrt(8),ppth, ppp_xtal1_m220_offset,help='Phase plate device for -2-20 reflection from crystal A (0.4 mm diamond)') #experimental
-	#ppa440=PPPClass('ppa440',3.559/sqrt(8)/2,ppth, ppp_xtal1_440_offset,help='Phase plate device for 440 reflection from crystal A (0.4 mm diamond)')
-	#ppb111=PPPClass('ppb111',3.559/sqrt(3),ppth, ppp_xtal2_111_offset,help='Phase plate device for 111 reflection from crystal B (0.1 mm diamond)')
-	##ppb220=PPPClass('ppb220',3.559/sqrt(8),ppth, ppp_xtal2_220_offset,help='Phase plate device for 220 reflection from crystal B (0.1 mm diamond)')
-	localStation_exception("initialising phase plate reflection scannables (ppa111 ppa220 ppam220 ppa440 ppb111), ppth now ppth1 & ppth2", None)
+	#ppa* & ppb* scannables moved to localStationStaff.py
 
 else:
 	localStation_print("NOT LIVE :SKIPPED EPICS DEVICES/MONITORS")
