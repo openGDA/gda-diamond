@@ -12,9 +12,12 @@ try_execfile("BeamlineI07/Users/pvMonitors.py")
 print "Creating aliases to control shutter (shopen, shclose, shop, shcl)"
 try_execfile("BeamlineI07/Users/ShutterControl2.py")
 
-print "Setting up checkdcm to pause scans when t17 gets too hot: add 'checkdcm' to scan line"
+
+
+# TODO do we need checkdcm for the new DCM?
+# print "Setting up checkdcm to pause scans when t17 gets too hot: add 'checkdcm' to scan line"
 try_execfile("BeamlineI07/Users/waitAbove.py")
-checkdcm = WaitAbove('checkdcm', dcm1t17, maximumThreshold=120, maximumToResume=90, secondsBetweenChecks=1,secondsToWaitAfterOK=5)
+#checkdcm = WaitAbove('checkdcm', dcm1t17, maximumThreshold=120, maximumToResume=90, secondsBetweenChecks=1,secondsToWaitAfterOK=5)
 
 print "Setting up checkbeam to pause scans when beam is down: add 'checkbeam' to scan line"
 try_execfile("BeamlineI07/Users/waitBelowAndShutter.py")
