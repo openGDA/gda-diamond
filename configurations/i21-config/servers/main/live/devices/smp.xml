@@ -60,28 +60,28 @@
 	<import resource="smpcam5.xml"/>
 	
 	<bean id="smplXPositioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL21I-EA-SMPL-01:MP:X:SELECT" />
+		<property name="recordName" value="BL21I-EA-SMPL-01:MP:X" />
 	</bean>
 	<bean id="smplYPositioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL21I-EA-SMPL-01:MP:Y:SELECT" />
+		<property name="recordName" value="BL21I-EA-SMPL-01:MP:Y" />
 	</bean>
 	<bean id="smplZPositioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL21I-EA-SMPL-01:MP:Z:SELECT" />
+		<property name="recordName" value="BL21I-EA-SMPL-01:MP:Z" />
 	</bean>
 	<bean id="smplAzimuthPositioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL21I-EA-SMPL-01:MP:AZIM:SELECT" />
+		<property name="recordName" value="BL21I-EA-SMPL-01:MP:AZIM" />
 	</bean>
 	<bean id="smplDiodetthPositioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL21I-EA-SMPL-01:MP:DRING:SELECT" />
+		<property name="recordName" value="BL21I-EA-SMPL-01:MP:DRING" />
 	</bean>
 	<bean id="smplTiltPositioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL21I-EA-SMPL-01:MP:TILT:SELECT" />
+		<property name="recordName" value="BL21I-EA-SMPL-01:MP:TILT" />
 	</bean>
 	<bean id="smplRZPositioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL21I-EA-SMPL-01:MP:RZ:SELECT" />
+		<property name="recordName" value="BL21I-EA-SMPL-01:MP:RZ" />
 	</bean>
 	<bean id="m5tthPositioner" class="gda.device.enumpositioner.EpicsPositionerCallback">
-		<property name="recordName" value="BL21I-MO-POD-02:MP:ROT:SELECT" />
+		<property name="recordName" value="BL21I-MO-POD-02:MP:ROT" />
 	</bean>
 	
 

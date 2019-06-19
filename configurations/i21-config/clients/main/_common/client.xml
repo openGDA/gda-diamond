@@ -3,7 +3,6 @@
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean class="uk.ac.gda.remoting.client.RmiProxyFactory"/>
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="commandQueueProcessor.xml"/>
 	<import resource="serverFileListener.xml"/>
@@ -17,6 +16,7 @@
 	<import resource="../../../../../dls-config/clients/_common/stage_controls_tree.xml"/>
 
 	<!-- mapping perspective -->
+	<import resource="../../../../../../gda-core.git/core-config/clients/_common/mapping_view.xml"/>
 	<import resource="mapping.xml"/>
 
 	<!-- Provides ability to import/find remote objects over RMI -->

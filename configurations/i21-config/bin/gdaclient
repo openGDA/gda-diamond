@@ -1,5 +1,7 @@
 #!/bin/bash
 
 #gda --start logpanel
+export SWT_GTK3=0
+export GTK_OVERLAY_SCROLLING=0
 export GDA_CLIENT_VMARGS="-Xms256m -Xmx2048m"
 gda --start client "$@"

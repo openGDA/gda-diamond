@@ -230,16 +230,16 @@
 		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
 	</bean>
 
-	<bean id="extradrain_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc">
-		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO8:"/>
-		<property name="adcChannel" value="2" />
-		<property name="lowerVoltageBound" value="0.5"/>
-		<property name="upperVoltageBound" value="9.5"/>
-		<property name="modeToGainToGainStringMap" ref="gainMap"/>
-		<property name="hasIAVinPV" value="false"/>
-		<property name="hasIinPV" value="false"/>
-		<property name="integrated" value="true"/><!-- 'true' returns integrated value, 'false' returns averaged value-->
-	</bean>
+<!-- 	<bean id="extradrain_i" class="gda.device.currentamplifier.EpicsFemtoWithBekhoffAdc"> -->
+<!-- 		<property name="basePVName" value="BL21I-EA-SMPL-01:FEMTO8:"/> -->
+<!-- 		<property name="adcChannel" value="2" /> -->
+<!-- 		<property name="lowerVoltageBound" value="0.5"/> -->
+<!-- 		<property name="upperVoltageBound" value="9.5"/> -->
+<!-- 		<property name="modeToGainToGainStringMap" ref="gainMap"/> -->
+<!-- 		<property name="hasIAVinPV" value="false"/> -->
+<!-- 		<property name="hasIinPV" value="false"/> -->
+<!-- 		<property name="integrated" value="true"/> -->
+<!-- 	</bean> -->
 
 	<util:map id="gainMap">
 		<entry key="Low Noise">

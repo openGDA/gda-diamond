@@ -179,7 +179,9 @@ import metashop  # @UnusedImport
 print
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Add meta data items to be captured in data files."
-metadatalist=[ringCurrent, idgap, idscannable, energy, fastshutter_x, m1fpsetpoint, m2fpsetpoint] #@UndefinedVariable
+metadatalist=[ringCurrent, idgap, idscannable, energy, fastshutter_x]  # @UndefinedVariable
+if installation.isLive():
+    metadatalist+=[m1fpsetpoint, m2fpsetpoint] #@UndefinedVariable
 m1list=[m1x,m1pitch,m1finepitch,m1height,m1yaw,m1roll,m1feedback] #@UndefinedVariable
 m2list=[m2x,m2pitch,m2finepitch,m2height,m2feedback]# @UndefinedVariable
 m4list=[m4x,m4y,m4z,m4rx,m4ry,m4rz,m4longy,m4femto1,m4femto2]  # @UndefinedVariable
@@ -223,7 +225,7 @@ from scannabledevices.ToolpointMotion import tp, u, v, w, ps_chi, ps_phi
 
 #Mapping scan
 #from mapping_scan_commands import *
-from gdascripts.mscanHandler import *
+from gdascripts.mscanHandler import *  # @UnusedWildImport
 
 from scannabledevices.xrayBeamMonitor import XRayBeamMonitor
 xbm=XRayBeamMonitor("xbm", xraywatchdog="XRayWatchdog")
@@ -307,8 +309,9 @@ scan_processing_off()
 #check beam scannables
 from scannabledevices.checkbeanscannables import checkbeam, checkrc, checkfe, checktopup_time  # @UnusedImport
 
-from scannabledevices.pausableScannable_instances import *  # @UnusedImport
-run("/dls_sw/i21/software/gda/config/scripts/i21commands/checkedMotion.py")
+from scannabledevices.pausableScannable_instances import *  #@UnusedWildImport
+
+GeneralCommands.run("/dls_sw/i21/software/gda/config/scripts/i21commands/checkedMotion.py")
 # from i21commands.checkedMotion import lookuptable, move, asynmove, SGMR1_TOLERANCE, SPECL_TOLERANCE, moveWithinLimits, findRange, UnsafeOperationException, IllegalMoveException, checkIfMoveLegal
 # alias("move")
 # alias("asynmove")

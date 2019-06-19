@@ -12,7 +12,6 @@
 
 	<bean id="pgmB2Shadow" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="pgmB2ShadowMotor" />
-		<property name="userUnits" value="" />
 	</bean>
 
 

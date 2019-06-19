@@ -3,7 +3,9 @@
 	<name>i21-config</name>
 	<comment></comment>
 	<projects>
+		<project>core-config</project>
 		<project>diffcalc</project>
+		<project>dls-config</project>
 		<project>i21-python</project>
 		<project>org.eclipse.scanning.api</project>
 		<project>org.eclipse.scanning.example</project>
