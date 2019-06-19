@@ -25,28 +25,25 @@
 	<import resource="metadata.xml"/>
 	<import resource="terminal_logger.xml"/>
 
-	<import resource="../../p45/dummy/det.xml" />
-	<import resource="../../p45/dummy/mapping_motors.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/>
 
-<!-- VVV From p45/_common/server.xml  -->
+	<!-- VVV From p45/_common/server.xml  -->
 	<context:property-placeholder/>
 	<!-- ? -->
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<import resource="../../p45/_common/example_detectors.xml"/>
-	<import resource="../../p45/_common/command_queue_processor.xml"/>
-	<import resource="../../p45/_common/jython_server_facade.xml" />
-	<import resource="../../p45/_common/mapping_stage.xml"/>
-	<import resource="../../p45/_common/mandelbrot_detectors.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/mapping_motors.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrot_detectors.xml"/>
 
 	<!--  
 	      IMPORTANT: this will start processing the scanning queue. 
 	      detectors must be created before doing this.
 	      ADVISED: do it last or towards the end, scan will now start to run!
 	 --> 
-	<import resource="../../p45/_common/solstice_scanning.xml"/> 
-<!-- ^^^ From p45/_common/server.xml  -->
+	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml"/>
 
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
