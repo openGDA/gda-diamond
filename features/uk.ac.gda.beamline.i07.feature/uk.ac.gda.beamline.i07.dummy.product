@@ -32,7 +32,6 @@ http://www.opengda.org
 -Dgda.facility.dir=${project_loc:dls-config}
 -Dgda.core.dir=${project_loc:core-config}
 -Dgda.var=${workspace_loc}/../gda_var_non_live
--Djacorb.config.dir=${project_loc:i07-config}/properties/dummy/jacorb
 -Dgda.propertiesFile=${project_loc:i07-config}/properties/dummy/dummy_instance_java.properties
 -Dgov.aps.jca.JCALibrary.properties=${project_loc:i07-config}/properties/dummy/JCALibrary.properties
 -Dpython.cachedir=~/python.cachedir

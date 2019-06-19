@@ -28,7 +28,6 @@ http://www.opengda.org
 -Dgda.install.git.loc=../../workspace_git
 -Dgda.install.workspace.loc=../../workspace
 -Dgda.config=../../workspace_git/gda-mt.git/configurations/i07-config
--Djacorb.config.dir=../../workspace_git/gda-mt.git/configurations/i07-config/jacorb/live
 -Dgda.propertiesFile=../../workspace_git/gda-mt.git/configurations/i07-config/properties/live/java.properties
 -Dgov.aps.jca.JCALibrary.properties=../../workspace_git/gda-mt.git/configurations/i07-config/properties/JCALibrary.properties
 -Dpython.cachedir=~/python.cachedir
