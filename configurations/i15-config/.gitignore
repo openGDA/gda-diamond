@@ -1,4 +1,5 @@
 scripts/gdaserver.py
+scripts/gdaserver-dummy.py
 
 # standard .gitignore file for config projects (missing bin/ in particular)
 
