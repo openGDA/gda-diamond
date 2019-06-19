@@ -45,7 +45,6 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 	private static final Logger logger = LoggerFactory.getLogger(TrajectoryScanPreparer.class);
 	private TrajectoryScanController trajScanController;
 
-
 	/** Number of subdivision to use for spectrum part of trajectory scan */
 	private int numStepsForSpectrumSweep = 10;
 
@@ -69,6 +68,10 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 
 	/** Rundown time at end of spectrum when doing two way scans */
 	private double timeForRundown = 0.0025;
+
+	private boolean useFixedTurnaroundDistance = false;
+
+	private double turnaroundDistance = 1;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -182,16 +185,35 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 		List<TurnaroundParameters> turnaroundParams = new ArrayList<>();
 		timingGroups.forEach( timingGroup -> {
 			for(int i=0; i<timingGroup.getNumSpectra(); i++) {
-				turnaroundParams.add(new TurnaroundParameters(motorParams, timingGroup));
+				TurnaroundParameters params = new TurnaroundParameters();
+				if (useFixedTurnaroundDistance) {
+					params.calculateParametersFixedTurnaround(motorParams, timingGroup, turnaroundDistance);
+				} else {
+					params.calculateParameters(motorParams, timingGroup);
+				}
+				turnaroundParams.add(params);
 			}
 		});
 
-		// Adjust rundown distances so they match runup distance of next spectrum
-		// This is because final rundown distance of a group != runup distance of next group if time per spectrum is different
-		for(int i=0; i<turnaroundParams.size()-1; i++) {
-			double nextRunup = turnaroundParams.get(i+1).getRunupDistance();
-			turnaroundParams.get(i).setRundownDistance(nextRunup);
-			turnaroundParams.get(i).showParameters();
+		if (useFixedTurnaroundDistance) {
+			// wait time for last spectrum in each timing group needs to be adjusted to account for longer/shorter runup time
+			// of the next spectrum to maintain correct time between spectra.
+			for(int i=0; i<turnaroundParams.size()-1; i++) {
+				TurnaroundParameters param1 = turnaroundParams.get(i);
+				TurnaroundParameters param2 = turnaroundParams.get(i+1);
+				double timeDiff = param1.getRunupTime() - param2.getRunupTime();
+				double newWaitTime = param1.getTurnaroundWaitTime() + timeDiff;
+				param1.setTurnaroundWaitTime(newWaitTime);
+				param1.showParameters();
+			}
+		} else {
+			// Adjust rundown distances so they match runup distance of next spectrum
+			// This is because final rundown distance of a group != runup distance of next group if time per spectrum is different
+			for(int i=0; i<turnaroundParams.size()-1; i++) {
+				double nextRunup = turnaroundParams.get(i+1).getRunupDistance();
+				turnaroundParams.get(i).setRundownDistance(nextRunup);
+				turnaroundParams.get(i).showParameters();
+			}
 		}
 		return turnaroundParams;
 	}
@@ -242,6 +264,10 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 
 		// Move to the turnaround position
 		addPointToTrajectory(positions[3], turnparams.getRundownTime(), 3);
+
+		if (turnparams.getTurnaroundWaitTime() > 0) {
+			addPointToTrajectory(positions[3], turnparams.getTurnaroundWaitTime(), 3);
+		}
 	}
 
 	/**
@@ -541,17 +567,59 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 		this.timeForRundown = minTimeForRundown;
 	}
 
+	public boolean isUseFixedTurnaroundDistance() {
+		return useFixedTurnaroundDistance;
+	}
+
+	public void setUseFixedTurnaroundDistance(boolean useFixedTurnaroundDistance) {
+		this.useFixedTurnaroundDistance = useFixedTurnaroundDistance;
+	}
+
+	public double getTurnaroundDistance() {
+		return turnaroundDistance;
+	}
+
+	public void setTurnaroundDistance(double turnaroundDistance) {
+		this.turnaroundDistance = turnaroundDistance;
+	}
+
 	private class TurnaroundParameters {
 		private double runupDistance;
 		private double rundownDistance;
 		private double runupTime;
 		private double frameTime;
 		private double spectrumVelocity;
-		private double spectrumTime;
 		private double rundownTime = timeForRundown;
+		private double turnaroundWaitTime = 0;
 
-		public TurnaroundParameters(TurboXasMotorParameters motorParameters, TurboSlitTimingGroup timingGroup) {
-			calculateParameters(motorParameters, timingGroup);
+		public TurnaroundParameters() {
+		}
+
+		public void setTurnaroundWaitTime(double turnaroundWaitTime) {
+			this.turnaroundWaitTime = turnaroundWaitTime;
+		}
+
+		public double getTurnaroundWaitTime() {
+			return turnaroundWaitTime;
+		}
+
+		/**
+		 * Calculate the runup/down times and positions :
+		 * <li> Rundown time is fixed; runup and rundown distances are fixed
+		 * <li> runupTime = timePerSpectrum - rundownTIme - frameTime;
+		 * <li> runupDistance = rundownDistance = turnaroundDistance
+		 * <li> turnAroundWaitTime = how long to wait at the turnaround position to achieve the required time between spectra
+		 * @param motorParameters
+		 * @param timingGroup
+		 * @param turnaroundDistance
+		 */
+		public void calculateParametersFixedTurnaround(TurboXasMotorParameters motorParameters, TurboSlitTimingGroup timingGroup, double turnaroundDistance) {
+			spectrumVelocity = Math.abs(motorParameters.getScanEndPosition() - motorParameters.getScanStartPosition()) / timingGroup.getTimePerSpectrum();
+			frameTime = motorParameters.getPositionStepsize() / spectrumVelocity; // time take to travel across 1 zebra encoder pulse
+			runupDistance = turnaroundDistance;
+			rundownDistance = turnaroundDistance;
+			runupTime = runupDistance/spectrumVelocity;
+			turnaroundWaitTime = timingGroup.getTimeBetweenSpectra() - rundownTime - runupTime - frameTime;
 		}
 
 		/**
@@ -565,24 +633,24 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 		public void calculateParameters(TurboXasMotorParameters motorParameters, TurboSlitTimingGroup timingGroup) {
 			spectrumVelocity = Math.abs(motorParameters.getScanEndPosition() - motorParameters.getScanStartPosition()) / timingGroup.getTimePerSpectrum();
 			frameTime = motorParameters.getPositionStepsize() / spectrumVelocity; // time take to travel across 1 zebra encoder pulse
-			runupTime = timingGroup.getTimeBetweenSpectra() - timeForRundown - frameTime;
+			runupTime = timingGroup.getTimeBetweenSpectra() - rundownTime - frameTime;
 			runupDistance = spectrumVelocity * runupTime;
 			rundownDistance = runupDistance;
+			turnaroundWaitTime = 0;
 		}
 
 		public void showParameters() {
 			logger.debug("Runup/down distances : {} , {} mm", runupDistance, runupDistance);
 			logger.debug("Times  : frame {}, runup = {}, rundown = {} sec", frameTime, runupTime, rundownTime);
+			if (Math.abs(turnaroundWaitTime) > 0) {
+				logger.debug("Turnaround wait time : {} sec", turnaroundWaitTime);
+			}
 			logger.debug("Spectrum velocity : {} mm/sec", spectrumVelocity);
 			logger.debug("Accels : runup = {}, rundown = {} mm/sec^2", spectrumVelocity / runupTime, spectrumVelocity / rundownTime);
 		}
 
 		public void setRundownDistance(double rundownDistance) {
 			this.rundownDistance = rundownDistance;
-		}
-
-		public double getTimePerSpectrum() {
-			return spectrumTime;
 		}
 
 		public double getRundownDistance() {
