@@ -10,6 +10,7 @@
 		<project>org.eclipse.scanning.api</project>
 		<project>org.eclipse.scanning.example</project>
 		<project>org.eclipse.scanning.sequencer</project>
+		<project>uk.ac.diamond.daq.beamline.i21.server</project>
 		<project>uk.ac.diamond.daq.detectors.addetector</project>
 		<project>uk.ac.diamond.daq.detectors.addetector.api</project>
 		<project>uk.ac.diamond.daq.dls.controls</project>
