@@ -6,6 +6,9 @@
 	<bean id="Dr1ddistMotor"
 		class="gda.device.motor.DummyMotor"/>
 
+	<bean id="det1y_motor"
+		class="gda.device.motor.DummyMotor"/>
+
 	<bean id="det1z_motor"
 		class="gda.device.motor.DummyMotor"/>
 </beans>
