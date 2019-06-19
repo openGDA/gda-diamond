@@ -21,7 +21,6 @@
 	</bean>
 
 	<import resource="terminal_logger.xml" />
-	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
 
 	<import resource="device/all.xml"/>
 	<import resource="scannable/all.xml"/>
