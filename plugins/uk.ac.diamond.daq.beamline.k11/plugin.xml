@@ -73,6 +73,13 @@
             name="Plan Overview"
             restorable="true">
       </view>
+      <view
+            class="uk.ac.diamond.daq.experiment.ui.plan.PlanManagerView"
+            icon="icons/briefcase.png"
+            id="uk.ac.diamond.daq.experiment.ui.plan.manager"
+            name="Plan Manager"
+            restorable="true">
+      </view>
    </extension>
    
    <extension
