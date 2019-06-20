@@ -513,9 +513,9 @@ if installation.isLive() and ENABLE_PILATUS:
 									[],
 									panel_name_rcp='pil',
 									iFileLoader=PilatusTiffLoader,
-									fileLoadTimout=60,
+									fileLoadTimout=120,
 									printNfsTimes=False,
-									returnPathAsImageNumberOnly=True)
+									returnPathAsImageNumberOnly=False)
 
 		#pil100kdet = EpicsPilatus('pil100kdet', 'BL16I-EA-PILAT-01:','/dls/b16/detectors/im/','test','%s%s%d.tif')
 		#pil100k = ProcessingDetectorWrapper('pil100k', pil100kdet, [], toreplace=None, replacement=None, iFileLoader=PilatusTiffLoader, fileLoadTimout=15, returnPathAsImageNumberOnly=True)
