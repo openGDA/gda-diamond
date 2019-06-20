@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- Xspress3 configuration added 7June 2019 -->
+
+	<bean id="DAServerXspress3" class="gda.device.detector.xstrip.DummyXStripDAServer">
+		<property name="local" value="True" />
+		<property name="host" value="localhost" />
+		<property name="port" value="1972" />
+		<property name="startupCommands">
+			<list>
+				<value>~config</value>
+			</list>
+		</property>
+		<property name="dataPort" value="20030" />
+		<property name="replyTimeOut" value="5000" />
+		<property name="configureAtStartup" value="true" />
+	</bean>
+
+	<bean id="tfgXspress3" class="gda.device.timer.Etfg">
+		<property name="daServer" ref="DAServerXspress3" />
+	</bean>
+
+	<bean id="xspress3Controller" class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
+		<constructor-arg>
+			<ref bean="DAServerXspress3" />
+		</constructor-arg>
+		<constructor-arg>
+			<ref bean="tfgXspress3" />
+		</constructor-arg>
+		<property name="numberOfChannels" value="4"/>
+		<property name="simulationFileName" value="simulationFilename"/>
+	</bean>
+</beans>

@@ -4,14 +4,14 @@
     <detectorGroup>
         <name>transmission</name>
         <detector>ionchambers</detector>
-    </detectorGroup>  
+    </detectorGroup>
     <detectorGroup>
         <name>Silicon</name>
         <detector>counterTimer03</detector>
         <detector>FFI0_vortex</detector>
         <detector>xmapMca</detector>
         <detector>ionchambers</detector>
-    </detectorGroup>  
+    </detectorGroup>
 <!--     <detectorGroup> -->
 <!--         <name>Germanium</name> -->
 <!--         <detector>FFI0</detector> -->
@@ -20,12 +20,18 @@
 <!--     </detectorGroup> -->
     <detectorGroup>
         <name>Xspress4</name>
-        <detector>xspress4FFI0</detector>
         <detector>xspress4</detector>
+        <detector>xspress4FFI0</detector>
         <detector>ionchambers</detector>
     </detectorGroup>
     <detectorGroup>
-        <name>XES</name>
+        <name>Xspress3</name>
+        <detector>xspress3</detector>
+        <detector>xspress3FFI0</detector>
+        <detector>ionchambers</detector>
+    </detectorGroup>
+    <detectorGroup>
+        <name>XES_xmap</name>
         <detector>xmapMca</detector>
         <detector>I1</detector>
         <detector>FFI1</detector>
@@ -35,7 +41,13 @@
         <detector>I1</detector>
         <detector>medipix</detector>
     </detectorGroup>
-    <experimentType>XES</experimentType>    
+    <detectorGroup>
+        <name>XES_xspress3</name>
+        <detector>xspress3</detector>
+        <detector>xspress3FFI1</detector>
+        <detector>I1</detector>
+    </detectorGroup>
+    <experimentType>XES</experimentType>
     <transmission>
         <detectorType>transmission</detectorType>
         <workingEnergy>7111.14</workingEnergy>

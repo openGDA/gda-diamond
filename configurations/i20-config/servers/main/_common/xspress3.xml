@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- Xspress3 configuration added 7June 2019 -->
+
+	<bean id="xspress3" class="uk.ac.gda.devices.detector.xspress3.Xspress3Detector">
+		<property name="controller" ref="xspress3Controller" />
+		<property name="numberOfChannelsToRead" value="4" />
+		<property name="writeHDF5Files" value="true" />
+		<property name="defaultSubdirectory" value="nexus" />
+	</bean>
+
+	<bean id="xspress3FFI0" class="gda.device.detector.TfgFFoverI0">
+		<property name="xspress" ref="xspress3" />
+		<property name="i0_channel" value="-1" />
+		<property name="counterTimer" ref="ionchambers" />
+	</bean>
+
+	<bean id="xspress3FFI1" class="gda.device.detector.TfgFFoverI0">
+		<property name="xspress" ref="xspress3" />
+		<property name="counterTimer" ref="I1" />
+		<property name="i0_channel" value="-1" />
+		<property name="outputName" value="FFI1" />
+	</bean>
+
+</beans>

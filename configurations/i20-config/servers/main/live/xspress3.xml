@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- Xspress3 configuration added 7June 2019 -->
+	<bean id="xspress3Controller"
+		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
+		<property name="epicsTemplate" value="BL20I-EA-DET-06" />
+		<property name="numberOfChannels" value="4"/>
+		<property name="useNewEpicsInterface" value="true"/>
+	</bean>
+
+</beans>
