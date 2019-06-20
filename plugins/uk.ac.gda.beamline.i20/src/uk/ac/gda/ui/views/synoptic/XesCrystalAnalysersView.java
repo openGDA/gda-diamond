@@ -111,7 +111,11 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 	private Group createMotorControlGroup(Composite parent, SS[] motors, int numColumns) throws DeviceException {
 		// Controls for analyser crystal 1
 		Group group = new Group(parent, SWT.NONE);
-		group.setLayout(new GridLayout(numColumns, false));
+		GridLayout gridLayout = new GridLayout(numColumns, false);
+		gridLayout.marginHeight = -5;
+		gridLayout.verticalSpacing = -5;
+
+		group.setLayout(gridLayout);
 		for(SS motorName : motors) {
 			MotorControlsGui motorControls = new MotorControlsGui(group, scannableForType.get(motorName), false);
 			motorControls.getControls().setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
@@ -152,7 +156,7 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 		ScannablePositionGui radius = new ScannablePositionGui(group, "radius");
 		radius.createTextbox();
 
-		setWidgetPosition(group, 0,  90, 150);
+		setWidgetPosition(group, 0,  95, 150);
 	}
 
 	private void createEnumControl(Composite parent, String labelText, String positionerName) {
@@ -188,7 +192,7 @@ public class XesCrystalAnalysersView extends HardwareDisplayComposite {
 		createEnumControl(group, "Crystal  0", "centreCrystalAllowedToMove");
 		createEnumControl(group, "Crystal  1", "plusCrystalAllowedToMove");
 
-		setWidgetPosition(group, 100, 25);
+		setWidgetPosition(group, 100, 32);
 	}
 
 	private void createArrows(Composite parent) throws IOException {
