@@ -28,7 +28,6 @@ import gda.device.DeviceException;
 import gda.device.trajectoryscancontroller.TrajectoryScanController;
 import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteState;
 import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteStatus;
-import gda.device.zebra.ZebraAreaDetectorPreparer;
 import gda.device.zebra.ZebraGatePulsePreparer;
 import gda.device.zebra.controller.Zebra;
 import gda.factory.FactoryException;
@@ -61,11 +60,9 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	private boolean armZebraAtScanStart;
 	private boolean disarmZebraAtScanEnd;
 
-	private boolean useAreaDetector = false;
-	private ZebraAreaDetectorPreparer zebraAreaDetectorPreparer;
 	private TrajectoryScanPreparer trajectoryScanPreparer;
-
 	private ZebraGatePulsePreparer zebraGatePulsePreparer;
+
 	private double motorSpeedBeforeScan;
 
 	private long trajectoryScanInitialWaitTimeMs = 1000;
@@ -174,12 +171,6 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 			zebraGatePulsePreparer.setFromParameters(motorParameters);
 			zebraGatePulsePreparer.configureZebra();
 		}
-
-		// Configure the area detector settings
-		if (useAreaDetector && zebraAreaDetectorPreparer != null) {
-			int totNumReadoutsForScan = zebraGatePulsePreparer.getNumReadoutsForScan() * zebraGatePulsePreparer.getNumGates();
-			zebraAreaDetectorPreparer.configure(totNumReadoutsForScan);
-		}
 	}
 
 	public void setConfigZebraDuringPrepare( boolean configZebraDuringPrepare) {
@@ -267,20 +258,14 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 			if ( armZebraAtScanStart ) {
 				logger.info("Arming Zebra(s) at start of scan");
 				armZebra();
-
-				// Arm the area detector
-				if (useAreaDetector && zebraAreaDetectorPreparer != null) {
-					zebraAreaDetectorPreparer.arm();
-				}
-
-			} else
+			} else {
 				logger.info("Skipping arm at scan start");
+			}
 
 			while (isBusy()) {
 				logger.info("Waiting for turbo slit to finish moving to runup position");
 				Thread.sleep(20);
 			}
-
 
 			double finalPosition = motorParameters.getEndPosition();
 			if (twoWayScan) {
@@ -407,45 +392,6 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	public void stop() throws DeviceException {
 		super.stop();
 		atScanEnd();
-	}
-
-	public void setUseAreaDetector(boolean useAreaDetector) throws Exception {
-		this.useAreaDetector = useAreaDetector;
-		if (useAreaDetector) {
-			zebraAreaDetectorPreparer = makeZebraAreaDetectorPreparer();
-		} else
-			zebraAreaDetectorPreparer = null;
-	}
-
-	public void setAreaDetectorPreparer(ZebraAreaDetectorPreparer preparer) {
-		zebraAreaDetectorPreparer = preparer;
-		if (preparer != null) {
-			useAreaDetector = true;
-		} else {
-			useAreaDetector = false;
-		}
-	}
-
-	public ZebraAreaDetectorPreparer getAreaDetectorPreparer() {
-		return zebraAreaDetectorPreparer;
-	}
-
-	/** Make default area detector preparer for i20-1 zebra
-	 * This is is for testing purposes only, so set hdf file path to the tmp directory.
-	 * To change how it's set up (e.g. in script), just make
-	 * a new ZebraAreaDector object and pass it in via. {@link #setAreaDetectorPreparer(ZebraAreaDetectorPreparer)}.
-	 */
-	private ZebraAreaDetectorPreparer makeZebraAreaDetectorPreparer() throws Exception {
-		String zebraPv = zebraDevice1.getZebraPrefix();
-		String dataDir = "/dls/i20-1/data/2016/cm14479-4/tmp/";
-		String fileName = "test";
-		ZebraAreaDetectorPreparer preparer = new ZebraAreaDetectorPreparer(zebraPv);
-		preparer.setFileDirectory(dataDir);
-		preparer.setFilename(fileName);
-		preparer.setCamPvSuffix(""); // Normal area detectors use "CAM:"
-		preparer.setHdfPvSuffix("HDF:"); // NB Normal area detectors use "HDF5:"
-		preparer.setFilenameTemplate("%s%s%d.hdf");
-		return preparer;
 	}
 
 	public ZebraGatePulsePreparer getZebraGatePulsePreparer() {

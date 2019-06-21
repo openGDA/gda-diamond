@@ -78,7 +78,6 @@ public class TurboXasScan extends ContinuousScan {
 	private TurboXasMotorParameters turboXasMotorParams;
 	private TurboXasScannable turboSlit;
 
-	private boolean useAreaDetector = false;
 	private boolean doTrajectoryScan = false;
 	private boolean useXspress3SwmrReadout = true;
 	private boolean twoWayScan = false;
@@ -331,7 +330,6 @@ public class TurboXasScan extends ContinuousScan {
 		logger.info("Setting up scan using TurboXasScannable ({})", turboXasScannable.getName());
 
 		// Set area detector flag (for timing, encoder position information)
-		turboXasScannable.setUseAreaDetector(useAreaDetector);
 		turboXasScannable.setMotorParameters(turboXasMotorParams);
 		turboXasScannable.setTwoWayScan(twoWayScan);
 		// Calculate motor parameters for first timing group (i.e. positions and num readouts for spectrum)
@@ -706,14 +704,6 @@ public class TurboXasScan extends ContinuousScan {
 
 	public TurboXasMotorParameters getTurboXasMotorParams() {
 		return turboXasMotorParams;
-	}
-
-	public void setUseAreaDetector(boolean useAreaDetector) {
-		this.useAreaDetector = useAreaDetector;
-	}
-
-	public boolean getUseAreaDetector() {
-		return useAreaDetector;
 	}
 
 	public boolean getDoTrajectoryScan() {
