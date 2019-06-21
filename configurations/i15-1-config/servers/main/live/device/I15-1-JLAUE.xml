@@ -6,21 +6,25 @@
 	<bean id="xtalY_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15J-OP-LAUE-01:Y" />
+		<property name="checkMissedTarget" value="true" />
 	</bean>
 
 	<bean id="xtalRoll_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15J-OP-LAUE-01:ROLL" />
+		<property name="checkMissedTarget" value="true" />
 	</bean>
 
 	<bean id="xtalYaw_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15J-OP-LAUE-01:YAW" />
+		<property name="checkMissedTarget" value="true" />
 	</bean>
 
 	<bean id="xtalBragg_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15J-OP-LAUE-01:PITCH" />
+		<property name="checkMissedTarget" value="true" />
 	</bean>
 
 	<bean id="xtalFine_motor"
@@ -29,6 +33,7 @@
 	<bean id="xtalBend_motor"
 			class="gda.device.motor.EpicsMotor">
 		<property name="pvName" value="BL15J-OP-LAUE-01:BENDER" />
+		<property name="checkMissedTarget" value="true" />
 	</bean>
 
 	<bean id="xtalFocus_motor"
