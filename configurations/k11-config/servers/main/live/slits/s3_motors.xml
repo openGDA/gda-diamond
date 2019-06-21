@@ -24,7 +24,7 @@
 	</bean>
 
 	<bean id="s3_xcentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11K-MO-SLITS-03:X:CEN" />
+		<property name="pvName" value="BL11K-MO-SLITS-03:X:CENTRE" />
 	</bean>
 
 	<bean id="s3_ysize_motor" class="gda.device.motor.EpicsMotor">
@@ -32,6 +32,6 @@
 	</bean>
 
 	<bean id="s3_ycentre_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL11K-MO-SLITS-03:Y:CEN" />
+		<property name="pvName" value="BL11K-MO-SLITS-03:Y:CENTRE" />
 	</bean>
 </beans>
