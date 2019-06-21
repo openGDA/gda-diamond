@@ -40,6 +40,7 @@ mcts=scannables.MerlinColourModeThresholdsScannable.MerlinColourModeThresholdsSc
 from localStationScripts.detector_scan_commands import * # @UnusedWildImport
 from localStationScripts.user_commands import * # @UnusedWildImport
 from localStationScripts.centreProxy import * # @UnusedWildImport
+from mapping_scan_commands import *
 
 from gda.epics import CAClient
 
