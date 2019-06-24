@@ -378,7 +378,7 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
     def getTimeToVelocity(self):
         return self._pgm_runupdown_time
 
-    # Override: public abstract class DeviceBase implements Device, ConditionallyConfigurable, Localizable
+    # Override: public abstract class DeviceBase extends ConfigurableBase implements Device
 
         # None needed
 
