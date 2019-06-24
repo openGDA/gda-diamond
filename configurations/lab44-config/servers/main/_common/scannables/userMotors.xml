@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- PEEM line User Motors U1 Motors -->
+	<bean id="u1i" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR1_U1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="u2i" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR2_U1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="u3i" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR3_U1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="u4i" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR4_U1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="u5i" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR5_U1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="u6i" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorMTR6_U1" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="U1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="u1i" />
+				<ref bean="u2i" />
+				<ref bean="u3i" />
+				<ref bean="u4i" />
+				<ref bean="u5i" />
+				<ref bean="u6i" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+</beans>

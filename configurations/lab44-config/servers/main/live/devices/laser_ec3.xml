@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Laser 2 (Legend) devices -->
+	<!-- BPM3 -->
+	<bean id="bpm23x" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">-0.250</value>
+		</property>
+		<property name="lowerLimit" value="-10.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.1" />
+	</bean>	
+	<bean id="bpm23y" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">-1.0</value>
+		</property>
+		<property name="lowerLimit" value="-10.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.1" />
+	</bean>	
+	<bean id="bpm23pow" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">6.4210</value>
+		</property>
+		<property name="lowerLimit" value="0.0" />
+		<property name="upperLimit" value="10.0" />
+		<property name="increment" value="0.1" />
+	</bean>	
+	
+	<!-- Fast Steering mirror 3 -->
+	<bean id="MotorX_LFSM23" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="10" />
+		<property name="speed" value="0.0001" />
+	</bean>
+
+	<bean id="MotorY_LFSM23" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="10" />
+		<property name="speed" value="0.0001" />
+	</bean>
+
+	<!-- Control Points that control the Laser Stabilisation System Motor's Set Point -->
+
+	<bean id="fsm23xfsp" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="-1.0" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>	
+	<bean id="fsm23yfsp" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="-0.25" />
+		<property name="outputFormat">
+			<array value-type="java.lang.String">
+				<value>%5.2f</value>
+			</array>
+		</property>
+	</bean>	
+
+	<bean id="lstr1" class="gda.device.enumpositioner.DummyEnumPositioner">
+		<property name="positions">
+			<list>
+				<value>Open</value>
+				<value>Close</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Waveplate 2 -->
+	<bean id="wp33_motor" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-999999999.0" />
+		<property name="maxPosition" value="999999999.0" />
+		<property name="speed" value="10.0" />
+	</bean>
+	
+</beans>

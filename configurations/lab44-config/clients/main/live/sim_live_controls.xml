@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="simExposureTime" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquireTime"/>
+		<property name="useNameAsInputName" value="true"/>
+		<property name="hasUnits" value="false"/>
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="simAcquirePeriod" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:AcquirePeriod"/>
+		<property name="useNameAsInputName" value="true"/>	
+		<property name="hasUnits" value="false"/>	
+		<property name="outputFormat">
+			<list>
+				<value>%4.3f</value>
+			</list>
+		</property>	
+	</bean>
+	<!-- there is no EPICS simulation for the following beans -->
+	<bean id="simRotationAngle" class="gda.device.scannable.DummyScannable">
+		<property name="outputFormat">
+			<list>
+				<value>%4.1f</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="simProcNumFilter" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:NumFilter"/>
+		<property name="useNameAsInputName" value="true"/>
+		<property name="hasUnits" value="false"/>	
+		<property name="outputFormat">
+			<list>
+				<value>%2d</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="sim_proc_reset_filter" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:ResetFilter"/>
+		<property name="useNameAsInputName" value="true"/>
+		<property name="hasUnits" value="false"/>	
+		<property name="outputFormat">
+			<list>
+				<value>%1d</value>
+			</list>
+		</property>	
+	</bean>
+	<bean id="simProcNumFilterWithResetBefore" class="gda.device.scannable.BeforeAfterScannable">
+		<property name="delegate" ref="simProcNumFilter"/>
+		<property name="beforeAfter" ref="sim_proc_reset_filter"/>
+		<property name="before" value="1"/>
+		<property name="after"><null/></property>
+		<property name="delayBeforeMovingDelegate" value="200"/>
+		<property name="outputFormat" value="#{simProcNumFilter.getOutputFormat()}"/>
+	</bean>
+</beans>

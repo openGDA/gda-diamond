@@ -1,0 +1,20 @@
+[Desktop Entry]
+Comment=
+Comment[en_GB]=
+Encoding=UTF-8
+Exec=/dls_sw/i06/software/gda/bin/sda.sh
+GenericName=SDA version 0.8
+GenericName[en_GB]=SDA version 0.8
+Icon=/dls_sw/i06/software/gda/workspace_git/gda-diamond.git/configurations/i06-config/Desktop/icons/sdalogo.png
+MimeType=
+Name=SDA 0.8
+Name[en_GB]=SDA 0.8
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=\s--noclose
+Type=Application
+X-DCOP-ServiceType=none
+X-KDE-SubstituteUID=false
+X-KDE-Username=
+Categories=X-ogda;

@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- Medipix plugins -->
+	<bean id="medipix_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="TS-TS-MPX3-01:SIM:" />
+	</bean>
+	<bean id="medipix_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="TS-TS-MPX3-01:PROC:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="TS-TS-MPX3-01:PROC:" />
+				<property name="initialArrayPort" value="SIM.SIM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="medipix_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+		<property name="basePVName" value="TS-TS-MPX3-01:STAT:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="TS-TS-MPX3-01:STAT:" />
+				<property name="initialArrayPort" value="SIM.SIM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="medipix_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+		<property name="basePVName" value="TS-TS-MPX3-01:ARR:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="TS-TS-MPX3-01:ARR:" />
+				<property name="initialArrayPort" value="SIM.SIM" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="medipix_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="TS-TS-MPX3-01:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="TS-TS-MPX3-01:HDF5:" />
+				<property name="initialArrayPort" value="SIM.SIM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="medipix" />
+		<property name="initialFileTemplate" value="%s%s-%d.hdf" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+	<bean id="medipix_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="TS-TS-MPX3-01:HDF5:" />
+		<property name="file" ref="medipix_ndfile" />
+	</bean>
+	<bean id="medipix_tiffile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="TS-TS-MPX3-01:TIFF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="TS-TS-MPX3-01:TIFF:" />
+				<property name="initialArrayPort" value="SIM.SIM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="medipix" />
+		<property name="initialFileTemplate" value="%s%s_%05d.tif" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="medipix_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/medipixRoi" />
+		<property name="service" ref="medipix_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<!-- ROI-STAT pairs for Live Stream View -->
+	<bean id="medipix_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="medipix_RoiStats1" />
+		<property name="baseRoiPVName" value="TS-TS-MPX3-01:ROI1:" />
+		<property name="baseStatsPVName" value="TS-TS-MPX3-01:STAT1:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="SIM.SIM" />
+		<property name="enabledBasicStats" value="MeanValue" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="medipix_roi" />
+				<property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+			</bean>
+		</property>
+	</bean>
+	<bean id="medipix_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="medipix_RoiStats2" />
+		<property name="baseRoiPVName" value="TS-TS-MPX3-01:ROI2:" />
+		<property name="baseStatsPVName" value="TS-TS-MPX3-01:STAT2:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="SIM.SIM" />
+		<property name="enabledBasicStats" value="MeanValue" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="medipix_roi" />
+				<property name="index" value="1" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="medipix_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="medipix_RoiStats3" />
+		<property name="baseRoiPVName" value="TS-TS-MPX3-01:ROI3:" />
+		<property name="baseStatsPVName" value="TS-TS-MPX3-01:STAT3:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="SIM.SIM" />
+		<property name="enabledBasicStats" value="MeanValue" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="medipix_roi" />
+				<property name="index" value="2" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="medipix_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="medipix_RoiStats4" />
+		<property name="baseRoiPVName" value="TS-TS-MPX3-01:ROI4:" />
+		<property name="baseStatsPVName" value="TS-TS-MPX3-01:STAT4:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="SIM.SIM" />
+		<property name="enabledBasicStats" value="MeanValue" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="medipix_roi" />
+				<property name="index" value="3" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="medipix_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="medipix_RoiStats5" />
+		<property name="baseRoiPVName" value="TS-TS-MPX3-01:ROI5:" />
+		<property name="baseStatsPVName" value="TS-TS-MPX3-01:STAT5:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="SIM.SIM" />
+		<property name="enabledBasicStats" value="MeanValue" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="medipix_roi" />
+				<property name="index" value="4" />
+			</bean>
+		</property>
+	</bean>
+	<bean id="medipix_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="medipix_RoiStats6" />
+		<property name="baseRoiPVName" value="TS-TS-MPX3-01:ROI6:" />
+		<property name="baseStatsPVName" value="TS-TS-MPX3-01:STAT6:" />
+		<property name="legacyTSpvs" value="false"/>
+		<property name="roiInputNdArrayPort" value="SIM.SIM" />
+		<property name="enabledBasicStats" value="MeanValue" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+				<property name="liveStreamRoiProvider" ref="medipix_roi" />
+				<property name="index" value="5" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- collection strategy and decorator chain -->
+	<bean id="softstatrstop" class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+		<property name="adBase" ref="medipix_adbase" />
+		<property name="restoreAcquireState" value="true" />
+		<property name="stopAquiringInPreparation" value="true" />
+	</bean>
+	<bean id="kbRasteringPeriod" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+		<!-- Hytec  -->
+<!-- 		<property name="pvName" value="BL06I-OP-KBM-01:VFM:FPITCH:FREQ" />  -->
+<!--    		<property name="expression" value="1/#acquireTime lt 10.0 ? 1/#acquireTime : 10.0"/> -->
+   		<!-- Keysight33500B Channel2 -->
+		<property name="pvName" value="BL06I-EA-SGEN-01:PERIOD" />
+   		<property name="expression" value="#acquireTime gt 0.1 ? #acquireTime : 0.1"/>
+		<property name="enabled" value="true" />
+		<property name="restorePvValue" value="true" />
+		<property name="decoratee" ref="softstatrstop"/>
+	</bean>
+	<!-- Acquisition or data collection -->
+	<bean id="medipixCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="imageMode" value="0" /> <!-- Single image mode -->
+				<property name="decoratee">
+					<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+						<property name="restoreAcquireTime" value="true" />
+						<property name="restoreAcquirePeriod" value="true" />
+						<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
+						<property name="decoratee">
+							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+								<property name="restoreTriggerMode" value="true" />
+								<property name="triggerMode" value="0" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
+								<property name="decoratee" ref="softstatrstop" />
+							</bean>				
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="medipixMultipleCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="imageMode" value="1" /> <!-- multiple image mode -->
+				<property name="decoratee">
+					<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+						<property name="restoreAcquireTime" value="true" />
+						<property name="restoreAcquirePeriod" value="true" />
+						<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
+						<property name="decoratee">
+							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+								<property name="restoreTriggerMode" value="true" />
+								<property name="triggerMode" value="0" /> <!-- Auto trigger mode -->
+								<property name="decoratee" ref="softstatrstop" />
+							</bean>				
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- Imaging -->
+	<bean id="medipixImagingCollectionStrategy"  class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="imageMode" value="2" /> <!-- possible modes: {0:Single,1:Multiple,2:Continuous,3:Threshold,4:Background} -->
+				<property name="decoratee">
+					<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+						<property name="restoreAcquireTime" value="true" />
+						<property name="restoreAcquirePeriod" value="true" />
+						<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
+						<property name="decoratee">
+							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+								<property name="restoreTriggerMode" value="true" />
+								<property name="triggerMode" value="0" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
+										<property name="decoratee" ref="softstatrstop" />
+							</bean>				
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!--Preview -->
+	<bean id="medipixPreviewCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
+		<property name="ndArray" ref="medipix_ndarray"/>
+		<property name="arrayPortName" value="mpxview.PROC"/>
+		<property name="decoratee">
+			<bean id="medipixprocbfilter" class="gda.device.detector.addetector.collectionstrategy.ProcessFilterDecorator">
+				<property name="restoreState" value="true"/>
+				<property name="ndProcess" ref="medipix_proc"/>
+				<property name="processDataTypeOut">
+					<util:constant static-field="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin.DataType.UINT16"/>
+				</property>
+				<property name="outputEveryArray" value="true"/>
+				<property name="resetFilterAtStart" value="true"/>
+				<property name="autoReset" value="false"/>
+				<property name="filterType" value="0"/>
+				<property name="numberOfImagesToFilter" value="3"/>
+				<property name="enableFilter" value="true"/>
+				<property name="enableNumFilter" value="false"/>
+				<property name="decoratee">
+					<bean id="medipiximagemode_Continuous" class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+						<property name="restoreNumImagesAndImageMode" value="true"/>
+						<property name="imageMode" value="2"/> <!-- possible modes: {0:Single,1:Multiple,2:Continuous,3:Threshold,4:Background} -->
+						<property name="decoratee">
+							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+								<property name="restoreTriggerMode" value="true"/>
+								<property name="triggerMode" value="0"/>
+								<property name="decoratee">
+									<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+										<property name="restoreAcquireTime" value="true"/>
+										<property name="restoreAcquirePeriod" value="true"/>
+										<property name="acquirePeriodExpression" value="#acquireTime + 0.005"/>
+										<property name="decoratee" ref="softstatrstop"/>
+									</bean>
+								</property>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<!-- for zacscan - external triggered mode -->
+	<bean id="zacmedipixCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ArrayPortDecorator">
+		<property name="ndArray" ref="medipix_ndarray"/>
+		<property name="arrayPortName" value="SIM.SIM"/>
+		<property name="decoratee">
+			<bean id="medipiximagemode_Multiple" class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true" />
+				<property name="imageMode" value="1" /> <!-- possible modes: {0:Single,1:Multiple,2:Continuous,3:Threshold,4:Background} -->
+				<property name="decoratee">
+					<bean id="medipixtriggermode_PositiveExtTimer" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+						<property name="restoreTriggerMode" value="true" />
+						<property name="triggerMode" value="3" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
+						<property name="decoratee">
+							<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+								<property name="restoreAcquireTime" value="true" />
+								<property name="restoreAcquirePeriod" value="true" />
+								<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
+								<property name="decoratee" ref="softstatrstop" />
+							</bean>
+						</property>
+					</bean>				
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- scannable to set medipix PROC average number of images -->
+	<bean id="medipixAverage" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="TS-TS-MPX3-01:PROC:NumFilter" />
+		<property name="useNameAsInputName" value="true" />
+		<property name="hasUnits" value="false" />
+	</bean>
+</beans>

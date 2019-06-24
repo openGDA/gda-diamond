@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>lab44-config</name>
+	<comment></comment>
+	<projects>
+		<project>i06-shared</project>
+		<project>uk.ac.diamond.daq.detectors.addetector</project>
+		<project>uk.ac.diamond.daq.detectors.addetector.api</project>
+		<project>uk.ac.diamond.scisoft.python</project>
+		<project>uk.ac.gda.beamline.i06</project>
+		<project>uk.ac.gda.client.live.stream</project>
+		<project>uk.ac.gda.client.live.stream.controls</project>
+		<project>uk.ac.gda.common</project>
+		<project>uk.ac.gda.common.rcp</project>
+		<project>uk.ac.gda.core</project>
+		<project>uk.ac.gda.devices.pco</project>
+		<project>uk.ac.gda.dls.client</project>
+		<project>uk.ac.gda.epics</project>
+		<project>uk.ac.gda.epics.adviewer</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.python.pydev.PyDevBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.springframework.ide.eclipse.core.springbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.springframework.ide.eclipse.core.springnature</nature>
+		<nature>org.python.pydev.pythonNature</nature>
+	</natures>
+</projectDescription>

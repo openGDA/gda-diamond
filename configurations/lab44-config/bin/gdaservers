@@ -1,0 +1,20 @@
+#!/bin/bash
+# 
+# Since GDA 9 the gdaservers script allows selection and latching of the server target to start
+# see http://confluence.diamond.ac.uk/display/CT/Deployment%2C+Target+Selection+and+Startup for details
+# this is achieved via the gda_server_target_select.sh script.
+#
+# Entering gdaservers --help (-h) will give details of the options available (also via gda_server_target_select.sh).
+
+module load dasctools
+activemq-for-dummy
+
+gda --start logpanel
+
+export GDA_WORKSPACE_PARENT=$(readlink -f ${here_dir}/../../../../..)
+GDA_VAR=$(readlink -f $GDA_WORKSPACE_PARENT/../var)
+export OBJECT_SERVER_STARTUP_FILE=$GDA_VAR/object_server_startup_server_main
+rm -f $OBJECT_SERVER_STARTUP_FILE
+
+gda --restart servers $*
+

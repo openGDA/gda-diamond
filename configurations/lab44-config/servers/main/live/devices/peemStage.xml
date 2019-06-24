@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- PEEM line PEEM Manipulating Stage Motors -->
+	<bean id="MotorPEEMStage_X" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-4.00000" />
+		<property name="maxPosition" value="4.30000" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorPEEMStage_Y" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-7.000000" />
+		<property name="maxPosition" value="4.600000" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+	<bean id="MotorPEEMStage_phi" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-35.75000" />
+		<property name="maxPosition" value="178.7500" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="deg"/>
+	</bean>
+
+</beans>

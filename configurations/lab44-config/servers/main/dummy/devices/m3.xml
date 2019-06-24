@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- M3 Hexapod Legs Control Point -->
+	<bean id="m3leg1" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="738.300" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="m3leg2" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="738.300" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="m3leg3" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="738.300" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="m3leg4" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="738.300" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="m3leg5" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="738.300" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="m3leg6" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="738.300" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<!-- Focusing Mirrow M3 Motors -->
+	<bean id="MotorX_M3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10" />
+		<property name="maxPosition" value="10" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorY_M3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10" />
+		<property name="maxPosition" value="10" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorZ_M3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10" />
+		<property name="maxPosition" value="10" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorYaw_M3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-35000.0" />
+		<property name="maxPosition" value="35000.0" />
+		<property name="speed" value="10" />
+	</bean>
+
+	<bean id="MotorPitch_M3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-35000.0" />
+		<property name="maxPosition" value="35000.0" />
+		<property name="speed" value="10" />
+	</bean>
+
+	<bean id="MotorRoll_M3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10000.0" />
+		<property name="maxPosition" value="10000.0" />
+		<property name="speed" value="10" />
+	</bean>
+
+	<bean id="MotorFinePitch_M3" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0" />
+		<property name="maxPosition" value="10.0" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="V"/>
+	</bean>
+
+</beans>

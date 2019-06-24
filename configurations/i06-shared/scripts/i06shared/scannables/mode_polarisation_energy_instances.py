@@ -12,6 +12,7 @@ from i06shared.scannables.offsetHarmonic import HarmonicOffset
 import __main__  # @UnresolvedImport
 from i06shared import installation
 import math
+from gda.configuration.properties import LocalProperties
 
 GAP_LIMIT=99.0
 RAW_PHASE_MOTOR_TOLERANCE=1.0
@@ -82,7 +83,9 @@ def initialisation():
     else:
         __main__.smode.mode=SourceMode.SOURCE_MODES[4]
 
-if installation.isLive():
+beamline = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
+
+if installation.isLive() and beamline != "lab44":
     __main__.smode=SourceMode('smode', defaultmode=SourceMode.SOURCE_MODES[4])
     __main__.offhar=HarmonicOffset('offhar', __main__.smode, __main__.iddpol, __main__.idupol,__main__.iddrpenergy,__main__.idurpenergy, __main__.pgmenergy, offhar=0.0)
     __main__.pol=Polarisation('pol', __main__.iddpol, __main__.iddrpenergy, __main__.iddgap, __main__.idupol, __main__.idurpenergy, __main__.idugap, __main__.pgmenergy, __main__.smode,__main__.offhar, detune=100.0, opengap=100.0,defaultPolarisation=Polarisation.POLARISATIONS[5])

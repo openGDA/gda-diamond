@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="M3LEGS" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m3leg1" />
+				<ref bean="m3leg2" />
+				<ref bean="m3leg3" />
+				<ref bean="m3leg4" />
+				<ref bean="m3leg5" />
+				<ref bean="m3leg6" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+	<!-- Focusing Mirror M3 -->
+	<bean id="m3x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorX_M3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m3y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorY_M3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m3z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorZ_M3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m3roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorRoll_M3" />
+		<property name="protectionLevel" value="0" />
+	</bean>
+	<bean id="m3yaw" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYaw_M3" />
+		<property name="protectionLevel" value="0" />
+	</bean>
+	<bean id="m3pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorPitch_M3" />
+		<property name="protectionLevel" value="0" />
+	</bean>
+	<bean id="m3qg" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorFinePitch_M3" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+	
+	<bean id="M3" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m3x" />
+				<ref bean="m3y" />
+				<ref bean="m3z" />
+				<ref bean="m3roll" />
+				<ref bean="m3yaw" />
+				<ref bean="m3pitch" />
+				<ref bean="m3qg" />
+
+				<ref bean="m3leg1" />
+				<ref bean="m3leg2" />
+				<ref bean="m3leg3" />
+				<ref bean="m3leg4" />
+				<ref bean="m3leg5" />
+				<ref bean="m3leg6" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+</beans>

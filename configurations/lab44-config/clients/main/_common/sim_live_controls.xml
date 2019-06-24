@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd ">
+
+	<!-- sim camera control -->
+	<bean id="sim_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure" />
+		<property name="group" value="sim Acquire Time" />
+		<property name="scannableName" value="simExposureTime" />
+		<property name="textWidth" value="35"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="sim_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Period" />
+		<property name="group" value="sim Acquire Time" />
+		<property name="scannableName" value="simAcquirePeriod" />
+		<property name="textWidth" value="35"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="sim_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="NumFilter" />
+		<property name="group" value="sim PROC" />
+		<property name="scannableName" value="simProcNumFilterWithResetBefore" />
+		<property name="textWidth" value="30" />
+		<property name="userUnits" value=""/>
+	</bean>
+
+	<!-- sim mode control -->
+	<bean id="simpreview" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="simpreview.stop();sleep(1);simpreview.getCollectionStrategy().prepareForCollection(0.1, 3, None); simpreview.collectData()" />
+		<property name="buttonText" value="Preview" />
+		<property name="group" value="sim Mode" />
+	</bean>
+	<bean id="simimaging" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="simimaging.stop();sleep(1);simimaging.getCollectionStrategy().prepareForCollection(0.1, 1, None); simimaging.collectData()" />
+		<property name="buttonText" value="Imaging" />
+		<property name="group" value="sim Mode" />
+	</bean>
+
+	<!-- sim image rotation control -->
+	<bean id="sim_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Rot.Ang" />
+		<property name="group" value="sim Rotation" />
+		<property name="scannableName" value="simRotationAngle" />
+		<property name="textWidth" value="30" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="simunrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="sim_unrotate()" />
+		<property name="buttonText" value="Unrotate" />
+		<property name="group" value="sim Rotation" />
+	</bean>
+	<bean id="simrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="sim_rotate()" />
+		<property name="buttonText" value="Rotate" />
+		<property name="group" value="sim Rotation" />
+	</bean>
+
+	<bean id="simCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+		<property name="cameraConfig" ref="sim_cam"/>
+		<property name="stateVariableName" value="i06.sim.live.stream.active"/>
+	</bean>
+	<bean id="simControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
+		<property name="customWidget">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
+				<property name="liveControls">
+					<list>
+						<ref bean="sim_expsure_time_control" />
+						<ref bean="sim_acquire_period_control"/>
+						<ref bean="simpreview" />
+						<ref bean="simimaging" />
+						<ref bean="sim_proc_num_filter_control" />
+						<ref bean="sim_image_rotation_angle_control" />
+						<ref bean="simunrotate"/>
+						<ref bean="simrotate"/>
+					</list>
+				</property>
+				<property name="cameraState" ref="simCameraState"/>
+			</bean>
+		</property>
+	</bean>
+</beans>

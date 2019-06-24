@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- PEEM line User Motors U1 Motors -->
+	<bean id="MotorMTR1_U1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100" />
+		<property name="maxPosition" value="100" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorMTR2_U1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100" />
+		<property name="maxPosition" value="100" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorMTR3_U1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100" />
+		<property name="maxPosition" value="100" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorMTR4_U1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100" />
+		<property name="maxPosition" value="100" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorMTR5_U1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100" />
+		<property name="maxPosition" value="100" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorMTR6_U1" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-100" />
+		<property name="maxPosition" value="100" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+</beans>

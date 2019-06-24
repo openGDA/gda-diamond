@@ -205,6 +205,73 @@
             </visibleWhen>
          </command>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:uk.ac.gda.beamline.i06.sim.live.stream.view.LiveStreamViewWithHistogram">
+         <command
+               commandId="uk.ac.gda.client.live.stream.snapshotcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream/icons/camera.png"
+               label="Snapshot"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activePartId">
+                  <equals
+                        value="uk.ac.gda.beamline.i06.sim.live.stream.view.LiveStreamViewWithHistogram">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.startcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_play_blue.png"
+               label="Start"
+               style="push"
+               tooltip="Start camera acquisition">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i06.sim.live.stream.active">
+                  <equals
+                        value="STOPPED">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.stopcommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_stop_blue.png"
+               label="Stop"
+               style="push"
+               tooltip="Stop camera acquisition">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i06.sim.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="uk.ac.gda.client.live.stream.controls.freezecommand"
+               icon="platform:/plugin/uk.ac.gda.client.live.stream.controls/icons/control_freeze_blue.png"
+               label="Freeze"
+               style="toggle"
+               tooltip="Enable/disable image update">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="i06.sim.live.stream.active">
+                  <equals
+                        value="RUNNING">
+                  </equals>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.services">
@@ -212,6 +279,10 @@
             provider="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
          <variable
                name="i06.medipix.live.stream.active"
+               priorityLevel="workbench">
+         </variable>
+         <variable
+               name="i06.sim.live.stream.active"
                priorityLevel="workbench">
          </variable>
       </sourceProvider>
@@ -275,6 +346,46 @@
       <startup
             class="uk.ac.gda.beamline.i06.EarlyStartup">
       </startup>
+   </extension>
+   <extension
+         id="dummy_product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="uk.ac.gda.client.application"
+            name="uk.ac.gda.beamline.i06.dummy.product">
+         <property
+               name="windowImages"
+               value="platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo16.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo32.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo48.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo64.png,platform:/plugin/uk.ac.gda.core/icons/GDAlogos/GDALogo128.png">
+         </property>
+         <property
+               name="aboutText"
+               value="GDA for DLS Beamone i06.">
+         </property>
+         <property
+               name="aboutImage"
+               value="icons/schematic_I06_sm.png">
+         </property>
+         <property
+               name="startupForegroundColor"
+               value="000000">
+         </property>
+         <property
+               name="startupProgressRect"
+               value="2,215,598,15">
+         </property>
+         <property
+               name="startupMessageRect"
+               value="4,195,598,20">
+         </property>
+         <property
+               name="appName"
+               value="uk.ac.gda.beamline.i06.dummy.product">
+         </property>
+         <property
+               name="preferenceCustomization"
+               value="plugin_customization.ini">
+         </property>
+      </product>
    </extension>
 
 </plugin>

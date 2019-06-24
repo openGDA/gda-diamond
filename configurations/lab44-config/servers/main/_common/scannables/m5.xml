@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- KB Mirrors M4 (VFM) / M5 -->
+	<bean id="m5pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorVFMPitch_M5" />
+		<property name="protectionLevel" value="0" />
+	</bean>
+		<bean id="m5fpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorVFMFinePitch_M5" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+	<bean id="m5bend1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorVFMBender1_M5" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="N" />
+		<property name="hardwareUnitString" value="N" />
+	</bean>
+	<bean id="m5bend2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorVFMBender2_M5" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="N" />
+		<property name="hardwareUnitString" value="N" />
+	</bean>
+	<bean id="M5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m5pitch" />
+				<ref bean="m5fpitch"/>
+				<ref bean="m5bend1" />
+				<ref bean="m5bend2" />
+				<ref bean="m5bend1g" />
+				<ref bean="m5bend2g" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+</beans>

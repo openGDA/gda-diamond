@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<import resource="../../../../i06-shared/servers/main/dummy/server.xml" /> <!-- live must use i06-shared dummy-->
+	<import resource="devices/_all_devices.xml" />
+
+	<!-- do not remove anything below here -->
+	<import resource="../_common/server.xml" />
+
+</beans>

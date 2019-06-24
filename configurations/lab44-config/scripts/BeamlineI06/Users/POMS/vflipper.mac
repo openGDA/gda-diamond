@@ -1,0 +1,125 @@
+in command
+
+if (size(VFLIPPERpos)==-1); 
+   global VFLIPPERpos[7];						%% array to save input parameters
+   global VFLIPPERcnt0[6] VFLIPPERcnt1[6];			%% arrays for counter-timer channels
+end;
+
+local$ fieldVM="vmag" timerVM="twv";			%% external VMs used
+local simulation;
+%% simulation mode sets any simulator VMs
+simulate = simulation;
+if simulation;
+   fieldVM="vmagd" 
+   timerVM="toct";
+end;
+
+if strcmp(command,"gettype")==0;
+   out1=3.5;
+
+elseif strcmp(command,"getiname")==0;
+   out1="field       theta1      theta2      phi1        phi2        time        zeroRestTim "
+
+elseif strcmp(command,"getofmt")==0;
+   out1="%12.4lf %12.2lf %12.2lf %12.2lf %12.2lf %12.1lf %12.1lf %12.1lf %12.2lf %12.2lf %12.2lf %12.2lf %12.2lf %13.9lf %13.9lf %13.9lf %13.9lf %12.8lf %12.8lf";
+
+elseif strcmp(command,"getoname")==0;
+   out1="       field      theta1      theta2        phi1        phi2        time zeroRestTim         I01         I02         Id1         Id2         It1         It2      Id1/I01      Id2/I02      It1/I01      It2/I02        diff       diffT"
+
+elseif strcmp(command,"getounit")==0;
+   out1="Tes deg deg deg deg sec sec cnts cnts cnts cnts cnts cnts ratio ratio ratio ratio diff diff";
+
+% build output array from input saved values and 2 counter-timer arrays
+elseif strcmp(command,"getpos")==0;
+   local j;
+   for j=1 size(VFLIPPERpos);
+      out1[j]=VFLIPPERpos[j];
+   end;
+   out1[8]=VFLIPPERcnt0[2];	 %% I01
+   out1[9]=VFLIPPERcnt1[2];    %% I02
+   out1[10]=VFLIPPERcnt0[3];   %% Id1
+   out1[11]=VFLIPPERcnt1[3];   %% Id2
+   out1[12]=VFLIPPERcnt0[4];   %% It1
+   out1[13]=VFLIPPERcnt1[4];   %% It2
+   out1[14]=VFLIPPERcnt0[5];   %% Id1/I01
+   out1[15]=VFLIPPERcnt1[5];   %% Id2/I02
+   out1[16]=VFLIPPERcnt0[6];   %% It1/I01
+   out1[17]=VFLIPPERcnt1[6];   %% It2/I02
+   out1[18]=out1[15]-out1[14]; %% Id2/I02 - Id1/I01
+   out1[19]=out1[17]-out1[16]; %% It2/I02 - It1/I01
+
+elseif strcmp(command,"getstat")==0;
+  out1=0;
+end;
+
+if strcmp(command,"moveto")==0;
+   local maxField=0.92 j nInputs=size(in2) iret;
+   local$ cmd;
+   if in2[1]>maxField;
+      print "!!! Max field in 'vflipper' is %lg" maxField; print; error;
+      return;
+   end;
+   %% save all input parameters
+   for j=1 nInputs;
+      VFLIPPERpos[j]=in2[j];
+   end;
+   %% do 1st field settings 
+   local target[3];
+   target[1]=in2[1]; target[2]=in2[2]; target[3]=in2[4];
+   sprint cmd "%s moveto target" fieldVM;  
+   iret=cmd(cmd);
+   waitstat fieldVM 1;
+
+   %% do 1st counter timer ops & save counter readings 
+   sprint cmd "%s moveto %lg" timerVM in2[6];
+   iret=cmd(cmd);
+   waitstat timerVM 1;
+   sprint cmd "%s getpos = VFLIPPERcnt0" timerVM;
+   iret=cmd(cmd);
+
+   %% action rest time at 0 Tesla for cool dood magnets
+   target[1]=0; target[2]=in2[2]; target[3]=in2[4];
+   sprint cmd "%s moveto target" fieldVM;  
+   iret=cmd(cmd);
+   waitstat fieldVM 1;
+   delay in2[7];
+
+   %% do 2nd field settings 
+   target[1]=in2[1]; target[2]=in2[3]; target[3]=in2[5];
+   sprint cmd "%s moveto target" fieldVM;  
+   iret=cmd(cmd);
+   waitstat fieldVM 1;
+
+   %% do 2nd counter timer ops & save counter readings 
+   sprint cmd "%s moveto %lg" timerVM in2[6];
+   iret=cmd(cmd);
+   waitstat timerVM 1;
+   sprint cmd "%s getpos = VFLIPPERcnt1" timerVM;
+   iret=cmd(cmd);
+end;
+
+%% at scan end ensure field set to zero
+if strcmp(command,"atend")==0;
+   local$ cmd; local iret target[3];
+   sprint cmd "%s moveto target" fieldVM;  
+   iret=cmd(cmd);
+end;
+
+return;
+
+% CLAM 2 VM 'vflipper' <field> <theta1> <theta2> <phi1> <phi2> <time> <zeroRestTim>
+% carry out octupole end station 
+% magnetic field switching with simulator counter timer
+% NB max field should be 0.92 Tesla
+% NB to prevent over-heating, zero field should be set for
+% the given zeroRestTim between switches (usually 1.4*time
+% for 0.92T and in future may be 0 for 0.65T or less)
+% Contains an embedded counter-timer VM that should
+% not be called on the scan line therefore.
+%
+% VM Calls:
+% toct  : to carry out counter-timing operations
+% vmag  : to set the specified field parameters
+% Globals variables
+% simulate : used in Pincer to prevent hardware i/o if exists and
+%            generate test data.

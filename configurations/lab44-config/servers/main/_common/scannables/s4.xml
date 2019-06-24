@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Exit Slit S4 -->
+	<bean id="s4y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorXGap_S4" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s4x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYGap_S4" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s4z" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorZ_S4" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s4xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorXSize_S4" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="um" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s4ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYSize_S4" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="um" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="S4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s4y" />
+				<ref bean="s4x" />
+				<ref bean="s4z" />
+				<ref bean="s4xgap" />
+				<ref bean="s4ygap" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+</beans>

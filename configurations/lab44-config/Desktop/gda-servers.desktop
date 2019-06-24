@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Restart GDA Server
+Type=Application
+Exec=xterm -e GDA_RemoteStart_Lin
+Icon=icon-computer-restart
+Terminal=true
+TerminalOptions=
+Name[en_GB]=Restart GDA Server
+GenericName=Restart GDA Server
+GenericName[en_GB]=Restart GDA Server
+Comment[en_GB]=Restart GDA Server
+Categories=X-ogda;

@@ -28,6 +28,7 @@ import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.python.pydev.ui.wizards.files.PythonSourceFolderWizard;
 import org.python.pydev.ui.wizards.project.PythonProjectWizard;
 
+import gda.configuration.properties.LocalProperties;
 import gda.rcp.views.JythonTerminalView;
 import uk.ac.gda.client.live.stream.view.LiveStreamView;
 import uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogram;
@@ -65,7 +66,12 @@ public class Peem implements IPerspectiveFactory {
 		bottomLeftfolder.addPlaceholder(IPageLayout.ID_OUTLINE);
 
 		IFolderLayout topRightFolder=layout.createFolder(PLOT_2D_FOLDER, IPageLayout.RIGHT, (float)0.53, IPageLayout.ID_EDITOR_AREA); //$NON-NLS-1$
-		topRightFolder.addView("uk.ac.gda.beamline.i06.medipix.live.stream.view.LiveStreamViewWithHistogram:medipix_cam#EPICS_ARRAY");
+		String beamline = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME);
+		if (beamline.equals("i06")) {
+			topRightFolder.addView("uk.ac.gda.beamline.i06.medipix.live.stream.view.LiveStreamViewWithHistogram:medipix_cam#EPICS_ARRAY");
+		} else if (beamline.equals("lab44")) {
+			topRightFolder.addView("uk.ac.gda.beamline.i06.sim.live.stream.view.LiveStreamViewWithHistogram:sim_cam#EPICS_ARRAY");
+		}
 		topRightFolder.addPlaceholder(LiveStreamViewWithHistogram.ID+":*");
 		topRightFolder.addPlaceholder(LiveStreamView.ID);
 		topRightFolder.addPlaceholder(LiveStreamView.ID+":*");

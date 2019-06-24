@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- PCO cam plugin -->
+	<bean id="pco_adbase" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:" />
+	</bean>
+	<!-- PCO specific parameters: cam extension, no simulation available in EPICS-->
+	<bean id="pcocontroller" class="gda.device.detector.pco.DummyPCODriverController" init-method="afterPropertiesSet">
+	</bean>
+	<!-- PROCESSING Plugin -->
+	<bean id="pco_proc" class="gda.device.detector.areadetector.v17.impl.NDProcessImpl">
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:PROC:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
+			</bean>
+		</property>
+	</bean>
+	<!-- STAT plugin -->
+    <bean id="pco_stats" class="gda.device.detector.areadetector.v17.impl.NDStatsImpl">
+        <property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:" />
+        <property name="pluginBase">
+            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+                <property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT:" />
+  				<property name="initialArrayPort" value="CAM.CAM" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="pco_ndarray"  class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
+        <property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR:" />
+        <property name="pluginBase">
+            <bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+                <property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR:" />
+  				<property name="initialArrayPort" value="CAM.CAM" />
+            </bean>
+        </property>
+    </bean>
+    
+	<!-- HDF plugin -->
+	<bean id="pco_ndfile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="pco" />
+		<property name="initialFileTemplate" value="%s%s-%d.hdf" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+	<bean id="pco_hdf5" class="gda.device.detector.areadetector.v17.impl.NDFileHDF5Impl">
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:HDF5:" />
+		<property name="file" ref="pco_ndfile"/>
+	</bean>
+
+	<!-- TIFF plugin -->
+	<bean id="pco_tiffile" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
+		<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:TIFF:" />
+		<property name="pluginBase">
+			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
+				<property name="basePVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:TIFF:" />
+				<property name="initialArrayPort" value="CAM.CAM" />
+			</bean>
+		</property>
+		<!-- These arguments are here to please Spring -->
+		<property name="initialAutoSave" value="Not hooked up to anything!" />
+		<property name="initialAutoIncrement" value="Not hooked up to anything!" />
+		<property name="initialWriteMode" value="0" />
+		<property name="initialNumCapture" value="1" />
+		<property name="initialFileName" value="pco" />
+		<property name="initialFileTemplate" value="%s%s_%05d.tif" />
+		<property name="resetToInitialValues" value="false" />
+	</bean>
+	
+	<!-- The Object which get the ROIs from the client over RMI -->
+	<bean id="pco_roi" class="gda.device.detector.nxdetector.roi.LiveStreamROIProvider" />
+	<bean class="uk.ac.gda.remoting.server.GdaRmiServiceExporter">
+		<property name="serviceName" value="gda/pcoRoi" />
+		<property name="service" ref="pco_roi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+	</bean>
+	<!-- ROI-STAT pairs for Live Stream View-->
+	<bean id="pco_RoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pco_RoiStats1" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI1:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT1:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="MinValue, MinX, MinY, MaxValue, MaxX, MaxY, MeanValue, Sigma, Total, Net" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="pco_roi" />
+	            <property name="index" value="0" /> <!-- Zero based indexing i.e. Region 1 = index 0 -->
+	        </bean>
+		</property>
+	</bean>
+	<bean id="pco_RoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pco_RoiStats2" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI2:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT2:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="pco_roi" />
+	            <property name="index" value="1" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="pco_RoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pco_RoiStats3" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI3:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT3:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="pco_roi" />
+	            <property name="index" value="2" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="pco_RoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pco_RoiStats4" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI4:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT4:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="pco_roi" />
+	            <property name="index" value="3" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="pco_RoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pco_RoiStats5" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI5:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT5:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="pco_roi" />
+	            <property name="index" value="4" /> 
+	        </bean>
+		</property>
+	</bean>
+	<bean id="pco_RoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pco_RoiStats6" />
+		<property name="baseRoiPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ROI6:" />
+		<property name="baseStatsPVName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:STAT6:" />
+		<property name="roiInputNdArrayPort" value="CAM.CAM" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+	        <bean class="gda.device.detector.nxdetector.roi.LiveStreamRoiIndexer">
+	            <property name="liveStreamRoiProvider" ref="pco_roi" />
+	            <property name="index" value="5" /> 
+	        </bean>
+		</property>
+	</bean>
+	
+   	<!-- collection strategy decorator chain -->
+	<bean id="pcoArm" class="gda.device.detector.pco.collectionstrategy.PCOArmDecorator">
+		<property name="restoreArm" value="true"/>
+		<property name="pcoController" ref="pcocontroller"/>
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+				<property name="adBase" ref="pco_adbase" />
+				<property name="restoreAcquireState" value="true"/>
+				<property name="stopAquiringInPreparation" value="false"/>
+			</bean>
+		</property>
+	</bean>	
+   	<bean id="kbRasteringFreq" class="gda.device.detector.addetector.collectionstrategy.ProcessingVariableDecorator">
+   		<property name="pvName" value="BL06I-OP-KBM-01:VFM:FPITCH:FREQ"/>
+   		<property name="expression" value="1/#acquireTime lt 10.0 ? 1/#acquireTime : 10.0"/>
+   		<property name="enabled" value="true"/>
+   		<property name="restorePvValue" value="true"/>
+		<property name="decoratee" ref="pcoArm"/>
+   	</bean>
+	<bean id="pcotriggermode" class="gda.device.detector.pco.collectionstrategy.PCOTriggerModeDecorator">
+		<property name="restoreTriggerMode" value="true"/>
+		<property name="triggerMode" value="AUTO"/> <!-- possible values: AUTO, SOFT, EXTSOFT, EXTPULSE, EXTONLY -->
+		<property name="decoratee" ref="kbRasteringFreq"/>
+	</bean>
+	<bean id="pcoacquireperiod" class="gda.device.detector.pco.collectionstrategy.PCOConfigureAcquireTimeAcquirePeriodDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="restoreAcquirePeriod" value="true"/>
+		<property name="acquirePeriod" value="0.1"/>
+		<property name="decoratee" ref="pcotriggermode"/>
+	</bean>	
+	
+	<bean id="pcoimagemodecontinuous" class="gda.device.detector.pco.collectionstrategy.PCOImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true"/>
+		<property name="imageMode" value="CONTINUOUS"/> <!-- possible modes: SINGLE, MULTIPLE, CONTINUOUS-->
+		<property name="decoratee" ref="pcoacquireperiod"/>
+	</bean>
+	<!-- Imaging -->
+	<bean id="pco1adc" class="gda.device.detector.pco.collectionstrategy.PCOADCModeDecorator">
+		<property name="restoreADCMode" value="true"/>
+		<property name="adcMode" value="OneADC"/> <!-- possible values: OneADC, TwoADC -->
+		<property name="pcoController" ref="pcocontroller"/>
+		<property name="decoratee" ref="pcoimagemodecontinuous"/>
+	</bean>
+	<bean id="pcoImagingCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="true"/>
+		<property name="decoratee" ref="pco1adc"/>
+	</bean>
+	<!-- preview -->
+	<bean id="pcoprocfilter" class="gda.device.detector.addetector.collectionstrategy.ProcessFilterDecorator">
+		<property name="restoreState" value="true"/>
+		<property name="ndProcess" ref="pco_proc"/>
+		<property name="processDataTypeOut">
+		 	<util:constant static-field="gda.device.detector.nxdetector.plugin.areadetector.ADProcPlugin.DataType.UINT8"/>
+		</property>
+		<property name="outputEveryArray" value="true"/>
+		<property name="resetFilterAtStart" value="true"/>
+		<property name="autoReset" value="false"/>
+		<property name="filterType" value="0"/>
+		<property name="numberOfImagesToFilter" value="3"/>
+		<property name="enableFilter" value="true"/>
+		<property name="decoratee" ref="pcoimagemodecontinuous"/>
+	</bean>
+	<bean id="pco2adc" class="gda.device.detector.pco.collectionstrategy.PCOADCModeDecorator">
+		<property name="restoreADCMode" value="true"/>
+		<property name="adcMode" value="TwoADC"/> <!-- possible values: OneADC, TwoADC -->
+		<property name="pcoController" ref="pcocontroller"/>
+		<property name="decoratee" ref="pcoprocfilter"/>
+	</bean>
+	<bean id="pcoPreviewCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="true"/>
+		<property name="decoratee" ref="pco2adc"/>
+	</bean>
+	<!-- data collection -->
+	<bean id="pcotriggermode_soft" class="gda.device.detector.pco.collectionstrategy.PCOTriggerModeDecorator">
+		<property name="restoreTriggerMode" value="true"/>
+		<property name="triggerMode" value="SOFT"/> <!-- possible values: AUTO, SOFT, EXTSOFT, EXTPULSE, EXTONLY -->
+		<property name="decoratee" ref="kbRasteringFreq"/>
+	</bean>
+	<bean id="pcoacquireperiod_soft" class="gda.device.detector.pco.collectionstrategy.PCOConfigureAcquireTimeAcquirePeriodDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="restoreAcquirePeriod" value="true"/>
+		<property name="acquirePeriod" value="0.1"/>
+		<property name="decoratee" ref="pcotriggermode_soft"/>
+	</bean>	
+	<bean id="pcoimagemodesingle" class="gda.device.detector.pco.collectionstrategy.PCOImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true"/>
+		<property name="imageMode" value="SINGLE"/> <!-- possible modes: SINGLE, MULTIPLE, CONTINUOUS-->
+		<property name="decoratee" ref="pcoacquireperiod_soft"/>
+	</bean>
+	<bean id="pcoCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="true"/>
+		<property name="decoratee">
+			<bean class="gda.device.detector.pco.collectionstrategy.PCOADCModeDecorator">
+				<property name="restoreADCMode" value="true"/>
+				<property name="adcMode" value="OneADC"/> <!-- possible values: OneADC, TwoADC -->
+				<property name="pcoController" ref="pcocontroller"/>
+				<property name="decoratee" ref="pcoimagemodesingle"/>
+			</bean>
+		</property>
+	</bean>
+	<!-- for zacscan -->
+	<bean id="pcoimagemodemultiple" class="gda.device.detector.pco.collectionstrategy.PCOImageModeDecorator">
+		<property name="restoreNumImagesAndImageMode" value="true" />
+		<property name="imageMode" value="MULTIPLE" /> <!-- possible modes: SINGLE, MULTIPLE, CONTINUOUS -->
+		<property name="decoratee" ref="pcoacquireperiod_soft" />
+	</bean>
+	<bean id="zacpcoCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.pco.collectionstrategy.PCOADCModeDecorator">
+				<property name="restoreADCMode" value="true" />
+				<property name="adcMode" value="OneADC" /> <!-- possible values: OneADC, TwoADC -->
+				<property name="pcoController" ref="pcocontroller" />
+				<property name="decoratee" ref="pcoimagemodemultiple" />
+			</bean>
+		</property>
+	</bean>
+</beans>
