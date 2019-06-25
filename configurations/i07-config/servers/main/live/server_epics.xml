@@ -529,6 +529,11 @@
 		<property name="protectionLevel" value="0" />
 	</bean>
 
+	<!-- Beam intensity from D5 (this PV also appears in the D5 EpicsBpmController) -->
+	<bean id="d5i" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-DI-PHDGN-05:INTEN" />
+	</bean>
+
 
 	<!-- ============================== Shutter and Valve definition section 
 		============================== -->
