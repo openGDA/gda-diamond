@@ -302,4 +302,10 @@
 		<property name="controller" ref="evap3temp_controller" />
 	</bean>
 
+	<!-- Monitor for Pyrometer temperature -->
+	<bean id="pyrotemp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-PYRO-01:TEMP" />
+	</bean>
+
+
 </beans>
