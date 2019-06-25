@@ -4,27 +4,20 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="j08_stage_x" class="gda.device.scannable.ScannableMotor">
+	<bean id="j08_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="j08_stage_x_motor" />
 	</bean>
 
-	<bean id="j08_stage_y" class="gda.device.scannable.ScannableMotor">
+	<bean id="j08_y" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="j08_stage_y_motor" />
 	</bean>
-
-	<bean id="j08_stage_z" class="gda.device.scannable.ScannableMotor">
-		<property name="motor" ref="j08_stage_z_motor" />
-	</bean>
-
-
 
 	<bean id="j08_sample_stage"
 		class="gda.device.scannable.scannablegroup.ScannableGroup">
 		<property name="groupMembers">
 			<list>
-				<ref bean="j08_stage_x" />
-				<ref bean="j08_stage_y" />
-				<ref bean="j08_stage_z" />
+				<ref bean="j08_x" />
+				<ref bean="j08_y" />
 			</list>
 		</property>
 	</bean>

@@ -10,4 +10,28 @@
 		<property name="icon" value=""/>
 	</bean>
 
+	<bean id="malcolmInfoSampleJ08Andor" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Malcolm sample scan (J08 stages + Andor)" />
+		<property name="description" value="Malcolm sample scan with J08 stages + Andor detector" />
+		<property name="icon" value=""/>
+	</bean>
+
+	<bean id="malcolmInfoNoDetector" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Malcolm no detector" />
+		<property name="description" value="Malcolm scan without a detector" />
+		<property name="icon" value=""/>
+	</bean>
+
+	<bean id="malcolmInfoAndor2FocusZ" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Malcolm Andor 2 focus z" />
+		<property name="description" value="Malcolm scan" />
+		<property name="icon" value=""/>
+	</bean>
+
+	<bean id="malcolmInfoJ08NoDetector" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+		<property name="label" value="Malcolm J08 no detector" />
+		<property name="description" value="Malcolm scan without a detector" />
+		<property name="icon" value=""/>
+	</bean>
+
 </beans>
