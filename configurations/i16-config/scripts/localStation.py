@@ -472,13 +472,13 @@ if not USE_DIFFCALC:
 else:
 	del sixc
 	import diffcalc
-	diffcalc_root = os.path.realpath(diffcalc.__file__).split('diffcalc/__init__.py')[0]
+	diffcalc_root = os.path.realpath(diffcalc.__file__).split('diffcalc/__init__')[0]
 	diffcalc_startup_script = os.path.join(diffcalc_root, 'startup', 'i16.py')
 	try:
 		localStation_print("Starting Diffcalc by running: %r" % diffcalc_startup_script)
 		run(diffcalc_startup_script)
 	except Exception as e:
-		localStation_exception("trying to set up difcalc via "+diffcalc_startup_script, e)
+		localStation_exception("trying to set up diffcalc via "+diffcalc_startup_script, e)
 	exec("phi=euler.phi")
 	exec("chi=euler.chi")
 	exec("eta=euler.eta")
