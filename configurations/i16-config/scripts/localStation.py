@@ -373,14 +373,6 @@ def _gdahelp(o):
 	
 alias("help")
 
-### Disable pos listing all Scannables when called with no args
-pos_orig = pos
-def pos(*args):
-	if not args:
-		print "pos command listing is disabled on I16"
-	else:
-		pos_orig(*args)
-
 ### Create datadir functions
 localStation_print("Running startup_dataDirFunctions.py")
 localStation_print("  use 'datadir' to read the current directory or 'datadir name' to change it")
