@@ -13,8 +13,8 @@ deployment:
 --------------------------------------------------------------------------------
 cd /dls_sw/i16/software/gda
 cp -R /dls_sw/i16/software/gda_versions/var/oldStyleShelveIO gda_var_non_live
-cp -R /dls_sw/i16/software/gda_versions/var/nff gda_var_non_live
-cp reffilename.log /dls_sw/i16/software/gda/gda_var_non_live
+cp -R /dls_sw/i16/software/gda_versions/var/nff              gda_var_non_live
+cp /dls_sw/i16/software/gda_versions/var/reffilename.log     gda_var_non_live
 --------------------------------------------------------------------------------
 #### To run up the Simulated Area Detector ####
 
