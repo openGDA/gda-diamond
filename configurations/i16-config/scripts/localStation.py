@@ -75,6 +75,7 @@ global eta_offset, mu_offset
 global beta
 global T1dcm, T2dcm
 global ppx, ppy, ppchi
+global ppyaw,ppth1,ppz1,ppth2,ppz2,ppyaw,pppitch
 global sperp, spara, ytable, ztable
 global xps3m1, xps3m2, xps3m3, xps3m4, xps3m5, xps3m6
 global frontendx, frontendy
@@ -603,6 +604,7 @@ if installation.isLive():
 	### Various ###
 	localStation_print("   running startup_epics_monitors.py")      # [TODO: Replace with imports]
 	run("startup_epics_monitors")
+	global ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp
 
 	localStation_print("   running startup_epics_positioners.py")
 	run("startup_epics_positioners")
@@ -1256,11 +1258,15 @@ try:
 	if not USE_DIFFCALC:
 		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo, source, jjslits, pa, PPR,
 				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
-				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
+				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans,
+				 ppy, ppx, ppchi, ppyaw, ppth1, ppz1, ppth2, ppz2, ppyaw, pppitch,
+				 ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp]
 	else:
 		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa,           source, jjslits, pa, PPR,
 				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
-				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
+				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans,
+				 ppy, ppx, ppchi, ppyaw, ppth1, ppz1, ppth2, ppz2, ppyaw, pppitch,
+				 ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp]
 
 	addedInSpring = [sixckappa] + [delta_axis_offset]
 	toadd = [ _x for _x in toadd if _x != None and not _x in addedInSpring ]
