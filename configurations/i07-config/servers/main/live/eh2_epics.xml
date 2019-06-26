@@ -308,4 +308,44 @@
 	</bean>
 
 
+	<!-- EBC - Electron Beam Heater -->
+
+
+	<bean id="ebcec" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-EBC-01:EmissionCurrent_RBV" />
+	</bean>
+
+	<bean id="ebctemp" class="gda.device.monitor.EpicsMonitor">
+		<property name="pvName" value="BL07I-EA-EBC-01:Temp_RBV" />
+	</bean>
+
+	<bean id="ebcbv" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL07I-EA-EBC-01:BombardmentVoltage" />
+	</bean>
+
+	<bean id="ebcfc" class="gda.device.scannable.MultiPVScannable">
+		<property name="writePV" value="BL07I-EA-EBC-01:FilamentCurrent" />
+		<property name="readPV" value="BL07I-EA-EBC-01:FilamentCurrent_RBV" />
+	</bean>
+
+	<bean id="ebcremote" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07I-EA-EBC-01:Remote" />
+		<property name="readOnly" value="false" />
+	</bean>
+
+	<bean id="ebcpid" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07I-EA-EBC-01:PIDCONTROL" />
+		<property name="readOnly" value="false" />
+	</bean>
+
+	<bean id="ebcpidcontrol" class="gda.device.enumpositioner.EpicsSimpleMbbinary">
+		<property name="recordName" value="BL07I-EA-EBC-01:PID.FBON" />
+		<property name="readOnly" value="false" />
+	</bean>
+
+	<bean id="ebcsetpoint" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL07I-EA-EBC-01:PID.VAL" />
+	</bean>
+
+
 </beans>
