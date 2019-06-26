@@ -19,6 +19,7 @@
 package uk.ac.gda.beamline.i20_1.utils;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.measure.quantity.Quantity;
 import javax.measure.unit.Unit;
@@ -27,9 +28,8 @@ import org.jscience.physics.amount.Amount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gda.factory.ConfigurableBase;
 import gda.factory.FactoryException;
-import gda.factory.Findable;
+import gda.factory.FindableConfigurableBase;
 import gda.util.QuantityFactory;
 import gda.util.converters.LookupTableConverterHolder;
 
@@ -41,17 +41,15 @@ import gda.util.converters.LookupTableConverterHolder;
  * <p>
  * Does not operate any hardware.
  */
-public class LookupTablesBean extends ConfigurableBase implements Findable {
+public class LookupTablesBean extends FindableConfigurableBase {
 
-	static final Logger logger = LoggerFactory.getLogger(LookupTablesBean.class);
+	private static final Logger logger = LoggerFactory.getLogger(LookupTablesBean.class);
 
-	private HashMap<String, LookupTableConverterHolder> lookupTables = new HashMap<String, LookupTableConverterHolder>();
+	private Map<String, LookupTableConverterHolder> lookupTables = new HashMap<>();
 
 	private Unit<?> userUnit;
 
 	private String initialUserUnitString;
-
-	private String name;
 
 	@Override
 	public void configure() throws FactoryException {
@@ -61,18 +59,8 @@ public class LookupTablesBean extends ConfigurableBase implements Findable {
 		setConfigured(true);
 	}
 
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	public HashMap<String, Double> getPositionsForEnergy(Double energy) {
-		HashMap<String, Double> returnValues = new HashMap<String, Double>();
+	public Map<String, Double> getPositionsForEnergy(Double energy) {
+		Map<String, Double> returnValues = new HashMap<>();
 		Amount<? extends Quantity> target = QuantityFactory.createFromObject(energy, userUnit);
 		for (String tableName : lookupTables.keySet()) {
 			try {
@@ -86,11 +74,11 @@ public class LookupTablesBean extends ConfigurableBase implements Findable {
 		return returnValues;
 	}
 
-	public HashMap<String, LookupTableConverterHolder> getLookupTables() {
+	public Map<String, LookupTableConverterHolder> getLookupTables() {
 		return lookupTables;
 	}
 
-	public void setLookupTables(HashMap<String, LookupTableConverterHolder> lookupTables) {
+	public void setLookupTables(Map<String, LookupTableConverterHolder> lookupTables) {
 		this.lookupTables = lookupTables;
 	}
 

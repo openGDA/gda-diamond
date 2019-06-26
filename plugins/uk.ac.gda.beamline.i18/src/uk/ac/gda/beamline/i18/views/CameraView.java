@@ -37,6 +37,7 @@ import gda.configuration.properties.LocalProperties;
 import gda.data.PathConstructor;
 import gda.epics.CAClient;
 import gda.factory.FactoryException;
+import gda.factory.FindableBase;
 import gda.images.camera.I18MotionJpegOverHttpReceiverSwt;
 import gda.images.camera.ImageListener;
 import gda.images.camera.VideoReceiver;
@@ -223,18 +224,7 @@ public class CameraView extends ViewPart {
 		}
 	}
 
-	private final class VideoListener implements ImageListener<ImageData> {
-		private String name;
-
-		@Override
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		@Override
-		public String getName() {
-			return name;
-		}
+	private final class VideoListener extends FindableBase implements ImageListener<ImageData> {
 
 		@Override
 		public void processImage(ImageData image) {
