@@ -16,16 +16,9 @@
 				<value>file:${gda.config}/properties/_common/common_instance_java.properties</value>
 				<value>file:${gda.facility.dir}/properties/${gda.mode}/${gda.mode}_facility_java.properties</value>
 				<value>file:${gda.facility.dir}/properties/_common/common_facility_java.properties</value>
-				<value>file:${gda.core.dir}/properties/core_java.properties</value>
+				<value>file:${gda.core.dir}/properties/core_java.properties</value> <!-- Not in I15-1! -->
 			</list>
 		</property>
-	</bean>
-
-	<!-- This gda.data.ObservablePathConstructor should only be in live -->
-	<bean id="terminallog_path_provider"
-			class="gda.data.ObservablePathConstructor">
-		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
-		<property name="gdaMetadata" ref="GDAMetadata" />
 	</bean>
 
 	<import resource="../_common/server.xml"/>
@@ -33,10 +26,21 @@
 	<import resource="scannable/all.xml"/>
 	<import resource="transient/all.xml"/>
 
-	<!-- Missing compared to i15-1
-	<import resource="../../p45/dummy/det.xml" />
-	<import resource="../../p45/dummy/mapping_motors.xml"/>
+	<import resource="factoryBeans.xml"/>
+
+	<import resource="metadata.xml"/>
+
+	<!-- Inline compared to i15-1
+	<import resource="terminal_logger.xml"/>
 	 -->
+	<!-- This gda.data.ObservablePathConstructor should only be in live -->
+	<bean id="terminallog_path_provider"
+			class="gda.data.ObservablePathConstructor">
+		<property name="template" value="${gda.data.scan.datawriter.datadir}/gdaterminal.log" />
+		<property name="gdaMetadata" ref="GDAMetadata" />
+	</bean>
+
+	<import resource="file://${gda.facility.dir}/servers/dummy/mapping_motors.xml"/>
 
 	<!-- From p45/_common/server.xml  -->
 	<context:property-placeholder/>
@@ -44,15 +48,17 @@
 
 	<bean class="gda.spring.FindableNameSetterPostProcessor" />
 
-	<!-- Missing compared to i15-1
-	<import resource="../../p45/_common/example_detectors.xml"/>
-	<import resource="../../p45/_common/command_queue_processor.xml"/>
-	<import resource="../../p45/_common/jython_server_facade.xml" />
-	<import resource="../../p45/_common/mapping_stage.xml"/>
-	<import resource="../../p45/_common/mandelbrot_detectors.xml"/>
-	 -->
+	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrotDetector.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/mapping_motors.xml"/>
+	<import resource="file://${gda.facility.dir}/servers/_common/mandelbrot_detectors.xml"/>
 
-	<import resource="metadata.xml"/>
+	<!--  
+	      IMPORTANT: this will start processing the scanning queue. 
+	      detectors must be created before doing this.
+	      ADVISED: do it last or towards the end, scan will now start to run!
+	 -->
+	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
 
 	<import resource="file://${gda.facility.dir}/servers/_common/file_registrar.xml" />
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
@@ -65,15 +71,6 @@
 			</list>
 		</property>
 	</bean>
-
-	<import resource="factoryBeans.xml"/>
-
-	<!--  
-	      IMPORTANT: this will start processing the scanning queue. 
-	      detectors must be created before doing this.
-	      ADVISED: do it last or towards the end, scan will now start to run!
-	 -->
-	<import resource="file://${gda.facility.dir}/servers/_common/solstice_scanning.xml" />
 
 	<!-- Exports objects over RMI -->
 	<bean class="uk.ac.gda.remoting.server.RmiAutomatedExporter" />

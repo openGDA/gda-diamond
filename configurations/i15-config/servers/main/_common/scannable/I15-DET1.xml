@@ -7,7 +7,20 @@
 		<property name="motor" ref="Dr1ddistMotor" />
 	</bean>
 
+	<bean id="det1y" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="det1z_motor" />
+	</bean>
+
 	<bean id="det1z" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="det1z_motor" />
+	</bean>
+
+	<bean id="det1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="det1y" />
+				<ref bean="det1z" />
+			</list>
+		</property>
 	</bean>
 </beans>

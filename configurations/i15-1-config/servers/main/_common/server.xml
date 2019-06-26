@@ -9,7 +9,19 @@
 
 	<import resource="abstract_command_server.xml"/>
 
-	<bean id="script_paths" parent="common_script_paths"/>
+	<bean id="i15x_user_script_project" class="gda.jython.ScriptProject">
+		<property name="path" value="/dls_sw/${gda.beamline.name}/scripts/i15x" />
+		<property name="name" value="Scripts: Shared between i15 and i15-1" />
+		<property name="type" value="USER" />
+	</bean>
+
+	<bean id="script_paths" class="gda.jython.ScriptPaths" parent="common_script_paths">
+		<property name="projects">
+			<list merge="true">
+				<ref bean="i15x_user_script_project" />
+			</list>
+		</property>
+	</bean>
 
 	<bean id="command_server" parent="abstract_command_server">
 		<property name="jythonScriptPaths" ref="script_paths"/>
