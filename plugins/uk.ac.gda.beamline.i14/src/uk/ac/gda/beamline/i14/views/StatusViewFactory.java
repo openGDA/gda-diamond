@@ -23,16 +23,15 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.factory.FindableBase;
 import gda.rcp.views.FindableExecutableExtension;
 
 /**
  * Factory class to create a {@link StatusView} for I14
  */
-public class StatusViewFactory implements FindableExecutableExtension {
+public class StatusViewFactory extends FindableBase implements FindableExecutableExtension {
 
 	private static final Logger logger = LoggerFactory.getLogger(StatusViewFactory.class);
-
-	private String name;
 
 	private String viewName = "Status";
 	private String iconPlugin = "uk.ac.gda.beamline.i14";
@@ -60,16 +59,6 @@ public class StatusViewFactory implements FindableExecutableExtension {
 		view.setRingCurrentAlarmThreshold(ringCurrentAlarmThreshold);
 		view.setTimeToRefillAlarmThreshold(timeToRefillAlarmThreshold);
 		return view;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	public void setViewName(String viewName) {

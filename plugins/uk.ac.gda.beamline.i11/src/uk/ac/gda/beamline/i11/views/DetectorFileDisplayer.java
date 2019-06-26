@@ -42,9 +42,8 @@ import gda.analysis.io.MACLoader;
 import gda.device.detector.mythen.data.MythenMergedDataset;
 import gda.device.detector.mythen.data.MythenProcessedDataset;
 import gda.device.detector.mythen.data.MythenRawDataset;
-import gda.factory.ConfigurableBase;
 import gda.factory.FactoryException;
-import gda.factory.Findable;
+import gda.factory.FindableConfigurableBase;
 import uk.ac.diamond.scisoft.analysis.io.DataHolder;
 import uk.ac.diamond.scisoft.analysis.io.HDF5Loader;
 import uk.ac.diamond.scisoft.analysis.io.SRSLoader;
@@ -61,13 +60,12 @@ import uk.ac.gda.beamline.synoptics.views.DetectorFilePlotView;
  * <li>allow both new plot of each data file or plot over of multiple data files.</li>
  * </ul>
  */
-public class DetectorFileDisplayer extends ConfigurableBase implements PlottingFileProcessor, InitializingBean, Findable {
+public class DetectorFileDisplayer extends FindableConfigurableBase implements PlottingFileProcessor, InitializingBean {
 
 	private String viewName;
 	public PlotType plotType;
 	public Boolean newPlot;
 	private String viewID;
-	private String name;
 	private DetectorFilePlotView plotView;
 	private static final Logger logger = LoggerFactory.getLogger(DetectorFileDisplayer.class);
 	private Set<String> dataFilesPlotted = new HashSet<>();
@@ -241,16 +239,6 @@ public class DetectorFileDisplayer extends ConfigurableBase implements PlottingF
 	@Override
 	public PlotType getPlotType() {
 		return plotType;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	@Override
