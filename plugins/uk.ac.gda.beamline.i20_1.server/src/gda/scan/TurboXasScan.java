@@ -29,7 +29,6 @@ import java.util.Optional;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.dawnsci.ede.EdeDataConstants;
-import org.eclipse.dawnsci.analysis.api.io.ScanFileHolderException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -103,6 +102,8 @@ public class TurboXasScan extends ContinuousScan {
 	private volatile int lastFrameRead;
 	private int pollIntervalMillis = 500;
 	private List<String> datasetNamesToAverage = Collections.emptyList();
+	private Optional<Scannable> scannableToMove = Optional.empty();
+	private List<Object> positionsForScan = Collections.emptyList();
 
 	public TurboXasScan(ContinuouslyScannable energyScannable, Double start, Double stop, Integer numberPoints,
 			Double time, BufferedDetector[] detectors) {
@@ -170,13 +171,8 @@ public class TurboXasScan extends ContinuousScan {
 		plotUpdater.addDatanameToIgnore(TfgScalerWithLogValues.LNITIREF_LABEL);
 		plotUpdater.addDatanameToIgnore("Iref");
 
-		ContinuouslyScannable scanAxis = getScanAxis();
-		if (scanAxis instanceof TurboXasScannable && turboXasMotorParams != null) {
-			if (doTrajectoryScan) {
-				collectMultipleSpectraTrajectoryScan();
-			} else {
-				collectMultipleSpectra();
-			}
+		if (getScanAxis() instanceof TurboXasScannable && turboXasMotorParams != null) {
+			collectMultipleSpectra();
 		} else {
 			logger.info("Setting up scan using ContinuousParameters");
 			numReadoutsPerSpectrum = getTotalNumberOfPoints();
@@ -187,30 +183,104 @@ public class TurboXasScan extends ContinuousScan {
 		logger.info("Scan finished");
  	}
 
+	private void collectMultipleSpectra() throws Exception {
+		setupTurboXasScannable();
+
+		// Prepare detectors (BufferedScalers, Xspress3) for readout of all spectra - all spectra for all positions.
+		prepareDetectors();
+
+		// loop over positions, do one collection of multiple spectra at each position ...
+		if (scannableToMove.isPresent() && !positionsForScan.isEmpty()) {
+
+			for(int positionNumber=0; positionNumber<positionsForScan.size(); positionNumber++) {
+				if (checkEarlyFinish()) {
+					return;
+				}
+				Scannable scn = scannableToMove.get();
+				String message = "Moving "+scn.getName()+" to position "+positionsForScan.get(positionNumber);
+				logger.info(message);
+
+				InterfaceProvider.getTerminalPrinter().print(message);
+				scn.moveTo(positionsForScan.get(positionNumber));
+				logger.info("{} move finished", scn.getName());
+
+				// Add extra label to plots with the position of the scannable
+				String extraPlotLabel = String.format("%s : %s", scn.getName(), scn.getPosition().toString());
+				plotUpdater.setExtraLabel(extraPlotLabel);
+
+				collectSpectra();
+			}
+
+		} else {
+			// Do one collection of multiple spectra
+			collectSpectra();
+		}
+	}
+
+	private boolean checkEarlyFinish() throws InterruptedException {
+		checkThreadInterrupted();
+		waitIfPaused();
+		return isFinishEarlyRequested();
+	}
+
 	/**
-	 * Collect multiple spectra by performing motor moves for several timing groups.
+	 * Move turbo slit and collect spectra for all timing groups :
+	 * <li> Move turbo slit to the initial position
+	 * <li> Configure and arm the zebra
+	 * <li> Create and start the detector readout thread
+	 * <li> Open the shutter
+	 * <li> Make the motor moves using either trajectory scan or Epics motor record
+	 * <li> Close the shutter
+	 * <li> Wait for detector readouts to finish
+	 * <li> Disarm the zebra.
+	 *
 	 * @throws Exception
 	 */
-	private void collectMultipleSpectraTrajectoryScan() throws Exception {
-		TurboXasScannable turboXasScannable = setupTurboXasScannable();
+	private void collectSpectra() throws Exception {
+		TurboXasScannable turboXasScannable = (TurboXasScannable) getScanAxis();
 
-		moveToIntialPosition(turboXasScannable);
+		// Move turbo slit motor to initial position
+		moveToInitialPosition(turboXasScannable);
 
 		// Configure the zebra
-		turboXasScannable.configureZebra(); // would normally get called in ContinuousScan.prepareForContinuousMove()
+		turboXasScannable.configureZebra();
 
 		// Arm zebra
 		turboXasScannable.armZebra();
 
-		// Prepare detectors (BufferedScalers) for readout of all spectra
-		prepareDetectors();
+		// Create and start the readout thread
+		DetectorReadoutRunnable detectorReadoutRunnable = getDetectorReadoutRunnable();
+		detectorReadoutRunnable.setLastFrameRead(lastFrameRead);
+		Async.execute(detectorReadoutRunnable);
+
+		moveShutter(ValvePosition.OPEN);
+
+		if (doTrajectoryScan) {
+			moveWithTrajectoryScan();
+		} else {
+			moveWithMotorRecord();
+		}
+
+		InterfaceProvider.getTerminalPrinter().print("Turbo slit moves finished");
+
+		moveShutter(ValvePosition.CLOSE);
+
+		detectorReadoutRunnable.waitForAllSpectra(10.0);
+
+		turboXasScannable.atScanEnd();
+	}
+
+	/**
+	 * Collect multiple spectra by performing motor moves using trajectory scan moves for all the timing groups.
+	 * @throws Exception
+	 */
+	private void moveWithTrajectoryScan() throws Exception {
+		TurboXasScannable turboXasScannable = (TurboXasScannable) getScanAxis();
 
 		// Create the trajectory scan profile
 		turboXasScannable.prepareTrajectoryScan();
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan using trajectory scan...");
-
-		moveShutter(ValvePosition.OPEN);
 
 		// Adjust start time of axis to account for motor to get to start of first spectrum
 		TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
@@ -226,51 +296,26 @@ public class TurboXasScan extends ContinuousScan {
 			throw new Exception("Failure when executing trajectory scan - check Epics EDM screen.");
 		}
 
-		// Wait until some points have been captured by zebra (i.e. motor has started moving)
-		while(detectorFunctions.getNumCapturedZebraPulses()==0) {
-			logger.info("Waiting for points to be captured by Zebra before starting data collection");
-			Thread.sleep(100);
-		}
-
-		// Start detector readout thread
-		DetectorReadoutRunnable detectorReadoutRunnable = getDetectorReadoutRunnable();
-		Async.execute(detectorReadoutRunnable);
-
 		turboXasScannable.waitForTrajectoryScan();
-
-		if (controller.getExecuteStatus() == ExecuteStatus.SUCCESS) {
-			// Wait at end for data collection thread to finish
-			waitForReadoutToFinish(detectorReadoutRunnable, 600.0);
-		}
-		// flags back to default values
-		turboXasScannable.atScanEnd();
  	}
 
 	/**
-	 * Collect multiple spectra by performing motor moves for several timing groups.
+	 * Collect multiple spectra by performing motor moves using Epics motor record for all the timing groups.
 	 * @throws Exception
 	 */
-	private void collectMultipleSpectra() throws Exception {
-		TurboXasScannable turboXasScannable = setupTurboXasScannable();
-
-		moveToIntialPosition(turboXasScannable);
-
-		// Prepare detectors (BufferedScalers) for readout of all spectra
-		prepareDetectors();
-
-		// Make new instance of detector readout runnable to collect detector data.
-		// start it after first spectrum is available
-		DetectorReadoutRunnable detectorReadoutRunnable = getDetectorReadoutRunnable();
+	private void moveWithMotorRecord() throws Exception {
 
 		InterfaceProvider.getTerminalPrinter().print("Running TurboXas scan...");
+		TurboXasScannable turboXasScannable = (TurboXasScannable) getScanAxis();
 
-		moveShutter(ValvePosition.OPEN);
+		// Zebra is already configured and armed, set flags so it is not repeated during {@link TurboXasScannable#performContinuousMove}
+		turboXasScannable.setConfigZebraDuringPrepare(false);
+		turboXasScannable.setArmZebraAtScanStart(false);
+		turboXasScannable.setDisarmZebraAtScanEnd(false); // don't disarm zebra after first timing group
 
 		// Loop over timing groups...
 		List<TurboSlitTimingGroup> timingGroups = turboXasMotorParams.getScanParameters().getTimingGroups();
 		for (int i = 0; i < timingGroups.size(); i++) {
-			turboXasScannable.setDisarmZebraAtScanEnd(false); // don't disarm zebra after first timing group
-
 			logger.info("Setting motor parameters for timing group {} of {}", i+1, timingGroups.size());
 
 			// calculate and set the motor parameters for this timing group
@@ -280,31 +325,15 @@ public class TurboXasScan extends ContinuousScan {
 			int numRepetitions = timingGroups.get(i).getNumSpectra();
 			for (int j = 0; j < numRepetitions; j++) {
 				logger.info("Collecting spectrum : repetition {} of {}", j+1, numRepetitions);
-
 				collectOneSpectrum(false);
-
-				// Start collection thread after first spectrum
-				if (i==0 && j==0) {
-					Async.execute(detectorReadoutRunnable);
-				}
-
-				// Set flags so we don't reconfigure and rearm zebra for next timing group or scan
-				// (each group has same number of readouts etc., only the motor speed changes)
-				turboXasScannable.setArmZebraAtScanStart(false);
-				turboXasScannable.setConfigZebraDuringPrepare(false);
 			}
 		}
-		// Wait at end for data collection thread to finish
-		waitForReadoutToFinish(detectorReadoutRunnable, 600.0);
-
-		// flags back to default values
-		turboXasScannable.atScanEnd();
  	}
 
 	/**
 	 * @return Total number of spectra across all timing groups
 	 */
-	private int getTotalNumSpectra() {
+	private int getNumSpectra() {
 		int totNumSpectra = 1;
 		// Determine total number of spectra across all timing groups -
 		if (turboXasMotorParams != null) {
@@ -317,13 +346,26 @@ public class TurboXasScan extends ContinuousScan {
 	}
 
 	/**
+	 * Number of times the spectrum collection will be repeated.
+	 * There will be one repetition per value in {@link #positionsForScan} list.
+	 *
+	 * @return number of repetitions
+	 */
+	public int getNumRepetitions() {
+		if (scannableToMove.isPresent() && !positionsForScan.isEmpty()) {
+			return positionsForScan.size();
+		}
+		return 1;
+	}
+
+	/**
 	 * Create runnable object used for performing detector readout.	 *
 	 * @return DetectorReadoutRunnable
 	 */
 	private DetectorReadoutRunnable getDetectorReadoutRunnable() {
 		DetectorReadoutRunnable runnable = new DetectorReadoutRunnable();
 		runnable.setNumFramesPerSpectrum(turboXasMotorParams.getNumReadoutsForScan());
-		runnable.setTotalNumSpectraToCollect(getTotalNumSpectra());
+		runnable.setTotalNumSpectraToCollect(getNumSpectra());
 		runnable.setTimingGroups(turboXasMotorParams.getScanParameters().getTimingGroups());
 		runnable.setPollIntervalMillis(pollIntervalMillis);
 		return runnable;
@@ -344,21 +386,24 @@ public class TurboXasScan extends ContinuousScan {
 	/**
 	 * Move the motor to the initial scan position using 1-point trajectory scan.
 	 * (Initial position is close to actual start position for bi-directional trajectory scan)
+	 * If the trajectory fails to execute, try to move the motor instead with the Epics motor record.
 	 *
 	 * @param turboXasScannable
 	 * @throws Exception
 	 */
-	private void moveToIntialPosition(TurboXasScannable turboXasScannable) throws Exception {
+	private void moveToInitialPosition(TurboXasScannable turboXasScannable) throws Exception {
+		double startPosition = turboXasMotorParams.getStartPosition();
 		try {
+			logger.info("Moving turbo slit to {} at start of scan", startPosition);
 			TrajectoryScanPreparer trajScanPreparer = turboXasScannable.getTrajectoryScanPreparer();
 			// Move the motor to the start position before arming zebras. Initial position is close to actual start position
 			// and outside of the zebra gate.
-			turboXasScannable.moveWithTrajectoryScan(turboXasMotorParams.getStartPosition(), trajScanPreparer.getMaxTimePerStep());
+			turboXasScannable.moveWithTrajectoryScan(startPosition, trajScanPreparer.getMaxTimePerStep());
 			turboXasScannable.waitForTrajectoryScan();
 		} catch(Exception e) {
-			logger.warn("Problem moving turbo slit to {} at start of scan using trajectory scan.", turboXasMotorParams.getStartPosition(), e);
+			logger.warn("Problem moving turbo slit to {} at start of scan using trajectory scan.", startPosition, e);
 			logger.info("Trying to move motor using Epics motor record instead");
-			turboXasScannable.moveTo(turboXasMotorParams.getStartPosition());
+			turboXasScannable.moveTo(startPosition);
 		}
 	}
 
@@ -433,29 +478,6 @@ public class TurboXasScan extends ContinuousScan {
 		}
 	}
 
-	private void waitForReadoutToFinish(DetectorReadout detectorReadoutRunnable, double maxWaitTimeSecs) throws ScanFileHolderException, DeviceException, InterruptedException {
-		try {
-			// Wait while XSpress3 hdf writing is still active; then close the file so final frames are
-			// flushed to disk and available for reading.
-			double timeWaited = 0.0;
-			timeWaited = detectorFunctions.waitForXspress3(maxWaitTimeSecs);
-
-			// Wait for detector collection thread to finish
-			logger.info("Waiting for detector collection thread to finish...");
-			detectorReadoutRunnable.waitForFrame(getTotalNumSpectra()*numReadoutsPerSpectrum, maxWaitTimeSecs-timeWaited);
-
-		} catch (InterruptedException e) {
-			logger.error("Sleep interrupted while waiting for readout to finish", e);
-		} finally {
-			int numSpectraCollected = detectorReadoutRunnable.getNumSpectraCollected();
-			if (!detectorReadoutRunnable.collectionFinished()) {
-				logger.warn("Detector collection not finished after {} secs. {} spectra collected.", maxWaitTimeSecs, numSpectraCollected);
-			} else {
-				logger.warn("Detector collection finished. {} spectra collected.", numSpectraCollected);
-			}
-		}
-	}
-
 	/**
 	 * Prepare detectors (BufferedScalers) for readout of all spectra
 	 * Do this once at beginning to avoid overhead of clearing out scaler memory etc for each spectra.
@@ -464,7 +486,7 @@ public class TurboXasScan extends ContinuousScan {
 	 * @throws InterruptedException
 	 */
 	public void prepareDetectors() throws Exception {
-		int totNumSpectra = getTotalNumSpectra();
+		int totNumSpectra = getNumSpectra()*getNumRepetitions();
 		numReadoutsPerSpectrum = turboXasMotorParams.getNumReadoutsForScan();
 		prepareDetectors(numReadoutsPerSpectrum, totNumSpectra); //also arms it
 	}
@@ -549,7 +571,7 @@ public class TurboXasScan extends ContinuousScan {
 
 		BufferedDetector[] scanDetectors = getScanDetectors();
 		if (scanDetectors.length > 0) {
-			collectData(scanDetectors);
+			readoutData(scanDetectors);
 		}
 	}
 
@@ -583,7 +605,6 @@ public class TurboXasScan extends ContinuousScan {
 		nexusTree.setReverseDetectorReadout(reverseDetectorData);
 
 		logger.info("Reading data from detectors for spectrum {} (frames {} to {}, reverse readout direction = {} ", spectrumNumber, lowFrame, highFrame, nexusTree.isReverseDetectorReadout());
-
 		detData[0] = nexusTree.readFrames(detector, lowFrame, highFrame);
 		// ScalerFrames are already cleared in nexusTree.readFrames by createNXDetectorData
 		// detectorFunctions.clearScalerFrames(detector, lowFrame, highFrame-1);
@@ -603,17 +624,22 @@ public class TurboXasScan extends ContinuousScan {
 		public void collectData() throws Exception {
 			plotUpdater.setCurrentGroupNumber(getCurrentTimingGroupIndex()+1);
 			plotUpdater.setCurrentSpectrumNumber(getNumSpectraCollectedForGroup());
-			TurboXasScan.this.collectData(getScanDetectors());
+
+			nexusTree.setGroupSpectrumNumber(getCurrentTimingGroupIndex()+1, getNumSpectraCollectedForGroup());
+			TurboXasScan.this.readoutData(getScanDetectors());
 		}
 
 		@Override
 		public boolean detectorsAreBusy() throws DeviceException {
-			logger.debug("Number of captured Zebra pulses = {}", detectorFunctions.getNumCapturedZebraPulses());
-			if (detectorFunctions.getNumCapturedZebraPulses()==0) {
+			logger.debug("Checking if detectors are busy... ");
+			if (detectorFunctions.isTfgArmed()) {
+				logger.debug("Tfg is armed and waiting for an external trigger");
 				return true;
-			} else {
-				return getScanDetectors()[0].isBusy();
 			}
+			boolean isBusy = getScanDetectors()[0].isBusy();
+			logger.debug("Number of captured Zebra pulses = {}", detectorFunctions.getNumCapturedZebraPulses());
+			logger.debug("Scalers are busy ? {}", isBusy);
+			return isBusy;
 		}
 	}
 
@@ -624,7 +650,7 @@ public class TurboXasScan extends ContinuousScan {
 	 * @param detector
 	 * @throws Exception
 	 */
-	private void collectData(BufferedDetector[] detectors) throws Exception {
+	private void readoutData(BufferedDetector[] detectors) throws Exception {
 
 		// Create scan data point
 		ScanDataPoint thisPoint = new ScanDataPoint();
@@ -666,7 +692,7 @@ public class TurboXasScan extends ContinuousScan {
 		if (isChild())
 			numPoints = getParent().getDimension();
 
-		numPoints = getTotalNumSpectra();
+		numPoints = getNumSpectra()*getNumRepetitions();
 
 		thisPoint.setNumberOfPoints(numPoints);
 		currentPointCount++;
@@ -852,11 +878,21 @@ public class TurboXasScan extends ContinuousScan {
 		this.shutter = Optional.ofNullable(shutter);
 	}
 
-	private void moveShutter(String position) throws DeviceException {
+	private void moveShutter(String position) throws DeviceException, InterruptedException {
 		if (shutter.isPresent()) {
-			logger.debug("Moving {} to {}", shutter.get().getName(), position);
-			InterfaceProvider.getTerminalPrinter().print("Moving "+shutter.get().getName()+" to '"+position+"' position ");
-			shutter.get().moveTo(position);
+			Scannable shutterScn = shutter.get();
+			logger.debug("Moving {} to {}", shutterScn.getName(), position);
+			if (shutterScn.getPosition().equals(position)) {
+				logger.debug("{} is already in position", shutterScn.getName(), position);
+				return;
+			}
+			InterfaceProvider.getTerminalPrinter().print("Moving "+shutterScn.getName()+" to '"+position+"' position ");
+			shutterScn.moveTo(position);
+			// Make sure shutter really is in the demand position...
+			if (!shutterScn.getPosition().toString().equals(position)) {
+				logger.debug("Waiting for shutter to move to {} (currently {})", position, shutterScn.getPosition());
+				Thread.sleep(pollIntervalMillis);
+			}
 			logger.debug("Shutter move finished");
 		}
 	}
@@ -867,5 +903,21 @@ public class TurboXasScan extends ContinuousScan {
 
 	public void setDatasetNamesToAverage(List<String> datasetNamesToAverage) {
 		this.datasetNamesToAverage = datasetNamesToAverage;
+	}
+
+	public Scannable getScannableToMove() {
+		return scannableToMove.orElse(null);
+	}
+
+	public void setScannableToMove(Scannable scannableToMove) {
+		this.scannableToMove = Optional.ofNullable(scannableToMove);
+	}
+
+	public List<Object> getPositionsForScan() {
+		return positionsForScan;
+	}
+
+	public void setPositionsForScan(List<Object> positionsForScan) {
+		this.positionsForScan = positionsForScan;
 	}
 }
