@@ -60,7 +60,7 @@
 	<import resource="file://${gda.facility.dir}/servers/${gda.mode}/icat_xml_creator.xml" />
 	
 	<!-- ExperimentService (dummy for now) -->
-	<bean id="experimentService" class="uk.ac.diamond.daq.experiment.api.DummyExperimentService" />
+	<bean id="experimentService" class="uk.ac.diamond.daq.experiment.api.FileSystemBasedExperimentService" />
 	
 	<!-- Plan request handler -->
 	<bean id="planRequestHandler" class="uk.ac.diamond.daq.experiment.plan.BasicPlanRequestHandler">

@@ -51,13 +51,18 @@ public class FullyAutomated  implements IPerspectiveFactory {
 		vLayout = layout.getViewLayout("uk.ac.diamond.daq.experiment.ui.plan.progressPlotView");
 		vLayout.setCloseable(false);
 
-		final IFolderLayout planOverview = layout.createFolder("planoverview", IPageLayout.RIGHT, 0.58f, "planprogress");
+		final IFolderLayout planManager = layout.createFolder("planmanager", IPageLayout.RIGHT, 0.58f, "planprogress");
+		planManager.addView("uk.ac.diamond.daq.experiment.ui.plan.manager");
+		vLayout = layout.getViewLayout("uk.ac.diamond.daq.experiment.ui.plan.manager");
+		vLayout.setCloseable(false);
+
+		final IFolderLayout planOverview = layout.createFolder("planoverview", IPageLayout.BOTTOM, 0.25f, "planmanager");
 		planOverview.addView("uk.ac.diamond.daq.experiment.ui.plan.overview");
 		vLayout = layout.getViewLayout("uk.ac.diamond.daq.experiment.ui.plan.overview");
 		vLayout.setCloseable(false);
 
 
-		final IFolderLayout planOutputLayout = layout.createFolder("planoutput", IPageLayout.BOTTOM, 0.5f, "planprogress");
+		final IFolderLayout planOutputLayout = layout.createFolder("planoutput", IPageLayout.BOTTOM, 0.6f, "planprogress");
 		planOutputLayout.addView("org.dawnsci.mapping.ui.spectrumview");
 		vLayout = layout.getViewLayout("org.dawnsci.mapping.ui.spectrumview");
 		vLayout.setCloseable(false);

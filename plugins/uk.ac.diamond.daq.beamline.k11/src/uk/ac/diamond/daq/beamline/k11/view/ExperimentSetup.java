@@ -24,11 +24,9 @@ import java.util.Map.Entry;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeanProperties;
-import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.jface.databinding.swt.WidgetProperties;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -60,10 +58,7 @@ import uk.ac.diamond.daq.client.gui.camera.CameraConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.DiffractionConfigurationDialog;
 import uk.ac.diamond.daq.client.gui.camera.samplealignment.SampleAlignmentDialog;
 import uk.ac.diamond.daq.experiment.api.ExperimentService;
-import uk.ac.diamond.daq.experiment.api.plan.ExperimentPlanBean;
-import uk.ac.diamond.daq.experiment.api.remote.PlanRequestHandler;
 import uk.ac.diamond.daq.experiment.ui.driver.ExperimentDriverWizard;
-import uk.ac.diamond.daq.experiment.ui.plan.PlanSetupWizard;
 import uk.ac.diamond.daq.stage.StageException;
 import uk.ac.diamond.daq.stage.StageGroupService;
 import uk.ac.gda.client.live.stream.LiveStreamConnection;
@@ -103,7 +98,6 @@ public class ExperimentSetup extends LayoutUtilities {
 	private Composite panelComposite;
 	private Text nameText;
 	private String mode = "Point and Shoot";
-	private Button planButton;
 
 	public ExperimentSetup() {
 		stageGroupService = Finder.getInstance().find("diadStageGroupService");
@@ -220,7 +214,6 @@ public class ExperimentSetup extends LayoutUtilities {
 			public void perspectiveActivated(IWorkbenchPage page, IPerspectiveDescriptor perspective) {
 				if (!PERSPECTIVES_MAP.get(mode).equals(perspective.getId())) {
 					setModeComboSelection(perspective.getId(), modeCombo);
-					togglePlanButtonVisibility();
 				}
 			}
 		});
@@ -370,8 +363,6 @@ public class ExperimentSetup extends LayoutUtilities {
 		});
 
 		addExperimentDriverButton(content);
-
-		addPlanButton(content);
 	}
 
 	private LiveStreamConnection getLiveStreamConnection () {
@@ -391,35 +382,6 @@ public class ExperimentSetup extends LayoutUtilities {
 			wizardDialog.setPageSize(driverWizard.getPreferredPageSize());
 			wizardDialog.open();
 		});
-	}
-
-	private void addPlanButton(Composite parent) {
-		planButton = addConfigurationDialogButton(parent, "Experiment plan");
-		planButton.addListener(SWT.Selection, event -> {
-			PlanSetupWizard planWizard = new PlanSetupWizard(experimentService, nameText.getText());
-			WizardDialog wizardDialog = new WizardDialog(parent.getShell(), planWizard);
-			if (wizardDialog.open() == Window.OK) {
-				ExperimentPlanBean bean = planWizard.getExperimentPlanBean();
-				PlanRequestHandler handler = Finder.getInstance().findSingleton(PlanRequestHandler.class);
-				try {
-					handler.submit(bean);
-				} catch (Exception e) {
-					logger.error("Could not submit plan", e);
-				}
-			}
-		});
-		togglePlanButtonVisibility();
-	}
-
-	/**
-	 * Shows the Experiment Plan button only when in Fully Automated mode
-	 */
-	private void togglePlanButtonVisibility() {
-		planButton.setVisible(mode.equals("Fully Automated"));
-	}
-
-	private IEclipseContext getInjectionContext() {
-		return activeWindow.getService(IEclipseContext.class);
 	}
 
 	/**
@@ -471,7 +433,6 @@ public class ExperimentSetup extends LayoutUtilities {
 		this.mode = mode;
 		try {
 			String id = PERSPECTIVES_MAP.get(mode);
-			togglePlanButtonVisibility();
 			workbench.showPerspective(id, activeWindow);
 		} catch (WorkbenchException e) {
 			logger.error("Could get get perspective for mode {} ", mode, e);
