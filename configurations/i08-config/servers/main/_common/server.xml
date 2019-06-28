@@ -70,7 +70,6 @@
 	<import resource="file:${gda.config}/servers/main/_common/devices/dummy_scannables.xml" />
 
 	<bean id="DashboardObserver" class="gda.jython.scriptcontroller.ScriptControllerBase" />
-	<bean id="ScanDataStore" class="gda.util.simpleServlet.FindableSimpleServlet" />
 
 	<!--
 		Mapping scans
