@@ -42,6 +42,7 @@
 	<import resource="sample_manipulator.xml"/>
 	<import resource="sample_heater.xml"/>
 	<import resource="analyser.xml"/>
+	<import resource="hiden.xml"/>
 
 	<!-- NAPES vacuum gauges -->
 	<import resource="napes_vacuum.xml"/>
