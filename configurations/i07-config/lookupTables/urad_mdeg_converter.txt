@@ -1,4 +1,0 @@
-#mDeg to uRad converter - simple 1-1 that changes the uRad unit from EPICS that GDA believes is mDeg 
-Units uRad mDeg
-0.0	0.0
-100000.0	100000.0

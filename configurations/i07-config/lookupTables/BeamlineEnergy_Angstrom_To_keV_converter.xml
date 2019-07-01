@@ -1,7 +1,0 @@
-<JEPQuantityConverter>
-<ExpressionStoT>12.3985/X</ExpressionStoT>
-<ExpressionTtoS>12.3985/X</ExpressionTtoS>
-<AcceptableSourceUnits>Angstrom</AcceptableSourceUnits>
-<AcceptableTargetUnits>keV</AcceptableTargetUnits>
-<SourceMinIsTargetMax>true</SourceMinIsTargetMax>
-</JEPQuantityConverter>
