@@ -89,4 +89,85 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="uk.ac.gda.client.exafs"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+      <plugin
+         id="uk.ac.gda.client.experimentdefinition"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+      <plugin
+         id="uk.ac.diamond.scisoft.spectroscopy"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+      <plugin
+         id="uk.ac.gda.exafs.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="uk.ac.gda.server.exafs"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+      <plugin
+         id="com.github.tschoonj.xraylib"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+      <plugin
+         id="org.dawnsci.processing.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.dawnsci.processing.ui.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+      <plugin
+         id="org.dawnsci.processing.python"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+      <plugin
+         id="uk.ac.gda.exafs.datawriter"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+      <plugin
+         id="uk.ac.diamond.scisoft.spectroscopy.rcp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+      <plugin
+         id="uk.ac.gda.devices.xspress2"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
 </feature>

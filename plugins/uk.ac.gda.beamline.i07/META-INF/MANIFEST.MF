@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.core.runtime,
  uk.ac.gda.common;bundle-version="1.0.0",
  uk.ac.gda.common.rcp;bundle-version="1.0.0",
  uk.ac.gda.epics.adviewer;bundle-version="1.0.0",
- uk.ac.gda.epics;bundle-version="1.0.0"
+ uk.ac.gda.epics;bundle-version="1.0.0",
+ uk.ac.gda.client.exafs
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Diamond Light Source
