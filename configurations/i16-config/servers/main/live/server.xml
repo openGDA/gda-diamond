@@ -45,7 +45,7 @@
 	<import resource="epics/motor/sixcbase.xml" />
 	<import resource="epics/motor/sixcsample.xml" />
 
-	<!--<import resource="transient/kbmbase.xml" /-->
+	<import resource="transient/kbmbase.xml" />
 	<!--<import resource="transient/smargon.xml" />-->
 
 	<import resource="../_common/scannable/motors.xml" />
