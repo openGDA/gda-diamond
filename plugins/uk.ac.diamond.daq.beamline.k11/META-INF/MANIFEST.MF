@@ -46,7 +46,9 @@ Require-Bundle: uk.ac.gda.common,
  org.eclipse.core.databinding.property;bundle-version="1.6.100",
  org.eclipse.core.databinding.beans,
  org.eclipse.dawnsci.analysis.api,
- org.eclipse.dawnsci.plotting.api
+ org.eclipse.dawnsci.plotting.api,
+ uk.ac.gda.tomography.scan.editor,
+ uk.ac.gda.tomography
 Export-Package: uk.ac.diamond.daq.beamline.k11.perspective
 Automatic-Module-Name: uk.ac.diamond.daq.beamline.k11
 Service-Component: OSGI-INF/*.xml
