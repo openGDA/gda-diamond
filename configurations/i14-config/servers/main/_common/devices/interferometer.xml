@@ -13,11 +13,11 @@
 	</bean>
 
  	<!-- Functions defining offset of interferometer motors relative to relative to corresponding stage1 motors -->
- 	<bean id="ifsy_offset" class="gda.function.OffsetFunction">
+	<bean id="ifsy_offset" class="gda.function.SimpleAffineFunction">
  		<property name="offset" value="-1.3" />
  	</bean>
 
- 	<bean id="ifsz_offset" class="gda.function.OffsetFunction">
+	<bean id="ifsz_offset" class="gda.function.SimpleAffineFunction">
  		<property name="offset" value="2.7" />
  	</bean>
 
