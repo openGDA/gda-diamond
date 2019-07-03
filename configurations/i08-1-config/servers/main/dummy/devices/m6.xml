@@ -29,14 +29,14 @@
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="position" value="37" />
-		<property name="unitString" value="kcts" />
+		<property name="unitString" value="kct" />
 	</bean>
 
 	<bean id="m6_ellipsticity_motor" class="gda.device.motor.DummyMotor">
 		<property name="minPosition" value="-1000" />
 		<property name="maxPosition" value="1000" />
 		<property name="position" value="-9" />
-		<property name="unitString" value="kcts" />
+		<property name="unitString" value="kct" />
 	</bean>
 
 </beans>
