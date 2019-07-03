@@ -23,6 +23,34 @@
       </product>
    </extension>
    <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:window?after=showView">
+         <menu
+               label="Queue Views">
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Scan Queue"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=org.eclipse.scanning.api.event.scan.ScanBean;queueName=org.eclipse.scanning.status.set;topicName=org.eclipse.scanning.status.topic;submissionQueueName=org.eclipse.scanning.submission.queue;partName=Scan Queue">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Processing Queue"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=uk.ac.diamond.scisoft.analysis.processing.bean.OperationBean;queueName=scisoft.operation.STATUS_QUEUE;topicName=scisoft.operation.STATUS_TOPIC;submissionQueueName=scisoft.operation.SUBMISSION_QUEUE;partName=Processing Queue">
+               </parameter>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
          point="org.eclipse.ui.perspectives">
       <perspective
             class="gda.rcp.EmptyPerspective"
@@ -141,6 +169,21 @@
                relationship="stack"
                relative="uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:Pilatus"/>
       </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="org.eclipse.scanning.event.ui.view.StatusQueueView"
+            id="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=org.eclipse.scanning.api.event.scan.ScanBean;queueName=org.eclipse.scanning.status.set;topicName=org.eclipse.scanning.status.topic;submissionQueueName=org.eclipse.scanning.submission.queue;partName=Scan Queue"
+            name="Scan Queue View"
+            restorable="true">
+      </view>
+      <view
+            class="org.eclipse.scanning.event.ui.view.StatusQueueView"
+            id="org.eclipse.scanning.event.ui.queueView:beanBundleName=org.eclipse.scanning.api;beanClassName=uk.ac.diamond.scisoft.analysis.processing.bean.OperationBean;queueName=scisoft.operation.STATUS_QUEUE;topicName=scisoft.operation.STATUS_TOPIC;submissionQueueName=scisoft.operation.SUBMISSION_QUEUE;partName=Processing Queue"
+            name="Processing Queue View"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="uk.ac.gda.client.dashboard.objects">
