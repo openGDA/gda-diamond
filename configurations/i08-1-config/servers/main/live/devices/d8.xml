@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Stick motor -->
+	<bean id="d8_y_motor" class="gda.device.motor.EpicsMotor">
+		<property name="pvName" value="BL08J-DI-PHDGN-08:Y" />
+	</bean>
+
+	<!-- Stick positioner -->
+	<bean id="d8_y_position" class="gda.device.enumpositioner.EpicsPositioner">
+		<property name="recordName" value="BL08J-DI-PHDGN-08:MP" />
+		<property name="acceptNewMoveToPositionWhileMoving" value="true" />
+	</bean>
+
+</beans>

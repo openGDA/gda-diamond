@@ -25,9 +25,11 @@
 
 	<!-- Detectors -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/d7_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors/d8_addetector.xml" />
 
 	<!-- Devices -->
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d7.xml" />
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/d8.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/m6.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/devices/zone_plate.xml" />
@@ -41,9 +43,11 @@
 
 	<!-- Detectors -->
 	<import resource="file:${gda.config}/servers/main/_common/detectors/d7_addetector.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/detectors/d8_addetector.xml" />
 
 	<!-- Devices -->
 	<import resource="file:${gda.config}/servers/main/_common/devices/d7.xml" />
+	<import resource="file:${gda.config}/servers/main/_common/devices/d8.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/m6.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/sample_stage.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/devices/zone_plate.xml" />
