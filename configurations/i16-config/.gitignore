@@ -1,4 +1,5 @@
 scripts/gdaserver.py
+scripts/gdaserver-dummy.py
 
 ### Temporary files ###
 *.bak

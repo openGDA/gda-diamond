@@ -41,13 +41,8 @@ idgap_offset=pd_offset.Offset('idgap_offset')
 bragg_offset=pd_offset.Offset('bragg_offset')
 uharmonic = pd_offset.Offset('Uharmonic'); uharmonic.setOutputFormat(['%.0f'])
 dcmharmonic = pd_offset.Offset('DCMharmonic'); dcmharmonic.setOutputFormat(['%.0f'])
-ppp_xtal1_111_offset=pd_offset.Offset('ppp_xtal1_111_offset') 
-ppp_xtal1_220_offset=pd_offset.Offset('ppp_xtal1_220_offset') 
-ppp_xtal1_m220_offset=pd_offset.Offset('ppp_xtal1_m220_offset')
-ppp_xtal1_440_offset=pd_offset.Offset('ppp_xtal1_440_offset') 
-ppp_xtal2_111_offset=pd_offset.Offset('ppp_xtal2_111_offset') 
-ppp_xtal2_220_offset=pd_offset.Offset('ppp_xtal2_220_offset') 
 
+#ppp_* scannables moved to localStationStaff.py
 
 m1y_offset=pd_offset.Offset('m1y_offset') 
 m2y_offset=pd_offset.Offset('m2y_offset') 

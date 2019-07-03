@@ -55,7 +55,7 @@ global delta_axis_offset
 global azir, psi, psic, hkl
 global kbmbase, setDatadirPropertyFromPersistanceDatabase, pitchupClass
 global stokes,zp,thp_offset,thp_offset_sigma,thp_offset_pi,tthp_offset_sigma,tthp_detoffset,cry_offset,ref_offset,tthp_offset_pi,detector_lateral_offset_zero,detector_lateral_offset_ninety
-global ic1monitor, ppp_xtal1_111_offset, ppp_xtal1_m220_offset, ppp_xtal1_220_offset, ppp_xtal1_440_offset, ppp_xtal2_111_offset
+global ic1monitor
 global x2000, x2003
 global delta
 global energy, simple_energy, gam
@@ -75,6 +75,7 @@ global eta_offset, mu_offset
 global beta
 global T1dcm, T2dcm
 global ppx, ppy, ppchi
+global ppyaw,ppth1,ppz1,ppth2,ppz2,ppyaw,pppitch
 global sperp, spara, ytable, ztable
 global xps3m1, xps3m2, xps3m3, xps3m4, xps3m5, xps3m6
 global frontendx, frontendy
@@ -202,7 +203,6 @@ from pd_LS340setpoint import EpicsLSsetpoint
 from pd_LakeshorePID import EpicsLakeshorePID
 from pd_WaitForBeam import WaitForBeamPDClass, TimeToMachineInjectionClass, WaitForInjectionPDClass, WaitForInjectionPDClass2 
 from pd_metadata_group import ReadPDGroupClass
-from PhasePlateClass import PPPClass
 from pd_diffractometerbase import DiffoBaseClass
 from pd_x2000 import x2000scaClass
 from pd_acescaler import acesca1
@@ -374,14 +374,6 @@ def _gdahelp(o):
 	
 alias("help")
 
-### Disable pos listing all Scannables when called with no args
-pos_orig = pos
-def pos(*args):
-	if not args:
-		print "pos command listing is disabled on I16"
-	else:
-		pos_orig(*args)
-
 ### Create datadir functions
 localStation_print("Running startup_dataDirFunctions.py")
 localStation_print("  use 'datadir' to read the current directory or 'datadir name' to change it")
@@ -480,13 +472,13 @@ if not USE_DIFFCALC:
 else:
 	del sixc
 	import diffcalc
-	diffcalc_root = os.path.realpath(diffcalc.__file__).split('diffcalc/__init__.py')[0]
+	diffcalc_root = os.path.realpath(diffcalc.__file__).split('diffcalc/__init__')[0]
 	diffcalc_startup_script = os.path.join(diffcalc_root, 'startup', 'i16.py')
 	try:
 		localStation_print("Starting Diffcalc by running: %r" % diffcalc_startup_script)
 		run(diffcalc_startup_script)
 	except Exception as e:
-		localStation_exception("trying to set up difcalc via "+diffcalc_startup_script, e)
+		localStation_exception("trying to set up diffcalc via "+diffcalc_startup_script, e)
 	exec("phi=euler.phi")
 	exec("chi=euler.chi")
 	exec("eta=euler.eta")
@@ -612,6 +604,7 @@ if installation.isLive():
 	### Various ###
 	localStation_print("   running startup_epics_monitors.py")      # [TODO: Replace with imports]
 	run("startup_epics_monitors")
+	global ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp
 
 	localStation_print("   running startup_epics_positioners.py")
 	run("startup_epics_positioners")
@@ -753,15 +746,7 @@ if installation.isLive():
 	x1trig.triggerLength=0.1
 	x2trig = ToggleBinaryPvAndWait('x2trig', 'BL16I-EA-USER-01:BO2') 
 	x2trig.triggerLength=0.2
-	
-	### Phase Plates ###
-	#ppa111=PPPClass('ppa111',3.559/sqrt(3),ppth, ppp_xtal1_111_offset,help='Phase plate device for 111 reflection from crystal A (0.4 mm diamond)')
-	#ppa220=PPPClass('ppa220',3.559/sqrt(8),ppth, ppp_xtal1_220_offset,help='Phase plate device for 220 reflection from crystal A (0.4 mm diamond)')
-	#ppam220=PPPClass('ppam220',-3.559/sqrt(8),ppth, ppp_xtal1_m220_offset,help='Phase plate device for -2-20 reflection from crystal A (0.4 mm diamond)') #experimental
-	#ppa440=PPPClass('ppa440',3.559/sqrt(8)/2,ppth, ppp_xtal1_440_offset,help='Phase plate device for 440 reflection from crystal A (0.4 mm diamond)')
-	#ppb111=PPPClass('ppb111',3.559/sqrt(3),ppth, ppp_xtal2_111_offset,help='Phase plate device for 111 reflection from crystal B (0.1 mm diamond)')
-	##ppb220=PPPClass('ppb220',3.559/sqrt(8),ppth, ppp_xtal2_220_offset,help='Phase plate device for 220 reflection from crystal B (0.1 mm diamond)')
-	localStation_exception("initialising phase plate reflection scannables (ppa111 ppa220 ppam220 ppa440 ppb111), ppth now ppth1 & ppth2", None)
+	#ppa* & ppb* scannables moved to localStationStaff.py
 
 else:
 	localStation_print("NOT LIVE :SKIPPED EPICS DEVICES/MONITORS")
@@ -1273,11 +1258,15 @@ try:
 	if not USE_DIFFCALC:
 		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa, xtalinfo, source, jjslits, pa, PPR,
 				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
-				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
+				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans,
+				 ppy, ppx, ppchi, ppyaw, ppth1, ppz1, ppth2, ppz2, ppyaw, pppitch,
+				 ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp]
 	else:
 		toadd = [dummypd, mrwolf, diffractometer_sample, sixckappa,           source, jjslits, pa, PPR,
 				 positions, gains_atten, mirrors, beamline_slits, mono, frontend, lakeshore, offsets,
-				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans]
+				 s7xgap, s7xtrans, s7ygap, s7ytrans, dettrans,
+				 ppy, ppx, ppchi, ppyaw, ppth1, ppz1, ppth2, ppz2, ppyaw, pppitch,
+				 ppchitemp, ppth1temp, ppz1temp, ppth2temp, ppz2temp]
 
 	addedInSpring = [sixckappa] + [delta_axis_offset]
 	toadd = [ _x for _x in toadd if _x != None and not _x in addedInSpring ]

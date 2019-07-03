@@ -2,6 +2,7 @@
 
 from uk.ac.diamond.daq.persistence.jythonshelf import LocalJythonShelfManager
 from gda.device.scannable import PseudoDevice
+from org.slf4j import LoggerFactory
 
 import ShelveIO
 import installation
@@ -14,6 +15,8 @@ class Offset(PseudoDevice):
 	use warningIfChangeGreaterThan keyword to specify the largest allowed change without a warning
 	'''
 	def __init__(self,name, scannableToOffset=None, warningIfChangeGreaterThan=None):
+		self.logger = LoggerFactory.getLogger("Offset:"+name)
+
 		self.setName(name)
 		self.setInputNames([name])
 		self.warn=warningIfChangeGreaterThan
@@ -28,7 +31,7 @@ class Offset(PseudoDevice):
 		self.scannableToOffset = scannableToOffset
 		if self.scannableToOffset:
 			self.applyCurrentOffsetToScannable()
-		
+
 	def applyCurrentOffsetToScannable(self):
 		if self.scannableToOffset == None:
 			raise Exception(self.name + ": Error applying current offset: No scannable-to-offset has been configured")
@@ -61,9 +64,11 @@ class Offset(PseudoDevice):
 	def getPosition(self):
 		if installation.loadOldShelf():
 			# <old shelf >
+			self.logger.debug("getPosition() returning {}", self.offsetShelf.getValue(self.getName()))
 			return self.offsetShelf.getValue(self.getName())
 		else:
 			# <new shelf>
+			self.logger.debug("getPosition() returning {}", self.newshelf.getValue(self.getName(), None))
 			return self.newshelf.getValue(self.getName(), None) # None if not is dbase yet
 
 	def isBusy(self):
@@ -72,6 +77,8 @@ class Offset(PseudoDevice):
 
 class OffsetDualScannable(PseudoDevice):
 	def __init__(self, name, scannablesToOffset = None):
+		self.logger = LoggerFactory.getLogger("OffsetDualScannable:"+name)
+
 		self.name = name
 		self.inputNames = [name]
 		# <old shelf>
@@ -108,9 +115,11 @@ class OffsetDualScannable(PseudoDevice):
 	def getPosition(self):
 		if installation.loadOldShelf():
 			# <old shelf >
+			self.logger.debug("getPosition() returning {}", self.offsetShelf.getValue(self.getName()))
 			return self.offsetShelf.getValue(self.getName())
 		else:
 			# <new shelf>
+			self.logger.debug("getPosition() returning {}", self.newshelf.getValue(self.getName(), None))
 			return self.newshelf.getValue(self.getName(), None) # None if not is dbase yet
 
 	def isBusy(self):

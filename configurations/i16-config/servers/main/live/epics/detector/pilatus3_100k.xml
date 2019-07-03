@@ -165,8 +165,8 @@
 
 					 If pilatus3_hdf5filewriter_for_scans is not enabled
 					 then pilatus3_force_callbacks should be enabled so other plugins see data
-				<ref bean="pilatus3_force_callbacks" />
 				 -->
+				<ref bean="pilatus3_force_callbacks" />
 				<!-- If pilatus3_hdf5filewriter_for_scans doesn't set the enabled property to true
 					 then pilatus3_force_callbacks should be enabled so other plugins see data
 				<ref bean="pilatus3_hdf5filewriter_for_scans" />
@@ -212,6 +212,11 @@
 		<property name="additionalPluginList">
 			<list>
 				<ref bean="pilatus3_nxfilewriter_for_snaps" />
+				<!-- pilatus3_nxfilewriter_for_snaps doesn't enable array callbacks as it writes tif
+					 files via the CAM plugin, so no AD plugin other than CAM will see data unless we
+					 force callbacks to be enabled.
+				 -->
+				<ref bean="pilatus3_force_callbacks" />
 			</list>
 		</property>
 	</bean>

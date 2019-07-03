@@ -10,7 +10,7 @@
 
 	<bean id="ppth1Motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16I-OP-PPR-01:THETA1" />
+		<property name="pvName" value="BL16I-OP-PPR-01:S1:THETA" />
 	</bean>
 
 	<bean id="pppiezo1Motor"
@@ -23,12 +23,12 @@
 
 	<bean id="ppz1Motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16I-OP-PPR-01:Z1" />
+		<property name="pvName" value="BL16I-OP-PPR-01:S1:Z" />
 	</bean>
 
 	<bean id="ppth2Motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16I-OP-PPR-01:THETA2" />
+		<property name="pvName" value="BL16I-OP-PPR-01:S2:THETA" />
 	</bean>
 
 	<bean id="pppiezo2Motor"
@@ -41,6 +41,6 @@
 
 	<bean id="ppz2Motor"
 			class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL16I-OP-PPR-01:Z2" />
+		<property name="pvName" value="BL16I-OP-PPR-01:S2:Z" />
 	</bean>
 </beans>

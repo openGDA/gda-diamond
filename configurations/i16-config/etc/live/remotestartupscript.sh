@@ -9,7 +9,7 @@
 # environment before invoking the main gda script to get correct startup behaviour. Also please add "< /dev/null > /dev/null 2>&1"
 # to the end of the line that calls the gda script to prevent ssh from hanging incorrectly due to an unclosed stream.
 
-
+export DISPLAY=:1
 
 # If you want any special behaviour add it above this line
 here_absolute_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
