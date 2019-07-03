@@ -78,6 +78,7 @@ public class SingleSpectrumCollectionView extends ViewPart {
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
 		}
+		singleSpectrumWidgets.addServerObserver();
 	}
 
 	@Override

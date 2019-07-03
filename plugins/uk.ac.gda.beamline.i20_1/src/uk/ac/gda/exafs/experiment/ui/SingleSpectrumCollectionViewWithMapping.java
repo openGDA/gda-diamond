@@ -79,6 +79,7 @@ public class SingleSpectrumCollectionViewWithMapping extends SingleSpectrumColle
 			UIHelper.showError("Unable to create controls", e.getMessage());
 			logger.error("Unable to create controls", e);
 		}
+		singleSpectrumWidgets.addServerObserver();
 	}
 
 	@Override

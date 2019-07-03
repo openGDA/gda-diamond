@@ -27,8 +27,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +86,7 @@ import gda.scan.ede.TimeResolvedExperiment;
 import gda.scan.ede.TimeResolvedExperimentParameters;
 import gda.scan.ede.position.EdeScanMotorPositions;
 import gda.scan.ede.position.ExplicitScanPositions;
+import uk.ac.diamond.daq.concurrent.Async;
 import uk.ac.gda.exafs.experiment.trigger.TFGTrigger;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject;
 import uk.ac.gda.exafs.experiment.trigger.TriggerableObject.TriggerOutputPort;
@@ -382,9 +385,9 @@ public class EdeScanTest extends EdeTestBase {
 		}
 
 		@Override
-		public void moveTo(Object position) throws DeviceException {
+		public void asynchronousMoveTo(Object position) throws DeviceException {
 			positions.add(position);
-			super.moveTo(position);
+			super.asynchronousMoveTo(position);
 		}
 
 		public List<Object> getPositions() {
@@ -963,5 +966,53 @@ public class EdeScanTest extends EdeTestBase {
 		// Check the data was written correctly and matches the original object
 		IDataset dat = getDataset(theExperiment.getNexusFilename(), "before_scan", TimeResolvedExperimentParameters.class.getSimpleName());
 		assertEquals("TimeResolvedExperimentParameters written to 'before_scan' is not correct", allParams.toXML(), dat.getString(0));
+	}
+
+	@Test
+	public void testScanCanBeInterrupted() throws Exception {
+		setup(EdeScanTest.class, "testScanCanBeInterrupted");
+
+		// Parameters for 1 spectrum
+		EdeScanParameters scanParams = new EdeScanParameters();
+		TimingGroup group1 = new TimingGroup();
+		group1.setLabel("group1");
+		group1.setNumberOfFrames(1);
+		group1.setTimePerScan(0.1);
+		group1.setTimePerFrame(0.1);
+		scanParams.addGroup(group1);
+
+		// Motor positions to move to during scan
+		EdeScanMotorPositions motorPositions = new EdeScanMotorPositions(EdePositionType.INBEAM, Collections.emptyMap());
+		motorPositions.setScannableToMoveDuringScan(xScannable);
+		motorPositions.setMotorPositionsDuringScan(10, 20, 21);
+
+		// Create scan and start it running in background thread
+		EdeScan theScan = new EdeScan(scanParams, motorPositions, EdeScanType.LIGHT, xh, -1, createShutter2(), null);
+		Async.execute(() ->	{
+			try {
+				theScan.runScan();
+			} catch (Exception e) {
+				throw new AssertionError("Problem running scan "+e.getMessage());
+			}
+		});
+
+		// Wait for the first 5 spectra to be collected...
+		while(theScan.getNumberOfAvailablePoints() < 5) {
+			Thread.sleep(100);
+		}
+
+		// ... and ask the scan to stop 'nicely'
+		theScan.requestFinishEarly();
+
+		// Wait for things to finish
+		Thread.sleep(1000);
+
+		// Check scan was actually stopped early
+		int numFrames = theScan.getNumberOfAvailablePoints();
+		assertTrue("Scan was not stopped early", numFrames < motorPositions.getMotorPositionsDuringScan().size());
+
+		// Check data in Nexus file have correct dimensions
+		String filePath = Paths.get(testDir, "1.nxs").toAbsolutePath().toString();
+		checkDetectorData(filePath, xh.getName(), numFrames);
 	}
 }
