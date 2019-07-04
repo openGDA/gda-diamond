@@ -39,7 +39,6 @@
    <splash
       location="uk.ac.gda.client" />
    <launcher>
-      <solaris/>
       <win useIco="false">
          <bmp/>
       </win>
@@ -55,5 +54,12 @@
       <feature id="uk.ac.gda.beamline.i20_1.feature"/>
    </features>
 
+   <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+   </configurations>
 
 </product>
