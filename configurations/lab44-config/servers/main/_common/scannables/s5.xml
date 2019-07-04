@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Cleanup Slits S5 -->
+	<bean id="s5hall" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorXPos_S5" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s5ring" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorXNeg_S5" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s5top" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYPos_S5" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s5bottom" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYNeg_S5" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s5xgap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorXSize_S5" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s5xcentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorXCentre_S5" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s5ygap" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYSize_S5" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="s5ycentre" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorYCentre_S5" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="S5" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="s5hall" />
+				<ref bean="s5ring" />
+				<ref bean="s5top" />
+				<ref bean="s5bottom" />
+				<ref bean="s5xgap" />
+				<ref bean="s5xcentre" />
+				<ref bean="s5ygap" />
+				<ref bean="s5ycentre" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+</beans>

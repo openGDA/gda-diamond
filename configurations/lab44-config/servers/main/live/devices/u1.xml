@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Patch Panel U1 Analog Output ControlPoint EpicsControlPoint -->
+	<bean id="dac11" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="dac12" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="1" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="dac13" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="dac14" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="dac15" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="dac16" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="dac17" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<bean id="dac18" class="gda.device.controlpoint.DummyControlPoint">
+		<property name="value" value="0" />
+		<property name="outputFormat">
+			<array>
+				<value>%10.6f</value>
+			</array>
+		</property>
+	</bean>
+
+	<!-- Patch Panel U1 Analog Input Monitor -->
+	<bean id="adc11" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0</value>
+		</property>
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="adc12" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0</value>
+		</property>
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="adc13" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0</value>
+		</property>
+		<property name="increment" value="1" />
+	</bean>
+
+	<bean id="adc14" class="gda.device.monitor.DummyEpicsMonitorDouble">
+		<property name="unit" value="V" />
+		<property name="value">
+			<value type="double">0</value>
+		</property>
+		<property name="increment" value="1" />
+	</bean>
+
+</beans>

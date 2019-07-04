@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Area detector camera for 2D array view -->
+	<bean id="pcoPlotServerRoiProvider" class="gda.device.detector.nxdetector.roi.PlotServerROISelectionProvider">
+		<constructor-arg value="PCO" />
+		<constructor-arg value="6" />
+	</bean>
+	
+	<!-- ROI-STAT pairs for 2D Array View-->
+	<bean id="pcoRoiStats1" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pcoRoiStats1" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI1:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT1:" />
+		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="pcoPlotServerRoiProvider" />
+				<constructor-arg value="0" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pcoRoiStats2" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pcoRoiStats2" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI2:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT2:" />
+		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="pcoPlotServerRoiProvider" />
+				<constructor-arg value="1" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pcoRoiStats3" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pcoRoiStats3" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI3:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT3:" />
+		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="pcoPlotServerRoiProvider" />
+				<constructor-arg value="2" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pcoRoiStats4" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pcoRoiStats4" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI4:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT4:" />
+		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="pcoPlotServerRoiProvider" />
+				<constructor-arg value="3" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pcoRoiStats5" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pcoRoiStats5" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI5:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT5:" />
+		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="pcoPlotServerRoiProvider" />
+				<constructor-arg value="4" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="pcoRoiStats6" class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
+		<property name="pluginName" value="pcoRoiStats6" />
+		<property name="baseRoiPVName" value="BL06I-EA-DET-01:ROI6:" />
+		<property name="baseStatsPVName" value="BL06I-EA-DET-01:STAT6:" />
+		<property name="roiInputNdArrayPort" value="pco.cam" />
+		<property name="enabledBasicStats" value="Total" />
+		<property name="oneTimeSeriesCollectionPerLine" value="false" />
+		<property name="roiProvider">
+			<bean class="gda.device.detector.nxdetector.roi.RectangularIntegerROIIndexer">
+				<constructor-arg ref="pcoPlotServerRoiProvider" />
+				<constructor-arg value="5" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>

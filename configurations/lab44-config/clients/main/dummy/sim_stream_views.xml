@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="sim_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
+		<property name="serviceUrl" value="${gda.rmi.prefix}simRoi" />
+		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
+		<property name="refreshStubOnConnectFailure" value="true" />
+	</bean>
+	<bean id="sim_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="SIM" />
+		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
+		<property name="arrayPv" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
+		<property name="roiProvider" ref="sim_roi" />
+		<property name="withHistogram" value="true"/>
+	</bean>
+
+</beans>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="valves.xml"/>
+	<import resource="m3.xml"/>
+	<import resource="d5.xml"/>
+	<import resource="shutters.xml"/>
+	<import resource="s4.xml"/>
+	<import resource="d6.xml"/>
+	<import resource="s5.xml"/>
+	<import resource="d7.xml"/>
+	<import resource="m4.xml"/>
+	<import resource="m5.xml"/>
+	<import resource="u1.xml"/>
+	<import resource="d7a.xml"/>
+	<import resource="userMotors.xml"/>
+
+	<import resource="laser_ec3.xml"/>
+	<import resource="peemStage.xml"/>
+	<import resource="peemExitSlit.xml"/>
+<!-- 	<import resource="medipix.xml"/> -->
+	<import resource="pcss_cam.xml"/>
+</beans>

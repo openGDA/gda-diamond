@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Exit Slits S4 Motors -->
+	<bean id="MotorXGap_S4" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="3" />
+		<property name="maxPosition" value="15.1214" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorYGap_S4" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-16.9570" />
+		<property name="maxPosition" value="-1.4570" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorZ_S4" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.0000000" />
+		<property name="maxPosition" value="175.010000" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorXSize_S4" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-0.30283" />
+		<property name="maxPosition" value="3.6982" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+	<bean id="MotorYSize_S4" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-10.0602" />
+		<property name="maxPosition" value="3.9408" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+
+
+</beans>

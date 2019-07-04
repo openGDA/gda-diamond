@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- KB Mirrors M4 (HFM) -->
+	<bean id="m4x" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorHFMX_M4" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="mm" />
+		<property name="hardwareUnitString" value="mm" />
+	</bean>
+	<bean id="m4pitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorHFMPitch_M4" />
+		<property name="protectionLevel" value="0" />
+	</bean>
+	<bean id="m4fpitch" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorHFMFinePitch_M4" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="V" />
+		<property name="hardwareUnitString" value="V" />
+	</bean>
+		<bean id="m4bend1" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorHFMBender1_M4" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="N" />
+		<property name="hardwareUnitString" value="N" />
+	</bean>
+	<bean id="m4bend2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorHFMBender2_M4" />
+		<property name="protectionLevel" value="0" />
+		<property name="initialUserUnits" value="N" />
+		<property name="hardwareUnitString" value="N" />
+	</bean>
+	<bean id="m4roll" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="MotorHFMRoll_M4" />
+		<property name="protectionLevel" value="0" />
+	</bean>
+	
+	<bean id="M4" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="m4x" />
+				<ref bean="m4pitch" />
+				<ref bean="m4fpitch"/>
+				<ref bean="m4bend1" />
+				<ref bean="m4bend2" />
+				<ref bean="m4roll" />
+				<ref bean="m4bend1g" />
+				<ref bean="m4bend2g" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+	<!-- NXDetector collection strategies -->
+	<bean id="m4cam1ADCollectionStrategy"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeDecorator">
+		<property name="restoreAcquireTime" value="true" />
+		<property name="decoratee">
+			<bean class="gda.device.detector.addetector.collectionstrategy.SingleImageModeDecorator">
+				<property name="restoreNumImagesAndImageMode" value="true"/>
+				<property name="decoratee">
+					<bean class="gda.device.detector.addetector.collectionstrategy.InternalTriggerModeDecorator">
+						<property name="decoratee">
+							<bean class="gda.device.detector.addetector.collectionstrategy.SoftwareStartStop">
+								<property name="adBase" ref="m4cam1AD_cam" />
+								<property name="restoreAcquireState" value="true"/>
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<!-- NXDetector file writers -->
+	<bean id="m4cam1_hdf5_MultipleImagesPerHDF5FileWriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="m4cam1_NDFileHDF5" />
+		<property name="fileTemplate" value="%s%s%05d.hdf5" />
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileNameTemplate" value="$scan$-m4cam1" />
+		<property name="fileNumberAtScanStart" value="-1" />
+		<property name="setChunking" value="false" />
+		<property name="lazyOpen" value="true" />
+	</bean>
+
+	<!-- SingleImagePerFileWriter(String detectorName)	 -->
+	<bean id="m4cam1_tiff_SingleImagePerFileWriter" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="m4cam1" />
+		<property name="ndFile" ref="m4cam1_NDFileTiff" />
+		<property name="keyNameForMetadataPathTemplate" value="m4cam1_path_template" />
+	</bean>
+		<!-- NXDetectors -->
+ 	<bean id="m4cam1" class="gda.device.detector.NXDetector">
+		<property name="name" value="m4cam1" />
+		<property name="collectionStrategy" ref="m4cam1ADCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="m4_RoiStats1" />
+				<ref bean="m4_RoiStats2" />
+				<ref bean="m4_RoiStats3" />
+				<ref bean="m4_RoiStats4" />
+				<ref bean="m4_RoiStats5" />
+				<ref bean="m4_RoiStats6" />
+				<ref bean="m4cam1_hdf5_MultipleImagesPerHDF5FileWriter" />
+				<ref bean="m4cam1_tiff_SingleImagePerFileWriter" />
+			</list>
+		</property>
+	</bean>
+</beans>

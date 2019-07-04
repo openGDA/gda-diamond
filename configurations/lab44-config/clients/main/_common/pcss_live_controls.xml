@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd ">
+
+	<bean id="pcsscam_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure" />
+		<property name="group" value="pcsscam Acquire Time" />
+		<property name="scannableName" value="pcsscamExposureTime" />
+		<property name="textWidth" value="35"/>
+		<property name="userUnits" value="s" />
+	</bean>
+
+	<bean id="pcsscam_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Period" />
+		<property name="group" value="pcsscam Acquire Time" />
+		<property name="scannableName" value="pcsscamAcquirePeriod" />
+		<property name="textWidth" value="35"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="pcsscam_image_rotation_angle_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Rot.Ang" />
+		<property name="group" value="pcsscam Rotation" />
+		<property name="scannableName" value="pcsscamRotationAngle" />
+		<property name="textWidth" value="30" />
+		<property name="userUnits" value="deg"/>
+	</bean>
+	<bean id="pcsscam_proc_num_filter_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="NumFilter" />
+		<property name="group" value="pcsscam PROC" />
+		<property name="scannableName" value="pcsscamProcNumFilterWithResetBefore" />
+		<property name="textWidth" value="30" />
+		<property name="userUnits" value=""/>
+	</bean>
+
+	<!-- pcsscam detector control -->
+	<bean id="pcsscamStart" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="pcsscam_addetector.adBase.setImageModeWait(gda.device.detector.areadetector.v17.ImageMode.CONTINUOUS); pcsscam_addetector.collectData()" />
+		<property name="buttonText" value="Start" />
+		<property name="group" value="pcsscam Camera" />
+	</bean>
+
+	<bean id="pcsscamStop" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="pcsscam_addetector.adBase.stopAcquiring()" />
+		<property name="buttonText" value="Stop" />
+		<property name="group" value="pcsscam Camera" />
+	</bean>
+	
+	<!-- pcsscam mode control -->
+	<bean id="preview" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="pcsscampreview.getCollectionStrategy().prepareForCollection(0.1, 3, None); pcsscampreview.collectData()" />
+		<property name="buttonText" value="Preview" />
+		<property name="group" value="pcsscam Mode" />
+	</bean>
+	<bean id="imaging" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="pcsscamimaging.getCollectionStrategy().prepareForCollection(0.1, 1, None); pcsscamimaging.collectData()" />
+		<property name="buttonText" value="Imaging" />
+		<property name="group" value="pcsscam Mode" />
+	</bean>
+	<!-- pcsscam Live Stream Control -->
+	<bean id="pcsscamarrayenable" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="caput('BL06I-EA-DET-01:ARR2:EnableCallbacks',1)" />
+		<property name="buttonText" value="Enable" />
+		<property name="group" value="pcsscam Array Live Stream Control" />
+	</bean>
+	<bean id="pcsscamarraydisable" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="caput('BL06I-EA-DET-01:ARR2:EnableCallbacks',0)" />
+		<property name="buttonText" value="Disable" />
+		<property name="group" value="pcsscam Array Live Stream Control" />
+	</bean>
+	<bean id="unrotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="unrotate()" />
+		<property name="buttonText" value="Unrotate" />
+		<property name="group" value="pcsscam Rotation" />
+	</bean>
+	<bean id="rotate" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
+		<property name="jythonCommand" value="rotate()" />
+		<property name="buttonText" value="Rotate" />
+		<property name="group" value="pcsscam Rotation" />
+	</bean>
+
+	<bean id="pcsscam_control_set" class="uk.ac.gda.client.livecontrol.ControlSet">
+		<property name="controls">
+			<list>
+<!-- 				<ref bean="pcsscamStart" /> -->
+<!-- 				<ref bean="pcsscamStop" /> -->
+				<ref bean="pcsscam_expsure_time_control" />
+				<ref bean="pcsscam_acquire_period_control"/>
+				<ref bean="preview" />
+				<ref bean="imaging" />
+				<ref bean="pcsscam_image_rotation_angle_control" />
+<!-- 				<ref bean="pcsscamarrayenable"/> -->
+<!-- 				<ref bean="pcsscamarraydisable"/> -->
+				<ref bean="unrotate"/>
+				<ref bean="rotate"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="pcsscamCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+		<property name="cameraConfig" ref="pcss_cam"/>
+		<property name="stateVariableName" value="i06.pcsscam.live.stream.active"/>
+	</bean>
+	<bean id="pcssControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
+		<property name="customWidget">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
+				<property name="liveControls">
+					<list>
+						<ref bean="pcsscam_expsure_time_control" />
+						<ref bean="pcsscam_acquire_period_control"/>
+						<ref bean="preview" />
+						<ref bean="imaging" />
+						<ref bean="pcsscam_proc_num_filter_control" />
+						<ref bean="pcsscam_image_rotation_angle_control" />
+						<ref bean="unrotate"/>
+						<ref bean="rotate"/>
+					</list>
+				</property>
+				<property name="cameraState" ref="pcsscamCameraState"/>
+			</bean>
+		</property>
+	</bean>
+</beans>

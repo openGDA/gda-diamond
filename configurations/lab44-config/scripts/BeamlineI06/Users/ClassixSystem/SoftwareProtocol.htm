@@ -1,0 +1,353 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML xmlns="http://www.w3.org/TR/REC-html40" xmlns:v = 
+"urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:w = 
+"urn:schemas-microsoft-com:office:word" xmlns:st1 = 
+"urn:schemas-microsoft-com:office:smarttags"><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 6.00.6000.16788" name=GENERATOR><!--[if !mso]>
+<STYLE>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</STYLE>
+<![endif]--><o:SmartTagType name="PostalCode" 
+namespaceuri="urn:schemas-microsoft-com:office:smarttags"></o:SmartTagType><o:SmartTagType 
+name="country-region" 
+namespaceuri="urn:schemas-microsoft-com:office:smarttags"></o:SmartTagType><o:SmartTagType 
+name="City" 
+namespaceuri="urn:schemas-microsoft-com:office:smarttags"></o:SmartTagType><o:SmartTagType 
+name="place" 
+namespaceuri="urn:schemas-microsoft-com:office:smarttags"></o:SmartTagType><o:SmartTagType 
+name="PersonName" 
+namespaceuri="urn:schemas-microsoft-com:office:smarttags"></o:SmartTagType><!--[if !mso]>
+<STYLE>
+st1\:*{behavior:url(#default#ieooui) }
+</STYLE>
+<![endif]-->
+<STYLE>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;}
+p.MsoAutoSig, li.MsoAutoSig, div.MsoAutoSig
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman";}
+p
+	{mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	font-size:12.0pt;
+	font-family:"Times New Roman";}
+span.emailstyle18
+	{font-family:Arial;
+	color:windowtext;}
+span.emailstyle19
+	{font-family:Arial;
+	color:navy;}
+span.emailstyle20
+	{font-family:Arial;
+	color:navy;}
+span.EmailStyle22
+	{mso-style-type:personal-reply;
+	font-family:Arial;
+	color:navy;}
+@page Section1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.Section1
+	{page:Section1;}
+-->
+</STYLE>
+</HEAD>
+<BODY lang=EN-US vLink=purple link=blue><B>From:</B> Brian Towlson 
+[brian.towlson-2@manchester.ac.uk]<BR><B>Sent:</B> 26 November 2008 
+17:00<BR><B>To:</B> Ren, X (Eric)<BR><B>Subject:</B> RE: Software for January 
+beamtime<BR>
+<DIV class=Section1>
+<P class=MsoNormal><FONT face=Arial color=navy size=2><SPAN 
+style="FONT-SIZE: 10pt; COLOR: navy; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Hi 
+Eric,<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Thanks for the confirmation on data 
+storage – I’ve passed this information on to Nigel so that he can discuss it 
+further with Sarnjeet if he wants. The software will have the facility to save 
+to both our local drive and the network drive, so this is 
+covered.<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">I’ve now constructed the basic scan 
+software and have just been down to Aberystwyth to test this on Classix using my 
+laptop to send commands via a crossover cable. Everything seems to work as 
+expected. The Labview subVIs I have used are the ones for TCP communication. 
+When the user clicks to start a scan, the Classix PC listens for a connection on 
+whatever port has been chosen. Once a connection is opened, it goes to a “scan” 
+screen that behaves as we have discussed:<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Command: STATUS (or STAT – for 
+simplicity I am just using the first four letters to identify the basic 
+commands)<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Classix will respond with its 
+present status, one of the following:<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">READY<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">BUSY 
+IMAG<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">BUSY 
+FILT<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">SAVING<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">ERR0 (last command not 
+understood)<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">ERR1 (invalid IMAG 
+parameter)<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">ERR2 (invalid FILT 
+parameter)<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">ERR3 (invalid SAVE 
+parameter)<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">ERR4 (IMAG cancelled by 
+user)<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">ERR5 (FILT cancelled by 
+user)<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">ERR6 (not yet 
+defined)<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">ERR7 (not yet 
+defined)<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">ERR8 (not yet 
+defined)<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">ERR9 (not yet 
+defined)<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">QUITTING<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial color=navy size=2><SPAN 
+style="FONT-SIZE: 10pt; COLOR: navy; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Command: 
+IMAG<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Classix will respond with the value 
+of the last acquired image:<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">IMAGD 
+1234.56<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Command: IMAG 
+%d<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Classix will respond OK and 
+accumulate the given number of images. These are averaged and the result saved 
+to file. If queried (or given another command) during accumulation, it will 
+respond with BUSY IMAG. Once done its status will return to READY and the value 
+of the image can be returned using the IMAG command with no 
+parameters.<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">If the user cancels this 
+accumulation (unlikely but possible if something goes wrong), status will become 
+ERR4 – next time Classix is queried or given a command it will respond with ERR4 
+and then set status back to READY (this means it will not carry out the command 
+given – i.e. if status is ERR4 and it receives a SAVE command, it will respond 
+with ERR4 but not save. Once it has done this, status will be READY again and it 
+will react normally).<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">If Classix cannot interpret whatever 
+comes after the IMAG command as a number, it will respond with ERR1 instead of 
+the usual OK response. Status then returns to 
+READY.<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Command: 
+FILT<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Classix will respond with the last 
+moved-to filter position:<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">FILTD 
+12<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Command: FILT %d (valid range 0 – 
+105)<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Classix will respond OK and move to 
+the requested filter position. If queried (or given another command) during this 
+move, it will respond with BUSY FILT. Once done its status will return to READY, 
+and the filter position can be confirmed using the FILT command with no 
+parameters.<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">If the user cancels the filter move 
+(which should only happen in an emergency, since it leaves the filter wheel in 
+an unsuitable position for acquiring images), status will become ERR5 – similar 
+to the ERR4 state above, Classix will respond with ERR5 next time it is queried 
+or a command given, and then return its status to READY. The last filter 
+position will be flagged as 105, a dummy position used to indicate an 
+error.<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">If Classix cannot interpret whatever 
+comes after the FILT command as a number, or if the number is out of range 
+(&lt;0 or &gt;105), it will respond with ERR2 instead of OK. Status then returns 
+to READY.<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Command: SAVE E %d %f %f 
+%f<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">The first letter after save can be E 
+(energy scan) or F (filter scan); first number is the DLS scan number, which is 
+appended to whatever filename was chosen by the user during scan setup; the next 
+three numbers are start position, stop position, and step size for the 
+scan.<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">This triggers Classix to save a set 
+of scan files to identify the previously acquired images (images are saved with 
+our own scan number as well as their point number, the scan files contain our 
+scan number as well so this is used to associate a given set of images with a 
+given set of scan files), and then increment our scan number and reset the point 
+number used to number each image in a scan. As well as our normal scan files, 
+I’m also saving a list of all IMAG %d, FILT %d, SAVE and unrecognised commands 
+received since the last save, just in case of 
+problems.<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Since saving should be quite fast, 
+Classix does not immediately respond with OK, instead it waits until the save is 
+complete and then responds SAVED. If the save parameters were not recognized 
+(either the numbers can’t be interpreted or something other than E or F was 
+specified), it responds with ERR3 (after which status returns to 
+READY).<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Command: 
+QUIT<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">I put this in as an afterthought, 
+although we’ve not discussed it. The QUIT command will cause Classix to respond 
+OK, then close the connection and return to its normal mail screen. This will 
+abort any image acquisition or filter moves, and any data since the last save 
+will be lost. There is a button on the Classix scan screen that will also do 
+this (once the beamline computer has closed the connection and we want to return 
+Classix to “normal” use, for example), so this command is not vital, it is just 
+something I felt might be useful.<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">If a command received while status 
+is READY is not understood, Classix will respond with ERR0 and status will 
+remain READY. If Classix is already busy with image accumulation or moving 
+filter, it will return the relevant BUSY response rather than an 
+error.<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Let me know if all the above sounds 
+ok to you, or if you anticipate any problems. Also, when do you suggest we 
+arrange to test my end of the software with your end? As I understand it, the 
+Classix PC and the rest of our equipment should be delivered to DLS on 
+6<SUP>th</SUP> Jan – obviously your IT guys need to check over our PC before it 
+is connected to the network, so when would be a good time after this for us to 
+get together and check that everything works as it should? Or is this something 
+that Nigel needs to arrange with Sarnjeet?<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Thanks!<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial">Brian 
+Towlson<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial size=2><SPAN 
+style="FONT-SIZE: 10pt; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial color=navy size=2><SPAN 
+style="FONT-SIZE: 10pt; COLOR: navy; FONT-FAMILY: Arial"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<DIV 
+style="BORDER-RIGHT: medium none; PADDING-RIGHT: 0cm; BORDER-TOP: medium none; PADDING-LEFT: 4pt; PADDING-BOTTOM: 0cm; BORDER-LEFT: blue 1.5pt solid; PADDING-TOP: 0cm; BORDER-BOTTOM: medium none">
+<DIV>
+<DIV class=MsoNormal style="TEXT-ALIGN: center" align=center><FONT 
+face="Times New Roman" size=3><SPAN style="FONT-SIZE: 12pt">
+<HR tabIndex=-1 align=center width="100%" SIZE=2>
+</SPAN></FONT></DIV>
+<P class=MsoNormal><B><FONT face=Tahoma size=2><SPAN 
+style="FONT-WEIGHT: bold; FONT-SIZE: 10pt; FONT-FAMILY: Tahoma">From:</SPAN></FONT></B><FONT 
+face=Tahoma size=2><SPAN style="FONT-SIZE: 10pt; FONT-FAMILY: Tahoma"> Ren, X 
+(Eric) [mailto:xiaoxu.ren@diamond.ac.uk] <BR><B><SPAN 
+style="FONT-WEIGHT: bold">Sent:</SPAN></B> 26 November 2008 11:06<BR><B><SPAN 
+style="FONT-WEIGHT: bold">To:</SPAN></B> <st1:PersonName 
+w:st="on">brian.towlson-2@manchester.ac.uk</st1:PersonName><BR><B><SPAN 
+style="FONT-WEIGHT: bold">Subject:</SPAN></B> RE: Software for January 
+beamtime</SPAN></FONT><o:p></o:p></P></DIV>
+<P class=MsoNormal><FONT face="Times New Roman" size=3><SPAN 
+style="FONT-SIZE: 12pt"><o:p>&nbsp;</o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial color=blue size=2><SPAN lang=EN-GB 
+style="FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: Arial">Hi 
+Brian,</SPAN></FONT><SPAN lang=EN-GB><o:p></o:p></SPAN></P>
+<P class=MsoNormal><FONT face="Times New Roman" size=3><SPAN lang=EN-GB 
+style="FONT-SIZE: 12pt">&nbsp;<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial color=blue size=2><SPAN lang=EN-GB 
+style="FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: Arial">How's your software 
+progress? I hope it's not very difficult to play with LabView on socket and your 
+software. I had a chat with Sarnjeet recently and he mentioned again that all 
+user data should be stored on the beamline storage. Please discuss this with I06 
+beamline scientists&nbsp;before your&nbsp;experiment&nbsp;on next 
+January.</SPAN></FONT><SPAN lang=EN-GB><o:p></o:p></SPAN></P>
+<P class=MsoNormal><FONT face="Times New Roman" size=3><SPAN lang=EN-GB 
+style="FONT-SIZE: 12pt">&nbsp;<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial color=blue size=2><SPAN lang=EN-GB 
+style="FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: Arial">Regards,</SPAN></FONT><SPAN 
+lang=EN-GB><o:p></o:p></SPAN></P>
+<P class=MsoNormal><FONT face="Times New Roman" size=3><SPAN lang=EN-GB 
+style="FONT-SIZE: 12pt">&nbsp;<o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face=Arial color=blue size=2><SPAN lang=EN-GB 
+style="FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: Arial">Eric</SPAN></FONT><SPAN 
+lang=EN-GB><o:p></o:p></SPAN></P>
+<P><FONT face="Times New Roman" size=3><SPAN lang=EN-GB style="FONT-SIZE: 12pt"><!-- Converted from text/plain format -->--------------------------------------------<BR>Dr 
+Xiaoxu Ren (Eric)<BR>Data Acquisition Scientist<BR>Diamond Light Source 
+Ltd.<BR>Diamond House<BR>Harwell Science and Innovation Campus<BR>Didcot, 
+<st1:place w:st="on"><st1:City w:st="on">Oxfordshire</st1:City>, <st1:PostalCode 
+w:st="on">OX11 0DE</st1:PostalCode></st1:place><BR><st1:country-region 
+w:st="on"><st1:place w:st="on">United 
+Kingdom</st1:place></st1:country-region><BR>Email: X.Ren@diamond.ac.uk<BR>Tel: 
++44 (0)1235 778447<BR><BR><o:p></o:p></SPAN></FONT></P>
+<P class=MsoNormal><FONT face="Times New Roman" size=3><SPAN lang=EN-GB 
+style="FONT-SIZE: 12pt"><o:p>&nbsp;</o:p></SPAN></FONT></P></DIV></DIV></BODY></HTML>

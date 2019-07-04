@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- D7 Fluorescent Screen Pneumatic Valve -->
+	<bean id="d7valve" class="gda.device.enumpositioner.DummyValve"/>
+	<!-- Fluorescent Screen and Diode D7 Motors -->
+	<bean id="MotorD_D7" class="gda.device.motor.DummyMotor">
+		<property name="minPosition" value="-1.000000" />
+		<property name="maxPosition" value="87.259612" />
+		<property name="speed" value="1" />
+		<property name="unitString" value="mm"/>
+	</bean>
+	
+</beans>

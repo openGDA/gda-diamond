@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- detector 'medipix' default to write HDF file -->
+	<bean id="pcsscamHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="pcsscam_hdf5"/>
+		<property name="fileNameTemplate" value="pcsscam"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="0" />
+		<property name="framesFlush" value="0" />
+		<property name="storeAttr" value="false" />
+		<property name="storePerform" value="false"/>
+		<property name="boundaryAlign" value="0"/>
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="false" />
+		<property name="attrByDim" value="false" />
+		<property name="pathErrorSuppressed" value="false" />
+	</bean>
+ 	<bean id="pcsscam" class="gda.device.detector.NXDetector">
+		<property name="name" value="pcsscam" />
+		<property name="collectionStrategy" ref="pcsscamCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pcsscam_RoiStats1" />
+				<ref bean="pcsscam_RoiStats2" />
+				<ref bean="pcsscam_RoiStats3" />
+				<ref bean="pcsscam_RoiStats4" />
+				<ref bean="pcsscam_RoiStats5" />
+				<ref bean="pcsscam_RoiStats6" />
+				<ref bean="pcsscamHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	
+ 	<bean id="pcsscamimaging" class="gda.device.detector.NXDetector">
+		<property name="name" value="pcsscamimaging" />
+		<property name="collectionStrategy" ref="pcsscamImagingCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pcsscam_RoiStats1" />
+				<ref bean="pcsscam_RoiStats2" />
+				<ref bean="pcsscam_RoiStats3" />
+				<ref bean="pcsscam_RoiStats4" />
+				<ref bean="pcsscam_RoiStats5" />
+				<ref bean="pcsscam_RoiStats6" />
+				<ref bean="pcsscamHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	
+ 	<bean id="pcsscampreview" class="gda.device.detector.NXDetector">
+		<property name="name" value="pcsscampreview" />
+		<property name="collectionStrategy" ref="pcsscamPreviewCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pcsscam_RoiStats1" />
+				<ref bean="pcsscam_RoiStats2" />
+				<ref bean="pcsscam_RoiStats3" />
+				<ref bean="pcsscam_RoiStats4" />
+				<ref bean="pcsscam_RoiStats5" />
+				<ref bean="pcsscam_RoiStats6" />
+				<ref bean="pcsscamHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+<!-- ADDetector used in new scanning -->
+	<bean id="pcsscam_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="pcsscamCollectionStrategy"/>
+		<property name="adBase" ref="pcsscam_adbase" />
+		<property name="ndFile" ref="pcsscam_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="pcsscam_ndarray" />
+		<property name="ndStats" ref="pcsscam_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="pcsscamHdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+
+	<bean id="pcsscamModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="pcsscam_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="pcsscamInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i06.pcsscam.DeviceInformation" />
+		<property name="label" value="pcsscam" />
+		<property name="description" value="pcsscam" />
+	</bean>
+
+	<bean id="pcsscam_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="pcsscam_addetector" />
+		<property name="model" ref="pcsscamModel" />
+		<property name="deviceInformation" ref="pcsscamInfo" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
+	
+	<!-- detector 'pcsscamtif' default to write TIFF file during scan -->
+	<!-- SingleImagePerFileWriter(String detectorName)	 -->
+	<bean id="pcsscam_nxfilewriter_for_scans" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="pcsscam" />
+		<property name="ndFile" ref="pcsscam_tiffile" />
+		<property name="keyNameForMetadataPathTemplate" value="pcsscam_path_template" />
+		<property name="fileTemplate" value="%s%s_%05d.tif"/>
+		<property name="filePathTemplate" value="$datadir$/$scan$_pcsscamImage"/>
+		<property name="fileNameTemplate" value="pcsscam"/>
+		<property name="fileNumberAtScanStart" value="1"/>
+		<property name="fullFileNameFromRBV" value="true"/>
+	</bean>
+ 	<bean id="pcsscamtif" class="gda.device.detector.NXDetector">
+		<property name="name" value="pcsscamtif" />
+		<property name="collectionStrategy" ref="pcsscamCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="pcsscam_RoiStats1" />
+				<ref bean="pcsscam_RoiStats2" />
+				<ref bean="pcsscam_RoiStats3" />
+				<ref bean="pcsscam_RoiStats4" />
+				<ref bean="pcsscam_RoiStats5" />
+				<ref bean="pcsscam_RoiStats6" />
+				<ref bean="pcsscam_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>

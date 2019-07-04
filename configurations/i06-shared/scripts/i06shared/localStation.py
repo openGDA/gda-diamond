@@ -3,6 +3,7 @@
 from i06shared import installation
 from gdascripts.pd.epics_pds import DisplayEpicsPVClass
 from gda.device.scannable import DummyScannable
+from gda.configuration.properties import LocalProperties
 print
 print "*"*80
 print "Performing Beamline I06-shared initialisation code (localStation.py).";
@@ -36,7 +37,9 @@ from Diamond.PseudoDevices.CorrespondentDevice import CorrespondentDeviceClass; 
 from Diamond.PseudoDevices.DeviceFunction import DeviceFunctionClass;  # @UnusedImport
 import __main__  # @UnresolvedImport
 
-if installation.isLive():
+beamline = LocalProperties.get(LocalProperties.GDA_BEAMLINE_NAME)
+
+if installation.isLive() and beamline != "lab44":
     from i06shared.devices.Scaler8512 import ca11s,ca12s,ca13s,ca14s,ca21s,ca22s,ca23s,ca24s,ca31s,ca32s,ca33s,ca34s,ca41s,ca42s,ca43s,ca44s,ca11sr,ca12sr,ca13sr,ca14sr,ca21sr,ca22sr,ca23sr,ca24sr,ca31sr,ca32sr,ca33sr,ca34sr,ca41sr,ca42sr,ca43sr,ca44sr,scalar1raw,scaler1  # @UnusedImport
     from i06shared.devices.ADC1Counters import *  # @UnusedWildImport
     from i06shared.devices.ADC2Counters import *  # @UnusedWildImport
@@ -63,6 +66,7 @@ from i06shared.setSrsDataFileHeader import fileHeader  # @UnusedImport
 #Group the hexapod legs into list
 m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
 m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
+
 from i06shared.scannables.mode_polarisation_energy_instances import *  # @UnusedWildImport
 idd,idu,dpu,dmu,unknown=SourceMode.SOURCE_MODES
 pc,nc,lh,lv,la,unknown=Polarisation.POLARISATIONS

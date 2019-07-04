@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Lab44
+Bundle-SymbolicName: uk.ac.diamond.daq.beamline.lab44;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: uk.ac.diamond.daq.beamline.lab44
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: Diamond Light Source Ltd
+Bundle-Activator: uk.ac.diamond.daq.beamline.lab44.Activator
+Require-Bundle: org.eclipse.ui.workbench,
+ org.eclipse.core.runtime;bundle-version="3.13.0",
+ org.eclipse.osgi,
+ org.eclipse.jface,
+ org.eclipse.ui;bundle-version="3.109.0",
+ uk.ac.gda.client;bundle-version="9.14.0",
+ uk.ac.gda.core;bundle-version="9.14.0",
+ uk.ac.gda.common,
+ uk.ac.gda.client.live.stream,
+ org.dawnsci.plotting,
+ uk.ac.gda.client.nano,
+ org.python.pydev,
+ org.eclipse.search,
+ uk.ac.gda.client.live.stream.controls;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Import-Package: org.slf4j;version="1.7.25"
+Export-Package: uk.ac.diamond.daq.beamline.lab44,
+ uk.ac.diamond.daq.beamline.lab44.perspectives

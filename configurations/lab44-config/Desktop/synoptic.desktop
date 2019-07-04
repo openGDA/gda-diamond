@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=I06 Synoptic
+Type=Application
+Exec=i06edm
+Icon=/dls_sw/i06/software/gda/workspace_git/gda-diamond.git/configurations/i06-config/Desktop/icons/synoptic.png
+Terminal=false
+Name[en_GB]=Synoptic
+GenericName=I06 Synoptic
+GenericName[en_GB]=I06 Synoptic
+Categories=X-ogda;

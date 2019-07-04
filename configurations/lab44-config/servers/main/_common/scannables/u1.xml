@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- analogue outputs -->
+	<bean id="DAC1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="dac11" />
+				<ref bean="dac12" />
+				<ref bean="dac13" />
+				<ref bean="dac14" />
+				<ref bean="dac15" />
+				<ref bean="dac16" />
+				<ref bean="dac17" />
+				<ref bean="dac18" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+	
+	<!-- analogue inputs -->
+	<bean id="ADC1" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="adc11" />
+				<ref bean="adc12" />
+				<ref bean="adc13" />
+				<ref bean="adc14" />
+			</list>
+		</property>
+		<property name="protectionLevel" value="0" />
+	</bean>
+
+
+</beans>

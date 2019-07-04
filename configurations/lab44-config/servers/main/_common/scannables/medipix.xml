@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- detector 'medipix' default to write HDF file -->
+	<bean id="medipixHdf5Filewriter" class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
+		<property name="ndFileHDF5" ref="medipix_hdf5"/>
+		<property name="fileNameTemplate" value="medipix"/>
+		<property name="filePathTemplate" value="$datadir$" />
+		<property name="fileTemplate" value="%s%s-%d.hdf" />
+		<property name="fileNumberAtScanStart" value="1" />
+		<property name="setFileNameAndNumber" value="true" />
+		<property name="rowChunks" value="0" />
+		<property name="colChunks" value="0" />
+		<property name="framesChunks" value="0" />
+		<property name="framesFlush" value="0" />
+		<property name="storeAttr" value="false" />
+		<property name="storePerform" value="false"/>
+		<property name="boundaryAlign" value="0"/>
+		<property name="lazyOpen" value="true" />
+		<property name="blocking" value="false" />
+		<property name="attrByDimSupported" value="false" />
+		<property name="attrByDim" value="false" />
+		<property name="pathErrorSuppressed" value="false" />
+	</bean>
+ 	<bean id="medipix" class="gda.device.detector.NXDetector">
+		<property name="name" value="medipix" />
+		<property name="collectionStrategy" ref="medipixCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="medipix_RoiStats1" />
+				<ref bean="medipix_RoiStats2" />
+				<ref bean="medipix_RoiStats3" />
+				<ref bean="medipix_RoiStats4" />
+				<ref bean="medipix_RoiStats5" />
+				<ref bean="medipix_RoiStats6" />
+				<ref bean="medipixHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	 	
+	<bean id="zacmedipix" class="gda.device.detector.NXDetector">
+		<property name="name" value="zacmedipix" />
+		<property name="collectionStrategy" ref="zacmedipixCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="medipix_RoiStats1" />
+				<ref bean="medipix_RoiStats2" />
+				<ref bean="medipix_RoiStats3" />
+				<ref bean="medipix_RoiStats4" />
+				<ref bean="medipix_RoiStats5" />
+				<ref bean="medipix_RoiStats6" />
+				<ref bean="medipixHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	
+ 	<bean id="medipiximaging" class="gda.device.detector.NXDetector">
+		<property name="name" value="medipiximaging" />
+		<property name="collectionStrategy" ref="medipixImagingCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="medipix_RoiStats1" />
+				<ref bean="medipix_RoiStats2" />
+				<ref bean="medipix_RoiStats3" />
+				<ref bean="medipix_RoiStats4" />
+				<ref bean="medipix_RoiStats5" />
+				<ref bean="medipix_RoiStats6" />
+				<ref bean="medipixHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+	
+ 	<bean id="medipixpreview" class="gda.device.detector.NXDetector">
+		<property name="name" value="medipixpreview" />
+		<property name="collectionStrategy" ref="medipixPreviewCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="medipix_RoiStats1" />
+				<ref bean="medipix_RoiStats2" />
+				<ref bean="medipix_RoiStats3" />
+				<ref bean="medipix_RoiStats4" />
+				<ref bean="medipix_RoiStats5" />
+				<ref bean="medipix_RoiStats6" />
+				<ref bean="medipixHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+
+<!-- ADDetector used in new scanning -->
+	<bean id="medipix_addetector" class="gda.device.detector.addetector.ADDetector">
+		<property name="collectionStrategy" ref="medipixCollectionStrategy"/>
+		<property name="adBase" ref="medipix_adbase" />
+		<property name="ndFile" ref="medipix_ndfile" /><!-- not used in new scanning -->
+		<property name="ndArray" ref="medipix_ndarray" />
+		<property name="ndStats" ref="medipix_stats" /><!-- not used in new scanning -->
+		<property name="fileWriter" ref="medipixHdf5Filewriter" /> <!-- not used in new scanning -->
+	</bean>
+
+	<bean id="medipixModel" class="uk.ac.diamond.daq.detectors.addetector.api.AreaDetectorRunnableDeviceModel">
+		<property name="name" value="medipix_addetector" />
+		<property name="exposureTime" value="0.1" />
+	</bean>
+
+	<bean id="medipixInfo" class="org.eclipse.scanning.api.event.scan.DeviceInformation">
+	 	<property name="id" value="org.eclipse.scanning.i06.medipix.DeviceInformation" />
+		<property name="label" value="medipix" />
+		<property name="description" value="medipix" />
+	</bean>
+
+	<bean id="medipix_add" class="uk.ac.diamond.daq.detectors.addetector.AreaDetectorRunnableDevice" init-method="register">
+		<property name="name" value="medipix_addetector" />
+		<property name="model" ref="medipixModel" />
+		<property name="deviceInformation" ref="medipixInfo" />
+		<property name="activated" value="true" /> <!-- selected automatically on start up -->
+	</bean>
+	
+	<!-- detector 'medipixtif' default to write TIFF file during scan -->
+	<!-- SingleImagePerFileWriter(String detectorName)	 -->
+	<bean id="medipix_nxfilewriter_for_scans" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriter">
+		<constructor-arg value="medipix" />
+		<property name="ndFile" ref="medipix_tiffile" />
+		<property name="keyNameForMetadataPathTemplate" value="medipix_path_template" />
+		<property name="fileTemplate" value="%s%s_%05d.tif"/>
+		<property name="filePathTemplate" value="$datadir$/$scan$_medipixImage"/>
+		<property name="fileNameTemplate" value="medipix"/>
+		<property name="fileNumberAtScanStart" value="1"/>
+		<property name="fullFileNameFromRBV" value="true"/>
+	</bean>
+ 	<bean id="medipixtif" class="gda.device.detector.NXDetector">
+		<property name="name" value="medipixtif" />
+		<property name="collectionStrategy" ref="medipixCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="medipix_RoiStats1" />
+				<ref bean="medipix_RoiStats2" />
+				<ref bean="medipix_RoiStats3" />
+				<ref bean="medipix_RoiStats4" />
+				<ref bean="medipix_RoiStats5" />
+				<ref bean="medipix_RoiStats6" />
+				<ref bean="medipix_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+	<!-- for zacscan -->
+ 	<bean id="zacmedipixtif" class="gda.device.detector.NXDetector">
+		<property name="name" value="zacmedipixtif" />
+		<property name="collectionStrategy" ref="zacmedipixCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="medipix_RoiStats1" />
+				<ref bean="medipix_RoiStats2" />
+				<ref bean="medipix_RoiStats3" />
+				<ref bean="medipix_RoiStats4" />
+				<ref bean="medipix_RoiStats5" />
+				<ref bean="medipix_RoiStats6" />
+				<ref bean="medipix_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>	
+	<!-- detector 'medipixsnap' is used to get a snapshot of the medipix detector.Data stored in $datadir$/snapped-data/ -->
+	<!-- SingleImagePerFileWriterWithNumTracker(String detectorName)	 -->
+	<bean id="medipix_nxfilewriter_for_snaps" class="gda.device.detector.addetector.filewriter.SingleImagePerFileWriterWithNumTracker">
+		<constructor-arg value="medipix" />
+		<property name="ndFile" ref="medipix_tiffile" />
+		<property name="numTrackerExtension" value="medipixsnaps" />
+		<property name="keyNameForMetadataPathTemplate" value="medipix_path_template" />
+	</bean>
+ 	<bean id="medipixsnap" class="gda.device.detector.NXDetector">
+		<property name="name" value="medipixsnap" />
+		<property name="collectionStrategy" ref="medipixCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="medipix_RoiStats1" />
+				<ref bean="medipix_RoiStats2" />
+				<ref bean="medipix_RoiStats3" />
+				<ref bean="medipix_RoiStats4" />
+				<ref bean="medipix_RoiStats5" />
+				<ref bean="medipix_RoiStats6" />
+				<ref bean="medipix_nxfilewriter_for_snaps" />
+			</list>
+		</property>
+	</bean>
+ 	<bean id="mpx" class="gda.device.detector.NXDetector">
+		<property name="name" value="medipix" />
+		<property name="collectionStrategy" ref="medipixMultipleCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="medipix_RoiStats1" />
+				<ref bean="medipix_RoiStats2" />
+				<ref bean="medipix_RoiStats3" />
+				<ref bean="medipix_RoiStats4" />
+				<ref bean="medipix_RoiStats5" />
+				<ref bean="medipix_RoiStats6" />
+				<ref bean="medipixHdf5Filewriter" />
+			</list>
+		</property>
+	</bean>
+ 	<bean id="mpxtif" class="gda.device.detector.NXDetector">
+		<property name="name" value="medipixtif" />
+		<property name="collectionStrategy" ref="medipixMultipleCollectionStrategy" />
+		<property name="additionalPluginList">
+			<list>
+				<ref bean="medipix_RoiStats1" />
+				<ref bean="medipix_RoiStats2" />
+				<ref bean="medipix_RoiStats3" />
+				<ref bean="medipix_RoiStats4" />
+				<ref bean="medipix_RoiStats5" />
+				<ref bean="medipix_RoiStats6" />
+				<ref bean="medipix_nxfilewriter_for_scans" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>
