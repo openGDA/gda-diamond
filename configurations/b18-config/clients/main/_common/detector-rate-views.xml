@@ -8,6 +8,15 @@
 
 	<bean id="detectorMonitorDataProvider" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
 
+	<util:map id="rateViewNumberFormatMap">
+		<entry key="I0" value="%,.0f" />
+		<entry key="It" value="%,.0f" />
+		<entry key="Iref" value="%,.0f" />
+		<entry key="lnI0It" value="%.6f" />
+		<entry key="lnI0Iref" value="%.6f" />
+		<entry key="FF" value="%,.0f" />
+	</util:map>
+
 	<bean id="ionchamberRates" class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewConfig">
 		<property name="name" value="ionchamberRates" />
 		<property name="dataProvider" ref="detectorMonitorDataProvider" />
@@ -18,6 +27,7 @@
 				<value>counterTimer01</value>
 			</list>
 		</property>
+		<property name="numberFormatMap" ref="rateViewNumberFormatMap" />
 	</bean>
 	
 	<bean id="xspress2Rates" class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewConfig">
@@ -31,5 +41,6 @@
 				<value>xspress2system</value>
 			</list>
 		</property>
+		<property name="numberFormatMap" ref="rateViewNumberFormatMap" />
 	</bean>
 </beans>

@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="basePv" class="java.lang.String">
+	  <constructor-arg value="BL18B-EA-DET-18"/>
+	</bean>
+	<bean id="medipix_cam_base" class="gda.spring.V17ADBaseFactoryBean">
+		<property name="prefix" value="#{basePv}:CAM:" />
+	</bean>
+	<bean id="medipix_arr" class="gda.spring.V17NDArrayFactoryBean">
+		<property name="prefix" value="#{basePv}:ARR:" />
+	</bean>
+	<bean id="medipix_stat" class="gda.spring.V17NDStatsFactoryBean">
+		<property name="prefix" value="#{basePv}:STAT:" />
+	</bean>
+	<bean id="medipix_proc" class="gda.spring.V17NDProcessFactoryBean">
+		<property name="prefix" value="#{basePv}:PROC:" />
+	</bean>
+	<bean id="medipix_roi" class="gda.spring.V17NDROIFactoryBean">
+		<property name="prefix" value="#{basePv}:ROI:" />
+	</bean>
+	<bean id="medipix_ffmpeg" class="gda.spring.V17FfmpegStreamFactoryBean">
+		<property name="prefix" value="#{basePv}:MJPG:" />
+	</bean>
+
+	<bean id="medipixADController"
+		class="uk.ac.gda.epics.adviewer.ADControllerImpl">
+		<property name="serviceName" value="medipix"/>
+		<property name="imageNDStats" ref="medipix_stat" />
+		<property name="liveViewNDProc" ref="medipix_proc" />
+		<property name="imageNDArray" ref="medipix_arr" />
+		<property name="detectorName" value="medipix" />
+		<property name="adBase" ref="medipix_cam_base" />
+		<property name="ffmpegStream" ref="medipix_ffmpeg" />
+		<property name="imageNDROI" ref="medipix_roi"/>
+		<property name="connectToPlotServer" value="true" />
+		<property name="setExposureTimeCmd" value="setMedipixExposureAndStart(%g)" />
+	</bean>
+
+	<bean id="medipixdictionary" class="java.util.Hashtable">
+		<constructor-arg>
+			<map>
+				<entry key="SERVICE_NAME" value="medipix" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean class="gda.util.osgi.OSGiServiceRegister">
+		<property name="class" value="uk.ac.gda.epics.adviewer.ADController" />
+		<property name="service" ref="medipixADController" />
+		<property name="properties" ref="medipixdictionary" />
+	</bean>
+</beans>

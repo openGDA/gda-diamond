@@ -9,5 +9,6 @@
 		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
 		<property name="epicsTemplate" value="BL18B-EA-XSP3-01" />
 		<property name="numberOfChannels" value="4"/>
+		<property name="useNewEpicsInterface" value="true" />
 	</bean>
 </beans>

@@ -153,11 +153,11 @@ from gda.epics import CAClient
 if (LocalProperties.get("gda.mode") == 'live'):
     try :
         controller=xspress3.getController()
-        controller.setPerformROICalculations(True)
+        # controller.setPerformROICalculations(True) # PV doesn't exist for new IOC (17/6/2019 after shutdown upgrade)
         controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
         CAClient.put(controller.getEpicsTemplate()+":CTRL_DTC", 1)
-    except Exception as exp : 
-        print "Problem setting Xspress3 PVs : ",exp
+    except : 
+        print "Problem setting Xspress3 PVs - see log for more information"
 
 #Set the path to empty so default visit directory (and subdirectory) is used for hdf files
 xspress3.setFilePath("")
@@ -175,6 +175,22 @@ def reconnect_daserver() :
 qexafs_xspress.setUseNexusTreeWriter(True)
 
 samplewheel_names.setPositions( samplewheel.getFilterNames() )
+
+# Set the zebra PC_pulse output for triggering the TFG. 3/4/2019
+CAClient.put("BL18B-OP-DCM-01:ZEBRA:OUT1_TTL", 31)
+
+# Function for setting exposure time and setting continuous acquisition
+# Called in ADControllerBase.setExposure(time) - see client side medipixADController bean
+# (injected using setExposureTimeCmd )
+def setMedipixExposureAndStart(exposureTime) :
+    continuousModeIndex = 2 # ImageMode.CONTINUOUS.ordinal()
+    adbase = medipix_addetector.getAdBase()
+
+    adbase.setAcquireTime(exposureTime);
+    adbase.setAcquirePeriod(0.0);
+    adbase.setImageMode(continuousModeIndex);
+    adbase.startAcquiring();
+
 
 if (LocalProperties.get("gda.mode") == 'live'):
     print "Running user startup script"

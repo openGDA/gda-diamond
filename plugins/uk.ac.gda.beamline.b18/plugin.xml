@@ -53,6 +53,12 @@
             restorable="true">
       </view>
       <view
+            class="uk.ac.gda.epics.adviewer.views.TwoDArrayView"
+            id="uk.ac.gda.epics.adviewer.twodArrayView:medipix"
+            name="Medipix view"
+            restorable="true">
+      </view>
+      <view
             category="uk.ac.gda.client.exafs.category"
             class="uk.ac.gda.exafs.ui.views.detectors.DetectorRateViewFactory:ionchamberRates"
 	        icon="platform:/plugin/uk.ac.gda.client.exafs/icons/control_play_blue.png"
@@ -271,6 +277,15 @@
                <parameter
                      name="org.eclipse.ui.views.showView.viewId"
                      value="uk.ac.gda.exafs.ui.views.xspress3View">
+               </parameter>
+            </command>
+            <command
+                  commandId="org.eclipse.ui.views.showView"
+                  label="Medipix"
+                  style="push">
+               <parameter
+                     name="org.eclipse.ui.views.showView.viewId"
+                     value="uk.ac.gda.epics.adviewer.twodArrayView:medipix">
                </parameter>
             </command>
          </menu>
