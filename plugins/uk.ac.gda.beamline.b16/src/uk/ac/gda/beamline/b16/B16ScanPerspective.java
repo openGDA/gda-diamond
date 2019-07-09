@@ -18,32 +18,55 @@
 
 package uk.ac.gda.beamline.b16;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class B16ScanPerspective implements IPerspectiveFactory {
+
+	private static final Logger logger = LoggerFactory.getLogger(B16ScanPerspective.class);
+
+	private static final List<String> PLOT_VIEW_IDS = Arrays.asList(
+			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:pil",
+			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:medipix4",
+			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:ipp2",
+			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:pcoedge",
+			"uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:pco4000"
+			);
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		addViews(layout);
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		IWorkbenchPage page = window.getActivePage();
+		try {
+			for (String plotView : PLOT_VIEW_IDS) {
+				page.showView(plotView);
+			}
+		} catch (PartInitException e) {
+			logger.warn("Problem initialising plot views");
+		}
 	}
 
 	private void addViews(IPageLayout layout) {
 		layout.setEditorAreaVisible(true);
 		String editorArea = layout.getEditorArea();
-		float splitLR = 0.33f;
-
-
-
-
 
 		// Middle
-
 		final String MIDDLE_BOTTOM = "B16Scan_middle_bottom";
 		IFolderLayout middleBottomFolder = layout.createFolder(MIDDLE_BOTTOM, IPageLayout.RIGHT, 0.33f, editorArea);
 		middleBottomFolder.addView(uk.ac.gda.client.liveplot.LivePlotView.ID);
-
 
 		// Right
 		final String RIGHT_BOTTOM = "B16Scan_right_bottom";
@@ -52,30 +75,24 @@ public class B16ScanPerspective implements IPerspectiveFactory {
 
 		final String MIDDLE_TOP = "B16Scan_middle_top";
 		IFolderLayout middleTopFolder = layout.createFolder(MIDDLE_TOP, IPageLayout.TOP, 0.5f, MIDDLE_BOTTOM);
-		middleTopFolder.addPlaceholder(uk.ac.gda.views.baton.BatonView.ID);
-		middleTopFolder.addView("uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:pil");
-		middleTopFolder.addView("uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:medipix4");
-		middleTopFolder.addView("uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:ipp2");
-		middleTopFolder.addView("uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:pcoedge");
-		middleTopFolder.addView("uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple:pco4000");
-
+		middleTopFolder.addPlaceholder("uk.ac.diamond.scisoft.analysis.rcp.plotViewMultiple"); // This seems to have no effect
+		for (String plotView : PLOT_VIEW_IDS) {
+			middleTopFolder.addView(plotView);
+		}
 
 		// Left
-
-		final String LEFT_BOTTOM = "B16Scan_left_bottom";
-		IFolderLayout leftBottomFolder = layout.createFolder(LEFT_BOTTOM, IPageLayout.TOP, 0.25f, editorArea);
+		final String LEFT_TOP = "B16Scan_left_top";
+		IFolderLayout leftBottomFolder = layout.createFolder(LEFT_TOP, IPageLayout.TOP, 0.25f, editorArea);
 		leftBottomFolder.addView(IPageLayout.ID_PROJECT_EXPLORER);
 
-
-
-		final String LEFT_TOP = "B16Scan_left_top";
-		IFolderLayout leftTopFolder = layout.createFolder(LEFT_TOP, IPageLayout.BOTTOM, 0.7f, editorArea);
+		final String LEFT_BOTTOM = "B16Scan_left_bottom";
+		IFolderLayout leftTopFolder = layout.createFolder(LEFT_BOTTOM, IPageLayout.BOTTOM, 0.7f, editorArea);
 		leftTopFolder.addView(gda.rcp.views.JythonTerminalView.ID);
+		leftTopFolder.addPlaceholder(uk.ac.gda.views.baton.BatonView.ID);
 		leftTopFolder.addPlaceholder("org.eclipse.ui.console.ConsoleView");
 		leftTopFolder.addPlaceholder("org.eclipse.ui.views.ProgressView");
-
-
-
 	}
+
+
 
 }
