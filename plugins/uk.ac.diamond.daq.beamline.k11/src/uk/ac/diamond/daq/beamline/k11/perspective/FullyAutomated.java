@@ -63,8 +63,8 @@ public class FullyAutomated  implements IPerspectiveFactory {
 
 
 		final IFolderLayout planOutputLayout = layout.createFolder("planoutput", IPageLayout.BOTTOM, 0.6f, "planprogress");
-		planOutputLayout.addView("org.dawnsci.mapping.ui.spectrumview");
-		vLayout = layout.getViewLayout("org.dawnsci.mapping.ui.spectrumview");
+		planOutputLayout.addView("uk.ac.diamond.daq.beamline.k11.detectorFramePeekView");
+		vLayout = layout.getViewLayout("uk.ac.diamond.daq.beamline.k11.detectorFramePeekView");
 		vLayout.setCloseable(false);
 
 		final IFolderLayout folderLayout = layout.createFolder("console_folder", IPageLayout.BOTTOM, 0.65f, "planoverview");
