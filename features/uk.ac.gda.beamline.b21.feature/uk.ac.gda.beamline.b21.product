@@ -82,9 +82,14 @@ with GDA. If not, see &lt;http://www.gnu.org/licenses/&gt;.
    </features>
 
    <configurations>
+      <plugin id="org.apache.felix.scr" autoStart="true" startLevel="2" />
       <plugin id="org.dawnsci.conversion" autoStart="true" startLevel="2" />
       <plugin id="org.dawnsci.jexl" autoStart="true" startLevel="2" />
       <plugin id="org.dawnsci.persistence" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
       <plugin id="uk.ac.diamond.scisoft.analysis" autoStart="true" startLevel="2" />
       <plugin id="uk.ac.diamond.scisoft.analysis.osgi" autoStart="true" startLevel="2" />
       <property name="gda.mode" value="dummy" />
