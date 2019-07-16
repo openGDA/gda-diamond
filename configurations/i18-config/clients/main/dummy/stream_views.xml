@@ -24,64 +24,80 @@
 					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
 						<constructor-arg name="xAxisScannable" ref="t1x" />
 						<constructor-arg name="xAxisPixelScaling" value="0.1" />
+						<constructor-arg name="xAxisOffset" value="0.0" />
 						<constructor-arg name="yAxisScannable" ref="t1y" />
 						<constructor-arg name="yAxisPixelScaling" value="0.1" />
+						<constructor-arg name="yAxisOffset" value="0.0" />
 					</bean>
 				</entry>
 				<entry key="20">
 					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
 						<constructor-arg name="xAxisScannable" ref="t1x" />
 						<constructor-arg name="xAxisPixelScaling" value="0.2" />
+						<constructor-arg name="xAxisOffset" value="0.0" />
 						<constructor-arg name="yAxisScannable" ref="t1y" />
 						<constructor-arg name="yAxisPixelScaling" value="0.2" />
+						<constructor-arg name="yAxisOffset" value="0.0" />
 					</bean>
 				</entry>
 				<entry key="30">
 					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
 						<constructor-arg name="xAxisScannable" ref="t1x" />
 						<constructor-arg name="xAxisPixelScaling" value="0.3" />
+						<constructor-arg name="xAxisOffset" value="0.0" />
 						<constructor-arg name="yAxisScannable" ref="t1y" />
 						<constructor-arg name="yAxisPixelScaling" value="0.3" />
+						<constructor-arg name="yAxisOffset" value="0.0" />
 					</bean>
 				</entry>
 				<entry key="40">
 					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
 						<constructor-arg name="xAxisScannable" ref="t1x" />
 						<constructor-arg name="xAxisPixelScaling" value="0.4" />
+						<constructor-arg name="xAxisOffset" value="0.0" />
 						<constructor-arg name="yAxisScannable" ref="t1y" />
 						<constructor-arg name="yAxisPixelScaling" value="0.4" />
+						<constructor-arg name="yAxisOffset" value="0.0" />
 					</bean>
 				</entry>
 				<entry key="50">
 					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
 						<constructor-arg name="xAxisScannable" ref="t1x" />
 						<constructor-arg name="xAxisPixelScaling" value="0.5" />
+						<constructor-arg name="xAxisOffset" value="0.0" />
 						<constructor-arg name="yAxisScannable" ref="t1y" />
 						<constructor-arg name="yAxisPixelScaling" value="0.5" />
+						<constructor-arg name="yAxisOffset" value="0.0" />
 					</bean>
 				</entry>
 				<entry key="60">
 					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
 						<constructor-arg name="xAxisScannable" ref="t1x" />
 						<constructor-arg name="xAxisPixelScaling" value="0.6" />
+						<constructor-arg name="xAxisOffset" value="0.0" />
 						<constructor-arg name="yAxisScannable" ref="t1y" />
 						<constructor-arg name="yAxisPixelScaling" value="0.6" />
+						<constructor-arg name="yAxisOffset" value="0.0" />
 					</bean>
 				</entry>
 				<entry key="70">
 					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
 						<constructor-arg name="xAxisScannable" ref="t1x" />
 						<constructor-arg name="xAxisPixelScaling" value="0.7" />
+						<constructor-arg name="xAxisOffset" value="0.0" />
 						<constructor-arg name="yAxisScannable" ref="t1y" />
 						<constructor-arg name="yAxisPixelScaling" value="0.7" />
+						<constructor-arg name="yAxisOffset" value="0.0" />
 					</bean>
 				</entry>
 				<entry key="80">
 					<bean class="uk.ac.gda.client.live.stream.calibration.CameraOffsetCalibration">
 						<constructor-arg name="xAxisScannable" ref="t1x" />
 						<constructor-arg name="xAxisPixelScaling" value="0.8" />
+						<constructor-arg name="xAxisOffset" value="0.0" />
 						<constructor-arg name="yAxisScannable" ref="t1y" />
 						<constructor-arg name="yAxisPixelScaling" value="0.8" />
+						<constructor-arg name="yAxisOffset" value="0.0" />
 					</bean>
 				</entry>
 			</map>
