@@ -3,15 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="test_motor" class="gda.device.motor.DummyMotor">
-		<property name="speed" value="1000" />
-	</bean>
-
-	<bean id="test" class="gda.device.scannable.ScannableMotor">
-		<property name="name" value="test" />
-		<property name="motor" ref="test_motor" />
-	</bean>
-
 	<bean id="topup" class="gda.device.monitor.EpicsMonitor">
 		<property name="pvName" value="SR-CS-FILL-01:COUNTDOWN" />
 		<property name="local" value="false" />

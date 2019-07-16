@@ -6,10 +6,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="uk.ac.gda.client.application"
-            name="GDA I20 EDE offline">
+            name="GDA I20 EDE">
          <property
                name="appName"
-               value="GDA I20 EDE offline">
+               value="GDA I20 EDE">
          </property>
          <property
                name="aboutImage"
@@ -168,6 +168,30 @@
             icon="platform:/plugin/uk.ac.gda.client.exafs/icons/control_play_blue.png"
             id="uk.ac.gda.exafs.ui.views.detectors.ionchamberRates"
             name="Ion chamber rates"
+            restorable="true">
+      </view>      
+      <view
+            allowMultiple="false"
+            class="gda.rcp.views.ViewFactory:shutterSynopticsView"
+            icon="platform:/plugin/uk.ac.gda.client.exafs/icons/cog_go.png"
+            id="uk.ac.gda.beamline.i20_1.shutterSynopticsView"
+            name="Shutter control view"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="gda.rcp.views.ViewFactory:scanProcessingSynopticsView"
+            icon="platform:/plugin/uk.ac.gda.client.exafs/icons/cog_go.png"
+            id="uk.ac.gda.beamline.i20_1.scanProcessingSynopticsView"
+            name="Scan processing control view"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="gda.rcp.views.ViewFactory:turboXasScanMonitorView"
+            icon="platform:/plugin/uk.ac.gda.client.exafs/icons/cog_go.png"
+            id="uk.ac.gda.beamline.i20_1.turboXasScanMonitorView"
+            name="TurboXAS scan monitor view"
             restorable="true">
       </view>
    </extension>

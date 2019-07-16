@@ -3,6 +3,33 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+
+<!-- Zebra gate and pulse preparer bean. 12/1/2017 -->
+	<bean id="zebra_gatePulsePreparer" class="gda.device.zebra.ZebraGatePulsePreparer">
+		<property name="name" value="zebra_gatePulsePreparer" />
+		<property name="zebraDevice" ref="zebra_device" />
+		<property name="positionTriggerEncoder" value="2" /> <!-- PC_ENC_3 -->
+		<property name="ttlOutputPort" value="31" />
+		<property name="positionTriggerTimeUnits" value="1" />  <!--  times in seconds -->
+	</bean>
+
+<!-- TurboxXasScannable for driving turbo slits in a continuous scan. imh 23/5/2016 -->
+	<bean id="turbo_xas_slit" class="gda.device.scannable.TurboXasScannable">
+		<property name="motor" ref="turbo_slit_x_motor" />
+		<property name="zebraDevice" ref="zebra_device" />
+		<property name="zebraDevice2" ref="zebra_device2" />
+		<property name="zebraGatePulsePreparer" ref="zebra_gatePulsePreparer" />
+		<property name="trajectoryScanPreparer" ref="trajscan_preparer" />
+	</bean>
+	
+<!--  Trajectory scan preparer bean. 12/1/2017  -->
+	<bean id="trajscan_preparer" class="gda.scan.TrajectoryScanPreparer">
+		<property name="name" value="trajscan_preparer" />
+		<property name="trajectoryScanController" ref="trajscan_controller" />
+		<property name="useMaxTimePerStep" value="true" />
+		<property name="maxTimePerStep" value="2" />
+	</bean>
+
 <!-- Scalers for use with TurboXas scans  -->
 
 	<bean id="scaler_memory_zebra" class="gda.device.memory.Scaler">

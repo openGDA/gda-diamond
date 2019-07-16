@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+<!-- Synoptics views common to both live and dummy clients  -->
+
+	<bean id="fast_shutter" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="shutter2" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="run_scan_end_processing" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="shutterSynopticsView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
+		<property name="viewTitle" value="Shutter controls" />
+		<property name="compositeFactories">
+			<list>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Shutters" />
+					<property name="columns" value="2" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+								<property name="label" value="EH Shutter" />
+								<property name="positioner" ref="shutter2" />
+								<property name="labelWidth" value="80"/>
+								<property name="contentWidth" value="120"/>
+							</bean>	
+							<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+								<property name="label" value="Fast shutter" />
+								<property name="positioner" ref="fast_shutter" />
+								<property name="labelWidth" value="80"/>
+								<property name="contentWidth" value="120"/>
+							</bean>						
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="scanProcessingSynopticsView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
+		<property name="viewTitle" value="Process data at end of scan" />
+		<property name="compositeFactories">
+			<list>
+				<bean class="uk.ac.gda.dls.client.views.EnumPositionerCompositeFactory">
+					<property name="label" value="Process data at end of scan" />
+					<property name="positioner" ref="run_scan_end_processing" />
+					<property name="labelWidth" value="200"/>
+					<property name="contentWidth" value="120"/>					
+				</bean>		
+			</list>
+		</property>
+	</bean>
+
+</beans>
+				
