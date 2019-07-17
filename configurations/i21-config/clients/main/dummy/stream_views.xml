@@ -11,6 +11,8 @@
 
 	<bean id="localhostname" class="java.net.InetAddress" factory-method="getLocalHost"/>
 	
+	<bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration"/>
+
 	<bean id="andor2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}andor2Roi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
@@ -21,6 +23,7 @@
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="andor2_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
 	
 	<bean id="andor_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
@@ -33,6 +36,7 @@
 		<property name="url" value="http://localhost:8081/CAM.mjpg.mjpg" />
 		<property name="arrayPv" value="#{ localhostname.hostName.split('\.')[0] }-AD-SIM-01:ARR" />
 		<property name="roiProvider" ref="andor_roi" />
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
 	
 	<bean id="s5_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
