@@ -15,7 +15,9 @@ from utils.ExceptionLogs import localStation_exception
 import sys
 from time import sleep
 import weakref
+from gdascripts.utils import caput, caget
 
+GDA_PASUED_TTH_PV="BL21I-MO-ARM-01:TTH:GDA:PAUSED"
 
 class PauseableScannable(ScannableMotionBase):
     '''
@@ -72,6 +74,7 @@ class PauseableScannable(ScannableMotionBase):
         '''
         self.pausedByMe=True
         try:
+            caput(GDA_PASUED_TTH_PV, 1)
             self.scannable.stop() # stop the actual motor to emulate pause in this object
         except:
             self.pausedByMe=False
@@ -85,6 +88,7 @@ class PauseableScannable(ScannableMotionBase):
             if self.getDemandPosition() is None:
                 print "%s cannot resume motion as the demand position is None"
             else:
+                caput(GDA_PASUED_TTH_PV, 0)
                 self.scannable.asynchronousMoveTo(self.getDemandPosition())
             self.pausedByMe=False
         else:
@@ -152,6 +156,8 @@ class PauseableScannable(ScannableMotionBase):
         self.removeMonitorFromPVs()
         self.removeObservers()
         self.monitorsAddedAtScanStart=False
+        if caget(GDA_PASUED_TTH_PV)==1:
+            caput(GDA_PASUED_TTH_PV, 0)
 
     def getPosition(self):
         try:
@@ -221,6 +227,8 @@ class PauseableScannable(ScannableMotionBase):
             self.scannable.stop()
             #stop this scannable
             self.demandPosition=float(self.scannable.getPosition())
+            if caget(GDA_PASUED_TTH_PV)==1:
+                caput(GDA_PASUED_TTH_PV, 0)
         except:
             raise
         finally:    
