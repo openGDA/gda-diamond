@@ -52,7 +52,7 @@
 			</list>
 		</property>
 		<property name="userUnits" value="mm"/>
-		<property name="airBearingScannable" ref="sgm_traveler_air"/>
+		<property name="airBearingScannable" ref="sgmr1_air"/>
 		<property name="onPositionValue" value="Air On"/>
 		<property name="offPositionValue" value="Air Off"/>
 	</bean>

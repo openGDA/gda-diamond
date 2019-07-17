@@ -41,7 +41,7 @@
 			</list>
 		</property>
 		<property name="userUnits" value="deg" />
-		<property name="airBearingScannable" ref="arm_air_valve"/>
+		<property name="airBearingScannable" ref="armtth_air"/>
 		<property name="onPositionValue" value="Air On"/>
 		<property name="offPositionValue" value="Air Off"/>
 	</bean>

@@ -45,7 +45,7 @@
 	</bean>
 
 	<!-- Air control for SGM -->
-	<bean id="sgm_traveler_air" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+	<bean id="sgmr1_air" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
 			<util:map>
 				<entry key="Off" value="Off"/> 

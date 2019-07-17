@@ -45,7 +45,7 @@
 		<property name="increment" value="1" />
 	</bean>
 	<!-- Air control for ARM -->
-	<bean id="arm_air_valve" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
+	<bean id="armtth_air" class="gda.device.enumpositioner.DummyNamedEnumPositioner">
 		<property name="values">
 			<util:map>
 				<entry key="Off" value="Off"/> 

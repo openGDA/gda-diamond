@@ -24,7 +24,7 @@
 		<property name="pvName" value="BL21I-MO-ARM-01:VERT_ANDOR_RBV.VAL" />
 	</bean>
 	<!-- Air control for ARM -->
-	<bean id="arm_air_valve" class="gda.device.enumpositioner.EpicsAirBearingControl">
+	<bean id="armtth_air" class="gda.device.enumpositioner.EpicsAirBearingControl">
 		<property name="readPV" value="BL21I-MO-ARM-01:TTH:AIR"/>
 		<property name="setPV" value="BL21I-MO-ARM-01:TTH:AIR"/>
 	</bean>
