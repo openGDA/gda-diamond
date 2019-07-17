@@ -119,7 +119,7 @@ class ZebraDetector(NXDetector):
         if type(capture) is not ListType:
             raise ValueError("'capture' must be a list values from %s" % (ZEBRA_PC_CAPTURE))
         for each in capture:
-            capbitvalue +=2**ZebraDetector.PC_CAPTURE.index(each)
+            capbitvalue +=2**ZEBRA_PC_CAPTURE.index(each)
         self.controller.setPCCaptureBitField(capbitvalue)
         
     def getCaptureFields(self):
@@ -177,8 +177,8 @@ class ZebraDetector(NXDetector):
         
     def setGateWidth(self, t):
         pctime_unit = self.controller.getPCTimeUnit()
-        if int(self.controller.getPCGateNumberOfGates())>1 and t>=self.getGateStep():
-            raise ValueError("Gate width must be less than Gate Step!")
+#         if int(self.controller.getPCGateNumberOfGates())>1 and t>=self.getGateStep():
+#             raise ValueError("Gate width must be less than Gate Step!")
         if pctime_unit == 0: #ms
             self.controller.setPCGateWidth(t*1000.0)
         elif pctime_unit == 1: #s
@@ -191,8 +191,8 @@ class ZebraDetector(NXDetector):
             
     def setGateStep(self, t):
         pctime_unit = self.controller.getPCTimeUnit()
-        if t<=self.getGatewidth():
-            raise ValueError("Gate Step must be greater than Gate Width %f!" % (self.getGateWidth()))
+#         if t<=self.getGatewidth():
+#             raise ValueError("Gate Step must be greater than Gate Width %f!" % (self.getGateWidth()))
         if pctime_unit == 0: #ms
             self.controller.setPCGateStep(t*1000.0)
         elif pctime_unit == 1: #s
@@ -257,8 +257,8 @@ class ZebraDetector(NXDetector):
         
     def setPulseWidth(self, t):
         pctime_unit = self.controller.getPCTimeUnit()
-        if t>=self.getPulseStep():
-            raise ValueError("Pulse width must be less than Pulse Step %f!" % (self.getPulseStep()))
+#         if t>=self.getPulseStep():
+#             raise ValueError("Pulse width must be less than Pulse Step %f!" % (self.getPulseStep()))
         if pctime_unit == 0: #ms
             self.controller.setPCPulseWidth(t*1000.0)
         elif pctime_unit == 1: #s
@@ -278,8 +278,8 @@ class ZebraDetector(NXDetector):
             
     def setPulseStep(self, t):
         pctime_unit = self.controller.getPCTimeUnit()
-        if t<=self.getPulseWidth():
-            raise ValueError("Pulse Step must be greater than Pulse Width %f!" % (self.getPulseWidth()))
+#         if t<=self.getPulseWidth():
+#             raise ValueError("Pulse Step must be greater than Pulse Width %f!" % (self.getPulseWidth()))
         if pctime_unit == 0: #ms
             self.controller.setPCPulseStep(t*1000.0)
         elif pctime_unit == 1: #s
@@ -299,8 +299,8 @@ class ZebraDetector(NXDetector):
         
     def setPulseStart(self, t):
         pctime_unit = self.controller.getPCTimeUnit()
-        if t+self.getPulseWidth()<=self.getGateWidth():
-            raise ValueError("Pulse Start must be smaller than Gate Width %f minus Pulse Width %f!" % (self.getGateWidth(), self.getPulseWidth()))
+#         if t+self.getPulseWidth()>self.getGateWidth():
+#             raise ValueError("Pulse Start must be smaller than Gate Width %f minus Pulse Width %f!" % (self.getGateWidth(), self.getPulseWidth()))
         if pctime_unit == 0: #ms
             self.controller.setPCPulseStart(t*1000.0)
         elif pctime_unit == 1: #s
@@ -320,8 +320,8 @@ class ZebraDetector(NXDetector):
 
     def setPulseDelay(self, t):
         pctime_unit = self.controller.getPCTimeUnit()
-        if t>=self.getPulseWidth():
-            raise ValueError("Capture Delay must be less than Pulse Width %f!" % (self.getPulseWidth()))
+#         if t>=self.getPulseWidth():
+#             raise ValueError("Capture Delay must be less than Pulse Width %f!" % (self.getPulseWidth()))
         if pctime_unit == 0: #ms
             self.controller.setPCPulseDelay(t*1000.0)
         elif pctime_unit == 1: #s
@@ -353,8 +353,8 @@ class ZebraDetector(NXDetector):
     def setSamplingFrequency(self, freq):
         timestep=1/float(freq)
         pulse_width = self.getPulseWidth()
-        if timestep<pulse_width+0.0001:
-            raise ValueError("Sampling frequency too high, limit is %f" % (1/pulse_width))
+#         if timestep<pulse_width+0.0001:
+#             raise ValueError("Sampling frequency too high, limit is %f" % (1/pulse_width))
         pctime_unit = self.controller.getPCTimeUnit()
         if pctime_unit == 0: #ms
             self.controller.setPCPulseStep(timestep*1000.0)
@@ -379,8 +379,8 @@ class ZebraDetector(NXDetector):
         '''
         return self.collectionStrategy.getCapturedData()
         
-    def setCollectionStrategy(self,collectionStrategy):
-        self.collectionStrategy=collectionStrategy
-        super(NXDetector, self).setCollectionStrategy(collectionStrategy)
+#     def setCollectionStrategy(self,collectionStrategy):
+#         self.collectionStrategy=collectionStrategy
+#         super(NXDetector, self).setCollectionStrategy(collectionStrategy)
         
 
