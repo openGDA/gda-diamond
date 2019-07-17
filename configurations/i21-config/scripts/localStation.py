@@ -15,6 +15,7 @@ from gda.jython.commands import GeneralCommands
 from gdaserver import lakeshore, b2, x, sgmpitch
 import gdascripts
 from utils.ExceptionLogs import localStation_exception
+from gda.device.scannable import DummyScannable
 
 print "-----------------------------------------------------------------------------------------------------------------"
 print "Set scan returns to the original positions on completion to false (0); default is 0."
@@ -65,6 +66,8 @@ print "Adding dummy devices dummies.x, dummies.y and dummies.z"
 dummies = ScannableGroup()
 dummies.setName("dummies")
 dummies.setGroupMembers([SingleInputDummy("x"), SingleInputDummy("y"), SingleInputDummy("z")])
+
+ds=DummyScannable("ds")
 
 print
 simpleLog("================ INITIALISING I21 GDA ================")

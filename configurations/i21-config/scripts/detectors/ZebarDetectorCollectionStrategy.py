@@ -10,6 +10,7 @@ from java.lang import IllegalStateException
 from detectors.ZebraDetector import ZEBRA_PC_CAPTURE, ZEBRA_PC_CAPTURE_UNIT
 from gda.device.detector.nxdata import NXDetectorDataAppender
 from gda.data.nexus.extractor import NexusGroupData
+from gda.device.detector.nxdetector import NXPlugin
 
 class ZebraNXDetectorCaptureDataAppender(NXDetectorDataAppender):
     def __init__(self, data, units):
@@ -21,7 +22,7 @@ class ZebraNXDetectorCaptureDataAppender(NXDetectorDataAppender):
             data.addData(key, detectorName, NexusGroupData(value), self.units[key], 1)
 
 
-class ZebraDetectorCollectionStrategy(AbstractADTriggeringStrategy):
+class ZebraDetectorCollectionStrategy(AbstractADTriggeringStrategy, NXPlugin):
     '''
     A collection strategy for using zebra as NXDetector to save data captured in PC_BIT_CAP fields' waveform into a data file,
     with gate width representing exposure time, pulse step defining the sampling rate.
@@ -33,11 +34,10 @@ class ZebraDetectorCollectionStrategy(AbstractADTriggeringStrategy):
     '''
     OUTPUT_FORMAT = ["%5.5g"]
 
-    def __init__(self, name, zebra, zebraADBase=None):
+    def __init__(self, zebra, zebraADBase=None):
         '''
         Constructor
         '''
-        self.name=name
         self.controller=zebra
         self.adBase=zebraADBase
         self.captureChannels=[]
@@ -104,14 +104,12 @@ class ZebraDetectorCollectionStrategy(AbstractADTriggeringStrategy):
         if len(self.captureChannels) == 0:
             raise IllegalStateException("No captured Channel names is set! ")
     
-    def getName(self):
-        return self.name
-    
     def getInputStreamNames(self):
-        pass #don't have extra data
+        return self.captureChannels
     
     def getInputStreamFormats(self):
-        pass #don't have extra data
+        outputformats=["%f" for x in self.captureChannels]
+        return outputformats
 
     def read(self, maxToRead):
         appenders=[]
@@ -121,6 +119,7 @@ class ZebraDetectorCollectionStrategy(AbstractADTriggeringStrategy):
             captured_data[each] = self.getCapturedData(each)
             captured_data_units[each]=ZEBRA_PC_CAPTURE_UNIT[each]
         appenders.append(ZebraNXDetectorCaptureDataAppender(captured_data,captured_data_units))
+        return appenders
 
     def getCapturedData(self, capture):
         '''get captured data from channel specified         
@@ -159,6 +158,9 @@ class ZebraDetectorCollectionStrategy(AbstractADTriggeringStrategy):
             return pcgate_step
         elif pctime_unit == 2: #10s
             return pcgate_step*10.0
+        
+    def getNumberImagesPerCollection(self, t):
+        return 1
 
 ##### following method in super class are OK for this class
 #     def willRequireCallbacks(self):
