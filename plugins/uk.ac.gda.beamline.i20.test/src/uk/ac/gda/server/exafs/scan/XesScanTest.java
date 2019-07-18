@@ -428,7 +428,7 @@ public class XesScanTest {
 		inorder.verify(detectorPreparer).beforeEachRepetition();
 		inorder.verify(outputPreparer).beforeEachRepetition();
 
-		inorder.verify(outputParams).getSignalList();
+		inorder.verify(outputPreparer).getScannablesToBeAddedAsColumnInDataFile();
 		inorder.verify(outputPreparer).getPlotSettings();
 
 		// the scan run is controlled by the xasscan object, which we do not wish to test here.
