@@ -5,7 +5,7 @@ Created on 31 Jan 2017
 '''
 import time
 from gda.device.detector import NXDetector
-from types import TupleType, ListType, FloatType, IntType
+from types import TupleType, ListType, FloatType, IntType, StringType
 from gda.device.scannable import DummyScannable
 from gda.device import Scannable
 from gda.device.scannable.scannablegroup import ScannableGroup
@@ -39,6 +39,12 @@ def allElementsAreListOfNumber(arg):
 def allElementsAreNumber(arg):
     for each in arg:
         if not (type(each)==FloatType or type(each)==IntType):
+            return False
+    return True
+
+def allElementsAreString(arg):
+    for each in arg:
+        if not (type(each)==StringType):
             return False
     return True
 
@@ -92,8 +98,10 @@ def miscan(*args):
             elif allElementsAreTuplesOfNumbers(arg):
                 # This case is to fix BLIX-206 when using a scannable group with a tuple of tuples of positions
                 newargs.append(arg)
+            elif allElementsAreString(arg):
+                newargs.append(arg)
             else:
-                raise TypeError, "Only tuple of scannables, tuple of numbers, tuple of tuples of numbers, or list of numbers are supported."
+                raise TypeError, "Only tuple of scannables, tuple of numbers, tuple of tuples of numbers, list of numbers, or tuple of Strings are supported."
         else:
             newargs.append(arg)
         i=i+1
