@@ -5,7 +5,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-2.0.xsd
-                      http://www.springframework.org/schema/context 
+                      http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:property-placeholder/>
@@ -15,6 +15,7 @@
 
 <!--  xspress2.xml is a copy of either xspress2_9element.xml or xspress2_36element.xml as done by B18_9elements_gda852 script. imh 25/7/2017-->
     <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress2.xml" />
+<!--    <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress4daserver.xml" /> -->
 
 	<import resource="file:${gda.config}/servers/main/detectors.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xmap.xml" />
@@ -22,7 +23,8 @@
     <import resource="file:${gda.config}/servers/main/${gda.mode}/xspress3.xml" />
     <import resource="file:${gda.config}/servers/main/${gda.mode}/mythen.xml" />
     <import resource="file:${gda.config}/servers/main/${gda.mode}/medipix.xml" />
-    
+    <import resource="file:${gda.config}/servers/main/medipix.xml" />
+
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stanfords.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/ion-chambers.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />

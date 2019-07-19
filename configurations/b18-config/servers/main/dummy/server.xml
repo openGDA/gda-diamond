@@ -16,6 +16,8 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/xmap.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/mythen.xml" />
+    <import resource="file:${gda.config}/servers/main/${gda.mode}/medipix.xml" />
+    <import resource="file:${gda.config}/servers/main//medipix.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/stanfords.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/ion-chambers.xml" />
