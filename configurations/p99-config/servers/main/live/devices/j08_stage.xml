@@ -11,8 +11,4 @@
 		<property name="pvName" value="BL99P-EA-TABLE-01:Y" />
 	</bean>
 
-	<bean id="j08_stage_z_motor" class="gda.device.motor.EpicsMotor">
-		<property name="pvName" value="BL99P-EA-TABLE-01:Z" />
-	</bean>
-
 </beans>

@@ -16,4 +16,51 @@
 		<property name="activated" value="false" />
 	</bean>
 
+	<bean id="malcolmModelSampleJ08Andor" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL99P-ML-SCAN-10" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+
+	<bean id="malcolmDeviceSampleJ08Andor" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL99P-ML-SCAN-10" />
+		<property name="model" ref="malcolmModelSampleJ08Andor" />
+		<property name="deviceInformation" ref="malcolmInfoSampleJ08Andor" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<bean id="malcolmModelNoDetector" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL99P-ML-SCAN-02" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+
+	<bean id="malcolmDeviceNoDetector" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL99P-ML-SCAN-02" />
+		<property name="model" ref="malcolmModelNoDetector" />
+		<property name="deviceInformation" ref="malcolmInfoNoDetector" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<bean id="malcolmModelAndor2FocusZ" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL99P-ML-SCAN-03" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+
+	<bean id="malcolmDeviceAndor2FocusZ" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL99P-ML-SCAN-03" />
+		<property name="model" ref="malcolmModelAndor2FocusZ" />
+		<property name="deviceInformation" ref="malcolmInfoAndor2FocusZ" />
+		<property name="activated" value="false" />
+	</bean>
+
+	<bean id="malcolmModelJ08NoDetector" class="org.eclipse.scanning.api.device.models.MalcolmModel">
+		<property name="name" value="BL99P-ML-SCAN-11" />
+		<property name="exposureTime" value="1.0" />
+	</bean>
+
+	<bean id="malcolmDeviceJ08NoDetector" class="org.eclipse.scanning.malcolm.core.MalcolmDevice" init-method="register">
+		<property name="name" value="BL99P-ML-SCAN-11" />
+		<property name="model" ref="malcolmModelJ08NoDetector" />
+		<property name="deviceInformation" ref="malcolmInfoJ08NoDetector" />
+		<property name="activated" value="false" />
+	</bean>
 </beans>
