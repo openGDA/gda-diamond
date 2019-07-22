@@ -6,7 +6,7 @@ Created on 10 Jun 2019
 from gda.device.scannable import ScannableMotionBase
 from zurich.ziPythonClientMessager import ZiDAQServerMessager
 
-class ZurichInstrumentScannable(ScannableMotionBase):
+class ZurichScannable(ScannableMotionBase):
     '''
     classdocs
     '''
