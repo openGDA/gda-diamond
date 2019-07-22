@@ -38,11 +38,6 @@ public class DetectorFillingMonitorScannable extends BeamlineConditionMonitorBas
 	}
 
 	@Override
-	public void configure() {
-		// nothing to configure
-	}
-
-	@Override
 	protected void testShouldPause() throws DeviceException {
 		while (isFilling()) {
 			try {
