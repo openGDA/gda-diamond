@@ -185,28 +185,28 @@
 	</bean>
 
 	<bean id="llimg" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-VA-IMG-21:P" />
+		<property name="pvName" value="BL07I-VA-IMG-31:P" />
 	</bean>
 	<bean id="llpirg" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-VA-PIRG-21:P" />
+		<property name="pvName" value="BL07I-VA-PIRG-31:P" />
 	</bean>
 	<bean id="bcimg" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-VA-IMG-20:P" />
+		<property name="pvName" value="BL07I-VA-IMG-30:P" />
 	</bean>
 	<bean id="bcpirg" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-VA-PIRG-20:P" />
+		<property name="pvName" value="BL07I-VA-PIRG-30:P" />
 	</bean>
 	<bean id="bcionp" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-VA-IONP-20:P" />
+		<property name="pvName" value="BL07I-VA-IONP-30:P" />
 	</bean>
 	<bean id="xrdimg" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-VA-IMG-22:P" />
+		<property name="pvName" value="BL07I-VA-IMG-32:P" />
 	</bean>
 	<bean id="xrdpirg" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-VA-PIRG-22:P" />
+		<property name="pvName" value="BL07I-VA-PIRG-32:P" />
 	</bean>
 	<bean id="xrdionp" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL07I-VA-IONP-21:P" />
+		<property name="pvName" value="BL07I-VA-IONP-31:P" />
 	</bean>
 
 
