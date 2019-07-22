@@ -50,8 +50,8 @@ try:
     print " Users can set the times between checks in seconds if required, it is default to 1.0 second."
     
     from pseudodevices.pauseDetectorWhileMonitorBelowThreshold import PauseableDetector, PauseResumeDetectorScannable
-    detectorpausecontrol=PauseableDetector("detectorpausecontrol", "BL09I-EA-DET-01:CAM:")
-    checkdetector = PauseResumeDetectorScannable('checkdetector', detectorpausecontrol, secondsBetweenFastShutterDetector=2.0, fastshutters=[fsi1, fsj1], checkedDevices={'Electron_Beam':checkrc, 'Front_End_Permit':checkfe, 'Top_up':checktopup_time},pvToCheck="BL09I-EA-DET-01:CAM:ACQ_MODE") 
+    detectorpausecontrol=PauseableDetector("detectorpausecontrol", "BL09I-EA-DET-01:CAM:", fastshutters=[fsi1, fsj1], secondsBetweenFastShutterDetector=2.0)
+    checkdetector = PauseResumeDetectorScannable('checkdetector', detectorpausecontrol, checkedDevices={'Electron_Beam':checkrc, 'Front_End_Permit':checkfe, 'Top_up':checktopup_time}) 
 
 except:
     localStation_exception(sys.exc_info(), "creating checkdetector objects")

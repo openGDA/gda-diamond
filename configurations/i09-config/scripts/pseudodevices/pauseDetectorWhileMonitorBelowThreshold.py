@@ -22,19 +22,14 @@ class PauseResumeDetectorScannable(ScannableMotionBase, Runnable):
     
     Users can set the time in seconds between checks, the default value is 1.0 second.
     '''
-    def __init__(self, name, detectorToControl, secondsBetweenFastShutterDetector=2.0, fastshutters=[], checkedDevices={}, pvToCheck="BL09I-EA-DET-01:CAM:ACQ_MODE"):  # @UndefinedVariable
+    def __init__(self, name, detectorToControl, checkedDevices={}):  # @UndefinedVariable
         self.setName(name)
         self.setInputNames([name])
         self.setOutputFormat(['%f'])
         self.secondsBetweenChecks=1.0
         
         self.detector=detectorToControl
-        self.fastshutters=fastshutters
         self.checkedDevices=checkedDevices
-        self.secondsBetweenFastShutterDetector=secondsBetweenFastShutterDetector
-        self.pvToCheck=pvToCheck
-        self.pvcli=CAClient(pvToCheck)
-        self.pvcli.configure()
         
         self.executor=None
         self.runThread=False
@@ -84,8 +79,6 @@ class PauseResumeDetectorScannable(ScannableMotionBase, Runnable):
     def __del__(self):
         #triggered when use 'reset_namespace'
         self.shutdownExecutor()
-        if self.pvcli.isConfigured():
-            self.pvcli.clearup()
                 
     def atPointStart(self):
         self.runThread=True
@@ -116,11 +109,6 @@ class PauseResumeDetectorScannable(ScannableMotionBase, Runnable):
                 print "*** Front_End_Permit: ready in state at: " + reprtime() + " . Resume detector exposure in " + str(self.secondsToWaitAfterBeamBackUp) + "s..."
             self.lastStatus = True
             sleep(self.secondsToWaitAfterBeamBackUp)
-            if statusdict['Top_up'] != self.lastStatusDict['Top_up'] and int(self.pvcli.caget())==0:#Only in Swept mode
-                if self.shutterClosedByMe is not None:
-                    self.shutterClosedByMe.moveTo('Out')
-                    self.shutterClosedByMe=None
-                    sleep(self.secondsBetweenFastShutterDetector)
             print "*** " + self.name + ":  Resume detector acquisition at: " + reprtime()
             if self.detector.isPaused():
                 self.detector.resume()
@@ -139,12 +127,6 @@ class PauseResumeDetectorScannable(ScannableMotionBase, Runnable):
             print "*** " + self.name + ": Pause detector acquisition at: " + reprtime()
             if not self.detector.isPaused():
                 self.detector.pause()
-            if statusdict['Top_up'] != self.lastStatusDict['Top_up'] and int(self.pvcli.caget())==0:#only in Swept mode
-                sleep(self.secondsBetweenFastShutterDetector)
-                for shutter in self.fastshutters:
-                    if shutter.getPosition() == 'Out':
-                        shutter.moveTo('In')
-                        self.shutterClosedByMe=shutter
         self.lastStatusDict=statusdict.copy()
             
     def run(self):
@@ -202,23 +184,40 @@ class WaitForScannableState2(WaitWhileScannableBelowThresholdMonitorOnly):
 class PauseableDetector():
     '''Implement pause and resume acquisition for a detector, e.g. VG Scienta electron analyser
     '''
-    def __init__(self, name, pvname):
+    def __init__(self, name, pvname, fastshutters=[], secondsBetweenFastShutterDetector=2.0):
         self.name=name
         self.pvname=pvname
         self.incli=CAClient(pvname+"PAUSE")
         self.outcli=CAClient(pvname+"PAUSE_RBV")
         self.statecli=CAClient(pvname+"DetectorState_RBV") 
+        self.pvcli=CAClient(pvname+"ACQ_MODE")
         self.incli.configure()
         self.outcli.configure()
         self.statecli.configure()
+        self.pvcli.configure()
+        self.fastshutters=fastshutters
+        self.secondsBetweenFastShutterDetector=secondsBetweenFastShutterDetector
+        self.shutterClosedByMe=None
         
     def pause(self):
         if (int(self.statecli.caget())==1): #currently acquire
-            self.incli.caput(1)
+            self.incli.caput(1) # pause detector acquisition
+            if int(self.pvcli.caget())==0: #in Swept mode
+                sleep(self.secondsBetweenFastShutterDetector)
+                for shutter in self.fastshutters:
+                    if shutter.getPosition() == 'Out':
+                        print "Close fast shutter %s after pausing detector acquisition" % shutter.getName()
+                        shutter.moveTo('In')
+                        self.shutterClosedByMe=shutter            
         
     def resume(self):
         if (int(self.statecli.caget())==1): #currently acquire
-            self.incli.caput(0)
+            if self.shutterClosedByMe is not None and int(self.pvcli.caget())==0: #in Swept mode
+                print "Open fast shutter %s before resuming detector acquisition" % self.shutterClosedByMe.getName()
+                self.shutterClosedByMe.moveTo('Out')
+                self.shutterClosedByMe=None
+                sleep(self.secondsBetweenFastShutterDetector)
+            self.incli.caput(0) # resume detector acquisition
         
     def isPaused(self):
         return int(self.outcli.caget())==1

@@ -192,6 +192,7 @@
 		<property name="scriptcontroller" ref="SequenceFileObserver"/>
 		<property name="softXRayFastShutter" ref="fsj1"/>
 		<property name="hardXRayFastShutter" ref="fsi1"/>
+		<property name="topup" ref="topup"/>
 	</bean>
 	
 	<bean id="ew4000" class="org.opengda.detector.electronanalyser.nxdetector.EW4000">
