@@ -127,6 +127,7 @@ public class TurboXasScan extends ContinuousScan {
 	 */
 	private XasNexusDataWriter createDataWriter() {
 		XasNexusDataWriter dataWriter = new XasNexusDataWriter();
+		setScanNumber(dataWriter.getCurrentScanIdentifier());
 		String filenameTemplate = "nexus/%d";
 		String sampleName = turboXasMotorParams.getScanParameters().getSampleName();
 		if (StringUtils.isNotEmpty(sampleName)) {
