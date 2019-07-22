@@ -81,6 +81,7 @@ class FeedbackOffScannable(ScannableBase):
         self.mode=CAClient(pvroot+FeedbackScannable.PV_END_POINT["Mode"])
         self.mode.configure()
         self.exisitingMode=int(self.mode.caget())
+        self.IChangedMode=False
         
     def atScanStart(self):
         self.exisitingMode=int(self.mode.caget()) #cache existing EPICS mode
