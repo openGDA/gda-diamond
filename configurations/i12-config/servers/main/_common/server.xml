@@ -153,7 +153,7 @@
 	<import resource="file:${gda.config}/servers/main/_common/dataFileWriter.xml" />
 
 	<!-- Command queue processor -->
-	<import resource="file:${gda.config}/servers/main/_common/commandQueueProcessor.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
 
 	<!-- end of device list -->
 

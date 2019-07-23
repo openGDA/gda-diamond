@@ -15,7 +15,7 @@
 	<import resource="classpath:gda/spring/propertyeditors/registration.xml" />
 
 	<import resource="ringAndBeamline.xml" />
-	<import resource="commandQueueProcessor.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
 	<import resource="beamlineEnergyController.xml" />
 	<import resource="metadata.xml" />
 	<import resource="imageProcessors.xml" />

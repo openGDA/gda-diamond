@@ -4,7 +4,7 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 
-	<import resource="file:${gda.config}/clients/main/_common/commandQueueProcessor.xml" />
+	<import resource="file://${gda.facility.dir}/clients/_common/command_queue_processor.xml"/>
 	<import resource="file:${gda.config}/clients/main/_common/rmi_imports.xml" />
 	<import resource="file://${gda.core.dir}/clients/_common/plot_server.xml" />
 	<import resource="file:${gda.config}/clients/main/_common/osgi_services.xml" />

@@ -9,7 +9,7 @@
 	<context:property-placeholder/>
 
 	<import resource="ringAndBeamline.xml" />
-	<import resource="commandQueueProcessor.xml" />
+	<import resource="file://${gda.facility.dir}/servers/_common/command_queue_processor.xml"/>
 	<import resource="beamlineEnergyController.xml" />
 	<import resource="GDAMetadata.xml" />
 	<import resource="imageProcessors.xml" />
