@@ -128,6 +128,8 @@ scan_processor.processors.append(CenFromSPEC())
 meta.rootNamespaceDict=globals()
 note.rootNamespaceDict=globals()
 
+add_default(meta)
+
 
 print "Adding dummy devices x,y and z"
 x=SingleInputDummy("x")
