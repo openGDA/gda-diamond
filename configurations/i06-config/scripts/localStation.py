@@ -1,5 +1,6 @@
 #localStation.py
 #For beamline specific initialisation code.
+from scannables.EnumPVScannable import EnumPVScannable
 
 print "===================================================================";
 print "Performing Beamline I06 specific initialisation code (localStation.py).";
@@ -94,6 +95,9 @@ if installation.isLive():
     temp2_EC3=DisplayEpicsPVClass('temp2_EC3','BL06I-EA-EC3-01:TEMP2','C','%f')
     temp3_EC3=DisplayEpicsPVClass('temp3_EC3','BL06I-EA-EC3-01:TEMP3','C','%f')
     temp4_EC3=DisplayEpicsPVClass('temp4_EC3','BL06I-EA-EC3-01:TEMP4','C','%f')
+    
+    mpxmode=EnumPVScannable("mpxmode", "BL06I-EA-DET-02:CAM:QuadMerlinMode")
+    mpxmode.configure()
 else:
     def medipix_unrotate():
         raise RuntimeError("EPICS PV and IOC required!")
