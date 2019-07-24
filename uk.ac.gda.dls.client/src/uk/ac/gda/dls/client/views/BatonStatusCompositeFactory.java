@@ -62,7 +62,6 @@ import uk.ac.gda.views.baton.action.RefreshBatonAction;
 
 public class BatonStatusCompositeFactory implements CompositeFactory {
 
-	static final Logger logger = LoggerFactory.getLogger(BatonStatusCompositeFactory.class);
 
 	private String label;
 
@@ -81,7 +80,7 @@ public class BatonStatusCompositeFactory implements CompositeFactory {
 }
 
 class BatonStatusComposite extends Composite {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BatonStatusComposite.class);
+	private static final Logger logger = LoggerFactory.getLogger(BatonStatusComposite.class);
 
 	private final Color BATON_HELD_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_GREEN);
 	private final Color BATON_HELD_UDC_COLOR = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
@@ -197,7 +196,7 @@ class BatonStatusComposite extends Composite {
 							try {
 								PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(MessageView.ID);
 							} catch (Exception e) {
-								BatonStatusCompositeFactory.logger.warn("Unable to open Messages view", e);
+								logger.warn("Unable to open Messages view", e);
 							}
 						}
 					}
@@ -225,7 +224,7 @@ class BatonStatusComposite extends Composite {
 					try {
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(uk.ac.gda.views.baton.BatonView.ID);
 					} catch (Exception ex) {
-						LOGGER.error("Cannot open baton manager", ex);
+						logger.error("Cannot open baton manager", ex);
 					}
 				}
 			}
@@ -314,7 +313,7 @@ class BatonStatusComposite extends Composite {
 				try {
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(MessageView.ID);
 				} catch (PartInitException e) {
-					LOGGER.error("Cannot show messages: ", e);
+					logger.error("Cannot show messages: ", e);
 				}
 			}
 		}
