@@ -49,7 +49,7 @@ import uk.ac.gda.perspectives.DataExplorationPerspective;
 public class I18DataCollectionModeHandler extends AbstractHandler implements IWorkbenchWindowActionDelegate,
 		IEditorActionDelegate {
 
-	private static final Logger logger = LoggerFactory.getLogger(DataCollectionModeHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(I18DataCollectionModeHandler.class);
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {

@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 
 public class SynopticView extends ViewPart {
 	public static final String Id = "uk.ac.gda.ui.views.synoptic.SynopticView";
-	private static final Logger logger = LoggerFactory.getLogger(SampleStageView.class);
+	private static final Logger logger = LoggerFactory.getLogger(SynopticView.class);
 
 	private String className = ""; //Full name of class with composite to be opened
 

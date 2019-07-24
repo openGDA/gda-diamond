@@ -53,7 +53,7 @@ import uk.ac.gda.exafs.plotting.model.ScanDataItemNode;
 import uk.ac.gda.exafs.plotting.model.SpectraNode;
 
 public class ScanNodeProviderFromNexusFile extends ObservableModel {
-	private static final Logger logger = LoggerFactory.getLogger(ExperimentRootNode.class);
+	private static final Logger logger = LoggerFactory.getLogger(ScanNodeProviderFromNexusFile.class);
 
 	public void addEdeScanNode(String filename, Node rootNode) {
 
