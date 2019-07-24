@@ -18,13 +18,6 @@
 
 package uk.ac.gda.nano.views;
 
-import gda.factory.Findable;
-import gda.factory.Finder;
-import gda.rcp.GDAClientActivator;
-import gda.rcp.views.CompositeFactory;
-import gda.rcp.views.FindableGroupCompositeFactory;
-import gda.rcp.views.JythonTerminalView;
-
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -43,10 +36,16 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.factory.Findable;
+import gda.factory.Finder;
+import gda.rcp.GDAClientActivator;
+import gda.rcp.views.CompositeFactory;
+import gda.rcp.views.FindableGroupCompositeFactory;
+
 public class NanoDemoView extends ViewPart {
 
 	public static final String ID = "uk.ac.gda.nano.views.SuperConductingMagnetView";
-	private static final Logger logger = LoggerFactory.getLogger(JythonTerminalView.class);
+	private static final Logger logger = LoggerFactory.getLogger(NanoDemoView.class);
 
 	private Composite guiBase;
 
@@ -54,8 +53,8 @@ public class NanoDemoView extends ViewPart {
 	String[] motorNames=new String[]{"test1", "test2"};
 
 	List<CompositeFactory> compositeFactories= null;
-	
-	
+
+
 	public NanoDemoView() {
 		super();
 		//To register itself to be updated by the command server
@@ -68,19 +67,19 @@ public class NanoDemoView extends ViewPart {
 		parent.setLayout(new FillLayout());
 		ScrolledComposite sbase = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		sbase.setLayout(new FillLayout());
-		
+
 		guiBase = new Composite(sbase, SWT.NONE);
 //		guiBase = new Composite(parent, SWT.SCROLL_LINE);
 		sbase.setContent(guiBase);
 		sbase.setMinSize(600, 600);
 		sbase.setExpandHorizontal(true);
-		sbase.setExpandVertical(true);		
-		
+		sbase.setExpandVertical(true);
+
 		this.createMagnetGUI(guiBase);
 
 	}
-	
-	
+
+
 	@Override
 	public void setFocus() {
 		guiBase.setFocus();
@@ -91,13 +90,13 @@ public class NanoDemoView extends ViewPart {
 		GridLayout baseLayout = new GridLayout();
 		baseLayout.numColumns = 3;
 		base.setLayout(baseLayout);
-		
+
 		this.createComposite(guiBase, "demoGUI");
 		this.createComposite(guiBase, "demoGUI");
 		}
 
-	
-	
+
+
 	public Composite createComposite(Composite base, String findableGroupCompositeFactoryName) {
 		// to setup a CompositeFactories
 		Findable findable = Finder.getInstance().find(findableGroupCompositeFactoryName);
@@ -107,13 +106,13 @@ public class NanoDemoView extends ViewPart {
 			} catch (CoreException e) {
 				logger.error("Unable to find the composite factory " + findableGroupCompositeFactoryName, e);
 			}
-		
+
 		Composite c=((FindableGroupCompositeFactory)(findable)).createComposite(base, SWT.NONE);
-		
+
 		return c;
 	}
 
-	
+
 	public void createMotionGUI(Composite base) {
 		Group motionGroup = new Group(base, SWT.NONE);
 		motionGroup.setText("Motion");
@@ -121,12 +120,12 @@ public class NanoDemoView extends ViewPart {
 		motionGroup.setLayoutData(gridData);
 		addMotionSetting(motionGroup);
 	}
-	
+
 	private void addMotionSetting(Group motionGroup){
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 4;
 		motionGroup.setLayout(gridLayout);
-		
+
 		new Label(motionGroup, SWT.NONE).setText("motor");
 		motor = new Combo(motionGroup, SWT.NONE);
 		motor.setItems(motorNames);
@@ -135,5 +134,5 @@ public class NanoDemoView extends ViewPart {
 //		motor.setText(motor.getItem(0));
 	}
 
-	
+
 }

@@ -18,13 +18,6 @@
 
 package uk.ac.gda.nano.views;
 
-import gda.factory.Findable;
-import gda.factory.Finder;
-import gda.rcp.GDAClientActivator;
-import gda.rcp.views.CompositeFactory;
-import gda.rcp.views.FindableGroupCompositeFactory;
-import gda.rcp.views.JythonTerminalView;
-
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -40,10 +33,16 @@ import org.eclipse.ui.part.ViewPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gda.factory.Findable;
+import gda.factory.Finder;
+import gda.rcp.GDAClientActivator;
+import gda.rcp.views.CompositeFactory;
+import gda.rcp.views.FindableGroupCompositeFactory;
+
 public class DiffractionAndDichroismView extends ViewPart {
 
 	public static final String ID = "uk.ac.gda.nano.views.DiffractionAndDichroismView";
-	private static final Logger logger = LoggerFactory.getLogger(JythonTerminalView.class);
+	private static final Logger logger = LoggerFactory.getLogger(DiffractionAndDichroismView.class);
 
 	private Composite guiBase;
 
@@ -51,8 +50,8 @@ public class DiffractionAndDichroismView extends ViewPart {
 	String[] motorNames=new String[]{"test1", "test2"};
 
 	List<CompositeFactory> compositeFactories= null;
-	
-	
+
+
 	public DiffractionAndDichroismView() {
 		super();
 		//To register itself to be updated by the command server
@@ -65,19 +64,19 @@ public class DiffractionAndDichroismView extends ViewPart {
 		parent.setLayout(new FillLayout());
 		ScrolledComposite sbase = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		sbase.setLayout(new FillLayout());
-		
+
 		guiBase = new Composite(sbase, SWT.NONE);
 //		guiBase = new Composite(parent, SWT.SCROLL_LINE);
 		sbase.setContent(guiBase);
 		sbase.setMinSize(600, 600);
 		sbase.setExpandHorizontal(true);
-		sbase.setExpandVertical(true);		
-		
+		sbase.setExpandVertical(true);
+
 		this.createLightControlGUI(guiBase);
 
 	}
-	
-	
+
+
 	@Override
 	public void setFocus() {
 		guiBase.setFocus();
@@ -88,11 +87,11 @@ public class DiffractionAndDichroismView extends ViewPart {
 		GridLayout baseLayout = new GridLayout();
 		baseLayout.numColumns = 3;
 		base.setLayout(baseLayout);
-		
+
 		this.createComposite(guiBase, "lightControl");
 		}
 
-	
+
 	public Composite createComposite(Composite base, String findableGroupCompositeFactoryName) {
 		// to setup a CompositeFactories
 		Findable findable = Finder.getInstance().find(findableGroupCompositeFactoryName);
@@ -102,11 +101,11 @@ public class DiffractionAndDichroismView extends ViewPart {
 			} catch (CoreException e) {
 				logger.error("Unable to find a gcf1", e);
 			}
-		
+
 		Composite c=((FindableGroupCompositeFactory)(findable)).createComposite(base, SWT.NONE);
-		
+
 		return c;
 	}
 
-	
+
 }

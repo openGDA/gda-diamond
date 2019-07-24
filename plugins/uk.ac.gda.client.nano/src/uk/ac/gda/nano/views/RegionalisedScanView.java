@@ -47,7 +47,6 @@ import gda.jython.InterfaceProvider;
 import gda.jython.JythonServerStatus;
 import gda.jython.JythonStatus;
 import gda.observable.IObserver;
-import gda.rcp.views.JythonTerminalView;
 
 public class RegionalisedScanView extends ViewPart implements IObserver{
 
@@ -55,7 +54,7 @@ public class RegionalisedScanView extends ViewPart implements IObserver{
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "uk.ac.gda.nano.views.RegionalisedScanView";
-	private static final Logger logger = LoggerFactory.getLogger(JythonTerminalView.class);
+	private static final Logger logger = LoggerFactory.getLogger(RegionalisedScanView.class);
 
 	private Composite guiBase;
 
