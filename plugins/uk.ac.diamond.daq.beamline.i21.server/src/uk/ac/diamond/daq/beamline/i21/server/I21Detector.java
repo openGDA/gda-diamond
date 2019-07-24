@@ -83,6 +83,7 @@ public class I21Detector extends DetectorBase implements NexusDetector {
 			logger.debug("Set sample exposure time of {} secs", sampleExposureTime);
 			for (int i = 0; i < sampleImages; i++) {
 				completedPoint.addSampleImage(acquireImage());
+				completedPoint.addSampleImageTimestamp(getAcquiredImageTimestamp());
 				logger.debug("Acquired sample image {}/{}", i+1, sampleImages);
 			}
 
@@ -93,6 +94,7 @@ public class I21Detector extends DetectorBase implements NexusDetector {
 			logger.debug("Set reference exposure time of {} secs", referenceExposureTime);
 			for (int i = 0; i < referenceImages; i++) {
 				completedPoint.addReferenceImage(acquireImage());
+				completedPoint.addReferenceImageTimestamp(getAcquiredImageTimestamp());
 				logger.debug("Acquired reference image {}/{}", i+1, referenceImages);
 			}
 
@@ -103,6 +105,10 @@ public class I21Detector extends DetectorBase implements NexusDetector {
 			logger.error("Failed during collection", e);
 		}
 		logger.info("Completed acquiring point");
+	}
+
+	private Double getAcquiredImageTimestamp() throws Exception {
+		return adDetector.getNdArray().getPluginBase().getTimeStamp_RBV();
 	}
 
 	/**
@@ -170,6 +176,7 @@ public class I21Detector extends DetectorBase implements NexusDetector {
 		nxdata.addData(getName(), "sample", sampleNgd, null);
 		nxdata.addElement(getName(), "sample_frames", new NexusGroupData(getSampleImages()), null, false);
 		nxdata.addElement(getName(), "sample_exposure", new NexusGroupData(getSampleExposureTime()), "seconds", false);
+		nxdata.addElement(getName(), "sample_image_timestamps", new NexusGroupData(completedPoint.getSampleImageTimestampsDataset()), "seconds", false);
 		// This casting is a little nasty but think its always safe.
 		nxdata.setPlottableValue("sample", ((Number) sampleDataset.sum()).doubleValue());
 
@@ -181,6 +188,7 @@ public class I21Detector extends DetectorBase implements NexusDetector {
 		nxdata.addElement(getName(), "reference_frames", new NexusGroupData(getReferenceImages()), null, false);
 		nxdata.addElement(getName(), "reference_exposure", new NexusGroupData(getReferenceExposureTime()), "seconds",
 				false);
+		nxdata.addElement(getName(), "reference_image_timestamps", new NexusGroupData(completedPoint.getReferenceImageTimestampsDataset()), "seconds", false);
 		// This casting is a little nasty but think its always safe.
 		nxdata.setPlottableValue("reference", ((Number) referenceDataset.sum()).doubleValue());
 
@@ -369,6 +377,8 @@ public class I21Detector extends DetectorBase implements NexusDetector {
 	private class CompletedPoint {
 		private final List<Dataset> sampleImages = new ArrayList<>();
 		private final List<Dataset> referenceImages = new ArrayList<>();
+		private final List<Double> sampleImageTimestamps= new ArrayList<>();
+		private final List<Double> referenceImageTimestamps=new ArrayList<>();
 
 		public void addSampleImage(Dataset image) {
 			sampleImages.add(image);
@@ -383,6 +393,14 @@ public class I21Detector extends DetectorBase implements NexusDetector {
 			return DatasetFactory.createFromObject(sampleImages);
 		}
 
+		public void addSampleImageTimestamp(Double timestamp) {
+			sampleImageTimestamps.add(timestamp);
+		}
+
+		public Dataset getSampleImageTimestampsDataset() {
+			return DatasetFactory.createFromList(sampleImageTimestamps);
+		}
+
 		public void addReferenceImage(Dataset image) {
 			referenceImages.add(image);
 		}
@@ -394,6 +412,14 @@ public class I21Detector extends DetectorBase implements NexusDetector {
 		 */
 		public Dataset getReferenceImagesDataset() {
 			return DatasetFactory.createFromObject(referenceImages);
+		}
+
+		public void addReferenceImageTimestamp(Double timestamp) {
+			referenceImageTimestamps.add(timestamp);
+		}
+
+		public Dataset getReferenceImageTimestampsDataset() {
+			return DatasetFactory.createFromList(referenceImageTimestamps);
 		}
 	}
 
