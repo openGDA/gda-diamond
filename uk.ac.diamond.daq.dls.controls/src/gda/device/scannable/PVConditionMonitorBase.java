@@ -18,31 +18,30 @@
 
 package gda.device.scannable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import gda.device.DeviceException;
 import gda.epics.connection.EpicsChannelManager;
 import gda.epics.connection.EpicsController;
 import gda.epics.connection.InitializationListener;
+import gda.factory.FactoryException;
 import gov.aps.jca.Channel;
 import gov.aps.jca.Channel.ConnectionState;
 
 public abstract class PVConditionMonitorBase extends BeamlineConditionMonitorBase implements InitializationListener {
 
-	private static final Logger logger = LoggerFactory.getLogger(PVConditionMonitorBase.class);
-	
 	protected EpicsController controller;
 	protected Channel theChannel;
 	private String thePV = "SR21C-DI-DCCT-01:SIGNAL";
 	private EpicsChannelManager channelManager;
-	
-	
+
+
 	@Override
-	public void configure() {
+	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		this.level = 1;
 		if (thePV == null || thePV.isEmpty()) {
-			logger.error(getName() + " cannot configure as the PVs are not defined.");
+			throw new FactoryException(getName() + " cannot configure as the PVs are not defined.");
 		}
 
 		controller = EpicsController.getInstance();
@@ -50,18 +49,24 @@ public abstract class PVConditionMonitorBase extends BeamlineConditionMonitorBas
 		try {
 			theChannel = channelManager.createChannel(thePV, false);
 		} catch (Exception e) {
-			logger.error(getName() + " Beam monitor failed to configure.", e);
+			throw new FactoryException(getName() + " Beam monitor failed to configure.", e);
 		}
+		setConfigured(true);
 	}
 
 	@Override
 	public void atScanStart() throws DeviceException {
 		// if not connected then try to connect again at the start of every scan
 		if (!isConnected()) {
-			configure();
+			try {
+				setConfigured(false);
+				configure();
+			} catch (FactoryException e) {
+				throw new DeviceException("Error connecting to device", e);
+			}
 		}
 	}
-	
+
 	protected boolean isConnected() {
 		return theChannel.getConnectionState().isEqualTo(ConnectionState.CONNECTED);
 	}

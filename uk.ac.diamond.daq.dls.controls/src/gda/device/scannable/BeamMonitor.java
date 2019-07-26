@@ -26,6 +26,7 @@ import gda.device.Scannable;
 import gda.epics.connection.EpicsChannelManager;
 import gda.epics.connection.EpicsController;
 import gda.epics.connection.InitializationListener;
+import gda.factory.FactoryException;
 import gov.aps.jca.Channel;
 import gov.aps.jca.Channel.ConnectionState;
 
@@ -59,10 +60,13 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 	}
 
 	@Override
-	public void configure() {
+	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		this.level = 1;
 		if (shutterPVs == null || shutterPVs.length == 0 || ringCurrentPV == null || ringCurrentPV.isEmpty()) {
-			logger.error(getName() + " cannot configure as the PVs are not defined.");
+			throw new FactoryException(getName() + " cannot configure as the PVs are not defined.");
 		}
 
 		controller = EpicsController.getInstance();
@@ -74,15 +78,21 @@ public class BeamMonitor extends BeamlineConditionMonitorBase implements Initial
 			}
 			ringCurrent = channelManager.createChannel(ringCurrentPV, false);
 		} catch (Exception e) {
-			logger.error(getName() + " Beam monitor failed to configure.", e);
+			throw new FactoryException(getName() + " Beam monitor failed to configure.", e);
 		}
+		setConfigured(true);
 	}
 
 	@Override
 	public void atScanStart() throws DeviceException {
 		// if not connected then try to connect again at the start of every scan
 		if (!isConnected()) {
-			configure();
+			try {
+				setConfigured(false);
+				configure();
+			} catch (FactoryException e) {
+				throw new DeviceException("Error connecting to device", e);
+			}
 		}
 		super.atScanStart();
 	}

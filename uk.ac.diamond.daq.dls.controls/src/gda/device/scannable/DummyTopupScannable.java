@@ -49,10 +49,14 @@ public class DummyTopupScannable extends ScannableBase implements Monitor {
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		super.configure();
 
 		this.setInputNames(new String[0]);
 		this.setExtraNames(new String[] { getName() });
+		setConfigured(true);
 	}
 
 	@Override

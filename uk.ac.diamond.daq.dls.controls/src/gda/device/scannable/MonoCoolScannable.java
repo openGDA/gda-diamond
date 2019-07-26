@@ -18,26 +18,27 @@
 
 package gda.device.scannable;
 
-import gda.device.DeviceException;
-import gda.epics.connection.EpicsChannelManager;
-import gda.epics.connection.EpicsController;
-import gda.epics.connection.InitializationListener;
-import gda.jython.InterfaceProvider;
-import gov.aps.jca.CAException;
-import gov.aps.jca.Channel;
-import gov.aps.jca.TimeoutException;
-
 import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gda.device.DeviceException;
+import gda.epics.connection.EpicsChannelManager;
+import gda.epics.connection.EpicsController;
+import gda.epics.connection.InitializationListener;
+import gda.factory.FactoryException;
+import gda.jython.InterfaceProvider;
+import gov.aps.jca.CAException;
+import gov.aps.jca.Channel;
+import gov.aps.jca.TimeoutException;
 
 /**
  * For B18 - this will test the mono temperature at regular points in a scan and will pause until it has colled below
  * some level before resuming.
  */
 public class MonoCoolScannable extends ScannableBase implements InitializationListener {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(MonoCoolScannable.class);
 
 	boolean pauseAtEachPoint = true;
@@ -50,31 +51,35 @@ public class MonoCoolScannable extends ScannableBase implements InitializationLi
 	EpicsController controller;
 	EpicsChannelManager channelManager;
 	Channel temperaturePV;
-	
+
 	public MonoCoolScannable() {
 		this.setInputNames(new String[0]);
 		this.setExtraNames(new String[0]);
 		this.setOutputFormat(new String[0]);
 	}
-	
+
 	@Override
-	public void configure(){
-		
-		if (motorTempPV == null || motorTempPV.isEmpty()){
-			logger.error(getName() + " cannot configure as the motorTempPV is not defined.");
+	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
 		}
-		
+		if (motorTempPV == null || motorTempPV.isEmpty()) {
+			throw new FactoryException(getName() + " cannot configure as the motorTempPV is not defined.");
+		}
+
 		controller = EpicsController.getInstance();
 		channelManager = new EpicsChannelManager(this);
 		try {
 			temperaturePV = channelManager.createChannel(motorTempPV, false);
 		} catch (Exception e) {
-			logger.error(getName() + " had CAException during configure",e);
+			throw new FactoryException(getName() + " had CAException during configure", e);
 		}
+		setConfigured(true);
 	}
-	
+
+
 	@Override
-	public void initializationCompleted() {		
+	public void initializationCompleted() {
 	}
 
 	@Override
@@ -91,7 +96,7 @@ public class MonoCoolScannable extends ScannableBase implements InitializationLi
 	public Object rawGetPosition() throws DeviceException {
 		return null;
 	}
-	
+
 	@Override
 	public void atPointStart() throws DeviceException {
 		try {
@@ -102,7 +107,7 @@ public class MonoCoolScannable extends ScannableBase implements InitializationLi
 			throw new DeviceException(getName() + " exception in atPointStart",e);
 		}
 	}
-	
+
 
 	@Override
 	public void atScanLineStart() throws DeviceException {
@@ -115,7 +120,7 @@ public class MonoCoolScannable extends ScannableBase implements InitializationLi
 		}
 
 	}
-	
+
 	@Override
 	public void atScanStart() throws DeviceException {
 		try {
@@ -155,7 +160,7 @@ public class MonoCoolScannable extends ScannableBase implements InitializationLi
 	private boolean temperatureOverLimit() throws TimeoutException, CAException, InterruptedException {
 		return getCurrentTemp() > temperatureLimit;
 	}
-	
+
 	private Double getCurrentTemp() throws TimeoutException, CAException, InterruptedException{
 		return controller.cagetDouble(temperaturePV);
 	}
