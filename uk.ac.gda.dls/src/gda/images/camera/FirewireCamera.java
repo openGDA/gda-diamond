@@ -34,6 +34,7 @@ import gda.device.DeviceException;
 import gda.device.Motor;
 import gda.device.MotorException;
 import gda.device.MotorStatus;
+import gda.factory.FactoryException;
 import gda.factory.Finder;
 import gda.util.Unix;
 
@@ -111,22 +112,26 @@ public class FirewireCamera extends CameraBase {
 	}
 
 	@Override
-	public void configure() {
+	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		extractPositions(zoomPositionList, ZOOM);
 		extractPositions(focusPositionList, FOCUS);
 
-		zoomMotor = (Motor) Finder.getInstance().find(zoomMotorName);
-		focusMotor = (Motor) Finder.getInstance().find(focusMotorName);
+		zoomMotor = Finder.getInstance().find(zoomMotorName);
+		focusMotor = Finder.getInstance().find(focusMotorName);
 		if (zoomMotor == null || focusMotor == null) {
-			logger.error("FirewireCamera : error finding zoom/focus motors");
+			throw new FactoryException("FirewireCamera : error finding zoom/focus motors");
 		}
 
 		try {
 			Unix.stopFirewireCameraDaemon();
 			Unix.startFirewireCameraDaemon();
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			throw new FactoryException("Error configuring FirewireCamera" ,e);
 		}
+		setConfigured(true);
 	}
 
 	private void extractPositions(ArrayList<String> positionList, int type) {

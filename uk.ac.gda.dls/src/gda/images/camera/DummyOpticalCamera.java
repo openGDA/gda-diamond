@@ -54,13 +54,6 @@ public class DummyOpticalCamera extends CameraBase {
 		this.micronsPerYPixel = micronsPerYPixel;
 	}
 
-	/**
-	 * {@inheritDoc} This method does not using base class configure which reads configuration files.
-	 */
-	@Override
-	public void configure() {
-	}
-
 	@Override
 	public void captureImage(String imageName) throws DeviceException {
 		notifyIObservers(this, IMAGE_UPDATED + cameraName);
