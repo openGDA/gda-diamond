@@ -116,7 +116,7 @@ if installation.isLive():
         localStation_exception(sys.exc_info(), "creating AutoGainAmplifer scannables")
 
 else:
-    global m1fpitch
+    pass
         
 ######## Setting up the Andor Rasor camera ###############
 andor_installed = False
@@ -208,7 +208,7 @@ meta_add(*metadatalist)
 
 # check beam scannables
 from scannable.checkbeanscannables import checkrc, checktopup_time, checkfe, checkbeam, checkbeamcv, checkfe_cv, checkrc_cv, checktopup_time_cv, checkbeam4scan, checkbeam4cvscan # @UnusedImport
-
+print "-"*100
 # multi-image per scan data point scan
 from scan.miscan import miscan; print miscan.__doc__  # @UndefinedVariable
 print "-"*100

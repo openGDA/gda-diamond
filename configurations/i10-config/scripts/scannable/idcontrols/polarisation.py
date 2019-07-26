@@ -60,6 +60,7 @@ class Polarisation(ScannableBase):
         self.polarisation=defaultPolarisation
         self.amIBusy=False
         self.verbose=False
+        self.underlyENergyUsed=None
         
     def getPosition(self):
         ''' get current polarisation that has been set last time 
@@ -77,9 +78,9 @@ class Polarisation(ScannableBase):
             message="X-ray source mode is not set"
             raise Exception(message)
         self.amIBusy=True # need to block to ensure any script run complete before any other actions
-        #need to delete __main__.energy and __main__.laa before set it to another scannable due to 'Cannot overwrite scannable
+        #need to delete energy and laa before set it to another scannable due to 'Cannot overwrite scannable
         try:
-            exec('__maim__.energy=None;__main__.laa=None')
+            exec('__maim__.energy=None;__main__.energycontroller=None;__main__.laa=None')
         except:
             pass
         if mode == SourceMode.SOURCE_MODES[0]:
@@ -110,6 +111,7 @@ class Polarisation(ScannableBase):
                     raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idd_circ_pos_energy_minimum,idd_circ_pos_energy_maximum,newpos))
                 current_ID_positions=idd_circ_pos_energy.getIdPosition(current_energy)
                 idd_circ_pos_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                self.underlyENergyUsed=idd_circ_pos_energy
                                     
             elif newpos == Polarisation.POLARISATIONS[1]:
                 __main__.energy = egy_g_idd_circ_neg_energy
@@ -138,6 +140,7 @@ class Polarisation(ScannableBase):
                     raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idd_circ_neg_energy_minimum,idd_circ_neg_energy_maximum,newpos))
                 current_ID_positions=idd_circ_neg_energy.getIdPosition(current_energy)
                 idd_circ_neg_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                self.underlyENergyUsed=idd_circ_neg_energy
 
             elif newpos == Polarisation.POLARISATIONS[2]:
                 __main__.energy = egy_g_idd_lin_hor_energy
@@ -166,6 +169,7 @@ class Polarisation(ScannableBase):
                     raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idd_lin_hor_energy_minimum,idd_lin_hor_energy_maximum,newpos))
                 current_ID_positions=idd_lin_hor_energy.getIdPosition(current_energy)
                 idd_lin_hor_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                self.underlyENergyUsed=idd_lin_hor_energy
 
             elif newpos == Polarisation.POLARISATIONS[3]:
                 __main__.energy = egy_g_idd_lin_ver_energy
@@ -194,6 +198,7 @@ class Polarisation(ScannableBase):
                     raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idd_lin_ver_energy_minimum,idd_lin_ver_energy_maximum,newpos))
                 current_ID_positions=idd_lin_ver_energy.getIdPosition(current_energy)
                 idd_lin_ver_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                self.underlyENergyUsed=idd_lin_ver_energy
 
             elif newpos == Polarisation.POLARISATIONS[4]:
                 __main__.energy = egy_g_idd_lin_arbitrary_energy
@@ -223,6 +228,7 @@ class Polarisation(ScannableBase):
                     raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idd_lin_arbitrary_energy_minimum,idd_lin_arbitrary_energy_maximum,newpos))
                 current_ID_positions=idd_lin_arbitrary_energy.getIdPosition(current_energy)
                 idd_lin_arbitrary_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                self.underlyENergyUsed=idd_lin_arbitrary_energy
 
             elif newpos == Polarisation.POLARISATIONS[5]:
                 __main__.energy = None
@@ -255,7 +261,8 @@ class Polarisation(ScannableBase):
                     raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idu_circ_pos_energy_minimum,idu_circ_pos_energy_maximum,newpos))
                 current_ID_positions=idu_circ_pos_energy.getIdPosition(current_energy)
                 idu_circ_pos_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
-                                    
+                self.underlyENergyUsed=idu_circ_pos_energy
+
             elif newpos == Polarisation.POLARISATIONS[1]:
                 __main__.energy = egy_g_idu_circ_neg_energy
                 __main__.energycontroller=cemc_g_idu_circ_neg_energy
@@ -283,6 +290,7 @@ class Polarisation(ScannableBase):
                     raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idu_circ_neg_energy_minimum,idu_circ_neg_energy_maximum,newpos))
                 current_ID_positions=idu_circ_neg_energy.getIdPosition(current_energy)
                 idu_circ_neg_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                self.underlyENergyUsed=idu_circ_neg_energy
                                     
             elif newpos == Polarisation.POLARISATIONS[2]:
                 __main__.energy = egy_g_idu_lin_hor_energy
@@ -311,6 +319,7 @@ class Polarisation(ScannableBase):
                     raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idu_lin_hor_energy_minimum,idu_lin_hor_energy_maximum,newpos))
                 current_ID_positions=idu_lin_hor_energy.getIdPosition(current_energy)
                 idu_lin_hor_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                self.underlyENergyUsed=idu_lin_hor_energy
                                     
             elif newpos == Polarisation.POLARISATIONS[3]:
                 __main__.energy = egy_g_idu_lin_ver_energy
@@ -339,6 +348,7 @@ class Polarisation(ScannableBase):
                     raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idu_lin_ver_energy_minimum,idu_lin_ver_energy_maximum,newpos))
                 current_ID_positions=idu_lin_ver_energy.getIdPosition(current_energy)
                 idu_lin_ver_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                self.underlyENergyUsed=idu_lin_ver_energy
                                     
             elif newpos == Polarisation.POLARISATIONS[4]:
                 __main__.energy = egy_g_idu_lin_arbitrary_energy
@@ -368,6 +378,7 @@ class Polarisation(ScannableBase):
                     raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idu_lin_arbitrary_energy_minimum,idu_lin_arbitrary_energy_maximum,newpos))
                 current_ID_positions=idu_lin_arbitrary_energy.getIdPosition(current_energy)
                 idu_lin_arbitrary_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
+                self.underlyENergyUsed=idu_lin_arbitrary_energy
                                     
             elif newpos == Polarisation.POLARISATIONS[5]:
                 __main__.energy = egy_g_idu_lin_hor3_energy
@@ -396,11 +407,15 @@ class Polarisation(ScannableBase):
                     raise Exception("Current energy %f is outside calibrated energy limits [%f, %f] for your requested polarisation %s" % (current_energy,idu_lin_hor3_energy_minimum,idu_lin_hor3_energy_maximum,newpos))
                 current_ID_positions=idu_lin_hor3_energy.getIdPosition(current_energy)
                 idu_lin_hor3_energy.idMotorsAsynchronousMoveTo(current_ID_positions, current_energy, set_pgm_energy=False)
-                                    
-            
+                self.underlyENergyUsed=idu_lin_hor3_energy
+
+ 
         self.polarisation=newpos
         self.amIBusy=False
     
     def isBusy(self):
-        return self.amIBusy
+        hardwareBusy=False
+        if self.underlyENergyUsed:
+            hardwareBusy=self.underlyENergyUsed.isBusy()
+        return self.amIBusy or hardwareBusy
 

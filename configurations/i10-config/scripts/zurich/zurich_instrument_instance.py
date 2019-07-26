@@ -6,7 +6,7 @@ Created on 19 Jul 2019
 from zurich.ZurichInstrumentScannable import ZurichScannable
 from zurich.ZurichInstrumentDetector import ZurichDetector
 
-ZURICH_INSTRUMENT_PC_ADDRESS = "172.23.110.131"
+ZURICH_INSTRUMENT_PC_ADDRESS = "172.23.110.68"
 ZURICH_INSTRUMENT_PC_PORT = 51423
 ZURICH_INSTRUMENT_MESSAGER_TERMINATOR = '\r\n'
 ZURICH_INSTRUMENT_MESSAGER_SEPARATOR = ' '

@@ -325,12 +325,12 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
             sleep(self.getIDStartDelayTime())
             if self.getIDGapMoveDirectionPositive():
                 if self.verbose: self.logger.info('startMove ID Gap: asynchronousMoveTo(%r) @ %r (+ve)' % (
-                                                        (self._id_gap_end + self._id_gap_runupdown), self._id_gap_speed))
-                self._id_energy.id_gap.asynchronousMoveTo((self._id_gap_end + self._id_gap_runupdown))
+                                                        (self._id_gap_end + 0.03 + self._id_gap_runupdown), self._id_gap_speed))
+                self._id_energy.id_gap.asynchronousMoveTo((self._id_gap_end + 0.03 + self._id_gap_runupdown))
             else:
                 if self.verbose: self.logger.info('startMove ID Gap: asynchronousMoveTo(%r) @ %r (-ve)' % (
-                                                        (self._id_gap_end - self._id_gap_runupdown), self._id_gap_speed))
-                self._id_energy.id_gap.asynchronousMoveTo((self._id_gap_end - self._id_gap_runupdown))
+                                                        (self._id_gap_end - 0.03 - self._id_gap_runupdown), self._id_gap_speed))
+                self._id_energy.id_gap.asynchronousMoveTo((self._id_gap_end - 0.03 - self._id_gap_runupdown))
         # How do we trigger the detectors, since they are 'HardwareTriggerable'?
         if self.verbose: self.logger.info('...startMove')
 
@@ -378,7 +378,7 @@ class ContinuousPgmGratingIDGapEnergyMoveController(ConstantVelocityMoveControll
     def getTimeToVelocity(self):
         return self._pgm_runupdown_time
 
-    # Override: public abstract class DeviceBase extends ConfigurableBase implements Device
+    # Override: public abstract class DeviceBase implements Device, ConditionallyConfigurable, Localizable
 
         # None needed
 

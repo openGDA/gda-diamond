@@ -6,7 +6,7 @@ Created on 10 Jun 2019
 from gda.device.scannable import ScannableMotionBase
 from zurich.ziPythonClientMessager import ZiDAQServerMessager
 
-class ZurichScannable(ScannableMotionBase):
+class ZurichInstrumentScannable(ScannableMotionBase):
     '''
     classdocs
     '''
@@ -42,8 +42,4 @@ class ZurichScannable(ScannableMotionBase):
     
     def isBusy(self):
         return False
-    
-    def toFormattedString(self):
-        return "%s: %s: %s" % (self.getName(), self.getInputNames()[0], str(self.getPosition()))
-    
     

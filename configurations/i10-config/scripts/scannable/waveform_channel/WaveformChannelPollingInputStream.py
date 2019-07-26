@@ -88,7 +88,7 @@ class WaveformChannelPollingInputStream(PositionInputStream):
         sleep_time = exposure_time if exposure_time > 0.2 else 0.2
         log_timeout = exposure_time + 5
         log_time = last_element_time = datetime.now()
-        new_element_timeout = exposure_time + 200 # it takes about 200 second to complete a full range move of pgm_grit_pitch.
+        new_element_timeout = exposure_time + 5.0 # it takes about 200 second to complete a full range move of pgm_grit_pitch.
         
         while True and not self.stoppedExplicitly:
             if installation.isLive():

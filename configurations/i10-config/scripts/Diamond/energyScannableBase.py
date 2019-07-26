@@ -85,6 +85,7 @@ class EnergyScannableBase(ScannableMotionBase):
         self.verbose = False
         self.concurrentRowphaseMoves=False
         self.energyMode=False #default to jawphase energy, if True gap controlled energy
+        self.IamBusy=False
 
     def __str__(self):
         myformat=", ".join([ a + "=" + b for (a,b) in zip(
@@ -110,7 +111,7 @@ class EnergyScannableBase(ScannableMotionBase):
 #         print "id_rowphase4 is busy: %s" % (self.id_rowphase4.isBusy())
 #         print "id_jawphase is busy: %s" % (self.id_jawphase.isBusy())
 #         print "pgm_energy is busy: %s" % (self.pgm_energy.isBusy())       
-        return (self.id_gap.isBusy() or 
+        return (self.IamBusy or self.id_gap.isBusy() or 
                 self.id_rowphase1.isBusy() or
                 self.id_rowphase2.isBusy() or
                 self.id_rowphase3.isBusy() or
@@ -146,6 +147,7 @@ class EnergyScannableBase(ScannableMotionBase):
 
     def idMotorsAsynchronousMoveTo(self, idPosition, energy_eV, set_pgm_energy=True):
         self.last_energy_eV = 0
+        self.IamBusy=True
 
         #Move ID polarisation correction for this energy must be move 1st
         if self.concurrentRowphaseMoves:
@@ -167,6 +169,7 @@ class EnergyScannableBase(ScannableMotionBase):
         self.moveToMayWait(self.id_jawphase, idPosition.jawphase, wait=False)
         
         self.last_energy_eV = energy_eV
+        self.IamBusy=False
 
     def getIdPosition(self, energy_eV):
         return IdPosition(self.gap_from_energy(energy_eV), self.rowphase1_from_energy(energy_eV), self.rowphase2_from_energy(energy_eV),

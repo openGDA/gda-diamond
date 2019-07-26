@@ -49,12 +49,12 @@ def logMirrorPositions():
 def alignSample():
     pos vmag 0
     scan dummy 1 1 1 pixistiff 0.002 pixisSum
-    cscan user1_axis2 0.3 0.05 pixistiff 0.1 pixisSum
+    cscan user1_axis2 0.3 0.05 pixistiff 0.5 pixisSum
     go peak
     scan dummy 1 1 1 pixistiff 0.002 pixisSum
-    cscan user1_axis1 0.3 0.05 pixistiff 0.1 pixisSum
+    cscan user1_axis1 0.3 0.05 pixistiff 0.5 pixisSum
     go peak
-    scan dummy 1 1 1 pixistiff 0.1 pixisSum
+    scan dummy 1 1 1 pixistiff 0.5 pixisSum
     
     """ saves log """
     f=open("/dls_sw/i10/software/gda/config/scripts/poms/logs/cryo_position.dat", 'a')

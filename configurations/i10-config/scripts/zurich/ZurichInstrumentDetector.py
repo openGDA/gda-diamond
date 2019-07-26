@@ -10,6 +10,7 @@ from gda.factory import ConfigurableBase
 from org.slf4j import LoggerFactory
 from time import sleep
 from gda.data.nexus.extractor import NexusGroupData
+import time
 
 class ZurichDetector(DetectorBase, NexusDetector):
     '''
@@ -24,10 +25,11 @@ class ZurichDetector(DetectorBase, NexusDetector):
         self.logger=LoggerFactory.getLogger(ZurichDetector)
         self.setName(name)
         self.length=1
-        self.collectionTime=None
+        self.collectingTime=0.0
         self.communicator=ZiDAQServerMessager(ipaddress, port, terminator, separator)
         self.dataPath=dataPath
         self.staticsPath=staticsPath
+        self.starttime=0.0
         
     def configure(self):
         self.logger.debug("{}: configure called", self.getName())
@@ -36,10 +38,13 @@ class ZurichDetector(DetectorBase, NexusDetector):
      
     def setCollectionTime(self, t):
         self.logger.debug("{}: set collection time called with {}",self.getName(), t)
-        self.collectionTime=t 
-        
-    def getDataDimensions(self):
-        return [self.communicator.get('/dev4206/scopes/0/length')]
+        self.collectingTime=t
+         
+    def getCollectionTime(self):
+        return self.collectingTime
+    
+#     def getDataDimensions(self):
+#         return [self.communicator.get('/dev4206/scopes/0/length')]
     
     def prepareForCollection(self):
         self.communicator.set(['/dev4206/demods/0/enable', 1]) # Enable the demodulator output
@@ -56,10 +61,14 @@ class ZurichDetector(DetectorBase, NexusDetector):
         self.communicator.set(['/dev4206/scopes/0/time', 5]) #set sample rate
         
         self.communicator.set(['/dev4206/scopes/0/enable', 1]) # start continuous triggering
+        self.communicator.execute('scope')
+        while self.communicator.progress('scope')<1:
+            sleep(0.1)
         
     def collectData(self):
         self.logger.debug("{}: collectData called", self.getName())
-        self.communicator.execute('scope')
+        self.starttime=time.time()
+        
         
     def waitWhileBusy(self):
         self.logger.trace("{}: Waiting for acquire to finish...", self.getName());
@@ -68,7 +77,7 @@ class ZurichDetector(DetectorBase, NexusDetector):
         self.logger.trace("{}: Acquiring finshed.", self.getName());
      
     def getStatus(self):
-        if self.communicator.progress('scope') < 1:
+        if self.starttime+self.getCollectionTime()< time.time():
             return Detector.BUSY
         return Detector.IDLE
     
@@ -95,7 +104,7 @@ class ZurichDetector(DetectorBase, NexusDetector):
         self.logger.debug("{}: readout called.", self.getName())
 
         #dynamics readout
-        data_d = self.communicator.poll(self.getCollectionTime(), 10, 0, True) # poll demodulator outputs 
+        data_d = self.communicator.poll(0.020, 10, 0, True) # poll demodulator outputs 
         x = data_d[self.dataPath]['x'][:-100].mean() # mean of demodulator output in the last 100 samples (1 s)
         y = data_d[self.dataPath]['y'][:-100].mean()
         

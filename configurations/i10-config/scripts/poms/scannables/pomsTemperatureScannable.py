@@ -80,7 +80,7 @@ class pomsTemperatureScannable(ScannableBase):
     def stop(self):
         print "stopping temperature scannable - the temperature will continue to change to the setpoint"
         self.runningThread = False
-        self.parent.iambusy = False
+        self.iambusy = False
         
     def getSpeed(self):
         return (self.rampRate / 60.0) #return speed in K / s

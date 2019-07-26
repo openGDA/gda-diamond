@@ -13,8 +13,8 @@ from gda.jython.commands.GeneralCommands import alias
 print "-"*100
 print "creating 'snap' command for capturing a snapshot off a detector:"
 print "    Usage example: >>>snap pimte 6.0"
-def snap(det, t, *args):
-    newargs=[dummy, 1,1,1, det,t]
+def snap(*args):
+    newargs=[dummy, 1,1,1]
     for arg in args:
         newargs.append(arg)
     scan([e for e in newargs])

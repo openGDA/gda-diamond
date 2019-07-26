@@ -31,6 +31,7 @@ class SocketClient(object):
     def connect(self, host, port):
         if self.socket is None:
             with socketcontext(socket.AF_INET, socket.SOCK_STREAM) as self.socket:
+                print self.host, self.port
                 self.socket.connect((self.host, self.port))
                 self.socket.settimeout(5.0)
         

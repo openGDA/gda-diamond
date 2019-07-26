@@ -10,12 +10,13 @@ from python2_socket.SocketMessageHandlerFunctions import socketcontext,\
     connectioncontext, recv_size, recv_end, recv_timeout, recv_basic, send_size,\
     send_end
 from python2_socket.MessageProcessor import Processor
+from zurich.ziPythonAPIProcessor import ZurichInstrumentZiPythonyAPI
 
-HOST = 'ws128.diamond.ac.uk'  # Standard loopback interface address (localhost)
-PORT = 65432        # Port to listen on (non-privileged ports are > 1023)
+HOST = 'i10-ws002.diamond.ac.uk'  # Standard loopback interface address (localhost)
+PORT = 51423        # Port to listen on (non-privileged ports are > 1023)
 
 class SocketServer():
-    def __init__(self, host, port, maxConn=10, terminator='\n', processor=None):
+    def __init__(self, host, port, maxConn=10, terminator='\r\n', processor=None):
         self.host=host
         self.port=port
         self.maxConnections=maxConn
@@ -57,16 +58,17 @@ class SocketServer():
 
 
 import argparse
-
+ 
 parser=argparse.ArgumentParser(description='Start a socket server')
-parser.add_argument('host', metavar='IP', help='server host IP address')
-parser.add_argument('port', metavar='N', type=int, default=65432, help='the server listening port')
-parser.add_argument('maxConn', metavar='M', type=int, default=10, help='the maximum number of connections')
-parser.add_argument('terminator', metavar='T', default='\n', help='the end mark of message, i.e. terminator')
-parser.add_argument('processor', metavar='P', type=Processor, default=argparse.SUPPRESS, help='the end mark of message, i.e. terminator')
+parser.add_argument('-h', '--host', metavar='IP', type=str, default="i10-ws002.diamond.ac.uk", help='server host IP address')
+parser.add_argument('-p','--port', metavar='N', type=int, default=51423, help='the server listening port')
+parser.add_argument('-c','--maxConn', metavar='M', type=int, default=10, help='the maximum number of connections')
+parser.add_argument('-t','--terminator', metavar='T', type=str, default='\r\n', help='the end mark of message, i.e. terminator')
+parser.add_argument('-P','--Processor', metavar='P', type=Processor, default=ZurichInstrumentZiPythonyAPI(), help='the end mark of message, i.e. terminator')
 args=parser.parse_args()
 
 if __name__=='__main__':
+#     socket_server = SocketServer(HOST, PORT, maxConn=10, terminator='\r\n', processor=ZurichInstrumentZiPythonyAPI())
     socket_server = SocketServer(args.host, args.port, maxConn=args.maxConn, terminator=args.terminator, processor=args.processor)
     socket_server.start(msg_type='end')
     

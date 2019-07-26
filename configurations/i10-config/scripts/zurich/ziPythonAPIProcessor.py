@@ -13,7 +13,6 @@ Created on 5 Jun 2019
 from python2_socket.MessageProcessor import Processor
 import zhinst.ziPython  # @UnresolvedImport
 from zhinst.ziPython import ScopeModule  # @UnresolvedImport
-from org.python.modules.itertools import chain
 from collections import defaultdict
 import pickle
 
