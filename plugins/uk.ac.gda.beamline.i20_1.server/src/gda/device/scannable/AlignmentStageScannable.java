@@ -191,12 +191,16 @@ public class AlignmentStageScannable extends ScannableBase implements EnumPositi
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		super.configure();
 		try {
 			loadConfiguration();
 		} catch (IOException e) {
 			throw new FactoryException("Error reading the persisted configuration file", e);
 		}
+		setConfigured(true);
 	}
 
 	@Override

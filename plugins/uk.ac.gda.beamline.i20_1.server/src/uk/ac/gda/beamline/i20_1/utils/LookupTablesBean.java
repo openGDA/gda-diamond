@@ -53,6 +53,9 @@ public class LookupTablesBean extends FindableConfigurableBase {
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		if (userUnit == null && initialUserUnitString != null) {
 			userUnit = QuantityFactory.createUnitFromString(initialUserUnitString);
 		}

@@ -69,8 +69,12 @@ public abstract class EdeDetectorBase extends DetectorBase implements EdeDetecto
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		setNumberRois(INITIAL_NO_OF_ROIS);
 		updateExtraNames(getRois());
+		setConfigured(true);
 	}
 
 	private void createPixelData() {

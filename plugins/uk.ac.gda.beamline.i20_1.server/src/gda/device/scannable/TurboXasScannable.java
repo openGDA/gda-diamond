@@ -67,10 +67,14 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		super.configure();
 		if (zebraGatePulsePreparer==null && zebraDevice1!=null) {
 			zebraGatePulsePreparer=new ZebraGatePulsePreparer(zebraDevice1);
 		}
+		setConfigured(true);
 	}
 
 	/**

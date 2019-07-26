@@ -71,11 +71,15 @@ public class GasInjectionScannable extends ScannableBase {
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		super.configure();
 		this.inputNames = new String[] { "purge_pressure", "purge_period", "gas_fill1_pressure", "gas_fill1_period",
 				"gas_fill2_pressure", "gas_fill2_period", "gas_select" };
 		this.outputFormat = new String[] { "%2d", "%2d", "%2d", "%2d", "%2d", "%2d", "%s", "%s" };
 		this.extraNames = new String[] { "status" };
+		setConfigured(true);
 	}
 
 	// pos ionc1_gas_injector ["2.0","1","0.024377","100.0","1.975623","100.0","2","True"]

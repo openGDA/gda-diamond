@@ -49,10 +49,14 @@ public class Lakeshore340Scannable extends ScannableBase{
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		statusRunner = new Lakeshore340StatusRunner(this);
 		statusThread = new Thread(statusRunner);
 		statusThread.setDaemon(true);
 		statusThread.start();
+		setConfigured(true);
 	}
 
 	@Override

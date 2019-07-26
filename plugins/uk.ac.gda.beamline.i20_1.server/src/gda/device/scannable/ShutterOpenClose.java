@@ -47,10 +47,14 @@ public class ShutterOpenClose extends ScannableBase {
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		if (shutter == null) {
 			throw new FactoryException("Shutter has not been set");
 		}
 		super.configure();
+		setConfigured(true);
 	}
 
 	@Override

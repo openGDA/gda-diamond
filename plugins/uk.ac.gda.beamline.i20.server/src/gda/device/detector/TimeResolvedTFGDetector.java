@@ -41,11 +41,15 @@ public class TimeResolvedTFGDetector extends DetectorBase{
 
 	@Override
 	public void configure(){
+		if (isConfigured()) {
+			return;
+		}
 		try {
 			daServer.configure();
 		} catch (FactoryException e) {
 			logger.error("Error configuring daServer", e);
 		}
+		setConfigured(true);
 	}
 
 	private void switchOnExtTrigger() throws DeviceException {

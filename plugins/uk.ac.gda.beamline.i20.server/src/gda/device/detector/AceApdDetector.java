@@ -45,9 +45,13 @@ public class AceApdDetector extends TfgScalerWithFrames {
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		super.configure();
 		startPV = LazyPVFactory.newIntegerPV(epicsTemplateName + STARTCOUNT);
 		stopPV = LazyPVFactory.newIntegerPV(epicsTemplateName + STOPCOUNT);
+		setConfigured(true);
 	}
 
 	@Override

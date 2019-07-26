@@ -48,6 +48,9 @@ public class ADCMonitor extends DetectorBase {
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		super.configure();
 		setInputNames(new String[] {});
 		setExtraNames(new String[] { columnName });
@@ -56,6 +59,7 @@ public class ADCMonitor extends DetectorBase {
 		modePV = LazyPVFactory.newEnumPV(pvPrefix + ":MODE", ADCMonitorModes.class);
 		triggerPV = LazyPVFactory.newIntegerPV(pvPrefix + ":SOFTTRIGGER");
 		readoutPV = LazyPVFactory.newDoublePV(readoutPVName);
+		setConfigured(true);
 	}
 
 	@Override
