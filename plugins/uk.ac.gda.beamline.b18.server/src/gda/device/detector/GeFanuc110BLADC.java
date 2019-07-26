@@ -63,17 +63,18 @@ public class GeFanuc110BLADC extends DetectorBase {
 
 	@Override
 	public void configure() throws FactoryException {
-
-
+		if (isConfigured()) {
+			return;
+		}
 		try {
 			controller = EpicsController.getInstance();
 			channelManager = new EpicsChannelManager();
 			dataChnl = channelManager.createChannel(data_pv, false);
-
 		} catch (CAException e) {
 			throw new FactoryException("CAException while creating channels for " + getName(), e);
 		}
 		super.configure();
+		setConfigured(true);
 	}
 
 

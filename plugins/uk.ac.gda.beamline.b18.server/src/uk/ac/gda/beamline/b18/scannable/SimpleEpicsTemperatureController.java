@@ -54,6 +54,9 @@ public class SimpleEpicsTemperatureController extends TemperatureBase {
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		super.configure();
 		setConfigured(true);
 	}

@@ -50,10 +50,14 @@ public class SampleWheel extends ScannableBase {
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		demandPV = LazyPVFactory.newDoublePV(demandPVString);
 		readbackPV = LazyPVFactory.newReadOnlyDoublePV(readbackPVString);
 		inPosPV = LazyPVFactory.newReadOnlyIntegerPV(inPosPVString);
 		updateFilters();
+		setConfigured(true);
 	}
 
 	@Override

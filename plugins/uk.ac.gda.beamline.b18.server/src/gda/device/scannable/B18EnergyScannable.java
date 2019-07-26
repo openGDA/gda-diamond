@@ -65,6 +65,9 @@ public class B18EnergyScannable extends ScannableMotor implements Initialization
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		super.configure();
 
 		controller = EpicsController.getInstance();
@@ -77,6 +80,7 @@ public class B18EnergyScannable extends ScannableMotor implements Initialization
 		} catch (CAException e) {
 			throw new FactoryException(e.getMessage(), e);
 		}
+		setConfigured(true);
 	}
 
 	@Override

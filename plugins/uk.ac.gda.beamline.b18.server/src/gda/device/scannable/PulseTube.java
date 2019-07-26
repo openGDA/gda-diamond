@@ -47,12 +47,16 @@ public class PulseTube extends DetectorBase {
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		super.configure();
 		this.inputNames = new String[] {};
 		this.outputFormat = new String[] { "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d", "%.3d",
 				"%.3d", "%.3d", "%.3d", "%.3d" };
 		this.extraNames = new String[] { "t1", "t2", "t3", "target", "error", "prop_gain", "int_gain", "der_gain",
 				"gas_flow", "heater_voltage", "heater_output", "heater_mode" };
+		setConfigured(true);
 	}
 
 	@Override
