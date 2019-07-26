@@ -66,6 +66,9 @@ public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		super.configure();
 
 		ec = EpicsController.getInstance();
@@ -80,8 +83,7 @@ public class I22Hotwaxs extends NcdWireDetector implements MonitorListener {
 		} catch (Exception e) {
 			throw new FactoryException("error connecting to PVs for "+getName(), e);
 		}
-
-
+		setConfigured(true);
 	}
 
 	@Override
