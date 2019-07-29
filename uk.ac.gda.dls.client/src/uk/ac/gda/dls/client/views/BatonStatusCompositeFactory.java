@@ -55,6 +55,7 @@ import gda.configuration.properties.LocalProperties;
 import gda.jython.IBatonStateProvider;
 import gda.jython.InterfaceProvider;
 import gda.jython.UserMessage;
+import gda.observable.IObservable;
 import gda.observable.IObserver;
 import gda.rcp.views.CompositeFactory;
 import uk.ac.gda.views.baton.MessageView;
@@ -64,7 +65,19 @@ public class BatonStatusCompositeFactory implements CompositeFactory {
 
 	static final Logger logger = LoggerFactory.getLogger(BatonStatusCompositeFactory.class);
 
+	private IObservable bannerProvider = null;
 	private String label;
+
+	@Override
+	public Composite createComposite(Composite parent, int style) {
+		BatonStatusComposite status = new BatonStatusComposite(parent, style, parent.getDisplay(), label);
+		status.setBannerProvider(bannerProvider);
+		return status;
+	}
+
+	public void setBannerProvider(IObservable bannerProvider) {
+		this.bannerProvider = bannerProvider;
+	}
 
 	public String getLabel() {
 		return label;
@@ -72,11 +85,6 @@ public class BatonStatusCompositeFactory implements CompositeFactory {
 
 	public void setLabel(String label) {
 		this.label = label;
-	}
-
-	@Override
-	public Composite createComposite(Composite parent, int style) {
-		return new BatonStatusComposite(parent, style, parent.getDisplay(), label);
 	}
 }
 
@@ -94,12 +102,12 @@ class BatonStatusComposite extends Composite {
 	private Canvas batonCanvas;
 	private IBatonStateProvider batonState = InterfaceProvider.getBatonStateProvider();
 	private Font boldFont;
+	private Label lblBanner;
 
 	private MenuItem takeBaton;
 	private MenuItem requestBaton;
 	private MenuItem releaseBaton;
 	private MenuItem openChat;
-
 
 	public BatonStatusComposite(Composite parent, int style, final Display display, String label) {
 		super(parent, style);
@@ -208,17 +216,29 @@ class BatonStatusComposite extends Composite {
 			}
 		});
 
-		String banner = LocalProperties.get(PROP_BATON_BANNER, "");
+		String banner = LocalProperties.get(PROP_BATON_BANNER, " ");
 		if (!(null==banner || banner.isEmpty()) ) {
-			Label lblBanner = new Label(this, SWT.CENTER);
+			lblBanner = new Label(this, SWT.CENTER);
 			boldFont = FontDescriptor.createFrom(lblBanner.getFont())
 				.setStyle( SWT.BOLD )
 				.createFont( lblBanner.getDisplay() );
 			lblBanner.setFont(boldFont);
 			lblBanner.setText(banner);
 			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.FILL).applyTo(lblBanner);
-		}
 
+		}
+	}
+
+	public void setBannerProvider(IObservable provider) {
+		if (null != provider) {
+			provider.addIObserver(
+				(source, arg) -> {
+					if (arg instanceof String) {
+						lblBanner.setText((String) arg);
+					}
+				}
+			);
+		}
 	}
 
 	private void updateBatonCanvas() {
