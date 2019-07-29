@@ -320,9 +320,11 @@ class ID_PolarisationClass(ScannableMotionBase):
 			return True
 		if  self.strStatus == "Ready":
 			result = False;
-		elif self.strStatus == "Failed, control of ID required":
+		elif self.strStatus == "Failed, control of ID required.":
 			self.logger.warn("isBusy(): strStatus Failed, attempting the move again...")
 			self.setPol(self.demandPol);
+		elif self.strStatus == "Failed, ID already moving":
+			self.logger.warn("isBusy(): strStatus Failed, ID already moving")
 		elif not self.strStatus in ("Resetting energy for polarisation",
 									"Resetting energy for polarisation (la)",
 									"Setting Row Phase to Linear Arbitrary",
