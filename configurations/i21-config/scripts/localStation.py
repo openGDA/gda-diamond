@@ -238,9 +238,10 @@ from scannabledevices.samplePoistioner_instance import smp_positioner  # @Unused
 ENABLE_ENCODER_LIGHT_CONTROL=False
 # ENCODER_POSITION_AFTER_LIGHT_OFF=None
 # repeat acquire at a fixed point
-def acquireRIXS(n, det, exposure_time, *args):
+
+def acquireImages(n, det, exposure_time, *args):
     try:
-        newargs=[tm,1,n,1,det,exposure_time] # @UndefinedVariable
+        newargs=[ds,1,n,1,det,exposure_time] # @UndefinedVariable
         for arg in args:
             newargs.append(arg)
         if ENABLE_ENCODER_LIGHT_CONTROL:
@@ -262,8 +263,22 @@ def acquireRIXS(n, det, exposure_time, *args):
             sleep(0.1)
             if ENCODER_POSITION_BEFORE_LIGHT_OFF is not None:
                 sgmpitch.moveTo(ENCODER_POSITION_BEFORE_LIGHT_OFF)
+                
+def acquireRIXS(n, det, exposure_time, *args):
+    if det is andor:
+        primary()
+    elif det is andor2:
+        polarimeter()
+    acquireImages(n, det, exposure_time, args)
     
 alias("acquireRIXS")
+
+def acquiredark(n, det, exposure_time, *args):
+    erio()
+    fastshutter("Closed")
+    acquireImages(n, det, exposure_time, args)
+    
+alias("acquiredark")
 
 def clearEncoderLoss():
     # sleep(0.1)
