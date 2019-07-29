@@ -60,10 +60,14 @@ public class I21Detector extends DetectorBase implements NexusDetector {
 
 	@Override
 	public void configure() throws FactoryException {
+		if (isConfigured()) {
+			return;
+		}
 		super.configure();
 		setInputNames(new String[] {});
 		setExtraNames(new String[] { "sample", "reference" });
 		setOutputFormat(new String[] { "%5.5g", "%5.5g" });
+		setConfigured(true);
 	}
 
 	@Override
