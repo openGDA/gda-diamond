@@ -193,26 +193,31 @@
 		<property name="decoratee" ref="softstatrstop"/>
 	</bean>
 	<!-- Acquisition or data collection -->
-	<bean id="medipixCollectionStrategy" class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
-		<property name="restoreAcquireTime" value="true" />
-		<property name="restoreAcquirePeriod" value="true" />
-		<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
+	<bean id="medipixCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
+		<property name="restoreAcquireState" value="false" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
 				<property name="restoreNumImagesAndImageMode" value="true" />
 				<property name="imageMode" value="0" /> <!-- Single image mode -->
 				<property name="decoratee">
-					<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
-						<property name="restoreTriggerMode" value="true" />
-						<property name="triggerMode" value="0" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
-						<property name="decoratee" ref="softstatrstop" />
-					</bean>				
+					<bean id="medipixacquireperiod"	class="gda.device.detector.addetector.collectionstrategy.ConfigureAcquireTimeAcquirePeriodDecorator">
+						<property name="restoreAcquireTime" value="true" />
+						<property name="restoreAcquirePeriod" value="true" />
+						<property name="acquirePeriodExpression" value="#acquireTime + 0.005" />
+						<property name="decoratee">
+							<bean id="medipixtriggermode_Auto" class="gda.device.detector.addetector.collectionstrategy.TriggerModeDecorator">
+								<property name="restoreTriggerMode" value="true" />
+								<property name="triggerMode" value="0" /> <!-- {0:Auto,1:Positive Ext,2:Negative Ext,3:Positive Ext Timer,4:Negative Ext Timer,5:Positive Ext Counter} -->
+								<property name="decoratee" ref="kbRasteringPeriod" />
+							</bean>				
+						</property>
+					</bean>
 				</property>
 			</bean>
 		</property>
 	</bean>
 	<bean id="medipixMultipleCollectionStrategy" class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
-		<property name="restoreAcquireState" value="true" />
+		<property name="restoreAcquireState" value="false" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
 				<property name="restoreNumImagesAndImageMode" value="true" />
@@ -236,7 +241,7 @@
 	</bean>
 	<!-- Imaging -->
 	<bean id="medipixImagingCollectionStrategy"  class="gda.device.detector.pco.collectionstrategy.PCOStopDecorator">
-		<property name="restoreAcquireState" value="true" />
+		<property name="restoreAcquireState" value="false" />
 		<property name="decoratee">
 			<bean class="gda.device.detector.addetector.collectionstrategy.ImageModeDecorator">
 				<property name="restoreNumImagesAndImageMode" value="true" />

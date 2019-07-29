@@ -5,7 +5,7 @@ Created on 23 Jul 2019
 '''
 from gda.device.scannable import ScannableMotionBase
 from gda.epics import CAClient
-from gda.factory import ConfigurableBase
+from time import sleep
 
 class EnumPVScannable(ScannableMotionBase):
     '''
@@ -22,12 +22,10 @@ class EnumPVScannable(ScannableMotionBase):
         self.setInputNames([name])
         self.pvcli=CAClient(pv)
         self.availablePositions=[]
-        
-    def configure(self):
-        if not ConfigurableBase.isConfigured(self):
-            self.pvcli.configure()
-            self.availablePositions=self.pvcli.cagetLabels()
-            ConfigurableBase.setConfigured(self, True)
+        self.pvcli.configure()
+        sleep(1)
+        self.availablePositions=self.pvcli.cagetLables()
+
     
     def getPosition(self):
         return self.pvcli.caget()
