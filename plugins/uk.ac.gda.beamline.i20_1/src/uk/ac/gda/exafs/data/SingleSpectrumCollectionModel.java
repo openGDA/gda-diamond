@@ -78,9 +78,6 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	@Expose
 	private boolean selectAlignmentStage;
 
-	public static final String FILE_NAME_PROP_NAME = "fileName";
-	private String fileName;
-
 	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
 
@@ -355,18 +352,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 				logger.info("Sending command: " + command);
 				InterfaceProvider.getCommandRunner().runCommand(command);
 				Thread.sleep(1500);
-				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand(SINGLE_JYTHON_DRIVER_OBJ + ".runExperiment()");
-				if (resultFileName == null) {
-					//this does not stop data collection to Nexus file, just affect ASCii.
-					throw new Exception("Unable to do collection. Result filename from server is NULL.");
-				}
-				Display.getDefault().syncExec(() -> {
-					try {
-						SingleSpectrumCollectionModel.this.setFileName(resultFileName);
-					} catch (Exception e) {
-						UIHelper.showWarning("Error while loading data from saved file", e.getMessage());
-					}
-				});
+				InterfaceProvider.getCommandRunner().runCommand(SINGLE_JYTHON_DRIVER_OBJ + ".runExperiment()");
 			} catch (Exception e) {
 				UIHelper.showWarning("Error while collecting data or scan cancelled", e.getMessage());
 			} finally {
@@ -413,19 +399,11 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		this.firePropertyChange(ALIGNMENT_STAGE_SELECTION, this.selectAlignmentStage, this.selectAlignmentStage = selectAlignmentStage);
 	}
 
-	public void setFileName(String value) {
-		firePropertyChange(FILE_NAME_PROP_NAME, fileName, fileName = value);
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
 	public boolean isScanning() {
 		return scanning;
 	}
 
-	protected void setScanning(boolean value) {
+	public void setScanning(boolean value) {
 		this.firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
 	}
 

@@ -2,41 +2,26 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-
-
-<!--  Setup for Turbo slits driven by Zebra. imh  20/4/2016 -->
-
 <!-- Turbo slit x motor   -->
 	<bean id="turbo_slit_x_motor" class="gda.device.motor.DummyMotor" />
-	
+
 <!-- 	shutter using turbo slit. imh 21/4/2017-->
 	<bean id="turbo_slit_shutter" class="gda.device.enumpositioner.DummyEnumPositioner">
 		<property name="name" value="turbo_slit_shutter" />
 	</bean>
-	
+
 	<bean id="turbo_slit_x" class="gda.device.scannable.ScannableMotor">
 		<property name="motor" ref="turbo_slit_x_motor" />
 		<property name="initialUserUnits" value="mm" />
 	</bean>
 
 <!-- Zebra device -->
-	<bean id="zebra_device" class="gda.device.zebra.controller.impl.ZebraDummy">
-		<property name="name" value="zebra"/>
-	</bean>
+	<bean id="zebra_device" class="gda.device.zebra.controller.impl.ZebraDummy" />
 
-<!-- Zebra gate and pulse preparer bean. 12/1/2017 -->
-	<bean id="zebra_gatePulsePreparer" class="gda.device.zebra.ZebraGatePulsePreparer">
-		<property name="name" value="zebra_gatePulsePreparer" />
-		<property name="zebraDevice" ref="zebra_device" />	
-		<property name="positionTriggerEncoder" value="2" /> <!-- PC_ENC_3 -->
-		<property name="ttlOutputPort" value="31" />
-		<property name="positionTriggerTimeUnits" value="1" />  <!--  times in seconds --> 
-	</bean>
+	<bean id="zebra_device2" class="gda.device.zebra.controller.impl.ZebraDummy" />
 
-<!-- TurboxXasScannable for driving turbo slits in a continuous scan. imh 23/5/2016 -->
-	<bean id="turbo_xas_slit" class="gda.device.scannable.TurboXasScannable">
-		<property name="motor" ref="turbo_slit_x_motor" />
-		<property name="zebraDevice" ref="zebra_device" />
+	<bean id="trajscan_controller" class="gda.device.trajectoryscancontroller.DummyTrajectoryScanController">
+		<property name="maxPointsPerProfileBuild" value="1500" />
 	</bean>
 
 </beans>

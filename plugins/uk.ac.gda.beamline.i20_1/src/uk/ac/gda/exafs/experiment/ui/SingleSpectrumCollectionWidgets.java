@@ -44,7 +44,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.device.DeviceException;
+import gda.jython.IJythonServerStatusObserver;
+import gda.jython.InterfaceProvider;
 import gda.observable.IObserver;
+import gda.scan.ScanEvent;
 import gda.scan.ede.TimeResolvedExperimentParameters;
 import uk.ac.gda.client.UIHelper;
 import uk.ac.gda.exafs.alignment.ui.SampleStageMotorsComposite;
@@ -74,6 +77,7 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 	private SampleDetailsSection sampleDetailComposite;
 	private ScannablePositionsComposite scannablePositions;
 	private SampleStageMotorsComposite sampleStageSectionsParent;
+	private IJythonServerStatusObserver serverObserver;
 
 	public SingleSpectrumCollectionWidgets() {
 	}
@@ -210,6 +214,9 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 	public void dispose() {
 		ExperimentModelHolder.INSTANCE.getSingleSpectrumExperimentModel().saveSettings();
 		dataBindingCtx.dispose();
+		if (serverObserver != null) {
+			InterfaceProvider.getScanDataPointProvider().deleteScanEventObserver(serverObserver);
+		}
 	}
 
 	public void createStartStopScanSection(Composite parent) {
@@ -345,4 +352,34 @@ public class SingleSpectrumCollectionWidgets implements IObserver {
 		this.toolkit = toolkit;
 	}
 
+	public void addServerObserver() {
+		serverObserver = getServerObserver();
+		InterfaceProvider.getScanDataPointProvider().addScanEventObserver(serverObserver);
+	}
+
+	private IJythonServerStatusObserver getServerObserver() {
+		return (source, changeCode) -> {
+			if (changeCode instanceof ScanEvent) {
+				switch (((ScanEvent) changeCode).getLatestStatus()) {
+					case COMPLETED_AFTER_FAILURE:
+					case COMPLETED_AFTER_STOP:
+					case COMPLETED_EARLY:
+					case NOTSTARTED:
+					case FINISHING_EARLY:
+					case TIDYING_UP_AFTER_FAILURE:
+					case TIDYING_UP_AFTER_STOP:
+					case COMPLETED_OKAY:
+						getModel().setScanning(false);
+						break;
+					case PAUSED:
+					case RUNNING:
+						getModel().setScanning(true);
+						break;
+					default:
+						getModel().setScanning(false);
+						break;
+				}
+			}
+		};
+	}
 }

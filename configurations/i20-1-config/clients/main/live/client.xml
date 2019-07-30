@@ -48,6 +48,8 @@
 		<property name="service" ref="camera_config" />
 	</bean>
 
-	<import resource="d10.xml" />
+	<import resource="file:${gda.config}/clients/main/live/d10.xml" />
+	
+	<import resource="file:${gda.config}/clients/main/live/synoptics-views.xml" />
 
 </beans>
