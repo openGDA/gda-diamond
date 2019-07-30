@@ -83,6 +83,7 @@
 		<property name="pluginName" value="roistats1" />
 		<property name="baseRoiPVName" value="BL20I-EA-DET-05:ROI1:" />
 		<property name="baseStatsPVName" value="BL20I-EA-DET-05:STAT1:" />
+		<property name="legacyTSpvs" value="false"/> <!--  use new time series PVs after RHEL7 upgrade -->
 		<property name="roiInputNdArrayPort" value="MPX1.DET" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
