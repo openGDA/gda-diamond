@@ -604,7 +604,12 @@ public class TurboXasScan extends ContinuousScan {
 
 		@Override
 		public boolean detectorsAreBusy() throws DeviceException {
-			return getScanDetectors()[0].isBusy();
+			logger.debug("Number of captured Zebra pulses = {}", detectorFunctions.getNumCapturedZebraPulses());
+			if (detectorFunctions.getNumCapturedZebraPulses()==0) {
+				return true;
+			} else {
+				return getScanDetectors()[0].isBusy();
+			}
 		}
 	}
 

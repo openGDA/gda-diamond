@@ -89,11 +89,11 @@ public class TurboXasScanTest extends EdeTestBase {
 	public static final String[] BUFFERED_SCALER_FIELDS = { "frame_time", "I0", "It", "Iref" };
 
 	public static final String BUFFERED_XSPRESS3_NAME = "xspress3bufferedDetector";
-	public static final String[] BUFFERED_XSPRESS3_FIELDS = new String[] {"FF", TurboXasNexusTree.FF_SUM_IO_NAME };
+	public static final String[] BUFFERED_XSPRESS3_FIELDS = new String[] {"Chan0", "FF", TurboXasNexusTree.FF_SUM_IO_NAME };
 
 	private static final String XSPRESS3_METADATA_NAME = "Xspress3";
 	private static final String TURBOXAS_METADATA_NAME = "TurboXasParameters";
-	
+
 	@AfterClass
 	public static void tearDownClass() {
 		// Remove factories from Finder so they do not affect other tests
@@ -183,6 +183,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		xspress3detector.setName("xspress3detector");
 		xspress3detector.setController(controllerForDetector);
 		xspress3detector.configure();
+		xspress3detector.setWriteHDF5Files(true);
 
 		xspress3bufferedDetector = new Xspress3BufferedDetector();
 		xspress3bufferedDetector.setName(BUFFERED_XSPRESS3_NAME);

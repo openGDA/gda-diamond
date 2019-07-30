@@ -122,8 +122,6 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 
 	private static final String DEFAULT_PMAC_NAME="PMAC6CS3";
 	private static final String DEFAULT_CS_AXIS = "10000X";
-	private static final int DEFAULT_RESOLUTION=1;
-	private static final int DEFAULT_OFFSET=0;
 
 	private static final String DEFAULT_TIME_MODE="ARRAY";
 
@@ -137,10 +135,6 @@ public class TrajectoryScanPreparer extends FindableBase implements Initializing
 			// and offset
 			for (int i = 0; i < AXIS_IN_USE.length; i++) {
 				epicsTrajScanController.setUseAxis(i, AXIS_IN_USE[i]>0);
-				if (AXIS_IN_USE[i] > 0) {
-					epicsTrajScanController.setOffsetForAxis(i, DEFAULT_OFFSET);
-					epicsTrajScanController.setResolutionForAxis(i,  DEFAULT_RESOLUTION);
-				}
 			}
 			// Select correct coordinate system
 			epicsTrajScanController.setCoordinateSystem(DEFAULT_PMAC_NAME);

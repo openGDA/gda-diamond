@@ -75,6 +75,7 @@ public class AsciiWriterTest extends EdeTestBase {
 		}
 		Path asciiFilepath = asciiDir.resolve("1.txt");
 		asciiWriter.setAsciiFilename(asciiFilepath.toString());
+		asciiWriter.setDetectorNames(new String[] {TurboXasScanTest.BUFFERED_SCALER_NAME, TurboXasScanTest.BUFFERED_XSPRESS3_NAME});
 		return asciiWriter;
 	}
 
