@@ -29,6 +29,8 @@ print
 
 ds=DummyScannable('ds')
 from i06shared.commands.dirFileCommands import pwd, lwf,nwf,nfn,setSubdirectory,getSubdirectory  # @UnusedImport
+from i06shared.commands.switchDataWriter import asciiformat, nexusformat,whichformat  # @UnusedImport
+from i06shared.commands.snapshot import snap  # @UnusedImport
 from i06shared.functions.aliasFunctions import setAlias, setGdaAlias  # @UnusedImport
 from i06shared.constant import *  # @UnusedWildImport
 from Diamond.Utility.Functions import logger, getScanNumber,incScanNumber,interruptable,removeDevices,getDevice,isDefaultDevice,removeDefaults,backupDefaults,restoreDefaults  # @UnusedImport
@@ -62,7 +64,22 @@ if installation.isLive() and beamline != "lab44":
     
 from i06shared.devices.setCASum import ca11sum,ca12sum,ca13sum,ca14sum,ca21sum,ca22sum,ca23sum,ca24sum,ca31sum,ca32sum,ca33sum,ca34sum,ca41sum,ca42sum,ca43sum,ca44sum  # @UnusedImport
 from i06shared.scan.setSpecialScans import mrscan  # @UnusedImport
-from i06shared.setSrsDataFileHeader import fileHeader  # @UnusedImport
+
+#### Metadata definitions
+## SRS or ASCII format
+from i06shared.metadata.setSrsDataFileHeader import fileHeader 
+## Nexus format
+print "-"*50
+print "Nexus file metadata commands:"
+print "    'meta_add' - add a scannable or scannables to the scan metadata"
+print "    'meta_ll'  - list the items and their values to be put into the scan metadata"
+print "    'meta_ls'  - list only the items to be put into the scan metadata"
+print "    'meta_rm'  - remove a scannable or scannables from the scan metadata"
+
+from i06shared.metadata.metashop import *  # @UnusedWildImport
+for each in fileHeader.getDeviceList():
+    meta_add(each)
+
 #Group the hexapod legs into list
 m1legs = [__main__.m1leg1, __main__.m1leg2, __main__.m1leg3,__main__.m1leg4, __main__.m1leg5, __main__.m1leg6];  # @UndefinedVariable
 m6legs = [__main__.m6leg1, __main__.m6leg2, __main__.m6leg3, __main__.m6leg4, __main__.m6leg5, __main__.m6leg6];  # @UndefinedVariable
@@ -71,8 +88,7 @@ from i06shared.scannables.mode_polarisation_energy_instances import *  # @Unused
 idd,idu,dpu,dmu,unknown=SourceMode.SOURCE_MODES
 pc,nc,lh,lv,la,unknown=Polarisation.POLARISATIONS
 
-from i06shared.scan.miscan import miscan
-from gda.jython.commands.GeneralCommands import alias 
+from i06shared.scan.miscan import miscan  # @UnusedImport
 alias('miscan')
 
 #add checkbeam scannable
