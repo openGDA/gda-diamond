@@ -12,7 +12,8 @@ from time import sleep  # @UnusedImport
 
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
-from gdaserver import lakeshore, b2, x, sgmpitch
+from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick,\
+    fastshutter
 import gdascripts
 from utils.ExceptionLogs import localStation_exception
 from gda.device.scannable import DummyScannable
@@ -199,9 +200,10 @@ s6list=[s6hgap,s6hcentre,s6vgap,s6vcentre]  # @UndefinedVariable
 samplelist=[th,x,y,z,phi,chi,difftth,draincurrent, lakeshore, sapara,saperp] # @UndefinedVariable
 sgmlist=[sgmx,sgmr1,sgmh,sgmpitch,sgmwedgeoffside,sgmwedgenearside,sgmGratingSelect] # @UndefinedVariable
 spectrometerlist=[specgamma,spech,specl,epics_armtth] # @UndefinedVariable
+polariserlist=[polariserstick, polarisergamma]
 #andorlist=[andorAccumulatePeriod,andorShutterMode,andorExtShutterTrigger,andorPreampGain,andorADCSpeed,andorVerticalShiftSpeed,andorVerticalShiftAmplitude,andorEMCCDGain,andorCoolerTemperature,andorCoolerControl,andorBinningSizeX,andorBinningSizeY,andorEffectiveHorizontal,andorEffectiveVertical]  # @UndefinedVariable
 
-meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist#+andorlist
+meta_data_list= metadatalist+m1list+m2list+m4list+m5list+pgmlist+s1list+s2list+s3list+s4list+s5list+s6list+samplelist+sgmlist+spectrometerlist+polariserlist#+andorlist
 
 for each in meta_data_list:
     meta_add(each)
@@ -265,17 +267,18 @@ def acquireImages(n, det, exposure_time, *args):
                 sgmpitch.moveTo(ENCODER_POSITION_BEFORE_LIGHT_OFF)
                 
 def acquireRIXS(n, det, exposure_time, *args):
-    if det is andor:
+    if det is andor:  # @UndefinedVariable
         primary()
-    elif det is andor2:
+    elif det is andor2:  # @UndefinedVariable
         polarimeter()
+    fastshutter("Open")
     acquireImages(n, det, exposure_time, args)
     
 alias("acquireRIXS")
 
 def acquiredark(n, det, exposure_time, *args):
-    erio()
     fastshutter("Closed")
+    erio()
     acquireImages(n, det, exposure_time, args)
     
 alias("acquiredark")
