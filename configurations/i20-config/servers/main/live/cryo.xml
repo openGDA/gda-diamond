@@ -26,39 +26,119 @@
 		<property name="controller" ref="cryostat_controller" />
 	</bean>
 	
-	<bean id="cryo_setpoint" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL20I-EA-TEMPC-01:SETP" />
-		<property name="pvNameSetPoint" value="BL20I-EA-TEMPC-01:SETP_S" />
+	
+<!-- 	<bean id="baseTempControllerPv" class="java.lang.String"> -->
+<!--           <constructor-arg value="BL20I-CG-TEMPC-05"/> -->
+<!--     </bean> -->
+    
+	<bean id="cryo_setpoint1" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:SETP1" />
+		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:SETP_S1" />
+	</bean>
+	<bean id="cryo_setpoint2" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:SETP2" />
+		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:SETP_S2" />
+	</bean>
+	<bean id="cryo_setpoint3" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:SETP3" />
+		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:SETP_S3" />
+	</bean>
+	<bean id="cryo_setpoint4" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:SETP4" />
+		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:SETP_S4" />
+	</bean>
+	<bean id="cryo_setpoint" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="cryo_setpoint1" />
+				<ref bean="cryo_setpoint2" />
+				<ref bean="cryo_setpoint3" />
+				<ref bean="cryo_setpoint4" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="cryo_range1" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:RANGE1" />
+		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:RANGE_S1" />
+	</bean>
+	<bean id="cryo_range2" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:RANGE2" />
+		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:RANGE_S2" />
+	</bean>
+	<bean id="cryo_range3" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:RANGE3" />
+		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:RANGE_S3" />
+	</bean>
+	<bean id="cryo_range4" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:RANGE4" />
+		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:RANGE_S4" />
+	</bean>
+	<bean id="cryo_range" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="cryo_range1" />
+				<ref bean="cryo_range2" />
+				<ref bean="cryo_range3" />
+				<ref bean="cryo_range4" />
+			</list>
+		</property>
 	</bean>
 	
-	<bean id="cryo_range" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL20I-EA-TEMPC-01:RANGE" />
-		<property name="pvNameSetPoint" value="BL20I-EA-TEMPC-01:RANGE_S" />
+	<bean id="cryo_mode1" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:OMMODE1" />
+		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:OMMODE_S1" />
+	</bean>
+	<bean id="cryo_mode2" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:OMMODE2" />
+		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:OMMODE_S2" />
+	</bean>
+	<bean id="cryo_mode3" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:OMMODE3" />
+		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:OMMODE_S3" />
+	</bean>
+	<bean id="cryo_mode4" class="gda.device.controlpoint.EpicsControlPoint">
+		<property name="pvNameGetPoint" value="BL20I-CG-TEMPC-05:OMMODE4" />
+		<property name="pvNameSetPoint" value="BL20I-CG-TEMPC-05:OMMODE_S4" />
 	</bean>
 
-	<bean id="cryo_mode" class="gda.device.controlpoint.EpicsControlPoint">
-		<property name="pvNameGetPoint" value="BL20I-EA-TEMPC-01:CMODE" />
-		<property name="pvNameSetPoint" value="BL20I-EA-TEMPC-01:CMODE_S" />
+	<bean id="cryo_mode" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="cryo_mode1" />
+				<ref bean="cryo_mode2" />
+				<ref bean="cryo_mode3" />
+				<ref bean="cryo_mode4" />
+			</list>
+		</property>
 	</bean>
-
+	
 	<bean id="Hecryo_ch0" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG0" />
+		<property name="pvName" value="BL20I-CG-TEMPC-05:KRDG0" />
 		<property name="local" value="false"/>
 	</bean>
-
 	<bean id="Hecryo_ch1" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG1" />
+		<property name="pvName" value="BL20I-CG-TEMPC-05:KRDG1" />
 		<property name="local" value="false"/>
 	</bean>
-
 	<bean id="Hecryo_ch2" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG2" />
+		<property name="pvName" value="BL20I-CG-TEMPC-05:KRDG2" />
 		<property name="local" value="false"/>
 	</bean>
-
 	<bean id="Hecryo_ch3" class="gda.device.monitor.EpicsMonitor">
-		<property name="pvName" value="BL20I-EA-TEMPC-01:KRDG3" />
+		<property name="pvName" value="BL20I-CG-TEMPC-05:KRDG3" />
 		<property name="local" value="false"/>
+	</bean>
+	
+	<bean id="Hecryo" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="Hecryo_ch0" />
+				<ref bean="Hecryo_ch1" />
+				<ref bean="Hecryo_ch2" />
+				<ref bean="Hecryo_ch3" />
+			</list>
+		</property>
 	</bean>
 
 <!-- 	New scannables for setting temperatures of various equipment -->
