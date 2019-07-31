@@ -233,7 +233,7 @@
 	<!-- Monochromator / DCM Optical Element -->
 	<bean id="sc_dcm_bragg" class="gda.device.scannable.ScannableMotor">
 		<property name="protectionLevel" value="0" />
-		<property name="initialUserUnits" value="mDeg" />
+		<property name="initialUserUnits" value="Deg" />
 		<property name="motor" ref="dcm_bragg_motor" />
 		<property name="hardwareUnitString" value="Deg" />
 	</bean>
@@ -269,8 +269,7 @@
 		<property name="protectionLevel" value="0" />
 		<property name="motorName" value="sc_dcm_bragg" />
 		<property name="crystalType" value="Si111" />
-		<property name="initialUserUnits" value="mdeg" />
-		<property name="hardwareUnitString" value="mdeg" />
+		<property name="initialUserUnits" value="Deg" />
 	</bean>
 
 	<bean id="sc_DCM" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -290,17 +289,17 @@
 	<bean id="sc_dcm_perp_mDeg" class="gda.device.scannable.ConvertorScannable">
 		<property name="protectionLevel" value="0" />
 		<property name="scannableName" value="sc_dcm_perp" />
-		<property name="convertorName" value="mDeg_dcm_perp_mm_converter" />
-		<property name="initialUserUnits" value="mDeg" />
-		<property name="convertorUnitString" value="mDeg" />
+		<property name="convertorName" value="Deg_dcm_perp_mm_converter" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="convertorUnitString" value="Deg" />
 	</bean>
 
 	<bean id="sc_idgap_mDeg" class="gda.device.scannable.ConvertorScannable">
 		<property name="protectionLevel" value="0" />
 		<property name="scannableName" value="sc_idgap" />
 		<property name="convertorName" value="auto_mDeg_idGap_mm_converter" />
-		<property name="initialUserUnits" value="mDeg" />
-		<property name="convertorUnitString" value="mDeg" />
+		<property name="initialUserUnits" value="Deg" />
+		<property name="convertorUnitString" value="Deg" />
 	</bean>
 
 	<bean id="sc_comboDCM_nogap" class="gda.device.scannable.CoupledScannable">
@@ -316,8 +315,7 @@
 				<bean class="gda.function.IdentityFunction" />
 			</list>
 		</property>
-		<property name="initialUserUnits" value="mDeg" />
-		<property name="hardwareUnitString" value="mDeg" />
+		<property name="initialUserUnits" value="Deg" />
 	</bean>
 
 	<bean id="sc_comboDCM_d" class="gda.device.scannable.CoupledScannable">
@@ -335,14 +333,13 @@
 				<bean class="gda.function.IdentityFunction" />
 			</list>
 		</property>
-		<property name="initialUserUnits" value="mDeg" />
-		<property name="hardwareUnitString" value="mDeg" />
+		<property name="initialUserUnits" value="Deg" />
 	</bean>
 
 	<bean id="energy" class="gda.device.scannable.ConvertorScannable">
 		<property name="protectionLevel" value="0" />
 		<property name="scannableName" value="sc_comboDCM_d" />
-		<property name="convertorName" value="eV_mDeg_converter" />
+		<property name="convertorName" value="eV_Deg_converter" />
 		<property name="lowerGdaLimits" value="2000" />
 		<property name="upperGdaLimits" value="25000" />
 		<property name="initialUserUnits" value="eV" />
@@ -352,7 +349,7 @@
 	<bean id="energy_nogap" class="gda.device.scannable.ConvertorScannable">
 		<property name="protectionLevel" value="0" />
 		<property name="scannableName" value="sc_comboDCM_nogap" />
-		<property name="convertorName" value="eV_mDeg_converter" />
+		<property name="convertorName" value="eV_Deg_converter" />
 		<property name="lowerGdaLimits" value="2000" />
 		<property name="upperGdaLimits" value="25000" />
 		<property name="initialUserUnits" value="eV" />

@@ -1,9 +1,0 @@
-<JEPQuantityConverter>
-<!--  <ExpressionStoT>12.360308/ cos((X/1000)/(180/(4.0*atan(1.0))))-0.158669</ExpressionStoT>-->
-<!--<ExpressionStoT>12.407364/ cos((X/1000)/(180/(4.0*atan(1.0))))-0.205967</ExpressionStoT>-->
-<ExpressionStoT>12.68675083/ cos((X/1000)/(180/(4.0*atan(1.0))))-0.423171243 </ExpressionStoT>
-<ExpressionTtoS>12.489/X</ExpressionTtoS>
-<AcceptableSourceUnits>mDeg</AcceptableSourceUnits>
-<AcceptableTargetUnits>mm</AcceptableTargetUnits>
-<SourceMinIsTargetMax>false</SourceMinIsTargetMax>
-</JEPQuantityConverter>

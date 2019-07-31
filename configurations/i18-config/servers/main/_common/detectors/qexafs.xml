@@ -84,7 +84,7 @@
 		<property name="zebraConstantVelocityMoveControllerForQexafs" ref="zebraContinuousMoveControllerForQexafs" />
 		<property name="zebraScannableMotor" ref="zebraBragg" />
 		<property name="braggScannableMotor" ref="sc_dcm_bragg" />
-		<property name="converter" ref="eV_mDeg_converter" />
+		<property name="converter" ref="eV_Deg_converter" />
 		<!-- <property name="scurveTimeToVelocity" value="5"/> -->  <!-- read from weight system -->
 	</bean>
 
