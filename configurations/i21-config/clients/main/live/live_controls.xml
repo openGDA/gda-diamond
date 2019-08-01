@@ -71,5 +71,15 @@
 		<property name="countdownTriggerPvName" value="BL21I-EA-DET-02:CAM:Acquire"/>
 		<property name="updateIntervalInSeconds" value="1"/>
 	</bean>	
-
+	
+	<bean id="sampleTemperature" class="gda.device.scannable.EpicsScannable">
+		<property name="pvName" value="BL21I-EA-TCTRL-01:KRDG0"/>
+		<property name="useNameAsInputName" value="true"/>	
+		<property name="hasUnits" value="false"/>	
+		<property name="outputFormat">
+			<list>
+				<value>%6.3f</value>
+			</list>
+		</property>	
+	</bean>
 </beans>

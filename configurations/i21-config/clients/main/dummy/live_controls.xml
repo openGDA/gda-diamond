@@ -69,5 +69,14 @@
 		<property name="countdownTriggerPvName" value="#{ localhostInetAddress.hostName.split('\.')[0] }-AD-SIM-01:CAM:Acquire"/>
 		<property name="updateIntervalInSeconds" value="1"/>
 	</bean>	
-
+	<!-- there is no EPICS simulation for the following beans -->
+	<bean id="sampleTemperature" class="gda.device.scannable.DummyScannable">
+		<constructor-arg index="0" value="sampleTemperature"/>
+		<constructor-arg index="1" value="300.000"/>
+		<property name="outputFormat">
+			<list>
+				<value>%6.3f</value>
+			</list>
+		</property>
+	</bean>
 </beans>
