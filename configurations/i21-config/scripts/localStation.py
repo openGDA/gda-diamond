@@ -272,14 +272,14 @@ def acquireRIXS(n, det, exposure_time, *args):
     elif det is andor2:  # @UndefinedVariable
         polarimeter()
     fastshutter("Open")
-    acquireImages(n, det, exposure_time, args)
+    acquireImages(n, det, exposure_time, *args)
     
 alias("acquireRIXS")
 
 def acquiredark(n, det, exposure_time, *args):
     fastshutter("Closed")
     erio()
-    acquireImages(n, det, exposure_time, args)
+    acquireImages(n, det, exposure_time, *args)
     
 alias("acquiredark")
 
