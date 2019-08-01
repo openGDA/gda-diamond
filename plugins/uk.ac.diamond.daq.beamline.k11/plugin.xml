@@ -42,7 +42,7 @@
       </perspective>
       <perspective
             class="uk.ac.diamond.daq.beamline.k11.perspective.Tomography"
-            icon="icons/node-select.png"
+            icon="icons/tomography-16.png"
             id="uk.ac.diamond.daq.beamline.k11.perspective.TomographyPerspective"
             name="Tomography">
       </perspective>      
@@ -63,6 +63,14 @@
             icon="icons/flask--pencil.png"
             id="uk.ac.diamond.daq.beamline.k11.experiment"
             name="Experiment"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="uk.ac.diamond.daq.beamline.k11.view.TomographySetup"
+            icon="icons/flask--pencil.png"
+            id="uk.ac.diamond.daq.beamline.k11.tomography"
+            name="Tomography"
             restorable="true">
       </view>
       <view
