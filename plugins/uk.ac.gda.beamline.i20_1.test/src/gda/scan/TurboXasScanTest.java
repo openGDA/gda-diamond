@@ -302,7 +302,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		setup(TurboXasScan.class, "testTurboXasScanMultipleSpectra");
 		TurboXasParameters parameters = getTurboXasParameters();
 		addTimingGroups(parameters);
-
+		parameters.setTwoWayScan(true);
 
 		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
 		int numSpectra = getNumSpectra(parameters);
@@ -311,7 +311,6 @@ public class TurboXasScanTest extends EdeTestBase {
 		motorParameters.setMotorParametersForTimingGroup(0);
 		turboXasScannable.setMotorParameters(motorParameters);
 		TurboXasScan scan = new TurboXasScan(turboXasScannable, motorParameters, new BufferedDetector[]{bufferedScaler});
-		scan.setTwoWayScan(true);
 		runScan(scan);
 
 		String nexusFilename = scan.getDataWriter().getCurrentFileName();
@@ -429,7 +428,12 @@ public class TurboXasScanTest extends EdeTestBase {
 		scan.setWriteAsciiDataAfterScan(true);
 		runScan(scan);
 
-		int numEnergies = getNumPointsPerSpectrum(parameters);
+		// Reduce the number of expected spectrum points to account for NaNs removed when writing to Ascii.
+		int numEnergies = getNumPointsPerSpectrum(parameters)-1;
+		if (parameters.isTwoWayScan()) {
+			numEnergies--;
+		}
+
 		int numSpectra = parameters.getTotalNumSpectra();
 		int numFields = bufferedScaler.getExtraNames().length + xspress3bufferedDetector.getExtraNames().length + 1; // Xspress3 has extra value : FF_sum/I0
 		int numAxisColumns = 3; // index, position, energy

@@ -66,6 +66,7 @@ public class AsciiWriter {
 	private String[] dataToRead = {};
 	private String nexusFilename;
 	private String asciiFilename;
+	private boolean ignoreNaNs = true;
 
 	public AsciiWriter() {
 	}
@@ -288,16 +289,31 @@ public class AsciiWriter {
 			int numSpectra = expectedShape[0];
 			int numReadouts = expectedShape[1];
 			for(int i=0; i<numReadouts; i++) {
+
+				// Build row of values of detector data, record if the row contains any NaNs
+				boolean hasNaNs = false;
+				StringBuilder spectraValues = new StringBuilder();
+				for(int j=0; j<numSpectra; j++) {
+					for(IDataset dataset : datasets.values()) {
+						double value = dataset.getDouble(j, i);
+						spectraValues.append(String.format(numFormat, value));
+						if (Double.isNaN(value) ) {
+							hasNaNs = true;
+						}
+					}
+				}
+
+				if (hasNaNs && ignoreNaNs) {
+					logger.debug("Missing out row {} - contains NaNs", i);
+					continue;
+				}
+
 				// energy position index, position, energy values
 				strBuilder.append(String.format(intFormat, i));
 				strBuilder.append(String.format(numFormat, positionDataset.getDouble(i)));
 				strBuilder.append(String.format(numFormat, energyDataset.getDouble(i)));
-				// detector data
-				for(int j=0; j<numSpectra; j++) {
-					for(IDataset dataset : datasets.values()) {
-						strBuilder.append(String.format(numFormat, dataset.getDouble(j, i)));
-					}
-				}
+				strBuilder.append(spectraValues);
+
 				strBuilder.append(System.lineSeparator());
 			}
 
@@ -383,5 +399,13 @@ public class AsciiWriter {
 
 	public void setAsciiFilename(String asciiFilename) {
 		this.asciiFilename = asciiFilename;
+	}
+
+	public boolean isIgnoreNaNs() {
+		return ignoreNaNs;
+	}
+
+	public void setIgnoreNaNs(boolean ignoreNaNs) {
+		this.ignoreNaNs = ignoreNaNs;
 	}
 }
