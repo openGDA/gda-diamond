@@ -74,11 +74,11 @@ if installation.isLive():
     from high_field_magnet.scannable.intelligent_power_supply_instances import *  # @UnusedWildImport
 #     from scannable.temporaryIDControls import *  # @UnusedWildImport
     from scannable.frontEndBeamMonitors import *  # @UnusedWildImport
-    from scannable.mirrors_fine_pitch_motors import m1fpitch, m3m5fpitch,m4fpitch, m6fpitch
-    m1.addGroupMember(m1fpitch)
-    m3m5.addGroupMember(m3m5fpitch)
-    m4.addGroupMember(m4fpitch)
-    m6.addGroupMember(m6fpitch)
+    from scannable.m4_haxpod_motors import *  # @UnusedWildImport
+    from scannable.m1_haxpod_motors import *  # @UnusedWildImport
+    from scannable.m3m5_haxpod_motors import *  # @UnusedWildImport
+    from scannable.m6_haxpod_motors import *  # @UnusedWildImport
+
     try:
         th_off = EpicsReadWritePVClass('th_off', 'ME01D-MO-DIFF-01:THETA.OFF', 'deg', '%.6f')
         tth_off = EpicsReadWritePVClass('tth_off', 'ME01D-MO-DIFF-01:TWOTHETA.OFF', 'deg', '%.6f')
