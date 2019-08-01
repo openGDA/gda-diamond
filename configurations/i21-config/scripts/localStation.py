@@ -12,8 +12,9 @@ from time import sleep  # @UnusedImport
 
 from calibration.Energy_class import BeamEnergy
 from gda.jython.commands import GeneralCommands
-from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick,\
-    fastshutter
+
+from gdaserver import lakeshore, b2, x, sgmpitch, polarisergamma, polariserstick, fastshutter  # @UnresolvedImport
+
 import gdascripts
 from utils.ExceptionLogs import localStation_exception
 from gda.device.scannable import DummyScannable
@@ -240,10 +241,9 @@ from scannabledevices.samplePoistioner_instance import smp_positioner  # @Unused
 ENABLE_ENCODER_LIGHT_CONTROL=False
 # ENCODER_POSITION_AFTER_LIGHT_OFF=None
 # repeat acquire at a fixed point
-
 def acquireImages(n, det, exposure_time, *args):
     try:
-        newargs=[ds,1,n,1,det,exposure_time] # @UndefinedVariable
+        newargs=[tm,1,n,1,det,exposure_time] # @UndefinedVariable
         for arg in args:
             newargs.append(arg)
         if ENABLE_ENCODER_LIGHT_CONTROL:
@@ -265,6 +265,7 @@ def acquireImages(n, det, exposure_time, *args):
             sleep(0.1)
             if ENCODER_POSITION_BEFORE_LIGHT_OFF is not None:
                 sgmpitch.moveTo(ENCODER_POSITION_BEFORE_LIGHT_OFF)
+
                 
 def acquireRIXS(n, det, exposure_time, *args):
     if det is andor:  # @UndefinedVariable

@@ -144,7 +144,7 @@
 		<property name="group" value="Andor" />
 	</bean>
 	<bean id="andorCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-		<property name="cameraConfig" ref="andor_cam"/>
+		<property name="cameraConfig" ref="andor"/>
 		<property name="stateVariableName" value="i21.andor.live.stream.active"/>
 	</bean>
 	<bean id="andorControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
@@ -217,7 +217,7 @@
 	</bean>
 
 	<bean id="polarimeterCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-		<property name="cameraConfig" ref="andor2_cam"/>
+		<property name="cameraConfig" ref="polarimeter"/>
 		<property name="stateVariableName" value="i21.polarimeter.live.stream.active"/>
 	</bean>
 	<bean id="polarimeterControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">

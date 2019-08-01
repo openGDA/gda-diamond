@@ -9,12 +9,13 @@
 
 	<bean id="displayPixelNumberOnAxes" class="uk.ac.gda.client.live.stream.calibration.PixelCalibration"/>
 
-	<bean id="andor2_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Andor2 Detector" />
+	<bean id="polarimeter" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Polarimeter" />
 		<property name="url" value="http://bl21i-mo-serv-02.diamond.ac.uk:8098/ANDOR2.mjpg.mjpg" />
 		<property name="arrayPv" value="BL21I-EA-DET-02:ARR" />
 		<property name="roiProvider" ref="andor2_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
+		<property name="withHistogram" value="true"/>
 	</bean>
 	<bean id="andor2_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}andor2Roi" />
@@ -22,19 +23,20 @@
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
 
-	<bean id="andor_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
-		<property name="displayName" value="Andor Detector" />
+	<bean id="andor" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
+		<property name="displayName" value="Andor" />
 		<property name="url" value="http://bl21i-mo-serv-02.diamond.ac.uk:8099/ANDOR.mjpg.mjpg" />
 		<property name="arrayPv" value="BL21I-EA-DET-01:ARR" />
 		<property name="roiProvider" ref="andor_roi" />
 		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
+		<property name="withHistogram" value="true"/>
 	</bean>
 	<bean id="andor_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}andorRoi" />
 		<property name="serviceInterface" value="gda.device.detector.nxdetector.roi.RemoteRectangularROIsProvider" />
 		<property name="refreshStubOnConnectFailure" value="true" />
 	</bean>
-
+	
 	<bean id="dgn_cam" class="uk.ac.gda.client.live.stream.view.CameraConfiguration">
 		<property name="displayName" value="Diagon Camera" />
 		<property name="url" value="http://bl21i-di-serv-03.diamond.ac.uk:8080/DGN.mjpg.mjpg" />
@@ -143,6 +145,8 @@
 		<property name="url" value="http://bl21i-di-serv-03.diamond.ac.uk:8081/SMPL.cam3.mjpg.mjpg" />
 		<property name="arrayPv" value="BL21I-DI-DCAM-22:ARR" />
 		<property name="roiProvider" ref="smplcam3_roi" />
+		<property name="withHistogram" value="true"/>
+		<property name="calibratedAxesProvider" ref="displayPixelNumberOnAxes"/>
 	</bean>
 	<bean id="smplcam3_roi" class="uk.ac.gda.remoting.client.GdaRmiProxyFactoryBean">
 		<property name="serviceUrl" value="${gda.rmi.prefix}smplcam3Roi" />

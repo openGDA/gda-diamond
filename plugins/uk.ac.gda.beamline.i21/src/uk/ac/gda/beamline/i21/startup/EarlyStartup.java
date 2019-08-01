@@ -46,7 +46,7 @@ public class EarlyStartup implements IStartup {
 							ToolPageView.FIXED_VIEW_ID,"org.dawnsci.plotting.histogram.histogram_tool_page_2", IWorkbenchPage.VIEW_CREATE);
 					// ensure the Live Stream View has focus so the 'Region Editor' above is linked to this image
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(
-							"uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamViewWithHistogram", "andor_cam#EPICS_ARRAY", IWorkbenchPage.VIEW_ACTIVATE);
+							"uk.ac.gda.beamline.i21.andor.live.stream.view.LiveStreamViewWithHistogram", "andor#EPICS_ARRAY", IWorkbenchPage.VIEW_ACTIVATE);
 					// make the dynamic tool bar items visible, not just inside drop-down menu.
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().resetPerspective();
 				} catch (PartInitException e) {
