@@ -69,6 +69,14 @@
 		<property name="increment" value="1" />
 	</bean>
 	
+	<bean id="sample_temperature_display" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Temperature" />
+		<property name="group" value="Sample" />
+		<property name="scannableName" value="sampleTemperature" />
+		<property name="textWidth" value="50"/>
+		<property name="userUnits" value="K" />
+		<property name="readOnly" value="true"/>
+	</bean>	
 	<!-- Sample Positioner control -->
 	<bean id="screws_position" class="uk.ac.gda.client.livecontrol.JythonCommandControl">
 		<property name="jythonCommand" value="smp_positioner.asynchronousMoveTo('Screws')" />
@@ -101,6 +109,7 @@
 				<ref bean="screws_position" />
 				<ref bean="transfer_position" />
 				<ref bean="rixs_position" />
+				<ref bean="sample_temperature_display" />
 			</list>
 		</property>
 	</bean>
@@ -144,7 +153,7 @@
 		<property name="group" value="Andor" />
 	</bean>
 	<bean id="andorCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-		<property name="cameraConfig" ref="andor_cam"/>
+		<property name="cameraConfig" ref="andor"/>
 		<property name="stateVariableName" value="i21.andor.live.stream.active"/>
 	</bean>
 	<bean id="andorControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
@@ -217,7 +226,7 @@
 	</bean>
 
 	<bean id="polarimeterCameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
-		<property name="cameraConfig" ref="andor2_cam"/>
+		<property name="cameraConfig" ref="polarimeter"/>
 		<property name="stateVariableName" value="i21.polarimeter.live.stream.active"/>
 	</bean>
 	<bean id="polarimeterControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
