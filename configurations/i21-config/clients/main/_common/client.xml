@@ -9,6 +9,7 @@
 	<import resource="batonStateProvider.xml"/>
 	<!-- sample stage control -->
 	<import resource="live_controls.xml"/>
+	<import resource="smp_cam_3_live_controls.xml"/>
 	<import resource="statusView.xml"/>
 	
 

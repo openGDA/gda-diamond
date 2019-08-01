@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- smp_cam_3 Controls in Live Stream Views-->
+	<bean id="smp_cam_3_time_remaining" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownControl">
+		<property name="displayName" value="Time remain"/>
+		<property name="group" value="Sample" />
+		<property name="observable" ref="smp_cam_3Countdown" />
+		<property name="textWidth" value="30"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="smp_cam_3_time_remaining_progress" class="uk.ac.gda.client.live.stream.controls.custom.widgets.CountDownProgressBarControl">
+		<property name="displayName" value=""/>
+		<property name="group" value="Sample" />
+		<property name="observable" ref="smp_cam_3CountdownProgress" />
+		<property name="barWidth" value="110"/>
+	</bean>
+	<bean id="smp_cam_3_expsure_time_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Exposure" />
+		<property name="group" value="Sample" />
+		<property name="scannableName" value="smp_cam_3ExposureTime" />
+		<property name="textWidth" value="50"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="smp_cam_3_acquire_period_control" class="uk.ac.gda.client.livecontrol.ScannableValueControl">
+		<property name="displayName" value="Period" />
+		<property name="group" value="Sample" />
+		<property name="scannableName" value="smp_cam_3AcquirePeriod" />
+		<property name="textWidth" value="50"/>
+		<property name="userUnits" value="s" />
+	</bean>
+	<bean id="smp_cam_3CameraState" class="uk.ac.gda.client.live.stream.controls.camera.state.EpicsCameraState">
+		<property name="cameraConfig" ref="smp_cam_3"/>
+		<property name="stateVariableName" value="i21.smp_cam_3.live.stream.active"/>
+	</bean>
+	<bean id="smp_cam_3ControlWidgetFactory" class="uk.ac.gda.client.live.stream.view.LiveStreamViewWithHistogramFactory">
+		<property name="customWidget">
+			<bean class="uk.ac.gda.client.live.stream.controls.custom.widgets.CameraControlWidget">
+				<property name="liveControls">
+					<list>
+						<ref bean="smp_cam_3_expsure_time_control" />
+						<ref bean="smp_cam_3_acquire_period_control"/>
+						<ref bean="smp_cam_3_time_remaining" />
+						<ref bean="smp_cam_3_time_remaining_progress" />
+					</list>
+				</property>
+				<property name="cameraState" ref="smp_cam_3CameraState"/>
+			</bean>
+		</property>
+	</bean>
+	
+</beans>
