@@ -27,8 +27,8 @@ import java.util.Objects;
 import org.eclipse.scanning.api.event.EventException;
 import org.eclipse.scanning.api.event.IEventService;
 import org.eclipse.scanning.api.event.core.AbstractLockingPausableProcess;
-import org.eclipse.scanning.api.event.core.IConsumer;
-import org.eclipse.scanning.api.event.core.IConsumerProcess;
+import org.eclipse.scanning.api.event.core.IBeanProcess;
+import org.eclipse.scanning.api.event.core.IJobQueue;
 import org.eclipse.scanning.api.event.core.IProcessCreator;
 import org.eclipse.scanning.api.event.core.IPublisher;
 import org.slf4j.Logger;
@@ -55,8 +55,8 @@ public class XpdfTaskConsumer {
 		logger.debug("taskRunner set to: {}", taskRunner);
 	}
 
-	public void startConsumer() {
-		logger.info("Starting XPDF Task Runner consumer...");
+	public void startJobQueue() {
+		logger.info("Starting XPDF Task Runner queue...");
 
 		// Validate we have the required objects to work.
 		Objects.requireNonNull(taskRunner, "Task runner is not set check Spring configuration");
@@ -66,20 +66,20 @@ public class XpdfTaskConsumer {
 		try {
 			final URI uri = new URI(LocalProperties.getActiveMQBrokerURI());
 
-			IConsumer<TaskBean> consumer = eventService.createConsumer(uri, QueueConstants.XPDF_TASK_QUEUE, STATUS_TOPIC);
-			consumer.setRunner(new ProcessCreator());
-			consumer.setName("XPDF Task Runner consumer");
-			consumer.start();
+			IJobQueue<TaskBean> jobQueue = eventService.createJobQueue(uri, QueueConstants.XPDF_TASK_QUEUE, STATUS_TOPIC);
+			jobQueue.setRunner(new ProcessCreator());
+			jobQueue.setName("XPDF Task Runner ueue");
+			jobQueue.start();
 		} catch (EventException | URISyntaxException e) {
-			logger.error("Failed to setup XPDF Task Runner consumer", e);
+			logger.error("Failed to setup XPDF Task Runner queue", e);
 		}
-		logger.info("Started XPDF Task Runner consumer");
+		logger.info("Started XPDF Task Runner queue");
 	}
 
 	private class ProcessCreator implements IProcessCreator<TaskBean> {
 
 		@Override
-		public IConsumerProcess<TaskBean> createProcess(TaskBean bean, IPublisher<TaskBean> statusNotifier)
+		public IBeanProcess<TaskBean> createProcess(TaskBean bean, IPublisher<TaskBean> statusNotifier)
 				throws EventException {
 			return new ConsumerProcess(bean, statusNotifier);
 		}
