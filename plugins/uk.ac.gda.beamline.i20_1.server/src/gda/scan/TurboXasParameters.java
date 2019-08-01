@@ -123,6 +123,12 @@ public class TurboXasParameters {
 	/** Names of any extra scannables that should be added to TurboXasScan object */
 	private List<String> extraScannables;
 
+	/**
+	 * List of datasets to compute running average of during scan. Names are formatted as : <detector name>/<dataset name>
+	 * . e.g. scaler_for_zebra/I0, buffered_xspress3/FFI0 ...
+	 */
+	private List<String> namesOfDatasetsToAverage;
+
 	private boolean writeAsciiData;
 
 	private String fastShutterName;
@@ -646,6 +652,16 @@ public class TurboXasParameters {
 
 		scan.setTwoWayScan(twoWayScan);
 
+		scan.setDatasetNamesToAverage(namesOfDatasetsToAverage);
+
 		return scan;
+	}
+
+	public List<String> getNamesOfDatasetsToAverage() {
+		return namesOfDatasetsToAverage;
+	}
+
+	public void setNamesOfDatasetsToAverage(List<String> namesOfDatasetsToAverage) {
+		this.namesOfDatasetsToAverage = new ArrayList<>(namesOfDatasetsToAverage);
 	}
 }

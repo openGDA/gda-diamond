@@ -1,3 +1,4 @@
 #!/bin/bash
+export SWT_GTK3=0
 export LD_LIBRARY_PATH=/dls_sw/i20/software/gda/client/plugins/uk.ac.gda.nexus_1.0.0/lib/linux-x86_64/
 /dls_sw/i20/software/gda/workspace_git/gda-diamond.git/dls-config/bin/gdaclient "$@" -- --debug

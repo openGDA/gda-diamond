@@ -165,4 +165,7 @@
 		<property name="name" value="detectorMonitorDataProvider" />
 	</bean>
 
+	<bean id="mcaProvider" class="gda.device.detector.FluorescenceDetectorMcaProviderImpl">
+		<property name="name" value="mcaProvider" />
+	</bean>
 </beans>

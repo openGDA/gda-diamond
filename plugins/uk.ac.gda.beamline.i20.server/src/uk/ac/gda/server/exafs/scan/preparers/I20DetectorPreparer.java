@@ -31,8 +31,8 @@ import gda.configuration.properties.LocalProperties;
 import gda.device.Detector;
 import gda.device.DeviceException;
 import gda.device.Scannable;
+import gda.device.detector.DetectorHdfFunctions;
 import gda.device.detector.NXDetector;
-import gda.device.detector.addetector.filewriter.FileWriterBase;
 import gda.device.detector.addetector.triggering.AbstractADTriggeringStrategy;
 import gda.device.detector.areadetector.v17.NDPluginBase;
 import gda.device.detector.areadetector.v17.impl.ADBaseImpl;
@@ -48,7 +48,6 @@ import gda.device.detector.nxdetector.roi.SimpleRectangularROIProvider;
 import gda.device.detector.xmap.NexusXmapFluorescenceDetectorAdapter;
 import gda.device.detector.xmap.TfgXMapFFoverI0;
 import gda.device.detector.xmap.Xmap;
-import gda.device.detector.xspress.Xspress2Detector;
 import gda.device.scannable.TopupChecker;
 import gda.epics.CAClient;
 import gda.exafs.scan.ExafsScanPointCreator;
@@ -72,6 +71,7 @@ import uk.ac.gda.beans.exafs.i20.ROIRegion;
 import uk.ac.gda.beans.xspress.XspressParameters;
 import uk.ac.gda.devices.detector.FluorescenceDetector;
 import uk.ac.gda.devices.detector.FluorescenceDetectorParameters;
+import uk.ac.gda.devices.detector.xspress3.Xspress3Detector;
 import uk.ac.gda.devices.detector.xspress4.Xspress4Detector;
 import uk.ac.gda.server.exafs.scan.BeamlinePreparer;
 import uk.ac.gda.server.exafs.scan.DetectorPreparer;
@@ -80,7 +80,6 @@ import uk.ac.gda.util.beans.xml.XMLHelpers;
 public class I20DetectorPreparer implements DetectorPreparer {
 	private static final Logger logger = LoggerFactory.getLogger(I20DetectorPreparer.class);
 
-//	private Xspress2Detector xspress2system;
 	private Detector selectedXspressDetector;
 
 	private Scannable[] sensitivities;
@@ -101,10 +100,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	private String statPvName = "STAT1:";
 	private boolean configureMedipixRois = true;
 	private List<NXPluginBase> originalMedipixPlugins = null;
-	// Hdf plugin and path template for medipix
-	private FileWriterBase medipixHdfFileWriterPlugin = null;
 	private String medipixHdfPathTemplate = "";
-
 
 	// Full path to xml folder containing experiment xml files
 	private String experimentXmlFullPath;
@@ -189,8 +185,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	}
 
 	private void setConfigFilename(Detector det, String xmlFilename) {
-		if (det instanceof Xspress2Detector) {
-			((Xspress2Detector) det).setConfigFileName(xmlFilename);
+		if (det instanceof Xspress3Detector) {
+			((Xspress3Detector) det).setConfigFileName(xmlFilename);
 		} else if (det instanceof Xspress4Detector) {
 			((Xspress4Detector) det).setConfigFileName(xmlFilename);
 		} else if (det instanceof Xmap) {
@@ -220,26 +216,6 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		return FilenameUtils.getFullPathNoEndSeparator(folder)+"/nexus/";
 	}
 
-	private void setHdfPathBeforeScan(Detector detector) throws DeviceException {
-		if (detector != null && detector instanceof Xspress4Detector) {
-			Xspress4Detector det = (Xspress4Detector) detector;
-			hdfFilePathBeforeScan = det.getXspress3Controller().getFilePath();
-			det.setFilePath(getNexusDataFullPath());
-		}
-	}
-
-	private void setHdfPathAfterScan(Detector detector) {
-		if (detector != null && detector instanceof Xspress4Detector) {
-			try {
-				Xspress4Detector det = (Xspress4Detector) detector;
-				det.getXspress3Controller().setFilePath(hdfFilePathBeforeScan);
-				det.setFilePath(hdfFilePathBeforeScan);
-			} catch (DeviceException e) {
-				logger.error("Problem setting hdf directory to {} for {} at end of scan",  hdfFilePathBeforeScan, detector.getName(), e);
-			}
-		}
-	}
-
 	private void configureFluoDetector(String xmlFileName) throws Exception {
 		FluorescenceDetectorParameters params = getDetectorParametersBean(xmlFileName);
 		setXspressOutputOptions(params, outputBean);
@@ -249,7 +225,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			vortex = (Xmap) configuredDetector;
 		} else {
 			selectedXspressDetector = configuredDetector;
-			setHdfPathBeforeScan(selectedXspressDetector);
+			hdfFilePathBeforeScan = DetectorHdfFunctions.setHdfFilePath(selectedXspressDetector, getNexusDataFullPath());
 		}
 	}
 
@@ -278,22 +254,27 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 			// name of detector group to use - this is the detectorType field in the xes/transmission/fluorescence bean
 			String detGroupToUse = fluoresenceParameters.getDetectorType();
-			boolean useMedpixDetector = false;
+			boolean useMedipixDetector = false;
 			// see if detectors listed in detector group contains medipix
 			for(DetectorGroup detGroup : detectorBean.getDetectorGroups()) {
 				if (detGroup.getName().equalsIgnoreCase(detGroupToUse) ) {
 					for(String detName : detGroup.getDetector()) {
 						if (detName.toUpperCase().contains(FluorescenceParameters.MEDIPIX_DET_TYPE.toUpperCase())) {
-							useMedpixDetector = true;
+							useMedipixDetector = true;
 						}
 					}
 				}
 			}
 
 			// Configure the detector
+			medipixHdfPathTemplate = "";
+			selectedXspressDetector = null;
 			String xmlFileName = Paths.get(experimentFullPath, fluoresenceParameters.getConfigFileName()).toString();
-			if (useMedpixDetector && configureMedipixRois) {
-				configureMedipix(xmlFileName);
+			if (useMedipixDetector) {
+				setupMedipixHdfPaths();
+				if (configureMedipixRois) {
+					configureMedipix(xmlFileName);
+				}
 			} else {
 				configureFluoDetector(xmlFileName);
 			}
@@ -305,7 +286,6 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			}
 		}
 	}
-
 
 	/**
 	 * Create ROI using parameters from XML file, setup Medipix NXPlugin list to use new ROI rather than the one from plotserver.
@@ -319,8 +299,6 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 		// Create bean from XML
 		MedipixParameters param = (MedipixParameters) XMLHelpers.createFromXML(MedipixParameters.mappingURL, MedipixParameters.class, MedipixParameters.schemaURL, new File(xmlFileName));
-
-		setupMedipuxHdfPaths();
 
 		// Create region using first ROI only - currently camera uses only one ROI
 		ROIRegion region1 = param.getRegionList().get(0);
@@ -353,7 +331,6 @@ public class I20DetectorPreparer implements DetectorPreparer {
 			basePvName = baseImpl.getBasePVName();
 		}
 		basePvName = basePvName.replace(":CAM:", ":");
-
 
 		// Create new NXPlugin with ROI from XML settings (same PV names as plotserver ROI).
 		// use same enabled stats as original plugin
@@ -400,18 +377,9 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		return null;
 	}
 
-
-	private void setupMedipuxHdfPaths() {
-		medipixHdfFileWriterPlugin = null;
-		for (NXPluginBase plugin : medipix.getAdditionalPluginList()) {
-			if (plugin instanceof FileWriterBase) {
-				String newPathTemplate = experimentXmlFullPath.replaceFirst("(.*)xml", "\\$datadir\\$") + "nexus/";
-				logger.debug("Setting medipix hdf file path template to {}", newPathTemplate);
-				medipixHdfFileWriterPlugin = (FileWriterBase) plugin;
-				medipixHdfPathTemplate = medipixHdfFileWriterPlugin.getFilePathTemplate();
-				medipixHdfFileWriterPlugin.setFilePathTemplate(newPathTemplate);
-			}
-		}
+	private void setupMedipixHdfPaths() throws DeviceException {
+		String newPathTemplate = experimentXmlFullPath.replaceFirst("(.*)xml", "\\$datadir\\$") + "nexus/";
+		medipixHdfPathTemplate = DetectorHdfFunctions.setHdfFilePath(medipix, newPathTemplate);
 	}
 
 	/**
@@ -433,6 +401,7 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 		fac.setEnabledBasicStats(stats);
 		fac.setOneTimeSeriesCollectionPerLine(false);
+		fac.setLegacyTSpvs(false);
 
 		SimpleRectangularROIProvider roiProvider = new SimpleRectangularROIProvider();
 		roiProvider.setRoi(roi);
@@ -440,8 +409,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		fac.setRoiProvider(roiProvider);
 
 		return fac.getObject();
-
 	}
+
 	@Override
 	public void beforeEachRepetition() throws Exception {
 		doMonoOptimisation();
@@ -461,21 +430,37 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		setI1TimeFormatRequired(true);
 
 		// Set the hdf directory back to the 'before scan' value
-		setHdfPathAfterScan(selectedXspressDetector);
+		if (selectedXspressDetector != null) {
+			setDetectorHdfPath(selectedXspressDetector, hdfFilePathBeforeScan);
+		}
 
 		// Return NXPlugin list back to original state (i.e. the one using plotserver ROI plugin)
 		if ( originalMedipixPlugins != null ) {
 			medipix.setAdditionalPluginList(originalMedipixPlugins);
 			originalMedipixPlugins = null;
 		}
+
 		// Set the file path template back to its original state.
-		if ( medipixHdfFileWriterPlugin != null ) {
-			medipixHdfFileWriterPlugin.setFilePathTemplate(medipixHdfPathTemplate);
-			medipixHdfFileWriterPlugin = null;
+		if (!medipixHdfPathTemplate.isEmpty()) {
+			setDetectorHdfPath(medipix, medipixHdfPathTemplate);
 		}
 
 		i1.setDarkCurrentRequired(true);
 		ionchambers.setDarkCurrentRequired(true);
+	}
+
+	/**
+	 * Set hdf path on a detector by calling {@link DetectorHdfFunctions#setHdfFilePath(Detector, String)}.
+	 * Catches any exception thrown and logs the error message.
+	 * @param detector
+	 * @param path
+	 */
+	private void setDetectorHdfPath(Detector detector, String path) {
+		try {
+			DetectorHdfFunctions.setHdfFilePath(detector, path);
+		} catch (DeviceException e) {
+			logger.error("Problem setting hdf directory to {} for detector {}", path, detector.getName(), e);
+		}
 	}
 
 	private void _setup_amp_sensitivity(IonChamberParameters ionChamberParams) throws Exception {
@@ -674,9 +659,13 @@ public class I20DetectorPreparer implements DetectorPreparer {
 
 	private MonoEnergyRange getMonoRange(XanesScanParameters bean) throws DeviceException {
 		if (xesMode) {
-			// Xes mode with Xanes scan for spectrometer energy : mono is already in correct position
-			double braggEnergy = (double) monoOptimiser.getBraggScannable().getPosition();
-			return new MonoEnergyRange(braggEnergy, braggEnergy);
+			if (bean.getScannableName().equals(monoOptimiser.getBraggScannable().getName())) {
+				return new MonoEnergyRange(bean.getInitialEnergy(), bean.getFinalEnergy());
+			} else {
+				// Xes mode with Energy region scan for spectrometer energy : mono is already in correct position
+				double braggEnergy = (double) monoOptimiser.getBraggScannable().getPosition();
+				return new MonoEnergyRange(braggEnergy, braggEnergy);
+			}
 		}
 		return new MonoEnergyRange(bean.getInitialEnergy(), bean.getFinalEnergy());
 	}
@@ -713,8 +702,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 	}
 
 	private static class MonoEnergyRange {
-		private double lowEnergy;
-		private double highEnergy;
+		private final double lowEnergy;
+		private final double highEnergy;
 
 		public MonoEnergyRange(double lowEnergy, double highEnergy) {
 			this.lowEnergy = lowEnergy;
@@ -724,14 +713,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 		public double getLowEnergy() {
 			return lowEnergy;
 		}
-		public void setLowEnergy(double lowEnergy) {
-			this.lowEnergy = lowEnergy;
-		}
 		public double getHighEnergy() {
 			return highEnergy;
-		}
-		public void setHighEnergy(double highEnergy) {
-			this.highEnergy = highEnergy;
 		}
 	}
 
@@ -855,6 +838,8 @@ public class I20DetectorPreparer implements DetectorPreparer {
 								monoEnergyRange.getLowEnergy(), monoEnergyRange.getHighEnergy());
 						monoOptimiser.optimise(monoEnergyRange.getLowEnergy(), monoEnergyRange.getHighEnergy());
 					}
+					// move to low energy again, with optimised bragg offset
+					monoOptimiser.getBraggScannable().moveTo(monoEnergyRange.getLowEnergy());
 				}
 				else {
 					// move to near low energy, so that first moveTo also calls optimisation

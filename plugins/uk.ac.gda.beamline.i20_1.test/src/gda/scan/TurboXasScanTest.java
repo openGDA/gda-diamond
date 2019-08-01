@@ -18,6 +18,7 @@
 
 package gda.scan;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -25,13 +26,17 @@ import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.eclipse.dawnsci.analysis.api.tree.DataNode;
 import org.eclipse.dawnsci.analysis.api.tree.GroupNode;
 import org.eclipse.dawnsci.nexus.NexusException;
 import org.eclipse.january.dataset.Dataset;
+import org.eclipse.january.dataset.DatasetFactory;
 import org.eclipse.january.dataset.IDataset;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -78,6 +83,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	private Xspress3BufferedDetector xspress3bufferedDetector;
 	private ScannableMotor testMotor;
 	private boolean twoWayScan;
+	private final double timePerSpectrum = 0.01;
 
 	public static final String BUFFERED_SCALER_NAME = "bufferedScaler";
 	public static final String[] BUFFERED_SCALER_FIELDS = { "frame_time", "I0", "It", "Iref" };
@@ -87,7 +93,7 @@ public class TurboXasScanTest extends EdeTestBase {
 
 	private static final String XSPRESS3_METADATA_NAME = "Xspress3";
 	private static final String TURBOXAS_METADATA_NAME = "TurboXasParameters";
-
+	
 	@AfterClass
 	public static void tearDownClass() {
 		// Remove factories from Finder so they do not affect other tests
@@ -143,6 +149,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		turboXasScannable.setMotor(dummyMotor);
 		turboXasScannable.setZebraDevice(dummyZebra);
 		turboXasScannable.setTrajectoryScanPreparer(trajectoryScanPreparer);
+		turboXasScannable.setTrajectoryScanInitialWaitTimeMs(0);
 
 		setupXSpress3();
 
@@ -260,6 +267,15 @@ public class TurboXasScanTest extends EdeTestBase {
 		return parameters;
 	}
 
+	private void addTimingGroups(TurboXasParameters parameters) {
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", timePerSpectrum, 0.0, 3));
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group2", timePerSpectrum, 0.0, 5));
+	}
+
+	private void addTimingGroup(TurboXasParameters parameters) {
+		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", timePerSpectrum, 0.0, 3));
+	}
+
 	/** Run TurboXasScan, first setting poll interval to small value so tests run quicker */
 	private void runScan(TurboXasScan scan) throws InterruptedException, Exception {
 		scan.setPollIntervalMillis(0);
@@ -284,8 +300,8 @@ public class TurboXasScanTest extends EdeTestBase {
 	public void testTurboXasScanMultipleSpectra() throws InterruptedException, Exception {
 		setup(TurboXasScan.class, "testTurboXasScanMultipleSpectra");
 		TurboXasParameters parameters = getTurboXasParameters();
-		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 5));
-		parameters.addTimingGroup(new TurboSlitTimingGroup("group2", 0.10, 0.0, 7));
+		addTimingGroups(parameters);
+
 
 		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
 		int numSpectra = getNumSpectra(parameters);
@@ -307,8 +323,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	public void testTurboXasScanMultipleSpectraFinishEarly() throws InterruptedException, Exception {
 		setup(TurboXasScan.class, "testTurboXasScanMultipleSpectraFinishEarly");
 		TurboXasParameters parameters = getTurboXasParameters();
-		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 10));
-		parameters.addTimingGroup(new TurboSlitTimingGroup("group2", 0.10, 0.0, 12));
+		addTimingGroups(parameters);
 
 		// Run the scan in a background thread
 		final TurboXasScan scan = new TurboXasScan(turboXasScannable, parameters.getMotorParameters(), new BufferedDetector[]{bufferedScaler});
@@ -340,8 +355,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	public void testTurboXasScanMultipleSpectraXspress3() throws InterruptedException, Exception {
 		setup(TurboXasScan.class, "testTurboXasScanMultipleSpectraXspress3");
 		TurboXasParameters parameters = getTurboXasParameters();
-		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 5));
-		parameters.addTimingGroup(new TurboSlitTimingGroup("group2", 0.10, 0.0, 7));
+		addTimingGroups(parameters);
 
 		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
 		int numSpectra = getNumSpectra(parameters);
@@ -362,7 +376,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	public void testTurboXasParametersCreatesScan() throws InterruptedException, Exception {
 		setup(TurboXasScan.class, "testTurboXasParametersCreatesScan");
 		TurboXasParameters parameters = getTurboXasParameters();
-		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 10));
+		addTimingGroup(parameters);
 
 		TurboXasScan scan = parameters.createScan();
 
@@ -382,9 +396,9 @@ public class TurboXasScanTest extends EdeTestBase {
 	public void testTurboXasParameterCreatedScanRuns() throws InterruptedException, Exception {
 		setup(TurboXasScan.class, "testTurboXasParameterCreatedScanRuns");
 		TurboXasParameters parameters = getTurboXasParameters();
-		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 10));
+		addTimingGroup(parameters);
 		int numPointsPerSpectrum = getNumPointsPerSpectrum(parameters);
-		int numSpectra = 10;
+		int numSpectra = parameters.getTimingGroups().get(0).getNumSpectra();
 
 		TurboXasScan scan = parameters.createScan();
 		runScan(scan);
@@ -409,7 +423,7 @@ public class TurboXasScanTest extends EdeTestBase {
 	public void testAsciiWriterProcessesNexusFile() throws InterruptedException, Exception {
 		setup(TurboXasScan.class, "testAsciiWriterProcessesNexusFile");
 		TurboXasParameters parameters = getTurboXasParameters();
-		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 10));
+		addTimingGroup(parameters);
 		TurboXasScan scan = parameters.createScan();
 		scan.setWriteAsciiDataAfterScan(true);
 		runScan(scan);
@@ -519,7 +533,7 @@ public class TurboXasScanTest extends EdeTestBase {
 		setup(TurboXasScan.class, "checkMetaDataAddedRemovedFromMetaShop");
 
 		TurboXasParameters parameters = getTurboXasParameters();
-		parameters.addTimingGroup(new TurboSlitTimingGroup("group1", 0.10, 0.0, 10));
+		addTimingGroup(parameters);
 
 		TurboXasScan scan = parameters.createScan();
 
@@ -534,6 +548,62 @@ public class TurboXasScanTest extends EdeTestBase {
 		scan.callScannablesAtScanEnd();
 		assertNull(TURBOXAS_METADATA_NAME+" parameters not removed from metashop", metaShop.get(TURBOXAS_METADATA_NAME));
 		assertNull(XSPRESS3_METADATA_NAME+" parameters not removed from metashop", metaShop.get(XSPRESS3_METADATA_NAME));
+	}
+
+	@Test
+	public void testWithAverages() throws Exception {
+		setup(TurboXasScan.class, "testWithAverages");
+		TurboXasParameters parameters = getTurboXasParameters();
+		addTimingGroup(parameters);
+
+		TurboXasScan scan = parameters.createScan();
+
+		// Set the names of the datasets to compute comulative averages
+		List<String> names = Arrays.asList(bufferedScaler.getName()+"/"+bufferedScaler.getExtraNames()[1],
+							bufferedScaler.getName()+"/"+bufferedScaler.getExtraNames()[2]);
+		scan.setDatasetNamesToAverage(names);
+
+		runScan(scan);
+
+		// Check averages have been written to Nexus file and that values are correct.
+		String nexusFilename = scan.getDataWriter().getCurrentFileName();
+		for(String name : names) {
+			// Load the averaged and  non-averaged datasets from Nexus file
+			String datasetName = FilenameUtils.getName(name);
+			IDataset originalData = getDataset(nexusFilename, bufferedScaler.getName(), datasetName);
+			IDataset averagedData = getDataset(nexusFilename, bufferedScaler.getName(), datasetName+"_avg");
+
+			// shape of averaged and non-averaged data should be the same
+			assertArrayEquals(originalData.getShape(), averagedData.getShape());
+
+			// Calculate cumulative average for each row using the original data and
+			// check the average values in Nexus file written during the scan are correct
+			int numRows = originalData.getShape()[0];
+			int numColumns = originalData.getShape()[1];
+			for(int i=0; i<numColumns; i++) {
+				IDataset data = originalData.getSlice(new int[] {0, i}, new int[] {numRows, i+1}, null ).squeeze();
+				IDataset avgComputed = computeCumulativeAverage(data);
+				IDataset avgFromScan = averagedData.getSlice(new int[] {0, i}, new int[] {numRows, i+1}, null ).squeeze();
+				assertDatasetsMatch(avgComputed, avgFromScan, 1e-6);
+			}
+		}
+	}
+
+	/**
+	 * Compute cumulative ('running') average for a 1-d dataset.
+	 * @param vals
+	 * @return
+	 */
+	private IDataset computeCumulativeAverage(IDataset vals) {
+		Dataset newValues = DatasetFactory.zeros(vals.getSize());
+		int count=2;
+		newValues.set(vals.getDouble(0), 0);
+		for(int i=1; i<vals.getSize(); i++) {
+			double newValue = vals.getDouble(i)/count + newValues.getDouble(i-1)*(count-1)/count;
+			newValues.set(newValue, i);
+			count++;
+		}
+		return newValues;
 	}
 
 	/**

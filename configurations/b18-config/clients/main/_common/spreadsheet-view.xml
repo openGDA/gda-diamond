@@ -37,6 +37,13 @@
 					<property name="beanType" value="uk.ac.gda.beans.exafs.b18.B18SampleParameters" />
 				</bean>
 
+				<!-- Name of detector configuration file -->
+				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
+					<property name="description" value="Detector configuration file" />
+					<property name="fullPathToGetter" value="getFluorescenceParameters.getConfigFileName" />
+					<property name="beanType" value="uk.ac.gda.beans.exafs.DetectorParameters" />
+				</bean>
+
 				<!-- Sample wheel -->
 				<bean class="uk.ac.gda.exafs.ui.dialogs.ParameterConfig">
 					<property name="description" value="Sample wheel" />

@@ -69,4 +69,7 @@
 		<property name="name" value="detectorMonitorDataProvider" />
 	</bean>
 
+	<!-- Server side object used for collecting MCA data for the Fluoresence detector view  -->
+	<bean id="fluorescenceDetectorMcaProvider" class="gda.device.detector.FluorescenceDetectorMcaProviderImpl" />
+
 </beans>

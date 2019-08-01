@@ -125,6 +125,22 @@ public abstract class DetectorReadout implements Runnable {
 		}
 	}
 
+	/**
+	 * Wait up to maxWaitTime seconds for frameNumber frames of data to be collected.
+	 * @param frameNumber
+	 * @param maxWaitTime
+	 * @throws InterruptedException
+	 */
+	public void waitForFrame(int frameNumber, double maxWaitTime) throws InterruptedException {
+		logger.info("Waiting up to {} seconds for {} frames to be collected", maxWaitTime, frameNumber);
+		double timeWaited = 0;
+		while (lastFrameRead<frameNumber && timeWaited<maxWaitTime) {
+			logger.debug("Last frame read = {}", lastFrameRead);
+			Thread.sleep(1000);
+			timeWaited += 1.0;
+		}
+	}
+
 	public int getCurrentTimingGroupIndex() {
 		return currentTimingGroupIndex;
 	}

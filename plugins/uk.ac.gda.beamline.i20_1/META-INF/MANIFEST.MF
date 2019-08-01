@@ -108,5 +108,6 @@ Import-Package: org.apache.commons.collections,
  org.osgi.service.prefs,
  org.python.core,
  org.slf4j;version="[1.7.2,2.0.0)",
- org.springframework.beans.factory;version="4.0.6.RELEASE"
+ org.springframework.beans.factory;version="4.0.6.RELEASE",
+ uk.ac.gda.devices.detector.xspress3
 Automatic-Module-Name: uk.ac.gda.beamline.i20_1

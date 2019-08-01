@@ -26,6 +26,7 @@ public enum ExperimentModelHolder {
 	private final TimeResolvedExperimentModel linerExperimentModel;
 	private final CyclicExperimentModel cyclicExperimentModel;
 	private final SingleSpectrumCollectionModel singleSpectrumExperimentModel;
+	private final SingleSpectrumCollectionModel singleSpectrumExperimentMappingModel;
 
 	private ExperimentModelHolder() {
 
@@ -37,6 +38,10 @@ public enum ExperimentModelHolder {
 
 		singleSpectrumExperimentModel = new SingleSpectrumCollectionModel();
 		singleSpectrumExperimentModel.setup();
+
+		singleSpectrumExperimentMappingModel = new SingleSpectrumCollectionModel();
+		singleSpectrumExperimentMappingModel.setDataStoreKeyBase("SINGLE_SPECTRUM_MAPPING");
+		singleSpectrumExperimentMappingModel.setup();
 	}
 
 	public TimeResolvedExperimentModel getLinerExperimentModel() {
@@ -49,5 +54,9 @@ public enum ExperimentModelHolder {
 
 	public SingleSpectrumCollectionModel getSingleSpectrumExperimentModel() {
 		return singleSpectrumExperimentModel;
+	}
+
+	public SingleSpectrumCollectionModel getSingleSpectrumExperimentMappingModel() {
+		return singleSpectrumExperimentMappingModel;
 	}
 }

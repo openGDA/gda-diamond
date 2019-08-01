@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 <!-- Controller for xspress4  -->
-	<bean id="xspress3Controller" class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
+	<bean id="xspress3ControllerForXspress4" class="uk.ac.gda.devices.detector.xspress3.controllerimpl.DummyXspress3Controller">
 		<constructor-arg> <ref bean="DAServer" /> </constructor-arg>
 		<constructor-arg> <ref bean="tfg" /> </constructor-arg>
 		<property name="numberOfChannels" value="64"/>

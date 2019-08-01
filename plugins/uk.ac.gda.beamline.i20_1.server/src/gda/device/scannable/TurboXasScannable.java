@@ -18,15 +18,20 @@
 
 package gda.device.scannable;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gda.device.ContinuousParameters;
 import gda.device.DeviceException;
-import gda.device.zebra.ZebraAreaDetectorPreparer;
+import gda.device.trajectoryscancontroller.TrajectoryScanController;
+import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteState;
+import gda.device.trajectoryscancontroller.TrajectoryScanController.ExecuteStatus;
 import gda.device.zebra.ZebraGatePulsePreparer;
 import gda.device.zebra.controller.Zebra;
 import gda.factory.FactoryException;
+import gda.jython.InterfaceProvider;
 import gda.scan.TrajectoryScanPreparer;
 import gda.scan.TurboXasMotorParameters;
 import gda.scan.TurboXasParameters;
@@ -55,12 +60,12 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 	private boolean armZebraAtScanStart;
 	private boolean disarmZebraAtScanEnd;
 
-	private boolean useAreaDetector = false;
-	private ZebraAreaDetectorPreparer zebraAreaDetectorPreparer;
 	private TrajectoryScanPreparer trajectoryScanPreparer;
-
 	private ZebraGatePulsePreparer zebraGatePulsePreparer;
+
 	private double motorSpeedBeforeScan;
+
+	private long trajectoryScanInitialWaitTimeMs = 1000;
 
 	public TurboXasScannable() {
 	}
@@ -170,12 +175,6 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 			zebraGatePulsePreparer.setFromParameters(motorParameters);
 			zebraGatePulsePreparer.configureZebra();
 		}
-
-		// Configure the area detector settings
-		if (useAreaDetector && zebraAreaDetectorPreparer != null) {
-			int totNumReadoutsForScan = zebraGatePulsePreparer.getNumReadoutsForScan() * zebraGatePulsePreparer.getNumGates();
-			zebraAreaDetectorPreparer.configure(totNumReadoutsForScan);
-		}
 	}
 
 	public void setConfigZebraDuringPrepare( boolean configZebraDuringPrepare) {
@@ -263,20 +262,14 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 			if ( armZebraAtScanStart ) {
 				logger.info("Arming Zebra(s) at start of scan");
 				armZebra();
-
-				// Arm the area detector
-				if (useAreaDetector && zebraAreaDetectorPreparer != null) {
-					zebraAreaDetectorPreparer.arm();
-				}
-
-			} else
+			} else {
 				logger.info("Skipping arm at scan start");
+			}
 
 			while (isBusy()) {
 				logger.info("Waiting for turbo slit to finish moving to runup position");
 				Thread.sleep(20);
 			}
-
 
 			double finalPosition = motorParameters.getEndPosition();
 			if (twoWayScan) {
@@ -405,45 +398,6 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		atScanEnd();
 	}
 
-	public void setUseAreaDetector(boolean useAreaDetector) throws Exception {
-		this.useAreaDetector = useAreaDetector;
-		if (useAreaDetector) {
-			zebraAreaDetectorPreparer = makeZebraAreaDetectorPreparer();
-		} else
-			zebraAreaDetectorPreparer = null;
-	}
-
-	public void setAreaDetectorPreparer(ZebraAreaDetectorPreparer preparer) {
-		zebraAreaDetectorPreparer = preparer;
-		if (preparer != null) {
-			useAreaDetector = true;
-		} else {
-			useAreaDetector = false;
-		}
-	}
-
-	public ZebraAreaDetectorPreparer getAreaDetectorPreparer() {
-		return zebraAreaDetectorPreparer;
-	}
-
-	/** Make default area detector preparer for i20-1 zebra
-	 * This is is for testing purposes only, so set hdf file path to the tmp directory.
-	 * To change how it's set up (e.g. in script), just make
-	 * a new ZebraAreaDector object and pass it in via. {@link #setAreaDetectorPreparer(ZebraAreaDetectorPreparer)}.
-	 */
-	private ZebraAreaDetectorPreparer makeZebraAreaDetectorPreparer() throws Exception {
-		String zebraPv = zebraDevice1.getZebraPrefix();
-		String dataDir = "/dls/i20-1/data/2016/cm14479-4/tmp/";
-		String fileName = "test";
-		ZebraAreaDetectorPreparer preparer = new ZebraAreaDetectorPreparer(zebraPv);
-		preparer.setFileDirectory(dataDir);
-		preparer.setFilename(fileName);
-		preparer.setCamPvSuffix(""); // Normal area detectors use "CAM:"
-		preparer.setHdfPvSuffix("HDF:"); // NB Normal area detectors use "HDF5:"
-		preparer.setFilenameTemplate("%s%s%d.hdf");
-		return preparer;
-	}
-
 	public ZebraGatePulsePreparer getZebraGatePulsePreparer() {
 		return zebraGatePulsePreparer;
 	}
@@ -473,5 +427,75 @@ public class TurboXasScannable extends ScannableMotor implements ContinuouslySca
 		trajectoryScanPreparer.sendProfileValues();
 		trajectoryScanPreparer.setBuildProfile();
 		trajectoryScanPreparer.setExecuteProfile();
+	}
+
+	/**
+	 * Wait for a trajectory scan to execute.
+	 * @return false if trajectory scan failed to execute successfully (i.e. if execute status != 'success' after scan finishes)
+	 * @param controller
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public boolean waitForTrajectoryScan() throws IOException, InterruptedException {
+		logger.debug("Waiting for trajectory scan to execute");
+		TrajectoryScanController controller = trajectoryScanPreparer.getTrajectoryScanController();
+
+		// Give it at least a second (in case trajectory hasn't quite started yet)...
+		Thread.sleep(trajectoryScanInitialWaitTimeMs);
+
+		// Wait while trajectory scan runs...
+		while (controller.getExecuteState() == ExecuteState.EXECUTING) {
+			Thread.sleep(500);
+		}
+
+		// Output some info on trajectory scan final execution state
+		logger.debug("Trajectory scan finished. Execute state = {}, percent complete = {}",
+				controller.getExecuteState(), controller.getScanPercentComplete());
+
+		if (controller.getScanPercentComplete() < 100 && controller.getExecuteStatus() != ExecuteStatus.SUCCESS) {
+			String message = "\nTrajectory scan failed to execute correctly. Check Edm screen for more information";
+			logger.warn(message);
+			InterfaceProvider.getTerminalPrinter().print(message);
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Build a trajectory scan by building profile points from the currently stored timing groups and motor parameters.
+	 * Calls {@link TrajectoryScanPreparer#addPointsForTimingGroups(TurboXasMotorParameters)}.
+	 * @throws Exception
+	 */
+	public void prepareTrajectoryScan() throws Exception {
+		trajectoryScanPreparer.setDefaults();
+		trajectoryScanPreparer.setTwoWayScan(twoWayScan);
+		trajectoryScanPreparer.addPointsForTimingGroups(motorParameters);
+
+		// send profile points to Epics trajectory scan, building and appending as necessary
+		TrajectoryScanController controller = trajectoryScanPreparer.getTrajectoryScanController();
+		if (controller.getExecuteState() != ExecuteState.DONE) {
+			throw new Exception("Problem building trajectory scan profile - scan is already runninng!");
+		}
+		trajectoryScanPreparer.sendAppendProfileValues();
+	}
+
+	/**
+	 * Execute the currently built trajectory scan
+	 * @throws Exception
+	 */
+	public void executeTrajectoryScan() throws Exception {
+		trajectoryScanPreparer.getTrajectoryScanController().setExecuteProfile();
+	}
+
+	public long getTrajectoryScanInitialWaitTimeMs() {
+		return trajectoryScanInitialWaitTimeMs;
+	}
+
+	/**
+	 * Set initial wait time used in {@link #waitForTrajectoryScan()} before looking at PVs to determine trajectory scan state.
+	 * @param trajectoryScanExtraWaitTime wait time (milliseconds)
+ 	 */
+	public void setTrajectoryScanInitialWaitTimeMs(long trajectoryScanInitialWaitTimeMs) {
+		this.trajectoryScanInitialWaitTimeMs = trajectoryScanInitialWaitTimeMs;
 	}
 }

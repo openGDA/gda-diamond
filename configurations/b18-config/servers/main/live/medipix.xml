@@ -5,8 +5,13 @@
 
 	<!-- AD hardware -->
 
+	<!--  Base PV name for detector -->
+	<bean id="basePv" class="java.lang.String">
+	  <constructor-arg value="BL18B-EA-DET-18"/>
+	</bean>
+
 	<bean id="medipix_adbase" class="gda.device.detector.areadetector.v17.impl.ADBaseImpl">
-		<property name="basePVName" value="BL20I-EA-DET-05:CAM:" />
+		<property name="basePVName" value="#{basePv}:CAM:" />
 	</bean>
 
 	<!-- NXDetector collection strategies -->
@@ -20,32 +25,14 @@
 
 	<!-- NXDetector file writers -->
 
-	<bean id="medipix_ndfiletif" class="gda.device.detector.areadetector.v17.impl.NDFileImpl">
-		<property name="basePVName" value="BL20I-EA-DET-05:TIFF:" />
-		<property name="pluginBase">
-			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL20I-EA-DET-05:TIFF:" />
-			</bean>
-		</property>
-		<property name="resetToInitialValues" value="false" />
-	</bean>
-
-	<bean id="medipix_nxfilewriter_for_scans_single_image_tiff"
-		class="gda.device.detector.nxdetector.plugin.areadetector.filewriter.SingleImagePerFileWriter">
-		<constructor-arg value="medipix" />
-		<property name="ndFile" ref="medipix_ndfiletif" />
-		<property name="keyNameForMetadataPathTemplate" value="medipix" />
-	</bean>
-
 	<bean id="medipix_ndfilehdf5_base" class="gda.spring.V17NDFileFactoryBean">
-		<property name="prefix" value="BL20I-EA-DET-05:HDF5:" />
+		<property name="prefix" value="#{basePv}:HDF5:" />
 		<property name="resetToInitialValues" value="false" />
 	</bean>
 
 	<bean id="medipix_ndfilehdf5" class="gda.spring.V17NDFileHDF5FactoryBean">
 		<property name="ndFileImpl" ref="medipix_ndfilehdf5_base" />
 	</bean>
-
 
 	<bean id="medipix_hdf5"
 		class="gda.device.detector.addetector.filewriter.MultipleImagesPerHDF5FileWriter">
@@ -64,7 +51,7 @@
 
 	<bean id="merlin" class="gda.device.detector.MerlinDetector">
 		<property name="name" value="merlin" />
-		<property name="totalCountsPV" value="BL20I-EA-DET-05:STAT1:Total_RBV" />
+		<property name="totalCountsPV" value="#{basePv}:STAT1:Total_RBV" />
 		<property name="merlinController" ref="medipix" />
 	</bean>
 
@@ -81,9 +68,10 @@
 	<bean id="medipix_roistat_pair1"
 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiStatsPairFactory">
 		<property name="pluginName" value="roistats1" />
-		<property name="baseRoiPVName" value="BL20I-EA-DET-05:ROI1:" />
-		<property name="baseStatsPVName" value="BL20I-EA-DET-05:STAT1:" />
-		<property name="legacyTSpvs" value="false"/> <!--  use new time series PVs after RHEL7 upgrade -->
+		<property name="baseRoiPVName" value="#{basePv}:ROI1:" />
+		<property name="baseStatsPVName" value="#{basePv}:STAT1:" />
+		 <!--  use old time series PVs -->
+<!-- 		<property name="legacyTSpvs" value="true"/> -->
 		<property name="roiInputNdArrayPort" value="MPX1.DET" />
 		<property name="enabledBasicStats" value="Total" />
 		<property name="oneTimeSeriesCollectionPerLine" value="false" />
@@ -93,7 +81,7 @@
 	<!--  New plugin added to calculation roi counts over I0 from ionchambers. imh 4/2/2015 -->
 	<bean id="medipix_FFI0" 
 		class="gda.device.detector.nxdetector.plugin.areadetector.ADRoiCountsI0">
-		<property name="counterTimer" ref="I1" />
+		<property name="counterTimer" ref="counterTimer01" />
 		<property name="nxDetector" ref="medipix" />
 	</bean>
 
@@ -104,9 +92,6 @@
 			<list>
  				<ref bean="medipix_roistat_pair1" /> 
  				<ref bean="medipix_FFI0" />
-				<!-- <ref bean="medipix_roistat_pair2" /> <ref bean="medipix_roistat_pair3" 
-					/> <ref bean="medipix_roistat_pair4" /> <ref bean="medipix_roistat_pair5" 
-					/> <ref bean="medipix_roistat_pair6" /> -->
 				<ref bean="medipix_hdf5" />
 			</list>
 		</property>
@@ -114,10 +99,10 @@
 
 <!-- Area detector for using with detector rates view  -->
 	<bean id="medipix_ndarray" class="gda.device.detector.areadetector.v17.impl.NDArrayImpl">
-		<property name="basePVName" value="BL20I-EA-DET-05:ARR:" />
+		<property name="basePVName" value="#{basePv}:ARR:" />
 		<property name="pluginBase">
 			<bean class="gda.device.detector.areadetector.v17.impl.NDPluginBaseImpl">
-				<property name="basePVName" value="BL20I-EA-DET-05:ARR:" />
+				<property name="basePVName" value="#{basePv}:ARR:" />
 				<property name="initialArrayPort" value="MPX1.roi" />
 			</bean>
 		</property>

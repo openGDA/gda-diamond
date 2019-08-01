@@ -299,10 +299,17 @@ public class TurboXasParametersTest {
 		assertThat(xmlStringFromParams , is( equalTo(expectedXmlString) ) );
 	}
 
-
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetPositionThrowsExceptionForTooLowEnergy() {
 		motorParameters.getPositionForEnergy(calibrationPolyMinEnergy*0.5);
+	}
+
+	@Test
+	public void testRunningAverageNamesSerialize() {
+		parameters.setNamesOfDatasetsToAverage(Arrays.asList("name1", "name2", "name3"));
+		String xmlStringFromParams = parameters.toXML();
+		String expectedXmlString = getCorrectXmlString(parameters);
+		assertThat(xmlStringFromParams , is( equalTo(expectedXmlString) ) );
 	}
 
 	/**
@@ -361,6 +368,13 @@ public class TurboXasParametersTest {
 			parameters.getExtraScannables().forEach((name) -> serializedXmlString.append("    <string>"+name+"</string>\n") );
 			serializedXmlString.append("  </extraScannables>\n");
 		}
+
+		if (parameters.getNamesOfDatasetsToAverage() != null) {
+			serializedXmlString.append("  <namesOfDatasetsToAverage>\n");
+			parameters.getNamesOfDatasetsToAverage().forEach((name) -> serializedXmlString.append("    <string>"+name+"</string>\n") );
+			serializedXmlString.append("  </namesOfDatasetsToAverage>\n");
+		}
+
 		serializedXmlString.append("  <writeAsciiData>"+parameters.getWriteAsciiData()+"</writeAsciiData>\n");
 		serializedXmlString.append("  <fastShutterName>"+parameters.getFastShutterName()+"</fastShutterName>\n");
 		serializedXmlString.append("</TurboXasParameters>");

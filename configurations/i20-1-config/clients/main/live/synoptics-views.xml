@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:gda="http://www.diamond.ac.uk/schema/gda/gda"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.diamond.ac.uk/schema/gda/gda http://www.diamond.ac.uk/schema/gda/gda/gda-gda-1.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+<!-- Synoptics view for monitor trajectory scan state and zebra captured pulses during TurboXas scans  -->
+
+	<bean id="trajBuildStatus" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="trajBuildState" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="trajBuildMessage" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="trajExecuteStatus" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="trajExecuteState" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="trajExecuteMessage" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="trajScanPercent" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="trajScanCoordSystemMessage" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+	<bean id="zebra1NumCap" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+	<bean id="zebra2NumCap" class="uk.ac.gda.remoting.client.GdaRmiProxy" />
+
+<!-- 	View to monitor trajectory scan build/execute status, percent complete, and number of captured pulses on zebra  -->
+	<bean id="turboXasScanMonitorView" class="gda.rcp.views.CompositeFactoryExecutableExtension">
+		<property name="viewTitle" value="Monitor turboXas scan" />
+		<property name="compositeFactories">
+			<list>
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Trajectory scan" />
+					<property name="columns" value="3" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="trajBuildStatus" />
+								<property name="label" value="Build status  " />
+								<property name="preferredLabelWidth" value="100" />
+								<property name="preferredWidth" value="80" />
+								<property name="forceLayoutOnLengthChange" value="false" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="trajBuildState" />
+								<property name="label" value="Build state" />
+								<property name="preferredLabelWidth" value="100" />
+								<property name="preferredWidth" value="80" />
+								<property name="forceLayoutOnLengthChange" value="false" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="trajBuildMessage" />
+								<property name="label" value="Build message" />
+								<property name="preferredLabelWidth" value="100" />
+								<property name="preferredWidth" value="200" />
+								<property name="forceLayoutOnLengthChange" value="true" />
+							</bean>	
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="trajExecuteStatus" />
+								<property name="label" value="Execute status" />
+								<property name="preferredLabelWidth" value="100" />
+								<property name="preferredWidth" value="80" />
+								<property name="forceLayoutOnLengthChange" value="false" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="trajExecuteState" />
+								<property name="label" value="Execute state" />
+								<property name="preferredLabelWidth" value="100" />
+								<property name="preferredWidth" value="80" />
+								<property name="forceLayoutOnLengthChange" value="false" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="trajExecuteMessage" />
+								<property name="label" value="Build message" />
+								<property name="preferredLabelWidth" value="100" />
+								<property name="preferredWidth" value="200" />
+								<property name="forceLayoutOnLengthChange" value="true" />
+							</bean>	
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="trajScanPercent" />
+								<property name="label" value="Scan percent complete status" />
+								<property name="units" value="%" />
+								<property name="decimalPlaces" value="2" />
+								<property name="preferredWidth" value="50" />
+								<property name="forceLayoutOnLengthChange" value="false" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="trajScanCoordSystemMessage" />
+								<property name="label" value="Coordinate sysyem state" />
+								<property name="preferredWidth" value="50" />
+								<property name="forceLayoutOnLengthChange" value="false" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+
+				<bean class="gda.rcp.views.GroupCompositeFactory">
+					<property name="label" value="Zebra captured pulse count" />
+					<property name="columns" value="1" />
+					<property name="compositeFactories">
+						<list>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="zebra1NumCap" />
+								<property name="label" value="Zebra1 pulses" />
+								<property name="units" value="" />
+								<property name="decimalPlaces" value="0" />
+								<property name="preferredWidth" value="50" />
+								<property name="forceLayoutOnLengthChange" value="false" />
+							</bean>
+							<bean class="uk.ac.gda.dls.client.views.ReadonlyScannableCompositeFactory">
+								<property name="scannable" ref="zebra2NumCap" />
+								<property name="label" value="Zebra2 pulses" />
+								<property name="units" value="" />
+								<property name="decimalPlaces" value="0" />
+								<property name="preferredWidth" value="50" />
+								<property name="forceLayoutOnLengthChange" value="false" />
+							</bean>
+						</list>
+					</property>
+				</bean>
+
+			</list>
+		</property>
+	</bean>
+
+</beans>
+				

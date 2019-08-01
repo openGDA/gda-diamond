@@ -217,7 +217,11 @@ public class EdeTestBase {
 			if (diff>0 && Math.abs(expected.getDouble(i))>0) {
 				diff /= expected.getDouble(i);
 			}
-			assertTrue(Math.abs(diff)<toleranceFrac);
+			if (Double.isFinite(diff))  {
+				assertTrue(Math.abs(diff)<toleranceFrac);
+			} else {
+				assertTrue(Double.isNaN(expected.getDouble(i)) == Double.isNaN(actual.getDouble(i)));
+			}
 		}
 		logger.info("Datasets {} and {} match ok", expected.getName(), actual.getName());
 	}

@@ -20,7 +20,6 @@ package uk.ac.gda.exafs.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.dawnsci.ede.CalibrationDetails;
 import org.eclipse.core.databinding.Binding;
@@ -79,9 +78,6 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	@Expose
 	private boolean selectAlignmentStage;
 
-	public static final String FILE_NAME_PROP_NAME = "fileName";
-	private String fileName;
-
 	public static final String SCANNING_PROP_NAME = "scanning";
 	private boolean scanning;
 
@@ -100,9 +96,9 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 
 	protected Binding binding;
 
-	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "SINGLE_SPECTRUM_DATA";
-	private static final String SINGLE_SPECTRUM_PARAMETER_BEAN_STORE_KEY = "SINGLE_SPECTRUM_PARAMETER_BEAN_DATA";
-
+	private String dataStoreKeyBase = "SINGLE_SPECTRUM";
+	private static final String SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY = "_DATA";
+	private static final String SINGLE_SPECTRUM_PARAMETER_BEAN_STORE_KEY = "_PARAMETER_BEAN_DATA";
 
 	public void setup() {
 		job = new ScanJob("Performing Single spectrum scan");
@@ -182,6 +178,10 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		params.setSampleDetails(experimentDataModel.getSampleDetails());
 		params.setScannablesToMonitorDuringScan(experimentDataModel.getScannablesToMonitor());
 
+		params.setCollectMultipleItSpectra(experimentDataModel.isCollectMultipleItSpectra());
+		params.setScannableToMoveForItScan(experimentDataModel.getScannableToMoveForItScan());
+		params.setPositionsForItScan(experimentDataModel.getPositionsForItScan());
+
 		// Set the calibration details, if available
 		params.setCalibrationDetails(calibrationDetails);
 
@@ -214,8 +214,15 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		experimentDataModel.setFileNameSuffix(params.getFileNameSuffix());
 		experimentDataModel.setSampleDetails(params.getSampleDetails());
 		experimentDataModel.setScannablesToMonitor(params.getScannablesToMonitorDuringScan());
+		setMultipleItModelParmeters(params);
 
 		calibrationDetails = params.createEnergyCalibration();
+	}
+
+	private void setMultipleItModelParmeters(TimeResolvedExperimentParameters params) {
+		experimentDataModel.setCollectMultipleItSpectra(params.isCollectMultipleItSpectra());
+		experimentDataModel.setScannableToMoveForItScan(params.getScannableToMoveForItScan());
+		experimentDataModel.setPositionsForItScan(params.getPositionsForItScan());
 	}
 
 	/**
@@ -229,7 +236,7 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	}
 
 	private void loadSingleSpectrumData() {
-		SingleSpectrumCollectionModel singleSpectrumData = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, SingleSpectrumCollectionModel.class);
+		SingleSpectrumCollectionModel singleSpectrumData = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getModelDataKey(), SingleSpectrumCollectionModel.class);
 		if (singleSpectrumData == null) {
 			experimentDataModel = new ExperimentDataModel();
 			return;
@@ -241,11 +248,12 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		this.setUseTopupCheckerForIt( singleSpectrumData.getUseTopupCheckerForIt() );
 
 		// Try to set up motors and energy calibration from stored xml bean
-		String xmlBean = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(SINGLE_SPECTRUM_PARAMETER_BEAN_STORE_KEY, String.class);
+		String xmlBean = EdeDataStore.INSTANCE.getPreferenceDataStore().loadConfiguration(getBeanDataKey(), String.class);
 		if (xmlBean != null) {
 			try {
 				TimeResolvedExperimentParameters params = TimeResolvedExperimentParameters.fromXML(xmlBean);
 				setupSampleStageMotors(params);
+				setMultipleItModelParmeters(params);
 				calibrationDetails = params.createEnergyCalibration();
 			}catch(Exception e) {
 				logger.warn("Problem setting up energy calibration details and sample stage motors", e);
@@ -259,86 +267,38 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 	private void saveParameterBean() {
 		try {
 			TimeResolvedExperimentParameters params = getParametersBeanFromCurrentSettings();
-			EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(SINGLE_SPECTRUM_PARAMETER_BEAN_STORE_KEY, params.toXML());
+			EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getBeanDataKey(), params.toXML());
 		} catch (DeviceException e) {
 			logger.error("Problem saving TimeResolvedExperimentParameters from GUI settings", e);
 		}
 	}
 
 	public void saveSettings() {
-		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY, this);
+		EdeDataStore.INSTANCE.getPreferenceDataStore().saveConfiguration(getModelDataKey(), this);
 		saveParameterBean();
 	}
 
 	private String buildScanCommand() {
-		StringBuilder builder = new StringBuilder("from gda.scan.ede import SingleSpectrumScan; \n");
-		int noOfAccumulations;
-		if (experimentDataModel.isUseNoOfAccumulationsForI0()) {
-			noOfAccumulations = experimentDataModel.getI0NumberOfAccumulations();
-		} else {
-			noOfAccumulations = itNumberOfAccumulations;
-		}
-		// use %g format rather than %f for I0 and It integration times to avoid rounding to 0 for small values <1msec (i.e. requiring >6 decimal places).
-		builder.append(
-				String.format(SINGLE_JYTHON_DRIVER_OBJ + " = SingleSpectrumScan(%g, %d, %g, %d, mapToJava(%s), mapToJava(%s), \"%s\", \"%s\", \"%s\"); \n",
-						ExperimentUnit.MILLI_SEC.convertTo(experimentDataModel.getI0IntegrationTime(), ExperimentUnit.SEC),
-						noOfAccumulations,
-						ExperimentUnit.MILLI_SEC.convertTo(itIntegrationTime, ExperimentUnit.SEC),
-						itNumberOfAccumulations,
-						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.I0),
-						SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.It),
-						DetectorModel.INSTANCE.getCurrentDetector().getName(),
-						DetectorModel.TOPUP_CHECKER,
-						DetectorModel.SHUTTER_NAME));
-
-		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setUseFastShutter(%s);", experimentDataModel.getUseFastShutter() ? "True" : "False" ) );
-		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFastShutterName(\"%s\");", DetectorModel.FAST_SHUTTER_NAME ) );
-		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setUseTopupChecker(%s);", getUseTopupCheckerForIt() ? "True" : "False" ) );
-
-		if (SampleStageMotors.INSTANCE.isUseIref()) {
-			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setIRefParameters(mapToJava(%s), %f, %d);",
-					SampleStageMotors.INSTANCE.getFormattedSelectedPositions(ExperimentMotorPostionType.IRef),
-					ExperimentUnit.MILLI_SEC.convertTo(experimentDataModel.getIrefIntegrationTime(), ExperimentUnit.SEC), experimentDataModel.getIrefNoOfAccumulations()));
-		}
-		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setFileNameSuffix(\"%s\");", experimentDataModel.getFileNameSuffix()));
-		builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setSampleDetails(\"%s\");", experimentDataModel.getSampleDetails()));
-
-		addScannablesMethodCallToCommand(SINGLE_JYTHON_DRIVER_OBJ, builder);
-
-		addAccumulationReadoutTimeToMethodCall(SINGLE_JYTHON_DRIVER_OBJ, builder);
-
+		StringBuilder command = new StringBuilder("from gda.scan.ede import SingleSpectrumScan; \n");
 		try {
-			TimeResolvedExperimentParameters parameters = getParametersBeanFromCurrentSettings();
-			String paramString = parameters.toXML().replace("\n", " "); // Serialized xml string of bean
-			builder.append(String.format(SINGLE_JYTHON_DRIVER_OBJ + ".setParameterBean('%s'); \n", paramString));
+			TimeResolvedExperimentParameters parameterBean = getParametersBeanFromCurrentSettings();
+			String paramBeanString = parameterBean.toXML().replace("\n", " ");
+			command.append("from gda.scan.ede import TimeResolvedExperimentParameters; \n");
+			command.append("from gda.scan.ede.position import EdeScanMotorPositions; \n");
+			command.append("experimentParams = TimeResolvedExperimentParameters.fromXML('"+paramBeanString+"'); \n");
+			command.append(SINGLE_JYTHON_DRIVER_OBJ + " = experimentParams.createSingleSpectrumScan(); \n");
+			addAccumulationReadoutTimeToMethodCall(SINGLE_JYTHON_DRIVER_OBJ, command);
 		} catch (DeviceException e) {
-			logger.warn("Problem adding TimeResolvedExperimentParameters to experiment object", e);
+			logger.error("Problem creating SingleSpectrum command", e);
 		}
-
-		return builder.toString();
+		return command.toString();
 	}
 
 	private void addAccumulationReadoutTimeToMethodCall(String objectName, StringBuilder builder) {
 		if ( DetectorModel.INSTANCE.getCurrentDetector().getDetectorData() instanceof FrelonCcdDetectorData ) {
 			// Detector accumulation readout time (converted from default units[ns] to seconds)
 			double accumulationReadoutTimeSecs = ExperimentUnit.DEFAULT_EXPERIMENT_UNIT.convertTo(DetectorModel.INSTANCE.getAccumulationReadoutTime(), ExperimentUnit.SEC);
-			builder.append(String.format("%s.setAccumulationReadoutTime(%g);", objectName, accumulationReadoutTimeSecs) );
-		}
-	}
-
-	protected void addScannablesMethodCallToCommand(String expObject, StringBuilder builder) {
-		Map<String,String> scannablesToMonitor = experimentDataModel.getScannablesToMonitor();
-		if (scannablesToMonitor != null) {
-			for(String name : scannablesToMonitor.keySet()) {
-				String pv = scannablesToMonitor.get(name);
-				if (pv.length()==0) {
-					// add name of scannable
-					builder.append(expObject + ".addScannableToMonitorDuringScan(\'"+name+"\');\n");
-				} else {
-					// add name of scannable and pv
-					builder.append(expObject + ".addScannableToMonitorDuringScan(\'"+pv+"\', \'"+name+"\');\n");
-				}
-			}
+			builder.append(String.format("%s.setAccumulationReadoutTime(%g);\n", objectName, accumulationReadoutTimeSecs) );
 		}
 	}
 
@@ -384,45 +344,20 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		@Override
 		protected IStatus run(IProgressMonitor monitor) {
 			this.monitor = monitor;
-			Display.getDefault().syncExec(new Runnable() {
-				@Override
-				public void run() {
-					SingleSpectrumCollectionModel.this.setScanning(true);
-				}
-			});
+			Display.getDefault().syncExec(() -> SingleSpectrumCollectionModel.this.setScanning(true));
+
 			monitor.beginTask("Starting " + ScanJobName.values().length + " tasks.", ScanJobName.values().length);
 			try {
 				String command = buildScanCommand();
 				logger.info("Sending command: " + command);
-
 				InterfaceProvider.getCommandRunner().runCommand(command);
-				// give the previous command a chance to run before calling doCollection()
-				Thread.sleep(150);
-				final String resultFileName = InterfaceProvider.getCommandRunner().evaluateCommand(SINGLE_JYTHON_DRIVER_OBJ + ".runExperiment()");
-				if (resultFileName == null) {
-					//this does not stop data collection to Nexus file, just affect ASCii.
-					throw new Exception("Unable to do collection. Result filename from server is NULL.");
-				}
-				Display.getDefault().syncExec(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							SingleSpectrumCollectionModel.this.setFileName(resultFileName);
-						} catch (Exception e) {
-							UIHelper.showWarning("Error while loading data from saved file", e.getMessage());
-						}
-					}
-				});
+				Thread.sleep(1500);
+				InterfaceProvider.getCommandRunner().runCommand(SINGLE_JYTHON_DRIVER_OBJ + ".runExperiment()");
 			} catch (Exception e) {
-				UIHelper.showWarning("Error while scanning or canceled", e.getMessage());
+				UIHelper.showWarning("Error while collecting data or scan cancelled", e.getMessage());
 			} finally {
 				monitor.done();
-				Display.getDefault().syncExec(new Runnable() {
-					@Override
-					public void run() {
-						SingleSpectrumCollectionModel.this.setScanning(false);
-					}
-				});
+				Display.getDefault().syncExec(() -> SingleSpectrumCollectionModel.this.setScanning(false));
 			}
 			return Status.OK_STATUS;
 		}
@@ -464,19 +399,11 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		this.firePropertyChange(ALIGNMENT_STAGE_SELECTION, this.selectAlignmentStage, this.selectAlignmentStage = selectAlignmentStage);
 	}
 
-	public void setFileName(String value) {
-		firePropertyChange(FILE_NAME_PROP_NAME, fileName, fileName = value);
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
 	public boolean isScanning() {
 		return scanning;
 	}
 
-	protected void setScanning(boolean value) {
+	public void setScanning(boolean value) {
 		this.firePropertyChange(SCANNING_PROP_NAME, scanning, scanning = value);
 	}
 
@@ -532,5 +459,17 @@ public class SingleSpectrumCollectionModel extends ObservableModel {
 		if (this.isScanning()) {
 			JythonServerFacade.getInstance().requestFinishEarly();
 		}
+	}
+
+	public void setDataStoreKeyBase(String dataStoreKeyBase) {
+		this.dataStoreKeyBase = dataStoreKeyBase;
+	}
+
+	private String getModelDataKey() {
+		return dataStoreKeyBase+SINGLE_SPECTRUM_MODEL_DATA_STORE_KEY;
+	}
+
+	private String getBeanDataKey() {
+		return dataStoreKeyBase+SINGLE_SPECTRUM_PARAMETER_BEAN_STORE_KEY;
 	}
 }

@@ -20,6 +20,7 @@ package uk.ac.gda.ui.views.synoptic;
 
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -183,16 +184,15 @@ public class MotorControlsGui implements IObserver {
 
 		addMoveButtons(group);
 
+		int ysize = 30;
 		demandPositionTextbox = new Text(group, SWT.SINGLE | SWT.BORDER);
 		demandPositionTextbox.setText(getFormattedScannablePos(scannableMotor));
 		demandPositionTextbox.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
+		demandPositionTextbox.setSize(demandPositionTextbox.computeSize(SWT.DEFAULT, ysize));
 
-		Point size = demandPositionTextbox.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-		GridData gridDat = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
-		gridDat.widthHint = 30;
-		gridDat.heightHint = size.y;
-		increaseButton.setLayoutData(gridDat);
-		decreaseButton.setLayoutData(gridDat);
+		GridDataFactory gridDataForButton = GridDataFactory.fillDefaults().align(SWT.FILL, SWT.TOP).grab(true, false).hint(25, ysize);
+		gridDataForButton.applyTo(increaseButton);
+		gridDataForButton.applyTo(decreaseButton);
 
 		// Show stop button, current position (if not hidden)
 		if ((layoutOptions & HIDE_STOP_CONTROLS)==0) {
@@ -206,7 +206,7 @@ public class MotorControlsGui implements IObserver {
 			Image stopButtonImage = GDAClientActivator.getImageDescriptor("icons/stop.png").createImage();
 			stopButton.setImage(stopButtonImage);
 			stopButton.setEnabled(false);
-			stopButton.setLayoutData(gridDat);
+			gridDataForButton.applyTo(stopButton);
 
 			actualPositionTextbox = new Text(group, SWT.SINGLE);
 			actualPositionTextbox.setText("0");

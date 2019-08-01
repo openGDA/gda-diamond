@@ -328,9 +328,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			terminalPrinter.print("Closing shutter");
 			moveShutter(ValvePosition.CLOSE);
 
-			checkThreadInterrupted();
-			waitIfPaused();
-			if (isFinishEarlyRequested()){
+			if (checkEarlyFinish()) {
 				return;
 			}
 		} else {
@@ -356,7 +354,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		moveMotorDuringScan = false;
 		if (motorPositions instanceof EdeScanMotorPositions) {
 			EdeScanMotorPositions scanMotorPositions = (EdeScanMotorPositions)motorPositions;
-			List<Double> motorPositionsToScan = scanMotorPositions.getMotorPositionsDuringScan();
+			List<Object> motorPositionsToScan = scanMotorPositions.getMotorPositionsDuringScan();
 			motorToMoveDuringScan = scanMotorPositions.getScannableToMoveDuringScan();
 
 			// Record position of the motor in Nexus file
@@ -368,9 +366,19 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			if (lightItScan && motorToMoveDuringScan !=null && motorPositionsToScan != null && motorPositionsToScan.size()>0) {
 				int count = 1;
 				moveMotorDuringScan = true;
-				for(Double pos : motorPositionsToScan) {
+				for(Object pos : motorPositionsToScan) {
 					logger.info("Moving motor {} to position {} (step {} of {})...", motorToMoveDuringScan.getName(), pos, count++, motorPositionsToScan.size());
-					motorToMoveDuringScan.moveTo(pos);
+					motorToMoveDuringScan.waitWhileBusy();
+					motorToMoveDuringScan.asynchronousMoveTo(pos);
+					if (checkEarlyFinish()) {
+						break;
+					}
+					while(motorToMoveDuringScan.isBusy()) {
+						if (checkEarlyFinish()) {
+							break;
+						}
+						Thread.sleep(100);
+					}
 					collectDetectorData();
 				}
 			} else {
@@ -381,6 +389,17 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 			collectDetectorData();
 		}
 		fastShutterMoveTo(ValvePosition.CLOSE);
+	}
+
+	/**
+	 * Check for interrupted exception, wait if paused; return true if finish 'early request' has been made.
+	 * @return isFinishEarlyRequested
+	 * @throws InterruptedException
+	 */
+	private boolean checkEarlyFinish() throws InterruptedException {
+		checkThreadInterrupted();
+		waitIfPaused();
+		return isFinishEarlyRequested();
 	}
 
 	protected void collectDetectorData() throws Exception {
@@ -520,11 +539,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		logger.debug(toString() + " moving motors into position...");
 		terminalPrinter.print("Moving motors for " + scanType.toString() + " " + motorPositions.getType().getLabel() + " scan");
 		motorPositions.moveIntoPosition();
-		checkThreadInterrupted();
-		waitIfPaused();
-		if (isFinishEarlyRequested()){
-			return;
-		}
+		checkEarlyFinish();
 	}
 
 	/*
@@ -621,9 +636,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 		long startTime = System.currentTimeMillis();
 		DataWriter dataWriter = getDataWriter();
 		for (int thisFrame = lowFrame; thisFrame <= highFrame; thisFrame++) {
-			checkThreadInterrupted();
-			waitIfPaused();
-			if (isFinishEarlyRequested()){
+			if (checkEarlyFinish()) {
 				return;
 			}
 			currentPointCount++;
@@ -638,9 +651,7 @@ public class EdeScan extends ConcurrentScanChild implements EnergyDispersiveExaf
 				realFrameNumber = thisFrame;
 			}
 
-			checkThreadInterrupted();
-			waitIfPaused();
-			if (isFinishEarlyRequested()){
+			if (checkEarlyFinish()){
 				return;
 			}
 

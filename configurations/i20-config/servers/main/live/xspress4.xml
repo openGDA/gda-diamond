@@ -4,7 +4,7 @@
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 <!-- Controllers for XSpress4  -->
-	<bean id="xspress3Controller"
+	<bean id="xspress3ControllerForXspress4"
 		class="uk.ac.gda.devices.detector.xspress3.controllerimpl.EpicsXspress3Controller">
 		<property name="epicsTemplate" value="BL20I-EA-XSP4-01" />
 		<property name="numberOfChannels" value="64"/>

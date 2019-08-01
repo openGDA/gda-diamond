@@ -18,14 +18,22 @@
 
 package uk.ac.gda.exafs.experiment.ui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.util.Pair;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -44,6 +52,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.Form;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -63,8 +72,10 @@ import gda.scan.Scan.ScanStatus;
 import gda.scan.ScanEvent;
 import gda.scan.TurboSlitTimingGroup;
 import gda.scan.TurboXasMotorParameters;
+import gda.scan.TurboXasNexusTree;
 import gda.scan.TurboXasParameters;
 import uk.ac.gda.client.UIHelper;
+import uk.ac.gda.devices.detector.xspress3.Xspress3;
 import uk.ac.gda.exafs.calibration.ui.EnergyCalibrationComposite;
 import uk.ac.gda.exafs.data.EdeDataStore;
 import uk.ac.gda.exafs.experiment.ui.TurboXasTimingGroupTableView.TimingGroupParamType;
@@ -129,6 +140,8 @@ public class TurboXasExperimentView extends ViewPart {
 	private Shell shell;
 
 	private static String PREFERENCE_STORE_KEY = "turboxas_settings_key";
+
+	private List<Pair<String, String>> namesOfDatasetsToAverage = new ArrayList<>();
 
 	@Override
 	public void createPartControl(final Composite parent) {
@@ -200,6 +213,7 @@ public class TurboXasExperimentView extends ViewPart {
 		createExtraScannablesSection(form.getBody());
 		createTimingGroupSection(form.getBody());
 		createHardwareOptionsSection(form.getBody());
+		createRunningAverageSection(form.getBody());
 		createLoadSaveSection(form.getBody());
 		loadSettingsFromPreferenceStore();
 		addDefaultExtraScannablesToParameters();
@@ -227,11 +241,29 @@ public class TurboXasExperimentView extends ViewPart {
 		addDetectorSelectionControls(mainComposite);
 	}
 
+	/**
+	 *
+	 * @return Names of the currently selected detectors
+	 */
 	private String[] getSelectedDetectors() {
 		String[] selectedDetectors = new String[]{};
 		for(Button detectorCheckbox : detectorCheckboxes) {
 			if (detectorCheckbox.getSelection()) {
 				selectedDetectors = (String[]) ArrayUtils.add(selectedDetectors, detectorCheckbox.getData());
+			}
+		}
+		return selectedDetectors;
+	}
+
+	/**
+	 *
+	 * @return User friendly names of the the currently selected detectors
+	 */
+	private String[] getSelectedDetectorNames() {
+		String[] selectedDetectors = new String[]{};
+		for(Button detectorCheckbox : detectorCheckboxes) {
+			if (detectorCheckbox.getSelection()) {
+				selectedDetectors = (String[]) ArrayUtils.add(selectedDetectors, detectorCheckbox.getText());
 			}
 		}
 		return selectedDetectors;
@@ -482,6 +514,83 @@ public class TurboXasExperimentView extends ViewPart {
 		calibrationComposite.createSection("Energy calibration polynomial");
 	}
 
+	private void createRunningAverageSection(Composite parent) {
+		Composite mainComposite = makeSectionAndComposite(parent, "Calculate running averages", 2);
+		makeLabel(mainComposite, "Select datasets to compute running averages of during scan    ");
+		Button setupButton = toolkit.createButton(mainComposite, "Setup...", SWT.PUSH);
+		setupButton.addListener(SWT.Selection, event -> showRunningAverageDialog() );
+	}
+
+	/**
+	 *
+	 * @return List of Pairs of 'extra names' for each currently selected detector.
+	 * key=detector name, value=data name
+	 */
+	private List<Pair<String,String>> getDetectorDatasetNames() {
+		String[] selectedDetectors = getSelectedDetectorNames();
+		List<Pair<String,String>> allDatasetNames = new ArrayList<>();
+		for(String detName : selectedDetectors) {
+			Scannable detector = Finder.getInstance().find(detectorNamesMap.get(detName));
+			if (detector != null) {
+				String[] extraNames = detector.getExtraNames();
+				for(String datasetName : extraNames) {
+					allDatasetNames.add(Pair.create(detName, datasetName));
+				}
+
+				// Xspress3 detector has extra FF_sum/I0 calculated by TurboXasNexusTree. This is not
+				// part of the detector 'extra names' so add it here to make is available to select as well.
+				if (detector instanceof Xspress3) {
+					allDatasetNames.add(Pair.create(detName,TurboXasNexusTree.FF_SUM_IO_NAME));
+				}
+			}
+		}
+		return allDatasetNames;
+	}
+
+	private void showRunningAverageDialog() {
+		List<Pair<String,String>> allDatasets = getDetectorDatasetNames();
+
+		// Return if no detectors have been selected
+		if (allDatasets.isEmpty()) {
+			MessageDialog.openInformation(Display.getDefault().getActiveShell(), "No detectors have been selected",
+					"No detectors have been selected for use in the scan - no detector datasets available to select from!");
+			return;
+		}
+
+		ListSelectionDialog dialog =
+				new ListSelectionDialog(Display.getDefault().getActiveShell(), allDatasets,
+						new ArrayContentProvider(),
+						new LabelProvider() {
+							@Override
+							public String getText(Object element) {
+								if (element == null) {
+									return "";
+								}
+								Pair<String,String> el = (Pair<String,String>)element;
+								return el.getFirst()+" : "+el.getSecond();
+							}
+						},
+						"Select datasets to compute running average");
+
+		// Set the initial checkbox selection
+		if (namesOfDatasetsToAverage != null && !namesOfDatasetsToAverage.isEmpty()) {
+			dialog.setInitialSelections(namesOfDatasetsToAverage.toArray());
+		}
+
+		// Update the dataset name list from user selection
+		if (dialog.open() == Window.OK) {
+			Object[] selection = dialog.getResult();
+			if (selection != null) {
+				namesOfDatasetsToAverage = new ArrayList<>();
+				for(Object sel : selection) {
+					logger.info("Selected dataset : {}", sel);
+					Pair<String, String> item = (Pair<String, String>) sel;
+					namesOfDatasetsToAverage.add(Pair.create(item.getKey(), item.getValue()));
+				}
+			}
+		}
+	}
+
 	/**
 	 * TurboXas experiment specific implementation of SaveLoadButtons class
 	 */
@@ -704,6 +813,8 @@ public class TurboXasExperimentView extends ViewPart {
 		}
 
 		createAsciiFileButton.setSelection(turboXasParameters.getWriteAsciiData());
+
+		namesOfDatasetsToAverage = getPairListOfDatasetsToAverage(turboXasParameters.getNamesOfDatasetsToAverage());
 	}
 
 	private double getDoubleFromTextbox(Text textbox) {
@@ -740,8 +851,49 @@ public class TurboXasExperimentView extends ViewPart {
 		turboXasParameters.setMotorToMove(motorCombo.getText());
 
 		turboXasParameters.setWriteAsciiData(createAsciiFileButton.getSelection());
+		turboXasParameters.setNamesOfDatasetsToAverage(getStringListOfDatasetsToAverage(namesOfDatasetsToAverage));
 	}
 
+	private String getNiceNameForDetector(String detectorName) {
+		return detectorNamesMap.entrySet()
+				.stream()
+				.filter(entry -> entry.getValue().equals(detectorName))
+				.map(Entry::getKey)
+				.findFirst()
+				.orElse(detectorName);
+	}
+
+	/**
+	 * Convert from list of {@code <detector name>/<dataset>} to map with key=nice dataset name, value=list of names of datasets
+	 * @param values
+	 * @return
+	 */
+	private List<Pair<String,String>> getPairListOfDatasetsToAverage(List<String> values) {
+		if (values == null) {
+			return Collections.emptyList();
+		}
+		List<Pair<String,String>> selectedDatasets = new ArrayList<>();  // key=nice detector name, value=list of datasetnames
+		values.forEach(val -> {
+			String detector = FilenameUtils.getPathNoEndSeparator(val);
+			String dataset = FilenameUtils.getName(val);
+			String niceName = getNiceNameForDetector(detector);
+			selectedDatasets.add(Pair.create(niceName, dataset));
+		});
+		return selectedDatasets;
+	}
+
+	private List<String> getStringListOfDatasetsToAverage(List<Pair<String,String>> values) {
+		if (values == null) {
+			return Collections.emptyList();
+		}
+		List<String> selectedDatasets = new ArrayList<>();  // key=nice detector name, value=list of datasetnames
+		values.forEach(val -> {
+			String detector = detectorNamesMap.get(val.getKey());
+			String dataset = val.getValue();
+			selectedDatasets.add(detector+"/"+dataset);
+		});
+		return selectedDatasets;
+	}
 
 	/**
 	 * Load TurboXasParameters from value saved in the preference store and update the GUI.

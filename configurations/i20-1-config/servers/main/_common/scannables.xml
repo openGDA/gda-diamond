@@ -37,5 +37,31 @@
 
 	<bean id="dummyTopup" class="gda.device.scannable.DummyTopupScannable" />
 
+<!--  Dummy motors -->
+	<bean id="test_motor" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="1000" />
+	</bean>
+
+	<bean id="test" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="test_motor" />
+	</bean>
+
+	<bean id="test_motor2" class="gda.device.motor.DummyMotor">
+		<property name="speed" value="1000" />
+	</bean>
+
+	<bean id="test2" class="gda.device.scannable.ScannableMotor">
+		<property name="motor" ref="test_motor2" />
+	</bean>
+
+	<bean id="test_group" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="groupMembers">
+			<list>
+				<ref bean="test" />
+				<ref bean="test2" />
+			</list>
+		</property>
+	</bean>
+
 	<import resource="simpleScannables.xml"/>
 </beans>
