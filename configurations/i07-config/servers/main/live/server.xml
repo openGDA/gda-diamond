@@ -58,8 +58,6 @@
 	<import resource="server_epics.xml" />
 	<import resource="eh2_epics.xml" />
 
-	<import resource="server_scannables.xml" />
-	<import resource="eh2_scannables.xml" />
 
 	<import resource="flight_tube.xml" />
 
