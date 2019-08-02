@@ -167,7 +167,7 @@
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
-    </bean>    
+    </bean>
     <!--Crystal roll -->
     <bean id="dcm1xtalroll" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorRoll_DCM1" />
@@ -182,14 +182,14 @@
         <property name="initialUserUnits" value="mRad" />
         <property name="hardwareUnitString" value="mRad" />
     </bean>
-    <!--Second crystal perpendicular -->
+    <!--Crystal perpendicular -->
     <bean id="dcm1sep" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorPerpendicular_DCM1" />
         <property name="protectionLevel" value="0" />
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
     </bean>
-    
+
     <bean id="DCM1" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
@@ -205,7 +205,7 @@
         <property name="protectionLevel" value="0" />
     </bean>
 
-            <bean id="DCM1TEMP" class="gda.device.scannable.scannablegroup.ScannableGroup">
+    <bean id="DCM1TEMP" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
                 <ref bean="dcm1t1h" />
@@ -217,7 +217,7 @@
          </property>
          <property name="protectionLevel" value="0" />
      </bean>
-        
+
     <!-- Beam Poistion Monitor QBPM1 (D2)-->
     <bean id="qbpm1y" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="MotorFoil_D2" />
@@ -229,11 +229,11 @@
         <property name="groupMembers">
             <list>
                 <ref bean="qbpm1y" />
-                <ref bean="qbpm1screen" /> 
+                <ref bean="qbpm1screen" />
 
                 <!-- current amplifier controller and beam position monitor -->
-                <!-- <ref bean="qbpm1" />
-                <ref bean="bpm1qca" /> -->
+                <ref bean="qbpm1" />
+                <ref bean="bpm1qca" />
             </list>
         </property>
         <property name="protectionLevel" value="0" />
@@ -300,8 +300,8 @@
                 <ref bean="mbs1ysize" />
                 <ref bean="mbs1ycentre" />
                 <!-- current amplifier controller and beam position monitor -->
-                <!-- <ref bean="mbs1qbpm" />
-                <ref bean="mbs1qca" /> -->
+                <ref bean="mbs1qbpm" />
+                <ref bean="mbs1qca" />
             </list>
         </property>
         <property name="protectionLevel" value="0" />
@@ -497,8 +497,8 @@
                 <ref bean="mbs2ysize" />
                 <ref bean="mbs2ycentre" />
                 <!-- current amplifier controller and beam position monitor -->
-                <!-- <ref bean="mbs2qbpm" />
-                <ref bean="mbs2qca" /> -->
+                <ref bean="mbs2qbpm" />
+                <ref bean="mbs2qca" />
             </list>
         </property>
         <property name="protectionLevel" value="0" />
@@ -532,8 +532,8 @@
                 <ref bean="qbpm2screen" />
                 
                 <!-- current amplifier controller and beam position monitor -->
-                <!-- <ref bean="qbpm2" />
-                <ref bean="bpm2qca" /> -->
+                <ref bean="qbpm2" />
+                <ref bean="bpm2qca" />
             </list>
         </property>
         <property name="protectionLevel" value="0" />
@@ -627,8 +627,8 @@
                 <ref bean="mbs3ysize" />
                 <ref bean="mbs3ycentre" />
                 <!-- current amplifier controller and beam position monitor -->
-                <!-- <ref bean="mbs3qbpm" />
-                <ref bean="mbs3qca" /> -->
+                <ref bean="mbs3qbpm" />
+                <ref bean="mbs3qca" />
             </list>
         </property>
         <property name="protectionLevel" value="0" />
@@ -648,8 +648,8 @@
                 <ref bean="qbpm3screen" />
                 
                 <!-- current amplifier controller and beam position monitor -->
-                <!-- <ref bean="qbpm3" />
-                <ref bean="bpm3qca" /> -->
+                <ref bean="qbpm3" />
+                <ref bean="bpm3qca" />
             </list>
         </property>
         <property name="protectionLevel" value="0" />
@@ -1269,43 +1269,43 @@
     </bean>
 
 
-    <bean id="dcdx_rot" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxrot" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_rot_motor" />
     </bean>
-    <bean id="dcdx_gap" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxgap" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_gap_motor" />
     </bean>
-    <bean id="dcdx_center" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxcenter" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_center_motor" />
     </bean>
-    <bean id="dcdx_rot_offset" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxrotoffset" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_rot_offset_motor" />
     </bean>
-    <bean id="dcdx_tilt" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxtilt" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_tilt_motor" />
     </bean>
 
     <bean id="dcdx" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
-                <ref bean="dcdx_rot" />
-                <ref bean="dcdx_gap" />
-                <ref bean="dcdx_center" />
-                <ref bean="dcdx_rot_offset" />
-                <ref bean="dcdx_tilt" />
+                <ref bean="dcdxrot" />
+                <ref bean="dcdxgap" />
+                <ref bean="dcdxcenter" />
+                <ref bean="dcdxrotoffset" />
+                <ref bean="dcdxtilt" />
             </list>
         </property>
     </bean>
 
-    <bean id="dcdx_rot_real" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxrotreal" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_rot_real_motor" />
     </bean>
 
-    <bean id="dcdx_slit_rot_real" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxslitrotreal" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_slit_rot_real_motor" />
     </bean>
 
-    <bean id="dcdx_filter_wheel" class="gda.device.scannable.ScannableMotor">
+    <bean id="dcdxfilterwheel" class="gda.device.scannable.ScannableMotor">
         <property name="motor" ref="dcdx_filter_wheel_motor" />
     </bean>
 
@@ -1314,123 +1314,143 @@
         <property name="protectionLevel" value="0" />
     </bean>
 
-    <bean id="syringe_left" class="gda.device.scannable.ScannableMotor">
+    <bean id="syringeleft" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="syringe_left" />
         <property name="motor" ref="MotorSyringe_left" />
     </bean>
 
-    <bean id="syringe_right" class="gda.device.scannable.ScannableMotor">
+    <bean id="syringeright" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="syringe_right" />
         <property name="motor" ref="MotorSyringe_right" />
     </bean>
 
-    <bean id="syringe_left_valve" class="gda.device.scannable.DummyScannable">
+    <bean id="syringeleftvalve" class="gda.device.scannable.SimplePVScannable">
         <property name="name" value="syringe_left_valve" />
+        <property name="pvName" value="BL07I-EA-SYRG-01:P1:LEFT:SETVPOS" />
     </bean>
 
-    <bean id="syringe_right_valve" class="gda.device.scannable.DummyScannable">
+    <bean id="syringerightvalve" class="gda.device.scannable.SimplePVScannable">
         <property name="name" value="syringe_right_valve" />
+        <property name="pvName" value="BL07I-EA-SYRG-01:P1:RIGHT:SETVPOS" />
     </bean>
 
     <bean id="syringes" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="name" value="syringes" />
         <property name="groupMembers">
             <list>
-                <ref bean="syringe_left" />
-                <ref bean="syringe_left_valve" />
-                <ref bean="syringe_right" />
-                <ref bean="syringe_right_valve" />
+                <ref bean="syringeleft" />
+                <ref bean="syringeleftvalve" />
+                <ref bean="syringeright" />
+                <ref bean="syringerightvalve" />
             </list>
         </property>
     </bean>
 
-    <bean id="gw_xgap" class="gda.device.scannable.DummyScannable">
+    <bean id="gwxsize" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="gw_xgap" />
-        
+        <property name="motor" ref="gsax_horiz_gap" />
     </bean>
 
-    <bean id="gw_ygap" class="gda.device.scannable.DummyScannable">
+    <bean id="gwysize" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="gw_ygap" />
-        
+        <property name="motor" ref="gsax_vert_gap" />
     </bean>
 
-    <bean id="gw_xpos" class="gda.device.scannable.DummyScannable">
+    <bean id="gwxpos" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="gw_xpos" />
-        
+        <property name="motor" ref="gsax_horiz_pos" />
     </bean>
 
-    <bean id="gw_ypos" class="gda.device.scannable.DummyScannable">
+    <bean id="gwypos" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="gw_ypos" />
-        
+        <property name="motor" ref="gsax_vert_pos" />
     </bean>
 
-    <bean id="gw_bsx" class="gda.device.scannable.DummyScannable">
+    <bean id="gwbsx" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="gw_bsx" />
-       
+        <property name="motor" ref="gsax_beamstop_x" />
     </bean>
 
-    <bean id="gw_bsy" class="gda.device.scannable.DummyScannable">
+    <bean id="gwbsy" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="gw_bsy" />
-       
+        <property name="motor" ref="gsax_beamstop_y" />
     </bean>
 
-    <bean id="gw_y" class="gda.device.scannable.DummyScannable">
+    <bean id="gwy" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="gw_y" />
-        
+        <property name="motor" ref="gsax_blade_y" />
     </bean>
+    
+    
+    	<bean id="GW" class="gda.device.scannable.scannablegroup.ScannableGroup">
+		<property name="name" value="GW" />
+		<property name="groupMembers">
+			<list>
+				<ref bean="gwxsize" />
+				<ref bean="gwysize" />
+				<ref bean="gwxpos" />
+				<ref bean="gwypos" />
+				<ref bean="gwbsx" />
+				<ref bean="gwbsy" />
+				<ref bean="gwy" />
+			</list>
+		</property>
+	</bean>
 
-    <bean id="claspycentre" class="gda.device.scannable.DummyScannable">
+
+    <bean id="claspycentre" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="claspycentre" />
-        
+        <property name="motor" ref="s20_motor_ycentre" />
     </bean>
 
-    <bean id="claspysize" class="gda.device.scannable.DummyScannable">
+    <bean id="claspysize" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="claspysize" />
-        
+        <property name="motor" ref="s20_motor_ysize" />
     </bean>
 
-    <bean id="claspyplus" class="gda.device.scannable.DummyScannable">
+    <bean id="claspyplus" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="claspyplus" />
-        
+        <property name="motor" ref="s20_motor_yplus" />
     </bean>
 
-    <bean id="claspyminus" class="gda.device.scannable.DummyScannable">
+    <bean id="claspyminus" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="claspyminus" />
-        
+        <property name="motor" ref="s20_motor_yminus" />
     </bean>
 
-    <bean id="claspxcentre" class="gda.device.scannable.DummyScannable">
+    <bean id="claspxcentre" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="claspxcentre" />
-        
+        <property name="motor" ref="s20_motor_xcentre" />
     </bean>
 
-    <bean id="claspxsize" class="gda.device.scannable.DummyScannable">
+    <bean id="claspxsize" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="claspxsize" />
-        
+        <property name="motor" ref="s20_motor_xsize" />
     </bean>
 
-    <bean id="claspxplus" class="gda.device.scannable.DummyScannable">
+    <bean id="claspxplus" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="claspyplus" />
-        
+        <property name="motor" ref="s20_motor_xplus" />
     </bean>
 
-    <bean id="claspxminus" class="gda.device.scannable.DummyScannable">
+    <bean id="claspxminus" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="claspyminus" />
-        
+        <property name="motor" ref="s20_motor_xminus" />
     </bean>
 
-    <bean id="clasphstop" class="gda.device.scannable.DummyScannable">
+    <bean id="clasphstop" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="clasphstop" />
-        
+        <property name="motor" ref="s20_motor_beamstoph" />
     </bean>
 
-    <bean id="claspvstop" class="gda.device.scannable.DummyScannable">
+    <bean id="claspvstop" class="gda.device.scannable.ScannableMotor">
         <property name="name" value="claspvstop" />
-        
+        <property name="motor" ref="s20_motor_beamstopv" />
     </bean>
 
-    <bean id="claspshutter" class="gda.device.scannable.DummyScannable">
+    <bean id="claspshutter" class="gda.device.scannable.SimplePVScannable">
         <property name="name" value="claspshutter" />
+        <property name="pvName" value="BL07I-OP-FILT-01:FILTER13:CTRL" />
     </bean>
 
     <bean id="ALL_MOTORS" class="gda.device.scannable.scannablegroup.ScannableGroup">
@@ -1469,7 +1489,6 @@
                 <ref bean="dcm1tgap" />
                 <ref bean="dcm1t2h" />
                 <ref bean="dcm1t2" />
-
                 
                 <!-- QBPM1 -->
                 <ref bean="qbpm1y" />
@@ -1617,11 +1636,11 @@
                 <!-- Yogurt Pot -->
                 <ref bean="sampchange" />
                 
-                <ref bean="dcdx_rot" />
-                <ref bean="dcdx_gap" />
-                <ref bean="dcdx_center" />
-                <ref bean="dcdx_rot_offset" />
-                <ref bean="dcdx_tilt" />
+                <ref bean="dcdxrot" />
+                <ref bean="dcdxgap" />
+                <ref bean="dcdxcenter" />
+                <ref bean="dcdxrotoffset" />
+                <ref bean="dcdxtilt" />
                 
                 
             </list>
@@ -1630,29 +1649,29 @@
     </bean>
     
     <!-- Beam Poistion Monitors -->
-    <!-- <bean id="ALL_QBPMS" class="gda.device.scannable.scannablegroup.ScannableGroup">
+    <bean id="ALL_QBPMS" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
-            <list> -->
+            <list>
                 <!-- QBPM1 (D2)-->
-               <!--  <ref bean="qbpm1" /> -->
+                <ref bean="qbpm1" />
                 
                 <!-- MBS1QBPM-->
-               <!--  <ref bean="mbs1qbpm" /> -->
+                <ref bean="mbs1qbpm" />
                 
                 <!-- MBS2QBPM-->
-                <!-- <ref bean="mbs2qbpm" /> -->
+                <ref bean="mbs2qbpm" />
                 
                 <!-- QBPM2 (D3)-->
-                <!-- <ref bean="qbpm2" /> -->
+                <ref bean="qbpm2" />
                 
                 <!-- MBS3QBPM-->
-                <!-- <ref bean="mbs3qbpm" /> -->
+                <ref bean="mbs3qbpm" />
                 
                 <!-- QBPM3 (D5)-->
-                <!-- <ref bean="qbpm3" /> -->
-            <!-- </list>
+                <ref bean="qbpm3" />
+            </list>
         </property>
         <property name="protectionLevel" value="0" />
-    </bean>  -->
+    </bean>
     
 </beans>

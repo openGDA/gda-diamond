@@ -189,8 +189,7 @@
         <property name="initialUserUnits" value="mm" />
         <property name="hardwareUnitString" value="mm" />
     </bean>
-    
-    
+
     <bean id="DCM1" class="gda.device.scannable.scannablegroup.ScannableGroup">
         <property name="groupMembers">
             <list>
@@ -218,7 +217,6 @@
          </property>
          <property name="protectionLevel" value="0" />
      </bean>
-
 
     <!-- Beam Poistion Monitor QBPM1 (D2)-->
     <bean id="qbpm1y" class="gda.device.scannable.ScannableMotor">

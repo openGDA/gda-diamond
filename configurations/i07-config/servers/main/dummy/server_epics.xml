@@ -128,60 +128,60 @@
 
     <bean id="bpm1" class="gda.device.monitor.DummyMonitor"/>
 
-    <!-- <bean id="qbpm1" class="gda.device.qbpm.EpicsQbpm">
-        <property name="currAmpController" ref="bpm1qca"/>
-        <property name="bpmController" ref="bpm1"/>
-    </bean> -->
+    <bean id="qbpm1" class="gda.device.monitor.DummyQbpm">
+        <property name="currAmpQuadName" value="bpm1qca"/>
+        <property name="bpmName" value="bpm1"/>
+    </bean>
 
     <!-- QBPM2 (D3) Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="bpm2qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
     <bean id="bpm2" class="gda.device.monitor.DummyMonitor"/>
 
-    <!-- <bean id="qbpm2" class="gda.device.qbpm.EpicsQbpm">
-        <property name="currAmpController" ref="bpm2qca"/>
-        <property name="bpmController" ref="bpm2"/>
-    </bean> -->
+    <bean id="qbpm2" class="gda.device.monitor.DummyQbpm">
+        <property name="currAmpQuadName" value="bpm2qca"/>
+        <property name="bpmName" value="bpm2"/>
+    </bean>
     
     <!-- QBPM3 D5 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="bpm3qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
     <bean id="bpm3" class="gda.device.monitor.DummyMonitor"/>
 
-    <!-- <bean id="qbpm3" class="gda.device.qbpm.EpicsQbpm">
-        <property name="currAmpController" ref="bpm3qca"/>
-        <property name="bpmController" ref="bpm3"/>
-    </bean> -->
+    <bean id="qbpm3" class="gda.device.monitor.DummyQbpm">
+        <property name="currAmpQuadName" value="bpm3qca"/>
+        <property name="bpmName" value="bpm3"/>
+    </bean>
     
     <!-- MBS1 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="mbs1qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
     <bean id="mbs1bpm" class="gda.device.monitor.DummyMonitor"/>
 
-    <!-- <bean id="mbs1qbpm" class="gda.device.qbpm.EpicsQbpm">
-        <property name="currAmpController" ref="mbs1qca"/>
-        <property name="bpmController" ref="mbs1bpm"/>
-    </bean> -->
+    <bean id="mbs1qbpm" class="gda.device.monitor.DummyQbpm">
+        <property name="currAmpQuadName" value="mbs1qca"/>
+        <property name="bpmName" value="mbs1bpm"/>
+    </bean>
 
     <!-- MBS2 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="mbs2qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
     <bean id="mbs2bpm" class="gda.device.monitor.DummyMonitor"/>
 
-    <!-- <bean id="mbs2qbpm" class="gda.device.qbpm.EpicsQbpm">
-        <property name="currAmpController" ref="mbs2qca"/>
-        <property name="bpmController" ref="mbs2bpm"/>
-    </bean> -->
+    <bean id="mbs2qbpm" class="gda.device.monitor.DummyQbpm">
+        <property name="currAmpQuadName" value="mbs2qca"/>
+        <property name="bpmName" value="mbs2bpm"/>
+    </bean>
 
     <!-- MBS3 Current Amplifier Controller, BPM Controller and BPM -->
     <bean id="mbs3qca" class="gda.device.enumpositioner.DummyEnumPositioner"/>
 
     <bean id="mbs3bpm" class="gda.device.monitor.DummyMonitor"/>
 
-    <!-- <bean id="mbs3qbpm" class="gda.device.qbpm.EpicsQbpm">
-        <property name="currAmpController" ref="mbs3qca"/>
-        <property name="bpmController" ref="mbs3bpm"/>
-    </bean> -->
+    <bean id="mbs3qbpm" class="gda.device.monitor.DummyQbpm">
+        <property name="currAmpQuadName" value="mbs3qca"/>
+        <property name="bpmName" value="mbs3bpm"/>
+    </bean>
     
     <!--  ==================== Single Channel Current Amplifier definition section ===================== -->
     <!-- D1 Current Amplifier-->
