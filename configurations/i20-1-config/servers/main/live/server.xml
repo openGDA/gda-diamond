@@ -14,6 +14,7 @@
 		<property name="pvName" value="FE20I-AL-APTR-02:Y" />
 	</bean>
 
+	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/server.xml" />
 
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/machine.xml" />
@@ -26,7 +27,6 @@
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/diagnostics.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/scannables.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/eh_motors.xml" />
-	<import resource="file:${gda.config}/servers/main/${gda.mode}/meta-data.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/zebra_turboslits.xml" />
 	<import resource="file:${gda.config}/servers/main/_common/zebra_turboslits.xml" />
 	<import resource="file:${gda.config}/servers/main/${gda.mode}/detectors.xml" />

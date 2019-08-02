@@ -9,47 +9,57 @@
 		<property name="metadataEntries">
 			<list>
 
-				<bean name="instrument" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="instrument" />
 					<property name="propertyName" value="gda.instrument" />
 				</bean>
 
-				<bean name="facility" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facility" />
 					<property name="propertyName" value="gda.facility" />
 				</bean>
 
-				<bean name="facilityType" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facilityType" />
 					<property name="propertyName" value="gda.facility.type" />
 				</bean>
 
-				<bean name="probe" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="probe" />
 					<property name="propertyName" value="gda.facility.probe" />
 				</bean>
 
-				<bean name="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry">
+				<bean class="gda.data.metadata.SubdirectoryMetadataEntry">
+					<property name="name" value="subdirectory" />
 					<property name="defaultSubdirectory" value="" />
 				</bean>
 
-				<bean name="beamCurrent" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="beamCurrent" />
 					<property name="propertyName" value="SR-DI-DCCT-01:SIGNAL" />
 				</bean>
 
-				<bean name="facilityMode" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facilityMode" />
 					<property name="propertyName" value="CS-CS-MSTAT-01:MODE" />
 				</bean>
 
-				<bean name="fillMode" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="fillMode" />
 					<property name="propertyName" value="LI-TI-MTGEN-01:MODE" />
 				</bean>
 
-				<bean name="userid" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="userid" />
 					<property name="propertyName" value="user.name" />
 				</bean>
 
-				<bean name="visitid" class="gda.data.metadata.StoredMetadataEntry">
+				<bean class="gda.data.metadata.StoredMetadataEntry">
 					<property name="name" value="visitid" />
 				</bean>
 
-				<bean name="subdirectory" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="subdirectory" />
 					<property name="propertyName" value="gda.defVisit" />
 				</bean>
 			</list>

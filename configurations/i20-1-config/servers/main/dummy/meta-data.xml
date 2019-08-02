@@ -9,23 +9,28 @@
 		<property name="metadataEntries">
 			<list>
 
-				<bean name="instrument" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="instrument" />
 					<property name="propertyName" value="gda.instrument" />
 				</bean>
 
-				<bean name="facility" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facility" />
 					<property name="propertyName" value="gda.facility" />
 				</bean>
 
-				<bean name="facilityType" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="facilityType" />
 					<property name="propertyName" value="gda.facility.type" />
 				</bean>
 
-				<bean name="probe" class="gda.data.metadata.PropertyMetadataEntry">
+				<bean class="gda.data.metadata.PropertyMetadataEntry">
+					<property name="name" value="probe" />
 					<property name="propertyName" value="gda.facility.probe" />
 				</bean>
 
-				<bean name="subdirectory" class="gda.data.metadata.SubdirectoryMetadataEntry">
+				<bean class="gda.data.metadata.SubdirectoryMetadataEntry">
+					<property name="name" value="subdirectory" />
 					<property name="defaultSubdirectory" value="" />
 				</bean>
 
