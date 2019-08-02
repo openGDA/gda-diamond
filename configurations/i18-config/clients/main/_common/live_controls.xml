@@ -71,7 +71,7 @@
 	<bean id="energy_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="energy" />
 		<property name="scannableName" value="energy" />
-		<property name="group" value="DCM and ID gap" />
+		<property name="group" value="Miscellaneous" />
 		<property name="increment" value="10" />
 		<property name="incrementTextWidth" value="60" />
 	</bean>
@@ -79,7 +79,7 @@
 	<bean id="zoom_control" class="uk.ac.gda.client.livecontrol.ScannablePositionerControl">
 		<property name="displayName" value="Zoom" />
 		<property name="scannableName" value="vma_zoom" />
-		<property name="group" value="VMA" />
+		<property name="group" value="Miscellaneous" />
 	</bean>
 
 	<!-- Overall control set -->
