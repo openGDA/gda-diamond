@@ -3,17 +3,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="eV_mDeg_converter" class="gda.util.converters.JEPConverterHolder">
-		<constructor-arg value="eV_mDeg_converter" />
-		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/eV_mDeg_converter.xml" />
+	<bean id="eV_Deg_converter" class="gda.util.converters.JEPConverterHolder">
+		<constructor-arg value="eV_Deg_converter" />
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/eV_Deg_converter.xml" />
 	</bean>
-	<bean id="mDeg_dcm_perp_mm_converter" class="gda.util.converters.JEPConverterHolder">
-		<constructor-arg value="mDeg_dcm_perp_mm_converter" />
-		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/mDeg_dcm_perp_mm_converter.xml" />
-	</bean>
-	<bean id="mDeg_idGap_mm_converter" class="gda.util.converters.RenameableConverter">
-		<constructor-arg value="mDeg_idGap_mm_converter" />
-		<constructor-arg value="harmonic1_converter" />
+	<bean id="Deg_dcm_perp_mm_converter" class="gda.util.converters.JEPConverterHolder">
+		<constructor-arg value="Deg_dcm_perp_mm_converter" />
+		<constructor-arg value="${gda.function.columnDataFile.lookupDir}/Deg_dcm_perp_mm_converter.xml" />
 	</bean>
 	<bean id="harmonic1_converter" class="gda.util.converters.LookupTableConverterHolder">
 		<constructor-arg value="harmonic1_converter" />
@@ -104,74 +100,74 @@
 	<bean id="harmonic1" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic1" />
 		<constructor-arg value="harmonic1_converter" />
-		<constructor-arg value="56187" />
-		<constructor-arg value="72000" />
+		<constructor-arg value="56.187" />
+		<constructor-arg value="72.000" />
 	</bean>
 	<bean id="harmonic3" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic3" />
 		<constructor-arg value="harmonic3_converter" />
-		<constructor-arg value="24801" />
-		<constructor-arg value="56186" />
+		<constructor-arg value="24.801" />
+		<constructor-arg value="56.186" />
 	</bean>
 	<bean id="harmonic5" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic5" />
 		<constructor-arg value="harmonic5_converter" />
-		<constructor-arg value="17201" />
-		<constructor-arg value="24800" />
+		<constructor-arg value="17.201" />
+		<constructor-arg value="24.800" />
 	</bean>
 	<bean id="harmonic7" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic7" />
 		<constructor-arg value="harmonic7_converter" />
-		<constructor-arg value="13201" />
-		<constructor-arg value="17200" />
+		<constructor-arg value="13.201" />
+		<constructor-arg value="17.200" />
 	</bean>
 	<bean id="harmonic9" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic9" />
 		<constructor-arg value="harmonic9_converter" />
-		<constructor-arg value="11001" />
-		<constructor-arg value="13200" />
+		<constructor-arg value="11.001" />
+		<constructor-arg value="13.200" />
 	</bean>
 	<bean id="harmonic11" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic11" />
 		<constructor-arg value="harmonic11_converter" />
-		<constructor-arg value="9251" />
-		<constructor-arg value="11000" />
+		<constructor-arg value="9.251" />
+		<constructor-arg value="11.000" />
 	</bean>
 	<bean id="harmonic13" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic13" />
 		<constructor-arg value="harmonic13_converter" />
-		<constructor-arg value="8001" />
-		<constructor-arg value="9250" />
+		<constructor-arg value="8.001" />
+		<constructor-arg value="9.250" />
 	</bean>
 	<bean id="harmonic15" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic15" />
 		<constructor-arg value="harmonic15_converter" />
-		<constructor-arg value="7101" />
-		<constructor-arg value="8000" />
+		<constructor-arg value="7.101" />
+		<constructor-arg value="8.000" />
 	</bean>
 	<bean id="harmonic17" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic17" />
 		<constructor-arg value="harmonic17_converter" />
-		<constructor-arg value="6701" />
-		<constructor-arg value="7100" />
+		<constructor-arg value="6.701" />
+		<constructor-arg value="7.100" />
 	</bean>
 	<bean id="harmonic19" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic19" />
 		<constructor-arg value="harmonic19_converter" />
-		<constructor-arg value="5733" />
-		<constructor-arg value="6700" />
+		<constructor-arg value="5.733" />
+		<constructor-arg value="6.700" />
 	</bean>
 	<bean id="harmonic21" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic21" />
 		<constructor-arg value="harmonic21_converter" />
-		<constructor-arg value="5431" />
-		<constructor-arg value="5732" />
+		<constructor-arg value="5.431" />
+		<constructor-arg value="5.732" />
 	</bean>
 	<bean id="harmonic23" class="gda.util.converters.util.RangeandConverterNameHolder">
 		<constructor-arg value="harmonic23" />
 		<constructor-arg value="harmonic23_converter" />
-		<constructor-arg value="5300" />
-		<constructor-arg value="5430" />
+		<constructor-arg value="5.300" />
+		<constructor-arg value="5.430" />
 	</bean>
 	
 	
