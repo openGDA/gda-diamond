@@ -32,6 +32,9 @@ mbs4List=[mbs4xsize, mbs4xcentre, mbs4ysize, mbs4ycentre]
 #diff2List=[diff2omega, diff2alpha, diff2delta, diff2gamma, diff2detselect, diff2prot, diff2dets4rot, diff2dets3rot, diff2detsvrot, diff2basex, diff2basey, diff2basey1, diff2basey2, diff2basepitch];
 diff2List=[diff2omega, diff2alpha, diff2delta, diff2gamma, diff2detselect, diff2prot, diff2dets4rot, diff2dets3rot, diff2basex, diff2basey, diff2basey1, diff2basey2, diff2basepitch];
 
+tabList = [tab1x, tab1y]
+qbpmList = [qbpm1y, qbpm2y, qbpm2dx, qbpm2dy, qbpm3x]
+
 
 #fileHeader.remove([testMotor2]);
 
@@ -55,6 +58,8 @@ fileHeader.add(dets4List);
 fileHeader.add(dets3List);
 fileHeader.add(mbs4List);
 fileHeader.add(diff2List);
+fileHeader.add(tabList)
+fileHeader.add(qbpmList)
 
 add_default([fileHeader]);
 
