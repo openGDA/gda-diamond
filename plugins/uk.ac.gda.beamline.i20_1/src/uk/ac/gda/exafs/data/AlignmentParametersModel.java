@@ -282,10 +282,10 @@ public class AlignmentParametersModel extends ObservableModel implements Seriali
 			AlignmentParametersBean bean = new AlignmentParametersBean(crystalType.name(), crystalCut.name(), q.getQValue(), DetectorModel.INSTANCE.getCurrentDetector().getName(), edge);
 			String jsonString = AlignmentParametersBean.toJson(bean);
 			InterfaceProvider.getCommandRunner().runCommand("from uk.ac.gda.exafs.data import AlignmentParametersBean; "
-														   + ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME + " = AlignmentParametersBean.fromJson(\'"+jsonString+"\');");
-
-			InterfaceProvider.getCommandRunner().runCommand( ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME + " = None; from alignment import alignment_parameters; "
+														   + ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME + " = AlignmentParametersBean.fromJson(\'"+jsonString+"\'); "
+														   + ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME + " = None; from alignment import alignment_parameters; "
 														   + ALIGNMENT_PARAMETERS_RESULT_BEAN_NAME + " = alignment_parameters.calc_parameters(" + ALIGNMENT_PARAMETERS_INPUT_BEAN_NAME + ")");
+
 			// give the command a chance to run.
 			boolean waitForResult = true;
 			Object result = null;

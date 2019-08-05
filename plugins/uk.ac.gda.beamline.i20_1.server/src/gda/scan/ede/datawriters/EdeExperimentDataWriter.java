@@ -43,6 +43,7 @@ import gda.data.scan.datawriter.AsciiMetadataConfig;
 import gda.data.scan.datawriter.FindableAsciiDataWriterConfiguration;
 import gda.device.Scannable;
 import gda.device.detector.EdeDetector;
+import gda.device.detector.xstrip.XhDetector;
 import gda.factory.Findable;
 import gda.factory.Finder;
 import gda.jython.InterfaceProvider;
@@ -119,6 +120,9 @@ public abstract class EdeExperimentDataWriter {
 		for (int i = 0; i < scanParameters.getGroups().size(); i++) {
 			TimingGroup group = scanParameters.getGroups().get(i);
 			double realTimePerSpectrum = (group.getTimePerScan() + accumulationReadoutTime)*group.getNumberOfScansPerFrame();
+			if (theDetector instanceof XhDetector) {
+				realTimePerSpectrum = group.getTimePerFrame();
+			}
 			metaData[i] = new TimingGroupMetadata(i, group.getNumberOfFrames(), group.getTimePerScan(),
 					realTimePerSpectrum, group.getPreceedingTimeDelay(), group.getNumberOfScansPerFrame());
 		}

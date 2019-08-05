@@ -65,6 +65,10 @@ zebra_device=finder.find("zebra_device")
 zebra_device2=finder.find("zebra_device2")
 trajscan_preparer=finder.find("trajscan_preparer")
 
+# Set bi-directional trajectory to use fixed runup/down distance
+trajscan_preparer.setUseFixedTurnaroundDistance(True)
+trajscan_preparer.setTurnaroundDistance(0.1)
+
 #Copy encoder positions to zebra (in case any motors have been re-homed)
 print "Copying encoder motor positions in Zebras"
 for zebra in [ zebra_device , zebra_device2 ]:
@@ -155,4 +159,8 @@ run "ScanEndScriptRunner.py"
 scan_end_processor=ScanEndScriptRunner("scan_end_processor", '/dls_sw/apps/dawn_autoprocessing/autoprocess' )
 scan_end_processor.setProcessingOnOffPositioner(run_scan_end_processing)
 add_default scan_end_processor
-    
+
+run "stanfordPowerSupplyOnOff.py"
+powerSupply = StanfordPowerOnOff("powerSupply")
+add_default powerSupply
+
