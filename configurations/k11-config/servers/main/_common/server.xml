@@ -64,9 +64,7 @@
 	<bean id="experimentService" class="uk.ac.diamond.daq.experiment.api.FileSystemBasedExperimentService" />
 	
 	<!-- Plan request handler -->
-	<bean id="planRequestHandler" class="uk.ac.diamond.daq.experiment.plan.BasicPlanRequestHandler">
-		<property name="experimentService" ref="experimentService" />
-	</bean>
+	<bean id="planRequestHandler" class="uk.ac.diamond.daq.experiment.plan.BasicPlanRequestHandler" />
 
 	<!-- =========================================================== -->
 	<!-- 	shared files -->
