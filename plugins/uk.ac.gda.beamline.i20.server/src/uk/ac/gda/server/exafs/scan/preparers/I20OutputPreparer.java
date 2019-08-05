@@ -50,6 +50,7 @@ public class I20OutputPreparer extends OutputPreparerBase {
 	private IDetectorParameters detectorBean;
 	private I20OutputParameters i20OutputParams;
 	private I20DetectorPreparer detectorPreparer;
+	private IScanParameters scanBean;
 
 	public I20OutputPreparer(AsciiDataWriterConfiguration datawriterconfig,
 			AsciiDataWriterConfiguration datawriterconfig_xes, NXMetaDataProvider metashop, TfgScalerWithFrames ionchambers,
@@ -67,6 +68,7 @@ public class I20OutputPreparer extends OutputPreparerBase {
 			throws DeviceException {
 		super.configure(outputParameters, scanBean, detectorBean, sampleParameters);
 		this.detectorBean = detectorBean;
+		this.scanBean = scanBean;
 		this.i20OutputParams = (I20OutputParameters) outputParameters;
 		// redefineNexusMetadata();
 		// # Custom for I20, which is why it is here instead of the shared DetectorConfiguration.java classes.
@@ -101,7 +103,15 @@ public class I20OutputPreparer extends OutputPreparerBase {
 	// #
 	@Override
 	public ScanPlotSettings getPlotSettings() {
-		if (detectorBean.getExperimentType().equals(DetectorParameters.FLUORESCENCE_TYPE)
+		String expType = detectorBean.getExperimentType();
+		if (expType.equals(DetectorParameters.XES_TYPE)) {
+			String axisName = scanBean.getScannableName();
+			if (axisName != null && axisName.contains("XES")) {
+				ScanPlotSettings sps = new ScanPlotSettings();
+				sps.setXAxisName("XESEnergy");
+				return sps;
+			}
+		} else if (expType.equals(DetectorParameters.FLUORESCENCE_TYPE)
 				&& (detectorBean.getFluorescenceParameters().getDetectorType().equalsIgnoreCase(FluorescenceParameters.GERMANIUM_DET_TYPE))) {
 			if (i20OutputParams.isXspressShowDTRawValues() || !i20OutputParams.isXspressOnlyShowFF()) {
 				// # create a filter for the DT columns and return it

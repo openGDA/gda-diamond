@@ -144,8 +144,10 @@ if LocalProperties.get("gda.mode") == "live":
     # to speed up step scans
     LocalProperties.set("gda.scan.concurrentScan.readoutConcurrently","true")
     LocalProperties.set("gda.scan.multithreadedScanDataPointPipeline.length","10")
-    noBeam = ["No Beam", "Shutdown" ] 
-    if machineMode() in noBeam :        
+    
+    noBeam = ["Shutdown", "No Beam", "Mach. Dev."]
+    print "Machine mode = ", machineModeMonitor.getPosition()
+    if machineModeMonitor.getPosition() in noBeam :
         print "Removing absorber, shutter and topup checkers"        
         remove_default([topupChecker])
         remove_default([absorberChecker])
@@ -232,7 +234,6 @@ def reconnect_daserver() :
     print "Ignore this error (it's 'normal'...)"
     ionchambers.getScaler().clear()
 
-
 # Function for setting exposure time and setting continuous acquisition
 # Called in ADControllerBase.setExposure(time) - see client side medipixADController bean
 # (injected using setExposureTimeCmd )
@@ -250,6 +251,20 @@ for scn in [ minusCrystalAllowedToMove, centreCrystalAllowedToMove, plusCrystalA
     if scn.getPosition() == None :
         print "Setting initial value of {0} to true".format(scn.getName())
         scn.moveTo("true")
-        
-    
+
+#Set xspress3 triggermode to TTL veto and array port for HDF5 writing
+# (this is copied from i20-1's localStation ...)  imh 4/7/2019
+if LocalProperties.isDummyModeEnabled() == False :
+    xspress3Controller = xspress3.getController()
+    if xspress3Controller != None and xspress3Controller.isConfigured() :
+        print "Setting up XSpress3 : "
+        print "  Trigger mode = 'TTL Veto Only'"
+        from uk.ac.gda.devices.detector.xspress3 import TRIGGER_MODE
+        xspress3Controller.setTriggerMode(TRIGGER_MODE.TTl_Veto_Only)
+
+	basePvName = xspress3Controller.getEpicsTemplate()
+        detPort = CAClient.get(basePvName+":PortName_RBV")
+        print "  HDF5 array port name = ", detPort
+        CAClient.put(basePvName+":HDF5:NDArrayPort", detPort)
+
 print "****GDA startup script complete.****\n\n"
